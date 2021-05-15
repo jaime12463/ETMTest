@@ -9,6 +9,8 @@ El lenguaje de codificación será el Español (o Castellano) ya que los endpoin
 `npm install`
 `npm start` 
 
+## Uso de Git: 
+GitHubFlow: https://guides.github.com/introduction/flow/
 ## Listado de tecnologías
 Recomiendo **fuertemente** revisar con atención el siguiente listado e investigar los detalles de cada tecnología para poder sacar el mayor provecho de las mismas
 
