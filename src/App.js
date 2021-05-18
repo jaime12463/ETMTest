@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
@@ -48,6 +48,10 @@ export default function App() {
   const [cliente, setCliente] = useState("");
   const [productos, setProductos] = useState([]);
   const [productsFilter, setProductsFilter] = useState([]);
+  const [focusProduct, setFocusProduct] = useState({
+    producto: "",
+    unidades: "",
+  });
   const classes = useStyles();
 
   const handleChangeCliente = ({ target }) => {
@@ -75,6 +79,14 @@ export default function App() {
           ? setProductos(element.Precios)
           : setProductos([])
       );
+  };
+
+  const handleFocusProduct = ({ producto, unidades }) => {
+    setFocusProduct({ producto, unidades });
+  };
+
+  const handleIncrementValue = ({ target: { value } }) => {
+    setFocusProduct({ ...focusProduct, unidades: value });
   };
 
   return (
@@ -112,12 +124,29 @@ export default function App() {
           <div className={classes.paper}>
             <form className={classes.form} noValidate>
               <Grid container spacing={1}>
-                <InputField label="Producto" xs={12} sm={6} />
-                <InputField label="Unidades" xs={12} sm={6} type="number" />
+                <InputField
+                  label="Producto"
+                  xs={12}
+                  sm={6}
+                  value={focusProduct.producto}
+                  disabled
+                />
+                <InputField
+                  label="Unidades"
+                  xs={12}
+                  sm={6}
+                  type="number"
+                  value={focusProduct.unidades}
+                  onChange={handleIncrementValue}
+                />
               </Grid>
             </form>
           </div>
-          <TableInfo headers={["Producto", "Precio"]} data={productos} />
+          <TableInfo
+            headers={["Producto", "Precio"]}
+            data={productos}
+            onClick={handleFocusProduct}
+          />
         </div>
       )}
     </Container>

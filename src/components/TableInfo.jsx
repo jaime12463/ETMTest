@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const TableInfo = ({ headers, data }) => {
+export const TableInfo = ({ headers, data, onClick }) => {
   const classes = useStyles();
 
   return (
@@ -34,7 +34,16 @@ export const TableInfo = ({ headers, data }) => {
         </TableHead>
         <TableBody>
           {data.map((producto) => (
-            <TableRow hover key={producto.Codigoproducto}>
+            <TableRow
+              hover
+              key={producto.Codigoproducto}
+              onClick={() =>
+                onClick({
+                  producto: producto.Codigoproducto,
+                  unidades: 0,
+                })
+              }
+            >
               <TableCell className={classes.alignment}>
                 {producto.Codigoproducto}
               </TableCell>

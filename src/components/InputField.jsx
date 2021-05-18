@@ -1,7 +1,15 @@
 import PropTypes from "prop-types";
 import { Grid, TextField } from "@material-ui/core";
 
-const InputField = ({ onChange, value, label, xs, sm, type = "text" }) => {
+const InputField = ({
+  disabled,
+  onChange,
+  value,
+  label,
+  xs,
+  sm,
+  type = "text",
+}) => {
   return (
     <Grid item xs={xs} sm={sm}>
       <TextField
@@ -13,6 +21,7 @@ const InputField = ({ onChange, value, label, xs, sm, type = "text" }) => {
         type={type}
         value={value}
         onChange={onChange}
+        disabled={disabled}
       />
     </Grid>
   );
