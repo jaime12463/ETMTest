@@ -102,6 +102,7 @@ export default function App() {
           <Grid container>
             <InputField
               label="Cliente"
+              size="small"
               xs={12}
               sm={6}
               onChange={handleChangeCliente}
@@ -116,6 +117,7 @@ export default function App() {
             <Grid container>
               <InputField
                 label="Buscar"
+                size="small"
                 xs={12}
                 sm={12}
                 onChange={handleFindOneProduct}
@@ -127,6 +129,7 @@ export default function App() {
               <Grid container spacing={1}>
                 <InputField
                   label="Producto"
+                  size="small"
                   xs={6}
                   sm={6}
                   value={focusProduct.producto}
@@ -134,6 +137,7 @@ export default function App() {
                 />
                 <InputField
                   label="Unidades"
+                  size="small"
                   xs={6}
                   sm={6}
                   type="number"

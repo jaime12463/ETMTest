@@ -8,12 +8,14 @@ const InputField = ({
   label,
   xs,
   sm,
+  size,
   type = "text",
 }) => {
   return (
     <Grid item xs={xs} sm={sm}>
       <TextField
         name={label.toLowerCase()}
+        size={size}
         variant="outlined"
         fullWidth
         label={label}
