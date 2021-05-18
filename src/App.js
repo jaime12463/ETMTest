@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import InputField from "./components/InputField";
 import { DATA } from "./utils/constants";
 import { TableInfo } from "./components/TableInfo";
+import { Alert } from "@material-ui/lab";
+
 
 function Copyright() {
   return (
@@ -46,12 +47,13 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const [db, setDb] = useState(DATA);
   const [cliente, setCliente] = useState("");
-  const [productos, setProductos] = useState([]);
+  const [productos, setProductos] = useState(null);
   const [productsFilter, setProductsFilter] = useState([]);
   const [focusProduct, setFocusProduct] = useState({
     producto: "",
     unidades: "",
   });
+
   const classes = useStyles();
 
   const handleChangeCliente = ({ target }) => {
@@ -64,14 +66,16 @@ export default function App() {
     db.find((element) =>
       element.CodigoCliente === cliente
         ? setProductos(element.Precios)
-        : setProductos([])
+        : setProductos(null)
     );
   };
 
   const handleFindOneProduct = ({ target: { value } }) => {
 
-    setProductos(
-      productos.filter((producto) => producto.Codigoproducto.includes(value))
+    db.find((element) =>
+      element.CodigoCliente === cliente
+        ? setProductos(element.Precios.filter((producto) => producto.Codigoproducto.includes(value)))
+        : setProductos([])
     );
 
     value === "" &&
@@ -89,9 +93,9 @@ export default function App() {
   const handleIncrementValue = ({ target: { value } }) => {
     setFocusProduct({ ...focusProduct, unidades: value });
   };
-
+  console.log(productos);
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" >
       <CssBaseline />
       <div className={classes.paper}>
         <form
@@ -111,7 +115,7 @@ export default function App() {
           </Grid>
         </form>
       </div>
-      {/* {productos.length >= 0 && ( */}
+      {productos ? (
         <div>
           <div className={classes.paper}>
             <Grid container>
@@ -124,7 +128,7 @@ export default function App() {
               />
             </Grid>
           </div>
-          <div className={classes.paper}>
+          <div className={classes.paper} >
             <form className={classes.form} noValidate>
               <Grid container spacing={1}>
                 <InputField
@@ -140,6 +144,7 @@ export default function App() {
                   size="small"
                   xs={6}
                   sm={6}
+                  min={0}
                   type="number"
                   value={focusProduct.unidades}
                   onChange={handleIncrementValue}
@@ -151,9 +156,10 @@ export default function App() {
             headers={["Producto", "Precio"]}
             data={productos}
             onClick={handleFocusProduct}
-          />
+            />
         </div>
-      {/* )} */}
+      ) :
+      <Alert variant="filled" severity="warning">Cliente no encontrado</Alert>}
     </Container>
   );
 }
