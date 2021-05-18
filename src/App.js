@@ -127,14 +127,14 @@ export default function App() {
               <Grid container spacing={1}>
                 <InputField
                   label="Producto"
-                  xs={12}
+                  xs={6}
                   sm={6}
                   value={focusProduct.producto}
                   disabled
                 />
                 <InputField
                   label="Unidades"
-                  xs={12}
+                  xs={6}
                   sm={6}
                   type="number"
                   value={focusProduct.unidades}
