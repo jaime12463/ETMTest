@@ -5,9 +5,9 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import InputField from "./components/InputField";
-import { DATA } from "./utils/constants";
-import { TableInfo } from "./components/TableInfo";
+import InputField from "../components/InputField";
+import { DATA } from "../utils/constants";
+import { TableInfo } from "../components/TableInfo";
 import { Alert, useAutocomplete } from "@material-ui/lab";
 import { useFormState } from "react-hook-form";
 
