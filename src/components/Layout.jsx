@@ -1,22 +1,40 @@
-import { Container, Grid } from "@material-ui/core";
+import { Container, Grid,Box  } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
+import Headers from '../assests/images/pop_up_onda.png';
+import Footers from '../assests/images/hdpi_logo_soft_hasar.png';
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: "3rem",
+    width: "100%",
   },
+  paperHeader: {
+    width:"100%",
+    height:"109px",
+    position: "relative",
+    background: `url(${Headers}) no-repeat`
+  }
 }));
 
-export const Layout = (props) => {
+
+const Layout = (props) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Container>
-        <Grid container direction="row" alignItems="center">
-          {props.children}
-        </Grid>
-      </Container>
+        <Box  display="flex" justifyContent="center" >
+          <div  style={{background: `url(${Headers}) no-repeat`, height:"75px", width:"430px"}}>
+                
+          </div>
+        </Box>
+        <Box  display="flex" justifyContent="center" >
+            {props.children}
+        </Box>
+        <Box  display="flex" justifyContent="center">
+          <div  style={{background: `url(${Footers}) no-repeat`, height:"75px", width:"300px" , position: "absolute",  bottom: "0px"}}>
+                
+          </div>
+        </Box>
     </div>
   );
 };
+
+export default Layout;
