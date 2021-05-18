@@ -25,7 +25,6 @@ const InputField = ({
         value={value}
         onChange={onChange}
         disabled={disabled}
-        InputProps={{ inputProps: { min: min } }}
       />
     </Grid>
   );

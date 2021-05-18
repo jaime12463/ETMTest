@@ -1,28 +1,9 @@
-import React, { useState } from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import { useEffect, useState } from "react";
+import { CssBaseline, Grid, Container, makeStyles } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import InputField from "../components/InputField";
-import { DATA } from "../utils/constants";
 import { TableInfo } from "../components/TableInfo";
-import { Alert, useAutocomplete } from "@material-ui/lab";
-import { useFormState } from "react-hook-form";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { DATA } from "../utils/constants";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,10 +12,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
   form: {
     width: "100%",
     marginTop: theme.spacing(3),
@@ -42,23 +19,36 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  sectionAlert: {
+    marginTop: "1rem",
+  },
 }));
 
 export default function TomaDePedidos() {
-  const [db, setDb] = useState(DATA);
+  const [db, setDb] = useState({});
   const [cliente, setCliente] = useState("");
-  const [clienteExiste, setclienteExist] = useState(true);
   const [productos, setProductos] = useState(null);
-  const [productsFilter, setProductsFilter] = useState([]);
+  const [existeCliente, setExisteCliente] = useState(-1);
   const [focusProduct, setFocusProduct] = useState({
     producto: "",
     unidades: "",
   });
-
   const classes = useStyles();
+
+  useEffect(() => {
+    // Hago la peticion rest
+    setDb(DATA);
+  }, []);
+
+  useEffect(() => {
+    productos &&
+      (productos.length > 0 ? setExisteCliente(true) : setExisteCliente(false));
+  }, [productos]);
 
   const handleChangeCliente = ({ target }) => {
     setCliente(target.value);
+    setProductos(null);
+    setExisteCliente(-1);
   };
 
   const handleSearchProducts = (e) => {
@@ -66,11 +56,8 @@ export default function TomaDePedidos() {
     db.find((element) =>
       element.CodigoCliente === cliente
         ? setProductos(element.Precios)
-        : setProductos(null)
+        : setProductos([])
     );
-    if (!productos) {
-      setclienteExist(false);
-    }
   };
 
   const handleFindOneProduct = ({ target: { value } }) => {
@@ -99,8 +86,9 @@ export default function TomaDePedidos() {
   const handleIncrementValue = ({ target: { value } }) => {
     setFocusProduct({ ...focusProduct, unidades: value });
   };
-  console.log("Productos=" + productos);
-  console.log("Hay Clientes?= " + clienteExiste);
+
+  console.log(existeCliente);
+  console.log(productos);
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -114,7 +102,7 @@ export default function TomaDePedidos() {
             <InputField
               label="Cliente"
               size="small"
-              xs={12}
+              xs={6}
               sm={6}
               onChange={handleChangeCliente}
               value={cliente}
@@ -122,7 +110,7 @@ export default function TomaDePedidos() {
           </Grid>
         </form>
       </div>
-      {productos ? (
+      {productos && productos.length > 0 ? (
         <div>
           <div className={classes.paper}>
             <Grid container>
@@ -166,10 +154,13 @@ export default function TomaDePedidos() {
           />
         </div>
       ) : (
-        !clienteExiste && (
-          <Alert variant="filled" severity="warning">
-            Cliente no encontrado
-          </Alert>
+        existeCliente !== -1 &&
+        !existeCliente && (
+          <div className={classes.sectionAlert}>
+            <Alert variant="filled" severity="warning">
+              Cliente no encontrado
+            </Alert>
+          </div>
         )
       )}
     </Container>
