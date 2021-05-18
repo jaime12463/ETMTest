@@ -1,29 +1,50 @@
 import {
+  makeStyles,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TableRow,
 } from "@material-ui/core";
 
+const useStyles = makeStyles({
+  container: {
+    maxHeight: 320,
+  },
+  alignment: {
+    textAlign: "center",
+  },
+});
+
 export const TableInfo = ({ headers, data }) => {
+  const classes = useStyles();
+
   return (
-    <Table stickyHeader aria-label="sticky table">
-      <TableHead>
-        <TableRow>
-          {headers.map((column) => (
-            <TableCell key={column}>{column}</TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {data.map((producto) => (
-          <TableRow hover key={producto.Codigoproducto}>
-            <TableCell>{producto.Codigoproducto}</TableCell>
-            <TableCell>{producto.PrecioConImpuesto}</TableCell>
+    <TableContainer className={classes.container}>
+      <Table stickyHeader aria-label="sticky table">
+        <TableHead>
+          <TableRow>
+            {headers.map((column) => (
+              <TableCell key={column} className={classes.alignment}>
+                {column}
+              </TableCell>
+            ))}
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHead>
+        <TableBody>
+          {data.map((producto) => (
+            <TableRow hover key={producto.Codigoproducto}>
+              <TableCell className={classes.alignment}>
+                {producto.Codigoproducto}
+              </TableCell>
+              <TableCell className={classes.alignment}>
+                {producto.PrecioConImpuesto}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
