@@ -69,6 +69,7 @@ export default function App() {
   };
 
   const handleFindOneProduct = ({ target: { value } }) => {
+
     setProductos(
       productos.filter((producto) => producto.Codigoproducto.includes(value))
     );
@@ -109,7 +110,7 @@ export default function App() {
           </Grid>
         </form>
       </div>
-      {productos.length > 0 && (
+      {/* {productos.length >= 0 && ( */}
         <div>
           <div className={classes.paper}>
             <Grid container>
@@ -148,7 +149,7 @@ export default function App() {
             onClick={handleFocusProduct}
           />
         </div>
-      )}
+      {/* )} */}
     </Container>
   );
 }
