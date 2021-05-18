@@ -10,6 +10,7 @@ import {
 
 const useStyles = makeStyles({
   container: {
+    magintop: 10,
     maxHeight: 280,
   },
   alignment: {
@@ -21,8 +22,8 @@ export const TableInfo = ({ headers, data, onClick }) => {
   const classes = useStyles();
 
   return (
-    <TableContainer className={classes.container}>
-      <Table stickyHeader aria-label="sticky table">
+    <TableContainer className={classes.container} >
+      <Table stickyHeader aria-label="a dense table" size="small">
         <TableHead>
           <TableRow>
             {headers.map((column) => (

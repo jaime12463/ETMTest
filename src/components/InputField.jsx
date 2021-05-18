@@ -9,6 +9,7 @@ const InputField = ({
   xs,
   sm,
   size,
+  min,
   type = "text",
 }) => {
   return (
@@ -24,6 +25,7 @@ const InputField = ({
         value={value}
         onChange={onChange}
         disabled={disabled}
+        InputProps={{ inputProps: { min: min } }}
       />
     </Grid>
   );
