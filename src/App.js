@@ -8,7 +8,8 @@ import Container from "@material-ui/core/Container";
 import InputField from "./components/InputField";
 import { DATA } from "./utils/constants";
 import { TableInfo } from "./components/TableInfo";
-import { Alert } from "@material-ui/lab";
+import { Alert, useAutocomplete } from "@material-ui/lab";
+import { useFormState } from "react-hook-form";
 
 
 function Copyright() {
@@ -47,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const [db, setDb] = useState(DATA);
   const [cliente, setCliente] = useState("");
+  const [clienteExiste, setclienteExist] = useState(true);
   const [productos, setProductos] = useState(null);
   const [productsFilter, setProductsFilter] = useState([]);
   const [focusProduct, setFocusProduct] = useState({
@@ -62,12 +64,12 @@ export default function App() {
 
   const handleSearchProducts = (e) => {
     e.preventDefault();
-
     db.find((element) =>
       element.CodigoCliente === cliente
         ? setProductos(element.Precios)
         : setProductos(null)
     );
+      if (!productos){setclienteExist(false)}
   };
 
   const handleFindOneProduct = ({ target: { value } }) => {
@@ -93,7 +95,8 @@ export default function App() {
   const handleIncrementValue = ({ target: { value } }) => {
     setFocusProduct({ ...focusProduct, unidades: value });
   };
-  console.log(productos);
+  console.log("Productos="+productos);
+  console.log("Hay Clientes?= "+clienteExiste);
   return (
     <Container component="main" maxWidth="xs" >
       <CssBaseline />
@@ -158,8 +161,7 @@ export default function App() {
             onClick={handleFocusProduct}
             />
         </div>
-      ) :
-      <Alert variant="filled" severity="warning">Cliente no encontrado</Alert>}
+      ) : !clienteExiste && <Alert variant="filled" severity="warning">Cliente no encontrado</Alert>}
     </Container>
   );
 }
