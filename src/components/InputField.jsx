@@ -8,12 +8,15 @@ const InputField = ({
   label,
   xs,
   sm,
+  size,
+  min,
   type = "text",
 }) => {
   return (
     <Grid item xs={xs} sm={sm}>
       <TextField
         name={label.toLowerCase()}
+        size={size}
         variant="outlined"
         fullWidth
         label={label}
@@ -22,6 +25,7 @@ const InputField = ({
         value={value}
         onChange={onChange}
         disabled={disabled}
+        InputProps={{ inputProps: { min: min } }}
       />
     </Grid>
   );
