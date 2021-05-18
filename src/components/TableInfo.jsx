@@ -10,7 +10,7 @@ import {
 
 const useStyles = makeStyles({
   container: {
-    maxHeight: 320,
+    maxHeight: 280,
   },
   alignment: {
     textAlign: "center",

@@ -25,7 +25,7 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -47,6 +47,7 @@ export default function App() {
   const [db, setDb] = useState(DATA);
   const [cliente, setCliente] = useState("");
   const [productos, setProductos] = useState([]);
+  const [productsFilter, setProductsFilter] = useState([]);
   const classes = useStyles();
 
   const handleChangeCliente = ({ target }) => {
@@ -63,6 +64,19 @@ export default function App() {
     );
   };
 
+  const handleFindOneProduct = ({ target: { value } }) => {
+    setProductos(
+      productos.filter((producto) => producto.Codigoproducto.includes(value))
+    );
+
+    value === "" &&
+      db.find((element) =>
+        element.CodigoCliente === cliente
+          ? setProductos(element.Precios)
+          : setProductos([])
+      );
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -72,7 +86,7 @@ export default function App() {
           noValidate
           onSubmit={handleSearchProducts}
         >
-          <Grid container spacing={1}>
+          <Grid container>
             <InputField
               label="Cliente"
               xs={12}
@@ -83,23 +97,28 @@ export default function App() {
           </Grid>
         </form>
       </div>
-      {/* <div className={classes.paper}>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={1}>
-            <InputField label="Buscar" xs={12} sm={12} />
-          </Grid>
-        </form>
-      </div>
-      <div className={classes.paper}>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={1}>
-            <InputField label="Producto" xs={12} sm={6} />
-            <InputField label="Unidades" xs={12} sm={6} type="number" />
-          </Grid>
-        </form>
-      </div> */}
       {productos.length > 0 && (
-        <TableInfo headers={["Producto", "Precio"]} data={productos} />
+        <div>
+          <div className={classes.paper}>
+            <Grid container>
+              <InputField
+                label="Buscar"
+                xs={12}
+                sm={12}
+                onChange={handleFindOneProduct}
+              />
+            </Grid>
+          </div>
+          <div className={classes.paper}>
+            <form className={classes.form} noValidate>
+              <Grid container spacing={1}>
+                <InputField label="Producto" xs={12} sm={6} />
+                <InputField label="Unidades" xs={12} sm={6} type="number" />
+              </Grid>
+            </form>
+          </div>
+          <TableInfo headers={["Producto", "Precio"]} data={productos} />
+        </div>
       )}
     </Container>
   );
