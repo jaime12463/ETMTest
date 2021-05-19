@@ -5,6 +5,7 @@ import InputField from "../components/InputField";
 import { TableInfo } from "../components/TableInfo";
 import { DATA } from "../utils/constants";
 import { FormAddProduct } from "../components/FormAddProduct";
+import CardPedido from "../components/CardPedido";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -54,6 +55,7 @@ export default function TomaDePedidos() {
     setCliente(target.value);
     setProductos(null);
     setExisteCliente(-1);
+    setPedido([]);
   };
 
   const handleSearchProducts = (e) => {
@@ -91,7 +93,7 @@ export default function TomaDePedidos() {
 
     !auxiliar
       ? setFocusProduct({ producto, unidades, precio })
-      : setFocusProduct({ ...auxiliar });
+      : setFocusProduct({ ...auxiliar, precio });
   };
 
   const handleIncrementValue = ({ target: { value } }) => {
@@ -101,21 +103,24 @@ export default function TomaDePedidos() {
   const handleAddToPedido = (e) => {
     e.preventDefault();
 
-    parseInt(focusProduct.unidades, 10) > 0 &&
-      setPedido([
-        ...pedido,
-        {
-          producto: parseInt(focusProduct.producto, 10),
-          unidades: parseInt(focusProduct.unidades, 10),
-          precio:
-            parseInt(focusProduct.precio, 10) *
-            parseInt(focusProduct.unidades, 10),
-        },
-      ]);
+    const result = pedido.filter(
+      (elem) => elem.producto !== parseInt(focusProduct.producto, 10)
+    );
+    console.log(focusProduct);
+
+    setPedido([
+      ...result,
+      {
+        producto: parseInt(focusProduct.producto, 10),
+        unidades: parseInt(focusProduct.unidades, 10),
+        precio:
+          parseFloat(focusProduct.precio, 10).toFixed(2) *
+          parseFloat(focusProduct.unidades, 10).toFixed(2),
+      },
+    ]);
     setFocusProduct({ producto: "", unidades: "", precio: "" });
   };
 
-  console.log(pedido);
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -169,6 +174,8 @@ export default function TomaDePedidos() {
               data={productos}
               onClick={handleFocusProduct}
             />
+
+            {pedido.length > 0 && <CardPedido pedido={pedido} />}
           </div>
         )
       )}

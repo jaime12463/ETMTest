@@ -28,11 +28,11 @@ const Layout = (props) => {
         <Box  display="flex" justifyContent="center" >
             {props.children}
         </Box>
-        <Box  display="flex" justifyContent="center">
+        {/* <Box  display="flex" justifyContent="center">
           <div  style={{background: `url(${Footers}) no-repeat`, height:"75px", width:"300px" , position: "absolute",  bottom: "0px"}}>
                 
           </div>
-        </Box>
+        </Box> */}
     </div>
   );
 };
