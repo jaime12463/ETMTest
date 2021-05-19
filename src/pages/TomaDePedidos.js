@@ -42,8 +42,10 @@ export default function TomaDePedidos() {
 
   useEffect(() => {
     productos &&
-      (productos.length > 0 ? setExisteCliente(true) : setExisteCliente(false));
-  }, [productos]);
+      (productos.length > 0
+        ? setExisteCliente(true)
+        : existeCliente === -1 && setExisteCliente(false));
+  }, [productos, existeCliente]);
 
   const handleChangeCliente = ({ target }) => {
     setCliente(target.value);
@@ -110,56 +112,55 @@ export default function TomaDePedidos() {
           </Grid>
         </form>
       </div>
-      {productos && productos.length > 0 ? (
-        <div>
-          <div className={classes.paper}>
-            <Grid container>
-              <InputField
-                label="Buscar"
-                size="small"
-                xs={12}
-                sm={12}
-                onChange={handleFindOneProduct}
-              />
-            </Grid>
-          </div>
-          <div className={classes.paper}>
-            <form className={classes.form} noValidate>
-              <Grid container spacing={1}>
-                <InputField
-                  label="Producto"
-                  size="small"
-                  xs={6}
-                  sm={6}
-                  value={focusProduct.producto}
-                  disabled
-                />
-                <InputField
-                  label="Unidades"
-                  size="small"
-                  xs={6}
-                  sm={6}
-                  min={0}
-                  type="number"
-                  value={focusProduct.unidades}
-                  onChange={handleIncrementValue}
-                />
-              </Grid>
-            </form>
-          </div>
-          <TableInfo
-            headers={["Producto", "Precio"]}
-            data={productos}
-            onClick={handleFocusProduct}
-          />
+      {!existeCliente ? (
+        <div className={classes.sectionAlert}>
+          <Alert variant="filled" severity="warning">
+            Cliente no encontrado
+          </Alert>
         </div>
       ) : (
-        existeCliente !== -1 &&
-        !existeCliente && (
-          <div className={classes.sectionAlert}>
-            <Alert variant="filled" severity="warning">
-              Cliente no encontrado
-            </Alert>
+        productos && (
+          <div>
+            <div className={classes.paper}>
+              <Grid container>
+                <InputField
+                  label="Buscar"
+                  size="small"
+                  xs={12}
+                  sm={12}
+                  onChange={handleFindOneProduct}
+                />
+              </Grid>
+            </div>
+            <div className={classes.paper}>
+              <form className={classes.form} noValidate>
+                <Grid container spacing={1}>
+                  <InputField
+                    label="Producto"
+                    size="small"
+                    xs={6}
+                    sm={6}
+                    value={focusProduct.producto}
+                    disabled
+                  />
+                  <InputField
+                    label="Unidades"
+                    size="small"
+                    xs={6}
+                    sm={6}
+                    min={0}
+                    type="number"
+                    value={focusProduct.unidades}
+                    onChange={handleIncrementValue}
+                  />
+                </Grid>
+              </form>
+            </div>
+            <TableInfo
+              headers={["Producto", "Precio"]}
+              data={productos}
+              onClick={handleFocusProduct}
+            />
           </div>
         )
       )}
