@@ -48,6 +48,7 @@ export default function TomaDePedidos() {
     context.setTitle("Ingreso de Pedido");
     // Hago la peticion rest
     setDb(DATA);
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {

@@ -10,6 +10,7 @@ export default function Splash() {
 
   useEffect(() => {
     context.setTitle("Bienvenido");
+    // eslint-disable-next-line
   }, []);
 
   const handleRedirect = () => {
