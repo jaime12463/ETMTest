@@ -1,27 +1,32 @@
-import React ,{useState} from 'react';
-import AppContext from './AppContext';
+import { useState } from "react";
+import { AppContext } from "./AppContext";
+import RoutesWeb from "../components/RoutesWeb";
+import Layout from "../components/Layout";
 
-function GlobalState(props)
-{
-    const [title, setTitle]=useState("Bienvenido");
-    const [cliente, setCliente] = useState({});
-    const [listaProductosPedido, setlistaProductosPedido] = useState([{Codigoproducto:"1882",unidades:"10"}]);
-    const [viewFooter, setViewFooter] = useState(0);
-    return (
-        <AppContext.Provider
-            value={{
-                    title:title,
-                    setTitle:setTitle,
-                    cliente:cliente,
-                    setCliente:setCliente,
-                    listaProductosPedido:listaProductosPedido,
-                    setlistaProductosPedido:setlistaProductosPedido,
-                    viewFooter: viewFooter,
-                    setViewFooter:setViewFooter
-                }}>
-            {props.children}
-        </AppContext.Provider>
-    );
+function GlobalState(props) {
+  const [title, setTitle] = useState("Bienvenido");
+  const [cliente, setCliente] = useState({});
+  const [listaProductosPedido, setlistaProductosPedido] = useState([]);
+  const [viewFooter, setViewFooter] = useState(0);
+
+  return (
+    <AppContext.Provider
+      value={{
+        title,
+        setTitle,
+        cliente,
+        setCliente,
+        listaProductosPedido,
+        setlistaProductosPedido,
+        viewFooter,
+        setViewFooter,
+      }}
+    >
+      <Layout>
+        <RoutesWeb />
+      </Layout>
+    </AppContext.Provider>
+  );
 }
 
 export default GlobalState;

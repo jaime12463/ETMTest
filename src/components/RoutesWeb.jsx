@@ -1,24 +1,18 @@
-import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
-import GlobalState from "../context/GlobalState";
-import TomaDePedidos from "../pages/TomaDePedidos.js"
-import DetallePedido from "../pages/DetallePedido.js"
-import Splash from "../pages/Splash.js"
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import TomaDePedidos from "../pages/TomaDePedidos.js";
+import DetallePedido from "../pages/DetallePedido.js";
+import Splash from "../pages/Splash.js";
 
-const Routes = () =>
-{
-    return (
-        <GlobalState>
-             <BrowserRouter basename={'/'}>
-             <Switch>
-              <Route exact path="/detalle" component={DetallePedido} />
-              <Route path="/TomaDePedidos" component={TomaDePedidos} />
-              <Route path="/Splash" component={Splash} />
-              <Redirect from="/" to="/Splash" />
-            </Switch>
-            </BrowserRouter>
-        </GlobalState>
-    )
-
+const RoutesWeb = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/ingresarpedido" component={TomaDePedidos} />
+        <Route exact path="/detalle" component={DetallePedido} />
+        <Route path="/" component={Splash} />
+      </Switch>
+    </BrowserRouter>
+  );
 };
 
-export default Routes;
+export default RoutesWeb;

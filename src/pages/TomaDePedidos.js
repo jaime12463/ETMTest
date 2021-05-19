@@ -1,19 +1,15 @@
-import React, { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Alert } from "@material-ui/lab";
 import InputField from "../components/InputField";
 import { TableInfo } from "../components/TableInfo";
-import AppContext from '../context/AppContext';
+import { AppContext } from "../context/AppContext";
 import { DATA } from "../utils/constants";
 import { FormAddProduct } from "../components/FormAddProduct";
 import CardPedido from "../components/CardPedido";
-
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -48,9 +44,6 @@ export default function TomaDePedidos() {
   //const [pedido, context.setlistaProductosPedido] = useState([]);
   const classes = useStyles();
 
-
-  console.log("Tomade pedidos", context)
-
   useEffect(() => {
     context.setTitle("Ingreso de Pedido");
     // Hago la peticion rest
@@ -84,8 +77,9 @@ export default function TomaDePedidos() {
     db.find((element) =>
       element.CodigoCliente === cliente
         ? setProductos(
-            element.Precios.filter((producto) =>
-              producto.Codigoproducto.substr(1,value.length)===value
+            element.Precios.filter(
+              (producto) =>
+                producto.Codigoproducto.substr(1, value.length) === value
             )
           )
         : setProductos([])
@@ -188,7 +182,9 @@ export default function TomaDePedidos() {
               onClick={handleFocusProduct}
             />
 
-            {context.listaProductosPedido.length > 0 && <CardPedido pedido={context.listaProductosPedido} />}
+            {context.listaProductosPedido.length > 0 && (
+              <CardPedido pedido={context.listaProductosPedido} />
+            )}
           </div>
         )
       )}
