@@ -145,7 +145,7 @@ export default function TomaDePedidos() {
       {!existeCliente ? (
         <div className={classes.sectionAlert}>
           <Alert variant="filled" severity="warning">
-            Cliente no encontrado
+            El cliente no tiene portafolio informado
           </Alert>
         </div>
       ) : (
