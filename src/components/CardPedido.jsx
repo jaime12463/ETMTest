@@ -10,6 +10,7 @@ import { Grid } from "@material-ui/core";
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
+    marginTop: 20,
   },
   bullet: {
     display: "inline-block",
