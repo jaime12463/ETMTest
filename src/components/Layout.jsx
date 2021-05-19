@@ -1,5 +1,7 @@
-import { Container, Grid,Box  } from "@material-ui/core";
+import React , {useContext} from "react";
+import {Box, Typography  } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import AppContext from '../context/AppContext';
 import Headers from '../assests/images/pop_up_onda.png';
 import Footers from '../assests/images/hdpi_logo_soft_hasar.png';
 const useStyles = makeStyles((theme) => ({
@@ -17,23 +19,33 @@ const useStyles = makeStyles((theme) => ({
 
 const Layout = (props) => {
   const classes = useStyles();
-
+  const context = useContext(AppContext);
+  console.log("render Layout", context);
+  
   return (
-    <div className={classes.root}>
-        <Box  display="flex" justifyContent="center" >
-          <div  style={{background: `url(${Headers}) no-repeat`, height:"75px", width:"430px"}}>
-                
-          </div>
-        </Box>
-        <Box  display="flex" justifyContent="center" >
-            {props.children}
-        </Box>
-        <Box  display="flex" justifyContent="center">
-          <div  style={{background: `url(${Footers}) no-repeat`, height:"75px", width:"300px" , position: "absolute",  bottom: "0px"}}>
-                
-          </div>
-        </Box>
-    </div>
+    <AppContext.Consumer>
+    {
+      context=>(
+        <div className={classes.root}>
+            <Box  display="flex" justifyContent="center" >
+              <Box  display="flex" justifyContent="center" style={{background: `url(${Headers}) no-repeat`, height:"75px", width:"430px"}}>
+                <Typography variant="h6" style={{marginTop:"10px"}}>
+                  {context.title} 
+                </Typography>
+              </Box>
+            </Box>
+            <Box  display="flex" justifyContent="center" >
+                {props.children}
+            </Box>
+            <Box  display="flex" justifyContent="center">
+              <div  style={{background: `url(${Footers}) no-repeat`, height:"75px", width:"300px" , position: "absolute",  bottom: "0px"}}>
+                    
+              </div>
+            </Box>
+        </div>
+      )
+    }
+    </AppContext.Consumer>
   );
 };
 

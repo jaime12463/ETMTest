@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
@@ -9,6 +9,7 @@ import Container from "@material-ui/core/Container";
 import InputField from "../components/InputField";
 import { DATA } from "../utils/constants";
 import { TableInfo } from "../components/TableInfo";
+import AppContext from '../context/AppContext';
 
 function Copyright() {
   return (
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TomaDePedidos() {
+  const context = useContext(AppContext);
   const [db, setDb] = useState(DATA);
   const [cliente, setCliente] = useState("");
   const [productos, setProductos] = useState([]);
@@ -53,6 +55,12 @@ export default function TomaDePedidos() {
     unidades: "",
   });
   const classes = useStyles();
+
+
+  console.log("Tomade pedidos", context)
+useEffect(() => {
+    context.setTitle("Ingreso de Pedido");
+},[])
 
   const handleChangeCliente = ({ target }) => {
     setCliente(target.value);
