@@ -11,6 +11,7 @@ const InputField = ({
   size,
   min,
   type = "text",
+  autoFocus,
 }) => {
   return (
     <Grid item xs={xs} sm={sm}>
@@ -20,7 +21,7 @@ const InputField = ({
         variant="outlined"
         fullWidth
         label={label}
-        autoFocus
+        autoFocus={autoFocus}
         type={type}
         value={value}
         onChange={onChange}

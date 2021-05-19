@@ -23,6 +23,7 @@ export const FormAddProduct = ({
   handleAddToPedido,
   focusProduct,
   handleIncrementValue,
+  autoFocus,
 }) => {
   const classes = useStyles();
 
@@ -33,38 +34,31 @@ export const FormAddProduct = ({
           <InputField
             label="Producto"
             size="small"
-            xs={5}
-            sm={5}
+            xs={6}
+            sm={6}
             value={focusProduct.producto}
             disabled
           />
           <InputField
             label="Unidades"
             size="small"
-            xs={5}
-            sm={5}
+            xs={6}
+            sm={6}
             min={0}
             type="number"
             value={focusProduct.unidades}
             onChange={handleIncrementValue}
+            disabled={focusProduct.unidades === ""}
           />
-          <Grid item xs={2} sm={2}>
-            <Grid
-              container
-              direction="row"
-              justify="center"
-              alignItems="center"
-            >
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                disabled={!focusProduct.unidades && !focusProduct.producto}
-              >
-                +
-              </Button>
-            </Grid>
-          </Grid>
+
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            style={{ display: "none" }}
+          >
+            +
+          </Button>
         </Grid>
       </form>
     </div>

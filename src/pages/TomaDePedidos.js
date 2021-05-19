@@ -62,6 +62,7 @@ export default function TomaDePedidos() {
     setCliente(target.value);
     setProductos(null);
     setExisteCliente(-1);
+    setFocusProduct({ producto: "", unidades: "", precio: "" });
     context.setlistaProductosPedido([]);
   };
 
@@ -129,6 +130,7 @@ export default function TomaDePedidos() {
     setFocusProduct({ producto: "", unidades: "", precio: "" });
   };
 
+  console.log(focusProduct.producto);
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -167,6 +169,7 @@ export default function TomaDePedidos() {
                   xs={12}
                   sm={12}
                   onChange={handleFindOneProduct}
+                  autoFocus={productos && !focusProduct.producto}
                 />
               </Grid>
             </div>
@@ -175,6 +178,7 @@ export default function TomaDePedidos() {
               handleAddToPedido={handleAddToPedido}
               focusProduct={focusProduct}
               handleIncrementValue={handleIncrementValue}
+              autoFocus={focusProduct.producto !== ""}
             />
 
             <TableInfo
