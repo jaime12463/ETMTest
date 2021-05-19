@@ -6,6 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -72,9 +73,11 @@ export default function CardPedido({ pedido }) {
         </Grid>
       </CardContent>
       <CardActions className={classes.alignment}>
-        <Button variant="contained" color="secondary">
-          VER DETALLE
-        </Button>
+        <Link to="/detalle">
+          <Button variant="contained" color="secondary">
+            VER DETALLE
+          </Button>
+        </Link>
       </CardActions>
     </Card>
   );
