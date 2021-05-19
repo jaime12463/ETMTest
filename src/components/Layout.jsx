@@ -44,7 +44,7 @@ const Layout = (props) => {
       <Box display="flex" justifyContent="center">
         {props.children}
       </Box>
-      {context.viewFooter === 0 ? (
+      {/* {context.viewFooter === 0 ? (
         <Box display="flex" justifyContent="center">
           <div
             style={{
@@ -56,7 +56,7 @@ const Layout = (props) => {
             }}
           ></div>
         </Box>
-      ) : null}
+      ) : null} */}
     </div>
   );
 };

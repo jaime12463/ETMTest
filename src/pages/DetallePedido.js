@@ -20,11 +20,9 @@ const useStyles = makeStyles({
   },
 });
 
-const DetallePedido = (data) => {
+const DetallePedido = () => {
   const classes = useStyles();
   const context = useContext(AppContext);
-
-  console.log("DetallePedido", context);
 
   return (
     <div>

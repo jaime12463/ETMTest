@@ -23,7 +23,7 @@ export const TableInfo = ({ headers, data, onClick }) => {
 
   return (
     <TableContainer className={classes.container}>
-      <Table stickyHeader aria-label="a dense table" size="small">
+      <Table stickyHeader size="small">
         <TableHead>
           <TableRow>
             {headers.map((column) => (
