@@ -10,7 +10,8 @@ import {
 
 const useStyles = makeStyles({
   container: {
-    maxHeight: 280,
+    marginTop: 12,
+    maxHeight: 150,
   },
   alignment: {
     textAlign: "center",
@@ -22,7 +23,7 @@ export const TableInfo = ({ headers, data, onClick }) => {
 
   return (
     <TableContainer className={classes.container}>
-      <Table stickyHeader aria-label="sticky table">
+      <Table stickyHeader aria-label="a dense table" size="small">
         <TableHead>
           <TableRow>
             {headers.map((column) => (
@@ -41,6 +42,7 @@ export const TableInfo = ({ headers, data, onClick }) => {
                 onClick({
                   producto: producto.Codigoproducto,
                   unidades: 0,
+                  precio: producto.PrecioConImpuesto,
                 })
               }
             >
@@ -48,7 +50,7 @@ export const TableInfo = ({ headers, data, onClick }) => {
                 {producto.Codigoproducto}
               </TableCell>
               <TableCell className={classes.alignment}>
-                {producto.PrecioConImpuesto}
+                $ {producto.PrecioConImpuesto}
               </TableCell>
             </TableRow>
           ))}

@@ -6,23 +6,14 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { Alert } from "@material-ui/lab";
 import InputField from "../components/InputField";
-import { DATA } from "../utils/constants";
 import { TableInfo } from "../components/TableInfo";
 import AppContext from '../context/AppContext';
+import { DATA } from "../utils/constants";
+import { FormAddProduct } from "../components/FormAddProduct";
+import CardPedido from "../components/CardPedido";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,10 +22,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
   form: {
     width: "100%",
     marginTop: theme.spacing(3),
@@ -42,33 +29,50 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  sectionAlert: {
+    marginTop: "1rem",
+  },
 }));
 
 export default function TomaDePedidos() {
   const context = useContext(AppContext);
-  const [db, setDb] = useState(DATA);
+  const [db, setDb] = useState({});
   const [cliente, setCliente] = useState("");
-  const [productos, setProductos] = useState([]);
-  const [productsFilter, setProductsFilter] = useState([]);
+  const [productos, setProductos] = useState(null);
+  const [existeCliente, setExisteCliente] = useState(-1);
   const [focusProduct, setFocusProduct] = useState({
     producto: "",
     unidades: "",
+    precio: "",
   });
+  //const [pedido, context.setlistaProductosPedido] = useState([]);
   const classes = useStyles();
 
 
   console.log("Tomade pedidos", context)
-useEffect(() => {
+
+  useEffect(() => {
     context.setTitle("Ingreso de Pedido");
-},[])
+    // Hago la peticion rest
+    setDb(DATA);
+  }, []);
+
+  useEffect(() => {
+    productos &&
+      (productos.length > 0
+        ? setExisteCliente(true)
+        : existeCliente === -1 && setExisteCliente(false));
+  }, [productos, existeCliente]);
 
   const handleChangeCliente = ({ target }) => {
     setCliente(target.value);
+    setProductos(null);
+    setExisteCliente(-1);
+    context.setlistaProductosPedido([]);
   };
 
   const handleSearchProducts = (e) => {
     e.preventDefault();
-
     db.find((element) =>
       element.CodigoCliente === cliente
         ? setProductos(element.Precios)
@@ -77,8 +81,14 @@ useEffect(() => {
   };
 
   const handleFindOneProduct = ({ target: { value } }) => {
-    setProductos(
-      productos.filter((producto) => producto.Codigoproducto.includes(value))
+    db.find((element) =>
+      element.CodigoCliente === cliente
+        ? setProductos(
+            element.Precios.filter((producto) =>
+              producto.Codigoproducto.substr(1,value.length)===value
+            )
+          )
+        : setProductos([])
     );
 
     value === "" &&
@@ -89,12 +99,39 @@ useEffect(() => {
       );
   };
 
-  const handleFocusProduct = ({ producto, unidades }) => {
-    setFocusProduct({ producto, unidades });
+  const handleFocusProduct = ({ producto, unidades, precio }) => {
+    const auxiliar = context.listaProductosPedido.find(
+      (eleccion) => eleccion.producto === parseInt(producto, 10)
+    );
+
+    !auxiliar
+      ? setFocusProduct({ producto, unidades, precio })
+      : setFocusProduct({ ...auxiliar, precio });
   };
 
   const handleIncrementValue = ({ target: { value } }) => {
     setFocusProduct({ ...focusProduct, unidades: value });
+  };
+
+  const handleAddToPedido = (e) => {
+    e.preventDefault();
+
+    const result = context.listaProductosPedido.filter(
+      (elem) => elem.producto !== parseInt(focusProduct.producto, 10)
+    );
+    console.log(focusProduct);
+
+    context.setlistaProductosPedido([
+      ...result,
+      {
+        producto: parseInt(focusProduct.producto, 10),
+        unidades: parseInt(focusProduct.unidades, 10),
+        precio:
+          parseFloat(focusProduct.precio, 10).toFixed(2) *
+          parseFloat(focusProduct.unidades, 10).toFixed(2),
+      },
+    ]);
+    setFocusProduct({ producto: "", unidades: "", precio: "" });
   };
 
   return (
@@ -109,7 +146,8 @@ useEffect(() => {
           <Grid container>
             <InputField
               label="Cliente"
-              xs={12}
+              size="small"
+              xs={6}
               sm={6}
               onChange={handleChangeCliente}
               value={cliente}
@@ -117,45 +155,42 @@ useEffect(() => {
           </Grid>
         </form>
       </div>
-      {productos.length > 0 && (
-        <div>
-          <div className={classes.paper}>
-            <Grid container>
-              <InputField
-                label="Buscar"
-                xs={12}
-                sm={12}
-                onChange={handleFindOneProduct}
-              />
-            </Grid>
-          </div>
-          <div className={classes.paper}>
-            <form className={classes.form} noValidate>
-              <Grid container spacing={1}>
+      {!existeCliente ? (
+        <div className={classes.sectionAlert}>
+          <Alert variant="filled" severity="warning">
+            El cliente no tiene portafolio informado
+          </Alert>
+        </div>
+      ) : (
+        productos && (
+          <div>
+            <div className={classes.paper}>
+              <Grid container>
                 <InputField
-                  label="Producto"
+                  label="Buscar"
+                  size="small"
                   xs={12}
-                  sm={6}
-                  value={focusProduct.producto}
-                  disabled
-                />
-                <InputField
-                  label="Unidades"
-                  xs={12}
-                  sm={6}
-                  type="number"
-                  value={focusProduct.unidades}
-                  onChange={handleIncrementValue}
+                  sm={12}
+                  onChange={handleFindOneProduct}
                 />
               </Grid>
-            </form>
+            </div>
+
+            <FormAddProduct
+              handleAddToPedido={handleAddToPedido}
+              focusProduct={focusProduct}
+              handleIncrementValue={handleIncrementValue}
+            />
+
+            <TableInfo
+              headers={["Producto", "Precio"]}
+              data={productos}
+              onClick={handleFocusProduct}
+            />
+
+            {context.listaProductosPedido.length > 0 && <CardPedido pedido={context.listaProductosPedido} />}
           </div>
-          <TableInfo
-            headers={["Producto", "Precio"]}
-            data={productos}
-            onClick={handleFocusProduct}
-          />
-        </div>
+        )
       )}
     </Container>
   );

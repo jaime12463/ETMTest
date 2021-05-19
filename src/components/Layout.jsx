@@ -1,4 +1,4 @@
-import React , {useContext} from "react";
+import React , {useContext, useState, useEffect} from "react";
 import {Box, Typography  } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AppContext from '../context/AppContext';
@@ -20,30 +20,42 @@ const useStyles = makeStyles((theme) => ({
 const Layout = (props) => {
   const classes = useStyles();
   const context = useContext(AppContext);
-  console.log("render Layout", context);
+  const [title, setTitle] = useState(context.title)
+
   
+  useEffect(() => {
+    setTitle(context.title);
+    console.log("render Layout", context);
+
+  }, [context.title]);
+
+
   return (
     <AppContext.Consumer>
-    {
-      context=>(
+      {
+        context => 
         <div className={classes.root}>
             <Box  display="flex" justifyContent="center" >
-              <Box  display="flex" justifyContent="center" style={{background: `url(${Headers}) no-repeat`, height:"75px", width:"430px"}}>
-                <Typography variant="h6" style={{marginTop:"10px"}}>
-                  {context.title} 
-                </Typography>
+              <Box  display="flex" justifyContent="center"  style={{background: `url(${Headers}) no-repeat`, height:"75px", width:"430px"}}>
+                    <Typography variant="subtitle1" style={{marginTop:"20px", color:"white"}} >
+                      {title}
+                    </Typography>
               </Box>
             </Box>
             <Box  display="flex" justifyContent="center" >
                 {props.children}
             </Box>
-            <Box  display="flex" justifyContent="center">
-              <div  style={{background: `url(${Footers}) no-repeat`, height:"75px", width:"300px" , position: "absolute",  bottom: "0px"}}>
-                    
-              </div>
-            </Box>
+            {
+              (context.viewFooter===0) ?
+                (
+                  <Box  display="flex" justifyContent="center">
+                    <div  style={{background: `url(${Footers}) no-repeat`, height:"75px", width:"300px" , position: "absolute",  bottom: "0px"}}>
+                          
+                    </div>
+                  </Box> 
+                ) : null
+            }
         </div>
-      )
     }
     </AppContext.Consumer>
   );

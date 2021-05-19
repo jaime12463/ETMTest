@@ -5,7 +5,10 @@ import AppContext from '../context/AppContext';
   
 export default function Splash(){
     const context = useContext(AppContext);
-    const handleRedirect = () => {window.location="./TomaDePedidos";};
+    const handleRedirect = () => {
+        window.location="./TomaDePedidos";
+        context.setViewFooter(1);
+    };
 
     console.log("Splash", context)
     useEffect(() => {
@@ -16,7 +19,7 @@ export default function Splash(){
     return (
             <div style={{ width: '100%', marginTop:"110px" }}>
                 <Box display="flex" justifyContent="center">
-                        <img src={LogoFemsa} onClick={handleRedirect}></img>
+                        <img src={LogoFemsa} onClick={handleRedirect} style={{cursor:"pointer"}}></img>
                 </Box>
             </div>
     )
