@@ -22,7 +22,7 @@ export const TableInfo = ({ headers, data, onClick }) => {
   const classes = useStyles();
 
   return (
-    <TableContainer className={classes.container} >
+    <TableContainer className={classes.container}>
       <Table stickyHeader aria-label="a dense table" size="small">
         <TableHead>
           <TableRow>
@@ -42,6 +42,7 @@ export const TableInfo = ({ headers, data, onClick }) => {
                 onClick({
                   producto: producto.Codigoproducto,
                   unidades: 0,
+                  precio: producto.PrecioConImpuesto,
                 })
               }
             >
@@ -49,7 +50,7 @@ export const TableInfo = ({ headers, data, onClick }) => {
                 {producto.Codigoproducto}
               </TableCell>
               <TableCell className={classes.alignment}>
-                {producto.PrecioConImpuesto}
+                $ {producto.PrecioConImpuesto}
               </TableCell>
             </TableRow>
           ))}

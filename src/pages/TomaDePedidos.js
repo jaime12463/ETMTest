@@ -4,6 +4,7 @@ import { Alert } from "@material-ui/lab";
 import InputField from "../components/InputField";
 import { TableInfo } from "../components/TableInfo";
 import { DATA } from "../utils/constants";
+import { FormAddProduct } from "../components/FormAddProduct";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -32,7 +33,9 @@ export default function TomaDePedidos() {
   const [focusProduct, setFocusProduct] = useState({
     producto: "",
     unidades: "",
+    precio: "",
   });
+  const [pedido, setPedido] = useState([]);
   const classes = useStyles();
 
   useEffect(() => {
@@ -81,16 +84,38 @@ export default function TomaDePedidos() {
       );
   };
 
-  const handleFocusProduct = ({ producto, unidades }) => {
-    setFocusProduct({ producto, unidades });
+  const handleFocusProduct = ({ producto, unidades, precio }) => {
+    const auxiliar = pedido.find(
+      (eleccion) => eleccion.producto === parseInt(producto, 10)
+    );
+
+    !auxiliar
+      ? setFocusProduct({ producto, unidades, precio })
+      : setFocusProduct({ ...auxiliar });
   };
 
   const handleIncrementValue = ({ target: { value } }) => {
     setFocusProduct({ ...focusProduct, unidades: value });
   };
 
-  console.log(existeCliente);
-  console.log(productos);
+  const handleAddToPedido = (e) => {
+    e.preventDefault();
+
+    parseInt(focusProduct.unidades, 10) > 0 &&
+      setPedido([
+        ...pedido,
+        {
+          producto: parseInt(focusProduct.producto, 10),
+          unidades: parseInt(focusProduct.unidades, 10),
+          precio:
+            parseInt(focusProduct.precio, 10) *
+            parseInt(focusProduct.unidades, 10),
+        },
+      ]);
+    setFocusProduct({ producto: "", unidades: "", precio: "" });
+  };
+
+  console.log(pedido);
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -132,30 +157,13 @@ export default function TomaDePedidos() {
                 />
               </Grid>
             </div>
-            <div className={classes.paper}>
-              <form className={classes.form} noValidate>
-                <Grid container spacing={1}>
-                  <InputField
-                    label="Producto"
-                    size="small"
-                    xs={6}
-                    sm={6}
-                    value={focusProduct.producto}
-                    disabled
-                  />
-                  <InputField
-                    label="Unidades"
-                    size="small"
-                    xs={6}
-                    sm={6}
-                    min={0}
-                    type="number"
-                    value={focusProduct.unidades}
-                    onChange={handleIncrementValue}
-                  />
-                </Grid>
-              </form>
-            </div>
+
+            <FormAddProduct
+              handleAddToPedido={handleAddToPedido}
+              focusProduct={focusProduct}
+              handleIncrementValue={handleIncrementValue}
+            />
+
             <TableInfo
               headers={["Producto", "Precio"]}
               data={productos}
