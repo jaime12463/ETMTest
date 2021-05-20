@@ -142,7 +142,6 @@ export default function TomaDePedidos() {
     ]);
     setFocusProduct({ producto: "", unidades: "", precio: "" });
     
-    // unidadRef.current.focus();
   };
 
   console.log("TomaDePedidosInputRef="+unidadRef)
