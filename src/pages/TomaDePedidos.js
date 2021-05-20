@@ -58,14 +58,14 @@ export default function TomaDePedidos() {
       setDb(response.data);
     };
 
-     fetchData(); //descomentar esta linea si se usa axios y comentar la linea setDb(DATA)
+    fetchData(); //descomentar esta linea si se usa axios y comentar la linea setDb(DATA)
 
     //setDb(DATA);
     // eslint-disable-next-line
   }, []);
 
 
- useEffect(() => {
+  useEffect(() => {
     productos &&
       (productos.length > 0
         ? setExisteCliente(true)
@@ -93,11 +93,11 @@ export default function TomaDePedidos() {
     db.find((element) =>
       element.CodigoCliente === cliente
         ? setProductos(
-            element.Precios.filter(
-              (producto) =>
-                producto.Codigoproducto.substr(0, value.length) === value
-            )
+          element.Precios.filter(
+            (producto) =>
+              producto.Codigoproducto.substr(0, value.length) === value
           )
+        )
         : setProductos([])
     );
 
@@ -115,7 +115,7 @@ export default function TomaDePedidos() {
     );
 
     !auxiliar
-      ? setFocusProduct({ producto, unidades, precio })
+      ? setFocusProduct({ producto, unidades: "", precio })
       : setFocusProduct({ ...auxiliar, precio });
   };
 
@@ -130,7 +130,7 @@ export default function TomaDePedidos() {
       (elem) => elem.producto !== parseInt(focusProduct.producto, 10)
     );
 
-    context.setlistaProductosPedido([
+    parseInt(focusProduct.unidades, 10) > 0? context.setlistaProductosPedido([
       ...result,
       {
         producto: parseInt(focusProduct.producto, 10),
@@ -139,13 +139,13 @@ export default function TomaDePedidos() {
           parseFloat(focusProduct.precio, 10).toFixed(2) *
           parseFloat(focusProduct.unidades, 10).toFixed(2),
       },
-    ]);
+    ]): context.setlistaProductosPedido([...result.filter((i)=> i.producto!==focusProduct.producto)]);
     setFocusProduct({ producto: "", unidades: "", precio: "" });
-    
+
   };
 
-  console.log("TomaDePedidosInputRef="+unidadRef)
-  console.log("TomaDePedidosInputRef.current="+unidadRef.current)
+  console.log("TomaDePedidosInputRef=" + unidadRef)
+  console.log("TomaDePedidosInputRef.current=" + unidadRef.current)
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
