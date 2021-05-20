@@ -13,7 +13,7 @@ import { AppContext } from "../context/AppContext";
 const useStyles = makeStyles({
   container: {
     marginTop: 12,
-    maxHeight: 150,
+    maxHeight: 300,
   },
   alignment: {
     textAlign: "center",
