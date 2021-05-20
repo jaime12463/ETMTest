@@ -53,14 +53,14 @@ export default function TomaDePedidos() {
 
     // Hago la peticion rest
     const fetchData = async () => {
-      const response = await axios.get(URL_API);
+      const response = await axios.get("./data/precios_cliente.json");
 
       setDb(response.data);
     };
 
-    // fetchData(); descomentar esta linea si se usa axios y comentar la linea setDb(DATA)
+     fetchData(); //descomentar esta linea si se usa axios y comentar la linea setDb(DATA)
 
-    setDb(DATA);
+    //setDb(DATA);
     // eslint-disable-next-line
   }, []);
 
