@@ -95,7 +95,7 @@ export default function TomaDePedidos() {
         ? setProductos(
             element.Precios.filter(
               (producto) =>
-                producto.Codigoproducto.substr(1, value.length) === value
+                producto.Codigoproducto.substr(0, value.length) === value
             )
           )
         : setProductos([])
