@@ -23,7 +23,7 @@ export default function Splash() {
         <img
           src={LogoFemsa}
           onClick={handleRedirect}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", marginTop: "calc(100vh - 73vh)"}}
           alt="logo"
         ></img>
       </Box>

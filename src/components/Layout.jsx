@@ -45,7 +45,7 @@ const Layout = (props) => {
           <Grid item xs={2} style={{ marginTop: "17px" }}>
             {context.title !== "Bienvenido" && (
               <IconButton size="small" onClick={handleClickChangeRoute}>
-                <ArrowBackIcon />
+                <ArrowBackIcon style={{color:"white"}} />
               </IconButton>
             )}
           </Grid>

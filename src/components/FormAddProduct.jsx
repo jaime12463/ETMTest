@@ -1,4 +1,5 @@
-import { Button, Grid, makeStyles } from "@material-ui/core";
+import { Button, Grid, makeStyles, TextField } from "@material-ui/core";
+import { useEffect, useRef } from "react";
 import InputField from "./InputField";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,9 +25,12 @@ export const FormAddProduct = ({
   focusProduct,
   handleIncrementValue,
   autoFocus,
+  inputRef,
 }) => {
   const classes = useStyles();
 
+  console.log(autoFocus)
+  console.log("unidadRef=" + inputRef)
   return (
     <div className={classes.paper}>
       <form className={classes.form} noValidate onSubmit={handleAddToPedido}>
@@ -39,7 +43,27 @@ export const FormAddProduct = ({
             value={focusProduct.producto}
             disabled
           />
-          <InputField
+
+          <Grid item xs={6} sm={6}>
+            <TextField
+              name="unidades"
+              size="small"
+              variant="outlined"
+              fullWidth
+              label="Unidades"
+              type="number"
+              value={focusProduct.unidades}
+              onChange={handleIncrementValue}
+              disabled={focusProduct.unidades === "" && focusProduct.producto===""}
+              // InputProps={{ref:inputRef}}
+              inputRef={(input) => {
+                if (input != null) {
+                  input.focus();
+                }
+              }}
+            />
+          </Grid>
+          {/* <InputField
             label="Unidades"
             size="small"
             xs={6}
@@ -49,9 +73,9 @@ export const FormAddProduct = ({
             value={focusProduct.unidades}
             onChange={handleIncrementValue}
             disabled={focusProduct.unidades === ""}
-            inputProps={{ min: 0 }}
-          />
-
+            inputRef={inputRef}
+            autoFocus={autoFocus}
+          /> */}
           <Button
             variant="contained"
             color="primary"

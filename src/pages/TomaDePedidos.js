@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,6 +11,7 @@ import { DATA, URL_API } from "../utils/constants";
 import { FormAddProduct } from "../components/FormAddProduct";
 import CardPedido from "../components/CardPedido";
 import axios from "axios";
+import { useForkRef } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -42,6 +43,8 @@ export default function TomaDePedidos() {
     unidades: "",
     precio: "",
   });
+  const unidadRef = useRef(null);
+
   //const [pedido, context.setlistaProductosPedido] = useState([]);
   const classes = useStyles();
 
@@ -50,16 +53,17 @@ export default function TomaDePedidos() {
 
     // Hago la peticion rest
     const fetchData = async () => {
-      const response = await axios.get(URL_API);
+      const response = await axios.get("./data/precios_cliente.json");
 
       setDb(response.data);
     };
 
-    // fetchData(); descomentar esta linea si se usa axios y comentar la linea setDb(DATA)
+    fetchData(); //descomentar esta linea si se usa axios y comentar la linea setDb(DATA)
 
-    setDb(DATA);
+    //setDb(DATA);
     // eslint-disable-next-line
   }, []);
+
 
   useEffect(() => {
     productos &&
@@ -89,11 +93,11 @@ export default function TomaDePedidos() {
     db.find((element) =>
       element.CodigoCliente === cliente
         ? setProductos(
-            element.Precios.filter(
-              (producto) =>
-                producto.Codigoproducto.substr(1, value.length) === value
-            )
+          element.Precios.filter(
+            (producto) =>
+              producto.Codigoproducto.substr(0, value.length) === value
           )
+        )
         : setProductos([])
     );
 
@@ -111,7 +115,7 @@ export default function TomaDePedidos() {
     );
 
     !auxiliar
-      ? setFocusProduct({ producto, unidades, precio })
+      ? setFocusProduct({ producto, unidades: "", precio })
       : setFocusProduct({ ...auxiliar, precio });
   };
 
@@ -126,7 +130,7 @@ export default function TomaDePedidos() {
       (elem) => elem.producto !== parseInt(focusProduct.producto, 10)
     );
 
-    context.setlistaProductosPedido([
+    parseInt(focusProduct.unidades, 10) > 0? context.setlistaProductosPedido([
       ...result,
       {
         producto: parseInt(focusProduct.producto, 10),
@@ -135,10 +139,13 @@ export default function TomaDePedidos() {
           parseFloat(focusProduct.precio, 10).toFixed(2) *
           parseFloat(focusProduct.unidades, 10).toFixed(2),
       },
-    ]);
+    ]): context.setlistaProductosPedido([...result.filter((i)=> i.producto!==focusProduct.producto)]);
     setFocusProduct({ producto: "", unidades: "", precio: "" });
+
   };
 
+  console.log("TomaDePedidosInputRef=" + unidadRef)
+  console.log("TomaDePedidosInputRef.current=" + unidadRef.current)
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -187,6 +194,7 @@ export default function TomaDePedidos() {
               focusProduct={focusProduct}
               handleIncrementValue={handleIncrementValue}
               autoFocus={focusProduct.producto !== ""}
+              inputRef={unidadRef}
             />
 
             <TableInfo
