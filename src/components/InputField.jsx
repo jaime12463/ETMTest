@@ -13,6 +13,7 @@ const InputField = ({
   type = "text",
   autoFocus,
   inputProps,
+  inputref,
 }) => {
   return (
     <Grid item xs={xs} sm={sm}>
@@ -27,9 +28,11 @@ const InputField = ({
         value={value}
         onChange={onChange}
         disabled={disabled}
+        inputref={inputref}
         InputProps={{
           inputProps,
         }}
+        
       />
     </Grid>
   );

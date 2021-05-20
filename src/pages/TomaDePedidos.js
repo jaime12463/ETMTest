@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,6 +11,7 @@ import { DATA, URL_API } from "../utils/constants";
 import { FormAddProduct } from "../components/FormAddProduct";
 import CardPedido from "../components/CardPedido";
 import axios from "axios";
+import { useForkRef } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -42,6 +43,8 @@ export default function TomaDePedidos() {
     unidades: "",
     precio: "",
   });
+  const unidadRef = useRef(null);
+
   //const [pedido, context.setlistaProductosPedido] = useState([]);
   const classes = useStyles();
 
@@ -61,7 +64,8 @@ export default function TomaDePedidos() {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
+
+ useEffect(() => {
     productos &&
       (productos.length > 0
         ? setExisteCliente(true)
@@ -137,8 +141,12 @@ export default function TomaDePedidos() {
       },
     ]);
     setFocusProduct({ producto: "", unidades: "", precio: "" });
+    
+    // unidadRef.current.focus();
   };
 
+  console.log("TomaDePedidosInputRef="+unidadRef)
+  console.log("TomaDePedidosInputRef.current="+unidadRef.current)
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -187,6 +195,7 @@ export default function TomaDePedidos() {
               focusProduct={focusProduct}
               handleIncrementValue={handleIncrementValue}
               autoFocus={focusProduct.producto !== ""}
+              inputRef={unidadRef}
             />
 
             <TableInfo
