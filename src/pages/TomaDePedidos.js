@@ -7,9 +7,10 @@ import { Alert } from "@material-ui/lab";
 import InputField from "../components/InputField";
 import { TableInfo } from "../components/TableInfo";
 import { AppContext } from "../context/AppContext";
-import { DATA } from "../utils/constants";
+import { DATA, URL_API } from "../utils/constants";
 import { FormAddProduct } from "../components/FormAddProduct";
 import CardPedido from "../components/CardPedido";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -46,7 +47,16 @@ export default function TomaDePedidos() {
 
   useEffect(() => {
     context.setTitle("Ingreso de Pedido");
+
     // Hago la peticion rest
+    const fetchData = async () => {
+      const response = await axios.get(URL_API);
+
+      setDb(response.data);
+    };
+
+    // fetchData(); descomentar esta linea si se usa axios y comentar la linea setDb(DATA)
+
     setDb(DATA);
     // eslint-disable-next-line
   }, []);
