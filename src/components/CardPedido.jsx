@@ -33,7 +33,6 @@ export default function CardPedido({ pedido }) {
   const [info, setInfo] = useState({ totalUnidades: "", totalPrecio: "" });
   const classes = useStyles();
 
-  console.log(pedido);
 
   useEffect(() => {
     let values = { totalUnidades: 0, totalPrecio: 0 };

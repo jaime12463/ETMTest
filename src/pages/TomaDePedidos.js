@@ -115,7 +115,6 @@ export default function TomaDePedidos() {
     const result = context.listaProductosPedido.filter(
       (elem) => elem.producto !== parseInt(focusProduct.producto, 10)
     );
-    console.log(focusProduct);
 
     context.setlistaProductosPedido([
       ...result,
@@ -130,7 +129,6 @@ export default function TomaDePedidos() {
     setFocusProduct({ producto: "", unidades: "", precio: "" });
   };
 
-  console.log(focusProduct.producto);
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

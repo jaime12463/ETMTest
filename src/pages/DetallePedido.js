@@ -7,7 +7,7 @@ import {
   TableRow,
   makeStyles,
 } from "@material-ui/core";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
 
 const useStyles = makeStyles({
@@ -24,6 +24,11 @@ const DetallePedido = () => {
   const classes = useStyles();
   const context = useContext(AppContext);
 
+  useEffect(() => {
+    context.setTitle("Productos del Pedido");
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <div>
       <TableContainer className={classes.container}>
@@ -39,7 +44,7 @@ const DetallePedido = () => {
           </TableHead>
           <TableBody>
             {context.listaProductosPedido.map((item) => (
-              <TableRow>
+              <TableRow key={item.producto}>
                 <TableCell className={classes.alignment}>
                   {item.producto}
                 </TableCell>

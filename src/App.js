@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { AppContext } from "./context/AppContext";
 import RoutesWeb from "./components/RoutesWeb";
-import Layout from "./components/Layout";
 
 function App() {
   const [title, setTitle] = useState("Bienvenido");
@@ -22,9 +21,7 @@ function App() {
         setViewFooter,
       }}
     >
-      <Layout>
-        <RoutesWeb />
-      </Layout>
+      <RoutesWeb />
     </AppContext.Provider>
   );
 }

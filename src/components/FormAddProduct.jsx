@@ -49,6 +49,7 @@ export const FormAddProduct = ({
             value={focusProduct.unidades}
             onChange={handleIncrementValue}
             disabled={focusProduct.unidades === ""}
+            inputProps={{ min: 0 }}
           />
 
           <Button
