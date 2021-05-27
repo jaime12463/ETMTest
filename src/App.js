@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { AppContext } from "./context/AppContext";
+import RoutesWeb from "./components/RoutesWeb";
 
 function App() {
+  const [title, setTitle] = useState("Bienvenido");
+  const [cliente, setCliente] = useState({});
+  const [listaProductosPedido, setlistaProductosPedido] = useState([]);
+  const [viewFooter, setViewFooter] = useState(0);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContext.Provider
+      value={{
+        title,
+        setTitle,
+        cliente,
+        setCliente,
+        listaProductosPedido,
+        setlistaProductosPedido,
+        viewFooter,
+        setViewFooter,
+      }}
+    >
+      <RoutesWeb />
+    </AppContext.Provider>
   );
 }
 
