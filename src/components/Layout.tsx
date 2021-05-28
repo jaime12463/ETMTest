@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Box, Grid, IconButton, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { AppContext } from "../context/AppContext";
+import { useAppContext } from "context/AppContext";
 import Headers from "../assests/images/pop_up_onda.png";
 import Footers from "../assests/images/hdpi_logo_soft_hasar.png";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
@@ -21,14 +21,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Layout = (props) => {
   const classes = useStyles();
-  const context = useContext(AppContext);
-
+  const { title } = useAppContext();
   let history = useHistory();
 
   const handleClickChangeRoute = () => {
-    context.title === "Ingreso de Pedido"
-      ? history.push("/")
-      : history.push("/ingresarpedido");
+    if (title === "Ingreso de Pedido") history.push("/");
+    else history.push("/ingresarpedido");
   };
 
   return (
@@ -43,9 +41,9 @@ const Layout = (props) => {
           }}
         >
           <Grid item xs={2} style={{ marginTop: "17px" }}>
-            {context.title !== "Bienvenido" && (
+            {title !== "Bienvenido" && (
               <IconButton size="small" onClick={handleClickChangeRoute}>
-                <ArrowBackIcon style={{color:"white"}} />
+                <ArrowBackIcon style={{ color: "white" }} />
               </IconButton>
             )}
           </Grid>
@@ -54,7 +52,7 @@ const Layout = (props) => {
               variant="subtitle1"
               style={{ marginTop: "20px", color: "white" }}
             >
-              {context.title}
+              {title}
             </Typography>
           </Grid>
           <Grid item xs={2}></Grid>
@@ -63,7 +61,7 @@ const Layout = (props) => {
       <Box display="flex" justifyContent="center">
         {props.children}
       </Box>
-      {context.title === "Bienvenido" && (
+      {title === "Bienvenido" && (
         <Box display="flex" justifyContent="center">
           <div
             style={{

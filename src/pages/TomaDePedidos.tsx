@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
@@ -6,7 +6,7 @@ import Container from "@material-ui/core/Container";
 import { Alert } from "@material-ui/lab";
 import InputField from "../components/InputField";
 import { TableInfo } from "../components/TableInfo";
-import { AppContext } from "../context/AppContext";
+import { useAppContext } from "../context/AppContext";
 import { DATA, URL_API } from "../utils/constants";
 import { FormAddProduct } from "../components/FormAddProduct";
 import CardPedido from "../components/CardPedido";
@@ -33,11 +33,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TomaDePedidos() {
-  const context = useContext(AppContext);
+  const { setTitle, setlistaProductosPedido, listaProductosPedido } = useAppContext();
   const [db, setDb] = useState({});
-  const [cliente, setCliente] = useState("");
-  const [productos, setProductos] = useState(null);
-  const [existeCliente, setExisteCliente] = useState(-1);
+  const [cliente, setCliente] = useState<string>("");
+  const [productos, setProductos] = useState<any[]>([]);
+  const [existeCliente, setExisteCliente] = useState<boolean>(false);
   const [focusProduct, setFocusProduct] = useState({
     producto: "",
     unidades: "",
@@ -45,16 +45,13 @@ export default function TomaDePedidos() {
   });
   const unidadRef = useRef(null);
 
-  //const [pedido, context.setlistaProductosPedido] = useState([]);
   const classes = useStyles();
 
   useEffect(() => {
-    context.setTitle("Ingreso de Pedido");
+    setTitle("Ingreso de Pedido");
 
-    // Hago la peticion rest
     const fetchData = async () => {
-      const response = await axios.get("./data/precios_cliente.json");
-
+      const response = await obtenerDB();
       setDb(response.data);
     };
 
@@ -66,10 +63,8 @@ export default function TomaDePedidos() {
 
 
   useEffect(() => {
-    productos &&
-      (productos.length > 0
-        ? setExisteCliente(true)
-        : existeCliente === -1 && setExisteCliente(false));
+      if (productos.length > 0) setExisteCliente(true);
+      else if (!existeCliente) setExisteCliente(false);
   }, [productos, existeCliente]);
 
   const handleChangeCliente = ({ target }) => {
@@ -77,7 +72,7 @@ export default function TomaDePedidos() {
     setProductos(null);
     setExisteCliente(-1);
     setFocusProduct({ producto: "", unidades: "", precio: "" });
-    context.setlistaProductosPedido([]);
+    setlistaProductosPedido([]);
   };
 
   const handleSearchProducts = (e) => {
@@ -110,7 +105,7 @@ export default function TomaDePedidos() {
   };
 
   const handleFocusProduct = ({ producto, unidades, precio }) => {
-    const auxiliar = context.listaProductosPedido.find(
+    const auxiliar = listaProductosPedido.find(
       (eleccion) => eleccion.producto === parseInt(producto, 10)
     );
 
@@ -126,11 +121,11 @@ export default function TomaDePedidos() {
   const handleAddToPedido = (e) => {
     e.preventDefault();
 
-    const result = context.listaProductosPedido.filter(
+    const result = listaProductosPedido.filter(
       (elem) => elem.producto !== parseInt(focusProduct.producto, 10)
     );
 
-    parseInt(focusProduct.unidades, 10) > 0? context.setlistaProductosPedido([
+    parseInt(focusProduct.unidades, 10) > 0? setlistaProductosPedido([
       ...result,
       {
         producto: parseInt(focusProduct.producto, 10),
@@ -139,7 +134,7 @@ export default function TomaDePedidos() {
           parseFloat(focusProduct.precio, 10).toFixed(2) *
           parseFloat(focusProduct.unidades, 10).toFixed(2),
       },
-    ]): context.setlistaProductosPedido([...result.filter((i)=> i.producto!==focusProduct.producto)]);
+    ]): setlistaProductosPedido([...result.filter((i)=> i.producto!==focusProduct.producto)]);
     setFocusProduct({ producto: "", unidades: "", precio: "" });
 
   };
@@ -203,8 +198,8 @@ export default function TomaDePedidos() {
               onClick={handleFocusProduct}
             />
 
-            {context.listaProductosPedido.length > 0 && (
-              <CardPedido pedido={context.listaProductosPedido} />
+            {listaProductosPedido.length > 0 && (
+              <CardPedido pedido={listaProductosPedido} />
             )}
           </div>
         )
@@ -212,3 +207,7 @@ export default function TomaDePedidos() {
     </Container>
   );
 }
+function obtenerDB() {
+  throw new Error("Function not implemented.");
+}
+

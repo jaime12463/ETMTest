@@ -9,7 +9,7 @@ export default function Splash() {
   const context = useContext(AppContext);
 
   useEffect(() => {
-    context.setTitle("Bienvenido");
+    //-------------context.setTitle("Bienvenido");
     // eslint-disable-next-line
   }, []);
 
