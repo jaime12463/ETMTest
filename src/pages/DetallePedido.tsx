@@ -1,3 +1,6 @@
+import React, { useEffect } from "react";
+import { useAppContext } from "context/AppContext";
+import { useTranslation } from "react-i18next";
 import {
   Table,
   TableBody,
@@ -7,8 +10,6 @@ import {
   TableRow,
   makeStyles,
 } from "@material-ui/core";
-import React, { useEffect } from "react";
-import { useAppContext } from "../context/AppContext";
 
 const useStyles = makeStyles({
   container: {
@@ -23,10 +24,10 @@ const useStyles = makeStyles({
 const DetallePedido: React.FC = () => {
   const classes = useStyles();
   const { setTitle, listaProductosPedido } = useAppContext();
+  const { t } = useTranslation();
 
   useEffect(() => {
-    setTitle("Productos del Pedido");
-    // eslint-disable-next-line
+    setTitle(t('titulos.productosPedido'));
   }, []);
 
   return (
@@ -35,7 +36,7 @@ const DetallePedido: React.FC = () => {
         <Table stickyHeader aria-label="a dense table" size="small">
           <TableHead>
             <TableRow>
-              {["Producto", "Unidades"].map((column) => (
+              {[t('general.producto'), t('general.unidades')].map((column) => (
                 <TableCell key={column} className={classes.alignment}>
                   {column}
                 </TableCell>

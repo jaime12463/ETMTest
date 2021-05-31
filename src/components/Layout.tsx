@@ -1,17 +1,19 @@
-import { useContext } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import { Box, Grid, IconButton, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useAppContext } from "context/AppContext";
-import Headers from "../assests/images/pop_up_onda.png";
-import Footers from "../assests/images/hdpi_logo_soft_hasar.png";
+import Headers from "assests/images/pop_up_onda.png";
+import Footers from "assests/images/hdpi_logo_soft_hasar.png";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { useTranslation } from "react-i18next";
+import routes from "routes"
 
 type LayoutProps = {
   children: any;
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     width: "100%",
   },
@@ -27,10 +29,11 @@ const Layout = (props: LayoutProps) => {
   const classes = useStyles();
   const { title } = useAppContext();
   let history = useHistory();
+  const { t } = useTranslation();
 
   const handleClickChangeRoute = () => {
-    if (title === "Ingreso de Pedido") history.push("/");
-    else history.push("/ingresarpedido");
+    if (title === t('titulos.ingresoPedido')) history.push("/");
+    else history.push(routes.ingresarpedido);
   };
 
   return (
@@ -45,7 +48,7 @@ const Layout = (props: LayoutProps) => {
           }}
         >
           <Grid item xs={2} style={{ marginTop: "17px" }}>
-            {title !== "Bienvenido" && (
+            {title !== t('titulos.bienvenido') && (
               <IconButton size="small" onClick={handleClickChangeRoute}>
                 <ArrowBackIcon style={{ color: "white" }} />
               </IconButton>
@@ -65,7 +68,7 @@ const Layout = (props: LayoutProps) => {
       <Box display="flex" justifyContent="center">
         {props.children}
       </Box>
-      {title === "Bienvenido" && (
+      {title === t('titulos.bienvenido') && (
         <Box display="flex" justifyContent="center">
           <div
             style={{

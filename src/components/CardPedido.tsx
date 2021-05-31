@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 type CardPedidoProps = {
   pedido: {
@@ -39,6 +40,7 @@ const useStyles = makeStyles({
 export default function CardPedido({ pedido }: CardPedidoProps) {
   const [info, setInfo] = useState({ totalUnidades: 0, totalPrecio: 0 });
   const classes = useStyles();
+  const { t } = useTranslation();
 
   useEffect(() => {
     let values = { totalUnidades: 0, totalPrecio: 0 };
@@ -57,7 +59,7 @@ export default function CardPedido({ pedido }: CardPedidoProps) {
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <Typography component="b" display="block" gutterBottom>
-              Total Unidades:
+              {t('general.totalUnidades')}:
             </Typography>
           </Grid>
           <Grid item xs={6}>
@@ -67,7 +69,7 @@ export default function CardPedido({ pedido }: CardPedidoProps) {
           </Grid>
           <Grid item xs={6}>
             <Typography component="b" display="block" gutterBottom>
-              Total:
+            {t('general.total')}:
             </Typography>
           </Grid>
           <Grid item xs={6}>
@@ -80,7 +82,7 @@ export default function CardPedido({ pedido }: CardPedidoProps) {
       <CardActions className={classes.alignment}>
         <Link to="/detalle">
           <Button variant="contained" color="secondary">
-            VER DETALLE
+            {t('general.verDetalle').toUpperCase()}
           </Button>
         </Link>
       </CardActions>

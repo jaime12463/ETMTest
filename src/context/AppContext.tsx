@@ -1,4 +1,5 @@
 import { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type TDataContext = {
     title: string;
@@ -32,7 +33,8 @@ type Props = {
 
 export const AppProvider = ({ children }: Props): JSX.Element => {
 
-    const [title, setTitle] = useState<string>("Bienvenido");
+    const { t } = useTranslation();
+    const [title, setTitle] = useState<string>(t('titulos.bienvenido'));
     const [cliente, setCliente] = useState<{}>({});
     const [listaProductosPedido, setlistaProductosPedido] = useState<any[]>([]);
     const [viewFooter, setViewFooter] = useState<boolean>(false);

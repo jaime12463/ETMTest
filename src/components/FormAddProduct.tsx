@@ -1,6 +1,7 @@
+import React from "react";
 import { Button, Grid, makeStyles, TextField } from "@material-ui/core";
-import { useEffect, useRef } from "react";
-import InputField from "./InputField";
+import InputField from "components/InputField";
+import { useTranslation } from "react-i18next";
 
 type FormAddProductProps = {
   handleAddToPedido: React.FormEventHandler<HTMLFormElement>;
@@ -40,15 +41,14 @@ export const FormAddProduct = ({
   inputRef,
 }: FormAddProductProps) => {
   const classes = useStyles();
-
-  console.log(autoFocus);
-  console.log("unidadRef=" + inputRef);
+  const { t } = useTranslation();
+  
   return (
     <div className={classes.paper}>
       <form className={classes.form} noValidate onSubmit={handleAddToPedido}>
         <Grid container spacing={1}>
           <InputField
-            label="Producto"
+            label={t('general.producto')}
             size="small"
             xs={6}
             sm={6}
@@ -62,14 +62,13 @@ export const FormAddProduct = ({
               size="small"
               variant="outlined"
               fullWidth
-              label="Unidades"
+              label={t('general.unidades')}
               type="number"
               value={focusProduct.unidades}
               onChange={handleIncrementValue}
               disabled={
                 focusProduct.unidades === "" && focusProduct.producto === ""
               }
-              // InputProps={{ref:inputRef}}
               inputRef={(input) => {
                 if (input != null) {
                   input.focus();
@@ -77,19 +76,6 @@ export const FormAddProduct = ({
               }}
             />
           </Grid>
-          {/* <InputField
-            label="Unidades"
-            size="small"
-            xs={6}
-            sm={6}
-            min={0}
-            type="number"
-            value={focusProduct.unidades}
-            onChange={handleIncrementValue}
-            disabled={focusProduct.unidades === ""}
-            inputRef={inputRef}
-            autoFocus={autoFocus}
-          /> */}
           <Button
             variant="contained"
             color="primary"

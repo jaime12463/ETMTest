@@ -1,17 +1,16 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Alert } from "@material-ui/lab";
-import InputField from "../components/InputField";
-import { TableInfo } from "../components/TableInfo";
-import { useAppContext } from "../context/AppContext";
-import { DATA, URL_API } from "../utils/constants";
-import { FormAddProduct } from "../components/FormAddProduct";
-import CardPedido from "../components/CardPedido";
-import axios from "axios";
-import { useForkRef } from "@material-ui/core";
+import InputField from "components/InputField";
+import { TableInfo } from "components/TableInfo";
+import { useAppContext } from "context/AppContext";
+import { DATA } from "utils/constants";
+import { FormAddProduct } from "components/FormAddProduct";
+import CardPedido from "components/CardPedido";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -58,21 +57,12 @@ export default function TomaDePedidos() {
     precio: "",
   });
   const unidadRef = useRef(null);
-
+  const { t } = useTranslation();
   const classes = useStyles();
 
   useEffect(() => {
-    setTitle("Ingreso de Pedido");
-
-    // const fetchData = async () => {
-    //   const response = await obtenerDB();
-    //   setDb(response.data);
-    // };
-
-    // fetchData(); //descomentar esta linea si se usa axios y comentar la linea setDb(DATA)
-
+    setTitle(t('titulos.ingresoPedido'));
     setDb(DATA);
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -170,7 +160,7 @@ export default function TomaDePedidos() {
         >
           <Grid container>
             <InputField
-              label="Cliente"
+              label={t('general.cliente')}
               size="small"
               xs={6}
               sm={6}
@@ -183,7 +173,7 @@ export default function TomaDePedidos() {
       {!existeCliente ? (
         <div className={classes.sectionAlert}>
           <Alert variant="filled" severity="warning">
-            El cliente no tiene portafolio informado
+            {t('advertencias.clienteNoPortafolio')}
           </Alert>
         </div>
       ) : (
@@ -192,7 +182,7 @@ export default function TomaDePedidos() {
             <div className={classes.paper}>
               <Grid container>
                 <InputField
-                  label="Buscar"
+                  label={t('general.buscar')}
                   size="small"
                   xs={12}
                   sm={12}
@@ -211,7 +201,7 @@ export default function TomaDePedidos() {
             />
 
             <TableInfo
-              headers={["Producto", "Precio"]}
+              headers={[t('general.producto'), t('general.precio')]}
               data={productos}
               onClick={handleFocusProduct}
             />
@@ -224,7 +214,4 @@ export default function TomaDePedidos() {
       )}
     </Container>
   );
-}
-function obtenerDB() {
-  throw new Error("Function not implemented.");
 }

@@ -1,20 +1,22 @@
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Box from "@material-ui/core/Box";
-import LogoFemsa from "../assests/images/hdpi_logo_client.png";
-import { useContext, useEffect } from "react";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "context/AppContext";
+import { useTranslation } from "react-i18next";
+import LogoFemsa from "assests/images/hdpi_logo_client.png";
+import routes from "routes"
 
 export default function Splash() {
   let history = useHistory();
   const context = useAppContext();
+  const { t } = useTranslation();
 
   useEffect(() => {
-    //-------------context.setTitle("Bienvenido");
-    // eslint-disable-next-line
+    context.setTitle(t('titulos.bienvenido'));
   }, []);
 
   const handleRedirect = () => {
-    history.push("/ingresarpedido");
+    history.push(routes.ingresarpedido);
   };
 
   return (
