@@ -2,11 +2,11 @@ import { useHistory } from "react-router-dom";
 import Box from "@material-ui/core/Box";
 import LogoFemsa from "../assests/images/hdpi_logo_client.png";
 import { useContext, useEffect } from "react";
-import { AppContext } from "../context/AppContext";
+import { useAppContext } from "../context/AppContext";
 
 export default function Splash() {
   let history = useHistory();
-  const context = useContext(AppContext);
+  const context = useAppContext();
 
   useEffect(() => {
     //-------------context.setTitle("Bienvenido");
@@ -23,7 +23,7 @@ export default function Splash() {
         <img
           src={LogoFemsa}
           onClick={handleRedirect}
-          style={{ cursor: "pointer", marginTop: "calc(100vh - 73vh)"}}
+          style={{ cursor: "pointer", marginTop: "calc(100vh - 73vh)" }}
           alt="logo"
         ></img>
       </Box>

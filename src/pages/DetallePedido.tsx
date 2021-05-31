@@ -7,8 +7,8 @@ import {
   TableRow,
   makeStyles,
 } from "@material-ui/core";
-import React, { useContext, useEffect } from "react";
-import { AppContext } from "../context/AppContext";
+import React, { useEffect } from "react";
+import { useAppContext } from "../context/AppContext";
 
 const useStyles = makeStyles({
   container: {
@@ -20,12 +20,12 @@ const useStyles = makeStyles({
   },
 });
 
-const DetallePedido = () => {
+const DetallePedido: React.FC = () => {
   const classes = useStyles();
-  const context = useContext(AppContext);
+  const { setTitle, listaProductosPedido } = useAppContext();
 
   useEffect(() => {
-    context.setTitle("Productos del Pedido");
+    setTitle("Productos del Pedido");
     // eslint-disable-next-line
   }, []);
 
@@ -43,7 +43,7 @@ const DetallePedido = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {context.listaProductosPedido.map((item) => (
+            {listaProductosPedido.map((item) => (
               <TableRow key={item.producto}>
                 <TableCell className={classes.alignment}>
                   {item.producto}

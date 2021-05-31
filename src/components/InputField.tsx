@@ -1,6 +1,20 @@
 import PropTypes from "prop-types";
 import { Grid, TextField } from "@material-ui/core";
 
+type InputFieldProps = {
+  disabled?: boolean;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  value?: string;
+  label: string;
+  xs?: boolean | any | undefined;
+  sm?: boolean | any | undefined;
+  size?: string;
+  min?: any;
+  type?: string;
+  autoFocus?: any;
+  inputProps?: Object;
+};
+
 const InputField = ({
   disabled,
   onChange,
@@ -13,8 +27,7 @@ const InputField = ({
   type = "text",
   autoFocus,
   inputProps,
-  inputref,
-}) => {
+}: InputFieldProps) => {
   return (
     <Grid item xs={xs} sm={sm}>
       <TextField
@@ -28,11 +41,9 @@ const InputField = ({
         value={value}
         onChange={onChange}
         disabled={disabled}
-        inputref={inputref}
         InputProps={{
           inputProps,
         }}
-        
       />
     </Grid>
   );

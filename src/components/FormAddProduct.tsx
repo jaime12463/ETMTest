@@ -2,6 +2,18 @@ import { Button, Grid, makeStyles, TextField } from "@material-ui/core";
 import { useEffect, useRef } from "react";
 import InputField from "./InputField";
 
+type FormAddProductProps = {
+  handleAddToPedido: React.FormEventHandler<HTMLFormElement>;
+  focusProduct: {
+    producto: string;
+    unidades: string;
+    precio: string;
+  };
+  handleIncrementValue: React.ChangeEventHandler<HTMLInputElement>;
+  autoFocus: boolean;
+  inputRef: any;
+};
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     display: "flex",
@@ -26,11 +38,11 @@ export const FormAddProduct = ({
   handleIncrementValue,
   autoFocus,
   inputRef,
-}) => {
+}: FormAddProductProps) => {
   const classes = useStyles();
 
-  console.log(autoFocus)
-  console.log("unidadRef=" + inputRef)
+  console.log(autoFocus);
+  console.log("unidadRef=" + inputRef);
   return (
     <div className={classes.paper}>
       <form className={classes.form} noValidate onSubmit={handleAddToPedido}>
@@ -54,7 +66,9 @@ export const FormAddProduct = ({
               type="number"
               value={focusProduct.unidades}
               onChange={handleIncrementValue}
-              disabled={focusProduct.unidades === "" && focusProduct.producto===""}
+              disabled={
+                focusProduct.unidades === "" && focusProduct.producto === ""
+              }
               // InputProps={{ref:inputRef}}
               inputRef={(input) => {
                 if (input != null) {

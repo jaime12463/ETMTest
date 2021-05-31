@@ -7,6 +7,10 @@ import Headers from "../assests/images/pop_up_onda.png";
 import Footers from "../assests/images/hdpi_logo_soft_hasar.png";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
+type LayoutProps = {
+  children: any;
+};
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -19,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Layout = (props) => {
+const Layout = (props: LayoutProps) => {
   const classes = useStyles();
   const { title } = useAppContext();
   let history = useHistory();

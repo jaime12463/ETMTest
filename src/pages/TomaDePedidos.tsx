@@ -32,13 +32,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface ICliente {
+  CodigoCliente: string;
+  Precios: Array<any>;
+}
+interface IProducto {
+  producto: string;
+  unidades: string;
+  precio: string;
+}
+
 export default function TomaDePedidos() {
-  const { setTitle, setlistaProductosPedido, listaProductosPedido } = useAppContext();
-  const [db, setDb] = useState({});
+  const {
+    setTitle,
+    setlistaProductosPedido,
+    listaProductosPedido,
+  } = useAppContext();
+  const [db, setDb] = useState<ICliente[]>([]);
   const [cliente, setCliente] = useState<string>("");
-  const [productos, setProductos] = useState<any[]>([]);
-  const [existeCliente, setExisteCliente] = useState<boolean>(false);
-  const [focusProduct, setFocusProduct] = useState({
+  const [productos, setProductos] = useState<any[] | null>(null);
+  const [existeCliente, setExisteCliente] = useState<boolean | number>(-1);
+  const [focusProduct, setFocusProduct] = useState<IProducto>({
     producto: "",
     unidades: "",
     precio: "",
@@ -50,24 +64,27 @@ export default function TomaDePedidos() {
   useEffect(() => {
     setTitle("Ingreso de Pedido");
 
-    const fetchData = async () => {
-      const response = await obtenerDB();
-      setDb(response.data);
-    };
+    // const fetchData = async () => {
+    //   const response = await obtenerDB();
+    //   setDb(response.data);
+    // };
 
-    fetchData(); //descomentar esta linea si se usa axios y comentar la linea setDb(DATA)
+    // fetchData(); //descomentar esta linea si se usa axios y comentar la linea setDb(DATA)
 
-    //setDb(DATA);
+    setDb(DATA);
     // eslint-disable-next-line
   }, []);
 
-
   useEffect(() => {
-      if (productos.length > 0) setExisteCliente(true);
-      else if (!existeCliente) setExisteCliente(false);
+    if (productos && productos.length > 0) {
+      setExisteCliente(true);
+    }
+    if (existeCliente === -1) {
+      setExisteCliente(false);
+    }
   }, [productos, existeCliente]);
 
-  const handleChangeCliente = ({ target }) => {
+  const handleChangeCliente = ({ target }: any) => {
     setCliente(target.value);
     setProductos(null);
     setExisteCliente(-1);
@@ -75,7 +92,7 @@ export default function TomaDePedidos() {
     setlistaProductosPedido([]);
   };
 
-  const handleSearchProducts = (e) => {
+  const handleSearchProducts = (e: any) => {
     e.preventDefault();
     db.find((element) =>
       element.CodigoCliente === cliente
@@ -84,15 +101,15 @@ export default function TomaDePedidos() {
     );
   };
 
-  const handleFindOneProduct = ({ target: { value } }) => {
+  const handleFindOneProduct = ({ target: { value } }: any) => {
     db.find((element) =>
       element.CodigoCliente === cliente
         ? setProductos(
-          element.Precios.filter(
-            (producto) =>
-              producto.Codigoproducto.substr(0, value.length) === value
+            element.Precios.filter(
+              (producto) =>
+                producto.Codigoproducto.substr(0, value.length) === value
+            )
           )
-        )
         : setProductos([])
     );
 
@@ -104,7 +121,7 @@ export default function TomaDePedidos() {
       );
   };
 
-  const handleFocusProduct = ({ producto, unidades, precio }) => {
+  const handleFocusProduct = ({ producto, unidades, precio }: any) => {
     const auxiliar = listaProductosPedido.find(
       (eleccion) => eleccion.producto === parseInt(producto, 10)
     );
@@ -114,33 +131,34 @@ export default function TomaDePedidos() {
       : setFocusProduct({ ...auxiliar, precio });
   };
 
-  const handleIncrementValue = ({ target: { value } }) => {
+  const handleIncrementValue = ({ target: { value } }: any) => {
     setFocusProduct({ ...focusProduct, unidades: value });
   };
 
-  const handleAddToPedido = (e) => {
+  const handleAddToPedido = (e: any) => {
     e.preventDefault();
 
     const result = listaProductosPedido.filter(
       (elem) => elem.producto !== parseInt(focusProduct.producto, 10)
     );
 
-    parseInt(focusProduct.unidades, 10) > 0? setlistaProductosPedido([
-      ...result,
-      {
-        producto: parseInt(focusProduct.producto, 10),
-        unidades: parseInt(focusProduct.unidades, 10),
-        precio:
-          parseFloat(focusProduct.precio, 10).toFixed(2) *
-          parseFloat(focusProduct.unidades, 10).toFixed(2),
-      },
-    ]): setlistaProductosPedido([...result.filter((i)=> i.producto!==focusProduct.producto)]);
+    parseInt(focusProduct.unidades, 10) > 0
+      ? setlistaProductosPedido([
+          ...result,
+          {
+            producto: parseInt(focusProduct.producto, 10),
+            unidades: parseInt(focusProduct.unidades, 10),
+            precio:
+              parseFloat(focusProduct.precio) *
+              parseFloat(focusProduct.unidades),
+          },
+        ])
+      : setlistaProductosPedido([
+          ...result.filter((i) => i.producto !== focusProduct.producto),
+        ]);
     setFocusProduct({ producto: "", unidades: "", precio: "" });
-
   };
 
-  console.log("TomaDePedidosInputRef=" + unidadRef)
-  console.log("TomaDePedidosInputRef.current=" + unidadRef.current)
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -210,4 +228,3 @@ export default function TomaDePedidos() {
 function obtenerDB() {
   throw new Error("Function not implemented.");
 }
-

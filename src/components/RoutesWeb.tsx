@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import TomaDePedidos from "../pages/TomaDePedidos.js";
-import DetallePedido from "../pages/DetallePedido.js";
-import Splash from "../pages/Splash.js";
-import Layout from "./Layout.jsx";
+import TomaDePedidos from "../pages/TomaDePedidos";
+import DetallePedido from "../pages/DetallePedido";
+import Splash from "../pages/Splash";
+import Layout from "./Layout";
 
 const RoutesWeb = () => {
   return (

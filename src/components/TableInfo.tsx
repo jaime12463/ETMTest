@@ -18,7 +18,16 @@ const useStyles = makeStyles({
   },
 });
 
-export const TableInfo = ({ headers, data, onClick }) => {
+type TableInfoProps = {
+  headers: Array<any>;
+  data: {
+    Codigoproducto: string;
+    PrecioConImpuesto: string;
+  }[];
+  onClick: any;
+};
+
+export const TableInfo = ({ headers, data, onClick }: TableInfoProps) => {
   const classes = useStyles();
 
   return (

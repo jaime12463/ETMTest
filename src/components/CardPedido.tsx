@@ -8,6 +8,13 @@ import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
+type CardPedidoProps = {
+  pedido: {
+    unidades: number;
+    precio: number;
+  }[];
+};
+
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -29,10 +36,9 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CardPedido({ pedido }) {
-  const [info, setInfo] = useState({ totalUnidades: "", totalPrecio: "" });
+export default function CardPedido({ pedido }: CardPedidoProps) {
+  const [info, setInfo] = useState({ totalUnidades: 0, totalPrecio: 0 });
   const classes = useStyles();
-
 
   useEffect(() => {
     let values = { totalUnidades: 0, totalPrecio: 0 };
