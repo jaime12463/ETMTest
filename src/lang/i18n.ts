@@ -1,5 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import es from 'lang/es'
+import en from 'lang/en'
 
 i18n
     // pass the i18n instance to react-i18next.
@@ -14,51 +16,10 @@ i18n
         },
         resources: {
             es: {
-                translation: {
-                    general:{
-                        producto: 'Producto',
-                        unidades: 'Unidades',
-                        totalUnidades: 'Total Unidades',
-                        total: 'Total',
-                        cliente: 'Cliente',
-                        precio: 'Precio',
-                        buscar: 'Buscar',
-                        verDetalle: 'Ver Detalle',
-                        fechaEntrega: 'Fecha de entrega',
-                    },
-                    titulos: {
-                        bienvenido: 'Bienvenido',
-                        ingresoPedido: 'Ingreso de Pedido',
-                        productosPedido: 'Productos del Pedido'
-                    },
-                    advertencias: {
-                        clienteNoPortafolio: 'El cliente no tiene portafolio informado'
-                    },
-                    
-                }
+                translation: es
             },
             en: {
-                translation: {
-                    general:{
-                        producto: 'Product',
-                        unidades: 'Units',
-                        totalUnidades: 'Total units',
-                        total: 'Total',
-                        cliente: 'Customer',
-                        precio: 'Price',
-                        buscar: 'Search',
-                        verDetalle: 'View detail',
-                        fechaEntrega: 'Delivery date',
-                    },
-                    titulos: {
-                        bienvenido: 'Welcome',
-                        ingresoPedido: 'Order Entry',
-                        productosPedido: 'Products of the Order'
-                    },
-                    advertencias: {
-                        clienteNoPortafolio: 'The client does not have an informed portfolio'
-                    },  
-                }
+                translation: en
             }
         }
     });
