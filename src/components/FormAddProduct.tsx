@@ -2,11 +2,14 @@ import React from "react";
 import { Button, Grid, makeStyles, TextField } from "@material-ui/core";
 import InputField from "components/InputField";
 import { useTranslation } from "react-i18next";
-import { TProductoSolicitado } from "models";
 
 type FormAddProductProps = {
   handleAddToPedido: React.FormEventHandler<HTMLFormElement>;
-  focusProduct: TProductoSolicitado;
+  focusProduct: {
+    producto: string;
+    unidades: string;
+    precio: string;
+  };
   handleIncrementValue: React.ChangeEventHandler<HTMLInputElement>;
   autoFocus: boolean;
   inputRef: any;
@@ -64,7 +67,7 @@ export const FormAddProduct = ({
               value={focusProduct.unidades}
               onChange={handleIncrementValue}
               disabled={
-                focusProduct.unidades === 0 && focusProduct.producto === ""
+                focusProduct.unidades === "" && focusProduct.producto === ""
               }
               inputRef={(input) => {
                 if (input != null) {
