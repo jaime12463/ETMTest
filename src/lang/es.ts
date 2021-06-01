@@ -9,6 +9,9 @@ const es = {
         buscar: 'Buscar',
         verDetalle: 'Ver Detalle',
         fechaEntrega: 'Fecha de entrega',
+        codigo: 'Código',
+        razon_social: 'Razón social',
+        denominacion: 'Denominación',
     },
     titulos: {
         bienvenido: 'Bienvenido',

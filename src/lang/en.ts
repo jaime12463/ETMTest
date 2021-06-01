@@ -9,6 +9,9 @@ const en = {
         buscar: 'Search',
         verDetalle: 'View detail',
         fechaEntrega: 'Delivery date',
+        codigo: 'Code',
+        razon_social: 'Social reason',
+        denominacion: 'Denomination'
     },
     titulos: {
         bienvenido: 'Welcome',
