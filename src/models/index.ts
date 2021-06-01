@@ -16,7 +16,7 @@ export type TCliente = {
 };
 
 export type TProductoSolicitado = {
-    producto: string,
+    codigoProducto: string,
     unidades: number,
     precio: number,
 };

@@ -28,7 +28,7 @@ const DetallePedido: React.FC = () => {
 
   useEffect(() => {
     setTitle(t('titulos.productosPedido'));
-  }, []);
+  }, [setTitle, t]);
 
   return (
     <div>
@@ -45,9 +45,9 @@ const DetallePedido: React.FC = () => {
           </TableHead>
           <TableBody>
             {listaProductosPedido.map((item) => (
-              <TableRow key={item.producto}>
+              <TableRow key={item.codigoProducto}>
                 <TableCell className={classes.alignment}>
-                  {item.producto}
+                  {item.codigoProducto}
                 </TableCell>
                 <TableCell className={classes.alignment}>
                   {item.unidades}

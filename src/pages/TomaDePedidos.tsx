@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
@@ -35,94 +35,110 @@ const useStyles = makeStyles((theme) => ({
 export default function TomaDePedidos() {
   const { setlistaProductosPedido, listaProductosPedido, setTitle } = useAppContext();
   const [db, setDb] = useState<TCliente[]>([]);
-  const [cliente, setCliente] = useState<string>("");
+  const [codigoCliente, setCodigoCliente] = useState<string>("");
   const [precios, setPrecios] = useState<TPrecio[] | []>([]);
   const [existeCliente, setExisteCliente] = useState<boolean>(false);
   const [focusProduct, setFocusProduct] = useState<TProductoSolicitado>({
-    producto: "",
+    codigoProducto: "",
     unidades: 0,
     precio: 0,
   });
+
   const { t } = useTranslation();
   const classes = useStyles();
 
   useEffect(() => {
     setTitle(t('titulos.ingresoPedido'));
     setDb(DATA);
-  }, []);
+  }, [setTitle, t]);
 
   useEffect(() => {
     if (precios.length > 0) setExisteCliente(true);
   }, [precios]);
 
-  const handleChangeCliente = ({ currentTarget }: React.FormEvent<HTMLInputElement>) => {
-    setCliente(currentTarget.value);
-    setPrecios([]);
-    setExisteCliente(false);
-    setFocusProduct({ producto: "", unidades: 0, precio: 0 });
-    setlistaProductosPedido([]);
-  };
+  const handleChangeCliente = useCallback(
+    ({ currentTarget }: React.FormEvent<HTMLInputElement>) => {
+      setCodigoCliente(currentTarget.value);
+      setPrecios([]);
+      setExisteCliente(false);
+      setFocusProduct({ codigoProducto: "", unidades: 0, precio: 0 });
+      setlistaProductosPedido([]);
+    },
+    [setlistaProductosPedido],
+  )
 
-  const handleSearchProducts = (e: React.FormEvent) => {
-    e.preventDefault();
-    db.find((element) => {
-      if (element.CodigoCliente === cliente) setPrecios(element.Precios);
-      else setPrecios([]);
-    });
-  };
+  const handleSearchProducts = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      let nuevosPrecios: [] | TPrecio[] = [];
+      const clienteEncontrado: TCliente | undefined = db.find(
+        (clienteDB) => clienteDB.CodigoCliente === codigoCliente
+      )
+      if (clienteEncontrado) nuevosPrecios = clienteEncontrado.Precios;
+      setPrecios(nuevosPrecios);
+    },
+    [db, codigoCliente],
+  )
 
-  const handleFindOneProduct = ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
-    db.find((element) => {
-      if (element.CodigoCliente === cliente) {
-        const nuevosPrecios = element.Precios.filter(
+  const handleFindOneProduct = useCallback(
+    ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
+      let nuevosPrecios: [] | TPrecio[] = [];
+      const clienteEncontrado: TCliente | undefined = db.find(
+        (clienteDB) => clienteDB.CodigoCliente === codigoCliente
+      )
+      if (clienteEncontrado && value === "") nuevosPrecios = clienteEncontrado.Precios;
+      if (clienteEncontrado && value !== "") {
+        nuevosPrecios = clienteEncontrado.Precios.filter(
           (producto) => producto.Codigoproducto.substr(0, value.length) === value
         );
-        setPrecios(nuevosPrecios);
-      } else setPrecios([]);
-    });
+      }
+      setPrecios(nuevosPrecios);
+    },
+    [db, codigoCliente],
+  )
 
-    if (value === "") {
-      db.find((element) => {
-        if (element.CodigoCliente === cliente) setPrecios(element.Precios);
-        else setPrecios([]);
-      });
-    }
-  };
+  const handleFocusProduct = useCallback(
+    ({ codigoProducto, unidades, precio }: TProductoSolicitado) => {
+      let nuevoFocusProducto: TProductoSolicitado = { codigoProducto, unidades: 0, precio };
+      const FocusProductoEncontrado = listaProductosPedido.find(
+        (productoPedido) => productoPedido.codigoProducto === codigoProducto
+      );
+      if (FocusProductoEncontrado) nuevoFocusProducto = { ...FocusProductoEncontrado, precio };
+      setFocusProduct(nuevoFocusProducto);
+    },
+    [listaProductosPedido],
+  )
 
-  const handleFocusProduct = ({ producto, unidades, precio }: TProductoSolicitado) => {
-    const newFocusProduct = listaProductosPedido.find(
-      (eleccion) => eleccion.producto === producto
-    );
+  const handleIncrementValue = useCallback(
+    ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
+      const nuevasUnidades: number = value === "" ? 0 : parseInt(value, 10);
+      let nuevoFocusProducto: TProductoSolicitado = { ...focusProduct, unidades: nuevasUnidades }
+      setFocusProduct(nuevoFocusProducto);
+    },
+    [focusProduct],
+  )
 
-    if (!newFocusProduct) setFocusProduct({ producto, unidades: 0, precio });
-    else setFocusProduct({ ...newFocusProduct, precio });
-  };
-
-  const handleIncrementValue = ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
-    setFocusProduct({ ...focusProduct, unidades: parseInt(value, 10) });
-  };
-
-  const handleAddToPedido = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const producto = listaProductosPedido.filter(
-      (elem) => elem.producto !== focusProduct.producto
-    );
-
-    if (focusProduct.unidades > 0) {
-      setlistaProductosPedido([
-        ...producto,
-        {
-          producto: focusProduct.producto,
-          unidades: focusProduct.unidades,
-          precio: focusProduct.precio * focusProduct.unidades,
-        },
-      ])
-    } else setlistaProductosPedido([
-      ...producto.filter((i) => i.producto !== focusProduct.producto),
-    ]);
-    setFocusProduct({ producto: "", unidades: 0, precio: 0 });
-  };
+  const handleAddToPedido = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      const productosPedidoSinFocus = listaProductosPedido.filter(
+        (productoPedido) => productoPedido.codigoProducto !== focusProduct.codigoProducto
+      );
+      let nuevaListaProducto: TProductoSolicitado[] = [...productosPedidoSinFocus];
+      if (focusProduct.unidades > 0) {
+        nuevaListaProducto = [
+          ...productosPedidoSinFocus,
+          {
+            codigoProducto: focusProduct.codigoProducto,
+            unidades: focusProduct.unidades,
+            precio: focusProduct.precio * focusProduct.unidades,
+          }];
+      }
+      setlistaProductosPedido(nuevaListaProducto);
+      setFocusProduct({ codigoProducto: "", unidades: 0, precio: 0 });
+    },
+    [focusProduct, listaProductosPedido, setlistaProductosPedido],
+  )
 
   return (
     <Container component="main" maxWidth="xs">
@@ -138,7 +154,7 @@ export default function TomaDePedidos() {
               <InputField
                 label={t('general.cliente')}
                 onChange={handleChangeCliente}
-                value={cliente}
+                value={codigoCliente}
               />
             </Grid>
           </Grid>
@@ -151,37 +167,35 @@ export default function TomaDePedidos() {
           </Alert>
         </div>
       ) : (
-        precios.length > 0 && (
-          <div>
-            <div className={classes.paper}>
-              <Grid container>
-                <Grid item xs={12} sm={12}>
-                  <InputField
-                    label={t('general.buscar')}
-                    onChange={handleFindOneProduct}
-                    autoFocus={precios && !focusProduct.producto}
-                  />
-                </Grid>
+        <div>
+          <div className={classes.paper}>
+            <Grid container>
+              <Grid item xs={12} sm={12}>
+                <InputField
+                  label={t('general.buscar')}
+                  onChange={handleFindOneProduct}
+                  autoFocus={precios && !focusProduct.codigoProducto}
+                />
               </Grid>
-            </div>
-
-            <FormAddProduct
-              handleAddToPedido={handleAddToPedido}
-              focusProduct={focusProduct}
-              handleIncrementValue={handleIncrementValue}
-            />
-
-            <TableInfo
-              headers={[t('general.producto'), t('general.precio')]}
-              precios={precios}
-              onClick={handleFocusProduct}
-            />
-
-            {listaProductosPedido.length > 0 && (
-              <CardPedido pedido={listaProductosPedido} />
-            )}
+            </Grid>
           </div>
-        )
+
+          <FormAddProduct
+            handleAddToPedido={handleAddToPedido}
+            focusProduct={focusProduct}
+            handleIncrementValue={handleIncrementValue}
+          />
+
+          <TableInfo
+            headers={[t('general.producto'), t('general.precio')]}
+            precios={precios}
+            onClick={handleFocusProduct}
+          />
+
+          {listaProductosPedido.length > 0 && (
+            <CardPedido pedido={listaProductosPedido} />
+          )}
+        </div>
       )}
     </Container>
   );

@@ -48,7 +48,7 @@ export const TableInfo = ({ headers, precios, onClick }: TableInfoProps) => {
               key={producto.Codigoproducto}
               onClick={() =>
                 onClick({
-                  producto: producto.Codigoproducto,
+                  codigoProducto: producto.Codigoproducto,
                   unidades: 0,
                   precio: parseInt(producto.PrecioConImpuesto, 10),
                 })

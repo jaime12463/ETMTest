@@ -13,7 +13,7 @@ export default function Splash() {
 
   useEffect(() => {
     setTitle(t('titulos.bienvenido'));
-  }, []);
+  }, [setTitle, t]);
 
   const handleRedirect = () => {
     history.push(routes.ingresarpedido);

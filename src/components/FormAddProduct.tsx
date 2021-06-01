@@ -43,7 +43,7 @@ export const FormAddProduct = ({
           <Grid item xs={6} sm={6}>
             <InputField
               label={t('general.producto')}
-              value={focusProduct.producto}
+              value={focusProduct.codigoProducto}
               disabled
             />
           </Grid>
@@ -55,16 +55,10 @@ export const FormAddProduct = ({
               fullWidth
               label={t('general.unidades')}
               type="number"
-              value={focusProduct.unidades}
+              value={focusProduct.unidades === 0 ? "" : focusProduct.unidades}
               onChange={handleIncrementValue}
-              disabled={
-                focusProduct.unidades === 0 && focusProduct.producto === ""
-              }
-              inputRef={(input) => {
-                if (input != null) {
-                  input.focus();
-                }
-              }}
+              disabled={focusProduct.unidades === 0 && focusProduct.codigoProducto === ""}
+              inputRef={(input) => {if (input != null) input.focus();}}
             />
           </Grid>
           <Button
