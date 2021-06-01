@@ -10,7 +10,7 @@ const en = {
         verDetalle: 'View detail',
         fechaEntrega: 'Delivery date',
         codigo: 'Code',
-        razon_social: 'Social reason',
+        razonSocial: 'Social reason',
         denominacion: 'Denomination'
     },
     titulos: {

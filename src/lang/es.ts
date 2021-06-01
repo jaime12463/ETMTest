@@ -10,7 +10,7 @@ const es = {
         verDetalle: 'Ver Detalle',
         fechaEntrega: 'Fecha de entrega',
         codigo: 'Código',
-        razon_social: 'Razón social',
+        razonSocial: 'Razón social',
         denominacion: 'Denominación',
     },
     titulos: {
