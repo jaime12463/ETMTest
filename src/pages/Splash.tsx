@@ -8,11 +8,11 @@ import routes from "routes"
 
 export default function Splash() {
   let history = useHistory();
-  const context = useAppContext();
   const { t } = useTranslation();
+  const { setTitle } = useAppContext();
 
   useEffect(() => {
-    context.setTitle(t('titulos.bienvenido'));
+    setTitle(t('titulos.bienvenido'));
   }, []);
 
   const handleRedirect = () => {
@@ -30,5 +30,6 @@ export default function Splash() {
         ></img>
       </Box>
     </div>
+
   );
 }

@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import routes from "routes"
 
 type LayoutProps = {
-  children: any;
+  children: React.ReactNode;
 };
 
 const useStyles = makeStyles(() => ({

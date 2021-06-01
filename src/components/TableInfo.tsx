@@ -8,6 +8,7 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
+import { TPrecio, TProductoSolicitado } from "models";
 
 const useStyles = makeStyles({
   container: {
@@ -20,15 +21,12 @@ const useStyles = makeStyles({
 });
 
 type TableInfoProps = {
-  headers: Array<any>;
-  data: {
-    Codigoproducto: string;
-    PrecioConImpuesto: string;
-  }[];
-  onClick: any;
+  headers: string[];
+  precios: TPrecio[];
+  onClick:  (producto: TProductoSolicitado) => void;
 };
 
-export const TableInfo = ({ headers, data, onClick }: TableInfoProps) => {
+export const TableInfo = ({ headers, precios, onClick }: TableInfoProps) => {
   const classes = useStyles();
 
   return (
@@ -44,7 +42,7 @@ export const TableInfo = ({ headers, data, onClick }: TableInfoProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((producto) => (
+          {precios.map((producto) => (
             <TableRow
               hover
               key={producto.Codigoproducto}
@@ -52,7 +50,7 @@ export const TableInfo = ({ headers, data, onClick }: TableInfoProps) => {
                 onClick({
                   producto: producto.Codigoproducto,
                   unidades: 0,
-                  precio: producto.PrecioConImpuesto,
+                  precio: parseInt(producto.PrecioConImpuesto, 10),
                 })
               }
             >

@@ -11,6 +11,7 @@ import { DATA } from "utils/constants";
 import { FormAddProduct } from "components/FormAddProduct";
 import CardPedido from "components/CardPedido";
 import { useTranslation } from "react-i18next";
+import { TCliente, TPrecio, TProductoSolicitado } from "models";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,32 +32,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface ICliente {
-  CodigoCliente: string;
-  Precios: Array<any>;
-}
-interface IProducto {
-  producto: string;
-  unidades: string;
-  precio: string;
-}
-
 export default function TomaDePedidos() {
-  const {
-    setTitle,
-    setlistaProductosPedido,
-    listaProductosPedido,
-  } = useAppContext();
-  const [db, setDb] = useState<ICliente[]>([]);
+  const { setlistaProductosPedido, listaProductosPedido, setTitle } = useAppContext();
+  const [db, setDb] = useState<TCliente[]>([]);
   const [cliente, setCliente] = useState<string>("");
-  const [productos, setProductos] = useState<any[] | null>(null);
-  const [existeCliente, setExisteCliente] = useState<boolean | number>(-1);
-  const [focusProduct, setFocusProduct] = useState<IProducto>({
+  const [precios, setPrecios] = useState<TPrecio[] | []>([]);
+  const [existeCliente, setExisteCliente] = useState<boolean>(false);
+  const [focusProduct, setFocusProduct] = useState<TProductoSolicitado>({
     producto: "",
-    unidades: "",
-    precio: "",
+    unidades: 0,
+    precio: 0,
   });
-  const unidadRef = useRef(null);
   const { t } = useTranslation();
   const classes = useStyles();
 
@@ -66,87 +52,76 @@ export default function TomaDePedidos() {
   }, []);
 
   useEffect(() => {
-    if (productos && productos.length > 0) {
-      setExisteCliente(true);
-    }
-    if (existeCliente === -1) {
-      setExisteCliente(false);
-    }
-  }, [productos, existeCliente]);
+    if (precios.length > 0) setExisteCliente(true);
+  }, [precios]);
 
-  const handleChangeCliente = ({ target }: any) => {
-    setCliente(target.value);
-    setProductos(null);
-    setExisteCliente(-1);
-    setFocusProduct({ producto: "", unidades: "", precio: "" });
+  const handleChangeCliente = ({ currentTarget }: React.FormEvent<HTMLInputElement>) => {
+    setCliente(currentTarget.value);
+    setPrecios([]);
+    setExisteCliente(false);
+    setFocusProduct({ producto: "", unidades: 0, precio: 0 });
     setlistaProductosPedido([]);
   };
 
-  const handleSearchProducts = (e: any) => {
+  const handleSearchProducts = (e: React.FormEvent) => {
     e.preventDefault();
-    db.find((element) =>
-      element.CodigoCliente === cliente
-        ? setProductos(element.Precios)
-        : setProductos([])
-    );
+    db.find((element) => {
+      if (element.CodigoCliente === cliente) setPrecios(element.Precios);
+      else setPrecios([]);
+    });
   };
 
-  const handleFindOneProduct = ({ target: { value } }: any) => {
-    db.find((element) =>
-      element.CodigoCliente === cliente
-        ? setProductos(
-            element.Precios.filter(
-              (producto) =>
-                producto.Codigoproducto.substr(0, value.length) === value
-            )
-          )
-        : setProductos([])
-    );
+  const handleFindOneProduct = ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
+    db.find((element) => {
+      if (element.CodigoCliente === cliente) {
+        const nuevosPrecios = element.Precios.filter(
+          (producto) => producto.Codigoproducto.substr(0, value.length) === value
+        );
+        setPrecios(nuevosPrecios);
+      } else setPrecios([]);
+    });
 
-    value === "" &&
-      db.find((element) =>
-        element.CodigoCliente === cliente
-          ? setProductos(element.Precios)
-          : setProductos([])
-      );
+    if (value === "") {
+      db.find((element) => {
+        if (element.CodigoCliente === cliente) setPrecios(element.Precios);
+        else setPrecios([]);
+      });
+    }
   };
 
-  const handleFocusProduct = ({ producto, unidades, precio }: any) => {
-    const auxiliar = listaProductosPedido.find(
-      (eleccion) => eleccion.producto === parseInt(producto, 10)
+  const handleFocusProduct = ({ producto, unidades, precio }: TProductoSolicitado) => {
+    const newFocusProduct = listaProductosPedido.find(
+      (eleccion) => eleccion.producto === producto
     );
 
-    !auxiliar
-      ? setFocusProduct({ producto, unidades: "", precio })
-      : setFocusProduct({ ...auxiliar, precio });
+    if (!newFocusProduct) setFocusProduct({ producto, unidades: 0, precio });
+    else setFocusProduct({ ...newFocusProduct, precio });
   };
 
-  const handleIncrementValue = ({ target: { value } }: any) => {
-    setFocusProduct({ ...focusProduct, unidades: value });
+  const handleIncrementValue = ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
+    setFocusProduct({ ...focusProduct, unidades: parseInt(value, 10) });
   };
 
-  const handleAddToPedido = (e: any) => {
+  const handleAddToPedido = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const result = listaProductosPedido.filter(
-      (elem) => elem.producto !== parseInt(focusProduct.producto, 10)
+    const producto = listaProductosPedido.filter(
+      (elem) => elem.producto !== focusProduct.producto
     );
 
-    parseInt(focusProduct.unidades, 10) > 0
-      ? setlistaProductosPedido([
-          ...result,
-          {
-            producto: parseInt(focusProduct.producto, 10),
-            unidades: parseInt(focusProduct.unidades, 10),
-            precio:
-              parseFloat(focusProduct.precio) *
-              parseFloat(focusProduct.unidades),
-          },
-        ])
-      : setlistaProductosPedido([
-          ...result.filter((i) => i.producto !== focusProduct.producto),
-        ]);
-    setFocusProduct({ producto: "", unidades: "", precio: "" });
+    if (focusProduct.unidades > 0) {
+      setlistaProductosPedido([
+        ...producto,
+        {
+          producto: focusProduct.producto,
+          unidades: focusProduct.unidades,
+          precio: focusProduct.precio * focusProduct.unidades,
+        },
+      ])
+    } else setlistaProductosPedido([
+      ...producto.filter((i) => i.producto !== focusProduct.producto),
+    ]);
+    setFocusProduct({ producto: "", unidades: 0, precio: 0 });
   };
 
   return (
@@ -159,14 +134,13 @@ export default function TomaDePedidos() {
           onSubmit={handleSearchProducts}
         >
           <Grid container>
-            <InputField
-              label={t('general.cliente')}
-              size="small"
-              xs={6}
-              sm={6}
-              onChange={handleChangeCliente}
-              value={cliente}
-            />
+            <Grid item xs={12} sm={12}>
+              <InputField
+                label={t('general.cliente')}
+                onChange={handleChangeCliente}
+                value={cliente}
+              />
+            </Grid>
           </Grid>
         </form>
       </div>
@@ -177,18 +151,17 @@ export default function TomaDePedidos() {
           </Alert>
         </div>
       ) : (
-        productos && (
+        precios.length > 0 && (
           <div>
             <div className={classes.paper}>
               <Grid container>
-                <InputField
-                  label={t('general.buscar')}
-                  size="small"
-                  xs={12}
-                  sm={12}
-                  onChange={handleFindOneProduct}
-                  autoFocus={productos && !focusProduct.producto}
-                />
+                <Grid item xs={12} sm={12}>
+                  <InputField
+                    label={t('general.buscar')}
+                    onChange={handleFindOneProduct}
+                    autoFocus={precios && !focusProduct.producto}
+                  />
+                </Grid>
               </Grid>
             </div>
 
@@ -196,13 +169,11 @@ export default function TomaDePedidos() {
               handleAddToPedido={handleAddToPedido}
               focusProduct={focusProduct}
               handleIncrementValue={handleIncrementValue}
-              autoFocus={focusProduct.producto !== ""}
-              inputRef={unidadRef}
             />
 
             <TableInfo
               headers={[t('general.producto'), t('general.precio')]}
-              data={productos}
+              precios={precios}
               onClick={handleFocusProduct}
             />
 
