@@ -32,7 +32,7 @@ const DetallePedido: React.FC = () => {
   const { codigoCliente } = useAppSelector(selectClienteActual);
 
   useEffect(() => {
-    setTitle(t('titulos.productosPedido'));
+    setTitle(t("titulos.productosPedido"));
   }, [setTitle, t]);
 
   return (
@@ -41,7 +41,7 @@ const DetallePedido: React.FC = () => {
         <Table stickyHeader aria-label="a dense table" size="small">
           <TableHead>
             <TableRow>
-              {[t('general.producto'), t('general.unidades')].map((column) => (
+              {[t("general.producto"), t("general.unidades")].map((column) => (
                 <TableCell key={column} className={classes.alignment}>
                   {column}
                 </TableCell>
@@ -52,7 +52,7 @@ const DetallePedido: React.FC = () => {
             {productosPedido[codigoCliente]?.map((product) => (
               <TableRow key={product.codigoProducto}>
                 <TableCell className={classes.alignment}>
-                  {product.codigoProducto}
+                  {product.codigoProducto.substring(18, -1)}
                 </TableCell>
                 <TableCell className={classes.alignment}>
                   {product.unidades}

@@ -48,14 +48,14 @@ export const TableInfo = ({ headers, precios, onClick }: TableInfoProps) => {
               key={producto.codigoproducto}
               onClick={() =>
                 onClick({
-                  codigoProducto: producto.codigoproducto,
+                  codigoProducto: `${producto.codigoproducto} ${producto.nombre}`,
                   unidades: 0,
                   precio: parseInt(producto.precioConImpuesto, 10),
                 })
               }
             >
               <TableCell className={classes.alignment}>
-                {producto.codigoproducto} {producto.nombre.substring(12,-1)}
+                {producto.codigoproducto} {producto.nombre.substring(12, -1)}
               </TableCell>
               <TableCell className={classes.alignment}>
                 $ {producto.precioConImpuesto}
