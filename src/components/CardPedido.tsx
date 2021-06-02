@@ -33,6 +33,12 @@ const useStyles = makeStyles({
   alignment: {
     justifyContent: "center",
   },
+  sectionCardInfo: {
+    paddingBottom: "0px",
+  },
+  sectionButtonDetail: {
+    textDecoration: "none",
+  },
 });
 
 export default function CardPedido({ pedido }: CardPedidoProps) {
@@ -53,11 +59,11 @@ export default function CardPedido({ pedido }: CardPedidoProps) {
 
   return (
     <Card className={classes.root}>
-      <CardContent>
-        <Grid container spacing={2}>
+      <CardContent className={classes.sectionCardInfo}>
+        <Grid container>
           <Grid item xs={6}>
             <Typography component="b" display="block" gutterBottom>
-              {t('general.totalUnidades')}:
+              {t("general.totalUnidades")}:
             </Typography>
           </Grid>
           <Grid item xs={6}>
@@ -67,7 +73,7 @@ export default function CardPedido({ pedido }: CardPedidoProps) {
           </Grid>
           <Grid item xs={6}>
             <Typography component="b" display="block" gutterBottom>
-            {t('general.total')}:
+              {t("general.total")}:
             </Typography>
           </Grid>
           <Grid item xs={6}>
@@ -78,9 +84,9 @@ export default function CardPedido({ pedido }: CardPedidoProps) {
         </Grid>
       </CardContent>
       <CardActions className={classes.alignment}>
-        <Link to="/detalle">
+        <Link to="/detalle" className={classes.sectionButtonDetail}>
           <Button variant="contained" color="secondary">
-            {t('general.verDetalle').toUpperCase()}
+            {t("general.verDetalle").toUpperCase()}
           </Button>
         </Link>
       </CardActions>
