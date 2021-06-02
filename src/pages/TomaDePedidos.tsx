@@ -11,7 +11,13 @@ import { DATA } from "utils/constants";
 import { FormAddProduct } from "components/FormAddProduct";
 import CardPedido from "components/CardPedido";
 import { useTranslation } from "react-i18next";
-import { TCliente, TClientePedido, TPrecio, TProductoPedido } from "models";
+import {
+  TCliente,
+  TClientePedido,
+  TFecha,
+  TPrecio,
+  TProductoPedido,
+} from "models";
 import { useAppSelector, useAppDispatch } from "redux/hooks";
 import {
   agregarPedidoCliente,
@@ -56,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TomaDePedidos() {
   const { setTitle } = useAppContext();
+  const [fechas, setFechas] = useState<TFecha[]>([]);
   const [precios, setPrecios] = useState<TPrecio[]>([]);
   const [existeCliente, setExisteCliente] = useState<boolean>(false);
   const [focusProduct, setFocusProduct] = useState<TProductoPedido>({
@@ -94,11 +101,16 @@ export default function TomaDePedidos() {
     (e: React.FormEvent) => {
       e.preventDefault();
       let nuevosPrecios: [] | TPrecio[] = [];
+      let nuevasFechas: [] | TFecha[] = [];
       const clienteEncontrado: TCliente | undefined = clientes.find(
         (clienteDB) => clienteDB.codigoCliente === codigoCliente
       );
-      if (clienteEncontrado) nuevosPrecios = clienteEncontrado.precios;
+      if (clienteEncontrado) {
+        nuevosPrecios = clienteEncontrado.precios;
+        nuevasFechas = clienteEncontrado.fechas;
+      }
       setPrecios(nuevosPrecios);
+      setFechas(nuevasFechas);
     },
     [clientes, codigoCliente]
   );
@@ -177,7 +189,6 @@ export default function TomaDePedidos() {
     },
     [focusProduct, dispatch, codigoCliente]
   );
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -215,16 +226,11 @@ export default function TomaDePedidos() {
       {existeCliente && (
         <div>
           <div className={classes.paper}>
-            <Grid
-              container
-              direction="column"
-              justify="center"
-              alignItems="flex-start"
-              spacing={1}
-            >
-              <Grid item xs={6} sm={6}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={12}>
                 <InputLabel className={classes.colorTextLabel}>
-                  Fecha lalala
+                  Fecha de entrega:{" "}
+                  {new Date(fechas[0].fechaDeEntrega).toLocaleDateString()}
                 </InputLabel>
               </Grid>
               <Grid item xs={12} sm={12}>

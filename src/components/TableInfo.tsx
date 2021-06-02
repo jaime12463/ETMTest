@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 type TableInfoProps = {
   headers: string[];
   precios: TPrecio[];
-  onClick:  (producto: TProductoPedido) => void;
+  onClick: (producto: TProductoPedido) => void;
 };
 
 export const TableInfo = ({ headers, precios, onClick }: TableInfoProps) => {
@@ -55,7 +55,7 @@ export const TableInfo = ({ headers, precios, onClick }: TableInfoProps) => {
               }
             >
               <TableCell className={classes.alignment}>
-                {producto.codigoproducto}
+                {producto.codigoproducto} {producto.nombre.substring(12,-1)}
               </TableCell>
               <TableCell className={classes.alignment}>
                 $ {producto.precioConImpuesto}
