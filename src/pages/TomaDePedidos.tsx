@@ -12,10 +12,21 @@ import { FormAddProduct } from "components/FormAddProduct";
 import CardPedido from "components/CardPedido";
 import { useTranslation } from "react-i18next";
 import { TCliente, TClientePedido, TPrecio, TProductoPedido } from "models";
-import { useAppSelector, useAppDispatch } from 'redux/hooks';
-import { agregarPedidoCliente, borrarPedidoCliente, selectPedidosClientes } from "redux/features/pedidosClientes/pedidosClientesSlice";
-import { selectClienteActual, establecerClienteActual } from "redux/features/clienteActual/clienteActualSlice";
-import { obtenerClientesAsync, selectCliente } from "redux/features/clientes/clientesSlice";
+import { useAppSelector, useAppDispatch } from "redux/hooks";
+import {
+  agregarPedidoCliente,
+  borrarPedidoCliente,
+  selectPedidosClientes,
+} from "redux/features/pedidosClientes/pedidosClientesSlice";
+import {
+  selectClienteActual,
+  establecerClienteActual,
+} from "redux/features/clienteActual/clienteActualSlice";
+import {
+  obtenerClientesAsync,
+  selectCliente,
+} from "redux/features/clientes/clientesSlice";
+import { InputLabel } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,6 +44,13 @@ const useStyles = makeStyles((theme) => ({
   },
   sectionAlert: {
     marginTop: "1rem",
+  },
+  sectionRazonSocial: {
+    display: "flex",
+    alignItems: "center",
+  },
+  colorTextLabel: {
+    color: "black",
   },
 }));
 
@@ -54,8 +72,8 @@ export default function TomaDePedidos() {
   const classes = useStyles();
 
   useEffect(() => {
-    setTitle(t('titulos.ingresoPedido'));
-    dispatch(obtenerClientesAsync())
+    setTitle(t("titulos.ingresoPedido"));
+    dispatch(obtenerClientesAsync());
   }, [setTitle, t]);
 
   useEffect(() => {
@@ -69,8 +87,8 @@ export default function TomaDePedidos() {
       setExisteCliente(false);
       setFocusProduct({ codigoProducto: "", unidades: 0, precio: 0 });
     },
-    [dispatch],
-  )
+    [dispatch]
+  );
 
   const handleSearchProducts = useCallback(
     (e: React.FormEvent) => {
@@ -78,73 +96,87 @@ export default function TomaDePedidos() {
       let nuevosPrecios: [] | TPrecio[] = [];
       const clienteEncontrado: TCliente | undefined = clientes.find(
         (clienteDB) => clienteDB.codigoCliente === codigoCliente
-      )
+      );
       if (clienteEncontrado) nuevosPrecios = clienteEncontrado.precios;
       setPrecios(nuevosPrecios);
     },
-    [clientes, codigoCliente],
-  )
+    [clientes, codigoCliente]
+  );
 
   const handleFindOneProduct = useCallback(
     ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
       let nuevosPrecios: [] | TPrecio[] = [];
       const clienteEncontrado: TCliente | undefined = clientes.find(
         (clienteDB) => clienteDB.codigoCliente === codigoCliente
-      )
-      if (clienteEncontrado && value === "") nuevosPrecios = clienteEncontrado.precios;
+      );
+      if (clienteEncontrado && value === "")
+        nuevosPrecios = clienteEncontrado.precios;
       if (clienteEncontrado && value !== "") {
         nuevosPrecios = clienteEncontrado.precios.filter(
-          (producto) => producto.codigoproducto.substr(0, value.length) === value
+          (producto) =>
+            producto.codigoproducto.substr(0, value.length) === value
         );
       }
       setPrecios(nuevosPrecios);
     },
-    [clientes, codigoCliente],
-  )
+    [clientes, codigoCliente]
+  );
 
   const handleFocusProduct = useCallback(
     ({ codigoProducto, unidades, precio }: TProductoPedido) => {
-      let nuevoFocusProducto: TProductoPedido = { codigoProducto, unidades: 0, precio };
+      let nuevoFocusProducto: TProductoPedido = {
+        codigoProducto,
+        unidades: 0,
+        precio,
+      };
       const FocusProductoEncontrado = productosPedido[codigoCliente]?.find(
         (productoPedido) => productoPedido.codigoProducto === codigoProducto
       );
-      if (FocusProductoEncontrado) nuevoFocusProducto = { ...FocusProductoEncontrado, precio };
+      if (FocusProductoEncontrado)
+        nuevoFocusProducto = { ...FocusProductoEncontrado, precio };
       setFocusProduct(nuevoFocusProducto);
     },
-    [productosPedido, codigoCliente],
-  )
+    [productosPedido, codigoCliente]
+  );
 
   const handleIncrementValue = useCallback(
     ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
       const nuevasUnidades: number = value === "" ? 0 : parseInt(value, 10);
-      let nuevoFocusProducto: TProductoPedido = { ...focusProduct, unidades: nuevasUnidades }
+      let nuevoFocusProducto: TProductoPedido = {
+        ...focusProduct,
+        unidades: nuevasUnidades,
+      };
       setFocusProduct(nuevoFocusProducto);
     },
-    [focusProduct],
-  )
+    [focusProduct]
+  );
 
   const handleAddToPedido = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
       if (focusProduct.unidades > 0) {
-        dispatch(agregarPedidoCliente({
-          productoPedido: {
-            codigoProducto: focusProduct.codigoProducto,
-            unidades: focusProduct.unidades,
-            precio: focusProduct.precio * focusProduct.unidades
-          },
-          codigoCliente: codigoCliente
-        }));
+        dispatch(
+          agregarPedidoCliente({
+            productoPedido: {
+              codigoProducto: focusProduct.codigoProducto,
+              unidades: focusProduct.unidades,
+              precio: focusProduct.precio * focusProduct.unidades,
+            },
+            codigoCliente: codigoCliente,
+          })
+        );
       } else {
-        dispatch(borrarPedidoCliente({
-          codigoProducto: focusProduct.codigoProducto,
-          codigoCliente: codigoCliente
-        }))
+        dispatch(
+          borrarPedidoCliente({
+            codigoProducto: focusProduct.codigoProducto,
+            codigoCliente: codigoCliente,
+          })
+        );
       }
       setFocusProduct({ codigoProducto: "", unidades: 0, precio: 0 });
     },
-    [focusProduct, dispatch, codigoCliente],
-  )
+    [focusProduct, dispatch, codigoCliente]
+  );
 
   return (
     <Container component="main" maxWidth="xs">
@@ -155,31 +187,49 @@ export default function TomaDePedidos() {
           noValidate
           onSubmit={handleSearchProducts}
         >
-          <Grid container>
-            <Grid item xs={12} sm={12}>
+          <Grid container spacing={2}>
+            <Grid item xs={6} sm={6}>
               <InputField
-                label={t('general.cliente')}
+                label={t("general.cliente")}
                 onChange={handleChangeCliente}
                 value={codigoCliente}
               />
             </Grid>
+            {existeCliente && (
+              <Grid item xs={6} sm={6} className={classes.sectionRazonSocial}>
+                <InputLabel className={classes.colorTextLabel}>
+                  Raz Soc no disponible.
+                </InputLabel>
+              </Grid>
+            )}
           </Grid>
         </form>
       </div>
       {!existeCliente && codigoCliente !== "" && (
         <div className={classes.sectionAlert}>
           <Alert variant="filled" severity="warning">
-            {t('advertencias.clienteNoPortafolio')}
+            {t("advertencias.clienteNoPortafolio")}
           </Alert>
         </div>
       )}
       {existeCliente && (
         <div>
           <div className={classes.paper}>
-            <Grid container>
+            <Grid
+              container
+              direction="column"
+              justify="center"
+              alignItems="flex-start"
+              spacing={1}
+            >
+              <Grid item xs={6} sm={6}>
+                <InputLabel className={classes.colorTextLabel}>
+                  Fecha lalala
+                </InputLabel>
+              </Grid>
               <Grid item xs={12} sm={12}>
                 <InputField
-                  label={t('general.buscar')}
+                  label={t("general.buscar")}
                   onChange={handleFindOneProduct}
                   autoFocus={precios && !focusProduct.codigoProducto}
                 />
@@ -194,7 +244,7 @@ export default function TomaDePedidos() {
           />
 
           <TableInfo
-            headers={[t('general.producto'), t('general.precio')]}
+            headers={[t("general.producto"), t("general.precio")]}
             precios={precios}
             onClick={handleFocusProduct}
           />
