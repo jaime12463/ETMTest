@@ -126,7 +126,8 @@ export default function TomaDePedidos() {
       if (clienteEncontrado && value !== "") {
         nuevosPrecios = clienteEncontrado.precios.filter(
           (producto) =>
-            producto.codigoproducto.substr(0, value.length) === value
+            producto.codigoproducto.includes(value) ||
+            producto.nombre.toLowerCase().includes(value.toLowerCase())
         );
       }
       setPrecios(nuevosPrecios);
