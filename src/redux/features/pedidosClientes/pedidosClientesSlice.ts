@@ -14,7 +14,7 @@ export const pedidosClientesSlice = createSlice({
             const nuevosProductosPedidosClientes = state[codigoCliente].filter(
                 (product) => product.codigoProducto !== action.payload.productoPedido.codigoProducto
             );
-            state[codigoCliente] = [...nuevosProductosPedidosClientes, action.payload.productToOrder];
+            state[codigoCliente] = [...nuevosProductosPedidosClientes, action.payload.productoPedido];
         },
         borrarPedidoCliente: (state, action) => {
             const codigoCliente: string = action.payload.codigoCliente;
