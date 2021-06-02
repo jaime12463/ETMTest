@@ -11,8 +11,8 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { useAppSelector } from "redux/hooks";
-import { selectProductsToOrder } from "redux/features/productsToOrder/productsToOrderSlice";
-import { selectActualCustumer } from "redux/features/actualCustumer/actualCustumerSlice";
+import { selectPedidosClientes } from "redux/features/pedidosClientes/pedidosClientesSlice";
+import { selectClienteActual } from "redux/features/clienteActual/clienteActualSlice";
 
 const useStyles = makeStyles({
   container: {
@@ -28,8 +28,8 @@ const DetallePedido: React.FC = () => {
   const classes = useStyles();
   const { setTitle } = useAppContext();
   const { t } = useTranslation();
-  const productsToOrder = useAppSelector(selectProductsToOrder);
-  const actualCustumer = useAppSelector(selectActualCustumer);
+  const productosPedido = useAppSelector(selectPedidosClientes);
+  const { codigoCliente } = useAppSelector(selectClienteActual);
 
   useEffect(() => {
     setTitle(t('titulos.productosPedido'));
@@ -49,7 +49,7 @@ const DetallePedido: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {productsToOrder[actualCustumer?.codigoCliente]?.map((product) => (
+            {productosPedido[codigoCliente]?.map((product) => (
               <TableRow key={product.codigoProducto}>
                 <TableCell className={classes.alignment}>
                   {product.codigoProducto}

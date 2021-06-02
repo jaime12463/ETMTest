@@ -45,20 +45,20 @@ export const TableInfo = ({ headers, precios, onClick }: TableInfoProps) => {
           {precios.map((producto) => (
             <TableRow
               hover
-              key={producto.Codigoproducto}
+              key={producto.codigoproducto}
               onClick={() =>
                 onClick({
-                  codigoProducto: producto.Codigoproducto,
+                  codigoProducto: producto.codigoproducto,
                   unidades: 0,
-                  precio: parseInt(producto.PrecioConImpuesto, 10),
+                  precio: parseInt(producto.precioConImpuesto, 10),
                 })
               }
             >
               <TableCell className={classes.alignment}>
-                {producto.Codigoproducto}
+                {producto.codigoproducto}
               </TableCell>
               <TableCell className={classes.alignment}>
-                $ {producto.PrecioConImpuesto}
+                $ {producto.precioConImpuesto}
               </TableCell>
             </TableRow>
           ))}

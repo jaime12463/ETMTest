@@ -1,6 +1,5 @@
 import { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { TCliente, TProductoPedido } from "models";
 
 type TDataContext = {
     title: string;

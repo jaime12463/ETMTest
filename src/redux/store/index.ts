@@ -1,11 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import productsToOrderReducer from 'redux/features/productsToOrder/productsToOrderSlice';
-import actualCustumerReducer from 'redux/features/actualCustumer/actualCustumerSlice';
+import pedidosClientesReducer from 'redux/features/pedidosClientes/pedidosClientesSlice';
+import clienteActualReducer from 'redux/features/clienteActual/clienteActualSlice';
+import clientesReducer from 'redux/features/clientes/clientesSlice';
 
 export const store = configureStore({
   reducer: {
-    productsToOrder: productsToOrderReducer,
-    actualCustumer: actualCustumerReducer,
+    pedidosClientes: pedidosClientesReducer,
+    clienteActual: clienteActualReducer,
+    clientes: clientesReducer,
   },
 });
 
