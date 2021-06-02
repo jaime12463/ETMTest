@@ -11,7 +11,10 @@ import { DATA } from "utils/constants";
 import { FormAddProduct } from "components/FormAddProduct";
 import CardPedido from "components/CardPedido";
 import { useTranslation } from "react-i18next";
-import { TCliente, TPrecio, TProductoSolicitado } from "models";
+import { TCliente, TPrecio, TProductoPedido } from "models";
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
+import { addProductToOrder, deleteProductToOrder, selectProductsToOrder } from "redux/features/productsToOrder/productsToOrderSlice";
+import { selectActualCustumer, setActualCustumer } from "redux/features/actualCustumer/actualCustumerSlice";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,16 +36,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TomaDePedidos() {
-  const { setlistaProductosPedido, listaProductosPedido, setTitle } = useAppContext();
+  const { setTitle } = useAppContext();
   const [db, setDb] = useState<TCliente[]>([]);
-  const [codigoCliente, setCodigoCliente] = useState<string>("");
   const [precios, setPrecios] = useState<TPrecio[] | []>([]);
   const [existeCliente, setExisteCliente] = useState<boolean>(false);
-  const [focusProduct, setFocusProduct] = useState<TProductoSolicitado>({
+  const [focusProduct, setFocusProduct] = useState<TProductoPedido>({
     codigoProducto: "",
     unidades: 0,
     precio: 0,
   });
+  const dispatch = useAppDispatch();
+  const productsToOrder = useAppSelector(selectProductsToOrder);
+  const actualCustumer = useAppSelector(selectActualCustumer);
 
   const { t } = useTranslation();
   const classes = useStyles();
@@ -58,13 +63,12 @@ export default function TomaDePedidos() {
 
   const handleChangeCliente = useCallback(
     ({ currentTarget }: React.FormEvent<HTMLInputElement>) => {
-      setCodigoCliente(currentTarget.value);
+      dispatch(setActualCustumer({ codigoCliente: currentTarget.value }));
       setPrecios([]);
       setExisteCliente(false);
       setFocusProduct({ codigoProducto: "", unidades: 0, precio: 0 });
-      setlistaProductosPedido([]);
     },
-    [setlistaProductosPedido],
+    [dispatch],
   )
 
   const handleSearchProducts = useCallback(
@@ -72,19 +76,19 @@ export default function TomaDePedidos() {
       e.preventDefault();
       let nuevosPrecios: [] | TPrecio[] = [];
       const clienteEncontrado: TCliente | undefined = db.find(
-        (clienteDB) => clienteDB.CodigoCliente === codigoCliente
+        (clienteDB) => clienteDB.CodigoCliente === actualCustumer?.codigoCliente
       )
       if (clienteEncontrado) nuevosPrecios = clienteEncontrado.Precios;
       setPrecios(nuevosPrecios);
     },
-    [db, codigoCliente],
+    [db, actualCustumer],
   )
 
   const handleFindOneProduct = useCallback(
     ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
       let nuevosPrecios: [] | TPrecio[] = [];
       const clienteEncontrado: TCliente | undefined = db.find(
-        (clienteDB) => clienteDB.CodigoCliente === codigoCliente
+        (clienteDB) => clienteDB.CodigoCliente === actualCustumer?.codigoCliente
       )
       if (clienteEncontrado && value === "") nuevosPrecios = clienteEncontrado.Precios;
       if (clienteEncontrado && value !== "") {
@@ -94,25 +98,25 @@ export default function TomaDePedidos() {
       }
       setPrecios(nuevosPrecios);
     },
-    [db, codigoCliente],
+    [db, actualCustumer],
   )
 
   const handleFocusProduct = useCallback(
-    ({ codigoProducto, unidades, precio }: TProductoSolicitado) => {
-      let nuevoFocusProducto: TProductoSolicitado = { codigoProducto, unidades: 0, precio };
-      const FocusProductoEncontrado = listaProductosPedido.find(
+    ({ codigoProducto, unidades, precio }: TProductoPedido) => {
+      let nuevoFocusProducto: TProductoPedido = { codigoProducto, unidades: 0, precio };
+      const FocusProductoEncontrado = productsToOrder[actualCustumer?.codigoCliente]?.find(
         (productoPedido) => productoPedido.codigoProducto === codigoProducto
       );
       if (FocusProductoEncontrado) nuevoFocusProducto = { ...FocusProductoEncontrado, precio };
       setFocusProduct(nuevoFocusProducto);
     },
-    [listaProductosPedido],
+    [productsToOrder, actualCustumer],
   )
 
   const handleIncrementValue = useCallback(
     ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
       const nuevasUnidades: number = value === "" ? 0 : parseInt(value, 10);
-      let nuevoFocusProducto: TProductoSolicitado = { ...focusProduct, unidades: nuevasUnidades }
+      let nuevoFocusProducto: TProductoPedido = { ...focusProduct, unidades: nuevasUnidades }
       setFocusProduct(nuevoFocusProducto);
     },
     [focusProduct],
@@ -121,23 +125,24 @@ export default function TomaDePedidos() {
   const handleAddToPedido = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      const productosPedidoSinFocus = listaProductosPedido.filter(
-        (productoPedido) => productoPedido.codigoProducto !== focusProduct.codigoProducto
-      );
-      let nuevaListaProducto: TProductoSolicitado[] = [...productosPedidoSinFocus];
       if (focusProduct.unidades > 0) {
-        nuevaListaProducto = [
-          ...productosPedidoSinFocus,
-          {
+        dispatch(addProductToOrder({
+          productToOrder: {
             codigoProducto: focusProduct.codigoProducto,
             unidades: focusProduct.unidades,
-            precio: focusProduct.precio * focusProduct.unidades,
-          }];
+            precio: focusProduct.precio * focusProduct.unidades
+          },
+          codigoCliente: actualCustumer?.codigoCliente
+        }));
+      } else {
+        dispatch(deleteProductToOrder({
+          codigoProducto: focusProduct.codigoProducto,
+          codigoCliente: actualCustumer?.codigoCliente
+        }))
       }
-      setlistaProductosPedido(nuevaListaProducto);
       setFocusProduct({ codigoProducto: "", unidades: 0, precio: 0 });
     },
-    [focusProduct, listaProductosPedido, setlistaProductosPedido],
+    [focusProduct, dispatch, actualCustumer],
   )
 
   return (
@@ -154,19 +159,20 @@ export default function TomaDePedidos() {
               <InputField
                 label={t('general.cliente')}
                 onChange={handleChangeCliente}
-                value={codigoCliente}
+                value={actualCustumer?.codigoCliente}
               />
             </Grid>
           </Grid>
         </form>
       </div>
-      {!existeCliente ? (
+      {!existeCliente && actualCustumer?.codigoCliente !== "" && (
         <div className={classes.sectionAlert}>
           <Alert variant="filled" severity="warning">
             {t('advertencias.clienteNoPortafolio')}
           </Alert>
         </div>
-      ) : (
+      )}
+      {existeCliente && (
         <div>
           <div className={classes.paper}>
             <Grid container>
@@ -192,8 +198,8 @@ export default function TomaDePedidos() {
             onClick={handleFocusProduct}
           />
 
-          {listaProductosPedido.length > 0 && (
-            <CardPedido pedido={listaProductosPedido} />
+          {productsToOrder[actualCustumer?.codigoCliente]?.length > 0 && (
+            <CardPedido pedido={productsToOrder[actualCustumer?.codigoCliente]} />
           )}
         </div>
       )}

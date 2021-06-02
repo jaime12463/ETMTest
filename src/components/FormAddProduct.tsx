@@ -2,11 +2,11 @@ import React from "react";
 import { Button, Grid, makeStyles, TextField } from "@material-ui/core";
 import InputField from "components/InputField";
 import { useTranslation } from "react-i18next";
-import { TProductoSolicitado } from "models";
+import { TProductoPedido } from "models";
 
 type FormAddProductProps = {
   handleAddToPedido: React.FormEventHandler<HTMLFormElement>;
-  focusProduct: TProductoSolicitado;
+  focusProduct: TProductoPedido;
   handleIncrementValue: React.ChangeEventHandler<HTMLInputElement>;
 };
 

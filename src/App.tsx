@@ -1,11 +1,15 @@
 import { AppProvider } from "context/AppContext";
 import RoutesWeb from "./components/RoutesWeb";
+import { Provider } from 'react-redux';
+import { store } from 'redux/store';
 
 function App() {
   return (
-    <AppProvider>
-      <RoutesWeb />
-    </AppProvider>
+    <Provider store={store}>
+      <AppProvider>
+        <RoutesWeb />
+      </AppProvider>
+    </Provider>
   );
 }
 

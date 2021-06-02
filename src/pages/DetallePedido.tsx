@@ -10,6 +10,9 @@ import {
   TableRow,
   makeStyles,
 } from "@material-ui/core";
+import { useAppSelector } from "redux/hooks";
+import { selectProductsToOrder } from "redux/features/productsToOrder/productsToOrderSlice";
+import { selectActualCustumer } from "redux/features/actualCustumer/actualCustumerSlice";
 
 const useStyles = makeStyles({
   container: {
@@ -23,8 +26,10 @@ const useStyles = makeStyles({
 
 const DetallePedido: React.FC = () => {
   const classes = useStyles();
-  const { setTitle, listaProductosPedido } = useAppContext();
+  const { setTitle } = useAppContext();
   const { t } = useTranslation();
+  const productsToOrder = useAppSelector(selectProductsToOrder);
+  const actualCustumer = useAppSelector(selectActualCustumer);
 
   useEffect(() => {
     setTitle(t('titulos.productosPedido'));
@@ -44,13 +49,13 @@ const DetallePedido: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {listaProductosPedido.map((item) => (
-              <TableRow key={item.codigoProducto}>
+            {productsToOrder[actualCustumer?.codigoCliente]?.map((product) => (
+              <TableRow key={product.codigoProducto}>
                 <TableCell className={classes.alignment}>
-                  {item.codigoProducto}
+                  {product.codigoProducto}
                 </TableCell>
                 <TableCell className={classes.alignment}>
-                  {item.unidades}
+                  {product.unidades}
                 </TableCell>
               </TableRow>
             ))}

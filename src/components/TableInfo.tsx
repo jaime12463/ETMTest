@@ -8,7 +8,7 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
-import { TPrecio, TProductoSolicitado } from "models";
+import { TPrecio, TProductoPedido } from "models";
 
 const useStyles = makeStyles({
   container: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 type TableInfoProps = {
   headers: string[];
   precios: TPrecio[];
-  onClick:  (producto: TProductoSolicitado) => void;
+  onClick:  (producto: TProductoPedido) => void;
 };
 
 export const TableInfo = ({ headers, precios, onClick }: TableInfoProps) => {

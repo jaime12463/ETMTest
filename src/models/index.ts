@@ -15,8 +15,12 @@ export type TCliente = {
     Precios: TPrecio[],
 };
 
-export type TProductoSolicitado = {
+export type TProductoPedido = {
     codigoProducto: string,
     unidades: number,
     precio: number,
 };
+
+export type TPedidoCliente = {
+    [codigoCliente: string]: TProductoPedido[];
+}
