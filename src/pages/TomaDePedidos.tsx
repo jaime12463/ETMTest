@@ -33,6 +33,7 @@ import {
   selectCliente,
 } from "redux/features/clientes/clientesSlice";
 import { InputLabel } from "@material-ui/core";
+import { transformDate } from "utils/methods";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -106,9 +107,16 @@ export default function TomaDePedidos() {
         (clienteDB) => clienteDB.codigoCliente === codigoCliente
       );
       if (clienteEncontrado) {
-        nuevosPrecios = clienteEncontrado.precios;
         nuevasFechas = clienteEncontrado.fechas;
+        nuevosPrecios = clienteEncontrado.precios.filter(
+          (producto) =>
+            new Date(transformDate(producto.iniVig)) <=
+              new Date(nuevasFechas[0].fechaDeEntrega) &&
+            new Date(transformDate(producto.finVig)) >=
+              new Date(nuevasFechas[0].fechaDeEntrega)
+        );
       }
+
       setPrecios(nuevosPrecios);
       setFechas(nuevasFechas);
     },
@@ -122,17 +130,27 @@ export default function TomaDePedidos() {
         (clienteDB) => clienteDB.codigoCliente === codigoCliente
       );
       if (clienteEncontrado && value === "")
-        nuevosPrecios = clienteEncontrado.precios;
+        nuevosPrecios = clienteEncontrado.precios.filter(
+          (producto) =>
+            new Date(transformDate(producto.iniVig)) <=
+              new Date(fechas[0].fechaDeEntrega) &&
+            new Date(transformDate(producto.finVig)) >=
+              new Date(fechas[0].fechaDeEntrega)
+        );
       if (clienteEncontrado && value !== "") {
         nuevosPrecios = clienteEncontrado.precios.filter(
           (producto) =>
-            producto.codigoproducto.includes(value) ||
-            producto.nombre.toLowerCase().includes(value.toLowerCase())
+            (producto.codigoproducto.includes(value) ||
+              producto.nombre.toLowerCase().includes(value.toLowerCase())) &&
+            new Date(transformDate(producto.iniVig)) <=
+              new Date(fechas[0].fechaDeEntrega) &&
+            new Date(transformDate(producto.finVig)) >=
+              new Date(fechas[0].fechaDeEntrega)
         );
       }
       setPrecios(nuevosPrecios);
     },
-    [clientes, codigoCliente]
+    [clientes, codigoCliente, fechas]
   );
 
   const handleFocusProduct = useCallback(
