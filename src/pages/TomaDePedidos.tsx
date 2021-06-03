@@ -7,17 +7,10 @@ import { Alert } from "@material-ui/lab";
 import InputField from "components/InputField";
 import { TableInfo } from "components/TableInfo";
 import { useAppContext } from "context/AppContext";
-import { DATA } from "utils/constants";
 import { FormAddProduct } from "components/FormAddProduct";
 import CardPedido from "components/CardPedido";
 import { useTranslation } from "react-i18next";
-import {
-  TCliente,
-  TClientePedido,
-  TFecha,
-  TPrecio,
-  TProductoPedido,
-} from "models";
+import { TCliente, TFecha, TPrecio, TProductoPedido } from "models";
 import { useAppSelector, useAppDispatch } from "redux/hooks";
 import {
   agregarPedidoCliente,
@@ -249,7 +242,11 @@ export default function TomaDePedidos() {
               <Grid item xs={12} sm={12}>
                 <InputLabel className={classes.colorTextLabel}>
                   Fecha de entrega:{" "}
-                  {new Date(fechas[0].fechaDeEntrega).toLocaleDateString()}
+                  {
+                    new Date(fechas[0].fechaDeEntrega)
+                      .toISOString()
+                      .split("T")[0]
+                  }
                 </InputLabel>
               </Grid>
               <Grid item xs={12} sm={12}>
