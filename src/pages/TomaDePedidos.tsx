@@ -26,7 +26,7 @@ import {
   selectCliente,
 } from "redux/features/clientes/clientesSlice";
 import { InputLabel } from "@material-ui/core";
-import { transformDate } from "utils/methods";
+import { transformDate, darFormatoFecha } from "utils/methods";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -57,8 +57,9 @@ const useStyles = makeStyles((theme) => ({
 export default function TomaDePedidos() {
   const { setTitle } = useAppContext();
   const [fechas, setFechas] = useState<TFecha[]>([]);
+  const [razonSocial, setRazonSocial] = useState<string>("");
   const [precios, setPrecios] = useState<TPrecio[]>([]);
-  const [existeCliente, setExisteCliente] = useState<boolean>(false);
+  const [existeCliente, setExisteCliente] = useState<boolean | null>(null);
   const [focusProduct, setFocusProduct] = useState<TProductoPedido>({
     codigoProducto: "",
     unidades: 0,
@@ -75,7 +76,7 @@ export default function TomaDePedidos() {
   useEffect(() => {
     setTitle(t("titulos.ingresoPedido"));
     dispatch(obtenerClientesAsync());
-  }, [setTitle, t]);
+  }, [setTitle, t, dispatch]);
 
   useEffect(() => {
     if (precios.length > 0) setExisteCliente(true);
@@ -85,7 +86,7 @@ export default function TomaDePedidos() {
     ({ currentTarget }: React.FormEvent<HTMLInputElement>) => {
       dispatch(establecerClienteActual({ codigoCliente: currentTarget.value }));
       setPrecios([]);
-      setExisteCliente(false);
+      setExisteCliente(null);
       setFocusProduct({ codigoProducto: "", unidades: 0, precio: 0 });
     },
     [dispatch]
@@ -108,8 +109,12 @@ export default function TomaDePedidos() {
             new Date(transformDate(producto.finVig)) >=
               new Date(nuevasFechas[0].fechaDeEntrega)
         );
+        setExisteCliente(true);
+        setRazonSocial(clienteEncontrado.detalles[0].nombreComercial) //Que index deberia ser?
+      }else {
+        setExisteCliente(false);
+        setRazonSocial("")
       }
-
       setPrecios(nuevosPrecios);
       setFechas(nuevasFechas);
     },
@@ -221,14 +226,14 @@ export default function TomaDePedidos() {
             {existeCliente && (
               <Grid item xs={6} sm={6} className={classes.sectionRazonSocial}>
                 <InputLabel className={classes.colorTextLabel}>
-                  Raz Soc no disponible.
+                  {razonSocial}
                 </InputLabel>
               </Grid>
             )}
           </Grid>
         </form>
       </div>
-      {!existeCliente && codigoCliente !== "" && (
+      {!existeCliente && existeCliente !== null && (
         <div className={classes.sectionAlert}>
           <Alert variant="filled" severity="warning">
             {t("advertencias.clienteNoPortafolio")}
@@ -243,9 +248,10 @@ export default function TomaDePedidos() {
                 <InputLabel className={classes.colorTextLabel}>
                   Fecha de entrega:{" "}
                   {
-                    new Date(fechas[0].fechaDeEntrega)
+                    darFormatoFecha(new Date(fechas[0].fechaDeEntrega)
                       .toISOString()
                       .split("T")[0]
+                    )
                   }
                 </InputLabel>
               </Grid>
