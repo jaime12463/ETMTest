@@ -1,0 +1,13 @@
+{
+    "splash":{
+        "name": ".MuiTypography-root",
+        "value": "Bienvenido",
+        "logoBox": "img"
+    },
+    "client":{
+       "code":".MuiInputBase-input",
+       "inputSearch":".makeStyles-paper-13 > .MuiGrid-container > .MuiGrid-root > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input",
+       "ProductSelect":".MuiTableBody-root > .MuiTableRow-root > :nth-child(1)",
+       "addUnits":".makeStyles-form-24 > .MuiGrid-container > :nth-child(2) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input"
+    }
+}
