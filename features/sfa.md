@@ -77,7 +77,10 @@ Como Prevendedor
 Quiero realizar la búsqueda de un material por atributos
 Para agregarlo al pedido
 
-Escenario: N°1 Búsqueda de material por atributo Descripción
+Antecedentes:
+Dado que se muestra la lista de productos con los productos vigentes del portafolio del cliente 
+
+Escenario: N°1 Búsqueda de material en portafolio vigente por atributo Descripción
 Dado que el prevendedor ingresa caracteres
 Cuando haya ingresado al menos dos o más
 Entonces la lista se reduce a los materiales que contienen
@@ -88,7 +91,7 @@ Dado que el prevendedor tiene portafolio asignado
 Cuando se realiza la búsqueda de material
 se muestran solamente los materiales que cumplan con la condición
 de búsqueda ingresada
-y que pertenezcan al portafolio del cliente
+y que pertenezcan al portafolio del cliente que están vigentes a la fecha de entrega
 
 
 @Descripción de cliente
