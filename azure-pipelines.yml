@@ -1,6 +1,7 @@
 # Node.js with React
 - task: ChocolateyToolInstaller@0
-
+  inputs:
+    force: true
    
 # Build a Node.js project that uses React.
 # Add steps that analyze code, save build artifacts, deploy, and more:
@@ -25,7 +26,7 @@ steps:
     verbose: true
     trace: true
     installPackageId: 'pickles'
-    
+
 - script: |
     npm install
     npm run build
