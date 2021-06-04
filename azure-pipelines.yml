@@ -1,4 +1,6 @@
 # Node.js with React
+- task: ChocolateyToolInstaller@0
+
    
 # Build a Node.js project that uses React.
 # Add steps that analyze code, save build artifacts, deploy, and more:
@@ -16,11 +18,14 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- task: NuGetCommand@2
+- task: ChocolateyCommand@0
   inputs:
-    command: 'custom'
-    arguments: 'Install-Package Pickles.CommandLine -Version 2.21.1'
-
+    command: 'install'
+    debug: true
+    verbose: true
+    trace: true
+    installPackageId: 'pickles'
+    
 - script: |
     npm install
     npm run build
