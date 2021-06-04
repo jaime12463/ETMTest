@@ -4,12 +4,9 @@ Característica: Búsqueda de materiales por atributos
     Quiero realizar la búsqueda de un material por atributos
     Para agregarlo al pedido
 
-Antecedentes:
-    Dado que se muestra la lista de productos con los productos vigentes del portafolio del cliente 
-
 @Test_dispositivo_1
 Escenario: N°1 Búsqueda de material en portafolio vigente por atributo Descripción
-    Dado que el prevendedor ingresa caracteres
+    Dado que se muestra la lista de productos con los productos vigentes del portafolio del cliente 
     Cuando haya ingresado al menos dos o más
     Entonces la lista se reduce a los materiales que contienen lo ingresado por el prevendedor
 
