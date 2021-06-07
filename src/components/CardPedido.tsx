@@ -7,6 +7,12 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { TProductoPedido } from "models";
+
+type CardPedidoProps = {
+  pedido: TProductoPedido[];
+};
 
 const useStyles = makeStyles({
   root: {
@@ -27,12 +33,18 @@ const useStyles = makeStyles({
   alignment: {
     justifyContent: "center",
   },
+  sectionCardInfo: {
+    paddingBottom: "0px",
+  },
+  sectionButtonDetail: {
+    textDecoration: "none",
+  },
 });
 
-export default function CardPedido({ pedido }) {
-  const [info, setInfo] = useState({ totalUnidades: "", totalPrecio: "" });
+export default function CardPedido({ pedido }: CardPedidoProps) {
+  const [info, setInfo] = useState({ totalUnidades: 0, totalPrecio: 0 });
   const classes = useStyles();
-
+  const { t } = useTranslation();
 
   useEffect(() => {
     let values = { totalUnidades: 0, totalPrecio: 0 };
@@ -47,11 +59,11 @@ export default function CardPedido({ pedido }) {
 
   return (
     <Card className={classes.root}>
-      <CardContent>
-        <Grid container spacing={2}>
+      <CardContent className={classes.sectionCardInfo}>
+        <Grid container>
           <Grid item xs={6}>
             <Typography component="b" display="block" gutterBottom>
-              Total Unidades:
+              {t("general.totalUnidades")}:
             </Typography>
           </Grid>
           <Grid item xs={6}>
@@ -61,7 +73,7 @@ export default function CardPedido({ pedido }) {
           </Grid>
           <Grid item xs={6}>
             <Typography component="b" display="block" gutterBottom>
-              Total:
+              {t("general.total")}:
             </Typography>
           </Grid>
           <Grid item xs={6}>
@@ -72,9 +84,9 @@ export default function CardPedido({ pedido }) {
         </Grid>
       </CardContent>
       <CardActions className={classes.alignment}>
-        <Link to="/detalle">
+        <Link to="/detalle" className={classes.sectionButtonDetail}>
           <Button variant="contained" color="secondary">
-            VER DETALLE
+            {t("general.verDetalle").toUpperCase()}
           </Button>
         </Link>
       </CardActions>

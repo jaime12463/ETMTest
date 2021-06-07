@@ -1,3 +1,4 @@
+import React from "react";
 import {
   makeStyles,
   Table,
@@ -7,6 +8,7 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
+import { TPrecio, TProductoPedido } from "models";
 
 const useStyles = makeStyles({
   container: {
@@ -18,7 +20,13 @@ const useStyles = makeStyles({
   },
 });
 
-export const TableInfo = ({ headers, data, onClick }) => {
+type TableInfoProps = {
+  headers: string[];
+  precios: TPrecio[];
+  onClick: (producto: TProductoPedido) => void;
+};
+
+export const TableInfo = ({ headers, precios, onClick }: TableInfoProps) => {
   const classes = useStyles();
 
   return (
@@ -34,23 +42,23 @@ export const TableInfo = ({ headers, data, onClick }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((producto) => (
+          {precios.map((producto) => (
             <TableRow
               hover
-              key={producto.Codigoproducto}
+              key={producto.codigoproducto}
               onClick={() =>
                 onClick({
-                  producto: producto.Codigoproducto,
+                  codigoProducto: `${producto.codigoproducto} ${producto.nombre}`,
                   unidades: 0,
-                  precio: producto.PrecioConImpuesto,
+                  precio: parseInt(producto.precioConImpuesto, 10),
                 })
               }
             >
               <TableCell className={classes.alignment}>
-                {producto.Codigoproducto}
+                {producto.codigoproducto} {producto.nombre.substring(12, -1)}
               </TableCell>
               <TableCell className={classes.alignment}>
-                $ {producto.PrecioConImpuesto}
+                $ {producto.precioConImpuesto}
               </TableCell>
             </TableRow>
           ))}

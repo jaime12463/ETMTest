@@ -1,6 +1,14 @@
+import React from "react";
 import { Button, Grid, makeStyles, TextField } from "@material-ui/core";
-import { useEffect, useRef } from "react";
-import InputField from "./InputField";
+import InputField from "components/InputField";
+import { useTranslation } from "react-i18next";
+import { TProductoPedido } from "models";
+
+type FormAddProductProps = {
+  handleAddToPedido: React.FormEventHandler<HTMLFormElement>;
+  focusProduct: TProductoPedido;
+  handleIncrementValue: React.ChangeEventHandler<HTMLInputElement>;
+};
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -24,58 +32,35 @@ export const FormAddProduct = ({
   handleAddToPedido,
   focusProduct,
   handleIncrementValue,
-  autoFocus,
-  inputRef,
-}) => {
+}: FormAddProductProps) => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
-  console.log(autoFocus)
-  console.log("unidadRef=" + inputRef)
   return (
     <div className={classes.paper}>
       <form className={classes.form} noValidate onSubmit={handleAddToPedido}>
         <Grid container spacing={1}>
-          <InputField
-            label="Producto"
-            size="small"
-            xs={6}
-            sm={6}
-            value={focusProduct.producto}
-            disabled
-          />
-
+          <Grid item xs={6} sm={6}>
+            <InputField
+              label={t('general.producto')}
+              value={focusProduct.codigoProducto}
+              disabled
+            />
+          </Grid>
           <Grid item xs={6} sm={6}>
             <TextField
               name="unidades"
               size="small"
               variant="outlined"
               fullWidth
-              label="Unidades"
+              label={t('general.unidades')}
               type="number"
-              value={focusProduct.unidades}
+              value={focusProduct.unidades === 0 ? "" : focusProduct.unidades}
               onChange={handleIncrementValue}
-              disabled={focusProduct.unidades === "" && focusProduct.producto===""}
-              // InputProps={{ref:inputRef}}
-              inputRef={(input) => {
-                if (input != null) {
-                  input.focus();
-                }
-              }}
+              disabled={focusProduct.unidades === 0 && focusProduct.codigoProducto === ""}
+              inputRef={(input) => {if (input != null) input.focus();}}
             />
           </Grid>
-          {/* <InputField
-            label="Unidades"
-            size="small"
-            xs={6}
-            sm={6}
-            min={0}
-            type="number"
-            value={focusProduct.unidades}
-            onChange={handleIncrementValue}
-            disabled={focusProduct.unidades === ""}
-            inputRef={inputRef}
-            autoFocus={autoFocus}
-          /> */}
           <Button
             variant="contained"
             color="primary"
