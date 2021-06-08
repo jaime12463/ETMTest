@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { TProductoPedido } from "models";
 import usarEstilos from "./usarEstilos";
 
-type Props = {
+export type Props = {
   agregarProductoAlPedidoCliente: React.FormEventHandler<HTMLFormElement>;
   productoActual: TProductoPedido;
   aumentarUnidadesAlProductoActual: React.ChangeEventHandler<HTMLInputElement>;

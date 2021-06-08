@@ -3,7 +3,7 @@ import { InputBaseComponentProps, TextField } from "@material-ui/core";
 
 //Y estos nombres en español o ingles?
 
-type Props = {
+export type Props = {
   disabled?: boolean;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   value?: string;

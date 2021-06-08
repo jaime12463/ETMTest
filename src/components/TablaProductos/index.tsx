@@ -10,7 +10,7 @@ import {
 import { TPrecio, TProductoPedido } from "models";
 import usarEstilos from "./usarEstilos";
 
-type Props = {
+export type Props = {
   titulos: string[];
   productos: TPrecio[];
   onClick: (producto: TProductoPedido) => void;

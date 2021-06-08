@@ -4,7 +4,7 @@ import Footers from "assests/images/hdpi_logo_soft_hasar.png";
 import usarEstilos from "./usarEstilos";
 import Encabezado from "./Encabezado";
 
-type Props = {
+export type Props = {
   children: React.ReactNode,
   titulo: string,
   esConFechaHaciaAtras?: boolean,
