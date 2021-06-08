@@ -1,11 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { Grid, Container, InputLabel } from "@material-ui/core";
+import { Grid, InputLabel } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import InputTexto from "components/InputTexto";
-import TablaProductos from "components/TablaProductos";
-import FormularioAgregarProducto from "components/FormularioAgregarProducto";
-import TarjetaPedido from "components/TarjetaPedido";
+import { InputTexto, TablaProductos, FormularioAgregarProducto, TarjetaPedido } from "components";
 import { useTranslation } from "react-i18next";
 import { TCliente, TFecha, TPrecio, TProductoPedido } from "models";
 import { useAppSelector, useAppDispatch } from "redux/hooks";
@@ -176,7 +173,7 @@ export default function TomaDePedidos() {
     [focusProduct, dispatch, codigoCliente]
   );
   return (
-    <Container component="main" maxWidth="xs">
+    <Fragment>
       <CssBaseline />
       <div className={estilos.paper}>
         <form
@@ -251,6 +248,6 @@ export default function TomaDePedidos() {
           )}
         </div>
       )}
-    </Container>
+    </Fragment>
   );
 }

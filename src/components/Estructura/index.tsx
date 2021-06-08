@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@material-ui/core";
+import { Box, Container } from "@material-ui/core";
 import Footers from "assests/images/hdpi_logo_soft_hasar.png";
 import usarEstilos from "./usarEstilos";
 import Encabezado from "./Encabezado";
@@ -19,9 +19,11 @@ const Estructura = ({ esConFechaHaciaAtras = true, esConLogoInferior = false, ti
         titulo={titulo}
         esConFechaHaciaAtras={esConFechaHaciaAtras}
       />
-      <Box display="flex" justifyContent="center">
-        {children}
-      </Box>
+      <Container component="main" maxWidth="xs">
+        <Box display="flex" justifyContent="center">
+          {children}
+        </Box>
+      </Container>
       {esConLogoInferior && (
         <Box display="flex" justifyContent="center">
           <div
