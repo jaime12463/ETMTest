@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -9,41 +8,17 @@ import { Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { TProductoPedido } from "models";
+import usarEstilos from "./usarEstilos";
 
-type CardPedidoProps = {
+type Props = {
   pedido: TProductoPedido[];
 };
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-    marginTop: 20,
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-  alignment: {
-    justifyContent: "center",
-  },
-  sectionCardInfo: {
-    paddingBottom: "0px",
-  },
-  sectionButtonDetail: {
-    textDecoration: "none",
-  },
-});
+//Se debe usar useMemo
 
-export default function CardPedido({ pedido }: CardPedidoProps) {
+const TarjetaPedido = ({ pedido }: Props) => {
   const [info, setInfo] = useState({ totalUnidades: 0, totalPrecio: 0 });
-  const classes = useStyles();
+  const estilos = usarEstilos();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -58,8 +33,8 @@ export default function CardPedido({ pedido }: CardPedidoProps) {
   }, [pedido]);
 
   return (
-    <Card className={classes.root}>
-      <CardContent className={classes.sectionCardInfo}>
+    <Card className={estilos.root}>
+      <CardContent className={estilos.sectionCardInfo}>
         <Grid container>
           <Grid item xs={6}>
             <Typography component="b" display="block" gutterBottom>
@@ -83,8 +58,9 @@ export default function CardPedido({ pedido }: CardPedidoProps) {
           </Grid>
         </Grid>
       </CardContent>
-      <CardActions className={classes.alignment}>
-        <Link to="/detalle" className={classes.sectionButtonDetail}>
+      <CardActions className={estilos.alignment}>
+      {/* <Link to="/detalle" className={estilos.sectionButtonDetail}>  da error al aplicar estilos */}
+      <Link to="/detalle">
           <Button variant="contained" color="secondary">
             {t("general.verDetalle").toUpperCase()}
           </Button>
@@ -93,3 +69,5 @@ export default function CardPedido({ pedido }: CardPedidoProps) {
     </Card>
   );
 }
+
+export default TarjetaPedido;

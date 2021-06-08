@@ -1,7 +1,9 @@
 import React from "react";
 import { InputBaseComponentProps, TextField } from "@material-ui/core";
 
-type InputFieldProps = {
+//Y estos nombres en español o ingles?
+
+type Props = {
   disabled?: boolean;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   value?: string;
@@ -12,7 +14,7 @@ type InputFieldProps = {
   inputProps?: InputBaseComponentProps;
 };
 
-const InputField = ({
+const InputTexto = ({
   disabled,
   onChange,
   value,
@@ -21,7 +23,7 @@ const InputField = ({
   type = "text",
   autoFocus,
   inputProps,
-}: InputFieldProps) => {
+}: Props) => {
   return (
     <TextField
       name={label.toLowerCase()}
@@ -39,4 +41,4 @@ const InputField = ({
   );
 };
 
-export default InputField;
+export default InputTexto;

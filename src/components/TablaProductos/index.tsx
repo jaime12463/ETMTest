@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  makeStyles,
   Table,
   TableBody,
   TableCell,
@@ -9,40 +8,31 @@ import {
   TableRow,
 } from "@material-ui/core";
 import { TPrecio, TProductoPedido } from "models";
+import usarEstilos from "./usarEstilos";
 
-const useStyles = makeStyles({
-  container: {
-    marginTop: 12,
-    maxHeight: 150,
-  },
-  alignment: {
-    textAlign: "center",
-  },
-});
-
-type TableInfoProps = {
-  headers: string[];
-  precios: TPrecio[];
+type Props = {
+  titulos: string[];
+  productos: TPrecio[];
   onClick: (producto: TProductoPedido) => void;
 };
 
-export const TableInfo = ({ headers, precios, onClick }: TableInfoProps) => {
-  const classes = useStyles();
+const TablaProductos = ({ titulos, productos, onClick }: Props) => {
+  const estilos = usarEstilos();
 
   return (
-    <TableContainer className={classes.container}>
+    <TableContainer className={estilos.container}>
       <Table stickyHeader size="small">
         <TableHead>
           <TableRow>
-            {headers.map((column) => (
-              <TableCell key={column} className={classes.alignment}>
+            {titulos.map((column) => (
+              <TableCell key={column} className={estilos.alignment}>
                 {column}
               </TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {precios.map((producto) => (
+          {productos.map((producto) => (
             <TableRow
               hover
               key={producto.codigoproducto}
@@ -54,10 +44,10 @@ export const TableInfo = ({ headers, precios, onClick }: TableInfoProps) => {
                 })
               }
             >
-              <TableCell className={classes.alignment}>
+              <TableCell className={estilos.alignment}>
                 {producto.codigoproducto} {producto.nombre.substring(12, -1)}
               </TableCell>
-              <TableCell className={classes.alignment}>
+              <TableCell className={estilos.alignment}>
                 $ {producto.precioConImpuesto}
               </TableCell>
             </TableRow>
@@ -67,3 +57,5 @@ export const TableInfo = ({ headers, precios, onClick }: TableInfoProps) => {
     </TableContainer>
   );
 };
+
+export default TablaProductos;

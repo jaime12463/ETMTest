@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useAppContext } from "context/AppContext";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import {
   Table,
@@ -8,41 +7,25 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  makeStyles,
 } from "@material-ui/core";
 import { useAppSelector } from "redux/hooks";
 import { selectPedidosClientes } from "redux/features/pedidosClientes/pedidosClientesSlice";
 import { selectClienteActual } from "redux/features/clienteActual/clienteActualSlice";
-
-const useStyles = makeStyles({
-  container: {
-    marginTop: 12,
-    maxHeight: 300,
-  },
-  alignment: {
-    textAlign: "center",
-  },
-});
+import usarEstilos from "./usarEstilos";
 
 const DetallePedido: React.FC = () => {
-  const classes = useStyles();
-  const { setTitle } = useAppContext();
+  const estilos = usarEstilos();
   const { t } = useTranslation();
   const productosPedido = useAppSelector(selectPedidosClientes);
   const { codigoCliente } = useAppSelector(selectClienteActual);
-
-  useEffect(() => {
-    setTitle(t("titulos.productosPedido"));
-  }, [setTitle, t]);
-
   return (
     <div>
-      <TableContainer className={classes.container}>
+      <TableContainer className={estilos.container}>
         <Table stickyHeader aria-label="a dense table" size="small">
           <TableHead>
             <TableRow>
               {[t("general.producto"), t("general.unidades")].map((column) => (
-                <TableCell key={column} className={classes.alignment}>
+                <TableCell key={column} className={estilos.alignment}>
                   {column}
                 </TableCell>
               ))}
@@ -51,10 +34,10 @@ const DetallePedido: React.FC = () => {
           <TableBody>
             {productosPedido[codigoCliente]?.map((product) => (
               <TableRow key={product.codigoProducto}>
-                <TableCell className={classes.alignment}>
+                <TableCell className={estilos.alignment}>
                   {product.codigoProducto.substring(18, -1)}
                 </TableCell>
-                <TableCell className={classes.alignment}>
+                <TableCell className={estilos.alignment}>
                   {product.unidades}
                 </TableCell>
               </TableRow>

@@ -1,14 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import { Grid, Container, InputLabel } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import InputField from "components/InputField";
-import { TableInfo } from "components/TableInfo";
-import { useAppContext } from "context/AppContext";
-import { FormAddProduct } from "components/FormAddProduct";
-import CardPedido from "components/CardPedido";
+import InputTexto from "components/InputTexto";
+import TablaProductos from "components/TablaProductos";
+import FormularioAgregarProducto from "components/FormularioAgregarProducto";
+import TarjetaPedido from "components/TarjetaPedido";
 import { useTranslation } from "react-i18next";
 import { TCliente, TFecha, TPrecio, TProductoPedido } from "models";
 import { useAppSelector, useAppDispatch } from "redux/hooks";
@@ -25,37 +22,10 @@ import {
   obtenerClientesAsync,
   selectCliente,
 } from "redux/features/clientes/clientesSlice";
-import { InputLabel } from "@material-ui/core";
 import { transformDate, darFormatoFecha } from "utils/methods";
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(1),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  form: {
-    width: "100%",
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  sectionAlert: {
-    marginTop: "1rem",
-  },
-  sectionRazonSocial: {
-    display: "flex",
-    alignItems: "center",
-  },
-  colorTextLabel: {
-    color: "black",
-  },
-}));
+import usarEstilos from "./usarEstilos";
 
 export default function TomaDePedidos() {
-  const { setTitle } = useAppContext();
   const [fechas, setFechas] = useState<TFecha[]>([]);
   const [razonSocial, setRazonSocial] = useState<string>("");
   const [precios, setPrecios] = useState<TPrecio[]>([]);
@@ -71,12 +41,11 @@ export default function TomaDePedidos() {
   const { clientes } = useAppSelector(selectCliente);
 
   const { t } = useTranslation();
-  const classes = useStyles();
+  const estilos = usarEstilos();
 
   useEffect(() => {
-    setTitle(t("titulos.ingresoPedido"));
     dispatch(obtenerClientesAsync());
-  }, [setTitle, t, dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (precios.length > 0) setExisteCliente(true);
@@ -105,13 +74,13 @@ export default function TomaDePedidos() {
         nuevosPrecios = clienteEncontrado.precios.filter(
           (producto) =>
             new Date(transformDate(producto.iniVig)) <=
-              new Date(nuevasFechas[0].fechaDeEntrega) &&
+            new Date(nuevasFechas[0].fechaDeEntrega) &&
             new Date(transformDate(producto.finVig)) >=
-              new Date(nuevasFechas[0].fechaDeEntrega)
+            new Date(nuevasFechas[0].fechaDeEntrega)
         );
         setExisteCliente(true);
         setRazonSocial(clienteEncontrado.detalles[0].nombreComercial) //Que index deberia ser?
-      }else {
+      } else {
         setExisteCliente(false);
         setRazonSocial("")
       }
@@ -131,9 +100,9 @@ export default function TomaDePedidos() {
         nuevosPrecios = clienteEncontrado.precios.filter(
           (producto) =>
             new Date(transformDate(producto.iniVig)) <=
-              new Date(fechas[0].fechaDeEntrega) &&
+            new Date(fechas[0].fechaDeEntrega) &&
             new Date(transformDate(producto.finVig)) >=
-              new Date(fechas[0].fechaDeEntrega)
+            new Date(fechas[0].fechaDeEntrega)
         );
       if (clienteEncontrado && value !== "") {
         nuevosPrecios = clienteEncontrado.precios.filter(
@@ -141,9 +110,9 @@ export default function TomaDePedidos() {
             (producto.codigoproducto.includes(value) ||
               producto.nombre.toLowerCase().includes(value.toLowerCase())) &&
             new Date(transformDate(producto.iniVig)) <=
-              new Date(fechas[0].fechaDeEntrega) &&
+            new Date(fechas[0].fechaDeEntrega) &&
             new Date(transformDate(producto.finVig)) >=
-              new Date(fechas[0].fechaDeEntrega)
+            new Date(fechas[0].fechaDeEntrega)
         );
       }
       setPrecios(nuevosPrecios);
@@ -209,23 +178,23 @@ export default function TomaDePedidos() {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
+      <div className={estilos.paper}>
         <form
-          className={classes.form}
+          className={estilos.form}
           noValidate
           onSubmit={handleSearchProducts}
         >
           <Grid container spacing={2}>
             <Grid item xs={6} sm={6}>
-              <InputField
+              <InputTexto
                 label={t("general.cliente")}
                 onChange={handleChangeCliente}
                 value={codigoCliente}
               />
             </Grid>
             {existeCliente && (
-              <Grid item xs={6} sm={6} className={classes.sectionRazonSocial}>
-                <InputLabel className={classes.colorTextLabel}>
+              <Grid item xs={6} sm={6} className={estilos.sectionRazonSocial}>
+                <InputLabel className={estilos.colorTextLabel}>
                   {razonSocial}
                 </InputLabel>
               </Grid>
@@ -234,7 +203,7 @@ export default function TomaDePedidos() {
         </form>
       </div>
       {!existeCliente && existeCliente !== null && (
-        <div className={classes.sectionAlert}>
+        <div className={estilos.sectionAlert}>
           <Alert variant="filled" severity="warning">
             {t("advertencias.clienteNoPortafolio")}
           </Alert>
@@ -242,10 +211,10 @@ export default function TomaDePedidos() {
       )}
       {existeCliente && (
         <div>
-          <div className={classes.paper}>
+          <div className={estilos.paper}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12}>
-                <InputLabel className={classes.colorTextLabel}>
+                <InputLabel className={estilos.colorTextLabel}>
                   Fecha de entrega:{" "}
                   {
                     darFormatoFecha(new Date(fechas[0].fechaDeEntrega)
@@ -256,7 +225,7 @@ export default function TomaDePedidos() {
                 </InputLabel>
               </Grid>
               <Grid item xs={12} sm={12}>
-                <InputField
+                <InputTexto
                   label={t("general.buscar")}
                   onChange={handleFindOneProduct}
                   autoFocus={precios && !focusProduct.codigoProducto}
@@ -265,20 +234,20 @@ export default function TomaDePedidos() {
             </Grid>
           </div>
 
-          <FormAddProduct
-            handleAddToPedido={handleAddToPedido}
-            focusProduct={focusProduct}
-            handleIncrementValue={handleIncrementValue}
+          <FormularioAgregarProducto
+            agregarProductoAlPedidoCliente={handleAddToPedido}
+            productoActual={focusProduct}
+            aumentarUnidadesAlProductoActual={handleIncrementValue}
           />
 
-          <TableInfo
-            headers={[t("general.producto"), t("general.precio")]}
-            precios={precios}
+          <TablaProductos
+            titulos={[t("general.producto"), t("general.precio")]}
+            productos={precios}
             onClick={handleFocusProduct}
           />
 
           {productosPedido[codigoCliente]?.length > 0 && (
-            <CardPedido pedido={productosPedido[codigoCliente]} />
+            <TarjetaPedido pedido={productosPedido[codigoCliente]} />
           )}
         </div>
       )}
