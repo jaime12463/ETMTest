@@ -10,7 +10,7 @@ type Props = {
     esConFechaHaciaAtras?: boolean,
 };
 
-const EncabezadoCascaron = (props: Props) => {
+const Encabezado = (props: Props) => {
     const { t } = useTranslation();
     const history = useHistory();
     return (
@@ -43,4 +43,4 @@ const EncabezadoCascaron = (props: Props) => {
         </Box>
     );
 }
-export default EncabezadoCascaron;
+export default Encabezado;

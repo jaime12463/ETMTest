@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -14,23 +14,21 @@ type Props = {
   pedido: TProductoPedido[];
 };
 
-//Se debe usar useMemo
+type TTotal = {
+  totalUnidades: number;
+  totalPrecio: number;
+};
+
+const TotalInicial: TTotal = { totalUnidades: 0, totalPrecio: 0 };
+const reducerSumarProductos = (total: TTotal, productoPedido: TProductoPedido): TTotal => ({
+  totalUnidades: total.totalUnidades + productoPedido.unidades,
+  totalPrecio: total.totalPrecio + productoPedido.precio,
+});
 
 const TarjetaPedido = ({ pedido }: Props) => {
-  const [info, setInfo] = useState({ totalUnidades: 0, totalPrecio: 0 });
   const estilos = usarEstilos();
   const { t } = useTranslation();
-
-  useEffect(() => {
-    let values = { totalUnidades: 0, totalPrecio: 0 };
-    pedido.forEach((producto) => {
-      values = {
-        totalUnidades: values.totalUnidades + producto.unidades,
-        totalPrecio: values.totalPrecio + producto.precio,
-      };
-    });
-    setInfo({ ...values });
-  }, [pedido]);
+  const totales = useMemo(() => pedido.reduce(reducerSumarProductos, TotalInicial), [pedido])
 
   return (
     <Card className={estilos.root}>
@@ -43,7 +41,7 @@ const TarjetaPedido = ({ pedido }: Props) => {
           </Grid>
           <Grid item xs={6}>
             <Typography component="b" display="block" gutterBottom>
-              {info.totalUnidades}
+              {totales.totalUnidades}
             </Typography>
           </Grid>
           <Grid item xs={6}>
@@ -53,14 +51,14 @@ const TarjetaPedido = ({ pedido }: Props) => {
           </Grid>
           <Grid item xs={6}>
             <Typography component="b" display="block" gutterBottom>
-              $ {Number(info.totalPrecio).toFixed(2)}
+              $ {Number(totales.totalPrecio).toFixed(2)}
             </Typography>
           </Grid>
         </Grid>
       </CardContent>
       <CardActions className={estilos.alignment}>
-      {/* <Link to="/detalle" className={estilos.sectionButtonDetail}>  da error al aplicar estilos */}
-      <Link to="/detalle">
+        {/* <Link to="/detalle" className={estilos.sectionButtonDetail}>  da error al aplicar estilos */}
+        <Link to="/detalle">
           <Button variant="contained" color="secondary">
             {t("general.verDetalle").toUpperCase()}
           </Button>

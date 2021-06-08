@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Cascaron from "components/Cascaron";
+import Estructura from "components/Estructura";
 import rutas from "routes"
 
 const Rutas = () => {
@@ -12,13 +12,13 @@ const Rutas = () => {
             path={ruta.ruta}
             key={ruta.ruta}
           >
-            <Cascaron
+            <Estructura
               titulo={ruta.titulo}
               esConFechaHaciaAtras={ruta.esConFechaHaciaAtras}
               esConLogoInferior={ruta.esConLogoInferior}
             >
               {ruta.componente}
-            </Cascaron>
+            </Estructura>
           </Route>
         ))}
       </Switch>

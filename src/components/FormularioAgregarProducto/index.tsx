@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
-import EntradaTexto from "components/InputTexto";
+import InputTexto from "components/InputTexto";
 import { useTranslation } from "react-i18next";
 import { TProductoPedido } from "models";
 import usarEstilos from "./usarEstilos";
@@ -24,7 +24,7 @@ const FormularioAgregarProducto = ({
       <form className={estilos.form} noValidate onSubmit={agregarProductoAlPedidoCliente}>
         <Grid container spacing={1}>
           <Grid item xs={6} sm={6}>
-            <EntradaTexto
+            <InputTexto
               label={t('general.producto')}
               value={productoActual.codigoProducto}
               disabled

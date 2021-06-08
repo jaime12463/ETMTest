@@ -1,4 +1,4 @@
-import Cascaron from 'components/Cascaron';
+import Estructura from 'components/Estructura';
 import FormularioAgregarProducto from 'components/FormularioAgregarProducto';
 import InputTexto from 'components/InputTexto';
 import Rutas from 'components/Rutas';
@@ -6,7 +6,7 @@ import TablaProductos from 'components/TablaProductos';
 import TarjetaPedido from 'components/TarjetaPedido';
 
 export {
-    Cascaron,
+    Estructura,
     FormularioAgregarProducto,
     InputTexto,
     Rutas,

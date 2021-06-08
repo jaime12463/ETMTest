@@ -2,20 +2,20 @@ import React from "react";
 import { Box } from "@material-ui/core";
 import Footers from "assests/images/hdpi_logo_soft_hasar.png";
 import usarEstilos from "./usarEstilos";
-import EncabezadoCascaron from "./EncabezadoCascaron";
+import Encabezado from "./Encabezado";
 
-type PropsCascaron = {
+type Props = {
   children: React.ReactNode,
   titulo: string,
   esConFechaHaciaAtras?: boolean,
   esConLogoInferior?: boolean,
 };
 
-const Cascaron = ({ esConFechaHaciaAtras = true, esConLogoInferior = false, titulo, children }: PropsCascaron) => {
+const Estructura = ({ esConFechaHaciaAtras = true, esConLogoInferior = false, titulo, children }: Props) => {
   const estilos = usarEstilos();
   return (
     <div className={estilos.root}>
-      <EncabezadoCascaron
+      <Encabezado
         titulo={titulo}
         esConFechaHaciaAtras={esConFechaHaciaAtras}
       />
@@ -39,4 +39,4 @@ const Cascaron = ({ esConFechaHaciaAtras = true, esConLogoInferior = false, titu
   );
 };
 
-export default Cascaron;
+export default Estructura;
