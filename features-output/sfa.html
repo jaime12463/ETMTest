@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"[]>
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>sfa</title>
+    <link rel="stylesheet" href="css/master.css" type="text/css" />
+    <link rel="stylesheet" href="css/print.css" type="text/css" media="print" />
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/scripts.js" type="text/javascript"></script>
+    <script type="text/javascript">
+$(document).ready(function() {
+  initializeToc();
+});
+</script>
+    <!-- We are using Font Awesome - http://fortawesome.github.com/Font-Awesome - licensed under CC BY 3.0 -->
+  </head>
+  <body>
+    <div id="container">
+      <div id="top" />
+      <div id="toc">
+        <p class="tocCollapser" title="Collapse Table of Content">«</p>
+        <ul class="features">
+          <li class="file" id="root">
+            <a href="index.html">Home</a>
+          </li>
+          <li class="file">
+            <span class="current">sfa</span>
+          </li>
+        </ul>
+      </div>
+      <div id="markdown">
+        <p>@Sprint1
+@Ver portafolio del cliente</p>
+        <p>Característica: Ver portafolio del cliente
+Como prevendedor 
+Quiero teclear un código de cliente
+Para ver sus productos portafolio 
+Y poder registrarle un pedido</p>
+        <p>Escenario: N°1 El cliente tiene productos portafolio informados
+Dado que hay productos con precio informado para el cliente 105404345
+Cuando el prevendedor teclea el código de cliente 105404345
+Entonces el sistema muestra el código y precio final por unidad de los productos informados para el cliente con código 105404345 </p>
+        <p>Escenario: N°2 El cliente no tiene portafolio informado
+Dado que no hay productos con precio informado para el cliente
+Cuando el prevendedor teclea el código del cliente
+Entonces el sistema muestra el mensaje: “El cliente no tiene portafolio informado”</p>
+        <p>@Buscar producto del portafolio del cliente</p>
+        <p>Característica:Buscar producto del portafolio del cliente
+Como prevendedor
+Quiero buscar, por código, un producto dentro del portafolio del cliente
+Para agregarlo al pedido</p>
+        <p>Escenario: N°1 El producto pertenece al portafolio del cliente y no está en el pedido
+Dado que el prevendedor ha tecleado un cliente 
+Cuando ingresa el código de un producto que pertenece al portafolio del cliente 
+Entonces el sistema lo muestra en la lista </p>
+        <p>Escenario: N°2 El producto no pertenece a un producto del portafolio del cliente
+Dado que el prevendedor ha tecleado un cliente 
+Cuando ingresa un código que no corresponde a un producto del portafolio del cliente 
+Entonces el sistema muestra el mensaje “El código no corresponde a un producto del portafolio del cliente”</p>
+        <p>@Ingresar producto al pedido</p>
+        <p>Característica: Ingresar producto al pedido
+Como prevendedor 
+quiero poder seleccionar un material del portafolio del cliente
+e informar la cantidad de unidades
+para poder agregarlo al pedido
+y ver actualizados los totales del pedido </p>
+        <p>Escenario: N°1 El prevendedor selecciona un producto que aún no se encuentra en el pedido
+Dado que el prevendedor ha tecleado un cliente 
+Cuando selecciona un producto del portafolio del cliente que no se encuentra en el pedido
+Entonces el sistema habilita el ingreso del producto mostrando código de producto y cantidad de unidades en cero </p>
+        <p>Escenario: N°2 El prevendedor selecciona un producto que incorporó previamente al pedido
+Dado que el prevendedor ha tecleado un cliente 
+Cuando selecciona un producto del portafolio del cliente que se encuentra en el pedido
+Entonces el sistema habilita el ingreso del producto mostrando código de producto y cantidad de unidades inicializadas con las que se indican en el pedido </p>
+        <p>@Ver detalle del pedido
+Característica: Ver detalle del pedido
+Como prevendedor 
+Quiero poder ver el código de producto y cantidad de unidades de los productos ingresados en el pedido 
+Para saber qué compró el cliente hasta ahora.</p>
+        <p>@Ver totales del pedido
+Como prevendedor
+Quiero ver el total de unidades y monto del pedido 
+Para informarle al cliente cuánto lleva gastado en el total de cajas compradas</p>
+        <p>@Sprint2
+@Búsqueda de materiales</p>
+        <p>Característica: Búsqueda de materiales por atributos
+Como Prevendedor
+Quiero realizar la búsqueda de un material por atributos
+Para agregarlo al pedido</p>
+        <p>Antecedentes:
+Dado que se muestra la lista de productos con los productos vigentes del portafolio del cliente </p>
+        <p>Escenario: N°1 Búsqueda de material en portafolio vigente por atributo Descripción
+Dado que el prevendedor ingresa caracteres
+Cuando haya ingresado al menos dos o más
+Entonces la lista se reduce a los materiales que contienen
+lo ingresado por el prevendedor</p>
+        <p>Escenario: N°2 No mostrar SKUs que no estén incluídos en el portafolio
+Dado que el prevendedor tiene portafolio asignado
+Cuando se realiza la búsqueda de material
+se muestran solamente los materiales que cumplan con la condición
+de búsqueda ingresada
+y que pertenezcan al portafolio del cliente que están vigentes a la fecha de entrega</p>
+        <p>@Descripción de cliente</p>
+        <p>Característica: Ver la razón social del cliente
+Como prevendedor
+Quiero ver la razón social del cliente</p>
+        <p>@Descripción de productos</p>
+        <p>Característica: Ver descripción de productos en pedido y detalle
+Como prevendedor
+Quiero ver la descripción de los productos en el ingreso de productos
+y en el detalle del pedido.</p>
+        <p>@Fecha de entrega</p>
+        <p>Característica: cálculo de fecha de entrega (construcción)
+Como prevendedor
+Quiero saber la fecha de entrega del pedido
+Para dar visibilidad de cuando el cliente recibirá los productos.</p>
+        <p>Antecedentes:
+Dado que la fecha de entrega viene calculada</p>
+        <p>Escenario: N°1 Mostrar la fecha de entrega
+Cuando el prevendedor ingresa un cliente
+Entonces el sistema muestra la fecha de entrega</p>
+        <p>Escenario: N°2 Mostrar precios y productos vigentes según la fecha de entrega
+Cuando el prevendedor ingresa un cliente
+Entonces el sistema muestra los productos 
+y sus precios que estén vigentes según la fecha de entrega.</p>
+      </div>
+      <div id="footer">
+        <p>Generated on: 9 junio 2021 11:40:55</p>
+        <p>Produced by Pickles, version 2.20.1.0</p>
+      </div>
+    </div>
+  </body>
+</html>

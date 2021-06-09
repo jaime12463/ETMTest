@@ -15,9 +15,15 @@ steps:
   displayName: 'Creando documentación'
 
 - task: ChocolateyToolInstaller@0
+  displayName: 'Instalando Chocolatey'
 
 - task: ChocolateyCommand@0
   inputs:
     command: 'install'
     installPackageId: 'pickles'
+  displayName: 'Instalando pickles'
+
+- script: |
+    Pickles --feature-directory=.\features --output-directory=.\features-output
+  displayName: 'Generando documentación'
 
