@@ -28,8 +28,8 @@ steps:
   displayName: 'Pickles version'
 
 - script: |
-    echo Pickles --feature-directory=$(Build.SourcesDirectory)\features --output-directory=$(Build.SourcesDirectory)\features-output
-    Pickles --feature-directory=$(Build.SourcesDirectory)\features --output-directory=$(Build.SourcesDirectory)\features-output
+    echo Pickles --feature-directory=$(Build.SourcesDirectory)\features --output-directory=$(Build.ArtifactStagingDirectory)
+    Pickles --feature-directory=$(Build.SourcesDirectory)\features --output-directory=$(Build.ArtifactStagingDirectory)
   displayName: 'Generando html'
 
 
