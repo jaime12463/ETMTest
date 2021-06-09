@@ -25,5 +25,8 @@ steps:
 
 - script: |
     Pickles --feature-directory=.\features --output-directory=.\features-output
-  displayName: 'Generando documentación'
+  displayName: 'Generando html'
 
+- script: |
+    Pickles --feature-directory=.\features --documentation-format=Word --output-directory=.\features-output-word
+  displayName: 'Generando word'
