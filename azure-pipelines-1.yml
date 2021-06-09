@@ -40,7 +40,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    Contents: 'features/pickles**' 
+    Contents: 'features/pickles/**' 
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
