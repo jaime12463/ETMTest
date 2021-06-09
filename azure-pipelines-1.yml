@@ -23,10 +23,9 @@ steps:
     installPackageId: 'pickles'
   displayName: 'Instalando pickles'
 
-- script: |
-    Pickles --feature-directory=.\features --output-directory=.\features-output
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: 'Pickles --feature-directory=.\features --output-directory=.\features-output'
   displayName: 'Generando html'
 
-- script: |
-    Pickles --feature-directory=.\features --documentation-format=Word --output-directory=.\features-output-word
-  displayName: 'Generando word'
