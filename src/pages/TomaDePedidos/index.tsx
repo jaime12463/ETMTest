@@ -231,6 +231,7 @@ export default function TomaDePedidos() {
                   label={t("general.buscar")}
                   onChange={handleFindOneProduct}
                   autoFocus={precios && !focusProduct.codigoProducto}
+                  inputDataCY="codigo-producto"
                 />
               </Grid>
             </Grid>

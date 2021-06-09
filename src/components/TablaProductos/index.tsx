@@ -43,6 +43,7 @@ const TablaProductos = ({ titulos, productos, onClick }: Props) => {
                   precio: parseInt(producto.precioConImpuesto, 10),
                 })
               }
+              data-cy={producto.codigoproducto}
             >
               <TableCell className={estilos.alignment}>
                 {producto.codigoproducto} {producto.nombre.substring(12, -1)}

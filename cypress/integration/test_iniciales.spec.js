@@ -27,4 +27,16 @@ describe("Primeros Tests", () => {
       .type("1234")
       .should("have.value", "1234");
   });
+
+  it("Inicializando un pedido", () => {
+    cy.visit("http://localhost:3000/");
+
+    cy.get("[data-cy=boton-splash]").click();
+    cy.get(`[data-cy=codigo-cliente]`).type("120104325{enter}");
+    cy.get("[data-cy=codigo-producto]").type("1860");
+    cy.get("[data-cy=1860]").click();
+    cy.get("[data-cy=cantidad-producto]").type("100{enter}");
+
+    cy.get("[data-cy=cantidad-productos-pedido]").should("contain", "100");
+  });
 });

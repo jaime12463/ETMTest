@@ -21,11 +21,15 @@ const FormularioAgregarProducto = ({
 
   return (
     <div className={estilos.paper}>
-      <form className={estilos.form} noValidate onSubmit={agregarProductoAlPedidoCliente}>
+      <form
+        className={estilos.form}
+        noValidate
+        onSubmit={agregarProductoAlPedidoCliente}
+      >
         <Grid container spacing={1}>
           <Grid item xs={6} sm={6}>
             <InputTexto
-              label={t('general.producto')}
+              label={t("general.producto")}
               value={productoActual.codigoProducto}
               disabled
             />
@@ -36,12 +40,20 @@ const FormularioAgregarProducto = ({
               size="small"
               variant="outlined"
               fullWidth
-              label={t('general.unidades')}
+              label={t("general.unidades")}
               type="number"
-              value={productoActual.unidades === 0 ? "" : productoActual.unidades}
+              value={
+                productoActual.unidades === 0 ? "" : productoActual.unidades
+              }
               onChange={aumentarUnidadesAlProductoActual}
-              disabled={productoActual.unidades === 0 && productoActual.codigoProducto === ""}
-              inputRef={(input) => { if (input != null) input.focus(); }}
+              disabled={
+                productoActual.unidades === 0 &&
+                productoActual.codigoProducto === ""
+              }
+              inputRef={(input) => {
+                if (input != null) input.focus();
+              }}
+              inputProps={{ "data-cy": "cantidad-producto" }}
             />
           </Grid>
           <Button

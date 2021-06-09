@@ -20,7 +20,10 @@ type TTotal = {
 };
 
 const TotalInicial: TTotal = { totalUnidades: 0, totalPrecio: 0 };
-const reducerSumarProductos = (total: TTotal, productoPedido: TProductoPedido): TTotal => ({
+const reducerSumarProductos = (
+  total: TTotal,
+  productoPedido: TProductoPedido
+): TTotal => ({
   totalUnidades: total.totalUnidades + productoPedido.unidades,
   totalPrecio: total.totalPrecio + productoPedido.precio,
 });
@@ -28,7 +31,10 @@ const reducerSumarProductos = (total: TTotal, productoPedido: TProductoPedido): 
 const TarjetaPedido = ({ pedido }: Props) => {
   const estilos = usarEstilos();
   const { t } = useTranslation();
-  const totales = useMemo(() => pedido.reduce(reducerSumarProductos, TotalInicial), [pedido])
+  const totales = useMemo(
+    () => pedido.reduce(reducerSumarProductos, TotalInicial),
+    [pedido]
+  );
 
   return (
     <Card className={estilos.root}>
@@ -40,7 +46,12 @@ const TarjetaPedido = ({ pedido }: Props) => {
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography component="b" display="block" gutterBottom>
+            <Typography
+              data-cy="cantidad-productos-pedido"
+              component="b"
+              display="block"
+              gutterBottom
+            >
               {totales.totalUnidades}
             </Typography>
           </Grid>
@@ -66,6 +77,6 @@ const TarjetaPedido = ({ pedido }: Props) => {
       </CardActions>
     </Card>
   );
-}
+};
 
 export default TarjetaPedido;
