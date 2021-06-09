@@ -31,6 +31,9 @@ export const clientesSlice = createSlice({
             state.estado = 'loaded';
             state.clientes = action.payload;
         });
+        builder.addCase(obtenerClientesAsync.rejected, (state, action) => {
+            state.estado = 'error';
+        });
     },
 })
 

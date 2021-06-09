@@ -1,9 +1,8 @@
 import axios from "axios";
 import { TCliente } from "models";
+import { URL_API } from "utils/constants";
 
-const baseURL = "./data"
-
-export const obtenerClientes: () => Promise<TCliente[]> = async () =>{
-    const response = await axios.get(`${baseURL}/precios_cliente.json`);
+export const obtenerClientes: () => Promise<TCliente[]> = async () => {
+    const response = await axios.get(`${URL_API}/femsa/tomapedidos`);
     return response.data;
 }

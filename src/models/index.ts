@@ -1,8 +1,3 @@
-export type TClientePedido = {
-    CodigoCliente: string,
-    Precios: TPrecio[],
-};
-
 export type TProductoPedido = {
     codigoProducto: string,
     unidades: number,
