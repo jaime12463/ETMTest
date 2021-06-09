@@ -11,7 +11,7 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-- script: |
+- script:
     npm install
     npm run build
   displayName: 'npm install and build'
