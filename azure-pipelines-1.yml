@@ -29,6 +29,8 @@ steps:
 
 - task: PowerShell@2
   inputs:
+    showWarnings: true
+    targetType: 'inline'
     script: |
       Pickles -v
       Pickles --output-directory=pickles --language=es 
