@@ -26,6 +26,8 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
-    script: 'Pickles --feature-directory=.\features --output-directory=.\features-output'
+    script: 'Pickles --feature-directory=$(Build.SourcesDirectory)\features --output-directory=$(Build.SourcesDirectory)\features-output'
   displayName: 'Generando html'
+
+
 
