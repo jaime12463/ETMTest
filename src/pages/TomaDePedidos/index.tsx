@@ -2,7 +2,12 @@ import React, { Fragment, useCallback, useEffect, useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Grid, InputLabel } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import { InputTexto, TablaProductos, FormularioAgregarProducto, TarjetaPedido } from "components";
+import {
+  InputTexto,
+  TablaProductos,
+  FormularioAgregarProducto,
+  TarjetaPedido,
+} from "components";
 import { useTranslation } from "react-i18next";
 import { TCliente, TFecha, TPrecio, TProductoPedido } from "models";
 import { useAppSelector, useAppDispatch } from "redux/hooks";
@@ -71,15 +76,15 @@ export default function TomaDePedidos() {
         nuevosPrecios = clienteEncontrado.precios.filter(
           (producto) =>
             new Date(transformDate(producto.iniVig)) <=
-            new Date(nuevasFechas[0].fechaDeEntrega) &&
+              new Date(nuevasFechas[0].fechaDeEntrega) &&
             new Date(transformDate(producto.finVig)) >=
-            new Date(nuevasFechas[0].fechaDeEntrega)
+              new Date(nuevasFechas[0].fechaDeEntrega)
         );
         setExisteCliente(true);
-        setRazonSocial(clienteEncontrado.detalles[0].nombreComercial) //Que index deberia ser?
+        setRazonSocial(clienteEncontrado.detalles[0].nombreComercial); //Que index deberia ser?
       } else {
         setExisteCliente(false);
-        setRazonSocial("")
+        setRazonSocial("");
       }
       setPrecios(nuevosPrecios);
       setFechas(nuevasFechas);
@@ -97,9 +102,9 @@ export default function TomaDePedidos() {
         nuevosPrecios = clienteEncontrado.precios.filter(
           (producto) =>
             new Date(transformDate(producto.iniVig)) <=
-            new Date(fechas[0].fechaDeEntrega) &&
+              new Date(fechas[0].fechaDeEntrega) &&
             new Date(transformDate(producto.finVig)) >=
-            new Date(fechas[0].fechaDeEntrega)
+              new Date(fechas[0].fechaDeEntrega)
         );
       if (clienteEncontrado && value !== "") {
         nuevosPrecios = clienteEncontrado.precios.filter(
@@ -107,9 +112,9 @@ export default function TomaDePedidos() {
             (producto.codigoproducto.includes(value) ||
               producto.nombre.toLowerCase().includes(value.toLowerCase())) &&
             new Date(transformDate(producto.iniVig)) <=
-            new Date(fechas[0].fechaDeEntrega) &&
+              new Date(fechas[0].fechaDeEntrega) &&
             new Date(transformDate(producto.finVig)) >=
-            new Date(fechas[0].fechaDeEntrega)
+              new Date(fechas[0].fechaDeEntrega)
         );
       }
       setPrecios(nuevosPrecios);
@@ -187,6 +192,7 @@ export default function TomaDePedidos() {
                 label={t("general.cliente")}
                 onChange={handleChangeCliente}
                 value={codigoCliente}
+                inputDataCY="codigo-cliente"
               />
             </Grid>
             {existeCliente && (
@@ -213,12 +219,11 @@ export default function TomaDePedidos() {
               <Grid item xs={12} sm={12}>
                 <InputLabel className={estilos.colorTextLabel}>
                   Fecha de entrega:{" "}
-                  {
-                    darFormatoFecha(new Date(fechas[0].fechaDeEntrega)
+                  {darFormatoFecha(
+                    new Date(fechas[0].fechaDeEntrega)
                       .toISOString()
                       .split("T")[0]
-                    )
-                  }
+                  )}
                 </InputLabel>
               </Grid>
               <Grid item xs={12} sm={12}>

@@ -1,5 +1,5 @@
 import React from "react";
-import { InputBaseComponentProps, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 
 //Y estos nombres en español o ingles?
 
@@ -11,7 +11,7 @@ export type Props = {
   size?: "small" | "medium";
   type?: string;
   autoFocus?: boolean;
-  inputProps?: InputBaseComponentProps;
+  inputDataCY?: string;
 };
 
 const InputTexto = ({
@@ -22,7 +22,7 @@ const InputTexto = ({
   size = "small",
   type = "text",
   autoFocus,
-  inputProps,
+  inputDataCY,
 }: Props) => {
   return (
     <TextField
@@ -36,7 +36,9 @@ const InputTexto = ({
       value={value}
       onChange={onChange}
       disabled={disabled}
-      InputProps={{ inputProps }}
+      inputProps={{
+        "data-cy": inputDataCY,
+      }}
     />
   );
 };
