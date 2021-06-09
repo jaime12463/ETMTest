@@ -29,13 +29,24 @@ steps:
 
 - task: PowerShell@2
   inputs:
-    targetType: 'inline'
     script: |
-      Write-Host "Pickles"
       Pickles -v
       Pickles --output-directory=pickles --language=es 
-    workingDirectory: '$(Build.SourcesDirectory)\features'
+    workingDirectory: '$(Build.SourcesDirectory)/features'
+  continueOnError: true  
   displayName: 'Generando html'
+
+- task: CopyFiles@2
+  inputs:
+    Contents: 'features/**' 
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'OmnicanalTomaPedido'
+
+
 
 
 
