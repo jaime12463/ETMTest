@@ -15,7 +15,6 @@ steps:
   displayName: 'Creando documentación'
 
 - task: ChocolateyToolInstaller@0
-  inputs:
 
 - task: ChocolateyCommand@0
   inputs:
