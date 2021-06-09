@@ -31,10 +31,9 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      # Write your PowerShell commands here.
-      
-      Write-Host "Hello World"
-          Pickles --feature-directory=$(Build.SourcesDirectory)\features --output-directory=$(Build.SourcesDirectory)\pickles
+      Write-Host "Pickles"
+      Pickles -v
+      Pickles --feature-directory=features --output-directory=pickles
     workingDirectory: '$(Build.SourcesDirectory)'
   displayName: 'Generando html'
 
