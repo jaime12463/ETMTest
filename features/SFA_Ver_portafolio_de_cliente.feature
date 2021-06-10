@@ -1,4 +1,4 @@
-@Ver portafolio del cliente @Sprint1
+@Ver_portafolio_del_cliente @Sprint1
 Característica: Ver portafolio del cliente
     Como prevendedor 
     Quiero teclear un código de cliente
