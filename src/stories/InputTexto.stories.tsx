@@ -1,4 +1,4 @@
-import React from 'react';
+
 import {Story, Meta} from '@storybook/react';
 
 import InputTexto, {Props} from '../components/InputTexto';
