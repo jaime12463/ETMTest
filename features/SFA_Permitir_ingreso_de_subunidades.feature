@@ -32,7 +32,7 @@ Ejemplos:
 |      false           |	  false		  |    No habilitará    |
 
 @Test_dispositivo_2
-Escenario: N°2 – Validar Subunidades con la presentación
+Esquema del escenario: N°2 – Validar Subunidades con la presentación
 	Dado que el producto ingresado tiene presentación <presentación>
 	Cuando se ingresan <subunidades> 
 	Entonces el sistema <acción> 
