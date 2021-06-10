@@ -1,4 +1,4 @@
-@Fecha de entrega @Sprint2
+@Fecha_de_entrega @Sprint2
 Característica: cálculo de fecha de entrega (construcción)
     Como prevendedor
     Quiero saber la fecha de entrega del pedido
