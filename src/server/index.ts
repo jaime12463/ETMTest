@@ -1,8 +1,14 @@
 import axios from "axios";
-import { TDatos } from "models";
+import { TDatosClientesProductos } from "models";
+import { TDatosConfiguracion } from "models";
 import { URL_API } from "utils/constants";
 
-export const obtenerDatos: () => Promise<TDatos> = async () => {
+export const obtenerDatosClientesProductos: () => Promise<TDatosClientesProductos> = async () => {
     const response = await axios.get(`${URL_API}/femsa/tomapedidos`);
+    return response.data;
+}
+
+export const obtenerDatosConfiguracion: () => Promise<TDatosConfiguracion> = async () => {
+    const response = await axios.get(`${URL_API}/femsa/configuracion`);
     return response.data;
 }

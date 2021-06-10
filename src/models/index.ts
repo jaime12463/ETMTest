@@ -1,30 +1,28 @@
-export type TDatos = {
+export type TDatosClientesProductos = {
     clientes: TClientes,
     productos: TProductos,
 }
 
-export type TClientes = TCliente[];
+export type TClientes = {
+    [codigoCliente: string]: TCliente;
+}
 
-export type TProductos = TProducto[];
-
-export type TProducto = {
-    codigoProducto: string,
-    nombre: string,
-    presentacion: number,
-};
+export type TProductos = {
+    [codigoProducto: string]: TProducto;
+}
 
 export type TCliente = {
-    codigoCliente: string,
-    detalles: TDetalle[],
+    montoPedidoMínimo: number;
     visitasPlanificadas: TVisitaPlanificada[],
     fechasEntrega: TFechaEntrega[],
-    configuracionPedido: TConfiguracionPedido[],
+    detalles: TDetalle[],
     portafolio: TPortafolio[],
 }
 
-export type TDetalle = {
-    nombreComercial: string,
-}
+export type TProducto = {
+    nombre: string,
+    presentacion: number,
+};
 
 export type TVisitaPlanificada = {
     dia: string,
@@ -36,14 +34,13 @@ export type TFechaEntrega = {
     fechaEntrega: string,
 }
 
-export type TConfiguracionPedido = {
-    montoVentaMinima?: number,
-    UnidadesMaximasVenta?: number,
+export type TDetalle = {
+    nombreComercial: string,
 }
 
 export type TPortafolio = {
     codigoProducto: string,
-    esVentaBotellas: boolean,
+    botelleo: boolean,
     precios: TPrecios,
 }
 
@@ -72,6 +69,8 @@ export type TProductoPedido = {
     total: number,
 };
 
+export type TProductosPedidos = TProductoPedido[];
+
 export type TProductoPedidoConPrecios = {
     codigoProducto: string,
     unidades: number,
@@ -80,7 +79,7 @@ export type TProductoPedidoConPrecios = {
     precioConImpuestoSubunidad: number,
 };
 
-export type TProductosPedidos = TProductoPedido[];
+export type TPreciosProductos = TPrecioProducto[];
 
 export type TPrecioProducto = {
     codigoProducto: string,
@@ -89,4 +88,13 @@ export type TPrecioProducto = {
     precios: TPrecios,
 }
 
-export type TPreciosProductos = TPrecioProducto[];
+export type TDatosConfiguracion = {
+    configuraciones: TConfiguraciones
+}
+
+export type TConfiguraciones = TConfiguracion[];
+
+export type TConfiguracion = {
+    esFrecuenciaAbierta: boolean,
+    esVentaSubunidadesRuta: boolean
+}

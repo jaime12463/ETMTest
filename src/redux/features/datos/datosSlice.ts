@@ -1,24 +1,24 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { TDatos } from "../../../models";
-import { obtenerDatos } from "../../../server";
+import { TDatosClientesProductos } from "../../../models";
+import { obtenerDatosClientesProductos } from "../../../server";
 
 type TDatosSlice = {
     estado: 'loaded' | 'loading' | 'error' | 'idle',
-    datos: TDatos,
+    datos: TDatosClientesProductos,
 }
 
 const estadoInicial: TDatosSlice = {
     estado: 'idle',
     datos: {
-        clientes: [],
-        productos: [],
+        clientes: {},
+        productos: {},
     },
 };
 
-export const obtenerDatosAsync = createAsyncThunk<TDatos>(
+export const obtenerDatosClientesProductosAsync = createAsyncThunk<TDatosClientesProductos>(
     'datos/obtenerDatosAsync',
-    async () => await obtenerDatos()
+    async () => await obtenerDatosClientesProductos()
 );
 
 export const datosSlice = createSlice({
@@ -26,14 +26,14 @@ export const datosSlice = createSlice({
     initialState: estadoInicial,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(obtenerDatosAsync.pending, (state) => {
+        builder.addCase(obtenerDatosClientesProductosAsync.pending, (state) => {
             state.estado = 'loading';
         });
-        builder.addCase(obtenerDatosAsync.fulfilled, (state, action) => {
+        builder.addCase(obtenerDatosClientesProductosAsync.fulfilled, (state, action) => {
             state.estado = 'loaded';
             state.datos = action.payload;
         });
-        builder.addCase(obtenerDatosAsync.rejected, (state, action) => {
+        builder.addCase(obtenerDatosClientesProductosAsync.rejected, (state, action) => {
             state.estado = 'error';
         });
     },
