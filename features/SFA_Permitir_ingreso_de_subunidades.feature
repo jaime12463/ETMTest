@@ -21,7 +21,7 @@ Antecedente:
 Dado un cliente y producto seleccionado 
 
 @Test_dispositivo_1
-Esquema del escenario N°1: Se admite el ingreso de subunidades por cliente/producto
+Esquema del escenario: N°1 - Se admite el ingreso de subunidades por cliente/producto
     Cuando para la ruta está configurado el botelleo igual a <esVentaSubunidadesRuta> 
     Y para el cliente/producto está configurado el botelleo igual a <esVentaSubunidades> 
     Entonces el sistema <habilitaSubunidades> el ingreso de subunidades

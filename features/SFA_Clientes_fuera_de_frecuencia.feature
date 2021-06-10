@@ -16,7 +16,7 @@ Característica: clientes fuera de frecuencia
 	Para xx
 
 @Test_dispositivo_1
-Esquema del escenario N°1: Visita a cliente en frecuencia
+Esquema del escenario: N°1 - Visita a cliente en frecuencia
 	Dado que por configuración la frecuencia de venta <esFrecuenciaAbierta>  
 	Cuando ingreso un cliente que tiene una visita programada para la fecha actual 
 	Entonces el sistema habilita el ingreso del pedido
@@ -27,7 +27,7 @@ Ejemplos:
 |       false       |
 
 @Test_dispositivo_2		
-Esquema del escenario N°2: Visita a cliente fuera de frecuencia
+Esquema del escenario: N°2 - Visita a cliente fuera de frecuencia
 	Dado que por configuración la frecuencia de venta <esFrecuenciaAbierta>  
 	Cuando ingreso un cliente que no tiene una visita programada para la fecha actual 
 	Entonces el sistema realiza <Acción>
