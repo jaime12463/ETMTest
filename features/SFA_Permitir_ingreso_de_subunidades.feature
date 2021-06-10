@@ -17,7 +17,7 @@ Característica: Permitir el ingreso de subunidades al pedido
 	Quiero ingresar en el pedido subunidades de SKUs
 	Para realizar venta mínima sin tener que vender cajas completas
 
-Antecedente:
+Antecedentes:
 Dado un cliente y producto seleccionado 
 
 @Test_dispositivo_1
