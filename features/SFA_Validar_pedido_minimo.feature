@@ -26,7 +26,7 @@ Esquema del escenario: N°1 – El pedido no cumple con el pedido mínimo
 	Entonces el sistema mostrará el mensaje “No cumple con el monto mínimo de venta del pedido” 
 	Y permanece en la pantalla para que el usuario pueda ingresar más productos para cumplir con el pedido mínimo.
 
-Ejemplo:
+Ejemplos:
 | monto | montoVentaMínima |
 |   99  |     100          |
 |    9  |      10          |
@@ -36,7 +36,7 @@ Cuando el total del pedido es de valor <monto> mayor o igual que <montoVentaMín
 Entonces el sistema confirmará el pedido
 Y permitirá ingresar un nuevo pedido.
 
-Ejemplo:
+Ejemplos:
 | monto | montoVentaMínima | 
 | 100   |      100         |
 | 120   |       10         |

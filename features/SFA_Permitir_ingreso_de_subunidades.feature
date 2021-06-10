@@ -27,7 +27,7 @@ Esquema del escenario N°1: Se admite el ingreso de subunidades por cliente/prod
     Entonces el sistema <habilitaSubunidades> el ingreso de subunidades
 
 
-Ejemplo:
+Ejemplos:
 |esVentaSubunidadesRuta|esVentaSubunidades| habilitaSubunidades |
 |      true 		   |      true		  |     Habilitará      |  
 |      true            |	  false		  |    No habilitará    |
@@ -40,7 +40,7 @@ Escenario: N°2 – Validar Subunidades con la presentación
 	Cuando se ingresan <subunidades> 
 	Entonces el sistema <acción> 
 
-Ejemplo:
+Ejemplos:
 |presentación |subunidades| acción                                                                				| 
 |    12       |   11      |  permitirá el ingreso del producto en el pedido                       				|
 |    12	      |	   5      |  permitirá el ingreso del producto en el pedido                       				|

@@ -18,7 +18,7 @@ Esquema del escenario: N°2 Mostrar SKUs que estén incluidos en el portafolio d
     Y que pertenezcan al portafolio del cliente
     Y cuyo precio cumpla <fechaVigenciaInicial> <= <fechaEntrega> <= <fechaVigenciaFinal> 
 
-Ejemplo:
+Ejemplos:
 | fechaVigenciaInicial | fechaEntrega | fechaVigenciaFinal |
 |       01/06/2021     |  04/06/2021  |    30/06/2021      | ok
 |       01/06/2021     |  04/06/2021  |    02/06/2021      | no se muestra

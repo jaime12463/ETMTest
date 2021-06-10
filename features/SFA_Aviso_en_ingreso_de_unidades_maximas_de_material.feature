@@ -24,7 +24,7 @@ Esquema del escenario N°1 – La cantidad es mayor a la permitida
 	Cuando se ingresa <cantidad>
 	Entonces el sistema mostrará el mensaje “La cantidad es mayor a 100 ¿Desea continuar?” (Si/No)
 
-Ejemplo:
+Ejemplos:
 |cantidad|
 |   101  |
 |   110  |
@@ -34,7 +34,7 @@ Esquema del escenario N°2 – La cantidad es menor o igual a la permitida
 	Cuando se ingresa <cantidad>
 	Entonces el sistema continuará con el ingreso del pedido.
 
-Ejemplo:
+Ejemplos:
 |cantidad|
 |   99   |
 |   100  |

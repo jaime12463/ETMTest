@@ -3,7 +3,6 @@
 # Si vendo 2 caja y 3 botellas el precio es 
 # 2 * precioConImpuestoUnidad + 3 *  precioConImpuestoSubunidad
 
-
 Característica: Ver totales del pedido 
 	Como prevendedor
 	Quiero ver el total de unidades
@@ -19,6 +18,6 @@ Esquema del escenario: N°1 - Calcular precio de productos
     Entonces el sistema calculará el monto total <unidadesIngresadas> * <precioConImpuestoUnidad> + <subunidadesIngresadas> * <precioConImpuestoSubunidad>
     Y mostrará $<resultado>
 
-Ejemplo:
+Ejemplos:
 |<unidadesIngresadas>|<subunidadesIngresadas>|<precioConImpuestoUnidad>|<precioConImpuestoSubunidad>|<resultado>|
 |         2          |           3           |            100          |          10                |     230   |

@@ -21,7 +21,7 @@ Esquema del escenario N°1: Visita a cliente en frecuencia
 	Cuando ingreso un cliente que tiene una visita programada para la fecha actual 
 	Entonces el sistema habilita el ingreso del pedido
 
-Ejemplo:
+Ejemplos:
 |esFrecuenciaAbierta| 
 |       true        |
 |       false       |
@@ -32,7 +32,7 @@ Esquema del escenario N°2: Visita a cliente fuera de frecuencia
 	Cuando ingreso un cliente que no tiene una visita programada para la fecha actual 
 	Entonces el sistema realiza <Acción>
 
-Ejemplo:
+Ejemplos:
 | esFrecuenciaAbierta | Acción                                                                     |                                                                                                 
 |        true         | Habilita el ingreso del pedido                                             |
 |        false        | Muestra mensaje “El cliente está fuera de frecuencia” y no habilita pedido |
