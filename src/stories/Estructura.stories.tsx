@@ -5,7 +5,7 @@ import Estructura, {Props} from '../components/Estructura';
 export default {
 	title: 'Componentes/Estructura',
 	component: Estructura,
-} as Meta;
+} ;
 
 const Template: Story<Props> = (args) => <Estructura {...args} />;
 

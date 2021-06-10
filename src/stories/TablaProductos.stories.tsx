@@ -5,7 +5,7 @@ import TablaProductos, { Props } from '../components/TablaProductos';
 export default {
 	title: 'Componentes/TablaProductos',
 	component: TablaProductos,
-} as Meta;
+};
 
 const Template: Story<Props> = (args) => <TablaProductos {...args} />;
 

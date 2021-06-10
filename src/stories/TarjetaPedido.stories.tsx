@@ -8,13 +8,13 @@ export default {
 	title: 'Componentes/TarjetaPedido',
 	component: TarjetaPedido,
 	decorators: [
-		(Story) => (
+		(Story: any) => (
 			<MemoryRouter>
 				<Story />
 			</MemoryRouter>
 		),
 	], //Wrapping the story inside the router
-} as Meta;
+};
 
 const Template: Story<Props> = (args) => <TarjetaPedido {...args} />;
 

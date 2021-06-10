@@ -6,7 +6,7 @@ import InputTexto, {Props} from '../components/InputTexto';
 export default {
 	title: 'Componentes/InputTexto',
 	component: InputTexto,
-} as Meta;
+};
 
 const Template: Story<Props> = (args) => <InputTexto {...args} />;
 
