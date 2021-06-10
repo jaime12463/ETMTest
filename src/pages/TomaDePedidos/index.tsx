@@ -17,7 +17,7 @@ import {
   selectPedidoActual,
 } from "redux/features/pedidoActual/pedidoActualSlice";
 import {
-  obtenerDatosAsync,
+  obtenerDatosClientesProductosAsync,
   selectDatos,
 } from "redux/features/datos/datosSlice";
 import {
@@ -38,6 +38,9 @@ import {
 import {
   agregarPedidoCliente
 } from "redux/features/pedidosClientes/pedidosClientesSlice";
+import {
+  obtenerDatosConfiguracionAsync,
+} from "redux/features/configuracion/configuracionSlice";
 import {
   useTranslation
 } from "react-i18next";
@@ -67,7 +70,8 @@ export default function TomaDePedidos() {
   const estilos = usarEstilos();
 
   useEffect(() => {
-    dispatch(obtenerDatosAsync());
+    dispatch(obtenerDatosClientesProductosAsync());
+    dispatch(obtenerDatosConfiguracionAsync());
   }, [dispatch]);
 
   const cambiarCodigoCliente = useCallback(
@@ -77,18 +81,15 @@ export default function TomaDePedidos() {
   );
 
   const buscarClienteEnDatos = useCallback(
-    (codigoCliente: string): TCliente | undefined => datos.clientes.find(
-      (clienteDatos) => clienteDatos.codigoCliente === codigoCliente
-    ), [datos]
+    (codigoCliente: string): TCliente | undefined =>  datos.clientes[codigoCliente]
+    , [datos]
   );
 
   const obtenerPreciosProductosDelCliente = useCallback(
     (clienteEncontrado: TCliente): TPreciosProductos => {
       const preciosProductosDelCliente: TPreciosProductos = [];
       clienteEncontrado.portafolio.forEach((productoPortafolio) => {
-        const productoEncontrado = datos.productos.find(
-          (producto) => producto.codigoProducto === productoPortafolio.codigoProducto
-        );
+        const productoEncontrado = datos.productos[productoPortafolio.codigoProducto];
         if (productoEncontrado) {
           preciosProductosDelCliente.push(
             {
