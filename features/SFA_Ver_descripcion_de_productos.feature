@@ -13,5 +13,5 @@ Escenario: N°1 - Ver la descripción del producto en la lista
 @Test_dispositivo_2
 Escenario: N°2 - Ver la descripción del producto en el detalle
 	Dado que se ingresó un producto al pedido
-	Cuando se ve el detalle del pedido
+	Cuando se selecciona ver el detalle del pedido
 	Entonces el sistema mostrará la descripción de los productos
