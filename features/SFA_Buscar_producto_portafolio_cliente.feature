@@ -1,4 +1,4 @@
-@Buscar producto del portafolio del cliente @Sprint1
+@Buscar_producto_del_portafolio_del_cliente @Sprint1
 Característica:Buscar producto del portafolio del cliente
     Como prevendedor
     Quiero buscar, por código, un producto dentro del portafolio del cliente
