@@ -1,4 +1,4 @@
-@Aviso en ingreso de unidades maximas de material @Sprint3
+@Aviso_en_ingreso_de_unidades_maximas_de_material @Sprint3
 
 # Si hay definida una cantidad máxima de unidades para el cliente 
 # y al ingresar las unidades excede dicha cantidad máxima, 
