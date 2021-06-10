@@ -1,4 +1,4 @@
-@Ingresar producto al pedido @Sprint1
+@Ingresar_producto_al_pedido @Sprint1
 Característica: Ingresar producto al pedido
     Como prevendedor 
     Quiero poder seleccionar un material del portafolio del cliente e informar la cantidad de unidades
