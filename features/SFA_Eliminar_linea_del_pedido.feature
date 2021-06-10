@@ -1,4 +1,4 @@
-@Eliminar línea del pedido @Sprint3
+@Eliminar_línea_del_pedido @Sprint3
 Característica: Eliminar línea del pedido
 	Como prevendedor
 	Quiero eliminar un producto del pedido
