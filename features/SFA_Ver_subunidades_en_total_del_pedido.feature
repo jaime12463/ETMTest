@@ -1,4 +1,4 @@
-@Ver subunidades en el total del pedido @AddDelSprint1 @Sprint3
+@Ver_subunidades_en_el_total_del_pedido @AddDelSprint1 @Sprint3
 
 # Si vendo 2 caja y 3 botellas el precio es 
 # 2 * precioConImpuestoUnidad + 3 *  precioConImpuestoSubunidad
