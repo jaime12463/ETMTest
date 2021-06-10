@@ -16,15 +16,17 @@ export type Props = {
 
 type TTotal = {
   totalUnidades: number;
+  totalSubUnidades: number;
   totalPrecio: number;
 };
 
-const TotalInicial: TTotal = { totalUnidades: 0, totalPrecio: 0 };
+const TotalInicial: TTotal = { totalUnidades: 0, totalPrecio: 0,totalSubUnidades: 0 };
 const reducerSumarProductos = (
   total: TTotal,
   productoPedido: TProductoPedido
 ): TTotal => ({
   totalUnidades: total.totalUnidades + productoPedido.unidades,
+  totalSubUnidades: total.totalSubUnidades + productoPedido.subUnidades,
   totalPrecio: total.totalPrecio + productoPedido.precio,
 });
 
@@ -53,6 +55,21 @@ const TarjetaPedido = ({ pedido }: Props) => {
               gutterBottom
             >
               {totales.totalUnidades}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography component="b" display="block" gutterBottom>
+              {t("general.totalSubUnidades")}:
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography
+              data-cy="cantidad-productos-pedido"
+              component="b"
+              display="block"
+              gutterBottom
+            >
+              {totales.totalSubUnidades}
             </Typography>
           </Grid>
           <Grid item xs={6}>

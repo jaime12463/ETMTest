@@ -9,15 +9,13 @@ import {
   TableRow,
 } from "@material-ui/core";
 import { useAppSelector } from "redux/hooks";
-import { selectPedidosClientes } from "redux/features/pedidosClientes/pedidosClientesSlice";
-import { selectClienteActual } from "redux/features/clienteActual/clienteActualSlice";
+import { selectPedidoActual } from "redux/features/pedidoActual/pedidoActualSlice";
 import usarEstilos from "./usarEstilos";
 
 const DetallePedido: React.FC = () => {
   const estilos = usarEstilos();
   const { t } = useTranslation();
-  const productosPedido = useAppSelector(selectPedidosClientes);
-  const { codigoCliente } = useAppSelector(selectClienteActual);
+  const { productosPedido } = useAppSelector(selectPedidoActual);
   return (
     <TableContainer className={estilos.container}>
       <Table stickyHeader aria-label="a dense table" size="small">
@@ -31,7 +29,7 @@ const DetallePedido: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {productosPedido[codigoCliente]?.map((product) => (
+          {productosPedido.map((product) => (
             <TableRow key={product.codigoProducto}>
               <TableCell className={estilos.alignment}>
                 {product.codigoProducto.substring(18, -1)}

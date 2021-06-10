@@ -7,12 +7,12 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
-import { TPrecio, TProductoPedido } from "models";
+import { TProductoPedido ,TPreciosProductos} from "models";
 import usarEstilos from "./usarEstilos";
 
 export type Props = {
   titulos: string[];
-  productos: TPrecio[];
+  productos: TPreciosProductos;
   onClick: (producto: TProductoPedido) => void;
 };
 
@@ -35,21 +35,22 @@ const TablaProductos = ({ titulos, productos, onClick }: Props) => {
           {productos.map((producto) => (
             <TableRow
               hover
-              key={producto.codigoproducto}
+              key={producto.codigoProducto}
               onClick={() =>
                 onClick({
-                  codigoProducto: `${producto.codigoproducto} ${producto.nombre}`,
+                  codigoProducto: `${producto.codigoProducto} ${producto.nombre}`,
                   unidades: 0,
-                  precio: parseInt(producto.precioConImpuesto, 10),
+                  subUnidades: 0,
+                  precio: parseInt(producto.precios[0].precioConImpuesto, 10),
                 })
               }
-              data-cy={producto.codigoproducto}
+              data-cy={producto.codigoProducto}
             >
               <TableCell className={estilos.alignment}>
-                {producto.codigoproducto} {producto.nombre.substring(12, -1)}
+                {producto.codigoProducto} {producto.nombre.substring(12, -1)}
               </TableCell>
               <TableCell className={estilos.alignment}>
-                $ {producto.precioConImpuesto}
+                $ {producto.precios[0].precioConImpuesto}
               </TableCell>
             </TableRow>
           ))}

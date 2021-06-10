@@ -1,6 +1,6 @@
 import React from 'react';
-import {Story, Meta} from '@storybook/react';
-import TablaProductos, {Props} from '../components/TablaProductos';
+import { Story, Meta } from '@storybook/react';
+import TablaProductos, { Props } from '../components/TablaProductos';
 
 export default {
 	title: 'Componentes/TablaProductos',
@@ -14,11 +14,17 @@ Primero.args = {
 	titulos: ['Producto', 'Precio'],
 	productos: [
 		{
-			codigoproducto: '1860',
-			precioConImpuesto: '106.0',
+
+			codigoProducto: '1860',
 			nombre: 'COCA COLA',
-			iniVig: '0',
-			finVig: '0',
+			presentacion: 12,
+			precios: [
+				{
+					precioConImpuesto: "100",
+					vigenciaInicioPrecio: "4-3-2",
+					vigenciaFinPrecio: "4-3-2",
+				}
+			],
 		},
 	],
 };

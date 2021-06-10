@@ -1,90 +1,146 @@
 {
-  "datos": [
-    {
-      "codigoCliente": "120104325",
-      "fechas": [
-        {
-          "fecha": "2021-06-01",
-          "secuencia": 18,
-          "fechaDeEntrega": "2021-06-02"
-        },
-        {
-          "fecha": "2021-06-08",
-          "secuencia": 18,
-          "fechaDeEntrega": "2021-06-09"
-        }
-      ],
-      "detalles": [
-        {
-          "nombreComercial": "CREM LA MORENITA"
-        }
-      ],
-      "precios": [
-        {
-          "codigoproducto": "1860",
-          "nombre": "YOLI LIMON BOT 600L NR 12PK",
-          "precioConImpuesto": "106.00",
-          "iniVig": "20170907",
-          "finVig": "20210602"
-        },
-        {
-          "codigoproducto": "4567",
-          "nombre": "Sprite Zero 700cc",
-          "precioConImpuesto": "106.00",
-          "iniVig": "20170907",
-          "finVig": "99991231"
-        },
-        {
-          "codigoproducto": "8723",
-          "nombre": "COCA COLA 250 CC",
-          "precioConImpuesto": "106.00",
-          "iniVig": "20170907",
-          "finVig": "99991231"
-        }
-      ]
-    },
-    {
-      "codigoCliente": "234",
-      "fechas": [
-        {
-          "fecha": "2021-06-01",
-          "secuencia": 18,
-          "fechaDeEntrega": "2021-06-02"
-        },
-        {
-          "fecha": "2021-06-08",
-          "secuencia": 18,
-          "fechaDeEntrega": "2021-06-09"
-        }
-      ],
-      "detalles": [
-        {
-          "nombreComercial": "CREM LA MORENITA"
-        }
-      ],
-      "precios": [
-        {
-          "codigoproducto": "543",
-          "nombre": "YOLI LIMON BOT 600L NR 12PK",
-          "precioConImpuesto": "106.00",
-          "iniVig": "20170907",
-          "finVig": "99991231"
-        },
-        {
-          "codigoproducto": "2000",
-          "nombre": "Sprite Zero 700cc",
-          "precioConImpuesto": "106.00",
-          "iniVig": "20170907",
-          "finVig": "99991231"
-        },
-        {
-          "codigoproducto": "1000",
-          "nombre": "COCA COLA 250 CC",
-          "precioConImpuesto": "106.00",
-          "iniVig": "20170907",
-          "finVig": "99991231"
-        }
-      ]
-    }
-  ]
+	"datos": {
+		"clientes": [
+			{
+				"codigoCliente": "120104325",
+				"detalles": [
+					{
+						"nombreComercial": "CREM LA MORENITA"
+					}
+				],
+				"visitasPlanificadas": [
+					{
+						"dia": "2021-06-08",
+						"secuencia": "3"
+					},
+					{
+						"dia": "2021-06-11",
+						"secuencia": "5"
+					}
+				],
+				"fechasEntrega": [
+					{
+						"fechaVisita": "2021-06-09",
+						"fechaEntrega": "2021-06-10"
+					},
+					{
+						"fechaVisita": "2021-06-10",
+						"fechaEntrega": "2021-06-11"
+					},
+					{
+						"fechaVisita": "2021-06-11",
+						"fechaEntrega": "2021-06-12"
+					}
+				],
+				"configuracionPedido": [
+					{
+						"montoVentaMinima": "1000",
+						"UnidadesMaximasVenta": "999"
+					}
+				],
+				"portafolio": [
+					{
+						"codigoProducto": "1860",
+						"esVentaBotellas": "true",
+						"precios": [
+							{
+								"precioConImpuesto": "106.00",
+								"vigenciaInicioPrecio": "2017-09-07",
+								"vigenciaFinPrecio": "2017-09-31"
+							},
+							{
+								"precioConImpuesto": "105.00",
+								"vigenciaInicioPrecio": "2017-10-01",
+								"vigenciaFinPrecio": "9999-12-31"
+							}
+						]
+					}
+				]
+			},
+			{
+				"codigoCliente": "234",
+				"detalles": [
+					{
+						"nombreComercial": "CREM LA MORENITA 2.0"
+					}
+				],
+				"visitasPlanificadas": [
+					{
+						"dia": "2021-06-08",
+						"secuencia": "3"
+					},
+					{
+						"dia": "2021-06-11",
+						"secuencia": "5"
+					}
+				],
+				"fechasEntrega": [
+					{
+						"fechaVisita": "2021-06-09",
+						"fechaEntrega": "2021-06-10"
+					},
+					{
+						"fechaVisita": "2021-06-10",
+						"fechaEntrega": "2021-06-11"
+					},
+					{
+						"fechaVisita": "2021-06-11",
+						"fechaEntrega": "2021-06-12"
+					}
+				],
+				"configuracionPedido": [
+					{
+						"montoVentaMinima": "1000",
+						"UnidadesMaximasVenta": "999"
+					}
+				],
+				"portafolio": [
+					{
+						"codigoProducto": "1860",
+						"esVentaBotellas": "true",
+						"precios": [
+							{
+								"precioConImpuesto": "106.00",
+								"vigenciaInicioPrecio": "2017-09-07",
+								"vigenciaFinPrecio": "2017-09-31"
+							},
+							{
+								"precioConImpuesto": "105.00",
+								"vigenciaInicioPrecio": "2017-10-01",
+								"vigenciaFinPrecio": "9999-12-31"
+							}
+						]
+					},
+					{
+						"codigoProducto": "1885",
+						"esVentaBotellas": "false",
+						"precios": [
+							{
+								"precioConImpuesto": "106.00",
+								"vigenciaInicioPrecio": "2017-09-07",
+								"vigenciaFinPrecio": "2017-09-31"
+							},
+							{
+								"precioConImpuesto": "105.00",
+								"vigenciaInicioPrecio": "2017-10-01",
+								"vigenciaFinPrecio": "9999-12-31"
+							}
+						]
+					}
+				]
+			}
+		],
+		"productos": [
+			{
+				"codigoProducto": "1860",
+				"nombre": "SPRITE 600L NR 12PK",
+				"presentación": "12"
+			},
+			{
+				"codigoProducto": "1885",
+				"nombre": "COCACOLA 900 NR 12PK",
+				"presentación": "12"
+			}
+		]
+	}
 }

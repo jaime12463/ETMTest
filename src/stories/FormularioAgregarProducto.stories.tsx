@@ -15,5 +15,5 @@ const Template: Story<Props> = (args) => (
 
 export const Primero = Template.bind({});
 Primero.args = {
-	productoActual: {codigoProducto: 'test', unidades: 1, precio: 100},
+	productoActual: {codigoProducto: 'test', unidades: 1, subUnidades: 1, precio: 100},
 };

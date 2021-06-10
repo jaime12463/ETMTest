@@ -9,174 +9,240 @@ import {
   TarjetaPedido,
 } from "components";
 import { useTranslation } from "react-i18next";
-import { TCliente, TFecha, TPrecio, TProductoPedido } from "models";
+import { TCliente, TPreciosProductos, TProductoPedido } from "models";
 import { useAppSelector, useAppDispatch } from "redux/hooks";
 import {
-  agregarPedidoCliente,
-  borrarPedidoCliente,
-  selectPedidosClientes,
-} from "redux/features/pedidosClientes/pedidosClientesSlice";
+  cambiarClienteActual,
+  agregarProductoAlPedidoDelCliente,
+  borrarProductoDelPedidoDelCliente,
+  selectPedidoActual,
+} from "redux/features/pedidoActual/pedidoActualSlice";
 import {
-  selectClienteActual,
-  establecerClienteActual,
-} from "redux/features/clienteActual/clienteActualSlice";
-import {
-  obtenerClientesAsync,
-  selectCliente,
-} from "redux/features/clientes/clientesSlice";
-import { transformDate, darFormatoFecha } from "utils/methods";
+  obtenerDatosAsync,
+  selectDatos,
+} from "redux/features/datos/datosSlice";
+// import { transformDate, darFormatoFecha } from "utils/methods";
 import usarEstilos from "./usarEstilos";
 
 export default function TomaDePedidos() {
-  const [fechas, setFechas] = useState<TFecha[]>([]);
-  const [razonSocial, setRazonSocial] = useState<string>("");
-  const [precios, setPrecios] = useState<TPrecio[]>([]);
+  const [preciosProductos, setPreciosProductos] = useState<TPreciosProductos>([]);
   const [existeCliente, setExisteCliente] = useState<boolean | null>(null);
-  const [focusProduct, setFocusProduct] = useState<TProductoPedido>({
+  const [codigoCliente, setcodigoCliente] = useState<string>("")
+
+  // const [fechas, setFechas] = useState<TFecha[]>([]);
+  const [razonSocial, setRazonSocial] = useState<string>("");
+  const [productoActual, setProductoActual] = useState<TProductoPedido>({
     codigoProducto: "",
     unidades: 0,
+    subUnidades: 0,
     precio: 0,
   });
   const dispatch = useAppDispatch();
-  const productosPedido = useAppSelector(selectPedidosClientes);
-  const { codigoCliente } = useAppSelector(selectClienteActual);
-  const { clientes } = useAppSelector(selectCliente);
-
+  // const productosPedido = useAppSelector(selectPedidosClientes);
+  const pedidoActual = useAppSelector(selectPedidoActual);
   const { t } = useTranslation();
   const estilos = usarEstilos();
+  const { datos } = useAppSelector(selectDatos);
 
   useEffect(() => {
-    dispatch(obtenerClientesAsync());
+    dispatch(obtenerDatosAsync());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (precios.length > 0) setExisteCliente(true);
-  }, [precios]);
+  // useEffect(() => {
+  //   if (precios.length > 0) setExisteCliente(true);
+  // }, [precios]);
 
-  const handleChangeCliente = useCallback(
+  const cambiarCodigoCliente = useCallback(
     ({ currentTarget }: React.FormEvent<HTMLInputElement>) => {
-      dispatch(establecerClienteActual({ codigoCliente: currentTarget.value }));
-      setPrecios([]);
-      setExisteCliente(null);
-      setFocusProduct({ codigoProducto: "", unidades: 0, precio: 0 });
+      setcodigoCliente(currentTarget.value);
+      // dispatch(establecerClienteActual({ codigoCliente: currentTarget.value }));
+      // setPrecios([]);
+      // setExisteCliente(null);
+      // setproductoActual({ codigoProducto: "", unidades: 0, precio: 0 });
     },
-    [dispatch]
+    []
   );
 
-  const handleSearchProducts = useCallback(
+  const buscarClienteEnDatos = useCallback(
+    (codigoCliente: string): TCliente | undefined => datos.clientes.find(
+      (clienteDatos) => clienteDatos.codigoCliente === codigoCliente
+    ),
+    [datos]
+  );
+
+  const obtenerPreciosProductosDelCliente = useCallback(
+    (clienteEncontrado: TCliente): TPreciosProductos => {
+      const preciosProductosDelCliente: TPreciosProductos = [];
+      clienteEncontrado.portafolio.forEach((productoPortafolio) => {
+        const productoEncontrado = datos.productos.find(
+          (producto) => producto.codigoProducto === productoPortafolio.codigoProducto
+        );
+        if (productoEncontrado) {
+          preciosProductosDelCliente.push(
+            {
+              ...productoPortafolio,
+              nombre: productoEncontrado.nombre,
+              presentacion: productoEncontrado.presentacion
+            }
+          );
+        }
+      });
+      return preciosProductosDelCliente;
+    },
+    [datos]
+  );
+
+  const asignarPedidoActual = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      let nuevosPrecios: [] | TPrecio[] = [];
-      let nuevasFechas: [] | TFecha[] = [];
-      const clienteEncontrado: TCliente | undefined = clientes.find(
-        (clienteDB) => clienteDB.codigoCliente === codigoCliente
-      );
+      const clienteEncontrado: TCliente | undefined = buscarClienteEnDatos(codigoCliente);
+      console.log(clienteEncontrado, "Cliente Encontrado")
       if (clienteEncontrado) {
-        nuevasFechas = clienteEncontrado.fechas;
-        nuevosPrecios = clienteEncontrado.precios.filter(
-          (producto) =>
-            new Date(transformDate(producto.iniVig)) <=
-              new Date(nuevasFechas[0].fechaDeEntrega) &&
-            new Date(transformDate(producto.finVig)) >=
-              new Date(nuevasFechas[0].fechaDeEntrega)
-        );
         setExisteCliente(true);
-        setRazonSocial(clienteEncontrado.detalles[0].nombreComercial); //Que index deberia ser?
+        console.log(codigoCliente, "Codigo Cliente")
+        dispatch(cambiarClienteActual({ codigoCliente: codigoCliente }));
+        const preciosProductosDelCliente: TPreciosProductos = obtenerPreciosProductosDelCliente(clienteEncontrado);
+        console.log(preciosProductosDelCliente, "Precios Productos")
+        setRazonSocial("Prueba");
+        setPreciosProductos(preciosProductosDelCliente);
       } else {
         setExisteCliente(false);
+        dispatch(cambiarClienteActual({ codigoCliente: "" }));
         setRazonSocial("");
+        setPreciosProductos([]);
       }
-      setPrecios(nuevosPrecios);
-      setFechas(nuevasFechas);
+      // let nuevosPrecios: [] | TPrecio[] = [];
+      // let nuevasFechas: [] | TFecha[] = [];
+
+      // if (clienteEncontrado) {
+      //   nuevasFechas = clienteEncontrado.fechas;
+      //   nuevosPrecios = clienteEncontrado.precios.filter(
+      //     (producto) =>
+      //       new Date(transformDate(producto.iniVig)) <=
+      //         new Date(nuevasFechas[0].fechaDeEntrega) &&
+      //       new Date(transformDate(producto.finVig)) >=
+      //         new Date(nuevasFechas[0].fechaDeEntrega)
+      //   );
+      //   setExisteCliente(true);
+      //   setRazonSocial(clienteEncontrado.detalles[0].nombreComercial); //Que index deberia ser?
+      // } else {
+      //   setExisteCliente(false);
+      //   setRazonSocial("");
+      // }
+      // setPrecios(nuevosPrecios);
+      // setFechas(nuevasFechas);
     },
-    [clientes, codigoCliente]
+    [datos, codigoCliente]
   );
 
-  const handleFindOneProduct = useCallback(
+  const buscarPreciosProductos = useCallback(
     ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
-      let nuevosPrecios: [] | TPrecio[] = [];
-      const clienteEncontrado: TCliente | undefined = clientes.find(
-        (clienteDB) => clienteDB.codigoCliente === codigoCliente
+
+      console.log(preciosProductos)
+
+      const preciosProductosFiltrados = preciosProductos.filter((precioProducto) =>
+      (precioProducto.codigoProducto.includes(value) ||
+        precioProducto.nombre.toLowerCase().includes(value.toLowerCase()))
       );
-      if (clienteEncontrado && value === "")
-        nuevosPrecios = clienteEncontrado.precios.filter(
-          (producto) =>
-            new Date(transformDate(producto.iniVig)) <=
-              new Date(fechas[0].fechaDeEntrega) &&
-            new Date(transformDate(producto.finVig)) >=
-              new Date(fechas[0].fechaDeEntrega)
-        );
-      if (clienteEncontrado && value !== "") {
-        nuevosPrecios = clienteEncontrado.precios.filter(
-          (producto) =>
-            (producto.codigoproducto.includes(value) ||
-              producto.nombre.toLowerCase().includes(value.toLowerCase())) &&
-            new Date(transformDate(producto.iniVig)) <=
-              new Date(fechas[0].fechaDeEntrega) &&
-            new Date(transformDate(producto.finVig)) >=
-              new Date(fechas[0].fechaDeEntrega)
-        );
-      }
-      setPrecios(nuevosPrecios);
+
+      console.log(preciosProductosFiltrados)
+
+      if (value === "") {
+        const clienteEncontrado: TCliente | undefined = buscarClienteEnDatos(codigoCliente);
+        if (clienteEncontrado) {
+          const preciosProductosDelCliente: TPreciosProductos = obtenerPreciosProductosDelCliente(clienteEncontrado);
+          setPreciosProductos(preciosProductosDelCliente)
+        }
+      } else setPreciosProductos(preciosProductosFiltrados);
+
+      // let nuevosPrecios: [] | TPrecio[] = [];
+      // const clienteEncontrado: TCliente | undefined = clientes.find(
+      //   (clienteDB) => clienteDB.codigoCliente === codigoCliente
+      // );
+      // if (clienteEncontrado && value === "")
+      //   nuevosPrecios = clienteEncontrado.precios.filter(
+      //     (producto) =>
+      //       new Date(transformDate(producto.iniVig)) <=
+      //         new Date(fechas[0].fechaDeEntrega) &&
+      //       new Date(transformDate(producto.finVig)) >=
+      //         new Date(fechas[0].fechaDeEntrega)
+      //   );
+      // if (clienteEncontrado && value !== "") {
+      //   nuevosPrecios = clienteEncontrado.precios.filter(
+      //     (producto) =>
+      //       (producto.codigoproducto.includes(value) ||
+      //         producto.nombre.toLowerCase().includes(value.toLowerCase())) &&
+      //       new Date(transformDate(producto.iniVig)) <=
+      //         new Date(fechas[0].fechaDeEntrega) &&
+      //       new Date(transformDate(producto.finVig)) >=
+      //         new Date(fechas[0].fechaDeEntrega)
+      //   );
+      // }
+      // setPrecios(nuevosPrecios);
     },
-    [clientes, codigoCliente, fechas]
+    [preciosProductos]
   );
 
-  const handleFocusProduct = useCallback(
+  const asignarProductoActual = useCallback(
     ({ codigoProducto, unidades, precio }: TProductoPedido) => {
-      let nuevoFocusProducto: TProductoPedido = {
+      let nuevoProductoActual: TProductoPedido = {
         codigoProducto,
         unidades: 0,
+        subUnidades: 0,
         precio,
       };
-      const FocusProductoEncontrado = productosPedido[codigoCliente]?.find(
+      const productoActualoEncontrado = pedidoActual.productosPedido.find(
         (productoPedido) => productoPedido.codigoProducto === codigoProducto
       );
-      if (FocusProductoEncontrado)
-        nuevoFocusProducto = { ...FocusProductoEncontrado, precio };
-      setFocusProduct(nuevoFocusProducto);
+      if (productoActualoEncontrado)
+        nuevoProductoActual = { ...productoActualoEncontrado };
+      setProductoActual(nuevoProductoActual);
     },
-    [productosPedido, codigoCliente]
+    [pedidoActual]
   );
 
-  const handleIncrementValue = useCallback(
+  const incrementarUnidadesProducto = useCallback(
     ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
       const nuevasUnidades: number = value === "" ? 0 : parseInt(value, 10);
-      let nuevoFocusProducto: TProductoPedido = {
-        ...focusProduct,
+      let nuevoProductoActual: TProductoPedido = {
+        ...productoActual,
         unidades: nuevasUnidades,
       };
-      setFocusProduct(nuevoFocusProducto);
+      setProductoActual(nuevoProductoActual);
     },
-    [focusProduct]
+    [productoActual]
   );
 
-  const handleAddToPedido = useCallback(
+  const agregarProductoAlPedidoCliente = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      if (focusProduct.unidades > 0) {
+      if (productoActual.unidades > 0) {
         dispatch(
-          agregarPedidoCliente({
+          agregarProductoAlPedidoDelCliente({
             productoPedido: {
-              codigoProducto: focusProduct.codigoProducto,
-              unidades: focusProduct.unidades,
-              precio: focusProduct.precio * focusProduct.unidades,
+              codigoProducto: productoActual.codigoProducto,
+              unidades: productoActual.unidades,
+              subUnidades: productoActual.subUnidades,
+              precio: productoActual.precio * productoActual.unidades,
             },
             codigoCliente: codigoCliente,
           })
         );
       } else {
         dispatch(
-          borrarPedidoCliente({
-            codigoProducto: focusProduct.codigoProducto,
+          borrarProductoDelPedidoDelCliente({
+            codigoProducto: productoActual.codigoProducto,
             codigoCliente: codigoCliente,
           })
         );
       }
-      setFocusProduct({ codigoProducto: "", unidades: 0, precio: 0 });
+      setProductoActual({ codigoProducto: "", unidades: 0, subUnidades: 0, precio: 0 });
     },
-    [focusProduct, dispatch, codigoCliente]
+    [productoActual, dispatch, codigoCliente]
   );
+
+  console.log( productoActual, "producto actual")
+
   return (
     <Fragment>
       <CssBaseline />
@@ -184,13 +250,13 @@ export default function TomaDePedidos() {
         <form
           className={estilos.form}
           noValidate
-          onSubmit={handleSearchProducts}
+          onSubmit={asignarPedidoActual}
         >
           <Grid container spacing={2}>
             <Grid item xs={6} sm={6}>
               <InputTexto
                 label={t("general.cliente")}
-                onChange={handleChangeCliente}
+                onChange={cambiarCodigoCliente}
                 value={codigoCliente}
                 inputDataCY="codigo-cliente"
               />
@@ -219,18 +285,18 @@ export default function TomaDePedidos() {
               <Grid item xs={12} sm={12}>
                 <InputLabel className={estilos.colorTextLabel}>
                   Fecha de entrega:{" "}
-                  {darFormatoFecha(
+                  {/* {darFormatoFecha(
                     new Date(fechas[0].fechaDeEntrega)
                       .toISOString()
                       .split("T")[0]
-                  )}
+                  )} */}
                 </InputLabel>
               </Grid>
               <Grid item xs={12} sm={12}>
                 <InputTexto
                   label={t("general.buscar")}
-                  onChange={handleFindOneProduct}
-                  autoFocus={precios && !focusProduct.codigoProducto}
+                  onChange={buscarPreciosProductos}
+                  autoFocus={preciosProductos && !productoActual.codigoProducto}
                   inputDataCY="codigo-producto"
                 />
               </Grid>
@@ -238,19 +304,19 @@ export default function TomaDePedidos() {
           </div>
 
           <FormularioAgregarProducto
-            agregarProductoAlPedidoCliente={handleAddToPedido}
-            productoActual={focusProduct}
-            aumentarUnidadesAlProductoActual={handleIncrementValue}
+            agregarProductoAlPedidoCliente={agregarProductoAlPedidoCliente}
+            productoActual={productoActual}
+            aumentarUnidadesAlProductoActual={incrementarUnidadesProducto}
           />
 
           <TablaProductos
             titulos={[t("general.producto"), t("general.precio")]}
-            productos={precios}
-            onClick={handleFocusProduct}
+            productos={preciosProductos}
+            onClick={asignarProductoActual}
           />
 
-          {productosPedido[codigoCliente]?.length > 0 && (
-            <TarjetaPedido pedido={productosPedido[codigoCliente]} />
+          {pedidoActual.productosPedido.length > 0 && (
+            <TarjetaPedido pedido={pedidoActual.productosPedido} />
           )}
         </div>
       )}

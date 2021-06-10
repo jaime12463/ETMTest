@@ -3,6 +3,7 @@ const en = {
         producto: 'Product',
         unidades: 'Units',
         totalUnidades: 'Total units',
+        totalSubUnidades: 'Total SubUnits',
         total: 'Total',
         cliente: 'Customer',
         precio: 'Price',
