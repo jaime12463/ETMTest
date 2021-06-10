@@ -1,5 +1,5 @@
 # ETM-TomaPedido
-
+[![Build Status](https://dev.azure.com/HasarSistemas/ETMOmnichannel/_apis/build/status/TomaPedido?branchName=master)](https://dev.azure.com/HasarSistemas/ETMOmnichannel/_build/latest?definitionId=13&branchName=master)
 ## Resumen
 Este módulo que estamos construyendo es tan sólo uno de un conjunto coral de módulos.
 Es importante mantener las cosas simples para poder reaccionar a los cambios y evolución de un producto que nace con grandes incertidumbres.
