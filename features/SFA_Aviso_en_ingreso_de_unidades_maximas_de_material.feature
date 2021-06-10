@@ -9,7 +9,7 @@
 # Nuevo dato del cliente “cantidadMaximaUnidades” que indica la 
 # cantidad máxima de cajas que se pueden ingresar para un producto. (Opcional)
 # Esta cantidad máxima aplicará a todos los tipos de operación 
-# donde se capturen materiales.
+# donde se capturen materiales..
 
 Característica: Aviso en ingreso de unidades maximas de material
 	Como prevendedor
