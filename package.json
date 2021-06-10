@@ -40,6 +40,7 @@
     "build-storybook": "build-storybook -s public",
     "start-server": "cd data && node server.js",
     "cypress:open": "cypress open",
+    "start-cypress": "cypress run --spec cypress/integration/*",
     "dev": "concurrently \"npm:start\" \"npm:cypress:open\"",
     "dev:server": "concurrently \"npm:start-server\" \"npm:start\""
   },
