@@ -1,14 +1,14 @@
 @Clientes fuera de frecuencia @Sprint3
 
-#Si por configuración no se permite operar fuera de frecuencia (esFrecuenciaAbierta=false) 
-#y el cliente ingresado no tiene una visita programada para la fecha del dispositivo, 
-#se debe dar aviso que el cliente está fuera de frecuencia y no se debe mostrar la información del cliente.
-#Si no tiene fecha de entrega informada para la fecha en que se lo está visitando, 
-#el sistema informa, “no tiene fecha de entrega informada” y no se muestra la información del cliente
-#Requiere parámetro que indique si la frecuencia está abierta o cerrada. “esFrecuenciaAbierta”
-#Requiere las visitas planificadas para el cliente. “visitasPlanificadas”
-#Requiere las fechas de entrega calculadas. “fechasEntrega”
-#La fecha de entrega es la asociada a la fechasEntrega.fechaVisita = fecha del dispositivo 
+# Si por configuración no se permite operar fuera de frecuencia (esFrecuenciaAbierta=false) 
+# y el cliente ingresado no tiene una visita programada para la fecha del dispositivo, 
+# se debe dar aviso que el cliente está fuera de frecuencia y no se debe mostrar la información del cliente.
+# Si no tiene fecha de entrega informada para la fecha en que se lo está visitando, 
+# el sistema informa, “no tiene fecha de entrega informada” y no se muestra la información del cliente
+# Requiere parámetro que indique si la frecuencia está abierta o cerrada. “esFrecuenciaAbierta”
+# Requiere las visitas planificadas para el cliente. “visitasPlanificadas”
+# Requiere las fechas de entrega calculadas. “fechasEntrega”
+# La fecha de entrega es la asociada a la fechasEntrega.fechaVisita = fecha del dispositivo 
 
 Característica: clientes fuera de frecuencia
 	Como Prevendedor
