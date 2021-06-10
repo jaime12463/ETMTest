@@ -1,4 +1,4 @@
-@Calculo de fecha de entrega @Sprint3
+@Calculo_de_fecha_de_entrega @Sprint3
 
 # Si por configuración no se permite operar 
 # fuera de frecuencia (esFrecuenciaAbierta=false) y el cliente 
