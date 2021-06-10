@@ -1,57 +1,43 @@
 {
 	"datos": {
-		"clientes": [
-			{
-				"codigoCliente": "120104325",
-				"detalles": [
-					{
-						"nombreComercial": "CREM LA MORENITA"
-					}
-				],
+		"clientes": {
+			"120104325": {
+				"montoPedidoMínimo": "1000",
 				"visitasPlanificadas": [
 					{
-						"dia": "2021-06-08",
+						"dia": "2017-09-07",
 						"secuencia": "3"
 					},
 					{
-						"dia": "2021-06-11",
+						"dia": "2017-09-09",
 						"secuencia": "5"
 					}
 				],
 				"fechasEntrega": [
 					{
-						"fechaVisita": "2021-06-09",
-						"fechaEntrega": "2021-06-10"
+						"fechaVisita": "2017-09-06",
+						"fechaEntrega": "2017-09-07"
 					},
 					{
-						"fechaVisita": "2021-06-10",
-						"fechaEntrega": "2021-06-11"
-					},
-					{
-						"fechaVisita": "2021-06-11",
-						"fechaEntrega": "2021-06-12"
+						"fechaVisita": "2017-09-08",
+						"fechaEntrega": "2017-09-09"
 					}
 				],
-				"configuracionPedido": [
-					{
-						"montoVentaMinima": "1000",
-						"UnidadesMaximasVenta": "999"
-					}
-				],
+				"detalles": {
+					"nombreComercial": "CREM LA MORENITA"
+				},
 				"portafolio": [
 					{
 						"codigoProducto": "1860",
-						"esVentaBotellas": "true",
+						"botelleo": "1",
 						"precios": [
 							{
-								"precioConImpuestoUnidad": "106.00",
-								"precioConImpuestoSubunidad": "8.84",
+								"precioConImpuesto": "106.00",
 								"vigenciaInicioPrecio": "2017-09-07",
 								"vigenciaFinPrecio": "2017-09-31"
 							},
 							{
-								"precioConImpuestoUnidad": "105.00",
-								"precioConImpuestoSubunidad": "8.84",
+								"precioConImpuesto": "105.00",
 								"vigenciaInicioPrecio": "2017-10-01",
 								"vigenciaFinPrecio": "9999-12-31"
 							}
@@ -59,65 +45,35 @@
 					}
 				]
 			},
-			{
-				"codigoCliente": "234",
-				"detalles": [
-					{
-						"nombreComercial": "CREM LA MORENITA 2.0"
-					}
-				],
+			"234": {
+				"montoPedidoMínimo": "undefined",
 				"visitasPlanificadas": [
 					{
-						"dia": "2021-06-08",
-						"secuencia": "3"
+						"dia": "2017-09-08",
+						"secuencia": "15"
 					},
 					{
-						"dia": "2021-06-11",
+						"dia": "2017-09-10",
 						"secuencia": "5"
 					}
 				],
 				"fechasEntrega": [
 					{
-						"fechaVisita": "2021-06-09",
-						"fechaEntrega": "2021-06-10"
+						"fechaVisita": "2017-09-06",
+						"fechaEntrega": "2017-09-07"
 					},
 					{
-						"fechaVisita": "2021-06-10",
-						"fechaEntrega": "2021-06-11"
-					},
-					{
-						"fechaVisita": "2021-06-11",
-						"fechaEntrega": "2021-06-12"
+						"fechaVisita": "2017-09-08",
+						"fechaEntrega": "2017-09-09"
 					}
 				],
-				"configuracionPedido": [
-					{
-						"montoVentaMinima": "1000",
-						"UnidadesMaximasVenta": "999"
-					}
-				],
+				"detalles": {
+					"nombreComercial": "LA LUPITA"
+				},
 				"portafolio": [
 					{
 						"codigoProducto": "1860",
-						"esVentaBotellas": "true",
-						"precios": [
-							{
-								"precioConImpuestoUnidad": "106.00",
-								"precioConImpuestoSubunidad": "8.84",
-								"vigenciaInicioPrecio": "2017-09-07",
-								"vigenciaFinPrecio": "2017-09-31"
-							},
-							{
-								"precioConImpuestoUnidad": "105.00",
-								"precioConImpuestoSubunidad": "8.84",
-								"vigenciaInicioPrecio": "2017-10-01",
-								"vigenciaFinPrecio": "9999-12-31"
-							}
-						]
-					},
-					{
-						"codigoProducto": "1885",
-						"esVentaBotellas": "false",
+						"botelleo": "1",
 						"precios": [
 							{
 								"precioConImpuesto": "106.00",
@@ -133,18 +89,16 @@
 					}
 				]
 			}
-		],
-		"productos": [
-			{
-				"codigoProducto": "1860",
-				"nombre": "SPRITE 600L NR 12PK",
+		},
+		"productos": {
+			"1860": {
+				"nombre": "YOLI LIMON BOT 600L NR 12PK",
 				"presentación": "12"
 			},
-			{
-				"codigoProducto": "1885",
-				"nombre": "COCACOLA 900 NR 12PK",
+			"1885": {
+				"nombre": "YOLI LIMON BOT 900 NR 12PK",
 				"presentación": "12"
 			}
-		]
+		}
 	}
 }
