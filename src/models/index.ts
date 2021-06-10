@@ -50,14 +50,15 @@ export type TPortafolio = {
 export type TPrecios = TPrecio[];
 
 export type TPrecio = {
-    precioConImpuesto: string,
+    precioConImpuestoUnidad: number,
+    precioConImpuestoSubunidad: number,
     vigenciaInicioPrecio: string,
     vigenciaFinPrecio: string,
 };
 
-// export type TPedidosClientes = {
-//     [codigoCliente: string]: TProductoPedido[];
-// }
+export type TPedidosClientes = {
+    [codigoCliente: string]: TProductosPedidos;
+}
 
 export type TPedidoCliente = {
     codigoCliente: string,
@@ -68,7 +69,15 @@ export type TProductoPedido = {
     codigoProducto: string,
     unidades: number,
     subUnidades: number,
-    precio: number,
+    total: number,
+};
+
+export type TProductoPedidoConPrecios = {
+    codigoProducto: string,
+    unidades: number,
+    subUnidades: number,
+    precioConImpuestoUnidad: number,
+    precioConImpuestoSubunidad: number,
 };
 
 export type TProductosPedidos = TProductoPedido[];

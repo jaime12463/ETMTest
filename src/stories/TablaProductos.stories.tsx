@@ -12,15 +12,15 @@ const Template: Story<Props> = (args) => <TablaProductos {...args} />;
 export const Primero = Template.bind({});
 Primero.args = {
 	titulos: ['Producto', 'Precio'],
-	productos: [
+	preciosProductos: [
 		{
-
 			codigoProducto: '1860',
 			nombre: 'COCA COLA',
 			presentacion: 12,
 			precios: [
 				{
-					precioConImpuesto: "100",
+					precioConImpuestoUnidad: 100,
+					precioConImpuestoSubunidad: 10,
 					vigenciaInicioPrecio: "4-3-2",
 					vigenciaFinPrecio: "4-3-2",
 				}

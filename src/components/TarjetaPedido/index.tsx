@@ -20,14 +20,14 @@ type TTotal = {
   totalPrecio: number;
 };
 
-const TotalInicial: TTotal = { totalUnidades: 0, totalPrecio: 0,totalSubUnidades: 0 };
+const TotalInicial: TTotal = { totalUnidades: 0, totalPrecio: 0, totalSubUnidades: 0 };
 const reducerSumarProductos = (
   total: TTotal,
   productoPedido: TProductoPedido
 ): TTotal => ({
   totalUnidades: total.totalUnidades + productoPedido.unidades,
   totalSubUnidades: total.totalSubUnidades + productoPedido.subUnidades,
-  totalPrecio: total.totalPrecio + productoPedido.precio,
+  totalPrecio: total.totalPrecio + productoPedido.total,
 });
 
 const TarjetaPedido = ({ pedido }: Props) => {

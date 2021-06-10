@@ -2,19 +2,21 @@ import React from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
 import InputTexto from "components/InputTexto";
 import { useTranslation } from "react-i18next";
-import { TProductoPedido } from "models";
+import { TProductoPedidoConPrecios } from "models";
 import usarEstilos from "./usarEstilos";
 
 export type Props = {
   agregarProductoAlPedidoCliente: React.FormEventHandler<HTMLFormElement>;
-  productoActual: TProductoPedido;
   aumentarUnidadesAlProductoActual: React.ChangeEventHandler<HTMLInputElement>;
+  aumentarSubUnidadesAlProductoActual: React.ChangeEventHandler<HTMLInputElement>;
+  productoActual: TProductoPedidoConPrecios;
 };
 
 const FormularioAgregarProducto = ({
   agregarProductoAlPedidoCliente,
-  productoActual,
   aumentarUnidadesAlProductoActual,
+  aumentarSubUnidadesAlProductoActual,
+  productoActual,
 }: Props) => {
   const estilos = usarEstilos();
   const { t } = useTranslation();
@@ -34,7 +36,7 @@ const FormularioAgregarProducto = ({
               disabled
             />
           </Grid>
-          <Grid item xs={6} sm={6}>
+          <Grid item xs={3} sm={3}>
             <TextField
               name="unidades"
               size="small"
@@ -50,10 +52,32 @@ const FormularioAgregarProducto = ({
                 productoActual.unidades === 0 &&
                 productoActual.codigoProducto === ""
               }
-              inputRef={(input) => {
-                if (input != null) input.focus();
-              }}
+              // inputRef={(input) => {
+              //   if (input != null) input.focus();
+              // }}
               inputProps={{ "data-cy": "cantidad-producto" }}
+            />
+          </Grid>
+          <Grid item xs={3} sm={3}>
+            <TextField
+              name="subUnidades"
+              size="small"
+              variant="outlined"
+              fullWidth
+              label={t("general.subUnidades")}
+              type="number"
+              value={
+                productoActual.subUnidades === 0 ? "" : productoActual.subUnidades
+              }
+              onChange={aumentarSubUnidadesAlProductoActual}
+              disabled={
+                productoActual.subUnidades === 0 &&
+                productoActual.codigoProducto === ""
+              }
+              // inputRef={(input) => {
+              //   if (input != null) input.focus();
+              // }}
+              // inputProps={{ "data-cy": "cantidad-producto" }}
             />
           </Grid>
           <Button

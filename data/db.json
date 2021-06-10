@@ -44,12 +44,14 @@
 						"esVentaBotellas": "true",
 						"precios": [
 							{
-								"precioConImpuesto": "106.00",
+								"precioConImpuestoUnidad": "106.00",
+								"precioConImpuestoSubunidad": "8.84",
 								"vigenciaInicioPrecio": "2017-09-07",
 								"vigenciaFinPrecio": "2017-09-31"
 							},
 							{
-								"precioConImpuesto": "105.00",
+								"precioConImpuestoUnidad": "105.00",
+								"precioConImpuestoSubunidad": "8.84",
 								"vigenciaInicioPrecio": "2017-10-01",
 								"vigenciaFinPrecio": "9999-12-31"
 							}
@@ -100,12 +102,14 @@
 						"esVentaBotellas": "true",
 						"precios": [
 							{
-								"precioConImpuesto": "106.00",
+								"precioConImpuestoUnidad": "106.00",
+								"precioConImpuestoSubunidad": "8.84",
 								"vigenciaInicioPrecio": "2017-09-07",
 								"vigenciaFinPrecio": "2017-09-31"
 							},
 							{
-								"precioConImpuesto": "105.00",
+								"precioConImpuestoUnidad": "105.00",
+								"precioConImpuestoSubunidad": "8.84",
 								"vigenciaInicioPrecio": "2017-10-01",
 								"vigenciaFinPrecio": "9999-12-31"
 							}

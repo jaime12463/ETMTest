@@ -7,16 +7,16 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
-import { TProductoPedido ,TPreciosProductos} from "models";
+import { TPreciosProductos, TProductoPedidoConPrecios} from "models";
 import usarEstilos from "./usarEstilos";
 
 export type Props = {
   titulos: string[];
-  productos: TPreciosProductos;
-  onClick: (producto: TProductoPedido) => void;
+  preciosProductos: TPreciosProductos;
+  asignarProductoActual: (producto: TProductoPedidoConPrecios) => void;
 };
 
-const TablaProductos = ({ titulos, productos, onClick }: Props) => {
+const TablaProductos = ({ titulos, preciosProductos, asignarProductoActual }: Props) => {
   const estilos = usarEstilos();
 
   return (
@@ -32,16 +32,17 @@ const TablaProductos = ({ titulos, productos, onClick }: Props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {productos.map((producto) => (
+          {preciosProductos.map((producto) => (
             <TableRow
               hover
               key={producto.codigoProducto}
               onClick={() =>
-                onClick({
+                asignarProductoActual({
                   codigoProducto: `${producto.codigoProducto} ${producto.nombre}`,
                   unidades: 0,
                   subUnidades: 0,
-                  precio: parseInt(producto.precios[0].precioConImpuesto, 10),
+                  precioConImpuestoUnidad: producto.precios[0].precioConImpuestoUnidad,
+                  precioConImpuestoSubunidad: producto.precios[0].precioConImpuestoSubunidad,
                 })
               }
               data-cy={producto.codigoProducto}
@@ -50,7 +51,7 @@ const TablaProductos = ({ titulos, productos, onClick }: Props) => {
                 {producto.codigoProducto} {producto.nombre.substring(12, -1)}
               </TableCell>
               <TableCell className={estilos.alignment}>
-                $ {producto.precios[0].precioConImpuesto}
+                $ {producto.precios[0].precioConImpuestoUnidad}
               </TableCell>
             </TableRow>
           ))}
