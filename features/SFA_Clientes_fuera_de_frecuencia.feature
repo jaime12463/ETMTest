@@ -1,4 +1,4 @@
-@Clientes fuera de frecuencia @Sprint3
+@Clientes_fuera_de_frecuencia @Sprint3
 
 # Si por configuración no se permite operar fuera de frecuencia (esFrecuenciaAbierta=false) 
 # y el cliente ingresado no tiene una visita programada para la fecha del dispositivo, 
