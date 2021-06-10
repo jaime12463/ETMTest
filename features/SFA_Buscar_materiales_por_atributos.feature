@@ -1,4 +1,4 @@
-@Búsqueda de materiales por atributos @Sprint2
+@Búsqueda_de_materiales_por_atributos @Sprint2
 Característica: Búsqueda de materiales por atributos
     Como Prevendedor
     Quiero realizar la búsqueda de un material por atributos
