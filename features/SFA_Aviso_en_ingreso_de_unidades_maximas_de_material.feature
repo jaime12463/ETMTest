@@ -1,13 +1,15 @@
 @Aviso en ingreso de unidades maximas de material @Sprint3
 
-#Si hay definida una cantidad máxima de unidades para el cliente 
-#y al ingresar las unidades excede dicha cantidad máxima, el sistema 
-#avisa: ”La cantidad es mayor a X. Desea Continuar?”  
-#Si responde “Si”, se queda en el campo para que pueda corregir. 
-#Si responde “No”, continua con la toma del pedido.
-#Nuevo dato del cliente “cantidadMaximaUnidades” que indica la 
-#cantidad máxima de cajas que se pueden ingresar para un producto.
-#Esta cantidad máxima aplicará a todos los tipos de operación donde se capturen materiales.
+# Si hay definida una cantidad máxima de unidades para el cliente 
+# y al ingresar las unidades excede dicha cantidad máxima, 
+# el sistema avisa:” La cantidad es mayor a X. Desea Continuar?”  
+# Si responde “Si”, continua con la toma del pedido. 
+# Si responde “No”, se queda en el campo para que pueda corregir. 
+#
+# Nuevo dato del cliente “cantidadMaximaUnidades” que indica la 
+# cantidad máxima de cajas que se pueden ingresar para un producto. (Opcional)
+# Esta cantidad máxima aplicará a todos los tipos de operación 
+# donde se capturen materiales.
 
 Característica: Aviso en ingreso de unidades maximas de material
 	Como prevendedor
