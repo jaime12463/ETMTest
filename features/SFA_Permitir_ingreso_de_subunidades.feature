@@ -17,15 +17,12 @@ Característica: Permitir el ingreso de subunidades al pedido
 	Quiero ingresar en el pedido subunidades de SKUs
 	Para realizar venta mínima sin tener que vender cajas completas
 
-Antecedentes:
-	Dado un cliente y producto seleccionado 
-
 @Test_dispositivo_1
 Esquema del escenario: N°1 - Se admite el ingreso de subunidades por cliente/producto
+    Dado un cliente y producto seleccionado 
     Cuando para la ruta está configurado el botelleo igual a <esVentaSubunidadesRuta> 
     Y para el cliente/producto está configurado el botelleo igual a <esVentaSubunidades> 
     Entonces el sistema <habilitaSubunidades> el ingreso de subunidades
-
 
 Ejemplos:
 |esVentaSubunidadesRuta|esVentaSubunidades| habilitaSubunidades |
