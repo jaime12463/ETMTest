@@ -18,7 +18,7 @@ Característica: Permitir el ingreso de subunidades al pedido
 	Para realizar venta mínima sin tener que vender cajas completas
 
 Antecedentes:
-Dado un cliente y producto seleccionado 
+	Dado un cliente y producto seleccionado 
 
 @Test_dispositivo_1
 Esquema del escenario: N°1 - Se admite el ingreso de subunidades por cliente/producto

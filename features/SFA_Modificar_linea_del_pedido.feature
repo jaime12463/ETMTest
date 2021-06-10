@@ -5,7 +5,17 @@ Característica: Modificar línea del pedido
 	Para cumplir con la cantidad requerida del cliente
 
 @Test_dispositivo_1
-Escenario: N°1 - prueba
-	Dado 
-	Cuando 
-	Entonces 
+Escenario: N°1 - Modificar cantidades en unidades
+	Dado un producto que se seleccionó del pedido
+	Cuando cambio las cantidades en las unidades
+	Entonces el sistema modifica el pedido
+	Y actualiza los detalles del pedido
+	Y totales del pedido
+
+@Test_dispositivo_2
+Escenario: N°2 - Modificar cantidades en subunidades
+	Dado un producto que se seleccionó del pedido
+	Cuando cambio las cantidades en las subunidades
+	Entonces el sistema modifica el pedido
+	Y actualiza los detalles del pedido
+	Y totales del pedido

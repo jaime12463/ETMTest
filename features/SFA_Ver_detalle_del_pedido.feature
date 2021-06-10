@@ -5,7 +5,8 @@ Característica: Ver detalle del pedido
     Para saber qué compró el cliente hasta ahora.
 
 @Test_dispositivo_1
-Escenario: N°1 - prueba
-	Dado 
-	Cuando 
-	Entonces 
+Escenario: N°1 - Ver detalle del pedido
+	Dado se ingresaron productos al pedido
+	Cuando se mira el detalle del pedido
+	Entonces el sistema mostrará los productos seleccionados
+    Y las unidades ingresadas para cada producto
