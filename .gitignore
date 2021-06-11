@@ -10,9 +10,11 @@
 /coverage
 
 #testing  cypress
-cypress/video
+cypress/videos
 cypress/screenshots
-cypress/screenshots/examples
+cypress/screenshots/examples/.png
+# cypress/videos/test_iniciales.spec.js.mp4
+# cypress/videos/test_pedido.spec.js.mp4
 
 # production
 /build
@@ -27,4 +29,3 @@ cypress/screenshots/examples
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
