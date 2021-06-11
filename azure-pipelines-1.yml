@@ -33,7 +33,7 @@ steps:
     targetType: 'inline'
     script: |
       Pickles -v
-      Pickles --output-directory=pickles --language=es 
+      Pickles --output-directory=pickles --language=es --documentation-format=Dhtml 
     workingDirectory: '$(Build.SourcesDirectory)/features'
   continueOnError: true  
   displayName: 'Generando html'
