@@ -34,7 +34,7 @@ steps:
     script: |
       Pickles -v
       Pickles --output-directory=html --language=es --documentation-format=Dhtml 
-      Pickles --output-directory=doc --language=es --documentation-format=Dhtml
+      Pickles --output-directory=doc --language=es --documentation-format=Word
     workingDirectory: '$(Build.SourcesDirectory)/features'
   continueOnError: true  
   displayName: 'Generando html'
