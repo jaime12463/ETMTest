@@ -51,7 +51,7 @@ steps:
 
 - task: AzureFileCopy@4
   inputs:
-    SourcePath: 'features/pickles/'
+    SourcePath: '$(Build.ArtifactStagingDirectory)'
     azureSubscription: 'HASAR SISTEMAS SRL(de2edb3b-bb66-4fe8-a92f-81ff1ab581c6)'
     Destination: 'AzureBlob'
     storage: 'omnichannelfemsa'
