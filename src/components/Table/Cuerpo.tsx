@@ -1,17 +1,24 @@
+import { TableBody, TableCell, TableRow } from "@material-ui/core";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@material-ui/core";
-import { TPreciosProductos, TProductoPedidoConPrecios } from "models";
+  TPrecioProducto,
+  TPreciosProductos,
+  TProductoPedidoConPrecios,
+} from "models";
+import { Celda } from "./Celda";
 
 type PropsCuerpo = {
   asignarProductoActual: (producto: TProductoPedidoConPrecios) => void;
   estilos: any; // TODO: Buscar como mejorar esto para recibir los estilos como propiedad
   filas: TPreciosProductos;
+};
+
+const obtenerNombreYCodigo = (producto: TPrecioProducto) => {
+  return `${producto.codigoProducto} ${producto.nombre.substring(12, -1)}`;
+};
+
+const obtenerPrecio = (producto: TPrecioProducto) => {
+  console.log(producto);
+  return `$ ${producto.precios[0].precioConImpuestoUnidad}`;
 };
 
 export const Cuerpo = ({
@@ -38,12 +45,8 @@ export const Cuerpo = ({
           }
           data-cy={`valor-${i}`}
         >
-          <TableCell className={estilos.alignment}>
-            {producto.codigoProducto} {producto.nombre.substring(12, -1)}
-          </TableCell>
-          <TableCell className={estilos.alignment}>
-            $ {producto.precios[0].precioConImpuestoUnidad}
-          </TableCell>
+          <Celda estilos={estilos} texto={obtenerNombreYCodigo(producto)} />
+          <Celda estilos={estilos} texto={obtenerPrecio(producto)} />
         </TableRow>
       ))}
     </TableBody>
