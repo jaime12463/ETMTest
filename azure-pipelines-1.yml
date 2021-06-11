@@ -56,4 +56,3 @@ steps:
     Destination: 'AzureBlob'
     storage: 'omnichannelfemsa'
     ContainerName: '$web'
-    cleanTargetBeforeCopy: true
