@@ -33,14 +33,21 @@ steps:
     targetType: 'inline'
     script: |
       Pickles -v
-      Pickles --output-directory=pickles --language=es --documentation-format=Dhtml 
+      Pickles --output-directory=html --language=es --documentation-format=Dhtml 
+      Pickles --output-directory=doc --language=es --documentation-format=Dhtml
     workingDirectory: '$(Build.SourcesDirectory)/features'
   continueOnError: true  
   displayName: 'Generando html'
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'features/pickles/'
+    SourceFolder: 'features/html/'
+    Contents: '**' 
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'features/doc/'
     Contents: '**' 
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
