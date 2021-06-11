@@ -12,7 +12,6 @@
 #testing  cypress
 cypress/videos
 cypress/screenshots
-cypress/screenshots/examples/.png
 # cypress/videos/test_iniciales.spec.js.mp4
 # cypress/videos/test_pedido.spec.js.mp4
 
