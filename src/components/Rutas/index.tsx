@@ -1,29 +1,23 @@
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Estructura from "components/Estructura";
-import rutas from "routes"
+import {
+	BrowserRouter,
+	Route,
+} from 'react-router-dom';
+import nombresRutas from '../../routes/nombresRutas'
+import {TomaDePedidos, Inicio} from '../../pages';
+
 
 const Rutas = () => {
-  return (
-    <BrowserRouter>
-      <Switch>
-        {rutas.map((ruta) => (
-          <Route
-            exact
-            path={ruta.ruta}
-            key={ruta.ruta}
-          >
-            <Estructura
-              titulo={ruta.titulo}
-              esConFechaHaciaAtras={ruta.esConFechaHaciaAtras}
-              esConLogoInferior={ruta.esConLogoInferior}
-            >
-              {ruta.componente}
-            </Estructura>
-          </Route>
-        ))}
-      </Switch>
-    </BrowserRouter>
-  );
+	return (
+		<BrowserRouter>
+			<Route exact path={nombresRutas.home}>
+				<Inicio />
+			</Route>
+			<Route path={nombresRutas.ingresarpedido}>
+				<TomaDePedidos />
+			</Route>
+		</BrowserRouter>
+	);
 };
 
 export default Rutas;
+

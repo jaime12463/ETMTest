@@ -13,9 +13,11 @@ import { selectPedidoActual } from "redux/features/pedidoActual/pedidoActualSlic
 import usarEstilos from "./usarEstilos";
 
 const DetallePedido: React.FC = () => {
+  
   const estilos = usarEstilos();
   const { t } = useTranslation();
   const { productosPedido } = useAppSelector(selectPedidoActual);
+  
   return (
     <TableContainer className={estilos.container}>
       <Table stickyHeader aria-label="a dense table" size="small">
