@@ -1,96 +1,80 @@
-import React from "react";
-import { Button, Grid, TextField } from "@material-ui/core";
-import InputTexto from "components/InputTexto";
+import React, { Fragment } from "react";
+import { Grid } from "@material-ui/core";
+import Input from "components/Input";
 import { useTranslation } from "react-i18next";
-import { TProductoPedidoConPrecios } from "models";
 import usarEstilos from "./usarEstilos";
 
 export type Props = {
   agregarProductoAlPedidoCliente: React.FormEventHandler<HTMLFormElement>;
-  aumentarUnidadesAlProductoActual: React.ChangeEventHandler<HTMLInputElement>;
-  aumentarSubUnidadesAlProductoActual: React.ChangeEventHandler<HTMLInputElement>;
-  productoActual: TProductoPedidoConPrecios;
+  aumentarUnidadesAlProductoActual: React.ChangeEventHandler<HTMLFormElement>;
+  buscarPreciosProductos: React.ChangeEventHandler<HTMLInputElement>;
+  control: any;
+  handleSubmit: any;
 };
 
 const FormularioAgregarProducto = ({
   agregarProductoAlPedidoCliente,
   aumentarUnidadesAlProductoActual,
-  aumentarSubUnidadesAlProductoActual,
-  productoActual,
+  buscarPreciosProductos,
+  handleSubmit,
+  control,
 }: Props) => {
   const estilos = usarEstilos();
   const { t } = useTranslation();
 
   return (
-    <div className={estilos.paper}>
-      <form
-        className={estilos.form}
-        noValidate
-        onSubmit={agregarProductoAlPedidoCliente}
-      >
-        <Grid container spacing={1}>
-          <Grid item xs={6} sm={6}>
-            <InputTexto
-              label={t("general.producto")}
-              value={productoActual.codigoProducto}
-              disabled
-            />
-          </Grid>
-          <Grid item xs={3} sm={3}>
-            <TextField
-              name="unidades"
-              size="small"
-              variant="outlined"
-              fullWidth
-              label={t("general.unidades")}
-              type="number"
-              value={
-                productoActual.unidades === 0 ? "" : productoActual.unidades
-              }
-              onChange={aumentarUnidadesAlProductoActual}
-              disabled={
-                productoActual.unidades === 0 &&
-                productoActual.codigoProducto === ""
-              }
-              // inputRef={(input) => {
-              //   if (input != null) input.focus();
-              // }}
-              inputProps={{ "data-cy": "cantidad-producto" }}
-            />
-          </Grid>
-          <Grid item xs={3} sm={3}>
-            <TextField
-              name="subUnidades"
-              size="small"
-              variant="outlined"
-              fullWidth
-              label={t("general.subUnidades")}
-              type="number"
-              value={
-                productoActual.subUnidades === 0 ? "" : productoActual.subUnidades
-              }
-              onChange={aumentarSubUnidadesAlProductoActual}
-              disabled={
-                productoActual.subUnidades === 0 &&
-                productoActual.codigoProducto === ""
-              }
-              // inputRef={(input) => {
-              //   if (input != null) input.focus();
-              // }}
-              // inputProps={{ "data-cy": "cantidad-producto" }}
-            />
-          </Grid>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            style={{ display: "none" }}
-          >
-            +
-          </Button>
-        </Grid>
-      </form>
-    </div>
+    <Fragment>
+      <Grid item xs={12} sm={12}>
+        <form
+          onChange={handleSubmit(buscarPreciosProductos)}
+          onSubmit={(e: any) => e.preventDefault()}
+        >
+          <Input
+            label={t("general.buscar")}
+            control={control}
+            name="productoABuscar"
+            inputDataCY="codigo-producto"
+          />
+        </form>
+      </Grid>
+      <Grid item xs={4} sm={4}>
+        <form>
+          <Input
+            label={t("general.producto")}
+            name="codigoProducto"
+            control={control}
+            disabled
+          />
+        </form>
+      </Grid>
+      <Grid item xs={4} sm={4}>
+        <form
+          onSubmit={handleSubmit(agregarProductoAlPedidoCliente)}
+          onChange={handleSubmit(aumentarUnidadesAlProductoActual)}
+        >
+          <Input
+            label={t("general.unidades")}
+            name="unidades"
+            control={control}
+            type="number"
+            inputDataCY="cantidad-producto"
+          />
+        </form>
+      </Grid>
+      <Grid item xs={4} sm={4}>
+        <form
+          onSubmit={handleSubmit(agregarProductoAlPedidoCliente)}
+          onChange={handleSubmit(aumentarUnidadesAlProductoActual)}
+        >
+          <Input
+            label={t("general.subUnidades")}
+            name="subUnidades"
+            control={control}
+            type="number"
+          />
+        </form>
+      </Grid>
+    </Fragment>
   );
 };
 

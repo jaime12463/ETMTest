@@ -17,7 +17,6 @@ const obtenerNombreYCodigo = (producto: TPrecioProducto) => {
 };
 
 const obtenerPrecio = (producto: TPrecioProducto) => {
-  console.log(producto);
   return `$ ${producto.precios[0].precioConImpuestoUnidad}`;
 };
 

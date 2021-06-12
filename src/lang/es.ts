@@ -2,6 +2,7 @@ const es = {
     general:{
         producto: 'Producto',
         unidades: 'Unidades',
+        subUnidades: 'SubUnidades',
         totalUnidades: 'Total Unidades',
         totalSubUnidades: 'Total SubUnidades',
         total: 'Total',

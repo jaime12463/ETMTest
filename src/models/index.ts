@@ -15,7 +15,7 @@ export type TCliente = {
     montoPedidoMínimo: number;
     visitasPlanificadas: TVisitaPlanificada[],
     fechasEntrega: TFechaEntrega[],
-    detalles: TDetalle[],
+    detalles: TDetalle,
     portafolio: TPortafolio[],
 }
 

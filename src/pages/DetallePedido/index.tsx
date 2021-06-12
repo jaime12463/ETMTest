@@ -21,7 +21,7 @@ const DetallePedido: React.FC = () => {
       <Table stickyHeader aria-label="a dense table" size="small">
         <TableHead>
           <TableRow>
-            {[t("general.producto"), t("general.unidades")].map((column) => (
+            {[t("general.producto"), t("general.unidades"), t("general.subUnidades")].map((column) => (
               <TableCell key={column} className={estilos.alignment}>
                 {column}
               </TableCell>
@@ -36,6 +36,9 @@ const DetallePedido: React.FC = () => {
               </TableCell>
               <TableCell className={estilos.alignment}>
                 {product.unidades}
+              </TableCell>
+              <TableCell className={estilos.alignment}>
+                {product.subUnidades}
               </TableCell>
             </TableRow>
           ))}
