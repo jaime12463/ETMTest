@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
+import {useTranslation} from 'react-i18next';
 
 export type Props = {
 	mensaje: string;
@@ -9,6 +10,7 @@ export type Props = {
 };
 
 const Dialogo = ({mensaje, botones, handle}: Props) => {
+	const {t} = useTranslation();
 	const [mostrar, setMostrar] = useState(true);
 
 	const handleonClick = (result: boolean) => {
@@ -37,7 +39,7 @@ const Dialogo = ({mensaje, botones, handle}: Props) => {
 					size='small'
 					onClick={() => handleonClick(true)}
 				>
-					Aceptar
+					{t('general.aceptar')}
 				</Button>
 			)}
 		</>

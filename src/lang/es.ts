@@ -17,7 +17,8 @@ const es = {
         subunidades: 'Subunidades',
         cerrarPedido: 'Cerrar pedido',
         si: 'Si',
-        no: 'No'
+        no: 'No',
+        aceptar: 'Aceptar'
     },
     titulos: {
         bienvenido: 'Bienvenido',
