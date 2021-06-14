@@ -18,6 +18,8 @@ const Dialogo = ({mensaje, botones, handle}: Props) => {
 		setMostrar(false);
 	};
 
+	
+
 	const action = (
 		<>
 			{botones && botones.length <= 2 ? (
