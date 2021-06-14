@@ -1,10 +1,6 @@
-import {
-	BrowserRouter,
-	Route,
-} from 'react-router-dom';
-import nombresRutas from '../../routes/nombresRutas'
+import {BrowserRouter, Route} from 'react-router-dom';
+import nombresRutas from '../../routes/nombresRutas';
 import {TomaDePedidos, Inicio} from '../../pages';
-
 
 const Rutas = () => {
 	return (
@@ -20,4 +16,3 @@ const Rutas = () => {
 };
 
 export default Rutas;
-
