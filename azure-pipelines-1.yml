@@ -33,14 +33,22 @@ steps:
     targetType: 'inline'
     script: |
       Pickles -v
-      Pickles --output-directory=pickles --language=es 
+      Pickles --output-directory=html --language=es --documentation-format=Dhtml 
+      Pickles --output-directory=doc --language=es --documentation-format=Word
     workingDirectory: '$(Build.SourcesDirectory)/features'
   continueOnError: true  
   displayName: 'Generando html'
 
 - task: CopyFiles@2
   inputs:
-    Contents: 'features/pickles/**' 
+    SourceFolder: 'features/html/'
+    Contents: '**' 
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'features/doc/'
+    Contents: '**' 
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
@@ -48,9 +56,10 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'OmnicanalTomaPedido'
 
-
-
-
-
-
-
+- task: AzureFileCopy@4
+  inputs:
+    SourcePath: '$(Build.ArtifactStagingDirectory)/*'
+    azureSubscription: 'HASAR SISTEMAS SRL(de2edb3b-bb66-4fe8-a92f-81ff1ab581c6)'
+    Destination: 'AzureBlob'
+    storage: 'omnichannelfemsa'
+    ContainerName: '$web'
