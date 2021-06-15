@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Grid } from "@material-ui/core";
 import Input from "components/Input";
 import { useTranslation } from "react-i18next";
-import usarEstilos from "./usarEstilos";
+import useEstilos from "./useEstilos";
 
 export type Props = {
   agregarProductoAlPedidoCliente: React.FormEventHandler<HTMLFormElement>;
@@ -19,7 +19,7 @@ const FormularioAgregarProducto = ({
   handleSubmit,
   control,
 }: Props) => {
-  const estilos = usarEstilos();
+  const estilos = useEstilos();
   const { t } = useTranslation();
 
   return (

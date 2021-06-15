@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-const usarEstilos = makeStyles({
+const useEstilos = makeStyles({
     container: {
         marginTop: 12,
         maxHeight: 300,
@@ -8,4 +8,4 @@ const usarEstilos = makeStyles({
         textAlign: "center",
     },
 });
-export default usarEstilos;
+export default useEstilos;
