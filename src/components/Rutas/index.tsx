@@ -1,6 +1,20 @@
 import {BrowserRouter, Route} from 'react-router-dom';
 import nombresRutas from '../../routes/nombresRutas';
-import {TomaDePedidos, Inicio} from '../../pages';
+import {TomaDePedidos, Inicio, DetallePedido} from '../../pages';
+import {Estructura} from 'components';
+import RutasAnidadas from './RutasAnidadas';
+
+const Anidado = () => {
+	return (
+		<Estructura
+			titulo={'titulos.productosPedido'}
+			esConFechaHaciaAtras={true}
+			esConLogoInferior={false}
+		>
+			<DetallePedido />
+		</Estructura>
+	);
+};
 
 const Rutas = () => {
 	return (
@@ -9,7 +23,12 @@ const Rutas = () => {
 				<Inicio />
 			</Route>
 			<Route path={nombresRutas.ingresarpedido}>
-				<TomaDePedidos />
+				<RutasAnidadas
+					pathPrincipal=''
+					pathAnidado='/detalle'
+					principal={<TomaDePedidos />}
+					anidado={<Anidado />}
+				/>
 			</Route>
 		</BrowserRouter>
 	);
