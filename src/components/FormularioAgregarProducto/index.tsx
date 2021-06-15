@@ -6,7 +6,6 @@ import useEstilos from "./useEstilos";
 
 export type Props = {
   agregarProductoAlPedidoCliente: React.FormEventHandler<HTMLFormElement>;
-  aumentarUnidadesAlProductoActual: React.ChangeEventHandler<HTMLFormElement>;
   buscarPreciosProductos: React.ChangeEventHandler<HTMLInputElement>;
   control: any;
   handleSubmit: any;
@@ -14,7 +13,6 @@ export type Props = {
 
 const FormularioAgregarProducto = ({
   agregarProductoAlPedidoCliente,
-  aumentarUnidadesAlProductoActual,
   buscarPreciosProductos,
   handleSubmit,
   control,
@@ -41,7 +39,7 @@ const FormularioAgregarProducto = ({
         <form>
           <Input
             label={t("general.producto")}
-            name="codigoProducto"
+            name="codigoProductoConNombre"
             control={control}
             disabled
           />
@@ -50,7 +48,7 @@ const FormularioAgregarProducto = ({
       <Grid item xs={4} sm={4}>
         <form
           onSubmit={handleSubmit(agregarProductoAlPedidoCliente)}
-          onChange={handleSubmit(aumentarUnidadesAlProductoActual)}
+          onChange={(e: any) => e.preventDefault()}
         >
           <Input
             label={t("general.unidades")}
@@ -64,7 +62,7 @@ const FormularioAgregarProducto = ({
       <Grid item xs={4} sm={4}>
         <form
           onSubmit={handleSubmit(agregarProductoAlPedidoCliente)}
-          onChange={handleSubmit(aumentarUnidadesAlProductoActual)}
+          onChange={(e: any) => e.preventDefault()}
         >
           <Input
             label={t("general.subUnidades")}

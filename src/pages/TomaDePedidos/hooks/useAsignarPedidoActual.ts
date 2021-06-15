@@ -30,6 +30,6 @@ export const useAsignarPedidoActual = (
 			setRazonSocial('');
 			setPreciosProductos([]);
 		}
-	}, []);
+	}, [obtenerPreciosProductosDelCliente, obtenerClienteActual]);
 	return asignarPedidoActual;
 };

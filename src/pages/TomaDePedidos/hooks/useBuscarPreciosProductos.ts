@@ -12,7 +12,7 @@ export const useBuscarPreciosProductos = (
 		({codigoCliente, productoABuscar}: any) => {
 			const preciosProductosFiltrados = preciosProductos.filter(
 				(precioProducto: any) =>
-					precioProducto.codigoProducto.includes(productoABuscar) ||
+					precioProducto.codigoProducto.toString().includes(productoABuscar) ||
 					precioProducto.nombre
 						.toLowerCase()
 						.includes(productoABuscar.toLowerCase())
@@ -29,7 +29,7 @@ export const useBuscarPreciosProductos = (
 				}
 			} else setPreciosProductos(preciosProductosFiltrados);
 		},
-		[preciosProductos]
+		[preciosProductos, obtenerPreciosProductosDelCliente, obtenerClienteActual]
 	);
 	return buscarPreciosProductos;
 };

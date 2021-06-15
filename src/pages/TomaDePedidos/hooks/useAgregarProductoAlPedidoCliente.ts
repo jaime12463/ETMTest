@@ -12,12 +12,12 @@ export const useAgregarProductoAlPedidoCliente = (
 ) => {
   const dispatch = useAppDispatch();
   const agregarProductoAlPedidoCliente = useCallback(
-    ({ codigoCliente, unidades, subUnidades, codigoProducto }: any) => {
+    ({ codigoCliente, unidades, subUnidades, codigoProductoConNombre }: any) => {
       if (unidades > 0 || subUnidades > 0) {
         dispatch(
           agregarProductoAlPedidoDelCliente({
             productoPedido: {
-              codigoProducto: codigoProducto.split(" ")[0],
+              codigoProductoConNombre: codigoProductoConNombre,
               unidades: unidades !== "" ? parseInt(unidades) : 0,
               subUnidades: subUnidades !== "" ? parseInt(subUnidades) : 0,
               total:
@@ -30,19 +30,19 @@ export const useAgregarProductoAlPedidoCliente = (
       } else {
         dispatch(
           borrarProductoDelPedidoDelCliente({
-            codigoProducto: codigoProducto.split(" ")[0],
+            codigoProductoConNombre: codigoProductoConNombre,
             codigoCliente: codigoCliente,
           })
         );
       }
       setProductoActual({
-        codigoProducto: "",
+        codigoProductoConNombre: "",
         unidades: 0,
         subUnidades: 0,
         precioConImpuestoUnidad: 0,
         precioConImpuestoSubunidad: 0,
       });
-      setValue("codigoProducto", "")
+      setValue("codigoProductoConNombre", "")
       setValue("unidades", "")
       setValue("subUnidades", "")
     },

@@ -14,7 +14,7 @@ Primero.args = {
 	titulos: ['Producto', 'Precio'],
 	preciosProductos: [
 		{
-			codigoProducto: '1860',
+			codigoProducto: 1860,
 			nombre: 'COCA COLA',
 			presentacion: 12,
 			precios: [

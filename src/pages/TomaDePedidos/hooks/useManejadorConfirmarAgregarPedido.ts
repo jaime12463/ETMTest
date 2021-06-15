@@ -18,13 +18,13 @@ export const useManejadorConfirmarAgregarPedido = (
     (oprimioBotonAceptar: boolean) => {
       if (oprimioBotonAceptar) {
         const {
-          codigoCliente,
+          codigoProductoConNombre,
           unidades,
           subUnidades,
           codigoProducto,
         } = getValues();
         agregarProductoAlPedidoCliente({
-          codigoCliente,
+          codigoProductoConNombre,
           unidades,
           subUnidades,
           codigoProducto,

@@ -16,7 +16,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 	);
 	const obtenerClienteActual = useObtenerClienteActual();
 	const validarAgregarProductoAlPedidoCliente = useCallback(
-		({codigoCliente, unidades, subUnidades, codigoProducto}: any) => {
+		({codigoCliente, unidades, subUnidades, codigoProductoConNombre}: any) => {
 			const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
 				codigoCliente
 			);
@@ -30,11 +30,11 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					codigoCliente,
 					unidades,
 					subUnidades,
-					codigoProducto,
+					codigoProductoConNombre,
 				});
 			else setMostarDialogo(true);
 		},
-		[productoActual]
+		[productoActual, obtenerClienteActual, agregarProductoAlPedidoCliente]
 	);
 	return validarAgregarProductoAlPedidoCliente;
 };

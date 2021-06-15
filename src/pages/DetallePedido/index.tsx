@@ -35,9 +35,9 @@ const DetallePedido: React.FC = () => {
 				</TableHead>
 				<TableBody>
 					{productosPedido.map((product) => (
-						<TableRow key={product.codigoProducto}>
+						<TableRow key={product.codigoProductoConNombre}>
 							<TableCell className={estilos.alignment}>
-								{product.codigoProducto.substring(18, -1)}
+								{product.codigoProductoConNombre}
 							</TableCell>
 							<TableCell className={estilos.alignment}>
 								{product.unidades}

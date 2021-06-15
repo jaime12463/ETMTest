@@ -16,13 +16,13 @@ export const pedidoActualSlice = createSlice({
         },
         agregarProductoAlPedidoDelCliente: (state, action) => {
             const nuevosProductosPedidoCliente = state.productosPedido.filter(
-                (precioProducto: TProductoPedido) => precioProducto.codigoProducto !== action.payload.productoPedido.codigoProducto
+                (precioProducto: TProductoPedido) => precioProducto.codigoProductoConNombre !== action.payload.productoPedido.codigoProductoConNombre
             );
             state.productosPedido = [...nuevosProductosPedidoCliente, action.payload.productoPedido];
         },
         borrarProductoDelPedidoDelCliente: (state, action) => {
             const nuevosProductosPedidoCliente = state.productosPedido.filter(
-                (precioProducto: TProductoPedido) => precioProducto.codigoProducto !== action.payload.codigoProducto
+                (precioProducto: TProductoPedido) => precioProducto.codigoProductoConNombre !== action.payload.codigoProductoConNombre
             );
             state.productosPedido = [...nuevosProductosPedidoCliente];
         },

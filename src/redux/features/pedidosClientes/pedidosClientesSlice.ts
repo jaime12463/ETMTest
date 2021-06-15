@@ -12,7 +12,7 @@ export const pedidosClientesSlice = createSlice({
             const codigoCliente: string = action.payload.codigoCliente;
             if (!state[codigoCliente]) state[codigoCliente] = [];
             const nuevosProductosPedidosClientes = state[codigoCliente].filter(
-                (product) => product.codigoProducto !== action.payload.productoPedido.codigoProducto
+                (product) => product.codigoProductoConNombre !== action.payload.productoPedido.codigoProducto
             );
             state[codigoCliente] = [...nuevosProductosPedidosClientes, action.payload.productoPedido];
         }

@@ -21,7 +21,6 @@ import {
 	useValidarAgregarProductoAlPedidoCliente,
 	useAsignarPedidoActual,
 	useAsignarProductoActual,
-	useAumentarUnidadesAlProductoActual,
 	useBuscarPreciosProductos,
 	useManejadorConfirmarAgregarPedido,
 } from './hooks';
@@ -37,7 +36,7 @@ export default function TomaDePedidos() {
 	const [mostarDialogo, setMostarDialogo] = useState(false);
 	const [productoActual, setProductoActual] =
 		useState<TProductoPedidoConPrecios>({
-			codigoProducto: '',
+			codigoProductoConNombre: '',
 			unidades: 0,
 			subUnidades: 0,
 			precioConImpuestoUnidad: 0,
@@ -65,10 +64,6 @@ export default function TomaDePedidos() {
 		setExisteCliente,
 		setRazonSocial,
 		setPreciosProductos
-	);
-	const aumentarUnidadesAlProductoActual = useAumentarUnidadesAlProductoActual(
-		productoActual,
-		setProductoActual
 	);
 	const buscarPreciosProductos = useBuscarPreciosProductos(
 		preciosProductos,
@@ -146,9 +141,6 @@ export default function TomaDePedidos() {
 										validarAgregarProductoAlPedidoCliente
 									}
 									buscarPreciosProductos={buscarPreciosProductos}
-									aumentarUnidadesAlProductoActual={
-										aumentarUnidadesAlProductoActual
-									}
 									handleSubmit={handleSubmit}
 									control={control}
 								/>

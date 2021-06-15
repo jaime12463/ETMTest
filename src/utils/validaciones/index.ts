@@ -19,9 +19,9 @@ export const validarFechaVigenciaProducto = (
 
 export const validarUnidadesMinimasProducto = (
   unidades: number,
-  configuracionPedido: TConfiguracionPedido[]
+  configuracionPedido: TConfiguracionPedido
 ) => {
-  const { cantidadMaximaUnidades } = configuracionPedido[0];
+  const { cantidadMaximaUnidades } = configuracionPedido;
   if (cantidadMaximaUnidades) {
     if (unidades >= (cantidadMaximaUnidades * 1))
       return false;

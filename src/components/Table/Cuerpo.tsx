@@ -33,7 +33,7 @@ export const Cuerpo = ({
           key={producto.codigoProducto}
           onClick={() =>
             asignarProductoActual({
-              codigoProducto: `${producto.codigoProducto} ${producto.nombre}`,
+              codigoProductoConNombre: `${producto.codigoProducto} ${producto.nombre}`,
               unidades: 0,
               subUnidades: 0,
               precioConImpuestoUnidad:
