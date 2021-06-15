@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Container} from '@material-ui/core';
 import Footers from 'assests/images/hdpi_logo_soft_hasar.png';
-import usarEstilos from './usarEstilos';
+import useEstilos from './useEstilos';
 import Encabezado from './Encabezado';
 
 export type Props = {
@@ -17,7 +17,7 @@ const Estructura = ({
 	titulo,
 	children,
 }: Props) => {
-	const estilos = usarEstilos();
+	const estilos = useEstilos();
 	return (
 		<div className={estilos.root}>
 			<Encabezado titulo={titulo} esConFechaHaciaAtras={esConFechaHaciaAtras} />

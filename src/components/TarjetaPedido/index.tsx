@@ -9,7 +9,7 @@ import {Grid} from '@material-ui/core';
 
 import {useTranslation} from 'react-i18next';
 import {TProductoPedido} from 'models';
-import usarEstilos from './usarEstilos';
+import useEstilos from './useEstilos';
 
 export type Props = {
 	pedido: TProductoPedido[];
@@ -38,7 +38,7 @@ const reducerSumarProductos = (
 const TarjetaPedido = ({pedido}: Props) => {
 	let history = useHistory();
 	let {path, url} = useRouteMatch();
-	const estilos = usarEstilos();
+	const estilos = useEstilos();
 	const {t} = useTranslation();
 	const totales = useMemo(
 		() => pedido.reduce(reducerSumarProductos, TotalInicial),

@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-const usarEstilos = makeStyles((theme) => ({
+const useEstilos = makeStyles((theme) => ({
   contenedor: {
     marginTop: theme.spacing(2),
   },
@@ -7,4 +7,4 @@ const usarEstilos = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
 }));
-export default usarEstilos;
+export default useEstilos;
