@@ -1,13 +1,11 @@
-import {Fragment, useEffect, useState} from 'react';
+import {Fragment, useState} from 'react';
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {TPreciosProductos, TProductoPedidoConPrecios} from 'models';
-import {useAppSelector, useAppDispatch} from 'redux/hooks';
+import {useAppSelector} from 'redux/hooks';
 import {Button, Grid, Typography} from '@material-ui/core';
-import {obtenerDatosConfiguracionAsync} from 'redux/features/configuracion/configuracionSlice';
 import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
 import {useForm} from 'react-hook-form';
-import {obtenerDatosClientesProductosAsync} from 'redux/features/datos/datosSlice';
 import {Alert} from '@material-ui/lab';
 import {darFormatoFecha} from 'utils/methods';
 import {
@@ -17,6 +15,7 @@ import {
 	Input,
 	Estructura,
 } from 'components';
+import {useObtenerDatos} from '../../hooks';
 import {
 	useAgregarPedidoAlListado,
 	useAgregarProductoAlPedidoCliente,
@@ -33,26 +32,20 @@ export default function TomaDePedidos() {
 	const [existeCliente, setExisteCliente] = useState<boolean | null>(null);
 	const [razonSocial, setRazonSocial] = useState<string>('');
 	const [fechaEntrega, setFechaEntrega] = useState<string>('2017-09-06'); //Falta implementar esto
-	const [
-		productoActual,
-		setProductoActual,
-	] = useState<TProductoPedidoConPrecios>({
-		codigoProducto: '',
-		unidades: 0,
-		subUnidades: 0,
-		precioConImpuestoUnidad: 0,
-		precioConImpuestoSubunidad: 0,
-	});
-	const dispatch = useAppDispatch();
+	const [productoActual, setProductoActual] =
+		useState<TProductoPedidoConPrecios>({
+			codigoProducto: '',
+			unidades: 0,
+			subUnidades: 0,
+			precioConImpuestoUnidad: 0,
+			precioConImpuestoSubunidad: 0,
+		});
 	const {t} = useTranslation();
 	const estilos = useEstilos();
 	const {control, handleSubmit, setValue} = useForm();
 	const pedidoActual = useAppSelector(selectPedidoActual);
 
-	useEffect(() => {
-		dispatch(obtenerDatosClientesProductosAsync());
-		dispatch(obtenerDatosConfiguracionAsync());
-	}, [dispatch]);
+	useObtenerDatos();
 
 	const asignarProductoActual = useAsignarProductoActual(
 		setProductoActual,
