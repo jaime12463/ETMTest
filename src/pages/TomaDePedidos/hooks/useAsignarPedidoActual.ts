@@ -36,12 +36,3 @@ export const useAsignarPedidoActual = (
   );
   return asignarPedidoActual;
 };
-
-// CODIGO OBTENER PRECIOS CON FECHAS VALIDAS
-// nuevosPrecios = clienteEncontrado.precios.filter(
-//   (producto) =>
-//     new Date(transformDate(producto.iniVig)) <=
-//       new Date(nuevasFechas[0].fechaDeEntrega) &&
-//     new Date(transformDate(producto.finVig)) >=
-//       new Date(nuevasFechas[0].fechaDeEntrega)
-// );

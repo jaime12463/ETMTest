@@ -26,6 +26,12 @@
         "detalles": {
           "nombreComercial": "CREM LA MORENITA"
         },
+        "configuracionPedido": [
+          {
+            "montoVentaMinima": "1000",
+            "cantidadMaximaUnidades": "999"
+          }
+        ],
         "portafolio": [
           {
             "codigoProducto": "1860",
@@ -90,6 +96,12 @@
         "detalles": {
           "nombreComercial": "LA LUPITA"
         },
+        "configuracionPedido": [
+          {
+            "montoVentaMinima": "1000",
+            "cantidadMaximaUnidades": "10"
+          }
+        ],
         "portafolio": [
           {
             "codigoProducto": "1860",

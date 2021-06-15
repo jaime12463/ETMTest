@@ -34,29 +34,3 @@ export const useBuscarPreciosProductos = (
   );
   return buscarPreciosProductos;
 };
-
-// CODIGO PARA BUSCAR POR FECHAS VALIDAS
-// let nuevosPrecios: [] | TPrecio[] = [];
-// const clienteEncontrado: TCliente | undefined = clientes.find(
-//   (clienteDB) => clienteDB.codigoCliente === codigoCliente
-// );
-// if (clienteEncontrado && value === "")
-//   nuevosPrecios = clienteEncontrado.precios.filter(
-//     (producto) =>
-//       new Date(transformDate(producto.iniVig)) <=
-//         new Date(fechas[0].fechaDeEntrega) &&
-//       new Date(transformDate(producto.finVig)) >=
-//         new Date(fechas[0].fechaDeEntrega)
-//   );
-// if (clienteEncontrado && value !== "") {
-//   nuevosPrecios = clienteEncontrado.precios.filter(
-//     (producto) =>
-//       (producto.codigoproducto.includes(value) ||
-//         producto.nombre.toLowerCase().includes(value.toLowerCase())) &&
-//       new Date(transformDate(producto.iniVig)) <=
-//         new Date(fechas[0].fechaDeEntrega) &&
-//       new Date(transformDate(producto.finVig)) >=
-//         new Date(fechas[0].fechaDeEntrega)
-//   );
-// }
-// setPrecios(nuevosPrecios);

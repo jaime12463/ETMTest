@@ -5,6 +5,8 @@ import { useAsignarProductoActual } from "./useAsignarProductoActual";
 import { useAumentarUnidadesAlProductoActual } from "./useAumentarUnidadesAlProductoActual";
 import { useBuscarPreciosProductos } from "./useBuscarPreciosProductos";
 import { useObtenerPreciosProductosDelCliente } from "./useObtenerPreciosProductosDelCliente";
+import { useValidarAgregarProductoAlPedidoCliente } from "./useValidarAgregarProductoAlPedidoCliente";
+import { useManejadorConfirmarAgregarPedido } from "./useManejadorConfirmarAgregarPedido";
 
 export {
   useAgregarPedidoAlListado,
@@ -14,4 +16,6 @@ export {
   useAumentarUnidadesAlProductoActual,
   useBuscarPreciosProductos,
   useObtenerPreciosProductosDelCliente,
+  useValidarAgregarProductoAlPedidoCliente,
+  useManejadorConfirmarAgregarPedido
 };

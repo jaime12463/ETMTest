@@ -19,6 +19,7 @@ const en = {
 		si: 'Yes',
 		no: 'No',
 		aceptar: 'Accept',
+        cancelar: 'Cancel',
 	},
 	titulos: {
 		bienvenido: 'Welcome',
@@ -28,7 +29,7 @@ const en = {
 	advertencias: {
 		clienteNoPortafolio: 'The client does not have an informed portfolio',
 		cantidadEsMayor:
-			'The amount is greater than <cantidad>. Do you wish to continue?',
+			'The amount is greater than {{cantidad}}. Do you wish to continue?',
 		noFechaInformada: 'it does not have an informed delivery date',
 		fueraDeFrecuencia: 'The client is off-frequency',
 		noFechaProgramada: 'The client does not have scheduled delivery date',

@@ -19,15 +19,16 @@ import {
 } from "components";
 import {
   useAgregarPedidoAlListado,
-  useAgregarProductoAlPedidoCliente,
+  useValidarAgregarProductoAlPedidoCliente,
   useAsignarPedidoActual,
   useAsignarProductoActual,
   useAumentarUnidadesAlProductoActual,
   useBuscarPreciosProductos,
+  useManejadorConfirmarAgregarPedido,
 } from "./hooks";
 import { DetallePedido } from "pages";
-import path from "path";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
+import Dialogo from "components/Dialogo";
 
 export default function TomaDePedidos() {
   const [preciosProductos, setPreciosProductos] = useState<TPreciosProductos>(
@@ -35,7 +36,8 @@ export default function TomaDePedidos() {
   );
   const [existeCliente, setExisteCliente] = useState<boolean | null>(null);
   const [razonSocial, setRazonSocial] = useState<string>("");
-  const [fechaEntrega, setFechaEntrega] = useState<string>("2017-09-06"); //Falta implementar esto
+  const [fechaEntrega, setFechaEntrega] = useState<string>("2017-09-06"); //TODO: Falta implementar esto
+  const [mostarDialogo, setMostarDialogo] = useState(false)
   const [
     productoActual,
     setProductoActual,
@@ -49,7 +51,7 @@ export default function TomaDePedidos() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const estilos = useEstilos();
-  const { control, handleSubmit, setValue } = useForm();
+  const { control, handleSubmit, setValue, getValues } = useForm();
   const pedidoActual = useAppSelector(selectPedidoActual);
   const { path } = useRouteMatch();
 
@@ -62,7 +64,8 @@ export default function TomaDePedidos() {
     setProductoActual,
     setValue
   );
-  const agregarProductoAlPedidoCliente = useAgregarProductoAlPedidoCliente(
+  const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
+    setMostarDialogo,
     productoActual,
     setProductoActual,
     setValue
@@ -82,6 +85,14 @@ export default function TomaDePedidos() {
   );
   const agregarPedidoAlListado = useAgregarPedidoAlListado();
 
+  const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido(
+    setMostarDialogo,
+    productoActual,
+    setProductoActual,
+    setValue,
+    getValues
+  );
+
   return (
     <>
       <Switch>
@@ -92,6 +103,13 @@ export default function TomaDePedidos() {
             esConLogoInferior={false}
           >
             <Fragment>
+              {mostarDialogo && 
+                <Dialogo 
+                  mensaje={t("advertencias.cantidadEsMayor", {cantidad: 10})} 
+                  manejadorClick={manejadorConfirmarAgregarPedido}
+                  conBotonCancelar={true}
+                />
+              }
               <Grid
                 container
                 direction="row"
@@ -118,7 +136,7 @@ export default function TomaDePedidos() {
                     </Grid>
                     <Grid item xs={12} sm={12}>
                       <Typography variant="body2" component="p">
-                        Fecha de entrega:{" "}
+                        {t("general.fechaEntrega")}{": "}
                         {darFormatoFecha(
                           new Date(fechaEntrega).toISOString().split("T")[0]
                         )}
@@ -135,7 +153,7 @@ export default function TomaDePedidos() {
                   <Fragment>
                     <FormularioAgregarProducto
                       agregarProductoAlPedidoCliente={
-                        agregarProductoAlPedidoCliente
+                        validarAgregarProductoAlPedidoCliente
                       }
                       buscarPreciosProductos={buscarPreciosProductos}
                       aumentarUnidadesAlProductoActual={

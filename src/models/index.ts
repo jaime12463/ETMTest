@@ -16,6 +16,7 @@ export type TCliente = {
     visitasPlanificadas: TVisitaPlanificada[],
     fechasEntrega: TFechaEntrega[],
     detalles: TDetalle,
+    configuracionPedido: TConfiguracionPedido[],
     portafolio: TPortafolio[],
 }
 
@@ -32,6 +33,11 @@ export type TVisitaPlanificada = {
 export type TFechaEntrega = {
     fechaVisita: string,
     fechaEntrega: string,
+}
+
+export type TConfiguracionPedido = {
+    montoVentaMinima?: number,
+    cantidadMaximaUnidades?: number,
 }
 
 export type TDetalle = {
