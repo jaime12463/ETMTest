@@ -12,7 +12,6 @@ export type TProductos = {
 }
 
 export type TCliente = {
-    montoPedidoMínimo: number;
     visitasPlanificadas: TVisitaPlanificada[],
     fechasEntrega: TFechaEntrega[],
     detalles: TDetalle,
@@ -45,8 +44,8 @@ export type TDetalle = {
 }
 
 export type TPortafolio = {
-    codigoProducto: string,
-    botelleo: boolean,
+    codigoProducto: number,
+    esVentaSubunidades: boolean,
     precios: TPrecios,
 }
 

@@ -1,150 +1,150 @@
 {
-  "datos": {
-    "clientes": {
-      "120104325": {
-		"detalles": {
-          "nombreComercial": "CREM LA MORENITA"
-        },
-        "visitasPlanificadas": [
-          {
-            "dia": "2017-09-07",
-            "secuencia": 3
-          },
-          {
-            "dia": "2017-09-09",
-            "secuencia": 5
-          }
-        ],
-        "fechasEntrega": [
-          {
-            "fechaVisita": "2017-09-06",
-            "fechaEntrega": "2017-09-07"
-          },
-          {
-            "fechaVisita": "2017-09-08",
-            "fechaEntrega": "2017-09-09"
-          }
-        ],
-		"configuracionPedido": {
-			"montoVentaMinima": 1000,
-			"cantidadMaximaUnidades": 999
+	"datos": {
+		"clientes": {
+			"120104325": {
+				"detalles": {
+					"nombreComercial": "CREM LA MORENITA"
+				},
+				"visitasPlanificadas": [
+					{
+						"dia": "2017-09-07",
+						"secuencia": 3
+					},
+					{
+						"dia": "2017-09-09",
+						"secuencia": 5
+					}
+				],
+				"fechasEntrega": [
+					{
+						"fechaVisita": "2017-09-06",
+						"fechaEntrega": "2017-09-07"
+					},
+					{
+						"fechaVisita": "2017-09-08",
+						"fechaEntrega": "2017-09-09"
+					}
+				],
+				"configuracionPedido": {
+					"montoVentaMinima": 1000,
+					"cantidadMaximaUnidades": 999
+				},
+				"portafolio": [
+					{
+						"codigoProducto": 1860,
+						"esVentaSubunidades": true,
+						"precios": [
+							{
+								"precioConImpuestoUnidad": 120.0,
+								"precioConImpuestoSubunidad": 10.0,
+								"vigenciaInicioPrecio": "2017-09-07",
+								"vigenciaFinPrecio": "2017-09-31"
+							},
+							{
+								"precioConImpuestoUnidad": 120.0,
+								"precioConImpuestoSubunidad": 10.0,
+								"vigenciaInicioPrecio": "2017-10-01",
+								"vigenciaFinPrecio": "9999-12-31"
+							}
+						]
+					},
+					{
+						"codigoProducto": 1885,
+						"esVentaSubunidades": true,
+						"precios": [
+							{
+								"precioConImpuestoUnidad": 240.0,
+								"precioConImpuestoSubunidad": 20.0,
+								"vigenciaInicioPrecio": "2017-09-07",
+								"vigenciaFinPrecio": "2017-09-31"
+							},
+							{
+								"precioConImpuestoUnidad": 240.0,
+								"precioConImpuestoSubunidad": 20.0,
+								"vigenciaInicioPrecio": "2017-10-01",
+								"vigenciaFinPrecio": "9999-12-31"
+							}
+						]
+					}
+				]
+			},
+			"234": {
+				"detalles": {
+					"nombreComercial": "LA LUPITA"
+				},
+				"visitasPlanificadas": [
+					{
+						"dia": "2017-09-08",
+						"secuencia": 15
+					},
+					{
+						"dia": "2017-09-10",
+						"secuencia": 5
+					}
+				],
+				"fechasEntrega": [
+					{
+						"fechaVisita": "2017-09-06",
+						"fechaEntrega": "2017-09-07"
+					},
+					{
+						"fechaVisita": "2017-09-08",
+						"fechaEntrega": "2017-09-09"
+					}
+				],
+				"configuracionPedido": {
+					"montoVentaMinima": 1000,
+					"cantidadMaximaUnidades": 999
+				},
+				"portafolio": [
+					{
+						"codigoProducto": 1860,
+						"esVentaSubunidades": true,
+						"precios": [
+							{
+								"precioConImpuestoUnidad": 120.0,
+								"precioConImpuestoSubunidad": 10.0,
+								"vigenciaInicioPrecio": "2017-09-07",
+								"vigenciaFinPrecio": "2017-09-31"
+							},
+							{
+								"precioConImpuestoUnidad": 120.0,
+								"precioConImpuestoSubunidad": 10.0,
+								"vigenciaInicioPrecio": "2017-10-01",
+								"vigenciaFinPrecio": "9999-12-31"
+							}
+						]
+					},
+					{
+						"codigoProducto": 1885,
+						"esVentaSubunidades": true,
+						"precios": [
+							{
+								"precioConImpuestoUnidad": 240.0,
+								"precioConImpuestoSubunidad": 20.0,
+								"vigenciaInicioPrecio": "2017-09-07",
+								"vigenciaFinPrecio": "2017-09-31"
+							},
+							{
+								"precioConImpuestoUnidad": 240.0,
+								"precioConImpuestoSubunidad": 20.0,
+								"vigenciaInicioPrecio": "2017-10-01",
+								"vigenciaFinPrecio": "9999-12-31"
+							}
+						]
+					}
+				]
+			}
 		},
-        "portafolio": [
-          {
-            "codigoProducto": 1860,
-			"esVentaSubunidades": true,
-            "precios": [
-              {
-                "precioConImpuestoUnidad": 120.00,
-                "precioConImpuestoSubunidad": 10.00,
-                "vigenciaInicioPrecio": "2017-09-07",
-                "vigenciaFinPrecio": "2017-09-31"
-              },
-              {
-                "precioConImpuestoUnidad": 120.00,
-                "precioConImpuestoSubunidad": 10.00,
-                "vigenciaInicioPrecio": "2017-10-01",
-                "vigenciaFinPrecio": "9999-12-31"
-              }
-            ]
-          },
-          {
-            "codigoProducto": 1885,
-			"esVentaSubunidades": true,
-            "precios": [
-              {
-                "precioConImpuestoUnidad": 240.00,
-                "precioConImpuestoSubunidad": 20.00,
-                "vigenciaInicioPrecio": "2017-09-07",
-                "vigenciaFinPrecio": "2017-09-31"
-              },
-              {
-                "precioConImpuestoUnidad": 240.00,
-                "precioConImpuestoSubunidad": 20.00,
-                "vigenciaInicioPrecio": "2017-10-01",
-                "vigenciaFinPrecio": "9999-12-31"
-              }
-            ]
-          }
-        ]
-      },
-      "234": {
-        "detalles": {
-          "nombreComercial": "LA LUPITA"
-        },
-        "visitasPlanificadas": [
-          {
-            "dia": "2017-09-08",
-            "secuencia": 15
-          },
-          {
-            "dia": "2017-09-10",
-            "secuencia": 5
-          }
-        ],
-        "fechasEntrega": [
-          {
-            "fechaVisita": "2017-09-06",
-            "fechaEntrega": "2017-09-07"
-          },
-          {
-            "fechaVisita": "2017-09-08",
-            "fechaEntrega": "2017-09-09"
-          }
-        ],
-		"configuracionPedido": {
-			"montoVentaMinima": 1000,
-			"cantidadMaximaUnidades": 999
-		},		
-        "portafolio": [
-          {
-            "codigoProducto": 1860,
-			"esVentaSubunidades": true,
-            "precios": [
-              {
-                "precioConImpuestoUnidad": 120.00,
-                "precioConImpuestoSubunidad": 10.00,
-                "vigenciaInicioPrecio": "2017-09-07",
-                "vigenciaFinPrecio": "2017-09-31"
-              },
-              {
-                "precioConImpuestoUnidad": 120.00,
-                "precioConImpuestoSubunidad": 10.00,
-                "vigenciaInicioPrecio": "2017-10-01",
-                "vigenciaFinPrecio": "9999-12-31"
-              }
-            ]
-          },
-          {
-            "codigoProducto": 1885,
-            "esVentaSubunidades": true,
-            "precios": [
-              {
-                "precioConImpuestoUnidad": 240.00,
-                "precioConImpuestoSubunidad": 20.00,
-                "vigenciaInicioPrecio": "2017-09-07",
-                "vigenciaFinPrecio": "2017-09-31"
-              },
-              {
-                "precioConImpuestoUnidad": 240.00,
-                "precioConImpuestoSubunidad": 20.00,
-                "vigenciaInicioPrecio": "2017-10-01",
-                "vigenciaFinPrecio": "9999-12-31"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "productos": {
-      "1860": {
-        "nombre": "YOLI LIMON BOT 600L NR 12PK",
-        "presentación": 12
-      },
-      "1885": {
-        "nombre": "COCACOLA 900 NR 12PK",
-        "presentación": 12
-      }
-    }
-  }
+		"productos": {
+			"1860": {
+				"nombre": "YOLI LIMON BOT 600L NR 12PK",
+				"presentación": 12
+			},
+			"1885": {
+				"nombre": "COCACOLA 900 NR 12PK",
+				"presentación": 12
+			}
+		}
+	}
 }
