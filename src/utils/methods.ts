@@ -6,3 +6,8 @@ export const darFormatoFecha = (fecha: string): string => {
   const stringFecha: string = `${arregloFecha[2]}/${arregloFecha[1]}/${arregloFecha[0]}`;
   return stringFecha;
 }
+
+export const fechaDispositivo = (): Date => {
+  //return new Date();
+  return new Date(2017,8,6);
+}

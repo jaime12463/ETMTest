@@ -5,9 +5,9 @@ import reportWebVitals from "reportWebVitals";
 import 'lang/i18n';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  // <React.StrictMode>
+    <App />,
+  // </React.StrictMode>,
   document.getElementById("root")
 );
 

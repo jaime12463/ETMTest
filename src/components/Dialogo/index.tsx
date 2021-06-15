@@ -10,7 +10,7 @@ export type Props = {
   titulo?: string;
   mensaje?: string;
   conBotonCancelar?: boolean;
-  manejadorClick: (resultado: boolean) => void;
+  manejadorClick: (oprimioBotonAceptar: boolean) => void;
 };
 
 const Dialogo = ({
@@ -21,8 +21,8 @@ const Dialogo = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const manejarClick = (resultado: boolean) => {
-    manejadorClick(resultado);
+  const manejarClick = (oprimioBotonAceptar: boolean) => {
+    manejadorClick(oprimioBotonAceptar);
   };
 
   return (

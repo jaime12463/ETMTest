@@ -10,13 +10,9 @@ export const useAgregarProductoAlPedidoCliente = (
   setProductoActual: any,
   setValue: any
 ) => {
-  console.log(productoActual, "este es");
   const dispatch = useAppDispatch();
   const agregarProductoAlPedidoCliente = useCallback(
     ({ codigoCliente, unidades, subUnidades, codigoProducto }: any) => {
-      console.log(codigoCliente, "codigo cliente este es");
-      console.log(unidades, "unidades este es");
-      console.log(subUnidades, "subunidades este es");
       if (unidades > 0 || subUnidades > 0) {
         dispatch(
           agregarProductoAlPedidoDelCliente({

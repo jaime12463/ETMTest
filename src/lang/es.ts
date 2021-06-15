@@ -18,7 +18,8 @@ const es = {
         cerrarPedido: 'Cerrar pedido',
         si: 'Si',
         no: 'No',
-        aceptar: 'Aceptar'
+        aceptar: 'Aceptar',
+        cancelar: 'Cancelar',
     },
     titulos: {
         bienvenido: 'Bienvenido',
@@ -27,7 +28,7 @@ const es = {
     },
     advertencias: {
         clienteNoPortafolio: 'El cliente no tiene portafolio informado',
-        cantidadEsMayor: 'La cantidad es mayor a <cantidad> ¿Desea continuar?',
+        cantidadEsMayor: 'La cantidad es mayor a {{cantidad}} ¿Desea continuar?',
         noFechaInformada: 'No tiene fecha de entrega informada',
         fueraDeFrecuencia: 'El cliente está fuera de frecuencia',
         noFechaProgramada: 'El cliente no tiene fecha de entrega programada',

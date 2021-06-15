@@ -27,7 +27,6 @@ export const useAsignarProductoActual = (
         (productoPedido: any) =>
           productoPedido.codigoProducto === codigoProducto.split(" ")[0]
       );
-      console.log(productoActualEncontrado, "productoActualEcontrado")
       if (productoActualEncontrado){
         nuevoProductoActual = {
           ...productoActualEncontrado,
