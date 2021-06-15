@@ -1,53 +1,58 @@
-import {useState} from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
-import Button from '@material-ui/core/Button';
-import {useTranslation} from 'react-i18next';
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import { useTranslation } from "react-i18next";
 
 export type Props = {
-	mensaje: string;
-	botones?: string[];
-	handle: Function;
+  titulo?: string;
+  mensaje?: string;
+  conBotonCancelar?: boolean;
+  manejadorClick: (resultado: boolean) => void;
 };
 
-const Dialogo = ({mensaje, botones, handle}: Props) => {
-	const {t} = useTranslation();
-	const [mostrar, setMostrar] = useState(true);
+const Dialogo = ({
+  titulo = "",
+  mensaje = "",
+  conBotonCancelar = false,
+  manejadorClick,
+}: Props) => {
+  const { t } = useTranslation();
 
-	const handleonClick = (result: boolean) => {
-		handle(result);
-		setMostrar(false);
-	};
+  const manejarClick = (resultado: boolean) => {
+    manejadorClick(resultado);
+  };
 
-	
-
-	const action = (
-		<>
-			{botones && botones.length <= 2 ? (
-				botones.map((el, i) => (
-					<Button
-						key={el}
-						color='inherit'
-						size='small'
-						onClick={() =>
-							i === 0 ? handleonClick(true) : handleonClick(false)
-						}
-					>
-						{el}
-					</Button>
-				))
-			) : (
-				<Button
-					color='inherit'
-					size='small'
-					onClick={() => handleonClick(true)}
-				>
-					{t('general.aceptar')}
-				</Button>
-			)}
-		</>
-	);
-
-	return <Snackbar open={mostrar} message={mensaje} action={action} />;
+  return (
+    <Dialog
+      open={true}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      {titulo !== "" && (
+        <DialogTitle id="alert-dialog-title">{titulo}</DialogTitle>
+      )}
+      {mensaje !== "" && (
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {mensaje}
+          </DialogContentText>
+        </DialogContent>
+      )}
+      <DialogActions>
+        {conBotonCancelar && (
+          <Button onClick={() => manejarClick(false)} color="primary">
+            {t("general.cancelar")}
+          </Button>
+        )}
+        <Button onClick={() => manejarClick(true)} color="primary" autoFocus>
+          {t("general.aceptar")}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 };
 
 export default Dialogo;
