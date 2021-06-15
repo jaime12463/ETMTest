@@ -2,15 +2,17 @@
   "datos": {
     "clientes": {
       "120104325": {
-        "montoPedidoMínimo": "1000",
+		"detalles": {
+          "nombreComercial": "CREM LA MORENITA"
+        },
         "visitasPlanificadas": [
           {
             "dia": "2017-09-07",
-            "secuencia": "3"
+            "secuencia": 3
           },
           {
             "dia": "2017-09-09",
-            "secuencia": "5"
+            "secuencia": 5
           }
         ],
         "fechasEntrega": [
@@ -23,47 +25,42 @@
             "fechaEntrega": "2017-09-09"
           }
         ],
-        "detalles": {
-          "nombreComercial": "CREM LA MORENITA"
-        },
-        "configuracionPedido": [
-          {
-            "montoVentaMinima": "1000",
-            "cantidadMaximaUnidades": "999"
-          }
-        ],
+		"configuracionPedido": {
+			"montoVentaMinima": 1000,
+			"cantidadMaximaUnidades": 999
+		},
         "portafolio": [
           {
-            "codigoProducto": "1860",
-            "botelleo": "1",
+            "codigoProducto": 1860,
+			"esVentaSubunidades": true,
             "precios": [
               {
-                "precioConImpuestoUnidad": "120.00",
-                "precioConImpuestoSubunidad": "10.00",
+                "precioConImpuestoUnidad": 120.00,
+                "precioConImpuestoSubunidad": 10.00,
                 "vigenciaInicioPrecio": "2017-09-07",
                 "vigenciaFinPrecio": "2017-09-31"
               },
               {
-                "precioConImpuestoUnidad": "120.00",
-                "precioConImpuestoSubunidad": "10.00",
+                "precioConImpuestoUnidad": 120.00,
+                "precioConImpuestoSubunidad": 10.00,
                 "vigenciaInicioPrecio": "2017-10-01",
                 "vigenciaFinPrecio": "9999-12-31"
               }
             ]
           },
           {
-            "codigoProducto": "1885",
-            "botelleo": "1",
+            "codigoProducto": 1885,
+			"esVentaSubunidades": true,
             "precios": [
               {
-                "precioConImpuestoUnidad": "240.00",
-                "precioConImpuestoSubunidad": "20.00",
+                "precioConImpuestoUnidad": 240.00,
+                "precioConImpuestoSubunidad": 20.00,
                 "vigenciaInicioPrecio": "2017-09-07",
                 "vigenciaFinPrecio": "2017-09-31"
               },
               {
-                "precioConImpuestoUnidad": "240.00",
-                "precioConImpuestoSubunidad": "20.00",
+                "precioConImpuestoUnidad": 240.00,
+                "precioConImpuestoSubunidad": 20.00,
                 "vigenciaInicioPrecio": "2017-10-01",
                 "vigenciaFinPrecio": "9999-12-31"
               }
@@ -72,15 +69,17 @@
         ]
       },
       "234": {
-        "montoPedidoMínimo": "undefined",
+        "detalles": {
+          "nombreComercial": "LA LUPITA"
+        },
         "visitasPlanificadas": [
           {
             "dia": "2017-09-08",
-            "secuencia": "15"
+            "secuencia": 15
           },
           {
             "dia": "2017-09-10",
-            "secuencia": "5"
+            "secuencia": 5
           }
         ],
         "fechasEntrega": [
@@ -93,47 +92,42 @@
             "fechaEntrega": "2017-09-09"
           }
         ],
-        "detalles": {
-          "nombreComercial": "LA LUPITA"
-        },
-        "configuracionPedido": [
-          {
-            "montoVentaMinima": "1000",
-            "cantidadMaximaUnidades": "10"
-          }
-        ],
+		"configuracionPedido": {
+			"montoVentaMinima": 1000,
+			"cantidadMaximaUnidades": 999
+		},		
         "portafolio": [
           {
-            "codigoProducto": "1860",
-            "botelleo": "1",
+            "codigoProducto": 1860,
+			"esVentaSubunidades": true,
             "precios": [
               {
-                "precioConImpuestoUnidad": "120.00",
-                "precioConImpuestoSubunidad": "10.00",
+                "precioConImpuestoUnidad": 120.00,
+                "precioConImpuestoSubunidad": 10.00,
                 "vigenciaInicioPrecio": "2017-09-07",
                 "vigenciaFinPrecio": "2017-09-31"
               },
               {
-                "precioConImpuestoUnidad": "120.00",
-                "precioConImpuestoSubunidad": "10.00",
+                "precioConImpuestoUnidad": 120.00,
+                "precioConImpuestoSubunidad": 10.00,
                 "vigenciaInicioPrecio": "2017-10-01",
                 "vigenciaFinPrecio": "9999-12-31"
               }
             ]
           },
           {
-            "codigoProducto": "1885",
-            "botelleo": "1",
+            "codigoProducto": 1885,
+            "esVentaSubunidades": true,
             "precios": [
               {
-                "precioConImpuestoUnidad": "240.00",
-                "precioConImpuestoSubunidad": "20.00",
+                "precioConImpuestoUnidad": 240.00,
+                "precioConImpuestoSubunidad": 20.00,
                 "vigenciaInicioPrecio": "2017-09-07",
                 "vigenciaFinPrecio": "2017-09-31"
               },
               {
-                "precioConImpuestoUnidad": "240.00",
-                "precioConImpuestoSubunidad": "20.00",
+                "precioConImpuestoUnidad": 240.00,
+                "precioConImpuestoSubunidad": 20.00,
                 "vigenciaInicioPrecio": "2017-10-01",
                 "vigenciaFinPrecio": "9999-12-31"
               }
@@ -145,11 +139,11 @@
     "productos": {
       "1860": {
         "nombre": "YOLI LIMON BOT 600L NR 12PK",
-        "presentación": "12"
+        "presentación": 12
       },
       "1885": {
         "nombre": "COCACOLA 900 NR 12PK",
-        "presentación": "12"
+        "presentación": 12
       }
     }
   }
