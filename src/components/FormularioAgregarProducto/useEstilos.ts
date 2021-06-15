@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-const usarEstilos = makeStyles((theme) => ({
+const useEstilos = makeStyles((theme) => ({
     paper: {
         display: "flex",
         flexDirection: "column",
@@ -16,4 +16,4 @@ const usarEstilos = makeStyles((theme) => ({
         marginTop: "1rem",
     },
 }));
-export default usarEstilos;
+export default useEstilos;
