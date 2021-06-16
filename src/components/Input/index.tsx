@@ -1,16 +1,10 @@
 import {Control, Controller} from 'react-hook-form';
 import {TextField} from '@material-ui/core';
 import {Ref} from 'react';
-import {TInputsFormularioAgregarProducto} from 'models';
 
 export type Props = {
-	control?: Control<TInputsFormularioAgregarProducto> | undefined;
-	name:
-		| 'codigoCliente'
-		| 'unidades'
-		| 'subUnidades'
-		| 'codigoProductoConNombre'
-		| 'productoABuscar';
+	control?: Control<any> | undefined; //TODO: Este any debe ser un typo extendible de FormValues
+	name: string;
 	label: string;
 	defaultValue?: string;
 	rules?: any;
