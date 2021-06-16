@@ -7,6 +7,7 @@ import {
 } from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
 	TCliente,
+	TFechaEntrega,
 	TInputsFormularioAgregarProducto,
 	TPreciosProductos,
 } from 'models';
@@ -27,31 +28,36 @@ export const useAsignarPedidoActual = (
 				codigoCliente
 			);
 			if (clienteEncontrado) {
+				const fechaEntrega: string | undefined = establecerFechaEntrega(
+					clienteEncontrado.fechasEntrega
+				);
 				setExisteCliente(true);
 				dispatch(cambiarClienteActual({codigoCliente: codigoCliente}));
 				dispatch(
 					cambiarFechaEntrega({
-						fechaEntrega: establecerFechaEntrega(
-							clienteEncontrado.fechasEntrega
-						),
+						fechaEntrega: fechaEntrega,
 					})
 				);
-
-				const preciosProductosDelCliente: TPreciosProductos = obtenerPreciosProductosDelCliente(
-					clienteEncontrado
-				);
-				setRazonSocial(clienteEncontrado.detalles.nombreComercial);
-				setPreciosProductos(preciosProductosDelCliente);
+				if (fechaEntrega) {
+					const preciosProductosDelCliente: TPreciosProductos = obtenerPreciosProductosDelCliente(
+						clienteEncontrado,
+						fechaEntrega
+					);
+					setRazonSocial(clienteEncontrado.detalles.nombreComercial);
+					setPreciosProductos(preciosProductosDelCliente);
+				} else {
+					setRazonSocial('');
+					setPreciosProductos([]);
+				}
 			} else {
 				setExisteCliente(false);
 				dispatch(cambiarClienteActual({codigoCliente: ''}));
 				dispatch(cambiarFechaEntrega({fechaEntrega: ''}));
-
 				setRazonSocial('');
 				setPreciosProductos([]);
 			}
 		},
-		[obtenerPreciosProductosDelCliente, obtenerClienteActual]
+		[obtenerPreciosProductosDelCliente, obtenerClienteActual, dispatch]
 	);
 	return asignarPedidoActual;
 };

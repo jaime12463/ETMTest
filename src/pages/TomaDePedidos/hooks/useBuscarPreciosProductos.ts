@@ -6,6 +6,7 @@ import {
 	TPrecioProducto,
 } from 'models';
 import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente} from '.';
+import {establecerFechaEntrega} from 'utils/methods';
 
 export const useBuscarPreciosProductos = (
 	preciosProductos: TPreciosProductos,
@@ -27,10 +28,16 @@ export const useBuscarPreciosProductos = (
 					codigoCliente
 				);
 				if (clienteEncontrado) {
-					const preciosProductosDelCliente: TPreciosProductos = obtenerPreciosProductosDelCliente(
-						clienteEncontrado
+					const fechaEntrega: string | undefined = establecerFechaEntrega(
+						clienteEncontrado.fechasEntrega
 					);
-					setPreciosProductos(preciosProductosDelCliente);
+					if (fechaEntrega) {
+						const preciosProductosDelCliente: TPreciosProductos = obtenerPreciosProductosDelCliente(
+							clienteEncontrado,
+							fechaEntrega
+						);
+						setPreciosProductos(preciosProductosDelCliente);
+					}
 				}
 			} else setPreciosProductos(preciosProductosFiltrados);
 		},
