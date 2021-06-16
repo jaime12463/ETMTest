@@ -9,7 +9,6 @@ export const useObtenerPreciosProductosDelCliente = () => {
 	const {datos} = useAppSelector(selectDatos);
 	const pedidoActual = useAppSelector(selectPedidoActual);
 
-	const fechaAux = {...pedidoActual};
 	const obtenerPreciosProductosDelCliente = useCallback(
 		(clienteEncontrado: TCliente, fechaEntrega: string): TPreciosProductos => {
 			const preciosProductosDelCliente: TPreciosProductos = clienteEncontrado.portafolio
