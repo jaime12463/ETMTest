@@ -21,3 +21,14 @@ export const validarUnidadesMinimasProducto = (
 	}
 	return true;
 };
+
+export const validarMontoMinimoPedido = (
+	montoTotalPedido: number,
+	configuracionPedido: TConfiguracionPedido
+) => {
+	const {montoVentaMinima} = configuracionPedido;
+	if (montoVentaMinima) {
+		if (montoTotalPedido < montoVentaMinima) return false;
+	}
+	return true;
+};
