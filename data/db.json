@@ -37,13 +37,13 @@
 							{
 								"precioConImpuestoUnidad": 120.0,
 								"precioConImpuestoSubunidad": 10.0,
-								"vigenciaInicioPrecio": "2017-09-07",
-								"vigenciaFinPrecio": "2017-09-31"
+								"vigenciaInicioPrecio": "2018-09-07",
+								"vigenciaFinPrecio": "2018-09-31"
 							},
 							{
-								"precioConImpuestoUnidad": 120.0,
+								"precioConImpuestoUnidad": 230.0,
 								"precioConImpuestoSubunidad": 10.0,
-								"vigenciaInicioPrecio": "2017-10-01",
+								"vigenciaInicioPrecio": "2017-01-01",
 								"vigenciaFinPrecio": "9999-12-31"
 							}
 						]

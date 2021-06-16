@@ -11,6 +11,19 @@ export const validarFechaVigenciaProducto = (
 	);
 };
 
+export const obtenerPrecioConImpuestoUnidad = (
+	preciosProductos: TPrecio[],
+	fechaEntrega: string
+) => {
+	const resultado = preciosProductos.find(
+		(precio) =>
+			new Date(precio['vigenciaInicioPrecio']) <= new Date(fechaEntrega) &&
+			new Date(precio['vigenciaFinPrecio']) >= new Date(fechaEntrega)
+	);
+
+	return resultado;
+};
+
 export const validarUnidadesMinimasProducto = (
 	unidades: number,
 	configuracionPedido: TConfiguracionPedido
