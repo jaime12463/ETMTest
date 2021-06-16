@@ -35,6 +35,9 @@ export default function TomaDePedidos() {
 		[]
 	);
 	const [existeCliente, setExisteCliente] = useState<boolean | null>(null);
+	const [frecuenciaValida, setFrecuenciaValida] = useState<boolean | null>(
+		null
+	);
 	const [razonSocial, setRazonSocial] = useState<string>('');
 	const [fechaEntrega, setFechaEntrega] = useState<string>('2017-09-06'); //TODO: Falta implementar esto
 
@@ -81,7 +84,8 @@ export default function TomaDePedidos() {
 	const asignarPedidoActual = useAsignarPedidoActual(
 		setExisteCliente,
 		setRazonSocial,
-		setPreciosProductos
+		setPreciosProductos,
+		setFrecuenciaValida
 	);
 	const buscarPreciosProductos = useBuscarPreciosProductos(
 		preciosProductos,
@@ -148,6 +152,11 @@ export default function TomaDePedidos() {
 						{!existeCliente && existeCliente !== null && (
 							<Alert variant='filled' severity='warning'>
 								{t('advertencias.clienteNoPortafolio')}
+							</Alert>
+						)}
+						{!frecuenciaValida && frecuenciaValida !== null && (
+							<Alert variant='filled' severity='warning'>
+								El cliente está fuera de frecuencia
 							</Alert>
 						)}
 						{existeCliente && pedidoActual.fechaEntrega && (

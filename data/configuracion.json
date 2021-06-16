@@ -1,10 +1,10 @@
 {
-    "datos": {
-        "configuraciones": [
-            {
-                "esFrecuenciaAbierta": "true",
-                "esVentaSubunidadesRuta": "true"
-            }
-        ]
-    }
+	"datos": {
+		"configuraciones": [
+			{
+				"esFrecuenciaAbierta": true,
+				"esVentaSubunidadesRuta": true
+			}
+		]
+	}
 }

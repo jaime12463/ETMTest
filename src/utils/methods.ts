@@ -1,4 +1,4 @@
-import {TFechaEntrega} from 'models';
+import {TCliente, TConfiguracion, TFechaEntrega} from 'models';
 
 export const transformDate = (date: string): string =>
 	`${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}`;
@@ -18,4 +18,24 @@ export const establecerFechaEntrega = (fechasEntrega: TFechaEntrega[]) => {
 	);
 
 	return fechaEncontrada && fechaEncontrada.fechaEntrega;
+};
+
+export const verificarFrecuencia = (
+	clienteEncontrado: TCliente,
+	configuracionActual: TConfiguracion
+) => {
+	if (configuracionActual.esFrecuenciaAbierta) {
+		return clienteEncontrado.fechasEntrega.some(
+			(fecha) => fecha.fechaVisita === '2017-09-06'
+		);
+	} else {
+		return (
+			clienteEncontrado.fechasEntrega.some(
+				(fecha) => fecha.fechaVisita === '2017-09-06'
+			) &&
+			clienteEncontrado.visitasPlanificadas.some(
+				(fecha) => fecha.dia === '2017-09-06'
+			)
+		);
+	}
 };
