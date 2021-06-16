@@ -1,13 +1,18 @@
-import {TCliente} from 'models';
-import {useCallback} from 'react';
+import {
+	TCliente,
+	TInputsFormularioAgregarProducto,
+	TProductoPedidoConPrecios,
+} from 'models';
+import {Dispatch, SetStateAction, useCallback} from 'react';
+import {UseFormSetValue} from 'react-hook-form';
 import {validarUnidadesMinimasProducto} from 'utils/validaciones';
 import {useAgregarProductoAlPedidoCliente, useObtenerClienteActual} from '.';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
-	setMostarDialogo: any,
-	productoActual: any,
-	setProductoActual: any,
-	setValue: any
+	setMostarDialogo: Dispatch<SetStateAction<boolean>>,
+	productoActual: TProductoPedidoConPrecios,
+	setProductoActual: Dispatch<SetStateAction<TProductoPedidoConPrecios>>,
+	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>
 ) => {
 	const agregarProductoAlPedidoCliente = useAgregarProductoAlPedidoCliente(
 		productoActual,
@@ -16,13 +21,20 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 	);
 	const obtenerClienteActual = useObtenerClienteActual();
 	const validarAgregarProductoAlPedidoCliente = useCallback(
-		({codigoCliente, unidades, subUnidades, codigoProductoConNombre}: any) => {
+		({
+			codigoCliente,
+			unidades,
+			subUnidades,
+			codigoProductoConNombre,
+			productoABuscar,
+		}: TInputsFormularioAgregarProducto) => {
 			const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
 				codigoCliente
 			);
+			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
 			if (
 				validarUnidadesMinimasProducto(
-					unidades,
+					unidadesParseado,
 					clienteEncontrado.configuracionPedido
 				)
 			)
@@ -31,6 +43,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					unidades,
 					subUnidades,
 					codigoProductoConNombre,
+					productoABuscar,
 				});
 			else setMostarDialogo(true);
 		},

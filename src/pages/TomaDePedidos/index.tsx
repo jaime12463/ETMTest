@@ -1,6 +1,6 @@
 import {Fragment, useState} from 'react';
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
-import {TPreciosProductos, TProductoPedidoConPrecios} from 'models';
+import {TInputsFormularioAgregarProducto, TPedidoCliente, TPreciosProductos, TProductoPedidoConPrecios} from 'models';
 import {useAppSelector} from 'redux/hooks';
 import {Button, Grid, Typography} from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
@@ -33,7 +33,7 @@ export default function TomaDePedidos() {
 	const [existeCliente, setExisteCliente] = useState<boolean | null>(null);
 	const [razonSocial, setRazonSocial] = useState<string>('');
 	const [fechaEntrega, setFechaEntrega] = useState<string>('2017-09-06'); //TODO: Falta implementar esto
-	const [mostarDialogo, setMostarDialogo] = useState(false);
+	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
 	const [productoActual, setProductoActual] =
 		useState<TProductoPedidoConPrecios>({
 			codigoProductoConNombre: '',
@@ -44,8 +44,8 @@ export default function TomaDePedidos() {
 		});
 	const {t} = useTranslation();
 	const estilos = useEstilos();
-	const {control, handleSubmit, setValue, getValues} = useForm();
-	const pedidoActual = useAppSelector(selectPedidoActual);
+	const {control, handleSubmit, setValue, getValues} = useForm<TInputsFormularioAgregarProducto>();
+	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
 
 	useObtenerDatos();
 

@@ -103,3 +103,11 @@ export type TConfiguracion = {
     esFrecuenciaAbierta: boolean,
     esVentaSubunidadesRuta: boolean
 }
+
+export type TInputsFormularioAgregarProducto = {
+    codigoCliente: string,
+    unidades: string,
+    subUnidades: string,
+    codigoProductoConNombre: string,
+    productoABuscar: string
+}

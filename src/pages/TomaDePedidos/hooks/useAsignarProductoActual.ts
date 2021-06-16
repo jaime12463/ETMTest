@@ -1,13 +1,19 @@
-import {useCallback} from 'react';
-import {TProductoPedidoConPrecios, TProductoPedido} from 'models';
+import {Dispatch, SetStateAction, useCallback} from 'react';
+import {
+	TProductoPedidoConPrecios,
+	TProductoPedido,
+	TPedidoCliente,
+	TInputsFormularioAgregarProducto,
+} from 'models';
 import {useAppSelector} from 'redux/hooks';
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
+import {UseFormSetValue} from 'react-hook-form';
 
 export const useAsignarProductoActual = (
-	setProductoActual: any,
-	setValue: any
+	setProductoActual: Dispatch<SetStateAction<TProductoPedidoConPrecios>>,
+	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>
 ) => {
-	const pedidoActual = useAppSelector(selectPedidoActual);
+	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
 	const asignarProductoActual = useCallback(
 		({
 			codigoProductoConNombre,
@@ -34,17 +40,17 @@ export const useAsignarProductoActual = (
 					precioConImpuestoSubunidad,
 				};
 			}
-			setValue('codigoProductoConNombre', codigoProductoConNombre);
-			setValue(
-				'unidades',
-				nuevoProductoActual.unidades !== 0 ? nuevoProductoActual.unidades : ''
-			);
-			setValue(
-				'subUnidades',
+			const unidadesParseado: string =
+				nuevoProductoActual.unidades !== 0
+					? nuevoProductoActual.unidades.toString()
+					: '';
+			const subUnidadesParseado: string =
 				nuevoProductoActual.subUnidades !== 0
-					? nuevoProductoActual.subUnidades
-					: ''
-			);
+					? nuevoProductoActual.subUnidades.toString()
+					: '';
+			setValue('codigoProductoConNombre', codigoProductoConNombre);
+			setValue('unidades', unidadesParseado);
+			setValue('subUnidades', subUnidadesParseado);
 			setProductoActual(nuevoProductoActual);
 		},
 		[pedidoActual]
