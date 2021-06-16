@@ -27,10 +27,8 @@ import {
 	useAsignarPedidoActual,
 	useAsignarProductoActual,
 	useBuscarPreciosProductos,
-	useManejadorConfirmarAgregarPedido,
-	useObtenerClienteActual,
 } from './hooks';
-import Dialogo from 'components/Dialogo';
+import Dialogo, {Props as PropsDialogo} from 'components/Dialogo';
 
 export default function TomaDePedidos() {
 	const [preciosProductos, setPreciosProductos] = useState<TPreciosProductos>(
@@ -40,6 +38,11 @@ export default function TomaDePedidos() {
 	const [razonSocial, setRazonSocial] = useState<string>('');
 	const [fechaEntrega, setFechaEntrega] = useState<string>('2017-09-06'); //TODO: Falta implementar esto
 	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
+	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
+		mensaje: '',
+		manejadorClick: () => {},
+		conBotonCancelar: false,
+	});
 	const [
 		productoActual,
 		setProductoActual,
@@ -68,9 +71,11 @@ export default function TomaDePedidos() {
 	);
 	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
 		setMostarDialogo,
+		setParametrosDialogo,
 		productoActual,
 		setProductoActual,
-		setValue
+		setValue,
+		getValues
 	);
 	const asignarPedidoActual = useAsignarPedidoActual(
 		setExisteCliente,
@@ -81,16 +86,10 @@ export default function TomaDePedidos() {
 		preciosProductos,
 		setPreciosProductos
 	);
-	const agregarPedidoAlListado = useAgregarPedidoAlListado();
-
-	const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido(
+	const agregarPedidoAlListado = useAgregarPedidoAlListado(
 		setMostarDialogo,
-		productoActual,
-		setProductoActual,
-		setValue,
-		getValues
+		setParametrosDialogo
 	);
-	const obtenerClienteActual = useObtenerClienteActual();
 
 	return (
 		<>
@@ -100,16 +99,7 @@ export default function TomaDePedidos() {
 				esConLogoInferior={false}
 			>
 				<Fragment>
-					{mostarDialogo && (
-						<Dialogo
-							mensaje={t('advertencias.cantidadEsMayor', {
-								cantidad: obtenerClienteActual(getValues('codigoCliente'))
-									.configuracionPedido.cantidadMaximaUnidades,
-							})}
-							manejadorClick={manejadorConfirmarAgregarPedido}
-							conBotonCancelar={true}
-						/>
-					)}
+					{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 					<Grid
 						container
 						direction='row'

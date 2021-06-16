@@ -4,21 +4,37 @@ import {
 	TProductoPedidoConPrecios,
 } from 'models';
 import {Dispatch, SetStateAction, useCallback} from 'react';
-import {UseFormSetValue} from 'react-hook-form';
+import {UseFormGetValues, UseFormSetValue} from 'react-hook-form';
 import {validarUnidadesMinimasProducto} from 'utils/validaciones';
-import {useAgregarProductoAlPedidoCliente, useObtenerClienteActual} from '.';
+import {
+	useAgregarProductoAlPedidoCliente,
+	useManejadorConfirmarAgregarPedido,
+	useObtenerClienteActual,
+} from '.';
+import {Props as PropsDialogo} from 'components/Dialogo';
+import {useTranslation} from 'react-i18next';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
 	setMostarDialogo: Dispatch<SetStateAction<boolean>>,
+	setParametrosDialogo: Dispatch<SetStateAction<PropsDialogo>>,
 	productoActual: TProductoPedidoConPrecios,
 	setProductoActual: Dispatch<SetStateAction<TProductoPedidoConPrecios>>,
-	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>
+	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
+	getValues: UseFormGetValues<TInputsFormularioAgregarProducto>
 ) => {
 	const agregarProductoAlPedidoCliente = useAgregarProductoAlPedidoCliente(
 		productoActual,
 		setProductoActual,
 		setValue
 	);
+	const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido(
+		setMostarDialogo,
+		productoActual,
+		setProductoActual,
+		setValue,
+		getValues
+	);
+	const {t} = useTranslation();
 	const obtenerClienteActual = useObtenerClienteActual();
 	const validarAgregarProductoAlPedidoCliente = useCallback(
 		({
@@ -45,9 +61,24 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					codigoProductoConNombre,
 					productoABuscar,
 				});
-			else setMostarDialogo(true);
+			else {
+				setParametrosDialogo({
+					mensaje: t('advertencias.cantidadEsMayor', {
+						cantidad:
+							clienteEncontrado.configuracionPedido.cantidadMaximaUnidades,
+					}),
+					manejadorClick: manejadorConfirmarAgregarPedido,
+					conBotonCancelar: true,
+				});
+				setMostarDialogo(true);
+			}
 		},
-		[productoActual, obtenerClienteActual, agregarProductoAlPedidoCliente]
+		[
+			obtenerClienteActual,
+			agregarProductoAlPedidoCliente,
+			manejadorConfirmarAgregarPedido,
+			t,
+		]
 	);
 	return validarAgregarProductoAlPedidoCliente;
 };
