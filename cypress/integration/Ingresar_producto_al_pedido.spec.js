@@ -15,7 +15,7 @@ describe('Ingresar producto al pedido', () => {
 			cy.get(`[data-cy=codigo-cliente]`).type('234{enter}');
 			cy.get('[data-cy=codigo-producto]').type('1860');
 			cy.get('[data-cy=1860]').click();
-			cy.get('[data-cy=cantidad-producto-unidades]').should('value', ''); // Revisar
+			cy.get('[data-cy=cantidad-producto-unidades]').should('have.value', ''); // Revisar
 		});
 	});
 	it('El prevendedor selecciona un producto que incorporó previamente al pedido', () => {
