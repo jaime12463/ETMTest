@@ -112,7 +112,7 @@ export default function TomaDePedidos() {
 								/>
 							</form>
 						</Grid>
-						{existeCliente && (
+						{existeCliente && pedidoActual.fechaEntrega && (
 							<Fragment>
 								<Grid item xs={6} sm={6}>
 									<Typography variant='body2' component='p'>
@@ -134,12 +134,17 @@ export default function TomaDePedidos() {
 								</Grid>
 							</Fragment>
 						)}
+						{existeCliente && !pedidoActual.fechaEntrega && (
+							<Alert variant='filled' severity='warning'>
+								{t('advertencias.noFechaProgramada')}
+							</Alert>
+						)}
 						{!existeCliente && existeCliente !== null && (
 							<Alert variant='filled' severity='warning'>
 								{t('advertencias.clienteNoPortafolio')}
 							</Alert>
 						)}
-						{existeCliente && (
+						{existeCliente && pedidoActual.fechaEntrega && (
 							<Fragment>
 								<FormularioAgregarProducto
 									agregarProductoAlPedidoCliente={

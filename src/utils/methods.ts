@@ -14,7 +14,7 @@ export const establecerFechaEntrega = (fechasEntrega: TFechaEntrega[]) => {
 	const fechaEncontrada = fechasEntrega.find(
 		({fechaVisita}) =>
 			new Date(fechaVisita).toISOString().split('T')[0] ===
-			new Date('2017-09-06').toISOString().split('T')[0]
+			new Date('2017-09-08').toISOString().split('T')[0]
 	);
 
 	return fechaEncontrada && fechaEncontrada.fechaEntrega;
