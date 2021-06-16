@@ -14,27 +14,34 @@ export const establecerFechaEntrega = (fechasEntrega: TFechaEntrega[]) => {
 	const fechaEncontrada = fechasEntrega.find(
 		({fechaVisita}) =>
 			new Date(fechaVisita).toISOString().split('T')[0] ===
-			new Date('2017-09-06').toISOString().split('T')[0]
+			new Date().toISOString().split('T')[0]
 	);
 
 	return fechaEncontrada && fechaEncontrada.fechaEntrega;
 };
 
+// TODO: Verificar metodo para ver zona horaria
 export const verificarFrecuencia = (
 	clienteEncontrado: TCliente,
 	configuracionActual: TConfiguracion
 ) => {
 	if (configuracionActual.esFrecuenciaAbierta) {
 		return clienteEncontrado.fechasEntrega.some(
-			(fecha) => fecha.fechaVisita === '2017-09-06'
+			(fecha) =>
+				new Date(fecha.fechaVisita).toISOString().split('T')[0] ===
+				new Date().toISOString().split('T')[0]
 		);
 	} else {
 		return (
 			clienteEncontrado.fechasEntrega.some(
-				(fecha) => fecha.fechaVisita === '2017-09-06'
+				(fecha) =>
+					new Date(fecha.fechaVisita).toISOString().split('T')[0] ===
+					new Date().toISOString().split('T')[0]
 			) &&
 			clienteEncontrado.visitasPlanificadas.some(
-				(fecha) => fecha.dia === '2017-09-06'
+				(fecha) =>
+					new Date(fecha.dia).toISOString().split('T')[0] ===
+					new Date().toISOString().split('T')[0]
 			)
 		);
 	}
