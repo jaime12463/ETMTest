@@ -1,23 +1,28 @@
-import {useCallback} from 'react';
+import {Dispatch, SetStateAction, useCallback} from 'react';
 import {useAppDispatch} from 'redux/hooks';
+
 import {
 	cambiarClienteActual,
 	cambiarFechaEntrega,
 } from 'redux/features/pedidoActual/pedidoActualSlice';
-import {TCliente, TPreciosProductos} from 'models';
+import {
+	TCliente,
+	TInputsFormularioAgregarProducto,
+	TPreciosProductos,
+} from 'models';
 import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente} from '.';
 import {establecerFechaEntrega} from 'utils/methods';
 
 export const useAsignarPedidoActual = (
-	setExisteCliente: any,
-	setRazonSocial: any,
-	setPreciosProductos: any
+	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
+	setRazonSocial: Dispatch<SetStateAction<string>>,
+	setPreciosProductos: Dispatch<SetStateAction<TPreciosProductos>>
 ) => {
 	const dispatch = useAppDispatch();
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
 	const obtenerClienteActual = useObtenerClienteActual();
 	const asignarPedidoActual = useCallback(
-		({codigoCliente}: any) => {
+		({codigoCliente}: TInputsFormularioAgregarProducto) => {
 			const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
 				codigoCliente
 			);
@@ -31,6 +36,7 @@ export const useAsignarPedidoActual = (
 						),
 					})
 				);
+
 				const preciosProductosDelCliente: TPreciosProductos = obtenerPreciosProductosDelCliente(
 					clienteEncontrado
 				);
@@ -40,6 +46,7 @@ export const useAsignarPedidoActual = (
 				setExisteCliente(false);
 				dispatch(cambiarClienteActual({codigoCliente: ''}));
 				dispatch(cambiarFechaEntrega({fechaEntrega: ''}));
+
 				setRazonSocial('');
 				setPreciosProductos([]);
 			}

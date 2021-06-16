@@ -1,3 +1,4 @@
 import useObtenerDatos from './useObtenerDatos';
+import {useCalcularTotalPedido} from './useCalcularTotalPedido';
 
-export {useObtenerDatos};
+export {useObtenerDatos, useCalcularTotalPedido};

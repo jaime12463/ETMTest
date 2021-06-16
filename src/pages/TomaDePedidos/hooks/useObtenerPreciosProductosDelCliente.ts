@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { useAppSelector, useAppDispatch } from "redux/hooks";
+import { useAppSelector } from "redux/hooks";
 import { selectDatos } from "redux/features/datos/datosSlice";
-import { TPreciosProductos, TCliente, TPortafolio } from "models";
+import { TPreciosProductos, TCliente } from "models";
 import { validarFechaVigenciaProducto } from "utils/validaciones";
 
 export const useObtenerPreciosProductosDelCliente = () => {

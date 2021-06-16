@@ -12,13 +12,19 @@ const Template: Story<Props> = (args) => (
 	<FormularioAgregarProducto {...args} />
 );
 
-/* export const Primero = Template.bind({});
+export const Primero = Template.bind({});
 Primero.args = {
-	agregarProductoAlPedidoCliente: {
-		codigoProducto: '211',
-		codigoCliente: 'test',
-		unidades: 1,
-		subUnidades: 1,
-	},
+	agregarProductoAlPedidoCliente: ( {
+		codigoProductoConNombre,
+		codigoCliente,
+		unidades,
+		subUnidades,
+	}) => {},
+	buscarPreciosProductos:( {
+		codigoProductoConNombre,
+		codigoCliente,
+		unidades,
+		subUnidades,
+	}) => {},
+	handleSubmit: undefined
 };
- */

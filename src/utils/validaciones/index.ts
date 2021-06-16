@@ -23,7 +23,7 @@ export const validarUnidadesMinimasProducto = (
 ) => {
   const { cantidadMaximaUnidades } = configuracionPedido;
   if (cantidadMaximaUnidades) {
-    if (unidades >= (cantidadMaximaUnidades * 1))
+    if (unidades > cantidadMaximaUnidades)
       return false;
   }
   return true;

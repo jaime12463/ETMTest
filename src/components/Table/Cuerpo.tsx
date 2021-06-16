@@ -32,7 +32,7 @@ export const Cuerpo = ({
           hover
           key={producto.codigoProducto}
           onClick={() =>
-            asignarProductoActual({
+            asignarProductoActual({ //TODO: Esto hay que mirarlo a fondo
               codigoProductoConNombre: `${producto.codigoProducto} ${producto.nombre}`,
               unidades: 0,
               subUnidades: 0,

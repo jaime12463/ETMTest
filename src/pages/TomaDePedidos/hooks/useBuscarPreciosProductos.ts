@@ -1,17 +1,22 @@
-import {useCallback} from 'react';
-import {TPreciosProductos, TCliente} from 'models';
+import {Dispatch, SetStateAction, useCallback} from 'react';
+import {
+	TPreciosProductos,
+	TCliente,
+	TInputsFormularioAgregarProducto,
+	TPrecioProducto,
+} from 'models';
 import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente} from '.';
 
 export const useBuscarPreciosProductos = (
-	preciosProductos: any,
-	setPreciosProductos: any
+	preciosProductos: TPreciosProductos,
+	setPreciosProductos: Dispatch<SetStateAction<TPreciosProductos>>
 ) => {
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
 	const obtenerClienteActual = useObtenerClienteActual();
 	const buscarPreciosProductos = useCallback(
-		({codigoCliente, productoABuscar}: any) => {
-			const preciosProductosFiltrados = preciosProductos.filter(
-				(precioProducto: any) =>
+		({codigoCliente, productoABuscar}: TInputsFormularioAgregarProducto) => {
+			const preciosProductosFiltrados: TPreciosProductos = preciosProductos.filter(
+				(precioProducto: TPrecioProducto) =>
 					precioProducto.codigoProducto.toString().includes(productoABuscar) ||
 					precioProducto.nombre
 						.toLowerCase()
