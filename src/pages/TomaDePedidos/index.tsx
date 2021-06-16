@@ -34,14 +34,16 @@ export default function TomaDePedidos() {
 	const [razonSocial, setRazonSocial] = useState<string>('');
 	const [fechaEntrega, setFechaEntrega] = useState<string>('2017-09-06'); //TODO: Falta implementar esto
 	const [mostarDialogo, setMostarDialogo] = useState(false);
-	const [productoActual, setProductoActual] =
-		useState<TProductoPedidoConPrecios>({
-			codigoProductoConNombre: '',
-			unidades: 0,
-			subUnidades: 0,
-			precioConImpuestoUnidad: 0,
-			precioConImpuestoSubunidad: 0,
-		});
+	const [
+		productoActual,
+		setProductoActual,
+	] = useState<TProductoPedidoConPrecios>({
+		codigoProductoConNombre: '',
+		unidades: 0,
+		subUnidades: 0,
+		precioConImpuestoUnidad: 0,
+		precioConImpuestoSubunidad: 0,
+	});
 	const {t} = useTranslation();
 	const estilos = useEstilos();
 	const {control, handleSubmit, setValue, getValues} = useForm();
@@ -53,13 +55,12 @@ export default function TomaDePedidos() {
 		setProductoActual,
 		setValue
 	);
-	const validarAgregarProductoAlPedidoCliente =
-		useValidarAgregarProductoAlPedidoCliente(
-			setMostarDialogo,
-			productoActual,
-			setProductoActual,
-			setValue
-		);
+	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
+		setMostarDialogo,
+		productoActual,
+		setProductoActual,
+		setValue
+	);
 	const asignarPedidoActual = useAsignarPedidoActual(
 		setExisteCliente,
 		setRazonSocial,
@@ -122,9 +123,13 @@ export default function TomaDePedidos() {
 									<Typography variant='body2' component='p'>
 										{t('general.fechaEntrega')}
 										{': '}
-										{darFormatoFecha(
-											new Date(fechaEntrega).toISOString().split('T')[0]
-										)}
+										{pedidoActual.fechaEntrega
+											? darFormatoFecha(
+													new Date(pedidoActual.fechaEntrega)
+														.toISOString()
+														.split('T')[0]
+											  )
+											: 'No existe Fecha'}
 									</Typography>
 								</Grid>
 							</Fragment>
