@@ -61,7 +61,7 @@ const FormularioAgregarProducto = ({
 						name='unidades'
 						control={control}
 						type='number'
-						inputDataCY='cantidad-producto'
+						inputDataCY='cantidad-producto-unidades'
 					/>
 				</form>
 			</Grid>
@@ -75,6 +75,7 @@ const FormularioAgregarProducto = ({
 						name='subUnidades'
 						control={control}
 						type='number'
+						inputDataCY='cantidad-producto-subUnidades'
 					/>
 				</form>
 			</Grid>
