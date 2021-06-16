@@ -16,8 +16,10 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '4a184452-6af1-4f18-a419-a1e43b705487'
   imageRepository: 'etm_omnichannel_tomapedido'
+  imageRepositoryServer: 'etm_omnichannel_tomapedido_server'
   containerRegistry: 'hasarcontainerregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  dockerServerfilePath: '$(Build.SourcesDirectory)/data/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
@@ -33,7 +35,7 @@ stages:
       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
-      displayName: Build and push an image to container registry
+      displayName: Build and push app image to container registry
       inputs:
         command: buildAndPush
         repository: $(imageRepository)
@@ -41,3 +43,12 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+    - task: Docker@2
+      displayName: Build and push server to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepositoryServer)
+        dockerfile: $(dockerServerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)          
