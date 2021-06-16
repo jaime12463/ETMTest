@@ -19,6 +19,4 @@ export default {
 const Template: Story<Props> = (args) => <TarjetaPedido {...args} />;
 
 export const Primero = Template.bind({});
-Primero.args = {
-	pedido: [],
-};
+Primero.args = {};

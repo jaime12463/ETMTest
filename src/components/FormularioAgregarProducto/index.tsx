@@ -13,7 +13,7 @@ export type Props = {
 	buscarPreciosProductos: (
 		inputsFormularioAgregarProducto: TInputsFormularioAgregarProducto
 	) => void;
-	control: Control<TInputsFormularioAgregarProducto>;
+	control?: Control<TInputsFormularioAgregarProducto>;
 	handleSubmit: UseFormHandleSubmit<TInputsFormularioAgregarProducto>;
 };
 

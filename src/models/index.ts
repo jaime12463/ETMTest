@@ -111,3 +111,9 @@ export type TInputsFormularioAgregarProducto = {
     codigoProductoConNombre: string,
     productoABuscar: string
 }
+
+export type TTotalPedido = {
+	totalUnidades: number;
+	totalSubUnidades: number;
+	totalPrecio: number;
+};

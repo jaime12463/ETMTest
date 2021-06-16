@@ -1,4 +1,3 @@
-import React from 'react';
 import {TableContainer} from '@material-ui/core';
 import {TPreciosProductos, TProductoPedidoConPrecios} from 'models';
 import useEstilos from './useEstilos';
