@@ -5,7 +5,7 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+- master/features/*
 
 pool:
   vmImage: windows-2019
