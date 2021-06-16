@@ -1,7 +1,7 @@
 @Clientes_fuera_de_frecuencia @Sprint3
 
 # Si por configuración no se permite operar fuera de frecuencia (esFrecuenciaAbierta=false) 
-# y el cliente ingresado no tiene una visita programada para la fecha del dispositivo, 
+# y el cliente ingresado no tiene una visita planificada para la fecha del dispositivo, 
 # se debe dar aviso que el cliente está fuera de frecuencia y no se debe mostrar la información del cliente.
 # Si no tiene fecha de entrega informada para la fecha en que se lo está visitando, 
 # el sistema informa, “no tiene fecha de entrega informada” y no se muestra la información del cliente
@@ -18,7 +18,7 @@ Característica: clientes fuera de frecuencia
 @Test_dispositivo_1
 Esquema del escenario: N°1 - Visita a cliente en frecuencia
 	Dado que por configuración la frecuencia de venta <esFrecuenciaAbierta>  
-	Cuando ingreso un cliente que tiene una visita programada para la fecha actual 
+	Cuando ingreso un cliente que tiene una visita planificada para la fecha actual 
 	Entonces el sistema habilita el ingreso del pedido
 
 Ejemplos:
@@ -29,7 +29,7 @@ Ejemplos:
 @Test_dispositivo_2		
 Esquema del escenario: N°2 - Visita a cliente fuera de frecuencia
 	Dado que por configuración la frecuencia de venta <esFrecuenciaAbierta>  
-	Cuando ingreso un cliente que no tiene una visita programada para la fecha actual 
+	Cuando ingreso un cliente que no tiene una visita planificada para la fecha actual 
 	Entonces el sistema realiza <Acción>
 
 Ejemplos:
