@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   cra-runtime-environment-variables:
-    image: toma_pedido_femsa:0.1.0
+    image: etm_omnichannel_tomapedido:0.1.0
     ports:
       - "5000:80"
     environment:

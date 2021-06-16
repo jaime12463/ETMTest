@@ -2,10 +2,9 @@
 FROM node:alpine as builder
 WORKDIR /app
 COPY package.json .
-COPY yarn.lock .
-RUN yarn
+COPY package-lock.json .
 COPY . .
-RUN yarn build
+RUN npm run build
 
 # => Run container
 FROM nginx:1.15.2-alpine
