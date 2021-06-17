@@ -168,6 +168,7 @@ export default function TomaDePedidos() {
 									buscarPreciosProductos={buscarPreciosProductos}
 									handleSubmit={handleSubmit}
 									control={control}
+									disabled={productoActual.codigoProductoConNombre === ''}
 								/>
 								<TablaProductos
 									titulos={[t('general.producto'), t('general.precio')]}

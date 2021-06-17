@@ -31,7 +31,6 @@ export const useAsignarPedidoActual = (
 
 	const asignarPedidoActual = useCallback(
 		({codigoCliente}: TInputsFormularioAgregarProducto) => {
-			console.log(datos);
 			const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
 				codigoCliente
 			);
@@ -41,7 +40,6 @@ export const useAsignarPedidoActual = (
 
 			// TODO: metodo para validar frecuencia
 			const value = verificarFrecuencia(clienteEncontrado, configuracionActual);
-			console.log(value);
 			if (clienteEncontrado) {
 				if (value) {
 					const fechaEntrega: string | undefined = establecerFechaEntrega(
