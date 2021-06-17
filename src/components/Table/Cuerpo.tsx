@@ -54,7 +54,7 @@ export const Cuerpo = ({
 								precioConImpuestoSubunidad: precios.precioConImpuestoSubunidad,
 							})
 						}
-						data-cy={`valor-${i}`}
+						data-cy={`producto-tabla-${i}`}
 					>
 						<Celda estilos={estilos} texto={obtenerNombreYCodigo(producto)} />
 						<Celda
