@@ -47,24 +47,18 @@ export default function TomaDePedidos() {
 		manejadorClick: () => {},
 		conBotonCancelar: false,
 	});
-	const [
-		productoActual,
-		setProductoActual,
-	] = useState<TProductoPedidoConPrecios>({
-		codigoProductoConNombre: '',
-		unidades: 0,
-		subUnidades: 0,
-		precioConImpuestoUnidad: 0,
-		precioConImpuestoSubunidad: 0,
-	});
+	const [productoActual, setProductoActual] =
+		useState<TProductoPedidoConPrecios>({
+			codigoProductoConNombre: '',
+			unidades: 0,
+			subUnidades: 0,
+			precioConImpuestoUnidad: 0,
+			precioConImpuestoSubunidad: 0,
+		});
 	const {t} = useTranslation();
 	const estilos = useEstilos();
-	const {
-		control,
-		handleSubmit,
-		setValue,
-		getValues,
-	} = useForm<TInputsFormularioAgregarProducto>();
+	const {control, handleSubmit, setValue, getValues} =
+		useForm<TInputsFormularioAgregarProducto>();
 	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
 
 	useObtenerDatos();
@@ -73,14 +67,15 @@ export default function TomaDePedidos() {
 		setProductoActual,
 		setValue
 	);
-	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
-		setMostarDialogo,
-		setParametrosDialogo,
-		productoActual,
-		setProductoActual,
-		setValue,
-		getValues
-	);
+	const validarAgregarProductoAlPedidoCliente =
+		useValidarAgregarProductoAlPedidoCliente(
+			setMostarDialogo,
+			setParametrosDialogo,
+			productoActual,
+			setProductoActual,
+			setValue,
+			getValues
+		);
 	const asignarPedidoActual = useAsignarPedidoActual(
 		setExisteCliente,
 		setRazonSocial,
@@ -155,7 +150,11 @@ export default function TomaDePedidos() {
 							</Alert>
 						)}
 						{!frecuenciaValida && frecuenciaValida !== null && (
-							<Alert variant='filled' severity='warning'>
+							<Alert
+								data-cy='alerta-frecuencia'
+								variant='filled'
+								severity='warning'
+							>
 								El cliente está fuera de frecuencia
 							</Alert>
 						)}
