@@ -1,10 +1,4 @@
 version: "3.2"
 services:
   etm_omnichannel_tomapedido:
-    image: hasarcontainerregistry.azurecr.io/etm_omnichannel_tomapedido:401
-    ports:
-      - "5000:80"
-    environment:
-      - "REACT_APP_API_URL=http://etm_omnichannel_tomapedido_server:4000/clientes"
-  etm_omnichannel_tomapedido_server:
-    image: hasarcontainerregistry.azurecr.io/etm_omnichannel_tomapedido_server:401
+    image: hello-world
