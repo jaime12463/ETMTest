@@ -8,6 +8,7 @@ import {
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {useAppSelector} from 'redux/hooks';
 import {obtenerPrecioConImpuestoUnidad} from 'utils/validaciones';
+
 import {Celda} from './Celda';
 
 type PropsCuerpo = {

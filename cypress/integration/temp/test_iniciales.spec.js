@@ -35,7 +35,7 @@ describe("Primeros Tests", () => {
     cy.get(`[data-cy=codigo-cliente]`).type("120104325{enter}");
     cy.get("[data-cy=codigo-producto]").type("1860");
     cy.get("[data-cy=1860]").click();
-    cy.get("[data-cy=cantidad-producto]").type("100{enter}");
+    cy.get('[data-cy=cantidad-producto-unidades]').type('100{enter}');
 
     cy.get("[data-cy=cantidad-productos-pedido]").should("contain", "100");
   });
