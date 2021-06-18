@@ -34,23 +34,6 @@ export const verificarFrecuencia = (
 	clienteEncontrado: TCliente,
 	configuracionActual: TConfiguracion
 ) => {
-	if (configuracionActual.esFrecuenciaAbierta) {
-		return clienteEncontrado.fechasEntrega.some(
-			(fecha) =>
-				new Date(fecha.fechaVisita).toISOString().split('T')[0] ===
-				fechaDispositivo()
-		);
-	} else {
-		return (
-			clienteEncontrado.fechasEntrega.some(
-				(fecha) =>
-					new Date(fecha.fechaVisita).toISOString().split('T')[0] ===
-					fechaDispositivo()
-			) &&
-			clienteEncontrado.visitasPlanificadas.some(
-				(fecha) =>
-					new Date(fecha.dia).toISOString().split('T')[0] === fechaDispositivo()
-			)
-		);
-	}
+	
+	return configuracionActual.esFrecuenciaAbierta;
 };
