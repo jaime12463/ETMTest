@@ -10,7 +10,7 @@ export const darFormatoFecha = (fecha: string): string => {
 };
 
 export const fechaDispositivo = (): String => {
-	let fechaDispositivo = localStorage.getItem('fechaDipostivo');
+	let fechaDispositivo: string | null = localStorage.getItem('fechaDipostivo');
 
 	const fecha: String = fechaDispositivo
 		? new Date(fechaDispositivo).toISOString().split('T')[0]
@@ -34,6 +34,5 @@ export const verificarFrecuencia = (
 	clienteEncontrado: TCliente,
 	configuracionActual: TConfiguracion
 ) => {
-	
 	return configuracionActual.esFrecuenciaAbierta;
 };
