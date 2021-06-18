@@ -49,19 +49,15 @@ export const validarMontoMinimoPedido = (
 export const validarVentaSubUnidades = (
 	esVentaSubunidadesRuta: boolean, esVentaSubunidades: boolean
 ) => {
-	if (esVentaSubunidadesRuta && esVentaSubunidades) {
+	if (esVentaSubunidadesRuta && esVentaSubunidades)
 		return true;
-	} else {
-		return false;
-	}
+	return false;
 }
 
 export const validarSubUnidadesConPresentacion = (
 	presentacion: number, subUnidades: number
 ) => {
-	if (presentacion < subUnidades) {
-		return true;
-	} else {
+	if (presentacion < subUnidades)
 		return false;
-	}
+	return true;
 }

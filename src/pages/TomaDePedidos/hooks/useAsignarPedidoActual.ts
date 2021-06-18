@@ -14,7 +14,6 @@ import {
 } from 'models';
 import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente} from '.';
 import {establecerFechaEntrega, verificarFrecuencia} from 'utils/methods';
-import {selectDatos} from 'redux/features/configuracion/configuracionSlice';
 import {selectPedidosClientes} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
 
@@ -28,7 +27,6 @@ export const useAsignarPedidoActual = (
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
 	const obtenerClienteActual = useObtenerClienteActual();
 	const obtenerConfiguracionActual = useObtenerConfiguracionActual();
-	const {datos} = useAppSelector(selectDatos);
 	const pedidosClientes = useAppSelector(selectPedidosClientes);
 
 	const asignarPedidoActual = useCallback(
@@ -41,8 +39,8 @@ export const useAsignarPedidoActual = (
 				| undefined = obtenerConfiguracionActual();
 
 			// TODO: metodo para validar frecuencia
-			const value = verificarFrecuencia(clienteEncontrado, configuracionActual);
-			if (clienteEncontrado) {
+			if (clienteEncontrado && configuracionActual) {
+				const value = verificarFrecuencia(clienteEncontrado, configuracionActual);
 				if (value) {
 					const fechaEntrega: string | undefined = establecerFechaEntrega(
 						clienteEncontrado.fechasEntrega

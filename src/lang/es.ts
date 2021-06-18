@@ -34,7 +34,8 @@ const es = {
         noFechaProgramada: 'El cliente no tiene fecha de entrega programada',
         limiteSubUnidades: 'Las subunidades deben ser menores a la presentación del producto',
         pedidoMinimo: 'No cumple pedido mínimo de $ <montoVentaMínima>',
-        montoMinimo: 'No cumple con el monto mínimo de venta del pedido'
+        montoMinimo: 'No cumple con el monto mínimo de venta del pedido',
+        subUnidadesNoPermitidas: "Las subunidades no están habilitadas para este producto",
     },
 }
 export default es;
