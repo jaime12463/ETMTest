@@ -11,6 +11,10 @@ export type Props = {
   mensaje?: string;
   conBotonCancelar?: boolean;
   manejadorClick: (oprimioBotonAceptar: boolean) => void;
+  textosBotonesDefault?: {
+    aceptar: string;
+    cancelar?: string;
+  };
 };
 
 const Dialogo = ({
@@ -18,6 +22,7 @@ const Dialogo = ({
   mensaje = "",
   conBotonCancelar = false,
   manejadorClick,
+  textosBotonesDefault
 }: Props) => {
   const { t } = useTranslation();
 
@@ -44,11 +49,11 @@ const Dialogo = ({
       <DialogActions>
         {conBotonCancelar && (
           <Button onClick={() => manejarClick(false)} color="primary">
-            {t("general.cancelar")}
+            {textosBotonesDefault?.cancelar?? t("general.cancelar")}
           </Button>
         )}
         <Button onClick={() => manejarClick(true)} color="primary" autoFocus>
-          {t("general.aceptar")}
+          {textosBotonesDefault?.aceptar?? t("general.aceptar")}
         </Button>
       </DialogActions>
     </Dialog>

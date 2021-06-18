@@ -37,11 +37,9 @@ export const useAsignarPedidoActual = (
 			const configuracionActual:
 				| TConfiguracion
 				| undefined = obtenerConfiguracionActual();
-
-			// TODO: metodo para validar frecuencia
-			if (clienteEncontrado && configuracionActual) {
-				const value = verificarFrecuencia(clienteEncontrado, configuracionActual);
-				if (value) {
+			if (clienteEncontrado) {
+				const frecuenciaValida = verificarFrecuencia(clienteEncontrado, configuracionActual);
+				if (frecuenciaValida) {
 					const fechaEntrega: string | undefined = establecerFechaEntrega(
 						clienteEncontrado.fechasEntrega
 					);
@@ -66,18 +64,19 @@ export const useAsignarPedidoActual = (
 							)
 						}
 						//TODO: Cuando se busque un cliente otra vez debe ir y buscar en la lista y ponerlo en pedido actual
-
 					} else {
 						setRazonSocial('');
 						setPreciosProductos([]);
 					}
 				} else {
 					setFrecuenciaValida(false);
+					setExisteCliente(null);
 					setRazonSocial('');
 					setPreciosProductos([]);
 				}
 			} else {
 				setExisteCliente(false);
+				setFrecuenciaValida(null);
 				dispatch(cambiarClienteActual({codigoCliente: ''}));
 				dispatch(cambiarFechaEntrega({fechaEntrega: ''}));
 				setRazonSocial('');

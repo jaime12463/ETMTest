@@ -132,6 +132,7 @@ export default function TomaDePedidos() {
 									name='codigoCliente'
 									control={control}
 									inputDataCY='codigo-cliente'
+									disabled={pedidoActual.productosPedido.length > 0}
 								/>
 							</form>
 						</Grid>

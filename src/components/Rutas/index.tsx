@@ -1,4 +1,4 @@
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import nombresRutas from '../../routes/nombresRutas';
 import {TomaDePedidos, Inicio, DetallePedido} from '../../pages';
 import {Estructura} from 'components';
@@ -19,9 +19,6 @@ const Anidado = () => {
 const Rutas = () => {
 	return (
 		<BrowserRouter>
-			<Route exact path={nombresRutas.home}>
-				<Inicio />
-			</Route>
 			<Route path={nombresRutas.ingresarpedido}>
 				<RutasAnidadas
 					pathPrincipal=''
@@ -29,6 +26,9 @@ const Rutas = () => {
 					principal={<TomaDePedidos />}
 					anidado={<Anidado />}
 				/>
+			</Route>
+			<Route exact path={nombresRutas.home}>
+				<Inicio />
 			</Route>
 		</BrowserRouter>
 	);
