@@ -27,10 +27,7 @@ const Rutas = () => {
 					anidado={<Anidado />}
 				/>
 			</Route>
-			<Route
-				exact
-				path={`${nombresRutas.home}`}
-			>
+			<Route exact path={nombresRutas.home}>
 				<Inicio />
 			</Route>
 		</BrowserRouter>
