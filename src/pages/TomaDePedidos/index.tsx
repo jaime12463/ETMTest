@@ -199,7 +199,7 @@ export default function TomaDePedidos() {
 									}
 								/>
 								<TablaProductos
-									titulos={[t('general.producto'), t('general.precio')]}
+									titulos={[t('general.producto'),"", t('general.precio')]}
 									preciosProductos={preciosProductos}
 									asignarProductoActual={asignarProductoActual}
 								/>
