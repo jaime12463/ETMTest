@@ -16,6 +16,7 @@ export type Props = {
 	control?: Control<TInputsFormularioAgregarProducto>;
 	handleSubmit: UseFormHandleSubmit<TInputsFormularioAgregarProducto>;
 	disabled: boolean;
+	deshabilitarSubunidades: boolean;
 };
 
 const FormularioAgregarProducto = ({
@@ -24,6 +25,7 @@ const FormularioAgregarProducto = ({
 	handleSubmit,
 	control,
 	disabled,
+	deshabilitarSubunidades
 }: Props) => {
 	const estilos = useEstilos();
 	const {t} = useTranslation();
@@ -79,7 +81,7 @@ const FormularioAgregarProducto = ({
 						control={control}
 						type='number'
 						inputDataCY='cantidad-producto-subUnidades'
-						disabled={disabled}
+						disabled={disabled || deshabilitarSubunidades}
 					/>
 				</form>
 			</Grid>

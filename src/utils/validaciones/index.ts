@@ -57,7 +57,7 @@ export const validarVentaSubUnidades = (
 export const validarSubUnidadesConPresentacion = (
 	presentacion: number, subUnidades: number
 ) => {
-	if (presentacion < subUnidades)
+	if (presentacion <= subUnidades)
 		return false;
 	return true;
 }
