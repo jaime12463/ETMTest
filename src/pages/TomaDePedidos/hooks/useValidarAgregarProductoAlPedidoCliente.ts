@@ -69,6 +69,10 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					}),
 					manejadorClick: manejadorConfirmarAgregarPedido,
 					conBotonCancelar: true,
+					textosBotonesDefault: {
+						aceptar: t('general.si'),
+						cancelar: t('general.no')
+					  }
 				});
 				setMostarDialogo(true);
 			}
