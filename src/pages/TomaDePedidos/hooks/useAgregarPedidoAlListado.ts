@@ -50,7 +50,9 @@ export const useAgregarPedidoAlListado = (
 			//no se recetea pedido actual?
 		} else {
 			setParametrosDialogo({
-				mensaje: t('advertencias.montoMinimo'),
+				mensaje: t('advertencias.pedidoMinimo', {
+					monto: clienteActual.configuracionPedido.montoVentaMinima,
+				}),
 				manejadorClick: () => setMostarDialogo(false),
 				conBotonCancelar: false,
 			});

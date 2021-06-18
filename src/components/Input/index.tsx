@@ -8,7 +8,7 @@ export type Props = {
 	label: string;
 	defaultValue?: string;
 	rules?: any;
-	disabled?: boolean;
+	disabled?: boolean | undefined;
 	type?: string | undefined;
 	autoFocus?: boolean | undefined;
 	inputRef?: Ref<any> | undefined;

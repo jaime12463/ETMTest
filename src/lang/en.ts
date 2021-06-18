@@ -19,7 +19,7 @@ const en = {
 		si: 'Yes',
 		no: 'No',
 		aceptar: 'Accept',
-        cancelar: 'Cancel',
+		cancelar: 'Cancel',
 	},
 	titulos: {
 		bienvenido: 'Welcome',
@@ -35,7 +35,7 @@ const en = {
 		noFechaProgramada: 'The client does not have scheduled delivery date',
 		limiteSubUnidades:
 			'The subunits must be smaller than the presentation of product',
-		pedidoMinimo: 'does not fulfil minimum order of $ <montoVentaMínima>',
+		pedidoMinimo: 'does not fulfil minimum order of ${{monto}}',
 		montoMinimo: 'does not fulfil the minimum sale amount of the order',
 		subUnidadesNoPermitidas: "The subUnits is disabled for this product",
 	},
