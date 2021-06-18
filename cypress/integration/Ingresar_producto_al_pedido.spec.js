@@ -1,6 +1,6 @@
 describe('Ingresar producto al pedido', () => {
 	beforeEach(() => {
-		cy.server().route('GET', '/femsa/tomapedidos').as('data');
+		cy.intercept('GET', '/femsa/tomapedidos').as('data');
 		cy.visit('/');
 		cy.on('uncaught:exception', (err, runnable) => {
 			console.log(err);
@@ -33,5 +33,3 @@ describe('Ingresar producto al pedido', () => {
 		});
 	});
 });
-
-
