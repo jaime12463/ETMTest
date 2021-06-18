@@ -7,6 +7,7 @@ import { useObtenerPreciosProductosDelCliente } from "./useObtenerPreciosProduct
 import { useValidarAgregarProductoAlPedidoCliente } from "./useValidarAgregarProductoAlPedidoCliente";
 import { useManejadorConfirmarAgregarPedido } from "./useManejadorConfirmarAgregarPedido";
 import { useObtenerClienteActual } from "./useObtenerClienteActual";
+import { usePermiteSubUnidades } from "./usePermiteSubUnidades";
 
 export {
   useAgregarPedidoAlListado,
@@ -17,5 +18,6 @@ export {
   useObtenerPreciosProductosDelCliente,
   useValidarAgregarProductoAlPedidoCliente,
   useManejadorConfirmarAgregarPedido,
-  useObtenerClienteActual
+  useObtenerClienteActual,
+  usePermiteSubUnidades
 };

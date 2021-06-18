@@ -1,12 +1,12 @@
 import {TConfiguracion} from 'models';
 import {useCallback} from 'react';
 import {useAppSelector} from 'redux/hooks';
-import {selectDatos} from 'redux/features/configuracion/configuracionSlice';
+import {selectConfiguracion} from 'redux/features/configuracion/configuracionSlice';
 
 export const useObtenerConfiguracionActual = () => {
 	const {
 		datos: {configuraciones},
-	} = useAppSelector(selectDatos);
+	} = useAppSelector(selectConfiguracion);
 	const obtenerConfiguracion = useCallback(() => {
 		const configuracion: TConfiguracion | undefined = configuraciones[0];
 		return configuracion;

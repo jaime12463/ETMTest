@@ -38,5 +38,5 @@ export const datosSlice = createSlice({
     },
 })
 
-export const selectDatos = (state: RootState) => state.configuracion;
+export const selectConfiguracion= (state: RootState) => state.configuracion;
 export default datosSlice.reducer;

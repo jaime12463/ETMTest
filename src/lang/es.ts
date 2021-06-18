@@ -36,6 +36,8 @@ const es = {
 			'Las subunidades deben ser menores a la presentación del producto',
 		pedidoMinimo: 'No cumple con el pedido mínimo de ${{monto}}',
 		montoMinimo: 'No cumple con el monto mínimo de venta del pedido',
+		subUnidadesNoPermitidas:
+			'Las subunidades no están habilitadas para este producto',
 	},
 };
 export default es;

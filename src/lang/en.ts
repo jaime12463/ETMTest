@@ -37,6 +37,7 @@ const en = {
 			'The subunits must be smaller than the presentation of product',
 		pedidoMinimo: 'does not fulfil minimum order of ${{monto}}',
 		montoMinimo: 'does not fulfil the minimum sale amount of the order',
+		subUnidadesNoPermitidas: "The subUnits is disabled for this product",
 	},
 };
 export default en;

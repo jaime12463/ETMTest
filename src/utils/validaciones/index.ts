@@ -1,4 +1,4 @@
-import {TPrecio, TFechaEntrega, TConfiguracionPedido} from 'models';
+import { TPrecio, TFechaEntrega, TConfiguracionPedido } from 'models';
 
 export const validarFechaVigenciaProducto = (
 	preciosProductos: TPrecio[],
@@ -28,7 +28,7 @@ export const validarUnidadesMinimasProducto = (
 	unidades: number,
 	configuracionPedido: TConfiguracionPedido
 ) => {
-	const {cantidadMaximaUnidades} = configuracionPedido;
+	const { cantidadMaximaUnidades } = configuracionPedido;
 	if (cantidadMaximaUnidades) {
 		if (unidades > cantidadMaximaUnidades) return false;
 	}
@@ -39,9 +39,25 @@ export const validarMontoMinimoPedido = (
 	montoTotalPedido: number,
 	configuracionPedido: TConfiguracionPedido
 ) => {
-	const {montoVentaMinima} = configuracionPedido;
+	const { montoVentaMinima } = configuracionPedido;
 	if (montoVentaMinima) {
 		if (montoTotalPedido < montoVentaMinima) return false;
 	}
 	return true;
 };
+
+export const validarVentaSubUnidades = (
+	esVentaSubunidadesRuta: boolean, esVentaSubunidades: boolean
+) => {
+	if (esVentaSubunidadesRuta && esVentaSubunidades)
+		return true;
+	return false;
+}
+
+export const validarSubUnidadesConPresentacion = (
+	presentacion: number, subUnidades: number
+) => {
+	if (presentacion < subUnidades)
+		return false;
+	return true;
+}
