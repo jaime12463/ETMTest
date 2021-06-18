@@ -10,16 +10,20 @@ export const darFormatoFecha = (fecha: string): string => {
 };
 
 export const fechaDispositivo = (): String => {
-	const fecha:String = process.env.FECHA_DISPOSITIVO ? new Date(process.env.FECHA_DISPOSITIVO).toISOString().split('T')[0] :  new Date().toISOString().split('T')[0];
+	let fechaDispositivo = localStorage.getItem('fechaDipostivo');
+
+	const fecha: String = fechaDispositivo
+		? new Date(fechaDispositivo).toISOString().split('T')[0]
+		: new Date().toISOString().split('T')[0];
+
 	return fecha;
-  }
+};
 
 // TODO: Verificar este método ya que la fecha del sistema no debe estar hardcodeada
 export const establecerFechaEntrega = (fechasEntrega: TFechaEntrega[]) => {
 	const fechaEncontrada = fechasEntrega.find(
 		({fechaVisita}) =>
-			new Date(fechaVisita).toISOString().split('T')[0] ===
-			fechaDispositivo()
+			new Date(fechaVisita).toISOString().split('T')[0] === fechaDispositivo()
 	);
 
 	return fechaEncontrada && fechaEncontrada.fechaEntrega;
@@ -35,7 +39,7 @@ export const verificarFrecuencia = (
 			(fecha) =>
 				new Date(fecha.fechaVisita).toISOString().split('T')[0] ===
 				fechaDispositivo()
-		)
+		);
 	} else {
 		return (
 			clienteEncontrado.fechasEntrega.some(
@@ -45,8 +49,7 @@ export const verificarFrecuencia = (
 			) &&
 			clienteEncontrado.visitasPlanificadas.some(
 				(fecha) =>
-					new Date(fecha.dia).toISOString().split('T')[0] ===
-					fechaDispositivo()
+					new Date(fecha.dia).toISOString().split('T')[0] === fechaDispositivo()
 			)
 		);
 	}
