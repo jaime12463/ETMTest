@@ -38,10 +38,8 @@ export default function TomaDePedidos() {
 	const [frecuenciaValida, setFrecuenciaValida] = useState<boolean | null>(
 		null
 	);
-	const [
-		avisoPedidoGuardadoExitoso,
-		setAvisoPedidoGuardadoExitoso,
-	] = useState<boolean>(false);
+	const [avisoPedidoGuardadoExitoso, setAvisoPedidoGuardadoExitoso] =
+		useState<boolean>(false);
 	const [razonSocial, setRazonSocial] = useState<string>('');
 	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
 	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
@@ -132,7 +130,11 @@ export default function TomaDePedidos() {
 									name='codigoCliente'
 									control={control}
 									inputDataCY='codigo-cliente'
-									disabled={pedidoActual.productosPedido.length > 0}
+									disabled={
+										existeCliente
+											? pedidoActual.productosPedido.length > 0
+											: false
+									}
 								/>
 							</form>
 						</Grid>
