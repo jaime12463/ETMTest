@@ -1,18 +1,18 @@
-import {Fragment, SyntheticEvent, useState} from 'react';
-import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
+import { Fragment, SyntheticEvent, useState } from 'react';
+import { selectPedidoActual } from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
 	TInputsFormularioAgregarProducto,
 	TPedidoCliente,
 	TPreciosProductos,
 	TProductoPedidoConPrecios,
 } from 'models';
-import {useAppSelector} from 'redux/hooks';
-import {Button, Grid, Snackbar, Typography} from '@material-ui/core';
-import {useTranslation} from 'react-i18next';
+import { useAppSelector } from 'redux/hooks';
+import { Button, Grid, Snackbar, Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import useEstilos from './useEstilos';
-import {useForm} from 'react-hook-form';
-import {Alert} from '@material-ui/lab';
-import {darFormatoFecha} from 'utils/methods';
+import { useForm } from 'react-hook-form';
+import { Alert } from '@material-ui/lab';
+import { darFormatoFecha } from 'utils/methods';
 import {
 	TablaProductos,
 	FormularioAgregarProducto,
@@ -20,15 +20,16 @@ import {
 	Input,
 	Estructura,
 } from 'components';
-import {useObtenerDatos} from '../../hooks';
+import { useObtenerDatos } from '../../hooks';
 import {
 	useAgregarPedidoAlListado,
 	useValidarAgregarProductoAlPedidoCliente,
 	useAsignarPedidoActual,
 	useAsignarProductoActual,
 	useBuscarPreciosProductos,
+	usePermiteSubUnidades,
 } from './hooks';
-import Dialogo, {Props as PropsDialogo} from 'components/Dialogo';
+import Dialogo, { Props as PropsDialogo } from 'components/Dialogo';
 
 export default function TomaDePedidos() {
 	const [preciosProductos, setPreciosProductos] = useState<TPreciosProductos>(
@@ -44,7 +45,7 @@ export default function TomaDePedidos() {
 	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
 	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
 		mensaje: '',
-		manejadorClick: () => {},
+		manejadorClick: () => { },
 		conBotonCancelar: false,
 	});
 	const [productoActual, setProductoActual] =
@@ -55,9 +56,9 @@ export default function TomaDePedidos() {
 			precioConImpuestoUnidad: 0,
 			precioConImpuestoSubunidad: 0,
 		});
-	const {t} = useTranslation();
+	const { t } = useTranslation();
 	const estilos = useEstilos();
-	const {control, handleSubmit, setValue, getValues} =
+	const { control, handleSubmit, setValue, getValues } =
 		useForm<TInputsFormularioAgregarProducto>();
 	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
 
@@ -93,11 +94,12 @@ export default function TomaDePedidos() {
 		setValue,
 		setAvisoPedidoGuardadoExitoso
 	);
+	const permiteSubUnidades = usePermiteSubUnidades();
 
 	const cerrarAvisoPedidoGuardado = (event: SyntheticEvent<Element, Event>) => {
 		setAvisoPedidoGuardadoExitoso(false);
 	};
-
+	
 	return (
 		<>
 			<Estructura
@@ -151,10 +153,10 @@ export default function TomaDePedidos() {
 										{': '}
 										{pedidoActual.fechaEntrega
 											? darFormatoFecha(
-													new Date(pedidoActual.fechaEntrega)
-														.toISOString()
-														.split('T')[0]
-											  )
+												new Date(pedidoActual.fechaEntrega)
+													.toISOString()
+													.split('T')[0]
+											)
 											: 'No existe Fecha'}
 									</Typography>
 								</Grid>
@@ -189,6 +191,12 @@ export default function TomaDePedidos() {
 									handleSubmit={handleSubmit}
 									control={control}
 									disabled={productoActual.codigoProductoConNombre === ''}
+									deshabilitarSubunidades={
+										!permiteSubUnidades(
+											getValues('codigoCliente'),
+											parseInt(getValues('codigoProductoConNombre')?.split(' ')[0])
+										)
+									}
 								/>
 								<TablaProductos
 									titulos={[t('general.producto'), t('general.precio')]}
