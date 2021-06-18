@@ -15,7 +15,7 @@ export const pedidosClientesSlice = createSlice({
                 (product) => product.codigoProductoConNombre !== action.payload.productosPedido.codigoProductoConNombre
             );
             //hay que comparar que esta en ambos array!!!
-            state[codigoCliente] = [...nuevosProductosPedidosClientes, ...action.payload.productoPedido];
+            state[codigoCliente] = [...nuevosProductosPedidosClientes, ...action.payload.productosPedido];
         }
     }
 })
