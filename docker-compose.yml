@@ -1,8 +1,4 @@
 version: "3.2"
 services:
-  cra-runtime-environment-variables:
-    image: toma_pedido_femsa:0.1.0
-    ports:
-      - "5000:80"
-    environment:
-      - "REACT_APP_API_URL=http://localhost:3001/clientes"
+  etm_omnichannel_tomapedido:
+    image: hello-world
