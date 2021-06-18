@@ -7,5 +7,12 @@ const useEstilos = makeStyles({
 	alignment: {
 		textAlign: 'center',
 	},
+	text: {
+		whiteSpace: 'nowrap',
+		textOverflow: 'ellipsis',
+		width: '120px',
+		display: 'inline block',
+		overflow: 'hidden',
+	},
 });
 export default useEstilos;

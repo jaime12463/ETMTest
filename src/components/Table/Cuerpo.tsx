@@ -56,8 +56,15 @@ export const Cuerpo = ({
 						}
 						data-cy={`producto-tabla-${i}`}
 					>
-						<Celda estilos={estilos} texto={producto.codigoProducto.toString()} ></Celda>
-						<Celda estilos={estilos} texto={producto.nombre} />
+						<Celda
+							estilos={estilos}
+							texto={producto.codigoProducto.toString()}
+						></Celda>
+						<Celda
+							estilos={estilos}
+							texto={producto.nombre}
+							resumirTexto={true}
+						/>
 						<Celda
 							estilos={estilos}
 							texto={obtenerPrecio(precios.precioConImpuestoUnidad)}
