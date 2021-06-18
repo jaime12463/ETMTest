@@ -2,19 +2,20 @@ import {Dispatch, SetStateAction, useCallback} from 'react';
 import {useAppDispatch, useAppSelector} from 'redux/hooks';
 
 import {
+	agregarProductosAlPedidoDelCliente,
 	cambiarClienteActual,
 	cambiarFechaEntrega,
 } from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
 	TCliente,
 	TConfiguracion,
-	TFechaEntrega,
 	TInputsFormularioAgregarProducto,
 	TPreciosProductos,
 } from 'models';
 import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente} from '.';
 import {establecerFechaEntrega, verificarFrecuencia} from 'utils/methods';
 import {selectDatos} from 'redux/features/configuracion/configuracionSlice';
+import {selectPedidosClientes} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
 
 export const useAsignarPedidoActual = (
@@ -28,6 +29,7 @@ export const useAsignarPedidoActual = (
 	const obtenerClienteActual = useObtenerClienteActual();
 	const obtenerConfiguracionActual = useObtenerConfiguracionActual();
 	const {datos} = useAppSelector(selectDatos);
+	const pedidosClientes = useAppSelector(selectPedidosClientes);
 
 	const asignarPedidoActual = useCallback(
 		({codigoCliente}: TInputsFormularioAgregarProducto) => {
@@ -60,6 +62,13 @@ export const useAsignarPedidoActual = (
 						);
 						setRazonSocial(clienteEncontrado.detalles.nombreComercial);
 						setPreciosProductos(preciosProductosDelCliente);
+						if (pedidosClientes[codigoCliente]) {
+							dispatch(
+								agregarProductosAlPedidoDelCliente({productosPedido: pedidosClientes[codigoCliente]})
+							)
+						}
+						//TODO: Cuando se busque un cliente otra vez debe ir y buscar en la lista y ponerlo en pedido actual
+
 					} else {
 						setRazonSocial('');
 						setPreciosProductos([]);

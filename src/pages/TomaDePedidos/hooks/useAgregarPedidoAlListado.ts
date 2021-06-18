@@ -1,17 +1,28 @@
 import {useCalcularTotalPedido} from 'hooks';
-import {TPedidoCliente, TTotalPedido} from 'models';
+import {
+	TInputsFormularioAgregarProducto,
+	TPedidoCliente,
+	TTotalPedido,
+} from 'models';
 import {Dispatch, SetStateAction, useCallback} from 'react';
-import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
+import {
+	selectPedidoActual,
+	resetearPedidoActual,
+} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {agregarPedidoCliente} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {useAppDispatch, useAppSelector} from 'redux/hooks';
 import {validarMontoMinimoPedido} from 'utils/validaciones';
 import {useObtenerClienteActual} from '.';
 import {Props as PropsDialogo} from 'components/Dialogo';
 import {useTranslation} from 'react-i18next';
+import {UseFormSetValue} from 'react-hook-form';
 
 export const useAgregarPedidoAlListado = (
 	setMostarDialogo: Dispatch<SetStateAction<boolean>>,
-	setParametrosDialogo: Dispatch<SetStateAction<PropsDialogo>>
+	setParametrosDialogo: Dispatch<SetStateAction<PropsDialogo>>,
+	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
+	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
+	setAvisoPedidoGuardadoExitoso: Dispatch<SetStateAction<boolean>>
 ) => {
 	const dispatch = useAppDispatch();
 	const totalPedido: TTotalPedido = useCalcularTotalPedido();
@@ -29,10 +40,14 @@ export const useAgregarPedidoAlListado = (
 			dispatch(
 				agregarPedidoCliente({
 					codigoCliente: pedidoActual.codigoCliente,
-					productoPedido: pedidoActual.productosPedido,
+					productosPedido: pedidoActual.productosPedido,
 				})
 			);
-			//TODO: aca se tiene que resetear todo para iniciar otro pedido
+			dispatch(resetearPedidoActual({}));
+			setExisteCliente(null);
+			setValue('codigoCliente', '');
+			setAvisoPedidoGuardadoExitoso(true);
+			//no se recetea pedido actual?
 		} else {
 			setParametrosDialogo({
 				mensaje: t('advertencias.montoMinimo'),

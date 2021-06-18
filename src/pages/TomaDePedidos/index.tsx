@@ -1,4 +1,4 @@
-import {Fragment, useState} from 'react';
+import {Fragment, SyntheticEvent, useState} from 'react';
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
 	TInputsFormularioAgregarProducto,
@@ -7,7 +7,7 @@ import {
 	TProductoPedidoConPrecios,
 } from 'models';
 import {useAppSelector} from 'redux/hooks';
-import {Button, Grid, Typography} from '@material-ui/core';
+import {Button, Grid, Snackbar, Typography} from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
 import {useForm} from 'react-hook-form';
@@ -38,9 +38,11 @@ export default function TomaDePedidos() {
 	const [frecuenciaValida, setFrecuenciaValida] = useState<boolean | null>(
 		null
 	);
+	const [
+		avisoPedidoGuardadoExitoso,
+		setAvisoPedidoGuardadoExitoso,
+	] = useState<boolean>(false);
 	const [razonSocial, setRazonSocial] = useState<string>('');
-	const [fechaEntrega, setFechaEntrega] = useState<string>('2017-09-06'); //TODO: Falta implementar esto
-
 	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
 	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
 		mensaje: '',
@@ -93,8 +95,15 @@ export default function TomaDePedidos() {
 	);
 	const agregarPedidoAlListado = useAgregarPedidoAlListado(
 		setMostarDialogo,
-		setParametrosDialogo
+		setParametrosDialogo,
+		setExisteCliente,
+		setValue,
+		setAvisoPedidoGuardadoExitoso
 	);
+
+	const cerrarAvisoPedidoGuardado = (event: SyntheticEvent<Element, Event>) => {
+		setAvisoPedidoGuardadoExitoso(false);
+	};
 
 	return (
 		<>
@@ -105,6 +114,15 @@ export default function TomaDePedidos() {
 			>
 				<Fragment>
 					{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+					<Snackbar
+						open={avisoPedidoGuardadoExitoso}
+						autoHideDuration={4000}
+						onClose={cerrarAvisoPedidoGuardado}
+					>
+						<Alert onClose={cerrarAvisoPedidoGuardado} severity='success'>
+							Se guardo el pedido del cliente
+						</Alert>
+					</Snackbar>
 					<Grid
 						container
 						direction='row'

@@ -26,6 +26,9 @@ export const pedidoActualSlice = createSlice({
 				action.payload.productoPedido,
 			];
 		},
+		agregarProductosAlPedidoDelCliente: (state, action) => {
+			state.productosPedido = [...action.payload.productosPedido];
+		},
 		borrarProductoDelPedidoDelCliente: (state, action) => {
 			const nuevosProductosPedidoCliente = state.productosPedido.filter(
 				(precioProducto: TProductoPedido) =>
@@ -37,6 +40,11 @@ export const pedidoActualSlice = createSlice({
 		cambiarFechaEntrega: (state, action) => {
 			state.fechaEntrega = action.payload.fechaEntrega;
 		},
+		resetearPedidoActual: (state, action) => {
+			state.fechaEntrega = "";
+			state.codigoCliente = "";
+			state.productosPedido = [];
+		}
 	},
 });
 
@@ -46,5 +54,7 @@ export const {
 	agregarProductoAlPedidoDelCliente,
 	borrarProductoDelPedidoDelCliente,
 	cambiarFechaEntrega,
+	resetearPedidoActual,
+	agregarProductosAlPedidoDelCliente
 } = pedidoActualSlice.actions;
 export default pedidoActualSlice.reducer;
