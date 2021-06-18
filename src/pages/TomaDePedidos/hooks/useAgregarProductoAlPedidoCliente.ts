@@ -49,6 +49,8 @@ export const useAgregarProductoAlPedidoCliente = (
 			}
 			setProductoActual({
 				codigoProductoConNombre: '',
+				codigo:0,
+				nombre:'',
 				unidades: 0,
 				subUnidades: 0,
 				precioConImpuestoUnidad: 0,

@@ -22,6 +22,8 @@ export const useAsignarProductoActual = (
 		}: TProductoPedidoConPrecios) => {
 			let nuevoProductoActual: TProductoPedidoConPrecios = {
 				codigoProductoConNombre,
+				codigo:0,
+				nombre:'',
 				unidades: 0,
 				subUnidades: 0,
 				precioConImpuestoUnidad: precioConImpuestoUnidad,

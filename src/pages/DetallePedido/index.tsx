@@ -34,16 +34,17 @@ const DetallePedido: React.FC = () => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{productosPedido.map((product) => (
-						<TableRow key={product.codigoProductoConNombre}>
+					{productosPedido.map((producto) => (
+						<TableRow key={producto.codigoProductoConNombre}>
 							<TableCell className={estilos.alignment}>
-								{product.codigoProductoConNombre}
+								{producto.codigoProductoConNombre}
+							</TableCell>
+						
+							<TableCell className={estilos.alignment}>
+								{producto.unidades}
 							</TableCell>
 							<TableCell className={estilos.alignment}>
-								{product.unidades}
-							</TableCell>
-							<TableCell className={estilos.alignment}>
-								{product.subUnidades}
+								{producto.subUnidades}
 							</TableCell>
 						</TableRow>
 					))}

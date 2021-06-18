@@ -48,6 +48,8 @@ export const Cuerpo = ({
 							asignarProductoActual({
 								//TODO: Esto hay que mirarlo a fondo
 								codigoProductoConNombre: `${producto.codigoProducto} ${producto.nombre}`,
+								codigo:0,
+								nombre:'',
 								unidades: 0,
 								subUnidades: 0,
 								precioConImpuestoUnidad: precios.precioConImpuestoUnidad,

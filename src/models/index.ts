@@ -70,6 +70,8 @@ export type TPedidoCliente = {
 
 export type TProductoPedido = {
 	codigoProductoConNombre: string;
+	codigo : number;
+	nombre: string;
 	unidades: number;
 	subUnidades: number;
 	total: number;
@@ -79,6 +81,8 @@ export type TProductosPedidos = TProductoPedido[];
 
 export type TProductoPedidoConPrecios = {
 	codigoProductoConNombre: string;
+	codigo : number;
+	nombre: string;
 	unidades: number;
 	subUnidades: number;
 	precioConImpuestoUnidad: number;
