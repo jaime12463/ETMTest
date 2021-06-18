@@ -8,9 +8,9 @@ import Estructura from 'components/Estructura';
 export default function Splash() {
 	let history = useHistory();
 	let query = useLocation();
-	
+
 	localStorage.removeItem('fechaDipostivo');
-	query.search && localStorage.setItem('fechaDipostivo', query.search.slice(7));
+	query.search && localStorage.setItem('fechaDipostivo', query.search);
 
 	return (
 		<Estructura
