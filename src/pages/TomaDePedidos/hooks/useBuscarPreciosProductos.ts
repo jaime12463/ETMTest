@@ -22,23 +22,23 @@ export const useBuscarPreciosProductos = (
 						.toLowerCase()
 						.includes(productoABuscar.toLowerCase())
 			);
-			if (productoABuscar === '') {
-				const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
-					codigoCliente
-				);
-				if (clienteEncontrado) {
-					const fechaEntrega: string | undefined = establecerFechaEntrega(
-						clienteEncontrado.fechasEntrega
-					);
-					if (fechaEntrega) {
-						const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
-							clienteEncontrado,
-							fechaEntrega
-						);
-						setPreciosProductos(preciosProductosDelCliente);
-					}
-				}
-			} else setPreciosProductos(preciosProductosFiltrados);
+			if (productoABuscar !== '') {
+				setPreciosProductos(preciosProductosFiltrados);
+				return;
+			}
+			const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
+				codigoCliente
+			);
+			if (!clienteEncontrado) return;
+			const fechaEntrega: string | undefined = establecerFechaEntrega(
+				clienteEncontrado.fechasEntrega
+			);
+			if (!fechaEntrega) return;
+			const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
+				clienteEncontrado,
+				fechaEntrega
+			);
+			setPreciosProductos(preciosProductosDelCliente);
 		},
 		[preciosProductos, obtenerPreciosProductosDelCliente, obtenerClienteActual]
 	);

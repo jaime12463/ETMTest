@@ -40,9 +40,7 @@ export const useAgregarProductoAlPedidoCliente = (
 							productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
 					})
 				);
-			} else {
-				dispatch(borrarProductoDelPedidoDelCliente(codigoProducto));
-			}
+			} else dispatch(borrarProductoDelPedidoDelCliente(codigoProducto));
 			setProductoActual({
 				codigoProductoConNombre: '',
 				precioConImpuestoUnidad: 0,
