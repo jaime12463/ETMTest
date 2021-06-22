@@ -17,6 +17,7 @@
     "@types/react-redux": "^7.1.16",
     "@types/react-router-dom": "^5.1.7",
     "axios": "^0.21.1",
+    "concurrently": "^6.2.0",
     "i18next": "^20.3.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -37,7 +38,12 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "start-server": "cd data && node server.js"
+    "start-server": "cd data && nodemon server.js",
+    "cypress:open": "cypress open",
+    "start-cypress": "concurrently \"npm:start-server\" \"npm:start\" \"cypress run --spec cypress/integration/*",
+    "dev": "concurrently \"npm:start\" \"npm:cypress:open\"",
+    "dev:server": "concurrently \"npm:start-server\" \"npm:start\"",
+    "start-jest": "jest"
   },
   "eslintConfig": {
     "extends": [
@@ -75,6 +81,8 @@
     "@storybook/preset-create-react-app": "^3.1.7",
     "@storybook/react": "^6.2.9",
     "cypress": "^7.4.0",
-    "json-server": "^0.16.3"
+    "eslint-plugin-cypress": "^2.11.3",
+    "json-server": "^0.16.3",
+    "nodemon": "^2.0.7"
   }
 }

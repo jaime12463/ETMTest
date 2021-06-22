@@ -1,29 +1,26 @@
 const jsonServer = require("json-server");
 const server = jsonServer.create();
-const router = jsonServer.router("db.json");
+const jsonDB = jsonServer.router("db.json");
+const jsonConfiguracion = jsonServer.router("configuracion.json");
 const middlewares = jsonServer.defaults();
+const obtenerJsonConHash = require("./transformacionJson.js");
 
 const PORT = 4000;
 
 server.use(middlewares);
 
-/**
- * Endpoint que recibe los parámetros
- * @param fecha: Tipo de Dato Fecha.
- * @param ruta: Código de ruta.
- * @param usuario: Código de usuario.
- */
 server.get("/femsa/tomapedidos", (req, res) => {
-  const datos = router.db.get("datos").valueOf();
+  const datos = jsonDB.db.valueOf();
+  res.jsonp(obtenerJsonConHash.obtenerJsonConHash(datos));
+});
 
-  const { fecha, ruta, usuario } = req.query;
-
-  console.log("Parámetros de entrada ", fecha, ruta, usuario);
-
+server.get("/femsa/configuracion", (req, res) => {
+  const datos = jsonConfiguracion.db.get("datos").valueOf();
   res.jsonp(datos);
 });
 
-server.use(router);
+server.use(jsonDB);
+server.use(jsonConfiguracion);
 server.listen(PORT, () => {
   console.log(`JSON Server is running in http://localhost:${PORT}`);
 });

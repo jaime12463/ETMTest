@@ -1,0 +1,60 @@
+import {createSlice} from '@reduxjs/toolkit';
+import {TPedidoCliente, TProductoPedido} from '../../../models';
+import {RootState} from '../../store';
+
+const estadoInicial: TPedidoCliente = {
+	codigoCliente: '',
+	productosPedido: [],
+	fechaEntrega: '',
+};
+
+export const pedidoActualSlice = createSlice({
+	name: 'pedidoActual',
+	initialState: estadoInicial,
+	reducers: {
+		cambiarClienteActual: (state, action) => {
+			state.codigoCliente = action.payload.codigoCliente;
+		},
+		agregarProductoAlPedidoDelCliente: (state, action) => {
+			const nuevosProductosPedidoCliente = state.productosPedido.filter(
+				(precioProducto: TProductoPedido) =>
+					precioProducto.codigoProductoConNombre !==
+					action.payload.productoPedido.codigoProductoConNombre
+			);
+			state.productosPedido = [
+				...nuevosProductosPedidoCliente,
+				action.payload.productoPedido,
+			];
+		},
+		agregarProductosAlPedidoDelCliente: (state, action) => {
+			state.productosPedido = [...action.payload.productosPedido];
+		},
+		borrarProductoDelPedidoDelCliente: (state, action) => {
+			const nuevosProductosPedidoCliente = state.productosPedido.filter(
+				(precioProducto: TProductoPedido) =>
+					precioProducto.codigoProductoConNombre !==
+					action.payload.codigoProductoConNombre
+			);
+			state.productosPedido = [...nuevosProductosPedidoCliente];
+		},
+		cambiarFechaEntrega: (state, action) => {
+			state.fechaEntrega = action.payload.fechaEntrega;
+		},
+		resetearPedidoActual: (state, action) => {
+			state.fechaEntrega = "";
+			state.codigoCliente = "";
+			state.productosPedido = [];
+		}
+	},
+});
+
+export const selectPedidoActual = (state: RootState) => state.pedidoActual;
+export const {
+	cambiarClienteActual,
+	agregarProductoAlPedidoDelCliente,
+	borrarProductoDelPedidoDelCliente,
+	cambiarFechaEntrega,
+	resetearPedidoActual,
+	agregarProductosAlPedidoDelCliente
+} = pedidoActualSlice.actions;
+export default pedidoActualSlice.reducer;

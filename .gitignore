@@ -10,6 +10,12 @@
 # testing
 /coverage
 
+#testing  cypress
+cypress/videos
+cypress/screenshots
+# cypress/videos/test_iniciales.spec.js.mp4
+# cypress/videos/test_pedido.spec.js.mp4
+
 # production
 /build
 
