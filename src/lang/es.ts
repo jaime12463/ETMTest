@@ -12,6 +12,7 @@ const es = {
 		verDetalle: 'Ver Detalle',
 		fechaEntrega: 'Fecha de entrega',
 		codigo: 'Código',
+		nombre: 'Nombre',
 		razonSocial: 'Razón social',
 		denominacion: 'Denominación',
 		subunidades: 'Subunidades',
