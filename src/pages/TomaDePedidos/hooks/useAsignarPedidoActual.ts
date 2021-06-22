@@ -39,10 +39,11 @@ export const useAsignarPedidoActual = (
 				| undefined = obtenerConfiguracionActual();
 			if (clienteEncontrado) {
 				const frecuenciaValida = verificarFrecuencia(clienteEncontrado, configuracionActual);
-				if (frecuenciaValida) {
-					const fechaEntrega: string | undefined = establecerFechaEntrega(
-						clienteEncontrado.fechasEntrega
-					);
+				const fechaEntrega: string | undefined = establecerFechaEntrega(
+					clienteEncontrado.fechasEntrega
+				);
+				if (frecuenciaValida || fechaEntrega) {
+					
 					setFrecuenciaValida(true);
 					setExisteCliente(true);
 					dispatch(cambiarClienteActual({codigoCliente: codigoCliente}));
@@ -69,7 +70,7 @@ export const useAsignarPedidoActual = (
 						setPreciosProductos([]);
 					}
 				} else {
-					setFrecuenciaValida(false);
+					setFrecuenciaValida(frecuenciaValida);
 					setExisteCliente(null);
 					setRazonSocial('');
 					setPreciosProductos([]);
