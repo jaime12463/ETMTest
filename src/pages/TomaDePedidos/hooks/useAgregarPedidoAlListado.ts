@@ -31,24 +31,11 @@ export const useAgregarPedidoAlListado = (
 	const obtenerClienteActual = useObtenerClienteActual();
 	const clienteActual = obtenerClienteActual(pedidoActual.codigoCliente);
 	const agregarPedidoAlListado = useCallback(() => {
-		if (
-			validarMontoMinimoPedido(
-				totalPedido.totalPrecio,
-				clienteActual.configuracionPedido
-			)
-		) {
-			dispatch(
-				agregarPedidoCliente({
-					codigoCliente: pedidoActual.codigoCliente,
-					productosPedido: pedidoActual.productosPedido,
-				})
-			);
-			dispatch(resetearPedidoActual());
-			setExisteCliente(null);
-			setValue('codigoCliente', '');
-			setAvisoPedidoGuardadoExitoso(true);
-			//no se recetea pedido actual?
-		} else {
+		const esValidoMontoMinidoPedido: boolean = validarMontoMinimoPedido(
+			totalPedido.totalPrecio,
+			clienteActual.configuracionPedido
+		);
+		if (!esValidoMontoMinidoPedido) {
 			setParametrosDialogo({
 				mensaje: t('advertencias.pedidoMinimo', {
 					monto: clienteActual.configuracionPedido.montoVentaMinima,
@@ -57,7 +44,19 @@ export const useAgregarPedidoAlListado = (
 				conBotonCancelar: false,
 			});
 			setMostarDialogo(true);
+			return;
 		}
+		dispatch(
+			agregarPedidoCliente({
+				codigoCliente: pedidoActual.codigoCliente,
+				productosPedido: pedidoActual.productosPedido,
+			})
+		);
+		dispatch(resetearPedidoActual());
+		setExisteCliente(null);
+		setValue('codigoCliente', '');
+		setAvisoPedidoGuardadoExitoso(true);
+		//TODO: Mirar si es necesario resetear pedidoActual
 	}, [pedidoActual, totalPedido, clienteActual, t]);
 	return agregarPedidoAlListado;
 };
