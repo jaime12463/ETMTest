@@ -37,52 +37,49 @@ export const useAsignarPedidoActual = (
 			const configuracionActual:
 				| TConfiguracion
 				| undefined = obtenerConfiguracionActual();
-			if (clienteEncontrado) {
-				const frecuenciaValida = verificarFrecuencia(
-					clienteEncontrado,
-					configuracionActual
-				);
-				const fechaEntrega: string | undefined = establecerFechaEntrega(
-					clienteEncontrado.fechasEntrega
-				);
-				if (frecuenciaValida || fechaEntrega) {
-					setFrecuenciaValida(true);
-					setExisteCliente(true);
-					dispatch(cambiarClienteActual(codigoCliente));
-					if (fechaEntrega) {
-						dispatch(cambiarFechaEntrega(fechaEntrega));
-						const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
-							clienteEncontrado,
-							fechaEntrega
-						);
-						setRazonSocial(clienteEncontrado.detalles.nombreComercial);
-						setPreciosProductos(preciosProductosDelCliente);
-						if (pedidosClientes[codigoCliente]) {
-							dispatch(
-								agregarProductosAlPedidoDelCliente(
-									pedidosClientes[codigoCliente]
-								)
-							);
-						}
-						//TODO: Cuando se busque un cliente otra vez debe ir y buscar en la lista y ponerlo en pedido actual
-					} else {
-						setRazonSocial('');
-						setPreciosProductos([]);
-					}
-				} else {
-					setFrecuenciaValida(frecuenciaValida);
-					setExisteCliente(null);
-					setRazonSocial('');
-					setPreciosProductos([]);
-				}
-			} else {
+			if (!clienteEncontrado) {
 				setExisteCliente(false);
 				setFrecuenciaValida(null);
 				dispatch(cambiarClienteActual(''));
 				dispatch(cambiarFechaEntrega(''));
 				setRazonSocial('');
 				setPreciosProductos([]);
+				return;
 			}
+			const frecuenciaValida: boolean = verificarFrecuencia(
+				clienteEncontrado,
+				configuracionActual
+			);
+			const fechaEntrega: string | undefined = establecerFechaEntrega(
+				clienteEncontrado.fechasEntrega
+			);
+			if (!frecuenciaValida && !fechaEntrega) {
+				setFrecuenciaValida(frecuenciaValida);
+				setExisteCliente(null);
+				setRazonSocial('');
+				setPreciosProductos([]);
+				return;
+			}
+			setFrecuenciaValida(true);
+			setExisteCliente(true);
+			if (!fechaEntrega) {
+				setRazonSocial('');
+				setPreciosProductos([]);
+				return;
+			}
+			dispatch(cambiarFechaEntrega(fechaEntrega));
+			const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
+				clienteEncontrado,
+				fechaEntrega
+			);
+			setRazonSocial(clienteEncontrado.detalles.nombreComercial);
+			setPreciosProductos(preciosProductosDelCliente);
+			if (pedidosClientes[codigoCliente]) {
+				dispatch(
+					agregarProductosAlPedidoDelCliente(pedidosClientes[codigoCliente])
+				);
+			}
+			//TODO: Cuando se busque un cliente otra vez debe ir y buscar en la lista y ponerlo en pedido actual
 		},
 		[
 			obtenerPreciosProductosDelCliente,
