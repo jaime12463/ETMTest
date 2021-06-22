@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {TPedidoCliente, TProductoPedido} from '../../../models';
 import {RootState} from '../../store';
 
@@ -12,39 +12,46 @@ export const pedidoActualSlice = createSlice({
 	name: 'pedidoActual',
 	initialState: estadoInicial,
 	reducers: {
-		cambiarClienteActual: (state, action) => {
-			state.codigoCliente = action.payload.codigoCliente;
+		cambiarClienteActual: (state, action: PayloadAction<string>) => {
+			state.codigoCliente = action.payload;
 		},
-		agregarProductoAlPedidoDelCliente: (state, action) => {
-			const nuevosProductosPedidoCliente = state.productosPedido.filter(
+		agregarProductoAlPedidoDelCliente: (
+			state,
+			action: PayloadAction<TProductoPedido>
+		) => {
+			const productosPedidoClienteFiltrados = state.productosPedido.filter(
 				(precioProducto: TProductoPedido) =>
-					precioProducto.codigoProductoConNombre !==
-					action.payload.productoPedido.codigoProductoConNombre
+					precioProducto.codigoProducto !== action.payload.codigoProducto
 			);
 			state.productosPedido = [
-				...nuevosProductosPedidoCliente,
-				action.payload.productoPedido,
+				...productosPedidoClienteFiltrados,
+				action.payload,
 			];
 		},
-		agregarProductosAlPedidoDelCliente: (state, action) => {
-			state.productosPedido = [...action.payload.productosPedido];
+		agregarProductosAlPedidoDelCliente: (
+			state,
+			action: PayloadAction<TProductoPedido[]>
+		) => {
+			state.productosPedido = [...action.payload];
 		},
-		borrarProductoDelPedidoDelCliente: (state, action) => {
-			const nuevosProductosPedidoCliente = state.productosPedido.filter(
+		borrarProductoDelPedidoDelCliente: (
+			state,
+			action: PayloadAction<number>
+		) => {
+			const productosPedidoClienteFiltrados = state.productosPedido.filter(
 				(precioProducto: TProductoPedido) =>
-					precioProducto.codigoProductoConNombre !==
-					action.payload.codigoProductoConNombre
+					precioProducto.codigoProducto !== action.payload
 			);
-			state.productosPedido = [...nuevosProductosPedidoCliente];
+			state.productosPedido = [...productosPedidoClienteFiltrados];
 		},
-		cambiarFechaEntrega: (state, action) => {
-			state.fechaEntrega = action.payload.fechaEntrega;
+		cambiarFechaEntrega: (state, action: PayloadAction<string>) => {
+			state.fechaEntrega = action.payload;
 		},
-		resetearPedidoActual: (state, action) => {
-			state.fechaEntrega = "";
-			state.codigoCliente = "";
+		resetearPedidoActual: (state) => {
+			state.fechaEntrega = '';
+			state.codigoCliente = '';
 			state.productosPedido = [];
-		}
+		},
 	},
 });
 
@@ -55,6 +62,6 @@ export const {
 	borrarProductoDelPedidoDelCliente,
 	cambiarFechaEntrega,
 	resetearPedidoActual,
-	agregarProductosAlPedidoDelCliente
+	agregarProductosAlPedidoDelCliente,
 } = pedidoActualSlice.actions;
 export default pedidoActualSlice.reducer;

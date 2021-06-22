@@ -1,10 +1,5 @@
 import {TableBody, TableCell, TableRow} from '@material-ui/core';
-import {
-	TPrecio,
-	TPrecioProducto,
-	TPreciosProductos,
-	TProductoPedidoConPrecios,
-} from 'models';
+import {TPrecio, TPrecioProducto, TPrecioSinVigencia} from 'models';
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {useAppSelector} from 'redux/hooks';
 import {obtenerPrecioConImpuestoUnidad} from 'utils/validaciones';
@@ -12,9 +7,9 @@ import {obtenerPrecioConImpuestoUnidad} from 'utils/validaciones';
 import {Celda} from './Celda';
 
 type PropsCuerpo = {
-	asignarProductoActual: (producto: TProductoPedidoConPrecios) => void;
+	asignarProductoActual: (producto: TPrecioSinVigencia) => void;
 	estilos: any; // TODO: Buscar como mejorar esto para recibir los estilos como propiedad
-	filas: TPreciosProductos;
+	filas: TPrecioProducto[];
 };
 
 const obtenerNombreYCodigo = (producto: TPrecioProducto) => {
@@ -46,12 +41,7 @@ export const Cuerpo = ({
 						key={producto.codigoProducto}
 						onClick={() =>
 							asignarProductoActual({
-								//TODO: Esto hay que mirarlo a fondo
 								codigoProductoConNombre: `${producto.codigoProducto} ${producto.nombre}`,
-								codigo:0,
-								nombre:'',
-								unidades: 0,
-								subUnidades: 0,
 								precioConImpuestoUnidad: precios.precioConImpuestoUnidad,
 								precioConImpuestoSubunidad: precios.precioConImpuestoSubunidad,
 							})

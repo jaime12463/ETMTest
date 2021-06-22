@@ -2,7 +2,7 @@ import {useCallback} from 'react';
 import {useAppSelector} from 'redux/hooks';
 import {selectDatos} from 'redux/features/datos/datosSlice';
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
-import {TPreciosProductos, TCliente} from 'models';
+import {TPrecioProducto, TCliente} from 'models';
 import {validarFechaVigenciaProducto} from 'utils/validaciones';
 
 export const useObtenerPreciosProductosDelCliente = () => {
@@ -10,8 +10,8 @@ export const useObtenerPreciosProductosDelCliente = () => {
 	const pedidoActual = useAppSelector(selectPedidoActual);
 
 	const obtenerPreciosProductosDelCliente = useCallback(
-		(clienteEncontrado: TCliente, fechaEntrega: string): TPreciosProductos => {
-			const preciosProductosDelCliente: TPreciosProductos = clienteEncontrado.portafolio
+		(clienteEncontrado: TCliente, fechaEntrega: string): TPrecioProducto[] => {
+			const preciosProductosDelCliente: TPrecioProducto[] = clienteEncontrado.portafolio
 				.filter((producto) => {
 					if (validarFechaVigenciaProducto(producto.precios, fechaEntrega))
 						return producto;

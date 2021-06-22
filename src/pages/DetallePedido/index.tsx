@@ -23,7 +23,8 @@ const DetallePedido: React.FC = () => {
 				<TableHead>
 					<TableRow>
 						{[
-							t('general.producto'),
+							t('general.codigo'),
+							t('general.nombre'),
 							t('general.unidades'),
 							t('general.subUnidades'),
 						].map((column) => (
@@ -35,11 +36,13 @@ const DetallePedido: React.FC = () => {
 				</TableHead>
 				<TableBody>
 					{productosPedido.map((producto) => (
-						<TableRow key={producto.codigoProductoConNombre}>
+						<TableRow key={producto.codigoProducto}>
 							<TableCell className={estilos.alignment}>
-								{producto.codigoProductoConNombre}
+								{producto.codigoProducto}
 							</TableCell>
-						
+							<TableCell className={estilos.alignment}>
+								{producto.nombreProducto}
+							</TableCell>
 							<TableCell className={estilos.alignment}>
 								{producto.unidades}
 							</TableCell>

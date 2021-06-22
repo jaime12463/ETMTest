@@ -59,37 +59,28 @@ export type TPrecio = {
 };
 
 export type TPedidosClientes = {
-	[codigoCliente: string]: TProductosPedidos;
+	[codigoCliente: string]: TProductoPedido[];
 };
 
 export type TPedidoCliente = {
 	codigoCliente: string;
-	productosPedido: TProductosPedidos;
+	productosPedido: TProductoPedido[];
 	fechaEntrega: string;
 };
 
 export type TProductoPedido = {
-	codigoProductoConNombre: string;
-	codigo : number;
-	nombre: string;
+	codigoProducto: number;
+	nombreProducto: string;
 	unidades: number;
 	subUnidades: number;
 	total: number;
 };
 
-export type TProductosPedidos = TProductoPedido[];
-
-export type TProductoPedidoConPrecios = {
+export type TPrecioSinVigencia = {
 	codigoProductoConNombre: string;
-	codigo : number;
-	nombre: string;
-	unidades: number;
-	subUnidades: number;
 	precioConImpuestoUnidad: number;
 	precioConImpuestoSubunidad: number;
 };
-
-export type TPreciosProductos = TPrecioProducto[];
 
 export type TPrecioProducto = {
 	codigoProducto: number;
@@ -99,10 +90,8 @@ export type TPrecioProducto = {
 };
 
 export type TDatosConfiguracion = {
-	configuraciones: TConfiguraciones;
+	configuraciones: TConfiguracion[];
 };
-
-export type TConfiguraciones = TConfiguracion[];
 
 export type TConfiguracion = {
 	esFrecuenciaAbierta: boolean;

@@ -10,7 +10,7 @@ import {
 	TCliente,
 	TConfiguracion,
 	TInputsFormularioAgregarProducto,
-	TPreciosProductos,
+	TPrecioProducto,
 } from 'models';
 import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente} from '.';
 import {establecerFechaEntrega, verificarFrecuencia} from 'utils/methods';
@@ -20,7 +20,7 @@ import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
 export const useAsignarPedidoActual = (
 	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
 	setRazonSocial: Dispatch<SetStateAction<string>>,
-	setPreciosProductos: Dispatch<SetStateAction<TPreciosProductos>>,
+	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
 	setFrecuenciaValida: Dispatch<SetStateAction<boolean | null>>
 ) => {
 	const dispatch = useAppDispatch();
@@ -38,22 +38,20 @@ export const useAsignarPedidoActual = (
 				| TConfiguracion
 				| undefined = obtenerConfiguracionActual();
 			if (clienteEncontrado) {
-				const frecuenciaValida = verificarFrecuencia(clienteEncontrado, configuracionActual);
+				const frecuenciaValida = verificarFrecuencia(
+					clienteEncontrado,
+					configuracionActual
+				);
 				const fechaEntrega: string | undefined = establecerFechaEntrega(
 					clienteEncontrado.fechasEntrega
 				);
 				if (frecuenciaValida || fechaEntrega) {
-					
 					setFrecuenciaValida(true);
 					setExisteCliente(true);
-					dispatch(cambiarClienteActual({codigoCliente: codigoCliente}));
-					dispatch(
-						cambiarFechaEntrega({
-							fechaEntrega: fechaEntrega,
-						})
-					);
+					dispatch(cambiarClienteActual(codigoCliente));
 					if (fechaEntrega) {
-						const preciosProductosDelCliente: TPreciosProductos = obtenerPreciosProductosDelCliente(
+						dispatch(cambiarFechaEntrega(fechaEntrega));
+						const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
 							clienteEncontrado,
 							fechaEntrega
 						);
@@ -61,8 +59,10 @@ export const useAsignarPedidoActual = (
 						setPreciosProductos(preciosProductosDelCliente);
 						if (pedidosClientes[codigoCliente]) {
 							dispatch(
-								agregarProductosAlPedidoDelCliente({productosPedido: pedidosClientes[codigoCliente]})
-							)
+								agregarProductosAlPedidoDelCliente(
+									pedidosClientes[codigoCliente]
+								)
+							);
 						}
 						//TODO: Cuando se busque un cliente otra vez debe ir y buscar en la lista y ponerlo en pedido actual
 					} else {
@@ -78,8 +78,8 @@ export const useAsignarPedidoActual = (
 			} else {
 				setExisteCliente(false);
 				setFrecuenciaValida(null);
-				dispatch(cambiarClienteActual({codigoCliente: ''}));
-				dispatch(cambiarFechaEntrega({fechaEntrega: ''}));
+				dispatch(cambiarClienteActual(''));
+				dispatch(cambiarFechaEntrega(''));
 				setRazonSocial('');
 				setPreciosProductos([]);
 			}

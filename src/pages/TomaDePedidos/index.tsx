@@ -1,18 +1,18 @@
-import { Fragment, SyntheticEvent, useState } from 'react';
-import { selectPedidoActual } from 'redux/features/pedidoActual/pedidoActualSlice';
+import {Fragment, SyntheticEvent, useState} from 'react';
+import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
 	TInputsFormularioAgregarProducto,
 	TPedidoCliente,
-	TPreciosProductos,
-	TProductoPedidoConPrecios,
+	TPrecioProducto,
+	TPrecioSinVigencia,
 } from 'models';
-import { useAppSelector } from 'redux/hooks';
-import { Button, Grid, Snackbar, Typography } from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
+import {useAppSelector} from 'redux/hooks';
+import {Button, Grid, Snackbar, Typography} from '@material-ui/core';
+import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
-import { useForm } from 'react-hook-form';
-import { Alert } from '@material-ui/lab';
-import { darFormatoFecha } from 'utils/methods';
+import {useForm} from 'react-hook-form';
+import {Alert} from '@material-ui/lab';
+import {darFormatoFecha} from 'utils/methods';
 import {
 	TablaProductos,
 	FormularioAgregarProducto,
@@ -20,7 +20,7 @@ import {
 	Input,
 	Estructura,
 } from 'components';
-import { useObtenerDatos } from '../../hooks';
+import {useObtenerDatos} from '../../hooks';
 import {
 	useAgregarPedidoAlListado,
 	useValidarAgregarProductoAlPedidoCliente,
@@ -29,39 +29,40 @@ import {
 	useBuscarPreciosProductos,
 	usePermiteSubUnidades,
 } from './hooks';
-import Dialogo, { Props as PropsDialogo } from 'components/Dialogo';
+import Dialogo, {Props as PropsDialogo} from 'components/Dialogo';
 
 export default function TomaDePedidos() {
-	const [preciosProductos, setPreciosProductos] = useState<TPreciosProductos>(
+	const [preciosProductos, setPreciosProductos] = useState<TPrecioProducto[]>(
 		[]
 	);
 	const [existeCliente, setExisteCliente] = useState<boolean | null>(null);
 	const [frecuenciaValida, setFrecuenciaValida] = useState<boolean | null>(
 		null
 	);
-	const [avisoPedidoGuardadoExitoso, setAvisoPedidoGuardadoExitoso] =
-		useState<boolean>(false);
+	const [
+		avisoPedidoGuardadoExitoso,
+		setAvisoPedidoGuardadoExitoso,
+	] = useState<boolean>(false);
 	const [razonSocial, setRazonSocial] = useState<string>('');
 	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
 	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
 		mensaje: '',
-		manejadorClick: () => { },
+		manejadorClick: () => {},
 		conBotonCancelar: false,
 	});
-	const [productoActual, setProductoActual] =
-		useState<TProductoPedidoConPrecios>({
-			codigoProductoConNombre: '',
-			codigo:0,
-			nombre:'',
-			unidades: 0,
-			subUnidades: 0,
-			precioConImpuestoUnidad: 0,
-			precioConImpuestoSubunidad: 0,
-		});
-	const { t } = useTranslation();
+	const [productoActual, setProductoActual] = useState<TPrecioSinVigencia>({
+		codigoProductoConNombre: '',
+		precioConImpuestoUnidad: 0,
+		precioConImpuestoSubunidad: 0,
+	});
+	const {t} = useTranslation();
 	const estilos = useEstilos();
-	const { control, handleSubmit, setValue, getValues } =
-		useForm<TInputsFormularioAgregarProducto>();
+	const {
+		control,
+		handleSubmit,
+		setValue,
+		getValues,
+	} = useForm<TInputsFormularioAgregarProducto>();
 	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
 
 	useObtenerDatos();
@@ -70,15 +71,14 @@ export default function TomaDePedidos() {
 		setProductoActual,
 		setValue
 	);
-	const validarAgregarProductoAlPedidoCliente =
-		useValidarAgregarProductoAlPedidoCliente(
-			setMostarDialogo,
-			setParametrosDialogo,
-			productoActual,
-			setProductoActual,
-			setValue,
-			getValues
-		);
+	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
+		setMostarDialogo,
+		setParametrosDialogo,
+		productoActual,
+		setProductoActual,
+		setValue,
+		getValues
+	);
 	const asignarPedidoActual = useAsignarPedidoActual(
 		setExisteCliente,
 		setRazonSocial,
@@ -101,7 +101,7 @@ export default function TomaDePedidos() {
 	const cerrarAvisoPedidoGuardado = (event: SyntheticEvent<Element, Event>) => {
 		setAvisoPedidoGuardadoExitoso(false);
 	};
-	
+
 	return (
 		<>
 			<Estructura
@@ -155,10 +155,10 @@ export default function TomaDePedidos() {
 										{': '}
 										{pedidoActual.fechaEntrega
 											? darFormatoFecha(
-												new Date(pedidoActual.fechaEntrega)
-													.toISOString()
-													.split('T')[0]
-											)
+													new Date(pedidoActual.fechaEntrega)
+														.toISOString()
+														.split('T')[0]
+											  )
 											: 'No existe Fecha'}
 									</Typography>
 								</Grid>
@@ -196,12 +196,18 @@ export default function TomaDePedidos() {
 									deshabilitarSubunidades={
 										!permiteSubUnidades(
 											getValues('codigoCliente'),
-											parseInt(getValues('codigoProductoConNombre')?.split(' ')[0])
+											parseInt(
+												getValues('codigoProductoConNombre')?.split(' ')[0]
+											)
 										)
 									}
 								/>
 								<TablaProductos
-									titulos={[t('general.producto'),"", t('general.precio')]}
+									titulos={[
+										t('general.codigo'),
+										t('general.nombre'),
+										t('general.precio'),
+									]}
 									preciosProductos={preciosProductos}
 									asignarProductoActual={asignarProductoActual}
 								/>

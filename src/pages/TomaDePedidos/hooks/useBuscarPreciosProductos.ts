@@ -1,22 +1,21 @@
 import {Dispatch, SetStateAction, useCallback} from 'react';
 import {
-	TPreciosProductos,
+	TPrecioProducto,
 	TCliente,
 	TInputsFormularioAgregarProducto,
-	TPrecioProducto,
 } from 'models';
 import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente} from '.';
 import {establecerFechaEntrega} from 'utils/methods';
 
 export const useBuscarPreciosProductos = (
-	preciosProductos: TPreciosProductos,
-	setPreciosProductos: Dispatch<SetStateAction<TPreciosProductos>>
+	preciosProductos: TPrecioProducto[],
+	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>
 ) => {
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
 	const obtenerClienteActual = useObtenerClienteActual();
 	const buscarPreciosProductos = useCallback(
 		({codigoCliente, productoABuscar}: TInputsFormularioAgregarProducto) => {
-			const preciosProductosFiltrados: TPreciosProductos = preciosProductos.filter(
+			const preciosProductosFiltrados: TPrecioProducto[] = preciosProductos.filter(
 				(precioProducto: TPrecioProducto) =>
 					precioProducto.codigoProducto.toString().includes(productoABuscar) ||
 					precioProducto.nombre
@@ -32,7 +31,7 @@ export const useBuscarPreciosProductos = (
 						clienteEncontrado.fechasEntrega
 					);
 					if (fechaEntrega) {
-						const preciosProductosDelCliente: TPreciosProductos = obtenerPreciosProductosDelCliente(
+						const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
 							clienteEncontrado,
 							fechaEntrega
 						);

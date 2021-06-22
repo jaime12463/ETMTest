@@ -3,27 +3,31 @@ import {
 	TInputsFormularioAgregarProducto,
 	TPortafolio,
 	TProducto,
-	TProductoPedidoConPrecios,
+	TPrecioSinVigencia,
 } from 'models';
-import { Dispatch, SetStateAction, useCallback } from 'react';
-import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
-import { validarSubUnidadesConPresentacion, validarUnidadesMinimasProducto, validarVentaSubUnidades } from 'utils/validaciones';
+import {Dispatch, SetStateAction, useCallback} from 'react';
+import {UseFormGetValues, UseFormSetValue} from 'react-hook-form';
+import {
+	validarSubUnidadesConPresentacion,
+	validarUnidadesMinimasProducto,
+	validarVentaSubUnidades,
+} from 'utils/validaciones';
 import {
 	useAgregarProductoAlPedidoCliente,
 	useManejadorConfirmarAgregarPedido,
 	useObtenerClienteActual,
 } from '.';
-import { Props as PropsDialogo } from 'components/Dialogo';
-import { useTranslation } from 'react-i18next';
-import { useAppSelector } from 'redux/hooks';
-import { selectDatos } from 'redux/features/datos/datosSlice';
-import { usePermiteSubUnidades } from '.';
+import {Props as PropsDialogo} from 'components/Dialogo';
+import {useTranslation} from 'react-i18next';
+import {useAppSelector} from 'redux/hooks';
+import {selectDatos} from 'redux/features/datos/datosSlice';
+import {usePermiteSubUnidades} from '.';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
 	setMostarDialogo: Dispatch<SetStateAction<boolean>>,
 	setParametrosDialogo: Dispatch<SetStateAction<PropsDialogo>>,
-	productoActual: TProductoPedidoConPrecios,
-	setProductoActual: Dispatch<SetStateAction<TProductoPedidoConPrecios>>,
+	productoActual: TPrecioSinVigencia,
+	setProductoActual: Dispatch<SetStateAction<TPrecioSinVigencia>>,
 	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
 	getValues: UseFormGetValues<TInputsFormularioAgregarProducto>
 ) => {
@@ -39,9 +43,9 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 		setValue,
 		getValues
 	);
-	const { t } = useTranslation();
+	const {t} = useTranslation();
 	const obtenerClienteActual = useObtenerClienteActual();
-	const { datos } = useAppSelector(selectDatos);
+	const {datos} = useAppSelector(selectDatos);
 	const permiteSubUnidades = usePermiteSubUnidades();
 	const validarAgregarProductoAlPedidoCliente = useCallback(
 		({
@@ -55,10 +59,16 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				codigoCliente
 			);
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
-			const subUnidadesParseado: number = subUnidades !== '' ? parseInt(subUnidades) : 0;
-			const codigoProducto: number = parseInt(codigoProductoConNombre.split(" ")[0]);
-			const { presentacion }: TProducto = datos.productos[codigoProducto];
-			const esPermitidoSubUnidades = permiteSubUnidades(codigoCliente, codigoProducto);
+			const subUnidadesParseado: number =
+				subUnidades !== '' ? parseInt(subUnidades) : 0;
+			const codigoProducto: number = parseInt(
+				codigoProductoConNombre.split(' ')[0]
+			);
+			const {presentacion}: TProducto = datos.productos[codigoProducto];
+			const esPermitidoSubUnidades = permiteSubUnidades(
+				codigoCliente,
+				codigoProducto
+			);
 
 			const esSubUnidadesMenorAPresentacion = validarSubUnidadesConPresentacion(
 				presentacion,
@@ -85,10 +95,12 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				return;
 			}
 
-			if (!validarUnidadesMinimasProducto(
-				unidadesParseado,
-				clienteEncontrado.configuracionPedido
-			)) {
+			if (
+				!validarUnidadesMinimasProducto(
+					unidadesParseado,
+					clienteEncontrado.configuracionPedido
+				)
+			) {
 				setParametrosDialogo({
 					mensaje: t('advertencias.cantidadEsMayor', {
 						cantidad:
@@ -98,8 +110,8 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					conBotonCancelar: true,
 					textosBotonesDefault: {
 						aceptar: t('general.si'),
-						cancelar: t('general.no')
-					  }
+						cancelar: t('general.no'),
+					},
 				});
 				setMostarDialogo(true);
 				return;
@@ -112,7 +124,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				codigoProductoConNombre,
 				productoABuscar,
 			});
-
 		},
 		[
 			obtenerClienteActual,

@@ -43,7 +43,7 @@ export const useAgregarPedidoAlListado = (
 					productosPedido: pedidoActual.productosPedido,
 				})
 			);
-			dispatch(resetearPedidoActual({}));
+			dispatch(resetearPedidoActual());
 			setExisteCliente(null);
 			setValue('codigoCliente', '');
 			setAvisoPedidoGuardadoExitoso(true);
