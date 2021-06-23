@@ -1,7 +1,7 @@
 describe('Aviso en ingreso de unidades maximas por producto', () => {
 	beforeEach(() => {
 		cy.visit('/?fecha=2017/09/06');
-		cy.on('uncaught:exception', (err, runnable) => {
+		cy.on('uncaught:exception', (err) => {
 			console.log(err);
 			return false;
 		});

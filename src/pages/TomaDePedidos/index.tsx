@@ -16,7 +16,7 @@ import {darFormatoFecha} from 'utils/methods';
 import {
 	TablaProductos,
 	FormularioAgregarProducto,
-	TarjetaPedido,
+	TotalPedido,
 	Input,
 	Estructura,
 } from 'components';
@@ -140,7 +140,11 @@ export default function TomaDePedidos() {
 						{existeCliente && pedidoActual.fechaEntrega && (
 							<Fragment>
 								<Grid item xs={6} sm={6}>
-									<Typography variant='body2' component='p'>
+									<Typography
+										variant='body2'
+										component='p'
+										data-cy='razonSocial'
+									>
 										{razonSocial}
 									</Typography>
 								</Grid>
@@ -216,7 +220,7 @@ export default function TomaDePedidos() {
 								/>
 								{pedidoActual.productosPedido.length > 0 && (
 									<Fragment>
-										<TarjetaPedido />
+										<TotalPedido />
 										<Grid
 											container
 											direction='row'
@@ -226,6 +230,7 @@ export default function TomaDePedidos() {
 											<Button
 												variant='contained'
 												color='secondary'
+												data-cy='boton-cerrarPedido'
 												onClick={agregarPedidoAlListado}
 												className={estilos.botonCerrarPedido}
 											>
