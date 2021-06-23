@@ -39,10 +39,8 @@ export default function TomaDePedidos() {
 	const [frecuenciaValida, setFrecuenciaValida] = useState<boolean | null>(
 		null
 	);
-	const [
-		avisoPedidoGuardadoExitoso,
-		setAvisoPedidoGuardadoExitoso,
-	] = useState<boolean>(false);
+	const [avisoPedidoGuardadoExitoso, setAvisoPedidoGuardadoExitoso] =
+		useState<boolean>(false);
 	const [razonSocial, setRazonSocial] = useState<string>('');
 	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
 	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
@@ -57,12 +55,8 @@ export default function TomaDePedidos() {
 	});
 	const {t} = useTranslation();
 	const estilos = useEstilos();
-	const {
-		control,
-		handleSubmit,
-		setValue,
-		getValues,
-	} = useForm<TInputsFormularioAgregarProducto>();
+	const {control, handleSubmit, setValue, getValues} =
+		useForm<TInputsFormularioAgregarProducto>();
 	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
 
 	useObtenerDatos();
@@ -71,14 +65,15 @@ export default function TomaDePedidos() {
 		setProductoActual,
 		setValue
 	);
-	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
-		setMostarDialogo,
-		setParametrosDialogo,
-		productoActual,
-		setProductoActual,
-		setValue,
-		getValues
-	);
+	const validarAgregarProductoAlPedidoCliente =
+		useValidarAgregarProductoAlPedidoCliente(
+			setMostarDialogo,
+			setParametrosDialogo,
+			productoActual,
+			setProductoActual,
+			setValue,
+			getValues
+		);
 	const asignarPedidoActual = useAsignarPedidoActual(
 		setExisteCliente,
 		setRazonSocial,
@@ -150,7 +145,11 @@ export default function TomaDePedidos() {
 									</Typography>
 								</Grid>
 								<Grid item xs={12} sm={12}>
-									<Typography variant='body2' component='p'>
+									<Typography
+										variant='body2'
+										component='p'
+										data-cy={pedidoActual.fechaEntrega}
+									>
 										{t('general.fechaEntrega')}
 										{': '}
 										{pedidoActual.fechaEntrega
@@ -165,7 +164,11 @@ export default function TomaDePedidos() {
 							</Fragment>
 						)}
 						{existeCliente && !pedidoActual.fechaEntrega && (
-							<Alert variant='filled' severity='warning'>
+							<Alert
+								variant='filled'
+								severity='warning'
+								data-cy='noFechaProgramada'
+							>
 								{t('advertencias.noFechaProgramada')}
 							</Alert>
 						)}

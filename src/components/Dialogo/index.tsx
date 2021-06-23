@@ -41,7 +41,7 @@ const Dialogo = ({
 			)}
 			{mensaje !== '' && (
 				<DialogContent>
-					<DialogContentText id='alert-dialog-description'>
+					<DialogContentText id='alert-dialog-description' data-cy={mensaje}>
 						{mensaje}
 					</DialogContentText>
 				</DialogContent>

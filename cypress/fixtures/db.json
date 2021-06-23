@@ -1,5 +1,6 @@
 {
-    "clientes": [
+    "clientes":{ 
+        "120104325":
         {
             "codigoCliente": 120104325,
             "detalles": {
@@ -54,7 +55,7 @@
                 }
             ]
         },
-        {
+       "234": {
             "codigoCliente": 234,
             "detalles": {
                 "nombreComercial": "LA LUPITA"
@@ -103,18 +104,20 @@
                     ]
                 }
             ]
-        }		
-    ],
-    "productos": [
-        {
+        }
+    },
+    "productos": 
+    {
+       "1860": {
             "codigoProducto": 1860,
             "nombre": "YOLI LIMON BOT 600L NR 12PK",
-            "presentación": 12
+            "presentacion": 12
         },
-        {
+        "1885":{
             "codigoProducto": 1885,
             "nombre": "YOLI LIMON BOT 900 NR 12PK",
-            "presentación": 12
+            "presentacion": 12
         }
-    ]
+    }
+    
 }
