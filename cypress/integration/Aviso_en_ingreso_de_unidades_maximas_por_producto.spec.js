@@ -42,7 +42,7 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 	});
 	it('Las unidadesMaximasVenta no está definido para el cliente', () => {
 		cy.fixture('db').then((db) => {
-			db.clientes[234].configuracionPedido.cantidadMaximaUnidades = 100;
+			db.clientes[234].configuracionPedido.cantidadMaximaUnidades = null;
 			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
 		});
 		cy.fixture('pagesElements').then((element) => {
