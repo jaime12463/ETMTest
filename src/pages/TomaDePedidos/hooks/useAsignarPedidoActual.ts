@@ -46,6 +46,7 @@ export const useAsignarPedidoActual = (
 				setPreciosProductos([]);
 				return;
 			}
+			dispatch(cambiarClienteActual(codigoCliente));
 			const frecuenciaValida: boolean = verificarFrecuencia(
 				clienteEncontrado,
 				configuracionActual

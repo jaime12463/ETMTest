@@ -29,8 +29,8 @@ export const useAgregarPedidoAlListado = (
 	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
 	const {t} = useTranslation();
 	const obtenerClienteActual = useObtenerClienteActual();
-	const clienteActual = obtenerClienteActual(pedidoActual.codigoCliente);
 	const agregarPedidoAlListado = useCallback(() => {
+		const clienteActual = obtenerClienteActual(pedidoActual.codigoCliente);
 		const esValidoMontoMinidoPedido: boolean = validarMontoMinimoPedido(
 			totalPedido.totalPrecio,
 			clienteActual.configuracionPedido
@@ -57,6 +57,6 @@ export const useAgregarPedidoAlListado = (
 		setValue('codigoCliente', '');
 		setAvisoPedidoGuardadoExitoso(true);
 		//TODO: Mirar si es necesario resetear pedidoActual
-	}, [pedidoActual, totalPedido, clienteActual, t]);
+	}, [pedidoActual, totalPedido, t]);
 	return agregarPedidoAlListado;
 };
