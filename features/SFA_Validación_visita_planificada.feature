@@ -1,4 +1,4 @@
-@Validar_visita_planificada @Sprint4
+@Clientes @Validar_frecuencia @Validar_visita_planificada @Sprint4
 
 # Solo poder seleccionar un cliente fuera de frecuencia si tiene 
 # una visita planificada posterior a la fecha actual del dispositivo. 

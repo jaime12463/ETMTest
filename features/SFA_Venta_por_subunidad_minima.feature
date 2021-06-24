@@ -1,4 +1,4 @@
-@Venta_por_subunidad_minima @sprint4
+@Pedido @Valdar_subunidades @Validar_minimo_subunidades @sprint4
 
 # La venta por subunidad mínima requiere de un valor por producto 
 # el cual indica la cantidad de subunidades mínimas a vender de dicho producto. 

@@ -1,8 +1,8 @@
-@Ver_actividad_realizada_del_cliente @Sprint4
+@Clientes @Ver_actividad @Ver_pedidos @Sprint4
 
-# Al ingresar a un cliente, si ya posee pedidos guardados o motivo de no venta, 
+# Al ingresar a un cliente, si ya posee pedidos guardados, 
 # se debe mostrar la actividad realizada.
-# Nota: se saca escenario de motivo de no venta
+
 
 Característica: ver actividad realizada del cliente
     Como prevendedor

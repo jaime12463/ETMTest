@@ -1,4 +1,4 @@
-@Calculo_de_fecha_de_entrega @Sprint3
+@Pedido @Validar_ingreso_pedido @Calcular_fecha_de_entrega @Sprint3
 
 # Si por configuración no se permite operar 
 # fuera de frecuencia (esFrecuenciaAbierta=false) y el cliente 

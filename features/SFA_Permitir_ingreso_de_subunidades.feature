@@ -1,4 +1,4 @@
-@Permitir_ingreso_de_subunidades @Sprint3
+@Pedido @Validar_subunidades @Sprint3
 
 # Si parámetro a nivel ruta esVentaSubunidadesRuta = true y para el cliente/ producto 
 # esVentaSubunidades = true se habilita el campo de ingreso de subunidades. 

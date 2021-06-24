@@ -1,4 +1,4 @@
-@Modificar_línea_del_pedido @Sprint3
+@Pedido @Modificar_producto @Sprint3
 Característica: Modificar línea del pedido
 	Como prevendedor
 	Quiero modificar las unidades/subunidades de un producto del pedido

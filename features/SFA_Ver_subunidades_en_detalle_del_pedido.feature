@@ -1,4 +1,4 @@
-@Ver_subunidades_en_el_detalle @AddDelSprint1 @Sprint3
+@Pedido @Ver_detalle @Ver_subunidades @AddDelSprint1 @Sprint3
 Característica: Ver detalle del pedido 
 	Como prevendedor
 	Quiero poder ver el código de producto

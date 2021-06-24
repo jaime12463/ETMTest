@@ -1,4 +1,4 @@
-@Validar_pedido_mínimo @Sprint3
+@Pedido @Validar_cierre_pedido @Validar_pedido_minimo @Sprint3
 
 # Se agrega botón de Cierre de pedido. 
 # Si el cliente tiene definido un pedido mínimo y el monto del pedido no cumple pedido 

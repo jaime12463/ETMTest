@@ -1,4 +1,4 @@
-@Guardar_pedido @Sprint4
+@Pedido @Guardar_pedido @Sprint4
 
 # Agregar botón para guardar el pedido. Los pedidos deben registrarse con un id.
 # Registrar en cabecera: número de pedido, código de cliente, fecha de entrega, 

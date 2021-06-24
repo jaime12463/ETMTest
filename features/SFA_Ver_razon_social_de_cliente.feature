@@ -1,4 +1,4 @@
-@Descripción_de_cliente @Sprint2
+@Pedido @Ver_datos_cliente @Sprint2
 Característica: Ver la razón social del cliente
     Como prevendedor
     Quiero ver la razón social del cliente

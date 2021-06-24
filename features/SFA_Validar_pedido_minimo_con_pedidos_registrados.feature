@@ -1,4 +1,4 @@
-@Validar_pedido_minimo_con_pedidos_registrados @Sprint4
+@Pedido @Validar_cierre_pedido @Validar_pedido_minimo @Sprint4
 
 # Si el cliente no posee al menos un pedido para la misma fecha de entrega, 
 # el sistema realiza la validación del pedido mínimo del sprint 3 

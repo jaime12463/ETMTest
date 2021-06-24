@@ -1,4 +1,4 @@
-@Pedido_maximo @sprint4
+@Pedido @Validar_cierre_pedido @Validar_pedido_maximo @sprint4
 
 # La suma de los totales de los pedidos realizados no puede superar a X monto. 
 # Aplica a operaciones de venta contado.

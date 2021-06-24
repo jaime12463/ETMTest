@@ -1,4 +1,4 @@
-@Búsqueda_de_productos_por_atributos @Sprint2
+@Pedido @Buscar_productos @Buscar_por_atributos @Sprint2
 Característica: Búsqueda de productos por atributos
     Como Prevendedor
     Quiero realizar la búsqueda de un producto por atributos

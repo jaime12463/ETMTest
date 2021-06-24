@@ -1,4 +1,4 @@
-@Aviso_en_ingreso_de_unidades_maximas_por_producto @Sprint3
+@Pedido @Validar_unidades @Unidades_maximas_por_producto @Sprint3
 
 # Si hay definida una cantidad máxima de unidades para el cliente 
 # y al ingresar las unidades excede dicha cantidad máxima, 

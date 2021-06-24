@@ -1,4 +1,4 @@
-@Ver_totales_del_pedido @Sprint1
+@Pedido @Ver_totales @Sprint1
 Característica: ver totales del pedido
     Como prevendedor
     Quiero ver el total de unidades y monto del pedido 
