@@ -1,4 +1,7 @@
 @Pedido @Ver_datos_cliente @Sprint2
+
+# UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=123%3A1241&scaling=scale-down&page-id=123%3A371
+
 Característica: Ver la razón social del cliente
     Como prevendedor
     Quiero ver la razón social del cliente

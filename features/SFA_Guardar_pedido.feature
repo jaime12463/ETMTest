@@ -7,8 +7,9 @@
 # Registrar detalle: código de producto, unidades, subunidades, 
 # precio unitario de unidad, precio unitario de subunidad, 
 # monto subtotal de la línea de producto 
-# Nota: se saca escenario de motivo de no venta
 
+
+# UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA_S4?node-id=1%3A11&scaling=min-zoom&page-id=0%3A1
 
 Característica: guardar pedido
     Como prevendedor

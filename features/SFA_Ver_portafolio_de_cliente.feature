@@ -1,4 +1,7 @@
 @Pedido @Ver_portafolio @Sprint1
+
+# UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=436%3A2150&scaling=scale-down&page-id=436%3A1256
+
 Característica: Ver portafolio del cliente
     Como prevendedor 
     Quiero teclear un código de cliente

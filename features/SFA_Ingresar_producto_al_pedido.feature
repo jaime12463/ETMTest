@@ -1,4 +1,7 @@
 @Pedido @Agregar_producto @Sprint1
+
+# UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=436%3A2150&scaling=scale-down&page-id=436%3A1256
+
 Característica: Ingresar producto al pedido
     Como prevendedor 
     Quiero poder seleccionar un producto del portafolio del cliente e informar la cantidad de unidades

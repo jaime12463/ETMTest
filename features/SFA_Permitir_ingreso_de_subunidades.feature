@@ -11,6 +11,7 @@
 # Si es true, la venta en botellas depende de esVentaSubunidades del cliente/ producto. 
 # Si está en false, no se puede vender en botellas.
 
+# UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=436%3A2150&scaling=scale-down&page-id=436%3A1256
 
 Característica: Permitir el ingreso de subunidades al pedido
 	Como Prevendedor

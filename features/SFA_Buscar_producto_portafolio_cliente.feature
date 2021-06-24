@@ -1,4 +1,7 @@
 @Pedido @Buscar_productos @Sprint1
+
+# UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=436%3A2150&scaling=scale-down&page-id=436%3A1256
+
 Característica:Buscar producto del portafolio del cliente
     Como prevendedor
     Quiero buscar, por código, un producto dentro del portafolio del cliente

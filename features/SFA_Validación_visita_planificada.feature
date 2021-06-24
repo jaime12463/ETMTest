@@ -5,6 +5,8 @@
 # No cuentan las fechas anteriores porque el cliente puede estar 
 # dado de baja a partir de la fecha actual
 
+# UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA_S4?node-id=1%3A11&scaling=min-zoom&page-id=0%3A1
+
 Característica: Validar visita planificada
     Como prevendedor
     Quiero ingresar un cliente fuera de frecuencia que tenga al menos una visita planificada mayor a la fecha actual

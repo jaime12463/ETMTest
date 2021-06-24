@@ -13,6 +13,8 @@
 # Requiere las fechas de entrega calculadas. “fechasEntrega”
 # La fecha de entrega es la asociada a la fechasEntrega.fechaVisita = fecha del dispositivo 
 
+# UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=436%3A2150&scaling=scale-down&page-id=436%3A1256
+
 Característica: cálculo de fecha de entrega
 	Como prevendedor
 	Quiero ver la fecha de entrega del cliente según la fecha del dispositivo 

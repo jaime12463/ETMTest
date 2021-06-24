@@ -1,4 +1,7 @@
 @Pedido @Ver_detalle @Sprint2
+
+# UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=123%3A1241&scaling=scale-down&page-id=123%3A371
+
 Característica: Ver descripción de productos en pedido y detalle
     Como prevendedor
     Quiero ver la descripción de los productos en el ingreso de productos y en el detalle del pedido

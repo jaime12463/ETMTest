@@ -1,4 +1,7 @@
 @Pedido @Buscar_productos @Buscar_por_atributos @Sprint2
+
+# UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=123%3A1241&scaling=scale-down&page-id=123%3A371
+
 Característica: Búsqueda de productos por atributos
     Como Prevendedor
     Quiero realizar la búsqueda de un producto por atributos

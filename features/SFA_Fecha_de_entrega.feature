@@ -1,4 +1,7 @@
 @Pedido @Validar_ingreso_pedido @Calcular_fecha_de_entrega @Sprint2
+
+# UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=123%3A1241&scaling=scale-down&page-id=123%3A371
+
 Característica: cálculo de fecha de entrega (construcción)
     Como prevendedor
     Quiero saber la fecha de entrega del pedido

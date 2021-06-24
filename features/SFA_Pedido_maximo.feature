@@ -3,6 +3,8 @@
 # La suma de los totales de los pedidos realizados no puede superar a X monto. 
 # Aplica a operaciones de venta contado.
 
+# UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA_S4?node-id=1%3A11&scaling=min-zoom&page-id=0%3A1
+
 Característica: validar pedido máximo
     Como prevendedor
     Quiero que al guardar un pedido de contado el sistema verifique que no me exceda al monto máximo de la ruta

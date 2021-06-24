@@ -10,6 +10,8 @@
 # Se debe contemplar el ingreso de cantidad 0 (ver sprint 3, “Venta por botellas”, HU Eliminar línea del pedido)
 # Esto aplica solo para la operación de venta.
 
+# UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA_S4?node-id=1%3A11&scaling=min-zoom&page-id=0%3A1
+
 Característica: venta subunidad mínima
     Como prevendedor
     Quiero que el sistema me avise cuando ingreso subunidades que no son múltiplos de la venta mínima

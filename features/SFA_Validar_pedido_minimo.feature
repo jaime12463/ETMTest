@@ -10,6 +10,8 @@
 # para la misma fecha de entrega.
 # Nuevo dato del cliente: montoVentaMínima.
 
+# UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=436%3A2150&scaling=scale-down&page-id=436%3A1256
+
 Característica: Validar pedido mínimo
 	Como prevendedor
 	Quiero que al cerrar el pedido el sistema me avise cuando no cumpla con el pedido mínimo del cliente

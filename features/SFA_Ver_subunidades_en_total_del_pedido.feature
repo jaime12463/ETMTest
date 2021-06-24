@@ -3,6 +3,8 @@
 # Si vendo 2 caja y 3 botellas el precio es 
 # 2 * precioConImpuestoUnidad + 3 *  precioConImpuestoSubunidad
 
+# UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=436%3A2150&scaling=scale-down&page-id=436%3A1256
+
 Característica: Ver totales del pedido 
 	Como prevendedor
 	Quiero ver el total de unidades

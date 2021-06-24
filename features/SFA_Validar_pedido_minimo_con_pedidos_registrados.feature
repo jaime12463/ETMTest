@@ -5,6 +5,8 @@
 # (ver historia de usuario sprint 3 “validar pedido mínimo”).
 # Caso contrario, guarda el pedido
 
+# UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA_S4?node-id=1%3A11&scaling=min-zoom&page-id=0%3A1
+
 Característica: validar pedido mínimo con pedidos registrados
     Como prevendedor
     Quiero asegurarme que el primer pedido del cliente para una fecha de entrega cumpla con el monto mínimo

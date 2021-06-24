@@ -1,4 +1,7 @@
 @Pedido @Ver_detalle @Sprint1
+
+# UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=436%3A2150&scaling=scale-down&page-id=436%3A1256
+
 Característica: Ver detalle del pedido
     Como prevendedor 
     Quiero poder ver el código de producto y cantidad de unidades de los productos ingresados en el pedido 
