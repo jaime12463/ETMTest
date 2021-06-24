@@ -55,7 +55,10 @@ export const useAsignarPedidoActual = (
 				esFrecuenciaAbierta
 			);
 			if (!esFechaVisitaEncontrada) {
-				setFrecuenciaValida(esFrecuenciaAbierta);
+				if (!esFrecuenciaAbierta) {
+					setFrecuenciaValida(false);
+					setExisteCliente(null);
+				}
 				dispatch(cambiarClienteActual(''));
 				dispatch(cambiarFechaEntrega(''));
 				setRazonSocial('');
