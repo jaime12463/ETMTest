@@ -1,4 +1,4 @@
-import {TCliente, TConfiguracion, TFechaEntrega} from 'models';
+import {TFechaEntrega, TPrecio} from 'models';
 
 export const transformDate = (date: string): string =>
 	`${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}`;
@@ -9,30 +9,34 @@ export const darFormatoFecha = (fecha: string): string => {
 	return stringFecha;
 };
 
-export const fechaDispositivo = (): String => {
+export const fechaDispositivo = (): string => {
 	let fechaDispositivo: string | null = localStorage.getItem('fechaDipostivo');
 
-	const fecha: String = fechaDispositivo
+	const fecha: string = fechaDispositivo
 		? new Date(fechaDispositivo).toISOString().split('T')[0]
 		: new Date().toISOString().split('T')[0];
 
 	return fecha;
 };
 
-// TODO: Verificar este método ya que la fecha del sistema no debe estar hardcodeada
-export const establecerFechaEntrega = (fechasEntrega: TFechaEntrega[]) => {
-	const fechaEncontrada = fechasEntrega.find(
+export const obtenerFechaEntrega = (fechasEntrega: TFechaEntrega[]): string => {
+	const fechaEncontrada: TFechaEntrega | undefined = fechasEntrega.find(
 		({fechaVisita}) =>
 			new Date(fechaVisita).toISOString().split('T')[0] === fechaDispositivo()
 	);
 
-	return fechaEncontrada && fechaEncontrada.fechaEntrega;
+	return fechaEncontrada ? fechaEncontrada.fechaEntrega : ''; //TODO: Nunca llegaria al casa de que no se esncuentre por donde se usa, pero arreglar.
 };
 
-// TODO: Verificar metodo para ver zona horaria
-export const verificarFrecuencia = (
-	clienteEncontrado: TCliente,
-	configuracionActual: TConfiguracion
+export const obtenerPrecioConImpuestoUnidad = (
+	preciosProductos: TPrecio[],
+	fechaEntrega: string
 ) => {
-	return configuracionActual.esFrecuenciaAbierta;
+	const resultado = preciosProductos.find(
+		(precio) =>
+			new Date(precio['vigenciaInicioPrecio']) <= new Date(fechaEntrega) &&
+			new Date(precio['vigenciaFinPrecio']) >= new Date(fechaEntrega)
+	);
+
+	return resultado;
 };

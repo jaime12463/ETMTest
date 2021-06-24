@@ -2,7 +2,7 @@ import {TableBody, TableCell, TableRow} from '@material-ui/core';
 import {TPrecio, TPrecioProducto, TPrecioSinVigencia} from 'models';
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {useAppSelector} from 'redux/hooks';
-import {obtenerPrecioConImpuestoUnidad} from 'utils/validaciones';
+import {obtenerPrecioConImpuestoUnidad} from 'utils/methods';
 
 import {Celda} from './Celda';
 

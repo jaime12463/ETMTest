@@ -39,8 +39,10 @@ export default function TomaDePedidos() {
 	const [frecuenciaValida, setFrecuenciaValida] = useState<boolean | null>(
 		null
 	);
-	const [avisoPedidoGuardadoExitoso, setAvisoPedidoGuardadoExitoso] =
-		useState<boolean>(false);
+	const [
+		avisoPedidoGuardadoExitoso,
+		setAvisoPedidoGuardadoExitoso,
+	] = useState<boolean>(false);
 	const [razonSocial, setRazonSocial] = useState<string>('');
 	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
 	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
@@ -55,8 +57,12 @@ export default function TomaDePedidos() {
 	});
 	const {t} = useTranslation();
 	const estilos = useEstilos();
-	const {control, handleSubmit, setValue, getValues} =
-		useForm<TInputsFormularioAgregarProducto>();
+	const {
+		control,
+		handleSubmit,
+		setValue,
+		getValues,
+	} = useForm<TInputsFormularioAgregarProducto>();
 	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
 
 	useObtenerDatos();
@@ -65,15 +71,14 @@ export default function TomaDePedidos() {
 		setProductoActual,
 		setValue
 	);
-	const validarAgregarProductoAlPedidoCliente =
-		useValidarAgregarProductoAlPedidoCliente(
-			setMostarDialogo,
-			setParametrosDialogo,
-			productoActual,
-			setProductoActual,
-			setValue,
-			getValues
-		);
+	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
+		setMostarDialogo,
+		setParametrosDialogo,
+		productoActual,
+		setProductoActual,
+		setValue,
+		getValues
+	);
 	const asignarPedidoActual = useAsignarPedidoActual(
 		setExisteCliente,
 		setRazonSocial,
@@ -167,7 +172,7 @@ export default function TomaDePedidos() {
 								</Grid>
 							</Fragment>
 						)}
-						{existeCliente && !pedidoActual.fechaEntrega && (
+						{existeCliente && pedidoActual.fechaEntrega === '' && (
 							<Alert
 								variant='filled'
 								severity='warning'

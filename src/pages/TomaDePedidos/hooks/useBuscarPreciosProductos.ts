@@ -5,7 +5,7 @@ import {
 	TInputsFormularioAgregarProducto,
 } from 'models';
 import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente} from '.';
-import {establecerFechaEntrega} from 'utils/methods';
+import {obtenerFechaEntrega} from 'utils/methods';
 
 export const useBuscarPreciosProductos = (
 	preciosProductos: TPrecioProducto[],
@@ -30,7 +30,8 @@ export const useBuscarPreciosProductos = (
 				codigoCliente
 			);
 			if (!clienteEncontrado) return;
-			const fechaEntrega: string | undefined = establecerFechaEntrega(
+			const fechaEntrega: string | undefined = obtenerFechaEntrega(
+				//TODO: REVISAR
 				clienteEncontrado.fechasEntrega
 			);
 			if (!fechaEntrega) return;

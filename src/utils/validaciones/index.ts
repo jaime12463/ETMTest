@@ -1,9 +1,10 @@
-import { TPrecio, TFechaEntrega, TConfiguracionPedido } from 'models';
+import {TPrecio, TFechaEntrega, TConfiguracionPedido, TCliente} from 'models';
+import {fechaDispositivo} from 'utils/methods';
 
 export const validarFechaVigenciaProducto = (
 	preciosProductos: TPrecio[],
 	fechaEntrega: string
-) => {
+): boolean => {
 	return preciosProductos.some(
 		(precio) =>
 			new Date(precio['vigenciaInicioPrecio']) <= new Date(fechaEntrega) &&
@@ -11,24 +12,11 @@ export const validarFechaVigenciaProducto = (
 	);
 };
 
-export const obtenerPrecioConImpuestoUnidad = (
-	preciosProductos: TPrecio[],
-	fechaEntrega: string
-) => {
-	const resultado = preciosProductos.find(
-		(precio) =>
-			new Date(precio['vigenciaInicioPrecio']) <= new Date(fechaEntrega) &&
-			new Date(precio['vigenciaFinPrecio']) >= new Date(fechaEntrega)
-	);
-
-	return resultado;
-};
-
 export const validarUnidadesMinimasProducto = (
 	unidades: number,
 	configuracionPedido: TConfiguracionPedido
-) => {
-	const { cantidadMaximaUnidades } = configuracionPedido;
+): boolean => {
+	const {cantidadMaximaUnidades} = configuracionPedido;
 	if (cantidadMaximaUnidades) {
 		if (unidades > cantidadMaximaUnidades) return false;
 	}
@@ -38,8 +26,8 @@ export const validarUnidadesMinimasProducto = (
 export const validarMontoMinimoPedido = (
 	montoTotalPedido: number,
 	configuracionPedido: TConfiguracionPedido
-) => {
-	const { montoVentaMinima } = configuracionPedido;
+): boolean => {
+	const {montoVentaMinima} = configuracionPedido;
 	if (montoVentaMinima) {
 		if (montoTotalPedido < montoVentaMinima) return false;
 	}
@@ -47,17 +35,42 @@ export const validarMontoMinimoPedido = (
 };
 
 export const validarVentaSubUnidades = (
-	esVentaSubunidadesRuta: boolean, esVentaSubunidades: boolean
-) => {
-	if (esVentaSubunidadesRuta && esVentaSubunidades)
-		return true;
+	esVentaSubunidadesRuta: boolean,
+	esVentaSubunidades: boolean
+): boolean => {
+	if (esVentaSubunidadesRuta && esVentaSubunidades) return true;
 	return false;
-}
+};
 
 export const validarSubUnidadesConPresentacion = (
-	presentacion: number, subUnidades: number
-) => {
-	if (presentacion <= subUnidades)
-		return false;
+	presentacion: number,
+	subUnidades: number
+): boolean => {
+	if (presentacion <= subUnidades) return false;
 	return true;
-}
+};
+
+export const validarFechaVisita = (
+	clienteEncontrado: TCliente,
+	esFrecuenciaAbierta: boolean
+): boolean => {
+	if (esFrecuenciaAbierta) {
+		return clienteEncontrado.fechasEntrega.some(
+			(fechaEntrega) =>
+				new Date(fechaEntrega.fechaVisita).toISOString().split('T')[0] ===
+				fechaDispositivo()
+		);
+	}
+	return (
+		clienteEncontrado.fechasEntrega.some(
+			(fechaEntrega) =>
+				new Date(fechaEntrega.fechaVisita).toISOString().split('T')[0] ===
+				fechaDispositivo()
+		) &&
+		clienteEncontrado.visitasPlanificadas.some(
+			(visitaPlanificada) =>
+				new Date(visitaPlanificada.dia).toISOString().split('T')[0] ===
+				fechaDispositivo()
+		)
+	);
+};

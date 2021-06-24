@@ -13,9 +13,10 @@ import {
 	TPrecioProducto,
 } from 'models';
 import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente} from '.';
-import {establecerFechaEntrega, verificarFrecuencia} from 'utils/methods';
 import {selectPedidosClientes} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
+import {validarFechaVisita} from 'utils/validaciones';
+import {obtenerFechaEntrega} from 'utils/methods';
 
 export const useAsignarPedidoActual = (
 	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
@@ -37,6 +38,8 @@ export const useAsignarPedidoActual = (
 			const configuracionActual:
 				| TConfiguracion
 				| undefined = obtenerConfiguracionActual();
+			//TODO: Que deberia pasar si configuracionActual es undefined?
+			const {esFrecuenciaAbierta}: TConfiguracion = configuracionActual;
 			if (!clienteEncontrado) {
 				setExisteCliente(false);
 				setFrecuenciaValida(null);
@@ -46,47 +49,43 @@ export const useAsignarPedidoActual = (
 				setPreciosProductos([]);
 				return;
 			}
-			dispatch(cambiarClienteActual(codigoCliente));
-			const frecuenciaValida: boolean = verificarFrecuencia(
+			setExisteCliente(true);
+			const esFechaVisitaEncontrada: boolean = validarFechaVisita(
 				clienteEncontrado,
-				configuracionActual
+				esFrecuenciaAbierta
 			);
-			const fechaEntrega: string | undefined = establecerFechaEntrega(
+			if (!esFechaVisitaEncontrada) {
+				setFrecuenciaValida(esFrecuenciaAbierta);
+				dispatch(cambiarClienteActual(''));
+				dispatch(cambiarFechaEntrega(''));
+				setRazonSocial('');
+				setPreciosProductos([]);
+				return;
+			}
+			const fechaEntrega: string = obtenerFechaEntrega(
 				clienteEncontrado.fechasEntrega
 			);
-			if (!frecuenciaValida && !fechaEntrega) {
-				setFrecuenciaValida(frecuenciaValida);
-				setExisteCliente(null);
-				setRazonSocial('');
-				setPreciosProductos([]);
-				return;
-			}
-			setFrecuenciaValida(true);
-			setExisteCliente(true);
-			if (!fechaEntrega) {
-				setRazonSocial('');
-				setPreciosProductos([]);
-				return;
-			}
-			dispatch(cambiarFechaEntrega(fechaEntrega));
 			const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
 				clienteEncontrado,
 				fechaEntrega
 			);
+			setFrecuenciaValida(null);
 			setRazonSocial(clienteEncontrado.detalles.nombreComercial);
+			dispatch(cambiarClienteActual(codigoCliente));
+			dispatch(cambiarFechaEntrega(fechaEntrega));
 			setPreciosProductos(preciosProductosDelCliente);
 			if (pedidosClientes[codigoCliente]) {
 				dispatch(
 					agregarProductosAlPedidoDelCliente(pedidosClientes[codigoCliente])
 				);
 			}
-			//TODO: Cuando se busque un cliente otra vez debe ir y buscar en la lista y ponerlo en pedido actual
 		},
 		[
 			obtenerPreciosProductosDelCliente,
 			obtenerClienteActual,
 			obtenerConfiguracionActual,
 			dispatch,
+			pedidosClientes,
 		]
 	);
 	return asignarPedidoActual;
