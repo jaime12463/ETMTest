@@ -1,7 +1,7 @@
 const today = new Date();
 const tomorrow = new Date(today).setDate(new Date(today).getDate() + 1);
 
-xdescribe('Se admite el ingreso de subunidades por cliente/producto', () => {
+describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 	beforeEach(() => {
 		cy.visit('/');
 		cy.on('uncaught:exception', (err, runnable) => {
