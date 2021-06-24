@@ -1,6 +1,13 @@
+const today = new Date();
+const tomorrow = new Date(today).setDate(new Date(today).getDate() + 1);
 describe('Ingresar producto al pedido', () => {
 	beforeEach(() => {
-		cy.intercept('GET', '/femsa/tomapedidos').as('data');
+		cy.fixture('db').then((db) => {
+			db.clientes[234].visitasPlanificadas[0].dia = today;
+			db.clientes[234].fechasEntrega[0].fechaVisita = today;
+			db.clientes[234].fechasEntrega[0].fechaEntrega = tomorrow;
+			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
+		});
 		cy.visit('/');
 		cy.on('uncaught:exception', (err, runnable) => {
 			console.log(err);
@@ -12,7 +19,7 @@ describe('Ingresar producto al pedido', () => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
 			cy.wait('@data');
-			cy.get(`[data-cy=codigo-cliente]`).type('120104325{enter}');
+			cy.get(`[data-cy=codigo-cliente]`).type('234{enter}');
 			cy.get('[data-cy=codigo-producto]').type('1860');
 			cy.get('[data-cy=producto-tabla-0]').click();
 			cy.get('[data-cy=cantidad-producto-unidades]').should('have.value', ''); // Revisar
@@ -23,7 +30,7 @@ describe('Ingresar producto al pedido', () => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
 			cy.wait('@data');
-			cy.get(`[data-cy=codigo-cliente]`).type('120104325{enter}');
+			cy.get(`[data-cy=codigo-cliente]`).type('234{enter}');
 			cy.get('[data-cy=codigo-producto]').type('1860');
 			cy.get('[data-cy=producto-tabla-0]').click();
 			cy.get('[data-cy=cantidad-producto-unidades]').type('10{enter}');
