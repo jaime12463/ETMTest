@@ -1,15 +1,8 @@
-const today = new Date();
-const tomorrow = new Date(today).setDate(new Date(today).getDate() + 1);
 describe('Modificar lina del pedido', () => {
 	beforeEach(() => {
 		cy.intercept('GET', '/femsa/configuracion').as('dataConfig');
-		cy.fixture('db').then((db) => {
-			db.clientes[234].fechasEntrega[0].fechaVisita = today;
-			db.clientes[234].fechasEntrega[0].fechaEntrega = tomorrow;
-			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
-		});
 		cy.visit('/');
-
+		cy.configDB({cliente: 234});
 		cy.on('uncaught:exception', (err) => {
 			console.log(err);
 			return false;

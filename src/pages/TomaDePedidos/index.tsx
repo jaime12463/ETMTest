@@ -157,7 +157,7 @@ export default function TomaDePedidos() {
 									<Typography
 										variant='body2'
 										component='p'
-										data-cy={pedidoActual.fechaEntrega}
+										data-cy='fechaEntrega'
 									>
 										{t('general.fechaEntrega')}
 										{': '}
