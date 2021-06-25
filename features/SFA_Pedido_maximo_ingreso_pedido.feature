@@ -1,4 +1,4 @@
-@Pedido @Validar_Ingreso_pedido @Validar_pedido_maximo @Sprint4
+@Pedido @Validar_Ingreso_pedido @Validar_pedido_maximo @Sprint5
 
 # Si el cliente ya consumió la venta máxima para la fecha de entrega 
 # actual el sistema propone # para tomar el pedido la próxima 
