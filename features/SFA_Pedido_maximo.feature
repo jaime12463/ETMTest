@@ -1,4 +1,4 @@
-@Pedido @Validar_cierre_pedido @Validar_pedido_maximo @sprint4
+@Pedido @Validar_cierre_pedido @Validar_pedido_maximo @Sprint4
 
 # La suma de los totales de los pedidos realizados no puede superar a X monto. 
 # Aplica a operaciones de venta contado.
@@ -7,19 +7,22 @@
 
 Característica: validar pedido máximo
     Como prevendedor
-    Quiero que al guardar un pedido de contado el sistema verifique que no me exceda al monto máximo de la ruta
+    Quiero que al guardar un pedido el sistema verifique que no me exceda al monto máximo del cliente 
     Para evitar tener mucho dinero durante el recorrido
 
 Antecedentes:
-    Dado que se estableció $<montoMaximoContado> como monto máximo de ruta para contado
-    Y la suma total de pedidos realizados de contado es $<montoTotalContado>
+    Dado que se estableció $<montoVentaMaxima> como monto máximo del cliente
+    Y la suma total de pedidos realizados para <fechaDeEntrega> es $<montoTotal>
 
 Esquema del escenario: N°1 – Cumple con monto máximo
-    Cuando guardo un pedido de contado cuyo monto es de $<montoPedidoContado>
+    Cuando guardo un pedido con <fechaEntregaPedido> cuyo monto es de $<montoPedido>
     Entonces el sistema <acción>
-
+        
 Ejemplos:
-|montoMaximoContado|montoTotalContado|montoPedidoContado|accion                              |
-|    1000          |    900          |    99            | guardará el pedido                 | 
-|    1000          |    900          |    10            | guardará el pedido                 |
-|    1000          |    900          |    101           | Avisará y permanecerá en el pedido |
+|montoVentaMaxima|fechaDeEntrega|montoTotal|fechaEntregaPedido|montoPedido|accion                              |
+|   1000         |  25/06/2021  |  600     |  25/06/2021      | 399       |guardará el pedido                  |
+|   1000         |  25/06/2021  |  600     |  25/06/2021      | 400       |guardará el pedido                  | 
+|   1000         |  25/06/2021  |  600     |  25/06/2021      | 401       |Avisará y permanecerá en el pedido  | 
+
+# Mensaje: La suma de los pedidos para la fecha de entrega <fechaDeEntrega> 
+# excede el monto máximo para el cliente $ <montoVentaMaxima>
