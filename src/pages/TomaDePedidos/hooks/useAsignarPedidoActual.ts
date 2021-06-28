@@ -22,7 +22,8 @@ export const useAsignarPedidoActual = (
 	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
 	setRazonSocial: Dispatch<SetStateAction<string>>,
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	resetPedidoActual: any
 ) => {
 	const dispatch = useAppDispatch();
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
@@ -30,12 +31,6 @@ export const useAsignarPedidoActual = (
 	const configuracionActual = useObtenerConfiguracionActual();
 	const pedidosClientes = useAppSelector(selectPedidosClientes);
 	const {t} = useTranslation();
-	const resetPedidoActual = () => {
-		dispatch(cambiarClienteActual(''));
-		dispatch(cambiarFechaEntrega(''));
-		setRazonSocial('');
-		setPreciosProductos([]);
-	};
 	const asignarPedidoActual = useCallback(
 		({codigoCliente}: TInputsFormularioAgregarProducto) => {
 			const clienteEncontrado: TCliente | undefined = obtenerClienteActual(

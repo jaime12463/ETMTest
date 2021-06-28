@@ -1,16 +1,14 @@
-import {Dispatch, SetStateAction, useCallback} from 'react';
+import {useCallback} from 'react';
 import {useAppDispatch} from 'redux/hooks';
 import {
 	agregarProductoAlPedidoDelCliente,
 	borrarProductoDelPedidoDelCliente,
 } from 'redux/features/pedidoActual/pedidoActualSlice';
 import {TInputsFormularioAgregarProducto, TPrecioSinVigencia} from 'models';
-import {UseFormSetValue} from 'react-hook-form';
 
 export const useAgregarProductoAlPedidoCliente = (
 	productoActual: TPrecioSinVigencia,
-	setProductoActual: Dispatch<SetStateAction<TPrecioSinVigencia>>,
-	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>
+	resetLineaActual: any
 ) => {
 	const dispatch = useAppDispatch();
 	const agregarProductoAlPedidoCliente = useCallback(
@@ -41,14 +39,7 @@ export const useAgregarProductoAlPedidoCliente = (
 					})
 				);
 			} else dispatch(borrarProductoDelPedidoDelCliente(codigoProducto));
-			setProductoActual({
-				codigoProductoConNombre: '',
-				precioConImpuestoUnidad: 0,
-				precioConImpuestoSubunidad: 0,
-			});
-			setValue('codigoProductoConNombre', '');
-			setValue('unidades', '');
-			setValue('subUnidades', '');
+			resetLineaActual();
 		},
 		[productoActual]
 	);

@@ -2,44 +2,25 @@ import {
 	TCliente,
 	TInputsFormularioAgregarProducto,
 	TProducto,
-	TPrecioSinVigencia,
 	TFunctionMostarAvertenciaPorDialogo,
 } from 'models';
-import {Dispatch, SetStateAction, useCallback} from 'react';
-import {UseFormGetValues, UseFormSetValue} from 'react-hook-form';
+import {useCallback} from 'react';
 import {
 	validarSubUnidadesConPresentacion,
 	validarSubUnidadesEsMultiplo,
 	validarUnidadesMinimasProducto,
 } from 'utils/validaciones';
-import {
-	useAgregarProductoAlPedidoCliente,
-	useManejadorConfirmarAgregarPedido,
-	useObtenerClienteActual,
-} from '.';
+import {useObtenerClienteActual} from '.';
 import {useTranslation} from 'react-i18next';
 import {useAppSelector} from 'redux/hooks';
 import {selectDatos} from 'redux/features/datos/datosSlice';
 import {usePermiteSubUnidades} from '.';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
-	productoActual: TPrecioSinVigencia,
-	setProductoActual: Dispatch<SetStateAction<TPrecioSinVigencia>>,
-	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
-	getValues: UseFormGetValues<TInputsFormularioAgregarProducto>,
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	manejadorConfirmarAgregarPedido: any,
+	agregarProductoAlPedidoCliente: any
 ) => {
-	const agregarProductoAlPedidoCliente = useAgregarProductoAlPedidoCliente(
-		productoActual,
-		setProductoActual,
-		setValue
-	);
-	const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido(
-		productoActual,
-		setProductoActual,
-		setValue,
-		getValues
-	);
 	const {t} = useTranslation();
 	const obtenerClienteActual = useObtenerClienteActual();
 	const {datos} = useAppSelector(selectDatos);

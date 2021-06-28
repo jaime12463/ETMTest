@@ -9,6 +9,8 @@ import {useManejadorConfirmarAgregarPedido} from './useManejadorConfirmarAgregar
 import {useObtenerClienteActual} from './useObtenerClienteActual';
 import {usePermiteSubUnidades} from './usePermiteSubUnidades';
 import {useMostrarAdvertenciaEnDialogo} from './useMostrarAdvertenciaEnDialogo';
+import {useResetLineaActual} from './useResetLineaActual';
+import {useResetPedidoActual} from './useResetPedidoActual';
 
 export {
 	useAgregarPedidoAlListado,
@@ -22,4 +24,6 @@ export {
 	useObtenerClienteActual,
 	usePermiteSubUnidades,
 	useMostrarAdvertenciaEnDialogo,
+	useResetLineaActual,
+	useResetPedidoActual,
 };

@@ -29,6 +29,10 @@ import {
 	useBuscarPreciosProductos,
 	usePermiteSubUnidades,
 	useMostrarAdvertenciaEnDialogo,
+	useResetPedidoActual,
+	useResetLineaActual,
+	useAgregarProductoAlPedidoCliente,
+	useManejadorConfirmarAgregarPedido,
 } from './hooks';
 import Dialogo, {Props as PropsDialogo} from 'components/Dialogo';
 
@@ -66,6 +70,25 @@ export default function TomaDePedidos() {
 
 	useObtenerDatos();
 
+	const resetLineaActual = useResetLineaActual(setValue, setProductoActual);
+
+	const resetPedidoActual = useResetPedidoActual(
+		setExisteCliente,
+		setPreciosProductos,
+		setRazonSocial,
+		resetLineaActual
+	);
+
+	const agregarProductoAlPedidoCliente = useAgregarProductoAlPedidoCliente(
+		productoActual,
+		resetLineaActual
+	);
+	const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido(
+		productoActual,
+		getValues,
+		agregarProductoAlPedidoCliente
+	);
+
 	const mostrarAdvertenciaEnDialogo = useMostrarAdvertenciaEnDialogo(
 		setMostarDialogo,
 		setParametrosDialogo
@@ -76,28 +99,25 @@ export default function TomaDePedidos() {
 		setValue
 	);
 	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
-		productoActual,
-		setProductoActual,
-		setValue,
-		getValues,
-		mostrarAdvertenciaEnDialogo
+		mostrarAdvertenciaEnDialogo,
+		manejadorConfirmarAgregarPedido,
+		agregarProductoAlPedidoCliente
 	);
 	const asignarPedidoActual = useAsignarPedidoActual(
 		setExisteCliente,
 		setRazonSocial,
 		setPreciosProductos,
-		mostrarAdvertenciaEnDialogo
+		mostrarAdvertenciaEnDialogo,
+		resetPedidoActual
 	);
 	const buscarPreciosProductos = useBuscarPreciosProductos(
 		preciosProductos,
 		setPreciosProductos
 	);
 	const agregarPedidoAlListado = useAgregarPedidoAlListado(
-		setExisteCliente,
-		setValue,
 		setAvisoPedidoGuardadoExitoso,
 		mostrarAdvertenciaEnDialogo,
-		setProductoActual
+		resetPedidoActual
 	);
 	const permiteSubUnidades = usePermiteSubUnidades();
 
