@@ -13,7 +13,7 @@ import {agregarPedidoCliente} from 'redux/features/pedidosClientes/pedidosClient
 import {useAppDispatch, useAppSelector} from 'redux/hooks';
 import {
 	validarMontoMinimoPedido,
-	validarEsMasDelTotalMontoMaximo,
+	validarTotalConMontoMaximo,
 } from 'utils/validaciones';
 import {useObtenerClienteActual} from '.';
 import {useTranslation} from 'react-i18next';
@@ -37,12 +37,6 @@ export const useAgregarPedidoAlListado = (
 			totalPedido.totalPrecio,
 			clienteActual.configuracionPedido
 		);
-		const esMasDelTotalMontoMaximo: boolean = validarEsMasDelTotalMontoMaximo(
-			pedidoActual.fechaEntrega,
-			totalPedido.totalPrecio,
-			pedidosCliente,
-			clienteActual.configuracionPedido.montoVentaMaxima
-		);
 
 		let pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[] = [];
 		if (pedidosCliente) {
@@ -51,6 +45,12 @@ export const useAgregarPedidoAlListado = (
 					pedidoCliente.fechaEntrega === pedidoActual.fechaEntrega
 			);
 		}
+
+		const esMenorAlMontoMaximo: boolean = validarTotalConMontoMaximo(
+			totalPedido.totalPrecio,
+			pedidosClienteMismaFechaEntrega,
+			clienteActual.configuracionPedido.montoVentaMaxima
+		);
 
 		if (
 			!esValidoMontoMinidoPedido &&
@@ -65,7 +65,7 @@ export const useAgregarPedidoAlListado = (
 			return;
 		}
 
-		if (esMasDelTotalMontoMaximo) {
+		if (!esMenorAlMontoMaximo) {
 			mostrarAdvertenciaEnDialogo(
 				t('advertencias.masDelMontoMaximo', {
 					fechaDeEntrega: pedidoActual.fechaEntrega,

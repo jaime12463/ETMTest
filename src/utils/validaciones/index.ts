@@ -4,8 +4,9 @@ import {
 	TConfiguracionPedido,
 	TCliente,
 	TPedidoCliente,
+	TPedidoClienteParaEnviar,
 } from 'models';
-import {fechaDispositivo, obtenerTotalesPedidosClientes} from 'utils/methods';
+import {fechaDispositivo, obtenerTotalesPedidosCliente} from 'utils/methods';
 
 export const validarFechaVigenciaProducto = (
 	preciosProductos: TPrecio[],
@@ -40,18 +41,18 @@ export const validarMontoMinimoPedido = (
 	return true;
 };
 
-export const validarEsMasDelTotalMontoMaximo = (
-	fechaEntrega: string,
+export const validarTotalConMontoMaximo = (
 	totalPedidoActual: number,
-	pedidosCliente: any,
+	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[],
 	montoVentaMaxima: number
 ): boolean => {
-	const total =
-		obtenerTotalesPedidosClientes(pedidosCliente, fechaEntrega) +
+	const pedidosClienteMismaFechaEntregaYPedidoActual: number =
+		obtenerTotalesPedidosCliente(pedidosClienteMismaFechaEntrega) +
 		totalPedidoActual;
 
-	if (total > montoVentaMaxima) return true;
-	return false;
+	if (pedidosClienteMismaFechaEntregaYPedidoActual > montoVentaMaxima)
+		return false;
+	return true;
 };
 
 export const validarVentaSubUnidades = (

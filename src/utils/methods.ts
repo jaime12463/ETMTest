@@ -1,4 +1,4 @@
-import {TFechaEntrega, TPrecio} from 'models';
+import {TFechaEntrega, TPedidoClienteParaEnviar, TPrecio} from 'models';
 
 export const transformDate = (date: string): string =>
 	`${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}`;
@@ -28,22 +28,23 @@ export const obtenerFechaEntrega = (fechasEntrega: TFechaEntrega[]): string => {
 	return fechaEncontrada ? fechaEncontrada.fechaEntrega : ''; //TODO: Nunca llegaria al casa de que no se esncuentre por donde se usa, pero arreglar.
 };
 
-export const obtenerTotalesPedidosClientes = (
-	pedidosCliente: any,
-	fechaEntrega: string
+export const obtenerTotalesPedidosCliente = (
+	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[]
 ): number => {
-	let resultado =
-		pedidosCliente &&
-		pedidosCliente
-			.filter((cliente: any) => cliente.fechaEntrega === fechaEntrega)
-			.reduce((acum: any, pedido: any) => {
+	let totalPedidosMismaFecha = 0;
+	if (pedidosClienteMismaFechaEntrega.length !== 0) {
+		totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
+			(acum: any, pedido: any) => {
 				for (let valor of pedido.productosPedido) {
 					acum += valor.total;
 				}
 				return acum;
-			}, 0);
+			},
+			0
+		);
+	}
 
-	return resultado ? resultado : 0;
+	return totalPedidosMismaFecha;
 };
 
 export const obtenerPrecioConImpuestoUnidad = (
