@@ -1,7 +1,6 @@
 import {
 	TCliente,
 	TInputsFormularioAgregarProducto,
-	TPortafolio,
 	TProducto,
 	TPrecioSinVigencia,
 } from 'models';
@@ -9,8 +8,8 @@ import {Dispatch, SetStateAction, useCallback} from 'react';
 import {UseFormGetValues, UseFormSetValue} from 'react-hook-form';
 import {
 	validarSubUnidadesConPresentacion,
+	validarSubUnidadesEsMultiplo,
 	validarUnidadesMinimasProducto,
-	validarVentaSubUnidades,
 } from 'utils/validaciones';
 import {
 	useAgregarProductoAlPedidoCliente,
@@ -64,7 +63,9 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			const codigoProducto: number = parseInt(
 				codigoProductoConNombre.split(' ')[0]
 			);
-			const {presentacion}: TProducto = datos.productos[codigoProducto];
+			const {presentacion, subunidadesVentaMinima}: TProducto = datos.productos[
+				codigoProducto
+			];
 			const esPermitidoSubUnidades = permiteSubUnidades(
 				codigoCliente,
 				codigoProducto
@@ -97,12 +98,31 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				return;
 			}
 
-			if (
-				!validarUnidadesMinimasProducto(
-					unidadesParseado,
-					clienteEncontrado.configuracionPedido
-				)
-			) {
+			//TODO: subunidadesVentaMinima es opcional?
+			const esSubUnidadEsMultiplo = validarSubUnidadesEsMultiplo(
+				subunidadesVentaMinima,
+				subUnidadesParseado
+			);
+
+			if (!esSubUnidadEsMultiplo) {
+				setParametrosDialogo({
+					mensaje: t('advertencias.subUnidadesNoMultiplo', {
+						subunidadesVentaMinima,
+					}),
+					manejadorClick: () => setMostarDialogo(false),
+					conBotonCancelar: false,
+					dataCy: 'sub-unidades-no-permitida',
+				});
+				setMostarDialogo(true);
+				return;
+			}
+
+			const esUnidadesMenorAlMaximoUnidades = validarUnidadesMinimasProducto(
+				unidadesParseado,
+				clienteEncontrado.configuracionPedido
+			);
+
+			if (!esUnidadesMenorAlMaximoUnidades) {
 				setParametrosDialogo({
 					mensaje: t('advertencias.cantidadEsMayor', {
 						cantidad:
