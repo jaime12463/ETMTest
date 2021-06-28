@@ -2,6 +2,7 @@ import {useCalcularTotalPedido} from 'hooks';
 import {
 	TFunctionMostarAvertenciaPorDialogo,
 	TPedidoCliente,
+	TPedidoClienteParaEnviar,
 	TTotalPedido,
 } from 'models';
 import {Dispatch, SetStateAction, useCallback} from 'react';
@@ -30,6 +31,8 @@ export const useAgregarPedidoAlListado = (
 	const obtenerClienteActual = useObtenerClienteActual();
 	const agregarPedidoAlListado = useCallback(() => {
 		const clienteActual = obtenerClienteActual(pedidoActual.codigoCliente);
+		const pedidosCliente: TPedidoClienteParaEnviar[] | undefined =
+			PedidosClientes[pedidoActual.codigoCliente];
 		const esValidoMontoMinidoPedido: boolean = validarMontoMinimoPedido(
 			totalPedido.totalPrecio,
 			clienteActual.configuracionPedido
@@ -37,11 +40,22 @@ export const useAgregarPedidoAlListado = (
 		const esMasDelTotalMontoMaximo: boolean = validarEsMasDelTotalMontoMaximo(
 			pedidoActual.fechaEntrega,
 			totalPedido.totalPrecio,
-			PedidosClientes[pedidoActual.codigoCliente],
+			pedidosCliente,
 			clienteActual.configuracionPedido.montoVentaMaxima
 		);
 
-		if (!esValidoMontoMinidoPedido) {
+		let pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[] = [];
+		if (pedidosCliente) {
+			pedidosClienteMismaFechaEntrega = pedidosCliente.filter(
+				(pedidoCliente: TPedidoClienteParaEnviar) =>
+					pedidoCliente.fechaEntrega === pedidoActual.fechaEntrega
+			);
+		}
+
+		if (
+			!esValidoMontoMinidoPedido &&
+			pedidosClienteMismaFechaEntrega.length === 0
+		) {
 			mostrarAdvertenciaEnDialogo(
 				t('advertencias.pedidoMinimo', {
 					monto: clienteActual.configuracionPedido.montoVentaMinima,
