@@ -9,9 +9,13 @@ import {
 	selectPedidoActual,
 	resetearPedidoActual,
 } from 'redux/features/pedidoActual/pedidoActualSlice';
+import {selectPedidosClientes} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {agregarPedidoCliente} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {useAppDispatch, useAppSelector} from 'redux/hooks';
-import {validarMontoMinimoPedido} from 'utils/validaciones';
+import {
+	validarMontoMinimoPedido,
+	validarEsMasDelTotalMontoMaximo,
+} from 'utils/validaciones';
 import {useObtenerClienteActual} from '.';
 import {Props as PropsDialogo} from 'components/Dialogo';
 import {useTranslation} from 'react-i18next';
@@ -27,6 +31,7 @@ export const useAgregarPedidoAlListado = (
 	const dispatch = useAppDispatch();
 	const totalPedido: TTotalPedido = useCalcularTotalPedido();
 	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
+	const PedidosClientes = useAppSelector(selectPedidosClientes);
 	const {t} = useTranslation();
 	const obtenerClienteActual = useObtenerClienteActual();
 	const agregarPedidoAlListado = useCallback(() => {
@@ -35,10 +40,30 @@ export const useAgregarPedidoAlListado = (
 			totalPedido.totalPrecio,
 			clienteActual.configuracionPedido
 		);
+		const esMasDelTotalMontoMaximo: boolean = validarEsMasDelTotalMontoMaximo(
+			pedidoActual.fechaEntrega,
+			totalPedido.totalPrecio,
+			PedidosClientes[pedidoActual.codigoCliente],
+			clienteActual.configuracionPedido.montoVentaMaxima
+		);
+
 		if (!esValidoMontoMinidoPedido) {
 			setParametrosDialogo({
 				mensaje: t('advertencias.pedidoMinimo', {
 					monto: clienteActual.configuracionPedido.montoVentaMinima,
+				}),
+				manejadorClick: () => setMostarDialogo(false),
+				conBotonCancelar: false,
+			});
+			setMostarDialogo(true);
+			return;
+		}
+
+		if (esMasDelTotalMontoMaximo) {
+			setParametrosDialogo({
+				mensaje: t('advertencias.masDelMontoMaximo', {
+					fechaDeEntrega: pedidoActual.fechaEntrega,
+					montoVentaMaxima: clienteActual.configuracionPedido.montoVentaMaxima,
 				}),
 				manejadorClick: () => setMostarDialogo(false),
 				conBotonCancelar: false,
