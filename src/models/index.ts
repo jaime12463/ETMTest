@@ -12,6 +12,7 @@ export type TProductos = {
 };
 
 export type TCliente = {
+	codigoCliente: string;
 	visitasPlanificadas: TVisitaPlanificada[];
 	fechasEntrega: TFechaEntrega[];
 	detalles: TDetalle;
@@ -20,8 +21,10 @@ export type TCliente = {
 };
 
 export type TProducto = {
+	codigoProducto: number;
 	nombre: string;
 	presentacion: number;
+	subunidadesVentaMinima: number;
 };
 
 export type TVisitaPlanificada = {
@@ -36,6 +39,7 @@ export type TFechaEntrega = {
 
 export type TConfiguracionPedido = {
 	montoVentaMinima?: number;
+	montoVentaMaxima: number;
 	cantidadMaximaUnidades?: number;
 };
 
