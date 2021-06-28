@@ -10,17 +10,9 @@ describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 		});
 	});
 	it('esVentaSubunidadesRuta en true y esVentaSubunidades en true', () => {
-		cy.fixture('configuracion').then((data) => {
-			data.configuraciones[0].esVentaSubunidadesRuta = true;
-			cy.intercept('GET', '/femsa/configuracion', data).as('dataConfig');
-		});
-		cy.fixture('db').then((db) => {
-			db.clientes[234].visitasPlanificadas[0].dia = today;
-			db.clientes[234].fechasEntrega[0].fechaVisita = today;
-			db.clientes[234].fechasEntrega[0].fechaEntrega = tomorrow;
-			db.clientes[234].portafolio[0].esVentaSubunidades = true;
-			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
-		});
+		cy.configuracionRuta({esVentaSubunidadesRuta: true});
+		cy.configDB({cliente: 234, esVentaSubunidades: true});
+
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -33,17 +25,8 @@ describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 		});
 	});
 	it('esVentaSubunidadesRuta en true y esVentaSubunidades en false', () => {
-		cy.fixture('configuracion').then((data) => {
-			data.configuraciones[0].esVentaSubunidadesRuta = true;
-			cy.intercept('GET', '/femsa/configuracion', data).as('dataConfig');
-		});
-		cy.fixture('db').then((db) => {
-			db.clientes[234].visitasPlanificadas[0].dia = today;
-			db.clientes[234].fechasEntrega[0].fechaVisita = today;
-			db.clientes[234].fechasEntrega[0].fechaEntrega = tomorrow;
-			db.clientes[234].portafolio[0].esVentaSubunidades = false;
-			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
-		});
+		cy.configuracionRuta({esVentaSubunidadesRuta: true});
+		cy.configDB({cliente: 234, esVentaSubunidades: false});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -55,17 +38,8 @@ describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 		});
 	});
 	it('esVentaSubunidadesRuta en false y esVentaSubunidades en true', () => {
-		cy.fixture('configuracion').then((data) => {
-			data.configuraciones[0].esVentaSubunidadesRuta = false;
-			cy.intercept('GET', '/femsa/configuracion', data).as('dataConfig');
-		});
-		cy.fixture('db').then((db) => {
-			db.clientes[234].visitasPlanificadas[0].dia = today;
-			db.clientes[234].fechasEntrega[0].fechaVisita = today;
-			db.clientes[234].fechasEntrega[0].fechaEntrega = tomorrow;
-			db.clientes[234].portafolio[0].esVentaSubunidades = true;
-			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
-		});
+		cy.configuracionRuta({esVentaSubunidadesRuta: false});
+		cy.configDB({cliente: 234, esVentaSubunidades: true});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -77,17 +51,8 @@ describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 		});
 	});
 	it('esVentaSubunidadesRuta en false y esVentaSubunidades en false', () => {
-		cy.fixture('configuracion').then((data) => {
-			data.configuraciones[0].esVentaSubunidadesRuta = false;
-			cy.intercept('GET', '/femsa/configuracion', data).as('dataConfig');
-		});
-		cy.fixture('db').then((db) => {
-			db.clientes[234].visitasPlanificadas[0].dia = today;
-			db.clientes[234].fechasEntrega[0].fechaVisita = today;
-			db.clientes[234].fechasEntrega[0].fechaEntrega = tomorrow;
-			db.clientes[234].portafolio[0].esVentaSubunidades = false;
-			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
-		});
+		cy.configuracionRuta({esVentaSubunidadesRuta: false});
+		cy.configDB({cliente: 234, esVentaSubunidades: false});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -102,17 +67,12 @@ describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 
 describe('Validar Subunidades con la presentación', () => {
 	beforeEach(() => {
-		cy.fixture('configuracion').then((data) => {
-			data.configuraciones[0].esVentaSubunidadesRuta = true;
-			cy.intercept('GET', '/femsa/configuracion', data).as('dataConfig');
-		});
-		cy.fixture('db').then((db) => {
-			db.clientes[234].visitasPlanificadas[0].dia = today;
-			db.clientes[234].fechasEntrega[0].fechaVisita = today;
-			db.clientes[234].fechasEntrega[0].fechaEntrega = tomorrow;
-			db.clientes[234].portafolio[0].esVentaSubunidades = true;
-			db.productos[1860].presentacion = 12;
-			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
+		cy.configuracionRuta({esVentaSubunidadesRuta: true});
+		cy.configDB({
+			cliente: 234,
+			esVentaSubunidades: true,
+			producto: 1860,
+			presentacion: 12,
 		});
 		cy.visit('/');
 		cy.on('uncaught:exception', (err, runnable) => {
