@@ -121,3 +121,13 @@ export type TTotalPedido = {
 	totalSubUnidades: number;
 	totalPrecio: number;
 };
+
+export type TFunctionMostarAvertenciaPorDialogo = (
+	mensaje: string,
+	dataCy: string,
+	manejadorClick?: (oprimioBotonAceptar: boolean) => void,
+	textosBotonesDefault?: {
+		aceptar: string;
+		cancelar: string;
+	}
+) => void;

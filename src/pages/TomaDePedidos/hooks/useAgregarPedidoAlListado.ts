@@ -1,5 +1,6 @@
 import {useCalcularTotalPedido} from 'hooks';
 import {
+	TFunctionMostarAvertenciaPorDialogo,
 	TInputsFormularioAgregarProducto,
 	TPedidoCliente,
 	TTotalPedido,
@@ -20,7 +21,7 @@ export const useAgregarPedidoAlListado = (
 	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
 	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
 	setAvisoPedidoGuardadoExitoso: Dispatch<SetStateAction<boolean>>,
-	mostrarAdvertenciaEnDialogo: any
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const dispatch = useAppDispatch();
 	const totalPedido: TTotalPedido = useCalcularTotalPedido();

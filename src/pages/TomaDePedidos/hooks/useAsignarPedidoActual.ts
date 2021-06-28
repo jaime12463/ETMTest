@@ -7,6 +7,7 @@ import {
 import {
 	TCliente,
 	TConfiguracion,
+	TFunctionMostarAvertenciaPorDialogo,
 	TInputsFormularioAgregarProducto,
 	TPrecioProducto,
 } from 'models';
@@ -21,7 +22,7 @@ export const useAsignarPedidoActual = (
 	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
 	setRazonSocial: Dispatch<SetStateAction<string>>,
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
-	mostrarAdvertenciaEnDialogo: any
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const dispatch = useAppDispatch();
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();

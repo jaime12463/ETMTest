@@ -3,6 +3,7 @@ import {
 	TInputsFormularioAgregarProducto,
 	TProducto,
 	TPrecioSinVigencia,
+	TFunctionMostarAvertenciaPorDialogo,
 } from 'models';
 import {Dispatch, SetStateAction, useCallback} from 'react';
 import {UseFormGetValues, UseFormSetValue} from 'react-hook-form';
@@ -26,7 +27,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 	setProductoActual: Dispatch<SetStateAction<TPrecioSinVigencia>>,
 	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
 	getValues: UseFormGetValues<TInputsFormularioAgregarProducto>,
-	mostrarAdvertenciaEnDialogo: any
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const agregarProductoAlPedidoCliente = useAgregarProductoAlPedidoCliente(
 		productoActual,
