@@ -96,7 +96,8 @@ export default function TomaDePedidos() {
 		setExisteCliente,
 		setValue,
 		setAvisoPedidoGuardadoExitoso,
-		mostrarAdvertenciaEnDialogo
+		mostrarAdvertenciaEnDialogo,
+		setProductoActual
 	);
 	const permiteSubUnidades = usePermiteSubUnidades();
 

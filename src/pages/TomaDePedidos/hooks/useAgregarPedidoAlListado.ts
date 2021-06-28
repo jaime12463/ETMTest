@@ -3,6 +3,7 @@ import {
 	TFunctionMostarAvertenciaPorDialogo,
 	TInputsFormularioAgregarProducto,
 	TPedidoCliente,
+	TPrecioSinVigencia,
 	TTotalPedido,
 } from 'models';
 import {Dispatch, SetStateAction, useCallback} from 'react';
@@ -21,7 +22,8 @@ export const useAgregarPedidoAlListado = (
 	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
 	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
 	setAvisoPedidoGuardadoExitoso: Dispatch<SetStateAction<boolean>>,
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	setProductoActual: Dispatch<SetStateAction<TPrecioSinVigencia>>
 ) => {
 	const dispatch = useAppDispatch();
 	const totalPedido: TTotalPedido = useCalcularTotalPedido();
@@ -46,9 +48,15 @@ export const useAgregarPedidoAlListado = (
 		dispatch(agregarPedidoCliente(pedidoActual));
 		dispatch(resetearPedidoActual());
 		setExisteCliente(null);
-		setValue('codigoCliente', '');
 		setAvisoPedidoGuardadoExitoso(true);
-		//TODO: Mirar si es necesario resetear productoActual
+		setProductoActual({
+			codigoProductoConNombre: '',
+			precioConImpuestoUnidad: 0,
+			precioConImpuestoSubunidad: 0,
+		});
+		setValue('codigoProductoConNombre', '');
+		setValue('unidades', '');
+		setValue('subUnidades', '');
 	}, [pedidoActual, totalPedido, t, mostrarAdvertenciaEnDialogo]);
 	return agregarPedidoAlListado;
 };
