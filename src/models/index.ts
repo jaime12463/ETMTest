@@ -59,7 +59,13 @@ export type TPrecio = {
 };
 
 export type TPedidosClientes = {
-	[codigoCliente: string]: TProductoPedido[];
+	[codigoCliente: string]: TPedidoClienteParaEnviar[];
+};
+
+export type TPedidoClienteParaEnviar = {
+	fechaEntrega: string;
+	productosPedido: TProductoPedido[];
+	enviado: boolean;
 };
 
 export type TPedidoCliente = {

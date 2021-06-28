@@ -46,12 +46,7 @@ export const useAgregarPedidoAlListado = (
 			setMostarDialogo(true);
 			return;
 		}
-		dispatch(
-			agregarPedidoCliente({
-				codigoCliente: pedidoActual.codigoCliente,
-				productosPedido: pedidoActual.productosPedido,
-			})
-		);
+		dispatch(agregarPedidoCliente(pedidoActual));
 		dispatch(resetearPedidoActual());
 		setExisteCliente(null);
 		setValue('codigoCliente', '');

@@ -1,8 +1,6 @@
 import {Dispatch, SetStateAction, useCallback} from 'react';
 import {useAppDispatch, useAppSelector} from 'redux/hooks';
-
 import {
-	agregarProductosAlPedidoDelCliente,
 	cambiarClienteActual,
 	cambiarFechaEntrega,
 } from 'redux/features/pedidoActual/pedidoActualSlice';
@@ -50,6 +48,11 @@ export const useAsignarPedidoActual = (
 				return;
 			}
 			setExisteCliente(true);
+			//TODO: Validaciones
+			//Validar que exista una fecha de visita planificada (mayor o igual si es frecuencia abierta) igual (frecuencia cerrada) a la fecha del dispositivo
+			//obtener fecha de visita
+			//Validar que la fecha de visita que encontro exista en fechas de entrega (fecha de visita)
+			//obtener fecha entrega
 			const esFechaVisitaEncontrada: boolean = validarFechaVisita(
 				clienteEncontrado,
 				esFrecuenciaAbierta
@@ -77,11 +80,6 @@ export const useAsignarPedidoActual = (
 			dispatch(cambiarClienteActual(codigoCliente));
 			dispatch(cambiarFechaEntrega(fechaEntrega));
 			setPreciosProductos(preciosProductosDelCliente);
-			if (pedidosClientes[codigoCliente]) {
-				dispatch(
-					agregarProductosAlPedidoDelCliente(pedidosClientes[codigoCliente])
-				);
-			}
 		},
 		[
 			obtenerPreciosProductosDelCliente,
