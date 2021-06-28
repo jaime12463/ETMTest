@@ -15,19 +15,22 @@ import {selectPedidosClientes} from 'redux/features/pedidosClientes/pedidosClien
 import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
 import {validarFechaVisita} from 'utils/validaciones';
 import {obtenerFechaEntrega} from 'utils/methods';
+import {Props as PropsDialogo} from 'components/Dialogo';
+import {useTranslation} from 'react-i18next';
 
 export const useAsignarPedidoActual = (
 	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
 	setRazonSocial: Dispatch<SetStateAction<string>>,
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
-	setFrecuenciaValida: Dispatch<SetStateAction<boolean | null>>
+	setParametrosDialogo: Dispatch<SetStateAction<PropsDialogo>>,
+	setMostarDialogo: Dispatch<SetStateAction<boolean>>
 ) => {
 	const dispatch = useAppDispatch();
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
 	const obtenerClienteActual = useObtenerClienteActual();
 	const obtenerConfiguracionActual = useObtenerConfiguracionActual();
 	const pedidosClientes = useAppSelector(selectPedidosClientes);
-
+	const {t} = useTranslation();
 	const asignarPedidoActual = useCallback(
 		({codigoCliente}: TInputsFormularioAgregarProducto) => {
 			const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
@@ -39,8 +42,13 @@ export const useAsignarPedidoActual = (
 			//TODO: Que deberia pasar si configuracionActual es undefined?
 			const {esFrecuenciaAbierta}: TConfiguracion = configuracionActual;
 			if (!clienteEncontrado) {
-				setExisteCliente(false);
-				setFrecuenciaValida(null);
+				setParametrosDialogo({
+					mensaje: t('advertencias.clienteNoPortafolio'),
+					manejadorClick: () => setMostarDialogo(false),
+					conBotonCancelar: false,
+					dataCy: 'clienteNoPortafolio',
+				});
+				setMostarDialogo(true);
 				dispatch(cambiarClienteActual(''));
 				dispatch(cambiarFechaEntrega(''));
 				setRazonSocial('');
@@ -58,14 +66,27 @@ export const useAsignarPedidoActual = (
 				esFrecuenciaAbierta
 			);
 			if (!esFechaVisitaEncontrada) {
-				if (!esFrecuenciaAbierta) {
-					setFrecuenciaValida(false);
-					setExisteCliente(null);
-				}
 				dispatch(cambiarClienteActual(''));
 				dispatch(cambiarFechaEntrega(''));
 				setRazonSocial('');
 				setPreciosProductos([]);
+				if (!esFrecuenciaAbierta) {
+					setParametrosDialogo({
+						mensaje: 'El cliente está fuera de frecuencia',
+						manejadorClick: () => setMostarDialogo(false),
+						conBotonCancelar: false,
+						dataCy: 'fuera-frecuencia',
+					});
+					setMostarDialogo(true);
+					return;
+				}
+				setParametrosDialogo({
+					mensaje: t('advertencias.noFechaProgramada'),
+					manejadorClick: () => setMostarDialogo(false),
+					conBotonCancelar: false,
+					dataCy: 'no-fecha-programada',
+				});
+				setMostarDialogo(true);
 				return;
 			}
 			const fechaEntrega: string = obtenerFechaEntrega(
@@ -75,7 +96,6 @@ export const useAsignarPedidoActual = (
 				clienteEncontrado,
 				fechaEntrega
 			);
-			setFrecuenciaValida(null);
 			setRazonSocial(clienteEncontrado.detalles.nombreComercial);
 			dispatch(cambiarClienteActual(codigoCliente));
 			dispatch(cambiarFechaEntrega(fechaEntrega));

@@ -36,9 +36,6 @@ export default function TomaDePedidos() {
 		[]
 	);
 	const [existeCliente, setExisteCliente] = useState<boolean | null>(null);
-	const [frecuenciaValida, setFrecuenciaValida] = useState<boolean | null>(
-		null
-	);
 	const [
 		avisoPedidoGuardadoExitoso,
 		setAvisoPedidoGuardadoExitoso,
@@ -49,6 +46,7 @@ export default function TomaDePedidos() {
 		mensaje: '',
 		manejadorClick: () => {},
 		conBotonCancelar: false,
+		dataCy: '',
 	});
 	const [productoActual, setProductoActual] = useState<TPrecioSinVigencia>({
 		codigoProductoConNombre: '',
@@ -83,7 +81,8 @@ export default function TomaDePedidos() {
 		setExisteCliente,
 		setRazonSocial,
 		setPreciosProductos,
-		setFrecuenciaValida
+		setParametrosDialogo,
+		setMostarDialogo
 	);
 	const buscarPreciosProductos = useBuscarPreciosProductos(
 		preciosProductos,
@@ -171,29 +170,6 @@ export default function TomaDePedidos() {
 									</Typography>
 								</Grid>
 							</Fragment>
-						)}
-						{existeCliente && pedidoActual.fechaEntrega === '' && (
-							<Alert
-								variant='filled'
-								severity='warning'
-								data-cy='noFechaProgramada'
-							>
-								{t('advertencias.noFechaProgramada')}
-							</Alert>
-						)}
-						{!existeCliente && existeCliente !== null && (
-							<Alert variant='filled' severity='warning'>
-								{t('advertencias.clienteNoPortafolio')}
-							</Alert>
-						)}
-						{!frecuenciaValida && frecuenciaValida !== null && (
-							<Alert
-								data-cy='alerta-frecuencia'
-								variant='filled'
-								severity='warning'
-							>
-								El cliente está fuera de frecuencia
-							</Alert>
 						)}
 						{existeCliente && pedidoActual.fechaEntrega && (
 							<Fragment>

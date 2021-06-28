@@ -80,6 +80,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					mensaje: t('advertencias.subUnidadesNoPermitidas'),
 					manejadorClick: () => setMostarDialogo(false),
 					conBotonCancelar: false,
+					dataCy: 'sub-unidades-no-permitidas',
 				});
 				setMostarDialogo(true);
 				return;
@@ -90,6 +91,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					mensaje: t('advertencias.limiteSubUnidades'),
 					manejadorClick: () => setMostarDialogo(false),
 					conBotonCancelar: false,
+					dataCy: 'limite-sub-unidades',
 				});
 				setMostarDialogo(true);
 				return;
@@ -112,6 +114,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 						aceptar: t('general.si'),
 						cancelar: t('general.no'),
 					},
+					dataCy: 'cantidad-es-mayor',
 				});
 				setMostarDialogo(true);
 				return;

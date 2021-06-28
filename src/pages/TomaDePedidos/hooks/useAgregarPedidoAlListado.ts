@@ -42,6 +42,7 @@ export const useAgregarPedidoAlListado = (
 				}),
 				manejadorClick: () => setMostarDialogo(false),
 				conBotonCancelar: false,
+				dataCy: 'pedido-minimo',
 			});
 			setMostarDialogo(true);
 			return;

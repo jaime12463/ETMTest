@@ -27,7 +27,7 @@ describe('cálculo de fecha de entrega', () => {
 			cy.wait('@data');
 			cy.wait('@dataConfig');
 			cy.get(`[data-cy=codigo-cliente]`).type('234{enter}');
-			cy.get(`[data-cy=noFechaProgramada]`).should('exist');
+			cy.get(`[data-cy=no-fecha-programada]`).should('exist');
 			cy.get(`[data-cy=fechaEntrega]`).should('not.exist');
 		});
 	});

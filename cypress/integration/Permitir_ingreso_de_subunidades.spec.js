@@ -114,9 +114,7 @@ describe('Validar Subunidades con la presentación', () => {
 			cy.get('[data-cy=producto-tabla-0]').click();
 			cy.get('[data-cy=cantidad-producto-subUnidades]').type('12{enter}');
 			cy.get('[data-cy=total-subUnidades-pedido]').should('not.exist');
-			cy.get(
-				'[data-cy="Las subunidades deben ser menores a la presentación del producto"]'
-			).should('exist');
+			cy.get('[data-cy=limite-sub-unidades]').should('exist');
 		});
 	});
 	it('Presentacion en 12 - Subunidades en 20', () => {
@@ -129,9 +127,7 @@ describe('Validar Subunidades con la presentación', () => {
 			cy.get('[data-cy=producto-tabla-0]').click();
 			cy.get('[data-cy=cantidad-producto-subUnidades]').type('20{enter}');
 			cy.get('[data-cy=total-subUnidades-pedido]').should('not.exist');
-			cy.get(
-				'[data-cy="Las subunidades deben ser menores a la presentación del producto"]'
-			).should('exist');
+			cy.get('[data-cy=limite-sub-unidades]').should('exist');
 		});
 	});
 });
