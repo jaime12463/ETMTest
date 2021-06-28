@@ -15,7 +15,7 @@ import {useTranslation} from 'react-i18next';
 export const useAgregarPedidoAlListado = (
 	setAvisoPedidoGuardadoExitoso: Dispatch<SetStateAction<boolean>>,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
-	resetPedidoActual: any
+	resetPedidoActual: () => void
 ) => {
 	const dispatch = useAppDispatch();
 	const totalPedido: TTotalPedido = useCalcularTotalPedido();

@@ -8,7 +8,7 @@ import {TInputsFormularioAgregarProducto, TPrecioSinVigencia} from 'models';
 
 export const useAgregarProductoAlPedidoCliente = (
 	productoActual: TPrecioSinVigencia,
-	resetLineaActual: any
+	resetLineaActual: () => void
 ) => {
 	const dispatch = useAppDispatch();
 	const agregarProductoAlPedidoCliente = useCallback(

@@ -5,7 +5,9 @@ import {UseFormGetValues} from 'react-hook-form';
 export const useManejadorConfirmarAgregarPedido = (
 	productoActual: TPrecioSinVigencia,
 	getValues: UseFormGetValues<TInputsFormularioAgregarProducto>,
-	agregarProductoAlPedidoCliente: any
+	agregarProductoAlPedidoCliente: (
+		inputs: TInputsFormularioAgregarProducto
+	) => void
 ) => {
 	const manejadorConfirmarAgregarPedido = useCallback(
 		(oprimioBotonAceptar: boolean) => {

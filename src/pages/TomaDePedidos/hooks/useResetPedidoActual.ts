@@ -7,7 +7,7 @@ export const useResetPedidoActual = (
 	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
 	setRazonSocial: Dispatch<SetStateAction<string>>,
-	resetLineaActual: any
+	resetLineaActual: () => void
 ) => {
 	const dispatch = useAppDispatch();
 	const resetPedidoActual = useCallback(() => {

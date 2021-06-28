@@ -18,8 +18,10 @@ import {usePermiteSubUnidades} from '.';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
-	manejadorConfirmarAgregarPedido: any,
-	agregarProductoAlPedidoCliente: any
+	manejadorConfirmarAgregarPedido: (oprimioBotonAceptar: boolean) => void,
+	agregarProductoAlPedidoCliente: (
+		inputs: TInputsFormularioAgregarProducto
+	) => void
 ) => {
 	const {t} = useTranslation();
 	const obtenerClienteActual = useObtenerClienteActual();
