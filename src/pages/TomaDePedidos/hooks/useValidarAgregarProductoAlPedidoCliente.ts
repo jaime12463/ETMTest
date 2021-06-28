@@ -16,19 +16,17 @@ import {
 	useManejadorConfirmarAgregarPedido,
 	useObtenerClienteActual,
 } from '.';
-import {Props as PropsDialogo} from 'components/Dialogo';
 import {useTranslation} from 'react-i18next';
 import {useAppSelector} from 'redux/hooks';
 import {selectDatos} from 'redux/features/datos/datosSlice';
 import {usePermiteSubUnidades} from '.';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
-	setMostarDialogo: Dispatch<SetStateAction<boolean>>,
-	setParametrosDialogo: Dispatch<SetStateAction<PropsDialogo>>,
 	productoActual: TPrecioSinVigencia,
 	setProductoActual: Dispatch<SetStateAction<TPrecioSinVigencia>>,
 	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
-	getValues: UseFormGetValues<TInputsFormularioAgregarProducto>
+	getValues: UseFormGetValues<TInputsFormularioAgregarProducto>,
+	mostrarAdvertenciaEnDialogo: any
 ) => {
 	const agregarProductoAlPedidoCliente = useAgregarProductoAlPedidoCliente(
 		productoActual,
@@ -36,7 +34,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 		setValue
 	);
 	const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido(
-		setMostarDialogo,
 		productoActual,
 		setProductoActual,
 		setValue,
@@ -77,24 +74,18 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			);
 
 			if (!esPermitidoSubUnidades && subUnidadesParseado !== 0) {
-				setParametrosDialogo({
-					mensaje: t('advertencias.subUnidadesNoPermitidas'),
-					manejadorClick: () => setMostarDialogo(false),
-					conBotonCancelar: false,
-					dataCy: 'sub-unidades-no-permitidas',
-				});
-				setMostarDialogo(true);
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.subUnidadesNoPermitidas'),
+					'sub-unidades-no-permitidas'
+				);
 				return;
 			}
 
 			if (!esSubUnidadesMenorAPresentacion) {
-				setParametrosDialogo({
-					mensaje: t('advertencias.limiteSubUnidades'),
-					manejadorClick: () => setMostarDialogo(false),
-					conBotonCancelar: false,
-					dataCy: 'limite-sub-unidades',
-				});
-				setMostarDialogo(true);
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.limiteSubUnidades'),
+					'limite-sub-unidades'
+				);
 				return;
 			}
 
@@ -105,15 +96,12 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			);
 
 			if (!esSubUnidadEsMultiplo) {
-				setParametrosDialogo({
-					mensaje: t('advertencias.subUnidadesNoMultiplo', {
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.subUnidadesNoMultiplo', {
 						subunidadesVentaMinima,
 					}),
-					manejadorClick: () => setMostarDialogo(false),
-					conBotonCancelar: false,
-					dataCy: 'sub-unidades-no-permitida',
-				});
-				setMostarDialogo(true);
+					'sub-unidades-no-permitida'
+				);
 				return;
 			}
 
@@ -121,22 +109,21 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				unidadesParseado,
 				clienteEncontrado.configuracionPedido
 			);
+			console.log(esUnidadesMenorAlMaximoUnidades);
 
 			if (!esUnidadesMenorAlMaximoUnidades) {
-				setParametrosDialogo({
-					mensaje: t('advertencias.cantidadEsMayor', {
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.cantidadEsMayor', {
 						cantidad:
 							clienteEncontrado.configuracionPedido.cantidadMaximaUnidades,
 					}),
-					manejadorClick: manejadorConfirmarAgregarPedido,
-					conBotonCancelar: true,
-					textosBotonesDefault: {
+					'cantidad-es-mayor',
+					manejadorConfirmarAgregarPedido,
+					{
 						aceptar: t('general.si'),
 						cancelar: t('general.no'),
-					},
-					dataCy: 'cantidad-es-mayor',
-				});
-				setMostarDialogo(true);
+					}
+				);
 				return;
 			}
 
@@ -150,6 +137,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 		},
 		[
 			obtenerClienteActual,
+			mostrarAdvertenciaEnDialogo,
 			agregarProductoAlPedidoCliente,
 			manejadorConfirmarAgregarPedido,
 			permiteSubUnidades,

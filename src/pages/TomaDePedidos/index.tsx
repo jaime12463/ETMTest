@@ -28,6 +28,7 @@ import {
 	useAsignarProductoActual,
 	useBuscarPreciosProductos,
 	usePermiteSubUnidades,
+	useMostrarAdvertenciaEnDialogo,
 } from './hooks';
 import Dialogo, {Props as PropsDialogo} from 'components/Dialogo';
 
@@ -65,35 +66,37 @@ export default function TomaDePedidos() {
 
 	useObtenerDatos();
 
+	const mostrarAdvertenciaEnDialogo = useMostrarAdvertenciaEnDialogo(
+		setMostarDialogo,
+		setParametrosDialogo
+	);
+
 	const asignarProductoActual = useAsignarProductoActual(
 		setProductoActual,
 		setValue
 	);
 	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
-		setMostarDialogo,
-		setParametrosDialogo,
 		productoActual,
 		setProductoActual,
 		setValue,
-		getValues
+		getValues,
+		mostrarAdvertenciaEnDialogo
 	);
 	const asignarPedidoActual = useAsignarPedidoActual(
 		setExisteCliente,
 		setRazonSocial,
 		setPreciosProductos,
-		setParametrosDialogo,
-		setMostarDialogo
+		mostrarAdvertenciaEnDialogo
 	);
 	const buscarPreciosProductos = useBuscarPreciosProductos(
 		preciosProductos,
 		setPreciosProductos
 	);
 	const agregarPedidoAlListado = useAgregarPedidoAlListado(
-		setMostarDialogo,
-		setParametrosDialogo,
 		setExisteCliente,
 		setValue,
-		setAvisoPedidoGuardadoExitoso
+		setAvisoPedidoGuardadoExitoso,
+		mostrarAdvertenciaEnDialogo
 	);
 	const permiteSubUnidades = usePermiteSubUnidades();
 

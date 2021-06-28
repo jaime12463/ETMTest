@@ -4,7 +4,6 @@ import {UseFormGetValues, UseFormSetValue} from 'react-hook-form';
 import {useAgregarProductoAlPedidoCliente} from '.';
 
 export const useManejadorConfirmarAgregarPedido = (
-	setMostarDialogo: Dispatch<SetStateAction<boolean>>,
 	productoActual: TPrecioSinVigencia,
 	setProductoActual: Dispatch<SetStateAction<TPrecioSinVigencia>>,
 	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
@@ -32,8 +31,7 @@ export const useManejadorConfirmarAgregarPedido = (
 					codigoProductoConNombre,
 					productoABuscar,
 				});
-				setMostarDialogo(false);
-			} else setMostarDialogo(false);
+			}
 		},
 		[productoActual]
 	);

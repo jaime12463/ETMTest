@@ -15,44 +15,39 @@ import {selectPedidosClientes} from 'redux/features/pedidosClientes/pedidosClien
 import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
 import {validarFechaVisita} from 'utils/validaciones';
 import {obtenerFechaEntrega} from 'utils/methods';
-import {Props as PropsDialogo} from 'components/Dialogo';
 import {useTranslation} from 'react-i18next';
 
 export const useAsignarPedidoActual = (
 	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
 	setRazonSocial: Dispatch<SetStateAction<string>>,
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
-	setParametrosDialogo: Dispatch<SetStateAction<PropsDialogo>>,
-	setMostarDialogo: Dispatch<SetStateAction<boolean>>
+	mostrarAdvertenciaEnDialogo: any
 ) => {
 	const dispatch = useAppDispatch();
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
 	const obtenerClienteActual = useObtenerClienteActual();
-	const obtenerConfiguracionActual = useObtenerConfiguracionActual();
+	const configuracionActual = useObtenerConfiguracionActual();
 	const pedidosClientes = useAppSelector(selectPedidosClientes);
 	const {t} = useTranslation();
+	const resetPedidoActual = () => {
+		dispatch(cambiarClienteActual(''));
+		dispatch(cambiarFechaEntrega(''));
+		setRazonSocial('');
+		setPreciosProductos([]);
+	};
 	const asignarPedidoActual = useCallback(
 		({codigoCliente}: TInputsFormularioAgregarProducto) => {
 			const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
 				codigoCliente
 			);
-			const configuracionActual:
-				| TConfiguracion
-				| undefined = obtenerConfiguracionActual();
-			//TODO: Que deberia pasar si configuracionActual es undefined?
 			const {esFrecuenciaAbierta}: TConfiguracion = configuracionActual;
 			if (!clienteEncontrado) {
-				setParametrosDialogo({
-					mensaje: t('advertencias.clienteNoPortafolio'),
-					manejadorClick: () => setMostarDialogo(false),
-					conBotonCancelar: false,
-					dataCy: 'clienteNoPortafolio',
-				});
-				setMostarDialogo(true);
-				dispatch(cambiarClienteActual(''));
-				dispatch(cambiarFechaEntrega(''));
-				setRazonSocial('');
-				setPreciosProductos([]);
+				resetPedidoActual();
+				console.log('Entro');
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.clienteNoPortafolio'),
+					'clienteNoPortafolio'
+				);
 				return;
 			}
 			setExisteCliente(true);
@@ -66,27 +61,18 @@ export const useAsignarPedidoActual = (
 				esFrecuenciaAbierta
 			);
 			if (!esFechaVisitaEncontrada) {
-				dispatch(cambiarClienteActual(''));
-				dispatch(cambiarFechaEntrega(''));
-				setRazonSocial('');
-				setPreciosProductos([]);
+				resetPedidoActual();
 				if (!esFrecuenciaAbierta) {
-					setParametrosDialogo({
-						mensaje: 'El cliente está fuera de frecuencia',
-						manejadorClick: () => setMostarDialogo(false),
-						conBotonCancelar: false,
-						dataCy: 'fuera-frecuencia',
-					});
-					setMostarDialogo(true);
+					mostrarAdvertenciaEnDialogo(
+						'El cliente está fuera de frecuencia',
+						'fuera-frecuencia'
+					);
 					return;
 				}
-				setParametrosDialogo({
-					mensaje: t('advertencias.noFechaProgramada'),
-					manejadorClick: () => setMostarDialogo(false),
-					conBotonCancelar: false,
-					dataCy: 'no-fecha-programada',
-				});
-				setMostarDialogo(true);
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.noFechaProgramada'),
+					'no-fecha-programada'
+				);
 				return;
 			}
 			const fechaEntrega: string = obtenerFechaEntrega(
@@ -104,8 +90,9 @@ export const useAsignarPedidoActual = (
 		[
 			obtenerPreciosProductosDelCliente,
 			obtenerClienteActual,
-			obtenerConfiguracionActual,
+			mostrarAdvertenciaEnDialogo,
 			dispatch,
+			configuracionActual,
 			pedidosClientes,
 		]
 	);

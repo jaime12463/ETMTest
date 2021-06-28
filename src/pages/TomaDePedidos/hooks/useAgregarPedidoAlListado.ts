@@ -13,16 +13,14 @@ import {agregarPedidoCliente} from 'redux/features/pedidosClientes/pedidosClient
 import {useAppDispatch, useAppSelector} from 'redux/hooks';
 import {validarMontoMinimoPedido} from 'utils/validaciones';
 import {useObtenerClienteActual} from '.';
-import {Props as PropsDialogo} from 'components/Dialogo';
 import {useTranslation} from 'react-i18next';
 import {UseFormSetValue} from 'react-hook-form';
 
 export const useAgregarPedidoAlListado = (
-	setMostarDialogo: Dispatch<SetStateAction<boolean>>,
-	setParametrosDialogo: Dispatch<SetStateAction<PropsDialogo>>,
 	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
 	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
-	setAvisoPedidoGuardadoExitoso: Dispatch<SetStateAction<boolean>>
+	setAvisoPedidoGuardadoExitoso: Dispatch<SetStateAction<boolean>>,
+	mostrarAdvertenciaEnDialogo: any
 ) => {
 	const dispatch = useAppDispatch();
 	const totalPedido: TTotalPedido = useCalcularTotalPedido();
@@ -36,15 +34,12 @@ export const useAgregarPedidoAlListado = (
 			clienteActual.configuracionPedido
 		);
 		if (!esValidoMontoMinidoPedido) {
-			setParametrosDialogo({
-				mensaje: t('advertencias.pedidoMinimo', {
+			mostrarAdvertenciaEnDialogo(
+				t('advertencias.pedidoMinimo', {
 					monto: clienteActual.configuracionPedido.montoVentaMinima,
 				}),
-				manejadorClick: () => setMostarDialogo(false),
-				conBotonCancelar: false,
-				dataCy: 'pedido-minimo',
-			});
-			setMostarDialogo(true);
+				'pedido-minimo'
+			);
 			return;
 		}
 		dispatch(agregarPedidoCliente(pedidoActual));
@@ -52,7 +47,7 @@ export const useAgregarPedidoAlListado = (
 		setExisteCliente(null);
 		setValue('codigoCliente', '');
 		setAvisoPedidoGuardadoExitoso(true);
-		//TODO: Mirar si es necesario resetear pedidoActual
-	}, [pedidoActual, totalPedido, t]);
+		//TODO: Mirar si es necesario resetear productoActual
+	}, [pedidoActual, totalPedido, t, mostrarAdvertenciaEnDialogo]);
 	return agregarPedidoAlListado;
 };
