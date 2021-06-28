@@ -41,6 +41,8 @@ const es = {
 			'Las subunidades no están habilitadas para este producto',
 		masDelMontoMaximo:
 			'La suma de los pedidos para la fecha de entrega {{fechaDeEntrega}} excede el monto máximo para el cliente $ {{montoVentaMaxima}}',
+		subUnidadesNoMultiplo:
+			'Las subunidades debe ser en múltiplos de {{subunidadesVentaMinima}}',
 	},
 };
 export default es;

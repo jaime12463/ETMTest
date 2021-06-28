@@ -1,32 +1,26 @@
 import {useCalcularTotalPedido} from 'hooks';
 import {
-	TInputsFormularioAgregarProducto,
+	TFunctionMostarAvertenciaPorDialogo,
 	TPedidoCliente,
 	TTotalPedido,
 } from 'models';
 import {Dispatch, SetStateAction, useCallback} from 'react';
-import {
-	selectPedidoActual,
-	resetearPedidoActual,
-} from 'redux/features/pedidoActual/pedidoActualSlice';
+import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {selectPedidosClientes} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {agregarPedidoCliente} from 'redux/features/pedidosClientes/pedidosClientesSlice';
+
 import {useAppDispatch, useAppSelector} from 'redux/hooks';
 import {
 	validarMontoMinimoPedido,
 	validarEsMasDelTotalMontoMaximo,
 } from 'utils/validaciones';
 import {useObtenerClienteActual} from '.';
-import {Props as PropsDialogo} from 'components/Dialogo';
 import {useTranslation} from 'react-i18next';
-import {UseFormSetValue} from 'react-hook-form';
 
 export const useAgregarPedidoAlListado = (
-	setMostarDialogo: Dispatch<SetStateAction<boolean>>,
-	setParametrosDialogo: Dispatch<SetStateAction<PropsDialogo>>,
-	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
-	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
-	setAvisoPedidoGuardadoExitoso: Dispatch<SetStateAction<boolean>>
+	setAvisoPedidoGuardadoExitoso: Dispatch<SetStateAction<boolean>>,
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	resetPedidoActual: any
 ) => {
 	const dispatch = useAppDispatch();
 	const totalPedido: TTotalPedido = useCalcularTotalPedido();
@@ -48,35 +42,29 @@ export const useAgregarPedidoAlListado = (
 		);
 
 		if (!esValidoMontoMinidoPedido) {
-			setParametrosDialogo({
-				mensaje: t('advertencias.pedidoMinimo', {
+			mostrarAdvertenciaEnDialogo(
+				t('advertencias.pedidoMinimo', {
 					monto: clienteActual.configuracionPedido.montoVentaMinima,
 				}),
-				manejadorClick: () => setMostarDialogo(false),
-				conBotonCancelar: false,
-			});
-			setMostarDialogo(true);
+				'pedido-minimo'
+			);
 			return;
 		}
 
 		if (esMasDelTotalMontoMaximo) {
-			setParametrosDialogo({
-				mensaje: t('advertencias.masDelMontoMaximo', {
+			mostrarAdvertenciaEnDialogo(
+				t('advertencias.masDelMontoMaximo', {
 					fechaDeEntrega: pedidoActual.fechaEntrega,
 					montoVentaMaxima: clienteActual.configuracionPedido.montoVentaMaxima,
 				}),
-				manejadorClick: () => setMostarDialogo(false),
-				conBotonCancelar: false,
-			});
-			setMostarDialogo(true);
+				'monto-maximo'
+			);
 			return;
 		}
+
 		dispatch(agregarPedidoCliente(pedidoActual));
-		dispatch(resetearPedidoActual());
-		setExisteCliente(null);
-		setValue('codigoCliente', '');
 		setAvisoPedidoGuardadoExitoso(true);
-		//TODO: Mirar si es necesario resetear pedidoActual
-	}, [pedidoActual, totalPedido, t]);
+		resetPedidoActual();
+	}, [pedidoActual, totalPedido, t, mostrarAdvertenciaEnDialogo]);
 	return agregarPedidoAlListado;
 };

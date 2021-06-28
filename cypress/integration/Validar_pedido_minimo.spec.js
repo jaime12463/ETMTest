@@ -27,10 +27,7 @@ describe('Validar pedido minimo', () => {
 			cy.get('[data-cy=producto-tabla-0]').click();
 			cy.get('[data-cy=cantidad-producto-unidades]').type('1{enter}');
 			cy.get('[data-cy=boton-cerrarPedido]').click();
-			cy.get('[data-cy="No cumple con el pedido mínimo de $100"]').should(
-				'exist'
-			);
-			cy.get('[data-cy=codigo-cliente]').should('have.text', '');
+			cy.get('[data-cy=pedido-minimo').should('exist');
 		});
 	});
 	it('El pedido cumple con el pedido mínimo', () => {
@@ -50,9 +47,7 @@ describe('Validar pedido minimo', () => {
 			cy.get('[data-cy=producto-tabla-0]').click();
 			cy.get('[data-cy=cantidad-producto-unidades]').type('100{enter}');
 			cy.get('[data-cy=boton-cerrarPedido]').click();
-			cy.get('[data-cy="No cumple con el pedido mínimo de $100"]').should(
-				'not.exist'
-			);
+			cy.get('[data-cy=pedido-minimo]').should('not.exist');
 			cy.get('[data-cy=codigo-cliente]').should('have.text', '');
 		});
 	});
@@ -72,6 +67,7 @@ describe('Validar pedido minimo', () => {
 			cy.get('[data-cy=producto-tabla-0]').click();
 			cy.get('[data-cy=cantidad-producto-unidades]').type('100{enter}');
 			cy.get('[data-cy=boton-cerrarPedido]').click();
+			cy.get('[data-cy=pedido-minimo]').should('not.exist');
 			cy.get('[data-cy=codigo-cliente]').should('have.text', '');
 		});
 	});

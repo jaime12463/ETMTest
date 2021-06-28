@@ -19,9 +19,7 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 			cy.get(`[data-cy=codigo-cliente]`).type('234{enter}');
 			cy.get('[data-cy=producto-tabla-0]').click();
 			cy.get('[data-cy=cantidad-producto-unidades]').type('101{enter}');
-			cy.get(`[data-cy="La cantidad es mayor a 100 ¿Desea continuar?"]`).should(
-				'exist'
-			);
+			cy.get('[data-cy=cantidad-es-mayor]').should('exist');
 		});
 	});
 	it('La cantidad es menor o igual a la permitida', () => {
@@ -34,9 +32,7 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 			cy.get(`[data-cy=codigo-cliente]`).type('234{enter}');
 			cy.get('[data-cy=producto-tabla-0]').click();
 			cy.get('[data-cy=cantidad-producto-unidades]').type('99{enter}');
-			cy.get(`[data-cy="La cantidad es mayor a 100 ¿Desea continuar?"]`).should(
-				'not.exist'
-			);
+			cy.get('[data-cy=cantidad-es-mayor]').should('not.exist');
 		});
 	});
 	it('Las unidadesMaximasVenta no está definido para el cliente', () => {
@@ -49,7 +45,7 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 			cy.get(`[data-cy=codigo-cliente]`).type('234{enter}');
 			cy.get('[data-cy=producto-tabla-0]').click();
 			cy.get('[data-cy=cantidad-producto-unidades]').type('101{enter}');
-			cy.get('.MuiDialogContent-root').should('not.exist');
+			cy.get('[data-cy=cantidad-es-mayor]').should('not.exist');
 		});
 	});
 });

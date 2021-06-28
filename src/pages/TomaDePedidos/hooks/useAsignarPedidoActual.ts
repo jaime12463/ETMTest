@@ -7,6 +7,7 @@ import {
 import {
 	TCliente,
 	TConfiguracion,
+	TFunctionMostarAvertenciaPorDialogo,
 	TInputsFormularioAgregarProducto,
 	TPrecioProducto,
 } from 'models';
@@ -15,36 +16,33 @@ import {selectPedidosClientes} from 'redux/features/pedidosClientes/pedidosClien
 import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
 import {validarFechaVisita} from 'utils/validaciones';
 import {obtenerFechaEntrega} from 'utils/methods';
+import {useTranslation} from 'react-i18next';
 
 export const useAsignarPedidoActual = (
 	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
 	setRazonSocial: Dispatch<SetStateAction<string>>,
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
-	setFrecuenciaValida: Dispatch<SetStateAction<boolean | null>>
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	resetPedidoActual: any
 ) => {
 	const dispatch = useAppDispatch();
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
 	const obtenerClienteActual = useObtenerClienteActual();
-	const obtenerConfiguracionActual = useObtenerConfiguracionActual();
+	const configuracionActual = useObtenerConfiguracionActual();
 	const pedidosClientes = useAppSelector(selectPedidosClientes);
-
+	const {t} = useTranslation();
 	const asignarPedidoActual = useCallback(
 		({codigoCliente}: TInputsFormularioAgregarProducto) => {
 			const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
 				codigoCliente
 			);
-			const configuracionActual:
-				| TConfiguracion
-				| undefined = obtenerConfiguracionActual();
-			//TODO: Que deberia pasar si configuracionActual es undefined?
 			const {esFrecuenciaAbierta}: TConfiguracion = configuracionActual;
 			if (!clienteEncontrado) {
-				setExisteCliente(false);
-				setFrecuenciaValida(null);
-				dispatch(cambiarClienteActual(''));
-				dispatch(cambiarFechaEntrega(''));
-				setRazonSocial('');
-				setPreciosProductos([]);
+				resetPedidoActual();
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.clienteNoPortafolio'),
+					'clienteNoPortafolio'
+				);
 				return;
 			}
 			setExisteCliente(true);
@@ -58,14 +56,18 @@ export const useAsignarPedidoActual = (
 				esFrecuenciaAbierta
 			);
 			if (!esFechaVisitaEncontrada) {
+				resetPedidoActual();
 				if (!esFrecuenciaAbierta) {
-					setFrecuenciaValida(false);
-					setExisteCliente(null);
+					mostrarAdvertenciaEnDialogo(
+						'El cliente está fuera de frecuencia',
+						'fuera-frecuencia'
+					);
+					return;
 				}
-				dispatch(cambiarClienteActual(''));
-				dispatch(cambiarFechaEntrega(''));
-				setRazonSocial('');
-				setPreciosProductos([]);
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.noFechaProgramada'),
+					'no-fecha-programada'
+				);
 				return;
 			}
 			const fechaEntrega: string = obtenerFechaEntrega(
@@ -75,7 +77,6 @@ export const useAsignarPedidoActual = (
 				clienteEncontrado,
 				fechaEntrega
 			);
-			setFrecuenciaValida(null);
 			setRazonSocial(clienteEncontrado.detalles.nombreComercial);
 			dispatch(cambiarClienteActual(codigoCliente));
 			dispatch(cambiarFechaEntrega(fechaEntrega));
@@ -84,8 +85,9 @@ export const useAsignarPedidoActual = (
 		[
 			obtenerPreciosProductosDelCliente,
 			obtenerClienteActual,
-			obtenerConfiguracionActual,
+			mostrarAdvertenciaEnDialogo,
 			dispatch,
+			configuracionActual,
 			pedidosClientes,
 		]
 	);

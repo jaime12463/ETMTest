@@ -18,7 +18,7 @@ describe('clientes fuera de frecuencia', () => {
 			cy.wait('@data');
 			cy.wait('@dataConfig');
 			cy.get(`[data-cy=codigo-cliente]`).type('234{enter}');
-			cy.get(`[data-cy=alerta-frecuencia]`).should('not.exist');
+			cy.get(`[data-cy=fuera-frecuencia]`).should('not.exist');
 			cy.get('[data-cy=razonSocial]').should('exist');
 		});
 	});
@@ -31,7 +31,7 @@ describe('clientes fuera de frecuencia', () => {
 			cy.wait('@data');
 			cy.wait('@dataConfig');
 			cy.get(`[data-cy=codigo-cliente]`).type('234{enter}');
-			cy.get(`[data-cy=alerta-frecuencia]`).should('not.exist');
+			cy.get(`[data-cy=fuera-frecuencia]`).should('not.exist');
 			cy.get('[data-cy=razonSocial]').should('exist');
 		});
 	});
@@ -44,7 +44,7 @@ describe('clientes fuera de frecuencia', () => {
 			cy.wait('@data');
 			cy.wait('@dataConfig');
 			cy.get(`[data-cy=codigo-cliente]`).type('120104325{enter}');
-			cy.get(`[data-cy=alerta-frecuencia]`).should('not.exist');
+			cy.get(`[data-cy=fuera-frecuencia]`).should('not.exist');
 			cy.get('[data-cy=razonSocial]').should('exist');
 		});
 	});
@@ -63,7 +63,7 @@ describe('clientes fuera de frecuencia', () => {
 			cy.wait('@data');
 			cy.wait('@dataConfig');
 			cy.get(`[data-cy=codigo-cliente]`).type('120104325{enter}');
-			cy.get(`[data-cy=alerta-frecuencia]`).should('exist');
+			cy.get(`[data-cy=fuera-frecuencia]`).should('exist');
 		});
 	});
 });

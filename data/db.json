@@ -1,73 +1,73 @@
 {
-    "clientes": [
-        {
-            "codigoCliente": 120104325,
-            "detalles": {
-                "nombreComercial": "CREM LA MORENITA"
-            },
-            "visitasPlanificadas": [
-                {
-                    "dia": "2021-06-08",
-                    "secuencia": 3
-                },
-                {
-                    "dia": "2021-06-11",
-                    "secuencia": 5
-                }
-            ],
-            "fechasEntrega": [
-                {
-                    "fechaVisita": "2021-06-09",
-                    "fechaEntrega": "2021-06-10"
-                },
-                {
-                    "fechaVisita": "2021-06-10",
-                    "fechaEntrega": "2021-06-11"
-                },
-                {
-                    "fechaVisita": "2021-06-11",
-                    "fechaEntrega": "2021-06-12"
-                }
-            ],
-            "configuracionPedido": {
-                "montoVentaMinima": 1000,
+	"clientes": [
+		{
+			"codigoCliente": 234,
+			"detalles": {
+				"nombreComercial": "CREM LA MORENITA"
+			},
+			"visitasPlanificadas": [
+				{
+					"dia": "2021-06-08",
+					"secuencia": 3
+				},
+				{
+					"dia": "2021-06-11",
+					"secuencia": 5
+				}
+			],
+			"fechasEntrega": [
+				{
+					"fechaVisita": "2021-06-09",
+					"fechaEntrega": "2021-06-10"
+				},
+				{
+					"fechaVisita": "2021-06-10",
+					"fechaEntrega": "2021-06-11"
+				},
+				{
+					"fechaVisita": "2021-06-11",
+					"fechaEntrega": "2021-06-12"
+				}
+			],
+			"configuracionPedido": {
+				"montoVentaMinima": 1000,
 				"montoVentaMaxima": 3000,
-                "cantidadMaximaUnidades": 999
-            },
-            "portafolio": [
-                {
-                    "codigoProducto": 1860,
-                    "esVentaSubunidades": true,
-                    "precios": [
-                        {
-                            "precioConImpuestoUnidad": 106,
-                            "precioConImpuestoSubunidad": 8.84,
-                            "vigenciaInicioPrecio": "2017-09-07",
-                            "vigenciaFinPrecio": "2017-09-31"
-                        },
-                        {
-                            "precioConImpuestoUnidad": 105,
-                            "precioConImpuestoSubunidad": 8.75,
-                            "vigenciaInicioPrecio": "2017-10-01",
-                            "vigenciaFinPrecio": "9999-12-31"
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "productos": [
-        {
-            "codigoProducto": 1860,
-            "nombre": "YOLI LIMON BOT 600L NR 12PK",
-            "presentacion": 12,
+				"cantidadMaximaUnidades": 999
+			},
+			"portafolio": [
+				{
+					"codigoProducto": 1860,
+					"esVentaSubunidades": true,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 106,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				}
+			]
+		}
+	],
+	"productos": [
+		{
+			"codigoProducto": 1860,
+			"nombre": "YOLI LIMON BOT 600L NR 12PK",
+			"presentacion": 12,
 			"subunidadesVentaMinima": 3
-        },
-        {
-            "codigoProducto": 1885,
-            "nombre": "YOLI LIMON BOT 900 NR 12PK",
-            "presentacion": 12,
-			"subunidadesVentaMinima": 1			
-        }
-    ]
+		},
+		{
+			"codigoProducto": 1885,
+			"nombre": "YOLI LIMON BOT 900 NR 12PK",
+			"presentacion": 12,
+			"subunidadesVentaMinima": 1
+		}
+	]
 }

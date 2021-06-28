@@ -94,3 +94,11 @@ export const validarFechaVisita = (
 		)
 	);
 };
+
+export const validarSubUnidadesEsMultiplo = (
+	subunidadesVentaMinima: number,
+	subUnidadesParseado: number
+): boolean => {
+	if (subUnidadesParseado % subunidadesVentaMinima === 0) return true;
+	return false;
+};

@@ -15,6 +15,7 @@ export type Props = {
 		aceptar: string;
 		cancelar?: string;
 	};
+	dataCy: string;
 };
 
 const Dialogo = ({
@@ -23,6 +24,7 @@ const Dialogo = ({
 	conBotonCancelar = false,
 	manejadorClick,
 	textosBotonesDefault,
+	dataCy,
 }: Props) => {
 	const {t} = useTranslation();
 
@@ -41,7 +43,7 @@ const Dialogo = ({
 			)}
 			{mensaje !== '' && (
 				<DialogContent>
-					<DialogContentText id='alert-dialog-description' data-cy={mensaje}>
+					<DialogContentText id='alert-dialog-description' data-cy={dataCy}>
 						{mensaje}
 					</DialogContentText>
 				</DialogContent>
