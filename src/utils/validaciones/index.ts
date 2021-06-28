@@ -1,5 +1,11 @@
-import {TPrecio, TFechaEntrega, TConfiguracionPedido, TCliente} from 'models';
-import {fechaDispositivo} from 'utils/methods';
+import {
+	TPrecio,
+	TFechaEntrega,
+	TConfiguracionPedido,
+	TCliente,
+	TPedidoCliente,
+} from 'models';
+import {fechaDispositivo, obtenerTotalesPedidosClientes} from 'utils/methods';
 
 export const validarFechaVigenciaProducto = (
 	preciosProductos: TPrecio[],
@@ -32,6 +38,20 @@ export const validarMontoMinimoPedido = (
 		if (montoTotalPedido < montoVentaMinima) return false;
 	}
 	return true;
+};
+
+export const validarEsMasDelTotalMontoMaximo = (
+	fechaEntrega: string,
+	totalPedidoActual: number,
+	pedidosCliente: any,
+	montoVentaMaxima: number
+): boolean => {
+	const total =
+		obtenerTotalesPedidosClientes(pedidosCliente, fechaEntrega) +
+		totalPedidoActual;
+
+	if (total > montoVentaMaxima) return true;
+	return false;
 };
 
 export const validarVentaSubUnidades = (

@@ -6,9 +6,14 @@ import {
 } from 'models';
 import {Dispatch, SetStateAction, useCallback} from 'react';
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
+import {selectPedidosClientes} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {agregarPedidoCliente} from 'redux/features/pedidosClientes/pedidosClientesSlice';
+
 import {useAppDispatch, useAppSelector} from 'redux/hooks';
-import {validarMontoMinimoPedido} from 'utils/validaciones';
+import {
+	validarMontoMinimoPedido,
+	validarEsMasDelTotalMontoMaximo,
+} from 'utils/validaciones';
 import {useObtenerClienteActual} from '.';
 import {useTranslation} from 'react-i18next';
 
@@ -20,6 +25,7 @@ export const useAgregarPedidoAlListado = (
 	const dispatch = useAppDispatch();
 	const totalPedido: TTotalPedido = useCalcularTotalPedido();
 	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
+	const PedidosClientes = useAppSelector(selectPedidosClientes);
 	const {t} = useTranslation();
 	const obtenerClienteActual = useObtenerClienteActual();
 	const agregarPedidoAlListado = useCallback(() => {
@@ -28,6 +34,13 @@ export const useAgregarPedidoAlListado = (
 			totalPedido.totalPrecio,
 			clienteActual.configuracionPedido
 		);
+		const esMasDelTotalMontoMaximo: boolean = validarEsMasDelTotalMontoMaximo(
+			pedidoActual.fechaEntrega,
+			totalPedido.totalPrecio,
+			PedidosClientes[pedidoActual.codigoCliente],
+			clienteActual.configuracionPedido.montoVentaMaxima
+		);
+
 		if (!esValidoMontoMinidoPedido) {
 			mostrarAdvertenciaEnDialogo(
 				t('advertencias.pedidoMinimo', {
@@ -37,6 +50,18 @@ export const useAgregarPedidoAlListado = (
 			);
 			return;
 		}
+
+		if (esMasDelTotalMontoMaximo) {
+			mostrarAdvertenciaEnDialogo(
+				t('advertencias.masDelMontoMaximo', {
+					fechaDeEntrega: pedidoActual.fechaEntrega,
+					montoVentaMaxima: clienteActual.configuracionPedido.montoVentaMaxima,
+				}),
+				'monto-maximo'
+			);
+			return;
+		}
+
 		dispatch(agregarPedidoCliente(pedidoActual));
 		setAvisoPedidoGuardadoExitoso(true);
 		resetPedidoActual();

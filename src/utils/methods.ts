@@ -28,6 +28,24 @@ export const obtenerFechaEntrega = (fechasEntrega: TFechaEntrega[]): string => {
 	return fechaEncontrada ? fechaEncontrada.fechaEntrega : ''; //TODO: Nunca llegaria al casa de que no se esncuentre por donde se usa, pero arreglar.
 };
 
+export const obtenerTotalesPedidosClientes = (
+	pedidosCliente: any,
+	fechaEntrega: string
+): number => {
+	let resultado =
+		pedidosCliente &&
+		pedidosCliente
+			.filter((cliente: any) => cliente.fechaEntrega === fechaEntrega)
+			.reduce((acum: any, pedido: any) => {
+				for (let valor of pedido.productosPedido) {
+					acum += valor.total;
+				}
+				return acum;
+			}, 0);
+
+	return resultado ? resultado : 0;
+};
+
 export const obtenerPrecioConImpuestoUnidad = (
 	preciosProductos: TPrecio[],
 	fechaEntrega: string
@@ -40,3 +58,14 @@ export const obtenerPrecioConImpuestoUnidad = (
 
 	return resultado;
 };
+
+/* 0:
+enviado: false
+fechaEntrega: "2021-06-12"
+productosPedido: Array(1)
+0:
+codigoProducto: 1860
+nombreProducto: "YOLI LIMON BOT 600L NR 12PK"
+subUnidades: 0
+total: 1050
+unidades: 10 */

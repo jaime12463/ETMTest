@@ -41,6 +41,8 @@ const en = {
 		subUnidadesNoPermitidas: 'The subUnits is disabled for this product',
 		subUnidadesNoMultiplo:
 			'The subunits must be in multiples of {{subunidadesVentaMinima}}',
+		masDelMontoMaximo:
+			'The sum of the orders for the delivery date {{fechaDeEntrega}} exceeds the maximum amount for the customer $ {{montoVentaMaxima}}',
 	},
 };
 export default en;
