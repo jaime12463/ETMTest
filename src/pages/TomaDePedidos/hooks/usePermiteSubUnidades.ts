@@ -1,30 +1,33 @@
-import {TPortafolio} from 'models';
+import {TCliente, TPortafolio} from 'models';
 import {useCallback} from 'react';
-import {useAppSelector} from 'redux/hooks';
-import {selectConfiguracion} from 'redux/features/configuracion/configuracionSlice';
-import {selectDatos} from 'redux/features/datos/datosSlice';
 import {validarVentaSubUnidades} from 'utils/validaciones';
+import {useObtenerClienteActual} from '.';
+import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
 
 export const usePermiteSubUnidades = () => {
-	const {datos} = useAppSelector(selectDatos);
-	const {
-		datos: {configuraciones},
-	} = useAppSelector(selectConfiguracion);
+	const configuracionActual = useObtenerConfiguracionActual();
+	const obtenerClienteActual = useObtenerClienteActual();
 	const permiteSubUnidades = useCallback(
-		(codigoCliente: string, codigoProducto: number) => {
-			const portafolioProducto: TPortafolio | undefined = datos.clientes[
+		(codigoCliente: string, codigoProducto: number): boolean => {
+			const clienteActual: TCliente | undefined = obtenerClienteActual(
 				codigoCliente
-			].portafolio.find(
-				(productoPortafolio) =>
-					productoPortafolio.codigoProducto === codigoProducto
 			);
-			const esPermitidoSubUnidades = validarVentaSubUnidades(
-				configuraciones[0].esVentaSubunidadesRuta,
-				portafolioProducto?.esVentaSubunidades ?? false
-			);
-			return esPermitidoSubUnidades;
+			if (clienteActual) {
+				const portafolioProducto:
+					| TPortafolio
+					| undefined = clienteActual.portafolio.find(
+					(productoPortafolio) =>
+						productoPortafolio.codigoProducto === codigoProducto
+				);
+				const esPermitidoSubUnidades = validarVentaSubUnidades(
+					configuracionActual.esVentaSubunidadesRuta,
+					portafolioProducto?.esVentaSubunidades ?? false
+				);
+				return esPermitidoSubUnidades;
+			}
+			return false;
 		},
-		[configuraciones, datos]
+		[configuracionActual, obtenerClienteActual]
 	);
 	return permiteSubUnidades;
 };

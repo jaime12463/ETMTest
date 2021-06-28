@@ -44,7 +44,6 @@ export const useAsignarPedidoActual = (
 			const {esFrecuenciaAbierta}: TConfiguracion = configuracionActual;
 			if (!clienteEncontrado) {
 				resetPedidoActual();
-				console.log('Entro');
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.clienteNoPortafolio'),
 					'clienteNoPortafolio'
