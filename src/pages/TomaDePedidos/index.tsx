@@ -40,31 +40,38 @@ export default function TomaDePedidos() {
 	const [preciosProductos, setPreciosProductos] = useState<TPrecioProducto[]>(
 		[]
 	);
+
 	const [
 		avisoPedidoGuardadoExitoso,
 		setAvisoPedidoGuardadoExitoso,
 	] = useState<boolean>(false);
-	const [razonSocial, setRazonSocial] = useState<string>('');
+
 	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
+
 	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
 		mensaje: '',
 		manejadorClick: () => {},
 		conBotonCancelar: false,
 		dataCy: '',
 	});
+
 	const [productoActual, setProductoActual] = useState<TPrecioSinVigencia>({
 		codigoProductoConNombre: '',
 		precioConImpuestoUnidad: 0,
 		precioConImpuestoSubunidad: 0,
 	});
+
 	const {t} = useTranslation();
+
 	const estilos = useEstilos();
+
 	const {
 		control,
 		handleSubmit,
 		setValue,
 		getValues,
 	} = useForm<TInputsFormularioAgregarProducto>();
+
 	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
 
 	useObtenerDatos();
@@ -73,7 +80,6 @@ export default function TomaDePedidos() {
 
 	const resetPedidoActual = useResetPedidoActual(
 		setPreciosProductos,
-		setRazonSocial,
 		resetLineaActual
 	);
 
@@ -81,6 +87,7 @@ export default function TomaDePedidos() {
 		productoActual,
 		resetLineaActual
 	);
+
 	const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido(
 		productoActual,
 		getValues,
@@ -96,26 +103,30 @@ export default function TomaDePedidos() {
 		setProductoActual,
 		setValue
 	);
+
 	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
 		mostrarAdvertenciaEnDialogo,
 		manejadorConfirmarAgregarPedido,
 		agregarProductoAlPedidoCliente
 	);
+
 	const asignarPedidoActual = useAsignarPedidoActual(
-		setRazonSocial,
 		setPreciosProductos,
 		mostrarAdvertenciaEnDialogo,
 		resetPedidoActual
 	);
+
 	const buscarPreciosProductos = useBuscarPreciosProductos(
 		preciosProductos,
 		setPreciosProductos
 	);
+
 	const agregarPedidoAlListado = useAgregarPedidoAlListado(
 		setAvisoPedidoGuardadoExitoso,
 		mostrarAdvertenciaEnDialogo,
 		resetPedidoActual
 	);
+
 	const permiteSubUnidades = usePermiteSubUnidades();
 
 	const cerrarAvisoPedidoGuardado = (event: SyntheticEvent<Element, Event>) => {
@@ -170,7 +181,7 @@ export default function TomaDePedidos() {
 										component='p'
 										data-cy='razonSocial'
 									>
-										{razonSocial}
+										{pedidoActual.razonSocial}
 									</Typography>
 								</Grid>
 								<Grid item xs={12} sm={12}>

@@ -4,17 +4,15 @@ import {RootState} from '../../store';
 
 const estadoInicial: TPedidoCliente = {
 	codigoCliente: '',
-	productosPedido: [],
 	fechaEntrega: '',
+	razonSocial: '',
+	productosPedido: [],
 };
 
 export const pedidoActualSlice = createSlice({
 	name: 'pedidoActual',
 	initialState: estadoInicial,
 	reducers: {
-		cambiarClienteActual: (state, action: PayloadAction<string>) => {
-			state.codigoCliente = action.payload;
-		},
 		agregarProductoAlPedidoDelCliente: (
 			state,
 			action: PayloadAction<TProductoPedido>
@@ -28,12 +26,6 @@ export const pedidoActualSlice = createSlice({
 				action.payload,
 			];
 		},
-		agregarProductosAlPedidoDelCliente: (
-			state,
-			action: PayloadAction<TProductoPedido[]>
-		) => {
-			state.productosPedido = [...action.payload];
-		},
 		borrarProductoDelPedidoDelCliente: (
 			state,
 			action: PayloadAction<number>
@@ -44,12 +36,23 @@ export const pedidoActualSlice = createSlice({
 			);
 			state.productosPedido = [...productosPedidoClienteFiltrados];
 		},
-		cambiarFechaEntrega: (state, action: PayloadAction<string>) => {
-			state.fechaEntrega = action.payload;
+		inicializarPedidoActual: (
+			state,
+			action: PayloadAction<{
+				fechaEntrega: string;
+				codigoCliente: string;
+				razonSocial: string;
+			}>
+		) => {
+			const {codigoCliente, fechaEntrega, razonSocial} = action.payload;
+			state.codigoCliente = codigoCliente;
+			state.fechaEntrega = fechaEntrega;
+			state.razonSocial = razonSocial;
 		},
 		resetearPedidoActual: (state) => {
 			state.fechaEntrega = '';
 			state.codigoCliente = '';
+			state.razonSocial = '';
 			state.productosPedido = [];
 		},
 	},
@@ -57,11 +60,9 @@ export const pedidoActualSlice = createSlice({
 
 export const selectPedidoActual = (state: RootState) => state.pedidoActual;
 export const {
-	cambiarClienteActual,
 	agregarProductoAlPedidoDelCliente,
 	borrarProductoDelPedidoDelCliente,
-	cambiarFechaEntrega,
+	inicializarPedidoActual,
 	resetearPedidoActual,
-	agregarProductosAlPedidoDelCliente,
 } = pedidoActualSlice.actions;
 export default pedidoActualSlice.reducer;

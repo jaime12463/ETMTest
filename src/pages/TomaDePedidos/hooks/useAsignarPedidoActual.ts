@@ -1,9 +1,6 @@
 import {Dispatch, SetStateAction, useCallback} from 'react';
 import {useAppDispatch, useAppSelector} from 'redux/hooks';
-import {
-	cambiarClienteActual,
-	cambiarFechaEntrega,
-} from 'redux/features/pedidoActual/pedidoActualSlice';
+import {inicializarPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
 	TCliente,
 	TConfiguracion,
@@ -24,7 +21,6 @@ import {
 import {useTranslation} from 'react-i18next';
 
 export const useAsignarPedidoActual = (
-	setRazonSocial: Dispatch<SetStateAction<string>>,
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
 	resetPedidoActual: () => void
@@ -106,9 +102,13 @@ export const useAsignarPedidoActual = (
 				clienteEncontrado,
 				fechaEntrega
 			);
-			setRazonSocial(clienteEncontrado.detalles.nombreComercial);
-			dispatch(cambiarClienteActual(codigoCliente));
-			dispatch(cambiarFechaEntrega(fechaEntrega));
+			dispatch(
+				inicializarPedidoActual({
+					codigoCliente,
+					fechaEntrega,
+					razonSocial: clienteEncontrado.detalles.nombreComercial,
+				})
+			);
 			setPreciosProductos(preciosProductosDelCliente);
 		},
 		[
