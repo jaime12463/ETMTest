@@ -5,7 +5,8 @@ import {
 	TInputsFormularioAgregarProducto,
 } from 'models';
 import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente} from '.';
-import {obtenerFechaEntrega} from 'utils/methods';
+import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
+import {useAppSelector} from 'redux/hooks';
 
 export const useBuscarPreciosProductos = (
 	preciosProductos: TPrecioProducto[],
@@ -13,6 +14,7 @@ export const useBuscarPreciosProductos = (
 ) => {
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
 	const obtenerClienteActual = useObtenerClienteActual();
+	const pedidoActual = useAppSelector(selectPedidoActual);
 	const buscarPreciosProductos = useCallback(
 		({codigoCliente, productoABuscar}: TInputsFormularioAgregarProducto) => {
 			const preciosProductosFiltrados: TPrecioProducto[] = preciosProductos.filter(
@@ -30,10 +32,7 @@ export const useBuscarPreciosProductos = (
 				codigoCliente
 			);
 			if (!clienteEncontrado) return;
-			const fechaEntrega: string | undefined = obtenerFechaEntrega(
-				//TODO: REVISAR
-				clienteEncontrado.fechasEntrega
-			);
+			const fechaEntrega: string = pedidoActual.fechaEntrega;
 			if (!fechaEntrega) return;
 			const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
 				clienteEncontrado,
@@ -41,7 +40,12 @@ export const useBuscarPreciosProductos = (
 			);
 			setPreciosProductos(preciosProductosDelCliente);
 		},
-		[preciosProductos, obtenerPreciosProductosDelCliente, obtenerClienteActual]
+		[
+			preciosProductos,
+			obtenerPreciosProductosDelCliente,
+			obtenerClienteActual,
+			pedidoActual,
+		]
 	);
 	return buscarPreciosProductos;
 };

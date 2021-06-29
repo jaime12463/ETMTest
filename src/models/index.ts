@@ -131,3 +131,13 @@ export type TFunctionMostarAvertenciaPorDialogo = (
 		cancelar: string;
 	}
 ) => void;
+
+export type TValidacionFechaEntrega = {
+	esValidaFechaEntrega: boolean;
+	fechaEntrega: string;
+};
+
+export type TValidacionFechaVisita = {
+	esValidaVisitaPlanificada: boolean;
+	fechaVisitaPlanificada: string;
+};
