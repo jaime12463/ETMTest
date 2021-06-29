@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   etm-tomapedido:
-    image: hasarcontainerregistry.azurecr.io/etm_omnichannel_tomapedido:1.0.0
+    image: hasarcontainerregistry.azurecr.io/etm_omnichannel_tomapedido:${last_version}
     ports:
       - "80:80"
     environment:
@@ -9,7 +9,7 @@ services:
     deploy:
       replicas: 1
   etm-tomapedido-server:
-    image: hasarcontainerregistry.azurecr.io/etm_omnichannel_tomapedido_server:1.0.0
+    image: hasarcontainerregistry.azurecr.io/etm_omnichannel_tomapedido_server:${last_version}
     ports:
       - "4000:4000"  
     deploy:
