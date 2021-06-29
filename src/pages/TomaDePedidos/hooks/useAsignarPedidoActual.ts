@@ -79,6 +79,7 @@ export const useAsignarPedidoActual = (
 			}
 
 			if (!esValidaVisitaPlanificada) {
+				resetPedidoActual();
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.fueraDeFrecuencia'),
 					'fuera-frecuencia'
