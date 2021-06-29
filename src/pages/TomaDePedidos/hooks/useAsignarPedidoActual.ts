@@ -24,7 +24,6 @@ import {
 import {useTranslation} from 'react-i18next';
 
 export const useAsignarPedidoActual = (
-	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
 	setRazonSocial: Dispatch<SetStateAction<string>>,
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
@@ -50,7 +49,6 @@ export const useAsignarPedidoActual = (
 				);
 				return;
 			}
-			setExisteCliente(true);
 
 			let visitaPlanificada: TValidacionFechaVisita;
 

@@ -40,7 +40,6 @@ export default function TomaDePedidos() {
 	const [preciosProductos, setPreciosProductos] = useState<TPrecioProducto[]>(
 		[]
 	);
-	const [existeCliente, setExisteCliente] = useState<boolean | null>(null);
 	const [
 		avisoPedidoGuardadoExitoso,
 		setAvisoPedidoGuardadoExitoso,
@@ -73,7 +72,6 @@ export default function TomaDePedidos() {
 	const resetLineaActual = useResetLineaActual(setValue, setProductoActual);
 
 	const resetPedidoActual = useResetPedidoActual(
-		setExisteCliente,
 		setPreciosProductos,
 		setRazonSocial,
 		resetLineaActual
@@ -104,7 +102,6 @@ export default function TomaDePedidos() {
 		agregarProductoAlPedidoCliente
 	);
 	const asignarPedidoActual = useAsignarPedidoActual(
-		setExisteCliente,
 		setRazonSocial,
 		setPreciosProductos,
 		mostrarAdvertenciaEnDialogo,
@@ -158,14 +155,14 @@ export default function TomaDePedidos() {
 									control={control}
 									inputDataCY='codigo-cliente'
 									disabled={
-										existeCliente
+										pedidoActual.codigoCliente !== ''
 											? pedidoActual.productosPedido.length > 0
 											: false
 									}
 								/>
 							</form>
 						</Grid>
-						{existeCliente && pedidoActual.fechaEntrega && (
+						{pedidoActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
 							<Fragment>
 								<Grid item xs={6} sm={6}>
 									<Typography
@@ -195,7 +192,7 @@ export default function TomaDePedidos() {
 								</Grid>
 							</Fragment>
 						)}
-						{existeCliente && pedidoActual.fechaEntrega && (
+						{pedidoActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
 							<Fragment>
 								<FormularioAgregarProducto
 									agregarProductoAlPedidoCliente={

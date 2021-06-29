@@ -4,7 +4,6 @@ import {useAppDispatch} from 'redux/hooks';
 import {TPrecioProducto} from 'models';
 
 export const useResetPedidoActual = (
-	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
 	setRazonSocial: Dispatch<SetStateAction<string>>,
 	resetLineaActual: () => void
@@ -15,7 +14,6 @@ export const useResetPedidoActual = (
 		setRazonSocial('');
 		setPreciosProductos([]);
 		dispatch(resetearPedidoActual());
-		setExisteCliente(null);
 	}, []);
 	return resetPedidoActual;
 };
