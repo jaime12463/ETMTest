@@ -11,6 +11,11 @@ El lenguaje de codificación será el Español (o Castellano) ya que los endpoin
 
 ## Uso de Git: 
 GitHubFlow: https://guides.github.com/introduction/flow/
+
+Versionamiento:
+Versionado semántico (SemVer) con la ayuda de "gitversion" integrado al pipeline de azuredevops.
+ https://gitversion.net/docs/
+
 ## Listado de tecnologías
 Recomiendo **fuertemente** revisar con atención el siguiente listado e investigar los detalles de cada tecnología para poder sacar el mayor provecho de las mismas
 
@@ -42,4 +47,5 @@ Formularios
 
 Creación de componentes
 - Storybook
+
 
