@@ -7,8 +7,6 @@ trigger:
   branches:
     include:
     - master
-    exclude:
-    - master/features* 
 
 pool:
   vmImage: ubuntu-latest
