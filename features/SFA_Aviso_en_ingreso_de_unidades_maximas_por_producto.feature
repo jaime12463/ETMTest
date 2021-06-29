@@ -12,7 +12,7 @@
 # donde se capturen productos..
 
 # UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=436%3A2150&scaling=scale-down&page-id=436%3A1256
-
+# prueba pipeline
 Característica: Aviso en ingreso de unidades maximas por producto
 	Como prevendedor
 	Quiero que al ingresar una cantidad mayor a 100 en las unidades el sistema me avise
