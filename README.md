@@ -18,9 +18,10 @@ Versionado semántico (SemVer) con la ayuda de "gitversion" integrado al pipelin
  Incremento de versión: https://gitversion.net/docs/reference/version-increments
 
 En el mensaje de commit agregar (xx.yy.zz major.minor.fix): 
-+semver: breaking o +semver: major hará que se aumente la versión principal
-+semver: feature o +semver: minor aumentará la versión menor 
-+semver: patch o +semver: fix aumentará el parche.
++semver: none or +semver: skip          sin incremento de versión
++semver: breaking o +semver: major      hará que se aumente la versión principal
++semver: feature o +semver: minor       aumentará la versión menor 
++semver: patch o +semver: fix           aumentará el parche.
 
 ## Listado de tecnologías
 Recomiendo **fuertemente** revisar con atención el siguiente listado e investigar los detalles de cada tecnología para poder sacar el mayor provecho de las mismas
