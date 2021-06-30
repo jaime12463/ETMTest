@@ -1,5 +1,3 @@
-const today = new Date();
-const tomorrow = new Date(today).setDate(new Date(today).getDate() + 1);
 describe('Aviso en ingreso de unidades maximas por producto', () => {
 	beforeEach(() => {
 		cy.intercept('GET', '/femsa/configuracion').as('dataConfig');
@@ -10,7 +8,7 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 		});
 	});
 	it('La cantidad es mayor a la permitida', () => {
-		cy.configDB({cliente: 234, cantidadMaximaUnidades: 100});
+		cy.setValuesDatosDB({});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -23,7 +21,7 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 		});
 	});
 	it('La cantidad es menor o igual a la permitida', () => {
-		cy.configDB({cliente: 234, cantidadMaximaUnidades: 100});
+		cy.setValuesDatosDB({});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -36,7 +34,7 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 		});
 	});
 	it('Las unidadesMaximasVenta no está definido para el cliente', () => {
-		cy.configDB({cliente: 234, cantidadMaximaUnidades: null});
+		cy.setValuesDatosDB({cantidadMaximaUnidades: undefined});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();

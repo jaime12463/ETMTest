@@ -1,6 +1,3 @@
-const today = new Date();
-const tomorrow = new Date(today).setDate(new Date(today).getDate() + 1);
-
 describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 	beforeEach(() => {
 		cy.visit('/');
@@ -10,8 +7,8 @@ describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 		});
 	});
 	it('esVentaSubunidadesRuta en true y esVentaSubunidades en true', () => {
-		cy.configuracionRuta({esVentaSubunidadesRuta: true});
-		cy.configDB({cliente: 234, esVentaSubunidades: true});
+		cy.setValuesConfiguracionDB({});
+		cy.setValuesDatosDB({});
 
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
@@ -25,8 +22,8 @@ describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 		});
 	});
 	it('esVentaSubunidadesRuta en true y esVentaSubunidades en false', () => {
-		cy.configuracionRuta({esVentaSubunidadesRuta: true});
-		cy.configDB({cliente: 234, esVentaSubunidades: false});
+		cy.setValuesConfiguracionDB({});
+		cy.setValuesDatosDB({esVentaSubunidades: false});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -38,8 +35,8 @@ describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 		});
 	});
 	it('esVentaSubunidadesRuta en false y esVentaSubunidades en true', () => {
-		cy.configuracionRuta({esVentaSubunidadesRuta: false});
-		cy.configDB({cliente: 234, esVentaSubunidades: true});
+		cy.setValuesConfiguracionDB({esVentaSubunidadesRuta: false});
+		cy.setValuesDatosDB({});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -51,8 +48,8 @@ describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 		});
 	});
 	it('esVentaSubunidadesRuta en false y esVentaSubunidades en false', () => {
-		cy.configuracionRuta({esVentaSubunidadesRuta: false});
-		cy.configDB({cliente: 234, esVentaSubunidades: false});
+		cy.setValuesConfiguracionDB({esVentaSubunidadesRuta: false});
+		cy.setValuesDatosDB({esVentaSubunidades: false});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -67,13 +64,8 @@ describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 
 describe('Validar Subunidades con la presentación', () => {
 	beforeEach(() => {
-		cy.configuracionRuta({esVentaSubunidadesRuta: true});
-		cy.configDB({
-			cliente: 234,
-			esVentaSubunidades: true,
-			producto: 1860,
-			presentacion: 12,
-		});
+		cy.setValuesConfiguracionDB({});
+		cy.setValuesDatosDB({});
 		cy.visit('/');
 		cy.on('uncaught:exception', (err, runnable) => {
 			console.log(err);

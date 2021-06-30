@@ -1,8 +1,6 @@
-const today = new Date();
-const tomorrow = new Date(today).setDate(new Date(today).getDate() + 1);
 describe('Ingresar producto al pedido', () => {
 	beforeEach(() => {
-		cy.configDB({cliente: 234});
+		cy.setValuesDatosDB({});
 		cy.intercept('GET', '/femsa/configuracion').as('dataConfig');
 		cy.visit('/');
 		cy.on('uncaught:exception', (err, runnable) => {

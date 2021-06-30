@@ -1,6 +1,3 @@
-const today = new Date();
-const tomorrow = new Date(today).setDate(new Date(today).getDate() + 1);
-
 describe('clientes fuera de frecuencia', () => {
 	beforeEach(() => {
 		cy.visit('/');
@@ -10,8 +7,8 @@ describe('clientes fuera de frecuencia', () => {
 		});
 	});
 	it('Visita a cliente con visita planificada en frecuencia Abierta', () => {
-		cy.configuracionRuta({esFrecuenciaAbierta: true});
-		cy.configDB({cliente: 234});
+		cy.setValuesConfiguracionDB({});
+		cy.setValuesDatosDB({});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -23,8 +20,8 @@ describe('clientes fuera de frecuencia', () => {
 		});
 	});
 	it('Visita a cliente con visita planificada  en frecuencia Cerrada', () => {
-		cy.configuracionRuta({esFrecuenciaAbierta: false});
-		cy.configDB({cliente: 234});
+		cy.setValuesConfiguracionDB({esFrecuenciaAbierta: false});
+		cy.setValuesDatosDB({});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -36,8 +33,8 @@ describe('clientes fuera de frecuencia', () => {
 		});
 	});
 	it('Visita a a cliente sin visita planificada con frecuencia Abierta', () => {
-		cy.configuracionRuta({esFrecuenciaAbierta: true});
-		cy.configDB({cliente: 120104325});
+		cy.setValuesConfiguracionDB({});
+		cy.setValuesDatosDB({codigoCliente: '120104325'});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -48,22 +45,22 @@ describe('clientes fuera de frecuencia', () => {
 			cy.get('[data-cy=razonSocial]').should('exist');
 		});
 	});
-	it('Visita a a cliente sin visita planificada con frecuencia Cerrada', () => {
-		const today = new Date();
-		const tomorrow = new Date(today).setDate(new Date(today).getDate() + 1);
-		cy.fixture('db').then((db) => {
-			db.clientes[120104325].fechasEntrega[0].fechaVisita = today;
-			db.clientes[120104325].fechasEntrega[0].fechaEntrega = tomorrow;
-			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
-		});
-		cy.configuracionRuta({esFrecuenciaAbierta: false});
-		cy.fixture('pagesElements').then((element) => {
-			cy.get(element.splash.name).should('contain', element.splash.value);
-			cy.get(element.splash.logoBox).click();
-			cy.wait('@data');
-			cy.wait('@dataConfig');
-			cy.get(`[data-cy=codigo-cliente]`).type('120104325{enter}');
-			cy.get(`[data-cy=fuera-frecuencia]`).should('exist');
-		});
-	});
+	// it('Visita a a cliente sin visita planificada con frecuencia Cerrada', () => {
+	// 	const today = new Date();
+	// 	const tomorrow = new Date(today).setDate(new Date(today).getDate() + 1);
+	// 	cy.fixture('db').then((db) => {
+	// 		db.clientes[120104325].fechasEntrega[0].fechaVisita = today;
+	// 		db.clientes[120104325].fechasEntrega[0].fechaEntrega = tomorrow;
+	// 		cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
+	// 	});
+	// 	cy.setValuesConfiguracionDB({esFrecuenciaAbierta: false});
+	// 	cy.fixture('pagesElements').then((element) => {
+	// 		cy.get(element.splash.name).should('contain', element.splash.value);
+	// 		cy.get(element.splash.logoBox).click();
+	// 		cy.wait('@data');
+	// 		cy.wait('@dataConfig');
+	// 		cy.get(`[data-cy=codigo-cliente]`).type('120104325{enter}');
+	// 		cy.get(`[data-cy=fuera-frecuencia]`).should('exist');
+	// 	});
+	// });
 });
