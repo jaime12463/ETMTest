@@ -11,6 +11,7 @@ import {usePermiteSubUnidades} from './usePermiteSubUnidades';
 import {useMostrarAdvertenciaEnDialogo} from './useMostrarAdvertenciaEnDialogo';
 import {useResetLineaActual} from './useResetLineaActual';
 import {useResetPedidoActual} from './useResetPedidoActual';
+import {useObtenerPedidosDelCliente} from './useObtenerPedidosDelCliente';
 
 export {
 	useAgregarPedidoAlListado,
@@ -26,4 +27,5 @@ export {
 	useMostrarAdvertenciaEnDialogo,
 	useResetLineaActual,
 	useResetPedidoActual,
+	useObtenerPedidosDelCliente
 };

@@ -11,7 +11,7 @@ import {
 	TInputsFormularioAgregarProducto,
 	TPrecioProducto,
 } from 'models';
-import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente} from '.';
+import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente, useObtenerPedidosDelCliente} from '.';
 import {selectPedidosClientes} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
 import {validarFechaVisita} from 'utils/validaciones';
@@ -23,10 +23,14 @@ export const useAsignarPedidoActual = (
 	setRazonSocial: Dispatch<SetStateAction<string>>,
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
-	resetPedidoActual: () => void
+	resetPedidoActual: () => void,
+	setPedidosCliente: Dispatch<SetStateAction<number>>
 ) => {
 	const dispatch = useAppDispatch();
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
+
+	const obtenerPedidosDelCliente = useObtenerPedidosDelCliente();
+
 	const obtenerClienteActual = useObtenerClienteActual();
 	const configuracionActual = useObtenerConfiguracionActual();
 	const pedidosClientes = useAppSelector(selectPedidosClientes);
@@ -81,6 +85,11 @@ export const useAsignarPedidoActual = (
 			dispatch(cambiarClienteActual(codigoCliente));
 			dispatch(cambiarFechaEntrega(fechaEntrega));
 			setPreciosProductos(preciosProductosDelCliente);
+			const pedidosDelCliente: number = obtenerPedidosDelCliente(
+				pedidosClientes[clienteEncontrado.codigoCliente],
+				fechaEntrega
+			);
+			setPedidosCliente(pedidosDelCliente);
 		},
 		[
 			obtenerPreciosProductosDelCliente,

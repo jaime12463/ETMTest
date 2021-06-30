@@ -21,6 +21,7 @@ const es = {
 		no: 'No',
 		aceptar: 'Aceptar',
 		cancelar: 'Cancelar',
+		pedidosCliente: 'Pedidos efectuados para la fecha de entrega: ',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',
