@@ -40,32 +40,38 @@ export default function TomaDePedidos() {
 	const [preciosProductos, setPreciosProductos] = useState<TPrecioProducto[]>(
 		[]
 	);
-	const [existeCliente, setExisteCliente] = useState<boolean | null>(null);
+
 	const [
 		avisoPedidoGuardadoExitoso,
 		setAvisoPedidoGuardadoExitoso,
 	] = useState<boolean>(false);
-	const [razonSocial, setRazonSocial] = useState<string>('');
+
 	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
+
 	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
 		mensaje: '',
 		manejadorClick: () => {},
 		conBotonCancelar: false,
 		dataCy: '',
 	});
+
 	const [productoActual, setProductoActual] = useState<TPrecioSinVigencia>({
 		codigoProductoConNombre: '',
 		precioConImpuestoUnidad: 0,
 		precioConImpuestoSubunidad: 0,
 	});
+
 	const {t} = useTranslation();
+
 	const estilos = useEstilos();
+
 	const {
 		control,
 		handleSubmit,
 		setValue,
 		getValues,
 	} = useForm<TInputsFormularioAgregarProducto>();
+
 	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
 
 	const [pedidosCliente, setPedidosCliente] = useState<number>(0);
@@ -75,9 +81,7 @@ export default function TomaDePedidos() {
 	const resetLineaActual = useResetLineaActual(setValue, setProductoActual);
 
 	const resetPedidoActual = useResetPedidoActual(
-		setExisteCliente,
 		setPreciosProductos,
-		setRazonSocial,
 		resetLineaActual,
 		setPedidosCliente
 	);
@@ -86,6 +90,7 @@ export default function TomaDePedidos() {
 		productoActual,
 		resetLineaActual
 	);
+
 	const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido(
 		productoActual,
 		getValues,
@@ -101,28 +106,31 @@ export default function TomaDePedidos() {
 		setProductoActual,
 		setValue
 	);
+
 	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
 		mostrarAdvertenciaEnDialogo,
 		manejadorConfirmarAgregarPedido,
 		agregarProductoAlPedidoCliente
 	);
+
 	const asignarPedidoActual = useAsignarPedidoActual(
-		setExisteCliente,
-		setRazonSocial,
 		setPreciosProductos,
 		mostrarAdvertenciaEnDialogo,
 		resetPedidoActual,
 		setPedidosCliente
 	);
+
 	const buscarPreciosProductos = useBuscarPreciosProductos(
 		preciosProductos,
 		setPreciosProductos
 	);
+
 	const agregarPedidoAlListado = useAgregarPedidoAlListado(
 		setAvisoPedidoGuardadoExitoso,
 		mostrarAdvertenciaEnDialogo,
 		resetPedidoActual
 	);
+
 	const permiteSubUnidades = usePermiteSubUnidades();
 
 	const cerrarAvisoPedidoGuardado = (event: SyntheticEvent<Element, Event>) => {
@@ -162,14 +170,14 @@ export default function TomaDePedidos() {
 									control={control}
 									inputDataCY='codigo-cliente'
 									disabled={
-										existeCliente
+										pedidoActual.codigoCliente !== ''
 											? pedidoActual.productosPedido.length > 0
 											: false
 									}
 								/>
 							</form>
 						</Grid>
-						{existeCliente && pedidoActual.fechaEntrega && (
+						{pedidoActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
 							<Fragment>
 								<Grid item xs={6} sm={6}>
 									<Typography
@@ -177,7 +185,7 @@ export default function TomaDePedidos() {
 										component='p'
 										data-cy='razonSocial'
 									>
-										{razonSocial}
+										{pedidoActual.razonSocial}
 									</Typography>
 								</Grid>
 								{pedidosCliente != 0 && (
@@ -212,7 +220,7 @@ export default function TomaDePedidos() {
 								</Grid>
 							</Fragment>
 						)}
-						{existeCliente && pedidoActual.fechaEntrega && (
+						{pedidoActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
 							<Fragment>
 								<FormularioAgregarProducto
 									agregarProductoAlPedidoCliente={

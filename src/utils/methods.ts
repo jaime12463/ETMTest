@@ -1,4 +1,4 @@
-import {TFechaEntrega, TPedidoClienteParaEnviar, TPrecio} from 'models';
+import {TPedidoClienteParaEnviar, TPrecio} from 'models';
 
 export const transformDate = (date: string): string =>
 	`${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}`;
@@ -17,15 +17,6 @@ export const fechaDispositivo = (): string => {
 		: new Date().toISOString().split('T')[0];
 
 	return fecha;
-};
-
-export const obtenerFechaEntrega = (fechasEntrega: TFechaEntrega[]): string => {
-	const fechaEncontrada: TFechaEntrega | undefined = fechasEntrega.find(
-		({fechaVisita}) =>
-			new Date(fechaVisita).toISOString().split('T')[0] === fechaDispositivo()
-	);
-
-	return fechaEncontrada ? fechaEncontrada.fechaEntrega : ''; //TODO: Nunca llegaria al casa de que no se esncuentre por donde se usa, pero arreglar.
 };
 
 export const obtenerTotalesPedidosCliente = (
@@ -59,14 +50,3 @@ export const obtenerPrecioConImpuestoUnidad = (
 
 	return resultado;
 };
-
-/* 0:
-enviado: false
-fechaEntrega: "2021-06-12"
-productosPedido: Array(1)
-0:
-codigoProducto: 1860
-nombreProducto: "YOLI LIMON BOT 600L NR 12PK"
-subUnidades: 0
-total: 1050
-unidades: 10 */

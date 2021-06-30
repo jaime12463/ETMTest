@@ -74,8 +74,9 @@ export type TPedidoClienteParaEnviar = {
 
 export type TPedidoCliente = {
 	codigoCliente: string;
-	productosPedido: TProductoPedido[];
 	fechaEntrega: string;
+	razonSocial: string;
+	productosPedido: TProductoPedido[];
 };
 
 export type TProductoPedido = {
@@ -131,3 +132,13 @@ export type TFunctionMostarAvertenciaPorDialogo = (
 		cancelar: string;
 	}
 ) => void;
+
+export type TValidacionFechaEntrega = {
+	esValidaFechaEntrega: boolean;
+	fechaEntrega: string;
+};
+
+export type TValidacionFechaVisita = {
+	esValidaVisitaPlanificada: boolean;
+	fechaVisitaPlanificada: string;
+};

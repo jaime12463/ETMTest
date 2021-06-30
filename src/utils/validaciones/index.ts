@@ -3,8 +3,10 @@ import {
 	TFechaEntrega,
 	TConfiguracionPedido,
 	TCliente,
-	TPedidoCliente,
 	TPedidoClienteParaEnviar,
+	TVisitaPlanificada,
+	TValidacionFechaVisita,
+	TValidacionFechaEntrega,
 } from 'models';
 import {fechaDispositivo, obtenerTotalesPedidosCliente} from 'utils/methods';
 
@@ -102,4 +104,51 @@ export const validarSubUnidadesEsMultiplo = (
 ): boolean => {
 	if (subUnidadesParseado % subunidadesVentaMinima === 0) return true;
 	return false;
+};
+
+export const validarObtenerVisitaPlanificada = (
+	visitasPlanificadas: TVisitaPlanificada[]
+): TValidacionFechaVisita => {
+	const visitaPlanificada:
+		| TVisitaPlanificada
+		| undefined = visitasPlanificadas.find(
+		(visitaPlanificada: TVisitaPlanificada) =>
+			new Date(visitaPlanificada.dia).getTime() ===
+			new Date(fechaDispositivo()).getTime()
+	);
+	return {
+		esValidaVisitaPlanificada: visitaPlanificada !== undefined,
+		fechaVisitaPlanificada: visitaPlanificada?.dia ?? '',
+	};
+};
+
+export const validarObtenerVisitaPlanificadaPosterior = (
+	visitasPlanificadas: TVisitaPlanificada[]
+): TValidacionFechaVisita => {
+	const visitaPlanificadaPosterior:
+		| TVisitaPlanificada
+		| undefined = visitasPlanificadas.find(
+		(visitaPlanificada: TVisitaPlanificada) =>
+			new Date(visitaPlanificada.dia).getTime() >=
+			new Date(fechaDispositivo()).getTime()
+	);
+	return {
+		esValidaVisitaPlanificada: visitaPlanificadaPosterior !== undefined,
+		fechaVisitaPlanificada: visitaPlanificadaPosterior?.dia ?? '',
+	};
+};
+
+export const validarObtenerFechaEntrega = (
+	fechaVisita: string,
+	fechasEntrega: TFechaEntrega[]
+): TValidacionFechaEntrega => {
+	const fechaEntregaEncontrada: TFechaEntrega | undefined = fechasEntrega.find(
+		(fechaEntrega) =>
+			new Date(fechaEntrega.fechaVisita).getTime() ===
+			new Date(fechaVisita).getTime()
+	);
+	return {
+		esValidaFechaEntrega: fechaEntregaEncontrada !== undefined,
+		fechaEntrega: fechaEntregaEncontrada?.fechaEntrega ?? '',
+	};
 };

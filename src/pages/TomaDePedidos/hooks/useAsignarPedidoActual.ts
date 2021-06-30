@@ -1,26 +1,26 @@
 import {Dispatch, SetStateAction, useCallback} from 'react';
 import {useAppDispatch, useAppSelector} from 'redux/hooks';
-import {
-	cambiarClienteActual,
-	cambiarFechaEntrega,
-} from 'redux/features/pedidoActual/pedidoActualSlice';
+import {inicializarPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
 	TCliente,
 	TConfiguracion,
 	TFunctionMostarAvertenciaPorDialogo,
 	TInputsFormularioAgregarProducto,
 	TPrecioProducto,
+	TValidacionFechaEntrega,
+	TValidacionFechaVisita,
 } from 'models';
 import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente, useObtenerPedidosDelCliente} from '.';
 import {selectPedidosClientes} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
-import {validarFechaVisita} from 'utils/validaciones';
-import {obtenerFechaEntrega} from 'utils/methods';
+import {
+	validarObtenerFechaEntrega,
+	validarObtenerVisitaPlanificada,
+	validarObtenerVisitaPlanificadaPosterior,
+} from 'utils/validaciones';
 import {useTranslation} from 'react-i18next';
 
 export const useAsignarPedidoActual = (
-	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
-	setRazonSocial: Dispatch<SetStateAction<string>>,
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
 	resetPedidoActual: () => void,
@@ -49,41 +49,70 @@ export const useAsignarPedidoActual = (
 				);
 				return;
 			}
-			setExisteCliente(true);
-			//TODO: Validaciones
-			//Validar que exista una fecha de visita planificada (mayor o igual si es frecuencia abierta) igual (frecuencia cerrada) a la fecha del dispositivo
-			//obtener fecha de visita
-			//Validar que la fecha de visita que encontro exista en fechas de entrega (fecha de visita)
-			//obtener fecha entrega
-			const esFechaVisitaEncontrada: boolean = validarFechaVisita(
-				clienteEncontrado,
-				esFrecuenciaAbierta
-			);
-			if (!esFechaVisitaEncontrada) {
+
+			let visitaPlanificada: TValidacionFechaVisita;
+
+			if (esFrecuenciaAbierta) {
+				visitaPlanificada = validarObtenerVisitaPlanificadaPosterior(
+					clienteEncontrado.visitasPlanificadas
+				);
+			} else {
+				visitaPlanificada = validarObtenerVisitaPlanificada(
+					clienteEncontrado.visitasPlanificadas
+				);
+			}
+
+			const {
+				esValidaVisitaPlanificada,
+				fechaVisitaPlanificada,
+			} = visitaPlanificada;
+
+			if (!esValidaVisitaPlanificada && esFrecuenciaAbierta) {
 				resetPedidoActual();
-				if (!esFrecuenciaAbierta) {
-					mostrarAdvertenciaEnDialogo(
-						'El cliente está fuera de frecuencia',
-						'fuera-frecuencia'
-					);
-					return;
-				}
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.fueraDeFrecuencia'),
+					'fuera-frecuencia'
+				);
+				return;
+			}
+
+			if (!esValidaVisitaPlanificada) {
+				resetPedidoActual();
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.fueraDeFrecuencia'),
+					'fuera-frecuencia'
+				);
+				return;
+			}
+
+			const {
+				esValidaFechaEntrega,
+				fechaEntrega,
+			}: TValidacionFechaEntrega = validarObtenerFechaEntrega(
+				fechaVisitaPlanificada,
+				clienteEncontrado.fechasEntrega
+			);
+
+			if (!esValidaFechaEntrega) {
+				resetPedidoActual();
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.noFechaProgramada'),
 					'no-fecha-programada'
 				);
 				return;
 			}
-			const fechaEntrega: string = obtenerFechaEntrega(
-				clienteEncontrado.fechasEntrega
-			);
+
 			const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
 				clienteEncontrado,
 				fechaEntrega
 			);
-			setRazonSocial(clienteEncontrado.detalles.nombreComercial);
-			dispatch(cambiarClienteActual(codigoCliente));
-			dispatch(cambiarFechaEntrega(fechaEntrega));
+			dispatch(
+				inicializarPedidoActual({
+					codigoCliente,
+					fechaEntrega,
+					razonSocial: clienteEncontrado.detalles.nombreComercial,
+				})
+			);
 			setPreciosProductos(preciosProductosDelCliente);
 			const pedidosDelCliente: number = obtenerPedidosDelCliente(
 				pedidosClientes[clienteEncontrado.codigoCliente],
