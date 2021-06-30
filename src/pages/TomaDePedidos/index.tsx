@@ -196,7 +196,7 @@ export default function TomaDePedidos() {
 											data-cy='pedidosCliente'
 											display="inline"
 										>
-											{t('advertencias.pedidosCliente')}
+											{t('general.pedidosCliente')}
 										</Typography>
 										<Chip label={pedidosCliente} />
 									</Grid>
