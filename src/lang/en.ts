@@ -21,6 +21,7 @@ const en = {
 		no: 'No',
 		aceptar: 'Accept',
 		cancelar: 'Cancel',
+		pedidosCliente: 'Orders placed for the delivery date: '
 	},
 	titulos: {
 		bienvenido: 'Welcome',
@@ -39,10 +40,10 @@ const en = {
 		pedidoMinimo: 'does not fulfil minimum order of ${{monto}}',
 		montoMinimo: 'does not fulfil the minimum sale amount of the order',
 		subUnidadesNoPermitidas: 'The subUnits is disabled for this product',
-		subUnidadesNoMultiplo:
-			'The subunits must be in multiples of {{subunidadesVentaMinima}}',
 		masDelMontoMaximo:
 			'The sum of the orders for the delivery date {{fechaDeEntrega}} exceeds the maximum amount for the customer $ {{montoVentaMaxima}}',
+		subUnidadesNoMultiplo:
+		'The subunits must be in multiples of {{subunidadesVentaMinima}}',
 	},
 };
 export default en;

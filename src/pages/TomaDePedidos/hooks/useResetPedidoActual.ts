@@ -5,13 +5,15 @@ import {TPrecioProducto} from 'models';
 
 export const useResetPedidoActual = (
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
-	resetLineaActual: () => void
+	resetLineaActual: () => void,
+	setPedidosClientes: Dispatch<SetStateAction<number>>
 ) => {
 	const dispatch = useAppDispatch();
 	const resetPedidoActual = useCallback(() => {
 		resetLineaActual();
 		setPreciosProductos([]);
 		dispatch(resetearPedidoActual());
+		setPedidosClientes(0);
 	}, []);
 	return resetPedidoActual;
 };

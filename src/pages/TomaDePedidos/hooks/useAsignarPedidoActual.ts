@@ -10,7 +10,7 @@ import {
 	TValidacionFechaEntrega,
 	TValidacionFechaVisita,
 } from 'models';
-import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente} from '.';
+import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente, useObtenerPedidosDelCliente} from '.';
 import {selectPedidosClientes} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
 import {
@@ -23,10 +23,14 @@ import {useTranslation} from 'react-i18next';
 export const useAsignarPedidoActual = (
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
-	resetPedidoActual: () => void
+	resetPedidoActual: () => void,
+	setPedidosCliente: Dispatch<SetStateAction<number>>
 ) => {
 	const dispatch = useAppDispatch();
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
+
+	const obtenerPedidosDelCliente = useObtenerPedidosDelCliente();
+
 	const obtenerClienteActual = useObtenerClienteActual();
 	const configuracionActual = useObtenerConfiguracionActual();
 	const pedidosClientes = useAppSelector(selectPedidosClientes);
@@ -110,6 +114,11 @@ export const useAsignarPedidoActual = (
 				})
 			);
 			setPreciosProductos(preciosProductosDelCliente);
+			const pedidosDelCliente: number = obtenerPedidosDelCliente(
+				pedidosClientes[clienteEncontrado.codigoCliente],
+				fechaEntrega
+			);
+			setPedidosCliente(pedidosDelCliente);
 		},
 		[
 			obtenerPreciosProductosDelCliente,

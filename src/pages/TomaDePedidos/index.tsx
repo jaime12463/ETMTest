@@ -4,10 +4,10 @@ import {
 	TInputsFormularioAgregarProducto,
 	TPedidoCliente,
 	TPrecioProducto,
-	TPrecioSinVigencia,
+	TPrecioSinVigencia
 } from 'models';
 import {useAppSelector} from 'redux/hooks';
-import {Button, Grid, Snackbar, Typography} from '@material-ui/core';
+import {Button, Chip, Grid, Snackbar, Typography} from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
 import {useForm} from 'react-hook-form';
@@ -74,13 +74,16 @@ export default function TomaDePedidos() {
 
 	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
 
+	const [pedidosCliente, setPedidosCliente] = useState<number>(0);
+
 	useObtenerDatos();
 
 	const resetLineaActual = useResetLineaActual(setValue, setProductoActual);
 
 	const resetPedidoActual = useResetPedidoActual(
 		setPreciosProductos,
-		resetLineaActual
+		resetLineaActual,
+		setPedidosCliente
 	);
 
 	const agregarProductoAlPedidoCliente = useAgregarProductoAlPedidoCliente(
@@ -113,7 +116,8 @@ export default function TomaDePedidos() {
 	const asignarPedidoActual = useAsignarPedidoActual(
 		setPreciosProductos,
 		mostrarAdvertenciaEnDialogo,
-		resetPedidoActual
+		resetPedidoActual,
+		setPedidosCliente
 	);
 
 	const buscarPreciosProductos = useBuscarPreciosProductos(
@@ -184,6 +188,19 @@ export default function TomaDePedidos() {
 										{pedidoActual.razonSocial}
 									</Typography>
 								</Grid>
+								{pedidosCliente != 0 && (
+									<Grid item xs={6} sm={12}>
+										<Typography
+											variant='body2'
+											component='p'
+											data-cy='pedidosCliente'
+											display="inline"
+										>
+											{t('general.pedidosCliente')}
+										</Typography>
+										<Chip label={pedidosCliente} />
+									</Grid>
+								)}
 								<Grid item xs={12} sm={12}>
 									<Typography
 										variant='body2'
