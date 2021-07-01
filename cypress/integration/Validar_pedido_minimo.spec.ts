@@ -9,7 +9,7 @@ describe('Validar pedido minimo', () => {
 		});
 	});
 	it('El pedido no cumple con el pedido mínimo', () => {
-		cy.setValuesDatosDB({montoVentaMinima: 100, precioConImpuestoUnidad: 99});
+		cy.datosDB({montoVentaMinima: 100, precioConImpuestoUnidad: 99});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -23,7 +23,7 @@ describe('Validar pedido minimo', () => {
 		});
 	});
 	it('El pedido cumple con el pedido mínimo', () => {
-		cy.setValuesDatosDB({montoVentaMinima: 100, precioConImpuestoUnidad: 99});
+		cy.datosDB({montoVentaMinima: 100, precioConImpuestoUnidad: 99});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -38,7 +38,7 @@ describe('Validar pedido minimo', () => {
 		});
 	});
 	it('Cliente sin monto de venta minimo', () => {
-		cy.setValuesDatosDB({montoVentaMinima: null});
+		cy.datosDB({montoVentaMinima: null});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();

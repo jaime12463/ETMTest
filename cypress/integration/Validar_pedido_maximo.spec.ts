@@ -8,7 +8,7 @@ describe('Validar pedido maximo', () => {
 		});
 	});
 	it('montoVentaMaxima en 1000 - Monto Total en 945', () => {
-		cy.datosDB({montoVentaMaxima: 1000});
+		cy.datosDB({montoVentaMaxima: 1000, precioConImpuestoUnidad: 105});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -16,12 +16,12 @@ describe('Validar pedido maximo', () => {
 			cy.wait('@dataConfig');
 			cy.agregarUnPedido({unidades: 5, cerrarPedido: true});
 			cy.get(`[data-cy=codigo-cliente]`).clear();
-			cy.agregarUnPedido({unidades: 3, cerrarPedido: true});
+			cy.agregarUnPedido({unidades: 4, cerrarPedido: true});
 			cy.get('[data-cy=monto-maximo]').should('not.exist');
 		});
 	});
 	it('montoVentaMaxima en 1050 - Monto Total en 1050', () => {
-		cy.datosDB({montoVentaMaxima: 1050});
+		cy.datosDB({montoVentaMaxima: 1050, precioConImpuestoUnidad: 105});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -34,7 +34,7 @@ describe('Validar pedido maximo', () => {
 		});
 	});
 	it('montoVentaMaxima en 1000 - Monto Total en 1050', () => {
-		cy.datosDB({montoVentaMaxima: 1000});
+		cy.datosDB({montoVentaMaxima: 1000, precioConImpuestoUnidad: 105});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();

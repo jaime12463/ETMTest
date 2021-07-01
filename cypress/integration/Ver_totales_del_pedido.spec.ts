@@ -2,7 +2,7 @@ describe('Ver totales del pedido', () => {
 	beforeEach(() => {
 		cy.intercept('GET', '/femsa/configuracion').as('dataConfig');
 		cy.visit('/');
-		cy.setValuesDatosDB({
+		cy.datosDB({
 			precioConImpuestoUnidad: 100,
 			precioConImpuestoSubunidad: 10,
 		});
