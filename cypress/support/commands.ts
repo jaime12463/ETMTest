@@ -23,6 +23,7 @@ declare global {
 			precioConImpuestoUnidad?: number;
 			precioConImpuestoSubunidad?: number;
 			montoVentaMinima?: number | null;
+			montoVentaMaxima?: number;
 		};
 
 		type TOpcionesCambiarConfiguracionDB = {
@@ -30,11 +31,18 @@ declare global {
 			esVentaSubunidadesRuta?: boolean;
 		};
 
+		type TOpcionesAgregarUnPedido = {
+			cliente?: number;
+			unidades?: number;
+			cerrarPedido?: boolean;
+		};
+
 		interface Chainable {
-			setValuesDatosDB(opcionesCambiarDatos: TOpcionesCambiarDatosDB): void;
-			setValuesConfiguracionDB(
+			datosDB(opcionesCambiarDatos: TOpcionesCambiarDatosDB): void;
+			datosConfiguracionDB(
 				opcionesCambiarConfiguracion: TOpcionesCambiarConfiguracionDB
 			): void;
+			agregarUnPedido(opcionesagregarUnPedido: TOpcionesAgregarUnPedido): void;
 		}
 	}
 }
@@ -58,7 +66,23 @@ const today = obtenerFechaToday();
 const tomorrow = obtenerFechaFutura(1);
 
 Cypress.Commands.add(
-	'setValuesDatosDB',
+	'agregarUnPedido',
+	({
+		cliente = 234,
+		unidades = 1,
+		cerrarPedido = false,
+	}: Cypress.TOpcionesAgregarUnPedido) => {
+		cy.get(`[data-cy=codigo-cliente]`).type(`${cliente}{enter}`);
+		cy.get('[data-cy=producto-tabla-0]').click();
+		cy.get('[data-cy=cantidad-producto-unidades]').type(`${unidades}{enter}`);
+		if (cerrarPedido) {
+			cy.get('[data-cy=boton-cerrarPedido]').click();
+		}
+	}
+);
+
+Cypress.Commands.add(
+	'datosDB',
 	({
 		codigoCliente = '234',
 		fechasEntrega = [{fechaVisita: today, fechaEntrega: tomorrow}],
@@ -69,7 +93,8 @@ Cypress.Commands.add(
 		codigoProducto = 1860,
 		precioConImpuestoUnidad = 100,
 		precioConImpuestoSubunidad = 10,
-		montoVentaMinima = 1000,
+		montoVentaMaxima = 3000,
+		montoVentaMinima = 100,
 	}: Cypress.TOpcionesCambiarDatosDB) => {
 		cy.fixture('db').then((db) => {
 			db.clientes[codigoCliente].visitasPlanificadas = visitasPlanificadas;
@@ -83,6 +108,9 @@ Cypress.Commands.add(
 			db.clientes[
 				codigoCliente
 			].portafolio[0].esVentaSubunidades = esVentaSubunidades;
+			db.clientes[
+				codigoCliente
+			].configuracionPedido.montoVentaMaxima = montoVentaMaxima;
 			db.productos[codigoProducto].presentacion = presentacion;
 			db.clientes[234].portafolio[0].precios[1].precioConImpuestoUnidad = precioConImpuestoUnidad;
 			db.clientes[234].portafolio[0].precios[1].precioConImpuestoSubunidad = precioConImpuestoSubunidad;
@@ -92,7 +120,7 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-	'setValuesConfiguracionDB',
+	'datosConfiguracionDB',
 	({
 		esFrecuenciaAbierta = true,
 		esVentaSubunidadesRuta = true,

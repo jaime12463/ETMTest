@@ -10,8 +10,8 @@ describe('cálculo de fecha de entrega', () => {
 		});
 	});
 	it('dia (visitasPlanificadas) igual a la fecha actual, con frecuencia Cerrada y fechaVisita (fechasEntrega) igual a dia (visitasPlanificadas)', () => {
-		cy.setValuesConfiguracionDB({esFrecuenciaAbierta: false});
-		cy.setValuesDatosDB({});
+		cy.datosConfiguracionDB({esFrecuenciaAbierta: false});
+		cy.datosDB({});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -24,11 +24,11 @@ describe('cálculo de fecha de entrega', () => {
 		});
 	});
 	it('dia (visitasPlanificadas) igual a la fecha actual, con frecuencia Cerrada y fechaVisita (fechasEntrega) diferente a dia (visitasPlanificadas)', () => {
-		cy.setValuesConfiguracionDB({esFrecuenciaAbierta: false});
+		cy.datosConfiguracionDB({esFrecuenciaAbierta: false});
 		const fechaActual = obtenerFechaToday();
 		const fechaFuturoUno = obtenerFechaFutura(1);
 		const fechaFuturoDos = obtenerFechaFutura(2);
-		cy.setValuesDatosDB({
+		cy.datosDB({
 			codigoCliente: '234',
 			fechasEntrega: [
 				{fechaVisita: fechaFuturoUno, fechaEntrega: fechaFuturoDos},
@@ -47,10 +47,10 @@ describe('cálculo de fecha de entrega', () => {
 		});
 	});
 	it('dia (visitasPlanificadas) mayor a la fecha actual, con frecuencia Cerrada y fechaVisita (fechasEntrega) igual a dia (visitasPlanificadas)', () => {
-		cy.setValuesConfiguracionDB({esFrecuenciaAbierta: false});
+		cy.datosConfiguracionDB({esFrecuenciaAbierta: false});
 		const fechaFuturoUno = obtenerFechaFutura(1);
 		const fechaFuturoDos = obtenerFechaFutura(2);
-		cy.setValuesDatosDB({
+		cy.datosDB({
 			codigoCliente: '234',
 			fechasEntrega: [
 				{fechaVisita: fechaFuturoUno, fechaEntrega: fechaFuturoDos},
@@ -69,11 +69,11 @@ describe('cálculo de fecha de entrega', () => {
 		});
 	});
 	it('dia (visitasPlanificadas) mayor a la fecha actual, con frecuencia Cerrada y fechaVisita (fechasEntrega) diferente a dia (visitasPlanificadas)', () => {
-		cy.setValuesConfiguracionDB({esFrecuenciaAbierta: false});
+		cy.datosConfiguracionDB({esFrecuenciaAbierta: false});
 		const fechaFuturoUno = obtenerFechaFutura(1);
 		const fechaFuturoDos = obtenerFechaFutura(2);
 		const fechaFuturoTres = obtenerFechaFutura(2);
-		cy.setValuesDatosDB({
+		cy.datosDB({
 			codigoCliente: '234',
 			fechasEntrega: [
 				{fechaVisita: fechaFuturoDos, fechaEntrega: fechaFuturoTres},

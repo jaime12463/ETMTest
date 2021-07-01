@@ -7,8 +7,8 @@ describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 		});
 	});
 	it('esVentaSubunidadesRuta en true y esVentaSubunidades en true', () => {
-		cy.setValuesConfiguracionDB({});
-		cy.setValuesDatosDB({});
+		cy.datosConfiguracionDB({});
+		cy.datosDB({});
 
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
@@ -22,8 +22,8 @@ describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 		});
 	});
 	it('esVentaSubunidadesRuta en true y esVentaSubunidades en false', () => {
-		cy.setValuesConfiguracionDB({});
-		cy.setValuesDatosDB({esVentaSubunidades: false});
+		cy.datosConfiguracionDB({});
+		cy.datosDB({esVentaSubunidades: false});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -35,8 +35,8 @@ describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 		});
 	});
 	it('esVentaSubunidadesRuta en false y esVentaSubunidades en true', () => {
-		cy.setValuesConfiguracionDB({esVentaSubunidadesRuta: false});
-		cy.setValuesDatosDB({});
+		cy.datosConfiguracionDB({esVentaSubunidadesRuta: false});
+		cy.datosDB({});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -48,8 +48,8 @@ describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 		});
 	});
 	it('esVentaSubunidadesRuta en false y esVentaSubunidades en false', () => {
-		cy.setValuesConfiguracionDB({esVentaSubunidadesRuta: false});
-		cy.setValuesDatosDB({esVentaSubunidades: false});
+		cy.datosConfiguracionDB({esVentaSubunidadesRuta: false});
+		cy.datosDB({esVentaSubunidades: false});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -64,8 +64,8 @@ describe('Se admite el ingreso de subunidades por cliente/producto', () => {
 
 describe('Validar Subunidades con la presentación', () => {
 	beforeEach(() => {
-		cy.setValuesConfiguracionDB({});
-		cy.setValuesDatosDB({});
+		cy.datosConfiguracionDB({});
+		cy.datosDB({});
 		cy.visit('/');
 		cy.on('uncaught:exception', (err, runnable) => {
 			console.log(err);

@@ -1,6 +1,6 @@
 describe('Ingresar producto al pedido', () => {
 	beforeEach(() => {
-		cy.setValuesDatosDB({});
+		cy.datosDB({});
 		cy.intercept('GET', '/femsa/configuracion').as('dataConfig');
 		cy.visit('/');
 		cy.on('uncaught:exception', (err, runnable) => {
