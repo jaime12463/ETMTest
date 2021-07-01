@@ -1,7 +1,7 @@
 describe('Ver detalle del pedido', () => {
 	beforeEach(() => {
 		cy.intercept('GET', '/femsa/configuracion').as('dataConfig');
-		cy.DatosDB({});
+		cy.datosDB({});
 		cy.visit('/');
 		cy.on('uncaught:exception', (err) => {
 			console.log(err);

@@ -3,14 +3,14 @@ import {obtenerFechaFutura, obtenerFechaToday} from '../support/commands';
 describe('Visita planificada', () => {
 	beforeEach(() => {
 		cy.visit('/');
-		cy.DatosConfiguracionDB({});
+		cy.datosConfiguracionDB({});
 		cy.on('uncaught:exception', (err, runnable) => {
 			console.log(err);
 			return false;
 		});
 	});
 	it('dia (visitasPlanificadas) igual a la fecha actual, con frecuencia Abierta y fechaVisita (fechasEntrega) igual a dia (visitasPlanificadas)', () => {
-		cy.DatosDB({});
+		cy.datosDB({});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -25,7 +25,7 @@ describe('Visita planificada', () => {
 	it('dia (visitasPlanificadas) mayor a la fecha actual, con frecuencia Abierta y fechaVisita (fechasEntrega) igual a dia (visitasPlanificadas)', () => {
 		const fechaFuturoPorCinco = obtenerFechaFutura(5);
 		const fechaFuturoPorSeis = obtenerFechaFutura(6);
-		cy.DatosDB({
+		cy.datosDB({
 			codigoCliente: '234',
 			fechasEntrega: [
 				{fechaVisita: fechaFuturoPorCinco, fechaEntrega: fechaFuturoPorSeis},
@@ -47,7 +47,7 @@ describe('Visita planificada', () => {
 		const fechaActual = obtenerFechaToday();
 		const fechaFuturoPorSeis = obtenerFechaFutura(6);
 		const fechaFuturoPorSiete = obtenerFechaFutura(7);
-		cy.DatosDB({
+		cy.datosDB({
 			codigoCliente: '234',
 			fechasEntrega: [
 				{fechaVisita: fechaFuturoPorSeis, fechaEntrega: fechaFuturoPorSiete},
@@ -70,7 +70,7 @@ describe('Visita planificada', () => {
 		const fechaFuturoPorCinco = obtenerFechaFutura(5);
 		const fechaFuturoPorSeis = obtenerFechaFutura(6);
 		const fechaFuturoPorSiete = obtenerFechaFutura(7);
-		cy.DatosDB({
+		cy.datosDB({
 			codigoCliente: '234',
 			fechasEntrega: [
 				{fechaVisita: fechaFuturoPorSeis, fechaEntrega: fechaFuturoPorSiete},

@@ -20,6 +20,8 @@ declare global {
 			presentacion?: number;
 			esVentaSubunidades?: boolean;
 			codigoProducto?: number;
+			montoVentaMaxima?: number;
+			montoVentaMinima?: number;
 		};
 
 		type TOpcionesCambiarConfiguracionDB = {
@@ -27,10 +29,18 @@ declare global {
 			esVentaSubunidadesRuta?: boolean;
 		};
 
+		type TOpcionesAgrearYCerrarPedido = {
+			cliente?: number;
+			unidades?: number;
+		};
+
 		interface Chainable {
-			DatosDB(opcionesCambiarDatos: TOpcionesCambiarDatosDB): void;
-			DatosConfiguracionDB(
+			datosDB(opcionesCambiarDatos: TOpcionesCambiarDatosDB): void;
+			datosConfiguracionDB(
 				opcionesCambiarConfiguracion: TOpcionesCambiarConfiguracionDB
+			): void;
+			agregarYCerrarPedido(
+				opcionesAgrearYCerrarPedido: TOpcionesAgrearYCerrarPedido
 			): void;
 		}
 	}
@@ -55,7 +65,17 @@ const today = obtenerFechaToday();
 const tomorrow = obtenerFechaFutura(1);
 
 Cypress.Commands.add(
-	'DatosDB',
+	'agregarYCerrarPedido',
+	({cliente = 234, unidades = 1}: Cypress.TOpcionesAgrearYCerrarPedido) => {
+		cy.get(`[data-cy=codigo-cliente]`).type(`${cliente}{enter}`);
+		cy.get('[data-cy=producto-tabla-0]').click();
+		cy.get('[data-cy=cantidad-producto-unidades]').type(`${unidades}{enter}`);
+		cy.get('[data-cy=boton-cerrarPedido]').click();
+	}
+);
+
+Cypress.Commands.add(
+	'datosDB',
 	({
 		codigoCliente = '234',
 		fechasEntrega = [{fechaVisita: today, fechaEntrega: tomorrow}],
@@ -64,16 +84,20 @@ Cypress.Commands.add(
 		presentacion = 12,
 		esVentaSubunidades = true,
 		codigoProducto = 1860,
+		montoVentaMaxima = 3000,
+		montoVentaMinima = 100,
 	}: Cypress.TOpcionesCambiarDatosDB) => {
 		cy.fixture('db').then((db) => {
 			db.clientes[codigoCliente].visitasPlanificadas = visitasPlanificadas;
 			db.clientes[codigoCliente].fechasEntrega = fechasEntrega;
-			db.clientes[
-				codigoCliente
-			].configuracionPedido.cantidadMaximaUnidades = cantidadMaximaUnidades;
-			db.clientes[
-				codigoCliente
-			].portafolio[0].esVentaSubunidades = esVentaSubunidades;
+			db.clientes[codigoCliente].configuracionPedido.cantidadMaximaUnidades =
+				cantidadMaximaUnidades;
+			db.clientes[codigoCliente].configuracionPedido.montoVentaMaxima =
+				montoVentaMaxima;
+			db.clientes[codigoCliente].configuracionPedido.montoVentaMinima =
+				montoVentaMinima;
+			db.clientes[codigoCliente].portafolio[0].esVentaSubunidades =
+				esVentaSubunidades;
 			db.productos[codigoProducto].presentacion = presentacion;
 			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
 		});
@@ -81,7 +105,7 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-	'DatosConfiguracionDB',
+	'datosConfiguracionDB',
 	({
 		esFrecuenciaAbierta = true,
 		esVentaSubunidadesRuta = true,

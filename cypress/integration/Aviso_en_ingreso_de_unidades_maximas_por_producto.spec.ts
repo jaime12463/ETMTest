@@ -8,7 +8,7 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 		});
 	});
 	it('La cantidad es mayor a la permitida', () => {
-		cy.DatosDB({});
+		cy.datosDB({});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -21,7 +21,7 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 		});
 	});
 	it('La cantidad es menor o igual a la permitida', () => {
-		cy.DatosDB({});
+		cy.datosDB({});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -34,7 +34,7 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 		});
 	});
 	it('Las unidadesMaximasVenta no está definido para el cliente', () => {
-		cy.DatosDB({cantidadMaximaUnidades: null});
+		cy.datosDB({cantidadMaximaUnidades: null});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();

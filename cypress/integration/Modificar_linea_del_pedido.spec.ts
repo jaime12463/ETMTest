@@ -2,7 +2,7 @@ describe('Modificar lina del pedido', () => {
 	beforeEach(() => {
 		cy.intercept('GET', '/femsa/configuracion').as('dataConfig');
 		cy.visit('/');
-		cy.DatosDB({});
+		cy.datosDB({});
 		cy.on('uncaught:exception', (err) => {
 			console.log(err);
 			return false;
