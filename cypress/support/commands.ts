@@ -112,8 +112,12 @@ Cypress.Commands.add(
 				codigoCliente
 			].configuracionPedido.montoVentaMaxima = montoVentaMaxima;
 			db.productos[codigoProducto].presentacion = presentacion;
-			db.clientes[234].portafolio[0].precios[1].precioConImpuestoUnidad = precioConImpuestoUnidad;
-			db.clientes[234].portafolio[0].precios[1].precioConImpuestoSubunidad = precioConImpuestoSubunidad;
+			db.clientes[
+				codigoCliente
+			].portafolio[0].precios[1].precioConImpuestoUnidad = precioConImpuestoUnidad;
+			db.clientes[
+				codigoCliente
+			].portafolio[0].precios[1].precioConImpuestoSubunidad = precioConImpuestoSubunidad;
 			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
 		});
 	}

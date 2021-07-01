@@ -4,7 +4,7 @@ import {
 	TInputsFormularioAgregarProducto,
 	TPedidoCliente,
 	TPrecioProducto,
-	TPrecioSinVigencia
+	TPrecioSinVigencia,
 } from 'models';
 import {useAppSelector} from 'redux/hooks';
 import {Button, Chip, Grid, Snackbar, Typography} from '@material-ui/core';
@@ -41,10 +41,8 @@ export default function TomaDePedidos() {
 		[]
 	);
 
-	const [
-		avisoPedidoGuardadoExitoso,
-		setAvisoPedidoGuardadoExitoso,
-	] = useState<boolean>(false);
+	const [avisoPedidoGuardadoExitoso, setAvisoPedidoGuardadoExitoso] =
+		useState<boolean>(false);
 
 	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
 
@@ -65,12 +63,8 @@ export default function TomaDePedidos() {
 
 	const estilos = useEstilos();
 
-	const {
-		control,
-		handleSubmit,
-		setValue,
-		getValues,
-	} = useForm<TInputsFormularioAgregarProducto>();
+	const {control, handleSubmit, setValue, getValues} =
+		useForm<TInputsFormularioAgregarProducto>();
 
 	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
 
@@ -107,11 +101,12 @@ export default function TomaDePedidos() {
 		setValue
 	);
 
-	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
-		mostrarAdvertenciaEnDialogo,
-		manejadorConfirmarAgregarPedido,
-		agregarProductoAlPedidoCliente
-	);
+	const validarAgregarProductoAlPedidoCliente =
+		useValidarAgregarProductoAlPedidoCliente(
+			mostrarAdvertenciaEnDialogo,
+			manejadorConfirmarAgregarPedido,
+			agregarProductoAlPedidoCliente
+		);
 
 	const asignarPedidoActual = useAsignarPedidoActual(
 		setPreciosProductos,
@@ -194,11 +189,11 @@ export default function TomaDePedidos() {
 											variant='body2'
 											component='p'
 											data-cy='pedidosCliente'
-											display="inline"
+											display='inline'
 										>
 											{t('general.pedidosCliente')}
 										</Typography>
-										<Chip label={pedidosCliente} />
+										<Chip label={pedidosCliente} data-cy={`numeroPedidosCliente-${pedidosCliente}`} />
 									</Grid>
 								)}
 								<Grid item xs={12} sm={12}>
