@@ -7,8 +7,8 @@ describe('clientes fuera de frecuencia', () => {
 		});
 	});
 	it('Visita a cliente con visita planificada en frecuencia Abierta', () => {
-		cy.setValuesConfiguracionDB({});
-		cy.setValuesDatosDB({});
+		cy.DatosConfiguracionDB({});
+		cy.DatosDB({});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -20,8 +20,8 @@ describe('clientes fuera de frecuencia', () => {
 		});
 	});
 	it('Visita a cliente con visita planificada  en frecuencia Cerrada', () => {
-		cy.setValuesConfiguracionDB({esFrecuenciaAbierta: false});
-		cy.setValuesDatosDB({});
+		cy.DatosConfiguracionDB({esFrecuenciaAbierta: false});
+		cy.DatosDB({});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -33,8 +33,8 @@ describe('clientes fuera de frecuencia', () => {
 		});
 	});
 	it('Visita a a cliente sin visita planificada con frecuencia Abierta', () => {
-		cy.setValuesConfiguracionDB({});
-		cy.setValuesDatosDB({codigoCliente: '120104325'});
+		cy.DatosConfiguracionDB({});
+		cy.DatosDB({codigoCliente: '120104325'});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();

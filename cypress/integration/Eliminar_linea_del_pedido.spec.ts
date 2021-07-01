@@ -1,7 +1,7 @@
 describe('Eliminar línea del pedido', () => {
 	beforeEach(() => {
 		cy.intercept('GET', '/femsa/configuracion').as('dataConfig');
-		cy.setValuesDatosDB({});
+		cy.DatosDB({});
 		cy.visit('/');
 		cy.on('uncaught:exception', (err) => {
 			console.log(err);

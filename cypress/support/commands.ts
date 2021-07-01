@@ -16,7 +16,7 @@ declare global {
 			codigoCliente?: string;
 			fechasEntrega?: TFechaEntrega[];
 			visitasPlanificadas?: TVisitaPlanificada[];
-			cantidadMaximaUnidades?: number;
+			cantidadMaximaUnidades?: number | null;
 			presentacion?: number;
 			esVentaSubunidades?: boolean;
 			codigoProducto?: number;
@@ -28,8 +28,8 @@ declare global {
 		};
 
 		interface Chainable {
-			setValuesDatosDB(opcionesCambiarDatos: TOpcionesCambiarDatosDB): void;
-			setValuesConfiguracionDB(
+			DatosDB(opcionesCambiarDatos: TOpcionesCambiarDatosDB): void;
+			DatosConfiguracionDB(
 				opcionesCambiarConfiguracion: TOpcionesCambiarConfiguracionDB
 			): void;
 		}
@@ -55,7 +55,7 @@ const today = obtenerFechaToday();
 const tomorrow = obtenerFechaFutura(1);
 
 Cypress.Commands.add(
-	'setValuesDatosDB',
+	'DatosDB',
 	({
 		codigoCliente = '234',
 		fechasEntrega = [{fechaVisita: today, fechaEntrega: tomorrow}],
@@ -81,7 +81,7 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-	'setValuesConfiguracionDB',
+	'DatosConfiguracionDB',
 	({
 		esFrecuenciaAbierta = true,
 		esVentaSubunidadesRuta = true,

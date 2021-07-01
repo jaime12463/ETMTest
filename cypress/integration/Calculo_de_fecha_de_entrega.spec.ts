@@ -9,7 +9,7 @@ describe('cálculo de fecha de entrega', () => {
 		});
 	});
 	it('Cliente con fecha de entrega calculada', () => {
-		cy.setValuesDatosDB({});
+		cy.DatosDB({});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
