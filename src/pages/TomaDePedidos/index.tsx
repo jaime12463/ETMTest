@@ -1,4 +1,4 @@
-import {Fragment, SyntheticEvent, useState} from 'react';
+import {Fragment, SyntheticEvent, useEffect, useState} from 'react';
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
 	TInputsFormularioAgregarProducto,
@@ -131,6 +131,13 @@ export default function TomaDePedidos() {
 	const cerrarAvisoPedidoGuardado = (event: SyntheticEvent<Element, Event>) => {
 		setAvisoPedidoGuardadoExitoso(false);
 	};
+
+	//TODO: Deberia preguntar antes de salir si lo desea?
+	useEffect(() => {
+		return () => {
+			resetPedidoActual();
+		};
+	}, []);
 
 	return (
 		<>

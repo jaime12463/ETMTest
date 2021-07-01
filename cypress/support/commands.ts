@@ -24,6 +24,7 @@ declare global {
 			precioConImpuestoSubunidad?: number;
 			montoVentaMinima?: number | null;
 			montoVentaMaxima?: number;
+			subunidadesVentaMinima?: number;
 		};
 
 		type TOpcionesCambiarConfiguracionDB = {
@@ -95,22 +96,19 @@ Cypress.Commands.add(
 		precioConImpuestoSubunidad = 10,
 		montoVentaMaxima = 3000,
 		montoVentaMinima = 100,
+		subunidadesVentaMinima = 1,
 	}: Cypress.TOpcionesCambiarDatosDB) => {
 		cy.fixture('db').then((db) => {
 			db.clientes[codigoCliente].visitasPlanificadas = visitasPlanificadas;
 			db.clientes[codigoCliente].fechasEntrega = fechasEntrega;
-			db.clientes[
-				codigoCliente
-			].configuracionPedido.cantidadMaximaUnidades = cantidadMaximaUnidades;
-			db.clientes[
-				codigoCliente
-			].configuracionPedido.montoVentaMinima = montoVentaMinima;
-			db.clientes[
-				codigoCliente
-			].portafolio[0].esVentaSubunidades = esVentaSubunidades;
-			db.clientes[
-				codigoCliente
-			].configuracionPedido.montoVentaMaxima = montoVentaMaxima;
+			db.clientes[codigoCliente].configuracionPedido.cantidadMaximaUnidades =
+				cantidadMaximaUnidades;
+			db.clientes[codigoCliente].configuracionPedido.montoVentaMinima =
+				montoVentaMinima;
+			db.clientes[codigoCliente].portafolio[0].esVentaSubunidades =
+				esVentaSubunidades;
+			db.clientes[codigoCliente].configuracionPedido.montoVentaMaxima =
+				montoVentaMaxima;
 			db.productos[codigoProducto].presentacion = presentacion;
 			db.clientes[
 				codigoCliente
