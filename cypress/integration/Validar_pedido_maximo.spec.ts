@@ -14,9 +14,9 @@ describe('Validar pedido maximo', () => {
 			cy.get(element.splash.logoBox).click();
 			cy.wait('@data');
 			cy.wait('@dataConfig');
-			cy.agregarYCerrarPedido({unidades: 5});
+			cy.agregarUnPedido({unidades: 5, cerrarPedido: true});
 			cy.get(`[data-cy=codigo-cliente]`).clear();
-			cy.agregarYCerrarPedido({unidades: 3});
+			cy.agregarUnPedido({unidades: 3, cerrarPedido: true});
 			cy.get('[data-cy=monto-maximo]').should('not.exist');
 		});
 	});
@@ -27,9 +27,9 @@ describe('Validar pedido maximo', () => {
 			cy.get(element.splash.logoBox).click();
 			cy.wait('@data');
 			cy.wait('@dataConfig');
-			cy.agregarYCerrarPedido({unidades: 5});
+			cy.agregarUnPedido({unidades: 5, cerrarPedido: true});
 			cy.get(`[data-cy=codigo-cliente]`).clear();
-			cy.agregarYCerrarPedido({unidades: 5});
+			cy.agregarUnPedido({unidades: 5, cerrarPedido: true});
 			cy.get('[data-cy=monto-maximo]').should('not.exist');
 		});
 	});
@@ -40,9 +40,9 @@ describe('Validar pedido maximo', () => {
 			cy.get(element.splash.logoBox).click();
 			cy.wait('@data');
 			cy.wait('@dataConfig');
-			cy.agregarYCerrarPedido({unidades: 5});
+			cy.agregarUnPedido({unidades: 5, cerrarPedido: true});
 			cy.get(`[data-cy=codigo-cliente]`).clear();
-			cy.agregarYCerrarPedido({unidades: 5});
+			cy.agregarUnPedido({unidades: 5, cerrarPedido: true});
 			cy.get('[data-cy=monto-maximo]').should('exist');
 		});
 	});

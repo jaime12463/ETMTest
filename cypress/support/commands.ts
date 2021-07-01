@@ -29,9 +29,10 @@ declare global {
 			esVentaSubunidadesRuta?: boolean;
 		};
 
-		type TOpcionesAgrearYCerrarPedido = {
+		type TOpcionesAgregarUnPedido = {
 			cliente?: number;
 			unidades?: number;
+			cerrarPedido?: boolean;
 		};
 
 		interface Chainable {
@@ -39,9 +40,7 @@ declare global {
 			datosConfiguracionDB(
 				opcionesCambiarConfiguracion: TOpcionesCambiarConfiguracionDB
 			): void;
-			agregarYCerrarPedido(
-				opcionesAgrearYCerrarPedido: TOpcionesAgrearYCerrarPedido
-			): void;
+			agregarUnPedido(opcionesagregarUnPedido: TOpcionesAgregarUnPedido): void;
 		}
 	}
 }
@@ -65,12 +64,18 @@ const today = obtenerFechaToday();
 const tomorrow = obtenerFechaFutura(1);
 
 Cypress.Commands.add(
-	'agregarYCerrarPedido',
-	({cliente = 234, unidades = 1}: Cypress.TOpcionesAgrearYCerrarPedido) => {
+	'agregarUnPedido',
+	({
+		cliente = 234,
+		unidades = 1,
+		cerrarPedido = false,
+	}: Cypress.TOpcionesAgregarUnPedido) => {
 		cy.get(`[data-cy=codigo-cliente]`).type(`${cliente}{enter}`);
 		cy.get('[data-cy=producto-tabla-0]').click();
 		cy.get('[data-cy=cantidad-producto-unidades]').type(`${unidades}{enter}`);
-		cy.get('[data-cy=boton-cerrarPedido]').click();
+		if (cerrarPedido) {
+			cy.get('[data-cy=boton-cerrarPedido]').click();
+		}
 	}
 );
 
