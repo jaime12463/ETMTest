@@ -84,7 +84,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					t('advertencias.subUnidadesNoMultiplo', {
 						subunidadesVentaMinima,
 					}),
-					'sub-unidades-no-permitida'
+					'sub-unidades-no-multiplo'
 				);
 				return;
 			}
