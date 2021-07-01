@@ -13,10 +13,8 @@ export const useResetLineaActual = (
 			precioConImpuestoSubunidad: 0,
 		});
 		setValue('codigoProductoConNombre', '');
-		setValue('codigoCliente', '');
 		setValue('unidades', '');
 		setValue('subUnidades', '');
-		setValue('productoABuscar', '');
 	}, []);
 	return resetLineaActual;
 };

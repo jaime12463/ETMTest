@@ -27,7 +27,6 @@ export const validarUnidadesMinimasProducto = (
 ): boolean => {
 	const {cantidadMaximaUnidades} = configuracionPedido;
 	if (cantidadMaximaUnidades) {
-		console.log(cantidadMaximaUnidades);
 		if (unidades > cantidadMaximaUnidades) return false;
 	}
 	return true;

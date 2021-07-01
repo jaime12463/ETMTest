@@ -101,15 +101,22 @@ Cypress.Commands.add(
 		cy.fixture('db').then((db) => {
 			db.clientes[codigoCliente].visitasPlanificadas = visitasPlanificadas;
 			db.clientes[codigoCliente].fechasEntrega = fechasEntrega;
-			db.clientes[codigoCliente].configuracionPedido.cantidadMaximaUnidades =
-				cantidadMaximaUnidades;
-			db.clientes[codigoCliente].configuracionPedido.montoVentaMinima =
-				montoVentaMinima;
-			db.clientes[codigoCliente].portafolio[0].esVentaSubunidades =
-				esVentaSubunidades;
-			db.clientes[codigoCliente].configuracionPedido.montoVentaMaxima =
-				montoVentaMaxima;
+			db.clientes[
+				codigoCliente
+			].configuracionPedido.cantidadMaximaUnidades = cantidadMaximaUnidades;
+			db.clientes[
+				codigoCliente
+			].configuracionPedido.montoVentaMinima = montoVentaMinima;
+			db.clientes[
+				codigoCliente
+			].portafolio[0].esVentaSubunidades = esVentaSubunidades;
+			db.clientes[
+				codigoCliente
+			].configuracionPedido.montoVentaMaxima = montoVentaMaxima;
 			db.productos[codigoProducto].presentacion = presentacion;
+			db.productos[
+				codigoProducto
+			].subunidadesVentaMinima = subunidadesVentaMinima;
 			db.clientes[
 				codigoCliente
 			].portafolio[0].precios[1].precioConImpuestoUnidad = precioConImpuestoUnidad;
