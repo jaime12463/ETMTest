@@ -20,7 +20,7 @@ describe('Modificar lina del pedido', () => {
 			cy.get('[data-cy=producto-tabla-0]').click();
 			cy.get('[data-cy=cantidad-producto-unidades]').clear().type('10{enter}');
 			cy.get(`[data-cy=total-unidades-pedido]`).should('have.text', '10');
-			cy.get('[data-cy=total-monto-pedido]').should('have.text', '$ 1050.00');
+			cy.get('[data-cy=total-monto-pedido]').should('have.text', '$ 1000.00');
 		});
 	});
 	it('Modificar cantidades en subunidades', () => {
@@ -37,7 +37,7 @@ describe('Modificar lina del pedido', () => {
 				.clear()
 				.type('2{enter}');
 			cy.get('[data-cy=total-subUnidades-pedido]').should('have.text', '2');
-			cy.get('[data-cy=total-monto-pedido]').should('have.text', '$ 17.50');
+			cy.get('[data-cy=total-monto-pedido]').should('have.text', '$ 20.00');
 		});
 	});
 });

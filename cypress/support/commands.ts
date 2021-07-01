@@ -16,10 +16,13 @@ declare global {
 			codigoCliente?: string;
 			fechasEntrega?: TFechaEntrega[];
 			visitasPlanificadas?: TVisitaPlanificada[];
-			cantidadMaximaUnidades?: number;
+			cantidadMaximaUnidades?: number | null;
 			presentacion?: number;
 			esVentaSubunidades?: boolean;
 			codigoProducto?: number;
+			precioConImpuestoUnidad?: number;
+			precioConImpuestoSubunidad?: number;
+			montoVentaMinima?: number | null;
 		};
 
 		type TOpcionesCambiarConfiguracionDB = {
@@ -64,6 +67,9 @@ Cypress.Commands.add(
 		presentacion = 12,
 		esVentaSubunidades = true,
 		codigoProducto = 1860,
+		precioConImpuestoUnidad = 100,
+		precioConImpuestoSubunidad = 10,
+		montoVentaMinima = 1000,
 	}: Cypress.TOpcionesCambiarDatosDB) => {
 		cy.fixture('db').then((db) => {
 			db.clientes[codigoCliente].visitasPlanificadas = visitasPlanificadas;
@@ -73,8 +79,13 @@ Cypress.Commands.add(
 			].configuracionPedido.cantidadMaximaUnidades = cantidadMaximaUnidades;
 			db.clientes[
 				codigoCliente
+			].configuracionPedido.montoVentaMinima = montoVentaMinima;
+			db.clientes[
+				codigoCliente
 			].portafolio[0].esVentaSubunidades = esVentaSubunidades;
 			db.productos[codigoProducto].presentacion = presentacion;
+			db.clientes[234].portafolio[0].precios[1].precioConImpuestoUnidad = precioConImpuestoUnidad;
+			db.clientes[234].portafolio[0].precios[1].precioConImpuestoSubunidad = precioConImpuestoSubunidad;
 			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
 		});
 	}

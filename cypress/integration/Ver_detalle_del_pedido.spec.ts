@@ -8,7 +8,7 @@ describe('Ver detalle del pedido', () => {
 			return false;
 		});
 	});
-	it('El pedido no cumple con el pedido mínimo', () => {
+	it('Ver detalle del pedido', () => {
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();

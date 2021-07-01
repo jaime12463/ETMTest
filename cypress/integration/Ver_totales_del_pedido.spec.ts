@@ -1,19 +1,16 @@
 describe('Ver totales del pedido', () => {
-	// beforeEach(() => {
-	// 	cy.intercept('GET', '/femsa/configuracion').as('dataConfig');
-	// 	cy.fixture('db').then((db) => {
-	// 		db.clientes[234].fechasEntrega[0].fechaVisita = today;
-	// 		db.clientes[234].fechasEntrega[0].fechaEntrega = tomorrow;
-	// 		db.clientes[234].portafolio[0].precios[1].precioConImpuestoUnidad = 100;
-	// 		db.clientes[234].portafolio[0].precios[1].precioConImpuestoSubunidad = 10;
-	// 		cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
-	// 	});
-	// 	cy.visit('/');
-	// 	cy.on('uncaught:exception', (err) => {
-	// 		console.log(err);
-	// 		return false;
-	// 	});
-	// });
+	beforeEach(() => {
+		cy.intercept('GET', '/femsa/configuracion').as('dataConfig');
+		cy.visit('/');
+		cy.setValuesDatosDB({
+			precioConImpuestoUnidad: 100,
+			precioConImpuestoSubunidad: 10,
+		});
+		cy.on('uncaught:exception', (err) => {
+			console.log(err);
+			return false;
+		});
+	});
 	it('Ver totales del Pedido', () => {
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);

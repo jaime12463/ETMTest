@@ -8,7 +8,7 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 		});
 	});
 	it('La cantidad es mayor a la permitida', () => {
-		cy.setValuesDatosDB({});
+		cy.setValuesDatosDB({cantidadMaximaUnidades: 100});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -20,8 +20,8 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 			cy.get('[data-cy=cantidad-es-mayor]').should('exist');
 		});
 	});
-	it('La cantidad es menor o igual a la permitida', () => {
-		cy.setValuesDatosDB({});
+	it('La cantidad es menor a la permitida', () => {
+		cy.setValuesDatosDB({cantidadMaximaUnidades: 100});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
@@ -33,8 +33,21 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 			cy.get('[data-cy=cantidad-es-mayor]').should('not.exist');
 		});
 	});
+	it('La cantidad es igual a la permitida', () => {
+		cy.setValuesDatosDB({cantidadMaximaUnidades: 100});
+		cy.fixture('pagesElements').then((element) => {
+			cy.get(element.splash.name).should('contain', element.splash.value);
+			cy.get(element.splash.logoBox).click();
+			cy.wait('@data');
+			cy.wait('@dataConfig');
+			cy.get(`[data-cy=codigo-cliente]`).type('234{enter}');
+			cy.get('[data-cy=producto-tabla-0]').click();
+			cy.get('[data-cy=cantidad-producto-unidades]').type('100{enter}');
+			cy.get('[data-cy=cantidad-es-mayor]').should('not.exist');
+		});
+	});
 	it('Las unidadesMaximasVenta no está definido para el cliente', () => {
-		cy.setValuesDatosDB({cantidadMaximaUnidades: undefined});
+		cy.setValuesDatosDB({cantidadMaximaUnidades: null});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();

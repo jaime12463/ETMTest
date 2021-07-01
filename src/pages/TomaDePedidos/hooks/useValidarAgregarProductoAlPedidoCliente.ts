@@ -93,7 +93,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				unidadesParseado,
 				clienteEncontrado.configuracionPedido
 			);
-			console.log(esUnidadesMenorAlMaximoUnidades);
 
 			if (!esUnidadesMenorAlMaximoUnidades) {
 				mostrarAdvertenciaEnDialogo(
