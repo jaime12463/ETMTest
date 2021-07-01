@@ -1,10 +1,10 @@
-import {Fragment, SyntheticEvent, useState} from 'react';
+import {Fragment, SyntheticEvent, useEffect, useState} from 'react';
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
 	TInputsFormularioAgregarProducto,
 	TPedidoCliente,
 	TPrecioProducto,
-	TPrecioSinVigencia
+	TPrecioSinVigencia,
 } from 'models';
 import {useAppSelector} from 'redux/hooks';
 import {Button, Chip, Grid, Snackbar, Typography} from '@material-ui/core';
@@ -137,6 +137,13 @@ export default function TomaDePedidos() {
 		setAvisoPedidoGuardadoExitoso(false);
 	};
 
+	//TODO: Deberia preguntar antes de salir si lo desea?
+	useEffect(() => {
+		return () => {
+			resetPedidoActual();
+		};
+	}, []);
+
 	return (
 		<>
 			<Estructura
@@ -194,7 +201,7 @@ export default function TomaDePedidos() {
 											variant='body2'
 											component='p'
 											data-cy='pedidosCliente'
-											display="inline"
+											display='inline'
 										>
 											{t('general.pedidosCliente')}
 										</Typography>
