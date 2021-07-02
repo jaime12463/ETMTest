@@ -115,8 +115,7 @@ export const useAsignarPedidoActual = (
 			);
 			setPreciosProductos(preciosProductosDelCliente);
 			const pedidosDelCliente: number = obtenerPedidosDelCliente(
-				pedidosClientes[clienteEncontrado.codigoCliente],
-				fechaEntrega
+				pedidosClientes[clienteEncontrado.codigoCliente]
 			);
 			setPedidosCliente(pedidosDelCliente);
 		},

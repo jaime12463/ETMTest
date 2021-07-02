@@ -21,7 +21,7 @@ const en = {
 		no: 'No',
 		aceptar: 'Accept',
 		cancelar: 'Cancel',
-		pedidosCliente: 'Orders placed for the delivery date: '
+		pedidosCliente: 'Orders placed: '
 	},
 	titulos: {
 		bienvenido: 'Welcome',
