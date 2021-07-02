@@ -17,7 +17,7 @@ const obtenerNombreYCodigo = (producto: TPrecioProducto) => {
 };
 
 const obtenerPrecio = (precio: number) => {
-	return `$ ${precio}`;
+	return `$ ${precio.toFixed(2)}`;
 };
 
 export const Cuerpo = ({
@@ -51,15 +51,21 @@ export const Cuerpo = ({
 						<Celda
 							estilos={estilos}
 							texto={producto.codigoProducto.toString()}
+							width='20'
+							align='left'
 						></Celda>
 						<Celda
 							estilos={estilos}
 							texto={producto.nombre}
 							resumirTexto={true}
+							width='55'
+							align='left'
 						/>
 						<Celda
 							estilos={estilos}
 							texto={obtenerPrecio(precios.precioConImpuestoUnidad)}
+							width='25'
+							align='right'
 						/>
 					</TableRow>
 				) : (

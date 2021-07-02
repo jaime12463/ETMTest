@@ -10,7 +10,7 @@ const useEstilos = makeStyles({
 	text: {
 		whiteSpace: 'nowrap',
 		textOverflow: 'ellipsis',
-		width: '120px',
+		width: '11rem',
 		display: 'inline block',
 		overflow: 'hidden',
 	},

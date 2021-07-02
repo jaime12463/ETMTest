@@ -21,7 +21,7 @@ const TablaProductos = ({
 	return (
 		<TableContainer className={estilos.container}>
 			<Tabla size='small' stickyHeader>
-				<Encabezado atributos={titulos} estilos={estilos} />
+				<Encabezado atributos={titulos} />
 				<Cuerpo
 					asignarProductoActual={asignarProductoActual}
 					estilos={estilos}
