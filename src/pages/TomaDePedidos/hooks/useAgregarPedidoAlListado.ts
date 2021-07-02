@@ -29,6 +29,7 @@ export const useAgregarPedidoAlListado = (
 	const PedidosClientes = useAppSelector(selectPedidosClientes);
 	const {t} = useTranslation();
 	const obtenerClienteActual = useObtenerClienteActual();
+	const formateoFecha = new Date(pedidoActual.fechaEntrega);
 	const agregarPedidoAlListado = useCallback(() => {
 		const clienteActual = obtenerClienteActual(pedidoActual.codigoCliente);
 		const pedidosCliente: TPedidoClienteParaEnviar[] | undefined =
@@ -68,7 +69,12 @@ export const useAgregarPedidoAlListado = (
 		if (!esMenorAlMontoMaximo) {
 			mostrarAdvertenciaEnDialogo(
 				t('advertencias.masDelMontoMaximo', {
-					fechaDeEntrega: pedidoActual.fechaEntrega,
+					fechaDeEntrega:
+						formateoFecha.getDate() +
+						'-' +
+						formateoFecha.getMonth() +
+						'-' +
+						formateoFecha.getFullYear(),
 					montoVentaMaxima: clienteActual.configuracionPedido.montoVentaMaxima,
 				}),
 				'monto-maximo'
