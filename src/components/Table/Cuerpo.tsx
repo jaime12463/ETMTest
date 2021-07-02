@@ -48,25 +48,20 @@ export const Cuerpo = ({
 						}
 						data-cy={`producto-tabla-${i}`}
 					>
+						<Celda estilos={estilos} width='20' align='left'>
+							{producto.codigoProducto.toString()}
+						</Celda>
 						<Celda
 							estilos={estilos}
-							texto={producto.codigoProducto.toString()}
-							width='20'
-							align='left'
-						></Celda>
-						<Celda
-							estilos={estilos}
-							texto={producto.nombre}
 							resumirTexto={true}
 							width='55'
 							align='left'
-						/>
-						<Celda
-							estilos={estilos}
-							texto={obtenerPrecio(precios.precioConImpuestoUnidad)}
-							width='25'
-							align='right'
-						/>
+						>
+							{producto.nombre}
+						</Celda>
+						<Celda estilos={estilos} width='25' align='right'>
+							{obtenerPrecio(precios.precioConImpuestoUnidad)}
+						</Celda>
 					</TableRow>
 				) : (
 					<></>
