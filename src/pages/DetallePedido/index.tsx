@@ -61,7 +61,7 @@ const DetallePedido: React.FC = () => {
 							<Celda
 								estilos={estilos}
 								width='15'
-								align='left'
+								align='right'
 								dataCy='detalle-unidades-producto'
 							>
 								{producto.unidades}
@@ -69,7 +69,7 @@ const DetallePedido: React.FC = () => {
 							<Celda
 								estilos={estilos}
 								width='15'
-								align='left'
+								align='right'
 								dataCy='detalle-subUnidades-producto'
 							>
 								{producto.subUnidades}
