@@ -1,15 +1,15 @@
 version: "3.2"
 services:
   etm-tomapedido:
-    image: hasarcontainerregistry.azurecr.io/etm_omnichannel_tomapedido:401
+    image: hasarcontainerregistry.azurecr.io/etm_omnichannel_tomapedido:${last_version}
     ports:
       - "80:80"
     environment:
-      - "REACT_APP_API_URL=http://etm_omnichannel_tomapedido_server:4000/clientes"
+      - "REACT_APP_API_URL=http://etm-tomapedido-server:4000/clientes"
     deploy:
       replicas: 1
   etm-tomapedido-server:
-    image: hasarcontainerregistry.azurecr.io/etm_omnichannel_tomapedido_server:401
+    image: hasarcontainerregistry.azurecr.io/etm_omnichannel_tomapedido_server:${last_version}
     ports:
       - "4000:4000"  
     deploy:

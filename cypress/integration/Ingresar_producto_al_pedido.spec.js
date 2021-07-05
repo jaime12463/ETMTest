@@ -1,7 +1,7 @@
 describe('Ingresar producto al pedido', () => {
 	beforeEach(() => {
 		cy.intercept('GET', '/femsa/tomapedidos').as('data');
-		cy.visit('/');
+		cy.visit('/?fecha=2021/06/17');
 		cy.on('uncaught:exception', (err, runnable) => {
 			console.log(err);
 			return false;

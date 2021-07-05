@@ -11,6 +11,18 @@ El lenguaje de codificación será el Español (o Castellano) ya que los endpoin
 
 ## Uso de Git: 
 GitHubFlow: https://guides.github.com/introduction/flow/
+
+Versionamiento:
+Versionado semántico (SemVer) con la ayuda de "gitversion" integrado al pipeline de azuredevops.
+ https://gitversion.net/docs/
+ Incremento de versión: https://gitversion.net/docs/reference/version-increments
+
+En el mensaje de commit agregar (xx.yy.zz major.minor.fix): 
++semver: none or +semver: skip          sin incremento de versión
++semver: breaking o +semver: major      hará que se aumente la versión principal
++semver: feature o +semver: minor       aumentará la versión menor 
++semver: patch o +semver: fix           aumentará el parche.
+
 ## Listado de tecnologías
 Recomiendo **fuertemente** revisar con atención el siguiente listado e investigar los detalles de cada tecnología para poder sacar el mayor provecho de las mismas
 
@@ -42,4 +54,5 @@ Formularios
 
 Creación de componentes
 - Storybook
+
 
