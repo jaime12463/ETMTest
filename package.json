@@ -40,11 +40,13 @@
     "build-storybook": "build-storybook -s public",
     "start-server": "cd data && nodemon server.js",
     "cypress:open": "cypress open",
+    "cypress:run": "cypress run --spec cypress/integration/*",
     "start-cypress": "concurrently \"npm:start-server\" \"npm:start\" \"cypress run --spec cypress/integration/*\"",
     "dev": "concurrently \"npm:start\" \"npm:cypress:open\"",
     "dev:server": "concurrently \"npm:start-server\" \"npm:start\"",
     "start-jest": "jest",
-    "dev:server:cypress": "concurrently \"npm:start-server\" \"npm:start\" \"npm:cypress:open\""
+    "dev:server:cypress": "concurrently \"npm:start-server\" \"npm:start\" \"npm:cypress:open\"",
+    "ci": "start-server-and-test dev:server http://localhost:4000 cypress:run"
   },
   "eslintConfig": {
     "extends": [
@@ -84,6 +86,7 @@
     "cypress": "^7.4.0",
     "eslint-plugin-cypress": "^2.11.3",
     "json-server": "^0.16.3",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "start-server-and-test": "^1.12.5"
   }
 }
