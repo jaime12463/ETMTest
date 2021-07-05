@@ -23,8 +23,8 @@ steps:
   displayName: 'npm install and build'
 
 - script: |
-    npm run start-cypress
-  displayName: 'npm run start-cypress'
+    npm run ci
+  displayName: 'npm run ci'
 
 - task: CopyFiles@2
   inputs:
