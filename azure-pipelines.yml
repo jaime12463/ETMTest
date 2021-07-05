@@ -22,6 +22,10 @@ steps:
     npm run build
   displayName: 'npm install and build'
 
+- script: |
+    npm run start-cypress
+  displayName: 'npm run start-cypress'
+
 - task: CopyFiles@2
   inputs:
     Contents: 'build/**' # Pull the build directory (React)
@@ -30,4 +34,9 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'Omnicanal-TomaPedido'
+    ArtifactName: 'Omnicanal-TomaPedido-Files'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'cypress/videos/**'
+    ArtifactName: 'Omnicanal-TomaPedido-Test'
