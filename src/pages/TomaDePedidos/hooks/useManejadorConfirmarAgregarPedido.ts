@@ -1,23 +1,14 @@
-import {
-	TInputsFormularioAgregarProducto,
-	TProductoPedidoConPrecios,
-} from 'models';
-import {Dispatch, SetStateAction, useCallback} from 'react';
-import {UseFormGetValues, UseFormSetValue} from 'react-hook-form';
-import {useAgregarProductoAlPedidoCliente} from '.';
+import {TInputsFormularioAgregarProducto, TPrecioSinVigencia} from 'models';
+import {useCallback} from 'react';
+import {UseFormGetValues} from 'react-hook-form';
 
 export const useManejadorConfirmarAgregarPedido = (
-	setMostarDialogo: Dispatch<SetStateAction<boolean>>,
-	productoActual: TProductoPedidoConPrecios,
-	setProductoActual: Dispatch<SetStateAction<TProductoPedidoConPrecios>>,
-	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
-	getValues: UseFormGetValues<TInputsFormularioAgregarProducto>
+	productoActual: TPrecioSinVigencia,
+	getValues: UseFormGetValues<TInputsFormularioAgregarProducto>,
+	agregarProductoAlPedidoCliente: (
+		inputs: TInputsFormularioAgregarProducto
+	) => void
 ) => {
-	const agregarProductoAlPedidoCliente = useAgregarProductoAlPedidoCliente(
-		productoActual,
-		setProductoActual,
-		setValue
-	);
 	const manejadorConfirmarAgregarPedido = useCallback(
 		(oprimioBotonAceptar: boolean) => {
 			if (oprimioBotonAceptar) {
@@ -35,8 +26,7 @@ export const useManejadorConfirmarAgregarPedido = (
 					codigoProductoConNombre,
 					productoABuscar,
 				});
-				setMostarDialogo(false);
-			} else setMostarDialogo(false);
+			}
 		},
 		[productoActual]
 	);

@@ -1,63 +1,90 @@
 import {useCalcularTotalPedido} from 'hooks';
 import {
-	TInputsFormularioAgregarProducto,
+	TFunctionMostarAvertenciaPorDialogo,
 	TPedidoCliente,
+	TPedidoClienteParaEnviar,
 	TTotalPedido,
 } from 'models';
 import {Dispatch, SetStateAction, useCallback} from 'react';
-import {
-	selectPedidoActual,
-	resetearPedidoActual,
-} from 'redux/features/pedidoActual/pedidoActualSlice';
+import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
+import {selectPedidosClientes} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {agregarPedidoCliente} from 'redux/features/pedidosClientes/pedidosClientesSlice';
+
 import {useAppDispatch, useAppSelector} from 'redux/hooks';
-import {validarMontoMinimoPedido} from 'utils/validaciones';
+import {
+	validarMontoMinimoPedido,
+	validarTotalConMontoMaximo,
+} from 'utils/validaciones';
 import {useObtenerClienteActual} from '.';
-import {Props as PropsDialogo} from 'components/Dialogo';
 import {useTranslation} from 'react-i18next';
-import {UseFormSetValue} from 'react-hook-form';
 
 export const useAgregarPedidoAlListado = (
-	setMostarDialogo: Dispatch<SetStateAction<boolean>>,
-	setParametrosDialogo: Dispatch<SetStateAction<PropsDialogo>>,
-	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
-	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
-	setAvisoPedidoGuardadoExitoso: Dispatch<SetStateAction<boolean>>
+	setAvisoPedidoGuardadoExitoso: Dispatch<SetStateAction<boolean>>,
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	resetPedidoActual: () => void
 ) => {
 	const dispatch = useAppDispatch();
 	const totalPedido: TTotalPedido = useCalcularTotalPedido();
 	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
+	const PedidosClientes = useAppSelector(selectPedidosClientes);
 	const {t} = useTranslation();
 	const obtenerClienteActual = useObtenerClienteActual();
-	const clienteActual = obtenerClienteActual(pedidoActual.codigoCliente);
+	const formateoFecha = new Date(pedidoActual.fechaEntrega);
 	const agregarPedidoAlListado = useCallback(() => {
-		if (
-			validarMontoMinimoPedido(
-				totalPedido.totalPrecio,
-				clienteActual.configuracionPedido
-			)
-		) {
-			dispatch(
-				agregarPedidoCliente({
-					codigoCliente: pedidoActual.codigoCliente,
-					productosPedido: pedidoActual.productosPedido,
-				})
+		const clienteActual = obtenerClienteActual(pedidoActual.codigoCliente);
+		const pedidosCliente: TPedidoClienteParaEnviar[] | undefined =
+			PedidosClientes[pedidoActual.codigoCliente];
+		const esValidoMontoMinidoPedido: boolean = validarMontoMinimoPedido(
+			totalPedido.totalPrecio,
+			clienteActual.configuracionPedido
+		);
+
+		let pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[] = [];
+		if (pedidosCliente) {
+			pedidosClienteMismaFechaEntrega = pedidosCliente.filter(
+				(pedidoCliente: TPedidoClienteParaEnviar) =>
+					pedidoCliente.fechaEntrega === pedidoActual.fechaEntrega
 			);
-			dispatch(resetearPedidoActual({}));
-			setExisteCliente(null);
-			setValue('codigoCliente', '');
-			setAvisoPedidoGuardadoExitoso(true);
-			//no se recetea pedido actual?
-		} else {
-			setParametrosDialogo({
-				mensaje: t('advertencias.pedidoMinimo', {
+		}
+
+		const esMenorAlMontoMaximo: boolean = validarTotalConMontoMaximo(
+			totalPedido.totalPrecio,
+			pedidosClienteMismaFechaEntrega,
+			clienteActual.configuracionPedido.montoVentaMaxima
+		);
+
+		if (
+			!esValidoMontoMinidoPedido &&
+			pedidosClienteMismaFechaEntrega.length === 0
+		) {
+			mostrarAdvertenciaEnDialogo(
+				t('advertencias.pedidoMinimo', {
 					monto: clienteActual.configuracionPedido.montoVentaMinima,
 				}),
-				manejadorClick: () => setMostarDialogo(false),
-				conBotonCancelar: false,
-			});
-			setMostarDialogo(true);
+				'pedido-minimo'
+			);
+			return;
 		}
-	}, [pedidoActual, totalPedido, clienteActual, t]);
+
+		if (!esMenorAlMontoMaximo) {
+			mostrarAdvertenciaEnDialogo(
+				t('advertencias.masDelMontoMaximo', {
+					fechaDeEntrega:
+						formateoFecha.getDate() +
+						'-' +
+						formateoFecha.getMonth() +
+						'-' +
+						formateoFecha.getFullYear(),
+					montoVentaMaxima: clienteActual.configuracionPedido.montoVentaMaxima,
+				}),
+				'monto-maximo'
+			);
+			return;
+		}
+
+		dispatch(agregarPedidoCliente(pedidoActual));
+		setAvisoPedidoGuardadoExitoso(true);
+		resetPedidoActual();
+	}, [pedidoActual, totalPedido, t, mostrarAdvertenciaEnDialogo]);
 	return agregarPedidoAlListado;
 };

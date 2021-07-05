@@ -1,20 +1,15 @@
 import {TableBody, TableCell, TableRow} from '@material-ui/core';
-import {
-	TPrecio,
-	TPrecioProducto,
-	TPreciosProductos,
-	TProductoPedidoConPrecios,
-} from 'models';
+import {TPrecio, TPrecioProducto, TPrecioSinVigencia} from 'models';
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {useAppSelector} from 'redux/hooks';
-import {obtenerPrecioConImpuestoUnidad} from 'utils/validaciones';
+import {obtenerPrecioConImpuestoUnidad} from 'utils/methods';
 
 import {Celda} from './Celda';
 
 type PropsCuerpo = {
-	asignarProductoActual: (producto: TProductoPedidoConPrecios) => void;
+	asignarProductoActual: (producto: TPrecioSinVigencia) => void;
 	estilos: any; // TODO: Buscar como mejorar esto para recibir los estilos como propiedad
-	filas: TPreciosProductos;
+	filas: TPrecioProducto[];
 };
 
 const obtenerNombreYCodigo = (producto: TPrecioProducto) => {
@@ -22,7 +17,7 @@ const obtenerNombreYCodigo = (producto: TPrecioProducto) => {
 };
 
 const obtenerPrecio = (precio: number) => {
-	return `$ ${precio}`;
+	return `$ ${precio.toFixed(2)}`;
 };
 
 export const Cuerpo = ({
@@ -46,31 +41,27 @@ export const Cuerpo = ({
 						key={producto.codigoProducto}
 						onClick={() =>
 							asignarProductoActual({
-								//TODO: Esto hay que mirarlo a fondo
 								codigoProductoConNombre: `${producto.codigoProducto} ${producto.nombre}`,
-								codigo:0,
-								nombre:'',
-								unidades: 0,
-								subUnidades: 0,
 								precioConImpuestoUnidad: precios.precioConImpuestoUnidad,
 								precioConImpuestoSubunidad: precios.precioConImpuestoSubunidad,
 							})
 						}
 						data-cy={`producto-tabla-${i}`}
 					>
+						<Celda estilos={estilos} width='20' align='left'>
+							{producto.codigoProducto.toString()}
+						</Celda>
 						<Celda
 							estilos={estilos}
-							texto={producto.codigoProducto.toString()}
-						></Celda>
-						<Celda
-							estilos={estilos}
-							texto={producto.nombre}
 							resumirTexto={true}
-						/>
-						<Celda
-							estilos={estilos}
-							texto={obtenerPrecio(precios.precioConImpuestoUnidad)}
-						/>
+							width='55'
+							align='left'
+						>
+							{producto.nombre}
+						</Celda>
+						<Celda estilos={estilos} width='25' align='right'>
+							{obtenerPrecio(precios.precioConImpuestoUnidad)}
+						</Celda>
 					</TableRow>
 				) : (
 					<></>

@@ -1,64 +1,45 @@
-import {Dispatch, SetStateAction, useCallback} from 'react';
+import {useCallback} from 'react';
 import {useAppDispatch} from 'redux/hooks';
 import {
 	agregarProductoAlPedidoDelCliente,
 	borrarProductoDelPedidoDelCliente,
 } from 'redux/features/pedidoActual/pedidoActualSlice';
-import {
-	TInputsFormularioAgregarProducto,
-	TProductoPedidoConPrecios,
-} from 'models';
-import {UseFormSetValue} from 'react-hook-form';
+import {TInputsFormularioAgregarProducto, TPrecioSinVigencia} from 'models';
 
 export const useAgregarProductoAlPedidoCliente = (
-	productoActual: TProductoPedidoConPrecios,
-	setProductoActual: Dispatch<SetStateAction<TProductoPedidoConPrecios>>,
-	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>
+	productoActual: TPrecioSinVigencia,
+	resetLineaActual: () => void
 ) => {
 	const dispatch = useAppDispatch();
 	const agregarProductoAlPedidoCliente = useCallback(
 		({
-			codigoCliente,
 			unidades,
 			subUnidades,
 			codigoProductoConNombre,
 		}: TInputsFormularioAgregarProducto) => {
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
-			const subUnidadesParseado: number = subUnidades !== '' ? parseInt(subUnidades) : 0;
+			const subUnidadesParseado: number =
+				subUnidades !== '' ? parseInt(subUnidades) : 0;
+			const codigoProducto: number = parseInt(
+				codigoProductoConNombre.split(' ')[0]
+			);
+			const nombreProducto: string = codigoProductoConNombre.substring(
+				codigoProducto.toString().length + 1
+			);
 			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
 				dispatch(
 					agregarProductoAlPedidoDelCliente({
-						productoPedido: {
-							codigoProductoConNombre: codigoProductoConNombre,
-							unidades: unidadesParseado,
-							subUnidades: subUnidadesParseado,
-							total:
-								productoActual.precioConImpuestoUnidad * unidadesParseado +
-								productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
-						},
-						codigoCliente: codigoCliente,
+						codigoProducto: codigoProducto,
+						nombreProducto: nombreProducto,
+						unidades: unidadesParseado,
+						subUnidades: subUnidadesParseado,
+						total:
+							productoActual.precioConImpuestoUnidad * unidadesParseado +
+							productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
 					})
 				);
-			} else {
-				dispatch(
-					borrarProductoDelPedidoDelCliente({
-						codigoProductoConNombre: codigoProductoConNombre,
-						codigoCliente: codigoCliente,
-					})
-				);
-			}
-			setProductoActual({
-				codigoProductoConNombre: '',
-				codigo:0,
-				nombre:'',
-				unidades: 0,
-				subUnidades: 0,
-				precioConImpuestoUnidad: 0,
-				precioConImpuestoSubunidad: 0,
-			});
-			setValue('codigoProductoConNombre', '');
-			setValue('unidades', '');
-			setValue('subUnidades', '');
+			} else dispatch(borrarProductoDelPedidoDelCliente(codigoProducto));
+			resetLineaActual();
 		},
 		[productoActual]
 	);

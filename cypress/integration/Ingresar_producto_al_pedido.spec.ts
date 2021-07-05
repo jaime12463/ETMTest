@@ -1,7 +1,8 @@
 describe('Ingresar producto al pedido', () => {
 	beforeEach(() => {
-		cy.intercept('GET', '/femsa/tomapedidos').as('data');
-		cy.visit('/?fecha=2021/06/17');
+		cy.datosDB({});
+		cy.intercept('GET', '/femsa/configuracion').as('dataConfig');
+		cy.visit('/');
 		cy.on('uncaught:exception', (err, runnable) => {
 			console.log(err);
 			return false;
@@ -12,7 +13,8 @@ describe('Ingresar producto al pedido', () => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
 			cy.wait('@data');
-			cy.get(`[data-cy=codigo-cliente]`).type('120104325{enter}');
+			cy.wait('@dataConfig');
+			cy.get(`[data-cy=codigo-cliente]`).type('234{enter}');
 			cy.get('[data-cy=codigo-producto]').type('1860');
 			cy.get('[data-cy=producto-tabla-0]').click();
 			cy.get('[data-cy=cantidad-producto-unidades]').should('have.value', ''); // Revisar
@@ -23,7 +25,8 @@ describe('Ingresar producto al pedido', () => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
 			cy.get(element.splash.logoBox).click();
 			cy.wait('@data');
-			cy.get(`[data-cy=codigo-cliente]`).type('120104325{enter}');
+			cy.wait('@dataConfig');
+			cy.get(`[data-cy=codigo-cliente]`).type('234{enter}');
 			cy.get('[data-cy=codigo-producto]').type('1860');
 			cy.get('[data-cy=producto-tabla-0]').click();
 			cy.get('[data-cy=cantidad-producto-unidades]').type('10{enter}');

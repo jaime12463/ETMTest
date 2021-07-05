@@ -1,6 +1,7 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {
+	Box,
 	Table,
 	TableBody,
 	TableCell,
@@ -11,6 +12,7 @@ import {
 import {useAppSelector} from 'redux/hooks';
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import useEstilos from './useEstilos';
+import {Celda} from 'components/Table/Celda';
 
 const DetallePedido: React.FC = () => {
 	const estilos = useEstilos();
@@ -23,29 +25,55 @@ const DetallePedido: React.FC = () => {
 				<TableHead>
 					<TableRow>
 						{[
-							t('general.producto'),
+							t('general.codigo'),
+							t('general.nombre'),
 							t('general.unidades'),
 							t('general.subUnidades'),
 						].map((column) => (
-							<TableCell key={column} className={estilos.alignment}>
-								{column}
+							<TableCell key={column} padding='none' align='left'>
+								<Box my={1} mx={1}>
+									{column}
+								</Box>
 							</TableCell>
 						))}
 					</TableRow>
 				</TableHead>
 				<TableBody>
 					{productosPedido.map((producto) => (
-						<TableRow key={producto.codigoProductoConNombre}>
-							<TableCell className={estilos.alignment}>
-								{producto.codigoProductoConNombre}
-							</TableCell>
-						
-							<TableCell className={estilos.alignment}>
+						<TableRow key={producto.codigoProducto} hover>
+							<Celda
+								estilos={estilos}
+								width='15'
+								align='left'
+								dataCy='detalle-codigo-producto'
+							>
+								{producto.codigoProducto}
+							</Celda>
+							<Celda
+								estilos={estilos}
+								width='45'
+								align='left'
+								dataCy='detalle-nombre-producto'
+								resumirTexto={true}
+							>
+								{producto.nombreProducto}
+							</Celda>
+							<Celda
+								estilos={estilos}
+								width='15'
+								align='right'
+								dataCy='detalle-unidades-producto'
+							>
 								{producto.unidades}
-							</TableCell>
-							<TableCell className={estilos.alignment}>
+							</Celda>
+							<Celda
+								estilos={estilos}
+								width='15'
+								align='right'
+								dataCy='detalle-subUnidades-producto'
+							>
 								{producto.subUnidades}
-							</TableCell>
+							</Celda>
 						</TableRow>
 					))}
 				</TableBody>

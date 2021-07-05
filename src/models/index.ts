@@ -12,6 +12,7 @@ export type TProductos = {
 };
 
 export type TCliente = {
+	codigoCliente: string;
 	visitasPlanificadas: TVisitaPlanificada[];
 	fechasEntrega: TFechaEntrega[];
 	detalles: TDetalle;
@@ -20,8 +21,10 @@ export type TCliente = {
 };
 
 export type TProducto = {
+	codigoProducto: number;
 	nombre: string;
 	presentacion: number;
+	subunidadesVentaMinima: number;
 };
 
 export type TVisitaPlanificada = {
@@ -36,6 +39,7 @@ export type TFechaEntrega = {
 
 export type TConfiguracionPedido = {
 	montoVentaMinima?: number;
+	montoVentaMaxima: number;
 	cantidadMaximaUnidades?: number;
 };
 
@@ -59,37 +63,35 @@ export type TPrecio = {
 };
 
 export type TPedidosClientes = {
-	[codigoCliente: string]: TProductosPedidos;
+	[codigoCliente: string]: TPedidoClienteParaEnviar[];
+};
+
+export type TPedidoClienteParaEnviar = {
+	fechaEntrega: string;
+	productosPedido: TProductoPedido[];
+	enviado: boolean;
 };
 
 export type TPedidoCliente = {
 	codigoCliente: string;
-	productosPedido: TProductosPedidos;
 	fechaEntrega: string;
+	razonSocial: string;
+	productosPedido: TProductoPedido[];
 };
 
 export type TProductoPedido = {
-	codigoProductoConNombre: string;
-	codigo : number;
-	nombre: string;
+	codigoProducto: number;
+	nombreProducto: string;
 	unidades: number;
 	subUnidades: number;
 	total: number;
 };
 
-export type TProductosPedidos = TProductoPedido[];
-
-export type TProductoPedidoConPrecios = {
+export type TPrecioSinVigencia = {
 	codigoProductoConNombre: string;
-	codigo : number;
-	nombre: string;
-	unidades: number;
-	subUnidades: number;
 	precioConImpuestoUnidad: number;
 	precioConImpuestoSubunidad: number;
 };
-
-export type TPreciosProductos = TPrecioProducto[];
 
 export type TPrecioProducto = {
 	codigoProducto: number;
@@ -99,10 +101,8 @@ export type TPrecioProducto = {
 };
 
 export type TDatosConfiguracion = {
-	configuraciones: TConfiguraciones;
+	configuraciones: TConfiguracion[];
 };
-
-export type TConfiguraciones = TConfiguracion[];
 
 export type TConfiguracion = {
 	esFrecuenciaAbierta: boolean;
@@ -121,4 +121,24 @@ export type TTotalPedido = {
 	totalUnidades: number;
 	totalSubUnidades: number;
 	totalPrecio: number;
+};
+
+export type TFunctionMostarAvertenciaPorDialogo = (
+	mensaje: string,
+	dataCy: string,
+	manejadorClick?: (oprimioBotonAceptar: boolean) => void,
+	textosBotonesDefault?: {
+		aceptar: string;
+		cancelar: string;
+	}
+) => void;
+
+export type TValidacionFechaEntrega = {
+	esValidaFechaEntrega: boolean;
+	fechaEntrega: string;
+};
+
+export type TValidacionFechaVisita = {
+	esValidaVisitaPlanificada: boolean;
+	fechaVisitaPlanificada: string;
 };

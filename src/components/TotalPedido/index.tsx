@@ -9,11 +9,11 @@ import {Grid} from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
 import {TTotalPedido} from 'models';
 import useEstilos from './useEstilos';
-import { useCalcularTotalPedido } from 'hooks';
+import {useCalcularTotalPedido} from 'hooks';
 
 export type Props = {};
 
-const TarjetaPedido = ({}: Props) => {
+const TotalPedido = ({}: Props) => {
 	let history = useHistory();
 	let {path} = useRouteMatch();
 	const estilos = useEstilos();
@@ -21,7 +21,7 @@ const TarjetaPedido = ({}: Props) => {
 	const totalPedido: TTotalPedido = useCalcularTotalPedido();
 
 	return (
-		<Card className={estilos.root}>
+		<Card className={estilos.root} data-cy={'tarjeta-pedido'}>
 			<CardContent className={estilos.sectionCardInfo}>
 				<Grid container>
 					<Grid item xs={6}>
@@ -31,7 +31,7 @@ const TarjetaPedido = ({}: Props) => {
 					</Grid>
 					<Grid item xs={6}>
 						<Typography
-							data-cy='cantidad-productos-pedido'
+							data-cy='total-unidades-pedido'
 							component='b'
 							display='block'
 							gutterBottom
@@ -46,7 +46,7 @@ const TarjetaPedido = ({}: Props) => {
 					</Grid>
 					<Grid item xs={6}>
 						<Typography
-							data-cy='cantidad-productos-pedido'
+							data-cy='total-subUnidades-pedido'
 							component='b'
 							display='block'
 							gutterBottom
@@ -60,7 +60,12 @@ const TarjetaPedido = ({}: Props) => {
 						</Typography>
 					</Grid>
 					<Grid item xs={6}>
-						<Typography component='b' display='block' gutterBottom>
+						<Typography
+							component='b'
+							display='block'
+							gutterBottom
+							data-cy='total-monto-pedido'
+						>
 							$ {Number(totalPedido.totalPrecio).toFixed(2)}
 						</Typography>
 					</Grid>
@@ -70,6 +75,7 @@ const TarjetaPedido = ({}: Props) => {
 				<Button
 					variant='contained'
 					color='secondary'
+					data-cy='boton-detalle-pedido'
 					onClick={() => history.push(`${path}/detalle`)}
 				>
 					{t('general.verDetalle').toUpperCase()}
@@ -79,4 +85,4 @@ const TarjetaPedido = ({}: Props) => {
 	);
 };
 
-export default TarjetaPedido;
+export default TotalPedido;

@@ -1,94 +1,131 @@
 import {Dispatch, SetStateAction, useCallback} from 'react';
 import {useAppDispatch, useAppSelector} from 'redux/hooks';
-
-import {
-	agregarProductosAlPedidoDelCliente,
-	cambiarClienteActual,
-	cambiarFechaEntrega,
-} from 'redux/features/pedidoActual/pedidoActualSlice';
+import {inicializarPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
 	TCliente,
 	TConfiguracion,
+	TFunctionMostarAvertenciaPorDialogo,
 	TInputsFormularioAgregarProducto,
-	TPreciosProductos,
+	TPrecioProducto,
+	TValidacionFechaEntrega,
+	TValidacionFechaVisita,
 } from 'models';
-import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente} from '.';
-import {establecerFechaEntrega, verificarFrecuencia} from 'utils/methods';
+import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente, useObtenerPedidosDelCliente} from '.';
 import {selectPedidosClientes} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
+import {
+	validarObtenerFechaEntrega,
+	validarObtenerVisitaPlanificada,
+	validarObtenerVisitaPlanificadaPosterior,
+} from 'utils/validaciones';
+import {useTranslation} from 'react-i18next';
 
 export const useAsignarPedidoActual = (
-	setExisteCliente: Dispatch<SetStateAction<boolean | null>>,
-	setRazonSocial: Dispatch<SetStateAction<string>>,
-	setPreciosProductos: Dispatch<SetStateAction<TPreciosProductos>>,
-	setFrecuenciaValida: Dispatch<SetStateAction<boolean | null>>
+	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	resetPedidoActual: () => void,
+	setPedidosCliente: Dispatch<SetStateAction<number>>
 ) => {
 	const dispatch = useAppDispatch();
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
-	const obtenerClienteActual = useObtenerClienteActual();
-	const obtenerConfiguracionActual = useObtenerConfiguracionActual();
-	const pedidosClientes = useAppSelector(selectPedidosClientes);
 
+	const obtenerPedidosDelCliente = useObtenerPedidosDelCliente();
+
+	const obtenerClienteActual = useObtenerClienteActual();
+	const configuracionActual = useObtenerConfiguracionActual();
+	const pedidosClientes = useAppSelector(selectPedidosClientes);
+	const {t} = useTranslation();
 	const asignarPedidoActual = useCallback(
 		({codigoCliente}: TInputsFormularioAgregarProducto) => {
 			const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
 				codigoCliente
 			);
-			const configuracionActual:
-				| TConfiguracion
-				| undefined = obtenerConfiguracionActual();
-			if (clienteEncontrado) {
-				const frecuenciaValida = verificarFrecuencia(clienteEncontrado, configuracionActual);
-				const fechaEntrega: string | undefined = establecerFechaEntrega(
-					clienteEncontrado.fechasEntrega
+			const {esFrecuenciaAbierta}: TConfiguracion = configuracionActual;
+			if (!clienteEncontrado) {
+				resetPedidoActual();
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.clienteNoPortafolio'),
+					'clienteNoPortafolio'
 				);
-				if (frecuenciaValida || fechaEntrega) {
-					
-					setFrecuenciaValida(true);
-					setExisteCliente(true);
-					dispatch(cambiarClienteActual({codigoCliente: codigoCliente}));
-					dispatch(
-						cambiarFechaEntrega({
-							fechaEntrega: fechaEntrega,
-						})
-					);
-					if (fechaEntrega) {
-						const preciosProductosDelCliente: TPreciosProductos = obtenerPreciosProductosDelCliente(
-							clienteEncontrado,
-							fechaEntrega
-						);
-						setRazonSocial(clienteEncontrado.detalles.nombreComercial);
-						setPreciosProductos(preciosProductosDelCliente);
-						if (pedidosClientes[codigoCliente]) {
-							dispatch(
-								agregarProductosAlPedidoDelCliente({productosPedido: pedidosClientes[codigoCliente]})
-							)
-						}
-						//TODO: Cuando se busque un cliente otra vez debe ir y buscar en la lista y ponerlo en pedido actual
-					} else {
-						setRazonSocial('');
-						setPreciosProductos([]);
-					}
-				} else {
-					setFrecuenciaValida(frecuenciaValida);
-					setExisteCliente(null);
-					setRazonSocial('');
-					setPreciosProductos([]);
-				}
-			} else {
-				setExisteCliente(false);
-				setFrecuenciaValida(null);
-				dispatch(cambiarClienteActual({codigoCliente: ''}));
-				dispatch(cambiarFechaEntrega({fechaEntrega: ''}));
-				setRazonSocial('');
-				setPreciosProductos([]);
+				return;
 			}
+
+			let visitaPlanificada: TValidacionFechaVisita;
+
+			if (esFrecuenciaAbierta) {
+				visitaPlanificada = validarObtenerVisitaPlanificadaPosterior(
+					clienteEncontrado.visitasPlanificadas
+				);
+			} else {
+				visitaPlanificada = validarObtenerVisitaPlanificada(
+					clienteEncontrado.visitasPlanificadas
+				);
+			}
+
+			const {
+				esValidaVisitaPlanificada,
+				fechaVisitaPlanificada,
+			} = visitaPlanificada;
+
+			if (!esValidaVisitaPlanificada && esFrecuenciaAbierta) {
+				resetPedidoActual();
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.fueraDeFrecuencia'),
+					'fuera-frecuencia'
+				);
+				return;
+			}
+
+			if (!esValidaVisitaPlanificada) {
+				resetPedidoActual();
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.fueraDeFrecuencia'),
+					'fuera-frecuencia'
+				);
+				return;
+			}
+
+			const {
+				esValidaFechaEntrega,
+				fechaEntrega,
+			}: TValidacionFechaEntrega = validarObtenerFechaEntrega(
+				fechaVisitaPlanificada,
+				clienteEncontrado.fechasEntrega
+			);
+
+			if (!esValidaFechaEntrega) {
+				resetPedidoActual();
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.noFechaProgramada'),
+					'no-fecha-programada'
+				);
+				return;
+			}
+
+			const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
+				clienteEncontrado,
+				fechaEntrega
+			);
+			dispatch(
+				inicializarPedidoActual({
+					codigoCliente,
+					fechaEntrega,
+					razonSocial: clienteEncontrado.detalles.nombreComercial,
+				})
+			);
+			setPreciosProductos(preciosProductosDelCliente);
+			const pedidosDelCliente: number = obtenerPedidosDelCliente(
+				pedidosClientes[clienteEncontrado.codigoCliente]
+			);
+			setPedidosCliente(pedidosDelCliente);
 		},
 		[
 			obtenerPreciosProductosDelCliente,
 			obtenerClienteActual,
-			obtenerConfiguracionActual,
+			mostrarAdvertenciaEnDialogo,
 			dispatch,
+			configuracionActual,
+			pedidosClientes,
 		]
 	);
 	return asignarPedidoActual;

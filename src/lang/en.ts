@@ -12,6 +12,7 @@ const en = {
 		verDetalle: 'View detail',
 		fechaEntrega: 'Delivery date',
 		codigo: 'Code',
+		nombre: 'Name',
 		razonSocial: 'Social reason',
 		denominacion: 'Denomination',
 		subunidades: 'Subunits',
@@ -20,6 +21,7 @@ const en = {
 		no: 'No',
 		aceptar: 'Accept',
 		cancelar: 'Cancel',
+		pedidosCliente: 'Orders placed: '
 	},
 	titulos: {
 		bienvenido: 'Welcome',
@@ -37,7 +39,11 @@ const en = {
 			'The subunits must be smaller than the presentation of product',
 		pedidoMinimo: 'does not fulfil minimum order of ${{monto}}',
 		montoMinimo: 'does not fulfil the minimum sale amount of the order',
-		subUnidadesNoPermitidas: "The subUnits is disabled for this product",
+		subUnidadesNoPermitidas: 'The subUnits is disabled for this product',
+		masDelMontoMaximo:
+			'The sum of the orders for the delivery date {{fechaDeEntrega}} exceeds the maximum amount for the customer $ {{montoVentaMaxima}}',
+		subUnidadesNoMultiplo:
+		'The subunits must be in multiples of {{subunidadesVentaMinima}}',
 	},
 };
 export default en;
