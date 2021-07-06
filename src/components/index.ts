@@ -3,13 +3,13 @@ import FormularioAgregarProducto from 'components/FormularioAgregarProducto';
 import Input from 'components/Input';
 import Rutas from 'components/Rutas';
 import TablaProductos from 'components/TablaProductos';
-import TarjetaPedido from 'components/TarjetaPedido';
+import TotalPedido from 'components/TotalPedido';
 
 export {
-    Estructura,
-    FormularioAgregarProducto,
-    Input,
-    Rutas,
-    TablaProductos,
-    TarjetaPedido,
-}
+	Estructura,
+	FormularioAgregarProducto,
+	Input,
+	Rutas,
+	TablaProductos,
+	TotalPedido,
+};

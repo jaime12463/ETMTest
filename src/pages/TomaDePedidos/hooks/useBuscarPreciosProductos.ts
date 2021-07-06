@@ -1,47 +1,51 @@
 import {Dispatch, SetStateAction, useCallback} from 'react';
 import {
-	TPreciosProductos,
+	TPrecioProducto,
 	TCliente,
 	TInputsFormularioAgregarProducto,
-	TPrecioProducto,
 } from 'models';
 import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente} from '.';
-import {establecerFechaEntrega} from 'utils/methods';
+import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
+import {useAppSelector} from 'redux/hooks';
 
 export const useBuscarPreciosProductos = (
-	preciosProductos: TPreciosProductos,
-	setPreciosProductos: Dispatch<SetStateAction<TPreciosProductos>>
+	preciosProductos: TPrecioProducto[],
+	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>
 ) => {
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
 	const obtenerClienteActual = useObtenerClienteActual();
+	const pedidoActual = useAppSelector(selectPedidoActual);
 	const buscarPreciosProductos = useCallback(
 		({codigoCliente, productoABuscar}: TInputsFormularioAgregarProducto) => {
-			const preciosProductosFiltrados: TPreciosProductos = preciosProductos.filter(
+			const preciosProductosFiltrados: TPrecioProducto[] = preciosProductos.filter(
 				(precioProducto: TPrecioProducto) =>
 					precioProducto.codigoProducto.toString().includes(productoABuscar) ||
 					precioProducto.nombre
 						.toLowerCase()
 						.includes(productoABuscar.toLowerCase())
 			);
-			if (productoABuscar === '') {
-				const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
-					codigoCliente
-				);
-				if (clienteEncontrado) {
-					const fechaEntrega: string | undefined = establecerFechaEntrega(
-						clienteEncontrado.fechasEntrega
-					);
-					if (fechaEntrega) {
-						const preciosProductosDelCliente: TPreciosProductos = obtenerPreciosProductosDelCliente(
-							clienteEncontrado,
-							fechaEntrega
-						);
-						setPreciosProductos(preciosProductosDelCliente);
-					}
-				}
-			} else setPreciosProductos(preciosProductosFiltrados);
+			if (productoABuscar !== '') {
+				setPreciosProductos(preciosProductosFiltrados);
+				return;
+			}
+			const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
+				codigoCliente
+			);
+			if (!clienteEncontrado) return;
+			const fechaEntrega: string = pedidoActual.fechaEntrega;
+			if (!fechaEntrega) return;
+			const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
+				clienteEncontrado,
+				fechaEntrega
+			);
+			setPreciosProductos(preciosProductosDelCliente);
 		},
-		[preciosProductos, obtenerPreciosProductosDelCliente, obtenerClienteActual]
+		[
+			preciosProductos,
+			obtenerPreciosProductosDelCliente,
+			obtenerClienteActual,
+			pedidoActual,
+		]
 	);
 	return buscarPreciosProductos;
 };

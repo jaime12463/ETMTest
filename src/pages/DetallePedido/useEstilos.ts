@@ -1,11 +1,18 @@
-import { makeStyles } from "@material-ui/core";
+import {makeStyles} from '@material-ui/core';
 const useEstilos = makeStyles({
-    container: {
-        marginTop: 12,
-        maxHeight: 300,
-    },
-    alignment: {
-        textAlign: "center",
-    },
+	container: {
+		marginTop: 12,
+		maxHeight: 300,
+	},
+	alignment: {
+		textAlign: 'center',
+	},
+	text: {
+		whiteSpace: 'nowrap',
+		textOverflow: 'ellipsis',
+		width: '7rem',
+		display: 'inline block',
+		overflow: 'hidden',
+	},
 });
 export default useEstilos;

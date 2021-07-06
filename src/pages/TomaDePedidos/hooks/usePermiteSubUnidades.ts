@@ -1,24 +1,33 @@
-import { TConfiguracion, TPortafolio } from 'models';
-import { useCallback } from 'react';
-import { useAppSelector } from 'redux/hooks';
-import { selectConfiguracion } from 'redux/features/configuracion/configuracionSlice';
-import { selectDatos } from 'redux/features/datos/datosSlice';
-import { validarVentaSubUnidades } from 'utils/validaciones';
+import {TCliente, TPortafolio} from 'models';
+import {useCallback} from 'react';
+import {validarVentaSubUnidades} from 'utils/validaciones';
+import {useObtenerClienteActual} from '.';
+import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
 
 export const usePermiteSubUnidades = () => {
-    const { datos } = useAppSelector(selectDatos);
-    const { datos: { configuraciones } } = useAppSelector(selectConfiguracion);
-    const permiteSubUnidades = useCallback((codigoCliente: string, codigoProducto: number) => {
-        const portafolioProducto: TPortafolio | undefined
-            = datos.clientes[codigoCliente].portafolio.find(
-                (productoPortafolio) =>
-                    productoPortafolio.codigoProducto === codigoProducto
-            )
-        const esPermitidoSubUnidades = validarVentaSubUnidades(
-            configuraciones[0].esVentaSubunidadesRuta,
-            portafolioProducto?.esVentaSubunidades ?? false
-        );
-        return esPermitidoSubUnidades;
-    }, [configuraciones, datos]);
-    return permiteSubUnidades;
+	const configuracionActual = useObtenerConfiguracionActual();
+	const obtenerClienteActual = useObtenerClienteActual();
+	const permiteSubUnidades = useCallback(
+		(codigoCliente: string, codigoProducto: number): boolean => {
+			const clienteActual: TCliente | undefined = obtenerClienteActual(
+				codigoCliente
+			);
+			if (clienteActual) {
+				const portafolioProducto:
+					| TPortafolio
+					| undefined = clienteActual.portafolio.find(
+					(productoPortafolio) =>
+						productoPortafolio.codigoProducto === codigoProducto
+				);
+				const esPermitidoSubUnidades = validarVentaSubUnidades(
+					configuracionActual.esVentaSubunidadesRuta,
+					portafolioProducto?.esVentaSubunidades ?? false
+				);
+				return esPermitidoSubUnidades;
+			}
+			return false;
+		},
+		[configuracionActual, obtenerClienteActual]
+	);
+	return permiteSubUnidades;
 };

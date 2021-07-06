@@ -1,6 +1,6 @@
 import {Dispatch, SetStateAction, useCallback} from 'react';
 import {
-	TProductoPedidoConPrecios,
+	TPrecioSinVigencia,
 	TProductoPedido,
 	TPedidoCliente,
 	TInputsFormularioAgregarProducto,
@@ -10,7 +10,7 @@ import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice'
 import {UseFormSetValue} from 'react-hook-form';
 
 export const useAsignarProductoActual = (
-	setProductoActual: Dispatch<SetStateAction<TProductoPedidoConPrecios>>,
+	setProductoActual: Dispatch<SetStateAction<TPrecioSinVigencia>>,
 	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>
 ) => {
 	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
@@ -19,41 +19,36 @@ export const useAsignarProductoActual = (
 			codigoProductoConNombre,
 			precioConImpuestoUnidad,
 			precioConImpuestoSubunidad,
-		}: TProductoPedidoConPrecios) => {
-			let nuevoProductoActual: TProductoPedidoConPrecios = {
-				codigoProductoConNombre,
-				codigo:0,
-				nombre:'',
-				unidades: 0,
-				subUnidades: 0,
-				precioConImpuestoUnidad: precioConImpuestoUnidad,
-				precioConImpuestoSubunidad: precioConImpuestoSubunidad,
-			};
+		}: TPrecioSinVigencia) => {
+			const codigoProducto: number = parseInt(
+				codigoProductoConNombre.split(' ')[0]
+			);
 			const productoActualEncontrado:
 				| TProductoPedido
 				| undefined = pedidoActual.productosPedido.find(
 				(productoPedido: TProductoPedido) =>
-					productoPedido.codigoProductoConNombre === codigoProductoConNombre
+					productoPedido.codigoProducto === codigoProducto
 			);
+			let unidadesParseado: string = '';
+			let subUnidadesParseado: string = '';
 			if (productoActualEncontrado) {
-				nuevoProductoActual = {
-					...productoActualEncontrado,
-					precioConImpuestoUnidad,
-					precioConImpuestoSubunidad,
-				};
+				unidadesParseado =
+					productoActualEncontrado.unidades !== 0
+						? productoActualEncontrado.unidades.toString()
+						: '';
+				subUnidadesParseado =
+					productoActualEncontrado.subUnidades !== 0
+						? productoActualEncontrado.subUnidades.toString()
+						: '';
 			}
-			const unidadesParseado: string =
-				nuevoProductoActual.unidades !== 0
-					? nuevoProductoActual.unidades.toString()
-					: '';
-			const subUnidadesParseado: string =
-				nuevoProductoActual.subUnidades !== 0
-					? nuevoProductoActual.subUnidades.toString()
-					: '';
 			setValue('codigoProductoConNombre', codigoProductoConNombre);
 			setValue('unidades', unidadesParseado);
 			setValue('subUnidades', subUnidadesParseado);
-			setProductoActual(nuevoProductoActual);
+			setProductoActual({
+				codigoProductoConNombre,
+				precioConImpuestoUnidad,
+				precioConImpuestoSubunidad,
+			});
 		},
 		[pedidoActual]
 	);

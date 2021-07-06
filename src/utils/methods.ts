@@ -1,4 +1,4 @@
-import {TCliente, TConfiguracion, TFechaEntrega} from 'models';
+import {TPedidoClienteParaEnviar, TPrecio} from 'models';
 
 export const transformDate = (date: string): string =>
 	`${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}`;
@@ -9,30 +9,44 @@ export const darFormatoFecha = (fecha: string): string => {
 	return stringFecha;
 };
 
-export const fechaDispositivo = (): String => {
+export const fechaDispositivo = (): string => {
 	let fechaDispositivo: string | null = localStorage.getItem('fechaDipostivo');
 
-	const fecha: String = fechaDispositivo
+	const fecha: string = fechaDispositivo
 		? new Date(fechaDispositivo).toISOString().split('T')[0]
 		: new Date().toISOString().split('T')[0];
 
 	return fecha;
 };
 
-// TODO: Verificar este método ya que la fecha del sistema no debe estar hardcodeada
-export const establecerFechaEntrega = (fechasEntrega: TFechaEntrega[]) => {
-	const fechaEncontrada = fechasEntrega.find(
-		({fechaVisita}) =>
-			new Date(fechaVisita).toISOString().split('T')[0] === fechaDispositivo()
-	);
+export const obtenerTotalesPedidosCliente = (
+	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[]
+): number => {
+	let totalPedidosMismaFecha = 0;
+	if (pedidosClienteMismaFechaEntrega.length !== 0) {
+		totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
+			(acum: any, pedido: any) => {
+				for (let valor of pedido.productosPedido) {
+					acum += valor.total;
+				}
+				return acum;
+			},
+			0
+		);
+	}
 
-	return fechaEncontrada && fechaEncontrada.fechaEntrega;
+	return totalPedidosMismaFecha;
 };
 
-// TODO: Verificar metodo para ver zona horaria
-export const verificarFrecuencia = (
-	clienteEncontrado: TCliente,
-	configuracionActual: TConfiguracion
+export const obtenerPrecioConImpuestoUnidad = (
+	preciosProductos: TPrecio[],
+	fechaEntrega: string
 ) => {
-	return configuracionActual.esFrecuenciaAbierta;
+	const resultado = preciosProductos.find(
+		(precio) =>
+			new Date(precio['vigenciaInicioPrecio']) <= new Date(fechaEntrega) &&
+			new Date(precio['vigenciaFinPrecio']) >= new Date(fechaEntrega)
+	);
+
+	return resultado;
 };

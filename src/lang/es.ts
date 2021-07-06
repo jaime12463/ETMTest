@@ -12,6 +12,7 @@ const es = {
 		verDetalle: 'Ver Detalle',
 		fechaEntrega: 'Fecha de entrega',
 		codigo: 'Código',
+		nombre: 'Nombre',
 		razonSocial: 'Razón social',
 		denominacion: 'Denominación',
 		subunidades: 'Subunidades',
@@ -20,6 +21,7 @@ const es = {
 		no: 'No',
 		aceptar: 'Aceptar',
 		cancelar: 'Cancelar',
+		pedidosCliente: 'Pedidos efectuados: ',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',
@@ -38,6 +40,10 @@ const es = {
 		montoMinimo: 'No cumple con el monto mínimo de venta del pedido',
 		subUnidadesNoPermitidas:
 			'Las subunidades no están habilitadas para este producto',
+		masDelMontoMaximo:
+			'La suma de los pedidos para la fecha de entrega {{fechaDeEntrega}} excede el monto máximo para el cliente $ {{montoVentaMaxima}}',
+		subUnidadesNoMultiplo:
+			'Las subunidades debe ser en múltiplos de {{subunidadesVentaMinima}}',
 	},
 };
 export default es;

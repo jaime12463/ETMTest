@@ -22,12 +22,23 @@ steps:
     npm run build
   displayName: 'npm install and build'
 
+- script: |
+    npm run ci
+  displayName: 'npm run ci'
+
 - task: CopyFiles@2
   inputs:
     Contents: 'build/**' # Pull the build directory (React)
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
-  inputs:
+  displayName: Omnicanal-TomaPedido-Files
+  inputs: 
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'Omnicanal-TomaPedido'
+    ArtifactName: 'Omnicanal-TomaPedido-Files'
+
+- task: PublishBuildArtifacts@1
+  displayName: Omnicanal-TomaPedido-Test
+  inputs:
+    PathtoPublish: 'cypress/videos'
+    ArtifactName: 'Omnicanal-TomaPedido-Test'

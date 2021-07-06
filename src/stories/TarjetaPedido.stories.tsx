@@ -1,12 +1,11 @@
-
 import {Story, Meta} from '@storybook/react';
 import {MemoryRouter} from 'react-router';
 
-import TarjetaPedido, {Props} from '../components/TarjetaPedido';
+import TotalPedido, {Props} from '../components/TotalPedido';
 
 export default {
-	title: 'Componentes/TarjetaPedido',
-	component: TarjetaPedido,
+	title: 'Componentes/TotalPedido',
+	component: TotalPedido,
 	decorators: [
 		(Story: any) => (
 			<MemoryRouter>
@@ -16,7 +15,7 @@ export default {
 	], //Wrapping the story inside the router
 };
 
-const Template: Story<Props> = (args) => <TarjetaPedido {...args} />;
+const Template: Story<Props> = (args) => <TotalPedido {...args} />;
 
 export const Primero = Template.bind({});
 Primero.args = {};

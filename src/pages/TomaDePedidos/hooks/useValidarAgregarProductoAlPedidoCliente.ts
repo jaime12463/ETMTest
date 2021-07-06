@@ -1,47 +1,31 @@
 import {
 	TCliente,
 	TInputsFormularioAgregarProducto,
-	TPortafolio,
 	TProducto,
-	TProductoPedidoConPrecios,
+	TFunctionMostarAvertenciaPorDialogo,
 } from 'models';
-import { Dispatch, SetStateAction, useCallback } from 'react';
-import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
-import { validarSubUnidadesConPresentacion, validarUnidadesMinimasProducto, validarVentaSubUnidades } from 'utils/validaciones';
+import {useCallback} from 'react';
 import {
-	useAgregarProductoAlPedidoCliente,
-	useManejadorConfirmarAgregarPedido,
-	useObtenerClienteActual,
-} from '.';
-import { Props as PropsDialogo } from 'components/Dialogo';
-import { useTranslation } from 'react-i18next';
-import { useAppSelector } from 'redux/hooks';
-import { selectDatos } from 'redux/features/datos/datosSlice';
-import { usePermiteSubUnidades } from '.';
+	validarSubUnidadesConPresentacion,
+	validarSubUnidadesEsMultiplo,
+	validarUnidadesMinimasProducto,
+} from 'utils/validaciones';
+import {useObtenerClienteActual} from '.';
+import {useTranslation} from 'react-i18next';
+import {useAppSelector} from 'redux/hooks';
+import {selectDatos} from 'redux/features/datos/datosSlice';
+import {usePermiteSubUnidades} from '.';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
-	setMostarDialogo: Dispatch<SetStateAction<boolean>>,
-	setParametrosDialogo: Dispatch<SetStateAction<PropsDialogo>>,
-	productoActual: TProductoPedidoConPrecios,
-	setProductoActual: Dispatch<SetStateAction<TProductoPedidoConPrecios>>,
-	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
-	getValues: UseFormGetValues<TInputsFormularioAgregarProducto>
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	manejadorConfirmarAgregarPedido: (oprimioBotonAceptar: boolean) => void,
+	agregarProductoAlPedidoCliente: (
+		inputs: TInputsFormularioAgregarProducto
+	) => void
 ) => {
-	const agregarProductoAlPedidoCliente = useAgregarProductoAlPedidoCliente(
-		productoActual,
-		setProductoActual,
-		setValue
-	);
-	const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido(
-		setMostarDialogo,
-		productoActual,
-		setProductoActual,
-		setValue,
-		getValues
-	);
-	const { t } = useTranslation();
+	const {t} = useTranslation();
 	const obtenerClienteActual = useObtenerClienteActual();
-	const { datos } = useAppSelector(selectDatos);
+	const {datos} = useAppSelector(selectDatos);
 	const permiteSubUnidades = usePermiteSubUnidades();
 	const validarAgregarProductoAlPedidoCliente = useCallback(
 		({
@@ -55,10 +39,18 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				codigoCliente
 			);
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
-			const subUnidadesParseado: number = subUnidades !== '' ? parseInt(subUnidades) : 0;
-			const codigoProducto: number = parseInt(codigoProductoConNombre.split(" ")[0]);
-			const { presentacion }: TProducto = datos.productos[codigoProducto];
-			const esPermitidoSubUnidades = permiteSubUnidades(codigoCliente, codigoProducto);
+			const subUnidadesParseado: number =
+				subUnidades !== '' ? parseInt(subUnidades) : 0;
+			const codigoProducto: number = parseInt(
+				codigoProductoConNombre.split(' ')[0]
+			);
+			const {presentacion, subunidadesVentaMinima}: TProducto = datos.productos[
+				codigoProducto
+			];
+			const esPermitidoSubUnidades = permiteSubUnidades(
+				codigoCliente,
+				codigoProducto
+			);
 
 			const esSubUnidadesMenorAPresentacion = validarSubUnidadesConPresentacion(
 				presentacion,
@@ -66,42 +58,55 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			);
 
 			if (!esPermitidoSubUnidades && subUnidadesParseado !== 0) {
-				setParametrosDialogo({
-					mensaje: t('advertencias.subUnidadesNoPermitidas'),
-					manejadorClick: () => setMostarDialogo(false),
-					conBotonCancelar: false,
-				});
-				setMostarDialogo(true);
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.subUnidadesNoPermitidas'),
+					'sub-unidades-no-permitidas'
+				);
 				return;
 			}
 
 			if (!esSubUnidadesMenorAPresentacion) {
-				setParametrosDialogo({
-					mensaje: t('advertencias.limiteSubUnidades'),
-					manejadorClick: () => setMostarDialogo(false),
-					conBotonCancelar: false,
-				});
-				setMostarDialogo(true);
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.limiteSubUnidades'),
+					'limite-sub-unidades'
+				);
 				return;
 			}
 
-			if (!validarUnidadesMinimasProducto(
+			//TODO: subunidadesVentaMinima es opcional?
+			const esSubUnidadEsMultiplo = validarSubUnidadesEsMultiplo(
+				subunidadesVentaMinima,
+				subUnidadesParseado
+			);
+
+			if (!esSubUnidadEsMultiplo) {
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.subUnidadesNoMultiplo', {
+						subunidadesVentaMinima,
+					}),
+					'sub-unidades-no-multiplo'
+				);
+				return;
+			}
+
+			const esUnidadesMenorAlMaximoUnidades = validarUnidadesMinimasProducto(
 				unidadesParseado,
 				clienteEncontrado.configuracionPedido
-			)) {
-				setParametrosDialogo({
-					mensaje: t('advertencias.cantidadEsMayor', {
+			);
+
+			if (!esUnidadesMenorAlMaximoUnidades) {
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.cantidadEsMayor', {
 						cantidad:
 							clienteEncontrado.configuracionPedido.cantidadMaximaUnidades,
 					}),
-					manejadorClick: manejadorConfirmarAgregarPedido,
-					conBotonCancelar: true,
-					textosBotonesDefault: {
+					'cantidad-es-mayor',
+					manejadorConfirmarAgregarPedido,
+					{
 						aceptar: t('general.si'),
-						cancelar: t('general.no')
-					  }
-				});
-				setMostarDialogo(true);
+						cancelar: t('general.no'),
+					}
+				);
 				return;
 			}
 
@@ -112,10 +117,10 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				codigoProductoConNombre,
 				productoABuscar,
 			});
-
 		},
 		[
 			obtenerClienteActual,
+			mostrarAdvertenciaEnDialogo,
 			agregarProductoAlPedidoCliente,
 			manejadorConfirmarAgregarPedido,
 			permiteSubUnidades,

@@ -10,7 +10,6 @@
     );
 
     let jsonFinal = JSON.parse(`{"clientes":${clientesHash}, "productos":${productosHash}}`)
-    console.log(JSON.stringify(jsonFinal))
     return jsonFinal
   }
 
