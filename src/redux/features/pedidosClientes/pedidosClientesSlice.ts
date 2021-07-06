@@ -3,7 +3,6 @@ import {
 	TPedidoCliente,
 	TPedidoClienteParaEnviar,
 	TPedidosClientes,
-	TProductoPedido,
 } from 'models';
 import {RootState} from 'redux/store';
 
@@ -18,11 +17,15 @@ export const pedidosClientesSlice = createSlice({
 				codigoCliente,
 				productosPedido,
 				fechaEntrega,
+				estado,
+				usuario,
 			}: TPedidoCliente = action.payload;
 			if (!state[codigoCliente]) state[codigoCliente] = [];
 			const pedidoCliente: TPedidoClienteParaEnviar = {
 				productosPedido,
 				fechaEntrega,
+				estado,
+				usuario,
 				enviado: false,
 			};
 			state[codigoCliente].push(pedidoCliente);

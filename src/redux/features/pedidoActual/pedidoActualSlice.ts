@@ -6,6 +6,8 @@ const estadoInicial: TPedidoCliente = {
 	codigoCliente: '',
 	fechaEntrega: '',
 	razonSocial: '',
+	usuario: 'SFA01',
+	estado: 'activo',
 	productosPedido: [],
 };
 
