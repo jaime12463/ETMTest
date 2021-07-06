@@ -10,7 +10,11 @@ import {
 	TValidacionFechaEntrega,
 	TValidacionFechaVisita,
 } from 'models';
-import {useObtenerClienteActual, useObtenerPreciosProductosDelCliente, useObtenerPedidosDelCliente} from '.';
+import {
+	useObtenerClienteActual,
+	useObtenerPreciosProductosDelCliente,
+	useObtenerPedidosDelCliente,
+} from '.';
 import {selectPedidosClientes} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
 import {
@@ -110,7 +114,7 @@ export const useAsignarPedidoActual = (
 				inicializarPedidoActual({
 					codigoCliente,
 					fechaEntrega,
-					razonSocial: clienteEncontrado.detalles.nombreComercial,
+					razonSocial: clienteEncontrado.detalles[0].nombreComercial,
 				})
 			);
 			setPreciosProductos(preciosProductosDelCliente);
