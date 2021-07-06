@@ -21,7 +21,7 @@ Antecedentes:
 	Dado que se ingresó a pedidos realizados
 	Y se seleccionó un pedido
 
-Escenario: N°1 – El prevendedor puede cancelar un pedido activo si el monto del pedido es inferior al monto mínimo
+Esquema del escenario: N°1 – El prevendedor puede cancelar un pedido activo si el monto del pedido es inferior al monto mínimo
 	Dado que el pedido tiene estado Activo 
 	Y el <montoDelPedido> es menor a <montoVentaMinimo> 
 	Cuando selecciono cancelar el pedido
@@ -34,7 +34,7 @@ Ejemplos:
 |    1000        |   800        |
 |    1000        |   999        |    
 
-Escenario: N°2 – El prevendedor puede cancelar un pedido activo si el pedido cumple con el monto mínimo
+Esquema del escenario: N°2 – El prevendedor puede cancelar un pedido activo si el pedido cumple con el monto mínimo
 	Dado que el <montoDelPedido> a cancelar es mayor o igual que <montoVentaMinimo> 
 	Y el cliente tiene otro pedido en estado Activo para la misma fecha de entrega cuyo monto es mayor o igual al <montoVentaMinimo>  
 	Cuando selecciono cancelar el pedido
@@ -52,7 +52,7 @@ Ejemplos:
 |montoVentaMinimo|montoDelPedido|
 | 1000           |		1100	| 
 
-Escenario: N°3 – El prevendedor puede cancelar todos los pedidos activos para la misma fecha de entrega si el pedido seleccionado es el único para esa fecha de entrega que cumple con el monto mínimo
+Esquema del escenario: N°3 – El prevendedor puede cancelar todos los pedidos activos para la misma fecha de entrega si el pedido seleccionado es el único para esa fecha de entrega que cumple con el monto mínimo
 	Dado que el <montoDelPedido> a cancelar es mayor o igual que montoVentaMinimo> 
 	Y el cliente no tiene otro pedido con estado Activo para la misma fecha de entrega cuyo monto es mayor o igual al <montoVentaMinimo>  
 	Cuando selecciono cancelar el pedido

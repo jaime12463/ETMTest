@@ -12,10 +12,10 @@ Antecedentes:
 
 Esquema del escenario: N°1 – El cliente no tiene pedidos activos para la fecha de entrega 
 	Dado que el cliente no tiene pedidos en estado Activo para la misma fecha de entrega del pedido a guardar
-	Y el monto del pedido a guardar es mayor o igual <montoVentaMinimo> 
+	Y el <montoDelPedido> a guardar es mayor o igual <montoVentaMinimo> 
 	Y menor o igual a <montoVentaMaximo>
 	Cuando guardo el pedido
-	Entonces el sistema <realizaraAcción> 
+	Entonces el sistema <realizaraAccion> 
 	
 #Dados los siguientes pedidos ingresados al cliente:
 #Montos del pedido	 Fecha de entrega	Estado
@@ -23,12 +23,12 @@ Esquema del escenario: N°1 – El cliente no tiene pedidos activos para la fech
 #   1000	             30/06/2021	    Cancelado
 
 Ejemplos:
-| montoVentaMinimo|montoVentaMaximo|montosDePedidos|RealizaraAcción
-|    1000         |  2000          | 999		   | Mostrará mensaje “El pedido no alcanza el monto de venta mínima < montoVentaMinimo >” y permanecerá en la pantalla  |
-|    1000         |  2000          | 1000		   | guardará el pedido y lo mostrará en la lista de pedidos del cliente                                                 |
-|    1000         |  2000          | 1500		   | guardará el pedido y lo mostrará en la lista de pedidos del cliente                                                 |
-|    1000         |  2000          | 2000 		   | guardará el pedido y lo mostrará en la lista de pedidos del cliente                                                 |
-|    1000         |  2000          | 2001    	   | Mostrará mensaje “El pedido excede el monto de venta máxima < montoVentaMinimo >” y permanecerá en la pantalla      |
+| montoVentaMinimo|montoVentaMaximo|montoDelPedido|realizaraAccion
+|    1000         |  2000          | 999		  | Mostrará mensaje “El pedido no alcanza el monto de venta mínima < montoVentaMinimo >” y permanecerá en la pantalla  |
+|    1000         |  2000          | 1000		  | guardará el pedido y lo mostrará en la lista de pedidos del cliente                                                 |
+|    1000         |  2000          | 1500		  | guardará el pedido y lo mostrará en la lista de pedidos del cliente                                                 |
+|    1000         |  2000          | 2000 		  | guardará el pedido y lo mostrará en la lista de pedidos del cliente                                                 |
+|    1000         |  2000          | 2001    	  | Mostrará mensaje “El pedido excede el monto de venta máxima < montoVentaMinimo >” y permanecerá en la pantalla      |
 
 Esquema del escenario: N°2 – El cliente tiene al menos otro pedido activo que cumple con la venta mínima para la fecha de entrega y la suma de los pedidos no excede la venta máxima 
 	Dado que el cliente tiene al menos otro pedido en estado Activo para la misma fecha de entrega cuyo monto es mayor a <montoVentaMinimo>
@@ -43,14 +43,14 @@ Esquema del escenario: N°2 – El cliente tiene al menos otro pedido activo que
 #    1600	           30/06/2021	    Cancelado
 
 Ejemplos:
-| montoVentaMinima|montoVentaMaximo|montosDePedidos|MontoPedido| guarda pedido? |
-|    1000         |    2000        |    1200       | 200       |Si              |
-|    1000         |    2000        |    1200       | 800       |Si              |
-|    1000         |    2000        |    1200       | 801       |No              |
+| montoVentaMinimo|montoVentaMaximo|montosDePedidos|MontoPedido|
+|    1000         |    2000        |    1200       | 200       |
+|    1000         |    2000        |    1200       | 800       |
+|    1000         |    2000        |    1200       | 801       |
 
 Esquema del escenario: N°2 – El cliente no tiene otros pedidos activos que cumplan con la venta mínima para la fecha de entrega y la suma de los pedidos no excede la venta máxima 
 	Dado que el cliente no tiene otros pedido en estado Activo para la misma fecha de entrega del pedido a guardar, que cumpla con la venta mínima
-	Y <montoPedido> sea menor a < montoVentaMinima>
+	Y <montoPedido> sea menor a <montoVentaMinimo>
 	Y la suma de los montos de los pedidos en estado Activo para la misma fecha de entrega, <montosDePedidos>, más el monto del pedido a guardar <montoPedido>, es mayor a <montoVentaMaximo>
 	Cuando guardo el pedido
 	Entonces el sistema guardará el pedido 
@@ -63,11 +63,11 @@ Esquema del escenario: N°2 – El cliente no tiene otros pedidos activos que cu
 #   1600	           30/06/2021	    Cancelado
 
 Ejemplos:
-| montoVentaMinima|montoVentaMaximo|montosDePedidos|MontoPedido| guarda pedido?|
-|    1000         |    2000        |     800       | 999	   |No             |
-|    1000         |    2000        |     800       | 1000      |Si             |
-|    1000         |    2000        |     800       | 1200      |Si             |
-|    1000         |    2000        |     800       | 1201      |No             | 
+| montoVentaMinimo|montoVentaMaximo|montosDePedidos|montoPedido|
+|    1000         |    2000        |     800       | 999	   |
+|    1000         |    2000        |     800       | 1000      |
+|    1000         |    2000        |     800       | 1200      |
+|    1000         |    2000        |     800       | 1201      |
 
 Esquema del escenario: N°3 – El cliente tiene otros pedidos activos para la fecha de entrega y la suma de los pedidos excede la venta máxima 
 	Dado que el cliente tiene al menos otro pedido en estado Activo para la misma fecha de entrega del pedido a guardar
@@ -85,6 +85,6 @@ Esquema del escenario: N°3 – El cliente tiene otros pedidos activos para la f
 #   2000	             1600	           30/06/2021	    Cancelado
 
 Ejemplos:
-|montoVentaMaximo|montosDePedidos|
-|    2000        |    801        |
-|    2000        |    1000       |
+|montoVentaMaximo|montosDePedidos|montoPedido|
+|    2000        |    801        | 1200      |
+|    2000        |    1000       | 1000      |

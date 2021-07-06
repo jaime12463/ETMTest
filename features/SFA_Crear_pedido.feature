@@ -55,5 +55,5 @@ Escenario: N°5 – El cliente no tiene fecha de entrega para la fecha de visita
 
 Escenario: N°6 – El cliente no tiene portafolio para la fecha de entrega
 	Cuando el cliente no tiene portafolio para la fecha de entrega calculada
-	El sistema mostrará el mensaje “El cliente no tiene portafolio vigente para la fecha de entrega informada” 
+	Entonces El sistema mostrará el mensaje “El cliente no tiene portafolio vigente para la fecha de entrega informada” 
 	Y permanecerá en la pantalla
