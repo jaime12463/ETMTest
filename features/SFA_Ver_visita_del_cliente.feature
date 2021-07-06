@@ -11,13 +11,13 @@ Característica: Ver visita del cliente
 
 Esquema del escenario: N°1 – Ver información del cliente
     Dado que se ingresó a la visita del cliente con <codigo> 
-	y dicho cliente tiene <razonSocial>
+	Y dicho cliente tiene <razonSocial>
     Cuando ingreso al detalle de la visita
     Entonces el sistema mostrará <codigo> 
 	Y <razonSocial>
 
 Ejemplos:
-|código   |razonSocial		      |
+|codigo   |razonSocial		      |
 |105613149|PTO COMIDA SARA (PART) |
 
 Escenario: N°2 – El cliente tiene pedidos realizados 
