@@ -53,7 +53,7 @@ Ejemplos:
 | 1000           |		1100	| 
 
 Esquema del escenario: N°3 – El prevendedor puede cancelar todos los pedidos activos para la misma fecha de entrega si el pedido seleccionado es el único para esa fecha de entrega que cumple con el monto mínimo
-	Dado que el <montoDelPedido> a cancelar es mayor o igual que montoVentaMinimo> 
+	Dado que el <montoDelPedido> a cancelar es mayor o igual que <montoVentaMinimo> 
 	Y el cliente no tiene otro pedido con estado Activo para la misma fecha de entrega cuyo monto es mayor o igual al <montoVentaMinimo>  
 	Cuando selecciono cancelar el pedido
 	Entonces el sistema pedirá confirmación al usuario para cancelar el pedido 
