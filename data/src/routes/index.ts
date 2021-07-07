@@ -3,6 +3,6 @@ import EtmRoutes from './Etm/EtmRoutes';
 
 const routes = Router();
 
-routes.use('/api/etm', EtmRoutes);
+routes.use('/femsa', EtmRoutes);
 
 export default routes;
