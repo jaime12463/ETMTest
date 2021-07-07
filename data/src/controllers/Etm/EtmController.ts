@@ -16,4 +16,10 @@ export default class EtmController {
 		const result = await EtmManager.setDatos(req);
 		res.status(200).send(result);
 	};
+
+	public static setConfiguracion = async (req: Request, res: Response) => {
+		const result = await EtmManager.setConfiguracion(req);
+		res.status(200).send(result);
+	};
+
 }

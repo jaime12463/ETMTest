@@ -5,6 +5,7 @@ const router = Router();
 
 router.get('/tomapedidos', EtmController.getDatos);
 router.get('/configuracion', EtmController.getConfiguraciones);
-router.post('/datos', EtmController.setDatos);
+router.post('/setdatos', EtmController.setDatos);
+router.post('/setconfiguracion', EtmController.setConfiguracion);
 
 export default router;
