@@ -17,6 +17,8 @@ const Estructura = ({
 	titulo,
 	children,
 }: Props) => {
+
+
 	const estilos = useEstilos();
 	return (
 		<>

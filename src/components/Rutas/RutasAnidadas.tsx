@@ -2,27 +2,21 @@ import {Route, Switch, useRouteMatch, useLocation} from 'react-router-dom';
 import {ReactNode} from 'react';
 
 interface Props {
-	pathPrincipal: string;
 	pathAnidado: string;
 	principal: ReactNode;
 	anidado: ReactNode;
 }
 
-const RutasAnidadas = ({
-	pathPrincipal,
-	principal,
-	pathAnidado,
-	anidado,
-}: Props) => {
+const RutasAnidadas = ({principal, pathAnidado, anidado}: Props) => {
 	const {path} = useRouteMatch();
-	console.log(`${path}${pathPrincipal}`);
-	console.log(`${path}${pathAnidado}`);
 	return (
 		<>
 			<Switch>
-				<Route path={`${path}${pathPrincipal}`}>
+				<Route path={`${path}`}>
+					{console.log(`${path}`, 'principal')}
 					{principal}
 					<Route exact path={`${path}${pathAnidado}`}>
+						{console.log(`${path}${pathAnidado}`, 'anidado')}
 						{anidado}
 					</Route>
 				</Route>
