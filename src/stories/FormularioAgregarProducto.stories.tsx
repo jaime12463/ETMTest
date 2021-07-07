@@ -14,17 +14,15 @@ const Template: Story<Props> = (args) => (
 
 export const Primero = Template.bind({});
 Primero.args = {
-	agregarProductoAlPedidoCliente: ( {
+	agregarProductoAlPedidoCliente: ({
 		codigoProductoConNombre,
-		codigoCliente,
 		unidades,
 		subUnidades,
 	}) => {},
-	buscarPreciosProductos:( {
+	buscarPreciosProductos: ({
 		codigoProductoConNombre,
-		codigoCliente,
 		unidades,
 		subUnidades,
 	}) => {},
-	handleSubmit: undefined
+	handleSubmit: undefined,
 };

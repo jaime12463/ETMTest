@@ -21,12 +21,18 @@ const en = {
 		no: 'No',
 		aceptar: 'Accept',
 		cancelar: 'Cancel',
-		pedidosCliente: 'Orders placed: '
+		pedidosCliente: 'Orders placed: ',
+		estado: 'Status',
+		tipoPedido: 'Type of order',
+		monto: 'Amount',
+		acciones: 'Actions',
 	},
 	titulos: {
 		bienvenido: 'Welcome',
 		ingresoPedido: 'Order Entry',
 		productosPedido: 'Products of the Order',
+		visitaCliente: 'Clients Visit',
+		clientes: 'Clients',
 	},
 	advertencias: {
 		clienteNoPortafolio: 'The client does not have an informed portfolio',
@@ -43,7 +49,7 @@ const en = {
 		masDelMontoMaximo:
 			'The sum of the orders for the delivery date {{fechaDeEntrega}} exceeds the maximum amount for the customer $ {{montoVentaMaxima}}',
 		subUnidadesNoMultiplo:
-		'The subunits must be in multiples of {{subunidadesVentaMinima}}',
+			'The subunits must be in multiples of {{subunidadesVentaMinima}}',
 	},
 };
 export default en;

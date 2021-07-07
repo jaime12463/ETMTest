@@ -22,11 +22,17 @@ const es = {
 		aceptar: 'Aceptar',
 		cancelar: 'Cancelar',
 		pedidosCliente: 'Pedidos efectuados: ',
+		estado: 'Estado',
+		tipoPedido: 'Tipo de Pedido',
+		monto: 'Monto',
+		acciones: 'Acciones',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',
 		ingresoPedido: 'Ingreso de Pedido',
 		productosPedido: 'Productos del Pedido',
+		visitaCliente: 'Visita del Cliente',
+		clientes: 'Clientes',
 	},
 	advertencias: {
 		clienteNoPortafolio: 'El cliente no tiene portafolio informado',
