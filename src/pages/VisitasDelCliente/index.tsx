@@ -38,7 +38,7 @@ const VisitasDelCliente: React.FC = () => {
 	return (
 		<>
 			<Estructura
-				titulo={'titulos.ingresoPedido'}
+				titulo={'titulos.visitaCliente'}
 				esConFechaHaciaAtras={true}
 				esConLogoInferior={false}
 			>

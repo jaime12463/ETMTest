@@ -23,64 +23,59 @@ const Anidado2 = () => {
 };
 
 const Anidado = () => {
+	/* 		<Estructura
+			titulo={'titulos.visitaCliente'}
+			esConFechaHaciaAtras={true}
+			esConLogoInferior={false}
+		>
+			<VisitasDelCliente />
+			</Estructura>
+						<RutasAnidadas
+					pathAnidado='/visitaclientes'
+					principal={<Clientes />}
+					anidado={<Anidado />}
+				/>
+		*/
 	return (
 		<RutasAnidadas
-			pathPrincipal=''
 			pathAnidado='/ingresarpedido'
 			principal={<VisitasDelCliente />}
 			anidado={<Anidado2 />}
 		/>
 	);
-
-	// <RutasAnidadas
-	// 				pathPrincipal=''
-	// 				pathAnidado='/visitaclientes'
-	// 				principal={<Clientes />}
-	// 				anidado={<Anidado />}
-	// 			/>
 };
+
 const Rutas = () => {
 	return (
 		<BrowserRouter>
-			<Switch>
-				<Route
-					path={`${nombresRutas.clientes}`}
-					render={({match}) => {
-						return (
-							<>
-								<Clientes />
-								<Route
-									exact
-									path={`${nombresRutas.clientes}${nombresRutas.visitaClientes}`}
-									render={({match}) => {
-										return (
-											<>
-												<VisitasDelCliente />
-												<Route
-													exact
-													path={`${nombresRutas.clientes}${nombresRutas.visitaClientes}${nombresRutas.ingresarpedido}`}
-													render={({match}) => {
-														return <><TomaDePedidos /><Route
-													exact
-													path={`${nombresRutas.clientes}${nombresRutas.visitaClientes}${nombresRutas.ingresarpedido}hola`}
-													render={({match}) => {
-														return (<><h1>hola</h1></>)
-													}}
-												></Route></>;
-													}}
-												></Route>
-											</>
-										);
-									}}
-								></Route>
-							</>
-						);
-					}}
-				></Route>
-				<Route exact path={nombresRutas.home}>
-					<Inicio />
+			<Route path={nombresRutas.clientes}>
+				<Clientes />
+				<Route path={nombresRutas.clientes + nombresRutas.visitaClientes}>
+					<VisitasDelCliente />
+					<Route
+						path={
+							nombresRutas.clientes +
+							nombresRutas.visitaClientes +
+							nombresRutas.ingresarpedido
+						}
+					>
+						<TomaDePedidos />
+						<Route
+							path={
+								nombresRutas.clientes +
+								nombresRutas.visitaClientes +
+								nombresRutas.ingresarpedido +
+								nombresRutas.detalle
+							}
+						>
+							<DetallePedido />
+						</Route>
+					</Route>
 				</Route>
-			</Switch>
+			</Route>
+			<Route exact path={nombresRutas.home}>
+				<Inicio />
+			</Route>
 		</BrowserRouter>
 	);
 };

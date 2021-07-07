@@ -127,16 +127,16 @@ export default function TomaDePedidos() {
 	};
 
 	//TODO: Deberia preguntar antes de salir si lo desea?
-	useEffect(() => {
+/* 	useEffect(() => {
 		return () => {
 			resetPedidoActual();
 		};
-	}, []);
+	}, []); */
 
 	return (
 		<>
 			<Estructura
-				titulo={'titulos.tomaPedidos'}
+				titulo={'titulos.tomaPedido'}
 				esConFechaHaciaAtras={true}
 				esConLogoInferior={false}
 			>
