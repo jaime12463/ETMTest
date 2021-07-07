@@ -11,7 +11,7 @@ export default class EtmManager {
 	public static getConfiguraciones = async (req: Request) => {
 		const configuracion = fs.readFileSync('configuracion.json');
 		const configuracionJson = JSON.parse(configuracion.toString());
-		return configuracionJson;
+		return configuracionJson.datos;
 	};
 	public static setDatos = async (req: Request) => {
 		const datos = req.body;
