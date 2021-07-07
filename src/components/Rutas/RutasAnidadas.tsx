@@ -15,6 +15,8 @@ const RutasAnidadas = ({
 	anidado,
 }: Props) => {
 	const {path} = useRouteMatch();
+	console.log(`${path}${pathPrincipal}`);
+	console.log(`${path}${pathAnidado}`);
 	return (
 		<>
 			<Switch>

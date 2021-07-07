@@ -30,6 +30,7 @@ export const useAgregarPedidoAlListado = (
 	const {t} = useTranslation();
 	const obtenerClienteActual = useObtenerClienteActual();
 	const formateoFecha = new Date(pedidoActual.fechaEntrega);
+	
 	const agregarPedidoAlListado = useCallback(() => {
 		const clienteActual = obtenerClienteActual(pedidoActual.codigoCliente);
 		const pedidosCliente: TPedidoClienteParaEnviar[] | undefined =

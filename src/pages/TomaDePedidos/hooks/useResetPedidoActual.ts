@@ -17,7 +17,6 @@ export const useResetPedidoActual = (
 		dispatch(resetearPedidoActual());
 		setPedidosClientes(0);
 		setValue('productoABuscar', '');
-		setValue('codigoCliente', '');
 	}, []);
 	return resetPedidoActual;
 };

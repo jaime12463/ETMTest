@@ -15,6 +15,7 @@ import {useTranslation} from 'react-i18next';
 import {useAppSelector} from 'redux/hooks';
 import {selectDatos} from 'redux/features/datos/datosSlice';
 import {usePermiteSubUnidades} from '.';
+import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
@@ -26,27 +27,25 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 	const {t} = useTranslation();
 	const obtenerClienteActual = useObtenerClienteActual();
 	const {datos} = useAppSelector(selectDatos);
+	const {codigoCliente} = useAppSelector(selectPedidoActual);
 	const permiteSubUnidades = usePermiteSubUnidades();
 	const validarAgregarProductoAlPedidoCliente = useCallback(
 		({
-			codigoCliente,
 			unidades,
 			subUnidades,
 			codigoProductoConNombre,
 			productoABuscar,
 		}: TInputsFormularioAgregarProducto) => {
-			const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
-				codigoCliente
-			);
+			const clienteEncontrado: TCliente | undefined =
+				obtenerClienteActual(codigoCliente);
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
 			const subUnidadesParseado: number =
 				subUnidades !== '' ? parseInt(subUnidades) : 0;
 			const codigoProducto: number = parseInt(
 				codigoProductoConNombre.split(' ')[0]
 			);
-			const {presentacion, subunidadesVentaMinima}: TProducto = datos.productos[
-				codigoProducto
-			];
+			const {presentacion, subunidadesVentaMinima}: TProducto =
+				datos.productos[codigoProducto];
 			const esPermitidoSubUnidades = permiteSubUnidades(
 				codigoCliente,
 				codigoProducto
@@ -111,7 +110,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			}
 
 			agregarProductoAlPedidoCliente({
-				codigoCliente,
 				unidades,
 				subUnidades,
 				codigoProductoConNombre,
@@ -124,6 +122,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			agregarProductoAlPedidoCliente,
 			manejadorConfirmarAgregarPedido,
 			permiteSubUnidades,
+			codigoCliente,
 			t,
 		]
 	);

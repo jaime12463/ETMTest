@@ -113,8 +113,11 @@ export type TConfiguracion = {
 	esVentaSubunidadesRuta: boolean;
 };
 
-export type TInputsFormularioAgregarProducto = {
+export type TInputsCodigoCliente = {
 	codigoCliente: string;
+};
+
+export type TInputsFormularioAgregarProducto = {
 	unidades: string;
 	subUnidades: string;
 	codigoProductoConNombre: string;
