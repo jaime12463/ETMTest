@@ -1,4 +1,4 @@
-import {useCalcularTotalPedido} from 'hooks';
+import {useCalcularTotalPedido, useObtenerClienteActual} from 'hooks';
 import {
 	TFunctionMostarAvertenciaPorDialogo,
 	TPedidoCliente,
@@ -15,7 +15,6 @@ import {
 	validarMontoMinimoPedido,
 	validarTotalConMontoMaximo,
 } from 'utils/validaciones';
-import {useObtenerClienteActual} from '.';
 import {useTranslation} from 'react-i18next';
 
 export const useAgregarPedidoAlListado = (
@@ -30,7 +29,7 @@ export const useAgregarPedidoAlListado = (
 	const {t} = useTranslation();
 	const obtenerClienteActual = useObtenerClienteActual();
 	const formateoFecha = new Date(pedidoActual.fechaEntrega);
-	
+
 	const agregarPedidoAlListado = useCallback(() => {
 		const clienteActual = obtenerClienteActual(pedidoActual.codigoCliente);
 		const pedidosCliente: TPedidoClienteParaEnviar[] | undefined =

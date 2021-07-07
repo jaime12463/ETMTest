@@ -7,15 +7,13 @@ import {UseFormSetValue} from 'react-hook-form';
 export const useResetPedidoActual = (
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>,
 	resetLineaActual: () => void,
-	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
-	setPedidosClientes: Dispatch<SetStateAction<number>>
+	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>
 ) => {
 	const dispatch = useAppDispatch();
 	const resetPedidoActual = useCallback(() => {
 		resetLineaActual();
 		setPreciosProductos([]);
 		dispatch(resetearPedidoActual());
-		setPedidosClientes(0);
 		setValue('productoABuscar', '');
 	}, []);
 	return resetPedidoActual;

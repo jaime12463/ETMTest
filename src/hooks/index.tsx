@@ -4,6 +4,7 @@ import {useCalcularTotalPedidos} from './useCalcularTotalPedidos';
 import {useObtenerClienteActual} from './useObtenerClienteActual';
 import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
 import {useMostrarAdvertenciaEnDialogo} from './useMostrarAdvertenciaEnDialogo';
+import {useObtenerPedidoActual} from './useObtenerPedidoActual';
 
 export {
 	useObtenerDatos,
@@ -12,4 +13,5 @@ export {
 	useObtenerConfiguracionActual,
 	useCalcularTotalPedidos,
 	useMostrarAdvertenciaEnDialogo,
+	useObtenerPedidoActual,
 };

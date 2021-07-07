@@ -10,7 +10,7 @@ import {
 	validarSubUnidadesEsMultiplo,
 	validarUnidadesMinimasProducto,
 } from 'utils/validaciones';
-import {useObtenerClienteActual} from '.';
+import {useObtenerClienteActual} from 'hooks';
 import {useTranslation} from 'react-i18next';
 import {useAppSelector} from 'redux/hooks';
 import {selectDatos} from 'redux/features/datos/datosSlice';
@@ -36,16 +36,18 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			codigoProductoConNombre,
 			productoABuscar,
 		}: TInputsFormularioAgregarProducto) => {
-			const clienteEncontrado: TCliente | undefined =
-				obtenerClienteActual(codigoCliente);
+			const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
+				codigoCliente
+			);
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
 			const subUnidadesParseado: number =
 				subUnidades !== '' ? parseInt(subUnidades) : 0;
 			const codigoProducto: number = parseInt(
 				codigoProductoConNombre.split(' ')[0]
 			);
-			const {presentacion, subunidadesVentaMinima}: TProducto =
-				datos.productos[codigoProducto];
+			const {presentacion, subunidadesVentaMinima}: TProducto = datos.productos[
+				codigoProducto
+			];
 			const esPermitidoSubUnidades = permiteSubUnidades(
 				codigoCliente,
 				codigoProducto

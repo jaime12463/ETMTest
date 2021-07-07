@@ -15,9 +15,7 @@ import {
 } from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
 import {TPedidoClienteParaEnviar, TPedidoCliente} from 'models';
-import pedidoActualSlice, {
-	selectPedidoActual,
-} from 'redux/features/pedidoActual/pedidoActualSlice';
+import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {useAppSelector} from 'redux/hooks';
 import {useObtenerPedidosCliente} from './hooks';
 import {useCalcularTotalPedidos} from 'hooks';

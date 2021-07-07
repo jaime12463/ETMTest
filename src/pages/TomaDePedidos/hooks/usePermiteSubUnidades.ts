@@ -1,8 +1,7 @@
 import {TCliente, TPortafolio} from 'models';
 import {useCallback} from 'react';
 import {validarVentaSubUnidades} from 'utils/validaciones';
-import {useObtenerClienteActual} from '.';
-import {useObtenerConfiguracionActual} from './useObtenerConfiguracionActual';
+import {useObtenerConfiguracionActual, useObtenerClienteActual} from 'hooks';
 
 export const usePermiteSubUnidades = () => {
 	const configuracionActual = useObtenerConfiguracionActual();
