@@ -15,8 +15,7 @@
 		"cors": "^2.8.5",
 		"express": "^4.17.1",
 		"helmet": "^4.4.1",
-		"rimraf": "^3.0.2",
-		"tsc": "^2.0.3"
+		"rimraf": "^3.0.2"
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.10",
