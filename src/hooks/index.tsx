@@ -1,4 +1,4 @@
-import useInicializarDatosYConfigiguracion from './useInicializarDatosYConfigiguracion';
+import useInicializarDatosYConfiguracion from './useInicializarDatosYConfiguracion';
 import {useObtenerDatos} from './useObtenerDatos';
 import {useCalcularTotalPedido} from './useCalcularTotalPedido';
 import {useCalcularTotalPedidos} from './useCalcularTotalPedidos';
@@ -11,7 +11,7 @@ import {useObtenerPedidosClientes} from './useObtenerPedidosClientes';
 
 export {
 	useObtenerDatos,
-	useInicializarDatosYConfigiguracion,
+	useInicializarDatosYConfiguracion,
 	useCalcularTotalPedido,
 	useObtenerClienteActual,
 	useObtenerConfiguracion,
