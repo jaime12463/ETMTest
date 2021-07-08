@@ -8,10 +8,20 @@
 // You can read more here:
 // https://on.cypress.io/plugins-guide
 // ***********************************************************
+const browserify = require('@cypress/browserify-preprocessor');
+const cucumber = require('cypress-cucumber-preprocessor').default;
+const resolve = require('resolve');
 
-const plugins: Cypress.PluginConfig = (
-	on: Cypress.PluginEvents,
-	config: Cypress.PluginConfigOptions
-): void => {};
+const plugins = (
+	on,
+	config
+) => {
+	const options = {
+		...browserify.defaultOptions,
+		typescript: resolve.sync('typescript', { basedir: config.projectRoot }),
+	  };
+	
+  	on('file:preprocessor', cucumber(options)); 	
+};
 
-export default plugins;
+module.exports = plugins; 

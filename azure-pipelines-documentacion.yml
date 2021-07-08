@@ -35,19 +35,19 @@ steps:
       Pickles -v
       Pickles --output-directory=html --language=es --documentation-format=Dhtml 
       Pickles --output-directory=doc --language=es --documentation-format=Word
-    workingDirectory: '$(Build.SourcesDirectory)/features'
+    workingDirectory: '$(Build.SourcesDirectory)/cypress/integration'
   continueOnError: true  
   displayName: 'Generando html'
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'features/html/'
+    SourceFolder: 'cypress/integration/html/'
     Contents: '**' 
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'features/doc/'
+    SourceFolder: 'cypress/integration/doc/'
     Contents: '**' 
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
