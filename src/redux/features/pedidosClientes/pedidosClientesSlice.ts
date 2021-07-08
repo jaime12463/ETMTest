@@ -29,6 +29,7 @@ export const pedidosClientesSlice = createSlice({
 			const {codigoCliente}: TClienteActual = action.payload.clienteActual;
 			if (!state[codigoCliente]) state[codigoCliente] = [];
 			const pedidoCliente: TPedidoClienteParaEnviar = {
+				codigoPedido,
 				productosPedido,
 				fechaEntrega,
 				estado,

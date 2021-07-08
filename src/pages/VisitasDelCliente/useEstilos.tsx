@@ -1,5 +1,5 @@
 import {makeStyles} from '@material-ui/core';
-const useEstilos = makeStyles((theme)=>({
+const useEstilos = makeStyles((theme) => ({
 	container: {
 		marginTop: 20,
 		maxHeight: 300,
@@ -19,6 +19,9 @@ const useEstilos = makeStyles((theme)=>({
 		position: 'absolute',
 		bottom: theme.spacing(2),
 		right: theme.spacing(2),
-  	},
+	},
+	typography: {
+		padding: theme.spacing(2),
+	},
 }));
 export default useEstilos;

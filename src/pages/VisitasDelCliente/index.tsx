@@ -12,13 +12,25 @@ import {
 	Grid,
 	Fab,
 	Typography,
+	IconButton,
+	Popover,
+	List,
+	ListItem,
+	ListItemText,
 } from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
 import {TPedidoClienteParaEnviar, TClienteActual} from 'models';
-import {useCrearPedidoAlClienteActual, useObtenerPedidosCliente} from './hooks';
+import {
+	useCrearPedidoAlClienteActual,
+	useEditarPedidoDelClienteActual,
+	useObtenerPedidosDelClienteActual,
+} from './hooks';
 import {useCalcularTotalPedidos, useObtenerClienteActual} from 'hooks';
 import AddIcon from '@material-ui/icons/Add';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import EditIcon from '@material-ui/icons/Edit';
+import Paper from '@material-ui/core/Paper';
+import {useState} from 'react';
 
 const VisitasDelCliente: React.FC = () => {
 	const {t} = useTranslation();
@@ -27,13 +39,25 @@ const VisitasDelCliente: React.FC = () => {
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
-	const pedidosCliente: TPedidoClienteParaEnviar[] = useObtenerPedidosCliente(
+	const pedidosCliente: TPedidoClienteParaEnviar[] = useObtenerPedidosDelClienteActual(
 		clienteActual.codigoCliente
 	);
 
 	const crearPedidoAlClienteActual = useCrearPedidoAlClienteActual();
 
+	const editarPedidoDelClienteActual = useEditarPedidoDelClienteActual();
+
 	const calcularTotalPedido = useCalcularTotalPedidos();
+
+	const [anchorEl, setAnchorEl] = useState(null);
+
+	const handleClick = (event: any) => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
 
 	return (
 		<>
@@ -80,7 +104,7 @@ const VisitasDelCliente: React.FC = () => {
 							</TableHead>
 							<TableBody>
 								{pedidosCliente &&
-									pedidosCliente.map((pedido, i) => (
+									pedidosCliente.map((pedido: TPedidoClienteParaEnviar, i) => (
 										<TableRow key={i} hover>
 											<Celda
 												estilos={estilos}
@@ -123,7 +147,46 @@ const VisitasDelCliente: React.FC = () => {
 												align='center'
 												dataCy='cliente-acciones-pedido'
 											>
-												<MoreHorizIcon />
+												<IconButton
+													aria-label='more'
+													aria-describedby={i.toString()}
+													onClick={handleClick}
+												>
+													<MoreHorizIcon />
+												</IconButton>
+												<Popover
+													open={Boolean(anchorEl)}
+													anchorEl={anchorEl}
+													onClose={handleClose}
+													id={i.toString()}
+													anchorOrigin={{
+														vertical: 'bottom',
+														horizontal: 'center',
+													}}
+													transformOrigin={{
+														vertical: 'top',
+														horizontal: 'center',
+													}}
+												>
+													<Paper>
+														<List
+															component='nav'
+															aria-label='main mailbox folders'
+														>
+															<ListItem
+																button
+																onClick={() =>
+																	editarPedidoDelClienteActual(
+																		pedido.codigoPedido
+																	)
+																}
+															>
+																<EditIcon />
+																<ListItemText primary='Editar Pedido' />
+															</ListItem>
+														</List>
+													</Paper>
+												</Popover>
 											</Celda>
 										</TableRow>
 									))}

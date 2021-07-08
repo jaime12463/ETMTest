@@ -67,6 +67,7 @@ export type TPedidosClientes = {
 };
 
 export type TPedidoClienteParaEnviar = {
+	codigoPedido: string;
 	fechaEntrega: string;
 	usuario: string;
 	estado: 'activo' | 'inactivo';

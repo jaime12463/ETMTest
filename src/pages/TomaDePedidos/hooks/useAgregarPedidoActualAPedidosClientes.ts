@@ -37,7 +37,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {t} = useTranslation();
 	const history = useHistory();
-	const fechaEntregaFormateada = new Date(pedidoActual.fechaEntrega);
+	const fechaEntregaFormateada = new Date(pedidoActual.fechaEntrega); //TODO: Esto esta alterando la fecha real.
 
 	const agregarPedidoActualAPedidosClientes = useCallback(() => {
 		const pedidosCliente: TPedidoClienteParaEnviar[] | undefined =

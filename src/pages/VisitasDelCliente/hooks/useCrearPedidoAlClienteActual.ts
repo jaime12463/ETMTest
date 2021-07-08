@@ -5,6 +5,7 @@ import {useRouteMatch, useHistory} from 'react-router-dom';
 import {inicializarPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {useAppDispatch} from 'redux/hooks';
 import nombresRutas from 'routes/nombresRutas';
+import {v4 as uuidv4} from 'uuid';
 
 export const useCrearPedidoAlClienteActual = () => {
 	const {path} = useRouteMatch();
@@ -15,7 +16,7 @@ export const useCrearPedidoAlClienteActual = () => {
 		dispatch(
 			inicializarPedidoActual({
 				fechaEntrega: clienteActual.fechaEntrega,
-				codigoPedido: new Date().toString(),
+				codigoPedido: uuidv4(),
 			})
 		);
 		history.push(`${path}${nombresRutas.ingresarpedido}`);

@@ -141,7 +141,7 @@ export default function TomaDePedidos() {
 	return (
 		<>
 			<Estructura
-				titulo={'titulos.tomaPedido'}
+				titulo={'titulos.ingresoPedido'}
 				esConFechaHaciaAtras={true}
 				esConLogoInferior={false}
 			>

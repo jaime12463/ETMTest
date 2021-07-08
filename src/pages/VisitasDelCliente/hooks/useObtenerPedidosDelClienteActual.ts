@@ -2,18 +2,18 @@ import {useCallback} from 'react';
 import {TPedidoClienteParaEnviar, TPedidosClientes} from 'models';
 import {useObtenerPedidosClientes} from 'hooks';
 
-export const useObtenerPedidosCliente = (
+export const useObtenerPedidosDelClienteActual = (
 	codigoCliente: string
 ): TPedidoClienteParaEnviar[] => {
 	const pedidosClientes: TPedidosClientes = useObtenerPedidosClientes();
-	const obtenerPedidosCliente = useCallback((): TPedidoClienteParaEnviar[] => {
+	const obtenerPedidosDelClienteActual = useCallback((): TPedidoClienteParaEnviar[] => {
 		let pedidosCliente: TPedidoClienteParaEnviar[] = [];
 		if (pedidosClientes[codigoCliente])
 			pedidosCliente = pedidosClientes[codigoCliente];
 		return pedidosCliente;
 	}, [pedidosClientes, codigoCliente]);
 
-	const pedidosCliente = obtenerPedidosCliente();
+	const pedidosCliente = obtenerPedidosDelClienteActual();
 
 	return pedidosCliente;
 };
