@@ -6,12 +6,12 @@ import {
 } from 'redux/features/pedidoActual/pedidoActualSlice';
 import {TInputsFormularioAgregarProducto, TPrecioSinVigencia} from 'models';
 
-export const useAgregarProductoAlPedidoCliente = (
+export const useAgregarProductoAlPedidoActual = (
 	productoActual: TPrecioSinVigencia,
 	resetLineaActual: () => void
 ) => {
 	const dispatch = useAppDispatch();
-	const agregarProductoAlPedidoCliente = useCallback(
+	const agregarProductoAlPedidoActual = useCallback(
 		({
 			unidades,
 			subUnidades,
@@ -43,5 +43,5 @@ export const useAgregarProductoAlPedidoCliente = (
 		},
 		[productoActual]
 	);
-	return agregarProductoAlPedidoCliente;
+	return agregarProductoAlPedidoActual;
 };

@@ -1,3 +1,4 @@
 import {useObtenerPedidosCliente} from './useObtenerPedidosCliente';
+import {useCrearPedidoAlClienteActual} from './useCrearPedidoAlClienteActual';
 
-export {useObtenerPedidosCliente};
+export {useObtenerPedidosCliente, useCrearPedidoAlClienteActual};

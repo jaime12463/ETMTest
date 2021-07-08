@@ -3,18 +3,22 @@ import {Input, Estructura} from '../../components';
 import {TInputsCodigoCliente} from '../../models';
 import {useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
-import { useState } from 'react';
-import {useMostrarAdvertenciaEnDialogo} from 'hooks'
-import {useAsignarPedidoActual} from './hooks'
+import {useState} from 'react';
+import {useMostrarAdvertenciaEnDialogo} from 'hooks';
+import {useAsignarClienteActual} from './hooks';
 import Dialogo, {Props as PropsDialogo} from 'components/Dialogo';
 
 const Clientes = () => {
-    const {t} = useTranslation();
+	const {t} = useTranslation();
 
-    const {control, handleSubmit, setValue, getValues} =
-	useForm<TInputsCodigoCliente>();
+	const {
+		control,
+		handleSubmit,
+		setValue,
+		getValues,
+	} = useForm<TInputsCodigoCliente>();
 
-    const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
+	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
 
 	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
 		mensaje: '',
@@ -23,20 +27,20 @@ const Clientes = () => {
 		dataCy: '',
 	});
 
-    const mostrarAdvertenciaEnDialogo = useMostrarAdvertenciaEnDialogo(
+	const mostrarAdvertenciaEnDialogo = useMostrarAdvertenciaEnDialogo(
 		setMostarDialogo,
 		setParametrosDialogo
 	);
 
-    const asignarPedidoActual = useAsignarPedidoActual(
-		mostrarAdvertenciaEnDialogo,
+	const asignarClienteActual = useAsignarClienteActual(
+		mostrarAdvertenciaEnDialogo
 	);
 
 	return (
 		<Estructura titulo={'titulos.clientes'}>
-            {mostarDialogo && <Dialogo {...parametrosDialogo} />}
+			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 			<Grid item xs={6} sm={6}>
-				<form onSubmit={handleSubmit(asignarPedidoActual)}>
+				<form onSubmit={handleSubmit(asignarClienteActual)}>
 					<Input
 						label={t('general.cliente')}
 						name='codigoCliente'

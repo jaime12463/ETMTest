@@ -1,13 +1,12 @@
 import {Fragment, SyntheticEvent, useEffect, useState} from 'react';
-import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
+	TClienteActual,
 	TInputsFormularioAgregarProducto,
-	TPedidoCliente,
+	TPedidoActual,
 	TPrecioProducto,
 	TPrecioSinVigencia,
 } from 'models';
-import {useAppSelector} from 'redux/hooks';
-import {Button, Chip, Grid, Snackbar, Typography} from '@material-ui/core';
+import {Button, Grid, Snackbar, Typography} from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
 import {useForm} from 'react-hook-form';
@@ -20,18 +19,22 @@ import {
 	Estructura,
 } from 'components';
 import {
-	useAgregarPedidoAlListado,
-	useValidarAgregarProductoAlPedidoCliente,
+	useAgregarPedidoActualAPedidosClientes,
+	useAgregarProductoAlPedidoActual,
 	useAsignarProductoActual,
-	useBuscarPreciosProductos,
-	usePermiteSubUnidades,
-	useMostrarAdvertenciaEnDialogo,
-	useResetPedidoActual,
-	useResetLineaActual,
-	useAgregarProductoAlPedidoCliente,
+	useFiltrarPreciosProductosDelClienteActual,
+	useValidarAgregarProductoAlPedidoCliente,
 	useManejadorConfirmarAgregarPedido,
-	useInicializarPreciosProductosDelCliente,
+	useValidarProductoPermiteSubUnidades,
+	useResetLineaActual,
+	useResetPedidoActual,
+	useInicializarPreciosProductosDelClienteActual,
 } from './hooks';
+import {
+	useMostrarAdvertenciaEnDialogo,
+	useObtenerClienteActual,
+	useObtenerPedidoActual,
+} from 'hooks';
 import Dialogo, {Props as PropsDialogo} from 'components/Dialogo';
 
 export default function TomaDePedidos() {
@@ -70,7 +73,9 @@ export default function TomaDePedidos() {
 		getValues,
 	} = useForm<TInputsFormularioAgregarProducto>();
 
-	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
+	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
+
+	const clienteActual: TClienteActual = useObtenerClienteActual();
 
 	const resetLineaActual = useResetLineaActual(setValue, setProductoActual);
 
@@ -80,7 +85,7 @@ export default function TomaDePedidos() {
 		setValue
 	);
 
-	const agregarProductoAlPedidoCliente = useAgregarProductoAlPedidoCliente(
+	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		productoActual,
 		resetLineaActual
 	);
@@ -88,7 +93,7 @@ export default function TomaDePedidos() {
 	const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido(
 		productoActual,
 		getValues,
-		agregarProductoAlPedidoCliente
+		agregarProductoAlPedidoActual
 	);
 
 	const mostrarAdvertenciaEnDialogo = useMostrarAdvertenciaEnDialogo(
@@ -104,30 +109,30 @@ export default function TomaDePedidos() {
 	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
 		mostrarAdvertenciaEnDialogo,
 		manejadorConfirmarAgregarPedido,
-		agregarProductoAlPedidoCliente
+		agregarProductoAlPedidoActual
 	);
 
-	const buscarPreciosProductos = useBuscarPreciosProductos(
+	const filtrarPreciosProductosDelClienteActual = useFiltrarPreciosProductosDelClienteActual(
 		preciosProductos,
 		setPreciosProductos
 	);
 
-	const agregarPedidoAlListado = useAgregarPedidoAlListado(
+	const agregarPedidoActualAPedidosClientes = useAgregarPedidoActualAPedidosClientes(
 		setAvisoPedidoGuardadoExitoso,
 		mostrarAdvertenciaEnDialogo,
 		resetPedidoActual
 	);
 
-	const permiteSubUnidades = usePermiteSubUnidades();
+	const validarProductoPermiteSubUnidades = useValidarProductoPermiteSubUnidades();
 
-	useInicializarPreciosProductosDelCliente(setPreciosProductos);
+	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 
 	const cerrarAvisoPedidoGuardado = (event: SyntheticEvent<Element, Event>) => {
 		setAvisoPedidoGuardadoExitoso(false);
 	};
 
 	//TODO: Deberia preguntar antes de salir si lo desea?
-/* 	useEffect(() => {
+	/* 	useEffect(() => {
 		return () => {
 			resetPedidoActual();
 		};
@@ -157,11 +162,11 @@ export default function TomaDePedidos() {
 					spacing={2}
 					className={estilos.contenedor}
 				>
-					{pedidoActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
+					{clienteActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
 						<Fragment>
 							<Grid item xs={6} sm={6}>
 								<Typography variant='body2' component='p' data-cy='razonSocial'>
-									{pedidoActual.razonSocial}
+									{clienteActual.razonSocial}
 								</Typography>
 							</Grid>
 							<Grid item xs={12} sm={12}>
@@ -183,19 +188,18 @@ export default function TomaDePedidos() {
 							</Grid>
 						</Fragment>
 					)}
-					{pedidoActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
+					{clienteActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
 						<Fragment>
 							<FormularioAgregarProducto
 								agregarProductoAlPedidoCliente={
 									validarAgregarProductoAlPedidoCliente
 								}
-								buscarPreciosProductos={buscarPreciosProductos}
+								buscarPreciosProductos={filtrarPreciosProductosDelClienteActual}
 								handleSubmit={handleSubmit}
 								control={control}
 								disabled={productoActual.codigoProductoConNombre === ''}
 								deshabilitarSubunidades={
-									!permiteSubUnidades(
-										pedidoActual.codigoCliente,
+									!validarProductoPermiteSubUnidades(
 										parseInt(
 											getValues('codigoProductoConNombre')?.split(' ')[0]
 										)
@@ -224,7 +228,7 @@ export default function TomaDePedidos() {
 											variant='contained'
 											color='secondary'
 											data-cy='boton-cerrarPedido'
-											onClick={agregarPedidoAlListado}
+											onClick={agregarPedidoActualAPedidosClientes}
 											className={estilos.botonCerrarPedido}
 										>
 											{t('general.cerrarPedido').toUpperCase()}

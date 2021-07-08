@@ -1,27 +1,25 @@
-import {useAgregarPedidoAlListado} from './useAgregarPedidoAlListado';
-import {useAgregarProductoAlPedidoCliente} from './useAgregarProductoAlPedidoCliente';
+import {useAgregarPedidoActualAPedidosClientes} from './useAgregarPedidoActualAPedidosClientes';
+import {useAgregarProductoAlPedidoActual} from './useAgregarProductoAlPedidoActual';
 import {useAsignarProductoActual} from './useAsignarProductoActual';
-import {useBuscarPreciosProductos} from './useBuscarPreciosProductos';
-import {useObtenerPreciosProductosDelCliente} from './useObtenerPreciosProductosDelCliente';
+import {useFiltrarPreciosProductosDelClienteActual} from './useFiltrarPreciosProductosDelClienteActual';
+import {useObtenerPreciosProductosDelClienteActual} from './useObtenerPreciosProductosDelClienteActual';
 import {useValidarAgregarProductoAlPedidoCliente} from './useValidarAgregarProductoAlPedidoCliente';
 import {useManejadorConfirmarAgregarPedido} from './useManejadorConfirmarAgregarPedido';
-import {usePermiteSubUnidades} from './usePermiteSubUnidades';
-import {useMostrarAdvertenciaEnDialogo} from './useMostrarAdvertenciaEnDialogo';
+import {useValidarProductoPermiteSubUnidades} from './useValidarProductoPermiteSubUnidades';
 import {useResetLineaActual} from './useResetLineaActual';
 import {useResetPedidoActual} from './useResetPedidoActual';
-import {useInicializarPreciosProductosDelCliente} from './useInicializarPreciosProductosDelCliente';
+import {useInicializarPreciosProductosDelClienteActual} from './useInicializarPreciosProductosDelClienteActual';
 
 export {
-	useAgregarPedidoAlListado,
-	useAgregarProductoAlPedidoCliente,
+	useAgregarPedidoActualAPedidosClientes,
+	useAgregarProductoAlPedidoActual,
 	useAsignarProductoActual,
-	useBuscarPreciosProductos,
-	useObtenerPreciosProductosDelCliente,
+	useFiltrarPreciosProductosDelClienteActual,
+	useObtenerPreciosProductosDelClienteActual,
 	useValidarAgregarProductoAlPedidoCliente,
 	useManejadorConfirmarAgregarPedido,
-	usePermiteSubUnidades,
-	useMostrarAdvertenciaEnDialogo,
+	useValidarProductoPermiteSubUnidades,
 	useResetLineaActual,
 	useResetPedidoActual,
-	useInicializarPreciosProductosDelCliente,
+	useInicializarPreciosProductosDelClienteActual,
 };

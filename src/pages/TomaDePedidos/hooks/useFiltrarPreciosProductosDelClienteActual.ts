@@ -4,19 +4,23 @@ import {
 	TCliente,
 	TInputsFormularioAgregarProducto,
 } from 'models';
-import {useObtenerPreciosProductosDelCliente} from '.';
-import {useObtenerClienteActual} from 'hooks';
-import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
-import {useAppSelector} from 'redux/hooks';
+import {useObtenerPreciosProductosDelClienteActual} from '.';
+import {
+	useObtenerDatosCliente,
+	useObtenerPedidoActual,
+	useObtenerClienteActual,
+} from 'hooks';
 
-export const useBuscarPreciosProductos = (
+export const useFiltrarPreciosProductosDelClienteActual = (
 	preciosProductos: TPrecioProducto[],
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>
 ) => {
-	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
-	const obtenerClienteActual = useObtenerClienteActual();
-	const pedidoActual = useAppSelector(selectPedidoActual);
-	const buscarPreciosProductos = useCallback(
+	const obtenerPreciosProductosDelClienteActual = useObtenerPreciosProductosDelClienteActual();
+	const pedidoActual = useObtenerPedidoActual();
+	const clienteActual = useObtenerClienteActual();
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+
+	const filtrarPreciosProductosDelClienteActual = useCallback(
 		({productoABuscar}: TInputsFormularioAgregarProducto) => {
 			const preciosProductosFiltrados: TPrecioProducto[] = preciosProductos.filter(
 				(precioProducto: TPrecioProducto) =>
@@ -25,28 +29,31 @@ export const useBuscarPreciosProductos = (
 						.toLowerCase()
 						.includes(productoABuscar.toLowerCase())
 			);
+
 			if (productoABuscar !== '') {
 				setPreciosProductos(preciosProductosFiltrados);
 				return;
 			}
-			const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
-				pedidoActual.codigoCliente
-			);
-			if (!clienteEncontrado) return;
+
+			if (!datosCliente) return;
+
 			const fechaEntrega: string = pedidoActual.fechaEntrega;
+
 			if (!fechaEntrega) return;
-			const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
-				clienteEncontrado,
+
+			const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelClienteActual(
+				datosCliente,
 				fechaEntrega
 			);
+
 			setPreciosProductos(preciosProductosDelCliente);
 		},
 		[
 			preciosProductos,
-			obtenerPreciosProductosDelCliente,
-			obtenerClienteActual,
+			datosCliente,
+			obtenerPreciosProductosDelClienteActual,
 			pedidoActual,
 		]
 	);
-	return buscarPreciosProductos;
+	return filtrarPreciosProductosDelClienteActual;
 };

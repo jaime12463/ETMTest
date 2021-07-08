@@ -5,11 +5,11 @@ import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice'
 import {TPrecioProducto, TCliente} from 'models';
 import {validarFechaVigenciaProducto} from 'utils/validaciones';
 
-export const useObtenerPreciosProductosDelCliente = () => {
+export const useObtenerPreciosProductosDelClienteActual = () => {
 	const {datos} = useAppSelector(selectDatos);
 	const pedidoActual = useAppSelector(selectPedidoActual);
 
-	const obtenerPreciosProductosDelCliente = useCallback(
+	const obtenerPreciosProductosDelClienteActual = useCallback(
 		(clienteEncontrado: TCliente, fechaEntrega: string): TPrecioProducto[] => {
 			const preciosProductosDelCliente: TPrecioProducto[] = clienteEncontrado.portafolio
 				.filter((producto) => {
@@ -28,5 +28,5 @@ export const useObtenerPreciosProductosDelCliente = () => {
 		},
 		[datos, pedidoActual]
 	);
-	return obtenerPreciosProductosDelCliente;
+	return obtenerPreciosProductosDelClienteActual;
 };

@@ -1,10 +1,9 @@
-import {TPedidoCliente, TProductoPedido, TTotalPedido} from 'models';
+import {useObtenerPedidoActual} from 'hooks';
+import {TPedidoActual, TProductoPedido, TTotalPedido} from 'models';
 import {useMemo} from 'react';
-import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
-import {useAppSelector} from 'redux/hooks';
 
 export const useCalcularTotalPedido = (): TTotalPedido => {
-	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
+	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
 	const TotalInicial: TTotalPedido = {
 		totalUnidades: 0,
 		totalPrecio: 0,

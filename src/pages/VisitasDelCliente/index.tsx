@@ -1,4 +1,4 @@
-import {Estructura} from '../../components';
+import {Estructura} from 'components';
 import {Celda} from 'components/Table/Celda';
 import useEstilos from './useEstilos';
 import {
@@ -14,26 +14,26 @@ import {
 	Typography,
 } from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
-import {TPedidoClienteParaEnviar, TPedidoCliente} from 'models';
-import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
-import {useAppSelector} from 'redux/hooks';
-import {useObtenerPedidosCliente} from './hooks';
-import {useCalcularTotalPedidos} from 'hooks';
+import {TPedidoClienteParaEnviar, TClienteActual} from 'models';
+import {useCrearPedidoAlClienteActual, useObtenerPedidosCliente} from './hooks';
+import {useCalcularTotalPedidos, useObtenerClienteActual} from 'hooks';
 import AddIcon from '@material-ui/icons/Add';
-import {useRouteMatch, useHistory} from 'react-router-dom';
-import nombresRutas from 'routes/nombresRutas';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 const VisitasDelCliente: React.FC = () => {
 	const {t} = useTranslation();
+
 	const estilos = useEstilos();
-	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
+
+	const clienteActual: TClienteActual = useObtenerClienteActual();
 
 	const pedidosCliente: TPedidoClienteParaEnviar[] = useObtenerPedidosCliente(
-		pedidoActual.codigoCliente
+		clienteActual.codigoCliente
 	);
 
-	const {path} = useRouteMatch();
-	const history = useHistory();
+	const crearPedidoAlClienteActual = useCrearPedidoAlClienteActual();
+
+	const calcularTotalPedido = useCalcularTotalPedidos();
 
 	return (
 		<>
@@ -51,12 +51,12 @@ const VisitasDelCliente: React.FC = () => {
 				>
 					<Grid item xs={4}>
 						<Typography variant='body2' component='p' data-cy='info'>
-							{`Cliente ${pedidoActual.codigoCliente}`}
+							{`Cliente ${clienteActual.codigoCliente}`}
 						</Typography>
 					</Grid>
 					<Grid item xs={8}>
 						<Typography variant='body2' component='p' data-cy='info'>
-							{`${pedidoActual.razonSocial}`}
+							{`${clienteActual.razonSocial}`}
 						</Typography>
 					</Grid>
 					<TableContainer>
@@ -70,7 +70,7 @@ const VisitasDelCliente: React.FC = () => {
 										t('general.monto'),
 										t('general.acciones'),
 									].map((column) => (
-										<TableCell key={column} padding='none' align='center'>
+										<TableCell key={column} padding='none' align='left'>
 											<Box my={1} mx={1}>
 												{column}
 											</Box>
@@ -84,7 +84,7 @@ const VisitasDelCliente: React.FC = () => {
 										<TableRow key={i} hover>
 											<Celda
 												estilos={estilos}
-												width='15'
+												width='20'
 												align='left'
 												dataCy='cliente-estado-pedido'
 											>
@@ -92,39 +92,38 @@ const VisitasDelCliente: React.FC = () => {
 											</Celda>
 											<Celda
 												estilos={estilos}
-												width='45'
+												width='20'
 												align='left'
 												dataCy='cliente-nombre-pedido'
-												resumirTexto={true}
 											>
 												{'Venta'}
 											</Celda>
 											<Celda
 												estilos={estilos}
-												width='15'
+												width='20'
 												align='left'
 												dataCy='cliente-fechaEntrega-pedido'
-												resumirTexto={true}
 											>
 												{pedido.fechaEntrega}
 											</Celda>
 											<Celda
 												estilos={estilos}
-												width='15'
+												width='20'
 												align='left'
 												dataCy='cliente-monto-pedido'
-												resumirTexto={true}
 											>
-												{useCalcularTotalPedidos(pedido.productosPedido)}
+												{
+													calcularTotalPedido(pedido.productosPedido)
+														.totalPrecio
+												}
 											</Celda>
 											<Celda
 												estilos={estilos}
-												width='15'
-												align='right'
+												width='20'
+												align='center'
 												dataCy='cliente-acciones-pedido'
-												resumirTexto={true}
 											>
-												{'...'}
+												<MoreHorizIcon />
 											</Celda>
 										</TableRow>
 									))}
@@ -135,9 +134,7 @@ const VisitasDelCliente: React.FC = () => {
 						color='primary'
 						aria-label='add'
 						className={estilos.fab}
-						onClick={() =>
-							history.push(`${path}${nombresRutas.ingresarpedido}`)
-						}
+						onClick={crearPedidoAlClienteActual}
 					>
 						<AddIcon />
 					</Fab>

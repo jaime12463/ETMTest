@@ -1,15 +1,14 @@
 import {useCallback} from 'react';
 import {useAppDispatch} from 'redux/hooks';
-import {inicializarPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
-	TCliente,
 	TConfiguracion,
 	TFunctionMostarAvertenciaPorDialogo,
 	TValidacionFechaEntrega,
 	TValidacionFechaVisita,
 	TInputsCodigoCliente,
+	TCliente,
 } from 'models';
-import {useObtenerClienteActual, useObtenerConfiguracionActual} from 'hooks';
+import {useObtenerConfiguracion, useObtenerDatosCliente} from 'hooks';
 import {
 	validarObtenerFechaEntrega,
 	validarObtenerVisitaPlanificada,
@@ -18,23 +17,24 @@ import {
 import {useTranslation} from 'react-i18next';
 import {useRouteMatch, useHistory} from 'react-router-dom';
 import nombresRutas from 'routes/nombresRutas';
+import {inicializarClienteActual} from 'redux/features/clienteActual/clienteActualSlice';
 
-export const useAsignarPedidoActual = (
+export const useAsignarClienteActual = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const {path} = useRouteMatch();
 	const dispatch = useAppDispatch();
-	const obtenerClienteActual = useObtenerClienteActual();
-	const configuracionActual = useObtenerConfiguracionActual();
+	const configuracion = useObtenerConfiguracion();
+	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const {t} = useTranslation();
 	const history = useHistory();
-	const asignarPedidoActual = useCallback(
+	const asignarClienteActual = useCallback(
 		({codigoCliente}: TInputsCodigoCliente) => {
-			const clienteEncontrado: TCliente | undefined =
-				obtenerClienteActual(codigoCliente);
-			const {esFrecuenciaAbierta}: TConfiguracion = configuracionActual;
-
-			if (!clienteEncontrado) {
+			const {esFrecuenciaAbierta}: TConfiguracion = configuracion;
+			const datosCliente: TCliente | undefined = obtenerDatosCliente(
+				codigoCliente
+			);
+			if (!datosCliente) {
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.clienteNoPortafolio'),
 					'clienteNoPortafolio'
@@ -46,16 +46,18 @@ export const useAsignarPedidoActual = (
 
 			if (esFrecuenciaAbierta) {
 				visitaPlanificada = validarObtenerVisitaPlanificadaPosterior(
-					clienteEncontrado.visitasPlanificadas
+					datosCliente.visitasPlanificadas
 				);
 			} else {
 				visitaPlanificada = validarObtenerVisitaPlanificada(
-					clienteEncontrado.visitasPlanificadas
+					datosCliente.visitasPlanificadas
 				);
 			}
 
-			const {esValidaVisitaPlanificada, fechaVisitaPlanificada} =
-				visitaPlanificada;
+			const {
+				esValidaVisitaPlanificada,
+				fechaVisitaPlanificada,
+			} = visitaPlanificada;
 
 			if (!esValidaVisitaPlanificada && esFrecuenciaAbierta) {
 				mostrarAdvertenciaEnDialogo(
@@ -73,11 +75,13 @@ export const useAsignarPedidoActual = (
 				return;
 			}
 
-			const {esValidaFechaEntrega, fechaEntrega}: TValidacionFechaEntrega =
-				validarObtenerFechaEntrega(
-					fechaVisitaPlanificada,
-					clienteEncontrado.fechasEntrega
-				);
+			const {
+				esValidaFechaEntrega,
+				fechaEntrega,
+			}: TValidacionFechaEntrega = validarObtenerFechaEntrega(
+				fechaVisitaPlanificada,
+				datosCliente.fechasEntrega
+			);
 
 			if (!esValidaFechaEntrega) {
 				mostrarAdvertenciaEnDialogo(
@@ -88,20 +92,15 @@ export const useAsignarPedidoActual = (
 			}
 
 			dispatch(
-				inicializarPedidoActual({
+				inicializarClienteActual({
 					codigoCliente,
 					fechaEntrega,
-					razonSocial: clienteEncontrado.detalles[0].nombreComercial,
+					razonSocial: datosCliente.detalles[0].nombreComercial,
 				})
 			);
 			history.push(`${path}${nombresRutas.visitaClientes}`);
 		},
-		[
-			obtenerClienteActual,
-			mostrarAdvertenciaEnDialogo,
-			dispatch,
-			configuracionActual,
-		]
+		[mostrarAdvertenciaEnDialogo, dispatch, configuracion]
 	);
-	return asignarPedidoActual;
+	return asignarClienteActual;
 };

@@ -1,9 +1,9 @@
 import {TProductoPedido, TTotalPedido} from '../models';
-import {useMemo} from 'react';
+import {useCallback} from 'react';
 
-export const useCalcularTotalPedidos = (
+export const useCalcularTotalPedidos = (): ((
 	productosPedido: TProductoPedido[]
-): TTotalPedido => {
+) => TTotalPedido) => {
 	const TotalInicial: TTotalPedido = {
 		totalUnidades: 0,
 		totalPrecio: 0,
@@ -17,9 +17,15 @@ export const useCalcularTotalPedidos = (
 		totalSubUnidades: total.totalSubUnidades + productoPedido.subUnidades,
 		totalPrecio: total.totalPrecio + productoPedido.total,
 	});
-	const totalPedido: TTotalPedido = useMemo(
-		() => productosPedido.reduce(reducerSumarProductos, TotalInicial),
-		[productosPedido]
+	const calcularTotalPedido = useCallback(
+		(productosPedido: TProductoPedido[]) => {
+			const totalPedido: TTotalPedido = productosPedido.reduce(
+				reducerSumarProductos,
+				TotalInicial
+			);
+			return totalPedido;
+		},
+		[]
 	);
-	return totalPedido;
+	return calcularTotalPedido;
 };

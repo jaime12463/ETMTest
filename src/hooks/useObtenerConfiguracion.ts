@@ -2,10 +2,10 @@ import {TConfiguracion} from 'models';
 import {useAppSelector} from 'redux/hooks';
 import {selectConfiguracion} from 'redux/features/configuracion/configuracionSlice';
 
-export const useObtenerConfiguracionActual = () => {
+export const useObtenerConfiguracion = (): TConfiguracion => {
 	const {
 		datos: {configuraciones},
 	} = useAppSelector(selectConfiguracion);
-	const configuracionActual: TConfiguracion = configuraciones[0];
-	return configuracionActual;
+	const configuracion: TConfiguracion = configuraciones[0];
+	return configuracion;
 };

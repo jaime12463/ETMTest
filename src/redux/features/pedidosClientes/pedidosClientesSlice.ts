@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {
-	TPedidoCliente,
+	TPedidoActual,
+	TClienteActual,
 	TPedidoClienteParaEnviar,
 	TPedidosClientes,
 } from 'models';
@@ -12,20 +13,26 @@ export const pedidosClientesSlice = createSlice({
 	name: 'pedidosClientes',
 	initialState: estadoInicial,
 	reducers: {
-		agregarPedidoCliente: (state, action: PayloadAction<TPedidoCliente>) => {
+		agregarPedidoCliente: (
+			state,
+			action: PayloadAction<{
+				pedidoActual: TPedidoActual;
+				clienteActual: TClienteActual;
+			}>
+		) => {
 			const {
-				codigoCliente,
+				codigoPedido,
 				productosPedido,
 				fechaEntrega,
 				estado,
-				usuario,
-			}: TPedidoCliente = action.payload;
+			}: TPedidoActual = action.payload.pedidoActual;
+			const {codigoCliente}: TClienteActual = action.payload.clienteActual;
 			if (!state[codigoCliente]) state[codigoCliente] = [];
 			const pedidoCliente: TPedidoClienteParaEnviar = {
 				productosPedido,
 				fechaEntrega,
 				estado,
-				usuario,
+				usuario: 'SFA01',
 				enviado: false,
 			};
 			state[codigoCliente].push(pedidoCliente);

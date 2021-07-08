@@ -1,16 +1,15 @@
-import React from 'react';
 import {useHistory, useLocation} from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import LogoFemsa from 'assests/images/hdpi_logo_client.png';
 import nombresRutas from 'routes/nombresRutas';
 import Estructura from 'components/Estructura';
-import {useObtenerDatos} from 'hooks';
+import {useInicializarDatosYConfigiguracion} from 'hooks';
 
 export default function Splash() {
 	let history = useHistory();
 	let query = useLocation();
 
-	useObtenerDatos();
+	useInicializarDatosYConfigiguracion();
 
 	localStorage.removeItem('fechaDipostivo');
 	query.search && localStorage.setItem('fechaDipostivo', query.search);

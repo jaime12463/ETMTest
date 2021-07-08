@@ -74,13 +74,17 @@ export type TPedidoClienteParaEnviar = {
 	enviado: boolean;
 };
 
-export type TPedidoCliente = {
+export type TPedidoActual = {
+	codigoPedido: string;
+	fechaEntrega: string;
+	estado: 'activo' | 'inactivo';
+	productosPedido: TProductoPedido[];
+};
+
+export type TClienteActual = {
 	codigoCliente: string;
 	fechaEntrega: string;
 	razonSocial: string;
-	usuario: string;
-	estado: 'activo' | 'inactivo';
-	productosPedido: TProductoPedido[];
 };
 
 export type TProductoPedido = {

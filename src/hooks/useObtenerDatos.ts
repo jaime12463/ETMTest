@@ -1,15 +1,8 @@
-import {useEffect} from 'react';
-import {obtenerDatosClientesProductosAsync} from '../redux/features/datos/datosSlice';
-import {obtenerDatosConfiguracionAsync} from '../redux/features/configuracion/configuracionSlice';
-import {useAppDispatch} from '../redux/hooks';
+import {TDatosClientesProductos} from 'models';
+import {useAppSelector} from 'redux/hooks';
+import {selectDatos} from 'redux/features/datos/datosSlice';
 
-const useObtenerDatos = () => {
-	const dispatch = useAppDispatch();
-
-	return useEffect(() => {
-		dispatch(obtenerDatosClientesProductosAsync());
-		dispatch(obtenerDatosConfiguracionAsync());
-	}, [dispatch]);
+export const useObtenerDatos = (): TDatosClientesProductos => {
+	const {datos} = useAppSelector(selectDatos);
+	return datos;
 };
-
-export default useObtenerDatos;

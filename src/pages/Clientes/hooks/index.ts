@@ -1,3 +1,3 @@
-import { useAsignarPedidoActual } from "./useAsignarPedidoActual";
+import {useAsignarClienteActual} from './useAsignarClienteActual';
 
-export {useAsignarPedidoActual}
+export {useAsignarClienteActual};
