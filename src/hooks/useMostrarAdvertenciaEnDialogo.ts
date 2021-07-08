@@ -1,10 +1,15 @@
-import {Dispatch, SetStateAction, useCallback} from 'react';
+import {useCallback, useState} from 'react';
 import {Props as PropsDialogo} from 'components/Dialogo';
 
-export const useMostrarAdvertenciaEnDialogo = (
-	setMostarDialogo: Dispatch<SetStateAction<boolean>>,
-	setParametrosDialogo: Dispatch<SetStateAction<PropsDialogo>>
-) => {
+export const useMostrarAdvertenciaEnDialogo = () => {
+	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
+
+	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
+		mensaje: '',
+		manejadorClick: () => {},
+		conBotonCancelar: false,
+		dataCy: '',
+	});
 	const mostrarAdvertenciaEnDialogo = useCallback(
 		(
 			mensaje: string,
@@ -28,5 +33,5 @@ export const useMostrarAdvertenciaEnDialogo = (
 		},
 		[]
 	);
-	return mostrarAdvertenciaEnDialogo;
+	return {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo};
 };
