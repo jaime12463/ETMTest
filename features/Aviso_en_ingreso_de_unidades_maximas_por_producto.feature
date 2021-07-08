@@ -1,3 +1,5 @@
+# language: es
+
 @Pedido @Validar_unidades @Unidades_maximas_por_producto @Sprint3
 
 # Si hay definida una cantidad máxima de unidades para el cliente 
@@ -12,7 +14,7 @@
 # donde se capturen productos..
 
 # UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=436%3A2150&scaling=scale-down&page-id=436%3A1256
-# prueba pipeline
+
 Característica: Aviso en ingreso de unidades maximas por producto
 	Como prevendedor
 	Quiero que al ingresar una cantidad mayor a 100 en las unidades el sistema me avise
@@ -31,7 +33,6 @@ Ejemplos:
 |   101  |
 |   110  |
 
-@Test_dispositivo_2
 Esquema del escenario: N°2 – La cantidad es menor o igual a la permitida
 	Cuando se ingresa <cantidad>
 	Entonces el sistema continuará con el ingreso del pedido.
@@ -41,7 +42,6 @@ Ejemplos:
 |   99   |
 |   100  |
 
-@Test_dispositivo_3
 Escenario: N°3 - Las unidadesMaximasVenta no está definido para el cliente
 	Dado que el cliente no tiene configurado las unidadesMaximasVenta
 	Cuando se ingresan las unidades del pedido del cliente

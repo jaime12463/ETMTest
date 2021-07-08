@@ -34,7 +34,7 @@ Esquema del escenario: N°1 – El cliente no tiene pedidos activos para la fech
 #   1000	             30/06/2021	    Cancelado
 
 Ejemplos:
-| montoVentaMinimo|montoVentaMaximo|montoDelPedido                                                                                                  
+| montoVentaMinimo|montoVentaMaximo|montoDelPedido|                                                                                                  
 |    1000         |  2000          | 1000		  | 
 |    1000         |  2000          | 1500		  | 
 |    1000         |  2000          | 2000 		  | 
