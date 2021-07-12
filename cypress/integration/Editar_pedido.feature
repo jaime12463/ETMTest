@@ -14,7 +14,7 @@
 # UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA_S4?node-id=86%3A3&scaling=scale-down&page-id=86%3A2
 
 
-Característica: editar pedido realizado
+Característica: Editar pedido realizado
 	Como prevendedor
 	Quiero editar un pedido
 	Para cumplir con las necesidades del cliente

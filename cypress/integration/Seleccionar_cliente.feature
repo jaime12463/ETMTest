@@ -4,7 +4,7 @@
 
 # UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA_S4?node-id=86%3A3&scaling=scale-down&page-id=86%3A2
 
-Característica: seleccionar cliente
+Característica: Seleccionar cliente
 	Como prevendedor 
 	Quiero teclear un código de cliente
 	Para iniciar su visita

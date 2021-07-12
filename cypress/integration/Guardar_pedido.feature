@@ -14,13 +14,14 @@
 
 # UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA_S4?node-id=86%3A3&scaling=scale-down&page-id=86%3A2
 
-Característica: guardar pedido
+Característica: Guardar pedido
     Como prevendedor
     Quiero guardar el pedido realizado
     Para luego informar a central la venta realizada
 
 Antecedentes:
 	Dado un pedido ingresado 
+	
 Esquema del escenario: N°1 – El cliente no tiene pedidos activos para la fecha de entrega 
 	Dado que el cliente no tiene pedidos en estado Activo para la misma fecha de entrega del pedido a guardar
 	Y el <montoDelPedido> a guardar es mayor o igual <montoVentaMinimo> 

@@ -8,7 +8,7 @@
 # UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA_S4?node-id=86%3A3&scaling=scale-down&page-id=86%3A2
 
 
-Característica: ver acciones del pedido
+Característica: Ver acciones del pedido
 	Como prevendedor
 	Quiero ver las acciones que puedo realizar a un pedido activo
 	Para satisfacer las necesidades del cliente
