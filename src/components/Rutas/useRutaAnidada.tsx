@@ -26,16 +26,16 @@ const rutas: string[] = [
 const useRutaAnidada = (
 	componente: ReactNodeArray = componentes,
 	path: string[] = rutas,
-	rutaanidada: string[] = []
+	rutaAnidada: string[] = []
 ) => {
 	let componenteRenderizado: ReactNode = componente.shift();
 	let pathActual: string | undefined = path.shift();
-	pathActual && rutaanidada.push(pathActual);
+	pathActual && rutaAnidada.push(pathActual);
 	return (
-		<Route path={rutaanidada.join('')}>
+		<Route path={rutaAnidada.join('')}>
 			{componenteRenderizado}
-			{componente.length > 0
-				? useRutaAnidada(componente, path, rutaanidada)
+			{componente && componente.length >= 1
+				? useRutaAnidada(componente, path, rutaAnidada)
 				: null}
 		</Route>
 	);

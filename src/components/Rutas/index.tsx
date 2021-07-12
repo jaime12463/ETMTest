@@ -3,10 +3,12 @@ import nombresRutas from '../../routes/nombresRutas';
 import {Inicio} from '../../pages';
 import useRutaAnidada from './useRutaAnidada';
 
+const rutasAnidadas = useRutaAnidada();
+
 const Rutas = () => {
 	return (
 		<BrowserRouter>
-			{useRutaAnidada()}
+			{rutasAnidadas}
 			<Route exact path={nombresRutas.home}>
 				<Inicio />
 			</Route>

@@ -40,7 +40,7 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "start-server": "cd data && nodemon server.js",
+    "start-server": "cd data && npm run start:dev",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --spec cypress/integration/*",
     "start-cypress": "concurrently \"npm:start-server\" \"npm:start\" \"cypress run --spec cypress/integration/*\"",
