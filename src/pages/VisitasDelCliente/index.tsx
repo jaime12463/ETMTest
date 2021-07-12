@@ -223,7 +223,6 @@ const VisitasDelCliente: React.FC = () => {
 														<List
 															component='nav'
 															aria-label='main mailbox folders'
-															id={(i + Math.random()).toString()}
 														>
 															<ListItem
 																button
