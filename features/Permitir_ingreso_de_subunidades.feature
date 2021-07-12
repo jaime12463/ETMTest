@@ -47,12 +47,12 @@ Ejemplos:
 |      false           |	  false		  |    No habilitará    |
 
 Esquema del escenario: N°2 – Validar Subunidades con la presentación
-	Dado que el producto ingresado tiene presentación <presentación>
+	Dado que el producto ingresado tiene presentación <presentacion>
 	Cuando se ingresan <subunidades> 
-	Entonces el sistema <acción> 
+	Entonces el sistema <accion> 
 
 Ejemplos:
-|presentación |subunidades| acción                                                                				| 
+|presentacion |subunidades| accion                                                                				| 
 |    12       |   11      |  permitirá el ingreso del producto en el pedido                       				|
 |    12	      |	   5      |  permitirá el ingreso del producto en el pedido                       				|
 |    12       |   12      |  mostrará mensaje “Las subunidades deben ser menores a la presentación del producto”|
@@ -61,13 +61,13 @@ Ejemplos:
 
 
 Esquema del escenario: N°3 – Ingreso de subunidad correcta
-    Dado que el producto tiene presentación <presentación>
-    Y la venta mínima de subunidades es <subunidadesVentaMínima>
+    Dado que el producto tiene presentación <presentacion>
+    Y la venta mínima de subunidades es <subunidadesVentaMinima>
     Cuando ingreso <subunidades> en subunidades
     Entonces el sistema dará por válidas las subunidades ingresadas
 
 Ejemplos:
-|presentación|subunidadesVentaMínima|subunidades|
+|presentacion|subunidadesVentaMinima|subunidades|
 |    12      |       3              |    3      | 
 |    12      |       3              |    6      |  
 |    12      |       3              |    9      |
@@ -76,12 +76,12 @@ Ejemplos:
 |    12      |       3              |    0      |
 
 Esquema del escenario: N°4 – Ingreso de subunidades incorrecto
-    Dado que el producto tiene presentación <presentación>
-    Y la venta mínima de subunidades es <subunidadesVentaMínima>
+    Dado que el producto tiene presentación <presentacion>
+    Y la venta mínima de subunidades es <subunidadesVentaMinima>
     Cuando ingreso <subunidades> en subunidades
-    Entonces el sistema mostrará el mensaje “Las subunidades debe ser en múltiplos de <subunidadesVentaMínima>”
+    Entonces el sistema mostrará el mensaje “Las subunidades debe ser en múltiplos de <subunidadesVentaMinima>”
 
 Ejemplos:
-|presentación|subunidadesVentaMínima|subunidades|
+|presentacion|subunidadesVentaMinima|subunidades|
 |   12       |       3              |    2      |
 |   12       |       3              |    4      |

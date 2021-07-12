@@ -2,14 +2,14 @@
 
 @Pedido @Validar_unidades @Unidades_maximas_por_producto @Sprint3
 
-# Si hay definida una cantidad máxima de unidades para el cliente 
-# y al ingresar las unidades excede dicha cantidad máxima, 
-# el sistema avisa:” La cantidad es mayor a X. Desea Continuar?”  
-# Si responde “Si”, continua con la toma del pedido. 
-# Si responde “No”, se queda en el campo para que pueda corregir. 
+# Si al ingresar las unidades se excede la cantidad máxima permitida, 
+# el sistema avisa: "La cantidad es mayor a X. Desea Continuar?"  
+# Si responde "Si", continua con la toma del pedido. 
+# Si responde "No", se queda en el campo para que pueda corregir. 
 #
 # Nuevo dato del cliente “cantidadMaximaUnidades” que indica la 
 # cantidad máxima de cajas que se pueden ingresar para un producto. (Opcional)
+# Si este dato no viene informado, se asume el valor como el entero más grande
 # Esta cantidad máxima aplicará a todos los tipos de operación 
 # donde se capturen productos..
 
@@ -25,7 +25,8 @@ Antecedentes:
 
 @Test_dispositivo_1
 Esquema del escenario: N°1 – La cantidad es mayor a la permitida
-	Cuando se ingresa <cantidad>
+	Cuando se ingresa <cantidad> 
+	Y es mayor a la cantidad máxima de unidades
 	Entonces el sistema mostrará el mensaje “La cantidad es mayor a 100 ¿Desea continuar?” (Si/No)
 
 Ejemplos:
@@ -35,6 +36,7 @@ Ejemplos:
 
 Esquema del escenario: N°2 – La cantidad es menor o igual a la permitida
 	Cuando se ingresa <cantidad>
+	Y es menor o igual a la cantidad máxima de unidades
 	Entonces el sistema continuará con el ingreso del pedido.
 
 Ejemplos:
@@ -42,7 +44,3 @@ Ejemplos:
 |   99   |
 |   100  |
 
-Escenario: N°3 - Las unidadesMaximasVenta no está definido para el cliente
-	Dado que el cliente no tiene configurado las unidadesMaximasVenta
-	Cuando se ingresan las unidades del pedido del cliente
-	Entonces el sistema no realizará validación de unidades ingresadas
