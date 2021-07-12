@@ -15,7 +15,10 @@ import {
 	TTotalPedido,
 } from 'models';
 import {Dispatch, SetStateAction, useCallback} from 'react';
-import {agregarPedidoCliente} from 'redux/features/pedidosClientes/pedidosClientesSlice';
+import {
+	agregarPedidoCliente,
+	modificarPedidoCliente,
+} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {useAppDispatch} from 'redux/hooks';
 import {
 	validarMontoMinimoPedido,
@@ -63,7 +66,8 @@ export const useAgregarPedidoActualAPedidosClientes = (
 		if (pedidosCliente) {
 			pedidosClienteMismaFechaEntrega = pedidosCliente.filter(
 				(pedidoCliente: TPedidoClienteParaEnviar) =>
-					pedidoCliente.fechaEntrega === pedidoActual.fechaEntrega
+					pedidoCliente.fechaEntrega === pedidoActual.fechaEntrega &&
+					pedidoCliente.codigoPedido !== pedidoActual.codigoPedido
 			);
 		}
 
@@ -102,9 +106,16 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			return;
 		}
 
-		dispatch(agregarPedidoCliente({pedidoActual, clienteActual}));
+		const esPedidoActualExistenteEnPedidosClientes: boolean = pedidosCliente?.some(
+			(pedidoCliente) =>
+				pedidoCliente.codigoPedido === pedidoActual.codigoPedido
+		);
+
+		if (esPedidoActualExistenteEnPedidosClientes)
+			dispatch(modificarPedidoCliente({pedidoActual, clienteActual}));
+		else dispatch(agregarPedidoCliente({pedidoActual, clienteActual}));
+
 		setAvisoPedidoGuardadoExitoso(true);
-		resetPedidoActual();
 		history.goBack();
 	}, [
 		pedidoActual,

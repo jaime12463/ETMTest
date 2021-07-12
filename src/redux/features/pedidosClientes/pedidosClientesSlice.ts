@@ -38,10 +38,43 @@ export const pedidosClientesSlice = createSlice({
 			};
 			state[codigoCliente].push(pedidoCliente);
 		},
+		modificarPedidoCliente: (
+			state,
+			action: PayloadAction<{
+				pedidoActual: TPedidoActual;
+				clienteActual: TClienteActual;
+			}>
+		) => {
+			const {
+				codigoPedido,
+				productosPedido,
+				fechaEntrega,
+				estado,
+			}: TPedidoActual = action.payload.pedidoActual;
+			const {codigoCliente}: TClienteActual = action.payload.clienteActual;
+			const pedidosClienteActual = state[codigoCliente];
+			const pedidosClienteFiltrandoElModificado = pedidosClienteActual.filter(
+				(pedidoCliente: TPedidoClienteParaEnviar) =>
+					pedidoCliente.codigoPedido !== codigoPedido
+			);
+			const pedidoClienteModificado: TPedidoClienteParaEnviar = {
+				codigoPedido,
+				productosPedido,
+				fechaEntrega,
+				estado,
+				usuario: 'SFA01',
+				enviado: false,
+			};
+			pedidosClienteFiltrandoElModificado.push(pedidoClienteModificado);
+			state[codigoCliente] = pedidosClienteFiltrandoElModificado;
+		},
 	},
 });
 
 export const selectPedidosClientes = (state: RootState) =>
 	state.pedidosClientes;
-export const {agregarPedidoCliente} = pedidosClientesSlice.actions;
+export const {
+	agregarPedidoCliente,
+	modificarPedidoCliente,
+} = pedidosClientesSlice.actions;
 export default pedidosClientesSlice.reducer;

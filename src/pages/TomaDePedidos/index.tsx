@@ -1,4 +1,4 @@
-import {Fragment, SyntheticEvent, useState} from 'react';
+import {Fragment, SyntheticEvent, useEffect, useState} from 'react';
 import {Button, Grid, Snackbar, Typography} from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
@@ -124,11 +124,11 @@ export default function TomaDePedidos() {
 	};
 
 	//TODO: Deberia preguntar antes de salir si lo desea?
-	/* 	useEffect(() => {
+	useEffect(() => {
 		return () => {
 			resetPedidoActual();
 		};
-	}, []); */
+	}, []);
 
 	return (
 		<>
