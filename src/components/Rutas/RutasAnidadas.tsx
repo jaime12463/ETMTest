@@ -13,10 +13,8 @@ const RutasAnidadas = ({principal, pathAnidado, anidado}: Props) => {
 		<>
 			<Switch>
 				<Route path={`${path}`}>
-					{console.log(`${path}`, 'principal')}
 					{principal}
 					<Route exact path={`${path}${pathAnidado}`}>
-						{console.log(`${path}${pathAnidado}`, 'anidado')}
 						{anidado}
 					</Route>
 				</Route>
