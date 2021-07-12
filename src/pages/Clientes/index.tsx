@@ -1,34 +1,23 @@
-import {Grid, Typography} from '@material-ui/core';
-import {Input, Estructura} from '../../components';
-import {TInputsCodigoCliente} from '../../models';
+import {Grid} from '@material-ui/core';
+import useEstilos from './useEstilos';
+import {Input, Estructura, Dialogo} from 'components';
+import {TInputsCodigoCliente} from 'models';
 import {useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
-import {useState} from 'react';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import {useAsignarClienteActual} from './hooks';
-import Dialogo, {Props as PropsDialogo} from 'components/Dialogo';
-import useEstilos from './useEstilos';
 
 const Clientes = () => {
 	const estilos = useEstilos();
 	const {t} = useTranslation();
 
-	const {control, handleSubmit, setValue, getValues} =
-		useForm<TInputsCodigoCliente>();
+	const {control, handleSubmit} = useForm<TInputsCodigoCliente>();
 
-	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
-
-	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
-		mensaje: '',
-		manejadorClick: () => {},
-		conBotonCancelar: false,
-		dataCy: '',
-	});
-
-	const mostrarAdvertenciaEnDialogo = useMostrarAdvertenciaEnDialogo(
-		setMostarDialogo,
-		setParametrosDialogo
-	);
+	const {
+		mostrarAdvertenciaEnDialogo,
+		mostarDialogo,
+		parametrosDialogo,
+	} = useMostrarAdvertenciaEnDialogo();
 
 	const asignarClienteActual = useAsignarClienteActual(
 		mostrarAdvertenciaEnDialogo

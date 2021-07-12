@@ -1,5 +1,4 @@
-import {Estructura} from 'components';
-import Dialogo, {Props as PropsDialogo} from 'components/Dialogo';
+import {Dialogo, Estructura} from 'components';
 import {Celda} from 'components/Table/Celda';
 import useEstilos from './useEstilos';
 import {
@@ -27,14 +26,17 @@ import {
 	useObtenerPedidosDelClienteActual,
 	useCancelarPedidoDelClienteActual,
 } from './hooks';
-import {useCalcularTotalPedidos, useObtenerClienteActual} from 'hooks';
+import {
+	useCalcularTotalPedidos,
+	useMostrarAdvertenciaEnDialogo,
+	useObtenerClienteActual,
+} from 'hooks';
 import AddIcon from '@material-ui/icons/Add';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import EditIcon from '@material-ui/icons/Edit';
 import CancelIcon from '@material-ui/icons/NotInterested';
 import Paper from '@material-ui/core/Paper';
 import {useState} from 'react';
-import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import {match} from 'assert/strict';
 
 const VisitasDelCliente: React.FC = () => {
@@ -42,19 +44,19 @@ const VisitasDelCliente: React.FC = () => {
 
 	const estilos = useEstilos();
 
-	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
+	/* 	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
 
 	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
 		mensaje: '',
 		manejadorClick: () => {},
 		conBotonCancelar: true,
 		dataCy: '',
-	});
+	}); */
 
-	const mostrarAdvertenciaEnDialogo = useMostrarAdvertenciaEnDialogo(
+	/* 	const mostrarAdvertenciaEnDialogo = useMostrarAdvertenciaEnDialogo(
 		setMostarDialogo,
 		setParametrosDialogo
-	);
+	); */
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
@@ -62,21 +64,32 @@ const VisitasDelCliente: React.FC = () => {
 		clienteActual.codigoCliente
 	);
 
-	const crearPedidoAlClienteActual = useCrearPedidoAlClienteActual();
+	const {
+		mostrarAdvertenciaEnDialogo,
+		mostarDialogo,
+		parametrosDialogo,
+	} = useMostrarAdvertenciaEnDialogo();
+
+	const crearPedidoAlClienteActual = useCrearPedidoAlClienteActual(
+		mostrarAdvertenciaEnDialogo
+	);
 
 	const editarPedidoDelClienteActual = useEditarPedidoDelClienteActual();
 	const cancelarPedidoDelClienteActual = useCancelarPedidoDelClienteActual();
 
 	const calcularTotalPedido = useCalcularTotalPedidos();
 
-	const [anchorEl, setAnchorEl] = useState(null);
+	const [popoverProps, setPopoverProps] = useState<{
+		elemento: any | null;
+		id: string;
+	}>({elemento: null, id: ''});
 
-	const handleClick = (event: any) => {
-		setAnchorEl(event.currentTarget);
+	const handleClick = (event: any, codigoPedido: string) => {
+		setPopoverProps({elemento: event.currentTarget, id: codigoPedido});
 	};
 
 	const handleClose = () => {
-		setAnchorEl(null);
+		setPopoverProps({elemento: null, id: ''});
 	};
 
 	const handleButtonOnClick = (codigoPedido: string) => {
@@ -142,8 +155,8 @@ const VisitasDelCliente: React.FC = () => {
 							</TableHead>
 							<TableBody>
 								{pedidosCliente &&
-									pedidosCliente.map((pedido: any, i) => (
-										<TableRow key={i} hover>
+									pedidosCliente.map((pedido: TPedidoClienteParaEnviar) => (
+										<TableRow key={pedido.codigoPedido} hover>
 											<Celda
 												estilos={estilos}
 												width='20'
@@ -187,16 +200,16 @@ const VisitasDelCliente: React.FC = () => {
 											>
 												<IconButton
 													aria-label='more'
-													aria-describedby={i.toString()}
-													onClick={handleClick}
+													aria-describedby={pedido.codigoPedido}
+													onClick={(e) => handleClick(e, pedido.codigoPedido)}
 												>
 													<MoreHorizIcon />
 												</IconButton>
 												<Popover
-													open={Boolean(anchorEl)}
-													anchorEl={anchorEl}
+													open={Boolean(popoverProps?.elemento)}
+													anchorEl={popoverProps?.elemento}
 													onClose={handleClose}
-													id={(i + Math.random()).toString()}
+													id={popoverProps?.id}
 													anchorOrigin={{
 														vertical: 'bottom',
 														horizontal: 'center',
@@ -214,11 +227,12 @@ const VisitasDelCliente: React.FC = () => {
 														>
 															<ListItem
 																button
-																onClick={() =>
-																	editarPedidoDelClienteActual(
-																		pedido.codigoPedido
-																	)
-																}
+																onClick={() => {
+																	handleClose();
+																	return editarPedidoDelClienteActual(
+																		popoverProps?.id
+																	);
+																}}
 															>
 																<EditIcon />
 															</ListItem>

@@ -13,11 +13,11 @@ export const useObtenerPedidoRealizadoDelClienteActual = (): ((
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const obtenerPedidoRealizadoDelClienteActual = useCallback(
 		(codigoPedido: string): TPedidoClienteParaEnviar | undefined => {
-			const pedidosClienteActual: TPedidoClienteParaEnviar[] =
+			const pedidosClienteActual: TPedidoClienteParaEnviar[] | undefined =
 				pedidosClientes[clienteActual.codigoCliente];
 			const pedidoClienteActual:
 				| TPedidoClienteParaEnviar
-				| undefined = pedidosClienteActual.find(
+				| undefined = pedidosClienteActual?.find(
 				(pedidoCliente) => pedidoCliente.codigoPedido === codigoPedido
 			);
 			return pedidoClienteActual;

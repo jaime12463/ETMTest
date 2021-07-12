@@ -1,11 +1,4 @@
 import {Fragment, SyntheticEvent, useEffect, useState} from 'react';
-import {
-	TClienteActual,
-	TInputsFormularioAgregarProducto,
-	TPedidoActual,
-	TPrecioProducto,
-	TPrecioSinVigencia,
-} from 'models';
 import {Button, Grid, Snackbar, Typography} from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
@@ -13,10 +6,18 @@ import {useForm} from 'react-hook-form';
 import {Alert} from '@material-ui/lab';
 import {darFormatoFecha} from 'utils/methods';
 import {
+	TClienteActual,
+	TInputsFormularioAgregarProducto,
+	TPedidoActual,
+	TPrecioProducto,
+	TPrecioSinVigencia,
+} from 'models';
+import {
 	TablaProductos,
 	FormularioAgregarProducto,
 	TotalPedido,
 	Estructura,
+	Dialogo,
 } from 'components';
 import {
 	useAgregarPedidoActualAPedidosClientes,
@@ -35,7 +36,6 @@ import {
 	useObtenerClienteActual,
 	useObtenerPedidoActual,
 } from 'hooks';
-import Dialogo, {Props as PropsDialogo} from 'components/Dialogo';
 
 export default function TomaDePedidos() {
 	const [preciosProductos, setPreciosProductos] = useState<TPrecioProducto[]>(
@@ -46,15 +46,6 @@ export default function TomaDePedidos() {
 		avisoPedidoGuardadoExitoso,
 		setAvisoPedidoGuardadoExitoso,
 	] = useState<boolean>(false);
-
-	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
-
-	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
-		mensaje: '',
-		manejadorClick: () => {},
-		conBotonCancelar: false,
-		dataCy: '',
-	});
 
 	const [productoActual, setProductoActual] = useState<TPrecioSinVigencia>({
 		codigoProductoConNombre: '',
@@ -96,10 +87,11 @@ export default function TomaDePedidos() {
 		agregarProductoAlPedidoActual
 	);
 
-	const mostrarAdvertenciaEnDialogo = useMostrarAdvertenciaEnDialogo(
-		setMostarDialogo,
-		setParametrosDialogo
-	);
+	const {
+		mostrarAdvertenciaEnDialogo,
+		mostarDialogo,
+		parametrosDialogo,
+	} = useMostrarAdvertenciaEnDialogo();
 
 	const asignarProductoActual = useAsignarProductoActual(
 		setProductoActual,
@@ -132,11 +124,11 @@ export default function TomaDePedidos() {
 	};
 
 	//TODO: Deberia preguntar antes de salir si lo desea?
-	/* 	useEffect(() => {
+	useEffect(() => {
 		return () => {
 			resetPedidoActual();
 		};
-	}, []); */
+	}, []);
 
 	return (
 		<>

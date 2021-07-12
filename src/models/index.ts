@@ -84,7 +84,6 @@ export type TPedidoActual = {
 
 export type TClienteActual = {
 	codigoCliente: string;
-	fechaEntrega: string;
 	razonSocial: string;
 };
 

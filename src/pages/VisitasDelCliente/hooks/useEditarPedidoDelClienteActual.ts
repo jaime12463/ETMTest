@@ -1,5 +1,4 @@
-import {useObtenerClienteActual} from 'hooks';
-import {TClienteActual, TPedidoClienteParaEnviar} from 'models';
+import {TPedidoClienteParaEnviar} from 'models';
 import {useCallback} from 'react';
 import {useRouteMatch, useHistory} from 'react-router-dom';
 import {inicializarPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
@@ -11,7 +10,6 @@ export const useEditarPedidoDelClienteActual = () => {
 	const {path} = useRouteMatch();
 	const history = useHistory();
 	const dispatch = useAppDispatch();
-	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const obtenerPedidoRealizadoDelClienteActual = useObtenerPedidoRealizadoDelClienteActual();
 	const editarPedidoDelClienteActual = useCallback(
 		(codigoPedido: string) => {
@@ -35,7 +33,7 @@ export const useEditarPedidoDelClienteActual = () => {
 				history.push(`${path}${nombresRutas.ingresarpedido}`);
 			}
 		},
-		[dispatch, path, history]
+		[dispatch, path, history, obtenerPedidoRealizadoDelClienteActual]
 	);
 
 	return editarPedidoDelClienteActual;
