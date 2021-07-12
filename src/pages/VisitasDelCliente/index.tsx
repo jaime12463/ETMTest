@@ -102,7 +102,7 @@ const VisitasDelCliente: React.FC = () => {
 		);
 	};
 
-	console.log(pedidosCliente);
+
 
 	return (
 		<>

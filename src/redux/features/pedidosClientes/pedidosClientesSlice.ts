@@ -92,5 +92,6 @@ export const selectPedidosClientes = (state: RootState) =>
 export const {
 	agregarPedidoCliente,
 	modificarPedidoCliente,
+	cancelarPedidoDelCliente,
 } = pedidosClientesSlice.actions;
 export default pedidosClientesSlice.reducer;
