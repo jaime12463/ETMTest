@@ -13,6 +13,22 @@ export const pedidosClientesSlice = createSlice({
 	name: 'pedidosClientes',
 	initialState: estadoInicial,
 	reducers: {
+		cancelarPedidoDelCliente: (
+			state,
+			action: PayloadAction<{
+				codigoPedido: string;
+				codigoCliente: string;
+			}>
+		) => {
+			const {codigoCliente, codigoPedido} = action.payload;
+
+			const pedidoACancelar = state[codigoCliente].map((pedido) => {
+				if (pedido.codigoPedido === codigoPedido) {
+					pedido.estado = 'C';
+				}
+			});
+		},
+
 		agregarPedidoCliente: (
 			state,
 			action: PayloadAction<{
@@ -43,5 +59,6 @@ export const pedidosClientesSlice = createSlice({
 
 export const selectPedidosClientes = (state: RootState) =>
 	state.pedidosClientes;
-export const {agregarPedidoCliente} = pedidosClientesSlice.actions;
+export const {agregarPedidoCliente, cancelarPedidoDelCliente} =
+	pedidosClientesSlice.actions;
 export default pedidosClientesSlice.reducer;

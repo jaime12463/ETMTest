@@ -1,4 +1,5 @@
 import {Estructura} from 'components';
+import Dialogo, {Props as PropsDialogo} from 'components/Dialogo';
 import {Celda} from 'components/Table/Celda';
 import useEstilos from './useEstilos';
 import {
@@ -24,18 +25,36 @@ import {
 	useCrearPedidoAlClienteActual,
 	useEditarPedidoDelClienteActual,
 	useObtenerPedidosDelClienteActual,
+	useCancelarPedidoDelClienteActual,
 } from './hooks';
 import {useCalcularTotalPedidos, useObtenerClienteActual} from 'hooks';
 import AddIcon from '@material-ui/icons/Add';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import EditIcon from '@material-ui/icons/Edit';
+import CancelIcon from '@material-ui/icons/NotInterested';
 import Paper from '@material-ui/core/Paper';
 import {useState} from 'react';
+import {useMostrarAdvertenciaEnDialogo} from 'hooks';
+import {match} from 'assert/strict';
 
 const VisitasDelCliente: React.FC = () => {
 	const {t} = useTranslation();
 
 	const estilos = useEstilos();
+
+	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
+
+	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
+		mensaje: '',
+		manejadorClick: () => {},
+		conBotonCancelar: true,
+		dataCy: '',
+	});
+
+	const mostrarAdvertenciaEnDialogo = useMostrarAdvertenciaEnDialogo(
+		setMostarDialogo,
+		setParametrosDialogo
+	);
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
@@ -46,6 +65,7 @@ const VisitasDelCliente: React.FC = () => {
 	const crearPedidoAlClienteActual = useCrearPedidoAlClienteActual();
 
 	const editarPedidoDelClienteActual = useEditarPedidoDelClienteActual();
+	const cancelarPedidoDelClienteActual = useCancelarPedidoDelClienteActual();
 
 	const calcularTotalPedido = useCalcularTotalPedidos();
 
@@ -59,6 +79,18 @@ const VisitasDelCliente: React.FC = () => {
 		setAnchorEl(null);
 	};
 
+	const handleButtonOnClick = (codigoPedido: string) => {
+		console.log(codigoPedido, 'hanlder');
+
+		cancelarPedidoDelClienteActual(
+			codigoPedido,
+			pedidosCliente,
+			mostrarAdvertenciaEnDialogo
+		);
+	};
+
+	console.log(pedidosCliente);
+
 	return (
 		<>
 			<Estructura
@@ -66,6 +98,7 @@ const VisitasDelCliente: React.FC = () => {
 				esConFechaHaciaAtras={true}
 				esConLogoInferior={false}
 			>
+				{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 				<Grid
 					container
 					direction='row'
@@ -81,6 +114,11 @@ const VisitasDelCliente: React.FC = () => {
 					<Grid item xs={8}>
 						<Typography variant='body2' component='p' data-cy='info'>
 							{`${clienteActual.razonSocial}`}
+						</Typography>
+					</Grid>
+					<Grid item className={estilos.margin}>
+						<Typography variant='body2' component='p' data-cy='info'>
+							{t('general.pedidosRealizados')}
 						</Typography>
 					</Grid>
 					<TableContainer>
@@ -104,7 +142,7 @@ const VisitasDelCliente: React.FC = () => {
 							</TableHead>
 							<TableBody>
 								{pedidosCliente &&
-									pedidosCliente.map((pedido: TPedidoClienteParaEnviar, i) => (
+									pedidosCliente.map((pedido: any, i) => (
 										<TableRow key={i} hover>
 											<Celda
 												estilos={estilos}
@@ -158,7 +196,7 @@ const VisitasDelCliente: React.FC = () => {
 													open={Boolean(anchorEl)}
 													anchorEl={anchorEl}
 													onClose={handleClose}
-													id={i.toString()}
+													id={(i + Math.random()).toString()}
 													anchorOrigin={{
 														vertical: 'bottom',
 														horizontal: 'center',
@@ -172,6 +210,7 @@ const VisitasDelCliente: React.FC = () => {
 														<List
 															component='nav'
 															aria-label='main mailbox folders'
+															id={(i + Math.random()).toString()}
 														>
 															<ListItem
 																button
@@ -182,7 +221,14 @@ const VisitasDelCliente: React.FC = () => {
 																}
 															>
 																<EditIcon />
-																<ListItemText primary='Editar Pedido' />
+															</ListItem>
+															<ListItem
+																button
+																onClick={() =>
+																	handleButtonOnClick(pedido.codigoPedido)
+																}
+															>
+																<CancelIcon />
 															</ListItem>
 														</List>
 													</Paper>

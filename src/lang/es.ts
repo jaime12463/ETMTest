@@ -26,6 +26,7 @@ const es = {
 		tipoPedido: 'Tipo de Pedido',
 		monto: 'Monto',
 		acciones: 'Acciones',
+		pedidosRealizados: 'Pedidos Realizados',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',
@@ -50,6 +51,7 @@ const es = {
 			'La suma de los pedidos para la fecha de entrega {{fechaDeEntrega}} excede el monto máximo para el cliente $ {{montoVentaMaxima}}',
 		subUnidadesNoMultiplo:
 			'Las subunidades debe ser en múltiplos de {{subunidadesVentaMinima}}',
+		cancelarPedido: 'Desea cancelar el pedido?',
 	},
 };
 export default es;

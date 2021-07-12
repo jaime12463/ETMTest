@@ -109,13 +109,12 @@ export const validarSubUnidadesEsMultiplo = (
 export const validarObtenerVisitaPlanificada = (
 	visitasPlanificadas: TVisitaPlanificada[]
 ): TValidacionFechaVisita => {
-	const visitaPlanificada:
-		| TVisitaPlanificada
-		| undefined = visitasPlanificadas.find(
-		(visitaPlanificada: TVisitaPlanificada) =>
-			new Date(visitaPlanificada.dia).getTime() ===
-			new Date(fechaDispositivo()).getTime()
-	);
+	const visitaPlanificada: TVisitaPlanificada | undefined =
+		visitasPlanificadas.find(
+			(visitaPlanificada: TVisitaPlanificada) =>
+				new Date(visitaPlanificada.dia).getTime() ===
+				new Date(fechaDispositivo()).getTime()
+		);
 	return {
 		esValidaVisitaPlanificada: visitaPlanificada !== undefined,
 		fechaVisitaPlanificada: visitaPlanificada?.dia ?? '',
@@ -125,13 +124,12 @@ export const validarObtenerVisitaPlanificada = (
 export const validarObtenerVisitaPlanificadaPosterior = (
 	visitasPlanificadas: TVisitaPlanificada[]
 ): TValidacionFechaVisita => {
-	const visitaPlanificadaPosterior:
-		| TVisitaPlanificada
-		| undefined = visitasPlanificadas.find(
-		(visitaPlanificada: TVisitaPlanificada) =>
-			new Date(visitaPlanificada.dia).getTime() >=
-			new Date(fechaDispositivo()).getTime()
-	);
+	const visitaPlanificadaPosterior: TVisitaPlanificada | undefined =
+		visitasPlanificadas.find(
+			(visitaPlanificada: TVisitaPlanificada) =>
+				new Date(visitaPlanificada.dia).getTime() >=
+				new Date(fechaDispositivo()).getTime()
+		);
 	return {
 		esValidaVisitaPlanificada: visitaPlanificadaPosterior !== undefined,
 		fechaVisitaPlanificada: visitaPlanificadaPosterior?.dia ?? '',

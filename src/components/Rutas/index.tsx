@@ -10,6 +10,8 @@ import {
 import {Estructura} from 'components';
 import RutasAnidadas from './RutasAnidadas';
 
+
+/* 
 const Anidado2 = () => {
 	return (
 		<Estructura
@@ -23,19 +25,6 @@ const Anidado2 = () => {
 };
 
 const Anidado = () => {
-	/* 		<Estructura
-			titulo={'titulos.visitaCliente'}
-			esConFechaHaciaAtras={true}
-			esConLogoInferior={false}
-		>
-			<VisitasDelCliente />
-			</Estructura>
-						<RutasAnidadas
-					pathAnidado='/visitaclientes'
-					principal={<Clientes />}
-					anidado={<Anidado />}
-				/>
-		*/
 	return (
 		<RutasAnidadas
 			pathAnidado='/ingresarpedido'
@@ -43,7 +32,7 @@ const Anidado = () => {
 			anidado={<Anidado2 />}
 		/>
 	);
-};
+}; */
 
 const Rutas = () => {
 	return (

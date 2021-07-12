@@ -7,16 +7,14 @@ import {useState} from 'react';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import {useAsignarClienteActual} from './hooks';
 import Dialogo, {Props as PropsDialogo} from 'components/Dialogo';
+import useEstilos from './useEstilos';
 
 const Clientes = () => {
+	const estilos = useEstilos();
 	const {t} = useTranslation();
 
-	const {
-		control,
-		handleSubmit,
-		setValue,
-		getValues,
-	} = useForm<TInputsCodigoCliente>();
+	const {control, handleSubmit, setValue, getValues} =
+		useForm<TInputsCodigoCliente>();
 
 	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
 
@@ -39,7 +37,7 @@ const Clientes = () => {
 	return (
 		<Estructura titulo={'titulos.clientes'}>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-			<Grid item xs={6} sm={6}>
+			<Grid item xs={6} sm={6} className={estilos.margin}>
 				<form onSubmit={handleSubmit(asignarClienteActual)}>
 					<Input
 						label={t('general.cliente')}

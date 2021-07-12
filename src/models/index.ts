@@ -70,7 +70,7 @@ export type TPedidoClienteParaEnviar = {
 	codigoPedido: string;
 	fechaEntrega: string;
 	usuario: string;
-	estado: 'activo' | 'inactivo';
+	estado: 'A' | 'C';
 	productosPedido: TProductoPedido[];
 	enviado: boolean;
 };
@@ -78,7 +78,7 @@ export type TPedidoClienteParaEnviar = {
 export type TPedidoActual = {
 	codigoPedido: string;
 	fechaEntrega: string;
-	estado: 'activo' | 'inactivo';
+	estado: 'A' | 'C';
 	productosPedido: TProductoPedido[];
 };
 

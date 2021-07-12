@@ -26,6 +26,7 @@ const en = {
 		tipoPedido: 'Type of order',
 		monto: 'Amount',
 		acciones: 'Actions',
+		pedidosRealizados: 'Orders placed',
 	},
 	titulos: {
 		bienvenido: 'Welcome',
@@ -50,6 +51,7 @@ const en = {
 			'The sum of the orders for the delivery date {{fechaDeEntrega}} exceeds the maximum amount for the customer $ {{montoVentaMaxima}}',
 		subUnidadesNoMultiplo:
 			'The subunits must be in multiples of {{subunidadesVentaMinima}}',
+		cancelarPedido: 'Do you want to cancel the order?',
 	},
 };
 export default en;

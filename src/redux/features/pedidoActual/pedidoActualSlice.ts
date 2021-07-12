@@ -5,7 +5,7 @@ import {RootState} from '../../store';
 const estadoInicial: TPedidoActual = {
 	codigoPedido: '',
 	fechaEntrega: '',
-	estado: 'activo',
+	estado: 'A',
 	productosPedido: [],
 };
 
@@ -26,6 +26,7 @@ export const pedidoActualSlice = createSlice({
 				action.payload,
 			];
 		},
+
 		borrarProductoDelPedidoDelCliente: (
 			state,
 			action: PayloadAction<number>
@@ -36,21 +37,18 @@ export const pedidoActualSlice = createSlice({
 			);
 			state.productosPedido = [...productosPedidoClienteFiltrados];
 		},
+
 		inicializarPedidoActual: (
 			state,
 			action: PayloadAction<{
 				fechaEntrega: string;
 				codigoPedido: string;
-				estado?: 'activo' | 'inactivo';
+				estado?: 'A' | 'C';
 				productosPedido?: TProductoPedido[];
 			}>
 		) => {
-			const {
-				codigoPedido,
-				fechaEntrega,
-				estado,
-				productosPedido,
-			} = action.payload;
+			const {codigoPedido, fechaEntrega, estado, productosPedido} =
+				action.payload;
 			state.codigoPedido = codigoPedido;
 			state.fechaEntrega = fechaEntrega;
 			if (productosPedido) state.productosPedido = productosPedido;
@@ -59,7 +57,7 @@ export const pedidoActualSlice = createSlice({
 		resetearPedidoActual: (state) => {
 			state.codigoPedido = '';
 			state.fechaEntrega = '';
-			state.estado = 'activo';
+			state.estado = 'A';
 			state.productosPedido = [];
 		},
 	},
