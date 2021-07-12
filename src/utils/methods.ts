@@ -26,8 +26,10 @@ export const obtenerTotalesPedidosCliente = (
 	if (pedidosClienteMismaFechaEntrega.length !== 0) {
 		totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
 			(acum: any, pedido: any) => {
-				for (let valor of pedido.productosPedido) {
-					acum += valor.total;
+				if (pedido.estado === 'A') {
+					for (let valor of pedido.productosPedido) {
+						acum += valor.total;
+					}
 				}
 				return acum;
 			},

@@ -82,14 +82,15 @@ const VisitasDelCliente: React.FC = () => {
 	const [popoverProps, setPopoverProps] = useState<{
 		elemento: any | null;
 		id: string;
-	}>({elemento: null, id: ''});
+		estado: string;
+	}>({elemento: null, id: '', estado: ''});
 
-	const handleClick = (event: any, codigoPedido: string) => {
-		setPopoverProps({elemento: event.currentTarget, id: codigoPedido});
+	const handleClick = (event: any, codigoPedido: string, estado: string) => {
+		setPopoverProps({elemento: event.currentTarget, id: codigoPedido, estado});
 	};
 
 	const handleClose = () => {
-		setPopoverProps({elemento: null, id: ''});
+		setPopoverProps({elemento: null, id: '', estado: ''});
 	};
 
 	return (
@@ -189,7 +190,9 @@ const VisitasDelCliente: React.FC = () => {
 												<IconButton
 													aria-label='more'
 													aria-describedby={pedido.codigoPedido}
-													onClick={(e) => handleClick(e, pedido.codigoPedido)}
+													onClick={(e) =>
+														handleClick(e, pedido.codigoPedido, pedido.estado)
+													}
 												>
 													<MoreHorizIcon />
 												</IconButton>
@@ -213,7 +216,9 @@ const VisitasDelCliente: React.FC = () => {
 															aria-label='main mailbox folders'
 														>
 															<ListItem
-																disabled={pedido.estado === 'C' ? true : false}
+																disabled={
+																	popoverProps?.estado === 'C' ? true : false
+																}
 																button
 																onClick={() => {
 																	handleClose();
@@ -225,7 +230,9 @@ const VisitasDelCliente: React.FC = () => {
 																<EditIcon />
 															</ListItem>
 															<ListItem
-																disabled={pedido.estado === 'C' ? true : false}
+																disabled={
+																	popoverProps?.estado === 'C' ? true : false
+																}
 																button
 																onClick={() => {
 																	handleClose();
