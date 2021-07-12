@@ -5,6 +5,10 @@ declare global {
 			secuencia: number;
 		};
 
+		type TDetalles = {
+			nombreComercial: string;
+		};
+
 		type TFechaEntrega = {
 			fechaVisita: string;
 			fechaEntrega: string;
@@ -14,6 +18,7 @@ declare global {
 
 		type TOpcionesCambiarDatosDB = {
 			codigoCliente?: string;
+			detalles?: TDetalles[];
 			fechasEntrega?: TFechaEntrega[];
 			visitasPlanificadas?: TVisitaPlanificada[];
 			cantidadMaximaUnidades?: number | null;
@@ -86,6 +91,7 @@ Cypress.Commands.add(
 	'datosDB',
 	({
 		codigoCliente = '234',
+		detalles = [{nombreComercial:'Mi comercio'}],
 		fechasEntrega = [{fechaVisita: today, fechaEntrega: tomorrow}],
 		visitasPlanificadas = [{dia: today, secuencia: 3}],
 		cantidadMaximaUnidades = 100,
@@ -99,6 +105,7 @@ Cypress.Commands.add(
 		subunidadesVentaMinima = 1,
 	}: Cypress.TOpcionesCambiarDatosDB) => {
 		cy.fixture('db').then((db) => {
+			db.clientes[codigoCliente].detalles = detalles;
 			db.clientes[codigoCliente].visitasPlanificadas = visitasPlanificadas;
 			db.clientes[codigoCliente].fechasEntrega = fechasEntrega;
 			db.clientes[
@@ -123,6 +130,8 @@ Cypress.Commands.add(
 			db.clientes[
 				codigoCliente
 			].portafolio[0].precios[1].precioConImpuestoSubunidad = precioConImpuestoSubunidad;
+
+			cy.log("ENG", db)
 			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
 		});
 	}

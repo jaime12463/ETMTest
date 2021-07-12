@@ -245,6 +245,7 @@ const VisitasDelCliente: React.FC = () => {
 						aria-label='add'
 						className={estilos.fab}
 						onClick={crearPedidoAlClienteActual}
+						data-cy='boton-crearPedidoAlClienteActual'
 					>
 						<AddIcon />
 					</Fab>

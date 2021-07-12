@@ -7,7 +7,7 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 			return false;
 		});
 	});
-	it('La cantidad es mayor a la permitida', () => {
+	/*it('La cantidad es mayor a la permitida', () => {
 		cy.datosDB({cantidadMaximaUnidades: 100});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
@@ -19,7 +19,7 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 			cy.get('[data-cy=cantidad-producto-unidades]').type('101{enter}');
 			cy.get('[data-cy=cantidad-es-mayor]').should('exist');
 		});
-	});
+	});*/
 	it('La cantidad es menor a la permitida', () => {
 		cy.datosDB({cantidadMaximaUnidades: 100});
 		cy.fixture('pagesElements').then((element) => {
