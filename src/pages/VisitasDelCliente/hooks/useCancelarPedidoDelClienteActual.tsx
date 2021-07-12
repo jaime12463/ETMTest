@@ -1,11 +1,9 @@
 import {
 	TClienteActual,
-	TPedidosClientes,
 	TFunctionMostarAvertenciaPorDialogo,
 	TPedidoClienteParaEnviar,
-	TCliente,
 } from 'models';
-import {useCallback} from 'react';
+import {buscarPedidosParaElMismoDia} from '../../../utils/methods';
 import {
 	useObtenerClienteActual,
 	useCalcularTotalPedidos,
@@ -22,8 +20,7 @@ export const useCancelarPedidoDelClienteActual = () => {
 	const {t} = useTranslation();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
-	const obtenerPedidoRealizadoDelClienteActual =
-		useObtenerPedidoRealizadoDelClienteActual();
+	const obtenerPedidoRealizadoDelClienteActual = useObtenerPedidoRealizadoDelClienteActual();
 	const calcularTotalPedido = useCalcularTotalPedidos();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 
@@ -32,8 +29,9 @@ export const useCancelarPedidoDelClienteActual = () => {
 		pedidosCliente: any,
 		mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 	) => {
-		const pedidoActual: TPedidoClienteParaEnviar | undefined =
-			obtenerPedidoRealizadoDelClienteActual(codigoPedido);
+		const pedidoActual:
+			| TPedidoClienteParaEnviar
+			| undefined = obtenerPedidoRealizadoDelClienteActual(codigoPedido);
 		const totalPedido = (productos: any) =>
 			calcularTotalPedido(productos).totalPrecio;
 
@@ -45,20 +43,12 @@ export const useCancelarPedidoDelClienteActual = () => {
 				datosCliente.configuracionPedido
 			);
 
-		const manejadorCancelarPedido = (respuesta: boolean) => {
-			if (respuesta) {
-				dispatch(
-					cancelarPedidoDelCliente({
-						codigoPedido,
-						codigoCliente: clienteActual.codigoCliente,
-					})
-				);
-			}
-		};
+		const pedidosParaElMismoDia = buscarPedidosParaElMismoDia(
+			pedidosCliente,
+			pedidoActual?.fechaEntrega
+		);
 
-		console.log(codigoPedido, 'codigopEDIDO');
-
-		const tienePedidoParaElMismoDia = () => {
+		const buscarPedidoConMontoMinimoParaElMismoDia = () => {
 			const resultado =
 				pedidosCliente &&
 				pedidosCliente.find(
@@ -76,28 +66,56 @@ export const useCancelarPedidoDelClienteActual = () => {
 			return resultado ? true : false;
 		};
 
-		console.log(tienePedidoParaElMismoDia(), 'aqui');
+		const tienePedidoAptoParaElMismoDia = buscarPedidoConMontoMinimoParaElMismoDia();
+
+		const manejadorCancelarUnPedido = (respuesta: boolean) => {
+			if (respuesta) {
+				dispatch(
+					cancelarPedidoDelCliente({
+						codigoPedido,
+						codigoCliente: clienteActual.codigoCliente,
+					})
+				);
+			}
+		};
+		const manejadorCancelarPedidos = (respuesta: boolean) => {
+			if (respuesta) {
+				for (let pedido of pedidosParaElMismoDia) {
+					dispatch(
+						cancelarPedidoDelCliente({
+							codigoPedido: pedido,
+							codigoCliente: clienteActual.codigoCliente,
+						})
+					);
+				}
+			}
+		};
 
 		if (pedidoActual?.estado !== 'A') {
 			return;
 		}
 
-		if (!montoMinimoPedido) {
+		if (
+			!montoMinimoPedido ||
+			(montoMinimoPedido && tienePedidoAptoParaElMismoDia)
+		) {
 			mostrarAdvertenciaEnDialogo(
 				t('advertencias.cancelarPedido'),
 				'cancelar-pedido',
-				manejadorCancelarPedido,
+				manejadorCancelarUnPedido,
 				{
 					aceptar: t('general.si'),
 					cancelar: t('general.no'),
 				}
 			);
 		}
-		if (montoMinimoPedido) {
+		if (montoMinimoPedido && !tienePedidoAptoParaElMismoDia) {
 			mostrarAdvertenciaEnDialogo(
-				t('advertencias.cancelarPedido'),
+				t('advertencias.cancelarTodosLosPedido', {
+					fechaDeEntrega: pedidoActual?.fechaEntrega,
+				}),
 				'cancelar-pedido',
-				manejadorCancelarPedido,
+				manejadorCancelarPedidos,
 				{
 					aceptar: t('general.si'),
 					cancelar: t('general.no'),

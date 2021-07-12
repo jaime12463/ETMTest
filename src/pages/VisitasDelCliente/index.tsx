@@ -92,18 +92,6 @@ const VisitasDelCliente: React.FC = () => {
 		setPopoverProps({elemento: null, id: ''});
 	};
 
-	const handleButtonOnClick = (codigoPedido: string) => {
-		console.log(codigoPedido, 'hanlder');
-
-		cancelarPedidoDelClienteActual(
-			codigoPedido,
-			pedidosCliente,
-			mostrarAdvertenciaEnDialogo
-		);
-	};
-
-
-
 	return (
 		<>
 			<Estructura
@@ -225,6 +213,7 @@ const VisitasDelCliente: React.FC = () => {
 															aria-label='main mailbox folders'
 														>
 															<ListItem
+																disabled={pedido.estado === 'C' ? true : false}
 																button
 																onClick={() => {
 																	handleClose();
@@ -236,10 +225,16 @@ const VisitasDelCliente: React.FC = () => {
 																<EditIcon />
 															</ListItem>
 															<ListItem
+																disabled={pedido.estado === 'C' ? true : false}
 																button
-																onClick={() =>
-																	handleButtonOnClick(pedido.codigoPedido)
-																}
+																onClick={() => {
+																	handleClose();
+																	return cancelarPedidoDelClienteActual(
+																		popoverProps?.id,
+																		pedidosCliente,
+																		mostrarAdvertenciaEnDialogo
+																	);
+																}}
 															>
 																<CancelIcon />
 															</ListItem>

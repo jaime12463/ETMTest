@@ -52,6 +52,8 @@ const en = {
 		subUnidadesNoMultiplo:
 			'The subunits must be in multiples of {{subunidadesVentaMinima}}',
 		cancelarPedido: 'Do you want to cancel the order?',
+		cancelarTodosLosPedido:
+			'All orders with a delivery date {{fechaDeEntrega}} will be canceled Do you wish to continue?',
 	},
 };
 export default en;

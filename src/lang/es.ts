@@ -52,6 +52,8 @@ const es = {
 		subUnidadesNoMultiplo:
 			'Las subunidades debe ser en múltiplos de {{subunidadesVentaMinima}}',
 		cancelarPedido: 'Desea cancelar el pedido?',
+		cancelarTodosLosPedido:
+			'Se cancelarán todos los pedidos con fecha de entrega {{fechaDeEntrega}} ¿Desea continuar?',
 	},
 };
 export default es;
