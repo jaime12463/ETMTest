@@ -30,7 +30,6 @@ import {useHistory} from 'react-router-dom';
 export const useAgregarPedidoActualAPedidosClientes = (
 	setAvisoPedidoGuardadoExitoso: Dispatch<SetStateAction<boolean>>,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
-	resetPedidoActual: () => void
 ) => {
 	const dispatch = useAppDispatch();
 	const totalPedidoActual: TTotalPedido = useCalcularTotalPedido();

@@ -112,7 +112,6 @@ export default function TomaDePedidos() {
 	const agregarPedidoActualAPedidosClientes = useAgregarPedidoActualAPedidosClientes(
 		setAvisoPedidoGuardadoExitoso,
 		mostrarAdvertenciaEnDialogo,
-		resetPedidoActual
 	);
 
 	const validarProductoPermiteSubUnidades = useValidarProductoPermiteSubUnidades();
