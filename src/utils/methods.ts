@@ -50,3 +50,22 @@ export const obtenerPrecioConImpuestoUnidad = (
 
 	return resultado;
 };
+
+export const buscarPedidosParaElMismoDia = (
+	pedidosCliente: any,
+	fechaEntrega: string | undefined
+) => {
+	const resultado =
+		pedidosCliente &&
+		pedidosCliente.reduce(
+			(acum: [string], pedido: TPedidoClienteParaEnviar) => {
+				if (pedido.estado === 'A' && pedido.fechaEntrega === fechaEntrega) {
+					acum.push(pedido.codigoPedido);
+				}
+				return acum;
+			},
+			[]
+		);
+
+	return resultado;
+};
