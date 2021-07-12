@@ -2,10 +2,12 @@ import {useObtenerPedidosDelClienteActual} from './useObtenerPedidosDelClienteAc
 import {useCrearPedidoAlClienteActual} from './useCrearPedidoAlClienteActual';
 import {useEditarPedidoDelClienteActual} from './useEditarPedidoDelClienteActual';
 import {useObtenerPedidoRealizadoDelClienteActual} from './useObtenerPedidoRealizadoDelClienteActual';
+import {useValidarCrearPedidoAlClienteActual} from './useValidarCrearPedidoAlClienteActual';
 
 export {
 	useObtenerPedidosDelClienteActual,
 	useCrearPedidoAlClienteActual,
 	useEditarPedidoDelClienteActual,
 	useObtenerPedidoRealizadoDelClienteActual,
+	useValidarCrearPedidoAlClienteActual,
 };

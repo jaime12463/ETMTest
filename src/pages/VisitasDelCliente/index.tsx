@@ -1,4 +1,4 @@
-import {Estructura} from 'components';
+import {Dialogo, Estructura} from 'components';
 import {Celda} from 'components/Table/Celda';
 import useEstilos from './useEstilos';
 import {
@@ -25,7 +25,11 @@ import {
 	useEditarPedidoDelClienteActual,
 	useObtenerPedidosDelClienteActual,
 } from './hooks';
-import {useCalcularTotalPedidos, useObtenerClienteActual} from 'hooks';
+import {
+	useCalcularTotalPedidos,
+	useMostrarAdvertenciaEnDialogo,
+	useObtenerClienteActual,
+} from 'hooks';
 import AddIcon from '@material-ui/icons/Add';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import EditIcon from '@material-ui/icons/Edit';
@@ -43,7 +47,15 @@ const VisitasDelCliente: React.FC = () => {
 		clienteActual.codigoCliente
 	);
 
-	const crearPedidoAlClienteActual = useCrearPedidoAlClienteActual();
+	const {
+		mostrarAdvertenciaEnDialogo,
+		mostarDialogo,
+		parametrosDialogo,
+	} = useMostrarAdvertenciaEnDialogo();
+
+	const crearPedidoAlClienteActual = useCrearPedidoAlClienteActual(
+		mostrarAdvertenciaEnDialogo
+	);
 
 	const editarPedidoDelClienteActual = useEditarPedidoDelClienteActual();
 
@@ -69,6 +81,7 @@ const VisitasDelCliente: React.FC = () => {
 				esConFechaHaciaAtras={true}
 				esConLogoInferior={false}
 			>
+				{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 				<Grid
 					container
 					direction='row'
