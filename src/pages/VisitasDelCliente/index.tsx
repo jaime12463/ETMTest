@@ -44,20 +44,6 @@ const VisitasDelCliente: React.FC = () => {
 
 	const estilos = useEstilos();
 
-	/* 	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
-
-	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
-		mensaje: '',
-		manejadorClick: () => {},
-		conBotonCancelar: true,
-		dataCy: '',
-	}); */
-
-	/* 	const mostrarAdvertenciaEnDialogo = useMostrarAdvertenciaEnDialogo(
-		setMostarDialogo,
-		setParametrosDialogo
-	); */
-
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
 	const pedidosCliente: TPedidoClienteParaEnviar[] = useObtenerPedidosDelClienteActual(
