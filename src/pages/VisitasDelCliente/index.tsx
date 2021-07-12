@@ -49,14 +49,17 @@ const VisitasDelCliente: React.FC = () => {
 
 	const calcularTotalPedido = useCalcularTotalPedidos();
 
-	const [anchorEl, setAnchorEl] = useState(null);
+	const [popoverProps, setPopoverProps] = useState<{
+		elemento: any | null;
+		id: string;
+	}>({elemento: null, id: ''});
 
-	const handleClick = (event: any) => {
-		setAnchorEl(event.currentTarget);
+	const handleClick = (event: any, codigoPedido: string) => {
+		setPopoverProps({elemento: event.currentTarget, id: codigoPedido});
 	};
 
 	const handleClose = () => {
-		setAnchorEl(null);
+		setPopoverProps({elemento: null, id: ''});
 	};
 
 	return (
@@ -104,8 +107,8 @@ const VisitasDelCliente: React.FC = () => {
 							</TableHead>
 							<TableBody>
 								{pedidosCliente &&
-									pedidosCliente.map((pedido: TPedidoClienteParaEnviar, i) => (
-										<TableRow key={i} hover>
+									pedidosCliente.map((pedido: TPedidoClienteParaEnviar) => (
+										<TableRow key={pedido.codigoPedido} hover>
 											<Celda
 												estilos={estilos}
 												width='20'
@@ -149,16 +152,16 @@ const VisitasDelCliente: React.FC = () => {
 											>
 												<IconButton
 													aria-label='more'
-													aria-describedby={i.toString()}
-													onClick={handleClick}
+													aria-describedby={pedido.codigoPedido}
+													onClick={(e) => handleClick(e, pedido.codigoPedido)}
 												>
 													<MoreHorizIcon />
 												</IconButton>
 												<Popover
-													open={Boolean(anchorEl)}
-													anchorEl={anchorEl}
+													open={Boolean(popoverProps?.elemento)}
+													anchorEl={popoverProps?.elemento}
 													onClose={handleClose}
-													id={i.toString()}
+													id={popoverProps?.id}
 													anchorOrigin={{
 														vertical: 'bottom',
 														horizontal: 'center',
@@ -175,11 +178,12 @@ const VisitasDelCliente: React.FC = () => {
 														>
 															<ListItem
 																button
-																onClick={() =>
-																	editarPedidoDelClienteActual(
-																		pedido.codigoPedido
-																	)
-																}
+																onClick={() => {
+																	handleClose();
+																	return editarPedidoDelClienteActual(
+																		popoverProps?.id
+																	);
+																}}
 															>
 																<EditIcon />
 																<ListItemText primary='Editar Pedido' />
