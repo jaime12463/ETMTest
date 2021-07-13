@@ -9,7 +9,7 @@ describe('cálculo de fecha de entrega', () => {
 			return false;
 		});
 	});
-	it('dia (visitasPlanificadas) igual a la fecha actual, con frecuencia Cerrada y fechaVisita (fechasEntrega) igual a dia (visitasPlanificadas)', () => {
+	/*it('dia (visitasPlanificadas) igual a la fecha actual, con frecuencia Cerrada y fechaVisita (fechasEntrega) igual a dia (visitasPlanificadas)', () => {
 		cy.datosConfiguracionDB({esFrecuenciaAbierta: false});
 		cy.datosDB({});
 		cy.fixture('pagesElements').then((element) => {
@@ -22,8 +22,8 @@ describe('cálculo de fecha de entrega', () => {
 			cy.get(`[data-cy=no-fecha-programada]`).should('not.exist');
 			cy.get(`[data-cy=fuera-frecuencia]`).should('not.exist');
 		});
-	});
-	it('dia (visitasPlanificadas) igual a la fecha actual, con frecuencia Cerrada y fechaVisita (fechasEntrega) diferente a dia (visitasPlanificadas)', () => {
+	});*/
+	/*it('dia (visitasPlanificadas) igual a la fecha actual, con frecuencia Cerrada y fechaVisita (fechasEntrega) diferente a dia (visitasPlanificadas)', () => {
 		cy.datosConfiguracionDB({esFrecuenciaAbierta: false});
 		const fechaActual = obtenerFechaToday();
 		const fechaFuturoUno = obtenerFechaFutura(1);
@@ -45,7 +45,7 @@ describe('cálculo de fecha de entrega', () => {
 			cy.get(`[data-cy=fechaEntrega]`).should('not.exist');
 			cy.get(`[data-cy=fuera-frecuencia]`).should('not.exist');
 		});
-	});
+	});*/
 	it('dia (visitasPlanificadas) mayor a la fecha actual, con frecuencia Cerrada y fechaVisita (fechasEntrega) igual a dia (visitasPlanificadas)', () => {
 		cy.datosConfiguracionDB({esFrecuenciaAbierta: false});
 		const fechaFuturoUno = obtenerFechaFutura(1);
