@@ -131,7 +131,6 @@ Cypress.Commands.add(
 				codigoCliente
 			].portafolio[0].precios[1].precioConImpuestoSubunidad = precioConImpuestoSubunidad;
 
-			cy.log("ENG", db)
 			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
 		});
 	}
