@@ -33,6 +33,7 @@ const Clientes = () => {
 						name='codigoCliente'
 						control={control}
 						inputDataCY='codigo-cliente'
+						clase={'XS'}
 					/>
 				</form>
 			</Grid>
