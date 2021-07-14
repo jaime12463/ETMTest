@@ -5,6 +5,7 @@ import Rutas from 'components/Rutas';
 import TablaProductos from 'components/TablaProductos';
 import TotalPedido from 'components/TotalPedido';
 import Dialogo from './Dialogo';
+import DatosCliente from './DatosCliente';
 
 export {
 	Estructura,
@@ -14,4 +15,5 @@ export {
 	TablaProductos,
 	TotalPedido,
 	Dialogo,
+	DatosCliente,
 };

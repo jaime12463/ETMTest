@@ -1,4 +1,4 @@
-import {Dialogo, Estructura} from 'components';
+import {Dialogo, Estructura, DatosCliente} from 'components';
 import {Celda} from 'components/Table/Celda';
 import useEstilos from './useEstilos';
 import {
@@ -16,7 +16,6 @@ import {
 	Popover,
 	List,
 	ListItem,
-	ListItemText,
 } from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
 import {TPedidoClienteParaEnviar, TClienteActual} from 'models';
@@ -94,17 +93,8 @@ const VisitasDelCliente: React.FC = () => {
 					spacing={2}
 					className={estilos.container}
 				>
-					<Grid item xs={4}>
-						<Typography variant='body2' component='p' data-cy='info'>
-							{`Cliente ${clienteActual.codigoCliente}`}
-						</Typography>
-					</Grid>
-					<Grid item xs={8}>
-						<Typography variant='body2' component='p' data-cy='info'>
-							{`${clienteActual.razonSocial}`}
-						</Typography>
-					</Grid>
-					<Grid item className={estilos.margin}>
+					<DatosCliente />
+					<Grid item xs={12} className={estilos.margin}>
 						<Typography variant='body2' component='p' data-cy='info'>
 							{t('general.pedidosRealizados')}
 						</Typography>

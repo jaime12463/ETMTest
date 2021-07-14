@@ -18,6 +18,7 @@ import {
 	TotalPedido,
 	Estructura,
 	Dialogo,
+	DatosCliente,
 } from 'components';
 import {
 	useAgregarPedidoActualAPedidosClientes,
@@ -111,7 +112,7 @@ export default function TomaDePedidos() {
 
 	const agregarPedidoActualAPedidosClientes = useAgregarPedidoActualAPedidosClientes(
 		setAvisoPedidoGuardadoExitoso,
-		mostrarAdvertenciaEnDialogo,
+		mostrarAdvertenciaEnDialogo
 	);
 
 	const validarProductoPermiteSubUnidades = useValidarProductoPermiteSubUnidades();
@@ -156,9 +157,7 @@ export default function TomaDePedidos() {
 					{clienteActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
 						<Fragment>
 							<Grid item xs={6} sm={6}>
-								<Typography variant='body2' component='p' data-cy='razonSocial'>
-									{clienteActual.razonSocial}
-								</Typography>
+								<DatosCliente />
 							</Grid>
 							<Grid item xs={12} sm={12}>
 								<Typography
