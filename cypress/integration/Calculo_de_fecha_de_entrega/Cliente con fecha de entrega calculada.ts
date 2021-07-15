@@ -1,25 +1,25 @@
-import { Dado, Cuando, Entonces, Y } from '../../pasos';
+import { Dado, Cuando, Entonces, Antes, Y } from '../../pasos';
 
-beforeEach(() => {
-    cy.intercept('GET', '/femsa/configuracion').as('dataConfig');
+Antes(() => {
     cy.visit('/');
-    cy.on('uncaught:exception', (err, runnable) => {
+    cy.on('uncaught:exception', (err) => {
         console.log(err);
         return false;
     });
 });
-
 Dado(/^que se ingresó un cliente para tomarle un pedido$/, () => {
-    cy.datosConfiguracionDB({esFrecuenciaAbierta: false});
     cy.datosDB({});
-});
-Cuando(/^tiene una fecha de entrega calculada para día de visita igual a la fecha del dispositivo$/, () => {
+    cy.datosConfiguracionDB({esFrecuenciaAbierta: false});
+    cy.wait('@data');
+    cy.wait('@dataConfig');
     cy.fixture('pagesElements').then((element) => {
         cy.get(element.splash.name).should('contain', element.splash.value);
         cy.get(element.splash.logoBox).click();
-        cy.wait('@data');
-        cy.wait('@dataConfig');
         cy.get(`[data-cy=codigo-cliente]`).type('234{enter}');
+    });
+});
+Cuando(/^tiene una fecha de entrega calculada para día de visita igual a la fecha del dispositivo$/, () => {
+    cy.fixture('pagesElements').then((element) => {
         cy.get('[data-cy=boton-crearPedidoAlClienteActual]').click();
     });
 });
