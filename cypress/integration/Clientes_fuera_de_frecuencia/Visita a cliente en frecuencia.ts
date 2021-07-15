@@ -7,7 +7,6 @@ Antes(() => {
         return false;
     });
 });
-
 Dado(`que por configuración la frecuencia de venta {string}`, (esFrecuenciaAbierta) => {
     cy.datosDB({});
     cy.datosConfiguracionDB({esFrecuenciaAbierta: esFrecuenciaAbierta});
