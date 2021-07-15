@@ -5,7 +5,8 @@ const useEstilos = makeStyles((theme) => ({
 		maxHeight: 300,
 	},
 	margin: {
-		marginTop: 30,
+		marginTop: '30px',
+		marginBottom: '15px',
 	},
 	alignment: {
 		textAlign: 'center',

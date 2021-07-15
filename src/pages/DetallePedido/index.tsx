@@ -1,6 +1,6 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {Estructura} from 'components';
+import {Estructura, DatosCliente} from 'components';
 import {
 	Box,
 	Table,
@@ -9,6 +9,7 @@ import {
 	TableContainer,
 	TableHead,
 	TableRow,
+	Grid,
 } from '@material-ui/core';
 import {useAppSelector} from 'redux/hooks';
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
@@ -22,69 +23,78 @@ const DetallePedido: React.FC = () => {
 
 	return (
 		<Estructura
-			titulo={'titulos.ingresoPedido'}
+			titulo={'titulos.productosPedido'}
 			esConFechaHaciaAtras={true}
 		>
 			<Estructura.Cuerpo>
-				<TableContainer className={estilos.container}>
-					<Table stickyHeader aria-label='a dense table' size='small'>
-						<TableHead>
-							<TableRow>
-								{[
-									t('general.codigo'),
-									t('general.nombre'),
-									t('general.unidades'),
-									t('general.subUnidades'),
-								].map((column) => (
-									<TableCell key={column} padding='none' align='left'>
-										<Box my={1} mx={1}>
-											{column}
-										</Box>
-									</TableCell>
-								))}
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{productosPedido.map((producto) => (
-								<TableRow key={producto.codigoProducto} hover>
-									<Celda
-										estilos={estilos}
-										width='15'
-										align='left'
-										dataCy='detalle-codigo-producto'
-									>
-										{producto.codigoProducto}
-									</Celda>
-									<Celda
-										estilos={estilos}
-										width='45'
-										align='left'
-										dataCy='detalle-nombre-producto'
-										resumirTexto={true}
-									>
-										{producto.nombreProducto}
-									</Celda>
-									<Celda
-										estilos={estilos}
-										width='15'
-										align='right'
-										dataCy='detalle-unidades-producto'
-									>
-										{producto.unidades}
-									</Celda>
-									<Celda
-										estilos={estilos}
-										width='15'
-										align='right'
-										dataCy='detalle-subUnidades-producto'
-									>
-										{producto.subUnidades}
-									</Celda>
+				<Grid
+					container
+					direction='row'
+					alignItems='center'
+					spacing={2}
+					className={estilos.container}
+				>
+					<DatosCliente />
+					<TableContainer className={estilos.container}>
+						<Table stickyHeader aria-label='a dense table' size='small'>
+							<TableHead>
+								<TableRow>
+									{[
+										t('general.codigo'),
+										t('general.nombre'),
+										t('general.unidades'),
+										t('general.subUnidades'),
+									].map((column) => (
+										<TableCell key={column} padding='none' align='left'>
+											<Box my={1} mx={1}>
+												{column}
+											</Box>
+										</TableCell>
+									))}
 								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</TableContainer>
+							</TableHead>
+							<TableBody>
+								{productosPedido.map((producto) => (
+									<TableRow key={producto.codigoProducto} hover>
+										<Celda
+											estilos={estilos}
+											width='15'
+											align='left'
+											dataCy='detalle-codigo-producto'
+										>
+											{producto.codigoProducto}
+										</Celda>
+										<Celda
+											estilos={estilos}
+											width='45'
+											align='left'
+											dataCy='detalle-nombre-producto'
+											resumirTexto={true}
+										>
+											{producto.nombreProducto}
+										</Celda>
+										<Celda
+											estilos={estilos}
+											width='15'
+											align='right'
+											dataCy='detalle-unidades-producto'
+										>
+											{producto.unidades}
+										</Celda>
+										<Celda
+											estilos={estilos}
+											width='15'
+											align='right'
+											dataCy='detalle-subUnidades-producto'
+										>
+											{producto.subUnidades}
+										</Celda>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					</TableContainer>
+				</Grid>
 			</Estructura.Cuerpo>
 		</Estructura>
 	);
