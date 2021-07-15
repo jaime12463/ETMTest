@@ -1,12 +1,12 @@
 describe('clientes fuera de frecuencia', () => {
-	beforeEach(() => {
+	/*beforeEach(() => {
 		cy.visit('/');
 		cy.on('uncaught:exception', (err, runnable) => {
 			console.log(err);
 			return false;
 		});
-	});
-	it('Visita a cliente con visita planificada en frecuencia Abierta', () => {
+	});*/
+	/*it('Visita a cliente con visita planificada en frecuencia Abierta', () => {
 		cy.datosConfiguracionDB({});
 		cy.datosDB({});
 		cy.fixture('pagesElements').then((element) => {
@@ -31,7 +31,7 @@ describe('clientes fuera de frecuencia', () => {
 			cy.get(`[data-cy=fuera-frecuencia]`).should('not.exist');
 			cy.get('[data-cy=razonSocial]').should('exist');
 		});
-	});
+	});*/
 	it('Visita a a cliente sin visita planificada con frecuencia Abierta', () => {
 		cy.datosConfiguracionDB({});
 		cy.datosDB({codigoCliente: '120104325'});
