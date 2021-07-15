@@ -17,6 +17,5 @@ base.args = {
 export const conLogoInferior = Template.bind({});
 conLogoInferior.args = {
 	titulo: 'Bienvenido',
-	esConLogoInferior: true,
 	esConFechaHaciaAtras: false,
 };

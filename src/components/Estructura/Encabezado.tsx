@@ -1,5 +1,4 @@
-import React from 'react';
-import {useHistory, useRouteMatch} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {Box, Grid, IconButton, Typography} from '@material-ui/core';
 import Headers from 'assests/images/pop_up_onda.png';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -24,7 +23,7 @@ const Encabezado = (props: Props) => {
 					width: '430px',
 				}}
 			>
-				<Grid item xs={2} style={{marginTop: '17px'}}>
+				<Grid item xs={2} style={{marginTop: '13px'}}>
 					{props.esConFechaHaciaAtras && (
 						<IconButton size='small' onClick={() => history.goBack()}>
 							<ArrowBackIcon style={{color: 'white'}} />

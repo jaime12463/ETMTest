@@ -24,18 +24,22 @@ const Clientes = () => {
 	);
 
 	return (
-		<Estructura titulo={'titulos.clientes'}>
-			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-			<Grid item xs={6} sm={6} className={estilos.margin}>
-				<form onSubmit={handleSubmit(asignarClienteActual)}>
-					<Input
-						label={t('general.cliente')}
-						name='codigoCliente'
-						control={control}
-						inputDataCY='codigo-cliente'
-					/>
-				</form>
-			</Grid>
+		<Estructura
+			titulo={'titulos.clientes'}
+		>
+			<Estructura.Cuerpo>
+				{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+				<Grid item xs={6} sm={6} className={estilos.margin}>
+					<form onSubmit={handleSubmit(asignarClienteActual)}>
+						<Input
+							label={t('general.cliente')}
+							name='codigoCliente'
+							control={control}
+							inputDataCY='codigo-cliente'
+						/>
+					</form>
+				</Grid>
+			</Estructura.Cuerpo>
 		</Estructura>
 	);
 };

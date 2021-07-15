@@ -134,102 +134,106 @@ export default function TomaDePedidos() {
 			<Estructura
 				titulo={'titulos.ingresoPedido'}
 				esConFechaHaciaAtras={true}
-				esConLogoInferior={false}
 			>
-				{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-				<Snackbar
-					open={avisoPedidoGuardadoExitoso}
-					autoHideDuration={4000}
-					onClose={cerrarAvisoPedidoGuardado}
-				>
-					<Alert onClose={cerrarAvisoPedidoGuardado} severity='success'>
-						Se guardo el pedido del cliente
-					</Alert>
-				</Snackbar>
-				<Grid
-					container
-					direction='row'
-					alignItems='center'
-					spacing={2}
-					className={estilos.contenedor}
-				>
-					{clienteActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
-						<Fragment>
-							<Grid item xs={6} sm={6}>
-								<Typography variant='body2' component='p' data-cy='razonSocial'>
-									{clienteActual.razonSocial}
-								</Typography>
-							</Grid>
-							<Grid item xs={12} sm={12}>
-								<Typography
-									variant='body2'
-									component='p'
-									data-cy='fechaEntrega'
-								>
-									{t('general.fechaEntrega')}
-									{': '}
-									{pedidoActual.fechaEntrega
-										? darFormatoFecha(
-												new Date(pedidoActual.fechaEntrega)
-													.toISOString()
-													.split('T')[0]
-										  )
-										: 'No existe Fecha'}
-								</Typography>
-							</Grid>
-						</Fragment>
-					)}
-					{clienteActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
-						<Fragment>
-							<FormularioAgregarProducto
-								agregarProductoAlPedidoCliente={
-									validarAgregarProductoAlPedidoCliente
-								}
-								buscarPreciosProductos={filtrarPreciosProductosDelClienteActual}
-								handleSubmit={handleSubmit}
-								control={control}
-								disabled={productoActual.codigoProductoConNombre === ''}
-								deshabilitarSubunidades={
-									!validarProductoPermiteSubUnidades(
-										parseInt(
-											getValues('codigoProductoConNombre')?.split(' ')[0]
-										)
-									)
-								}
-							/>
-							<TablaProductos
-								titulos={[
-									t('general.codigo'),
-									t('general.nombre'),
-									t('general.precio'),
-								]}
-								preciosProductos={preciosProductos}
-								asignarProductoActual={asignarProductoActual}
-							/>
-							{pedidoActual.productosPedido.length > 0 && (
-								<Fragment>
-									<TotalPedido />
-									<Grid
-										container
-										direction='row'
-										justify='flex-end'
-										alignItems='center'
+				<Estructura.Cuerpo>
+					{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+					<Snackbar
+						open={avisoPedidoGuardadoExitoso}
+						autoHideDuration={4000}
+						onClose={cerrarAvisoPedidoGuardado}
+					>
+						<Alert onClose={cerrarAvisoPedidoGuardado} severity='success'>
+							Se guardo el pedido del cliente
+						</Alert>
+					</Snackbar>
+					<Grid
+						container
+						direction='row'
+						alignItems='center'
+						spacing={2}
+						className={estilos.contenedor}
+					>
+						{clienteActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
+							<Fragment>
+								<Grid item xs={6} sm={6}>
+									<Typography variant='body2' component='p' data-cy='razonSocial'>
+										{clienteActual.razonSocial}
+									</Typography>
+								</Grid>
+								<Grid item xs={12} sm={12}>
+									<Typography
+										variant='body2'
+										component='p'
+										data-cy='fechaEntrega'
 									>
-										<Button
-											variant='contained'
-											color='secondary'
-											data-cy='boton-cerrarPedido'
-											onClick={agregarPedidoActualAPedidosClientes}
-											className={estilos.botonCerrarPedido}
-										>
-											{t('general.cerrarPedido').toUpperCase()}
-										</Button>
-									</Grid>
-								</Fragment>
-							)}
+										{t('general.fechaEntrega')}
+										{': '}
+										{pedidoActual.fechaEntrega
+											? darFormatoFecha(
+													new Date(pedidoActual.fechaEntrega)
+														.toISOString()
+														.split('T')[0]
+											)
+											: 'No existe Fecha'}
+									</Typography>
+								</Grid>
+							</Fragment>
+						)}
+						{clienteActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
+							<Fragment>
+								<FormularioAgregarProducto
+									agregarProductoAlPedidoCliente={
+										validarAgregarProductoAlPedidoCliente
+									}
+									buscarPreciosProductos={filtrarPreciosProductosDelClienteActual}
+									handleSubmit={handleSubmit}
+									control={control}
+									disabled={productoActual.codigoProductoConNombre === ''}
+									deshabilitarSubunidades={
+										!validarProductoPermiteSubUnidades(
+											parseInt(
+												getValues('codigoProductoConNombre')?.split(' ')[0]
+											)
+										)
+									}
+								/>
+								<TablaProductos
+									titulos={[
+										t('general.codigo'),
+										t('general.nombre'),
+										t('general.precio'),
+									]}
+									preciosProductos={preciosProductos}
+									asignarProductoActual={asignarProductoActual}
+								/>
+								
+							</Fragment>
+						)}
+					</Grid>
+				</Estructura.Cuerpo>
+				<Estructura.PieDePagina>
+					{pedidoActual.productosPedido.length > 0 && (
+						<Fragment>
+							<TotalPedido />
+							<Grid
+								container
+								direction='row'
+								justify='flex-end'
+								alignItems='center'
+							>
+								<Button
+									variant='contained'
+									color='secondary'
+									data-cy='boton-cerrarPedido'
+									onClick={agregarPedidoActualAPedidosClientes}
+									className={estilos.botonCerrarPedido}
+								>
+									{t('general.cerrarPedido').toUpperCase()}
+								</Button>
+							</Grid>
 						</Fragment>
 					)}
-				</Grid>
+				</Estructura.PieDePagina>
 			</Estructura>
 		</>
 	);

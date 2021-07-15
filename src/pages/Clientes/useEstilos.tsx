@@ -1,7 +1,7 @@
 import {makeStyles} from '@material-ui/core';
 const useEstilos = makeStyles((theme) => ({
 	margin: {
-		marginTop: 50,
+		marginTop: 20,
 	},
 }));
 export default useEstilos;

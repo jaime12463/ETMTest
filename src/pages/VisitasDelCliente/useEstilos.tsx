@@ -5,7 +5,7 @@ const useEstilos = makeStyles((theme) => ({
 		maxHeight: 300,
 	},
 	margin: {
-		marginTop: 50,
+		marginTop: 30,
 	},
 	alignment: {
 		textAlign: 'center',
@@ -16,11 +16,6 @@ const useEstilos = makeStyles((theme) => ({
 		width: '7rem',
 		display: 'inline block',
 		overflow: 'hidden',
-	},
-	fab: {
-		position: 'absolute',
-		bottom: theme.spacing(2),
-		right: theme.spacing(2),
 	},
 	typography: {
 		padding: theme.spacing(2),

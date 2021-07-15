@@ -4,6 +4,7 @@ import LogoFemsa from 'assests/images/hdpi_logo_client.png';
 import nombresRutas from 'routes/nombresRutas';
 import Estructura from 'components/Estructura';
 import {useInicializarDatosYConfiguracion} from 'hooks';
+import Footers from 'assests/images/hdpi_logo_soft_hasar.png';
 
 export default function Splash() {
 	let history = useHistory();
@@ -18,9 +19,8 @@ export default function Splash() {
 		<Estructura
 			titulo={'titulos.bienvenido'}
 			esConFechaHaciaAtras={false}
-			esConLogoInferior={true}
 		>
-			<div style={{width: '100%'}}>
+			<Estructura.Cuerpo>
 				<Box display='flex' justifyContent='center'>
 					<img
 						src={LogoFemsa}
@@ -30,7 +30,20 @@ export default function Splash() {
 						data-cy='boton-splash'
 					></img>
 				</Box>
-			</div>
+			</Estructura.Cuerpo>
+			<Estructura.PieDePagina>
+				<Box display='flex' justifyContent='center'>
+					<div
+						style={{
+							background: `url(${Footers}) no-repeat`,
+							height: '75px',
+							width: '300px',
+							position: 'absolute',
+							bottom: '0px',
+						}}
+					></div>
+				</Box>
+			</Estructura.PieDePagina>
 		</Estructura>
 	);
 }
