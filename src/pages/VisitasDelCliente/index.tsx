@@ -121,7 +121,7 @@ const VisitasDelCliente: React.FC = () => {
 											<TableRow key={pedido.codigoPedido} hover>
 												<Celda
 													estilos={estilos}
-													width='20'
+													width='10'
 													align='left'
 													dataCy='cliente-estado-pedido'
 												>
@@ -156,7 +156,7 @@ const VisitasDelCliente: React.FC = () => {
 												</Celda>
 												<Celda
 													estilos={estilos}
-													width='20'
+													width='15'
 													align='center'
 													dataCy='cliente-acciones-pedido'
 												>
