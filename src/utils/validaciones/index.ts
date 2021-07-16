@@ -137,13 +137,13 @@ export const validarObtenerVisitaPlanificadaPosterior = (
 };
 
 export const validarObtenerFechaEntrega = (
-	fechaVisita: string,
 	fechasEntrega: TFechaEntrega[]
 ): TValidacionFechaEntrega => {
+	const fechaActual = fechaDispositivo();
 	const fechaEntregaEncontrada: TFechaEntrega | undefined = fechasEntrega.find(
 		(fechaEntrega) =>
 			new Date(fechaEntrega.fechaVisita).getTime() ===
-			new Date(fechaVisita).getTime()
+			new Date(fechaActual).getTime()
 	);
 	return {
 		esValidaFechaEntrega: fechaEntregaEncontrada !== undefined,

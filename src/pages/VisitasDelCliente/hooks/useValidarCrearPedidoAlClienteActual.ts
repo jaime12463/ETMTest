@@ -60,7 +60,6 @@ export const useValidarCrearPedidoAlClienteActual = (
 
 		const {
 			esValidaVisitaPlanificada,
-			fechaVisitaPlanificada,
 		} = visitaPlanificada;
 
 		if (!esValidaVisitaPlanificada && esFrecuenciaAbierta) {
@@ -83,7 +82,6 @@ export const useValidarCrearPedidoAlClienteActual = (
 			esValidaFechaEntrega,
 			fechaEntrega,
 		}: TValidacionFechaEntrega = validarObtenerFechaEntrega(
-			fechaVisitaPlanificada,
 			datosCliente.fechasEntrega
 		);
 
