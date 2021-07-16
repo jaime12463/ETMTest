@@ -80,10 +80,7 @@ const VisitasDelCliente: React.FC = () => {
 
 	return (
 		<>
-			<Estructura
-				titulo={'titulos.visitaCliente'}
-				esConFechaHaciaAtras={true}
-			>
+			<Estructura titulo={'titulos.visitaCliente'} esConFechaHaciaAtras={true}>
 				{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 				<Estructura.Cuerpo>
 					<Grid
@@ -140,7 +137,7 @@ const VisitasDelCliente: React.FC = () => {
 												</Celda>
 												<Celda
 													estilos={estilos}
-													width='20'
+													width='22'
 													align='left'
 													dataCy='cliente-fechaEntrega-pedido'
 												>
@@ -149,13 +146,13 @@ const VisitasDelCliente: React.FC = () => {
 												<Celda
 													estilos={estilos}
 													width='20'
-													align='left'
+													align='right'
 													dataCy='cliente-monto-pedido'
 												>
-													{
-														calcularTotalPedido(pedido.productosPedido)
-															.totalPrecio.toFixed(2)
-													}
+													{'$' +
+														calcularTotalPedido(
+															pedido.productosPedido
+														).totalPrecio.toFixed(2)}
 												</Celda>
 												<Celda
 													estilos={estilos}
@@ -233,7 +230,12 @@ const VisitasDelCliente: React.FC = () => {
 					</Grid>
 				</Estructura.Cuerpo>
 				<Estructura.PieDePagina>
-					<Grid container justify="flex-end" direction="row" alignItems="flex-end">
+					<Grid
+						container
+						justify='flex-end'
+						direction='row'
+						alignItems='flex-end'
+					>
 						<Fab
 							color='primary'
 							aria-label='add'
