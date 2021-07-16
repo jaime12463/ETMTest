@@ -1,10 +1,10 @@
 import {BrowserRouter, Route} from 'react-router-dom';
 import nombresRutas from '../../routes/nombresRutas';
 import {Inicio} from '../../pages';
-import RutaAnidada from './RutaAnidada';
+import rutaAnidada from './rutaAnidada';
 
 const Rutas = () => {
-	const rutasAnidadas = RutaAnidada();
+	const rutasAnidadas = rutaAnidada();
 	return (
 		<BrowserRouter>
 			{rutasAnidadas}

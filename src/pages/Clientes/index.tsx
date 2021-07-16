@@ -24,9 +24,7 @@ const Clientes = () => {
 	);
 
 	return (
-		<Estructura
-			titulo={'titulos.clientes'}
-		>
+		<Estructura titulo={'titulos.clientes'}>
 			<Estructura.Cuerpo>
 				{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 				<Grid item xs={6} sm={6} className={estilos.margin}>
@@ -36,6 +34,7 @@ const Clientes = () => {
 							name='codigoCliente'
 							control={control}
 							inputDataCY='codigo-cliente'
+							clase={'XS'}
 						/>
 					</form>
 				</Grid>
