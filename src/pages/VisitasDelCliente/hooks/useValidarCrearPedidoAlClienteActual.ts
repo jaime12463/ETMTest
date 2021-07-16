@@ -7,11 +7,13 @@ import {
 	TValidacionFechaVisita,
 	TCliente,
 	TClienteActual,
+	TPrecioProducto,
 } from 'models';
 import {
 	useObtenerClienteActual,
 	useObtenerConfiguracion,
 	useObtenerDatosCliente,
+	useObtenerPreciosProductosDelClienteActual,
 } from 'hooks';
 import {
 	validarObtenerFechaEntrega,
@@ -27,6 +29,7 @@ export const useValidarCrearPedidoAlClienteActual = (
 	const configuracion = useObtenerConfiguracion();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
+	const obtenerPreciosProductosDelClienteActual = useObtenerPreciosProductosDelClienteActual();
 	const {t} = useTranslation();
 
 	const validarCrearPedidoAlClienteActual = useCallback((): {
@@ -62,7 +65,7 @@ export const useValidarCrearPedidoAlClienteActual = (
 
 		if (!esValidaVisitaPlanificada && esFrecuenciaAbierta) {
 			mostrarAdvertenciaEnDialogo(
-				t('advertencias.fueraDeFrecuencia'),
+				t('advertencias.noVisitaPlanificada'),
 				'fuera-frecuencia'
 			);
 			return estadoValidacion;
@@ -86,16 +89,32 @@ export const useValidarCrearPedidoAlClienteActual = (
 
 		if (!esValidaFechaEntrega) {
 			mostrarAdvertenciaEnDialogo(
-				t('advertencias.noFechaProgramada'),
-				'no-fecha-programada'
+				t('advertencias.noFechaEntregaInformada'),
+				'no-fecha-informada'
 			);
 			return estadoValidacion;
 		}
+
+		const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelClienteActual(
+			datosCliente,
+			fechaEntrega
+		);
+
+		const esPortafolioPreciosProductosMayorCero: boolean = preciosProductosDelCliente.length > 0;
+
+		if (!esPortafolioPreciosProductosMayorCero) {
+			mostrarAdvertenciaEnDialogo(
+				t('advertencias.noPortafolioPrecios'),
+				'no-portafolio-precios'
+			);
+			return estadoValidacion;
+		}
+
 		estadoValidacion = {
 			esValidoCrearPedidoAlClienteActual: true,
 			fechaEntrega,
 		};
 		return estadoValidacion;
-	}, [mostrarAdvertenciaEnDialogo, dispatch, configuracion]);
+	}, [mostrarAdvertenciaEnDialogo, dispatch, configuracion, obtenerPreciosProductosDelClienteActual]);
 	return validarCrearPedidoAlClienteActual;
 };
