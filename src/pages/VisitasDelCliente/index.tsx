@@ -238,6 +238,7 @@ const VisitasDelCliente: React.FC = () => {
 							color='primary'
 							aria-label='add'
 							onClick={crearPedidoAlClienteActual}
+							data-cy='boton-crearPedidoAlClienteActual'
 						>
 							<AddIcon />
 						</Fab>
