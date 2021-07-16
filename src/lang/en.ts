@@ -36,12 +36,13 @@ const en = {
 		clientes: 'Clients',
 	},
 	advertencias: {
-		clienteNoPortafolio: 'The client does not have an informed portfolio',
+		clienteNoExiste: 'The code entered does not correspond to a customer',
 		cantidadEsMayor:
 			'The amount is greater than {{cantidad}}. Do you wish to continue?',
-		noFechaInformada: 'it does not have an informed delivery date',
 		fueraDeFrecuencia: 'The client is off-frequency',
-		noFechaProgramada: 'The client does not have scheduled delivery date',
+		noVisitaPlanificada: 'he client has no planned visit',
+		noFechaEntregaInformada: 'The customer has no delivery date reported for the current date',
+		noPortafolioPrecios: 'The client does not have a current portfolio for the reported delivery date',
 		limiteSubUnidades:
 			'The subunits must be smaller than the presentation of product',
 		pedidoMinimo: 'does not fulfil minimum order of ${{monto}}',

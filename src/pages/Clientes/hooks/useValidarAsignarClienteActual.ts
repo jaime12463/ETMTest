@@ -24,7 +24,7 @@ export const useValidarAsignarClienteActual = (
 			);
 			if (!datosCliente) {
 				mostrarAdvertenciaEnDialogo(
-					t('advertencias.clienteNoPortafolio'),
+					t('advertencias.clienteNoExiste'),
 					'clienteNoPortafolio'
 				);
 				return estadoValidacion;
