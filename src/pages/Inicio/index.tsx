@@ -12,14 +12,12 @@ export default function Splash() {
 
 	useInicializarDatosYConfiguracion();
 
-	localStorage.removeItem('fechaDipostivo');
-	query.search && localStorage.setItem('fechaDipostivo', query.search);
+	window.localStorage.removeItem('fechaDipostivo');
+	query.search &&
+		window.localStorage.setItem('fechaDipostivo', query.search.slice(7));
 
 	return (
-		<Estructura
-			titulo={'titulos.bienvenido'}
-			esConFechaHaciaAtras={false}
-		>
+		<Estructura titulo={'titulos.bienvenido'} esConFechaHaciaAtras={false}>
 			<Estructura.Cuerpo>
 				<Box display='flex' justifyContent='center'>
 					<img

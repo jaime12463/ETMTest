@@ -10,7 +10,9 @@ export const darFormatoFecha = (fecha: string): string => {
 };
 
 export const fechaDispositivo = (): string => {
-	let fechaDispositivo: string | null = localStorage.getItem('fechaDipostivo');
+	let fechaDispositivo: string | null = window.localStorage.getItem(
+		'fechaDipostivo'
+	);
 
 	const fecha: string = fechaDispositivo
 		? new Date(fechaDispositivo).toISOString().split('T')[0]

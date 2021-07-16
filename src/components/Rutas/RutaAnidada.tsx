@@ -23,7 +23,7 @@ const rutas: string[] = [
 	nombresRutas.detalle,
 ];
 
-const useRutaAnidada = (
+const RutaAnidada = (
 	componente: ReactNodeArray = componentes,
 	path: string[] = rutas,
 	rutaAnidada: string[] = []
@@ -31,14 +31,15 @@ const useRutaAnidada = (
 	let componenteRenderizado: ReactNode = componente.shift();
 	let pathActual: string | undefined = path.shift();
 	pathActual && rutaAnidada.push(pathActual);
+
 	return (
 		<Route path={rutaAnidada.join('')}>
 			{componenteRenderizado}
 			{componente && componente.length >= 1
-				? useRutaAnidada(componente, path, rutaAnidada)
+				? RutaAnidada(componente, path, rutaAnidada)
 				: null}
 		</Route>
 	);
 };
 
-export default useRutaAnidada;
+export default RutaAnidada;
