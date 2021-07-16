@@ -42,8 +42,8 @@ Ejemplos:
 
 Esquema del escenario: N°3 – El cliente no tiene visitas programada en frecuencia
 	Cuando <esFrecuenciaAbierta>  
-	Y el cliente no tiene una visita planificada para la fecha actual
-	Entonces e sistema mostrará el mensaje “El cliente no tiene visita planificada” 
+	Y el cliente no tiene visitas planificadas para ninguna fecha 
+	Entonces el sistema mostrará el mensaje “El cliente no tiene visita planificada” 
 	Y permanecerá en la pantalla
 
 Ejemplos:
@@ -53,7 +53,8 @@ Ejemplos:
 Esquema del escenario: N°4 – El cliente está fuera de frecuencia
 	Cuando <esFrecuenciaAbierta>  
 	Y el cliente no tiene una visita planificada para la fecha actual 
-	Entonces e sistema mostrará el mensaje “El cliente está fuera de frecuencia” 
+	Y tiene al menos una visita planificada para fecha mayor a la fecha actual
+	Entonces el sistema mostrará el mensaje “El cliente está fuera de frecuencia” 
 	Y permanecerá en la pantalla
 
 Ejemplos:
