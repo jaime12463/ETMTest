@@ -154,7 +154,7 @@ const VisitasDelCliente: React.FC = () => {
 												>
 													{
 														calcularTotalPedido(pedido.productosPedido)
-															.totalPrecio
+															.totalPrecio.toFixed(2)
 													}
 												</Celda>
 												<Celda

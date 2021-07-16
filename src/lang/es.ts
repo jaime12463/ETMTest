@@ -36,11 +36,12 @@ const es = {
 		clientes: 'Clientes',
 	},
 	advertencias: {
-		clienteNoPortafolio: 'El cliente no tiene portafolio informado',
+		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
 		cantidadEsMayor: 'La cantidad es mayor a {{cantidad}} ¿Desea continuar?',
-		noFechaInformada: 'No tiene fecha de entrega informada',
 		fueraDeFrecuencia: 'El cliente está fuera de frecuencia',
-		noFechaProgramada: 'El cliente no tiene fecha de entrega programada',
+		noVisitaPlanificada: 'El cliente no tiene visita planificada',
+		noFechaEntregaInformada: 'El cliente no tiene fecha de entrega informada para la fecha actual',
+		noPortafolioPrecios: 'El cliente no tiene portafolio vigente para la fecha de entrega informada',
 		limiteSubUnidades:
 			'Las subunidades deben ser menores a la presentación del producto',
 		pedidoMinimo: 'No cumple con el pedido mínimo de ${{monto}}',

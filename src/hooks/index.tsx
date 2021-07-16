@@ -8,6 +8,7 @@ import {useMostrarAdvertenciaEnDialogo} from './useMostrarAdvertenciaEnDialogo';
 import {useObtenerPedidoActual} from './useObtenerPedidoActual';
 import {useObtenerDatosCliente} from './useObtenerDatosCliente';
 import {useObtenerPedidosClientes} from './useObtenerPedidosClientes';
+import {useObtenerPreciosProductosDelClienteActual} from './useObtenerPreciosProductosDelClienteActual'
 
 export {
 	useObtenerDatos,
@@ -20,4 +21,5 @@ export {
 	useObtenerPedidoActual,
 	useObtenerDatosCliente,
 	useObtenerPedidosClientes,
+	useObtenerPreciosProductosDelClienteActual
 };
