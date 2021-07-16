@@ -1,11 +1,10 @@
 import {BrowserRouter, Route} from 'react-router-dom';
 import nombresRutas from '../../routes/nombresRutas';
 import {Inicio} from '../../pages';
-import useRutaAnidada from './useRutaAnidada';
-
-const rutasAnidadas = useRutaAnidada();
+import RutaAnidada from './RutaAnidada';
 
 const Rutas = () => {
+	const rutasAnidadas = RutaAnidada();
 	return (
 		<BrowserRouter>
 			{rutasAnidadas}
