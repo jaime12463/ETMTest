@@ -47,11 +47,11 @@ Esquema del escenario: N°3 – El producto del pedido tiene Implícito2 informa
 # Implicito2 es la caja plástica 
 
 Ejemplos:
-|producto|cantidadUnidades|cantidadSubunidades|implicito2|	
-|360	 | 10	          |2                  |	1020	|
-|365	 |15	          |5	              | 1020	|
-|380	 |15	          |0	              | 1020	|
-|400	 |0	              |3	              | 1020	|
+|producto|cantidadUnidades|implicito2|	
+|360	 | 10	          |	1020	|
+|365	 |15	          | 1020	|
+|380	 |15	          | 1020	|
+|400	 |0	              | 1020	|
 
 
 # Dado el siguiente pedido
