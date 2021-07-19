@@ -39,7 +39,7 @@ Característica: Ver envases retornables
 
 Escenario: N°1 – El producto del pedido no tiene Implícito1 ni Implícito1 informado
 	Dado que se realizó la venta de un producto que no tiene Implícito1
-	ni Implícito2 informados
+	Y tampoco tiene Implícito2 informados
 	Cuando quiero ver los envases retornables
 	Entonces el sistema no muestra envases para ese producto
 
