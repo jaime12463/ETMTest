@@ -37,7 +37,7 @@ Escenario: N°2 - El cliente es de crédito formal
 Esquema del escenario: N°3 - El cliente es de crédito informal
     Dado que el cliente tiene condición de pago contado 
     Cuando <estadoCredito> es crédito Disponible mayor a cero 
-    Y <estadoPadidoMaximo> es Pedido máximo cumplido 
+    Y <estadoPedidoMaximo> es Pedido máximo cumplido 
     Cuando ingreso a registrar un pedido 
     Entonces el sistema <mostraraControles>
 

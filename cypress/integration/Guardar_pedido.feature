@@ -41,7 +41,7 @@ Antecedentes:
 
 Esquema del escenario: N°1 – El cliente de contado o crédito formal no tiene pedidos activos para la fecha de entrega y el pedido cumple el mínimo y no excede el máximo
 	Dado que el cliente no tiene pedidos en estado Activo para la misma fecha de entrega del pedido a guardar
-	Y la suma de < montoDelPedido > a guardar es mayor o igual <montoVentaMinimo> 
+	Y la suma de <montoDelPedido> a guardar es mayor o igual <montoVentaMinimo> 
 	Y la suma de <montoProductoContado> es menor o igual a <montoVentaMaximo>
 	Y la condición de crédito del cliente es distinta de crédito informal
 	Cuando guardo el pedido
@@ -49,12 +49,12 @@ Esquema del escenario: N°1 – El cliente de contado o crédito formal no tiene
 	
 Ejemplos:	
 |montoDelPedido|montoVentaMinimo|montoProductoContado|montoVentaMaximo|
-|         1000            |           900                   |                1000                   |               2000              |
-|         1100            |           900                   |                0                          |               2000              |
+|    1000      |   900          |     1000           |    2000        |
+|    1100      |   900          |       0            |    2000        |
 
 Esquema del escenario: N°2 – El cliente de crédito informal no tiene pedidos activos para la fecha de entrega y no excede el límite de crédito y el pedido cumple el mínimo y no excede el máximo
 	Dado que el cliente no tiene pedidos en estado Activo para la misma fecha de entrega del pedido a guardar
-	Y la suma de < montoDelPedido > a guardar es mayor o igual <montoVentaMinimo> 
+	Y la suma de <montoDelPedido> a guardar es mayor o igual <montoVentaMinimo> 
 	Y la suma de <montoProductoContado> es menor o igual a <montoVentaMaximo>
 	Y la condición de crédito del cliente es igual crédito informal 
 	Y el <creditoDisponible> es mayor o igual a cero
@@ -63,9 +63,9 @@ Esquema del escenario: N°2 – El cliente de crédito informal no tiene pedidos
 
 Ejemplos:
 |montoDelPedido|montoVentaMinimo|montoProductoContado|montoVentaMaximo|creditoDisponible|
-|         1000            |           900                   |                1000       |               2000              |1000|
-|         1100            |           900                   |                500        |               2000              | 0|
-|         1000            |           900                   |                    0      |              2000              | 1|
+|         1000 |   900          |    1000            |    2000        |1000|
+|         1100 |   900          |     500            |    2000        | 0|
+|         1000 |   900          |          0         |    2000        | 1|
 
 #Se asume que el monto de los pedidos de crédito son iguales a motnoDelPedido – montoProductoContado. Para este ejemplo
 
@@ -73,7 +73,7 @@ Esquema del escenario: N°3 – El total del pedido no cumple con el pedido mín
 	Dado que el cliente no tiene pedidos en estado Activo para la misma fecha de entrega del pedido a guardar
 	Y el <montoDelPedido> a guardar es menor al <montoVentaMinimo> 
 	Cuando guardo el pedido
-	Entonces el sistema Mostrará mensaje “El pedido no alcanza el monto de venta mínima < montoVentaMinimo >” y permanecerá en la pantalla  
+	Entonces el sistema Mostrará mensaje “El pedido no alcanza el monto de venta mínima <montoVentaMinimo>” y permanecerá en la pantalla  
 	
 Ejemplos:
 | montoVentaMinimo|montoDelPedido|
@@ -121,7 +121,7 @@ Esquema del escenario: N°6 – El pedido a guardar no necesita cumplir el pedid
 	Entonces el sistema guardará el pedido y volverá a la pantalla de cliente
 
 Ejemplos:
- |montosDePedidosContado|montoProductoContado|montoVentaMaximo|creditoDisponible
+ |montosDePedidosContado|montoProductoContado|montoVentaMaximo|creditoDisponible|
 |         1000                               |                1000                   |               2000              |900|
 |         1100                               |                500                     |               2000              | 600|
 |         1000                               |                     0                     |               2000              | 0|

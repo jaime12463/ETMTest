@@ -10,8 +10,8 @@
 Esquema del escenario: N°1 - Calcular totales 
     Dado que se registraron productos en el pedido con <condiciónDePago>
     Cuando quiero ver los totales
-    Entonces el sistema calculará para cada <condiciónPago> el <totalUnidades> como la suma de Unidades, <totalSubunidades> como la suma de las subunidades y <Monto> como
- unidades * precio con Impuesto de la unidadad + subunidades * precio con impuesto de la subunidad, de los productos de la misma condición de pago 
+    Entonces el sistema calculará para cada <condiciónPago> el <totalUnidades> como la suma de Unidades, <totalSubunidades> como la suma de las subunidades y <monto> como
+ unidades * precio con Impuesto de la unidadad + subunidades * precio con impuesto de la subunidad, de los productos de la misma <condicionPago> 
     Y mostrará los totales en pantalla
 
 #Dados los siguientes productos ingresados
@@ -21,7 +21,6 @@ Esquema del escenario: N°1 - Calcular totales
 #|         4          |           2           |            100          |          10                |     contado   |
 
 Ejemplos:
-|totalUnidades|totalSubunidades|monto|condicionPago|
 |totalUnidades|totalSubunidades|monto|condicionPago|
 |4		      |2		       |420	 | contado|
 |7		      |3		       |480	 | crédito|
