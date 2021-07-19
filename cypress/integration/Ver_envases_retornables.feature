@@ -48,7 +48,7 @@ Esquema del escenario: N°3 – El producto del pedido tiene Implícito2 informa
 
 Ejemplos:
 |producto|cantidadUnidades|implicito2|	
-|360	 | 10	          |	1020	|
+|360	 |10	          |	1020	|
 |365	 |15	          | 1020	|
 |380	 |15	          | 1020	|
 |400	 |0	              | 1020	|

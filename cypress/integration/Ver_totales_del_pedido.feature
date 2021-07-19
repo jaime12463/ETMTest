@@ -12,7 +12,7 @@ Característica: Ver totales del pedido
     Para mantener informado al cliente durante la venta
 
 Esquema del escenario: N°1 - Calcular totales 
-    Dado que se registraron productos en el pedido con <condiciónDePago>
+    Dado que se registraron productos en el pedido con <condicionPago>
     Cuando quiero ver los totales
     Entonces el sistema calculará para cada <condicionPago> el <totalUnidades> como la suma de Unidades, <totalSubunidades> como la suma de las subunidades y <monto> como
  unidades * precio con Impuesto de la unidadad + subunidades * precio con impuesto de la subunidad, de los productos de la misma <condicionPago> 
