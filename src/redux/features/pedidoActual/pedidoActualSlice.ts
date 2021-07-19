@@ -1,11 +1,12 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {TPedidoCliente, TProductoPedido} from '../../../models';
+import { EstadosDeUnPedido } from 'utils/constants';
+import {TPedidoActual, TProductoPedido} from '../../../models';
 import {RootState} from '../../store';
 
-const estadoInicial: TPedidoCliente = {
-	codigoCliente: '',
+const estadoInicial: TPedidoActual = {
+	codigoPedido: '',
 	fechaEntrega: '',
-	razonSocial: '',
+	estado: EstadosDeUnPedido.Activo,
 	productosPedido: [],
 };
 
@@ -26,6 +27,7 @@ export const pedidoActualSlice = createSlice({
 				action.payload,
 			];
 		},
+
 		borrarProductoDelPedidoDelCliente: (
 			state,
 			action: PayloadAction<number>
@@ -36,23 +38,27 @@ export const pedidoActualSlice = createSlice({
 			);
 			state.productosPedido = [...productosPedidoClienteFiltrados];
 		},
+
 		inicializarPedidoActual: (
 			state,
 			action: PayloadAction<{
 				fechaEntrega: string;
-				codigoCliente: string;
-				razonSocial: string;
+				codigoPedido: string;
+				estado?: EstadosDeUnPedido;
+				productosPedido?: TProductoPedido[];
 			}>
 		) => {
-			const {codigoCliente, fechaEntrega, razonSocial} = action.payload;
-			state.codigoCliente = codigoCliente;
+			const {codigoPedido, fechaEntrega, estado, productosPedido} =
+				action.payload;
+			state.codigoPedido = codigoPedido;
 			state.fechaEntrega = fechaEntrega;
-			state.razonSocial = razonSocial;
+			if (productosPedido) state.productosPedido = productosPedido;
+			if (estado) state.estado = estado;
 		},
 		resetearPedidoActual: (state) => {
+			state.codigoPedido = '';
 			state.fechaEntrega = '';
-			state.codigoCliente = '';
-			state.razonSocial = '';
+			state.estado = EstadosDeUnPedido.Activo;
 			state.productosPedido = [];
 		},
 	},

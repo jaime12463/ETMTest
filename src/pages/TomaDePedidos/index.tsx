@@ -1,40 +1,42 @@
 import {Fragment, SyntheticEvent, useEffect, useState} from 'react';
-import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
-import {
-	TInputsFormularioAgregarProducto,
-	TPedidoCliente,
-	TPrecioProducto,
-	TPrecioSinVigencia,
-} from 'models';
-import {useAppSelector} from 'redux/hooks';
-import {Button, Chip, Grid, Snackbar, Typography} from '@material-ui/core';
+import {Button, Grid, Snackbar, Typography} from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
 import {useForm} from 'react-hook-form';
 import {Alert} from '@material-ui/lab';
 import {darFormatoFecha} from 'utils/methods';
 import {
+	TClienteActual,
+	TInputsFormularioAgregarProducto,
+	TPedidoActual,
+	TPrecioProducto,
+	TPrecioSinVigencia,
+} from 'models';
+import {
 	TablaProductos,
 	FormularioAgregarProducto,
 	TotalPedido,
-	Input,
 	Estructura,
+	Dialogo,
+	DatosCliente,
 } from 'components';
-import {useObtenerDatos} from '../../hooks';
 import {
-	useAgregarPedidoAlListado,
-	useValidarAgregarProductoAlPedidoCliente,
-	useAsignarPedidoActual,
+	useAgregarPedidoActualAPedidosClientes,
+	useAgregarProductoAlPedidoActual,
 	useAsignarProductoActual,
-	useBuscarPreciosProductos,
-	usePermiteSubUnidades,
-	useMostrarAdvertenciaEnDialogo,
-	useResetPedidoActual,
-	useResetLineaActual,
-	useAgregarProductoAlPedidoCliente,
+	useFiltrarPreciosProductosDelClienteActual,
+	useValidarAgregarProductoAlPedidoCliente,
 	useManejadorConfirmarAgregarPedido,
+	useValidarProductoPermiteSubUnidades,
+	useResetLineaActual,
+	useResetPedidoActual,
+	useInicializarPreciosProductosDelClienteActual,
 } from './hooks';
-import Dialogo, {Props as PropsDialogo} from 'components/Dialogo';
+import {
+	useMostrarAdvertenciaEnDialogo,
+	useObtenerClienteActual,
+	useObtenerPedidoActual,
+} from 'hooks';
 
 export default function TomaDePedidos() {
 	const [preciosProductos, setPreciosProductos] = useState<TPrecioProducto[]>(
@@ -45,15 +47,6 @@ export default function TomaDePedidos() {
 		avisoPedidoGuardadoExitoso,
 		setAvisoPedidoGuardadoExitoso,
 	] = useState<boolean>(false);
-
-	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);
-
-	const [parametrosDialogo, setParametrosDialogo] = useState<PropsDialogo>({
-		mensaje: '',
-		manejadorClick: () => {},
-		conBotonCancelar: false,
-		dataCy: '',
-	});
 
 	const [productoActual, setProductoActual] = useState<TPrecioSinVigencia>({
 		codigoProductoConNombre: '',
@@ -72,22 +65,19 @@ export default function TomaDePedidos() {
 		getValues,
 	} = useForm<TInputsFormularioAgregarProducto>();
 
-	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
+	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
 
-	const [pedidosCliente, setPedidosCliente] = useState<number>(0);
-
-	useObtenerDatos();
+	const clienteActual: TClienteActual = useObtenerClienteActual();
 
 	const resetLineaActual = useResetLineaActual(setValue, setProductoActual);
 
 	const resetPedidoActual = useResetPedidoActual(
 		setPreciosProductos,
 		resetLineaActual,
-		setValue,
-		setPedidosCliente
+		setValue
 	);
 
-	const agregarProductoAlPedidoCliente = useAgregarProductoAlPedidoCliente(
+	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		productoActual,
 		resetLineaActual
 	);
@@ -95,13 +85,14 @@ export default function TomaDePedidos() {
 	const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido(
 		productoActual,
 		getValues,
-		agregarProductoAlPedidoCliente
+		agregarProductoAlPedidoActual
 	);
 
-	const mostrarAdvertenciaEnDialogo = useMostrarAdvertenciaEnDialogo(
-		setMostarDialogo,
-		setParametrosDialogo
-	);
+	const {
+		mostrarAdvertenciaEnDialogo,
+		mostarDialogo,
+		parametrosDialogo,
+	} = useMostrarAdvertenciaEnDialogo();
 
 	const asignarProductoActual = useAsignarProductoActual(
 		setProductoActual,
@@ -111,28 +102,22 @@ export default function TomaDePedidos() {
 	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
 		mostrarAdvertenciaEnDialogo,
 		manejadorConfirmarAgregarPedido,
-		agregarProductoAlPedidoCliente
+		agregarProductoAlPedidoActual
 	);
 
-	const asignarPedidoActual = useAsignarPedidoActual(
-		setPreciosProductos,
-		mostrarAdvertenciaEnDialogo,
-		resetPedidoActual,
-		setPedidosCliente
-	);
-
-	const buscarPreciosProductos = useBuscarPreciosProductos(
+	const filtrarPreciosProductosDelClienteActual = useFiltrarPreciosProductosDelClienteActual(
 		preciosProductos,
 		setPreciosProductos
 	);
 
-	const agregarPedidoAlListado = useAgregarPedidoAlListado(
+	const agregarPedidoActualAPedidosClientes = useAgregarPedidoActualAPedidosClientes(
 		setAvisoPedidoGuardadoExitoso,
-		mostrarAdvertenciaEnDialogo,
-		resetPedidoActual
+		mostrarAdvertenciaEnDialogo
 	);
 
-	const permiteSubUnidades = usePermiteSubUnidades();
+	const validarProductoPermiteSubUnidades = useValidarProductoPermiteSubUnidades();
+
+	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 
 	const cerrarAvisoPedidoGuardado = (event: SyntheticEvent<Element, Event>) => {
 		setAvisoPedidoGuardadoExitoso(false);
@@ -150,9 +135,8 @@ export default function TomaDePedidos() {
 			<Estructura
 				titulo={'titulos.ingresoPedido'}
 				esConFechaHaciaAtras={true}
-				esConLogoInferior={false}
 			>
-				<Fragment>
+				<Estructura.Cuerpo>
 					{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 					<Snackbar
 						open={avisoPedidoGuardadoExitoso}
@@ -170,48 +154,11 @@ export default function TomaDePedidos() {
 						spacing={2}
 						className={estilos.contenedor}
 					>
-						<Grid item xs={6} sm={6}>
-							<form onSubmit={handleSubmit(asignarPedidoActual)}>
-								<Input
-									label={t('general.cliente')}
-									name='codigoCliente'
-									control={control}
-									inputDataCY='codigo-cliente'
-									disabled={
-										pedidoActual.codigoCliente !== ''
-											? pedidoActual.productosPedido.length > 0
-											: false
-									}
-								/>
-							</form>
-						</Grid>
-						{pedidoActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
+						{clienteActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
 							<Fragment>
 								<Grid item xs={6} sm={6}>
-									<Typography
-										variant='body2'
-										component='p'
-										data-cy='razonSocial'
-									>
-										{pedidoActual.razonSocial}
-									</Typography>
+									<DatosCliente />
 								</Grid>
-								{pedidosCliente != 0 && (
-									<Grid item xs={6} sm={12}>
-										<Typography
-											variant='body2'
-											component='p'
-											data-cy='pedidosCliente'
-											display='inline'
-										>
-											{t('general.pedidosCliente')}
-										</Typography>
-										<Chip
-											label={pedidosCliente}
-											data-cy={`numeroPedidosCliente-${pedidosCliente}`}
-										/>
-									</Grid>
-								)}
 								<Grid item xs={12} sm={12}>
 									<Typography
 										variant='body2'
@@ -225,25 +172,24 @@ export default function TomaDePedidos() {
 													new Date(pedidoActual.fechaEntrega)
 														.toISOString()
 														.split('T')[0]
-											  )
+											)
 											: 'No existe Fecha'}
 									</Typography>
 								</Grid>
 							</Fragment>
 						)}
-						{pedidoActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
+						{clienteActual.codigoCliente !== '' && pedidoActual.fechaEntrega && (
 							<Fragment>
 								<FormularioAgregarProducto
 									agregarProductoAlPedidoCliente={
 										validarAgregarProductoAlPedidoCliente
 									}
-									buscarPreciosProductos={buscarPreciosProductos}
+									buscarPreciosProductos={filtrarPreciosProductosDelClienteActual}
 									handleSubmit={handleSubmit}
 									control={control}
 									disabled={productoActual.codigoProductoConNombre === ''}
 									deshabilitarSubunidades={
-										!permiteSubUnidades(
-											getValues('codigoCliente'),
+										!validarProductoPermiteSubUnidades(
 											parseInt(
 												getValues('codigoProductoConNombre')?.split(' ')[0]
 											)
@@ -259,31 +205,34 @@ export default function TomaDePedidos() {
 									preciosProductos={preciosProductos}
 									asignarProductoActual={asignarProductoActual}
 								/>
-								{pedidoActual.productosPedido.length > 0 && (
-									<Fragment>
-										<TotalPedido />
-										<Grid
-											container
-											direction='row'
-											justify='flex-end'
-											alignItems='center'
-										>
-											<Button
-												variant='contained'
-												color='secondary'
-												data-cy='boton-cerrarPedido'
-												onClick={agregarPedidoAlListado}
-												className={estilos.botonCerrarPedido}
-											>
-												{t('general.cerrarPedido').toUpperCase()}
-											</Button>
-										</Grid>
-									</Fragment>
-								)}
+								
 							</Fragment>
 						)}
 					</Grid>
-				</Fragment>
+				</Estructura.Cuerpo>
+				<Estructura.PieDePagina>
+					{pedidoActual.productosPedido.length > 0 && (
+						<Fragment>
+							<TotalPedido />
+							<Grid
+								container
+								direction='row'
+								justify='flex-end'
+								alignItems='center'
+							>
+								<Button
+									variant='contained'
+									color='secondary'
+									data-cy='boton-cerrarPedido'
+									onClick={agregarPedidoActualAPedidosClientes}
+									className={estilos.botonCerrarPedido}
+								>
+									{t('general.cerrarPedido').toUpperCase()}
+								</Button>
+							</Grid>
+						</Fragment>
+					)}
+				</Estructura.PieDePagina>
 			</Estructura>
 		</>
 	);

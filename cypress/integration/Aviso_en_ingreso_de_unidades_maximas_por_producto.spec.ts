@@ -1,4 +1,4 @@
-describe('Aviso en ingreso de unidades maximas por producto', () => {
+/*describe('Aviso en ingreso de unidades maximas por producto', () => {
 	beforeEach(() => {
 		cy.intercept('GET', '/femsa/configuracion').as('dataConfig');
 		cy.visit('/');
@@ -6,8 +6,8 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 			console.log(err);
 			return false;
 		});
-	});
-	it('La cantidad es mayor a la permitida', () => {
+	});*/
+	/*it('La cantidad es mayor a la permitida', () => {
 		cy.datosDB({cantidadMaximaUnidades: 100});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
@@ -19,8 +19,8 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 			cy.get('[data-cy=cantidad-producto-unidades]').type('101{enter}');
 			cy.get('[data-cy=cantidad-es-mayor]').should('exist');
 		});
-	});
-	it('La cantidad es menor a la permitida', () => {
+	});*/
+	/*it('La cantidad es menor a la permitida', () => {
 		cy.datosDB({cantidadMaximaUnidades: 100});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
@@ -32,8 +32,8 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 			cy.get('[data-cy=cantidad-producto-unidades]').type('99{enter}');
 			cy.get('[data-cy=cantidad-es-mayor]').should('not.exist');
 		});
-	});
-	it('La cantidad es igual a la permitida', () => {
+	});*/
+	/*it('La cantidad es igual a la permitida', () => {
 		cy.datosDB({cantidadMaximaUnidades: 100});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
@@ -45,8 +45,8 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 			cy.get('[data-cy=cantidad-producto-unidades]').type('100{enter}');
 			cy.get('[data-cy=cantidad-es-mayor]').should('not.exist');
 		});
-	});
-	it('Las unidadesMaximasVenta no está definido para el cliente', () => {
+	});*/
+	/*it('Las unidadesMaximasVenta no está definido para el cliente', () => {
 		cy.datosDB({cantidadMaximaUnidades: null});
 		cy.fixture('pagesElements').then((element) => {
 			cy.get(element.splash.name).should('contain', element.splash.value);
@@ -58,5 +58,5 @@ describe('Aviso en ingreso de unidades maximas por producto', () => {
 			cy.get('[data-cy=cantidad-producto-unidades]').type('101{enter}');
 			cy.get('[data-cy=cantidad-es-mayor]').should('not.exist');
 		});
-	});
-});
+	});*/
+/*});*/

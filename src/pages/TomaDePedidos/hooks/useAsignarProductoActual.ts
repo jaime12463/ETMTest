@@ -2,7 +2,7 @@ import {Dispatch, SetStateAction, useCallback} from 'react';
 import {
 	TPrecioSinVigencia,
 	TProductoPedido,
-	TPedidoCliente,
+	TPedidoActual,
 	TInputsFormularioAgregarProducto,
 } from 'models';
 import {useAppSelector} from 'redux/hooks';
@@ -13,7 +13,7 @@ export const useAsignarProductoActual = (
 	setProductoActual: Dispatch<SetStateAction<TPrecioSinVigencia>>,
 	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>
 ) => {
-	const pedidoActual: TPedidoCliente = useAppSelector(selectPedidoActual);
+	const pedidoActual: TPedidoActual = useAppSelector(selectPedidoActual);
 	const asignarProductoActual = useCallback(
 		({
 			codigoProductoConNombre,

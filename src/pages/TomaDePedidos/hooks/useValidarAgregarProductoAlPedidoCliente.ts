@@ -3,6 +3,8 @@ import {
 	TInputsFormularioAgregarProducto,
 	TProducto,
 	TFunctionMostarAvertenciaPorDialogo,
+	TClienteActual,
+	TDatosClientesProductos,
 } from 'models';
 import {useCallback} from 'react';
 import {
@@ -10,11 +12,13 @@ import {
 	validarSubUnidadesEsMultiplo,
 	validarUnidadesMinimasProducto,
 } from 'utils/validaciones';
-import {useObtenerClienteActual} from '.';
+import {
+	useObtenerClienteActual,
+	useObtenerDatos,
+	useObtenerDatosCliente,
+} from 'hooks';
 import {useTranslation} from 'react-i18next';
-import {useAppSelector} from 'redux/hooks';
-import {selectDatos} from 'redux/features/datos/datosSlice';
-import {usePermiteSubUnidades} from '.';
+import {useValidarProductoPermiteSubUnidades} from '.';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
@@ -24,20 +28,18 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 	) => void
 ) => {
 	const {t} = useTranslation();
-	const obtenerClienteActual = useObtenerClienteActual();
-	const {datos} = useAppSelector(selectDatos);
-	const permiteSubUnidades = usePermiteSubUnidades();
+	const validarProductoPermiteSubUnidades = useValidarProductoPermiteSubUnidades();
+	const clienteActual: TClienteActual = useObtenerClienteActual();
+	const datos: TDatosClientesProductos = useObtenerDatos();
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+
 	const validarAgregarProductoAlPedidoCliente = useCallback(
 		({
-			codigoCliente,
 			unidades,
 			subUnidades,
 			codigoProductoConNombre,
 			productoABuscar,
 		}: TInputsFormularioAgregarProducto) => {
-			const clienteEncontrado: TCliente | undefined = obtenerClienteActual(
-				codigoCliente
-			);
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
 			const subUnidadesParseado: number =
 				subUnidades !== '' ? parseInt(subUnidades) : 0;
@@ -47,14 +49,8 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			const {presentacion, subunidadesVentaMinima}: TProducto = datos.productos[
 				codigoProducto
 			];
-			const esPermitidoSubUnidades = permiteSubUnidades(
-				codigoCliente,
+			const esPermitidoSubUnidades = validarProductoPermiteSubUnidades(
 				codigoProducto
-			);
-
-			const esSubUnidadesMenorAPresentacion = validarSubUnidadesConPresentacion(
-				presentacion,
-				subUnidadesParseado
 			);
 
 			if (!esPermitidoSubUnidades && subUnidadesParseado !== 0) {
@@ -65,6 +61,11 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				return;
 			}
 
+			const esSubUnidadesMenorAPresentacion = validarSubUnidadesConPresentacion(
+				presentacion,
+				subUnidadesParseado
+			);
+
 			if (!esSubUnidadesMenorAPresentacion) {
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.limiteSubUnidades'),
@@ -73,7 +74,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				return;
 			}
 
-			//TODO: subunidadesVentaMinima es opcional?
 			const esSubUnidadEsMultiplo = validarSubUnidadesEsMultiplo(
 				subunidadesVentaMinima,
 				subUnidadesParseado
@@ -89,16 +89,25 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				return;
 			}
 
+			if (!datosCliente) {
+				mostrarAdvertenciaEnDialogo(
+					t('No se encontro datos del cliente'),
+					'no-datos-cliente'
+				);
+				return;
+			}
+
+			const {configuracionPedido}: TCliente = datosCliente;
+
 			const esUnidadesMenorAlMaximoUnidades = validarUnidadesMinimasProducto(
 				unidadesParseado,
-				clienteEncontrado.configuracionPedido
+				configuracionPedido
 			);
 
 			if (!esUnidadesMenorAlMaximoUnidades) {
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.cantidadEsMayor', {
-						cantidad:
-							clienteEncontrado.configuracionPedido.cantidadMaximaUnidades,
+						cantidad: configuracionPedido.cantidadMaximaUnidades,
 					}),
 					'cantidad-es-mayor',
 					manejadorConfirmarAgregarPedido,
@@ -111,7 +120,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			}
 
 			agregarProductoAlPedidoCliente({
-				codigoCliente,
 				unidades,
 				subUnidades,
 				codigoProductoConNombre,
@@ -119,11 +127,13 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			});
 		},
 		[
-			obtenerClienteActual,
+			clienteActual,
+			datos,
+			datosCliente,
 			mostrarAdvertenciaEnDialogo,
 			agregarProductoAlPedidoCliente,
 			manejadorConfirmarAgregarPedido,
-			permiteSubUnidades,
+			mostrarAdvertenciaEnDialogo,
 			t,
 		]
 	);

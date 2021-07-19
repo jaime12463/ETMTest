@@ -1,4 +1,5 @@
 import {TPedidoClienteParaEnviar, TPrecio} from 'models';
+import { EstadosDeUnPedido } from './constants';
 
 export const transformDate = (date: string): string =>
 	`${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}`;
@@ -10,7 +11,9 @@ export const darFormatoFecha = (fecha: string): string => {
 };
 
 export const fechaDispositivo = (): string => {
-	let fechaDispositivo: string | null = localStorage.getItem('fechaDipostivo');
+	let fechaDispositivo: string | null = window.localStorage.getItem(
+		'fechaDipostivo'
+	);
 
 	const fecha: string = fechaDispositivo
 		? new Date(fechaDispositivo).toISOString().split('T')[0]
@@ -26,8 +29,10 @@ export const obtenerTotalesPedidosCliente = (
 	if (pedidosClienteMismaFechaEntrega.length !== 0) {
 		totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
 			(acum: any, pedido: any) => {
-				for (let valor of pedido.productosPedido) {
-					acum += valor.total;
+				if (pedido.estado === EstadosDeUnPedido.Activo) {
+					for (let valor of pedido.productosPedido) {
+						acum += valor.total;
+					}
 				}
 				return acum;
 			},
@@ -47,6 +52,25 @@ export const obtenerPrecioConImpuestoUnidad = (
 			new Date(precio['vigenciaInicioPrecio']) <= new Date(fechaEntrega) &&
 			new Date(precio['vigenciaFinPrecio']) >= new Date(fechaEntrega)
 	);
+
+	return resultado;
+};
+
+export const buscarPedidosParaElMismoDia = (
+	pedidosCliente: any,
+	fechaEntrega: string | undefined
+) => {
+	const resultado =
+		pedidosCliente &&
+		pedidosCliente.reduce(
+			(acum: [string], pedido: TPedidoClienteParaEnviar) => {
+				if (pedido.estado === EstadosDeUnPedido.Activo && pedido.fechaEntrega === fechaEntrega) {
+					acum.push(pedido.codigoPedido);
+				}
+				return acum;
+			},
+			[]
+		);
 
 	return resultado;
 };

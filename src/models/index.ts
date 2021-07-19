@@ -1,3 +1,5 @@
+import {EstadosDeUnPedido} from 'utils/constants';
+
 export type TDatosClientesProductos = {
 	clientes: TClientes;
 	productos: TProductos;
@@ -15,7 +17,7 @@ export type TCliente = {
 	codigoCliente: string;
 	visitasPlanificadas: TVisitaPlanificada[];
 	fechasEntrega: TFechaEntrega[];
-	detalles: TDetalle;
+	detalles: TDetalle[];
 	configuracionPedido: TConfiguracionPedido;
 	portafolio: TPortafolio[];
 };
@@ -67,16 +69,24 @@ export type TPedidosClientes = {
 };
 
 export type TPedidoClienteParaEnviar = {
+	codigoPedido: string;
 	fechaEntrega: string;
+	usuario: string;
+	estado: EstadosDeUnPedido;
 	productosPedido: TProductoPedido[];
 	enviado: boolean;
 };
 
-export type TPedidoCliente = {
-	codigoCliente: string;
+export type TPedidoActual = {
+	codigoPedido: string;
 	fechaEntrega: string;
-	razonSocial: string;
+	estado: EstadosDeUnPedido;
 	productosPedido: TProductoPedido[];
+};
+
+export type TClienteActual = {
+	codigoCliente: string;
+	razonSocial: string;
 };
 
 export type TProductoPedido = {
@@ -109,8 +119,11 @@ export type TConfiguracion = {
 	esVentaSubunidadesRuta: boolean;
 };
 
-export type TInputsFormularioAgregarProducto = {
+export type TInputsCodigoCliente = {
 	codigoCliente: string;
+};
+
+export type TInputsFormularioAgregarProducto = {
 	unidades: string;
 	subUnidades: string;
 	codigoProductoConNombre: string;

@@ -1,31 +1,25 @@
-import {useAgregarPedidoAlListado} from './useAgregarPedidoAlListado';
-import {useAgregarProductoAlPedidoCliente} from './useAgregarProductoAlPedidoCliente';
-import {useAsignarPedidoActual} from './useAsignarPedidoActual';
+import {useAgregarPedidoActualAPedidosClientes} from './useAgregarPedidoActualAPedidosClientes';
+import {useAgregarProductoAlPedidoActual} from './useAgregarProductoAlPedidoActual';
 import {useAsignarProductoActual} from './useAsignarProductoActual';
-import {useBuscarPreciosProductos} from './useBuscarPreciosProductos';
-import {useObtenerPreciosProductosDelCliente} from './useObtenerPreciosProductosDelCliente';
+import {useFiltrarPreciosProductosDelClienteActual} from './useFiltrarPreciosProductosDelClienteActual';
+import {useObtenerPreciosProductosDelClienteActual} from './useObtenerPreciosProductosDelClienteActual';
 import {useValidarAgregarProductoAlPedidoCliente} from './useValidarAgregarProductoAlPedidoCliente';
 import {useManejadorConfirmarAgregarPedido} from './useManejadorConfirmarAgregarPedido';
-import {useObtenerClienteActual} from './useObtenerClienteActual';
-import {usePermiteSubUnidades} from './usePermiteSubUnidades';
-import {useMostrarAdvertenciaEnDialogo} from './useMostrarAdvertenciaEnDialogo';
+import {useValidarProductoPermiteSubUnidades} from './useValidarProductoPermiteSubUnidades';
 import {useResetLineaActual} from './useResetLineaActual';
 import {useResetPedidoActual} from './useResetPedidoActual';
-import {useObtenerPedidosDelCliente} from './useObtenerPedidosDelCliente';
+import {useInicializarPreciosProductosDelClienteActual} from './useInicializarPreciosProductosDelClienteActual';
 
 export {
-	useAgregarPedidoAlListado,
-	useAgregarProductoAlPedidoCliente,
+	useAgregarPedidoActualAPedidosClientes,
+	useAgregarProductoAlPedidoActual,
 	useAsignarProductoActual,
-	useAsignarPedidoActual,
-	useBuscarPreciosProductos,
-	useObtenerPreciosProductosDelCliente,
+	useFiltrarPreciosProductosDelClienteActual,
+	useObtenerPreciosProductosDelClienteActual,
 	useValidarAgregarProductoAlPedidoCliente,
 	useManejadorConfirmarAgregarPedido,
-	useObtenerClienteActual,
-	usePermiteSubUnidades,
-	useMostrarAdvertenciaEnDialogo,
+	useValidarProductoPermiteSubUnidades,
 	useResetLineaActual,
 	useResetPedidoActual,
-	useObtenerPedidosDelCliente
+	useInicializarPreciosProductosDelClienteActual,
 };

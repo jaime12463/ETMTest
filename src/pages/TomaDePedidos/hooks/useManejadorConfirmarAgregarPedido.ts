@@ -16,11 +16,9 @@ export const useManejadorConfirmarAgregarPedido = (
 					codigoProductoConNombre,
 					unidades,
 					subUnidades,
-					codigoCliente,
 					productoABuscar,
 				} = getValues();
 				agregarProductoAlPedidoCliente({
-					codigoCliente,
 					unidades,
 					subUnidades,
 					codigoProductoConNombre,

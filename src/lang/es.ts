@@ -22,18 +22,26 @@ const es = {
 		aceptar: 'Aceptar',
 		cancelar: 'Cancelar',
 		pedidosCliente: 'Pedidos efectuados: ',
+		estado: 'Estado',
+		tipoPedido: 'Tipo de Pedido',
+		monto: 'Monto',
+		acciones: 'Acciones',
+		pedidosRealizados: 'Pedidos Realizados',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',
 		ingresoPedido: 'Ingreso de Pedido',
 		productosPedido: 'Productos del Pedido',
+		visitaCliente: 'Visita del Cliente',
+		clientes: 'Clientes',
 	},
 	advertencias: {
-		clienteNoPortafolio: 'El cliente no tiene portafolio informado',
+		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
 		cantidadEsMayor: 'La cantidad es mayor a {{cantidad}} ¿Desea continuar?',
-		noFechaInformada: 'No tiene fecha de entrega informada',
 		fueraDeFrecuencia: 'El cliente está fuera de frecuencia',
-		noFechaProgramada: 'El cliente no tiene fecha de entrega programada',
+		noVisitaPlanificada: 'El cliente no tiene visita planificada',
+		noFechaEntregaInformada: 'El cliente no tiene fecha de entrega informada para la fecha actual',
+		noPortafolioPrecios: 'El cliente no tiene portafolio vigente para la fecha de entrega informada',
 		limiteSubUnidades:
 			'Las subunidades deben ser menores a la presentación del producto',
 		pedidoMinimo: 'No cumple con el pedido mínimo de ${{monto}}',
@@ -44,6 +52,9 @@ const es = {
 			'La suma de los pedidos para la fecha de entrega {{fechaDeEntrega}} excede el monto máximo para el cliente $ {{montoVentaMaxima}}',
 		subUnidadesNoMultiplo:
 			'Las subunidades debe ser en múltiplos de {{subunidadesVentaMinima}}',
+		cancelarPedido: 'Desea cancelar el pedido?',
+		cancelarTodosLosPedido:
+			'Se cancelarán todos los pedidos con fecha de entrega {{fechaDeEntrega}} ¿Desea continuar?',
 	},
 };
 export default es;

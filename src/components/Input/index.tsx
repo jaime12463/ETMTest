@@ -1,6 +1,7 @@
 import {Control, Controller} from 'react-hook-form';
 import {TextField} from '@material-ui/core';
 import {Ref} from 'react';
+import useEstilos from './useEstilos';
 
 export type Props = {
 	control?: Control<any> | undefined; //TODO: Este any debe ser un typo extendible de FormValues
@@ -13,6 +14,7 @@ export type Props = {
 	autoFocus?: boolean | undefined;
 	inputRef?: Ref<any> | undefined;
 	inputDataCY?: string;
+	clase?: string | undefined;
 };
 
 const Input = ({
@@ -26,11 +28,14 @@ const Input = ({
 	autoFocus,
 	inputDataCY,
 	inputRef,
+	clase,
 }: Props) => {
+	const estilos = useEstilos();
 	return (
 		<Controller
 			render={({field: {onChange, onBlur, value}}) => (
 				<TextField
+					className={clase === 'XS' ? estilos.XS : undefined}
 					onChange={onChange}
 					onBlur={onBlur}
 					type={type}
