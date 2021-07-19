@@ -26,6 +26,7 @@ import {
 } from 'utils/validaciones';
 import {useTranslation} from 'react-i18next';
 import {useHistory} from 'react-router-dom';
+import { EstadosDeUnPedido } from 'utils/constants';
 
 export const useAgregarPedidoActualAPedidosClientes = (
 	setAvisoPedidoGuardadoExitoso: Dispatch<SetStateAction<boolean>>,
@@ -66,7 +67,8 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			pedidosClienteMismaFechaEntrega = pedidosCliente.filter(
 				(pedidoCliente: TPedidoClienteParaEnviar) =>
 					pedidoCliente.fechaEntrega === pedidoActual.fechaEntrega &&
-					pedidoCliente.codigoPedido !== pedidoActual.codigoPedido
+					pedidoCliente.codigoPedido !== pedidoActual.codigoPedido &&
+					pedidoCliente.estado === EstadosDeUnPedido.Activo
 			);
 		}
 

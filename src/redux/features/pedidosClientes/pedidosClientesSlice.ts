@@ -6,6 +6,7 @@ import {
 	TPedidosClientes,
 } from 'models';
 import {RootState} from 'redux/store';
+import { EstadosDeUnPedido } from 'utils/constants';
 
 const estadoInicial: TPedidosClientes = {};
 
@@ -24,7 +25,7 @@ export const pedidosClientesSlice = createSlice({
 
 			const pedidoACancelar = state[codigoCliente].map((pedido) => {
 				if (pedido.codigoPedido === codigoPedido) {
-					pedido.estado = 'C';
+					pedido.estado = EstadosDeUnPedido.Cancelado;
 				}
 			});
 		},

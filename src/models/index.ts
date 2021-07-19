@@ -1,3 +1,5 @@
+import {EstadosDeUnPedido} from 'utils/constants';
+
 export type TDatosClientesProductos = {
 	clientes: TClientes;
 	productos: TProductos;
@@ -70,7 +72,7 @@ export type TPedidoClienteParaEnviar = {
 	codigoPedido: string;
 	fechaEntrega: string;
 	usuario: string;
-	estado: 'A' | 'C';
+	estado: EstadosDeUnPedido;
 	productosPedido: TProductoPedido[];
 	enviado: boolean;
 };
@@ -78,7 +80,7 @@ export type TPedidoClienteParaEnviar = {
 export type TPedidoActual = {
 	codigoPedido: string;
 	fechaEntrega: string;
-	estado: 'A' | 'C';
+	estado: EstadosDeUnPedido;
 	productosPedido: TProductoPedido[];
 };
 

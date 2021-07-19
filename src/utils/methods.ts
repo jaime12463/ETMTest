@@ -1,4 +1,5 @@
 import {TPedidoClienteParaEnviar, TPrecio} from 'models';
+import { EstadosDeUnPedido } from './constants';
 
 export const transformDate = (date: string): string =>
 	`${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}`;
@@ -28,7 +29,7 @@ export const obtenerTotalesPedidosCliente = (
 	if (pedidosClienteMismaFechaEntrega.length !== 0) {
 		totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
 			(acum: any, pedido: any) => {
-				if (pedido.estado === 'A') {
+				if (pedido.estado === EstadosDeUnPedido.Activo) {
 					for (let valor of pedido.productosPedido) {
 						acum += valor.total;
 					}
@@ -63,7 +64,7 @@ export const buscarPedidosParaElMismoDia = (
 		pedidosCliente &&
 		pedidosCliente.reduce(
 			(acum: [string], pedido: TPedidoClienteParaEnviar) => {
-				if (pedido.estado === 'A' && pedido.fechaEntrega === fechaEntrega) {
+				if (pedido.estado === EstadosDeUnPedido.Activo && pedido.fechaEntrega === fechaEntrega) {
 					acum.push(pedido.codigoPedido);
 				}
 				return acum;

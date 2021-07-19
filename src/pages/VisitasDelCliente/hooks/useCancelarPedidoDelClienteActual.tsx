@@ -14,6 +14,7 @@ import {useAppDispatch} from 'redux/hooks';
 import {validarMontoMinimoPedido} from '../../../utils/validaciones';
 import {cancelarPedidoDelCliente} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {useTranslation} from 'react-i18next';
+import { EstadosDeUnPedido } from 'utils/constants';
 
 export const useCancelarPedidoDelClienteActual = () => {
 	const dispatch = useAppDispatch();
@@ -54,7 +55,7 @@ export const useCancelarPedidoDelClienteActual = () => {
 				pedidosCliente.find(
 					(pedido: TPedidoClienteParaEnviar, i: number) =>
 						pedido.codigoPedido !== codigoPedido &&
-						pedido.estado === 'A' &&
+						pedido.estado === EstadosDeUnPedido.Activo &&
 						pedido.fechaEntrega === pedidoActual?.fechaEntrega &&
 						datosCliente &&
 						validarMontoMinimoPedido(
@@ -91,7 +92,7 @@ export const useCancelarPedidoDelClienteActual = () => {
 			}
 		};
 
-		if (pedidoActual?.estado !== 'A') {
+		if (pedidoActual?.estado !== EstadosDeUnPedido.Activo) {
 			return;
 		}
 

@@ -37,6 +37,7 @@ import CancelIcon from '@material-ui/icons/NotInterested';
 import Paper from '@material-ui/core/Paper';
 import {useState} from 'react';
 import {match} from 'assert/strict';
+import { EstadosDeUnPedido } from 'utils/constants';
 
 const VisitasDelCliente: React.FC = () => {
 	const {t} = useTranslation();
@@ -190,7 +191,7 @@ const VisitasDelCliente: React.FC = () => {
 															>
 																<ListItem
 																	disabled={
-																		popoverProps?.estado === 'C' ? true : false
+																		popoverProps?.estado === EstadosDeUnPedido.Cancelado ? true : false
 																	}
 																	button
 																	onClick={() => {
@@ -204,7 +205,7 @@ const VisitasDelCliente: React.FC = () => {
 																</ListItem>
 																<ListItem
 																	disabled={
-																		popoverProps?.estado === 'C' ? true : false
+																		popoverProps?.estado === EstadosDeUnPedido.Cancelado ? true : false
 																	}
 																	button
 																	onClick={() => {
