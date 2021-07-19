@@ -6,6 +6,10 @@
 
 # sprint 8 UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA?node-id=329%3A3&scaling=scale-down&page-id=329%3A2&starting-point-node-id=329%3A3
 
+Característica: Ver totales del pedido
+    Como prevendedor
+    Quiero ver los totales del pedido
+    Para mantener informado al cliente durante la venta
 
 Esquema del escenario: N°1 - Calcular totales 
     Dado que se registraron productos en el pedido con <condiciónDePago>

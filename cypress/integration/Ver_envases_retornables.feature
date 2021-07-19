@@ -23,7 +23,7 @@ Escenario: N°1 – El producto del pedido no tiene Implícito1 ni Implícito1 i
 	Cuando quiero ver los envases retornables
 	Entonces el sistema no muestra envases para ese producto
 
-Escenario: N°2 – El producto del pedido tiene Implícito1 informado
+Esquema del escenario: N°2 – El producto del pedido tiene Implícito1 informado
 	Dado que se realizó la venta de <cantidadUnidades> y <cantidadSubunidades> de <producto> 
 	Y éste tiene <implicito1> informado
 	Cuando quiero ver los envases retornables del pedido
@@ -36,7 +36,7 @@ Ejemplos:
 |380	 |15	          |0	              | 1001	|
 |400	 |0	              |3	              | 1001	|
 
-Escenario: N°3 – El producto del pedido tiene Implícito2 informado
+Esquema del escenario: N°3 – El producto del pedido tiene Implícito2 informado
 	Dado que se realizó la venta de <cantidadUnidades> mayores a cero del <producto> 
 	Y éste tiene <implicito2> informado
 	Cuando quiero ver los envases retornables del pedido
