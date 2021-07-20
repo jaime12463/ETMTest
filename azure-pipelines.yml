@@ -23,7 +23,7 @@ steps:
   displayName: 'npm install and build'
 
 - script: |
-    npm install data
+    npm run install-server
     npm run ci
   displayName: 'npm run ci'
 
