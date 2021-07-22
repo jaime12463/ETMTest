@@ -7,9 +7,9 @@ Característica: Búsqueda de productos por atributos
     Quiero realizar la búsqueda de un producto por atributos
     Para agregarlo al pedido
 
-#Comentarios:
-#Filtrar productos por atributos: código de producto, descripción del producto.
-# UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=123%3A1241&scaling=scale-down&page-id=123%3A371
+    Comentarios:
+    Filtrar productos por atributos: código de producto, descripción del producto.
+    UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=123%3A1241&scaling=scale-down&page-id=123%3A371
 
 
 Esquema del escenario: N°1 Búsqueda de producto en portafolio vigente
