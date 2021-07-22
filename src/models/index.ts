@@ -17,7 +17,7 @@ export type TCliente = {
 	codigoCliente: string;
 	visitasPlanificadas: TVisitaPlanificada[];
 	fechasEntrega: TFechaEntrega[];
-	detalles: TDetalle[];
+	detalles: TDetalle;
 	configuracionPedido: TConfiguracionPedido;
 	portafolio: TPortafolio[];
 };

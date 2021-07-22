@@ -3,6 +3,7 @@ const useEstilos = makeStyles({
 	root: {
 		minWidth: 275,
 		marginTop: 20,
+		marginBottom:50,
 	},
 	bullet: {
 		display: 'inline-block',

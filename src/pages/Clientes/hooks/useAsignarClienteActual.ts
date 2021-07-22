@@ -32,7 +32,7 @@ export const useAsignarClienteActual = (
 			dispatch(
 				inicializarClienteActual({
 					codigoCliente,
-					razonSocial: datosCliente.detalles[0].nombreComercial,
+					razonSocial: datosCliente.detalles.nombreComercial,
 				})
 			);
 			history.push(`${path}${nombresRutas.visitaClientes}`);
