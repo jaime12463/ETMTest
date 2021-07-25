@@ -1,16 +1,17 @@
 import {List} from 'components/UI';
 import {FunctionComponent} from 'react';
-import {useObtenerProductosDelPedidoActual} from './hooks';
 import {ItemProductoAgregadoAlPedidoActual} from '..';
-import {THeader} from 'models';
-import {Box, Grid, Switch} from '@material-ui/core';
+import {THeader, TPedidoActual} from 'models';
+import {Box, Switch} from '@material-ui/core';
+import {useObtenerPedidoActual} from 'redux/hooks';
 
 type Props = {};
 
 const ListadoProductosAgregadosAlPedidoActual: FunctionComponent<Props> = (
 	props
 ) => {
-	const productosDelPedidoActual = useObtenerProductosDelPedidoActual();
+	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
+	const {productosPedido} = pedidoActual;
 
 	const Header = ({title}: {title: string}) => (
 		<Box textAlign='center'>{title}</Box>
@@ -43,7 +44,7 @@ const ListadoProductosAgregadosAlPedidoActual: FunctionComponent<Props> = (
 	return (
 		<List
 			headers={headers}
-			items={productosDelPedidoActual}
+			items={productosPedido}
 			ItemComponent={ItemProductoAgregadoAlPedidoActual}
 		/>
 	);

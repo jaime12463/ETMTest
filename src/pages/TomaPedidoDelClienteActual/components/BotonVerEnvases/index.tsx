@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next';
 
 type Props = {};
 
-const BotonCerrarPedido: FunctionComponent<Props> = (props) => {
+const BotonVerEnvases: FunctionComponent<Props> = (props) => {
 	const {t} = useTranslation();
 
 	return (
@@ -15,9 +15,9 @@ const BotonCerrarPedido: FunctionComponent<Props> = (props) => {
 			onClick={() => {}}
 			fullWidth
 		>
-			{t('general.cerrarPedido').toUpperCase()}
+			{t('verEnvases').toUpperCase()}
 		</Button>
 	);
 };
 
-export default BotonCerrarPedido;
+export default BotonVerEnvases;
