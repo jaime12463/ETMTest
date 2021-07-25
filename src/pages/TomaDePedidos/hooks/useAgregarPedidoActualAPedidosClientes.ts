@@ -1,10 +1,9 @@
+import {useCalcularTotalPedido, useObtenerDatosCliente} from 'hooks';
 import {
-	useCalcularTotalPedido,
 	useObtenerClienteActual,
-	useObtenerDatosCliente,
 	useObtenerPedidoActual,
 	useObtenerPedidosClientes,
-} from 'hooks';
+} from 'redux/hooks';
 import {
 	TCliente,
 	TClienteActual,
@@ -26,11 +25,11 @@ import {
 } from 'utils/validaciones';
 import {useTranslation} from 'react-i18next';
 import {useHistory} from 'react-router-dom';
-import { EstadosDeUnPedido } from 'utils/constants';
+import {EstadosDeUnPedido} from 'utils/constants';
 
 export const useAgregarPedidoActualAPedidosClientes = (
 	setAvisoPedidoGuardadoExitoso: Dispatch<SetStateAction<boolean>>,
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const dispatch = useAppDispatch();
 	const totalPedidoActual: TTotalPedido = useCalcularTotalPedido();

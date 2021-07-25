@@ -3,6 +3,8 @@ const nombresRutas = {
 	detalle: '/detalle',
 	clientes: '/clientes',
 	visitaClientes: '/visitaclientes',
-	home: '/',
+	inicio: '/',
+	preciosProductos: '/preciosProductos',
+	pedidosCliente: '/pedidosCliente',
 };
 export default nombresRutas;

@@ -10,11 +10,10 @@ import {
 	TPrecioProducto,
 } from 'models';
 import {
-	useObtenerClienteActual,
-	useObtenerConfiguracion,
 	useObtenerDatosCliente,
-	useObtenerPreciosProductosDelClienteActual,
+	useObtenerPreciosProductosDelCliente,
 } from 'hooks';
+import {useObtenerClienteActual, useObtenerConfiguracion} from 'redux/hooks';
 import {
 	validarObtenerFechaEntrega,
 	validarObtenerVisitaPlanificada,
@@ -29,7 +28,7 @@ export const useValidarCrearPedidoAlClienteActual = (
 	const configuracion = useObtenerConfiguracion();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
-	const obtenerPreciosProductosDelClienteActual = useObtenerPreciosProductosDelClienteActual();
+	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
 	const {t} = useTranslation();
 
 	const validarCrearPedidoAlClienteActual = useCallback((): {
@@ -58,9 +57,7 @@ export const useValidarCrearPedidoAlClienteActual = (
 			);
 		}
 
-		const {
-			esValidaVisitaPlanificada,
-		} = visitaPlanificada;
+		const {esValidaVisitaPlanificada} = visitaPlanificada;
 
 		if (!esValidaVisitaPlanificada && esFrecuenciaAbierta) {
 			mostrarAdvertenciaEnDialogo(
@@ -93,12 +90,13 @@ export const useValidarCrearPedidoAlClienteActual = (
 			return estadoValidacion;
 		}
 
-		const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelClienteActual(
+		const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
 			datosCliente,
 			fechaEntrega
 		);
 
-		const esPortafolioPreciosProductosMayorCero: boolean = preciosProductosDelCliente.length > 0;
+		const esPortafolioPreciosProductosMayorCero: boolean =
+			preciosProductosDelCliente.length > 0;
 
 		if (!esPortafolioPreciosProductosMayorCero) {
 			mostrarAdvertenciaEnDialogo(
@@ -113,6 +111,11 @@ export const useValidarCrearPedidoAlClienteActual = (
 			fechaEntrega,
 		};
 		return estadoValidacion;
-	}, [mostrarAdvertenciaEnDialogo, dispatch, configuracion, obtenerPreciosProductosDelClienteActual]);
+	}, [
+		mostrarAdvertenciaEnDialogo,
+		dispatch,
+		configuracion,
+		obtenerPreciosProductosDelCliente,
+	]);
 	return validarCrearPedidoAlClienteActual;
 };

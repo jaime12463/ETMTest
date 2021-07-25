@@ -36,6 +36,7 @@ export const useAgregarProductoAlPedidoActual = (
 						total:
 							productoActual.precioConImpuestoUnidad * unidadesParseado +
 							productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
+						tipoPago: 'contado',
 					})
 				);
 			} else dispatch(borrarProductoDelPedidoDelCliente(codigoProducto));

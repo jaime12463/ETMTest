@@ -2,7 +2,6 @@ import {useAgregarPedidoActualAPedidosClientes} from './useAgregarPedidoActualAP
 import {useAgregarProductoAlPedidoActual} from './useAgregarProductoAlPedidoActual';
 import {useAsignarProductoActual} from './useAsignarProductoActual';
 import {useFiltrarPreciosProductosDelClienteActual} from './useFiltrarPreciosProductosDelClienteActual';
-import {useObtenerPreciosProductosDelClienteActual} from './useObtenerPreciosProductosDelClienteActual';
 import {useValidarAgregarProductoAlPedidoCliente} from './useValidarAgregarProductoAlPedidoCliente';
 import {useManejadorConfirmarAgregarPedido} from './useManejadorConfirmarAgregarPedido';
 import {useValidarProductoPermiteSubUnidades} from './useValidarProductoPermiteSubUnidades';
@@ -15,7 +14,6 @@ export {
 	useAgregarProductoAlPedidoActual,
 	useAsignarProductoActual,
 	useFiltrarPreciosProductosDelClienteActual,
-	useObtenerPreciosProductosDelClienteActual,
 	useValidarAgregarProductoAlPedidoCliente,
 	useManejadorConfirmarAgregarPedido,
 	useValidarProductoPermiteSubUnidades,

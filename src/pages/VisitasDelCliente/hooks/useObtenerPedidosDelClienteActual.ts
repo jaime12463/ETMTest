@@ -1,6 +1,6 @@
 import {useCallback} from 'react';
 import {TPedidoClienteParaEnviar, TPedidosClientes} from 'models';
-import {useObtenerPedidosClientes} from 'hooks';
+import {useObtenerPedidosClientes} from 'redux/hooks';
 
 export const useObtenerPedidosDelClienteActual = (
 	codigoCliente: string

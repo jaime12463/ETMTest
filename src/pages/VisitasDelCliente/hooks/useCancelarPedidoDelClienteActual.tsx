@@ -3,18 +3,15 @@ import {
 	TFunctionMostarAvertenciaPorDialogo,
 	TPedidoClienteParaEnviar,
 } from 'models';
-import {buscarPedidosParaElMismoDia} from '../../../utils/methods';
-import {
-	useObtenerClienteActual,
-	useCalcularTotalPedidos,
-	useObtenerDatosCliente,
-} from 'hooks';
+import {buscarPedidosParaElMismoDia} from 'utils/methods';
+import {useCalcularTotalPedidos, useObtenerDatosCliente} from 'hooks';
+import {useObtenerClienteActual} from 'redux/hooks';
 import {useObtenerPedidoRealizadoDelClienteActual} from '.';
 import {useAppDispatch} from 'redux/hooks';
-import {validarMontoMinimoPedido} from '../../../utils/validaciones';
+import {validarMontoMinimoPedido} from 'utils/validaciones';
 import {cancelarPedidoDelCliente} from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {useTranslation} from 'react-i18next';
-import { EstadosDeUnPedido } from 'utils/constants';
+import {EstadosDeUnPedido} from 'utils/constants';
 
 export const useCancelarPedidoDelClienteActual = () => {
 	const dispatch = useAppDispatch();

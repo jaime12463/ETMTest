@@ -1,10 +1,4 @@
-import {
-	TomaDePedidos,
-	DetallePedido,
-	VisitasDelCliente,
-	Clientes,
-	Inicio,
-} from '../pages';
+import {DetallePedido, VisitasDelCliente, Clientes, Inicio} from 'pages';
 import nombresRutas from './nombresRutas';
 
 type TRutaAnidada = {
@@ -24,7 +18,7 @@ const routes: TRutaAnidada[] = [
 				subRutas: [
 					{
 						nombre: nombresRutas.ingresarpedido,
-						component: TomaDePedidos,
+						component: VisitasDelCliente,
 						subRutas: [
 							{
 								nombre: nombresRutas.detalle,
@@ -37,7 +31,7 @@ const routes: TRutaAnidada[] = [
 		],
 	},
 	{
-		nombre: nombresRutas.home,
+		nombre: nombresRutas.inicio,
 		component: Inicio,
 	},
 ];
