@@ -9,10 +9,7 @@ import {
 	TInputsFormularioAgregarProducto,
 	TPrecioSinVigencia,
 } from 'models';
-import {
-	useManejadorConfirmarAgregarPedido,
-	useValidarAgregarProductoAlPedidoCliente,
-} from '.';
+import {useValidarAgregarProductoAlPedidoCliente} from '.';
 
 export const useAgregarProductoAlPedidoActual = (
 	productoActual: TPrecioSinVigencia,
@@ -21,11 +18,8 @@ export const useAgregarProductoAlPedidoActual = (
 ) => {
 	const dispatch = useAppDispatch();
 
-	const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido();
-
 	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
-		mostrarAdvertenciaEnDialogo,
-		manejadorConfirmarAgregarPedido
+		mostrarAdvertenciaEnDialogo
 	);
 
 	const agregarProductoAlPedidoActual = useCallback(

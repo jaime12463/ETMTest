@@ -18,8 +18,7 @@ import {useTranslation} from 'react-i18next';
 import {useValidarProductoPermiteSubUnidades} from '.';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
-	manejadorConfirmarAgregarPedido: (oprimioBotonAceptar: boolean) => void
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const {t} = useTranslation();
 
@@ -111,7 +110,9 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 						cantidad: configuracionPedido.cantidadMaximaUnidades,
 					}),
 					'cantidad-es-mayor',
-					manejadorConfirmarAgregarPedido,
+					(oprimioBotonAceptar) => {
+						return oprimioBotonAceptar;
+					},
 					{
 						aceptar: t('general.si'),
 						cancelar: t('general.no'),
@@ -129,7 +130,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			datos,
 			datosCliente,
 			mostrarAdvertenciaEnDialogo,
-			manejadorConfirmarAgregarPedido,
 			mostrarAdvertenciaEnDialogo,
 			t,
 		]
