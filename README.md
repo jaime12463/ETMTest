@@ -53,6 +53,6 @@ Formularios
 - react-hook-form. https://react-hook-form.com/get-started/
 
 Creación de componentes
-- Storybook
+- Storybook 
 
 
