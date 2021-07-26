@@ -1,4 +1,4 @@
-import {useObtenerPedidoActual} from 'hooks';
+import {useObtenerPedidoActual} from 'redux/hooks';
 import {TPedidoActual, TProductoPedido, TTotalPedido} from 'models';
 import {useMemo} from 'react';
 

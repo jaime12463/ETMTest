@@ -3,7 +3,7 @@ import {
 	TPedidosClientes,
 	TPedidoClienteParaEnviar,
 } from 'models';
-import {useObtenerClienteActual, useObtenerPedidosClientes} from 'hooks';
+import {useObtenerClienteActual, useObtenerPedidosClientes} from 'redux/hooks';
 import {useCallback} from 'react';
 
 export const useObtenerPedidoRealizadoDelClienteActual = (): ((

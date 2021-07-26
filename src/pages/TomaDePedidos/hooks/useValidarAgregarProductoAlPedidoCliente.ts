@@ -12,11 +12,9 @@ import {
 	validarSubUnidadesEsMultiplo,
 	validarUnidadesMinimasProducto,
 } from 'utils/validaciones';
-import {
-	useObtenerClienteActual,
-	useObtenerDatos,
-	useObtenerDatosCliente,
-} from 'hooks';
+import {useObtenerDatosCliente} from 'hooks';
+import {useObtenerClienteActual, useObtenerDatos} from 'redux/hooks';
+
 import {useTranslation} from 'react-i18next';
 import {useValidarProductoPermiteSubUnidades} from '.';
 

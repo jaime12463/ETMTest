@@ -1,7 +1,6 @@
 import {Story, Meta} from '@storybook/react';
 import {MemoryRouter} from 'react-router';
-
-import TotalPedido, {Props} from '../components/TotalPedido';
+import TotalPedido, {Props} from 'components/Negocio/TotalPedido';
 
 export default {
 	title: 'Componentes/TotalPedido',

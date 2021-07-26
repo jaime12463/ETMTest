@@ -1,3 +1,11 @@
+import {GridSize} from '@material-ui/core';
+import React, {ReactElement} from 'react';
+import {
+	Control,
+	UseFormGetValues,
+	UseFormHandleSubmit,
+	UseFormSetValue,
+} from 'react-hook-form';
 import {EstadosDeUnPedido} from 'utils/constants';
 
 export type TDatosClientesProductos = {
@@ -52,10 +60,8 @@ export type TDetalle = {
 export type TPortafolio = {
 	codigoProducto: number;
 	esVentaSubunidades: boolean;
-	precios: TPrecios;
+	precios: TPrecio[];
 };
-
-export type TPrecios = TPrecio[];
 
 export type TPrecio = {
 	precioConImpuestoUnidad: number;
@@ -95,6 +101,7 @@ export type TProductoPedido = {
 	unidades: number;
 	subUnidades: number;
 	total: number;
+	tipoPago: 'contado' | 'credito';
 };
 
 export type TPrecioSinVigencia = {
@@ -107,7 +114,7 @@ export type TPrecioProducto = {
 	codigoProducto: number;
 	nombre: string;
 	presentacion: number;
-	precios: TPrecios;
+	precios: TPrecio[];
 };
 
 export type TDatosConfiguracion = {
@@ -154,4 +161,21 @@ export type TValidacionFechaEntrega = {
 export type TValidacionFechaVisita = {
 	esValidaVisitaPlanificada: boolean;
 	fechaVisitaPlanificada: string;
+};
+
+export type TTab = {
+	label: string;
+	component: React.ReactNode;
+};
+
+export type THookForm<T> = {
+	control: Control<T>;
+	handleSubmit: UseFormHandleSubmit<T>;
+	setValue: UseFormSetValue<T>;
+	getValues: UseFormGetValues<T>;
+};
+
+export type THeader = {
+	component: React.FC | ReactElement;
+	width: GridSize;
 };

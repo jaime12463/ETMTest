@@ -1,5 +1,5 @@
 import {TPedidoClienteParaEnviar, TPrecio} from 'models';
-import { EstadosDeUnPedido } from './constants';
+import {EstadosDeUnPedido} from './constants';
 
 export const transformDate = (date: string): string =>
 	`${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}`;
@@ -43,19 +43,6 @@ export const obtenerTotalesPedidosCliente = (
 	return totalPedidosMismaFecha;
 };
 
-export const obtenerPrecioConImpuestoUnidad = (
-	preciosProductos: TPrecio[],
-	fechaEntrega: string
-) => {
-	const resultado = preciosProductos.find(
-		(precio) =>
-			new Date(precio['vigenciaInicioPrecio']) <= new Date(fechaEntrega) &&
-			new Date(precio['vigenciaFinPrecio']) >= new Date(fechaEntrega)
-	);
-
-	return resultado;
-};
-
 export const buscarPedidosParaElMismoDia = (
 	pedidosCliente: any,
 	fechaEntrega: string | undefined
@@ -64,7 +51,10 @@ export const buscarPedidosParaElMismoDia = (
 		pedidosCliente &&
 		pedidosCliente.reduce(
 			(acum: [string], pedido: TPedidoClienteParaEnviar) => {
-				if (pedido.estado === EstadosDeUnPedido.Activo && pedido.fechaEntrega === fechaEntrega) {
+				if (
+					pedido.estado === EstadosDeUnPedido.Activo &&
+					pedido.fechaEntrega === fechaEntrega
+				) {
 					acum.push(pedido.codigoPedido);
 				}
 				return acum;

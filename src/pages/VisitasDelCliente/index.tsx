@@ -1,5 +1,6 @@
-import {Dialogo, Estructura, DatosCliente, BarraDeProgeso} from 'components';
-import {Celda} from 'components/Table/Celda';
+import {Dialogo, Estructura} from 'components/UI';
+import {DatosCliente} from 'components/Negocio';
+import {Celda} from 'components/UI/Table/Celda';
 import useEstilos from './useEstilos';
 import {
 	Box,
@@ -25,18 +26,14 @@ import {
 	useObtenerPedidosDelClienteActual,
 	useCancelarPedidoDelClienteActual,
 } from './hooks';
-import {
-	useCalcularTotalPedidos,
-	useMostrarAdvertenciaEnDialogo,
-	useObtenerClienteActual,
-} from 'hooks';
+import {useCalcularTotalPedidos, useMostrarAdvertenciaEnDialogo} from 'hooks';
+import {useObtenerClienteActual} from 'redux/hooks';
 import AddIcon from '@material-ui/icons/Add';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import EditIcon from '@material-ui/icons/Edit';
 import CancelIcon from '@material-ui/icons/NotInterested';
 import Paper from '@material-ui/core/Paper';
 import {useState} from 'react';
-import {match} from 'assert/strict';
 import {EstadosDeUnPedido} from 'utils/constants';
 
 const VisitasDelCliente: React.FC = () => {
@@ -91,7 +88,7 @@ const VisitasDelCliente: React.FC = () => {
 						spacing={2}
 						className={estilos.container}
 					>
-{/* 						<BarraDeProgeso
+						{/* 						<BarraDeProgeso
 							max={800}
 							valor={700}
 							titulo={'Pedido minimo'}

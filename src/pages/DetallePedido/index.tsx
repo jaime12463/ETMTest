@@ -1,6 +1,7 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {Estructura, DatosCliente} from 'components';
+import {DatosCliente} from 'components/Negocio';
+import {Estructura} from 'components/UI';
 import {
 	Box,
 	Table,
@@ -14,7 +15,7 @@ import {
 import {useAppSelector} from 'redux/hooks';
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import useEstilos from './useEstilos';
-import {Celda} from 'components/Table/Celda';
+import {Celda} from 'components/UI/Table/Celda';
 
 const DetallePedido: React.FC = () => {
 	const estilos = useEstilos();
@@ -22,10 +23,7 @@ const DetallePedido: React.FC = () => {
 	const {productosPedido} = useAppSelector(selectPedidoActual);
 
 	return (
-		<Estructura
-			titulo={'titulos.productosPedido'}
-			esConFechaHaciaAtras={true}
-		>
+		<Estructura titulo={'titulos.productosPedido'} esConFechaHaciaAtras={true}>
 			<Estructura.Cuerpo>
 				<Grid
 					container

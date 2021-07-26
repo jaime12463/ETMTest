@@ -1,11 +1,10 @@
-
 import {Story, Meta} from '@storybook/react';
-import Estructura, {Props} from '../components/Estructura';
+import Estructura, {Props} from '../components/UI/Estructura';
 
 export default {
 	title: 'Componentes/Estructura',
 	component: Estructura,
-} ;
+};
 
 const Template: Story<Props> = (args) => <Estructura {...args} />;
 
