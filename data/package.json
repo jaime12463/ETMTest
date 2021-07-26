@@ -7,7 +7,7 @@
 		"start": "node build/server.js",
 		"start:dev": "nodemon",
 		"build": "rimraf ./build && npm run tsc",
-		"postinstall": "build",
+		"postinstall": "npm run build",
 		"tsc": "tsc"
 	},
 	"author": "",
