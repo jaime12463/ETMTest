@@ -1,7 +1,7 @@
 import {BrowserRouter, Route} from 'react-router-dom';
 import nombresRutas from '../../routes/nombresRutas';
 import {Inicio} from '../../pages';
-import rutaAnidada from './RutaAnidada';
+import rutaAnidada from './rutaAnidada';
 
 const Rutas = () => {
 	const rutasAnidadas = rutaAnidada();

@@ -6,6 +6,7 @@ import TablaProductos from 'components/TablaProductos';
 import TotalPedido from 'components/TotalPedido';
 import Dialogo from './Dialogo';
 import DatosCliente from './DatosCliente';
+import BarraDeProgeso from './BarraDeProgreso';
 
 export {
 	Estructura,
@@ -16,4 +17,5 @@ export {
 	TotalPedido,
 	Dialogo,
 	DatosCliente,
+	BarraDeProgeso,
 };

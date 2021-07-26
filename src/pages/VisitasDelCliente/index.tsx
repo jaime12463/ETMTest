@@ -1,4 +1,4 @@
-import {Dialogo, Estructura, DatosCliente} from 'components';
+import {Dialogo, Estructura, DatosCliente, BarraDeProgeso} from 'components';
 import {Celda} from 'components/Table/Celda';
 import useEstilos from './useEstilos';
 import {
@@ -37,7 +37,7 @@ import CancelIcon from '@material-ui/icons/NotInterested';
 import Paper from '@material-ui/core/Paper';
 import {useState} from 'react';
 import {match} from 'assert/strict';
-import { EstadosDeUnPedido } from 'utils/constants';
+import {EstadosDeUnPedido} from 'utils/constants';
 
 const VisitasDelCliente: React.FC = () => {
 	const {t} = useTranslation();
@@ -91,6 +91,12 @@ const VisitasDelCliente: React.FC = () => {
 						spacing={2}
 						className={estilos.container}
 					>
+{/* 						<BarraDeProgeso
+							max={800}
+							valor={700}
+							titulo={'Pedido minimo'}
+							colores={['red', 'yellow', 'green']}
+						/> */}
 						<DatosCliente />
 						<Grid item className={estilos.margin}>
 							<Typography variant='body2' component='p' data-cy='info'>
@@ -191,7 +197,10 @@ const VisitasDelCliente: React.FC = () => {
 															>
 																<ListItem
 																	disabled={
-																		popoverProps?.estado === EstadosDeUnPedido.Cancelado ? true : false
+																		popoverProps?.estado ===
+																		EstadosDeUnPedido.Cancelado
+																			? true
+																			: false
 																	}
 																	button
 																	onClick={() => {
@@ -205,7 +214,10 @@ const VisitasDelCliente: React.FC = () => {
 																</ListItem>
 																<ListItem
 																	disabled={
-																		popoverProps?.estado === EstadosDeUnPedido.Cancelado ? true : false
+																		popoverProps?.estado ===
+																		EstadosDeUnPedido.Cancelado
+																			? true
+																			: false
 																	}
 																	button
 																	onClick={() => {
