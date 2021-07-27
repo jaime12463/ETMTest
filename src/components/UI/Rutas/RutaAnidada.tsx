@@ -1,5 +1,5 @@
 import {Route} from 'react-router-dom';
-import {DetallePedido, VisitasDelCliente, Clientes} from '../../../pages';
+import {DetallePedido, VisitasDelCliente, Clientes, EnvasesRetornables} from '../../../pages';
 
 import nombresRutas from 'routes/nombresRutas';
 import {ReactNodeArray} from 'react';
@@ -8,12 +8,14 @@ import {ReactNode} from 'react';
 const componentes: ReactNodeArray = [
 	<Clientes />,
 	<VisitasDelCliente />,
-	<DetallePedido />,
+	//<DetallePedido />,
+	<EnvasesRetornables />,
 ];
 const rutas: string[] = [
 	nombresRutas.clientes,
 	nombresRutas.visitaClientes,
-	nombresRutas.detalle,
+	//nombresRutas.detalle,
+	nombresRutas.envasesRetornables,
 ];
 
 const rutaAnidada = (

@@ -7,6 +7,7 @@ import {
 	PreciosProductosDelClienteActual,
 	PedidosDelClienteActual,
 	Clientes,
+	EnvasesRetornables,
 } from 'pages';
 
 const Rutas = () => {
@@ -28,6 +29,9 @@ const Rutas = () => {
 			</Route>
 			<Route exact path={nombresRutas.clientes}>
 				<Clientes />
+			</Route>
+			<Route exact path={nombresRutas.envasesRetornables}>
+				<EnvasesRetornables />
 			</Route>
 		</BrowserRouter>
 	);
