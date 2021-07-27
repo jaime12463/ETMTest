@@ -46,7 +46,7 @@
     "test-cypress-open": "concurrently \"npm:start-server\" \"npm:start\" \"npm:cypress-open\"",
     "start-dev-server": "cd data && npm run start:dev",
     "start-dev": "concurrently \"npm:start-dev-server\" \"npm:start\"",
-    "start-build-server": "cd data && npm run start",
+    "start-build-server": "cd data && npm install && npm run start",
     "start-build": "concurrently \"npm:start-build-server\" \"npm:start\"",
     "install-server": "cd data && npm run install",
     "start-jest": "jest",
