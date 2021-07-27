@@ -33,7 +33,8 @@ export const useSeleccionarProductoDePrecios = (
 				return;
 			}
 
-			const {precios, codigoProducto, nombre} = preciosProducto;
+			//ENGHOY
+			const {precios, codigoProducto, nombre, codigoImplicito1, nombreImplicito1, codigoImplicito2, nombreImplicito2} = preciosProducto;
 
 			const precioVigente:
 				| TPrecio
@@ -86,6 +87,10 @@ export const useSeleccionarProductoDePrecios = (
 				codigoProductoConNombre,
 				precioConImpuestoUnidad,
 				precioConImpuestoSubunidad,
+				codigoImplicito1,
+				nombreImplicito1,
+				codigoImplicito2,
+				nombreImplicito2,
 			});
 		},
 		[pedidoActual, preciosProductos]

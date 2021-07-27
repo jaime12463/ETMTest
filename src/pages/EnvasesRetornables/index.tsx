@@ -61,7 +61,8 @@ const EnvasesRetornables: React.FC = () => {
 											dataCy='retornables-nombre-producto'
 											resumirTexto={true}
 										>
-											{producto.codigoProducto}
+											{producto.codigoImplicito1}
+											{producto.nombreImplicito1}
 										</Celda>
 										<Celda
 											estilos={estilos}
