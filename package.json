@@ -50,7 +50,7 @@
 		"start-build": "concurrently \"npm:start-build-server\" \"npm:start\"",
 		"install-server": "cd data && npm run install",
 		"start-jest": "jest",
-		"ci": "start-server-and-test start-build-server http://localhost:4000 cypress-run",
+		"ci": "start-server-and-test start-build http://localhost:4000 cypress-run",
 		"plop": "plop"
 	},
 	"eslintConfig": {
