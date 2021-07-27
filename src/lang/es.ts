@@ -27,6 +27,8 @@ const es = {
 		monto: 'Monto',
 		acciones: 'Acciones',
 		pedidosRealizados: 'Pedidos Realizados',
+		verEnvases: 'Ver envases',
+		envase: 'Envase',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',
@@ -34,6 +36,7 @@ const es = {
 		productosPedido: 'Productos del Pedido',
 		visitaCliente: 'Visita del Cliente',
 		clientes: 'Clientes',
+		envases: 'Envases retornables'
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
