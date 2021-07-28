@@ -8,10 +8,11 @@ type Props = {};
 
 const BotonVerPedidosDelClienteActual: FunctionComponent<Props> = (props) => {
 	const history = useHistory();
+	let {path} = useRouteMatch();
 	return (
 		<IconButton
 			size='small'
-			onClick={() => history.push(nombresRutas.pedidosCliente)}
+			onClick={() => history.push(`${path}${nombresRutas.pedidosCliente}`)}
 		>
 			<AssignmentIcon style={{color: 'white'}} />
 		</IconButton>

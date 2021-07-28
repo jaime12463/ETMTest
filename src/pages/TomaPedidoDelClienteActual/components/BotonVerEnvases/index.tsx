@@ -17,7 +17,7 @@ const BotonVerEnvases: FunctionComponent<Props> = (props) => {
 			color='primary'
 			data-cy='boton-verEnvases'
 			//onClick={() => history.push(`${path}${nombresRutas.envasesRetornables}`)}
-			onClick={() => history.push(`${nombresRutas.envasesRetornables}`)}
+			onClick={() => history.push(`${path}${nombresRutas.envasesRetornables}`)}
 			fullWidth
 		>
 			{t('verEnvases').toUpperCase()}
