@@ -19,6 +19,10 @@ export const useAsignarProductoActual = (
 			codigoProductoConNombre,
 			precioConImpuestoUnidad,
 			precioConImpuestoSubunidad,
+			codigoImplicito1,
+			nombreImplicito1,
+			codigoImplicito2,
+			nombreImplicito2,
 		}: TPrecioSinVigencia) => {
 			const codigoProducto: number = parseInt(
 				codigoProductoConNombre.split(' ')[0]
@@ -48,6 +52,10 @@ export const useAsignarProductoActual = (
 				codigoProductoConNombre,
 				precioConImpuestoUnidad,
 				precioConImpuestoSubunidad,
+				codigoImplicito1,
+				nombreImplicito1,
+				codigoImplicito2,
+				nombreImplicito2,
 			});
 		},
 		[pedidoActual]
