@@ -84,6 +84,7 @@ function BotonVerEnvases() {
 }
 
 function BotonVerPedidosDelClienteActual() {
+	let {path} = useRouteMatch();
 	const history = useHistory();
 	return (
 		<IconButton
