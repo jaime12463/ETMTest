@@ -28,6 +28,7 @@ const Input = (props: PropsInput) => {
 		<Controller
 			render={({field: {onChange, onBlur, value}}) => (
 				<TextFieldMUI
+					value={value}
 					onChange={onChange}
 					onBlur={onBlur}
 					fullWidth
