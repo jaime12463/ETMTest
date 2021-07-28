@@ -31,12 +31,19 @@ const FormularioAgregarProducto = (props: Props) => {
 		mostrarAdvertenciaEnDialogo,
 	} = props;
 
+	const defaultValues: TInputsFormularioAgregarProducto = {
+		unidades: '',
+		subUnidades: '',
+		codigoProductoConNombre: '',
+		productoABuscar: '',
+	};
+
 	const {
 		control,
 		handleSubmit,
 		setValue,
 		getValues,
-	} = useForm<TInputsFormularioAgregarProducto>();
+	} = useForm<TInputsFormularioAgregarProducto>({defaultValues});
 
 	const hookForm = {control, handleSubmit, setValue, getValues};
 

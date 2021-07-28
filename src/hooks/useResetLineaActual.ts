@@ -20,7 +20,6 @@ export const useResetLineaActual = (
 		setValue('productoABuscar', '');
 		setValue('unidades', '');
 		setValue('subUnidades', '');
-		console.log('final');
 	};
 	return resetLineaActual;
 };

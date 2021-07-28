@@ -11,7 +11,13 @@ const Clientes = () => {
 	const estilos = useEstilos();
 	const {t} = useTranslation();
 
-	const {control, handleSubmit} = useForm<TInputsCodigoCliente>();
+	const defaultValues: TInputsCodigoCliente = {
+		codigoCliente: '',
+	};
+
+	const {control, handleSubmit} = useForm<TInputsCodigoCliente>({
+		defaultValues,
+	});
 
 	const {
 		mostrarAdvertenciaEnDialogo,

@@ -30,12 +30,20 @@ export const useSeleccionarProductoDePrecios = (
 
 			if (!preciosProducto) {
 				resetLineaActual();
-			//TODO: mostar al usuario que no hay producto
+				//TODO: mostar al usuario que no hay producto
 				return;
 			}
 
 			//ENGHOY
-			const {precios, codigoProducto, nombre, codigoImplicito1, nombreImplicito1, codigoImplicito2, nombreImplicito2} = preciosProducto;
+			const {
+				precios,
+				codigoProducto,
+				nombre,
+				codigoImplicito1,
+				nombreImplicito1,
+				codigoImplicito2,
+				nombreImplicito2,
+			} = preciosProducto;
 
 			const precioVigente:
 				| TPrecio
@@ -75,11 +83,6 @@ export const useSeleccionarProductoDePrecios = (
 						? productoActualEncontrado.subUnidades.toString()
 						: '';
 			}
-			console.log(
-				unidadesParseado,
-				subUnidadesParseado,
-				codigoProductoConNombre
-			);
 			setValue('unidades', unidadesParseado);
 			setValue('subUnidades', subUnidadesParseado);
 			setValue('codigoProductoConNombre', codigoProductoConNombre);

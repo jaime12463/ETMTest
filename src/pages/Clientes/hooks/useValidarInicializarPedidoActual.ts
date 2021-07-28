@@ -68,7 +68,6 @@ export const useValidarInicializarPedidoActual = (
 				);
 				return estadoValidacion;
 			}
-			console.log("datosCliente.visitasPlanificadas", datosCliente.visitasPlanificadas);
 			if (!esValidaVisitaPlanificada) {
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.fueraDeFrecuencia'),
