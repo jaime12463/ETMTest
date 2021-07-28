@@ -1,9 +1,7 @@
 import {Dispatch, SetStateAction} from 'react';
 import {Grid} from '@material-ui/core';
-import useEstilos from './useEstilos';
 import {
 	TFunctionMostarAvertenciaPorDialogo,
-	THookForm,
 	TInputsFormularioAgregarProducto,
 	TPrecioProducto,
 	TPrecioSinVigencia,

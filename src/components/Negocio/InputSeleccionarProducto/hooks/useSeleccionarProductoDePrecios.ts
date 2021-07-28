@@ -30,6 +30,7 @@ export const useSeleccionarProductoDePrecios = (
 
 			if (!preciosProducto) {
 				resetLineaActual();
+			//TODO: mostar al usuario que no hay producto
 				return;
 			}
 
@@ -43,7 +44,7 @@ export const useSeleccionarProductoDePrecios = (
 			);
 
 			if (!precioVigente) return;
-			//mostar al usuario que no hay precios vigentes para ese producto
+			//TODO: mostar al usuario que no hay precios vigentes para ese producto
 
 			const {
 				precioConImpuestoUnidad,

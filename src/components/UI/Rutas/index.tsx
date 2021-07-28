@@ -14,7 +14,7 @@ const Rutas = () => {
 	const rutasAnidadas = rutaAnidada();
 	return (
 		<BrowserRouter>
-			{rutasAnidadas}
+			{/* {rutasAnidadas} */}
 			<Route exact path={nombresRutas.inicio}>
 				<Inicio />
 			</Route>
