@@ -68,7 +68,6 @@ export const useValidarInicializarPedidoActual = (
 				);
 				return estadoValidacion;
 			}
-
 			if (!esValidaVisitaPlanificada) {
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.fueraDeFrecuencia'),

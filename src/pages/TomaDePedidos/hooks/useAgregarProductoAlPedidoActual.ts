@@ -37,6 +37,11 @@ export const useAgregarProductoAlPedidoActual = (
 							productoActual.precioConImpuestoUnidad * unidadesParseado +
 							productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
 						tipoPago: 'contado',
+						//ENGHOY 
+						codigoImplicito1: productoActual.codigoImplicito1,
+						nombreImplicito1: productoActual.nombreImplicito1,
+						codigoImplicito2: productoActual.codigoImplicito2,
+						nombreImplicito2: productoActual.nombreImplicito2,
 					})
 				);
 			} else dispatch(borrarProductoDelPedidoDelCliente(codigoProducto));

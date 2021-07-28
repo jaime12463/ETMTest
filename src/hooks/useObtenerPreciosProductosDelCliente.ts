@@ -22,6 +22,11 @@ export const useObtenerPreciosProductosDelCliente = () => {
 						nombre: datos.productos[productoFiltrado.codigoProducto].nombre,
 						presentacion:
 							datos.productos[productoFiltrado.codigoProducto].presentacion,
+						//ENGHOY
+						codigoImplicito1: datos.productos[productoFiltrado.codigoProducto].implicito1,
+						nombreImplicito1: datos.productos[datos.productos[productoFiltrado.codigoProducto].implicito1].nombre,
+						codigoImplicito2: datos.productos[productoFiltrado.codigoProducto].implicito2,
+						nombreImplicito2: datos.productos[datos.productos[productoFiltrado.codigoProducto].implicito2].nombre,
 					};
 				});
 			return preciosProductosDelCliente;
