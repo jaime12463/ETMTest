@@ -193,3 +193,10 @@ export type THeader = {
 	component: React.FC | ReactElement;
 	width: GridSize;
 };
+
+export type TConsolidadoImplicitos = {
+	codigoImplicito: number;
+	nombreImplicito: string;
+	unidades: number;
+	subUnidades: number;
+}
