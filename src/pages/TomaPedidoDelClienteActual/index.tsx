@@ -75,7 +75,7 @@ function BotonVerEnvases() {
 			color='primary'
 			data-cy='boton-verEnvases'
 			//onClick={() => history.push(`${path}${nombresRutas.envasesRetornables}`)}
-			onClick={() => history.push(`${nombresRutas.envasesRetornables}`)}
+			onClick={() => history.push(`${path}${nombresRutas.envasesRetornables}`)}
 			fullWidth
 		>
 			{t('verEnvases').toUpperCase()}
@@ -84,11 +84,12 @@ function BotonVerEnvases() {
 }
 
 function BotonVerPedidosDelClienteActual() {
+	let {path} = useRouteMatch();
 	const history = useHistory();
 	return (
 		<IconButton
 			size='small'
-			onClick={() => history.push(nombresRutas.pedidosCliente)}
+			onClick={() => history.push(`${path}${nombresRutas.pedidosCliente}`)}
 		>
 			<AssignmentIcon style={{color: 'white'}} />
 		</IconButton>

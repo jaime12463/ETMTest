@@ -35,7 +35,7 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	} = props;
 
 	const {handleSubmit, control, setValue} = hookForm;
-
+	const {path} = useRouteMatch();
 	const history = useHistory();
 
 	const resetLineaActual = useResetLineaActual(setValue, setProductoActual);
@@ -76,7 +76,9 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 							<IconButton
 								aria-label='search'
 								size='small'
-								onClick={() => history.push(nombresRutas.preciosProductos)}
+								onClick={() =>
+									history.push(`${path}${nombresRutas.preciosProductos}`)
+								}
 							>
 								<SearchIcon />
 							</IconButton>

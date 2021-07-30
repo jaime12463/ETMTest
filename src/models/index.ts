@@ -199,3 +199,10 @@ export type InputsKeys =
 	| 'subUnidades'
 	| 'codigoProductoConNombre'
 	| 'productoABuscar';
+
+export type TConsolidadoImplicitos = {
+	codigoImplicito: number;
+	nombreImplicito: string;
+	unidades: number;
+	subUnidades: number;
+};

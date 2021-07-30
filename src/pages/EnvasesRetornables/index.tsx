@@ -15,15 +15,20 @@ import {useAppSelector} from 'redux/hooks';
 import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import useEstilos from './useEstilos';
 import {Celda} from 'components/UI/Table/Celda';
+import { TConsolidadoImplicitos } from 'models';
+import { useObtenerConsolidacionImplicitos } from './hooks';
+
 
 const EnvasesRetornables: React.FC = () => {
 	const estilos = useEstilos();
 	const {t} = useTranslation();
 	const {productosPedido} = useAppSelector(selectPedidoActual);
+	const obtenerConsolidacionImplicitos = useObtenerConsolidacionImplicitos();
+	const consolidacionImplicitos: TConsolidadoImplicitos[] = obtenerConsolidacionImplicitos(productosPedido);
 
 	return (
 		<Estructura
-			titulo={'titulos.envases'}
+			titulo={t('titulos.envases')}
 			esConFechaHaciaAtras={true}
 		>
 			<Estructura.Cuerpo>
@@ -52,17 +57,15 @@ const EnvasesRetornables: React.FC = () => {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{productosPedido.map((producto) => (
-									<TableRow key={producto.codigoProducto} hover>
+								{consolidacionImplicitos.map((implicito) => (
+									<TableRow key={implicito.codigoImplicito} hover>
 										<Celda
 											estilos={estilos}
 											width='45'
 											align='center'
 											dataCy='retornables-nombre-producto'
-											resumirTexto={true}
 										>
-											{producto.codigoImplicito1}
-											{producto.nombreImplicito1}
+											{implicito.codigoImplicito} {implicito.nombreImplicito}
 										</Celda>
 										<Celda
 											estilos={estilos}
@@ -70,7 +73,7 @@ const EnvasesRetornables: React.FC = () => {
 											align='center'
 											dataCy='retornables-unidades-producto'
 										>
-											{producto.unidades}
+											{implicito.unidades}
 										</Celda>
 										<Celda
 											estilos={estilos}
@@ -78,7 +81,7 @@ const EnvasesRetornables: React.FC = () => {
 											align='center'
 											dataCy='retornables-subUnidades-producto'
 										>
-											{producto.subUnidades}
+											{implicito.subUnidades}
 										</Celda>
 									</TableRow>
 								))}

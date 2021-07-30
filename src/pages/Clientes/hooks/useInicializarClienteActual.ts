@@ -59,8 +59,7 @@ export const useInicializarClienteActual = (
 			);
 
 			inicializarPedidoActual(fechaEntrega);
-
-			history.push(`${nombresRutas.ingresarpedido}`);
+			history.push(`${path}${nombresRutas.ingresarpedido}`);
 		},
 		[mostrarAdvertenciaEnDialogo, dispatch, configuracion]
 	);
