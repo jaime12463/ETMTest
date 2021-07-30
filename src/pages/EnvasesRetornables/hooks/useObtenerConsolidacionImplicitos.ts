@@ -1,9 +1,5 @@
 import {useCallback} from 'react';
-import {useAppSelector} from 'redux/hooks';
-import {selectDatos} from 'redux/features/datos/datosSlice';
-import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {TConsolidadoImplicitos, TProductoPedido} from 'models';
-import pedidosClientesSlice from 'redux/features/pedidosClientes/pedidosClientesSlice';
 
 export const useObtenerConsolidacionImplicitos = () => {
 	const obtenerConsolidacionImplicitos = useCallback((productosPedido: TProductoPedido[]) => {
@@ -28,7 +24,6 @@ export const useObtenerConsolidacionImplicitos = () => {
 			}
 
 			const consolidadoImplicitos: TConsolidadoImplicitos[] = [];
-			debugger;
 			productosPedido.forEach((pedido) => {
 				if(pedido.unidades !== 0 && typeof pedido.codigoImplicito1 !== 'undefined')
 					incrementarImplicitos(consolidadoImplicitos, pedido.codigoImplicito1, pedido.nombreImplicito1, pedido.unidades, 0);

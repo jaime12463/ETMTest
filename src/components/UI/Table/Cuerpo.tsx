@@ -46,7 +46,6 @@ export const Cuerpo = ({
 								codigoProductoConNombre: `${producto.codigoProducto} ${producto.nombre}`,
 								precioConImpuestoUnidad: precios.precioConImpuestoUnidad,
 								precioConImpuestoSubunidad: precios.precioConImpuestoSubunidad,
-								//ENGHOY
 								codigoImplicito1: producto.codigoImplicito1,
 								nombreImplicito1: producto.nombreImplicito1,
 								codigoImplicito2: producto.codigoImplicito2,
