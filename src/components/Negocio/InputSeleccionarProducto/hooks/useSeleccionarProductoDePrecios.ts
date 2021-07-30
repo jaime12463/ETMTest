@@ -6,6 +6,7 @@ import {
 	TInputsFormularioAgregarProducto,
 	TPrecioProducto,
 	TPrecio,
+	InputsKeys,
 } from 'models';
 import {useObtenerPedidoActual} from 'redux/hooks';
 import {UseFormSetValue} from 'react-hook-form';
@@ -15,7 +16,8 @@ export const useSeleccionarProductoDePrecios = (
 	setProductoActual: Dispatch<SetStateAction<TPrecioSinVigencia>>,
 	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
 	preciosProductos: TPrecioProducto[],
-	resetLineaActual: () => void
+	resetLineaActual: () => void,
+	setInputFocus: Dispatch<SetStateAction<InputsKeys>>
 ) => {
 	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
 	const obtenerPrecioVigenteDelProducto = useObtenerPrecioVigenteDelProducto();
@@ -96,6 +98,8 @@ export const useSeleccionarProductoDePrecios = (
 				codigoImplicito2,
 				nombreImplicito2,
 			});
+
+			setInputFocus('unidades');
 		},
 		[pedidoActual, preciosProductos]
 	);

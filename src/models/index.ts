@@ -41,8 +41,8 @@ export type TProducto = {
 	nombre: string;
 	presentacion: number;
 	subunidadesVentaMinima: number;
-	implicito1: number;
-	implicito2: number;
+	implicito1?: number;
+	implicito2?: number;
 };
 
 export type TVisitaPlanificada = {
@@ -118,20 +118,20 @@ export type TProductoPedido = {
 	subUnidades: number;
 	total: number;
 	tipoPago: 'contado' | 'credito';
-	codigoImplicito1: number;
-	nombreImplicito1: string;
-	codigoImplicito2: number;
-	nombreImplicito2: string;
+	codigoImplicito1?: number;
+	nombreImplicito1?: string;
+	codigoImplicito2?: number;
+	nombreImplicito2?: string;
 };
 
 export type TPrecioSinVigencia = {
 	codigoProductoConNombre: string;
 	precioConImpuestoUnidad: number;
 	precioConImpuestoSubunidad: number;
-	codigoImplicito1: number;
-	nombreImplicito1: string;
-	codigoImplicito2: number;
-	nombreImplicito2: string;
+	codigoImplicito1?: number;
+	nombreImplicito1?: string;
+	codigoImplicito2?: number;
+	nombreImplicito2?: string;
 };
 
 export type TPrecioProducto = {
@@ -139,10 +139,10 @@ export type TPrecioProducto = {
 	nombre: string;
 	presentacion: number;
 	precios: TPrecio[];
-	codigoImplicito1: number;
-	nombreImplicito1: string;
-	codigoImplicito2: number;
-	nombreImplicito2: string;
+	codigoImplicito1?: number;
+	nombreImplicito1?: string;
+	codigoImplicito2?: number;
+	nombreImplicito2?: string;
 };
 
 export type TDatosConfiguracion = {
@@ -206,4 +206,17 @@ export type THookForm<T> = {
 export type THeader = {
 	component: React.FC | ReactElement;
 	width: GridSize;
+};
+
+export type InputsKeys =
+	| 'unidades'
+	| 'subUnidades'
+	| 'codigoProductoConNombre'
+	| 'productoABuscar';
+
+export type TConsolidadoImplicitos = {
+	codigoImplicito?: number;
+	nombreImplicito?: string;
+	unidades: number;
+	subUnidades: number;
 };

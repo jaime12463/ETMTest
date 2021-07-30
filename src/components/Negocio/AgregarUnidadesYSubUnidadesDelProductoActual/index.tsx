@@ -1,7 +1,8 @@
-import React, {FunctionComponent} from 'react';
+import React, {Dispatch, FunctionComponent, SetStateAction} from 'react';
 import {Box, Grid, InputLabel} from '@material-ui/core';
 import {FormInput} from 'components/UI';
 import {
+	InputsKeys,
 	TFunctionMostarAvertenciaPorDialogo,
 	THookForm,
 	TInputsFormularioAgregarProducto,
@@ -19,6 +20,8 @@ type Props = {
 	productoActual: TPrecioSinVigencia;
 	setProductoActual: React.Dispatch<React.SetStateAction<TPrecioSinVigencia>>;
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo;
+	inputFocus: InputsKeys;
+	setInputFocus: Dispatch<SetStateAction<InputsKeys>>;
 };
 
 const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
@@ -29,6 +32,8 @@ const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
 		productoActual,
 		mostrarAdvertenciaEnDialogo,
 		setProductoActual,
+		inputFocus,
+		setInputFocus,
 	} = props;
 
 	const {t} = useTranslation();
@@ -42,7 +47,9 @@ const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		productoActual,
 		resetLineaActual,
-		mostrarAdvertenciaEnDialogo
+		mostrarAdvertenciaEnDialogo,
+		inputFocus,
+		setInputFocus
 	);
 
 	const disabled: boolean = productoActual.codigoProductoConNombre === '';
@@ -73,6 +80,11 @@ const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
 					disabled={disabled}
 					id='unidades_producto'
 					helperText={'Precio:' + ' ' + precioConImpuestoUnidad}
+					inputRef={(input) => {
+						if (inputFocus === 'unidades') {
+							input?.focus();
+						}
+					}}
 				/>
 			</Grid>
 			<Grid item xs={6}>
@@ -93,6 +105,11 @@ const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
 					disabled={disabled || disabledSubUnidades}
 					id='subUnidades_producto'
 					helperText={'Precio:' + ' ' + precioConImpuestoSubunidad}
+					inputRef={(input) => {
+						if (inputFocus === 'subUnidades') {
+							input?.focus();
+						}
+					}}
 				/>
 			</Grid>
 		</Grid>
