@@ -8,6 +8,7 @@ import TabPanel from './TabPanel';
 import FormInput from './FormInput';
 import Rutas from './Rutas';
 import Center from './Center';
+import BarraDeProgeso from './BarraDeProgreso';
 
 export {
 	Estructura,
@@ -20,4 +21,5 @@ export {
 	FormInput,
 	Rutas,
 	Center,
+	BarraDeProgeso,
 };

@@ -13,7 +13,7 @@ export const useEstilos = makeStyles((theme) => ({
 	label: {
 		zIndex: 1,
 		position: 'relative',
-		top: '23px',
+		top: '20px',
 		textAlign: 'center',
 	},
 	titulo: {
@@ -25,19 +25,20 @@ export const useEstilos = makeStyles((theme) => ({
 export const BorderLinearProgress = withStyles((theme: Theme) =>
 	createStyles({
 		root: {
-			height: 25,
+			height: 20,
 			width: 100,
+			textAlign: 'center',
+			flex: '1 0 auto',
+			paddingTop: 4,
+			paddingBottom: 4,
+			backgroundRepeat: 'no-repeat',
+			borderRadius: '3px',
 		},
 		bar: {
-			backgroundColor: (props: any) =>
-				props.barcolor === 'red'
-					? 'rgba(229,57,53,1)'
-					: props.barcolor === 'yellow'
-					? 'rgba(255,204,128,1)'
-					: 'rgba(102, 187, 106, 1)',
+			backgroundImage: (props: any) => props.barcolor,
 		},
 		colorPrimary: {
-			backgroundColor: '#c4c4c4',
+			backgroundColor: '#FFFFFF',
 		},
 	})
 )(LinearProgress);

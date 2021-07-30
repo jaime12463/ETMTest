@@ -1,34 +1,55 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useEstilos, BorderLinearProgress} from './useEstilos';
 import {Typography, Box} from '@material-ui/core';
+import {coloresBarra} from 'utils/constants';
 
 export type Props = {
-	max: number;
+	max: number | undefined;
 	valor: number;
-	colores?: string[];
 	titulo: string;
+	colores?: string[];
 };
 
-const obtenerColor = (progreso: number, colores: string[]) => {
+const obtenerColor = (
+	progreso: number,
+	gradients: {inicio: string; medio: string; final: string}
+) => {
 	let color: string;
-	progreso <= 10
-		? (color = colores[0])
-		: progreso > 10 && progreso <= 60
-		? (color = colores[1])
-		: (color = colores[2]);
+	progreso < 40
+		? (color = gradients.inicio)
+		: progreso > 40 && progreso <= 60
+		? (color = gradients.medio)
+		: (color = gradients.final);
 
 	return color;
 };
 
 const BarraDeProgeso = ({
-	max,
+	max = 0,
 	valor,
 	titulo,
-	colores = ['red', 'yellow', 'green'],
+	colores = ['rojo', 'amarillo', 'verde'],
 }: Props) => {
 	const estilos = useEstilos();
-	const [progreso, setProgreso] = useState((valor * 100) / max);
-	const [color, setColor] = useState(obtenerColor(progreso, colores));
+	const calcularProgreso =
+		(valor * 100) / max > 100 ? 100 : (valor * 100) / max;
+	const [progreso, setProgreso] = useState(calcularProgreso);
+	const [color, setColor] = useState('');
+
+	const gradients = {
+		inicio: `${coloresBarra[colores[0]]} 0%, ${coloresBarra[colores[0]]} 100%`,
+		medio: `${coloresBarra[colores[0]]} 0%, ${coloresBarra[colores[0]]} 45%, ${
+			coloresBarra[colores[1]]
+		} 100%`,
+		final: `${coloresBarra[colores[0]]} 0%, ${coloresBarra[colores[1]]} 45%, ${
+			coloresBarra[colores[1]]
+		} 60%, ${coloresBarra[colores[2]]} 100%`,
+	};
+
+	useEffect(() => {
+		setProgreso(calcularProgreso);
+		setColor(` linear-gradient(90deg, ${obtenerColor(progreso, gradients)}`);
+	}, [valor, progreso]);
 
 	return (
 		<div className={estilos.container}>
@@ -36,10 +57,9 @@ const BarraDeProgeso = ({
 				className={estilos.titulo}
 				variant='caption'
 			>{`${titulo}`}</Typography>
-			<Typography
-				className={estilos.label}
-				variant='body2'
-			>{`$${valor}/$${max}`}</Typography>
+			<Typography className={estilos.label} variant='body2'>
+				{`$${valor}/$${max}`}
+			</Typography>
 			<BorderLinearProgress
 				variant='determinate'
 				value={progreso === 0 ? setProgreso(5) : progreso}

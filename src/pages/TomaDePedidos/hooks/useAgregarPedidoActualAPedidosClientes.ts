@@ -77,7 +77,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 		) {
 			mostrarAdvertenciaEnDialogo(
 				t('advertencias.pedidoMinimo', {
-					monto: datosCliente.configuracionPedido.montoVentaMinima,
+					monto: datosCliente.configuracionPedido.ventaMinima?.montoVentaMinima,
 				}),
 				'pedido-minimo'
 			);
@@ -87,7 +87,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 		const esMenorAlMontoMaximo: boolean = validarTotalConMontoMaximo(
 			totalPedidoActual.totalPrecio,
 			pedidosClienteMismaFechaEntrega,
-			configuracionPedido.montoVentaMaxima
+			configuracionPedido.ventaContadoMaxima.montoVentaContadoMaxima
 		);
 
 		if (!esMenorAlMontoMaximo) {
@@ -99,7 +99,8 @@ export const useAgregarPedidoActualAPedidosClientes = (
 						fechaEntregaFormateada.getMonth() +
 						'-' +
 						fechaEntregaFormateada.getFullYear(),
-					montoVentaMaxima: configuracionPedido.montoVentaMaxima,
+					montoVentaMaxima:
+						configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima,
 				}),
 				'monto-maximo'
 			);

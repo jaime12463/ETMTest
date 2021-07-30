@@ -26,8 +26,14 @@ export type TCliente = {
 	visitasPlanificadas: TVisitaPlanificada[];
 	fechasEntrega: TFechaEntrega[];
 	detalles: TDetalle[];
+	informacionCrediticia: TInformacionCrediticia;
 	configuracionPedido: TConfiguracionPedido;
 	portafolio: TPortafolio[];
+};
+
+export type TInformacionCrediticia = {
+	condicion: string;
+	disponible: number;
 };
 
 export type TProducto = {
@@ -50,9 +56,17 @@ export type TFechaEntrega = {
 };
 
 export type TConfiguracionPedido = {
-	montoVentaMinima?: number;
-	montoVentaMaxima: number;
+	ventaContadoMaxima: TVentaContadoMaxima;
+	ventaMinima?: TVentaMinima;
 	cantidadMaximaUnidades?: number;
+};
+
+export type TVentaMinima = {
+	montoVentaMinima?: number;
+};
+
+export type TVentaContadoMaxima = {
+	montoVentaContadoMaxima: number;
 };
 
 export type TDetalle = {

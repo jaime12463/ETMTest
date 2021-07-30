@@ -91,7 +91,7 @@ Cypress.Commands.add(
 	'datosDB',
 	({
 		codigoCliente = '234',
-		detalles = [{nombreComercial:'Mi comercio'}],
+		detalles = [{nombreComercial: 'Mi comercio'}],
 		fechasEntrega = [{fechaVisita: today, fechaEntrega: tomorrow}],
 		visitasPlanificadas = [{dia: today, secuencia: 3}],
 		cantidadMaximaUnidades = 100,
@@ -119,7 +119,7 @@ Cypress.Commands.add(
 			].portafolio[0].esVentaSubunidades = esVentaSubunidades;
 			db.clientes[
 				codigoCliente
-			].configuracionPedido.montoVentaMaxima = montoVentaMaxima;
+			].configuracionPedido.ventaContadoMaxima.montoVentaContadoMaxima = montoVentaMaxima;
 			db.productos[codigoProducto].presentacion = presentacion;
 			db.productos[
 				codigoProducto

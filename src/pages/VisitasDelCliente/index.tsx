@@ -88,12 +88,6 @@ const VisitasDelCliente: React.FC = () => {
 						spacing={2}
 						className={estilos.container}
 					>
-						{/* 						<BarraDeProgeso
-							max={800}
-							valor={700}
-							titulo={'Pedido minimo'}
-							colores={['red', 'yellow', 'green']}
-						/> */}
 						<DatosCliente />
 						<Grid item className={estilos.margin}>
 							<Typography variant='body2' component='p' data-cy='info'>
