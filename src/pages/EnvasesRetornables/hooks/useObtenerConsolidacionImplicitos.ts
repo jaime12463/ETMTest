@@ -1,12 +1,9 @@
 import {useCallback} from 'react';
-import {useAppSelector} from 'redux/hooks';
-import {selectDatos} from 'redux/features/datos/datosSlice';
-import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
 import {TConsolidadoImplicitos, TProductoPedido} from 'models';
 
 export const useObtenerConsolidacionImplicitos = () => {
 	const obtenerConsolidacionImplicitos = useCallback((productosPedido: TProductoPedido[]) => {
-			const incrementarImplicitos = (consolidadoImplicitos: TConsolidadoImplicitos[], codigoImplicito: number, nombreImplicito: string, unidades:number, subUnidades:number) => {
+			const incrementarImplicitos = (consolidadoImplicitos: TConsolidadoImplicitos[], codigoImplicito: number | undefined, nombreImplicito: string | undefined, unidades:number, subUnidades:number) => {
 				let flatAgregado= false;
 				consolidadoImplicitos.forEach((consolidado) => {
 					if(codigoImplicito === consolidado.codigoImplicito)
@@ -28,9 +25,9 @@ export const useObtenerConsolidacionImplicitos = () => {
 
 			const consolidadoImplicitos: TConsolidadoImplicitos[] = [];
 			productosPedido.forEach((pedido) => {
-				if(pedido.unidades !== 0)
+				if(pedido.unidades !== 0 && typeof pedido.codigoImplicito1 !== 'undefined')
 					incrementarImplicitos(consolidadoImplicitos, pedido.codigoImplicito1, pedido.nombreImplicito1, pedido.unidades, 0);
-				if(pedido.subUnidades !== 0)
+				if(pedido.subUnidades !== 0 && typeof pedido.codigoImplicito2 !== 'undefined')
 					incrementarImplicitos(consolidadoImplicitos, pedido.codigoImplicito2, pedido.nombreImplicito2, 0, pedido.subUnidades);
 			});
 

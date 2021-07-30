@@ -26,8 +26,14 @@ export type TCliente = {
 	visitasPlanificadas: TVisitaPlanificada[];
 	fechasEntrega: TFechaEntrega[];
 	detalles: TDetalle[];
+	informacionCrediticia: TInformacionCrediticia;
 	configuracionPedido: TConfiguracionPedido;
 	portafolio: TPortafolio[];
+};
+
+export type TInformacionCrediticia = {
+	condicion: string;
+	disponible: number;
 };
 
 export type TProducto = {
@@ -35,8 +41,8 @@ export type TProducto = {
 	nombre: string;
 	presentacion: number;
 	subunidadesVentaMinima: number;
-	implicito1: number;
-	implicito2: number;
+	implicito1?: number;
+	implicito2?: number;
 };
 
 export type TVisitaPlanificada = {
@@ -50,9 +56,17 @@ export type TFechaEntrega = {
 };
 
 export type TConfiguracionPedido = {
-	montoVentaMinima?: number;
-	montoVentaMaxima: number;
+	ventaContadoMaxima: TVentaContadoMaxima;
+	ventaMinima?: TVentaMinima;
 	cantidadMaximaUnidades?: number;
+};
+
+export type TVentaMinima = {
+	montoVentaMinima?: number;
+};
+
+export type TVentaContadoMaxima = {
+	montoVentaContadoMaxima: number;
 };
 
 export type TDetalle = {
@@ -104,20 +118,20 @@ export type TProductoPedido = {
 	subUnidades: number;
 	total: number;
 	tipoPago: 'contado' | 'credito';
-	codigoImplicito1: number;
-	nombreImplicito1: string;
-	codigoImplicito2: number;
-	nombreImplicito2: string;
+	codigoImplicito1?: number;
+	nombreImplicito1?: string;
+	codigoImplicito2?: number;
+	nombreImplicito2?: string;
 };
 
 export type TPrecioSinVigencia = {
 	codigoProductoConNombre: string;
 	precioConImpuestoUnidad: number;
 	precioConImpuestoSubunidad: number;
-	codigoImplicito1: number;
-	nombreImplicito1: string;
-	codigoImplicito2: number;
-	nombreImplicito2: string;
+	codigoImplicito1?: number;
+	nombreImplicito1?: string;
+	codigoImplicito2?: number;
+	nombreImplicito2?: string;
 };
 
 export type TPrecioProducto = {
@@ -125,10 +139,10 @@ export type TPrecioProducto = {
 	nombre: string;
 	presentacion: number;
 	precios: TPrecio[];
-	codigoImplicito1: number;
-	nombreImplicito1: string;
-	codigoImplicito2: number;
-	nombreImplicito2: string;
+	codigoImplicito1?: number;
+	nombreImplicito1?: string;
+	codigoImplicito2?: number;
+	nombreImplicito2?: string;
 };
 
 export type TDatosConfiguracion = {
@@ -201,8 +215,8 @@ export type InputsKeys =
 	| 'productoABuscar';
 
 export type TConsolidadoImplicitos = {
-	codigoImplicito: number;
-	nombreImplicito: string;
+	codigoImplicito?: number;
+	nombreImplicito?: string;
 	unidades: number;
 	subUnidades: number;
 };
