@@ -1,5 +1,5 @@
 import {Control, Controller} from 'react-hook-form';
-import {TextField as TextFieldMUI, TextFieldProps} from '@material-ui/core';
+import {TextField, TextFieldProps} from '@material-ui/core';
 
 type Props = {
 	control?: Control<any> | undefined; //TODO: Este any debe ser un typo extendible de FormValues
@@ -7,7 +7,6 @@ type Props = {
 	defaultValue?: string;
 	rules?: any;
 	inputDataCY?: string;
-	className?: string | undefined;
 };
 
 export type PropsInput = Props & TextFieldProps;
@@ -27,7 +26,7 @@ const Input = (props: PropsInput) => {
 	return (
 		<Controller
 			render={({field: {onChange, onBlur, value}}) => (
-				<TextFieldMUI
+				<TextField
 					value={value}
 					onChange={onChange}
 					onBlur={onBlur}

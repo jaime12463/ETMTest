@@ -5,8 +5,9 @@ import {
 	TFunctionMostarAvertenciaPorDialogo,
 	TClienteActual,
 	TDatosClientesProductos,
+	InputsKeys,
 } from 'models';
-import {useCallback} from 'react';
+import {Dispatch, SetStateAction, useCallback} from 'react';
 import {
 	validarSubUnidadesConPresentacion,
 	validarSubUnidadesEsMultiplo,
@@ -18,7 +19,9 @@ import {useTranslation} from 'react-i18next';
 import {useValidarProductoPermiteSubUnidades} from '.';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	inputFocus: InputsKeys,
+	setInputFocus: Dispatch<SetStateAction<InputsKeys>>
 ) => {
 	const {t} = useTranslation();
 
@@ -52,6 +55,11 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			const esPermitidoSubUnidades = validarProductoPermiteSubUnidades(
 				codigoProducto
 			);
+
+			if (inputFocus === 'unidades' && esPermitidoSubUnidades) {
+				setInputFocus('subUnidades');
+				return esValidacionCorrecta;
+			}
 
 			if (!esPermitidoSubUnidades && subUnidadesParseado !== 0) {
 				mostrarAdvertenciaEnDialogo(
@@ -130,8 +138,8 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			datos,
 			datosCliente,
 			mostrarAdvertenciaEnDialogo,
-			mostrarAdvertenciaEnDialogo,
 			t,
+			inputFocus,
 		]
 	);
 	return validarAgregarProductoAlPedidoCliente;

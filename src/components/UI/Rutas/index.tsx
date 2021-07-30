@@ -1,6 +1,6 @@
 import {BrowserRouter, Route} from 'react-router-dom';
 import nombresRutas from 'routes/nombresRutas';
-import rutaAnidada from './RutaAnidada';
+// import rutaAnidada from './RutaAnidada';
 import {
 	Inicio,
 	TomaPedidoDelClienteActual,
@@ -11,7 +11,7 @@ import {
 } from 'pages';
 
 const Rutas = () => {
-	const rutasAnidadas = rutaAnidada();
+	// const rutasAnidadas = rutaAnidada();
 	return (
 		<BrowserRouter>
 			{/* {rutasAnidadas} */}

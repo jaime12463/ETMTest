@@ -9,19 +9,16 @@ const rutaAnidada = (
 	rutas: any = [...routes],
 	pathAnidados: string[] = []
 ): any => {
-	console.log(rutas);
 	let componenteRenderizado: any = rutas.shift();
 
 	let Component = componenteRenderizado?.component;
 
 	let pathActual: string | undefined = componenteRenderizado?.nombre;
 	pathActual && pathAnidados.push(pathActual);
-	console.log('entre');
 	if (!componenteRenderizado) {
 		return;
 	}
 	if (componenteRenderizado?.subRutas) {
-		console.log('entro renderizado');
 		return (
 			<Route path={pathAnidados.join('')}>
 				{<Component />}

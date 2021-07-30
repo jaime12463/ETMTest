@@ -1,6 +1,7 @@
 import {Dispatch, FunctionComponent, SetStateAction} from 'react';
 import {Center, FormInput} from 'components/UI';
 import {
+	InputsKeys,
 	THookForm,
 	TInputsFormularioAgregarProducto,
 	TPrecioProducto,
@@ -19,10 +20,19 @@ export type Props = {
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>;
 	setProductoActual: Dispatch<SetStateAction<TPrecioSinVigencia>>;
 	productoActual: TPrecioSinVigencia;
+	inputFocus: InputsKeys;
+	setInputFocus: Dispatch<SetStateAction<InputsKeys>>;
 };
 
 const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
-	const {hookForm, productoActual, preciosProductos, setProductoActual} = props;
+	const {
+		hookForm,
+		productoActual,
+		preciosProductos,
+		setProductoActual,
+		inputFocus,
+		setInputFocus,
+	} = props;
 
 	const {handleSubmit, control, setValue} = hookForm;
 
@@ -34,7 +44,8 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 		setProductoActual,
 		setValue,
 		preciosProductos,
-		resetLineaActual
+		resetLineaActual,
+		setInputFocus
 	);
 
 	const {codigoProductoConNombre} = productoActual;
@@ -55,6 +66,11 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 					inputDataCY='codigo-producto'
 					helperText={codigoProductoConNombre}
 					id='producto_buscar'
+					inputRef={(input) => {
+						if (inputFocus === 'productoABuscar') {
+							input?.focus();
+						}
+					}}
 					InputProps={{
 						endAdornment: (
 							<IconButton

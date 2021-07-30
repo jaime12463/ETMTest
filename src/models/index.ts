@@ -193,3 +193,9 @@ export type THeader = {
 	component: React.FC | ReactElement;
 	width: GridSize;
 };
+
+export type InputsKeys =
+	| 'unidades'
+	| 'subUnidades'
+	| 'codigoProductoConNombre'
+	| 'productoABuscar';

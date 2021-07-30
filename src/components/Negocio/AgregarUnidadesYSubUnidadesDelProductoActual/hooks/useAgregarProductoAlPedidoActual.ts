@@ -1,25 +1,31 @@
-import {useCallback} from 'react';
+import {SetStateAction, useCallback} from 'react';
 import {useAppDispatch} from 'redux/hooks';
 import {
 	agregarProductoAlPedidoDelCliente,
 	borrarProductoDelPedidoDelCliente,
 } from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
+	InputsKeys,
 	TFunctionMostarAvertenciaPorDialogo,
 	TInputsFormularioAgregarProducto,
 	TPrecioSinVigencia,
 } from 'models';
 import {useValidarAgregarProductoAlPedidoCliente} from '.';
+import {Dispatch} from 'react';
 
 export const useAgregarProductoAlPedidoActual = (
 	productoActual: TPrecioSinVigencia,
 	resetLineaActual: () => void,
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	inputFocus: InputsKeys,
+	setInputFocus: Dispatch<SetStateAction<InputsKeys>>
 ) => {
 	const dispatch = useAppDispatch();
 
 	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
-		mostrarAdvertenciaEnDialogo
+		mostrarAdvertenciaEnDialogo,
+		inputFocus,
+		setInputFocus
 	);
 
 	const agregarProductoAlPedidoActual = useCallback(
@@ -65,9 +71,16 @@ export const useAgregarProductoAlPedidoActual = (
 				);
 			} else dispatch(borrarProductoDelPedidoDelCliente(codigoProducto));
 
+			setInputFocus('productoABuscar');
+
 			resetLineaActual();
 		},
-		[productoActual]
+		[
+			productoActual,
+			validarAgregarProductoAlPedidoCliente,
+			dispatch,
+			setInputFocus,
+		]
 	);
 	return agregarProductoAlPedidoActual;
 };
