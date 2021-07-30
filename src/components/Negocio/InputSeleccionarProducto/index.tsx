@@ -1,3 +1,4 @@
+import { makeStyles } from '@material-ui/core/styles';
 import {Dispatch, FunctionComponent, SetStateAction} from 'react';
 import {Center, FormInput} from 'components/UI';
 import {
@@ -24,7 +25,16 @@ export type Props = {
 	setInputFocus: Dispatch<SetStateAction<InputsKeys>>;
 };
 
+const useStyles = makeStyles(theme => ({
+    helperText: {
+		whiteSpace: "nowrap",
+		textOverflow: "ellipsis",
+		overflow: "hidden",
+    }
+  }));
+  
 const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
+	const classes = useStyles();
 	const {
 		hookForm,
 		productoActual,
@@ -64,6 +74,9 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 					control={control}
 					name='productoABuscar'
 					inputDataCY='codigo-producto'
+					FormHelperTextProps={{
+						className: classes.helperText
+					  }}
 					helperText={codigoProductoConNombre}
 					id='producto_buscar'
 					inputRef={(input) => {
