@@ -1,23 +1,22 @@
-import React, {Dispatch, FunctionComponent, SetStateAction} from 'react';
-import {Box, Grid, InputLabel} from '@material-ui/core';
+import {Dispatch, FunctionComponent, SetStateAction} from 'react';
+import {Grid} from '@material-ui/core';
 import {Dialogo, FormInput} from 'components/UI';
 import {
 	InputsKeys,
 	THookForm,
 	TInputsFormularioAgregarProducto,
-	TPrecioSinVigencia,
+	TStateProductoActual,
 } from 'models';
 import {
 	useAgregarProductoAlPedidoActual,
-	useValidarProductoPermiteSubUnidades,
+	useObtenerEsPermitidoSubUnidades,
 } from './hooks';
 import {useMostrarAdvertenciaEnDialogo, useResetLineaActual} from 'hooks';
 import {useTranslation} from 'react-i18next';
 
 type Props = {
 	hookForm: THookForm<TInputsFormularioAgregarProducto>;
-	productoActual: TPrecioSinVigencia;
-	setProductoActual: React.Dispatch<React.SetStateAction<TPrecioSinVigencia>>;
+	stateProductoActual: TStateProductoActual;
 	inputFocus: InputsKeys;
 	setInputFocus: Dispatch<SetStateAction<InputsKeys>>;
 };
@@ -25,27 +24,23 @@ type Props = {
 const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
 	props
 ) => {
-	const {
-		hookForm,
-		productoActual,
-		setProductoActual,
-		inputFocus,
-		setInputFocus,
-	} = props;
+	const {hookForm, stateProductoActual, inputFocus, setInputFocus} = props;
+
+	const {productoActual, setProductoActual} = stateProductoActual;
+
+	const {handleSubmit, control, setValue} = hookForm;
+
+	const {precioConImpuestoSubunidad, precioConImpuestoUnidad} = productoActual!;
+
+	const {t} = useTranslation();
+
+	const resetLineaActual = useResetLineaActual(setValue, setProductoActual);
 
 	const {
 		mostrarAdvertenciaEnDialogo,
 		mostarDialogo,
 		parametrosDialogo,
 	} = useMostrarAdvertenciaEnDialogo();
-
-	const {t} = useTranslation();
-
-	const {handleSubmit, control, getValues, setValue} = hookForm;
-
-	const resetLineaActual = useResetLineaActual(setValue, setProductoActual);
-
-	const validarProductoPermiteSubUnidades = useValidarProductoPermiteSubUnidades();
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		productoActual,
@@ -55,32 +50,23 @@ const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
 		setInputFocus
 	);
 
-	const disabled: boolean = productoActual.codigoProductoConNombre === '';
-
-	const disabledSubUnidades: boolean = !validarProductoPermiteSubUnidades(
-		parseInt(getValues('codigoProductoConNombre')?.split(' ')[0])
+	const esPermitidoSubUnidades = useObtenerEsPermitidoSubUnidades(
+		productoActual
 	);
-	//TODO: Mirar como deberian estar los disabled.
-
-	const {precioConImpuestoSubunidad, precioConImpuestoUnidad} = productoActual;
 
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 			<Grid container spacing={1}>
 				<Grid item xs={6}>
-					<Box mb={1}>
-						<InputLabel htmlFor='unidades_producto'>
-							{t('general.unidades')}
-						</InputLabel>
-					</Box>
 					<FormInput
 						onSubmitForm={handleSubmit(agregarProductoAlPedidoActual)}
+						labelForm={t('general.unidades')}
 						name='unidades'
 						control={control}
 						type='number'
 						inputDataCY='cantidad-producto-unidades'
-						disabled={disabled}
+						disabled={productoActual === null}
 						id='unidades_producto'
 						helperText={`$ ${precioConImpuestoUnidad}`}
 						inputRef={(input) => {
@@ -91,18 +77,14 @@ const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
 					/>
 				</Grid>
 				<Grid item xs={6}>
-					<Box mb={1}>
-						<InputLabel htmlFor='subUnidades_producto'>
-							{t('general.subUnidades')}
-						</InputLabel>
-					</Box>
 					<FormInput
 						onSubmitForm={handleSubmit(agregarProductoAlPedidoActual)}
+						labelForm={t('general.subUnidades')}
 						name='subUnidades'
 						control={control}
 						type='number'
 						inputDataCY='cantidad-producto-subUnidades'
-						disabled={disabled || disabledSubUnidades}
+						disabled={productoActual === null || !esPermitidoSubUnidades}
 						id='subUnidades_producto'
 						helperText={`$ ${precioConImpuestoSubunidad}`}
 						inputRef={(input) => {

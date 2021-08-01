@@ -9,13 +9,13 @@ import {
 	InputsKeys,
 	TFunctionMostarAvertenciaPorDialogo,
 	TInputsFormularioAgregarProducto,
-	TPrecioSinVigencia,
+	TPrecioProducto,
 } from 'models';
 import {useValidarAgregarProductoAlPedidoCliente} from '.';
 import {Dispatch} from 'react';
 
 export const useAgregarProductoAlPedidoActual = (
-	productoActual: TPrecioSinVigencia,
+	productoActual: TPrecioProducto | null,
 	resetLineaActual: () => void,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
 	inputFocus: InputsKeys,
@@ -26,47 +26,39 @@ export const useAgregarProductoAlPedidoActual = (
 	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
 		mostrarAdvertenciaEnDialogo,
 		inputFocus,
-		setInputFocus
+		setInputFocus,
+		productoActual
 	);
 
 	const agregarProductoAlPedidoActual = useCallback(
 		(inputs: TInputsFormularioAgregarProducto) => {
-			const {unidades, subUnidades, codigoProductoConNombre} = inputs;
+			const {unidades, subUnidades} = inputs;
 
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
 
 			const subUnidadesParseado: number =
 				subUnidades !== '' ? parseInt(subUnidades) : 0;
 
-			const codigoProducto: number = parseInt(
-				codigoProductoConNombre.split(' ')[0]
-			);
-
-			const nombreProducto: string = codigoProductoConNombre.substring(
-				codigoProducto.toString().length + 1
-			);
-
 			const esValidoAgregarProductoAlPedidoCliente: boolean = validarAgregarProductoAlPedidoCliente(
 				inputs
 			);
+
+			if (!productoActual) return;
+
+			const {codigoProducto} = productoActual;
 
 			if (!esValidoAgregarProductoAlPedidoCliente) return;
 
 			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
 				dispatch(
 					agregarProductoAlPedidoDelCliente({
-						codigoProducto: codigoProducto,
-						nombreProducto: nombreProducto,
+						...productoActual,
 						unidades: unidadesParseado,
 						subUnidades: subUnidadesParseado,
 						total:
 							productoActual.precioConImpuestoUnidad * unidadesParseado +
 							productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
 						tipoPago: ETiposDePago.Contado,
-						codigoImplicito1: productoActual.codigoImplicito1,
-						nombreImplicito1: productoActual.nombreImplicito1,
-						codigoImplicito2: productoActual.codigoImplicito2,
-						nombreImplicito2: productoActual.nombreImplicito2,
 					})
 				);
 			} else dispatch(borrarProductoDelPedidoDelCliente(codigoProducto));

@@ -1,11 +1,11 @@
 import {
 	TCliente,
 	TInputsFormularioAgregarProducto,
-	TProducto,
 	TFunctionMostarAvertenciaPorDialogo,
 	TClienteActual,
 	TDatosClientesProductos,
 	InputsKeys,
+	TPrecioProducto,
 } from 'models';
 import {Dispatch, SetStateAction, useCallback} from 'react';
 import {
@@ -21,7 +21,8 @@ import {useValidarProductoPermiteSubUnidades} from '.';
 export const useValidarAgregarProductoAlPedidoCliente = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
 	inputFocus: InputsKeys,
-	setInputFocus: Dispatch<SetStateAction<InputsKeys>>
+	setInputFocus: Dispatch<SetStateAction<InputsKeys>>,
+	productoActual: TPrecioProducto | null
 ) => {
 	const {t} = useTranslation();
 
@@ -35,25 +36,39 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 
 	const validarAgregarProductoAlPedidoCliente = useCallback(
 		(inputs: TInputsFormularioAgregarProducto): boolean => {
-			const {unidades, subUnidades, codigoProductoConNombre} = inputs;
+			const {unidades, subUnidades} = inputs;
 
 			let esValidacionCorrecta: boolean = false;
+
+			if (!productoActual) {
+				mostrarAdvertenciaEnDialogo(
+					t('error.noProductoActual'),
+					'no-producto-actual'
+				);
+				return esValidacionCorrecta;
+			}
+
+			if (!datosCliente) {
+				mostrarAdvertenciaEnDialogo(
+					t('error.NoDatosCliente'),
+					'no-datos-cliente'
+				);
+				return esValidacionCorrecta;
+			}
 
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
 
 			const subUnidadesParseado: number =
 				subUnidades !== '' ? parseInt(subUnidades) : 0;
 
-			const codigoProducto: number = parseInt(
-				codigoProductoConNombre.split(' ')[0]
-			);
-
-			const {presentacion, subunidadesVentaMinima}: TProducto = datos.productos[
-				codigoProducto
-			];
+			const {
+				presentacion,
+				subunidadesVentaMinima,
+				esVentaSubunidades,
+			} = productoActual;
 
 			const esPermitidoSubUnidades = validarProductoPermiteSubUnidades(
-				codigoProducto
+				esVentaSubunidades
 			);
 
 			if (inputFocus === 'unidades' && esPermitidoSubUnidades) {
@@ -97,14 +112,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				return esValidacionCorrecta;
 			}
 
-			if (!datosCliente) {
-				mostrarAdvertenciaEnDialogo(
-					t('No se encontro datos del cliente'),
-					'no-datos-cliente'
-				);
-				return esValidacionCorrecta;
-			}
-
 			const {configuracionPedido}: TCliente = datosCliente;
 
 			const esUnidadesMenorAlMaximoUnidades = validarUnidadesMinimasProducto(
@@ -134,6 +141,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			return esValidacionCorrecta;
 		},
 		[
+			productoActual,
 			clienteActual,
 			datos,
 			datosCliente,
