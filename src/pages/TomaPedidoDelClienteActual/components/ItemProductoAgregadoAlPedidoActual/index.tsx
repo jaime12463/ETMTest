@@ -1,5 +1,5 @@
 import {FunctionComponent} from 'react';
-import {TProductoPedido} from 'models';
+import {ETiposDePago, TProductoPedido} from 'models';
 import {Box, Grid, Switch, Typography} from '@material-ui/core';
 import {Center} from 'components/UI';
 
@@ -46,7 +46,7 @@ const ItemProductoAgregadoAlPedidoActual: FunctionComponent<Props> = (
 				<Grid item xs={2}>
 					<Center>
 						<Switch
-							checked={tipoPago === 'contado'}
+							checked={tipoPago === ETiposDePago.Contado}
 							onChange={() => {}}
 							name='checkedA'
 							inputProps={{'aria-label': 'secondary checkbox'}}
