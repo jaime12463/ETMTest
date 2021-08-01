@@ -5,6 +5,7 @@ import {
 	borrarProductoDelPedidoDelCliente,
 } from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
+	ETiposDePago,
 	InputsKeys,
 	TFunctionMostarAvertenciaPorDialogo,
 	TInputsFormularioAgregarProducto,
@@ -61,7 +62,7 @@ export const useAgregarProductoAlPedidoActual = (
 						total:
 							productoActual.precioConImpuestoUnidad * unidadesParseado +
 							productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
-						tipoPago: 'contado',
+						tipoPago: ETiposDePago.Contado,
 						codigoImplicito1: productoActual.codigoImplicito1,
 						nombreImplicito1: productoActual.nombreImplicito1,
 						codigoImplicito2: productoActual.codigoImplicito2,
