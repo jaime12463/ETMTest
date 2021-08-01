@@ -49,7 +49,7 @@ const FormularioAgregarProducto = (props: Props) => {
 
 	return (
 		<Grid container spacing={1}>
-			<Grid item xs={4}>
+			<Grid item xs={6}>
 				<InputSeleccionarProducto
 					hookForm={hookForm}
 					{...stateProductoActual}
@@ -57,13 +57,14 @@ const FormularioAgregarProducto = (props: Props) => {
 					{...stateInputFocus}
 				/>
 			</Grid>
-			<Grid item xs={8}>
+			<Grid item xs={6}>
 				<AgregarUnidadesYSubUnidadesDelProductoActual
 					hookForm={hookForm}
 					{...stateProductoActual}
 					{...stateInputFocus}
 				/>
 			</Grid>
+		
 		</Grid>
 	);
 };

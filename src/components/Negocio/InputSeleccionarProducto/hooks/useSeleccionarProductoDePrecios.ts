@@ -41,7 +41,6 @@ export const useSeleccionarProductoDePrecios = (
 				return;
 			}
 
-			//ENGHOY
 			const {
 				precios,
 				codigoProducto,

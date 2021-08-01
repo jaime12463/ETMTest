@@ -9,10 +9,6 @@ import {
 import {ReactNode} from 'react';
 import nombresRutas from './nombresRutas';
 
-type TRutaAnidada = {
-	ruta: string;
-	componente: ReactNode;
-};
 
 //TODO: Hay que tipar esto aca y en el componente de rutas
 const routes: any = [

@@ -15,10 +15,10 @@ export type TPrecioSinVigencia = {
 	codigoProductoConNombre: string;
 	precioConImpuestoUnidad: number;
 	precioConImpuestoSubunidad: number;
-	codigoImplicito1: number;
-	nombreImplicito1: string;
-	codigoImplicito2: number;
-	nombreImplicito2: string;
+	codigoImplicito1?: number;
+	nombreImplicito1?: string;
+	codigoImplicito2?: number;
+	nombreImplicito2?: string;
 };
 
 export type TPrecioProducto = {
@@ -26,10 +26,10 @@ export type TPrecioProducto = {
 	nombre: string;
 	presentacion: number;
 	precios: TPrecio[];
-	codigoImplicito1: number;
-	nombreImplicito1: string;
-	codigoImplicito2: number;
-	nombreImplicito2: string;
+	codigoImplicito1?: number;
+	nombreImplicito1?: string;
+	codigoImplicito2?: number;
+	nombreImplicito2?: string;
 };
 
 export type TInputsCodigoCliente = {
@@ -93,8 +93,8 @@ export type InputsKeys =
 	| 'productoABuscar';
 
 export type TConsolidadoImplicitos = {
-	codigoImplicito: number;
-	nombreImplicito: string;
+	codigoImplicito?: number;
+	nombreImplicito?: string;
 	unidades: number;
 	subUnidades: number;
 };

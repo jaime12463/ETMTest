@@ -13,6 +13,7 @@ import nombresRutas from 'routes/nombresRutas';
 import {useRouteMatch, useHistory} from 'react-router-dom';
 import {useSeleccionarProductoDePrecios} from './hooks';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
+import useEstilos from 'components/UI/Estructura/useEstilos';
 
 export type Props = {
 	hookForm: THookForm<TInputsFormularioAgregarProducto>;
@@ -35,8 +36,12 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	} = props;
 
 	const {handleSubmit, control, setValue} = hookForm;
+
 	const {path} = useRouteMatch();
+
 	const history = useHistory();
+
+	const estilos = useEstilos();
 
 	const {
 		mostrarAdvertenciaEnDialogo,
@@ -71,6 +76,9 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 						name='productoABuscar'
 						inputDataCY='codigo-producto'
 						helperText={codigoProductoConNombre}
+						FormHelperTextProps={{
+							className: estilos.helperText,
+						}}
 						id='producto_buscar'
 						inputRef={(input) => {
 							if (inputFocus === 'productoABuscar') {
