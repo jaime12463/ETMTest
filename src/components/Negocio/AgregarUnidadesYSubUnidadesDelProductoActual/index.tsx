@@ -30,7 +30,9 @@ const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
 
 	const {handleSubmit, control, setValue} = hookForm;
 
-	const {precioConImpuestoSubunidad, precioConImpuestoUnidad} = productoActual!;
+	const {precioConImpuestoSubunidad, precioConImpuestoUnidad} = {
+		...productoActual,
+	};
 
 	const {t} = useTranslation();
 
