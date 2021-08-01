@@ -1,5 +1,5 @@
 import {Dispatch, FunctionComponent, SetStateAction} from 'react';
-import {Center, FormInput} from 'components/UI';
+import {Dialogo, FormInput} from 'components/UI';
 import {
 	InputsKeys,
 	THookForm,
@@ -12,7 +12,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import nombresRutas from 'routes/nombresRutas';
 import {useRouteMatch, useHistory} from 'react-router-dom';
 import {useSeleccionarProductoDePrecios} from './hooks';
-import {useResetLineaActual} from 'hooks';
+import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 
 export type Props = {
 	hookForm: THookForm<TInputsFormularioAgregarProducto>;
@@ -38,55 +38,68 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	const {path} = useRouteMatch();
 	const history = useHistory();
 
-	const resetLineaActual = useResetLineaActual(setValue, setProductoActual);
+	const {
+		mostrarAdvertenciaEnDialogo,
+		mostarDialogo,
+		parametrosDialogo,
+	} = useMostrarAdvertenciaEnDialogo();
 
 	const seleccionarProductoDePrecios = useSeleccionarProductoDePrecios(
 		setProductoActual,
 		setValue,
 		preciosProductos,
-		resetLineaActual,
-		setInputFocus
+		setInputFocus,
+		mostrarAdvertenciaEnDialogo
 	);
 
 	const {codigoProductoConNombre} = productoActual;
 
 	return (
-		<Grid container>
-			<Grid item xs={12}>
-				<Box mb={1}>
-					<InputLabel htmlFor='producto_buscar'>Producto</InputLabel>
-				</Box>
-				<FormInput
-					onSubmitForm={handleSubmit(seleccionarProductoDePrecios)}
-					onChangeForm={(e: React.FormEvent<HTMLFormElement>) =>
-						e.preventDefault()
-					}
-					control={control}
-					name='productoABuscar'
-					inputDataCY='codigo-producto'
-					helperText={codigoProductoConNombre}
-					id='producto_buscar'
-					inputRef={(input) => {
-						if (inputFocus === 'productoABuscar') {
-							input?.focus();
+		<>
+			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+			<Grid container>
+				<Grid item xs={12}>
+					<Box mb={1}>
+						<InputLabel htmlFor='producto_buscar'>Producto</InputLabel>
+					</Box>
+					<FormInput
+						onSubmitForm={handleSubmit(seleccionarProductoDePrecios)}
+						onChangeForm={(e: React.FormEvent<HTMLFormElement>) =>
+							e.preventDefault()
 						}
-					}}
-					InputProps={{
-						endAdornment: (
-							<IconButton
-								aria-label='search'
-								size='small'
-								onClick={() =>
-									history.push(`${path}${nombresRutas.preciosProductos}`)
-								}
-							>
-								<SearchIcon />
-							</IconButton>
-						),
-					}}
-				/>
+						control={control}
+						name='productoABuscar'
+						inputDataCY='codigo-producto'
+						helperText={codigoProductoConNombre}
+						id='producto_buscar'
+						inputRef={(input) => {
+							if (inputFocus === 'productoABuscar') {
+								input?.focus();
+							}
+						}}
+						InputProps={{
+							endAdornment: (
+								<IconButton
+									aria-label='search'
+									size='small'
+									onClick={() =>
+										history.push(`${path}${nombresRutas.preciosProductos}`)
+									}
+								>
+									<SearchIcon />
+								</IconButton>
+							),
+						}}
+						inputProps={{
+							autoComplete: 'new-password',
+							form: {
+								autoComplete: 'off',
+							},
+						}}
+					/>
+				</Grid>
 			</Grid>
-		</Grid>
+		</>
 	);
 };
 

@@ -21,8 +21,11 @@ export const useValidarInicializarPedidoActual = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const dispatch = useAppDispatch();
+
 	const configuracion = useObtenerConfiguracion();
+
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
+
 	const {t} = useTranslation();
 
 	const validarInicializarPedidoActual = useCallback(

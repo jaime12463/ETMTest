@@ -7,20 +7,23 @@ import {
 	TPrecioProducto,
 	TPrecio,
 	InputsKeys,
+	TFunctionMostarAvertenciaPorDialogo,
 } from 'models';
 import {useObtenerPedidoActual} from 'redux/hooks';
 import {UseFormSetValue} from 'react-hook-form';
 import {useObtenerPrecioVigenteDelProducto} from 'hooks';
+import {useTranslation} from 'react-i18next';
 
 export const useSeleccionarProductoDePrecios = (
 	setProductoActual: Dispatch<SetStateAction<TPrecioSinVigencia>>,
 	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
 	preciosProductos: TPrecioProducto[],
-	resetLineaActual: () => void,
-	setInputFocus: Dispatch<SetStateAction<InputsKeys>>
+	setInputFocus: Dispatch<SetStateAction<InputsKeys>>,
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
 	const obtenerPrecioVigenteDelProducto = useObtenerPrecioVigenteDelProducto();
+	const {t} = useTranslation();
 	const seleccionarProductoDePrecios = useCallback(
 		({productoABuscar}: TInputsFormularioAgregarProducto) => {
 			const preciosProducto:
@@ -31,8 +34,10 @@ export const useSeleccionarProductoDePrecios = (
 			);
 
 			if (!preciosProducto) {
-				resetLineaActual();
-				//TODO: mostar al usuario que no hay producto
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.noExisteCodigoProducto'),
+					'no-existe-codigo-producto'
+				);
 				return;
 			}
 
@@ -54,8 +59,13 @@ export const useSeleccionarProductoDePrecios = (
 				pedidoActual.fechaEntrega
 			);
 
-			if (!precioVigente) return;
-			//TODO: mostar al usuario que no hay precios vigentes para ese producto
+			if (!precioVigente) {
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.noPreciosVigentes'),
+					'no-precios-vigentes'
+				);
+				return;
+			}
 
 			const {
 				precioConImpuestoUnidad,

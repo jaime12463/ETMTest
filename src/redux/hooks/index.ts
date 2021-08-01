@@ -9,6 +9,7 @@ import {useObtenerConfiguracion} from './useObtenerConfiguracion';
 import {useObtenerDatos} from './useObtenerDatos';
 import {useObtenerPedidoActual} from './useObtenerPedidoActual';
 import {useObtenerPedidosClientes} from './useObtenerPedidosClientes';
+import {useObtenerEstadoApp} from './useObtenerEstadoApp';
 
 export {
 	useObtenerClienteActual,
@@ -16,4 +17,5 @@ export {
 	useObtenerDatos,
 	useObtenerPedidoActual,
 	useObtenerPedidosClientes,
+	useObtenerEstadoApp,
 };

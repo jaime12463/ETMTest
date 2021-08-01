@@ -4,11 +4,7 @@ import {
 } from '..';
 import {FunctionComponent, useState} from 'react';
 import {TPrecioProducto, TPrecioSinVigencia} from 'models';
-import {
-	useMostrarAdvertenciaEnDialogo,
-	useInicializarPreciosProductosDelClienteActual,
-} from 'hooks';
-import {Dialogo} from 'components/UI';
+import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
 import {Box} from '@material-ui/core';
 
 type Props = {};
@@ -28,21 +24,13 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 		nombreImplicito2: '',
 	});
 
-	const {
-		mostrarAdvertenciaEnDialogo,
-		mostarDialogo,
-		parametrosDialogo,
-	} = useMostrarAdvertenciaEnDialogo();
-
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 
 	return (
 		<Box mt={2}>
-			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 			<FormularioAgregarProducto
 				stateProductoActual={{productoActual, setProductoActual}}
 				statePreciosProductos={{preciosProductos, setPreciosProductos}}
-				mostrarAdvertenciaEnDialogo={mostrarAdvertenciaEnDialogo}
 			/>
 			<ListadoProductosAgregadosAlPedidoActual />
 		</Box>

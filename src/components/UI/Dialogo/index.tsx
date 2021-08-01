@@ -10,7 +10,7 @@ export type Props = {
 	titulo?: string;
 	mensaje?: string;
 	conBotonCancelar?: boolean;
-	manejadorClick: (oprimioBotonAceptar: boolean) => void;
+	manejadorClick?: (oprimioBotonAceptar: boolean) => void;
 	textosBotonesDefault?: {
 		aceptar: string;
 		cancelar?: string;
@@ -22,7 +22,7 @@ const Dialogo = ({
 	titulo = '',
 	mensaje = '',
 	conBotonCancelar = false,
-	manejadorClick,
+	manejadorClick = () => {},
 	textosBotonesDefault,
 	dataCy,
 }: Props) => {
