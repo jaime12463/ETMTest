@@ -1,6 +1,6 @@
 import {Box, Grid} from '@material-ui/core';
 import useEstilos from './useEstilos';
-import {Input, Estructura, Dialogo} from 'components/UI';
+import {Estructura, Dialogo, FormInput} from 'components/UI';
 import {TInputsCodigoCliente} from 'models';
 import {useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
@@ -35,16 +35,17 @@ const Clientes = () => {
 			<Estructura.Cuerpo>
 				{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 				<Box mt={4}>
-					<Grid item xs={4} sm={4}>
-						<form onSubmit={handleSubmit(asignarClienteActual)}>
-							<Input
+					<Grid container>
+						<Grid item xs={4} sm={4}>
+							<FormInput
+								onSubmitForm={handleSubmit(asignarClienteActual)}
 								label={t('general.cliente')}
 								name='codigoCliente'
 								control={control}
 								inputDataCY='codigo-cliente'
 								autoFocus={true}
 							/>
-						</form>
+						</Grid>
 					</Grid>
 				</Box>
 			</Estructura.Cuerpo>

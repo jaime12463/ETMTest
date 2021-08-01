@@ -60,7 +60,7 @@ const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
 	const disabledSubUnidades: boolean = !validarProductoPermiteSubUnidades(
 		parseInt(getValues('codigoProductoConNombre')?.split(' ')[0])
 	);
-	//TODO: check
+	//TODO: Mirar como deberian estar los disabled.
 
 	const {precioConImpuestoSubunidad, precioConImpuestoUnidad} = productoActual;
 
@@ -76,9 +76,6 @@ const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
 					</Box>
 					<FormInput
 						onSubmitForm={handleSubmit(agregarProductoAlPedidoActual)}
-						onChangeForm={(e: React.FormEvent<HTMLFormElement>) =>
-							e.preventDefault()
-						}
 						name='unidades'
 						control={control}
 						type='number'
@@ -91,12 +88,6 @@ const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
 								input?.focus();
 							}
 						}}
-						inputProps={{
-							autoComplete: 'new-password',
-							form: {
-								autoComplete: 'off',
-							},
-						}}
 					/>
 				</Grid>
 				<Grid item xs={6}>
@@ -107,9 +98,6 @@ const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
 					</Box>
 					<FormInput
 						onSubmitForm={handleSubmit(agregarProductoAlPedidoActual)}
-						onChangeForm={(e: React.FormEvent<HTMLFormElement>) =>
-							e.preventDefault()
-						}
 						name='subUnidades'
 						control={control}
 						type='number'
@@ -121,12 +109,6 @@ const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
 							if (inputFocus === 'subUnidades') {
 								input?.focus();
 							}
-						}}
-						inputProps={{
-							autoComplete: 'new-password',
-							form: {
-								autoComplete: 'off',
-							},
 						}}
 					/>
 				</Grid>

@@ -30,7 +30,6 @@ const FiltroPreciosProductosDelClienteActual: FunctionComponent<Props> = (
 	return (
 		<FormInput
 			onChangeForm={handleSubmit(filtrarPreciosProductosDelClienteActual)}
-			onSubmitForm={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()}
 			control={control}
 			name='productoABuscar'
 			inputDataCY='codigo-producto'

@@ -34,7 +34,6 @@ const Input = (props: PropsInput) => {
 					variant={variant ?? 'outlined'}
 					size={size ?? 'small'}
 					inputProps={{
-						'autocomplete':"off",
 						'data-cy': inputDataCY,
 						...inputProps,
 					}}

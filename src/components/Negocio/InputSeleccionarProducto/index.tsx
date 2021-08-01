@@ -69,9 +69,6 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 					</Box>
 					<FormInput
 						onSubmitForm={handleSubmit(seleccionarProductoDePrecios)}
-						onChangeForm={(e: React.FormEvent<HTMLFormElement>) =>
-							e.preventDefault()
-						}
 						control={control}
 						name='productoABuscar'
 						inputDataCY='codigo-producto'
@@ -97,12 +94,6 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 									<SearchIcon />
 								</IconButton>
 							),
-						}}
-						inputProps={{
-							autoComplete: 'new-password',
-							form: {
-								autoComplete: 'off',
-							},
 						}}
 					/>
 				</Grid>
