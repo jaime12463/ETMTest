@@ -13,7 +13,7 @@ import nombresRutas from 'routes/nombresRutas';
 import {useRouteMatch, useHistory} from 'react-router-dom';
 import {useSeleccionarProductoDePrecios} from './hooks';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
-import useEstilos from 'components/UI/Estructura/useEstilos';
+import useEstilos from './useEstilos';
 
 export type Props = {
 	hookForm: THookForm<TInputsFormularioAgregarProducto>;
