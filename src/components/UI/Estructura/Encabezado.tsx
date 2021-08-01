@@ -18,9 +18,10 @@ const Encabezado = ({children, esConFechaHaciaAtras, acciones}: Props) => {
 			<Box
 				display='flex'
 				style={{
-					background: `url(${Headers}) no-repeat`,
+					backgroundImage: `url(${Headers})`,
+					backgroundSize: 'cover',
 					height: '75px',
-					width: '430px',
+					width: '444px',
 				}}
 				pb={2}
 			>
