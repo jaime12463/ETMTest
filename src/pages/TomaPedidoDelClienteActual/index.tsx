@@ -27,24 +27,22 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				<TabsPedidoActual />
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
-				<Box mx={2}>
-					<Grid container spacing={1}>
-						<Grid item xs={6}>
-							<TotalCreditoDelPedidoActual />
-						</Grid>
-						<Grid item xs={6}>
-							<TotalContadoDelPedidoActual />
-						</Grid>
+				<Grid container spacing={1}>
+					<Grid item xs={6}>
+						<TotalCreditoDelPedidoActual />
 					</Grid>
-					<Grid container spacing={1}>
-						<Grid item xs={6}>
-							<BotonCerrarPedido />
-						</Grid>
-						<Grid item xs={6}>
-							<BotonVerEnvases />
-						</Grid>
+					<Grid item xs={6}>
+						<TotalContadoDelPedidoActual />
 					</Grid>
-				</Box>
+				</Grid>
+				<Grid container spacing={1}>
+					<Grid item xs={6}>
+						<BotonCerrarPedido />
+					</Grid>
+					<Grid item xs={6}>
+						<BotonVerEnvases />
+					</Grid>
+				</Grid>
 			</Estructura.PieDePagina>
 		</Estructura>
 	);
