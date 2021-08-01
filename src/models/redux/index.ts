@@ -57,11 +57,11 @@ export type TProductoPedido = {
 	unidades: number;
 	subUnidades: number;
 	total: number;
-	tipoPago: 'contado' | 'credito';
-	codigoImplicito1: number;
-	nombreImplicito1: string;
-	codigoImplicito2: number;
-	nombreImplicito2: string;
+	tipoPago: ETiposDePago;
+	codigoImplicito1?: number;
+	nombreImplicito1?: string;
+	codigoImplicito2?: number;
+	nombreImplicito2?: string;
 };
 
 export enum ETiposDePago {

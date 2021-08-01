@@ -17,6 +17,7 @@ export type TCliente = {
 	visitasPlanificadas: TVisitaPlanificada[];
 	fechasEntrega: TFechaEntrega[];
 	detalles: TDetalle[];
+	informacionCrediticia: TInformacionCrediticia;
 	configuracionPedido: TConfiguracionPedido;
 	portafolio: TPortafolio[];
 };
@@ -44,10 +45,35 @@ export type TDetalle = {
 	nombreComercial: string;
 };
 
+export type TInformacionCrediticia = {
+	condicion: string; //TODO: Esto debe ser un ENUM
+	disponible: number;
+};
+
 export type TConfiguracionPedido = {
-	montoVentaMinima?: number;
-	montoVentaMaxima: number;
+	ventaMinima?: TVentaMinima;
+	ventaContadoMaxima: TVentaContadoMaxima;
 	cantidadMaximaUnidades?: number;
+};
+
+export type TVentaMinima = {
+	montoVentaMinima?: number;
+	cumplimientoPorFecha: TCumplimientoPorFecha[];
+};
+
+export type TCumplimientoPorFecha = {
+	fechaEntrega: string;
+	cumplido: boolean;
+};
+
+export type TVentaContadoMaxima = {
+	montoVentaContadoMaxima: number;
+	consumidoPorFecha: TConsumidoPorFecha[];
+};
+
+export type TConsumidoPorFecha = {
+	fechaEntrega: string;
+	consumido: number;
 };
 
 export type TPortafolio = {
