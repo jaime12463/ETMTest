@@ -1,6 +1,6 @@
 import {makeStyles} from '@material-ui/core/styles';
 
-const useEstilos = makeStyles((theme) => ({
+const useEstilosGenerales = makeStyles((theme) => ({
 	cortarTexto: {
 		whiteSpace: 'nowrap',
 		textOverflow: 'ellipsis',
@@ -8,4 +8,4 @@ const useEstilos = makeStyles((theme) => ({
 	},
 }));
 
-export default useEstilos;
+export default useEstilosGenerales;

@@ -2,7 +2,7 @@ import {
 	ListadoProductosAgregadosAlPedidoActual,
 	FormularioAgregarProducto,
 } from '..';
-import {FunctionComponent, useState} from 'react';
+import {Fragment, FunctionComponent, useState} from 'react';
 import {TPrecioProducto} from 'models';
 import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
 import {Box} from '@material-ui/core';
@@ -21,13 +21,15 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 
 	return (
-		<Box mt={2}>
-			<FormularioAgregarProducto
-				stateProductoActual={{productoActual, setProductoActual}}
-				statePreciosProductos={{preciosProductos, setPreciosProductos}}
-			/>
+		<Fragment>
+			<Box my={2}>
+				<FormularioAgregarProducto
+					stateProductoActual={{productoActual, setProductoActual}}
+					statePreciosProductos={{preciosProductos, setPreciosProductos}}
+				/>
+			</Box>
 			<ListadoProductosAgregadosAlPedidoActual />
-		</Box>
+		</Fragment>
 	);
 };
 

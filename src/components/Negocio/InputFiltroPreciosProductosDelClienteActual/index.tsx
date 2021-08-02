@@ -30,6 +30,7 @@ const FiltroPreciosProductosDelClienteActual: FunctionComponent<Props> = (
 			inputDataCY='producto-a-buscar'
 			id='producto_a_buscar'
 			label={t('general.buscar')}
+			autoFocus
 		/>
 	);
 };

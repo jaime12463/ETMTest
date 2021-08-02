@@ -1,16 +1,19 @@
 import {
 	IndicadoresDelPedidoActual,
-	InfoClienteDelPedidoActual,
 	TabVentas,
 	TotalContadoDelPedidoActual,
 	TotalCreditoDelPedidoActual,
 } from './components';
-import {Estructura, Tabs} from 'components/UI';
-import {Box, Button, Grid, IconButton} from '@material-ui/core';
+import {Center, Estructura, Tabs} from 'components/UI';
+import {Button, Grid, IconButton, Box} from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 import nombresRutas from 'routes/nombresRutas';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import {
+	FechaEntregaDelPedidoActual,
+	InfoClienteDelPedidoActual,
+} from 'components/Negocio';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
 	return (
@@ -23,7 +26,9 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 			</Estructura.Encabezado>
 			<Estructura.Cuerpo>
 				<FechaEntregaDelPedidoActual />
-				<IndicadoresDelPedidoActual />
+				<Box mb={3}>
+					<IndicadoresDelPedidoActual />
+				</Box>
 				<TabsPedidoActual />
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
@@ -92,10 +97,6 @@ function BotonVerPedidosDelClienteActual() {
 			<AssignmentIcon style={{color: 'white'}} />
 		</IconButton>
 	);
-}
-
-function FechaEntregaDelPedidoActual() {
-	return <div>FechaEntregaDelPedidoActual</div>;
 }
 
 function TabsPedidoActual() {

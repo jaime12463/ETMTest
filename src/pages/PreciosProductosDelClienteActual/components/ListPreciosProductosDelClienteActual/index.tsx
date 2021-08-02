@@ -21,7 +21,7 @@ const ListPreciosProductosDelClienteActual: FunctionComponent<Props> = (
 	const headers: THeader[] = [
 		{
 			component: <Header title='Producto' />,
-			width: 4,
+			width: 8,
 		},
 		{
 			component: <Header title='Precio' />,
