@@ -53,7 +53,7 @@ export const useInicializarClienteActual = (
 			dispatch(
 				inicializarClienteActual({
 					codigoCliente,
-					razonSocial: datosCliente.detalles[0].nombreComercial,
+					razonSocial: datosCliente.detalles.nombreComercial,
 				})
 			);
 
