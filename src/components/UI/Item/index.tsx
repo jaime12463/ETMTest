@@ -8,7 +8,11 @@ type Props<T> = {
 function Item<T>(props: Props<T>) {
 	const {item, ItemComponent} = props;
 
-	return <ListItem button>{<ItemComponent item={item} />}</ListItem>;
+	return (
+		<ListItem button disableGutters={true}>
+			{<ItemComponent item={item} />}
+		</ListItem>
+	);
 }
 
 export default Item;
