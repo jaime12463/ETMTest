@@ -1,12 +1,11 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import { EstadosDeUnPedido } from 'utils/constants';
-import {TPedidoActual, TProductoPedido} from '../../../models';
-import {RootState} from '../../store';
+import {EEstadosDeUnPedido, TPedidoActual, TProductoPedido} from 'models';
+import {RootState} from 'redux/store';
 
 const estadoInicial: TPedidoActual = {
 	codigoPedido: '',
 	fechaEntrega: '',
-	estado: EstadosDeUnPedido.Activo,
+	estado: EEstadosDeUnPedido.Activo,
 	productosPedido: [],
 };
 
@@ -44,12 +43,16 @@ export const pedidoActualSlice = createSlice({
 			action: PayloadAction<{
 				fechaEntrega: string;
 				codigoPedido: string;
-				estado?: EstadosDeUnPedido;
+				estado?: EEstadosDeUnPedido;
 				productosPedido?: TProductoPedido[];
 			}>
 		) => {
-			const {codigoPedido, fechaEntrega, estado, productosPedido} =
-				action.payload;
+			const {
+				codigoPedido,
+				fechaEntrega,
+				estado,
+				productosPedido,
+			} = action.payload;
 			state.codigoPedido = codigoPedido;
 			state.fechaEntrega = fechaEntrega;
 			if (productosPedido) state.productosPedido = productosPedido;
@@ -58,7 +61,7 @@ export const pedidoActualSlice = createSlice({
 		resetearPedidoActual: (state) => {
 			state.codigoPedido = '';
 			state.fechaEntrega = '';
-			state.estado = EstadosDeUnPedido.Activo;
+			state.estado = EEstadosDeUnPedido.Activo;
 			state.productosPedido = [];
 		},
 	},

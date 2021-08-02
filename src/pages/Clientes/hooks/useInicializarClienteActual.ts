@@ -5,7 +5,7 @@ import {
 	TInputsCodigoCliente,
 } from 'models';
 import {useObtenerConfiguracion} from 'redux/hooks';
-import {useRouteMatch, useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import nombresRutas from 'routes/nombresRutas';
 import {inicializarClienteActual} from 'redux/features/clienteActual/clienteActualSlice';
 import {useValidarInicializarClienteActual} from '.';
@@ -15,8 +15,6 @@ import {useValidarInicializarPedidoActual} from './useValidarInicializarPedidoAc
 export const useInicializarClienteActual = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
-	const {path} = useRouteMatch();
-
 	const dispatch = useAppDispatch();
 
 	const configuracion = useObtenerConfiguracion();
@@ -33,6 +31,7 @@ export const useInicializarClienteActual = (
 
 	const history = useHistory();
 
+	//TODO: Esta logica puede ser mas limpia.
 	const asignarClienteActual = useCallback(
 		({codigoCliente}: TInputsCodigoCliente) => {
 			const {
@@ -54,12 +53,13 @@ export const useInicializarClienteActual = (
 			dispatch(
 				inicializarClienteActual({
 					codigoCliente,
-					razonSocial: datosCliente.detalles[0].nombreComercial,
+					razonSocial: datosCliente.detalles.nombreComercial,
 				})
 			);
 
 			inicializarPedidoActual(fechaEntrega);
-			history.push(`${path}${nombresRutas.ingresarpedido}`);
+
+			history.push(`${nombresRutas.ingresarPedido}`);
 		},
 		[mostrarAdvertenciaEnDialogo, dispatch, configuracion]
 	);

@@ -1,22 +1,13 @@
-import {Dispatch, SetStateAction, useCallback} from 'react';
+import {Dispatch, SetStateAction} from 'react';
 import {UseFormSetValue} from 'react-hook-form';
-import {TInputsFormularioAgregarProducto, TPrecioSinVigencia} from 'models';
+import {TFormTomaDePedido, TPrecioProducto} from 'models';
 
 export const useResetLineaActual = (
-	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
-	setProductoActual: Dispatch<SetStateAction<TPrecioSinVigencia>>
+	setValue: UseFormSetValue<TFormTomaDePedido>,
+	setProductoActual: Dispatch<SetStateAction<TPrecioProducto | null>>
 ) => {
 	const resetLineaActual = () => {
-		setProductoActual({
-			codigoProductoConNombre: '',
-			precioConImpuestoUnidad: 0,
-			precioConImpuestoSubunidad: 0,
-			codigoImplicito1: 0,
-			nombreImplicito1: '',
-			codigoImplicito2: 0,
-			nombreImplicito2: '',
-		});
-		setValue('codigoProductoConNombre', '');
+		setProductoActual(null);
 		setValue('productoABuscar', '');
 		setValue('unidades', '');
 		setValue('subUnidades', '');

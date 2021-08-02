@@ -18,7 +18,7 @@ declare global {
 
 		type TOpcionesCambiarDatosDB = {
 			codigoCliente?: string;
-			detalles?: TDetalles[];
+			detalles?: TDetalles;
 			fechasEntrega?: TFechaEntrega[];
 			visitasPlanificadas?: TVisitaPlanificada[];
 			cantidadMaximaUnidades?: number | null;
@@ -91,7 +91,7 @@ Cypress.Commands.add(
 	'datosDB',
 	({
 		codigoCliente = '234',
-		detalles = [{nombreComercial: 'Mi comercio'}],
+		detalles = {nombreComercial: 'Mi comercio'},
 		fechasEntrega = [{fechaVisita: today, fechaEntrega: tomorrow}],
 		visitasPlanificadas = [{dia: today, secuencia: 3}],
 		cantidadMaximaUnidades = 100,

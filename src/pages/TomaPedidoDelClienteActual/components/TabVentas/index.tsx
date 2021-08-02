@@ -2,13 +2,9 @@ import {
 	ListadoProductosAgregadosAlPedidoActual,
 	FormularioAgregarProducto,
 } from '..';
-import {FunctionComponent, useState} from 'react';
-import {TPrecioProducto, TPrecioSinVigencia} from 'models';
-import {
-	useMostrarAdvertenciaEnDialogo,
-	useInicializarPreciosProductosDelClienteActual,
-} from 'hooks';
-import {Dialogo} from 'components/UI';
+import {Fragment, FunctionComponent, useState} from 'react';
+import {TPrecioProducto} from 'models';
+import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
 import {Box} from '@material-ui/core';
 
 type Props = {};
@@ -18,34 +14,22 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 		[]
 	);
 
-	const [productoActual, setProductoActual] = useState<TPrecioSinVigencia>({
-		codigoProductoConNombre: '',
-		precioConImpuestoUnidad: 0,
-		precioConImpuestoSubunidad: 0,
-		codigoImplicito1: 0,
-		nombreImplicito1: '',
-		codigoImplicito2: 0,
-		nombreImplicito2: '',
-	});
-
-	const {
-		mostrarAdvertenciaEnDialogo,
-		mostarDialogo,
-		parametrosDialogo,
-	} = useMostrarAdvertenciaEnDialogo();
+	const [productoActual, setProductoActual] = useState<TPrecioProducto | null>(
+		null
+	);
 
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 
 	return (
-		<Box mt={2}>
-			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-			<FormularioAgregarProducto
-				stateProductoActual={{productoActual, setProductoActual}}
-				statePreciosProductos={{preciosProductos, setPreciosProductos}}
-				mostrarAdvertenciaEnDialogo={mostrarAdvertenciaEnDialogo}
-			/>
+		<Fragment>
+			<Box my={2}>
+				<FormularioAgregarProducto
+					stateProductoActual={{productoActual, setProductoActual}}
+					statePreciosProductos={{preciosProductos, setPreciosProductos}}
+				/>
+			</Box>
 			<ListadoProductosAgregadosAlPedidoActual />
-		</Box>
+		</Fragment>
 	);
 };
 

@@ -1,40 +1,36 @@
-import {Dispatch, FunctionComponent, SetStateAction} from 'react';
+import {FunctionComponent} from 'react';
 import {FormInput} from 'components/UI';
-import {
-	THookForm,
-	TInputsFormularioAgregarProducto,
-	TPrecioProducto,
-	TPrecioSinVigencia,
-} from 'models';
+import {TFormTomaDePedido, THookForm, TStatePreciosProductos} from 'models';
 import {useFiltrarPreciosProductosDelClienteActual} from './hooks';
+import {useTranslation} from 'react-i18next';
 
 export type Props = {
-	hookForm: THookForm<TInputsFormularioAgregarProducto>;
-	preciosProductos: TPrecioProducto[];
-	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>;
-	productoActual: TPrecioSinVigencia;
+	hookForm: THookForm<TFormTomaDePedido>;
+	statePreciosProductos: TStatePreciosProductos;
 };
 
 const FiltroPreciosProductosDelClienteActual: FunctionComponent<Props> = (
 	props
 ) => {
-	const {hookForm, preciosProductos, setPreciosProductos} = props;
+	const {statePreciosProductos, hookForm} = props;
 
-	const {handleSubmit, control} = hookForm;
+	const {t} = useTranslation();
+
+	const {control, handleSubmit} = hookForm;
 
 	const filtrarPreciosProductosDelClienteActual = useFiltrarPreciosProductosDelClienteActual(
-		preciosProductos,
-		setPreciosProductos
+		statePreciosProductos
 	);
 
 	return (
 		<FormInput
 			onChangeForm={handleSubmit(filtrarPreciosProductosDelClienteActual)}
-			onSubmitForm={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()}
 			control={control}
 			name='productoABuscar'
-			inputDataCY='codigo-producto'
-			id='producto_buscar'
+			inputDataCY='producto-a-buscar'
+			id='producto_a_buscar'
+			label={t('general.buscar')}
+			autoFocus
 		/>
 	);
 };

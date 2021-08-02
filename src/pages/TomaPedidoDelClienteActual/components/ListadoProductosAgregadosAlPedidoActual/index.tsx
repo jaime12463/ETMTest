@@ -20,11 +20,11 @@ const ListadoProductosAgregadosAlPedidoActual: FunctionComponent<Props> = (
 	const headers: THeader[] = [
 		{
 			component: <Header title='Producto' />,
-			width: 8,
+			width: 7,
 		},
 		{
 			component: <Header title='Precio' />,
-			width: 2,
+			width: 3,
 		},
 		{
 			component: (

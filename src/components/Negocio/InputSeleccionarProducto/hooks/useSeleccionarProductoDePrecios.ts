@@ -1,66 +1,46 @@
 import {Dispatch, SetStateAction, useCallback} from 'react';
 import {
-	TPrecioSinVigencia,
 	TProductoPedido,
 	TPedidoActual,
-	TInputsFormularioAgregarProducto,
 	TPrecioProducto,
-	TPrecio,
-	InputsKeys,
+	InputsKeysFormTomaDePedido,
+	TFunctionMostarAvertenciaPorDialogo,
+	TInputFiltrarPreciosProductos,
+	TFormTomaDePedido,
 } from 'models';
 import {useObtenerPedidoActual} from 'redux/hooks';
 import {UseFormSetValue} from 'react-hook-form';
-import {useObtenerPrecioVigenteDelProducto} from 'hooks';
+import {useTranslation} from 'react-i18next';
 
 export const useSeleccionarProductoDePrecios = (
-	setProductoActual: Dispatch<SetStateAction<TPrecioSinVigencia>>,
-	setValue: UseFormSetValue<TInputsFormularioAgregarProducto>,
+	setProductoActual: Dispatch<SetStateAction<TPrecioProducto | null>>,
+	setValue: UseFormSetValue<TFormTomaDePedido>,
 	preciosProductos: TPrecioProducto[],
-	resetLineaActual: () => void,
-	setInputFocus: Dispatch<SetStateAction<InputsKeys>>
+	setInputFocus: Dispatch<SetStateAction<InputsKeysFormTomaDePedido>>,
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
-	const obtenerPrecioVigenteDelProducto = useObtenerPrecioVigenteDelProducto();
+	const {t} = useTranslation();
 	const seleccionarProductoDePrecios = useCallback(
-		({productoABuscar}: TInputsFormularioAgregarProducto) => {
-			const preciosProducto:
+		({productoABuscar}: TInputFiltrarPreciosProductos) => {
+			const productoEncontrado:
 				| TPrecioProducto
 				| undefined = preciosProductos.find(
 				(precioProducto: TPrecioProducto) =>
 					precioProducto.codigoProducto === parseInt(productoABuscar)
 			);
 
-			if (!preciosProducto) {
-				resetLineaActual();
-				//TODO: mostar al usuario que no hay producto
+			if (!productoEncontrado) {
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.ProductoNoEstaEnPortafolioCliente'),
+					'producto-no-esta-en-portafolio'
+				);
 				return;
 			}
 
-			//ENGHOY
-			const {
-				precios,
-				codigoProducto,
-				nombre,
-				codigoImplicito1,
-				nombreImplicito1,
-				codigoImplicito2,
-				nombreImplicito2,
-			} = preciosProducto;
+			const {codigoProducto} = productoEncontrado;
 
-			const precioVigente:
-				| TPrecio
-				| undefined = obtenerPrecioVigenteDelProducto(
-				precios,
-				pedidoActual.fechaEntrega
-			);
-
-			if (!precioVigente) return;
-			//TODO: mostar al usuario que no hay precios vigentes para ese producto
-
-			const {
-				precioConImpuestoUnidad,
-				precioConImpuestoSubunidad,
-			} = precioVigente;
+			//TODO: Donde debe ser la validacion y la advertencia si no hay precios vigentes
 
 			const productoActualEncontrado:
 				| TProductoPedido
@@ -68,8 +48,6 @@ export const useSeleccionarProductoDePrecios = (
 				(productoPedido: TProductoPedido) =>
 					productoPedido.codigoProducto === codigoProducto
 			);
-
-			const codigoProductoConNombre = codigoProducto + ' ' + nombre;
 
 			let unidadesParseado: string = '';
 
@@ -87,17 +65,8 @@ export const useSeleccionarProductoDePrecios = (
 			}
 			setValue('unidades', unidadesParseado);
 			setValue('subUnidades', subUnidadesParseado);
-			setValue('codigoProductoConNombre', codigoProductoConNombre);
 
-			setProductoActual({
-				codigoProductoConNombre,
-				precioConImpuestoUnidad,
-				precioConImpuestoSubunidad,
-				codigoImplicito1,
-				nombreImplicito1,
-				codigoImplicito2,
-				nombreImplicito2,
-			});
+			setProductoActual(productoEncontrado);
 
 			setInputFocus('unidades');
 		},

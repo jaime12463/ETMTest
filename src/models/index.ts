@@ -1,168 +1,21 @@
 import {GridSize} from '@material-ui/core';
-import React, {ReactElement} from 'react';
+import {TPrecioProducto} from 'models/redux';
+import React, {Dispatch, ReactElement, SetStateAction} from 'react';
 import {
 	Control,
 	UseFormGetValues,
 	UseFormHandleSubmit,
 	UseFormSetValue,
 } from 'react-hook-form';
-import {EstadosDeUnPedido} from 'utils/constants';
 
-export type TDatosClientesProductos = {
-	clientes: TClientes;
-	productos: TProductos;
-};
+export * from 'models/server';
+export * from 'models/redux';
 
-export type TClientes = {
-	[codigoCliente: string]: TCliente;
-};
-
-export type TProductos = {
-	[codigoProducto: number]: TProducto;
-};
-
-export type TCliente = {
-	codigoCliente: string;
-	visitasPlanificadas: TVisitaPlanificada[];
-	fechasEntrega: TFechaEntrega[];
-	detalles: TDetalle[];
-	informacionCrediticia: TInformacionCrediticia;
-	configuracionPedido: TConfiguracionPedido;
-	portafolio: TPortafolio[];
-};
-
-export type TInformacionCrediticia = {
-	condicion: string;
-	disponible: number;
-};
-
-export type TProducto = {
-	codigoProducto: number;
-	nombre: string;
-	presentacion: number;
-	subunidadesVentaMinima: number;
-	implicito1?: number;
-	implicito2?: number;
-};
-
-export type TVisitaPlanificada = {
-	dia: string;
-	secuencia: number;
-};
-
-export type TFechaEntrega = {
-	fechaVisita: string;
-	fechaEntrega: string;
-};
-
-export type TConfiguracionPedido = {
-	ventaContadoMaxima: TVentaContadoMaxima;
-	ventaMinima?: TVentaMinima;
-	cantidadMaximaUnidades?: number;
-};
-
-export type TVentaMinima = {
-	montoVentaMinima?: number;
-};
-
-export type TVentaContadoMaxima = {
-	montoVentaContadoMaxima: number;
-};
-
-export type TDetalle = {
-	nombreComercial: string;
-};
-
-export type TPortafolio = {
-	codigoProducto: number;
-	esVentaSubunidades: boolean;
-	precios: TPrecio[];
-};
-
-export type TPrecio = {
-	precioConImpuestoUnidad: number;
-	precioConImpuestoSubunidad: number;
-	vigenciaInicioPrecio: string;
-	vigenciaFinPrecio: string;
-};
-
-export type TPedidosClientes = {
-	[codigoCliente: string]: TPedidoClienteParaEnviar[];
-};
-
-export type TPedidoClienteParaEnviar = {
-	codigoPedido: string;
-	fechaEntrega: string;
-	usuario: string;
-	estado: EstadosDeUnPedido;
-	productosPedido: TProductoPedido[];
-	enviado: boolean;
-};
-
-export type TPedidoActual = {
-	codigoPedido: string;
-	fechaEntrega: string;
-	estado: EstadosDeUnPedido;
-	productosPedido: TProductoPedido[];
-};
-
-export type TClienteActual = {
-	codigoCliente: string;
-	razonSocial: string;
-};
-
-export type TProductoPedido = {
-	codigoProducto: number;
-	nombreProducto: string;
+export type TConsolidadoImplicitos = {
+	codigoImplicito?: number;
+	nombreImplicito?: string;
 	unidades: number;
 	subUnidades: number;
-	total: number;
-	tipoPago: 'contado' | 'credito';
-	codigoImplicito1?: number;
-	nombreImplicito1?: string;
-	codigoImplicito2?: number;
-	nombreImplicito2?: string;
-};
-
-export type TPrecioSinVigencia = {
-	codigoProductoConNombre: string;
-	precioConImpuestoUnidad: number;
-	precioConImpuestoSubunidad: number;
-	codigoImplicito1?: number;
-	nombreImplicito1?: string;
-	codigoImplicito2?: number;
-	nombreImplicito2?: string;
-};
-
-export type TPrecioProducto = {
-	codigoProducto: number;
-	nombre: string;
-	presentacion: number;
-	precios: TPrecio[];
-	codigoImplicito1?: number;
-	nombreImplicito1?: string;
-	codigoImplicito2?: number;
-	nombreImplicito2?: string;
-};
-
-export type TDatosConfiguracion = {
-	configuraciones: TConfiguracion[];
-};
-
-export type TConfiguracion = {
-	esFrecuenciaAbierta: boolean;
-	esVentaSubunidadesRuta: boolean;
-};
-
-export type TInputsCodigoCliente = {
-	codigoCliente: string;
-};
-
-export type TInputsFormularioAgregarProducto = {
-	unidades: string;
-	subUnidades: string;
-	codigoProductoConNombre: string;
-	productoABuscar: string;
 };
 
 export type TTotalPedido = {
@@ -196,6 +49,30 @@ export type TTab = {
 	component: React.ReactNode;
 };
 
+export type THeader = {
+	component: React.FC | ReactElement;
+	width: GridSize;
+};
+
+//Estados
+
+export type TStateProductoActual = {
+	productoActual: TPrecioProducto | null;
+	setProductoActual: Dispatch<SetStateAction<TPrecioProducto | null>>;
+};
+
+export type TStatePreciosProductos = {
+	preciosProductos: TPrecioProducto[];
+	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>;
+};
+
+export type TStateInputFocus = {
+	inputFocus: InputsKeysFormTomaDePedido;
+	setInputFocus: Dispatch<SetStateAction<InputsKeysFormTomaDePedido>>;
+};
+
+//Formularios
+
 export type THookForm<T> = {
 	control: Control<T>;
 	handleSubmit: UseFormHandleSubmit<T>;
@@ -203,20 +80,23 @@ export type THookForm<T> = {
 	getValues: UseFormGetValues<T>;
 };
 
-export type THeader = {
-	component: React.FC | ReactElement;
-	width: GridSize;
+export type TFormTomaDePedido = TInputsUnidadesYSubUnidades &
+	TInputFiltrarPreciosProductos;
+
+export type TInputsCodigoCliente = {
+	codigoCliente: string;
 };
 
-export type InputsKeys =
+export type TInputsUnidadesYSubUnidades = {
+	unidades: string;
+	subUnidades: string;
+};
+
+export type TInputFiltrarPreciosProductos = {
+	productoABuscar: string;
+};
+
+export type InputsKeysFormTomaDePedido =
 	| 'unidades'
 	| 'subUnidades'
-	| 'codigoProductoConNombre'
 	| 'productoABuscar';
-
-export type TConsolidadoImplicitos = {
-	codigoImplicito?: number;
-	nombreImplicito?: string;
-	unidades: number;
-	subUnidades: number;
-};

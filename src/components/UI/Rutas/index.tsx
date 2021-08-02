@@ -1,4 +1,4 @@
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 import useRutaAnidada from './useRutaAnidada';
 
 const Rutas = () => {

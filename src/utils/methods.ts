@@ -1,5 +1,4 @@
-import {TPedidoClienteParaEnviar, TPrecio} from 'models';
-import {EstadosDeUnPedido} from './constants';
+import {TPedidoClienteParaEnviar, EEstadosDeUnPedido} from 'models/redux';
 
 export const transformDate = (date: string): string =>
 	`${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}`;
@@ -29,7 +28,7 @@ export const obtenerTotalesPedidosCliente = (
 	if (pedidosClienteMismaFechaEntrega.length !== 0) {
 		totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
 			(acum: any, pedido: any) => {
-				if (pedido.estado === EstadosDeUnPedido.Activo) {
+				if (pedido.estado === EEstadosDeUnPedido.Activo) {
 					for (let valor of pedido.productosPedido) {
 						acum += valor.total;
 					}
@@ -52,7 +51,7 @@ export const buscarPedidosParaElMismoDia = (
 		pedidosCliente.reduce(
 			(acum: [string], pedido: TPedidoClienteParaEnviar) => {
 				if (
-					pedido.estado === EstadosDeUnPedido.Activo &&
+					pedido.estado === EEstadosDeUnPedido.Activo &&
 					pedido.fechaEntrega === fechaEntrega
 				) {
 					acum.push(pedido.codigoPedido);

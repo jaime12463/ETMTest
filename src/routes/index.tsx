@@ -6,10 +6,11 @@ import {
 	EnvasesRetornables,
 	PedidosDelClienteActual,
 } from 'pages';
-import React, {ReactNode, ReactNodeArray} from 'react';
+import {ReactNode} from 'react';
 import nombresRutas from './nombresRutas';
 
 
+//TODO: Hay que tipar esto aca y en el componente de rutas
 const routes: any = [
 	{
 		path: nombresRutas.inicio,
@@ -18,24 +19,22 @@ const routes: any = [
 	{
 		path: nombresRutas.clientes,
 		componente: <Clientes />,
+	},
+	{
+		path: nombresRutas.ingresarPedido,
+		componente: <TomaPedidoDelClienteActual />,
 		subRutas: [
 			{
-				path: nombresRutas.ingresarpedido,
-				componente: <TomaPedidoDelClienteActual />,
-				subRutas: [
-					{
-						path: nombresRutas.preciosProductos,
-						componente: <PreciosProductosDelClienteActual />,
-					},
-					{
-						path: nombresRutas.envasesRetornables,
-						componente: <EnvasesRetornables />,
-					},
-					{
-						path: nombresRutas.pedidosCliente,
-						componente: <PedidosDelClienteActual />,
-					},
-				],
+				path: nombresRutas.preciosProductos,
+				componente: <PreciosProductosDelClienteActual />,
+			},
+			{
+				path: nombresRutas.envasesRetornables,
+				componente: <EnvasesRetornables />,
+			},
+			{
+				path: nombresRutas.pedidosCliente,
+				componente: <PedidosDelClienteActual />,
 			},
 		],
 	},

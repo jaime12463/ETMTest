@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {TFunctionMostarAvertenciaPorDialogo, TCliente} from 'models';
+import {TCliente, TFunctionMostarAvertenciaPorDialogo} from 'models';
 import {useObtenerDatosCliente} from 'hooks';
 import {useTranslation} from 'react-i18next';
 
@@ -12,7 +12,9 @@ export const useValidarInicializarClienteActual = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
+
 	const {t} = useTranslation();
+
 	const validarInicializarClienteActual = useCallback(
 		(codigoCliente: string): validacionInicializarClienteActual => {
 			let estadoValidacion: validacionInicializarClienteActual = {
