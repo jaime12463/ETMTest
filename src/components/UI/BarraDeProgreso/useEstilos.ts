@@ -9,12 +9,13 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 export const useEstilos = makeStyles((theme) => ({
 	container: {
 		width: 'fit-content',
+		textAlign: 'center',
 	},
 	label: {
 		zIndex: 1,
 		position: 'relative',
-		top: '20px',
-		textAlign: 'center',
+		top: '18px',
+		fontSize: '0.7rem',
 	},
 	titulo: {
 		position: 'relative',

@@ -29,6 +29,9 @@ const es = {
 		pedidosRealizados: 'Pedidos Realizados',
 		verEnvases: 'Ver envases',
 		envase: 'Envase',
+		pedidoMinimo: 'Pedido mínimo',
+		pedidoMaximo: 'Pedido máximo',
+		creditoDisponible: 'Crédito disponible',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',
@@ -36,15 +39,17 @@ const es = {
 		productosPedido: 'Productos del Pedido',
 		visitaCliente: 'Visita del Cliente',
 		clientes: 'Clientes',
-		envases: 'Envases retornables'
+		envases: 'Envases retornables',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
 		cantidadEsMayor: 'La cantidad es mayor a {{cantidad}} ¿Desea continuar?',
 		fueraDeFrecuencia: 'El cliente está fuera de frecuencia',
 		noVisitaPlanificada: 'El cliente no tiene visita planificada',
-		noFechaEntregaInformada: 'El cliente no tiene fecha de entrega informada para la fecha actual',
-		noPortafolioPrecios: 'El cliente no tiene portafolio vigente para la fecha de entrega informada',
+		noFechaEntregaInformada:
+			'El cliente no tiene fecha de entrega informada para la fecha actual',
+		noPortafolioPrecios:
+			'El cliente no tiene portafolio vigente para la fecha de entrega informada',
 		limiteSubUnidades:
 			'Las subunidades deben ser menores a la presentación del producto',
 		pedidoMinimo: 'No cumple con el pedido mínimo de ${{monto}}',

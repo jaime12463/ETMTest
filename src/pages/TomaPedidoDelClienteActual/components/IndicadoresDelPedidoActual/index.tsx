@@ -3,8 +3,10 @@ import {BarraDeProgeso} from 'components/UI';
 import {TCliente, TClienteActual} from 'models';
 import {useObtenerDatosCliente, useCalcularTotalPedido} from 'hooks';
 import {useObtenerClienteActual} from 'redux/hooks';
+import {useTranslation} from 'react-i18next';
 
 const IndicadoresDelPedidoActual = () => {
+		const {t} = useTranslation();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const calcularTotalPedido = useCalcularTotalPedido();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
@@ -14,12 +16,12 @@ const IndicadoresDelPedidoActual = () => {
 
 	const indicadores = [
 		{
-			titulo: 'Pedido minimo',
+			titulo: t('general.pedidoMinimo'),
 			valorMax: datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima,
 			valor: calcularTotalPedido.totalPrecio,
 		},
 		{
-			titulo: 'Pedido maximo',
+			titulo: t('general.pedidoMaximo'),
 			valorMax:
 				datosCliente?.configuracionPedido.ventaContadoMaxima
 					?.montoVentaContadoMaxima,
@@ -27,7 +29,7 @@ const IndicadoresDelPedidoActual = () => {
 			colores: ['verde', 'amarillo', 'rojo'],
 		},
 		{
-			titulo: 'Credito disponible',
+			titulo: t('general.creditoDisponible'),
 			valorMax: datosCliente?.informacionCrediticia.disponible,
 			valor: 0,
 			colores: ['verde', 'amarillo', 'rojo'],
