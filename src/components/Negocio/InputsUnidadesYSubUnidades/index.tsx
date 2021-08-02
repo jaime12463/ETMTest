@@ -68,7 +68,7 @@ const InputsUnidadesYSubUnidades: FunctionComponent<Props> = (props) => {
 						inputDataCY='cantidad-producto-unidades'
 						disabled={productoActual === null}
 						id='unidades_producto'
-						helperText={`$ ${precioConImpuestoUnidad}`}
+						helperText={`$ ${precioConImpuestoUnidad ?? '0'}`}
 						inputRef={(input) => {
 							if (inputFocus === 'unidades') {
 								input?.focus();
@@ -86,7 +86,7 @@ const InputsUnidadesYSubUnidades: FunctionComponent<Props> = (props) => {
 						inputDataCY='cantidad-producto-subUnidades'
 						disabled={productoActual === null || !esPermitidoSubUnidades}
 						id='subUnidades_producto'
-						helperText={`$ ${precioConImpuestoSubunidad}`}
+						helperText={`$ ${precioConImpuestoSubunidad ?? '0'}`}
 						inputRef={(input) => {
 							if (inputFocus === 'subUnidades') {
 								input?.focus();
