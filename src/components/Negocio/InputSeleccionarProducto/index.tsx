@@ -1,41 +1,45 @@
-import {Dispatch, FunctionComponent, SetStateAction} from 'react';
+import {FunctionComponent} from 'react';
 import {Dialogo, FormInput} from 'components/UI';
 import {
-	InputsKeys,
+	TFormTomaDePedido,
 	THookForm,
-	TInputsFormularioAgregarProducto,
-	TPrecioProducto,
-	TPrecioSinVigencia,
+	TStateInputFocus,
+	TStatePreciosProductos,
+	TStateProductoActual,
 } from 'models';
-import {IconButton, Grid, InputLabel, Box} from '@material-ui/core';
+import {IconButton, Grid} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import nombresRutas from 'routes/nombresRutas';
 import {useRouteMatch, useHistory} from 'react-router-dom';
 import {useSeleccionarProductoDePrecios} from './hooks';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import useEstilos from './useEstilos';
+import {useTranslation} from 'react-i18next';
 
 export type Props = {
-	hookForm: THookForm<TInputsFormularioAgregarProducto>;
-	preciosProductos: TPrecioProducto[];
-	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>;
-	setProductoActual: Dispatch<SetStateAction<TPrecioSinVigencia>>;
-	productoActual: TPrecioSinVigencia;
-	inputFocus: InputsKeys;
-	setInputFocus: Dispatch<SetStateAction<InputsKeys>>;
+	hookForm: THookForm<TFormTomaDePedido>;
+	stateProductoActual: TStateProductoActual;
+	statePreciosProductos: TStatePreciosProductos;
+	stateInputFocus: TStateInputFocus;
 };
 
 const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	const {
+		stateProductoActual,
+		statePreciosProductos,
+		stateInputFocus,
 		hookForm,
-		productoActual,
-		preciosProductos,
-		setProductoActual,
-		inputFocus,
-		setInputFocus,
 	} = props;
 
+	const {productoActual, setProductoActual} = stateProductoActual;
+
+	const {preciosProductos} = statePreciosProductos;
+
+	const {inputFocus, setInputFocus} = stateInputFocus;
+
 	const {handleSubmit, control, setValue} = hookForm;
+
+	const {t} = useTranslation();
 
 	const {path} = useRouteMatch();
 
@@ -57,22 +61,20 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 		mostrarAdvertenciaEnDialogo
 	);
 
-	const {codigoProductoConNombre} = productoActual;
+	const {nombreProducto} = {...productoActual};
 
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 			<Grid container>
 				<Grid item xs={12}>
-					<Box mb={1}>
-						<InputLabel htmlFor='producto_buscar'>Producto</InputLabel>
-					</Box>
 					<FormInput
 						onSubmitForm={handleSubmit(seleccionarProductoDePrecios)}
+						labelForm={t('general.producto')}
 						control={control}
 						name='productoABuscar'
-						inputDataCY='codigo-producto'
-						helperText={codigoProductoConNombre}
+						inputDataCY='codigo-producto-a-buscar'
+						helperText={nombreProducto}
 						FormHelperTextProps={{
 							className: estilos.helperText,
 						}}

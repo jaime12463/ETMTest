@@ -1,11 +1,11 @@
 import DatosCliente from './DatosCliente';
-import AgregarUnidadesYSubUnidadesDelProductoActual from './AgregarUnidadesYSubUnidadesDelProductoActual';
+import InputsUnidadesYSubUnidades from './InputsUnidadesYSubUnidades';
 import InputSeleccionarProducto from './InputSeleccionarProducto';
 import InputFiltroPreciosProductosDelClienteActual from './InputFiltroPreciosProductosDelClienteActual';
 
 export {
 	DatosCliente,
-	AgregarUnidadesYSubUnidadesDelProductoActual,
+	InputsUnidadesYSubUnidades,
 	InputSeleccionarProducto,
 	InputFiltroPreciosProductosDelClienteActual,
 };

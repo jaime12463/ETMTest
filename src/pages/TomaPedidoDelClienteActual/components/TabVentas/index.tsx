@@ -3,7 +3,7 @@ import {
 	FormularioAgregarProducto,
 } from '..';
 import {FunctionComponent, useState} from 'react';
-import {TPrecioProducto, TPrecioSinVigencia} from 'models';
+import {TPrecioProducto} from 'models';
 import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
 import {Box} from '@material-ui/core';
 
@@ -14,15 +14,9 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 		[]
 	);
 
-	const [productoActual, setProductoActual] = useState<TPrecioSinVigencia>({
-		codigoProductoConNombre: '',
-		precioConImpuestoUnidad: 0,
-		precioConImpuestoSubunidad: 0,
-		codigoImplicito1: 0,
-		nombreImplicito1: '',
-		codigoImplicito2: 0,
-		nombreImplicito2: '',
-	});
+	const [productoActual, setProductoActual] = useState<TPrecioProducto | null>(
+		null
+	);
 
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 

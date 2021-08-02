@@ -1,13 +1,13 @@
 import {
 	TCliente,
-	TInputsFormularioAgregarProducto,
+	TFormTomaDePedido,
 	TFunctionMostarAvertenciaPorDialogo,
 	TClienteActual,
 	TDatosClientesProductos,
-	InputsKeys,
 	TPrecioProducto,
+	TStateInputFocus,
 } from 'models';
-import {Dispatch, SetStateAction, useCallback} from 'react';
+import {useCallback} from 'react';
 import {
 	validarSubUnidadesConPresentacion,
 	validarSubUnidadesEsMultiplo,
@@ -20,10 +20,10 @@ import {useValidarProductoPermiteSubUnidades} from '.';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
-	inputFocus: InputsKeys,
-	setInputFocus: Dispatch<SetStateAction<InputsKeys>>,
+	stateInputFocus: TStateInputFocus,
 	productoActual: TPrecioProducto | null
 ) => {
+	const {inputFocus, setInputFocus} = stateInputFocus;
 	const {t} = useTranslation();
 
 	const validarProductoPermiteSubUnidades = useValidarProductoPermiteSubUnidades();
@@ -35,7 +35,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 
 	const validarAgregarProductoAlPedidoCliente = useCallback(
-		(inputs: TInputsFormularioAgregarProducto): boolean => {
+		(inputs: TFormTomaDePedido): boolean => {
 			const {unidades, subUnidades} = inputs;
 
 			let esValidacionCorrecta: boolean = false;

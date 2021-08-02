@@ -4,25 +4,24 @@ import {Estructura} from 'components/UI';
 import {DatosCliente} from 'components/Negocio';
 import {FormularioAgregarProducto} from 'pages/TomaPedidoDelClienteActual/components';
 import {useState} from 'react';
-import {TPrecioProducto, TPrecioSinVigencia} from 'models';
+import {TPrecioProducto} from 'models';
 import {ListPreciosProductosDelClienteActual} from './components';
+import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
 
 const PreciosProductosDelClienteActual: React.FC = () => {
 	const {t} = useTranslation();
+
 	const estilos = useEstilos();
+
 	const [preciosProductos, setPreciosProductos] = useState<TPrecioProducto[]>(
 		[]
 	);
 
-	const [productoActual, setProductoActual] = useState<TPrecioSinVigencia>({
-		codigoProductoConNombre: '',
-		precioConImpuestoUnidad: 0,
-		precioConImpuestoSubunidad: 0,
-		codigoImplicito1: 0,
-		nombreImplicito1: '',
-		codigoImplicito2: 0,
-		nombreImplicito2: '',
-	});
+	const [productoActual, setProductoActual] = useState<TPrecioProducto | null>(
+		null
+	);
+
+	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 
 	return (
 		<Estructura
@@ -35,9 +34,10 @@ const PreciosProductosDelClienteActual: React.FC = () => {
 					stateProductoActual={{productoActual, setProductoActual}}
 					statePreciosProductos={{preciosProductos, setPreciosProductos}}
 				/>
-				<ListPreciosProductosDelClienteActual />
+				<ListPreciosProductosDelClienteActual
+					preciosProductos={preciosProductos}
+				/>
 			</Estructura.Cuerpo>
-			<Estructura.PieDePagina>PieDePagina</Estructura.PieDePagina>
 		</Estructura>
 	);
 };

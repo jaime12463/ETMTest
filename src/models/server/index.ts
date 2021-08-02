@@ -26,9 +26,9 @@ export type TProducto = {
 	codigoProducto: number;
 	nombre: string;
 	presentacion: number;
-	subunidadesVentaMinima: number;
-	implicito1: number;
-	implicito2: number;
+	subunidadesVentaMinima: number; //TODO: Preguntar si esta bien la key.
+	implicito1?: number;
+	implicito2?: number;
 };
 
 export type TVisitaPlanificada = {

@@ -1,48 +1,85 @@
 import {useCallback} from 'react';
-import {useAppSelector} from 'redux/hooks';
-import {selectDatos} from 'redux/features/datos/datosSlice';
-import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
-import {TPrecioProducto, TCliente} from 'models';
+import {useObtenerDatos} from 'redux/hooks';
+import {
+	TPrecioProducto,
+	TCliente,
+	TProducto,
+	TPortafolio,
+	TPrecio,
+} from 'models';
 import {validarFechaVigenciaProducto} from 'utils/validaciones';
+import {useObtenerPrecioVigenteDelProducto} from 'hooks';
 
 export const useObtenerPreciosProductosDelCliente = () => {
-	const {datos} = useAppSelector(selectDatos);
-	const pedidoActual = useAppSelector(selectPedidoActual);
-
+	const datos = useObtenerDatos();
+	const obtenerPrecioVigenteDelProducto = useObtenerPrecioVigenteDelProducto();
 	const obtenerPreciosProductosDelCliente = useCallback(
 		(clienteEncontrado: TCliente, fechaEntrega: string): TPrecioProducto[] => {
-			let codigoImplicito1, codigoImplicito2:number | undefined;
-			let nombreImplicito1, nombreImplicito2:string | undefined;
-			const preciosProductosDelCliente: TPrecioProducto[] = clienteEncontrado.portafolio
-				.filter((producto) => {
+			let preciosProductosDelCliente: TPrecioProducto[] = [];
+
+			const productosPortafolioVigentes: TPortafolio[] = clienteEncontrado.portafolio.filter(
+				(producto) => {
 					if (validarFechaVigenciaProducto(producto.precios, fechaEntrega))
 						return producto;
-				})
-				.map((productoFiltrado) => {
-					codigoImplicito1= (typeof datos.productos[productoFiltrado.codigoProducto].implicito1 !== 'undefined') 
-										? datos.productos[productoFiltrado.codigoProducto].implicito1 
-										: undefined;
-					nombreImplicito1= codigoImplicito1 != null ? datos.productos[codigoImplicito1].nombre : undefined;
-					
-					codigoImplicito2= (typeof datos.productos[productoFiltrado.codigoProducto].implicito2 !== 'undefined') 
-										? datos.productos[productoFiltrado.codigoProducto].implicito2 
-										: undefined;
-					nombreImplicito2= codigoImplicito2 != null ? datos.productos[codigoImplicito2].nombre : undefined;
+				}
+			);
+
+			preciosProductosDelCliente = productosPortafolioVigentes.map(
+				(productoFiltrado: TPortafolio) => {
+					const {productos} = datos;
+					const {
+						precios,
+						codigoProducto,
+						esVentaSubunidades,
+					} = productoFiltrado;
+
+					const producto: TProducto = productos[codigoProducto];
+
+					const {
+						implicito1: codigoImplicito1,
+						implicito2: codigoImplicito2,
+						nombre: nombreProducto,
+						presentacion,
+						subunidadesVentaMinima,
+					} = producto;
+
+					const nombreImplicito1: string | undefined = codigoImplicito1
+						? productos[codigoImplicito1].nombre
+						: undefined;
+					const nombreImplicito2: string | undefined = codigoImplicito2
+						? productos[codigoImplicito2].nombre
+						: undefined;
+
+					const precioVigenteDelProducto:
+						| TPrecio
+						| undefined = obtenerPrecioVigenteDelProducto(
+						precios,
+						fechaEntrega
+					);
+
+					const {precioConImpuestoUnidad, precioConImpuestoSubunidad} = {
+						...precioVigenteDelProducto,
+					};
 
 					return {
-						...productoFiltrado,
-						nombre: datos.productos[productoFiltrado.codigoProducto].nombre,
-						presentacion:
-							datos.productos[productoFiltrado.codigoProducto].presentacion,
-						codigoImplicito1: codigoImplicito1,
-						nombreImplicito1: nombreImplicito1,
-						codigoImplicito2: codigoImplicito2,
-						nombreImplicito2: nombreImplicito2,
+						nombreProducto,
+						codigoProducto,
+						esVentaSubunidades,
+						precioConImpuestoUnidad: precioConImpuestoUnidad ?? 0, //Este caso nunca seria posible
+						precioConImpuestoSubunidad: precioConImpuestoSubunidad ?? 0, //Este caso nunca seria posible
+						presentacion,
+						subunidadesVentaMinima,
+						codigoImplicito1,
+						nombreImplicito1,
+						codigoImplicito2,
+						nombreImplicito2,
 					};
-				});
+				}
+			);
+
 			return preciosProductosDelCliente;
 		},
-		[datos, pedidoActual]
+		[datos]
 	);
 	return obtenerPreciosProductosDelCliente;
 };

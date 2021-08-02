@@ -1,11 +1,11 @@
-import {Dispatch, FunctionComponent, SetStateAction} from 'react';
+import {FunctionComponent} from 'react';
 import {Grid} from '@material-ui/core';
 import {Dialogo, FormInput} from 'components/UI';
 import {
-	InputsKeys,
 	THookForm,
-	TInputsFormularioAgregarProducto,
+	TFormTomaDePedido,
 	TStateProductoActual,
+	TStateInputFocus,
 } from 'models';
 import {
 	useAgregarProductoAlPedidoActual,
@@ -15,16 +15,15 @@ import {useMostrarAdvertenciaEnDialogo, useResetLineaActual} from 'hooks';
 import {useTranslation} from 'react-i18next';
 
 type Props = {
-	hookForm: THookForm<TInputsFormularioAgregarProducto>;
+	hookForm: THookForm<TFormTomaDePedido>;
 	stateProductoActual: TStateProductoActual;
-	inputFocus: InputsKeys;
-	setInputFocus: Dispatch<SetStateAction<InputsKeys>>;
+	stateInputFocus: TStateInputFocus;
 };
 
-const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
-	props
-) => {
-	const {hookForm, stateProductoActual, inputFocus, setInputFocus} = props;
+const InputsUnidadesYSubUnidades: FunctionComponent<Props> = (props) => {
+	const {hookForm, stateProductoActual, stateInputFocus} = props;
+
+	const {inputFocus, setInputFocus} = stateInputFocus;
 
 	const {productoActual, setProductoActual} = stateProductoActual;
 
@@ -48,8 +47,7 @@ const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
 		productoActual,
 		resetLineaActual,
 		mostrarAdvertenciaEnDialogo,
-		inputFocus,
-		setInputFocus
+		{inputFocus, setInputFocus}
 	);
 
 	const esPermitidoSubUnidades = useObtenerEsPermitidoSubUnidades(
@@ -101,4 +99,4 @@ const AgregarUnidadesYSubUnidadesDelProductoActual: FunctionComponent<Props> = (
 	);
 };
 
-export default AgregarUnidadesYSubUnidadesDelProductoActual;
+export default InputsUnidadesYSubUnidades;

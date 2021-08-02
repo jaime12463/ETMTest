@@ -1,4 +1,4 @@
-import {SetStateAction, useCallback} from 'react';
+import {useCallback} from 'react';
 import {useAppDispatch} from 'redux/hooks';
 import {
 	agregarProductoAlPedidoDelCliente,
@@ -6,32 +6,31 @@ import {
 } from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
 	ETiposDePago,
-	InputsKeys,
+	TFormTomaDePedido,
 	TFunctionMostarAvertenciaPorDialogo,
-	TInputsFormularioAgregarProducto,
 	TPrecioProducto,
+	TStateInputFocus,
 } from 'models';
 import {useValidarAgregarProductoAlPedidoCliente} from '.';
-import {Dispatch} from 'react';
 
 export const useAgregarProductoAlPedidoActual = (
 	productoActual: TPrecioProducto | null,
 	resetLineaActual: () => void,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
-	inputFocus: InputsKeys,
-	setInputFocus: Dispatch<SetStateAction<InputsKeys>>
+	stateInputFocus: TStateInputFocus
 ) => {
 	const dispatch = useAppDispatch();
 
+	const {inputFocus, setInputFocus} = stateInputFocus;
+
 	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
 		mostrarAdvertenciaEnDialogo,
-		inputFocus,
-		setInputFocus,
+		{inputFocus, setInputFocus},
 		productoActual
 	);
 
 	const agregarProductoAlPedidoActual = useCallback(
-		(inputs: TInputsFormularioAgregarProducto) => {
+		(inputs: TFormTomaDePedido) => {
 			const {unidades, subUnidades} = inputs;
 
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;

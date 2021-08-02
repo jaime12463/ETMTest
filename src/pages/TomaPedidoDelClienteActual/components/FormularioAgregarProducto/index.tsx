@@ -1,38 +1,32 @@
-import {Dispatch, SetStateAction, useState} from 'react';
+import {useState} from 'react';
 import {Grid} from '@material-ui/core';
 import {
-	InputsKeys,
-	TFunctionMostarAvertenciaPorDialogo,
-	TInputsFormularioAgregarProducto,
-	TPrecioProducto,
-	TPrecioSinVigencia,
+	TFormTomaDePedido,
+	InputsKeysFormTomaDePedido,
+	TStatePreciosProductos,
+	TStateProductoActual,
 } from 'models';
 import {
-	AgregarUnidadesYSubUnidadesDelProductoActual,
+	InputsUnidadesYSubUnidades,
 	InputSeleccionarProducto,
 } from 'components/Negocio';
 import {useForm} from 'react-hook-form';
 
 export type Props = {
-	stateProductoActual: {
-		productoActual: TPrecioSinVigencia;
-		setProductoActual: React.Dispatch<React.SetStateAction<TPrecioSinVigencia>>;
-	};
-	statePreciosProductos: {
-		preciosProductos: TPrecioProducto[];
-		setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>;
-	};
+	stateProductoActual: TStateProductoActual;
+	statePreciosProductos: TStatePreciosProductos;
 };
 
 const FormularioAgregarProducto = (props: Props) => {
-	const [inputFocus, setInputFocus] = useState<InputsKeys>('productoABuscar');
+	const [inputFocus, setInputFocus] = useState<InputsKeysFormTomaDePedido>(
+		'productoABuscar'
+	);
 
 	const {stateProductoActual, statePreciosProductos} = props;
 
-	const defaultValues: TInputsFormularioAgregarProducto = {
+	const defaultValues: TFormTomaDePedido = {
 		unidades: '',
 		subUnidades: '',
-		codigoProductoConNombre: '',
 		productoABuscar: '',
 	};
 
@@ -41,7 +35,7 @@ const FormularioAgregarProducto = (props: Props) => {
 		handleSubmit,
 		setValue,
 		getValues,
-	} = useForm<TInputsFormularioAgregarProducto>({defaultValues});
+	} = useForm<TFormTomaDePedido>({defaultValues});
 
 	const stateInputFocus = {inputFocus, setInputFocus};
 
@@ -52,19 +46,18 @@ const FormularioAgregarProducto = (props: Props) => {
 			<Grid item xs={6}>
 				<InputSeleccionarProducto
 					hookForm={hookForm}
-					{...stateProductoActual}
-					{...statePreciosProductos}
-					{...stateInputFocus}
+					stateProductoActual={stateProductoActual}
+					statePreciosProductos={statePreciosProductos}
+					stateInputFocus={stateInputFocus}
 				/>
 			</Grid>
 			<Grid item xs={6}>
-				<AgregarUnidadesYSubUnidadesDelProductoActual
+				<InputsUnidadesYSubUnidades
 					hookForm={hookForm}
-					{...stateProductoActual}
-					{...stateInputFocus}
+					stateProductoActual={stateProductoActual}
+					stateInputFocus={stateInputFocus}
 				/>
 			</Grid>
-		
 		</Grid>
 	);
 };

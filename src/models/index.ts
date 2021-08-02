@@ -1,46 +1,21 @@
 import {GridSize} from '@material-ui/core';
-import React, {ReactElement} from 'react';
+import {TPrecioProducto} from 'models/redux';
+import React, {Dispatch, ReactElement, SetStateAction} from 'react';
 import {
 	Control,
 	UseFormGetValues,
 	UseFormHandleSubmit,
 	UseFormSetValue,
 } from 'react-hook-form';
-import {TPrecio} from 'models/server';
 
 export * from 'models/server';
 export * from 'models/redux';
 
-export type TPrecioSinVigencia = {
-	codigoProductoConNombre: string;
-	precioConImpuestoUnidad: number;
-	precioConImpuestoSubunidad: number;
-	codigoImplicito1?: number;
-	nombreImplicito1?: string;
-	codigoImplicito2?: number;
-	nombreImplicito2?: string;
-};
-
-export type TPrecioProducto = {
-	codigoProducto: number;
-	nombre: string;
-	presentacion: number;
-	precios: TPrecio[];
-	codigoImplicito1?: number;
-	nombreImplicito1?: string;
-	codigoImplicito2?: number;
-	nombreImplicito2?: string;
-};
-
-export type TInputsCodigoCliente = {
-	codigoCliente: string;
-};
-
-export type TInputsFormularioAgregarProducto = {
-	unidades: string;
-	subUnidades: string;
-	codigoProductoConNombre: string;
-	productoABuscar: string;
+export type TConsolidadoImplicitos = {
+	codigoImplicito?: number;
+	nombreImplicito?: string;
+	unidades: number;
+	subUnidades: number;
 };
 
 export type TTotalPedido = {
@@ -74,6 +49,30 @@ export type TTab = {
 	component: React.ReactNode;
 };
 
+export type THeader = {
+	component: React.FC | ReactElement;
+	width: GridSize;
+};
+
+//Estados
+
+export type TStateProductoActual = {
+	productoActual: TPrecioProducto | null;
+	setProductoActual: Dispatch<SetStateAction<TPrecioProducto | null>>;
+};
+
+export type TStatePreciosProductos = {
+	preciosProductos: TPrecioProducto[];
+	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>;
+};
+
+export type TStateInputFocus = {
+	inputFocus: InputsKeysFormTomaDePedido;
+	setInputFocus: Dispatch<SetStateAction<InputsKeysFormTomaDePedido>>;
+};
+
+//Formularios
+
 export type THookForm<T> = {
 	control: Control<T>;
 	handleSubmit: UseFormHandleSubmit<T>;
@@ -81,20 +80,23 @@ export type THookForm<T> = {
 	getValues: UseFormGetValues<T>;
 };
 
-export type THeader = {
-	component: React.FC | ReactElement;
-	width: GridSize;
+export type TFormTomaDePedido = TInputsUnidadesYSubUnidades &
+	TInputFiltrarPreciosProductos;
+
+export type TInputsCodigoCliente = {
+	codigoCliente: string;
 };
 
-export type InputsKeys =
+export type TInputsUnidadesYSubUnidades = {
+	unidades: string;
+	subUnidades: string;
+};
+
+export type TInputFiltrarPreciosProductos = {
+	productoABuscar: string;
+};
+
+export type InputsKeysFormTomaDePedido =
 	| 'unidades'
 	| 'subUnidades'
-	| 'codigoProductoConNombre'
 	| 'productoABuscar';
-
-export type TConsolidadoImplicitos = {
-	codigoImplicito?: number;
-	nombreImplicito?: string;
-	unidades: number;
-	subUnidades: number;
-};

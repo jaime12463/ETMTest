@@ -1,5 +1,9 @@
-import {Dispatch, SetStateAction, useCallback} from 'react';
-import {TPrecioProducto, TInputsFormularioAgregarProducto} from 'models';
+import {useCallback} from 'react';
+import {
+	TInputFiltrarPreciosProductos,
+	TPrecioProducto,
+	TStatePreciosProductos,
+} from 'models';
 import {
 	useObtenerDatosCliente,
 	useObtenerPreciosProductosDelCliente,
@@ -7,16 +11,20 @@ import {
 import {useObtenerPedidoActual, useObtenerClienteActual} from 'redux/hooks';
 
 export const useFiltrarPreciosProductosDelClienteActual = (
-	preciosProductos: TPrecioProducto[],
-	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>
+	statePreciosProductos: TStatePreciosProductos
 ) => {
+	const {preciosProductos, setPreciosProductos} = statePreciosProductos;
+
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
+
 	const pedidoActual = useObtenerPedidoActual();
+
 	const clienteActual = useObtenerClienteActual();
+
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 
 	const filtrarPreciosProductosDelClienteActual = useCallback(
-		({productoABuscar}: TInputsFormularioAgregarProducto) => {
+		({productoABuscar}: TInputFiltrarPreciosProductos) => {
 			if (!datosCliente) return;
 
 			const fechaEntrega: string = pedidoActual.fechaEntrega;
@@ -31,7 +39,7 @@ export const useFiltrarPreciosProductosDelClienteActual = (
 			const preciosProductosFiltrados: TPrecioProducto[] = preciosProductosDelCliente.filter(
 				(precioProducto: TPrecioProducto) =>
 					precioProducto.codigoProducto.toString().includes(productoABuscar) ||
-					precioProducto.nombre
+					precioProducto.nombreProducto
 						.toLowerCase()
 						.includes(productoABuscar.toLowerCase())
 			);
