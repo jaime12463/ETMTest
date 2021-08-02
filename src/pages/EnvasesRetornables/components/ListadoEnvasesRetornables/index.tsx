@@ -26,15 +26,15 @@ const ListadoEnvasesRetornables: FunctionComponent<Props> = (props) => {
 	const headers: THeader[] = [
 		{
 			component: <Header title='Envase' />,
-			width: 4,
+			width: 6,
 		},
 		{
 			component: <Header title='Unidades' />,
-			width: 4,
+			width: 3,
 		},
 		{
 			component: <Header title='Subunidades' />,
-			width: 4,
+			width: 3,
 		},
 	];
 

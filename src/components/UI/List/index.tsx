@@ -16,7 +16,7 @@ function List<T>(props: Props<T>) {
 			component='div'
 			subheader={
 				headers ? (
-					<ListSubheader component='div'>
+					<ListSubheader component='div' disableGutters={true}>
 						<Grid container>
 							{headers.map((header, index) => (
 								<Grid item xs={header.width} key={index}>
