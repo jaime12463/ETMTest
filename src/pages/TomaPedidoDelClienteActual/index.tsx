@@ -1,8 +1,7 @@
 import {
 	IndicadoresDelPedidoActual,
 	TabVentas,
-	TotalContadoDelPedidoActual,
-	TotalCreditoDelPedidoActual,
+	TotalesMetodoDeVentaDelPedidoActual,
 } from './components';
 import {Center, Estructura, Tabs} from 'components/UI';
 import {Button, Grid, IconButton, Box} from '@material-ui/core';
@@ -33,12 +32,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
 				<Grid container spacing={1}>
-					<Grid item xs={6}>
-						<TotalCreditoDelPedidoActual />
-					</Grid>
-					<Grid item xs={6}>
-						<TotalContadoDelPedidoActual />
-					</Grid>
+					<TotalesMetodoDeVentaDelPedidoActual />
 				</Grid>
 				<Grid container spacing={1}>
 					<Grid item xs={6}>
