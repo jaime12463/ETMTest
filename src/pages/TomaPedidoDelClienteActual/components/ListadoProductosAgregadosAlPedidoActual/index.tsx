@@ -87,7 +87,6 @@ const ListadoProductosAgregadosAlPedidoActual: FunctionComponent<Props> = (
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-
 			<List
 				headers={headers}
 				items={productosPedido}

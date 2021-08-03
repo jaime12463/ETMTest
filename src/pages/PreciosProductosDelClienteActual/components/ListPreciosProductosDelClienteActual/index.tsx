@@ -1,18 +1,32 @@
 import {Box} from '@material-ui/core';
-import {List} from 'components/UI';
-import {THeader, TPrecioProducto} from 'models';
+import {Dialogo, List} from 'components/UI';
+import {
+	useMostrarAdvertenciaEnDialogo,
+	useSeleccionarProductoDePrecios,
+} from 'hooks';
+import {
+	InputsKeysFormTomaDePedido,
+	TFormTomaDePedido,
+	THeader,
+	THookForm,
+	TPrecioProducto,
+} from 'models';
 import {Dispatch, FunctionComponent, SetStateAction} from 'react';
 import {ItemPrecioProductoDelClienteActual} from '..';
 
 type Props = {
+	setProductoActual: Dispatch<SetStateAction<TPrecioProducto | null>>;
+	hookForm: THookForm<TFormTomaDePedido>;
 	preciosProductos: TPrecioProducto[];
-	setPreciosProductos?: Dispatch<SetStateAction<TPrecioProducto[]>>;
+	setInputFocus: Dispatch<SetStateAction<InputsKeysFormTomaDePedido>>;
 };
 
 const ListPreciosProductosDelClienteActual: FunctionComponent<Props> = (
 	props
 ) => {
-	const {preciosProductos} = props;
+	const {hookForm, setProductoActual, preciosProductos, setInputFocus} = props;
+
+	const {setValue} = hookForm;
 
 	const Header = ({title}: {title: string}) => (
 		<Box textAlign='center'>{title}</Box>
@@ -29,12 +43,36 @@ const ListPreciosProductosDelClienteActual: FunctionComponent<Props> = (
 		},
 	];
 
+	const {
+		mostrarAdvertenciaEnDialogo,
+		mostarDialogo,
+		parametrosDialogo,
+	} = useMostrarAdvertenciaEnDialogo();
+
+	const seleccionarProductoDePrecios = useSeleccionarProductoDePrecios(
+		setProductoActual,
+		setValue,
+		preciosProductos,
+		setInputFocus,
+		mostrarAdvertenciaEnDialogo
+	);
+
+	const onClickItem = (item: TPrecioProducto) => {
+		seleccionarProductoDePrecios({
+			productoABuscar: item.codigoProducto.toString(),
+		});
+	};
+
 	return (
-		<List
-			headers={headers}
-			ItemComponent={ItemPrecioProductoDelClienteActual}
-			items={preciosProductos}
-		/>
+		<>
+			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+			<List
+				headers={headers}
+				ItemComponent={ItemPrecioProductoDelClienteActual}
+				items={preciosProductos}
+				onClickItem={onClickItem}
+			/>
+		</>
 	);
 };
 

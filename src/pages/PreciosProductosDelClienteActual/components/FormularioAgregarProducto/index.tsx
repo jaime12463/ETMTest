@@ -1,44 +1,30 @@
-import {useState} from 'react';
 import {Grid} from '@material-ui/core';
 import {
-	InputsKeysFormTomaDePedido,
 	TFormTomaDePedido,
 	TStateProductoActual,
 	TStatePreciosProductos,
+	TStateInputFocus,
+	THookForm,
 } from 'models';
 import {
 	InputsUnidadesYSubUnidades,
 	InputFiltroPreciosProductosDelClienteActual,
 } from 'components/Negocio';
-import {useForm} from 'react-hook-form';
 
 export type Props = {
+	hookForm: THookForm<TFormTomaDePedido>;
 	stateProductoActual: TStateProductoActual;
 	statePreciosProductos: TStatePreciosProductos;
+	stateInputFocus: TStateInputFocus;
 };
 
 const FormularioAgregarProducto = (props: Props) => {
-	const [inputFocus, setInputFocus] = useState<InputsKeysFormTomaDePedido>(
-		'productoABuscar'
-	);
-
-	const {stateProductoActual, statePreciosProductos} = props;
-
-	const defaultValues: TFormTomaDePedido = {
-		unidades: '',
-		subUnidades: '',
-		productoABuscar: '',
-	};
-
 	const {
-		control,
-		handleSubmit,
-		setValue,
-		getValues,
-	} = useForm<TFormTomaDePedido>({defaultValues});
-
-	const hookForm = {control, handleSubmit, setValue, getValues};
-
+		stateProductoActual,
+		statePreciosProductos,
+		hookForm,
+		stateInputFocus,
+	} = props;
 	return (
 		<Grid container spacing={1}>
 			<Grid item xs={12}>
@@ -51,7 +37,7 @@ const FormularioAgregarProducto = (props: Props) => {
 				<InputsUnidadesYSubUnidades
 					hookForm={hookForm}
 					stateProductoActual={stateProductoActual}
-					stateInputFocus={{inputFocus, setInputFocus}}
+					stateInputFocus={stateInputFocus}
 				/>
 			</Grid>
 		</Grid>
