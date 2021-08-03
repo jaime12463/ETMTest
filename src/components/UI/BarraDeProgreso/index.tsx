@@ -8,6 +8,7 @@ export type Props = {
 	valor: number;
 	titulo: string;
 	colores?: string[];
+	disable?: boolean;
 };
 
 const obtenerColor = (
@@ -28,6 +29,7 @@ const BarraDeProgeso = ({
 	max = 0,
 	valor,
 	titulo,
+	disable = false,
 	colores = ['rojo', 'amarillo', 'verde'],
 }: Props) => {
 	const estilos = useEstilos();
@@ -52,7 +54,10 @@ const BarraDeProgeso = ({
 	}, [valor, progreso]);
 
 	return (
-		<div className={estilos.container}>
+		<div
+			className={estilos.container}
+			style={disable === true ? {display: 'none'} : {display: 'block'}}
+		>
 			<Typography
 				className={estilos.titulo}
 				variant='caption'
