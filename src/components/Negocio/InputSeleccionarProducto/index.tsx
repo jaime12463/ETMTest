@@ -11,7 +11,7 @@ import {IconButton, Grid} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import nombresRutas from 'routes/nombresRutas';
 import {useRouteMatch, useHistory} from 'react-router-dom';
-import {useSeleccionarProductoDePrecios} from './hooks';
+import {useSeleccionarProductoDePrecios} from 'hooks';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';

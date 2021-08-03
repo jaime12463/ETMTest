@@ -7,10 +7,11 @@ type Props<T> = {
 	items: T[];
 	ItemComponent: React.FC<{item: T}>;
 	headers?: THeader[];
+	onClickItem?: (item: T) => void;
 };
 
 function List<T>(props: Props<T>) {
-	const {items, ItemComponent, headers} = props;
+	const {items, ItemComponent, headers, onClickItem} = props;
 	return (
 		<ListMUI
 			component='div'
@@ -31,7 +32,7 @@ function List<T>(props: Props<T>) {
 			}
 		>
 			{items.map((item, index) => (
-				<Item item={item} ItemComponent={ItemComponent} key={index} />
+				<Item item={item} ItemComponent={ItemComponent} key={index} onClick={onClickItem} />
 			))}
 		</ListMUI>
 	);

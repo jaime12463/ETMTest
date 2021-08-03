@@ -40,8 +40,6 @@ export const useSeleccionarProductoDePrecios = (
 
 			const {codigoProducto} = productoEncontrado;
 
-			//TODO: Donde debe ser la validacion y la advertencia si no hay precios vigentes
-
 			const productoActualEncontrado:
 				| TProductoPedido
 				| undefined = pedidoActual.productosPedido.find(
@@ -65,6 +63,7 @@ export const useSeleccionarProductoDePrecios = (
 			}
 			setValue('unidades', unidadesParseado);
 			setValue('subUnidades', subUnidadesParseado);
+			setValue('productoABuscar', productoABuscar);
 
 			setProductoActual(productoEncontrado);
 

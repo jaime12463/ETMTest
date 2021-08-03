@@ -8,6 +8,7 @@ import {useResetLineaActual} from './useResetLineaActual';
 import {useResetPedidoActual} from './useResetPedidoActual';
 import useObtenerPrecioVigenteDelProducto from './useObtenerPrecioVigenteDelProducto';
 import {useInicializarPreciosProductosDelClienteActual} from './useInicializarPreciosProductosDelClienteActual';
+import {useSeleccionarProductoDePrecios} from './useSeleccionarProductoDePrecios';
 
 export {
 	useInicializarDatosYConfiguracion,
@@ -20,4 +21,5 @@ export {
 	useResetPedidoActual,
 	useObtenerPrecioVigenteDelProducto,
 	useInicializarPreciosProductosDelClienteActual,
+	useSeleccionarProductoDePrecios
 };
