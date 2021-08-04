@@ -31,7 +31,6 @@ import {useTranslation} from 'react-i18next';
 import {useHistory} from 'react-router-dom';
 
 export const useAgregarPedidoActualAPedidosClientes = (
-	setAvisoPedidoGuardadoExitoso: Dispatch<SetStateAction<boolean>>,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
 ) => {
 	const dispatch = useAppDispatch();
@@ -118,7 +117,6 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			dispatch(modificarPedidoCliente({pedidoActual, clienteActual}));
 		else dispatch(agregarPedidoCliente({pedidoActual, clienteActual}));
 
-		setAvisoPedidoGuardadoExitoso(true);
 		history.goBack();
 	}, [
 		pedidoActual,

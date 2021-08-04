@@ -1,2 +1,1 @@
 export { useAgregarPedidoActualAPedidosClientes } from './useAgregarPedidoActualAPedidosClientes';
-export { useValidarAgregarProductoAlPedidoCliente } from './useValidarAgregarProductoAlPedidoCliente';
