@@ -9,7 +9,7 @@ export type Props = {
 const Cuerpo = ({children}: Props) => {
 	const estilos = useEstilos();
 	return (
-		<Box display='flex' justifyContent='center' className={estilos.main}>
+		<Box display='flex' justifyContent='center' className={estilos.main} style={{maxHeight: '100%', overflow: 'auto'}}>
 			<Container
 				maxWidth='xs'
 				component='main'
