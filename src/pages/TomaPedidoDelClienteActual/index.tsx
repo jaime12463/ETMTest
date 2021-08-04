@@ -14,9 +14,10 @@ import {
 	FechaEntregaDelPedidoActual,
 	InfoClienteDelPedidoActual,
 } from 'components/Negocio';
+import {useResetPedidoActualAlDesmontar} from './hooks'
 
 const TomaPedidoDelClienteActual: React.FC = () => {
-	//Hacer Reset pedido actual cuando se desmonte este componente
+	useResetPedidoActualAlDesmontar();
 	return (
 		<Estructura>
 			<Estructura.Encabezado

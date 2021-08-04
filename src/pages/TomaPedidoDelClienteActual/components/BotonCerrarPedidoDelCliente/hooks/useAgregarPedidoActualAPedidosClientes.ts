@@ -17,7 +17,7 @@ import {
 	TPedidosClientes,
 	TTotalPedido,
 } from 'models';
-import {Dispatch, SetStateAction, useCallback} from 'react';
+import {useCallback} from 'react';
 import {
 	agregarPedidoCliente,
 	modificarPedidoCliente,
@@ -79,7 +79,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 		) {
 			mostrarAdvertenciaEnDialogo(
 				t('advertencias.pedidoMinimo', {
-					monto: datosCliente.configuracionPedido.ventaContadoMaxima.montoVentaContadoMaxima, //TODO: Ver a detalle que implica esto del contado maximo
+					monto: configuracionPedido.ventaMinima?.montoVentaMinima,
 				}),
 				'pedido-minimo'
 			);
