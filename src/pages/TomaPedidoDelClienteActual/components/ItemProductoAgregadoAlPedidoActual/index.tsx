@@ -40,7 +40,7 @@ const ItemProductoAgregadoAlPedidoActual: FunctionComponent<Props> = (
 				</Grid>
 			</Grid>
 			<Grid item xs={3}>
-				<Center>{total}</Center>
+				<Center>{total.toFixed(2)}</Center>
 			</Grid>
 			<Grid item xs={2}>
 				<Center>

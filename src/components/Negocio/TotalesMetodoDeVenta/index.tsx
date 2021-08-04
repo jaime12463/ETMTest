@@ -30,7 +30,9 @@ const TotalesMetodoDeVenta = ({
 				<TableBody>
 					<TableRow>
 						<TableCell className={estilos.celda}>
-							<Typography variant='caption'>{`Total ${metodoVenta}: $${total} `}</Typography>
+							<Typography variant='caption'>
+								{`Total ${metodoVenta}: $${total.toFixed(2)} `}
+							</Typography>
 						</TableCell>
 					</TableRow>
 					<TableRow>
