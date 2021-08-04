@@ -13,6 +13,7 @@ import {
 } from 'models';
 import {Dispatch, FunctionComponent, SetStateAction} from 'react';
 import {ItemPrecioProductoDelClienteActual} from '..';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
 	setProductoActual: Dispatch<SetStateAction<TPrecioProducto | null>>;
@@ -31,14 +32,15 @@ const ListPreciosProductosDelClienteActual: FunctionComponent<Props> = (
 	const Header = ({title}: {title: string}) => (
 		<Box textAlign='center'>{title}</Box>
 	);
+	const {t} = useTranslation();
 
 	const headers: THeader[] = [
 		{
-			component: <Header title='Producto' />,
+			component: <Header title={t('general.producto')} />,
 			width: 8,
 		},
 		{
-			component: <Header title='Precio' />,
+			component: <Header title={t('general.precio')} />,
 			width: 4,
 		},
 	];
