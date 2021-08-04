@@ -36,6 +36,8 @@ const es = {
 		canje: 'Canje',
 		devolucion: 'Devolucion',
 		signoMoneda: '$',
+		credito: 'Crédito',
+		contado: 'Contado',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',

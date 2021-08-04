@@ -17,6 +17,7 @@ import {
 	useMostrarAdvertenciaEnDialogo,
 	useSeleccionarProductoDePrecios,
 } from 'hooks';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
 	setProductoActual: Dispatch<SetStateAction<TPrecioProducto | null>>;
@@ -40,13 +41,15 @@ const ListadoProductosAgregadosAlPedidoActual: FunctionComponent<Props> = (
 		<Box textAlign='center'>{title}</Box>
 	);
 
+	const {t} = useTranslation();
+
 	const headers: THeader[] = [
 		{
-			component: <Header title='Producto' />,
+			component: <Header title={t('general.producto')} />,
 			width: 7,
 		},
 		{
-			component: <Header title='Precio' />,
+			component: <Header title={t('general.precio')} />,
 			width: 3,
 		},
 		{

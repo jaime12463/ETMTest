@@ -33,6 +33,8 @@ const en = {
 		pedidoMaximo: 'Maximum order',
 		creditoDisponible: 'Available credit',
 		signoMoneda: '€',
+		credito: 'Credit',
+		contado: 'Counted',
 	},
 	titulos: {
 		bienvenido: 'Welcome',
