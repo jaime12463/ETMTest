@@ -4,7 +4,7 @@ import {
 	TotalesMetodoDeVentaDelPedidoActual,
 	BotonCerrarPedidoDelCliente
 } from './components';
-import {Center, Estructura, Tabs} from 'components/UI';
+import {Estructura, Tabs} from 'components/UI';
 import {Button, Grid, IconButton, Box} from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
 import {useHistory, useRouteMatch} from 'react-router-dom';
@@ -16,6 +16,7 @@ import {
 } from 'components/Negocio';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
+	//Hacer Reset pedido actual cuando se desmonte este componente
 	return (
 		<Estructura>
 			<Estructura.Encabezado
