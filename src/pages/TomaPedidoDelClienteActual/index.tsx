@@ -57,11 +57,10 @@ function BotonVerEnvases() {
 			variant='contained'
 			color='primary'
 			data-cy='boton-verEnvases'
-			//onClick={() => history.push(`${path}${nombresRutas.envasesRetornables}`)}
 			onClick={() => history.push(`${path}${nombresRutas.envasesRetornables}`)}
 			fullWidth
 		>
-			{t('verEnvases').toUpperCase()}
+			{t('general.verEnvases').toUpperCase()}
 		</Button>
 	);
 }

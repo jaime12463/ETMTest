@@ -29,12 +29,12 @@ const ItemListadoEnvasesRetornables: FunctionComponent<Props> = (props) => {
 				</Box>
 			</Grid>
 			<Grid item xs={3}>
-				<Box display='flex' justifyContent='end' px={1}>
+				<Box display='flex' justifyContent="flex-end" px={1}>
 					<Typography variant='body2'>{unidades}</Typography>
 				</Box>
 			</Grid>
 			<Grid item xs={3}>
-				<Box display='flex' justifyContent='end' px={1}>
+				<Box display='flex' justifyContent="flex-end" px={1}>
 					<Typography variant='body2'>{subUnidades}</Typography>
 				</Box>
 			</Grid>

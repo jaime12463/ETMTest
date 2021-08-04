@@ -32,6 +32,10 @@ const es = {
 		pedidoMinimo: 'Pedido mínimo',
 		pedidoMaximo: 'Pedido máximo',
 		creditoDisponible: 'Crédito disponible',
+		ventas: 'Ventas',
+		canje: 'Canje',
+		devolucion: 'Devolucion',
+		signoMoneda: '$',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',
