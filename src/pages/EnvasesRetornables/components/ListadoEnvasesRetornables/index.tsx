@@ -7,6 +7,7 @@ import {TConsolidadoImplicitos} from 'models';
 import {useObtenerConsolidacionImplicitos} from './hooks';
 import {useAppSelector} from 'redux/hooks';
 import {ItemListadoEnvasesRetornables} from '..';
+import {useTranslation} from 'react-i18next';
 
 type Props = {};
 
@@ -23,17 +24,19 @@ const ListadoEnvasesRetornables: FunctionComponent<Props> = (props) => {
 		<Box textAlign='center'>{title}</Box>
 	);
 
+	const {t} = useTranslation();
+
 	const headers: THeader[] = [
 		{
-			component: <Header title='Envase' />,
+			component: <Header title={t('general.envase')} />,
 			width: 6,
 		},
 		{
-			component: <Header title='Unidades' />,
+			component: <Header title={t('general.unidades')} />,
 			width: 3,
 		},
 		{
-			component: <Header title='Subunidades' />,
+			component: <Header title={t('general.subunidades')} />,
 			width: 3,
 		},
 	];

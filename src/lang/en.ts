@@ -32,6 +32,7 @@ const en = {
 		pedidoMinimo: 'Minimum order',
 		pedidoMaximo: 'Maximum order',
 		creditoDisponible: 'Available credit',
+		signoMoneda: '€',
 	},
 	titulos: {
 		bienvenido: 'Welcome',
@@ -40,6 +41,9 @@ const en = {
 		visitaCliente: 'Clients Visit',
 		clientes: 'Clients',
 		envases: 'Returnable packaging',
+		ventas: 'Sales',
+		canje: 'Exchange',
+		devolucion: 'Refund',
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',
