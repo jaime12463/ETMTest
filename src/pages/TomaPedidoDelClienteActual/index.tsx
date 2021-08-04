@@ -2,6 +2,7 @@ import {
 	IndicadoresDelPedidoActual,
 	TabVentas,
 	TotalesMetodoDeVentaDelPedidoActual,
+	BotonCerrarPedidoDelCliente
 } from './components';
 import {Center, Estructura, Tabs} from 'components/UI';
 import {Button, Grid, IconButton, Box} from '@material-ui/core';
@@ -36,7 +37,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				</Grid>
 				<Grid container spacing={1}>
 					<Grid item xs={6}>
-						<BotonCerrarPedido />
+						<BotonCerrarPedidoDelCliente />
 					</Grid>
 					<Grid item xs={6}>
 						<BotonVerEnvases />
@@ -46,21 +47,6 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 		</Estructura>
 	);
 };
-
-function BotonCerrarPedido() {
-	const {t} = useTranslation();
-	return (
-		<Button
-			variant='contained'
-			color='primary'
-			data-cy='boton-cerrarPedido'
-			onClick={() => {}}
-			fullWidth
-		>
-			{t('general.cerrarPedido').toUpperCase()}
-		</Button>
-	);
-}
 
 function BotonVerEnvases() {
 	const {t} = useTranslation();
