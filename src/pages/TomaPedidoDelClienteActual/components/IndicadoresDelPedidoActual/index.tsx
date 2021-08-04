@@ -6,7 +6,7 @@ import {useObtenerClienteActual} from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
 
 const IndicadoresDelPedidoActual = () => {
-		const {t} = useTranslation();
+	const {t} = useTranslation();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const calcularTotalPedido = useCalcularTotalPedido();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
@@ -33,24 +33,28 @@ const IndicadoresDelPedidoActual = () => {
 			valorMax: datosCliente?.informacionCrediticia.disponible,
 			valor: 0,
 			colores: ['verde', 'amarillo', 'rojo'],
+			condicion: datosCliente?.informacionCrediticia.condicion,
 		},
 	];
 
 	return (
-		<Grid container direction='row'>
-			{indicadores.map((el, i) => (
-				<Grid item xs={4} key={i}>
-					<Center>
-						<BarraDeProgeso
-							titulo={el.titulo}
-							max={el.valorMax}
-							valor={el.valor}
-							colores={el.colores}
-						/>
-					</Center>
-				</Grid>
-			))}
-		</Grid>
+		<div>
+			<Grid container direction='row' justify='center' spacing={3}>
+				{indicadores.map((el, i) => (
+					<Grid item xs='auto' key={i}>
+						<Center>
+							<BarraDeProgeso
+								titulo={el.titulo}
+								max={el.valorMax}
+								valor={el.valor}
+								colores={el.colores}
+								disable={el.condicion === 'contado' ? true : false}
+							/>
+						</Center>
+					</Grid>
+				))}
+			</Grid>
+		</div>
 	);
 };
 
