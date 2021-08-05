@@ -46,6 +46,7 @@ const es = {
 		visitaCliente: 'Visita del Cliente',
 		clientes: 'Clientes',
 		envases: 'Envases retornables',
+		PedidosDelClienteActual: 'Pedidos del cliente',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
@@ -69,6 +70,8 @@ const es = {
 		cancelarPedido: 'Desea cancelar el pedido?',
 		cancelarTodosLosPedido:
 			'Se cancelarán todos los pedidos con fecha de entrega {{fechaDeEntrega}} ¿Desea continuar?',
+		ProductoNoEstaEnPortafolioCliente:
+			'El código no corresponde a un portafolio vigente del cliente',
 	},
 };
 export default es;

@@ -63,7 +63,7 @@ const BarraDeProgeso = ({
 				variant='caption'
 			>{`${titulo}`}</Typography>
 			<Typography className={estilos.label} variant='body2'>
-				{`$${valor.toFixed(2)}/$${max}`}
+				{`$${valor.toFixed()}/$${max}`}
 			</Typography>
 			<BorderLinearProgress
 				variant='determinate'

@@ -31,9 +31,15 @@ function List<T>(props: Props<T>) {
 				)
 			}
 		>
-			{items.map((item, index) => (
-				<Item item={item} ItemComponent={ItemComponent} key={index} onClick={onClickItem} />
-			))}
+			{items &&
+				items.map((item, index) => (
+					<Item
+						item={item}
+						ItemComponent={ItemComponent}
+						key={index}
+						onClick={onClickItem}
+					/>
+				))}
 		</ListMUI>
 	);
 }

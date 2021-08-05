@@ -1,6 +1,7 @@
 import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';
 import {Estructura} from 'components/UI';
+import {ListadoPedidosRealizados} from './components';
 
 const PedidosDelClienteActual: React.FC = () => {
 	const {t} = useTranslation();
@@ -10,8 +11,9 @@ const PedidosDelClienteActual: React.FC = () => {
 			titulo={t('titulos.PedidosDelClienteActual')}
 			esConFechaHaciaAtras={true}
 		>
-			<Estructura.Cuerpo>Cuerpo</Estructura.Cuerpo>
-			<Estructura.PieDePagina>PieDePagina</Estructura.PieDePagina>
+			<Estructura.Cuerpo>
+				<ListadoPedidosRealizados />
+			</Estructura.Cuerpo>
 		</Estructura>
 	);
 };
