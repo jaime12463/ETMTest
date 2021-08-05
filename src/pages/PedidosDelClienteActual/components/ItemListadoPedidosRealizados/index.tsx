@@ -1,7 +1,7 @@
 import {FunctionComponent} from 'react';
 import {TPedidoClienteParaEnviar} from 'models';
 import {Box, Grid, Switch, Typography} from '@material-ui/core';
-import {Center} from 'components/UI';
+import {Center, Numero} from 'components/UI';
 import {useCalcularTotalPedidos} from 'hooks';
 
 type Props = {
@@ -23,7 +23,9 @@ const ItemListadoPedidosRealizados: FunctionComponent<Props> = (props) => {
 				<Center>{fechaEntrega}</Center>
 			</Grid>
 			<Grid item xs>
-				<Center>{totalPedido}</Center>
+				<Center>
+					{<Numero tipo='moneda' valor={totalPedido} decimales={2} />}
+				</Center>
 			</Grid>
 		</Grid>
 	);

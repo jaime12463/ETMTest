@@ -9,6 +9,7 @@ import FormInput from './FormInput';
 import Rutas from './Rutas';
 import Center from './Center';
 import BarraDeProgeso from './BarraDeProgreso';
+import Numero from './Numero';
 
 export {
 	Estructura,
@@ -22,4 +23,5 @@ export {
 	Rutas,
 	Center,
 	BarraDeProgeso,
+	Numero,
 };
