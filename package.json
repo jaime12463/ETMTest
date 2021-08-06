@@ -48,7 +48,7 @@
 		"start-dev": "concurrently \"npm:start-dev-server\" \"npm:start\"",
 		"start-build-server": "cd data && npm install && npm run start",
 		"start-build": "concurrently \"npm:start-build-server\" \"npm:start\"",
-		"install-server": "cd data && npm run install",
+		"install-server": "cd data && npm install",
 		"start-jest": "jest",
 		"ci": "start-server-and-test start-build http://localhost:4000 cypress-run",
 		"plop": "plop"
