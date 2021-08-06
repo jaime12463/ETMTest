@@ -7,17 +7,16 @@ import Footers from 'assests/images/hdpi_logo_soft_hasar.png';
 import {useTranslation} from 'react-i18next';
 
 export default function Splash() {
-	let history = useHistory();
-
-	let query = useLocation();
-
-	const {t} = useTranslation();
+	const history = useHistory();
+	const querys: any = useLocation();
+	const {t, i18n} = useTranslation();
+	const query: string[] = querys.search.split('&');
 
 	useInicializarDatosYConfiguracion();
-
 	window.localStorage.removeItem('fechaDipostivo');
-	query.search &&
-		window.localStorage.setItem('fechaDipostivo', query.search.slice(7));
+	querys.search &&
+		window.localStorage.setItem('fechaDipostivo', query[0].slice(7)),
+		i18n.changeLanguage(query[1].slice(9));
 
 	return (
 		<Estructura titulo={t('titulos.bienvenido')} esConFechaHaciaAtras={false}>
