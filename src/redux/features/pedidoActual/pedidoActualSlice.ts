@@ -82,6 +82,15 @@ export const pedidoActualSlice = createSlice({
 			state.productosPedido[indexProductoPedido].tipoPago =
 				action.payload.tipoPago;
 		},
+
+		cambiarTipoPagoPoductosDelPedido: (
+			state,
+			action: PayloadAction<{tipoPago: ETiposDePago}>
+		) => {
+			state.productosPedido.forEach((producto: TProductoPedido) => {
+				producto.tipoPago = action.payload.tipoPago;
+			});
+		},
 	},
 });
 
@@ -92,5 +101,6 @@ export const {
 	inicializarPedidoActual,
 	resetearPedidoActual,
 	cambiarTipoPagoPoducto,
+	cambiarTipoPagoPoductosDelPedido,
 } = pedidoActualSlice.actions;
 export default pedidoActualSlice.reducer;

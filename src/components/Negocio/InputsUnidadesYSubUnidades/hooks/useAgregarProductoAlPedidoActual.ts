@@ -1,11 +1,11 @@
 import {useCallback} from 'react';
-import {useAppDispatch} from 'redux/hooks';
+import {useAppDispatch, useObtenerClienteActual} from 'redux/hooks';
 import {
 	agregarProductoAlPedidoDelCliente,
 	borrarProductoDelPedidoDelCliente,
 } from 'redux/features/pedidoActual/pedidoActualSlice';
 import {
-	ETiposDePago,
+	TClienteActual,
 	TFormTomaDePedido,
 	TFunctionMostarAvertenciaPorDialogo,
 	TPrecioProducto,
@@ -28,6 +28,8 @@ export const useAgregarProductoAlPedidoActual = (
 		{inputFocus, setInputFocus},
 		productoActual
 	);
+
+	const clienteActual: TClienteActual = useObtenerClienteActual();
 
 	const agregarProductoAlPedidoActual = useCallback(
 		(inputs: TFormTomaDePedido) => {
@@ -57,7 +59,7 @@ export const useAgregarProductoAlPedidoActual = (
 						total:
 							productoActual.precioConImpuestoUnidad * unidadesParseado +
 							productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
-						tipoPago: ETiposDePago.Contado,
+						tipoPago: clienteActual.tipoPagoActual,
 					})
 				);
 			} else dispatch(borrarProductoDelPedidoDelCliente(codigoProducto));
