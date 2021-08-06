@@ -5,6 +5,7 @@ import {RootState} from 'redux/store';
 const estadoInicial: TClienteActual = {
 	codigoCliente: '',
 	razonSocial: '',
+	condicion: 'contado'
 };
 
 export const clienteActualSlice = createSlice({
@@ -15,9 +16,10 @@ export const clienteActualSlice = createSlice({
 			state,
 			action: PayloadAction<TClienteActual>
 		) => {
-			const {codigoCliente, razonSocial} = action.payload;
+			const {codigoCliente, razonSocial, condicion} = action.payload;
 			state.codigoCliente = codigoCliente;
 			state.razonSocial = razonSocial;
+			state.condicion = condicion;
 		},
 		resetearClienteActual: (state) => {
 			state.codigoCliente = '';
