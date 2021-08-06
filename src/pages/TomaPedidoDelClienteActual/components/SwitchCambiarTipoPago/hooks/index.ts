@@ -1,0 +1,1 @@
+export {useCambiarTipoPago} from './useCambiarTipoPago';

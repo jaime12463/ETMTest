@@ -5,6 +5,7 @@ import FormularioAgregarProducto from './FormularioAgregarProducto';
 import ItemProductoAgregadoAlPedidoActual from './ItemProductoAgregadoAlPedidoActual';
 import TotalesMetodoDeVentaDelPedidoActual from './TotalesMetodoDeVentaDelPedidoActual';
 export {BotonCerrarPedidoDelCliente} from './BotonCerrarPedidoDelCliente';
+export {SwitchCambiarTipoPago} from './SwitchCambiarTipoPago';
 
 export {
 	TabVentas,
