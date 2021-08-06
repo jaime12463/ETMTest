@@ -5,6 +5,7 @@ import {
 	withStyles,
 	Theme,
 } from '@material-ui/core/styles';
+import {Height} from '@material-ui/icons';
 export const useEstilos = makeStyles((theme) => ({
 	celda: {
 		borderBottom: 'none',
@@ -12,5 +13,8 @@ export const useEstilos = makeStyles((theme) => ({
 	},
 	subTitulo: {
 		fontSize: '0.67rem',
+	},
+	total: {
+		maxWidth: 10,
 	},
 }));
