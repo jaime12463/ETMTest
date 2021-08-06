@@ -15,9 +15,10 @@ function List<T>(props: Props<T>) {
 	return (
 		<ListMUI
 			component='div'
+			style={{  maxHeight: '450px' , overflowY:'scroll' }}
 			subheader={
 				headers ? (
-					<ListSubheader component='div' disableGutters={true}>
+					<ListSubheader style={{ backgroundColor:'#f5f5f5' }} component='div' disableGutters={true}>
 						<Grid container justify='center'>
 							{headers.map((header, index) => (
 								<Grid item xs={header.width} key={index}>
