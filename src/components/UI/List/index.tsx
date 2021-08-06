@@ -5,7 +5,7 @@ import {Fragment} from 'react';
 
 type Props<T> = {
 	items: T[];
-	ItemComponent: React.FC<{item: T}>;
+	ItemComponent: React.FC<{item: T; onClickItem?: (item: T) => void}>;
 	headers?: THeader[];
 	onClickItem?: (item: T) => void;
 };
@@ -18,10 +18,10 @@ function List<T>(props: Props<T>) {
 			subheader={
 				headers ? (
 					<ListSubheader component='div' disableGutters={true}>
-						<Grid container>
+						<Grid container justify='center'>
 							{headers.map((header, index) => (
 								<Grid item xs={header.width} key={index}>
-									<Box>{header.component}</Box>
+									{header.component}
 								</Grid>
 							))}
 						</Grid>
@@ -32,7 +32,12 @@ function List<T>(props: Props<T>) {
 			}
 		>
 			{items.map((item, index) => (
-				<Item item={item} ItemComponent={ItemComponent} key={index} onClick={onClickItem} />
+				<Item
+					item={item}
+					ItemComponent={ItemComponent}
+					key={index}
+					onClick={onClickItem}
+				/>
 			))}
 		</ListMUI>
 	);

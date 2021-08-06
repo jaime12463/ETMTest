@@ -1,6 +1,6 @@
 import {Dialogo, List} from 'components/UI';
 import {Dispatch, FunctionComponent, SetStateAction} from 'react';
-import {ItemProductoAgregadoAlPedidoActual} from '..';
+import {ItemProductoAgregadoAlPedidoActual, SwitchCambiarTipoPago} from '..';
 import {
 	THeader,
 	TPedidoActual,
@@ -9,7 +9,6 @@ import {
 	THookForm,
 	TFormTomaDePedido,
 	InputsKeysFormTomaDePedido,
-	TFunctionMostarAvertenciaPorDialogo,
 } from 'models';
 import {Box, Switch} from '@material-ui/core';
 import {useObtenerPedidoActual} from 'redux/hooks';
@@ -50,16 +49,7 @@ const ListadoProductosAgregadosAlPedidoActual: FunctionComponent<Props> = (
 			width: 3,
 		},
 		{
-			component: (
-				<Box textAlign='center'>
-					<Switch
-						checked={true} //TODO: Hacer logica
-						onChange={() => {}}
-						name='checkedA'
-						inputProps={{'aria-label': 'secondary checkbox'}}
-					/>
-				</Box>
-			),
+			component: <SwitchCambiarTipoPago />,
 			width: 2,
 		},
 	];
