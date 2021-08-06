@@ -13,7 +13,7 @@ export const useObtenerCreditoDisponible = () => {
 
 		let totalCreditoEnPedidos: number = 0;
 
-		pedidosClientes[clienteActual.codigoCliente].forEach((pedidos) => {
+		pedidosClientes[clienteActual.codigoCliente]?.forEach((pedidos) => {
 			pedidos.productosPedido.forEach((producto) => {
 				if (producto.tipoPago === ETiposDePago.Credito)
 					totalCreditoEnPedidos += producto.total;
