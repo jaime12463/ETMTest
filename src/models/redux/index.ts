@@ -57,7 +57,7 @@ export type TPrecioProducto = {
 	nombreProducto: string;
 	presentacion: number;
 	subunidadesVentaMinima: number;
-	esVentaSubunidades: boolean;
+	esVentaSubunidades: string;
 	precioConImpuestoUnidad: number;
 	precioConImpuestoSubunidad: number;
 	implicito1?: TImplicito;
