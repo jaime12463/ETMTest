@@ -59,7 +59,9 @@ export const usePermiteCambiarTipoPago = () => {
 		const creditoDisponible: number = obtenerCreditoDisponible();
 		const hayCreditoDisponible = creditoDisponible > 0;
 
-		if (condicion && esMenorAlMontoMaximo && hayCreditoDisponible)
+		const esCondicionCredito = condicion === 'creditoFormal';
+
+		if (esCondicionCredito && esMenorAlMontoMaximo && hayCreditoDisponible)
 			permiteCambiarTipoPago = true;
 
 		return permiteCambiarTipoPago;
