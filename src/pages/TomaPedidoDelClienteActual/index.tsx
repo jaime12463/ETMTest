@@ -39,10 +39,10 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				</Grid>
 				<Grid container spacing={1}>
 					<Grid item xs={6}>
-						<BotonCerrarPedidoDelCliente />
+						<BotonVerEnvases />
 					</Grid>
 					<Grid item xs={6}>
-						<BotonVerEnvases />
+						<BotonCerrarPedidoDelCliente />
 					</Grid>
 				</Grid>
 			</Estructura.PieDePagina>

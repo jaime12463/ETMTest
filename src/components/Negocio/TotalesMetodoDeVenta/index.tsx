@@ -8,6 +8,7 @@ import {
 	Paper,
 } from '@material-ui/core';
 import {useEstilos} from './useEstilos';
+import {useTranslation} from 'react-i18next';
 
 export type Props = {
 	metodoVenta: string;
@@ -23,6 +24,7 @@ const TotalesMetodoDeVenta = ({
 	subunidades,
 }: Props) => {
 	const estilos = useEstilos();
+	const {t} = useTranslation();
 
 	return (
 		<TableContainer component={Paper}>
@@ -31,7 +33,7 @@ const TotalesMetodoDeVenta = ({
 					<TableRow>
 						<TableCell className={estilos.celda}>
 							<Typography variant='caption'>
-								{`Total ${metodoVenta}: $${total.toFixed(2)} `}
+							{t('general.total')} ${metodoVenta}: $${total.toFixed(2)}
 							</Typography>
 						</TableCell>
 					</TableRow>
@@ -39,10 +41,10 @@ const TotalesMetodoDeVenta = ({
 						<TableCell className={estilos.celda}>
 							<Typography
 								className={estilos.subTitulo}
-							>{`Unidades: ${unidades}`}</Typography>
+							>{t('general.unidades')}: ${unidades}</Typography>
 							<Typography
 								className={estilos.subTitulo}
-							>{`Subunidades: ${subunidades} `}</Typography>
+							>{t('general.subUnidades')}: ${subunidades}</Typography>
 						</TableCell>
 					</TableRow>
 				</TableBody>

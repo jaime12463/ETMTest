@@ -3,6 +3,7 @@ import {TProductoPedido} from 'models';
 import {Box, Grid} from '@material-ui/core';
 import {Center} from 'components/UI';
 import {SwitchCambiarTipoPago} from '..';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
 	item: TProductoPedido;
@@ -15,6 +16,8 @@ const ItemProductoAgregadoAlPedidoActual: FunctionComponent<Props> = (
 	const {item, onClickItem} = props;
 
 	const {codigoProducto, nombreProducto, unidades, subUnidades, total} = item;
+
+	const {t} = useTranslation();
 
 	return (
 		<Grid container justify='center'>
@@ -35,11 +38,13 @@ const ItemProductoAgregadoAlPedidoActual: FunctionComponent<Props> = (
 								<Box fontWeight='fontWeightBold'>{nombreProducto}</Box>
 							</Grid>
 							<Grid item xs={12}>
-								<Box fontWeight='fontWeightLight'>Unidades: {unidades}</Box>
+								<Box fontWeight='fontWeightLight'>
+									{t('general.unidades')}: {unidades}
+								</Box>
 							</Grid>
 							<Grid item xs={12}>
 								<Box fontWeight='fontWeightLight'>
-									Subunidades: {subUnidades}
+									{t('general.subUnidades')}: {subUnidades}
 								</Box>
 							</Grid>
 						</Grid>
