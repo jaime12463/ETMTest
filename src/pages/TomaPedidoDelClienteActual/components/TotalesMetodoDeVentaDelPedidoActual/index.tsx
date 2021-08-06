@@ -8,12 +8,17 @@ const TotalesMetodoDeVentaDelPedidoActual: any = () => {
 	const calcularTotalPedido = useCalcularTotalPedido();
 
 	const metodosDeVenta = [
-		{metodo: t('general.credito'), total: 0, unidades: 0, subunidades: 0},
+		{
+			metodo: t('general.credito'),
+			total: calcularTotalPedido.totalCredito.totalPrecio,
+			unidades: calcularTotalPedido.totalCredito.totalUnidades,
+			subunidades: calcularTotalPedido.totalCredito.totalSubUnidades,
+		},
 		{
 			metodo: t('general.contado'),
-			total: calcularTotalPedido.totalPrecio,
-			unidades: calcularTotalPedido.totalUnidades,
-			subunidades: calcularTotalPedido.totalSubUnidades,
+			total: calcularTotalPedido.totalContado.totalPrecio,
+			unidades: calcularTotalPedido.totalContado.totalUnidades,
+			subunidades: calcularTotalPedido.totalContado.totalSubUnidades,
 		},
 	];
 
