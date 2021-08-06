@@ -81,17 +81,18 @@ function BotonVerPedidosDelClienteActual() {
 }
 
 function TabsPedidoActual() {
+	let {t} = useTranslation();
 	const tabs = [
 		{
-			label: 'Ventas',
+			label: t('general.ventas'),
 			component: TabVentas,
 		},
 		{
-			label: 'Canje',
+			label: t('general.canje'),
 			component: <h1>Canje</h1>,
 		},
 		{
-			label: 'Devolucion',
+			label: t('general.devolucion'),
 			component: <h1>Devolucion</h1>,
 		},
 	];

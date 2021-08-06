@@ -33,6 +33,8 @@ const en = {
 		pedidoMaximo: 'Maximum order',
 		creditoDisponible: 'Available credit',
 		signoMoneda: '€',
+		credito: 'Credit',
+		contado: 'Counted',
 	},
 	titulos: {
 		bienvenido: 'Welcome',
@@ -44,6 +46,7 @@ const en = {
 		ventas: 'Sales',
 		canje: 'Exchange',
 		devolucion: 'Refund',
+		PedidosDelClienteActual: 'Client orders',
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',
@@ -67,6 +70,8 @@ const en = {
 		cancelarPedido: 'Do you want to cancel the order?',
 		cancelarTodosLosPedido:
 			'All orders with a delivery date {{fechaDeEntrega}} will be canceled Do you wish to continue?',
+		ProductoNoEstaEnPortafolioCliente:
+			'The code does not correspond to a current portfolio of the client',
 	},
 };
 export default en;
