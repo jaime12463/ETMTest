@@ -41,7 +41,7 @@ const IndicadoresDelPedidoActual = () => {
 		<div>
 			<Grid container direction='row' justify='center' spacing={3}>
 				{indicadores.map((el, i) => (
-					<Grid item xs='auto' key={i}>
+					<Grid item xs='auto' key={i} style={{padding: 7}}>
 						<Center>
 							<BarraDeProgeso
 								titulo={el.titulo}

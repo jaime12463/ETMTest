@@ -1,4 +1,4 @@
-import {Box, Grid, List as ListMUI, ListSubheader} from '@material-ui/core';
+import {Box, Grid, List as ListMUI, ListSubheader, Divider} from '@material-ui/core';
 import {Item} from 'components/UI';
 import {THeader} from 'models';
 import {Fragment} from 'react';
@@ -33,14 +33,19 @@ function List<T>(props: Props<T>) {
 			}
 		>
 			{items &&
-				items.map((item, index) => (
-					<Item
-						item={item}
-						ItemComponent={ItemComponent}
-						key={index}
-						onClick={onClickItem}
-					/>
-				))}
+				items.map((item, index) => {
+					return (
+						<>
+							<Item
+								item={item}
+								ItemComponent={ItemComponent}
+								key={index}
+								onClick={onClickItem}
+							/>
+						</>
+					)
+					
+					})}
 		</ListMUI>
 	);
 }
