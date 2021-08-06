@@ -5,7 +5,7 @@ import {useObtenerConfiguracion} from 'redux/hooks';
 export const useValidarProductoPermiteSubUnidades = () => {
 	const configuracion: TConfiguracion = useObtenerConfiguracion();
 	const productoPermiteSubUnidades = useCallback(
-		(esVentaSubunidades: boolean): boolean => {
+		(esVentaSubunidades: any): boolean => {
 			const esPermitidoSubUnidades =
 				configuracion?.esVentaSubunidadesRuta && esVentaSubunidades;
 			return esPermitidoSubUnidades;

@@ -79,7 +79,7 @@ export type TConsumidoPorFecha = {
 
 export type TPortafolio = {
 	codigoProducto: number;
-	esVentaSubunidades: boolean;
+	esVentaSubunidades: string;
 	precios: TPrecio[];
 };
 
