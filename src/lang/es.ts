@@ -38,6 +38,7 @@ const es = {
 		signoMoneda: '$',
 		credito: 'Crédito',
 		contado: 'Contado',
+		venta: 'Venta',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',
