@@ -16,7 +16,7 @@ export default function Splash() {
 	window.localStorage.removeItem('fechaDipostivo');
 	querys.search &&
 		window.localStorage.setItem('fechaDipostivo', query[0].slice(7)),
-		i18n.changeLanguage(query[1].slice(9));
+		i18n.changeLanguage(query[1]?.slice(9));
 
 	return (
 		<Estructura titulo={t('titulos.bienvenido')} esConFechaHaciaAtras={false}>
