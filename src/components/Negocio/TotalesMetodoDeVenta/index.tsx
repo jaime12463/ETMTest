@@ -33,7 +33,7 @@ const TotalesMetodoDeVenta = ({
 					<TableRow>
 						<TableCell className={estilos.celda}>
 							<Typography variant='caption'>
-							{t('general.total')} ${metodoVenta}: $${total.toFixed(2)}
+							{t('general.total')} {metodoVenta}: ${total.toFixed(2)}
 							</Typography>
 						</TableCell>
 					</TableRow>
@@ -41,10 +41,10 @@ const TotalesMetodoDeVenta = ({
 						<TableCell className={estilos.celda}>
 							<Typography
 								className={estilos.subTitulo}
-							>{t('general.unidades')}: ${unidades}</Typography>
+							>{t('general.unidades')}: {unidades}</Typography>
 							<Typography
 								className={estilos.subTitulo}
-							>{t('general.subUnidades')}: ${subunidades}</Typography>
+							>{t('general.subUnidades')}: {subunidades}</Typography>
 						</TableCell>
 					</TableRow>
 				</TableBody>
