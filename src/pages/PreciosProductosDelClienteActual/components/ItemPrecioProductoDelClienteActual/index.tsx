@@ -6,17 +6,18 @@ import Numero from 'components/UI/Numero';
 
 type Props = {
 	item: TPrecioProducto;
+	onClickItem?: (item: TPrecioProducto) => void;
 };
 
 const ItemPrecioProductoDelClienteActual: FunctionComponent<Props> = (
 	props
 ) => {
-	const {item} = props;
+	const {item, onClickItem} = props;
 
 	const estilos = useEstilos();
 
 	return (
-		<Grid container>
+		<Grid container onClick={() => { if (onClickItem) onClickItem(item);}}>
 			<Grid item xs={8}>
 				<Box
 					display='flex'

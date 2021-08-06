@@ -20,7 +20,7 @@ const ItemProductoAgregadoAlPedidoActual: FunctionComponent<Props> = (
 	const {t} = useTranslation();
 
 	return (
-		<Grid container style={{borderBottomStyle:'inset', borderBottomWidth:1}}>
+		<Grid container >
 			<Grid item xs={10} onClick={() => { if (onClickItem) onClickItem(item);}} >
 				<Grid container>
 					<Grid item xs={12}>
