@@ -1,7 +1,7 @@
 import {FunctionComponent} from 'react';
 import {ETiposDePago, TProductoPedido} from 'models';
 import {Switch} from '@material-ui/core';
-import {useCambiarTipoPago} from './hooks';
+import {useCambiarTipoPago, usePermiteCambiarTipoPago} from './hooks';
 import {Center} from 'components/UI';
 
 type Props = {
@@ -15,6 +15,8 @@ export const SwitchCambiarTipoPago: FunctionComponent<Props> = (props) => {
 
 	const cambiarTipoPago = useCambiarTipoPago();
 
+	const permiteCambiarTipoPago: boolean = usePermiteCambiarTipoPago();
+
 	return (
 		<Center>
 			<Switch
@@ -22,6 +24,7 @@ export const SwitchCambiarTipoPago: FunctionComponent<Props> = (props) => {
 				onChange={() => cambiarTipoPago(producto)}
 				inputProps={{'aria-label': 'secondary checkbox'}}
 				size='small'
+				disabled={permiteCambiarTipoPago}
 			/>
 		</Center>
 	);
