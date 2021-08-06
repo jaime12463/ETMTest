@@ -1,9 +1,10 @@
-import {TDatosConfiguracion, TDatosClientesProductos} from 'models/server';
+import {TDatosConfiguracion, TDatosClientesProductos, TCondicicon} from 'models/server';
 
 //Cliente Actual
 export type TClienteActual = {
 	codigoCliente: string;
 	razonSocial: string;
+	condicion: TCondicicon;
 };
 
 //Configuracion

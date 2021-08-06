@@ -54,6 +54,7 @@ export const useInicializarClienteActual = (
 				inicializarClienteActual({
 					codigoCliente,
 					razonSocial: datosCliente.detalles.nombreComercial,
+					condicion: datosCliente.informacionCrediticia.condicion
 				})
 			);
 
