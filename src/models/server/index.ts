@@ -49,7 +49,7 @@ export type TInformacionCrediticia = {
 	condicion: TCondicicon;
 	disponible: number;
 };
-export type TCondicicon = 'contado' | 'credito' | 'creditoInformal'; //TODO: Esto debe ser un ENUM
+export type TCondicicon = 'contado' | 'creditoFormal' | 'creditoInformal'; //TODO: Esto debe ser un ENUM
 
 export type TConfiguracionPedido = {
 	ventaMinima?: TVentaMinima;

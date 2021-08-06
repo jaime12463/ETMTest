@@ -5,6 +5,7 @@ export type TClienteActual = {
 	codigoCliente: string;
 	razonSocial: string;
 	condicion: TCondicicon;
+	tipoPagoActual: ETiposDePago;
 };
 
 //Configuracion

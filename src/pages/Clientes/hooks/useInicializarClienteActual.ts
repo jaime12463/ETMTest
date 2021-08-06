@@ -1,6 +1,7 @@
 import {useCallback} from 'react';
 import {useAppDispatch} from 'redux/hooks';
 import {
+	ETiposDePago,
 	TFunctionMostarAvertenciaPorDialogo,
 	TInputsCodigoCliente,
 } from 'models';
@@ -8,7 +9,7 @@ import {useObtenerConfiguracion} from 'redux/hooks';
 import {useHistory} from 'react-router-dom';
 import nombresRutas from 'routes/nombresRutas';
 import {inicializarClienteActual} from 'redux/features/clienteActual/clienteActualSlice';
-import {useValidarInicializarClienteActual} from '.';
+import {useObtenerTipoPagoActual, useValidarInicializarClienteActual} from '.';
 import {useInicializarPedidoActual} from './useInicializarPedidoActual';
 import {useValidarInicializarPedidoActual} from './useValidarInicializarPedidoActual';
 
@@ -31,6 +32,8 @@ export const useInicializarClienteActual = (
 
 	const history = useHistory();
 
+	const obtenerTipoPagoActual = useObtenerTipoPagoActual();
+
 	//TODO: Esta logica puede ser mas limpia.
 	const asignarClienteActual = useCallback(
 		({codigoCliente}: TInputsCodigoCliente) => {
@@ -50,11 +53,14 @@ export const useInicializarClienteActual = (
 
 			if (!esValidoInicializarPedidoActual) return;
 
+			const tipoPagoActual: ETiposDePago = obtenerTipoPagoActual();
+
 			dispatch(
 				inicializarClienteActual({
 					codigoCliente,
 					razonSocial: datosCliente.detalles.nombreComercial,
-					condicion: datosCliente.informacionCrediticia.condicion
+					condicion: datosCliente.informacionCrediticia.condicion,
+					tipoPagoActual,
 				})
 			);
 

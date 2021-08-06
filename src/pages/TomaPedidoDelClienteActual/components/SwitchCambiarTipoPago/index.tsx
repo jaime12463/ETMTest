@@ -1,8 +1,9 @@
 import {FunctionComponent} from 'react';
-import {ETiposDePago, TProductoPedido} from 'models';
+import {ETiposDePago, TClienteActual, TProductoPedido} from 'models';
 import {Switch} from '@material-ui/core';
 import {useCambiarTipoPago, usePermiteCambiarTipoPago} from './hooks';
 import {Center} from 'components/UI';
+import {useObtenerClienteActual} from 'redux/hooks';
 
 type Props = {
 	producto?: TProductoPedido;
@@ -17,14 +18,20 @@ export const SwitchCambiarTipoPago: FunctionComponent<Props> = (props) => {
 
 	const permiteCambiarTipoPago: boolean = usePermiteCambiarTipoPago();
 
+	const clienteActual: TClienteActual = useObtenerClienteActual();
+
 	return (
 		<Center>
 			<Switch
-				checked={tipoPago === ETiposDePago.Contado}
+				checked={
+					producto
+						? tipoPago === ETiposDePago.Credito
+						: clienteActual.tipoPagoActual === ETiposDePago.Credito
+				}
 				onChange={() => cambiarTipoPago(producto)}
 				inputProps={{'aria-label': 'secondary checkbox'}}
 				size='small'
-				disabled={permiteCambiarTipoPago}
+				disabled={!permiteCambiarTipoPago}
 			/>
 		</Center>
 	);

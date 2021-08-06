@@ -1,22 +1,41 @@
-import {ETiposDePago, TProductoPedido} from 'models';
-import {agregarProductoAlPedidoDelCliente} from 'redux/features/pedidoActual/pedidoActualSlice';
-import {useAppDispatch} from 'redux/hooks';
+import {ETiposDePago, TClienteActual, TProductoPedido} from 'models';
+import {useCallback} from 'react';
+import {cambiarTipoPagoActual} from 'redux/features/clienteActual/clienteActualSlice';
+import {
+	cambiarTipoPagoPoducto,
+	cambiarTipoPagoPoductosDelPedido,
+} from 'redux/features/pedidoActual/pedidoActualSlice';
+import {useAppDispatch, useObtenerClienteActual} from 'redux/hooks';
 
 export const useCambiarTipoPago = () => {
 	const dispatch = useAppDispatch();
-	const cambiarTipoPago = (producto?: TProductoPedido) => {
-		if (producto) {
-			const productoActual = {...producto};
+	const clienteActual: TClienteActual = useObtenerClienteActual();
 
-			const tipoDePagoCambio =
-				productoActual.tipoPago === ETiposDePago.Contado
+	const cambiarTipoPago = useCallback(
+		(producto?: TProductoPedido) => {
+			if (producto) {
+				const tipoPago =
+					producto.tipoPago === ETiposDePago.Contado
+						? ETiposDePago.Credito
+						: ETiposDePago.Contado;
+
+				const {codigoProducto} = producto;
+
+				dispatch(cambiarTipoPagoPoducto({codigoProducto, tipoPago}));
+				return;
+			}
+
+			const tipoPago =
+				clienteActual.tipoPagoActual === ETiposDePago.Contado
 					? ETiposDePago.Credito
 					: ETiposDePago.Contado;
-			productoActual.tipoPago = tipoDePagoCambio;
 
-			dispatch(agregarProductoAlPedidoDelCliente(productoActual));
-			return;
-		}
-	};
+			dispatch(cambiarTipoPagoPoductosDelPedido({tipoPago}));
+
+			dispatch(cambiarTipoPagoActual({tipoPagoActual: tipoPago}));
+		},
+		[clienteActual, dispatch]
+	);
+
 	return cambiarTipoPago;
 };

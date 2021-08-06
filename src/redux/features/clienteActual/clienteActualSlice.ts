@@ -1,11 +1,12 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {TClienteActual} from 'models';
+import {ETiposDePago, TClienteActual} from 'models';
 import {RootState} from 'redux/store';
 
 const estadoInicial: TClienteActual = {
 	codigoCliente: '',
 	razonSocial: '',
-	condicion: 'contado'
+	condicion: 'contado',
+	tipoPagoActual: ETiposDePago.Contado,
 };
 
 export const clienteActualSlice = createSlice({
@@ -24,6 +25,13 @@ export const clienteActualSlice = createSlice({
 		resetearClienteActual: (state) => {
 			state.codigoCliente = '';
 			state.razonSocial = '';
+			state.condicion = 'contado';
+		},
+		cambiarTipoPagoActual: (
+			state,
+			action: PayloadAction<{tipoPagoActual: ETiposDePago}>
+		) => {
+			state.tipoPagoActual = action.payload.tipoPagoActual;
 		},
 	},
 });
@@ -32,5 +40,6 @@ export const selectClienteActual = (state: RootState) => state.clienteActual;
 export const {
 	inicializarClienteActual,
 	resetearClienteActual,
+	cambiarTipoPagoActual,
 } = clienteActualSlice.actions;
 export default clienteActualSlice.reducer;
