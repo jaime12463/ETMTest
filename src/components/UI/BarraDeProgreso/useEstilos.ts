@@ -16,6 +16,7 @@ export const useEstilos = makeStyles((theme) => ({
 		position: 'relative',
 		top: '18px',
 		fontSize: '0.7rem',
+		fontWeight: 'bold',
 	},
 	titulo: {
 		position: 'relative',
