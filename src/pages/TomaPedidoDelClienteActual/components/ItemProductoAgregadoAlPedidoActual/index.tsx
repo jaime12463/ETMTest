@@ -1,7 +1,7 @@
 import {FunctionComponent} from 'react';
 import {TProductoPedido} from 'models';
-import {Box, Grid} from '@material-ui/core';
-import {Center} from 'components/UI';
+import {Box, Grid, Divider } from '@material-ui/core';
+import { Numero} from 'components/UI';
 import {SwitchCambiarTipoPago} from '..';
 import {useTranslation} from 'react-i18next';
 
@@ -20,43 +20,44 @@ const ItemProductoAgregadoAlPedidoActual: FunctionComponent<Props> = (
 	const {t} = useTranslation();
 
 	return (
-		<Grid container justify='center'>
-			<Grid
-				item
-				xs={10}
-				onClick={() => {
-					if (onClickItem) onClickItem(item);
-				}}
-			>
-				<Grid container justify='center'>
-					<Grid item xs={2}>
-						<Center>{codigoProducto}</Center>
-					</Grid>
-					<Grid item xs={6}>
+		<Grid container style={{borderBottomStyle:'inset', borderBottomWidth:1}}>
+			<Grid item xs={10} onClick={() => { if (onClickItem) onClickItem(item);}} >
+				<Grid container>
+					<Grid item xs={12}>
 						<Grid container>
-							<Grid item xs={12}>
-								<Box fontWeight='fontWeightBold'>{nombreProducto}</Box>
+							<Grid item xs={2}>
+							<Box fontWeight='fontWeightBold' fontSize={12}>{codigoProducto}</Box>
 							</Grid>
-							<Grid item xs={12}>
-								<Box fontWeight='fontWeightLight'>
-									{t('general.unidades')}: {unidades}
-								</Box>
-							</Grid>
-							<Grid item xs={12}>
-								<Box fontWeight='fontWeightLight'>
-									{t('general.subUnidades')}: {subUnidades}
-								</Box>
+							<Grid item xs={10}>
+								<Box fontWeight='fontWeightBold' fontSize={12}>{nombreProducto}</Box>
 							</Grid>
 						</Grid>
 					</Grid>
-					<Grid item xs={3}>
-						<Center>{total.toFixed(2)}</Center>
+					<Grid item xs={12}>
+						<Grid container>
+							<Grid item xs={4}>
+								<Box  fontWeight='fontWeightLight' fontSize={11}>
+									{t('general.unidades')}: {unidades}
+								</Box>
+							</Grid>
+							<Grid item xs={4}>
+								<Box fontWeight='fontWeightLight' fontSize={11}>
+									{t('general.subUnidades')}: {subUnidades}
+								</Box>
+							</Grid>
+							<Grid item xs={4}>
+								<Box fontWeight='fontWeightLight' fontSize={11}>
+									<Numero tipo="moneda" valor={total} decimales={2}/>
+								</Box>
+							</Grid>
+						</Grid>
 					</Grid>
 				</Grid>
 			</Grid>
 			<Grid item xs={2}>
 				<SwitchCambiarTipoPago producto={item} />
 			</Grid>
+			
 		</Grid>
 	);
 };
