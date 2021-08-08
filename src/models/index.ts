@@ -22,6 +22,18 @@ export type TTotalPedido = {
 	totalUnidades: number;
 	totalSubUnidades: number;
 	totalPrecio: number;
+	totalContado: TTotalPedidoContado;
+	totalCredito: TTotalPedidoCredito;
+};
+export type TTotalPedidoContado = {
+	totalUnidades: number;
+	totalSubUnidades: number;
+	totalPrecio: number;
+};
+export type TTotalPedidoCredito = {
+	totalUnidades: number;
+	totalSubUnidades: number;
+	totalPrecio: number;
 };
 
 export type TFunctionMostarAvertenciaPorDialogo = (
