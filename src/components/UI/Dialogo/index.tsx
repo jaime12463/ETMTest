@@ -49,7 +49,7 @@ const Dialogo = ({
 				</DialogContent>
 			)}
 			<DialogActions>
-				<Button onClick={() => manejarClick(true)} color='primary' autoFocus>
+				<Button onClick={() => manejarClick(true)} color='primary'>
 					{textosBotonesDefault?.aceptar ?? t('general.aceptar')}
 				</Button>
 				{conBotonCancelar && (
