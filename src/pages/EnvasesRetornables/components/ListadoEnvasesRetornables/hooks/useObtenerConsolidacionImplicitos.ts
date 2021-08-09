@@ -25,10 +25,13 @@ export const useObtenerConsolidacionImplicitos = () => {
 
 			const consolidadoImplicitos: TConsolidadoImplicitos[] = [];
 			productosPedido.forEach((pedido) => {
-				if(pedido.unidades !== 0 && typeof pedido.codigoImplicito1 !== 'undefined')
-					incrementarImplicitos(consolidadoImplicitos, pedido.codigoImplicito1, pedido.nombreImplicito1, pedido.unidades, 0);
-				if(pedido.subUnidades !== 0 && typeof pedido.codigoImplicito2 !== 'undefined')
-					incrementarImplicitos(consolidadoImplicitos, pedido.codigoImplicito2, pedido.nombreImplicito2, 0, pedido.subUnidades);
+				//implicito1
+				if(typeof pedido.codigoImplicito1 !== 'undefined')
+					incrementarImplicitos(consolidadoImplicitos, pedido.codigoImplicito1, pedido.nombreImplicito1, pedido.unidades, pedido.subUnidades);
+				//implicito2
+				if(typeof pedido.codigoImplicito2 !== 'undefined')
+					incrementarImplicitos(consolidadoImplicitos, pedido.codigoImplicito2, pedido.nombreImplicito2, pedido.unidades, 0);
+
 			});
 
 			return consolidadoImplicitos;
