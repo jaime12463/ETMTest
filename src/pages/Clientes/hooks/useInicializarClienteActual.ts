@@ -32,7 +32,7 @@ export const useInicializarClienteActual = (
 
 	const history = useHistory();
 
-	const obtenerTipoPagoActual = useObtenerTipoPagoActual();
+	const {obtenerTipoPagoActual} = useObtenerTipoPagoActual();
 
 	//TODO: Esta logica puede ser mas limpia.
 	const asignarClienteActual = useCallback(
@@ -53,7 +53,7 @@ export const useInicializarClienteActual = (
 
 			if (!esValidoInicializarPedidoActual) return;
 
-			const tipoPagoActual: ETiposDePago = obtenerTipoPagoActual();
+			const tipoPagoActual: ETiposDePago = obtenerTipoPagoActual(codigoCliente);
 
 			dispatch(
 				inicializarClienteActual({

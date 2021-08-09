@@ -9,6 +9,7 @@ export {useResetPedidoActual} from './useResetPedidoActual';
 import useObtenerPrecioVigenteDelProducto from './useObtenerPrecioVigenteDelProducto';
 export {useInicializarPreciosProductosDelClienteActual} from './useInicializarPreciosProductosDelClienteActual';
 export {useSeleccionarProductoDePrecios} from './useSeleccionarProductoDePrecios';
-export {useObtenerCreditoDisponible} from './useObtenerCreditoDisponible';
+export { useObtenerCreditoDisponible } from './useObtenerCreditoDisponible';
+export { useObtenerPedidosClienteMismaFechaEntrega } from './useObtenerPedidosClienteMismaFechaEntrega';
 
 export {useInicializarDatosYConfiguracion, useObtenerPrecioVigenteDelProducto};

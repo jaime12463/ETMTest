@@ -3,22 +3,24 @@ import {ETiposDePago, TClienteActual, TPedidosClientes} from 'models';
 import {useCallback} from 'react';
 import {useObtenerClienteActual, useObtenerPedidosClientes} from 'redux/hooks';
 
-export const useObtenerCreditoDisponible = () => {
+export const useObtenerCreditoDisponible = (codigoCliente?: string) => {
 	const pedidosClientes: TPedidosClientes = useObtenerPedidosClientes();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
-	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+	const {obtenerDatosCliente} = useObtenerDatosCliente();
 
-	const obtenerCreditoDisponible = useCallback(() => {
+	const obtenerCreditoDisponible = useCallback((codigoClienteEntrante: string) => {
 		let creditoDisponible: number = 0;
 
 		let totalCreditoEnPedidos: number = 0;
 
-		pedidosClientes[clienteActual.codigoCliente]?.forEach((pedidos) => {
+		pedidosClientes[codigoClienteEntrante]?.forEach((pedidos) => {
 			pedidos.productosPedido.forEach((producto) => {
 				if (producto.tipoPago === ETiposDePago.Credito)
 					totalCreditoEnPedidos += producto.total;
 			});
 		});
+
+		const datosCliente = obtenerDatosCliente(codigoClienteEntrante);
 
 		const creditoDisponibleUsuario: number =
 			datosCliente?.informacionCrediticia?.disponible ?? 0;
@@ -26,6 +28,9 @@ export const useObtenerCreditoDisponible = () => {
 		creditoDisponible = creditoDisponibleUsuario - totalCreditoEnPedidos; //TODO: Esto podria ser negativo?
 
 		return creditoDisponible;
-	}, []);
-	return obtenerCreditoDisponible;
+	}, [pedidosClientes, obtenerDatosCliente]);
+
+	const creditoDisponible = obtenerCreditoDisponible(codigoCliente??clienteActual.codigoCliente);
+	
+	return {obtenerCreditoDisponible, creditoDisponible};
 };
