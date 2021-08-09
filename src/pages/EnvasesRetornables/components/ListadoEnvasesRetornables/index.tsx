@@ -44,7 +44,9 @@ const ListadoEnvasesRetornables: FunctionComponent<Props> = (props) => {
 	return (
 		<List
 			headers={headers}
-			items={consolidacionImplicitos}
+			items={consolidacionImplicitos.sort(function (a, b){
+				return (a.codigoImplicito - b.codigoImplicito)
+			})}
 			ItemComponent={ItemListadoEnvasesRetornables}
 		/>
 	);

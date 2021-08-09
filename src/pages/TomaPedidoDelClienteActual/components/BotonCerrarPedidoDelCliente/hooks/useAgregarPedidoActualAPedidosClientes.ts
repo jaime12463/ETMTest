@@ -1,6 +1,8 @@
 import {
 	useCalcularTotalPedido,
+	useObtenerCreditoDisponible,
 	useObtenerDatosCliente,
+	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
 import {
 	useObtenerClienteActual,
@@ -8,7 +10,6 @@ import {
 	useObtenerPedidosClientes,
 } from 'redux/hooks';
 import {
-	EEstadosDeUnPedido,
 	TCliente,
 	TClienteActual,
 	TFunctionMostarAvertenciaPorDialogo,
@@ -25,7 +26,8 @@ import {
 import {useAppDispatch} from 'redux/hooks';
 import {
 	validarMontoMinimoPedido,
-	validarTotalConMontoMaximo,
+	validarTotalConMontoMaximoContado,
+	validarTotalConMontoMaximoCredito,
 } from 'utils/validaciones';
 import {useTranslation} from 'react-i18next';
 import {useHistory} from 'react-router-dom';
@@ -42,7 +44,9 @@ export const useAgregarPedidoActualAPedidosClientes = (
 	const {t} = useTranslation();
 	const history = useHistory();
 	const fechaEntregaFormateada = new Date(pedidoActual.fechaEntrega); //TODO: Esto esta alterando la fecha real.
-
+	const { pedidosClienteMismaFechaEntrega } = useObtenerPedidosClienteMismaFechaEntrega();
+	const { creditoDisponible } = useObtenerCreditoDisponible();
+	
 	const agregarPedidoActualAPedidosClientes = useCallback(() => {
 		const pedidosCliente: TPedidoClienteParaEnviar[] | undefined =
 			pedidosClientes[clienteActual.codigoCliente];
@@ -55,23 +59,12 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			return;
 		}
 
-		const {configuracionPedido}: TCliente = datosCliente;
+		const { configuracionPedido }: TCliente = datosCliente;
 
 		const esValidoMontoMinidoPedido: boolean = validarMontoMinimoPedido(
 			totalPedidoActual.totalPrecio,
 			configuracionPedido
 		);
-
-		let pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[] = [];
-
-		if (pedidosCliente) {
-			pedidosClienteMismaFechaEntrega = pedidosCliente.filter(
-				(pedidoCliente: TPedidoClienteParaEnviar) =>
-					pedidoCliente.fechaEntrega === pedidoActual.fechaEntrega &&
-					pedidoCliente.codigoPedido !== pedidoActual.codigoPedido &&
-					pedidoCliente.estado === EEstadosDeUnPedido.Activo
-			);
-		}
 
 		if (
 			!esValidoMontoMinidoPedido &&
@@ -86,13 +79,13 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			return;
 		}
 
-		const esMenorAlMontoMaximo: boolean = validarTotalConMontoMaximo(
+		const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
 			totalPedidoActual.totalContado.totalPrecio,
 			pedidosClienteMismaFechaEntrega,
 			configuracionPedido.ventaContadoMaxima.montoVentaContadoMaxima
 		);
 
-		if (!esMenorAlMontoMaximo) {
+		if (!esMenorAlMontoMaximoContado) {
 			mostrarAdvertenciaEnDialogo(
 				t('advertencias.masDelMontoMaximo', {
 					fechaDeEntrega:
@@ -113,12 +106,29 @@ export const useAgregarPedidoActualAPedidosClientes = (
 				pedidoCliente.codigoPedido === pedidoActual.codigoPedido
 		);
 
+		const esMenorAlMontoMaximoCredito: boolean = validarTotalConMontoMaximoCredito(
+			totalPedidoActual.totalCredito.totalPrecio,
+			pedidosClienteMismaFechaEntrega,
+			creditoDisponible
+		);
+
+		const esCondicionCreditoInformal = clienteActual.condicion === 'creditoInformal';
+
+		if (esCondicionCreditoInformal && !esMenorAlMontoMaximoCredito) {
+			mostrarAdvertenciaEnDialogo(
+				t('advertencias.excedeCreditoDsiponible'),
+				'credito-maximo'
+			);
+			return;
+		}
+
 		if (esPedidoActualExistenteEnPedidosClientes)
 			dispatch(modificarPedidoCliente({pedidoActual, clienteActual}));
 		else dispatch(agregarPedidoCliente({pedidoActual, clienteActual}));
 
 		history.goBack();
 	}, [
+		pedidosClienteMismaFechaEntrega,
 		pedidoActual,
 		totalPedidoActual,
 		pedidosClientes,

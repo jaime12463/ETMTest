@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import {useEstilos} from './useEstilos';
 import {useTranslation} from 'react-i18next';
+import Numero from 'components/UI/Numero';
 
 export type Props = {
 	metodoVenta: string;
@@ -32,8 +33,11 @@ const TotalesMetodoDeVenta = ({
 				<TableBody>
 					<TableRow>
 						<TableCell className={estilos.celda}>
+							{`${t('general.total')} ${metodoVenta}:`}
+						</TableCell>
+						<TableCell className={estilos.celda}>
 							<Typography variant='caption'>
-								{t('general.total')} {metodoVenta}: ${total.toFixed(2)}
+								<Numero tipo="moneda" valor={total} decimales={2}/>
 							</Typography>
 						</TableCell>
 					</TableRow>
@@ -42,11 +46,14 @@ const TotalesMetodoDeVenta = ({
 							<Typography className={estilos.subTitulo}>
 								{t('general.unidades')}: {unidades}
 							</Typography>
+						</TableCell>
+						<TableCell className={estilos.celda}>
 							<Typography className={estilos.subTitulo}>
 								{t('general.subUnidades')}: {subunidades}
 							</Typography>
 						</TableCell>
 					</TableRow>
+					
 				</TableBody>
 			</Table>
 		</TableContainer>

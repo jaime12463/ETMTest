@@ -25,16 +25,40 @@ export const fechaDispositivo = (): string => {
 	return fecha;
 };
 
+export const obtenerTotalContadoPedidosCliente = (
+	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[]
+): number => {
+	let totalPedidosMismaFecha = 0;
+
+	if (pedidosClienteMismaFechaEntrega.length === 0)
+		return totalPedidosMismaFecha;
+
+	totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
+		(total: number, pedido: TPedidoClienteParaEnviar) => {
+			if (pedido.estado !== EEstadosDeUnPedido.Activo) return total;
+
+			for (let producto of pedido.productosPedido) {
+				if (producto.tipoPago === ETiposDePago.Contado) total += producto.total;
+			}
+
+			return total;
+		},
+		0
+	);
+
+	return totalPedidosMismaFecha;
+};
+
 export const obtenerTotalesPedidosCliente = (
 	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[]
 ): number => {
 	let totalPedidosMismaFecha = 0;
 	if (pedidosClienteMismaFechaEntrega.length !== 0) {
 		totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
-			(acum: any, pedido: any) => {
-				if (pedido.estado === EEstadosDeUnPedido.Activo) {
-					for (let valor of pedido.productosPedido) {
-						acum += valor.total;
+			(acum: any, pedidos: any) => {
+				if (pedidos.estado === EEstadosDeUnPedido.Activo) {
+					for (let pedido of pedidos.productosPedido) {
+						acum += pedido.total;
 					}
 				}
 				return acum;
@@ -42,6 +66,30 @@ export const obtenerTotalesPedidosCliente = (
 			0
 		);
 	}
+
+	return totalPedidosMismaFecha;
+};
+
+export const obtenerTotalCreditoPedidosCliente = (
+	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[]
+): number => {
+	let totalPedidosMismaFecha = 0;
+
+	if (pedidosClienteMismaFechaEntrega.length === 0)
+		return totalPedidosMismaFecha;
+
+	totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
+		(total: number, pedido: TPedidoClienteParaEnviar) => {
+			if (pedido.estado !== EEstadosDeUnPedido.Activo) return total;
+
+			for (let producto of pedido.productosPedido) {
+				if (producto.tipoPago === ETiposDePago.Credito) total += producto.total;
+			}
+
+			return total;
+		},
+		0
+	);
 
 	return totalPedidosMismaFecha;
 };

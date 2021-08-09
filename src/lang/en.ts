@@ -73,6 +73,7 @@ const en = {
 			'All orders with a delivery date {{fechaDeEntrega}} will be canceled Do you wish to continue?',
 		ProductoNoEstaEnPortafolioCliente:
 			'The code does not correspond to a current portfolio of the client',
+		excedeCreditoDsiponible: 'The order exceeds the available credit',
 	},
 };
 export default en;
