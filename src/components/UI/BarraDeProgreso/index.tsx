@@ -45,7 +45,7 @@ const BarraDeProgeso = ({
 			<Typography className={estilos.label} variant='body2'>
 				{condicion !== 'contado'
 					? `${t('general.signoMoneda')}${valor.toFixed()}`
-					: `${t('general.signoMoneda')}${valor.toFixed()}/${t(
+					: `${t('general.signoMoneda')}${valor.toFixed()} / ${t(
 							'general.signoMoneda'
 					  )}${max}`}
 			</Typography>

@@ -118,7 +118,7 @@ const IndicadoresDelPedidoActual = () => {
 								disable={
 									el.condicion === 'contado'
 										? true
-										: el.valorMax && el.valorMax <= 0
+										: el.valorMax === undefined
 										? true
 										: false
 								}
