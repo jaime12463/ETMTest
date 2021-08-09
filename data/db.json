@@ -1061,8 +1061,8 @@
                     }
                 ],
                 "informacionCrediticia": {
-                    "condicion": "contado",
-                    "disponible": 0
+                    "condicion": "creditoFormal",
+                    "disponible": 100000
                 },
                 "configuracionPedido": {
                     "ventaMinima": {
@@ -1088,32 +1088,6 @@
                             }, {
                                 "fechaEntrega": "2021-08-07",
                                 "cumplido": "false"
-                            }
-                        ]
-                    },
-                    "ventaContadoMaxima": {
-                        "montoVentaContadoMaxima": 4000,
-                        "consumidoPorFecha": [{
-                                "fechaEntrega": "2021-07-31",
-                                "consumido": 0.00
-                            }, {
-                                "fechaEntrega": "2021-08-02",
-                                "consumido": 0.00
-                            }, {
-                                "fechaEntrega": "2021-08-03",
-                                "consumido": 0.00
-                            }, {
-                                "fechaEntrega": "2021-08-04",
-                                "consumido": 497.59
-                            }, {
-                                "fechaEntrega": "2021-08-05",
-                                "consumido": 686.89
-                            }, {
-                                "fechaEntrega": "2021-08-06",
-                                "consumido": 820.20
-                            }, {
-                                "fechaEntrega": "2021-08-07",
-                                "consumido": 0.00
                             }
                         ]
                     },
@@ -3393,32 +3367,6 @@
                     "disponible": 0
                 },
                 "configuracionPedido": {
-                    "ventaMinima": {
-                        "montoVentaMinima": 1000,
-                        "cumplimientoPorFecha": [{
-                                "fechaEntrega": "2021-07-31",
-                                "cumplido": "false"
-                            }, {
-                                "fechaEntrega": "2021-08-02",
-                                "cumplido": "false"
-                            }, {
-                                "fechaEntrega": "2021-08-03",
-                                "cumplido": "false"
-                            }, {
-                                "fechaEntrega": "2021-08-04",
-                                "cumplido": "false"
-                            }, {
-                                "fechaEntrega": "2021-08-05",
-                                "cumplido": "false"
-                            }, {
-                                "fechaEntrega": "2021-08-06",
-                                "cumplido": "false"
-                            }, {
-                                "fechaEntrega": "2021-08-07",
-                                "cumplido": "false"
-                            }
-                        ]
-                    },
                     "ventaContadoMaxima": {
                         "montoVentaContadoMaxima": 4000,
                         "consumidoPorFecha": [{
@@ -4557,32 +4505,6 @@
                     "disponible": 0
                 },
                 "configuracionPedido": {
-                    "ventaMinima": {
-                        "montoVentaMinima": 1000,
-                        "cumplimientoPorFecha": [{
-                                "fechaEntrega": "2021-07-31",
-                                "cumplido": "true"
-                            }, {
-                                "fechaEntrega": "2021-08-02",
-                                "cumplido": "false"
-                            }, {
-                                "fechaEntrega": "2021-08-03",
-                                "cumplido": "false"
-                            }, {
-                                "fechaEntrega": "2021-08-04",
-                                "cumplido": "false"
-                            }, {
-                                "fechaEntrega": "2021-08-05",
-                                "cumplido": "false"
-                            }, {
-                                "fechaEntrega": "2021-08-06",
-                                "cumplido": "false"
-                            }, {
-                                "fechaEntrega": "2021-08-07",
-                                "cumplido": "false"
-                            }
-                        ]
-                    },
                     "ventaContadoMaxima": {
                         "montoVentaContadoMaxima": 4000,
                         "consumidoPorFecha": [{
