@@ -12,8 +12,8 @@ export * from 'models/server';
 export * from 'models/redux';
 
 export type TConsolidadoImplicitos = {
-	codigoImplicito?: number;
-	nombreImplicito?: string;
+	codigoImplicito: number;
+	nombreImplicito: string;
 	unidades: number;
 	subUnidades: number;
 };

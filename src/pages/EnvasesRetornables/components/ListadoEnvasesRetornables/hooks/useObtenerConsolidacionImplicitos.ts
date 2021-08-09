@@ -16,8 +16,8 @@ export const useObtenerConsolidacionImplicitos = () => {
 				});
 				if(flatAgregado == false)
 					consolidadoImplicitos.push({
-						codigoImplicito: codigoImplicito,
-						nombreImplicito: nombreImplicito,
+						codigoImplicito: codigoImplicito|| 0,
+						nombreImplicito: nombreImplicito|| '',
 						unidades: unidades,
 						subUnidades: subUnidades
 					});
