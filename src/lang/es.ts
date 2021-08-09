@@ -73,6 +73,7 @@ const es = {
 			'Se cancelarán todos los pedidos con fecha de entrega {{fechaDeEntrega}} ¿Desea continuar?',
 		ProductoNoEstaEnPortafolioCliente:
 			'El código no corresponde a un portafolio vigente del cliente',
+		excedeCreditoDsiponible: 'El pedido excede el crédito disponible',
 	},
 };
 export default es;

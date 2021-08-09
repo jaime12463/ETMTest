@@ -116,7 +116,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 
 		if (esCondicionCreditoInformal && !esMenorAlMontoMaximoCredito) {
 			mostrarAdvertenciaEnDialogo(
-				t('advertencias.El pedido excede el crédito disponible'),
+				t('advertencias.excedeCreditoDsiponible'),
 				'credito-maximo'
 			);
 			return;
