@@ -31,7 +31,7 @@ const IndicadoresDelPedidoActual = () => {
 		{
 			titulo: t('general.creditoDisponible'),
 			valorMax: datosCliente?.informacionCrediticia.disponible,
-			valor: calcularTotalPedido.totalPrecio,
+			valor: calcularTotalPedido.totalCredito.totalPrecio,
 			colores: ['verde', 'amarillo', 'rojo'],
 			condicion: datosCliente?.informacionCrediticia.condicion,
 		},
