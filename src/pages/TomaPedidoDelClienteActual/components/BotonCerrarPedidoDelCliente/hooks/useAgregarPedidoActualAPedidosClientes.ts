@@ -87,7 +87,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 		}
 
 		const esMenorAlMontoMaximo: boolean = validarTotalConMontoMaximo(
-			totalPedidoActual.totalPrecio,
+			totalPedidoActual.totalContado.totalPrecio,
 			pedidosClienteMismaFechaEntrega,
 			configuracionPedido.ventaContadoMaxima.montoVentaContadoMaxima
 		);

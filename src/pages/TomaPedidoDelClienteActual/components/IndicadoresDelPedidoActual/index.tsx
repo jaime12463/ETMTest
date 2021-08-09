@@ -25,7 +25,7 @@ const IndicadoresDelPedidoActual = () => {
 			valorMax:
 				datosCliente?.configuracionPedido.ventaContadoMaxima
 					?.montoVentaContadoMaxima,
-			valor: calcularTotalPedido.totalCredito.totalPrecio,
+			valor: calcularTotalPedido.totalContado.totalPrecio,
 			colores: ['verde', 'amarillo', 'rojo'],
 		},
 		{
