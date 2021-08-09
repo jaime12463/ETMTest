@@ -7,28 +7,26 @@ import {
 import {
 	TCliente,
 	TClienteActual,
-	TPedidoActual,
 	TTotalPedido,
 } from 'models';
-import {useCallback} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {
 	useObtenerClienteActual,
-	useObtenerPedidoActual,
 } from 'redux/hooks';
 import {validarTotalConMontoMaximoContado} from 'utils/validaciones';
 
 export const usePermiteCambiarTipoPago = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const totalPedidoActual: TTotalPedido = useCalcularTotalPedido();
-	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const { creditoDisponible } = useObtenerCreditoDisponible();
-	const {pedidosClienteMismaFechaEntrega} = useObtenerPedidosClienteMismaFechaEntrega();
+	const { pedidosClienteMismaFechaEntrega } = useObtenerPedidosClienteMismaFechaEntrega();
+	
+	const [permiteCambiarTipoPago, setPermiteCambiarTipoPago] = useState<boolean>(false)
 
 	const validarPermiteCambiarTipoPago = useCallback(() => {
-		let permiteCambiarTipoPago: boolean = false;
 					
-		if (!datosCliente) return permiteCambiarTipoPago;
+		if (!datosCliente) return;
 			
 		const { configuracionPedido }: TCliente = datosCliente;
 		
@@ -43,19 +41,18 @@ export const usePermiteCambiarTipoPago = () => {
 		const esCondicionCredito = clienteActual.condicion === 'creditoInformal';
 
 		if (esCondicionCredito && esMenorAlMontoMaximoContado && hayCreditoDisponible)
-			permiteCambiarTipoPago = true;
-
-		return permiteCambiarTipoPago;
+			setPermiteCambiarTipoPago(true);
 	}, [
 		pedidosClienteMismaFechaEntrega,
 		clienteActual,
 		totalPedidoActual,
-		pedidoActual,
 		datosCliente,
 		creditoDisponible
 	]);
 
-	const permiteCambiarTipoPago: boolean = validarPermiteCambiarTipoPago();
+	useEffect(() => {
+		validarPermiteCambiarTipoPago();
+	}, [])
 
 	return permiteCambiarTipoPago;
 };
