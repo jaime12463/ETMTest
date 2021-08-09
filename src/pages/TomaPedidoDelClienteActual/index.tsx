@@ -87,14 +87,6 @@ function TabsPedidoActual() {
 			label: t('general.ventas'),
 			component: TabVentas,
 		},
-		{
-			label: t('general.canje'),
-			component: <h1>Canje</h1>,
-		},
-		{
-			label: t('general.devolucion'),
-			component: <h1>Devolucion</h1>,
-		},
 	];
 
 	return <Tabs tabs={tabs} />;
