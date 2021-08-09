@@ -67,11 +67,3 @@ export const useCalcularTotalPedido = (): TTotalPedido => {
 	);
 	return totalPedido;
 };
-
-/* 		totalContado:
-			productoPedido.tipoPago === ETiposDePago.Contado
-				? total.totalPrecio + productoPedido.total
-				: 0,
-				
-						totalContado: {totalUnidades: 0, totalPrecio: 0, totalSubUnidades: 0},
-		totalCredito: {totalUnidades: 0, totalPrecio: 0, totalSubUnidades: 0},*/

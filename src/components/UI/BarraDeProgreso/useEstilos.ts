@@ -37,7 +37,10 @@ export const BorderLinearProgress = withStyles((theme: Theme) =>
 			borderRadius: '3px',
 		},
 		bar: {
-			backgroundImage: (props: any) => props.barcolor,
+			backgroundColor: (props: any) =>
+				props.barcolor === 'verde'
+					? 'rgba(102,187,106,1)'
+					: 'rgba(229, 57, 53, 1)',
 		},
 		colorPrimary: {
 			backgroundColor: '#FFFFFF',
