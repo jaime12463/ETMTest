@@ -24,7 +24,7 @@ const IndicadoresDelPedidoActual = () => {
 			titulo: t('general.pedidoMaximo'),
 			valorMax:
 				datosCliente?.configuracionPedido.ventaContadoMaxima
-					?.montoVentaContadoMaxima,
+					?.montoVentaContadoMaxima, //TODO: Aca faltaria ir sumando los valores de todos los pedidos
 			valor: calcularTotalPedido.totalContado.totalPrecio,
 			colores: ['verde', 'amarillo', 'rojo'],
 		},
