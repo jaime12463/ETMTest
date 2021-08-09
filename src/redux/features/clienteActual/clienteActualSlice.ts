@@ -17,10 +17,11 @@ export const clienteActualSlice = createSlice({
 			state,
 			action: PayloadAction<TClienteActual>
 		) => {
-			const {codigoCliente, razonSocial, condicion} = action.payload;
+			const {codigoCliente, razonSocial, condicion, tipoPagoActual} = action.payload;
 			state.codigoCliente = codigoCliente;
 			state.razonSocial = razonSocial;
 			state.condicion = condicion;
+			state.tipoPagoActual = tipoPagoActual;
 		},
 		resetearClienteActual: (state) => {
 			state.codigoCliente = '';
