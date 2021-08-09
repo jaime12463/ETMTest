@@ -1,4 +1,4 @@
-import {TPedidoClienteParaEnviar, EEstadosDeUnPedido} from 'models/redux';
+import {TPedidoClienteParaEnviar, EEstadosDeUnPedido, ETiposDePago} from 'models/redux';
 
 export const transformDate = (date: string): string =>
 	`${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}`;
@@ -21,23 +21,54 @@ export const fechaDispositivo = (): string => {
 	return fecha;
 };
 
-export const obtenerTotalesPedidosCliente = (
+export const obtenerTotalContadoPedidosCliente = (
 	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[]
 ): number => {
 	let totalPedidosMismaFecha = 0;
-	if (pedidosClienteMismaFechaEntrega.length !== 0) {
-		totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
-			(acum: any, pedido: any) => {
-				if (pedido.estado === EEstadosDeUnPedido.Activo) {
-					for (let valor of pedido.productosPedido) {
-						acum += valor.total;
-					}
-				}
-				return acum;
-			},
-			0
-		);
-	}
+
+	if (pedidosClienteMismaFechaEntrega.length === 0)
+		return totalPedidosMismaFecha;
+	
+	totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
+		(total: number, pedido: TPedidoClienteParaEnviar) => {
+			if (pedido.estado !== EEstadosDeUnPedido.Activo)
+				return total;
+			
+			for (let producto of pedido.productosPedido) {
+				if (producto.tipoPago === ETiposDePago.Contado)
+					total += producto.total;
+			}
+
+			return total;
+		},
+		0
+	);
+
+	return totalPedidosMismaFecha;
+};
+
+export const obtenerTotalCreditoPedidosCliente = (
+	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[]
+): number => {
+	let totalPedidosMismaFecha = 0;
+
+	if (pedidosClienteMismaFechaEntrega.length === 0)
+		return totalPedidosMismaFecha;
+	
+	totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
+		(total: number, pedido: TPedidoClienteParaEnviar) => {
+			if (pedido.estado !== EEstadosDeUnPedido.Activo)
+				return total;
+			
+			for (let producto of pedido.productosPedido) {
+				if (producto.tipoPago === ETiposDePago.Credito)
+					total += producto.total;
+			}
+
+			return total;
+		},
+		0
+	);
 
 	return totalPedidosMismaFecha;
 };

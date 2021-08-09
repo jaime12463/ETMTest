@@ -1,7 +1,7 @@
 import {ETiposDePago, TCliente, TTotalPedido} from 'models';
 import { useCalcularTotalPedido, useObtenerCreditoDisponible, useObtenerDatosCliente, useObtenerPedidosClienteMismaFechaEntrega } from 'hooks';
 import { useCallback } from 'react';
-import { validarTotalConMontoMaximo } from 'utils/validaciones';
+import { validarTotalConMontoMaximoContado } from 'utils/validaciones';
 
 export const useObtenerTipoPagoActual = (
 	
@@ -38,7 +38,7 @@ export const useObtenerTipoPagoActual = (
 			
 			const { configuracionPedido }: TCliente = datosCliente;
 
-			const esMenorAlMontoMaximo: boolean = validarTotalConMontoMaximo(
+			const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
 				totalPedidoActual.totalContado.totalPrecio,
 				pedidosClienteMismaFechaEntrega,
 				configuracionPedido.ventaContadoMaxima.montoVentaContadoMaxima
@@ -46,7 +46,7 @@ export const useObtenerTipoPagoActual = (
 
 			tipoPagoActual = ETiposDePago.Credito;
 			
-			if (esMenorAlMontoMaximo && !hayCreditoDisponible)
+			if (esMenorAlMontoMaximoContado && !hayCreditoDisponible)
 				tipoPagoActual = ETiposDePago.Contado;
 			
 			return tipoPagoActual;

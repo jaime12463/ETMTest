@@ -15,7 +15,7 @@ import {
 	useObtenerClienteActual,
 	useObtenerPedidoActual,
 } from 'redux/hooks';
-import {validarTotalConMontoMaximo} from 'utils/validaciones';
+import {validarTotalConMontoMaximoContado} from 'utils/validaciones';
 
 export const usePermiteCambiarTipoPago = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
@@ -32,7 +32,7 @@ export const usePermiteCambiarTipoPago = () => {
 			
 		const { configuracionPedido }: TCliente = datosCliente;
 		
-		const esMenorAlMontoMaximo: boolean = validarTotalConMontoMaximo(
+		const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
 			totalPedidoActual.totalContado.totalPrecio,
 			pedidosClienteMismaFechaEntrega,
 			configuracionPedido.ventaContadoMaxima.montoVentaContadoMaxima
@@ -42,7 +42,7 @@ export const usePermiteCambiarTipoPago = () => {
 
 		const esCondicionCredito = clienteActual.condicion === 'creditoInformal';
 
-		if (esCondicionCredito && esMenorAlMontoMaximo && hayCreditoDisponible)
+		if (esCondicionCredito && esMenorAlMontoMaximoContado && hayCreditoDisponible)
 			permiteCambiarTipoPago = true;
 
 		return permiteCambiarTipoPago;

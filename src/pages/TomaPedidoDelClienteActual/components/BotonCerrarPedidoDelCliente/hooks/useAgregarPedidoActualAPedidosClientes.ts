@@ -1,5 +1,6 @@
 import {
 	useCalcularTotalPedido,
+	useObtenerCreditoDisponible,
 	useObtenerDatosCliente,
 	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
@@ -25,7 +26,8 @@ import {
 import {useAppDispatch} from 'redux/hooks';
 import {
 	validarMontoMinimoPedido,
-	validarTotalConMontoMaximo,
+	validarTotalConMontoMaximoContado,
+	validarTotalConMontoMaximoCredito,
 } from 'utils/validaciones';
 import {useTranslation} from 'react-i18next';
 import {useHistory} from 'react-router-dom';
@@ -43,6 +45,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 	const history = useHistory();
 	const fechaEntregaFormateada = new Date(pedidoActual.fechaEntrega); //TODO: Esto esta alterando la fecha real.
 	const { pedidosClienteMismaFechaEntrega } = useObtenerPedidosClienteMismaFechaEntrega();
+	const { creditoDisponible } = useObtenerCreditoDisponible();
 	
 	const agregarPedidoActualAPedidosClientes = useCallback(() => {
 		const pedidosCliente: TPedidoClienteParaEnviar[] | undefined =
@@ -56,7 +59,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			return;
 		}
 
-		const {configuracionPedido}: TCliente = datosCliente;
+		const { configuracionPedido }: TCliente = datosCliente;
 
 		const esValidoMontoMinidoPedido: boolean = validarMontoMinimoPedido(
 			totalPedidoActual.totalPrecio,
@@ -76,13 +79,13 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			return;
 		}
 
-		const esMenorAlMontoMaximo: boolean = validarTotalConMontoMaximo(
+		const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
 			totalPedidoActual.totalContado.totalPrecio,
 			pedidosClienteMismaFechaEntrega,
 			configuracionPedido.ventaContadoMaxima.montoVentaContadoMaxima
 		);
 
-		if (!esMenorAlMontoMaximo) {
+		if (!esMenorAlMontoMaximoContado) {
 			mostrarAdvertenciaEnDialogo(
 				t('advertencias.masDelMontoMaximo', {
 					fechaDeEntrega:
@@ -102,6 +105,22 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			(pedidoCliente) =>
 				pedidoCliente.codigoPedido === pedidoActual.codigoPedido
 		);
+
+		const esMenorAlMontoMaximoCredito: boolean = validarTotalConMontoMaximoCredito(
+			totalPedidoActual.totalCredito.totalPrecio,
+			pedidosClienteMismaFechaEntrega,
+			creditoDisponible
+		);
+
+		const esCondicionCreditoInformal = clienteActual.condicion === 'creditoInformal';
+
+		if (esCondicionCreditoInformal && !esMenorAlMontoMaximoCredito) {
+			mostrarAdvertenciaEnDialogo(
+				t('advertencias.El pedido excede el crédito disponible'),
+				'credito-maximo'
+			);
+			return;
+		}
 
 		if (esPedidoActualExistenteEnPedidosClientes)
 			dispatch(modificarPedidoCliente({pedidoActual, clienteActual}));
