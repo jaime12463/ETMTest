@@ -53,7 +53,7 @@ export type TCondicicon = 'contado' | 'creditoFormal' | 'creditoInformal'; //TOD
 
 export type TConfiguracionPedido = {
 	ventaMinima?: TVentaMinima;
-	ventaContadoMaxima: TVentaContadoMaxima;
+	ventaContadoMaxima?: TVentaContadoMaxima;
 	cantidadMaximaUnidades?: number;
 };
 

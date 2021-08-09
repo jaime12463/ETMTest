@@ -82,7 +82,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 		const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
 			totalPedidoActual.totalContado.totalPrecio,
 			pedidosClienteMismaFechaEntrega,
-			configuracionPedido.ventaContadoMaxima.montoVentaContadoMaxima
+			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima??0
 		);
 
 		if (!esMenorAlMontoMaximoContado) {
@@ -94,7 +94,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 						fechaEntregaFormateada.getMonth() +
 						'-' +
 						fechaEntregaFormateada.getFullYear(),
-					montoVentaMaxima: configuracionPedido.ventaContadoMaxima.montoVentaContadoMaxima,
+					montoVentaMaxima: configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima??'',
 				}),
 				'monto-maximo'
 			);

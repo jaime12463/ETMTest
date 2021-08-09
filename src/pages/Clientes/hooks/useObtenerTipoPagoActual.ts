@@ -41,7 +41,7 @@ export const useObtenerTipoPagoActual = (
 			const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
 				totalPedidoActual.totalContado.totalPrecio,
 				pedidosClienteMismaFechaEntrega,
-				configuracionPedido.ventaContadoMaxima.montoVentaContadoMaxima
+				configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima??0
 			);
 
 			tipoPagoActual = ETiposDePago.Credito;

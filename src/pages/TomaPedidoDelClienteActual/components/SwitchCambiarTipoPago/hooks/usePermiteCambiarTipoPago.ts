@@ -33,7 +33,7 @@ export const usePermiteCambiarTipoPago = () => {
 		const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
 			totalPedidoActual.totalContado.totalPrecio,
 			pedidosClienteMismaFechaEntrega,
-			configuracionPedido.ventaContadoMaxima.montoVentaContadoMaxima
+			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima??0
 		);
 
 		const hayCreditoDisponible = creditoDisponible > 0;
