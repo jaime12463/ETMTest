@@ -70,30 +70,6 @@ export const obtenerTotalesPedidosCliente = (
 	return totalPedidosMismaFecha;
 };
 
-export const obtenerTotalCreditoPedidosCliente = (
-	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[]
-): number => {
-	let totalPedidosMismaFecha = 0;
-
-	if (pedidosClienteMismaFechaEntrega.length === 0)
-		return totalPedidosMismaFecha;
-
-	totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
-		(total: number, pedido: TPedidoClienteParaEnviar) => {
-			if (pedido.estado !== EEstadosDeUnPedido.Activo) return total;
-
-			for (let producto of pedido.productosPedido) {
-				if (producto.tipoPago === ETiposDePago.Credito) total += producto.total;
-			}
-
-			return total;
-		},
-		0
-	);
-
-	return totalPedidosMismaFecha;
-};
-
 export const obtenerTotalesContadoPedidosCliente = (
 	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[]
 ): number => {

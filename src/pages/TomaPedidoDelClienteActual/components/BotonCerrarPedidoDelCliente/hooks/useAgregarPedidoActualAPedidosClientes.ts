@@ -27,7 +27,6 @@ import {useAppDispatch} from 'redux/hooks';
 import {
 	validarMontoMinimoPedido,
 	validarTotalConMontoMaximoContado,
-	validarTotalConMontoMaximoCredito,
 } from 'utils/validaciones';
 import {useTranslation} from 'react-i18next';
 import {useHistory} from 'react-router-dom';
@@ -43,7 +42,6 @@ export const useAgregarPedidoActualAPedidosClientes = (
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {t} = useTranslation();
 	const history = useHistory();
-	const fechaEntregaFormateada = new Date(pedidoActual.fechaEntrega); //TODO: Esto esta alterando la fecha real.
 	const {
 		pedidosClienteMismaFechaEntrega,
 	} = useObtenerPedidosClienteMismaFechaEntrega();
@@ -103,11 +101,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 				pedidoCliente.codigoPedido === pedidoActual.codigoPedido
 		);
 
-		const esMenorAlMontoMaximoCredito: boolean = validarTotalConMontoMaximoCredito(
-			totalPedidoActual.totalCredito.totalPrecio,
-			pedidosClienteMismaFechaEntrega,
-			creditoDisponible
-		);
+		const esMenorAlMontoMaximoCredito: boolean = totalPedidoActual.totalCredito.totalPrecio < creditoDisponible;
 
 		const esCondicionCreditoInformal =
 			clienteActual.condicion === 'creditoInformal';

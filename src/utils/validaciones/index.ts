@@ -8,7 +8,7 @@ import {
 	TValidacionFechaVisita,
 	TValidacionFechaEntrega,
 } from 'models';
-import {fechaDispositivo, obtenerTotalContadoPedidosCliente, obtenerTotalCreditoPedidosCliente} from 'utils/methods';
+import {fechaDispositivo, obtenerTotalContadoPedidosCliente} from 'utils/methods';
 
 export const validarFechaVigenciaProducto = (
 	preciosProductos: TPrecio[],
@@ -50,20 +50,6 @@ export const validarTotalConMontoMaximoContado = (
 ): boolean => {
 	const toatlPedidosClienteMismaFechaEntregaYPedidoActual: number =
 		obtenerTotalContadoPedidosCliente(pedidosClienteMismaFechaEntrega) +
-		totalPedidoActual;
-
-	if (toatlPedidosClienteMismaFechaEntregaYPedidoActual > montoVentaMaxima)
-		return false;
-	return true;
-};
-
-export const validarTotalConMontoMaximoCredito = (
-	totalPedidoActual: number,
-	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[],
-	montoVentaMaxima: number
-): boolean => {
-	const toatlPedidosClienteMismaFechaEntregaYPedidoActual: number =
-		obtenerTotalCreditoPedidosCliente(pedidosClienteMismaFechaEntrega) +
 		totalPedidoActual;
 
 	if (toatlPedidosClienteMismaFechaEntregaYPedidoActual > montoVentaMaxima)
