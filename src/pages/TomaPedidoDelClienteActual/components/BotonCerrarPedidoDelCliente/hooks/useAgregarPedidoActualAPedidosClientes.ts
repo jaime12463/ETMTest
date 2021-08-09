@@ -1,6 +1,7 @@
 import {
 	useCalcularTotalPedido,
 	useObtenerDatosCliente,
+	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
 import {
 	useObtenerClienteActual,
@@ -8,7 +9,6 @@ import {
 	useObtenerPedidosClientes,
 } from 'redux/hooks';
 import {
-	EEstadosDeUnPedido,
 	TCliente,
 	TClienteActual,
 	TFunctionMostarAvertenciaPorDialogo,
@@ -42,7 +42,8 @@ export const useAgregarPedidoActualAPedidosClientes = (
 	const {t} = useTranslation();
 	const history = useHistory();
 	const fechaEntregaFormateada = new Date(pedidoActual.fechaEntrega); //TODO: Esto esta alterando la fecha real.
-
+	const { pedidosClienteMismaFechaEntrega } = useObtenerPedidosClienteMismaFechaEntrega();
+	
 	const agregarPedidoActualAPedidosClientes = useCallback(() => {
 		const pedidosCliente: TPedidoClienteParaEnviar[] | undefined =
 			pedidosClientes[clienteActual.codigoCliente];
@@ -61,17 +62,6 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			totalPedidoActual.totalPrecio,
 			configuracionPedido
 		);
-
-		let pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[] = [];
-
-		if (pedidosCliente) {
-			pedidosClienteMismaFechaEntrega = pedidosCliente.filter(
-				(pedidoCliente: TPedidoClienteParaEnviar) =>
-					pedidoCliente.fechaEntrega === pedidoActual.fechaEntrega &&
-					pedidoCliente.codigoPedido !== pedidoActual.codigoPedido &&
-					pedidoCliente.estado === EEstadosDeUnPedido.Activo
-			);
-		}
 
 		if (
 			!esValidoMontoMinidoPedido &&
@@ -119,6 +109,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 
 		history.goBack();
 	}, [
+		pedidosClienteMismaFechaEntrega,
 		pedidoActual,
 		totalPedidoActual,
 		pedidosClientes,
