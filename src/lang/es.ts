@@ -65,7 +65,7 @@ const es = {
 		subUnidadesNoPermitidas:
 			'Las subunidades no están habilitadas para este producto',
 		masDelMontoMaximo:
-			'La suma de los pedidos para la fecha de entrega {{fechaDeEntrega}} excede el monto máximo para el cliente $ {{montoVentaMaxima}}',
+			'El pedido excede el monto de venta máxima $ {{montoVentaMaxima}}',
 		subUnidadesNoMultiplo:
 			'Las subunidades debe ser en múltiplos de {{subunidadesVentaMinima}}',
 		cancelarPedido: 'Desea cancelar el pedido?',

@@ -77,7 +77,6 @@ const IndicadoresDelPedidoActual = () => {
 		});
 	}, [calcularTotalPedido]);
 
-
 	const indicadores = [
 		{
 			titulo: t('general.pedidoMinimo'),
@@ -116,7 +115,13 @@ const IndicadoresDelPedidoActual = () => {
 								valor={el.valor < 0 ? 0 : el.valor}
 								color={el.color}
 								condicion={el.condicion}
-								disable={el.condicion === 'contado' ? true : false}
+								disable={
+									el.condicion === 'contado'
+										? true
+										: el.valorMax === undefined
+										? true
+										: false
+								}
 							/>
 						</Center>
 					</Grid>

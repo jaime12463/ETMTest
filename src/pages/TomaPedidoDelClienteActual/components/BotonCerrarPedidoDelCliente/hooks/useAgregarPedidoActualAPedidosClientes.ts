@@ -33,7 +33,7 @@ import {useTranslation} from 'react-i18next';
 import {useHistory} from 'react-router-dom';
 
 export const useAgregarPedidoActualAPedidosClientes = (
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const dispatch = useAppDispatch();
 	const totalPedidoActual: TTotalPedido = useCalcularTotalPedido();
@@ -44,9 +44,11 @@ export const useAgregarPedidoActualAPedidosClientes = (
 	const {t} = useTranslation();
 	const history = useHistory();
 	const fechaEntregaFormateada = new Date(pedidoActual.fechaEntrega); //TODO: Esto esta alterando la fecha real.
-	const { pedidosClienteMismaFechaEntrega } = useObtenerPedidosClienteMismaFechaEntrega();
-	const { creditoDisponible } = useObtenerCreditoDisponible();
-	
+	const {
+		pedidosClienteMismaFechaEntrega,
+	} = useObtenerPedidosClienteMismaFechaEntrega();
+	const {creditoDisponible} = useObtenerCreditoDisponible();
+
 	const agregarPedidoActualAPedidosClientes = useCallback(() => {
 		const pedidosCliente: TPedidoClienteParaEnviar[] | undefined =
 			pedidosClientes[clienteActual.codigoCliente];
@@ -59,7 +61,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			return;
 		}
 
-		const { configuracionPedido }: TCliente = datosCliente;
+		const {configuracionPedido}: TCliente = datosCliente;
 
 		const esValidoMontoMinidoPedido: boolean = validarMontoMinimoPedido(
 			totalPedidoActual.totalPrecio,
@@ -88,13 +90,8 @@ export const useAgregarPedidoActualAPedidosClientes = (
 		if (!esMenorAlMontoMaximoContado) {
 			mostrarAdvertenciaEnDialogo(
 				t('advertencias.masDelMontoMaximo', {
-					fechaDeEntrega:
-						fechaEntregaFormateada.getDate() +
-						'-' +
-						fechaEntregaFormateada.getMonth() +
-						'-' +
-						fechaEntregaFormateada.getFullYear(),
-					montoVentaMaxima: configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima??'',
+					montoVentaMaxima:
+						configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima??'',
 				}),
 				'monto-maximo'
 			);
@@ -112,7 +109,8 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			creditoDisponible
 		);
 
-		const esCondicionCreditoInformal = clienteActual.condicion === 'creditoInformal';
+		const esCondicionCreditoInformal =
+			clienteActual.condicion === 'creditoInformal';
 
 		if (esCondicionCreditoInformal && !esMenorAlMontoMaximoCredito) {
 			mostrarAdvertenciaEnDialogo(

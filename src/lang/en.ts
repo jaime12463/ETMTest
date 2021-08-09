@@ -65,7 +65,7 @@ const en = {
 		montoMinimo: 'Does not fulfil the minimum sale amount of the order',
 		subUnidadesNoPermitidas: 'The subUnits is disabled for this product',
 		masDelMontoMaximo:
-			'The sum of the orders for the delivery date {{fechaDeEntrega}} exceeds the maximum amount for the customer $ {{montoVentaMaxima}}',
+			'The order exceeds the maximum sale amount $ {{montoVentaMaxima}}',
 		subUnidadesNoMultiplo:
 			'The subunits must be in multiples of {{subunidadesVentaMinima}}',
 		cancelarPedido: 'Do you want to cancel the order?',
