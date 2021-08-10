@@ -65,7 +65,7 @@ const en = {
 		montoMinimo: 'Does not fulfil the minimum sale amount of the order',
 		subUnidadesNoPermitidas: 'The subUnits is disabled for this product',
 		masDelMontoMaximo:
-			'The sum of the orders for the delivery date {{fechaDeEntrega}} exceeds the maximum amount for the customer $ {{montoVentaMaxima}}',
+			'The order exceeds the maximum sale amount $ {{montoVentaMaxima}}',
 		subUnidadesNoMultiplo:
 			'The subunits must be in multiples of {{subunidadesVentaMinima}}',
 		cancelarPedido: 'Do you want to cancel the order?',
@@ -73,6 +73,7 @@ const en = {
 			'All orders with a delivery date {{fechaDeEntrega}} will be canceled Do you wish to continue?',
 		ProductoNoEstaEnPortafolioCliente:
 			'The code does not correspond to a current portfolio of the client',
+		excedeCreditoDsiponible: 'The order exceeds the available credit',
 	},
 };
 export default en;

@@ -10,11 +10,15 @@ const FechaEntregaDelPedidoActual: FunctionComponent<Props> = (props) => {
 	const {t} = useTranslation();
 	const pedidoActual = useObtenerPedidoActual();
 	const {fechaEntrega} = pedidoActual;
+	const fechaFormateada = (fecha:string)=> {
+		const arrayfecha=fecha.split('-');
+		return `${arrayfecha[2]}-${arrayfecha[1]}-${arrayfecha[0]}`; 	
+	}
 	return (
 		<Box mt={1}>
 			<Center>
 				<Typography variant='body2'>
-					{t('general.fechaEntrega')}: {fechaEntrega}
+					{t('general.fechaEntrega')}: {fechaFormateada(fechaEntrega)}
 				</Typography>
 			</Center>
 		</Box>

@@ -1,6 +1,8 @@
 import {
 	useCalcularTotalPedido,
+	useObtenerCreditoDisponible,
 	useObtenerDatosCliente,
+	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
 import {
 	useObtenerClienteActual,
@@ -8,7 +10,6 @@ import {
 	useObtenerPedidosClientes,
 } from 'redux/hooks';
 import {
-	EEstadosDeUnPedido,
 	TCliente,
 	TClienteActual,
 	TFunctionMostarAvertenciaPorDialogo,
@@ -25,13 +26,13 @@ import {
 import {useAppDispatch} from 'redux/hooks';
 import {
 	validarMontoMinimoPedido,
-	validarTotalConMontoMaximo,
+	validarTotalConMontoMaximoContado,
 } from 'utils/validaciones';
 import {useTranslation} from 'react-i18next';
 import {useHistory} from 'react-router-dom';
 
 export const useAgregarPedidoActualAPedidosClientes = (
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const dispatch = useAppDispatch();
 	const totalPedidoActual: TTotalPedido = useCalcularTotalPedido();
@@ -41,7 +42,10 @@ export const useAgregarPedidoActualAPedidosClientes = (
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {t} = useTranslation();
 	const history = useHistory();
-	const fechaEntregaFormateada = new Date(pedidoActual.fechaEntrega); //TODO: Esto esta alterando la fecha real.
+	const {
+		pedidosClienteMismaFechaEntrega,
+	} = useObtenerPedidosClienteMismaFechaEntrega();
+	const {creditoDisponible} = useObtenerCreditoDisponible();
 
 	const agregarPedidoActualAPedidosClientes = useCallback(() => {
 		const pedidosCliente: TPedidoClienteParaEnviar[] | undefined =
@@ -62,17 +66,6 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			configuracionPedido
 		);
 
-		let pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[] = [];
-
-		if (pedidosCliente) {
-			pedidosClienteMismaFechaEntrega = pedidosCliente.filter(
-				(pedidoCliente: TPedidoClienteParaEnviar) =>
-					pedidoCliente.fechaEntrega === pedidoActual.fechaEntrega &&
-					pedidoCliente.codigoPedido !== pedidoActual.codigoPedido &&
-					pedidoCliente.estado === EEstadosDeUnPedido.Activo
-			);
-		}
-
 		if (
 			!esValidoMontoMinidoPedido &&
 			pedidosClienteMismaFechaEntrega.length === 0
@@ -86,22 +79,17 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			return;
 		}
 
-		const esMenorAlMontoMaximo: boolean = validarTotalConMontoMaximo(
+		const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
 			totalPedidoActual.totalContado.totalPrecio,
 			pedidosClienteMismaFechaEntrega,
-			configuracionPedido.ventaContadoMaxima.montoVentaContadoMaxima
+			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima??0
 		);
 
-		if (!esMenorAlMontoMaximo) {
+		if (!esMenorAlMontoMaximoContado) {
 			mostrarAdvertenciaEnDialogo(
 				t('advertencias.masDelMontoMaximo', {
-					fechaDeEntrega:
-						fechaEntregaFormateada.getDate() +
-						'-' +
-						fechaEntregaFormateada.getMonth() +
-						'-' +
-						fechaEntregaFormateada.getFullYear(),
-					montoVentaMaxima: configuracionPedido.ventaContadoMaxima.montoVentaContadoMaxima,
+					montoVentaMaxima:
+						configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima??'',
 				}),
 				'monto-maximo'
 			);
@@ -113,12 +101,26 @@ export const useAgregarPedidoActualAPedidosClientes = (
 				pedidoCliente.codigoPedido === pedidoActual.codigoPedido
 		);
 
+		const esMenorAlMontoMaximoCredito: boolean = totalPedidoActual.totalCredito.totalPrecio < creditoDisponible;
+
+		const esCondicionCreditoInformal =
+			clienteActual.condicion === 'creditoInformal';
+
+		if (esCondicionCreditoInformal && !esMenorAlMontoMaximoCredito) {
+			mostrarAdvertenciaEnDialogo(
+				t('advertencias.excedeCreditoDsiponible'),
+				'credito-maximo'
+			);
+			return;
+		}
+
 		if (esPedidoActualExistenteEnPedidosClientes)
 			dispatch(modificarPedidoCliente({pedidoActual, clienteActual}));
 		else dispatch(agregarPedidoCliente({pedidoActual, clienteActual}));
 
 		history.goBack();
 	}, [
+		pedidosClienteMismaFechaEntrega,
 		pedidoActual,
 		totalPedidoActual,
 		pedidosClientes,

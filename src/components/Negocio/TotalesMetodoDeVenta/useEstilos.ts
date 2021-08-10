@@ -9,6 +9,8 @@ import {Height} from '@material-ui/icons';
 export const useEstilos = makeStyles((theme) => ({
 	celda: {
 		borderBottom: 'none',
+		paddingRight: 5,
+		paddingLeft: 5,
 		overflow: 'hidden',
 	},
 	subTitulo: {
