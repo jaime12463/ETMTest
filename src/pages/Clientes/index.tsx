@@ -1,17 +1,24 @@
-import useState from 'react';
-import {Grid} from '@material-ui/core';
+import {Box, Grid} from '@material-ui/core';
 import useEstilos from './useEstilos';
-import {Input, Estructura, Dialogo} from 'components';
+import {Estructura, Dialogo, FormInput} from 'components/UI';
 import {TInputsCodigoCliente} from 'models';
 import {useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
-import {useAsignarClienteActual} from './hooks';
+import {useInicializarClienteActual} from './hooks';
 
 const Clientes = () => {
 	const estilos = useEstilos();
+
 	const {t} = useTranslation();
-	const {control, handleSubmit} = useForm<TInputsCodigoCliente>();
+
+	const defaultValues: TInputsCodigoCliente = {
+		codigoCliente: '',
+	};
+
+	const {control, handleSubmit} = useForm<TInputsCodigoCliente>({
+		defaultValues,
+	});
 
 	const {
 		mostrarAdvertenciaEnDialogo,
@@ -19,25 +26,28 @@ const Clientes = () => {
 		parametrosDialogo,
 	} = useMostrarAdvertenciaEnDialogo();
 
-	const asignarClienteActual = useAsignarClienteActual(
+	const asignarClienteActual = useInicializarClienteActual(
 		mostrarAdvertenciaEnDialogo
 	);
 
 	return (
-		<Estructura titulo={'titulos.clientes'}>
+		<Estructura titulo={t('titulos.clientes')}>
 			<Estructura.Cuerpo>
 				{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-				<Grid item xs={6} sm={6} className={estilos.margin}>
-					<form onSubmit={handleSubmit(asignarClienteActual)}>
-						<Input
-							label={t('general.cliente')}
-							name='codigoCliente'
-							control={control}
-							inputDataCY='codigo-cliente'
-							clase={'XS'}
-						/>
-					</form>
-				</Grid>
+				<Box mt={4}>
+					<Grid container>
+						<Grid item xs={4} sm={4}>
+							<FormInput
+								onSubmitForm={handleSubmit(asignarClienteActual)}
+								label={t('general.cliente')}
+								name='codigoCliente'
+								control={control}
+								inputDataCY='codigo-cliente'
+								autoFocus={true}
+							/>
+						</Grid>
+					</Grid>
+				</Box>
 			</Estructura.Cuerpo>
 		</Estructura>
 	);

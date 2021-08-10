@@ -1,14 +1,13 @@
-
 import {Story, Meta} from '@storybook/react';
 
-import InputTexto, {Props} from '../components/Input';
+import InputTexto, {PropsInput} from '../components/UI/Input';
 
 export default {
 	title: 'Componentes/InputTexto',
 	component: InputTexto,
 };
 
-const Template: Story<Props> = (args) => <InputTexto {...args} />;
+const Template: Story<PropsInput> = (args) => <InputTexto {...args} />;
 
 export const Cliente = Template.bind({});
 Cliente.args = {

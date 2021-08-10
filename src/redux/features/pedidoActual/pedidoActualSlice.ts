@@ -1,12 +1,16 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import { EstadosDeUnPedido } from 'utils/constants';
-import {TPedidoActual, TProductoPedido} from '../../../models';
-import {RootState} from '../../store';
+import {
+	EEstadosDeUnPedido,
+	ETiposDePago,
+	TPedidoActual,
+	TProductoPedido,
+} from 'models';
+import {RootState} from 'redux/store';
 
 const estadoInicial: TPedidoActual = {
 	codigoPedido: '',
 	fechaEntrega: '',
-	estado: EstadosDeUnPedido.Activo,
+	estado: EEstadosDeUnPedido.Activo,
 	productosPedido: [],
 };
 
@@ -44,22 +48,48 @@ export const pedidoActualSlice = createSlice({
 			action: PayloadAction<{
 				fechaEntrega: string;
 				codigoPedido: string;
-				estado?: EstadosDeUnPedido;
+				estado?: EEstadosDeUnPedido;
 				productosPedido?: TProductoPedido[];
 			}>
 		) => {
-			const {codigoPedido, fechaEntrega, estado, productosPedido} =
-				action.payload;
+			const {
+				codigoPedido,
+				fechaEntrega,
+				estado,
+				productosPedido,
+			} = action.payload;
 			state.codigoPedido = codigoPedido;
 			state.fechaEntrega = fechaEntrega;
 			if (productosPedido) state.productosPedido = productosPedido;
 			if (estado) state.estado = estado;
 		},
+
 		resetearPedidoActual: (state) => {
 			state.codigoPedido = '';
 			state.fechaEntrega = '';
-			state.estado = EstadosDeUnPedido.Activo;
+			state.estado = EEstadosDeUnPedido.Activo;
 			state.productosPedido = [];
+		},
+
+		cambiarTipoPagoPoducto: (
+			state,
+			action: PayloadAction<{codigoProducto: number; tipoPago: ETiposDePago}>
+		) => {
+			const indexProductoPedido = state.productosPedido.findIndex(
+				(precioProducto: TProductoPedido) =>
+					precioProducto.codigoProducto === action.payload.codigoProducto
+			);
+			state.productosPedido[indexProductoPedido].tipoPago =
+				action.payload.tipoPago;
+		},
+
+		cambiarTipoPagoPoductosDelPedido: (
+			state,
+			action: PayloadAction<{tipoPago: ETiposDePago}>
+		) => {
+			state.productosPedido.forEach((producto: TProductoPedido) => {
+				producto.tipoPago = action.payload.tipoPago;
+			});
 		},
 	},
 });
@@ -70,5 +100,7 @@ export const {
 	borrarProductoDelPedidoDelCliente,
 	inicializarPedidoActual,
 	resetearPedidoActual,
+	cambiarTipoPagoPoducto,
+	cambiarTipoPagoPoductosDelPedido,
 } = pedidoActualSlice.actions;
 export default pedidoActualSlice.reducer;

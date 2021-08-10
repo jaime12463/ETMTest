@@ -1,36 +1,38 @@
 import {useHistory, useLocation} from 'react-router-dom';
-import Box from '@material-ui/core/Box';
 import LogoFemsa from 'assests/images/hdpi_logo_client.png';
 import nombresRutas from 'routes/nombresRutas';
-import Estructura from 'components/Estructura';
+import {Center, Estructura} from 'components/UI';
 import {useInicializarDatosYConfiguracion} from 'hooks';
 import Footers from 'assests/images/hdpi_logo_soft_hasar.png';
+import {useTranslation} from 'react-i18next';
 
 export default function Splash() {
-	let history = useHistory();
-	let query = useLocation();
+	const history = useHistory();
+	const querys: any = useLocation();
+	const {t, i18n} = useTranslation();
+	const query: string[] = querys.search.split('&');
 
 	useInicializarDatosYConfiguracion();
-
 	window.localStorage.removeItem('fechaDipostivo');
-	query.search &&
-		window.localStorage.setItem('fechaDipostivo', query.search.slice(7));
+	querys.search &&
+		window.localStorage.setItem('fechaDipostivo', query[0].slice(7)),
+		i18n.changeLanguage(query[1]?.slice(9));
 
 	return (
-		<Estructura titulo={'titulos.bienvenido'} esConFechaHaciaAtras={false}>
+		<Estructura titulo={t('titulos.bienvenido')} esConFechaHaciaAtras={false}>
 			<Estructura.Cuerpo>
-				<Box display='flex' justifyContent='center'>
+				<Center>
 					<img
 						src={LogoFemsa}
 						onClick={() => history.push(nombresRutas.clientes)}
-						style={{cursor: 'pointer', marginTop: 'calc(100vh - 73vh)'}}
+						style={{cursor: 'pointer'}}
 						alt='logo'
 						data-cy='boton-splash'
 					></img>
-				</Box>
+				</Center>
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
-				<Box display='flex' justifyContent='center'>
+				<Center>
 					<div
 						style={{
 							background: `url(${Footers}) no-repeat`,
@@ -40,7 +42,7 @@ export default function Splash() {
 							bottom: '0px',
 						}}
 					></div>
-				</Box>
+				</Center>
 			</Estructura.PieDePagina>
 		</Estructura>
 	);

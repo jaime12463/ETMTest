@@ -8,7 +8,7 @@ import {
 	TValidacionFechaVisita,
 	TValidacionFechaEntrega,
 } from 'models';
-import {fechaDispositivo, obtenerTotalesPedidosCliente} from 'utils/methods';
+import {fechaDispositivo, obtenerTotalContadoPedidosCliente} from 'utils/methods';
 
 export const validarFechaVigenciaProducto = (
 	preciosProductos: TPrecio[],
@@ -36,23 +36,23 @@ export const validarMontoMinimoPedido = (
 	montoTotalPedido: number,
 	configuracionPedido: TConfiguracionPedido
 ): boolean => {
-	const {montoVentaMinima} = configuracionPedido;
+	const montoVentaMinima = configuracionPedido.ventaMinima?.montoVentaMinima;
 	if (montoVentaMinima) {
 		if (montoTotalPedido < montoVentaMinima) return false;
 	}
 	return true;
 };
 
-export const validarTotalConMontoMaximo = (
+export const validarTotalConMontoMaximoContado = (
 	totalPedidoActual: number,
 	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[],
 	montoVentaMaxima: number
 ): boolean => {
-	const pedidosClienteMismaFechaEntregaYPedidoActual: number =
-		obtenerTotalesPedidosCliente(pedidosClienteMismaFechaEntrega) +
+	const toatlPedidosClienteMismaFechaEntregaYPedidoActual: number =
+		obtenerTotalContadoPedidosCliente(pedidosClienteMismaFechaEntrega) +
 		totalPedidoActual;
 
-	if (pedidosClienteMismaFechaEntregaYPedidoActual > montoVentaMaxima)
+	if (toatlPedidosClienteMismaFechaEntregaYPedidoActual > montoVentaMaxima)
 		return false;
 	return true;
 };
@@ -109,12 +109,13 @@ export const validarSubUnidadesEsMultiplo = (
 export const validarObtenerVisitaPlanificada = (
 	visitasPlanificadas: TVisitaPlanificada[]
 ): TValidacionFechaVisita => {
-	const visitaPlanificada: TVisitaPlanificada | undefined =
-		visitasPlanificadas.find(
-			(visitaPlanificada: TVisitaPlanificada) =>
-				new Date(visitaPlanificada.dia).getTime() ===
-				new Date(fechaDispositivo()).getTime()
-		);
+	const visitaPlanificada:
+		| TVisitaPlanificada
+		| undefined = visitasPlanificadas.find(
+		(visitaPlanificada: TVisitaPlanificada) =>
+			new Date(visitaPlanificada.dia).getTime() ===
+			new Date(fechaDispositivo()).getTime()
+	);
 	return {
 		esValidaVisitaPlanificada: visitaPlanificada !== undefined,
 		fechaVisitaPlanificada: visitaPlanificada?.dia ?? '',
@@ -124,12 +125,13 @@ export const validarObtenerVisitaPlanificada = (
 export const validarObtenerVisitaPlanificadaPosterior = (
 	visitasPlanificadas: TVisitaPlanificada[]
 ): TValidacionFechaVisita => {
-	const visitaPlanificadaPosterior: TVisitaPlanificada | undefined =
-		visitasPlanificadas.find(
-			(visitaPlanificada: TVisitaPlanificada) =>
-				new Date(visitaPlanificada.dia).getTime() >=
-				new Date(fechaDispositivo()).getTime()
-		);
+	const visitaPlanificadaPosterior:
+		| TVisitaPlanificada
+		| undefined = visitasPlanificadas.find(
+		(visitaPlanificada: TVisitaPlanificada) =>
+			new Date(visitaPlanificada.dia).getTime() >=
+			new Date(fechaDispositivo()).getTime()
+	);
 	return {
 		esValidaVisitaPlanificada: visitaPlanificadaPosterior !== undefined,
 		fechaVisitaPlanificada: visitaPlanificadaPosterior?.dia ?? '',

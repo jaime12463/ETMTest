@@ -1,8 +1,10 @@
 const nombresRutas = {
-	ingresarpedido: '/ingresarpedido',
-	detalle: '/detalle',
+	inicio: '/',
 	clientes: '/clientes',
-	visitaClientes: '/visitaclientes',
-	home: '/',
+	ingresarPedido: '/ingresarPedido',
+	pedidosCliente: '/pedidosCliente',
+	preciosProductos: '/preciosProductos',
+	envasesRetornables: '/envasesretornables',
 };
+
 export default nombresRutas;

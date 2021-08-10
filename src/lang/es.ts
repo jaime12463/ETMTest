@@ -27,6 +27,18 @@ const es = {
 		monto: 'Monto',
 		acciones: 'Acciones',
 		pedidosRealizados: 'Pedidos Realizados',
+		verEnvases: 'Ver envases',
+		envase: 'Envase',
+		pedidoMinimo: 'Pedido mínimo',
+		pedidoMaximo: 'Pedido máximo',
+		creditoDisponible: 'Crédito disponible',
+		ventas: 'Ventas',
+		canje: 'Canje',
+		devolucion: 'Devolucion',
+		signoMoneda: '$',
+		credito: 'Crédito',
+		contado: 'Contado',
+		venta: 'Venta',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',
@@ -34,14 +46,18 @@ const es = {
 		productosPedido: 'Productos del Pedido',
 		visitaCliente: 'Visita del Cliente',
 		clientes: 'Clientes',
+		envases: 'Envases retornables',
+		PedidosDelClienteActual: 'Pedidos del cliente',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
 		cantidadEsMayor: 'La cantidad es mayor a {{cantidad}} ¿Desea continuar?',
 		fueraDeFrecuencia: 'El cliente está fuera de frecuencia',
 		noVisitaPlanificada: 'El cliente no tiene visita planificada',
-		noFechaEntregaInformada: 'El cliente no tiene fecha de entrega informada para la fecha actual',
-		noPortafolioPrecios: 'El cliente no tiene portafolio vigente para la fecha de entrega informada',
+		noFechaEntregaInformada:
+			'El cliente no tiene fecha de entrega informada para la fecha actual',
+		noPortafolioPrecios:
+			'El cliente no tiene portafolio vigente para la fecha de entrega informada',
 		limiteSubUnidades:
 			'Las subunidades deben ser menores a la presentación del producto',
 		pedidoMinimo: 'No cumple con el pedido mínimo de ${{monto}}',
@@ -49,12 +65,15 @@ const es = {
 		subUnidadesNoPermitidas:
 			'Las subunidades no están habilitadas para este producto',
 		masDelMontoMaximo:
-			'La suma de los pedidos para la fecha de entrega {{fechaDeEntrega}} excede el monto máximo para el cliente $ {{montoVentaMaxima}}',
+			'El pedido excede el monto de venta máxima $ {{montoVentaMaxima}}',
 		subUnidadesNoMultiplo:
 			'Las subunidades debe ser en múltiplos de {{subunidadesVentaMinima}}',
 		cancelarPedido: 'Desea cancelar el pedido?',
 		cancelarTodosLosPedido:
 			'Se cancelarán todos los pedidos con fecha de entrega {{fechaDeEntrega}} ¿Desea continuar?',
+		ProductoNoEstaEnPortafolioCliente:
+			'El código no corresponde a un portafolio vigente del cliente',
+		excedeCreditoDsiponible: 'El pedido excede el crédito disponible',
 	},
 };
 export default es;
