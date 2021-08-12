@@ -43,12 +43,21 @@ declare global {
 			cerrarPedido?: boolean;
 		};
 
+		type TFunctionAgregarProducto = {
+			codigoProducto: number;
+			unidades: number;
+			subUnidades: number;
+		};
 		interface Chainable {
 			datosDB(opcionesCambiarDatos: TOpcionesCambiarDatosDB): void;
 			datosConfiguracionDB(
 				opcionesCambiarConfiguracion: TOpcionesCambiarConfiguracionDB
 			): void;
 			agregarUnPedido(opcionesagregarUnPedido: TOpcionesAgregarUnPedido): void;
+			ingresarPageClientes(): void;
+			ingresarCodigoCliente(codigoCliente: string): void;
+			ingresarPageInicio(fechaActual: string): void;
+			agregarProducto(propsAgregarProducto: TFunctionAgregarProducto): void;
 		}
 	}
 }
@@ -149,5 +158,37 @@ Cypress.Commands.add(
 		});
 	}
 );
+
+Cypress.Commands.add('ingresarPageClientes', () => {
+	cy.get(`[data-cy=boton-splash]`).click();
+});
+
+Cypress.Commands.add('ingresarCodigoCliente', (codigoCliente: string) => {
+	cy.get(`[data-cy=codigo-cliente]`).type(`${codigoCliente}{enter}`);
+});
+
+Cypress.Commands.add(
+	'agregarProducto',
+	({
+		codigoProducto,
+		unidades,
+		subUnidades,
+	}: Cypress.TFunctionAgregarProducto) => {
+		cy.get(`[data-cy=codigo-producto-a-buscar]`).type(
+			`${codigoProducto}{enter}`
+		);
+
+		cy.get(`[data-cy=cantidad-producto-unidades]`).type(`${unidades}{enter}`);
+
+		cy.get(`[data-cy=cantidad-producto-subUnidades]`).type(
+			`${subUnidades}{enter}`
+		);
+	}
+);
+
+Cypress.Commands.add('ingresarPageInicio', (fechaActual: string) => {
+	cy.visit(`/?fecha=${fechaActual}`);
+	cy.wait(3000);
+});
 
 export {};
