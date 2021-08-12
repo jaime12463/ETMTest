@@ -5,6 +5,7 @@ import {
 	TPedidoClienteParaEnviar,
 	TPedidosClientes,
 	EEstadosDeUnPedido,
+	ETiposDePago,
 } from 'models';
 import {RootState} from 'redux/store';
 
@@ -35,6 +36,7 @@ export const pedidosClientesSlice = createSlice({
 			action: PayloadAction<{
 				pedidoActual: TPedidoActual;
 				clienteActual: TClienteActual;
+				tipoPago: ETiposDePago;
 			}>
 		) => {
 			const {
@@ -43,16 +45,23 @@ export const pedidosClientesSlice = createSlice({
 				fechaEntrega,
 				estado,
 			}: TPedidoActual = action.payload.pedidoActual;
-			const {codigoCliente}: TClienteActual = action.payload.clienteActual;
+
+			const { codigoCliente }: TClienteActual = action.payload.clienteActual;
+
+			const tipoPago = action.payload.tipoPago;
+			
 			if (!state[codigoCliente]) state[codigoCliente] = [];
+
 			const pedidoCliente: TPedidoClienteParaEnviar = {
 				codigoPedido,
 				productosPedido,
 				fechaEntrega,
 				estado,
+				tipoPago,
 				usuario: 'SFA01',
 				enviado: false,
 			};
+
 			state[codigoCliente].push(pedidoCliente);
 		},
 		modificarPedidoCliente: (
@@ -60,6 +69,7 @@ export const pedidosClientesSlice = createSlice({
 			action: PayloadAction<{
 				pedidoActual: TPedidoActual;
 				clienteActual: TClienteActual;
+				tipoPago: ETiposDePago;
 			}>
 		) => {
 			const {
@@ -68,21 +78,30 @@ export const pedidosClientesSlice = createSlice({
 				fechaEntrega,
 				estado,
 			}: TPedidoActual = action.payload.pedidoActual;
-			const {codigoCliente}: TClienteActual = action.payload.clienteActual;
+
+			const { codigoCliente }: TClienteActual = action.payload.clienteActual;
+
+			const tipoPago = action.payload.tipoPago;
+			
 			const pedidosClienteActual = state[codigoCliente];
+
 			const pedidosClienteFiltrandoElModificado = pedidosClienteActual.filter(
 				(pedidoCliente: TPedidoClienteParaEnviar) =>
 					pedidoCliente.codigoPedido !== codigoPedido
 			);
+
 			const pedidoClienteModificado: TPedidoClienteParaEnviar = {
 				codigoPedido,
 				productosPedido,
 				fechaEntrega,
 				estado,
+				tipoPago,
 				usuario: 'SFA01',
 				enviado: false,
 			};
+
 			pedidosClienteFiltrandoElModificado.push(pedidoClienteModificado);
+
 			state[codigoCliente] = pedidosClienteFiltrandoElModificado;
 		},
 	},

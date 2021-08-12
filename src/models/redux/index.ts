@@ -99,6 +99,7 @@ export type TPedidoClienteParaEnviar = {
 	fechaEntrega: string;
 	usuario: string;
 	estado: EEstadosDeUnPedido;
+	tipoPago: ETiposDePago;
 	productosPedido: TProductoPedido[];
 	enviado: boolean;
 };
