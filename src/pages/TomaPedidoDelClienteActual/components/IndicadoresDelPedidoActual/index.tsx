@@ -112,7 +112,7 @@ const IndicadoresDelPedidoActual = () => {
 							<BarraDeProgeso
 								titulo={el.titulo}
 								max={el.valorMax}
-								valor={el.valor < 0 ? 0 : el.valor}
+								valor={el.valor}
 								color={el.color}
 								condicion={el.condicion}
 								disable={
