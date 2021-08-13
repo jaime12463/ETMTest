@@ -99,7 +99,7 @@ export type TDocumentos = {
 	fecha: string;
 	vencimiento: string;
 	monto: number;
-}
+};
 
 //configuraciones.json
 export type TDatosConfiguracion = {

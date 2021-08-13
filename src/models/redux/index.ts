@@ -1,4 +1,9 @@
-import {TDatosConfiguracion, TDatosClientesProductos, TCondicicon} from 'models/server';
+import {
+	TDatosConfiguracion,
+	TDatosClientesProductos,
+	TCondicicon,
+	TDocumentos,
+} from 'models/server';
 
 //Cliente Actual
 export type TClienteActual = {
@@ -6,6 +11,15 @@ export type TClienteActual = {
 	razonSocial: string;
 	condicion: TCondicicon;
 	tipoPagoActual: ETiposDePago;
+	compromisoDeCobro: TCompromisoDeCobro[];
+};
+
+export type TCompromisoDeCobro = {
+	ID: string;
+	FechaCreacion: string;
+	FechaEntrega: string;
+	monto: number;
+	tipoDocumento: string;
 };
 
 //Configuracion
