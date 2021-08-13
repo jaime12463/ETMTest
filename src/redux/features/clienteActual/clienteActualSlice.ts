@@ -7,6 +7,7 @@ const estadoInicial: TClienteActual = {
 	razonSocial: '',
 	condicion: 'contado',
 	tipoPagoActual: ETiposDePago.Contado,
+	compromisoDeCobro: [],
 };
 
 export const clienteActualSlice = createSlice({
@@ -17,11 +18,18 @@ export const clienteActualSlice = createSlice({
 			state,
 			action: PayloadAction<TClienteActual>
 		) => {
-			const {codigoCliente, razonSocial, condicion, tipoPagoActual} = action.payload;
+			const {
+				codigoCliente,
+				razonSocial,
+				condicion,
+				tipoPagoActual,
+				compromisoDeCobro,
+			} = action.payload;
 			state.codigoCliente = codigoCliente;
 			state.razonSocial = razonSocial;
 			state.condicion = condicion;
 			state.tipoPagoActual = tipoPagoActual;
+			state.compromisoDeCobro = compromisoDeCobro;
 		},
 		resetearClienteActual: (state) => {
 			state.codigoCliente = '';
@@ -36,6 +44,7 @@ export const clienteActualSlice = createSlice({
 		},
 	},
 });
+
 
 export const selectClienteActual = (state: RootState) => state.clienteActual;
 export const {
