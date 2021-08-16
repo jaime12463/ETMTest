@@ -10,12 +10,10 @@ const useObtenerEsPermitidoSubUnidades = (
 	);
 
 	const validarProductoPermiteSubUnidades = useValidarProductoPermiteSubUnidades();
-	const esVentaSubunidades =
-		productoActual?.esVentaSubunidades === 'true' ? true : false;
 
 	useEffect(() => {
 		const esValidoPermiteSubUnidades: boolean = validarProductoPermiteSubUnidades(
-			esVentaSubunidades
+			productoActual?.esVentaSubunidades ?? false
 		);
 		setEsPermitidoSubUnidades(esValidoPermiteSubUnidades);
 	}, [productoActual]);
