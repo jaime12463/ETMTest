@@ -1,0 +1,15 @@
+{
+	"codigosProductos": {
+		"1885": {
+			"esVentaSubunidades": false
+		},
+		"420": {
+			"esVentaSubunidades": true
+		}
+	},
+	"codigosClientes": {
+		"HS001": {
+			"cantidadMaximaUnidades": 100
+		}
+	}
+}

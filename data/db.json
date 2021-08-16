@@ -181,16 +181,34 @@
 			"portafolio": [
 				{
 					"codigoProducto": 1885,
-					"esVentaSubunidades": true,
+					"esVentaSubunidades": false,
 					"precios": [
 						{
-							"precioConImpuestoUnidad": 106,
+							"precioConImpuestoUnidad": 100,
 							"precioConImpuestoSubunidad": 8.84,
 							"vigenciaInicioPrecio": "2017-09-07",
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
-							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoUnidad": 100,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
+					"codigoProducto": 420,
+					"esVentaSubunidades": true,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 100,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 100,
 							"precioConImpuestoSubunidad": 8.75,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
@@ -221,6 +239,12 @@
 		},
 		{
 			"codigoProducto": 1885,
+			"nombre": "YOLI LIMON BOT 900 NR 12PK",
+			"presentación": 12,
+			"subunidadesVentaMinima": 1
+		},
+		{
+			"codigoProducto": 420,
 			"nombre": "YOLI LIMON BOT 900 NR 12PK",
 			"presentación": 12,
 			"subunidadesVentaMinima": 1
