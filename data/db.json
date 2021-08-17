@@ -130,7 +130,7 @@
 				}
 			],
 			"informacionCrediticia": {
-				"condicion": "creditoInformal",
+				"condicion": "contado",
 				"limite": 3000,
 				"disponible": 10000,
 				"esCreditoBloqueado": false,
@@ -218,9 +218,9 @@
 			]
 		},
 		{
-			"codigoCliente": "HS003",
+			"codigoCliente": "HS002",
 			"detalles": {
-				"nombreComercial": "CLIENTE HS003"
+				"nombreComercial": "CREM LA MORENITA"
 			},
 			"visitasPlanificadas": [
 				{
@@ -247,7 +247,7 @@
 				}
 			],
 			"informacionCrediticia": {
-				"condicion": "creditoInformal",
+				"condicion": "contado",
 				"limite": 3000,
 				"disponible": 10000,
 				"esCreditoBloqueado": false,
@@ -297,27 +297,9 @@
 			},
 			"portafolio": [
 				{
-					"codigoProducto": 17640,
-					"esVentaSubunidades": true,
-					"unidadesDisponibles": 10,
-					"precios": [
-						{
-							"precioConImpuestoUnidad": 106,
-							"precioConImpuestoSubunidad": 8.84,
-							"vigenciaInicioPrecio": "2017-09-07",
-							"vigenciaFinPrecio": "2017-09-31"
-						},
-						{
-							"precioConImpuestoUnidad": 105,
-							"precioConImpuestoSubunidad": 8.75,
-							"vigenciaInicioPrecio": "2017-10-01",
-							"vigenciaFinPrecio": "9999-12-31"
-						}
-					]
-				},
-				{
 					"codigoProducto": 1885,
 					"esVentaSubunidades": true,
+					"unidadesDisponibles": 10,
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,

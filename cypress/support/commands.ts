@@ -37,6 +37,7 @@ Cypress.Commands.add(
 		cy.ingresarCodigoProducto(codigoProducto);
 		cy.ingresarUnidades(unidades);
 		if (subUnidades) cy.ingresarSubUnidades(subUnidades);
+		//nTODO: fix
 	}
 );
 
