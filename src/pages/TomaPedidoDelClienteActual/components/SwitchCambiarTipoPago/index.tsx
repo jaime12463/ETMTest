@@ -32,6 +32,7 @@ export const SwitchCambiarTipoPago: FunctionComponent<Props> = (props) => {
 				inputProps={{'aria-label': 'secondary checkbox'}}
 				size='small'
 				disabled={!permiteCambiarTipoPago}
+				data-cy= {`switch-cambiar-tipoPago-`+producto?.codigoProducto??``}
 			/>
 		</Center>
 	);
