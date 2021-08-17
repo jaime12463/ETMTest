@@ -4,9 +4,9 @@ import {Dado, Cuando, Y} from '../../pasos';
 Dado(
 	'que estoy en el ingreso del pedido',
 	() => {
-		cy.ingresarPageInicio('2021-06-09');
+		cy.navegarPageInicio('2021-06-09');
 
-		cy.ingresarPageClientes();
+		cy.oprimirBotonSplash();
 
 		cy.ingresarCodigoCliente('HS003');
 	}
