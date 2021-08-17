@@ -58,15 +58,7 @@ const IndicadoresDelPedidoActual = () => {
 				) >= 100
 					? 'verde'
 					: 'rojo',
-			pedidoMaximo:
-				obtenerporcentaje(
-					totalesContadoPedidoCliente +
-						calcularTotalPedido.totalContado.totalPrecio,
-					datosCliente?.configuracionPedido.ventaContadoMaxima
-						?.montoVentaContadoMaxima
-				) > 100
-					? 'rojo'
-					: 'verde',
+			pedidoMaximo: 'verde',
 			creditoDisponible:
 				obtenerporcentaje(
 					creditoDisponible - calcularTotalPedido.totalCredito.totalPrecio,
