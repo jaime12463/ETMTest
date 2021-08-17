@@ -83,6 +83,7 @@ const IndicadoresDelPedidoActual = () => {
 			valorMax: datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima,
 			valor: totalesPedidoCliente + calcularTotalPedido.totalPrecio,
 			color: color.pedidoMinimo,
+			dataCY: 'indicador-pedido-minimo',
 		},
 		{
 			titulo: t('general.pedidoMaximo'),
@@ -93,6 +94,7 @@ const IndicadoresDelPedidoActual = () => {
 				totalesContadoPedidoCliente +
 				calcularTotalPedido.totalContado.totalPrecio,
 			color: color.pedidoMaximo,
+			dataCY: 'indicador-credito-minimo',
 		},
 		{
 			titulo: t('general.creditoDisponible'),
@@ -100,6 +102,7 @@ const IndicadoresDelPedidoActual = () => {
 			valor: creditoDisponible - calcularTotalPedido.totalCredito.totalPrecio,
 			color: color.creditoDisponible,
 			condicion: datosCliente?.informacionCrediticia.condicion,
+			dataCY: 'indicador-credito-maximo',
 		},
 	];
 
@@ -115,6 +118,7 @@ const IndicadoresDelPedidoActual = () => {
 								valor={el.valor}
 								color={el.color}
 								condicion={el.condicion}
+								dataCY={el.dataCY}
 								disable={
 									el.condicion === 'contado'
 										? true
