@@ -20,7 +20,7 @@ Característica: Ingresar unidades
 	Como prevendedor
 	Quiero ingresar una cantidad de unidades del producto al pedido 
 	Para realizar la venta.
- 
+
 Antecedentes:
 	Dado que estoy en el ingreso del pedido y que se ingresó un código de producto
    	Y que la cantidad máxima de unidades se estableció en 100 para el cliente
@@ -37,13 +37,13 @@ Ejemplos:
 |   110  |
 
 Escenario: N°2 – La cantidad es menor o igual a la permitida y las subunidades están habilitadas
-	Cuando se ingresa una cantidad
+	Cuando se ingresa una cantidad y las subunidades están habilitadas
 	Y es menor o igual a la cantidad máxima de unidades
 	Y las subunidades están habilitadas
 	Entonces el sistema registrará las unidades y continuará con el ingreso de las subunidades
 
 Escenario: N°3 – La cantidad es menor o igual a la permitida y las subunidades están deshabilitadas
-	Cuando se ingresa una cantidad
+	Cuando se ingresa una cantidad y las subunidades no están habilitadas
 	Y es menor o igual a la cantidad máxima de unidades
 	Y las subunidades no están habilitadas
 	Entonces el sistema registrará las unidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.

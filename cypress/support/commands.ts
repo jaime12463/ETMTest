@@ -1,171 +1,31 @@
 declare global {
 	namespace Cypress {
-		type TVisitaPlanificada = {
-			dia: string;
-			secuencia: number;
-		};
-
-		type TDetalles = {
-			nombreComercial: string;
-		};
-
-		type TFechaEntrega = {
-			fechaVisita: string;
-			fechaEntrega: string;
-		};
-
-		type TCodigoCliente = string;
-
-		type TOpcionesCambiarDatosDB = {
-			codigoCliente?: string;
-			detalles?: TDetalles;
-			fechasEntrega?: TFechaEntrega[];
-			visitasPlanificadas?: TVisitaPlanificada[];
-			cantidadMaximaUnidades?: number | null;
-			presentacion?: number;
-			esVentaSubunidades?: boolean;
-			codigoProducto?: number;
-			precioConImpuestoUnidad?: number;
-			precioConImpuestoSubunidad?: number;
-			montoVentaMinima?: number | null;
-			montoVentaMaxima?: number;
-			subunidadesVentaMinima?: number;
-		};
-
-		type TOpcionesCambiarConfiguracionDB = {
-			esFrecuenciaAbierta?: boolean;
-			esVentaSubunidadesRuta?: boolean;
-		};
-
-		type TOpcionesAgregarUnPedido = {
-			cliente?: number;
-			unidades?: number;
-			cerrarPedido?: boolean;
-		};
-
-		type TFunctionAgregarProducto = {
+		type TPropsFunctionAgregarProducto = {
 			codigoProducto: number;
 			unidades: number;
-			subUnidades: number;
+			subUnidades?: number;
 		};
 		interface Chainable {
-			datosDB(opcionesCambiarDatos: TOpcionesCambiarDatosDB): void;
-			datosConfiguracionDB(
-				opcionesCambiarConfiguracion: TOpcionesCambiarConfiguracionDB
+			oprimirBotonSplash(): void;
+			navegarPageInicio(fechaActual: string): void;
+			agregarProducto(
+				propsAgregarProducto: TPropsFunctionAgregarProducto
 			): void;
-			agregarUnPedido(opcionesagregarUnPedido: TOpcionesAgregarUnPedido): void;
-			ingresarPageClientes(): void;
 			ingresarCodigoCliente(codigoCliente: string): void;
-			ingresarPageInicio(fechaActual: string): void;
-			agregarProducto(propsAgregarProducto: TFunctionAgregarProducto): void;
+			ingresarCodigoProducto(codigoProducto: number): void;
+			ingresarUnidades(unidades: number): void;
+			ingresarSubUnidades(subUnidades: number): void;
 		}
 	}
 }
 
-export const obtenerFechaToday = (): string => {
-	const today: Date = new Date();
-	const todayFormateado: string = today.toISOString().split('T')[0];
-
-	return todayFormateado;
-};
-
-export const obtenerFechaFutura = (diasAumento: number): string => {
+export const obtenerFecha = (diasAumento?: number): string => {
 	const tomorrow: Date = new Date(
-		new Date().setDate(new Date().getDate() + diasAumento)
+		new Date().setDate(new Date().getDate() + (diasAumento ?? 0))
 	);
 	const tomorrowFormateado: string = tomorrow.toISOString().split('T')[0];
 	return tomorrowFormateado;
 };
-
-const today = obtenerFechaToday();
-const tomorrow = obtenerFechaFutura(1);
-
-Cypress.Commands.add(
-	'agregarUnPedido',
-	({
-		cliente = 234,
-		unidades = 1,
-		cerrarPedido = false,
-	}: Cypress.TOpcionesAgregarUnPedido) => {
-		cy.get(`[data-cy=codigo-cliente]`).type(`${cliente}{enter}`);
-		cy.get('[data-cy=producto-tabla-0]').click();
-		cy.get('[data-cy=cantidad-producto-unidades]').type(`${unidades}{enter}`);
-		if (cerrarPedido) {
-			cy.get('[data-cy=boton-cerrarPedido]').click();
-		}
-	}
-);
-
-Cypress.Commands.add(
-	'datosDB',
-	({
-		codigoCliente = '234',
-		detalles = {nombreComercial: 'Mi comercio'},
-		fechasEntrega = [{fechaVisita: today, fechaEntrega: tomorrow}],
-		visitasPlanificadas = [{dia: today, secuencia: 3}],
-		cantidadMaximaUnidades = 100,
-		presentacion = 12,
-		esVentaSubunidades = true,
-		codigoProducto = 1860,
-		precioConImpuestoUnidad = 100,
-		precioConImpuestoSubunidad = 10,
-		montoVentaMaxima = 3000,
-		montoVentaMinima = 100,
-		subunidadesVentaMinima = 1,
-	}: Cypress.TOpcionesCambiarDatosDB) => {
-		cy.fixture('db').then((db) => {
-			db.clientes[codigoCliente].detalles = detalles;
-			db.clientes[codigoCliente].visitasPlanificadas = visitasPlanificadas;
-			db.clientes[codigoCliente].fechasEntrega = fechasEntrega;
-			db.clientes[
-				codigoCliente
-			].configuracionPedido.cantidadMaximaUnidades = cantidadMaximaUnidades;
-			db.clientes[
-				codigoCliente
-			].configuracionPedido.montoVentaMinima = montoVentaMinima;
-			db.clientes[
-				codigoCliente
-			].portafolio[0].esVentaSubunidades = esVentaSubunidades;
-			db.clientes[
-				codigoCliente
-			].configuracionPedido.ventaContadoMaxima.montoVentaContadoMaxima = montoVentaMaxima;
-			db.productos[codigoProducto].presentacion = presentacion;
-			db.productos[
-				codigoProducto
-			].subunidadesVentaMinima = subunidadesVentaMinima;
-			db.clientes[
-				codigoCliente
-			].portafolio[0].precios[1].precioConImpuestoUnidad = precioConImpuestoUnidad;
-			db.clientes[
-				codigoCliente
-			].portafolio[0].precios[1].precioConImpuestoSubunidad = precioConImpuestoSubunidad;
-
-			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
-		});
-	}
-);
-
-Cypress.Commands.add(
-	'datosConfiguracionDB',
-	({
-		esFrecuenciaAbierta = true,
-		esVentaSubunidadesRuta = true,
-	}: Cypress.TOpcionesCambiarConfiguracionDB) => {
-		cy.fixture('configuracion').then((data) => {
-			data.configuraciones[0].esFrecuenciaAbierta = esFrecuenciaAbierta;
-			data.configuraciones[0].esVentaSubunidadesRuta = esVentaSubunidadesRuta;
-			cy.intercept('GET', '/femsa/configuracion', data).as('dataConfig');
-		});
-	}
-);
-
-Cypress.Commands.add('ingresarPageClientes', () => {
-	cy.get(`[data-cy=boton-splash]`).click();
-});
-
-Cypress.Commands.add('ingresarCodigoCliente', (codigoCliente: string) => {
-	cy.get(`[data-cy=codigo-cliente]`).type(`${codigoCliente}{enter}`);
-});
 
 Cypress.Commands.add(
 	'agregarProducto',
@@ -173,22 +33,37 @@ Cypress.Commands.add(
 		codigoProducto,
 		unidades,
 		subUnidades,
-	}: Cypress.TFunctionAgregarProducto) => {
-		cy.get(`[data-cy=codigo-producto-a-buscar]`).type(
-			`${codigoProducto}{enter}`
-		);
-
-		cy.get(`[data-cy=cantidad-producto-unidades]`).type(`${unidades}{enter}`);
-
-		cy.get(`[data-cy=cantidad-producto-subUnidades]`).type(
-			`${subUnidades}{enter}`
-		);
+	}: Cypress.TPropsFunctionAgregarProducto) => {
+		cy.ingresarCodigoProducto(codigoProducto);
+		cy.ingresarUnidades(unidades);
+		if (subUnidades) cy.ingresarSubUnidades(subUnidades);
 	}
 );
 
-Cypress.Commands.add('ingresarPageInicio', (fechaActual: string) => {
-	cy.visit(`/?fecha=${fechaActual}`);
-	cy.wait(3000);
+Cypress.Commands.add('ingresarCodigoCliente', (codigoCliente: string) => {
+	cy.get(`[data-cy=codigo-cliente]`).type(`${codigoCliente}{enter}`);
 });
 
-export {};
+Cypress.Commands.add('ingresarCodigoProducto', (codigoProducto: number) => {
+	cy.get('[data-cy=codigo-producto-a-buscar]').type(`${codigoProducto}{enter}`);
+});
+
+Cypress.Commands.add('ingresarUnidades', (unidades: number) => {
+	cy.get(`[data-cy=cantidad-producto-unidades]`).type(`${unidades}{enter}`);
+});
+
+Cypress.Commands.add('ingresarSubUnidades', (subUnidades: number) => {
+	cy.get(`[data-cy=cantidad-producto-subUnidades]`).type(
+		`${subUnidades}{enter}`
+	);
+});
+
+Cypress.Commands.add('navegarPageInicio', (fechaActual: string) => {
+	cy.visit(`http://localhost:3000/?fecha=${fechaActual}`);
+	cy.request('/femsa/tomapedidos');
+	cy.request('/femsa/configuracion');
+});
+
+Cypress.Commands.add('oprimirBotonSplash', () => {
+	cy.get(`[data-cy=boton-splash]`).click();
+});

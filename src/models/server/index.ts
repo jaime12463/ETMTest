@@ -82,7 +82,7 @@ export type TConsumidoPorFecha = {
 
 export type TPortafolio = {
 	codigoProducto: number;
-	esVentaSubunidades: string;
+	esVentaSubunidades: boolean;
 	unidadesDisponibles?: number;
 	precios: TPrecio[];
 };
@@ -99,7 +99,7 @@ export type TDocumentos = {
 	fecha: string;
 	vencimiento: string;
 	monto: number;
-}
+};
 
 //configuraciones.json
 export type TDatosConfiguracion = {

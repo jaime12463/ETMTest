@@ -1,4 +1,8 @@
-import {TDatosConfiguracion, TDatosClientesProductos, TCondicicon} from 'models/server';
+import {
+	TDatosConfiguracion,
+	TDatosClientesProductos,
+	TCondicicon,
+} from 'models/server';
 
 //Cliente Actual
 export type TClienteActual = {
@@ -6,6 +10,15 @@ export type TClienteActual = {
 	razonSocial: string;
 	condicion: TCondicicon;
 	tipoPagoActual: ETiposDePago;
+	compromisoDeCobro: TCompromisoDeCobro[];
+};
+
+export type TCompromisoDeCobro = {
+	ID: string;
+	FechaCreacion: string;
+	FechaEntrega: string;
+	monto: number;
+	tipoDocumento: string;
 };
 
 //Configuracion
@@ -59,23 +72,24 @@ export type TPrecioProducto = {
 	nombreProducto: string;
 	presentacion: number;
 	subunidadesVentaMinima: number;
-	esVentaSubunidades: string;
+	esVentaSubunidades: boolean;
 	precioConImpuestoUnidad: number;
 	precioConImpuestoSubunidad: number;
-	implicito1?: TImplicito;
-	implicito2?: TImplicito;
+	// implicito1?: TImplicito;
+	// implicito2?: TImplicito;
 	codigoImplicito1?: number;
 	nombreImplicito1?: string;
 	codigoImplicito2?: number;
 	nombreImplicito2?: string;
 };
 
-export type TImplicito = {
-	codigoImplicito: number;
-	nombreImplicito: string;
-	presentación: number;
-	subunidadesVentaMinima: number;
-};
+//TODO: No esta implementado
+// export type TImplicito = {
+// 	codigoImplicito: number;
+// 	nombreImplicito: string;
+// 	presentación: number;
+// 	subunidadesVentaMinima: number;
+// };
 
 export type TPedidoDelProducto = {
 	unidades: number;
