@@ -4,7 +4,6 @@ Cuando('se ingresa {int}', (unidades) => {
 	cy.agregarProducto({
 		codigoProducto: 1885,
 		unidades,
-		subUnidades: 0,
 	});
 });
 

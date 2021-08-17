@@ -11,6 +11,7 @@ export type Props = {
 	color: string;
 	disable?: boolean;
 	condicion?: string;
+	dataCY: string;
 };
 
 const BarraDeProgeso = ({
@@ -20,6 +21,7 @@ const BarraDeProgeso = ({
 	disable = false,
 	color,
 	condicion = 'contado',
+	dataCY,
 }: Props) => {
 	const estilos = useEstilos();
 	const {t} = useTranslation();
@@ -42,7 +44,7 @@ const BarraDeProgeso = ({
 				className={estilos.titulo}
 				variant='caption'
 			>{`${titulo}`}</Typography>
-			<Typography className={estilos.label} variant='body2'>
+			<Typography className={estilos.label} variant='body2' data-cy={dataCY}>
 				{condicion !== 'contado'
 					? `${t('general.signoMoneda')}${valor.toFixed()}`
 					: `${t('general.signoMoneda')}${valor.toFixed()} / ${t(
