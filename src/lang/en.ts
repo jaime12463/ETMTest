@@ -74,6 +74,7 @@ const en = {
 		ProductoNoEstaEnPortafolioCliente:
 			'The code does not correspond to a current portfolio of the client',
 		excedeCreditoDsiponible: 'The order exceeds the available credit',
+		excedeUnidadesDisponibles: 'The quantity is greater than available: {{disponible}}',
 	},
 };
 export default en;
