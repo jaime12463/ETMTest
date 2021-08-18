@@ -1,7 +1,7 @@
 {
 	"clientes": {
-		"120104325": {
-			"codigoCliente": 120104325,
+		"HS001": {
+			"codigoCliente": "HS001",
 			"detalles": {
 				"nombreComercial": "CREM LA MORENITA"
 			},
@@ -11,7 +11,7 @@
 					"secuencia": 3
 				},
 				{
-					"dia": "2021-06-17",
+					"dia": "2021-06-11",
 					"secuencia": 5
 				}
 			],
@@ -25,19 +25,63 @@
 					"fechaEntrega": "2021-06-11"
 				},
 				{
-					"fechaVisita": "2021-06-17",
-					"fechaEntrega": "2021-06-18"
+					"fechaVisita": "2021-06-11",
+					"fechaEntrega": "2021-06-12"
 				}
 			],
+			"informacionCrediticia": {
+				"condicion": "creditoFormal",
+				"limite": 3000,
+				"disponible": 10000,
+				"esCreditoBloqueado": false,
+				"documentos": [
+					{
+						"numero": "12123456789",
+						"fecha": "2021-06-11",
+						"vencimiento": "2021-09-11",
+						"monto": 5000
+					},
+					{
+						"numero": "22123459999",
+						"fecha": "2021-07-11",
+						"vencimiento": "2021-10-11",
+						"monto": 5400
+					}
+				]
+			},
 			"configuracionPedido": {
-				"montoVentaMinima": 1000,
-				"montoVentaMaxima": 3000,
+				"ventaMinima": {
+					"montoVentaMinima": 1000,
+					"cumplimientoPorFecha": [
+						{
+							"fechaEntrega": "2021-06-10",
+							"cumplido": true
+						},
+						{
+							"fechaEntrega": "2021-06-11",
+							"cumplido": false
+						}
+					]
+				},
+				"ventaContadoMaxima": {
+					"montoVentaContadoMaxima": 3000,
+					"consumidoPorFecha": [
+						{
+							"fechaEntrega": "2021-06-10",
+							"consumido": 2000
+						},
+						{
+							"fechaEntrega": "2021-06-11",
+							"consumido": 0
+						}
+					]
+				},
 				"cantidadMaximaUnidades": 999
 			},
 			"portafolio": [
 				{
-					"codigoProducto": 1860,
-					"esVentaSubunidades": true,
+					"codigoProducto": 1885,
+					"unidadesDisponibles": 10,
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,

@@ -1,7 +1,8 @@
-import {Cuando, Dado, Entonces, Y} from '../../pasos';
+import {Cuando, Dado, Y} from '../../pasos';
 
 Dado('que el cliente tiene condición de pago contado', () => {
 	cy.navegarPageInicio('2021-06-09');
+	cy.esperarDatosServidor();
 	cy.oprimirBotonSplash();
 	cy.ingresarCodigoCliente('HS002');
 });
@@ -27,19 +28,7 @@ Y(
 
 Cuando('ingreso a registrar un pedido', () => {});
 
-Entonces(
-	'El sistema mostrará {string} el panel de ingreso de producto',
-	(estadoPanelIngresoProducto) => {
-		if (estadoPanelIngresoProducto === 'No') {
-			cy.get('[data-cy=codigo-producto-a-buscar]').should('be.disabled');
-			cy.get('[data-cy=cantidad-producto-unidades]').should('be.disabled');
-			cy.get('[data-cy=cantidad-producto-subUnidades]').should('be.disabled');
-		} else {
-			cy.get('[data-cy=codigo-producto-a-buscar]').should('be.enabled');
-		}
-	}
-);
-
 Y('el switch Credito en estado off Disabled', () => {
-	//verificar si deshabilita y prendido el switch
+	// cy.get('[data-cy=switch-cambiar-tipoPago-]').should('be.disabled');
+	cy.get('[data-cy=switch-cambiar-tipoPago-1885]').should('be.disabled');
 });

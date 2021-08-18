@@ -10,6 +10,9 @@
 	"codigosClientes": {
 		"HS001": {
 			"cantidadMaximaUnidades": 100
+		},
+		"HS002": {
+			"condicion": "contado"
 		}
 	}
 }
