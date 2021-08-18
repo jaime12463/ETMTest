@@ -70,6 +70,7 @@ const br = {
 		cancelarTodosLosPedido:
 			'Foram cancelados todos os pedidos com data de entrega {{fechaDeEntrega}} ¿Deseja continuar?',
 		excedeCreditoDsiponible: 'O pedido excede o crédito disponível',
+		excedeUnidadesDisponibles: 'A quantidade é maior do que a disponível: {{disponible}}',
 	},
 };
 export default br;

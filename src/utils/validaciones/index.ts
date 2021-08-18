@@ -7,8 +7,13 @@ import {
 	TVisitaPlanificada,
 	TValidacionFechaVisita,
 	TValidacionFechaEntrega,
+	TPrecioProducto,
 } from 'models';
-import {fechaDispositivo, obtenerTotalContadoPedidosCliente} from 'utils/methods';
+import {
+	fechaDispositivo, 
+	obtenerTotalContadoPedidosCliente,
+	obtenerUnidadesMismoProducto
+} from 'utils/methods';
 
 export const validarFechaVigenciaProducto = (
 	preciosProductos: TPrecio[],
@@ -152,3 +157,17 @@ export const validarObtenerFechaEntrega = (
 		fechaEntrega: fechaEntregaEncontrada?.fechaEntrega ?? '',
 	};
 };
+
+export const validarUnidadesDisponibles = (
+	pedidosCliente: TPedidoClienteParaEnviar[],
+	unidadesNuevas: number,
+	productoActual: TPrecioProducto
+): boolean => {
+	let disponibleHistorico = obtenerUnidadesMismoProducto(pedidosCliente, productoActual.codigoProducto);
+	let unidadesDisponibles = (productoActual.unidadesDisponibles || 0) //Esto no va a pasar nunca
+	
+	if( unidadesDisponibles - (disponibleHistorico + unidadesNuevas) >= 0)
+		return true;
+
+	return false;
+}

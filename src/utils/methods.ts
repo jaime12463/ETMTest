@@ -112,3 +112,23 @@ export const buscarPedidosParaElMismoDia = (
 
 	return resultado;
 };
+
+export const obtenerUnidadesMismoProducto = (
+	pedidosCliente: TPedidoClienteParaEnviar[],
+	codigoProducto: number
+): number => {
+	let totalUnidadesMismoProducto = 0;
+	if (pedidosCliente.length !== 0) {
+		totalUnidadesMismoProducto = pedidosCliente.reduce(
+			(acum: any, pedidos: any) => {
+				for (let pedido of pedidos.productosPedido) {
+					if (pedido.codigoProducto === codigoProducto) acum += pedido.unidades;
+				}
+				return acum;
+			},
+			0
+		);
+	}
+
+	return totalUnidadesMismoProducto;
+};
