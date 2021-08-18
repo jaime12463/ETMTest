@@ -1,16 +1,15 @@
 import {Dado, Cuando, Y} from '../../pasos';
 
 //Antecedentes
-Dado(
-	'que estoy en el ingreso del pedido',
-	() => {
-		cy.navegarPageInicio('2021-06-09');
+Dado('que estoy en el ingreso del pedido', () => {
+	cy.navegarPageInicio('2021-06-09');
 
-		cy.oprimirBotonSplash();
+	cy.esperarDatosServidor();
 
-		cy.ingresarCodigoCliente('HS003');
-	}
-);
+	cy.oprimirBotonSplash();
+
+	cy.ingresarCodigoCliente('HS003');
+});
 
 //Escenarios compartidos
 Cuando('se ingresa una cantidad', () => {});
