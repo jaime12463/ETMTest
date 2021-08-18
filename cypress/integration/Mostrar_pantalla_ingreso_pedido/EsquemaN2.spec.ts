@@ -19,4 +19,6 @@ Entonces('el sistema {string}', () => {});
 
 Y('el switch en estado On Disabled', () => {
 	//verificar si deshabilita y prendido el switch
+	cy.get('#switch-cambiar-tipoPago-').should('be.checked');
+	cy.get('#switch-cambiar-tipoPago-').should('be.disabled');
 });

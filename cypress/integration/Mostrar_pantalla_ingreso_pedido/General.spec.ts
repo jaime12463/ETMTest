@@ -1,4 +1,6 @@
-import {Entonces} from '../../pasos';
+import {Cuando, Entonces} from '../../pasos';
+
+Cuando('ingreso a registrar un pedido', () => {});
 
 Entonces('el sistema mostrará {string}', (estadoPanelIngresoProducto) => {
 	if (estadoPanelIngresoProducto === 'No') {

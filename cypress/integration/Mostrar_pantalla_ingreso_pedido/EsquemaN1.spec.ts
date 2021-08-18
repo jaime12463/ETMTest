@@ -26,9 +26,7 @@ Y(
 	}
 );
 
-Cuando('ingreso a registrar un pedido', () => {});
-
 Y('el switch Credito en estado off Disabled', () => {
-	// cy.get('[data-cy=switch-cambiar-tipoPago-]').should('be.disabled');
-	cy.get('[data-cy=switch-cambiar-tipoPago-1885]').should('be.disabled');
+	cy.get('#switch-cambiar-tipoPago-').should('not.be.checked');
+	cy.get('#switch-cambiar-tipoPago-').should('be.disabled');
 });
