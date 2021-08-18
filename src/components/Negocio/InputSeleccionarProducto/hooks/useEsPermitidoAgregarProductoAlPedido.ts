@@ -15,22 +15,30 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 	const {
 		pedidosClienteMismaFechaEntrega,
 	} = useObtenerPedidosClienteMismaFechaEntrega();
-	const [
-		esPermitidoAgregarProductoAlPedido,
-		setEsPermitidoAgregarProductoAlPedido,
-	] = useState(true);
-	const validarEsPermitidoAgregarProductoAlPedido = useCallback(() => {
-		if (!datosCliente) return;
+	const validarEsPermitidoAgregarProductoAlPedido = useCallback((): boolean => {
+		let esPermitidoAgregarProductoAlPedido: boolean = true;
+
+		if (!datosCliente) return !esPermitidoAgregarProductoAlPedido;
+
+		const {esCreditoBloqueado} = datosCliente.informacionCrediticia;
+
+		const esCreditoFormal = clienteActual.condicion === 'creditoFormal';
+
+		if (esCreditoFormal && esCreditoBloqueado)
+			return !esPermitidoAgregarProductoAlPedido;
+
 		const {configuracionPedido}: TCliente = datosCliente;
+
 		const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
 			totalPedidoActual.totalContado.totalPrecio,
 			pedidosClienteMismaFechaEntrega,
 			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0
 		);
-		console.log(esMenorAlMontoMaximoContado);
+
 		if (!esMenorAlMontoMaximoContado)
-			setEsPermitidoAgregarProductoAlPedido(false);
-		setEsPermitidoAgregarProductoAlPedido(true);
+			return !esPermitidoAgregarProductoAlPedido;
+
+		return esPermitidoAgregarProductoAlPedido;
 	}, [
 		clienteActual,
 		totalPedidoActual,
@@ -38,12 +46,7 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 		pedidosClienteMismaFechaEntrega,
 	]);
 
-	useEffect(() => {
-		validarEsPermitidoAgregarProductoAlPedido();
-	});
-
 	return {
-		esPermitidoAgregarProductoAlPedido,
 		validarEsPermitidoAgregarProductoAlPedido,
 	};
 };

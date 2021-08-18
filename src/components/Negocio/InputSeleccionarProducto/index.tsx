@@ -65,7 +65,7 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	const {nombreProducto} = {...productoActual};
 
 	const {
-		esPermitidoAgregarProductoAlPedido,
+		validarEsPermitidoAgregarProductoAlPedido,
 	} = useEsPermitidoAgregarProductoAlPedido();
 
 	return (
@@ -80,7 +80,7 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 						name='productoABuscar'
 						inputDataCY='codigo-producto-a-buscar'
 						helperText={nombreProducto}
-						disabled={!esPermitidoAgregarProductoAlPedido}
+						disabled={!validarEsPermitidoAgregarProductoAlPedido()}
 						FormHelperTextProps={{
 							className: estilos.helperText,
 						}}
