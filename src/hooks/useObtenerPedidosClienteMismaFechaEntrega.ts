@@ -1,46 +1,53 @@
 import {
 	useObtenerClienteActual,
-    useObtenerPedidosClientes,
-    useObtenerPedidoActual
+	useObtenerPedidosClientes,
+	useObtenerPedidoActual,
 } from 'redux/hooks';
 import {
 	EEstadosDeUnPedido,
 	TClienteActual,
 	TPedidoClienteParaEnviar,
-    TPedidosClientes,
-    TPedidoActual
+	TPedidosClientes,
+	TPedidoActual,
 } from 'models';
-import { useCallback } from 'react';
+import {useCallback} from 'react';
 
-export const useObtenerPedidosClienteMismaFechaEntrega = (codigoCliente?: string) => {
-    const clienteActual: TClienteActual = useObtenerClienteActual();
-    
-    const pedidosClientes: TPedidosClientes = useObtenerPedidosClientes();
-    
-    const pedidoActual: TPedidoActual = useObtenerPedidoActual();
-    
-    const obtenerPedidosClienteMismaFechaEntrega = useCallback(
-        (codigoClienteEntrante: string) => {
-            const pedidosCliente: TPedidoClienteParaEnviar[] | undefined =
-            pedidosClientes[codigoClienteEntrante];
-            
-            let pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[] = [];
-    
-            if (pedidosCliente) {
-                pedidosClienteMismaFechaEntrega = pedidosCliente.filter(
-                    (pedidoCliente: TPedidoClienteParaEnviar) =>
-                        pedidoCliente.fechaEntrega === pedidoActual.fechaEntrega &&
-                        pedidoCliente.codigoPedido !== pedidoActual.codigoPedido &&
-                        pedidoCliente.estado === EEstadosDeUnPedido.Activo
-                );
-            }
+export const useObtenerPedidosClienteMismaFechaEntrega = (
+	codigoCliente?: string
+) => {
+	const clienteActual: TClienteActual = useObtenerClienteActual();
 
-            return pedidosClienteMismaFechaEntrega;
-        },
-        [pedidosClientes, pedidoActual, clienteActual],
-    )
+	const pedidosClientes: TPedidosClientes = useObtenerPedidosClientes();
 
-    const pedidosClienteMismaFechaEntrega = obtenerPedidosClienteMismaFechaEntrega(codigoCliente??clienteActual.codigoCliente);
+	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
 
-    return {pedidosClienteMismaFechaEntrega, obtenerPedidosClienteMismaFechaEntrega};
-}
+	const obtenerPedidosClienteMismaFechaEntrega = useCallback(
+		(codigoClienteEntrante: string) => {
+			const pedidosCliente: TPedidoClienteParaEnviar[] =
+				pedidosClientes[codigoClienteEntrante]?.pedidos;
+
+			let pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[] = [];
+
+			if (pedidosCliente) {
+				pedidosClienteMismaFechaEntrega = pedidosCliente.filter(
+					(pedidoCliente: TPedidoClienteParaEnviar) =>
+						pedidoCliente.fechaEntrega === pedidoActual.fechaEntrega &&
+						pedidoCliente.codigoPedido !== pedidoActual.codigoPedido &&
+						pedidoCliente.estado === EEstadosDeUnPedido.Activo
+				);
+			}
+
+			return pedidosClienteMismaFechaEntrega;
+		},
+		[pedidosClientes, pedidoActual, clienteActual]
+	);
+
+	const pedidosClienteMismaFechaEntrega = obtenerPedidosClienteMismaFechaEntrega(
+		codigoCliente ?? clienteActual.codigoCliente
+	);
+
+	return {
+		pedidosClienteMismaFechaEntrega,
+		obtenerPedidosClienteMismaFechaEntrega,
+	};
+};

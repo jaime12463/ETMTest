@@ -1,9 +1,11 @@
+import React from 'react';
 import {
 	IndicadoresDelPedidoActual,
 	TabVentas,
 	TotalesMetodoDeVentaDelPedidoActual,
-	BotonCerrarPedidoDelCliente
+	BotonCerrarPedidoDelCliente,
 } from './components';
+import {TotalesCompromisoDeCobroPedidoActual} from '../CompromisoDeCobro/components/index';
 import {Estructura, Tabs} from 'components/UI';
 import {Button, Grid, IconButton, Box} from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
@@ -14,9 +16,12 @@ import {
 	FechaEntregaDelPedidoActual,
 	InfoClienteDelPedidoActual,
 } from 'components/Negocio';
-import {useResetPedidoActualAlDesmontar} from './hooks'
+import {useResetPedidoActualAlDesmontar} from './hooks';
+import CompromisoDeCobro from 'pages/CompromisoDeCobro';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
+	const [value, setValue] = React.useState(0);
+
 	useResetPedidoActualAlDesmontar();
 	return (
 		<Estructura>
@@ -31,12 +36,13 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				<Box mb={3}>
 					<IndicadoresDelPedidoActual />
 				</Box>
-				<TabsPedidoActual />
+				<TabsPedidoActual value={value} setValue={setValue} />
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
 				<Grid container spacing={1}>
-					<TotalesMetodoDeVentaDelPedidoActual />
+					<PieDelTab value={value} />
 				</Grid>
+
 				<Grid container spacing={1}>
 					<Grid item xs={6}>
 						<BotonVerEnvases />
@@ -80,16 +86,28 @@ function BotonVerPedidosDelClienteActual() {
 	);
 }
 
-function TabsPedidoActual() {
+function TabsPedidoActual({value, setValue}: any) {
 	let {t} = useTranslation();
 	const tabs = [
 		{
 			label: t('general.ventas'),
 			component: TabVentas,
 		},
+		{
+			label: t('general.compromisoCobro'),
+			component: CompromisoDeCobro,
+		},
 	];
 
-	return <Tabs tabs={tabs} />;
+	return <Tabs tabs={tabs} value={value} setValue={setValue} />;
+}
+
+function PieDelTab({value}: {value: number}) {
+	return value === 0 ? (
+		<TotalesMetodoDeVentaDelPedidoActual />
+	) : (
+		<TotalesCompromisoDeCobroPedidoActual />
+	);
 }
 
 export default TomaPedidoDelClienteActual;

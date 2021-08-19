@@ -39,6 +39,12 @@ const es = {
 		credito: 'Crédito',
 		contado: 'Contado',
 		venta: 'Venta',
+		compromisoCobro: 'Compromiso de Cobro',
+		saldo: 'Saldo',
+		documento: 'Documento',
+		vencimiento: 'Vencimiento',
+		deudaPendiente: 'Deuda Pendiente',
+		compromisoRegistrado: 'Compromisos de Cobro Registrados',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',
@@ -74,6 +80,7 @@ const es = {
 		ProductoNoEstaEnPortafolioCliente:
 			'El código no corresponde a un portafolio vigente del cliente',
 		excedeCreditoDsiponible: 'El pedido excede el crédito disponible',
+		montoMayorDeuda: 'El monto no puede ser mayor a la deuda registrada',
 	},
 };
 export default es;

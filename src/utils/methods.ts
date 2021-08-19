@@ -2,6 +2,7 @@ import {
 	TPedidoClienteParaEnviar,
 	EEstadosDeUnPedido,
 	ETiposDePago,
+	TCompromisoDeCobro,
 } from 'models/redux';
 
 export const transformDate = (date: string): string =>
@@ -89,6 +90,23 @@ export const obtenerTotalesContadoPedidosCliente = (
 	}
 
 	return totalPedidosMismaFecha;
+};
+
+export const obtenerTotalesCompromisoDeCobroCliente = (
+	compromisosDeCobroMismaFechaEntrega: TCompromisoDeCobro[]
+): number => {
+	let totalCompromisosDeCobroMismaFecha = 0;
+	if (compromisosDeCobroMismaFechaEntrega.length !== 0) {
+		totalCompromisosDeCobroMismaFecha = compromisosDeCobroMismaFechaEntrega.reduce(
+			(acum: any, el: any) => {
+				acum += el.monto;
+				return acum;
+			},
+			0
+		);
+	}
+
+	return totalCompromisosDeCobroMismaFecha;
 };
 
 export const buscarPedidosParaElMismoDia = (

@@ -8,6 +8,7 @@ import {
 	useObtenerClienteActual,
 	useObtenerPedidoActual,
 	useObtenerPedidosClientes,
+	useObtenerCompromisoDeCobroActual,
 } from 'redux/hooks';
 import {
 	ETiposDePago,
@@ -23,6 +24,7 @@ import {
 import {useCallback} from 'react';
 import {
 	agregarPedidoCliente,
+	guardarCompromisoDecobroCliente,
 } from 'redux/features/pedidosClientes/pedidosClientesSlice';
 import {useAppDispatch} from 'redux/hooks';
 import {
@@ -41,6 +43,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
 	const pedidosClientes: TPedidosClientes = useObtenerPedidosClientes();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
+	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {t} = useTranslation();
 	const history = useHistory();
@@ -50,8 +53,8 @@ export const useAgregarPedidoActualAPedidosClientes = (
 	const {creditoDisponible} = useObtenerCreditoDisponible();
 
 	const agregarPedidoActualAPedidosClientes = useCallback(() => {
-		const pedidosCliente: TPedidoClienteParaEnviar[] | undefined =
-			pedidosClientes[clienteActual.codigoCliente];
+		const pedidosCliente: TPedidoClienteParaEnviar[] =
+			pedidosClientes[clienteActual.codigoCliente]?.pedidos;
 
 		if (!datosCliente) {
 			mostrarAdvertenciaEnDialogo(
@@ -84,21 +87,23 @@ export const useAgregarPedidoActualAPedidosClientes = (
 		const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
 			totalPedidoActual.totalContado.totalPrecio,
 			pedidosClienteMismaFechaEntrega,
-			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima??0
+			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0
 		);
 
 		if (!esMenorAlMontoMaximoContado) {
 			mostrarAdvertenciaEnDialogo(
 				t('advertencias.masDelMontoMaximo', {
 					montoVentaMaxima:
-						configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima??'',
+						configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ??
+						'',
 				}),
 				'monto-maximo'
 			);
 			return;
 		}
 
-		const esMenorAlMontoMaximoCredito: boolean = totalPedidoActual.totalCredito.totalPrecio < creditoDisponible;
+		const esMenorAlMontoMaximoCredito: boolean =
+			totalPedidoActual.totalCredito.totalPrecio < creditoDisponible;
 
 		const esCondicionCreditoInformal =
 			clienteActual.condicion === 'creditoInformal';
@@ -112,28 +117,55 @@ export const useAgregarPedidoActualAPedidosClientes = (
 		}
 
 		if (!esCondicionCreditoInformal) {
-			const tipoPago = clienteActual.condicion === 'creditoFormal'? ETiposDePago.Credito : ETiposDePago.Contado;
+			const tipoPago =
+				clienteActual.condicion === 'creditoFormal'
+					? ETiposDePago.Credito
+					: ETiposDePago.Contado;
 
-			dispatch(agregarPedidoCliente({ pedidoActual, clienteActual, tipoPago }));
+			dispatch(agregarPedidoCliente({pedidoActual, clienteActual, tipoPago}));
 		} else {
-			const productosContadoDelPedidoActual= pedidoActual.productosPedido.filter((producto: TProductoPedido) =>
-				producto.tipoPago === ETiposDePago.Contado
+			const productosContadoDelPedidoActual = pedidoActual.productosPedido.filter(
+				(producto: TProductoPedido) =>
+					producto.tipoPago === ETiposDePago.Contado
 			);
 
 			if (productosContadoDelPedidoActual.length > 0) {
-				const pedidoContado: TPedidoActual = { ...pedidoActual, productosPedido: productosContadoDelPedidoActual}
-				dispatch(agregarPedidoCliente({ pedidoActual: pedidoContado, clienteActual, tipoPago: ETiposDePago.Contado }));
+				const pedidoContado: TPedidoActual = {
+					...pedidoActual,
+					productosPedido: productosContadoDelPedidoActual,
+				};
+				dispatch(
+					agregarPedidoCliente({
+						pedidoActual: pedidoContado,
+						clienteActual,
+						tipoPago: ETiposDePago.Contado,
+					})
+				);
 			}
 
-			const productosCreditoDelPedidoActual = pedidoActual.productosPedido.filter((producto: TProductoPedido) =>
-				producto.tipoPago === ETiposDePago.Credito
+			const productosCreditoDelPedidoActual = pedidoActual.productosPedido.filter(
+				(producto: TProductoPedido) =>
+					producto.tipoPago === ETiposDePago.Credito
 			);
 
 			if (productosCreditoDelPedidoActual.length > 0) {
-				const pedidoCredito: TPedidoActual = { ...pedidoActual, productosPedido: productosCreditoDelPedidoActual, codigoPedido: uuidv4()}
-				dispatch(agregarPedidoCliente({ pedidoActual: pedidoCredito, clienteActual, tipoPago: ETiposDePago.Credito }));
+				const pedidoCredito: TPedidoActual = {
+					...pedidoActual,
+					productosPedido: productosCreditoDelPedidoActual,
+					codigoPedido: uuidv4(),
+				};
+				dispatch(
+					agregarPedidoCliente({
+						pedidoActual: pedidoCredito,
+						clienteActual,
+						tipoPago: ETiposDePago.Credito,
+					})
+				);
 			}
 		}
+		dispatch(
+			guardarCompromisoDecobroCliente({compromisoDeCobroActual, clienteActual})
+		);
 
 		history.goBack();
 	}, [

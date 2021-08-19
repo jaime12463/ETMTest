@@ -8,6 +8,8 @@ import {TTab} from 'models';
 
 type Props = {
 	tabs: TTab[];
+	value: number;
+	setValue: any;
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -24,9 +26,8 @@ function a11yProps(index: any) {
 	};
 }
 
-const Tabs: FunctionComponent<Props> = (props) => {
+const Tabs: FunctionComponent<Props> = ({tabs, value, setValue}) => {
 	const classes = useStyles();
-	const [value, setValue] = React.useState(0);
 
 	const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
 		setValue(newValue);
@@ -40,7 +41,7 @@ const Tabs: FunctionComponent<Props> = (props) => {
 				textColor='primary'
 				variant='fullWidth'
 			>
-				{props.tabs.map((tab, index) => (
+				{tabs.map((tab, index) => (
 					<Tab
 						label={tab.label}
 						style={{minWidth: '33%', maxWidth: '33%'}}
@@ -49,7 +50,7 @@ const Tabs: FunctionComponent<Props> = (props) => {
 					/>
 				))}
 			</TabsMUI>
-			{props.tabs.map((tab, index) => (
+			{tabs.map((tab, index) => (
 				<TabPanel value={value} index={index} key={index}>
 					{tab.component}
 				</TabPanel>

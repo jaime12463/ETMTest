@@ -39,6 +39,12 @@ const en = {
 		credito: 'Credit',
 		contado: 'Counted',
 		venta: 'Sale',
+		compromisoCobro: 'Collection commitment',
+		saldo: 'Balance',
+		documento: 'Document',
+		vencimiento: 'Expiration',
+		deudaPendiente: 'pending debt',
+		compromisoRegistrado: 'Registered Collection Commitments',
 	},
 	titulos: {
 		bienvenido: 'Welcome',
@@ -74,6 +80,7 @@ const en = {
 		ProductoNoEstaEnPortafolioCliente:
 			'The code does not correspond to a current portfolio of the client',
 		excedeCreditoDsiponible: 'The order exceeds the available credit',
+		montoMayorDeuda: 'The amount cannot be greater than the registered debt',
 	},
 };
 export default en;
