@@ -51,11 +51,17 @@ Dado('que se registraron productos en el pedido', (datatable) => {
         //     unidades,
         //     subUnidades: 0,
         // });
-        
-		cy.get(`[data-cy=codigo-producto-a-buscar]`).type(`${element.codigoProducto}{enter}`);
-		cy.get(`[data-cy=cantidad-producto-unidades]`).type(`${element.totalUnidades}{enter}{enter}`);
-        // cy.get(`[data-cy=switch-cambiar-tipoPago${element.codigoProducto}]`).click();
+
+		cy.agregarProducto({
+			codigoProducto: element.codigoProducto,
+			unidades: element.cantidadUnidades,
+			subUnidades: element.cantidadSubunidades,
+		});
         if(element.condicionPago == 'contado') {cy.get(`[data-cy=switch-cambiar-tipoPago-${element.codigoProducto}]`).click();}
+        
+		// cy.get(`[data-cy=codigo-producto-a-buscar]`).type(`${element.codigoProducto}{enter}`);
+		// cy.get(`[data-cy=cantidad-producto-unidades]`).type(`${element.totalUnidades}{enter}{enter}`);
+        // cy.get(`[data-cy=switch-cambiar-tipoPago${element.codigoProducto}]`).click();
 		// cy.get(`[data-cy=cantidad-producto-subUnidades]`).type(
 		// 	`${subUnidades}{enter}`
 		// );
@@ -78,3 +84,13 @@ Entonces(
 		cy.get('[data-cy=cantidad-es-mayor]').should('exist');
 	}
 );
+
+
+// Entonces(
+// 	'el sistema mostrará para Contado: {string} y {string}', (totalUnidadesContado, totalSubunidadesContado),
+// 	() => {
+		
+// 	}
+// );
+
+

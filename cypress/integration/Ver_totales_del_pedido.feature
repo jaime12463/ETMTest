@@ -21,16 +21,22 @@ Antecedentes:
 	Dado que estoy en el ingreso del pedido
 
 @Test_dispositivo_1
-Escenario: N°1 - Calcular totales para cliente de Crédito Informal
+Esquema del escenario: N°1 - Calcular totales para cliente de Crédito Informal
     Dado que se registraron productos en el pedido
-        |codigoProducto|totalUnidades|totalSubunidades|monto|condicionPago|
-        |17640         |4	         |2               |420  | contado     |
-        |1885          |7	         |3               |480  | credito     |
+        |codigoProducto|cantidadUnidades|cantidadSubunidades|condicionPago|
+        |17640         |4	            |3                  | contado     |
+        |1885          |7	            |3                  | credito     |
+    # Cuando quiero ver los totales
+    # Entonces el sistema calculará para cada <condicionPago> el <totalUnidades> como la suma de Unidades, <totalSubunidades> como la suma de las subunidades 
+    # Y <monto> como unidades * precio con Impuesto de la unidadad + subunidades * precio con impuesto de la subunidad, de los productos de la misma condición de pago 
+    # Y mostrará los totales en pantalla
+    #Entonces el sistema mostrará para Contado: <totalUnidadesContado> y <totalSubunidadesContado>
 
-    Cuando quiero ver los totales
-    Entonces el sistema calculará para cada <condicionPago> el <totalUnidades> como la suma de Unidades, <totalSubunidades> como la suma de las subunidades 
-    Y <monto> como unidades * precio con Impuesto de la unidadad + subunidades * precio con impuesto de la subunidad, de los productos de la misma condición de pago 
-    Y mostrará los totales en pantalla
+Ejemplos:
+|totalUnidadesContado|totalSubunidadesContado|totalUnidadesCredito|totalSubunidadesCredito|totalMontoContado|totalMontoCredito|
+|4		             |3		                 |7                   |3                      |420              |480              |
+
+
 
 # Ejemplos:
 # |totalUnidades|totalSubunidades|monto|condicionPago|
