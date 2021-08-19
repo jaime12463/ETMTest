@@ -119,6 +119,26 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				return esValidacionCorrecta;
 			}
 
+			if(typeof productoActual.unidadesDisponibles !== 'undefined')
+			{
+				const disponibleUnidades = validarUnidadesDisponibles(
+					pedidosCliente,
+					unidadesParseado,
+					productoActual
+				);
+
+				if (!disponibleUnidades)
+				{
+					mostrarAdvertenciaEnDialogo(
+						t('advertencias.excedeUnidadesDisponibles', {
+							disponible: productoActual.unidadesDisponibles,
+						}),
+						'excede-disponible'
+					);
+					return esValidacionCorrecta;
+				}
+			}
+
 			const {configuracionPedido}: TCliente = datosCliente;
 
 			const esUnidadesMenorAlMaximoUnidades = validarUnidadesMinimasProducto(
@@ -141,26 +161,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					}
 				);
 				return esValidacionCorrecta;
-			}
-
-			if(typeof productoActual.unidadesDisponibles !== 'undefined')
-			{
-				const disponibleUnidades = validarUnidadesDisponibles(
-					pedidosCliente,
-					unidadesParseado,
-					productoActual
-				);
-
-				if (!disponibleUnidades)
-				{
-					mostrarAdvertenciaEnDialogo(
-						t('advertencias.excedeUnidadesDisponibles', {
-							disponible: productoActual.unidadesDisponibles,
-						}),
-						'excede-disponible'
-					);
-					return esValidacionCorrecta;
-				}
 			}
 
 			esValidacionCorrecta = true;
