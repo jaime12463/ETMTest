@@ -5,6 +5,7 @@ Dado(
 	'que estoy en el ingreso del pedido y que se ingresó un código de producto',
 	() => {
 		cy.navegarPageInicio('2021-06-09');
+		cy.esperarDatosServidor();
 		cy.oprimirBotonSplash();
 		cy.ingresarCodigoCliente('HS001');
 	}
