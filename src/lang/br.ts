@@ -38,6 +38,12 @@ const br = {
 		signoMoneda: 'R$',
 		credito: 'Crédito',
 		contado: 'Dinheiro',
+		compromisoCobro: 'compromisso de cobrança',
+		saldo: 'Equilíbrio',
+		documento: 'Documento',
+		vencimiento: 'expiração',
+		deudaPendiente: 'Dívida pendente',
+		compromisoRegistrado: 'Compromissos de cobrança registrados',
 		
 	},
 	titulos: {
