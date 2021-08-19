@@ -32,10 +32,21 @@ export const compromisoDeCobroSlice = createSlice({
 			state.monto = monto;
 			state.tipoDocumento = tipoDocumento;
 		},
+
+		limpiarCompromisoDeCobroActual: (state) => {
+			state.ID = '';
+			state.fechaCreacion = '';
+			state.fechaEntrega = '';
+			state.monto = 0;
+			state.tipoDocumento = '';
+		},
 	},
 });
 
 export const selectCompromisoDeCobro = (state: RootState) =>
 	state.compromisoDeCobro;
-export const {agregarCompromisoDeCobro} = compromisoDeCobroSlice.actions;
+export const {
+	agregarCompromisoDeCobro,
+	limpiarCompromisoDeCobroActual,
+} = compromisoDeCobroSlice.actions;
 export default compromisoDeCobroSlice.reducer;

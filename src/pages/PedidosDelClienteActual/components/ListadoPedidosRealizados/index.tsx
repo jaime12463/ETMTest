@@ -9,7 +9,8 @@ const ListadoPedidosRealizados = () => {
 	const {t} = useTranslation();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const pedidosClientes = useObtenerPedidosClientes();
-	const pedidosClienteActual = pedidosClientes[clienteActual.codigoCliente].pedidos;
+	const pedidosClienteActual =
+		pedidosClientes[clienteActual.codigoCliente]?.pedidos;
 
 	const Header = ({title}: {title: string}) => (
 		<Box textAlign='center'>{title}</Box>

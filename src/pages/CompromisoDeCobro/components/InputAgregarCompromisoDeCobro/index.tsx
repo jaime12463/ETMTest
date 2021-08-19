@@ -4,12 +4,13 @@ import useEstilos from './useEstilos';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import {useAgregarCompromisoDeCobro} from '../../hooks';
 import {useForm} from 'react-hook-form';
+import {useObtenerCompromisoDeCobroActual} from 'redux/hooks';
 
 const InputAgregarCompromisoDeCobro = () => {
 	const estilos = useEstilos();
-
+	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 	const defaultValues: TInputsCompromisoDeCobro = {
-		monto: '',
+		monto: compromisoDeCobroActual.monto.toString(),
 	};
 
 	const {control, handleSubmit} = useForm<TInputsCompromisoDeCobro>({

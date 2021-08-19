@@ -23,8 +23,6 @@ export function BotonCerrarPedidoDelCliente(props: Props) {
 		mostrarAdvertenciaEnDialogo
 	);
 
-	//const guardarCompromisoDeCobro = useGuardarCompromisoDeCobro();
-
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
