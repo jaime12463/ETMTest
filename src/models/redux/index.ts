@@ -10,13 +10,12 @@ export type TClienteActual = {
 	razonSocial: string;
 	condicion: TCondicicon;
 	tipoPagoActual: ETiposDePago;
-	compromisoDeCobro: TCompromisoDeCobro[];
 };
 
 export type TCompromisoDeCobro = {
 	ID: string;
-	FechaCreacion: string;
-	FechaEntrega: string;
+	fechaCreacion: string;
+	fechaEntrega: string;
 	monto: number;
 	tipoDocumento: string;
 };
@@ -96,7 +95,10 @@ export enum ETiposDePago {
 
 //Pedidos Clientes
 export type TPedidosClientes = {
-	[codigoCliente: string]: TPedidoClienteParaEnviar[];
+	[codigoCliente: string]: {
+		pedidos: TPedidoClienteParaEnviar[];
+		compromisosDeCobro: TCompromisoDeCobro[];
+	};
 };
 
 export type TPedidoClienteParaEnviar = {

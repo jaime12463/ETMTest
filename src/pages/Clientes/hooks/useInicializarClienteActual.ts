@@ -61,7 +61,6 @@ export const useInicializarClienteActual = (
 					razonSocial: datosCliente.detalles.nombreComercial,
 					condicion: datosCliente.informacionCrediticia.condicion,
 					tipoPagoActual,
-					compromisoDeCobro: [],
 				})
 			);
 

@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {ETiposDePago, TClienteActual} from 'models';
+import {ETiposDePago, TClienteActual, TCompromisoDeCobro} from 'models';
 import {RootState} from 'redux/store';
 
 const estadoInicial: TClienteActual = {
@@ -7,7 +7,6 @@ const estadoInicial: TClienteActual = {
 	razonSocial: '',
 	condicion: 'contado',
 	tipoPagoActual: ETiposDePago.Contado,
-	compromisoDeCobro: [],
 };
 
 export const clienteActualSlice = createSlice({
@@ -23,13 +22,11 @@ export const clienteActualSlice = createSlice({
 				razonSocial,
 				condicion,
 				tipoPagoActual,
-				compromisoDeCobro,
 			} = action.payload;
 			state.codigoCliente = codigoCliente;
 			state.razonSocial = razonSocial;
 			state.condicion = condicion;
 			state.tipoPagoActual = tipoPagoActual;
-			state.compromisoDeCobro = compromisoDeCobro;
 		},
 		resetearClienteActual: (state) => {
 			state.codigoCliente = '';
@@ -44,7 +41,6 @@ export const clienteActualSlice = createSlice({
 		},
 	},
 });
-
 
 export const selectClienteActual = (state: RootState) => state.clienteActual;
 export const {

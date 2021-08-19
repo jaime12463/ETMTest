@@ -31,7 +31,7 @@
 			],
 			"informacionCrediticia": {
 				"condicion": "creditoInformal",
-				"limite": 3000,
+				"limite": 30000,
 				"disponible": 10000,
 				"esCreditoBloqueado": false,
 				"documentos": [

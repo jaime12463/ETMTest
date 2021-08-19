@@ -38,6 +38,12 @@ const br = {
 		signoMoneda: 'R$',
 		credito: 'Crédito',
 		contado: 'Dinheiro',
+		compromisoCobro: 'compromisso de cobrança',
+		saldo: 'Equilíbrio',
+		documento: 'Documento',
+		vencimiento: 'expiração',
+		deudaPendiente: 'Dívida pendente',
+		compromisoRegistrado: 'Compromissos de cobrança registrados',
 	},
 	titulos: {
 		bienvenido: 'Bem Vindo',
@@ -70,7 +76,9 @@ const br = {
 		cancelarTodosLosPedido:
 			'Foram cancelados todos os pedidos com data de entrega {{fechaDeEntrega}} ¿Deseja continuar?',
 		excedeCreditoDsiponible: 'O pedido excede o crédito disponível',
-		excedeUnidadesDisponibles: 'A quantidade é maior do que a disponível: {{disponible}}',
+		montoMayorDeuda: 'O valor não pode ser maior que a dívida registrada',
+		excedeUnidadesDisponibles:
+			'A quantidade é maior do que a disponível: {{disponible}}',
 	},
 };
 export default br;
