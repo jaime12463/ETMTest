@@ -1,10 +1,10 @@
 import {FunctionComponent} from 'react';
-import {TDocumentos} from 'models';
+import {TDocumento} from 'models';
 import {Grid} from '@material-ui/core';
 import {Center, Numero} from 'components/UI';
 
 type Props = {
-	item: TDocumentos;
+	item: TDocumento;
 };
 
 const ItemListadoDocumentos: FunctionComponent<Props> = (props) => {
