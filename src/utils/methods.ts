@@ -2,6 +2,7 @@ import {
 	TPedidoClienteParaEnviar,
 	EEstadosDeUnPedido,
 	ETiposDePago,
+	TCompromisoDeCobro,
 } from 'models/redux';
 
 export const transformDate = (date: string): string =>
@@ -91,6 +92,23 @@ export const obtenerTotalesContadoPedidosCliente = (
 	return totalPedidosMismaFecha;
 };
 
+export const obtenerTotalesCompromisoDeCobroCliente = (
+	compromisosDeCobroMismaFechaEntrega: TCompromisoDeCobro[]
+): number => {
+	let totalCompromisosDeCobroMismaFecha = 0;
+	if (compromisosDeCobroMismaFechaEntrega.length !== 0) {
+		totalCompromisosDeCobroMismaFecha = compromisosDeCobroMismaFechaEntrega.reduce(
+			(acum: any, el: any) => {
+				acum += el.monto;
+				return acum;
+			},
+			0
+		);
+	}
+
+	return totalCompromisosDeCobroMismaFecha;
+};
+
 export const buscarPedidosParaElMismoDia = (
 	pedidosCliente: any,
 	fechaEntrega: string | undefined
@@ -111,4 +129,24 @@ export const buscarPedidosParaElMismoDia = (
 		);
 
 	return resultado;
+};
+
+export const obtenerUnidadesMismoProducto = (
+	pedidosCliente: TPedidoClienteParaEnviar[],
+	codigoProducto: number
+): number => {
+	let totalUnidadesMismoProducto = 0;
+	if (pedidosCliente.length !== 0) {
+		totalUnidadesMismoProducto = pedidosCliente.reduce(
+			(acum: any, pedidos: any) => {
+				for (let pedido of pedidos.productosPedido) {
+					if (pedido.codigoProducto === codigoProducto) acum += pedido.unidades;
+				}
+				return acum;
+			},
+			0
+		);
+	}
+
+	return totalUnidadesMismoProducto;
 };

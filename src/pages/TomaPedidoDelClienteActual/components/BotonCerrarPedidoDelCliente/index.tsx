@@ -16,11 +16,12 @@ export function BotonCerrarPedidoDelCliente(props: Props) {
 		mostarDialogo,
 		parametrosDialogo,
 	} = useMostrarAdvertenciaEnDialogo();
+	const desabilitarCerrarPedido =
+		totalPedidoActual.totalPrecio <= 0 ? true : false;
 
 	const agregarPedidoActualAPedidosClientes = useAgregarPedidoActualAPedidosClientes(
 		mostrarAdvertenciaEnDialogo
 	);
-	const puedeCerrarPedido = totalPedidoActual.totalPrecio <= 0 ? true : false;
 
 	return (
 		<>
@@ -31,7 +32,7 @@ export function BotonCerrarPedidoDelCliente(props: Props) {
 				data-cy='boton-cerrarPedido'
 				onClick={agregarPedidoActualAPedidosClientes}
 				fullWidth
-				disabled={puedeCerrarPedido}
+				disabled={desabilitarCerrarPedido}
 			>
 				{t('general.cerrarPedido').toUpperCase()}
 			</Button>

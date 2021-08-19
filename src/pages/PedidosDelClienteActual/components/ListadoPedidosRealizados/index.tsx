@@ -1,6 +1,6 @@
 import {List} from 'components/UI';
 import {Box} from '@material-ui/core';
-import {THeader, TPedidoClienteParaEnviar, TClienteActual} from 'models';
+import {THeader, TClienteActual} from 'models';
 import {useTranslation} from 'react-i18next';
 import {ItemListadoPedidosRealizados} from '..';
 import {useObtenerClienteActual, useObtenerPedidosClientes} from 'redux/hooks';
@@ -9,7 +9,8 @@ const ListadoPedidosRealizados = () => {
 	const {t} = useTranslation();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const pedidosClientes = useObtenerPedidosClientes();
-	const pedidosClienteActual = pedidosClientes[clienteActual.codigoCliente];
+	const pedidosClienteActual =
+		pedidosClientes[clienteActual.codigoCliente]?.pedidos;
 
 	const Header = ({title}: {title: string}) => (
 		<Box textAlign='center'>{title}</Box>

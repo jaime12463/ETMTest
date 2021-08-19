@@ -10,13 +10,12 @@ export type TClienteActual = {
 	razonSocial: string;
 	condicion: TCondicicon;
 	tipoPagoActual: ETiposDePago;
-	compromisoDeCobro: TCompromisoDeCobro[];
 };
 
 export type TCompromisoDeCobro = {
 	ID: string;
-	FechaCreacion: string;
-	FechaEntrega: string;
+	fechaCreacion: string;
+	fechaEntrega: string;
 	monto: number;
 	tipoDocumento: string;
 };
@@ -75,21 +74,12 @@ export type TPrecioProducto = {
 	esVentaSubunidades: boolean;
 	precioConImpuestoUnidad: number;
 	precioConImpuestoSubunidad: number;
-	// implicito1?: TImplicito;
-	// implicito2?: TImplicito;
 	codigoImplicito1?: number;
 	nombreImplicito1?: string;
 	codigoImplicito2?: number;
 	nombreImplicito2?: string;
+	unidadesDisponibles?: number;
 };
-
-//TODO: No esta implementado
-// export type TImplicito = {
-// 	codigoImplicito: number;
-// 	nombreImplicito: string;
-// 	presentación: number;
-// 	subunidadesVentaMinima: number;
-// };
 
 export type TPedidoDelProducto = {
 	unidades: number;
@@ -105,7 +95,10 @@ export enum ETiposDePago {
 
 //Pedidos Clientes
 export type TPedidosClientes = {
-	[codigoCliente: string]: TPedidoClienteParaEnviar[];
+	[codigoCliente: string]: {
+		pedidos: TPedidoClienteParaEnviar[];
+		compromisosDeCobro: TCompromisoDeCobro[];
+	};
 };
 
 export type TPedidoClienteParaEnviar = {

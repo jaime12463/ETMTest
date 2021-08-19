@@ -9,8 +9,9 @@ import {
 	TPrecioProducto,
 } from 'models';
 import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
-import {Box} from '@material-ui/core';
+import {Box, Grid, Container} from '@material-ui/core';
 import {useForm} from 'react-hook-form';
+import {TotalesMetodoDeVentaDelPedidoActual} from '../index';
 
 type Props = {};
 

@@ -6,18 +6,19 @@ import {
 	useCalcularTotalPedido,
 	useObtenerPedidosClienteMismaFechaEntrega,
 	useObtenerCreditoDisponible,
+	useObtenerCompromisosDeCobroMismaFechaEntrega,
 } from 'hooks';
-import {useObtenerClienteActual} from 'redux/hooks';
+import {
+	useObtenerClienteActual,
+	useObtenerCompromisoDeCobroActual,
+} from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
-import {useState, useEffect} from 'react';
 import {
 	obtenerTotalesPedidosCliente,
 	obtenerTotalesContadoPedidosCliente,
+	obtenerTotalesCompromisoDeCobroCliente,
 } from 'utils/methods';
-
-const obtenerporcentaje = (valor: number, valorMax: number = 0) => {
-	return (valor * 100) / valorMax;
-};
+import {useObtenerColor} from './hooks/useObtenerColor';
 
 const IndicadoresDelPedidoActual = () => {
 	const {t} = useTranslation();
@@ -41,33 +42,20 @@ const IndicadoresDelPedidoActual = () => {
 		pedidosClienteMismaFechaEntrega
 	);
 
+	const {
+		obtenerCompromisosDeCobroMismaFechaEntrega,
+	} = useObtenerCompromisosDeCobroMismaFechaEntrega();
+	const compromisosDeCobroMismaFechaEntrega = obtenerCompromisosDeCobroMismaFechaEntrega(
+		clienteActual.codigoCliente
+	);
+	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
+	const montoTotalCompromisos = obtenerTotalesCompromisoDeCobroCliente(
+		compromisosDeCobroMismaFechaEntrega
+	);
+
 	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
 
-	const [color, setColor] = useState({
-		pedidoMinimo: 'rojo',
-		pedidoMaximo: 'verde',
-		creditoDisponible: 'verde',
-	});
-
-	useEffect(() => {
-		setColor({
-			pedidoMinimo:
-				obtenerporcentaje(
-					totalesPedidoCliente + calcularTotalPedido.totalPrecio,
-					datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
-				) >= 100
-					? 'verde'
-					: 'rojo',
-			pedidoMaximo: 'verde',
-			creditoDisponible:
-				obtenerporcentaje(
-					creditoDisponible - calcularTotalPedido.totalCredito.totalPrecio,
-					datosCliente?.informacionCrediticia.disponible
-				) <= 0
-					? 'rojo'
-					: 'verde',
-		});
-	}, [calcularTotalPedido]);
+	const color = useObtenerColor();
 
 	const indicadores = [
 		{
@@ -84,7 +72,9 @@ const IndicadoresDelPedidoActual = () => {
 					?.montoVentaContadoMaxima,
 			valor:
 				totalesContadoPedidoCliente +
-				calcularTotalPedido.totalContado.totalPrecio,
+				calcularTotalPedido.totalContado.totalPrecio +
+				montoTotalCompromisos +
+				compromisoDeCobroActual.monto,
 			color: color.pedidoMaximo,
 			dataCY: 'indicador-credito-minimo',
 		},

@@ -98,6 +98,9 @@ export type TFormTomaDePedido = TInputsUnidadesYSubUnidades &
 export type TInputsCodigoCliente = {
 	codigoCliente: string;
 };
+export type TInputsCompromisoDeCobro = {
+	monto: string;
+};
 
 export type TInputsUnidadesYSubUnidades = {
 	unidades: string;
