@@ -12,8 +12,12 @@ import {
 	validarSubUnidadesConPresentacion,
 	validarSubUnidadesEsMultiplo,
 	validarUnidadesMinimasProducto,
+	validarUnidadesDisponibles,
 } from 'utils/validaciones';
-import {useObtenerDatosCliente} from 'hooks';
+import {
+	useObtenerDatosCliente, 
+	useObtenerPedidosClienteMismaFechaEntrega
+} from 'hooks';
 import {useObtenerClienteActual, useObtenerDatos} from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
 import {useValidarProductoPermiteSubUnidades} from '.';
@@ -33,6 +37,9 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 	const datos: TDatosClientesProductos = useObtenerDatos();
 
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+
+	const {obtenerPedidosClienteMismaFechaEntrega} = useObtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
+	const pedidosCliente = obtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
 
 	const validarAgregarProductoAlPedidoCliente = useCallback(
 		(inputs: TFormTomaDePedido): boolean => {
@@ -134,6 +141,26 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					}
 				);
 				return esValidacionCorrecta;
+			}
+
+			if(typeof productoActual.unidadesDisponibles !== 'undefined')
+			{
+				const disponibleUnidades = validarUnidadesDisponibles(
+					pedidosCliente,
+					unidadesParseado,
+					productoActual
+				);
+
+				if (!disponibleUnidades)
+				{
+					mostrarAdvertenciaEnDialogo(
+						t('advertencias.excedeUnidadesDisponibles', {
+							disponible: productoActual.unidadesDisponibles,
+						}),
+						'excede-disponible'
+					);
+					return esValidacionCorrecta;
+				}
 			}
 
 			esValidacionCorrecta = true;

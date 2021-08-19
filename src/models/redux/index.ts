@@ -74,21 +74,12 @@ export type TPrecioProducto = {
 	esVentaSubunidades: boolean;
 	precioConImpuestoUnidad: number;
 	precioConImpuestoSubunidad: number;
-	// implicito1?: TImplicito;
-	// implicito2?: TImplicito;
 	codigoImplicito1?: number;
 	nombreImplicito1?: string;
 	codigoImplicito2?: number;
 	nombreImplicito2?: string;
+	unidadesDisponibles?: number;
 };
-
-//TODO: No esta implementado
-// export type TImplicito = {
-// 	codigoImplicito: number;
-// 	nombreImplicito: string;
-// 	presentación: number;
-// 	subunidadesVentaMinima: number;
-// };
 
 export type TPedidoDelProducto = {
 	unidades: number;

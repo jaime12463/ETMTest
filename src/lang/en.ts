@@ -81,6 +81,8 @@ const en = {
 			'The code does not correspond to a current portfolio of the client',
 		excedeCreditoDsiponible: 'The order exceeds the available credit',
 		montoMayorDeuda: 'The amount cannot be greater than the registered debt',
+		excedeUnidadesDisponibles:
+			'The quantity is greater than available: {{disponible}}',
 	},
 };
 export default en;

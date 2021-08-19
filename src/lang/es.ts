@@ -81,6 +81,8 @@ const es = {
 			'El código no corresponde a un portafolio vigente del cliente',
 		excedeCreditoDsiponible: 'El pedido excede el crédito disponible',
 		montoMayorDeuda: 'El monto no puede ser mayor a la deuda registrada',
+		excedeUnidadesDisponibles:
+			'La cantidad es mayor al disponible: {{disponible}}',
 	},
 };
 export default es;
