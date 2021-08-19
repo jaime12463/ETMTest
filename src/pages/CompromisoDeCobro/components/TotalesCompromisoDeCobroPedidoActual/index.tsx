@@ -17,7 +17,6 @@ const TotalesCompromisoDeCobroPedidoActual: any = () => {
 		clienteActual.codigoCliente
 	);
 
-
 	const montoTotalCompromisos = obtenerTotalesCompromisoDeCobroCliente(
 		compromisosDeCobroMismaFechaEntrega
 	);
@@ -35,8 +34,6 @@ const TotalesCompromisoDeCobroPedidoActual: any = () => {
 			dataCY: 'CompromisosRegistrados',
 		},
 	];
-
-	console.log(montoTotalCompromisos);
 
 	return metodosDeVenta.map((el, i) => (
 		<Grid key={i} item xs={12}>

@@ -26,6 +26,8 @@ import {
 	agregarPedidoCliente,
 	guardarCompromisoDecobroCliente,
 } from 'redux/features/pedidosClientes/pedidosClientesSlice';
+
+import {limpiarCompromisoDeCobroActual} from 'redux/features/compromisoDeCobro/compromisoDeCobroSlice';
 import {useAppDispatch} from 'redux/hooks';
 import {
 	validarMontoMinimoPedido,
@@ -166,6 +168,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 		dispatch(
 			guardarCompromisoDecobroCliente({compromisoDeCobroActual, clienteActual})
 		);
+		dispatch(limpiarCompromisoDeCobroActual());
 
 		history.goBack();
 	}, [
