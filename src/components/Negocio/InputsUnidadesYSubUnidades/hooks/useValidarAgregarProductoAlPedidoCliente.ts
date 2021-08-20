@@ -20,12 +20,17 @@ import {
 } from 'hooks';
 import {useObtenerClienteActual, useObtenerDatos} from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
-import {useValidarProductoPermiteSubUnidades} from '.';
+import {useValidarProductoPermiteSubUnidades,
+		useManejadorConfirmarAgregarPedido
+} from '.';
+import { UseFormGetValues } from 'react-hook-form';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
 	stateInputFocus: TStateInputFocus,
-	productoActual: TPrecioProducto | null
+	productoActual: TPrecioProducto | null,
+	getValues: UseFormGetValues<TFormTomaDePedido>,
+	resetLineaActual: () => void,
 ) => {
 	const {inputFocus, setInputFocus} = stateInputFocus;
 	const {t} = useTranslation();
@@ -40,6 +45,14 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 
 	const {obtenerPedidosClienteMismaFechaEntrega} = useObtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
 	const pedidosCliente = obtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
+
+	const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido(
+		productoActual,
+		clienteActual,
+		getValues,
+		stateInputFocus,
+		resetLineaActual
+	);
 
 	const validarAgregarProductoAlPedidoCliente = useCallback(
 		(inputs: TFormTomaDePedido): boolean => {
@@ -152,9 +165,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 						cantidad: configuracionPedido.cantidadMaximaUnidades,
 					}),
 					'cantidad-es-mayor',
-					(oprimioBotonAceptar) => {
-						return oprimioBotonAceptar;
-					},
+					manejadorConfirmarAgregarPedido,
 					{
 						aceptar: t('general.si'),
 						cancelar: t('general.no'),
