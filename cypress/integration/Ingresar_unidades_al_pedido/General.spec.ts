@@ -1,4 +1,4 @@
-import {Dado, Y} from '../../pasos';
+import {Cuando, Dado, Y} from '../../pasos';
 
 //Antecedentes
 Dado(
@@ -20,3 +20,5 @@ Y(
 
 //Escenarios compartidos
 Y('es menor o igual a la cantidad máxima de unidades', () => {});
+
+Y('es menor o igual a las unidades disponibles del producto para el cliente', () => {});

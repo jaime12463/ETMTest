@@ -132,7 +132,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				return esValidacionCorrecta;
 			}
 
-			if(typeof productoActual.unidadesDisponibles !== 'undefined')
+			if(productoActual.unidadesDisponibles)
 			{
 				const disponibleUnidades = validarUnidadesDisponibles(
 					pedidosCliente,

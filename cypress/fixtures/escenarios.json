@@ -4,7 +4,8 @@
 			"esVentaSubunidades": false
 		},
 		"420": {
-			"esVentaSubunidades": true
+			"esVentaSubunidades": true,
+			"unidadesDisponibles": 10
 		}
 	},
 	"codigosClientes": {
