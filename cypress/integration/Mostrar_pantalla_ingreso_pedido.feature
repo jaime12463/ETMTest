@@ -8,8 +8,7 @@ Característica: Mostrar pantalla ingreso del pedido
 # Según su condición de pago:
 # {contado}: Solo puede comprar de contado
 # {crédito formal} Solo puede comprar a crédito si no tiene el crédito bloqueado. Puede cerrar el pedido con crédito excedido 
-# {crédito informal} Puede comprar de contado y puede comprar a crédito si no tiene el crédito bloqueado. 
-#No puede cerrar el pedido con crédito excedido. 
+# {crédito informal} Puede comprar de contado y puede comprar a crédito si no tiene el crédito bloqueado. No puede cerrar el pedido con crédito excedido. 
 
 # sprint 8 UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA?node-id=329%3A3&scaling=scale-down&page-id=329%3A2&starting-point-node-id=329%3A3
 
@@ -36,22 +35,6 @@ Ejemplos:
 |     Si           | No                        |
 |     No           | Si                        |
 
-
-# Esquema del escenario: N°3 - El cliente es de crédito informal sin crédito bloqueado
-#     Dado que el cliente tiene condición de pago crédito informal y esCreditoBloqueado = false
-#     Cuando <estadoCredito> es crédito Disponible mayor a cero 
-#     Y <estadoPedidoMaximo> es Pedido máximo cumplido 
-#     Cuando ingreso a registrar un pedido 
-#     Entonces el sistema <mostraraControles>
-
-# Ejemplos:
-# |estadoCredito|estadoPedidoMaximo|mostraraControles                                              |
-# |     Si      |       No         | habilitará panel de ingreso y switch en estado On enebled     |
-# |     No      |       No         | habilitará panel de ingreso y switch en estado Off disabled   |
-# |     Si      |       Si         | habilitará panel de ingreso y switch en estado On disabled    |
-# |     No      |       Si         | No habilitará panel de ingreso y switch en estado On disabled |
-
-
 Esquema del escenario: N°3 - El cliente es de crédito informal sin crédito bloqueado
     Dado que el cliente tiene condición de pago crédito informal y esCreditoBloqueado = false
     Cuando '<estadoCredito>' es crédito Disponible mayor a cero
@@ -66,15 +49,13 @@ Ejemplos:
 |     Si      |       Si         |Si                        |On                   |disabled                | 
 |     No      |       Si         |No                        |On                   |disabled                |
 
+Esquema del escenario: N°4 - El cliente es de crédito informal con crédito bloqueado
+    Dado que el cliente tiene condición de pago creditoInformal y esCreditoBloqueado = true 
+    Cuando '<estadoPedidoMaximo>' es Pedido máximo cumplido 
+    Cuando ingreso a registrar un pedido
+    Entonces el sistema '<estadoPanelIngresoProducto>', '<estadoEncendidoSwitch>' y '<estadoHabilitacionSwitch>'
 
-
-# Esquema del escenario: N°3 - El cliente es de crédito informal con crédito bloqueado
-#     Dado que el cliente tiene condición de pago creditoInformal y esCreditoBloqueado = true 
-#     Cuando <estadoPedidoMaximo> es Pedido máximo cumplido 
-#     Cuando ingreso a registrar un pedido 
-#     Entonces el sistema <mostraraControles>
-
-# Ejemplos:
-# | estadoPedidoMaximo | mostraraControles |
-# |         No         | habilitará panel de ingreso y switch en estado Off disabled   |
-# |         Si         | No habilitará panel de ingreso y switch en estado On disabled |
+Ejemplos:
+| estadoPedidoMaximo | estadoPanelIngresoProducto|estadoEncendidoSwitch|estadoHabilitacionSwitch|
+|         No         | Si                        |Off                   |disabled               |
+|         Si         | No                        |On                    |disabled               | 

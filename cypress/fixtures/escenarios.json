@@ -8,11 +8,22 @@
 		}
 	},
 	"codigosClientes": {
-		"HS001": {
-			"cantidadMaximaUnidades": 100
+		"back": {
+			"HS001": {
+				"condicion": "contado"
+			},
+			"HS002": {
+				"condicion": "creditoFormal"
+			},
+			"HS003": {
+				"condicion": "creditoInformal"
+			}
 		},
-		"HS002": {
-			"condicion": "contado"
+		"cypress": {
+			"HS002": {
+				"cantidadMaximaUnidades": 100,
+				"condicion": "creditoFormal"
+			}
 		}
 	}
 }
