@@ -48,9 +48,9 @@ export type TDetalle = {
 export type TInformacionCrediticia = {
 	condicion: TCondicicon;
 	limite?: number;
-	disponible: number;
+	disponible?: number;
 	esCreditoBloqueado: boolean;
-	documentos?: TDocumentos[];
+	documentos?: TDocumento[];
 };
 export type TCondicicon = 'contado' | 'creditoFormal' | 'creditoInformal'; //TODO: Esto debe ser un ENUM
 
@@ -61,7 +61,7 @@ export type TConfiguracionPedido = {
 };
 
 export type TVentaMinima = {
-	montoVentaMinima?: number;
+	montoVentaMinima: number;
 	cumplimientoPorFecha: TCumplimientoPorFecha[];
 };
 
@@ -94,7 +94,7 @@ export type TPrecio = {
 	vigenciaFinPrecio: string;
 };
 
-export type TDocumentos = {
+export type TDocumento = {
 	numero: number;
 	fecha: string;
 	vencimiento: string;

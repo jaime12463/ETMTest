@@ -15,6 +15,7 @@ declare global {
 			ingresarCodigoProducto(codigoProducto: number): void;
 			ingresarUnidades(unidades: number): void;
 			ingresarSubUnidades(subUnidades: number): void;
+			esperarDatosServidor(): void;
 		}
 	}
 }
@@ -37,6 +38,7 @@ Cypress.Commands.add(
 		cy.ingresarCodigoProducto(codigoProducto);
 		cy.ingresarUnidades(unidades);
 		if (subUnidades) cy.ingresarSubUnidades(subUnidades);
+		//nTODO: fix
 	}
 );
 
@@ -60,6 +62,9 @@ Cypress.Commands.add('ingresarSubUnidades', (subUnidades: number) => {
 
 Cypress.Commands.add('navegarPageInicio', (fechaActual: string) => {
 	cy.visit(`http://localhost:3000/?fecha=${fechaActual}`);
+});
+
+Cypress.Commands.add('esperarDatosServidor', () => {
 	cy.request('/femsa/tomapedidos');
 	cy.request('/femsa/configuracion');
 });
