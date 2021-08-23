@@ -20,7 +20,7 @@ Característica: Mostrar pantalla ingreso del pedido
 
 Esquema del escenario: N°1 - El cliente es de contado
     Dado que el cliente tiene condición de pago contado
-    Y el consumido para la fecha de entrega, el informado más los pedidos de contado ya registrados, es '<condicion>' al montoVentaContadoMaxima
+    Y el consumido para la fecha de entrega, el informado más los pedidos de contado ya registrados, es '<condicion>' al _montoVentaContadoMaxima
     Cuando ingreso a registrar un pedido
     Entonces el sistema mostrará '<estadoPanelIngresoProducto>'
     Y el switch Credito en estado off Disabled
@@ -58,7 +58,7 @@ Ejemplos:
 
 
 Esquema del escenario: N°3 - El cliente es de crédito informal sin crédito bloqueado
-    Dado que el cliente tiene condición de pago crédito informal y esCreditoBloqueado = false
+    Dado que el cliente tiene condición de pago crédito informal y _esCreditoBloqueado = false
     Cuando '<estadoCredito>' es crédito Disponible mayor a cero
     Y '<estadoPedidoMaximo>' es Pedido máximo cumplido
     Cuando ingreso a registrar un pedido
@@ -84,13 +84,12 @@ Ejemplos:
 # |         No         | habilitará panel de ingreso y switch en estado Off disabled   |
 # |         Si         | No habilitará panel de ingreso y switch en estado On disabled |
 
+Esquema del escenario: N°4 - Acceso a promo push
+    Dado que se ingresó a la pantalla de pedido
+	Cuando se selecciona un tipo de operación que '<habilitaPromocion>' 
+	Entonces el sistema '<visualizara>' el acceso a las promo push
 
-Escenario: N°4 - Con acceso a promo push
-    Dado que se ingresó a la pantalla de pedido
-	Cuando se selecciona un tipo de operación que habilitaPromocion = true
-	Entonces el sistema mostrará el acceso a las promo push
-	
-Escenario: N°5 - Sin acceso a promo push
-    Dado que se ingresó a la pantalla de pedido
-	Cuando se selecciona un tipo de operación que hablilitaPromocion = false
-	Entonces el sistema no mostrará el acceso a las promo push
+Ejemplos:
+|habilitaPromocion|visualizara  |
+|       true      |    mostrará |
+|       false     | no mostrará | 
