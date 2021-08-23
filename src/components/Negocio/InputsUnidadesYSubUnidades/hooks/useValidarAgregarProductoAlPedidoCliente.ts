@@ -132,19 +132,19 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				return esValidacionCorrecta;
 			}
 
-			if(typeof productoActual.unidadesDisponibles !== 'undefined')
+			if(typeof productoActual.unidadesDisponibles !== 'undefined' && unidadesParseado !== 0)
 			{
-				const disponibleUnidades = validarUnidadesDisponibles(
+				const unidadesDisponibles = validarUnidadesDisponibles(
 					pedidosCliente,
 					unidadesParseado,
 					productoActual
 				);
 
-				if (!disponibleUnidades)
+				if (unidadesDisponibles >= 0)
 				{
 					mostrarAdvertenciaEnDialogo(
 						t('advertencias.excedeUnidadesDisponibles', {
-							disponible: productoActual.unidadesDisponibles,
+							disponible: unidadesDisponibles,
 						}),
 						'excede-disponible'
 					);

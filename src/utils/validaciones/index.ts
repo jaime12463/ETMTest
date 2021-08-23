@@ -171,17 +171,24 @@ export const validarObtenerFechaEntrega = (
 
 export const validarUnidadesDisponibles = (
 	pedidosCliente: TPedidoClienteParaEnviar[],
-	unidadesNuevas: number,
+	unidadesIngresadas: number,
 	productoActual: TPrecioProducto
-): boolean => {
+): number => {
 	let disponibleHistorico = obtenerUnidadesMismoProducto(
 		pedidosCliente,
 		productoActual.codigoProducto
 	);
 	let unidadesDisponibles = productoActual.unidadesDisponibles || 0; //Esto no va a pasar nunca
+	let unidadesCalculadas = unidadesDisponibles - disponibleHistorico;
 
-	if (unidadesDisponibles - (disponibleHistorico + unidadesNuevas) >= 0)
-		return true;
+	if(unidadesCalculadas === 0)
+		return unidadesCalculadas;
 
-	return false;
+	if((unidadesCalculadas - unidadesIngresadas) < 0)
+	{
+		let unidadesRetorno = (disponibleHistorico != 0) ? disponibleHistorico : unidadesDisponibles + disponibleHistorico;
+		return unidadesRetorno;
+	}
+
+	return -1;
 };
