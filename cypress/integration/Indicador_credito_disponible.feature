@@ -10,7 +10,7 @@ Característica: Indicador de crédito disponible
     Para saber si le puedo registrar un pedido a crédito
 
 Escenario: N°1 - Ver crédito disponible 
-    Dado que el cliente tiene condición de pago contado
+    Dado que el cliente no tiene condición de pago contado
     Cuando estoy en la pantalla de ingreso del pedido
     Entonces el sistema mostrará el total del indicador igual a crédito disponible informado – pedidos a crédito registrado por el prevendor 
     Y el avance según la suma de los montos de los pedidos de crédito registrados para la misma fecha de entrega más monto de los productos de crédito del pedido en curso
