@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Validar_unidades @Unidades_maximas_por_producto @Sprint3 @Sprint8 @Sprint9
+@Pedido @Validar_unidades @Unidades_maximas_por_producto @Sprint3 @Sprint8 @Sprint9 @Sprint10
 
 Característica: Ingresar unidades
 Como prevendedor
@@ -31,42 +31,32 @@ Característica: Ingresar unidades
 
 Antecedentes:
 	Dado que estoy en el ingreso del pedido y que se ingresó un código de producto
-	Y que la cantidad máxima de unidades se estableció en 100 para el cliente
-	# Y que las unidades disponibles se establecieron en 10 = unidades disponibles del producto para el cliente – unidades vendidas del producto en otros pedidos del cliente.
+	Y que la cantidadMáximaUnidades se estableció en 100 para el cliente
+	# Y que las unidades disponibles se establecieron en 1000 = unidades disponibles del producto para el cliente – unidades vendidas del producto en otros pedidos del cliente.
 
 @Test_dispositivo_1
-Esquema del escenario: N°1 – La cantidad es mayor a la permitida
-	Cuando se ingresa <cantidad>
-	Y es mayor a la cantidad máxima de unidades
+Escenario: N°1 – La cantidad es mayor a la permitida y menor a las unidades disponibles
+	Cuando se ingresan unidades mayores a cantidadMáximaUnidades
+	Y es menor o igual a las unidades disponibles del producto para el cliente
 	Entonces el sistema mostrará el mensaje “La cantidad es mayor a 100 ¿Desea continuar?” SiNo
 
-Ejemplos:
-|cantidad|
-|   101  |
-|   110  |
-
-Escenario: N°2 – La cantidad es menor o igual a la permitida y las subunidades están habilitadas
+Escenario: N°2 – La cantidad es menor o igual a la permitida y  menor a las unidades disponibles y las subunidades están habilitadas
 Cuando se ingresa una cantidad
-Y es menor o igual a la cantidad máxima de unidades
+Y es menor o igual a la cantidadMáximaUnidades
 Y es menor o igual a las unidades disponibles del producto para el cliente
-Y las subunidades están habilitadas
+Y esVentaSubunidades = true
 Entonces el sistema registrará las unidades y continuará con el ingreso de las subunidades
 
 Escenario: N°3 – La cantidad es menor o igual a la permitida y las subunidades están deshabilitadas
 Cuando se ingresa una cantidad
-Y es menor o igual a la cantidad máxima de unidades
+Y es menor o igual a la cantidadMáximaUnidades
 Y es menor o igual a las unidades disponibles del producto para el cliente
-Y las subunidades no están habilitadas
+Y esVentaSubunidades = false
 Entonces el sistema registrará las unidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
 
 #Cuando se ingresa un producto nuevo, se asume como condición de pago del producto la condición de pago general del pedido. 
 
-Esquema del escenario: N°4 – La cantidad es mayor a las unidades disponibles del producto para el cliente.
-Cuando se ingresa <cantidad>
-Y es mayor a la cantidad disponible del producto para el cliente
+Escenario: N°4 – La cantidad es mayor a las unidades disponibles del producto para el cliente.
+Cuando se ingresan unidades mayores a la cantidad disponible del producto para el cliente
 Entonces el sistema mostrará el mensaje “La cantidad es mayor al disponible: 10” y permanece en el campo para que el prevendedor pueda corregir la cantidad
 
-Ejemplos:
-|cantidad|
-| 11 |
-| 15 |

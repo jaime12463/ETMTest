@@ -1,5 +1,5 @@
 # language: es
-@Pedido @sprint8 @sprint9
+@Pedido @sprint8 @sprint9 @sprint10
 Característica: Mostrar pantalla ingreso del pedido
     Como prevendedor
     Quiero ver la pantalla del pedido 
@@ -15,7 +15,7 @@ Característica: Mostrar pantalla ingreso del pedido
 
 Esquema del escenario: N°1 - El cliente es de contado
     Dado que el cliente tiene condición de pago contado
-    Y el consumido para la fecha de entrega, el informado más los pedidos de contado ya registrados, es '<condicion>' al monto de venta contado-máxima
+    Y el consumido para la fecha de entrega, el informado más los pedidos de contado ya registrados, es '<condicion>' al montoVentaContadoMaxima
     Cuando ingreso a registrar un pedido
     Entonces el sistema mostrará '<estadoPanelIngresoProducto>'
     Y el switch Credito en estado off Disabled
