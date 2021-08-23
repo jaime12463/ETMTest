@@ -44,8 +44,9 @@ const Tabs: FunctionComponent<Props> = ({tabs, value, setValue}) => {
 				{tabs.map((tab, index) => (
 					<Tab
 						label={tab.label}
-						style={{minWidth: '33%', maxWidth: '33%'}}
+						style={{maxWidth: '50%', fontSize: '0.85rem'}}
 						key={index}
+						disabled={tab.deshabilitar}
 						{...a11yProps(index)}
 					/>
 				))}

@@ -59,6 +59,7 @@ export type TValidacionFechaVisita = {
 export type TTab = {
 	label: string;
 	component: React.ReactNode;
+	deshabilitar: boolean;
 };
 
 export type THeader = {

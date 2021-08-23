@@ -1,20 +1,13 @@
 import {List} from 'components/UI';
 import {Box} from '@material-ui/core';
-import {THeader, TClienteActual, TCliente} from 'models';
+import {THeader} from 'models';
 import {useTranslation} from 'react-i18next';
 import {ItemListadoDocumentos} from '..';
-import {useObtenerDatosCliente} from 'hooks';
-import {useObtenerClienteActual, useObtenerPedidosClientes} from 'redux/hooks';
+import {useObtenerDeudasDelClienteActual} from 'hooks';
 
 const ListadoDocumentos = () => {
 	const {t} = useTranslation();
-	const {obtenerDatosCliente} = useObtenerDatosCliente();
-	const clienteActual: TClienteActual = useObtenerClienteActual();
-	const datosCliente: TCliente | undefined = obtenerDatosCliente(
-		clienteActual.codigoCliente
-	);
-	const documentosClienteActual =
-		datosCliente?.informacionCrediticia.documentos;
+	const documentosClienteActual = useObtenerDeudasDelClienteActual();
 
 	const Header = ({title}: {title: string}) => (
 		<Box textAlign='center'>{title}</Box>
