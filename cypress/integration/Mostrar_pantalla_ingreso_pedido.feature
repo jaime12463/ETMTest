@@ -1,5 +1,10 @@
 # language: es
-@Pedido @sprint8 @sprint9 @sprint10
+@Pedido @PromoPush @sprint8 @sprint9 @Sprint10
+
+# Sprint10: acceso a promo push según tipo de pedido seleccionado
+# sprint 10 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=702%3A2&scaling=min-zoom&page-id=501%3A2&starting-point-node-id=702%3A2
+
+
 Característica: Mostrar pantalla ingreso del pedido
     Como prevendedor
     Quiero ver la pantalla del pedido 
@@ -78,3 +83,14 @@ Ejemplos:
 # | estadoPedidoMaximo | mostraraControles |
 # |         No         | habilitará panel de ingreso y switch en estado Off disabled   |
 # |         Si         | No habilitará panel de ingreso y switch en estado On disabled |
+
+
+Escenario: N°4 - Con acceso a promo push
+    Dado que se ingresó a la pantalla de pedido
+	Cuando se selecciona un tipo de operación que habilitaPromocion = true
+	Entonces el sistema mostrará el acceso a las promo push
+	
+Escenario: N°5 - Sin acceso a promo push
+    Dado que se ingresó a la pantalla de pedido
+	Cuando se selecciona un tipo de operación que hablilitaPromocion = false
+	Entonces el sistema no mostrará el acceso a las promo push

@@ -1,16 +1,15 @@
 # language: es
 
-@Pedido @Modificar_producto @Sprint3 @Sprint8
+@Pedido @Modificar_producto @Sprint3 @Sprint8 @Sprint10
 
-# Cuando para la ruta está configurado el botelleo esVentaSubunidadesRuta = true 
-# Y para el cliente/producto está configurado el botelleo igual a esVentaSubunidades = true 
+# Sprint10: se elimina el parámetro esVentaSubunidadesRuta y se deja por producto el botelleo
+
+# Cuando para el cliente/producto está configurado el botelleo igual a esVentaSubunidades = true 
 # Entonces el sistema habilita las subunidades en el ingreso del pedido
 #Ejemplos:
-#|esVentaSubunidadesRuta|esVentaSubunidades| habilitaSubunidades |permite botelleo
-#|      true 		       |      true		    |     Habilitará                |   SI
-#|      true                                |	  false		    |    No habilitará            | NO
-#|      false                               |	  true	                  |    No habilitará            | NO
-#|      false                               |	  false		    |    No habilitará            | NO
+#|esVentaSubunidades| habilitaSubunidades |permite botelleo
+#|      true        |     Habilitará      |   SI
+#|	    false	    |    No habilitará    |   NO
 
 
 # UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=436%3A2150&scaling=scale-down&page-id=436%3A1256
