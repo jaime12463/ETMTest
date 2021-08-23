@@ -38,40 +38,23 @@ Antecedentes:
 	Dado que estoy en el ingreso del pedido y que se ingresó un código de producto
     Y las subunidades están habilitadas
 	
-Esquema del escenario: N°1 – Ingreso de subunidad correcta
-    Dado que el producto tiene presentación <presentacion>
-    Y la venta mínima de subunidades es <subunidadesVentaMinima>
-    Cuando ingreso <subunidades> en subunidades
+Escenario: N°1 – Ingreso de subunidad correcta
+    Dado que el producto tiene una _presentacion 
+    Y tiene _subunidadesVentaMinima
+    Cuando se ingresan subunidades
     Entonces el sistema registrará las subunidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
  
 #Cuando se ingresa un producto nuevo, se asume como condición de pago del producto la condición de pago general del pedido. 
 
-Ejemplos:
-|presentacion|subunidadesVentaMinima|subunidades|
-|    12      |       3              |    3      | 
-|    12      |       3              |    6      |  
-|    12      |       3              |    9      | 
-|    12      |       1              |    1      | 
-|    12      |       1              |    11     | 
-
-Esquema del escenario: N°2 – Ingreso de subunidades mayor o igual que la presentación
-    Dado que el producto tiene presentación <presentacion>
-    Cuando ingreso <subunidades> en subunidades
-    Entonces el sistema mostrará el mensaje “Las subunidades debe ser menores a la presentación <presentacion>” y permanecerá en la pantalla para corregir
-
-Ejemplos:
-|presentacion|subunidades|
-|   12       |       12  |   
-|   12       |       13  |   
+Escenario: N°2 – Ingreso de subunidades mayor o igual que la presentación
+    Dado que el producto tiene una _presentacion 
+    Cuando se ingresan subunidades
+    Entonces el sistema mostrará el mensaje “Las subunidades debe ser menores a la presentación _presentacion” y permanecerá en la pantalla para corregir
 
 
+Escenario: N°3 – Ingreso de subunidades no es múltiplo
+    Dado que el producto tiene _presentacion
+    Y tiene _subunidadesVentaMinima
+    Cuando se ingresan subunidades
+    Entonces el sistema mostrará el mensaje “Las subunidades debe ser en múltiplos de _subunidadesVentaMinima ” y permanecerá en la pantalla para corregir
 
-Esquema del escenario: N°3 – Ingreso de subunidades no es múltiplo
-    Dado que el producto tiene presentación <presentacion>
-    Y la venta mínima de subunidades es <subunidadesVentaMinima>
-    Cuando ingreso <subunidades> en subunidades
-    Entonces el sistema mostrará el mensaje “Las subunidades debe ser en múltiplos de <subunidadesVentaMinima> ” y permanecerá en la pantalla para corregir
-
-|presentacion|subunidadesVentaMinima|subunidades|
-|   12       |          3           |   4       |
-|   12       |          3           |   2       |
