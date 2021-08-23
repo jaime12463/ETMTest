@@ -3,6 +3,7 @@ import {
 	useObtenerCreditoDisponible,
 	useObtenerDatosCliente,
 	useObtenerPedidosClienteMismaFechaEntrega,
+	useObtenerCompromisosDeCobroMismaFechaEntrega,
 } from 'hooks';
 import {
 	useObtenerClienteActual,
@@ -33,6 +34,7 @@ import {
 	validarMontoMinimoPedido,
 	validarTotalConMontoMaximoContado,
 } from 'utils/validaciones';
+import {obtenerTotalesCompromisoDeCobroCliente} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
 import {useHistory} from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
@@ -45,7 +47,16 @@ export const useAgregarPedidoActualAPedidosClientes = (
 	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
 	const pedidosClientes: TPedidosClientes = useObtenerPedidosClientes();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
+	const {
+		obtenerCompromisosDeCobroMismaFechaEntrega,
+	} = useObtenerCompromisosDeCobroMismaFechaEntrega();
+	const compromisosDeCobroMismaFechaEntrega = obtenerCompromisosDeCobroMismaFechaEntrega(
+		clienteActual.codigoCliente
+	);
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
+	const montoTotalCompromisos = obtenerTotalesCompromisoDeCobroCliente(
+		compromisosDeCobroMismaFechaEntrega
+	);
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {t} = useTranslation();
 	const history = useHistory();
@@ -87,7 +98,9 @@ export const useAgregarPedidoActualAPedidosClientes = (
 		}
 
 		const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
-			totalPedidoActual.totalContado.totalPrecio,
+			totalPedidoActual.totalContado.totalPrecio +
+				compromisoDeCobroActual.monto +
+				montoTotalCompromisos,
 			pedidosClienteMismaFechaEntrega,
 			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0
 		);

@@ -5,6 +5,7 @@ import {useTranslation} from 'react-i18next';
 import {useAgregarPedidoActualAPedidosClientes} from './hooks';
 import {useCalcularTotalPedido} from 'hooks';
 import {TTotalPedido} from 'models';
+import {useObtenerCompromisoDeCobroActual} from 'redux/hooks';
 
 type Props = {};
 
@@ -16,8 +17,13 @@ export function BotonCerrarPedidoDelCliente(props: Props) {
 		mostarDialogo,
 		parametrosDialogo,
 	} = useMostrarAdvertenciaEnDialogo();
+	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 	const desabilitarCerrarPedido =
-		totalPedidoActual.totalPrecio <= 0 ? true : false;
+		totalPedidoActual.totalPrecio <= 0
+			? compromisoDeCobroActual.monto <= 0
+				? true
+				: false
+			: false;
 
 	const agregarPedidoActualAPedidosClientes = useAgregarPedidoActualAPedidosClientes(
 		mostrarAdvertenciaEnDialogo
