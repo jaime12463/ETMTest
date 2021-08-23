@@ -2,6 +2,8 @@
 
 @Pedido @Inidicador_maximo @Sprint8 @Sprint9 @Sprint10
 
+# sprint 10 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=702%3A2&scaling=min-zoom&page-id=501%3A2&starting-point-node-id=702%3A2
+
 Característica: Indicador venta máximo contado
     Como prevendedor cuando estoy en la pantalla de ingreso del pedido
     Quiero ver el avance del consumido de contado
@@ -26,6 +28,6 @@ Esquema del escenario: N°1 - Ver avance de la venta de contado
     
 
 Escenario: N°2 - Ocultar indicador de venta máxima de contado
-    Dado que el cliente no tiene montoVentaContadoMaxima definido (igual al entero más grande)
+    Dado que el cliente no tiene _montoVentaContadoMaxima definido (igual al entero más grande)
     Cuando estoy en la pantalla de ingreso del pedido
     Entonces el sistema no mostrará el indicador de venta máxima
