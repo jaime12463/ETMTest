@@ -4,7 +4,7 @@ import {
 	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
 import {TCliente, TClienteActual, TTotalPedido} from 'models';
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback} from 'react';
 import {useObtenerClienteActual} from 'redux/hooks';
 import {validarTotalConMontoMaximoContado} from 'utils/validaciones';
 
@@ -23,8 +23,9 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 		const {esCreditoBloqueado} = datosCliente.informacionCrediticia;
 
 		const esCreditoFormal = clienteActual.condicion === 'creditoFormal';
+		const esCreditoInformal = clienteActual.condicion === 'creditoInformal';
 
-		if (esCreditoFormal && esCreditoBloqueado)
+		if ((esCreditoFormal || esCreditoInformal) && esCreditoBloqueado)
 			return !esPermitidoAgregarProductoAlPedido;
 
 		const {configuracionPedido}: TCliente = datosCliente;
