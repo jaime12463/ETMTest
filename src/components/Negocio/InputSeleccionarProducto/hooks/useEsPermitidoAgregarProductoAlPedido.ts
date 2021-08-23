@@ -25,7 +25,7 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 		const esCreditoFormal = clienteActual.condicion === 'creditoFormal';
 		const esCreditoInformal = clienteActual.condicion === 'creditoInformal';
 
-		if ((esCreditoFormal || esCreditoInformal) && esCreditoBloqueado)
+		if (esCreditoFormal && esCreditoBloqueado)
 			return !esPermitidoAgregarProductoAlPedido;
 
 		const {configuracionPedido}: TCliente = datosCliente;
@@ -35,6 +35,9 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 			pedidosClienteMismaFechaEntrega,
 			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0
 		);
+
+		if (esCreditoInformal && !esMenorAlMontoMaximoContado && esCreditoBloqueado)
+			return !esPermitidoAgregarProductoAlPedido;
 
 		if (!esMenorAlMontoMaximoContado)
 			return !esPermitidoAgregarProductoAlPedido;
