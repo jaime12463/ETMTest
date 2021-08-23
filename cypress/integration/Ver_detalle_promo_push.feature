@@ -12,7 +12,8 @@ Característica: Ver detalle de la promo push
 Escenario: N°1 - Expandir detalle de promociones
 	Dado que el prevendedor se encuentra en la lista de promociones
 	Cuando selecciona expandir el detalle de la tarjeta
-	Entonces el sistema mostrará dentro de la tarjeta el código de producto, la descripcion del producto, la cantidad, la unidad de medida, el precio, el descuento, el precio total de la línea de componente de la promoción 
+	Entonces el sistema mostrará dentro de la tarjeta el código de producto, la descripcion del producto, la cantidad, la unidad de medida, el precio, el descuento, el precio total de la línea de componente de la promoción
+	ordenados por código de producto 
     Y dejará visible al menos una tarjeta de promoción por debajo de la expandida
 	Y contraerá el resto de las tarjetas de promociones.
 	
