@@ -1,17 +1,16 @@
 # language: es
 
-@Pedido @Validar_subunidades @Validar_minimo_subunidades @Sprint3 @sprint4
+@Pedido @Validar_subunidades @Validar_minimo_subunidades @Sprint3 @sprint4 @Sprint10
 
-# Si parámetro a nivel ruta esVentaSubunidadesRuta = true y para el cliente/ producto 
+# Sprint10: Se elimina el parametro esVentaSubunidadesRuta y se toma solo botelleo a nivel producto
+
+# Si para el cliente/ producto 
 # esVentaSubunidades = true se habilita el campo de ingreso de subunidades. 
 # El usuario puede ingresar subunidades menores a “presentación” del producto. 
 # Si ingresa un número mayor se muestra aviso.
 # Caso contrario, no se habilita el campo de ingreso de subunidades.  
 # Se agrega campo esVentaSubunidades en portafolio de productos del cliente. 
 # Se agrega campo presentación en el catálogo de productos. (presentación: 12)
-# Parámetro a nivel ruta esVentaSubunidadesRuta que habilita venta en botellas. 
-# Si es true, la venta en botellas depende de esVentaSubunidades del cliente/ producto. 
-# Si está en false, no se puede vender en botellas.
 
 # UX sprint 3: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=436%3A2150&scaling=scale-down&page-id=436%3A1256
 

@@ -1,19 +1,19 @@
 # language: es
 
-@Pedido @Agregar_producto @Sprint8
+@Pedido @Agregar_producto @Sprint8 @Sprint10
+
+#Sprint10: Se elimina parámetro esVentaSubunidadesRuta y se deja por producto el botelleo
 
 #Cuando el usuario ingresa el código de producto, el sistema mostrará la descripción, precio unidades y precio subunidades.
-#Si esventasubunidaesRuta = false o esventaSubunidades = false, el sistema no habilitará las subunidades
+#Si esventaSubunidades = false, el sistema no habilitará las subunidades
 
-# Cuando para la ruta está configurado el botelleo esVentaSubunidadesRuta = true 
-# Y para el cliente/producto está configurado el botelleo igual a esVentaSubunidades = true 
+# Cuando para el cliente/producto está configurado el botelleo igual a esVentaSubunidades = true 
 # Entonces el sistema habilita las subunidades en el ingreso del pedido
 # Ejemplos:
-# |esVentaSubunidadesRuta|esVentaSubunidades| habilitaSubunidades |permite botelleo
-# |      true 		       |      true		    |     Habilitará  |   SI
-# |      true              |	  false		    |    No habilitará| NO
-# |      false             |	  true	        |    No habilitará| NO
-# |      false             |	  false		    |    No habilitará| NO
+# |esVentaSubunidades| habilitaSubunidades |permite botelleo
+# |    true		     |     Habilitará      |   SI
+# |    false		 |    No habilitará    |   NO
+
 
 
 # sprint 8 UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA?node-id=329%3A3&scaling=scale-down&page-id=329%3A2&starting-point-node-id=329%3A3
