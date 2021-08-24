@@ -19,5 +19,5 @@ Característica: Ingresar al portafolio del cliente
 Escenario: N°1 - Ver portafolio del cliente
     Dado que el prevendedor ingresó un cliente que tiene habilitado el ingreso de productos al pedido
     Cuando selecciona ver portafolio
-    Entonces el sistema mostrará los productos del portafolio vigente asignado al cliente cuyo _tipoProducto sea el _tipoProductoHabilitado para el tipo de pedido en curso
+    Entonces el sistema mostrará los productos del portafolio vigente asignado al cliente cuyo _tipoProducto sea el _tipoProductosHabilitados para el tipo de pedido en curso
 

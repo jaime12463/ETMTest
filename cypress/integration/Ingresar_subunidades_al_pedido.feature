@@ -2,7 +2,10 @@
 
 @Pedido @Validar_subunidades @Validar_minimo_subunidades @Sprint3 @sprint4 @Sprint10
 
+# requiereMotivo del producto para el tipo de pedido que lo tenga configurado
 # Sprint10: Se elimina el parametro esVentaSubunidadesRuta y se toma solo botelleo a nivel producto
+
+# sprint 10 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=702%3A2&scaling=min-zoom&page-id=501%3A2&starting-point-node-id=702%3A2
 
 # Si para el cliente/ producto 
 # esVentaSubunidades = true se habilita el campo de ingreso de subunidades. 
@@ -38,21 +41,29 @@ Antecedentes:
 	Dado que estoy en el ingreso del pedido y que se ingresó un código de producto
     Y las subunidades están habilitadas
 	
-Escenario: N°1 – Ingreso de subunidad correcta
+Escenario: N°1 – Ingreso de subunidad correcta y no requiere motivo
     Dado que el producto tiene una _presentacion 
     Y tiene _subunidadesVentaMinima
+    Y _requiereMotivo = false
     Cuando se ingresan subunidades
     Entonces el sistema registrará las subunidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
- 
+
+
+ Escenario: N°2 – Ingreso de subunidad correcta y  requiere motivo
+    Dado que el producto tiene una _presentacion 
+    Y tiene _subunidadesVentaMinima
+    Y _requiereMotivo = true
+    Cuando se ingresan subunidades
+    Entonces el sistema registrará las subunidades y continuará con el ingreso del motivo
 #Cuando se ingresa un producto nuevo, se asume como condición de pago del producto la condición de pago general del pedido. 
 
-Escenario: N°2 – Ingreso de subunidades mayor o igual que la presentación
+Escenario: N°3 – Ingreso de subunidades mayor o igual que la presentación
     Dado que el producto tiene una _presentacion 
     Cuando se ingresan subunidades
     Entonces el sistema mostrará el mensaje “Las subunidades debe ser menores a la presentación _presentacion” y permanecerá en la pantalla para corregir
 
 
-Escenario: N°3 – Ingreso de subunidades no es múltiplo
+Escenario: N°4 – Ingreso de subunidades no es múltiplo
     Dado que el producto tiene _presentacion
     Y tiene _subunidadesVentaMinima
     Cuando se ingresan subunidades
