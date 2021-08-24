@@ -47,7 +47,10 @@ export type TDetalle = {
 
 export type TInformacionCrediticia = {
 	condicion: TCondicicon;
-	disponible: number;
+	limite?: number;
+	disponible?: number;
+	esCreditoBloqueado: boolean;
+	documentos?: TDocumento[];
 };
 export type TCondicicon = 'contado' | 'creditoFormal' | 'creditoInformal'; //TODO: Esto debe ser un ENUM
 
@@ -58,7 +61,7 @@ export type TConfiguracionPedido = {
 };
 
 export type TVentaMinima = {
-	montoVentaMinima?: number;
+	montoVentaMinima: number;
 	cumplimientoPorFecha: TCumplimientoPorFecha[];
 };
 
@@ -79,7 +82,8 @@ export type TConsumidoPorFecha = {
 
 export type TPortafolio = {
 	codigoProducto: number;
-	esVentaSubunidades: string;
+	esVentaSubunidades: boolean;
+	unidadesDisponibles?: number;
 	precios: TPrecio[];
 };
 
@@ -88,6 +92,13 @@ export type TPrecio = {
 	precioConImpuestoSubunidad: number;
 	vigenciaInicioPrecio: string;
 	vigenciaFinPrecio: string;
+};
+
+export type TDocumento = {
+	numero: number;
+	fecha: string;
+	vencimiento: string;
+	monto: number;
 };
 
 //configuraciones.json

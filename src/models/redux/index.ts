@@ -1,4 +1,8 @@
-import {TDatosConfiguracion, TDatosClientesProductos, TCondicicon} from 'models/server';
+import {
+	TDatosConfiguracion,
+	TDatosClientesProductos,
+	TCondicicon,
+} from 'models/server';
 
 //Cliente Actual
 export type TClienteActual = {
@@ -6,6 +10,14 @@ export type TClienteActual = {
 	razonSocial: string;
 	condicion: TCondicicon;
 	tipoPagoActual: ETiposDePago;
+};
+
+export type TCompromisoDeCobro = {
+	ID: string;
+	fechaCreacion: string;
+	fechaEntrega: string;
+	monto: number;
+	tipoDocumento: string;
 };
 
 //Configuracion
@@ -59,22 +71,14 @@ export type TPrecioProducto = {
 	nombreProducto: string;
 	presentacion: number;
 	subunidadesVentaMinima: number;
-	esVentaSubunidades: string;
+	esVentaSubunidades: boolean;
 	precioConImpuestoUnidad: number;
 	precioConImpuestoSubunidad: number;
-	implicito1?: TImplicito;
-	implicito2?: TImplicito;
 	codigoImplicito1?: number;
 	nombreImplicito1?: string;
 	codigoImplicito2?: number;
 	nombreImplicito2?: string;
-};
-
-export type TImplicito = {
-	codigoImplicito: number;
-	nombreImplicito: string;
-	presentación: number;
-	subunidadesVentaMinima: number;
+	unidadesDisponibles?: number;
 };
 
 export type TPedidoDelProducto = {
@@ -91,7 +95,10 @@ export enum ETiposDePago {
 
 //Pedidos Clientes
 export type TPedidosClientes = {
-	[codigoCliente: string]: TPedidoClienteParaEnviar[];
+	[codigoCliente: string]: {
+		pedidos: TPedidoClienteParaEnviar[];
+		compromisosDeCobro: TCompromisoDeCobro[];
+	};
 };
 
 export type TPedidoClienteParaEnviar = {
@@ -99,6 +106,7 @@ export type TPedidoClienteParaEnviar = {
 	fechaEntrega: string;
 	usuario: string;
 	estado: EEstadosDeUnPedido;
+	tipoPago: ETiposDePago;
 	productosPedido: TProductoPedido[];
 	enviado: boolean;
 };

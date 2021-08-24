@@ -4,6 +4,7 @@ import {
 	ETiposDePago,
 	TPedidoActual,
 	TProductoPedido,
+	TCompromisoDeCobro,
 } from 'models';
 import {RootState} from 'redux/store';
 

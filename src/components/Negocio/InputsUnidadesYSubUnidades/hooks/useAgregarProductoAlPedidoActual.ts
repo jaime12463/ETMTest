@@ -12,12 +12,14 @@ import {
 	TStateInputFocus,
 } from 'models';
 import {useValidarAgregarProductoAlPedidoCliente} from '.';
+import { UseFormGetValues } from 'react-hook-form';
 
 export const useAgregarProductoAlPedidoActual = (
 	productoActual: TPrecioProducto | null,
 	resetLineaActual: () => void,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
-	stateInputFocus: TStateInputFocus
+	stateInputFocus: TStateInputFocus,
+	getValues: UseFormGetValues<TFormTomaDePedido>,
 ) => {
 	const dispatch = useAppDispatch();
 
@@ -26,7 +28,9 @@ export const useAgregarProductoAlPedidoActual = (
 	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
 		mostrarAdvertenciaEnDialogo,
 		{inputFocus, setInputFocus},
-		productoActual
+		productoActual,
+		getValues,
+		resetLineaActual
 	);
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();

@@ -70,5 +70,6 @@ export const useInicializarClienteActual = (
 		},
 		[mostrarAdvertenciaEnDialogo, dispatch, configuracion]
 	);
+
 	return asignarClienteActual;
 };

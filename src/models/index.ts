@@ -59,6 +59,7 @@ export type TValidacionFechaVisita = {
 export type TTab = {
 	label: string;
 	component: React.ReactNode;
+	deshabilitar: boolean;
 };
 
 export type THeader = {
@@ -97,6 +98,9 @@ export type TFormTomaDePedido = TInputsUnidadesYSubUnidades &
 
 export type TInputsCodigoCliente = {
 	codigoCliente: string;
+};
+export type TInputsCompromisoDeCobro = {
+	monto: string;
 };
 
 export type TInputsUnidadesYSubUnidades = {

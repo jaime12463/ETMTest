@@ -1,7 +1,13 @@
-import {Box, Grid, List as ListMUI, ListSubheader, Divider} from '@material-ui/core';
+import {
+	Box,
+	Grid,
+	List as ListMUI,
+	ListSubheader,
+	Divider,
+} from '@material-ui/core';
 import {Item} from 'components/UI';
 import {THeader} from 'models';
-import {Fragment} from 'react';
+import React, {Fragment} from 'react';
 
 type Props<T> = {
 	items: T[];
@@ -15,10 +21,14 @@ function List<T>(props: Props<T>) {
 	return (
 		<ListMUI
 			component='div'
-			style={{  maxHeight: '450px' , overflowY:'scroll' }}
+			style={{maxHeight: '450px', overflowY: 'scroll'}}
 			subheader={
 				headers ? (
-					<ListSubheader style={{ backgroundColor:'#f5f5f5' }} component='div' disableGutters={true}>
+					<ListSubheader
+						style={{backgroundColor: '#f5f5f5'}}
+						component='div'
+						disableGutters={true}
+					>
 						<Grid container justify='center'>
 							{headers.map((header, index) => (
 								<Grid item xs={header.width} key={index}>
@@ -35,17 +45,16 @@ function List<T>(props: Props<T>) {
 			{items &&
 				items.map((item, index) => {
 					return (
-						<>
+						<React.Fragment key={index}>
 							<Item
 								item={item}
 								ItemComponent={ItemComponent}
 								key={index}
 								onClick={onClickItem}
 							/>
-						</>
-					)
-					
-					})}
+						</React.Fragment>
+					);
+				})}
 		</ListMUI>
 	);
 }

@@ -15,6 +15,7 @@ import {useSeleccionarProductoDePrecios} from 'hooks';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';
+import {useEsPermitidoAgregarProductoAlPedido} from './hooks';
 
 export type Props = {
 	hookForm: THookForm<TFormTomaDePedido>;
@@ -63,6 +64,10 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 
 	const {nombreProducto} = {...productoActual};
 
+	const {
+		validarEsPermitidoAgregarProductoAlPedido,
+	} = useEsPermitidoAgregarProductoAlPedido();
+
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
@@ -75,6 +80,7 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 						name='productoABuscar'
 						inputDataCY='codigo-producto-a-buscar'
 						helperText={nombreProducto}
+						disabled={!validarEsPermitidoAgregarProductoAlPedido()}
 						FormHelperTextProps={{
 							className: estilos.helperText,
 						}}

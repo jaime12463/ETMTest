@@ -12,16 +12,25 @@ import {
 	validarSubUnidadesConPresentacion,
 	validarSubUnidadesEsMultiplo,
 	validarUnidadesMinimasProducto,
+	validarUnidadesDisponibles,
 } from 'utils/validaciones';
-import {useObtenerDatosCliente} from 'hooks';
+import {
+	useObtenerDatosCliente, 
+	useObtenerPedidosClienteMismaFechaEntrega
+} from 'hooks';
 import {useObtenerClienteActual, useObtenerDatos} from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
-import {useValidarProductoPermiteSubUnidades} from '.';
+import {useValidarProductoPermiteSubUnidades,
+		useManejadorConfirmarAgregarPedido
+} from '.';
+import { UseFormGetValues } from 'react-hook-form';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
 	stateInputFocus: TStateInputFocus,
-	productoActual: TPrecioProducto | null
+	productoActual: TPrecioProducto | null,
+	getValues: UseFormGetValues<TFormTomaDePedido>,
+	resetLineaActual: () => void,
 ) => {
 	const {inputFocus, setInputFocus} = stateInputFocus;
 	const {t} = useTranslation();
@@ -33,6 +42,17 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 	const datos: TDatosClientesProductos = useObtenerDatos();
 
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+
+	const {obtenerPedidosClienteMismaFechaEntrega} = useObtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
+	const pedidosCliente = obtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
+
+	const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido(
+		productoActual,
+		clienteActual,
+		getValues,
+		stateInputFocus,
+		resetLineaActual
+	);
 
 	const validarAgregarProductoAlPedidoCliente = useCallback(
 		(inputs: TFormTomaDePedido): boolean => {
@@ -112,6 +132,26 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				return esValidacionCorrecta;
 			}
 
+			if(typeof productoActual.unidadesDisponibles !== 'undefined' && unidadesParseado !== 0)
+			{
+				const unidadesDisponibles = validarUnidadesDisponibles(
+					pedidosCliente,
+					unidadesParseado,
+					productoActual
+				);
+
+				if (unidadesDisponibles >= 0)
+				{
+					mostrarAdvertenciaEnDialogo(
+						t('advertencias.excedeUnidadesDisponibles', {
+							disponible: unidadesDisponibles,
+						}),
+						'excede-disponible'
+					);
+					return esValidacionCorrecta;
+				}
+			}
+
 			const {configuracionPedido}: TCliente = datosCliente;
 
 			const esUnidadesMenorAlMaximoUnidades = validarUnidadesMinimasProducto(
@@ -125,9 +165,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 						cantidad: configuracionPedido.cantidadMaximaUnidades,
 					}),
 					'cantidad-es-mayor',
-					(oprimioBotonAceptar) => {
-						return oprimioBotonAceptar;
-					},
+					manejadorConfirmarAgregarPedido,
 					{
 						aceptar: t('general.si'),
 						cancelar: t('general.no'),

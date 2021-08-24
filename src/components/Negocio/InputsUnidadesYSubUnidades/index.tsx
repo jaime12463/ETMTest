@@ -27,7 +27,7 @@ const InputsUnidadesYSubUnidades: FunctionComponent<Props> = (props) => {
 
 	const {productoActual, setProductoActual} = stateProductoActual;
 
-	const {handleSubmit, control, setValue} = hookForm;
+	const {handleSubmit, control, setValue, getValues} = hookForm;
 
 	const {precioConImpuestoSubunidad, precioConImpuestoUnidad} = {
 		...productoActual,
@@ -47,7 +47,8 @@ const InputsUnidadesYSubUnidades: FunctionComponent<Props> = (props) => {
 		productoActual,
 		resetLineaActual,
 		mostrarAdvertenciaEnDialogo,
-		{inputFocus, setInputFocus}
+		{inputFocus, setInputFocus},
+		getValues
 	);
 
 	const esPermitidoSubUnidades = useObtenerEsPermitidoSubUnidades(

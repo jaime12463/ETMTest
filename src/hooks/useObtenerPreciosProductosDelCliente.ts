@@ -31,6 +31,7 @@ export const useObtenerPreciosProductosDelCliente = () => {
 						precios,
 						codigoProducto,
 						esVentaSubunidades,
+						unidadesDisponibles,
 					} = productoFiltrado;
 
 					const producto: TProducto = productos[codigoProducto];
@@ -73,6 +74,7 @@ export const useObtenerPreciosProductosDelCliente = () => {
 						nombreImplicito1,
 						codigoImplicito2,
 						nombreImplicito2,
+						unidadesDisponibles,
 					};
 				}
 			);

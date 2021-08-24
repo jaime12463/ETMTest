@@ -16,6 +16,7 @@ export type Props = {
 	total: number;
 	unidades: number;
 	subunidades: number;
+	dataCY: string;
 };
 
 const TotalesMetodoDeVenta = ({
@@ -23,6 +24,7 @@ const TotalesMetodoDeVenta = ({
 	total,
 	unidades,
 	subunidades,
+	dataCY,
 }: Props) => {
 	const estilos = useEstilos();
 	const {t} = useTranslation();
@@ -35,25 +37,30 @@ const TotalesMetodoDeVenta = ({
 						<TableCell className={estilos.celda}>
 							{`${t('general.total')} ${metodoVenta}:`}
 						</TableCell>
-						<TableCell className={estilos.celda}>
+						<TableCell className={estilos.celda} data-cy={`total-${dataCY}`}>
 							<Typography variant='caption'>
-								<Numero tipo="moneda" valor={total} decimales={2}/>
+								<Numero tipo='moneda' valor={total} decimales={2} />
 							</Typography>
 						</TableCell>
 					</TableRow>
 					<TableRow>
 						<TableCell className={estilos.celda}>
-							<Typography className={estilos.subTitulo}>
+							<Typography
+								className={estilos.subTitulo}
+								data-cy={`total-unidades-${dataCY}`}
+							>
 								{t('general.unidades')}: {unidades}
 							</Typography>
 						</TableCell>
 						<TableCell className={estilos.celda}>
-							<Typography className={estilos.subTitulo}>
+							<Typography
+								className={estilos.subTitulo}
+								data-cy={`total-subunidades-${dataCY}`}
+							>
 								{t('general.subUnidades')}: {subunidades}
 							</Typography>
 						</TableCell>
 					</TableRow>
-					
 				</TableBody>
 			</Table>
 		</TableContainer>

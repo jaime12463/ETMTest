@@ -1,0 +1,30 @@
+{
+	"codigosProductos": {
+		"1885": {
+			"esVentaSubunidades": false
+		},
+		"420": {
+			"esVentaSubunidades": true,
+			"unidadesDisponibles": 10
+		}
+	},
+	"codigosClientes": {
+		"back": {
+			"HS001": {
+				"condicion": "contado"
+			},
+			"HS002": {
+				"condicion": "creditoFormal"
+			},
+			"HS003": {
+				"condicion": "creditoInformal"
+			}
+		},
+		"cypress": {
+			"HS002": {
+				"cantidadMaximaUnidades": 100,
+				"condicion": "creditoFormal"
+			}
+		}
+	}
+}

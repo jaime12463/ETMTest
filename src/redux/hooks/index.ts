@@ -3,13 +3,14 @@ import type {RootState, AppDispatch} from 'redux/store';
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-
+import {useObtenerCompromisoDeCobroActual} from './useObtenerCompromisoDeCobroActual';
 import {useObtenerClienteActual} from './useObtenerClienteActual';
 import {useObtenerConfiguracion} from './useObtenerConfiguracion';
 import {useObtenerDatos} from './useObtenerDatos';
 import {useObtenerPedidoActual} from './useObtenerPedidoActual';
 import {useObtenerPedidosClientes} from './useObtenerPedidosClientes';
 import {useObtenerEstadoApp} from './useObtenerEstadoApp';
+import {useObtenerCompromisosDeCobroCliente} from './useObtenerCompromisosDeCobroCliente';
 
 export {
 	useObtenerClienteActual,
@@ -18,4 +19,6 @@ export {
 	useObtenerPedidoActual,
 	useObtenerPedidosClientes,
 	useObtenerEstadoApp,
+	useObtenerCompromisoDeCobroActual,
+	useObtenerCompromisosDeCobroCliente,
 };

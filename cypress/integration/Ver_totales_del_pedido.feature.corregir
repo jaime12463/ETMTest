@@ -17,14 +17,22 @@ Característica: Ver totales del pedido
     Quiero ver los totales del pedido
     Para mantener informado al cliente durante la venta
 
-Esquema del escenario: N°1 - Calcular totales 
-    Dado que se registraron productos en el pedido con <condicionPago>
-    Cuando quiero ver los totales
-    Entonces el sistema calculará para cada <condicionPago> el <totalUnidades> como la suma de Unidades, <totalSubunidades> como la suma de las subunidades 
-    Y <monto> como unidades * precio con Impuesto de la unidadad + subunidades * precio con impuesto de la subunidad, de los productos de la misma condición de pago 
-    Y mostrará los totales en pantalla
+Antecedentes:
+	Dado que estoy en el ingreso del pedido
+
+@Test_dispositivo_1
+Esquema del escenario: N°1 - Calcular totales para cliente de Crédito Informal
+    Dado que se registraron productos en el pedido
+        |codigoProducto|cantidadUnidades|cantidadSubunidades|condicionPago|precioConImpuestoUnidad|precioConImpuestoSubunidad|
+        |17640         |4	            |3                  | contado     |105                    |8.75                      |
+        |1885          |7	            |3                  | credito     |105                    |8.75                      |
+    Entonces el sistema calculará para cada Condición de Pago el Total de Unidades como la suma de Unidades, y el Total de Subunidades como la suma de las Subunidades
+    Y el Total Monto como unidades * precio con Impuesto de la Unidadad + Subunidades * precio con impuesto de la Subunidad, de los productos de la misma condición de pago
+    Entonces el sistema mostrará los totales de '<totalUnidadesContado>' Unidades y '<totalSubunidadesContado>' Subunidades para Contado
+    Y los totales de '<totalUnidadesCredito>' Unidades y '<totalSubunidadesCredito>' Subunidades para Crédito
+    Y los montos de '<totalMontoContado>' para Contado y '<totalMontoCredito>' para Crédito
 
 Ejemplos:
-|totalUnidades|totalSubunidades|monto|condicionPago|
-|4		      |2		       |420	 | contado     |
-|7		      |3		       |480	 | credito     |
+|totalUnidadesContado|totalSubunidadesContado|totalUnidadesCredito|totalSubunidadesCredito|totalMontoContado|totalMontoCredito|
+|4		             |3		                 |7                   |3                      |446.25           |761.25           |
+
