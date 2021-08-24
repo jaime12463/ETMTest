@@ -1,5 +1,13 @@
 import {Cuando, Dado, Entonces, Y} from '../../pasos';
 
+/*
+    Dado que el cliente tiene condición de pago crédito informal y esCreditoBloqueado = false
+    Cuando <estadoCredito> es crédito Disponible mayor a cero 
+    <estadoPedidoMaximo> es Pedido máximo cumplido 
+    Cuando ingreso a registrar un pedido 
+    el sistema mostrará '<estadoPanelIngresoProducto>', '<estadoEncendidoSwitch>' y '<estadoHabilitacionSwitch>'
+*/
+
 Dado(
 	'que el cliente tiene condición de pago crédito informal y esCreditoBloqueado = false',
 	() => {

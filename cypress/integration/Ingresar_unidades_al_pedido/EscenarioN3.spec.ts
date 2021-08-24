@@ -1,5 +1,13 @@
 import {Cuando, Entonces, Y} from '../../pasos';
 
+Cuando('se ingresa un producto', () => {
+	cy.agregarProducto({
+		codigoProducto: 1885,
+		unidades: 2,
+		subUnidades:2
+	});
+});
+
 Cuando('se ingresa una cantidad y las subunidades no están habilitadas', () => {
 	cy.ingresarCodigoProducto(1885);
 	cy.get('[data-cy=cantidad-producto-subUnidades]').should('be.disabled');

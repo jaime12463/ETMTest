@@ -2,11 +2,6 @@
 
 @Pedido @Validar_unidades @Unidades_maximas_por_producto @Sprint3 @Sprint8 @Sprint9
 
-Característica: Ingresar unidades
-Como prevendedor
-Quiero ingresar una cantidad de unidades del producto al pedido
-Para realizar la venta.
-
 #Validación “cantidadMaximaUnidades”. Dato del cliente “cantidadMaximaUnidades” que indica la
 #cantidad máxima de cajas que se pueden ingresar para un producto. (Opcional)
 #Esta cantidad máxima aplicará a todos los tipos de operación donde se capturen productos..
@@ -46,14 +41,14 @@ Ejemplos:
 |   110  |
 
 Escenario: N°2 – La cantidad es menor o igual a la permitida y las subunidades están habilitadas
-Cuando se ingresa una cantidad
+Cuando se ingresa una unidad
 Y es menor o igual a la cantidad máxima de unidades
 Y es menor o igual a las unidades disponibles del producto para el cliente
 Y las subunidades están habilitadas
 Entonces el sistema registrará las unidades y continuará con el ingreso de las subunidades
 
 Escenario: N°3 – La cantidad es menor o igual a la permitida y las subunidades están deshabilitadas
-Cuando se ingresa una cantidad
+Cuando se ingresa un producto
 Y es menor o igual a la cantidad máxima de unidades
 Y es menor o igual a las unidades disponibles del producto para el cliente
 Y las subunidades no están habilitadas
@@ -62,8 +57,7 @@ Entonces el sistema registrará las unidades y mostrará el producto actualizado
 #Cuando se ingresa un producto nuevo, se asume como condición de pago del producto la condición de pago general del pedido. 
 
 Esquema del escenario: N°4 – La cantidad es mayor a las unidades disponibles del producto para el cliente.
-Cuando se ingresa <cantidad>
-Y es mayor a la cantidad disponible del producto para el cliente
+Cuando se ingresa <cantidad> mayor a la cantidad disponible del producto para el cliente
 Entonces el sistema mostrará el mensaje “La cantidad es mayor al disponible: 10” y permanece en el campo para que el prevendedor pueda corregir la cantidad
 
 Ejemplos:
