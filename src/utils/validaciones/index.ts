@@ -10,10 +10,21 @@ import {
 	TPrecioProducto,
 } from 'models';
 import {
-	fechaDispositivo, 
+	fechaDispositivo,
 	obtenerTotalContadoPedidosCliente,
-	obtenerUnidadesMismoProducto
+	obtenerUnidadesMismoProducto,
 } from 'utils/methods';
+import {useObtenerDeudasDelClienteActual} from 'hooks';
+
+export const validarDeshabilitarTabCompromisoDeCobro = () => {
+	let deshabilitarTabCompromisoDeCobro = false;
+	const deudas = useObtenerDeudasDelClienteActual();
+	if (!deudas || deudas.length === 0) {
+		deshabilitarTabCompromisoDeCobro = true;
+	}
+
+	return deshabilitarTabCompromisoDeCobro;
+};
 
 export const validarFechaVigenciaProducto = (
 	preciosProductos: TPrecio[],
@@ -160,14 +171,24 @@ export const validarObtenerFechaEntrega = (
 
 export const validarUnidadesDisponibles = (
 	pedidosCliente: TPedidoClienteParaEnviar[],
-	unidadesNuevas: number,
+	unidadesIngresadas: number,
 	productoActual: TPrecioProducto
-): boolean => {
-	let disponibleHistorico = obtenerUnidadesMismoProducto(pedidosCliente, productoActual.codigoProducto);
-	let unidadesDisponibles = (productoActual.unidadesDisponibles || 0) //Esto no va a pasar nunca
-	
-	if( unidadesDisponibles - (disponibleHistorico + unidadesNuevas) >= 0)
-		return true;
+): number => {
+	let disponibleHistorico = obtenerUnidadesMismoProducto(
+		pedidosCliente,
+		productoActual.codigoProducto
+	);
+	let unidadesDisponibles = productoActual.unidadesDisponibles || 0; //Esto no va a pasar nunca
+	let unidadesCalculadas = unidadesDisponibles - disponibleHistorico;
 
-	return false;
-}
+	if(unidadesCalculadas === 0)
+		return unidadesCalculadas;
+
+	if((unidadesCalculadas - unidadesIngresadas) < 0)
+	{
+		let unidadesRetorno = (disponibleHistorico != 0) ? disponibleHistorico : unidadesDisponibles + disponibleHistorico;
+		return unidadesRetorno;
+	}
+
+	return -1;
+};

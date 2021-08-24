@@ -10,7 +10,7 @@ export const transformDate = (date: string): string =>
 
 export const darFormatoFecha = (fecha: string): string => {
 	const arregloFecha: string[] = fecha.split('-');
-	const stringFecha: string = `${arregloFecha[2]}/${arregloFecha[1]}/${arregloFecha[0]}`;
+	const stringFecha: string = `${arregloFecha[2]}-${arregloFecha[1]}-${arregloFecha[0]}`;
 	return stringFecha;
 };
 

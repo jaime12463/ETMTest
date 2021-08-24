@@ -53,6 +53,8 @@ export const pedidosClientesSlice = createSlice({
 				monto,
 				tipoDocumento,
 			};
+			if (!state[codigoCliente])
+				state[codigoCliente] = {pedidos: [], compromisosDeCobro: []};
 
 			state[codigoCliente].compromisosDeCobro.push(CompromisoDeCobro);
 		},
