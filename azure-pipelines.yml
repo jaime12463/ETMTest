@@ -24,6 +24,7 @@ steps:
 
 - script: |
     npm run install-server
+    sudo sysctl -w fs.inotify.max_user_watches=100000
     npm run ci
   displayName: 'npm run ci'
 
