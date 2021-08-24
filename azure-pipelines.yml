@@ -39,8 +39,8 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'Omnicanal-TomaPedido-Files'
 
-- task: PublishBuildArtifacts@1
-  displayName: Omnicanal-TomaPedido-Test
-  inputs:
-    PathtoPublish: 'cypress/videos'
-    ArtifactName: 'Omnicanal-TomaPedido-Test'
+# - task: PublishBuildArtifacts@1
+#   displayName: Omnicanal-TomaPedido-Test
+#   inputs:
+#     PathtoPublish: 'cypress/videos'
+#     ArtifactName: 'Omnicanal-TomaPedido-Test'
