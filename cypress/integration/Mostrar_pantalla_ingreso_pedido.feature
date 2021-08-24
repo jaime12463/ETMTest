@@ -2,6 +2,9 @@
 @Pedido @PromoPush @sprint8 @sprint9 @Sprint10
 
 # Sprint10: acceso a promo push según tipo de pedido seleccionado y combo de selección del tipo de pedido
+# El combo de tipo de pedido mostrará como valor default la descripón del tipo de pedido que _esValorizado = true.
+# Cuando se selecciona otro tipo de pedido distinto al default, al ir hacia otra pantalla, por ejemplo compromiso de cobro, y volver a la del pedido,
+# se conserva la seleccion realizada del tipo de pedido 
 # sprint 10 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=702%3A2&scaling=min-zoom&page-id=501%3A2&starting-point-node-id=702%3A2
 
 
@@ -15,7 +18,7 @@ Característica: Mostrar pantalla ingreso del pedido
 # {crédito formal} Solo puede comprar a crédito si no tiene el crédito bloqueado. Puede cerrar el pedido con crédito excedido 
 # {crédito informal} Puede comprar de contado y puede comprar a crédito si no tiene el crédito bloqueado. 
 #No puede cerrar el pedido con crédito excedido. 
-
+, 
 # sprint 8 UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA?node-id=329%3A3&scaling=scale-down&page-id=329%3A2&starting-point-node-id=329%3A3
 
 Esquema del escenario: N°1 - El cliente es de contado
@@ -24,7 +27,7 @@ Esquema del escenario: N°1 - El cliente es de contado
     Cuando ingreso a registrar un pedido
     Entonces el sistema mostrará '<estadoPanelIngresoProducto>'
     Y el switch Credito en estado off Disabled
-    Y mostrará el combo de seleccion del tipo de pedido cargado con la _descripcion de los _tipoPedidoHabilitados del cliente, ordenados por _secuencia ascendente.
+    Y mostrará el combo de seleccion del tipo de pedido cargado con la _descripcion de los _tipoPedidoHabilitados del cliente, ordenados por _secuencia ascendente y mostrara como valor default la _decripcion del tipo de pedido cuyo _esValorizado = true.
 
 Ejemplos:
 |condicion    |estadoPanelIngresoProducto     |
@@ -36,7 +39,7 @@ Esquema del escenario: N°2 - El cliente es de crédito formal
     Cuando ingreso a registrar un pedido 
     Entonces el sistema mostrará '<estadoPanelIngresoProducto>'
     Y el switch en estado On Disabled 
-    Y mostrará el combo de seleccion del tipo de pedido cargado con la _descripcion de los _tipoPedidoHabilitados del cliente, ordenados por _secuencia ascendente.
+    Y mostrará el combo de seleccion del tipo de pedido cargado con la _descripcion de los _tipoPedidoHabilitados del cliente, ordenados por _secuencia ascendente y mostrara como valor default la _decripcion del tipo de pedido cuyo _esValorizado = true.
 
 
 Ejemplos:
@@ -66,7 +69,7 @@ Esquema del escenario: N°3 - El cliente es de crédito informal sin crédito bl
     Y '<estadoPedidoMaximo>' es Pedido máximo cumplido
     Cuando ingreso a registrar un pedido
     Entonces el sistema mostrará '<estadoPanelIngresoProducto>', '<estadoEncendidoSwitch>' y '<estadoHabilitacionSwitch>' 
-    Y mostrará el combo de seleccion del tipo de pedido cargado con la _descripcion de los _tipoPedidoHabilitados del cliente, ordenados por _secuencia ascendente.
+    Y mostrará el combo de seleccion del tipo de pedido cargado con la _descripcion de los _tipoPedidoHabilitados del cliente, ordenados por _secuencia ascendente y mostrara como valor default la _decripcion del tipo de pedido cuyo _esValorizado = true.
 
 
 Ejemplos:
