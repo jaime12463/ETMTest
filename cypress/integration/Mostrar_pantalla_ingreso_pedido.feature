@@ -1,7 +1,7 @@
 # language: es
 @Pedido @PromoPush @sprint8 @sprint9 @Sprint10
 
-# Sprint10: acceso a promo push según tipo de pedido seleccionado
+# Sprint10: acceso a promo push según tipo de pedido seleccionado y combo de selección del tipo de pedido
 # sprint 10 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=702%3A2&scaling=min-zoom&page-id=501%3A2&starting-point-node-id=702%3A2
 
 
@@ -24,6 +24,7 @@ Esquema del escenario: N°1 - El cliente es de contado
     Cuando ingreso a registrar un pedido
     Entonces el sistema mostrará '<estadoPanelIngresoProducto>'
     Y el switch Credito en estado off Disabled
+    Y mostrará el combo de seleccion del tipo de pedido cargado con la _descripcion de los _tipoPedidoHabilitados del cliente, ordenados por _secuencia ascendente.
 
 Ejemplos:
 |condicion    |estadoPanelIngresoProducto     |
@@ -35,6 +36,8 @@ Esquema del escenario: N°2 - El cliente es de crédito formal
     Cuando ingreso a registrar un pedido 
     Entonces el sistema mostrará '<estadoPanelIngresoProducto>'
     Y el switch en estado On Disabled 
+    Y mostrará el combo de seleccion del tipo de pedido cargado con la _descripcion de los _tipoPedidoHabilitados del cliente, ordenados por _secuencia ascendente.
+
 
 Ejemplos:
 |esCreditoBloqueado|estadoPanelIngresoProducto |
@@ -62,7 +65,9 @@ Esquema del escenario: N°3 - El cliente es de crédito informal sin crédito bl
     Cuando '<estadoCredito>' es crédito Disponible mayor a cero
     Y '<estadoPedidoMaximo>' es Pedido máximo cumplido
     Cuando ingreso a registrar un pedido
-    Entonces el sistema mostrará '<estadoPanelIngresoProducto>', '<estadoEncendidoSwitch>' y '<estadoHabilitacionSwitch>'
+    Entonces el sistema mostrará '<estadoPanelIngresoProducto>', '<estadoEncendidoSwitch>' y '<estadoHabilitacionSwitch>' 
+    Y mostrará el combo de seleccion del tipo de pedido cargado con la _descripcion de los _tipoPedidoHabilitados del cliente, ordenados por _secuencia ascendente.
+
 
 Ejemplos:
 |estadoCredito|estadoPedidoMaximo|estadoPanelIngresoProducto|estadoEncendidoSwitch|estadoHabilitacionSwitch|
