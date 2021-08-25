@@ -38,16 +38,16 @@ Característica: Ver envases retornables
 	Para informarle al cliente 
 
 Escenario: N°1 – El producto del pedido no tiene Implícito1 ni Implícito1 informado
-	Dado que se realizó la venta de un producto que no tiene Implícito1
-	Y tampoco tiene Implícito2 informados
+	Dado que se realizó la venta de un producto que no tiene _Implícito1
+	Y tampoco tiene _Implícito2 informados
 	Cuando quiero ver los envases retornables
 	Entonces el sistema no muestra envases para ese producto
 
 Esquema del escenario: N°2 – El producto del pedido tiene Implícito1 informado
-	Dado que se realizó la venta de <cantidadUnidades> y <cantidadSubunidades> de <producto> 
-	Y éste tiene <implicito1> informado
+	Dado que se realizó la venta de '<cantidadUnidades>' y '<cantidadSubunidades>' de '<producto>'
+	Y éste tiene '<implicito1>' informado
 	Cuando quiero ver los envases retornables del pedido
-	Entonces el sistema mostrará <implicito1> con <cantidadUnidades> y <cantidadSubunidades> para retorno
+	Entonces el sistema mostrará '<implicito1>' con '<cantidadUnidades>' y '<cantidadSubunidades>' para retorno
 
 Ejemplos:
 |producto|cantidadUnidades|cantidadSubunidades|implicito1|	
@@ -57,10 +57,10 @@ Ejemplos:
 |400	 |0	              |3	              | 1001	|
 
 Esquema del escenario: N°3 – El producto del pedido tiene Implícito2 informado
-	Dado que se realizó la venta de <cantidadUnidades> mayores a cero del <producto> 
-	Y éste tiene <implicito2> informado
+	Dado que se realizó la venta de '<cantidadUnidades>' mayores a cero del '<producto>' 
+	Y éste tiene '<implicito2>' informado
 	Cuando quiero ver los envases retornables del pedido
-	Entonces el sistema mostrará <implicito2> con <cantidadUnidades> para retorno
+	Entonces el sistema mostrará '<implicito2>' con '<cantidadUnidades>' para retorno
 
 Ejemplos:
 |producto|cantidadUnidades|implicito2|	
