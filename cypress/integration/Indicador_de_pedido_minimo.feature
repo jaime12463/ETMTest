@@ -20,9 +20,10 @@ Escenario: N°1: Indicador de pedido mínimo cumplido
 Escenario: N°2 Ver avance del pedido mínimo
     Dado que el cliente tiene _montoVentaMínimo mayor a cero
     Y para la fecha de entrega del pedido se informa pedido mínimo no cumplido
+    Y el tipo de pedido _contribuyeAMinimo = true
     Cuando estoy en la pantalla de ingreso del pedido
     Entonces el sistema mostrará el total del indicador igual al pedido mínimo 
-    Y el avance según suma de los montos de los pedidos para la misma fecha de entrega más el total del pedido en curso
+    Y el avance según suma de los montos de los pedidos cuyos tipos de pedidos _contribuyeAMinimo = true para la misma fecha de entrega más el total del pedido en curso
 
 #sumaPedidos montoVentaMínima Avance	Texto
 #0		100		0%		0/100		rojo
