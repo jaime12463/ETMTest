@@ -20,11 +20,30 @@ Característica: Mostrar pantalla ingreso del pedido
 # {crédito formal} Solo puede comprar a crédito si no tiene el crédito bloqueado. Puede cerrar el pedido con crédito excedido 
 # {crédito informal} Puede comprar de contado y puede comprar a crédito si no tiene el crédito bloqueado. 
 #No puede cerrar el pedido con crédito excedido. 
-, 
 # sprint 8 UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA?node-id=329%3A3&scaling=scale-down&page-id=329%3A2&starting-point-node-id=329%3A3
 
+
+Escenario: N°0 - El tipo de pedido es valorizado
+    Dado que el tipo de pedido _esValorizado = true
+    Cuando ingreso a registrar un pedido
+    Entonces el sistema mostrará el panel de ingreso del producto, el switch crédito, los totales e indicadores
+
+Esquema del escenario: N°0 bis - El tipo de pedido es no valorizado
+    Dado que el tipo de pedido _esValorizado = false
+    Y '<hayOtrosProductosEnPedidosMandatorios>'
+    Cuando ingreso a registrar un pedido
+    Entonces el sistema mostrará '<estadoPanelIngresoProducto>' y los totales
+
+Ejemplos:
+|hayOtrosProductosEnPedidosMandatorios|estadoPanelIngresoProducto|  
+|              SI                     |           SI             |
+|              NO                     |           NO             |         
+
+# Pedidos mandatorios pueden ser en curso o ya registrados.
+
 Esquema del escenario: N°1 - El cliente es de contado
-    Dado que el cliente tiene condición de pago contado
+    Dado el tipo de pedido seleccionado es de un tipo de pedido _esValorizado = true
+    Y que el cliente tiene condición de pago contado
     Y el consumido para la fecha de entrega, el informado más los pedidos de contado ya registrados, es '<condicion>' al _montoVentaContadoMaxima
     Cuando ingreso a registrar un pedido
     Entonces el sistema mostrará '<estadoPanelIngresoProducto>'
@@ -37,7 +56,8 @@ Ejemplos:
 |Mayor        | No                            |
 
 Esquema del escenario: N°2 - El cliente es de crédito formal
-    Dado que el cliente tiene condición de pago crédito formal y '<esCreditoBloqueado>'
+    Dado el tipo de pedido seleccionado es de un tipo de pedido _esValorizado = true
+    Y que el cliente tiene condición de pago crédito formal y '<esCreditoBloqueado>'
     Cuando ingreso a registrar un pedido 
     Entonces el sistema mostrará '<estadoPanelIngresoProducto>'
     Y el switch en estado On Disabled 
@@ -66,7 +86,8 @@ Ejemplos:
 
 
 Esquema del escenario: N°3 - El cliente es de crédito informal sin crédito bloqueado
-    Dado que el cliente tiene condición de pago crédito informal y _esCreditoBloqueado = false
+    Dado el tipo de pedido seleccionado es de un tipo de pedido _esValorizado = true
+    Y que el cliente tiene condición de pago crédito informal y _esCreditoBloqueado = false
     Cuando '<estadoCredito>' es crédito Disponible mayor a cero
     Y '<estadoPedidoMaximo>' es Pedido máximo cumplido
     Cuando ingreso a registrar un pedido
