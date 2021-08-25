@@ -2,7 +2,6 @@ import {Request} from 'express';
 import fs from 'fs';
 
 export default class EtmManager {
-
 	public static getDatos = async (req: Request) => {
 		const datos = fs.readFileSync('db.json');
 		const datosJson = JSON.parse(datos.toString());
@@ -13,7 +12,7 @@ export default class EtmManager {
 	public static getConfiguraciones = async (req: Request) => {
 		const configuracion = fs.readFileSync('configuracion.json');
 		const configuracionJson = JSON.parse(configuracion.toString());
-		return configuracionJson.datos;
+		return configuracionJson;
 	};
 
 	public static setDatos = async (req: Request) => {
