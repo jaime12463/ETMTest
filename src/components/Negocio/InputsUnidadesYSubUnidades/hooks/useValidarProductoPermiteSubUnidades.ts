@@ -6,8 +6,7 @@ export const useValidarProductoPermiteSubUnidades = () => {
 	const configuracion: TConfiguracion = useObtenerConfiguracion();
 	const productoPermiteSubUnidades = useCallback(
 		(esVentaSubunidades: boolean): boolean => {
-			const esPermitidoSubUnidades =
-				configuracion?.esVentaSubunidadesRuta && esVentaSubunidades;
+			const esPermitidoSubUnidades = esVentaSubunidades;
 			return esPermitidoSubUnidades;
 		},
 		[configuracion]
