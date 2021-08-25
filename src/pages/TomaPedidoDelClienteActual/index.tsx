@@ -18,6 +18,7 @@ import {
 } from 'components/Negocio';
 import {useResetPedidoActualAlDesmontar} from './hooks';
 import CompromisoDeCobro from 'pages/CompromisoDeCobro';
+import {validarDeshabilitarTabCompromisoDeCobro} from 'utils/validaciones';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [value, setValue] = React.useState(0);
@@ -88,14 +89,17 @@ function BotonVerPedidosDelClienteActual() {
 
 function TabsPedidoActual({value, setValue}: any) {
 	let {t} = useTranslation();
+
 	const tabs = [
 		{
 			label: t('general.ventas'),
 			component: TabVentas,
+			deshabilitar: false,
 		},
 		{
 			label: t('general.compromisoCobro'),
 			component: CompromisoDeCobro,
+			deshabilitar: validarDeshabilitarTabCompromisoDeCobro(),
 		},
 	];
 

@@ -8,11 +8,6 @@
 # Cuando el tipo de operación tenga _esValorizado = true, se debe visualizar en los totales el valor monetario, unidad y subunidad.
 # Cuando el tipo de operación tenga _esValorizado = false, se debe visualizar en los totales unidad y subunidad.
 
-Característica: Ingresar unidades
-Como prevendedor
-Quiero ingresar una cantidad de unidades del producto al pedido
-Para realizar la venta.
-
 #Validación “cantidadMaximaUnidades”. Dato del cliente “cantidadMaximaUnidades” que indica la
 #cantidad máxima de cajas que se pueden ingresar para un producto. (Opcional)
 #Esta cantidad máxima aplicará a todos los tipos de operación donde se capturen productos..

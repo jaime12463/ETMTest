@@ -1,33 +1,175 @@
 {
 	"clientes": {
-		"HS001": {
-			"codigoCliente": "HS001",
-			"detalles": {
-				"nombreComercial": "CREM LA MORENITA"
-			},
+		"120104325": {
+			"codigoCliente": 120104325,
+			"detalles": {"nombreComercial": "CREM LA MORENITA"},
 			"visitasPlanificadas": [
-				{
-					"dia": "2021-06-08",
-					"secuencia": 3
-				},
-				{
-					"dia": "2021-06-11",
-					"secuencia": 5
-				}
+				{"dia": "2021-06-08", "secuencia": 3},
+				{"dia": "2021-06-11", "secuencia": 5}
 			],
 			"fechasEntrega": [
-				{
-					"fechaVisita": "2021-06-09",
-					"fechaEntrega": "2021-06-10"
+				{"fechaVisita": "2021-06-09", "fechaEntrega": "2021-06-10"},
+				{"fechaVisita": "2021-06-10", "fechaEntrega": "2021-06-11"},
+				{"fechaVisita": "2021-06-11", "fechaEntrega": "2021-06-12"}
+			],
+			"informacionCrediticia": {
+				"condicion": "creditoInformal",
+				"limite": 30000,
+				"disponible": 10000,
+				"esCreditoBloqueado": false,
+				"documentos": [
+					{
+						"numero": "12123456789",
+						"fecha": "2021-06-11",
+						"vencimiento": "2021-09-11",
+						"monto": 5000
+					},
+					{
+						"numero": "22123459999",
+						"fecha": "2021-07-11",
+						"vencimiento": "2021-10-11",
+						"monto": 5400
+					}
+				]
+			},
+			"configuracionPedido": {
+				"ventaMinima": {
+					"montoVentaMinima": 1000,
+					"cumplimientoPorFecha": [
+						{"fechaEntrega": "2021-06-10", "cumplido": true},
+						{"fechaEntrega": "2021-06-11", "cumplido": false}
+					]
 				},
-				{
-					"fechaVisita": "2021-06-10",
-					"fechaEntrega": "2021-06-11"
+				"ventaContadoMaxima": {
+					"montoVentaContadoMaxima": 3000,
+					"consumidoPorFecha": [
+						{"fechaEntrega": "2021-06-10", "consumido": 2000},
+						{"fechaEntrega": "2021-06-11", "consumido": 0}
+					]
 				},
+				"cantidadMaximaUnidades": 999
+			},
+			"portafolio": [
 				{
-					"fechaVisita": "2021-06-11",
-					"fechaEntrega": "2021-06-12"
+					"codigoProducto": 17640,
+					"esVentaSubunidades": true,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 106,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
 				}
+			]
+		},
+		"HS001": {
+			"codigoCliente": "HS001",
+			"detalles": {"nombreComercial": "CREM LA MORENITA"},
+			"visitasPlanificadas": [
+				{"dia": "2021-06-08", "secuencia": 3},
+				{"dia": "2021-06-11", "secuencia": 5}
+			],
+			"fechasEntrega": [
+				{"fechaVisita": "2021-06-09", "fechaEntrega": "2021-06-10"},
+				{"fechaVisita": "2021-06-10", "fechaEntrega": "2021-06-11"},
+				{"fechaVisita": "2021-06-11", "fechaEntrega": "2021-06-12"}
+			],
+			"informacionCrediticia": {
+				"condicion": "contado",
+				"limite": 3000,
+				"disponible": 10000,
+				"esCreditoBloqueado": false,
+				"documentos": [
+					{
+						"numero": "12123456789",
+						"fecha": "2021-06-11",
+						"vencimiento": "2021-09-11",
+						"monto": 5000
+					},
+					{
+						"numero": "22123459999",
+						"fecha": "2021-07-11",
+						"vencimiento": "2021-10-11",
+						"monto": 5400
+					}
+				]
+			},
+			"configuracionPedido": {
+				"ventaMinima": {
+					"montoVentaMinima": 1000,
+					"cumplimientoPorFecha": [
+						{"fechaEntrega": "2021-06-10", "cumplido": true},
+						{"fechaEntrega": "2021-06-11", "cumplido": false}
+					]
+				},
+				"ventaContadoMaxima": {
+					"montoVentaContadoMaxima": 3000,
+					"consumidoPorFecha": [
+						{"fechaEntrega": "2021-06-10", "consumido": 2000},
+						{"fechaEntrega": "2021-06-11", "consumido": 0}
+					]
+				},
+				"cantidadMaximaUnidades": 100
+			},
+			"portafolio": [
+				{
+					"codigoProducto": 1885,
+					"esVentaSubunidades": true,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 106,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
+					"codigoProducto": 420,
+					"esVentaSubunidades": true,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 100,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 100,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				}
+			]
+		},
+		"HS002": {
+			"codigoCliente": "HS002",
+			"detalles": {"nombreComercial": "CREM LA MORENITA"},
+			"visitasPlanificadas": [
+				{"dia": "2021-06-08", "secuencia": 3},
+				{"dia": "2021-06-11", "secuencia": 5}
+			],
+			"fechasEntrega": [
+				{"fechaVisita": "2021-06-09", "fechaEntrega": "2021-06-10"},
+				{"fechaVisita": "2021-06-10", "fechaEntrega": "2021-06-11"},
+				{"fechaVisita": "2021-06-11", "fechaEntrega": "2021-06-12"}
 			],
 			"informacionCrediticia": {
 				"condicion": "creditoFormal",
@@ -53,27 +195,15 @@
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
-						{
-							"fechaEntrega": "2021-06-10",
-							"cumplido": true
-						},
-						{
-							"fechaEntrega": "2021-06-11",
-							"cumplido": false
-						}
+						{"fechaEntrega": "2021-06-10", "cumplido": true},
+						{"fechaEntrega": "2021-06-11", "cumplido": false}
 					]
 				},
 				"ventaContadoMaxima": {
 					"montoVentaContadoMaxima": 3000,
 					"consumidoPorFecha": [
-						{
-							"fechaEntrega": "2021-06-10",
-							"consumido": 2000
-						},
-						{
-							"fechaEntrega": "2021-06-11",
-							"consumido": 0
-						}
+						{"fechaEntrega": "2021-06-10", "consumido": 2000},
+						{"fechaEntrega": "2021-06-11", "consumido": 0}
 					]
 				},
 				"cantidadMaximaUnidades": 999
@@ -81,7 +211,7 @@
 			"portafolio": [
 				{
 					"codigoProducto": 1885,
-					"unidadesDisponibles": 10,
+					"esVentaSubunidades": true,
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,
@@ -99,39 +229,77 @@
 				}
 			]
 		},
-		"234": {
-			"codigoCliente": 234,
-			"detalles": {
-				"nombreComercial": "LA LUPITA"
-			},
+		"HS003": {
+			"codigoCliente": "HS003",
+			"detalles": {"nombreComercial": "CLIENTE HS003"},
 			"visitasPlanificadas": [
-				{
-					"dia": "2017-09-08",
-					"secuencia": "15"
-				},
-				{
-					"dia": "2017-09-10",
-					"secuencia": "5"
-				}
+				{"dia": "2021-06-08", "secuencia": 3},
+				{"dia": "2021-06-11", "secuencia": 5}
 			],
 			"fechasEntrega": [
-				{
-					"fechaVisita": "2017-09-06",
-					"fechaEntrega": "2017-09-07"
-				},
-				{
-					"fechaVisita": "2017-09-08",
-					"fechaEntrega": "2017-09-09"
-				}
+				{"fechaVisita": "2021-06-09", "fechaEntrega": "2021-06-10"},
+				{"fechaVisita": "2021-06-10", "fechaEntrega": "2021-06-11"},
+				{"fechaVisita": "2021-06-11", "fechaEntrega": "2021-06-12"}
 			],
+			"informacionCrediticia": {
+				"condicion": "creditoInformal",
+				"limite": 3000,
+				"disponible": 10000,
+				"esCreditoBloqueado": false,
+				"documentos": [
+					{
+						"numero": "12123456789",
+						"fecha": "2021-06-11",
+						"vencimiento": "2021-09-11",
+						"monto": 5000
+					},
+					{
+						"numero": "22123459999",
+						"fecha": "2021-07-11",
+						"vencimiento": "2021-10-11",
+						"monto": 5400
+					}
+				]
+			},
 			"configuracionPedido": {
-				"montoVentaMinima": 1000,
-				"montoVentaMaxima": 3000,
+				"ventaMinima": {
+					"montoVentaMinima": 1000,
+					"cumplimientoPorFecha": [
+						{"fechaEntrega": "2021-06-10", "cumplido": true},
+						{"fechaEntrega": "2021-06-11", "cumplido": false}
+					]
+				},
+				"ventaContadoMaxima": {
+					"montoVentaContadoMaxima": 3000,
+					"consumidoPorFecha": [
+						{"fechaEntrega": "2021-06-10", "consumido": 2000},
+						{"fechaEntrega": "2021-06-11", "consumido": 0}
+					]
+				},
 				"cantidadMaximaUnidades": 999
 			},
 			"portafolio": [
 				{
-					"codigoProducto": 1860,
+					"codigoProducto": 17640,
+					"esVentaSubunidades": true,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 106,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
+					"codigoProducto": 1885,
 					"esVentaSubunidades": true,
 					"precios": [
 						{
@@ -152,17 +320,35 @@
 		}
 	},
 	"productos": {
-		"1860": {
-			"codigoProducto": 1860,
-			"nombre": "YOLI LIMON BOT 600L NR 12PK",
-			"presentacion": 12,
+		"420": {
+			"codigoProducto": 420,
+			"nombre": "YOLI LIMON BOT 900 NR 12PK",
+			"presentación": 12,
 			"subunidadesVentaMinima": 1
 		},
 		"1885": {
 			"codigoProducto": 1885,
 			"nombre": "YOLI LIMON BOT 900 NR 12PK",
-			"presentacion": 12,
+			"presentación": 12,
 			"subunidadesVentaMinima": 1
+		},
+		"17640": {
+			"codigoProducto": 17640,
+			"nombre": "2 coca + 1 sprit 50%",
+			"presentación": 24,
+			"subunidadesVentaMinima": 3
+		},
+		"170445": {
+			"codigoProducto": 170445,
+			"nombre": "CAJA PLÁSTICA 24 CAV.",
+			"presentación": 1,
+			"subunidadesVentaMinima": 1
+		},
+		"170456": {
+			"codigoProducto": 170456,
+			"nombre": "ENVASE COCA-COLA 12",
+			"presentación": 24,
+			"subunidadesVentaMinima": 3
 		}
 	}
 }

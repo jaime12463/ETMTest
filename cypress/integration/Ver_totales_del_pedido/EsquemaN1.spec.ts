@@ -1,70 +1,13 @@
-// import { Dado, Cuando, Entonces, Antes, Y } from '../../pasos';
-
-// Antes(() => {
-//     cy.visit('/');
-//     cy.on('uncaught:exception', (err) => {
-//         console.log(err);
-//         return false;
-//     });
-// });
-// Dado(`el precio de las unidades es $ {string}`, (precioConImpuestoUnidad) => {
-//     cy.datosDB({
-//         precioConImpuestoUnidad: Number(precioConImpuestoUnidad),
-//         precioConImpuestoSubunidad: 10,
-//     });
-// });
-// Y(`me encuentro en la ventana de un nuevo pedido`, () => {
-//     cy.datosConfiguracionDB({});    
-//     cy.wait('@data');
-//     cy.wait('@dataConfig');
-//     cy.fixture('pagesElements').then((element) => {
-//         cy.get(element.splash.name).should('contain', element.splash.value);
-//         cy.get(element.splash.logoBox).click();
-//         cy.get(`[data-cy=codigo-cliente]`).type('234{enter}');
-//         cy.get(`[data-cy=boton-crearPedidoAlClienteActual]`).should('exist');
-//         cy.get('[data-cy=boton-crearPedidoAlClienteActual]').click();
-//         cy.get(`[data-cy=producto-tabla-0]`).should('exist');
-//         cy.get('[data-cy=producto-tabla-0]').click();
-//     });        
-// });
-// Cuando(`se ingresan {string} unidades a un producto en el pedido`, (unidadesIngresadas) => {
-//     cy.fixture('pagesElements').then((element) => {
-//         cy.get('[data-cy=cantidad-producto-unidades]').type(`${unidadesIngresadas}{enter}`);
-//         cy.get(`[data-cy=total-unidades-pedido]`).should('have.text', `${unidadesIngresadas}`);
-//         cy.get('[data-cy=total-subUnidades-pedido]').should('have.text', '0');
-//     });
-// });
-// Entonces(`el sistema mostrará el resultado {string}`, (resultado) => {
-//     cy.fixture('pagesElements').then((element) => {
-//         cy.get('[data-cy=total-monto-pedido]').should('have.text', `$ ${resultado}`);
-//     });
-// });
-
-
-
 import {Cuando, Entonces, Dado, Y} from '../../pasos';
 
 Dado('que se registraron productos en el pedido', (datatable) => {
     datatable.hashes().forEach((element: any) => {
-        // cy.agregarProducto({
-        //     codigoProducto: element.codigoProducto,
-        //     unidades,
-        //     subUnidades: 0,
-        // });
-
 		cy.agregarProducto({
 			codigoProducto: element.codigoProducto,
 			unidades: element.cantidadUnidades,
 			subUnidades: element.cantidadSubunidades,
 		});
         if(element.condicionPago == 'contado') {cy.get(`[data-cy=switch-cambiar-tipoPago-${element.codigoProducto}]`).click();}
-        
-		// cy.get(`[data-cy=codigo-producto-a-buscar]`).type(`${element.codigoProducto}{enter}`);
-		// cy.get(`[data-cy=cantidad-producto-unidades]`).type(`${element.totalUnidades}{enter}{enter}`);
-        // cy.get(`[data-cy=switch-cambiar-tipoPago${element.codigoProducto}]`).click();
-		// cy.get(`[data-cy=cantidad-producto-subUnidades]`).type(
-		// 	`${subUnidades}{enter}`
-		// );
     });
 });
 
@@ -76,21 +19,28 @@ Cuando('se ingresa {int}', (unidades) => {
 	});
 });
 
-Y('es mayor a la cantidad máxima de unidades', () => {});
+Entonces('el sistema calculará para cada Condición de Pago el Total de Unidades como la suma de Unidades, y el Total de Subunidades como la suma de las Subunidades', () => {});
+
+Y('el Total Monto como unidades * precio con Impuesto de la Unidadad + Subunidades * precio con impuesto de la Subunidad, de los productos de la misma condición de pago', () => {});
 
 Entonces(
-	'el sistema mostrará el mensaje “La cantidad es mayor a 100 ¿Desea continuar?” SiNo',
-	() => {
-		cy.get('[data-cy=cantidad-es-mayor]').should('exist');
+	'el sistema mostrará los totales de {string} Unidades y {string} Subunidades para Contado',
+	(totalUnidadesContado, totalSubunidadesContado) => {
+		cy.get(`[data-cy=total-unidades-contado]`).should('have.text', `Unidades: ` + totalUnidadesContado)
+		cy.get(`[data-cy=total-subunidades-contado]`).should('have.text', `SubUnidades: ` + totalSubunidadesContado)
 	}
 );
 
+Y('los totales de {string} Unidades y {string} Subunidades para Crédito',
+	(totalUnidadesCredito, totalSubunidadesCredito) => {
+		cy.get(`[data-cy=total-unidades-credito]`).should('contains.text', totalUnidadesCredito)
+		cy.get(`[data-cy=total-subunidades-credito]`).should('contains.text', totalSubunidadesCredito)
+	}
+);
 
-// Entonces(
-// 	'el sistema mostrará para Contado: {string} y {string}', (totalUnidadesContado, totalSubunidadesContado),
-// 	() => {
-		
-// 	}
-// );
-
-
+Y('los montos de {string} para Contado y {string} para Crédito',
+	(totalMontoContado, totalMontoCredito) => {
+		cy.get(`[data-cy=total-credito]`).should('contains.text', totalMontoCredito)
+		cy.get(`[data-cy=total-contado]`).should('contains.text', totalMontoContado)
+	}
+);

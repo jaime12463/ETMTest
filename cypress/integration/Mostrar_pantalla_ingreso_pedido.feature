@@ -69,22 +69,6 @@ Ejemplos:
 |     Si           | No                        |
 |     No           | Si                        |
 
-
-# Esquema del escenario: N°3 - El cliente es de crédito informal sin crédito bloqueado
-#     Dado que el cliente tiene condición de pago crédito informal y esCreditoBloqueado = false
-#     Cuando <estadoCredito> es crédito Disponible mayor a cero 
-#     Y <estadoPedidoMaximo> es Pedido máximo cumplido 
-#     Cuando ingreso a registrar un pedido 
-#     Entonces el sistema <mostraraControles>
-
-# Ejemplos:
-# |estadoCredito|estadoPedidoMaximo|mostraraControles                                              |
-# |     Si      |       No         | habilitará panel de ingreso y switch en estado On enebled     |
-# |     No      |       No         | habilitará panel de ingreso y switch en estado Off disabled   |
-# |     Si      |       Si         | habilitará panel de ingreso y switch en estado On disabled    |
-# |     No      |       Si         | No habilitará panel de ingreso y switch en estado On disabled |
-
-
 Esquema del escenario: N°3 - El cliente es de crédito informal sin crédito bloqueado
     Dado el tipo de pedido seleccionado es de un tipo de pedido _esValorizado = true
     Y que el cliente tiene condición de pago crédito informal y _esCreditoBloqueado = false
@@ -102,6 +86,11 @@ Ejemplos:
 |     Si      |       Si         |Si                        |On                   |disabled                | 
 |     No      |       Si         |No                        |On                   |disabled                |
 
+Esquema del escenario: N°4 - El cliente es de crédito informal con crédito bloqueado
+    Dado que el cliente tiene condición de pago creditoInformal y esCreditoBloqueado = true 
+    Cuando '<estadoPedidoMaximo>' es Pedido máximo cumplido 
+    Cuando ingreso a registrar un pedido
+    Entonces el sistema '<estadoPanelIngresoProducto>', '<estadoEncendidoSwitch>' y '<estadoHabilitacionSwitch>'
 
 
 # Esquema del escenario: N°3 - El cliente es de crédito informal con crédito bloqueado

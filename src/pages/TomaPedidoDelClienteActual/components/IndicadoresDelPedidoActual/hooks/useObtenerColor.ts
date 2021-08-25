@@ -58,17 +58,6 @@ export const useObtenerColor = () => {
 		compromisosDeCobroMismaFechaEntrega
 	);
 
-	console.log(
-		obtenerporcentaje(
-			totalesContadoPedidoCliente +
-				calcularTotalPedido.totalContado.totalPrecio +
-				montoTotalCompromisos +
-				compromisoDeCobroActual.monto,
-			datosCliente?.configuracionPedido.ventaContadoMaxima
-				?.montoVentaContadoMaxima
-		)
-	);
-
 	useEffect(() => {
 		setColor({
 			pedidoMinimo:

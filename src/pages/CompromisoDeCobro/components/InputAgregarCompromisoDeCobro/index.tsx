@@ -10,7 +10,10 @@ const InputAgregarCompromisoDeCobro = () => {
 	const estilos = useEstilos();
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 	const defaultValues: TInputsCompromisoDeCobro = {
-		monto: compromisoDeCobroActual.monto.toString(),
+		monto:
+			compromisoDeCobroActual.monto === 0
+				? ''
+				: compromisoDeCobroActual.monto.toString(),
 	};
 
 	const {control, handleSubmit} = useForm<TInputsCompromisoDeCobro>({

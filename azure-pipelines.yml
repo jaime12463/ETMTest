@@ -24,7 +24,8 @@ steps:
 
 - script: |
     npm run install-server
-    npm run ci
+    # sudo sysctl -w fs.inotify.max_user_watches=100000
+    # npm run ci
   displayName: 'npm run ci'
 
 - task: CopyFiles@2
@@ -38,8 +39,8 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'Omnicanal-TomaPedido-Files'
 
-- task: PublishBuildArtifacts@1
-  displayName: Omnicanal-TomaPedido-Test
-  inputs:
-    PathtoPublish: 'cypress/videos'
-    ArtifactName: 'Omnicanal-TomaPedido-Test'
+# - task: PublishBuildArtifacts@1
+#   displayName: Omnicanal-TomaPedido-Test
+#   inputs:
+#     PathtoPublish: 'cypress/videos'
+#     ArtifactName: 'Omnicanal-TomaPedido-Test'
