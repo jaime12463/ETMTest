@@ -2,6 +2,10 @@
 
 @Pedido @Guardar_pedido @Sprint7 @Sprint8 @Sprint9 @Sprint10
 
+# Cuando el tipo de pedido es Canje registrar lo sigguiente:
+#            Tipo de Operación: "Canje"
+#            Registrar detalle del producto: código de motivo  
+
 # sprint 10 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=702%3A2&scaling=min-zoom&page-id=501%3A2&starting-point-node-id=702%3A2
 
 Característica: Guardar actividad realizada
@@ -36,7 +40,7 @@ Y creditoDisponible = informacionCrediticia.disponible – pedidos a crédito ya
 Escenario: N°1 – El cliente de contado o crédito formal no tiene pedidos activos para la fecha de entrega y el pedido cumple el mínimo y no excede el máximo. No se valida crédito disponible.
     Dado que el cliente no tiene pedidos en estado Activo para la misma fecha de entrega del pedido a guardar
     Y la suma del monto del pedido a guardar, cuyo tipo de pedido _contribuyeAMinimo = true, es mayor o igual a _montoVentaMinimo del cliente 
-    Y la suma del monto de los productos de contado, cuyo tipo de pedido es _valorizado = true,  + compromiso de cobro es menor o igual a montoVentaMaximo
+    Y la suma del monto de los productos de contado, cuyo tipo de pedido _esValorizado = true,  + compromiso de cobro es menor o igual a montoVentaMaximo
     Y la _condición de crédito del cliente es distinta de crédito informal
     Cuando guardo el pedido
     Entonces el sistema guardará el pedido y lo mostrará en la lista de pedidos del cliente
@@ -45,7 +49,7 @@ Escenario: N°1 – El cliente de contado o crédito formal no tiene pedidos act
 Escenario: N°2 – El cliente de crédito informal no tiene pedidos activos para la fecha de entrega y no excede el límite de crédito y el pedido cumple el mínimo y no excede el máximo
     Dado que el cliente no tiene pedidos en estado Activo para la misma fecha de entrega del pedido a guardar
     Y la suma del monto del pedido a guardar, cuyo tipo de pedido _contribuyeAMinimo = true, es mayor o igual _montoVentaMinimo del cliente 
-    Y la suma del monto de los productos de contado, cuyo tipo de pedido es _valorizado = true,  + compromiso de cobro es menor o igual a montoVentaMaximo
+    Y la suma del monto de los productos de contado, cuyo tipo de pedido _esValorizado = true,  + compromiso de cobro es menor o igual a montoVentaMaximo
     Y la _condición de crédito del cliente es igual crédito informal 
     Y el creditoDisponible es mayor o igual a cero
     Cuando guardo el pedido
@@ -67,14 +71,14 @@ Escenario: N°4 – El pedido de contado excede con el pedido máximo
     
 Escenario: N°5 – El pedido a guardar no necesita cumplir el pedido mínimo ya que hay otros pedidos para la fecha entrega, los productos de contado no superan el monto máximo y el cliente no es de crédito informal, por lo que no valida el crédito
     Dado que el cliente tiene otros pedidos activos para la fecha de entrega 
-    Y la suma del monto de los productos de contado, cuyo tipo de pedido es _valorizado = true,  + compromiso de cobro es menor o igual a montoVentaMaximo 
+    Y la suma del monto de los productos de contado, cuyo tipo de pedido _esValorizado = true,  + compromiso de cobro es menor o igual a montoVentaMaximo 
     Y el cliente no tiene _condición de pago igual a crédito informal
     Cuando guardo el pedido
     Entonces el sistema guardará el pedido y volverá a la pantalla de cliente
 
 Escenario: N°6 – El pedido a guardar no necesita cumplir el pedido mínimo ya que hay otros pedidos activos, los productos de contado no superan el monto máximo y el cliente de crédito informal no supero el crédito disponible
     Dado que el cliente tiene otros pedidos activos para la fecha de entrega 
-    Y la suma del monto de los productos de contado, cuyo tipo de pedido es _valorizado = true,  + compromiso de cobro es menor o igual a montoVentaMaximo  
+    Y la suma del monto de los productos de contado, cuyo tipo de pedido _esValorizado = true,  + compromiso de cobro es menor o igual a montoVentaMaximo  
     Y el cliente tiene _condición de pago crédito informal  
     Y el creditoDisponible es mayor o igual a cero
     Cuando guardo el pedido
