@@ -4,7 +4,7 @@
 
 
 # Ingreso del motivo para cuando el tipo de pedido lo requiera segun configuracion requiereMotivo
-
+# sprint 10 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=702%3A2&scaling=min-zoom&page-id=501%3A2&starting-point-node-id=702%3A2
 
 
 
