@@ -14,7 +14,7 @@
 # Cuando para el cliente/producto está configurado el botelleo igual a esVentaSubunidades = true 
 # Entonces el sistema habilita las subunidades en el ingreso del pedido
 # Ejemplos:
-# |esVentaSubunidades| habilitaSubunidades |permite botelleo
+# |esVentaSubunidades| habilitaSubunidades |permiteBotelleo
 # |    true		     |     Habilitará      |   SI
 # |    false		 |    No habilitará    |   NO
 
@@ -36,7 +36,7 @@ Escenario: N°1 Producto inexistente
 Escenario: N°2 El prevendedor ingresa un producto que aún no se encuentra en el pedido y tiene precio vigente para la fecha de entrega y no permite botelleo y no requiere motivo
     Cuando ingresa un producto del portafolio del cliente que no se encuentra en el pedido 
     Y tiene precio informado para la fecha de entrega calculada 
-    Y _esVentaSubunidades = false
+    Y permiteBotelleo = no
     Y _requiereMotivo = false
     Entonces el sistema mostrará la descripción del producto
     Y el precio unidad 
@@ -47,7 +47,7 @@ Escenario: N°2 El prevendedor ingresa un producto que aún no se encuentra en e
 Escenario: N°3 El prevendedor ingresa un producto que aún no se encuentra en el pedido y tiene precio vigente para la fecha de entrega y permite botelleo y no requiere motivo
     Cuando ingresa un producto del portafolio del cliente que no se encuentra en el pedido 
     Y tiene precio informado para la fecha de entrega calculada 
-    Y _esVentaSubunidades = true
+    Y permiteBotelleo = si
     Y _requiereMotivo = false
     Entonces el sistema mostrará la descripción del producto
     Y el precio unidad
@@ -58,28 +58,28 @@ Escenario: N°3 El prevendedor ingresa un producto que aún no se encuentra en e
 Escenario: N°4 El prevendedor ingresa un producto que aún no se encuentra en el pedido y tiene precio vigente para la fecha de entrega y no permite botelleo y requiere motivo
     Cuando ingresa un producto del portafolio del cliente que no se encuentra en el pedido 
     Y tiene precio informado para la fecha de entrega calculada 
-    Y _esVentaSubunidades = false
+    Y permiteBotelleo = no
     Y _requiereMotivo = true
     Entonces el sistema mostrará la descripción del producto
     Y el precio unidad 
     Y habilitará el ingreso de unidades inicializadas en cero
     Y no habilitará el ingreso de subunidades
-    Y habilitará el ingreso del motivo cargado con las descripciones del catálogoMotivos para el tipo de pedido en curso, sin motivo seleccionado.
+    Y habilitará el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, sin motivo seleccionado.
 
 Escenario: N°5 El prevendedor ingresa un producto que aún no se encuentra en el pedido y tiene precio vigente para la fecha de entrega y  permite botelleo y requiere motivo
     Cuando ingresa un producto del portafolio del cliente que no se encuentra en el pedido 
     Y tiene precio informado para la fecha de entrega calculada 
-    Y _esVentaSubunidades = true
+    Y permiteBotelleo = si
     Y _requiereMotivo = true
     Entonces el sistema mostrará la descripción del producto
     Y el precio unidad
     Y el precio subunidad 
     Y habilitará el ingreso de unidades y subunidades inicializadas en cero
-    Y habilitará el ingreso del motivo cargado con las descripciones del catálogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
+    Y habilitará el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
 
 Escenario: N°6 El prevendedor ingresa un producto que se encuentra en el pedido y no permite botelleo y no requiere motivo
     Cuando ingresa un producto que se encuentra en el pedido 
-    Y _esVentaSubunidades = false
+    Y permiteBotelleo = no
     Y _requiereMotivo = false
     Entonces el sistema mostrará la descripción del producto
     Y el precio unidad 
@@ -89,7 +89,7 @@ Escenario: N°6 El prevendedor ingresa un producto que se encuentra en el pedido
 
 Escenario: N°7 El prevendedor ingresa un producto que se encuentra en el pedido y permite botelleo y no requiere motivo
     Cuando ingresa un producto que ya se encuentra en el pedido 
-    Y _esVentaSubunidades = true
+    Y permiteBotelleo = si
     Y _requiereMotivo = false
     Entonces el sistema mostrará la descripción del producto
     Y el precio unidad
@@ -99,20 +99,20 @@ Escenario: N°7 El prevendedor ingresa un producto que se encuentra en el pedido
 
 Escenario: N°8 El prevendedor ingresa un producto que se encuentra en el pedido y no permite botelleo y  requiere motivo
     Cuando ingresa un producto que se encuentra en el pedido 
-    Y _esVentaSubunidades = false
+    Y permiteBotelleo = no
     Y _requiereMotivo = true
     Entonces el sistema mostrará la descripción del producto
     Y el precio unidad 
     Y habilitará el ingreso de unidades con lo registrado en el pedido 
     Y no habilitará el ingreso de subunidades 
-    Y habilitará el ingreso del motivo cargado con las descripciones del catálogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y con el motivo registrado como seleccionado.
+    Y habilitará el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y con el motivo registrado como seleccionado.
 
 Escenario: N°9 El prevendedor ingresa un producto que se encuentra en el pedido y  permite botelleo y  requiere motivo
     Cuando ingresa un producto que se encuentra en el pedido 
-    Y _esVentaSubunidades = true
+    Y permiteBotelleo = si
     Y _requiereMotivo = true
     Entonces el sistema mostrará la descripción del producto
     Y el precio unidad 
     Y precio subunidad 
     Y habilitará el ingreso de unidades y subunidades inicializadas con lo registrado en el pedido
-    Y habilitará el ingreso del motivo cargado con las descripciones del catálogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y con el motivo registrado como seleccionado.
+    Y habilitará el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y con el motivo registrado como seleccionado.

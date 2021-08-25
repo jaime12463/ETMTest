@@ -4,6 +4,7 @@
 
 # Sprint10: se elimina el parámetro esVentaSubunidadesRuta y se deja por producto el botelleo
 # Habilita el ingreso del motivo del producto para el tipo de pedido que tenga configurado requiereMotivo
+# Si _requiereMotivo = true, se cargan del catalogoMotivos del json de configuración
 
 # sprint 10 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=702%3A2&scaling=min-zoom&page-id=501%3A2&starting-point-node-id=702%3A2
 

@@ -22,14 +22,7 @@ Escenario: N°2 – El cliente tiene tipos de pedidos mandatorios registrados pa
 	Y se ingresa cantidad 0 en subunidades
 	Entonces el sistema eliminará el producto seleccionado del pedido.
 
-Escenario: N°3 – El cliente no tiene tipos de pedidos mandatorios para la fecha de entrega y quiere eliminar producto del tipo de pedido mandatorio en curso habiendo otro mandatorio en curso. No interesa si es el ultimo producto del pedido u otro.
-	Dado que se seleccionó un producto de un pedido cuyo tipo de pedido _esMandatorio = true 
-	Y hay productos ingresados en al menos un pedido en curso cuyo tipo de pedido _esMandatorio = true 
-	Cuando se ingresa cantidad 0 en unidades 
-	Y se ingresa cantidad 0 en subunidades
-	Entonces el sistema eliminará el producto seleccionado del pedido.
-
-Esquema del escenario: N°4 – Eliminar producto del tipo de pedido mandatorio sin otro tipo de pedido mandatorio registrado
+Esquema del escenario: N°3 – Eliminar producto del tipo de pedido mandatorio sin otro tipo de pedido mandatorio registrado
 	Dado que se seleccionó un producto de un pedido cuyo tipo de producto _esMandatorio = true
 	Y '<esUltimoProducto>'
 	Y '<hayProductosIngresadosPedidosNoMandatorios>'

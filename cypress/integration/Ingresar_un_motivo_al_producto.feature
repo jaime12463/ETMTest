@@ -6,6 +6,8 @@
 # Ingreso del motivo para cuando el tipo de pedido lo requiera segun configuracion requiereMotivo
 # sprint 10 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=702%3A2&scaling=min-zoom&page-id=501%3A2&starting-point-node-id=702%3A2
 
+# Cuando el tipo de operación tenga _esValorizado = true, se debe visualizar en los totales el valor monetario, unidad y subunidad.
+# Cuando el tipo de operación tenga _esValorizado = false, se debe visualizar en los totales unidad y subunidad.
 
 
 Característica: Ingresar motivo del producto al pedido

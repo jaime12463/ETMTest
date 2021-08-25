@@ -3,7 +3,7 @@
 @Pedido @Guardar_pedido @Sprint7 @Sprint8 @Sprint9 @Sprint10
 
 # Cuando el tipo de pedido es Canje registrar lo sigguiente:
-#            Tipo de Operación: "Canje"
+#            Tipo de Operación: "Canje", se guarda el código del tipo de operación
 #            Registrar detalle del producto: código de motivo  
 
 # sprint 10 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=702%3A2&scaling=min-zoom&page-id=501%3A2&starting-point-node-id=702%3A2
@@ -13,7 +13,7 @@ Característica: Guardar actividad realizada
     Quiero guardar el pedido y compromiso de cobro realizados
     Para luego informar a central la actividad realizada
 
-Comentario:
+# Comentario:
 # el pedido máximo se evalúa sobre los pedidos de contado y compromiso de coro. 
 # Cuando guarda el pedido tiene que generar una o dos cabeceras según la condición de pago de los productos ingresados
 
@@ -27,7 +27,7 @@ Comentario:
 # codigo de usuario: “SFA01”
 # estado: Activo (Default), Cancelado
 # condición de pago: Crédito, Contado
-# tipo de operación: “Venta”
+# tipo de operación: guardar el código del tipo de operación
 # Cuando se guarda el compromiso de cobro se debe registrar:
 # ID, Código de cliente, Fecha y hora, fecha de entrega, monto, tipo de documento (material=” Efectivo”)
 # sprint 8 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=329%3A3&scaling=scale-down&page-id=329%3A2&starting-point-node-id=329%3A3
@@ -64,7 +64,7 @@ Escenario: N°3 – El total del pedido no cumple con el pedido mínimo
     
 
 Escenario: N°4 – El pedido de contado excede con el pedido máximo 
-    Dado que la suma del monto de los productos de contado, cuyo tipo de pedido es _valorizado = true,  + compromiso de cobro es mayor a montoVentaMaximo
+    Dado que la suma del monto de los productos de contado, cuyo tipo de pedido _esValorizado = true,  + compromiso de cobro es mayor a montoVentaMaximo
     Y la _condición de crédito del cliente es igual crédito informal 
     Cuando guardo el pedido
     Entonces el sistema Mostrará mensaje “El pedido excede el monto de venta máxima montoVentaMaximo” y permanecerá en la pantalla  

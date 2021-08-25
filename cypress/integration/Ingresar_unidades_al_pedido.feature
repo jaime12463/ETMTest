@@ -5,7 +5,8 @@
 # requiereMotivo del producto para el tipo de pedido que lo tenga configurado
 
 # sprint 10 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=702%3A2&scaling=min-zoom&page-id=501%3A2&starting-point-node-id=702%3A2
-
+# Cuando el tipo de operación tenga _esValorizado = true, se debe visualizar en los totales el valor monetario, unidad y subunidad.
+# Cuando el tipo de operación tenga _esValorizado = false, se debe visualizar en los totales unidad y subunidad.
 
 Característica: Ingresar unidades
 Como prevendedor
@@ -25,6 +26,13 @@ Para realizar la venta.
 #Si este dato no viene informado, se asume el valor como el entero más grande
 #Las unidades ingresadas no pueden ser mayores a las unidadesDisponibles del producto,
 #informadas en el portafolio del cliente.
+
+# Cuando para el cliente/producto está configurado el botelleo igual a esVentaSubunidades = true 
+# Entonces el sistema habilita las subunidades en el ingreso del pedido
+# Ejemplos:
+# |esVentaSubunidades| habilitaSubunidades |permiteBotelleo
+# |    true		     |     Habilitará      |   SI
+# |    false		 |    No habilitará    |   NO
 
 # sprint 8 UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA?node-id=329%3A3&scaling=scale-down&page-id=329%3A2&starting-point-node-id=329%3A3
 
@@ -50,14 +58,14 @@ Escenario: N°2 – La cantidad es menor o igual a la permitida y  menor a las u
 Cuando se ingresa una cantidad
 Y es menor o igual a la _cantidadMáximaUnidades
 Y es menor o igual a _unidadesDisponibles del producto para el cliente
-Y _esVentaSubunidades = true
+Y permiteBotelleo = si
 Entonces el sistema registrará las unidades y continuará con el ingreso de las subunidades
 
 Escenario: N°3 – La cantidad es menor o igual a la permitida y las subunidades están deshabilitadas y no se requiere motivo
 Cuando se ingresa una cantidad
 Y es menor o igual a la _cantidadMáximaUnidades
 Y es menor o igual a _unidadesDisponibles del producto para el cliente
-Y _esVentaSubunidades = false
+Y permiteBotelleo = no
 Y _requiereMotivo = false
 Entonces el sistema registrará las unidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
 
@@ -65,7 +73,7 @@ Escenario: N°4 – La cantidad es menor o igual a la permitida y las subunidade
 Cuando se ingresa una cantidad
 Y es menor o igual a la _cantidadMáximaUnidades
 Y es menor o igual a _unidadesDisponibles del producto para el cliente
-Y _esVentaSubunidades = false
+Y permiteBotelleo = no
 Y _requiereMotivo = true
 Entonces el sistema registrará las unidades y continuará con el ingreso del motivo
 

@@ -5,6 +5,8 @@
 # El combo de tipo de pedido mostrará como valor default la descripón del tipo de pedido que _esValorizado = true.
 # Cuando se selecciona otro tipo de pedido distinto al default, al ir hacia otra pantalla, por ejemplo compromiso de cobro, y volver a la del pedido,
 # se conserva la seleccion realizada del tipo de pedido 
+# Cuando 
+
 # sprint 10 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=702%3A2&scaling=min-zoom&page-id=501%3A2&starting-point-node-id=702%3A2
 
 
@@ -94,10 +96,13 @@ Ejemplos:
 
 Esquema del escenario: N°4 - Acceso a promo push
     Dado que se ingresó a la pantalla de pedido
-	Cuando se selecciona un tipo de operación que '<habilitaPromocion>' 
+	Cuando se selecciona un tipo de pedido que '<habilitaPromocion>' 
 	Entonces el sistema '<visualizara>' el acceso a las promo push
+    Y al carrito de compras
 
 Ejemplos:
 |habilitaPromocion|visualizara  |
 |       true      |    mostrará |
 |       false     | no mostrará | 
+
+# Cuando estén en canje u otro pedido que no habilita los iconos, no se deben visualizar los iconos.
