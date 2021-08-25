@@ -15,6 +15,6 @@ Escenario: N°1 - Ver tarjetas de promociones
 	Entonces el sistema mostrará un listado de productos que tengan habilitado _promoPush ordenado por codigo de promoción
 	Y que tenga precio vigente para la fecha de entrega calculada
 	Y cuyas _unidadesDisponibles menos la cantidad ya registrada en otros pedidos para la misma promoción sea mayor a 0
-	Y mostrará el código de la promoción, el disponible, la descripción de la promoción, el total de los descuentos
+	Y mostrará el código de la promoción, el disponible total, la descripción de la promoción, el total de los descuentos
 	Y el precio total de la promoción.
 	
