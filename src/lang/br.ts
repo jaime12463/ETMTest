@@ -45,7 +45,7 @@ const br = {
 		compromisoRegistrado: 'Compromissos de cobrança registrados',
 	},
 	simbolos: {
-		decimales: '.',
+		decimal: '.',
 		miles: ',',
 		moneda: 'R$',
 		formatoFechaAmericano: 'false',

@@ -46,11 +46,11 @@ const es = {
 		compromisoRegistrado: 'Compromisos de Cobro Registrados',
 	},
 	simbolos: {
-		decimales: '.',
+		decimal: '.',
 		miles: ',',
 		moneda: '$',
 		formatoFechaAmericano: 'false',
-		conDecimales: 'true',
+		conDecimales: 'false',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',

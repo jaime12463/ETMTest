@@ -9,11 +9,30 @@ import {TFunction} from 'react-i18next';
 export const formatearNumero = (
 	numero: number,
 	t: TFunction<'translation'>
-) => {
-	//TODO: aca de acuerdo a la configuracion regional debe cambiar decimales y puntos
-	if (t('simbolos.conDecimales'))
-		return `${t('simbolos.moneda')} ${numero.toFixed(2)}`;
-	else return `${t('simbolos.moneda')} ${numero}`;
+): string => {
+	let numeroString;
+
+	if (t('simbolos.conDecimales') == 'true')
+		numeroString = numero.toFixed(2).toString();
+	else numeroString = Math.trunc(numero).toString();
+
+	const arrayNumero = numeroString.split('.');
+
+	let parteEntera = arrayNumero[0];
+
+	var regx = /(\d+)(\d{3})/;
+
+	while (regx.test(parteEntera)) {
+		parteEntera = parteEntera.replace(regx, '$1' + t('simbolos.miles') + '$2');
+	}
+
+	let parteDecimal = arrayNumero[1];
+
+	if (parteDecimal) parteDecimal = t('simbolos.decimal') + parteDecimal;
+
+	const numeroFormateado: string = parteEntera + (parteDecimal ?? '');
+
+	return `${t('simbolos.moneda')} ${numeroFormateado}`;
 };
 
 export const formatearFecha = (
@@ -21,7 +40,6 @@ export const formatearFecha = (
 	t: TFunction<'translation'>
 ): string => {
 	const arregloFecha: string[] = fecha.split('-');
-	let stringFecha: string;
 	if (t('simbolos.formatoFechaAmericano') === 'true')
 		return `${arregloFecha[2]}-${arregloFecha[1]}-${arregloFecha[0]}`;
 	else return `${arregloFecha[1]}-${arregloFecha[2]}-${arregloFecha[0]}`;

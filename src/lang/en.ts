@@ -46,8 +46,8 @@ const en = {
 		compromisoRegistrado: 'Registered Collection Commitments',
 	},
 	simbolos: {
-		decimales: '.',
-		miles: ',',
+		decimal: ',',
+		miles: '.',
 		moneda: '$',
 		formatoFechaAmericano: 'true',
 		conDecimales: 'true',
