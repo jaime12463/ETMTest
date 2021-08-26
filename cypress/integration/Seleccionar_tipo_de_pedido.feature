@@ -12,4 +12,4 @@ Característica: Selección de tipo de pedido
 Escenario: N°1 - Selección de tipo de pedido
     Dado que se ingresó al cliente
     Cuando selecciono un tipo de pedido
-    Entonces el sistema mostrará la pantalla con los componentes propios del tipo de pedido tal como se describe en mostrar pantalla de ingreso del pedido.
+    Entonces el sistema mostrará la pantalla según el tipo de pedido seleccionado.

@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Inidicador_maximo @Sprint8 @Sprint9 @Sprint10
+@Pedido @Inidicador_maximo @Sprint8 @Sprint9
 
 # sprint 10 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=702%3A2&scaling=min-zoom&page-id=501%3A2&starting-point-node-id=702%3A2
 
