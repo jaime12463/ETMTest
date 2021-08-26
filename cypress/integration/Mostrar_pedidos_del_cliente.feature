@@ -16,7 +16,7 @@ Característica: Ver pedidos del cliente
 Escenario: N°1 – El cliente tiene pedidos realizados 
     Dado que se registraron pedidos al cliente 
     Cuando ingreso a ver los pedidos realizados
-    Entonces el sistema mostrará en la lista, los pedidos realizados al cliente ordenados por fecha y hora de creación 
+    Entonces el sistema mostrará en la lista, los pedidos realizados al cliente ordenados por fecha y hora de creación, visualizando la _descripcion del tipo de pedido, fecha de entrega y monto de pedido
 
 #El listado debe mostrar: la _descripcion del tipo de pedido (“Venta”, "Canje"), fecha de entrega, monto del pedido
 
