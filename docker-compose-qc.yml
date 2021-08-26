@@ -1,0 +1,16 @@
+version: "3.2"
+services:
+  etm-tomapedido-qc:
+    image: hasarcontainerregistry.azurecr.io/etm_omnichannel_tomapedido_qc:${last_version}
+    ports:
+      - "80:80"
+    environment:
+      - "REACT_APP_API_URL=http://etm-tomapedido-server-qc:4000"
+    deploy:
+      replicas: 1
+  etm-tomapedido-server-qc:
+    image: hasarcontainerregistry.azurecr.io/etm_omnichannel_tomapedido_server_qc:${last_version}
+    ports:
+      - "4000:4000"
+    deploy:
+      replicas: 1  
