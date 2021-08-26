@@ -2,7 +2,6 @@ version: "3.2"
 services:
   etm-tomapedido:
     image: hasarcontainerregistry.azurecr.io/etm_omnichannel_tomapedido:${last_version}
-    domainname: "gdfetmtomapedido"
     ports:
       - "80:80"
     environment:
@@ -11,7 +10,6 @@ services:
       replicas: 1
   etm-tomapedido-server:
     image: hasarcontainerregistry.azurecr.io/etm_omnichannel_tomapedido_server:${last_version}
-    domainname: "gdfetmtomapedido"
     ports:
       - "4000:4000"  
     deploy:
