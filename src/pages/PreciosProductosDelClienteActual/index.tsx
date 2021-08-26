@@ -38,6 +38,7 @@ const PreciosProductosDelClienteActual: React.FC = () => {
 		unidades: '',
 		subUnidades: '',
 		productoABuscar: '',
+		tipoDePedido: '',
 	};
 
 	const {
