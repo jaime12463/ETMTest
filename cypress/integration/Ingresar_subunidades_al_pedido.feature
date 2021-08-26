@@ -44,8 +44,10 @@ Antecedentes:
 	Dado que estoy en el ingreso del pedido y que se ingresó un código de producto
     Y las subunidades están habilitadas
 	
+	
 Escenario: N°1 – Ingreso de subunidad correcta y no requiere motivo
     Dado que el producto tiene una _presentacion 
+	Y que el tipo de pedido tiene _validaSubunidadesMinimas = true
     Y tiene _subunidadesVentaMinima
     Y _requiereMotivo = false
     Cuando se ingresan subunidades
@@ -54,6 +56,7 @@ Escenario: N°1 – Ingreso de subunidad correcta y no requiere motivo
 
  Escenario: N°2 – Ingreso de subunidad correcta y  requiere motivo
     Dado que el producto tiene una _presentacion 
+	Y que el tipo de pedido tiene _validaSubunidadesMinimas = true
     Y tiene _subunidadesVentaMinima
     Y _requiereMotivo = true
     Cuando se ingresan subunidades
@@ -68,7 +71,7 @@ Escenario: N°3 – Ingreso de subunidades mayor o igual que la presentación
 
 Escenario: N°4 – Ingreso de subunidades no es múltiplo
     Dado que el producto tiene _presentacion
+	Y que el tipo de pedido tiene _validaSubunidadesMinimas = true
     Y tiene _subunidadesVentaMinima
     Cuando se ingresan subunidades
     Entonces el sistema mostrará el mensaje “Las subunidades debe ser en múltiplos de _subunidadesVentaMinima ” y permanecerá en la pantalla para corregir
-

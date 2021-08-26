@@ -10,10 +10,13 @@
 
 # Cuando para el cliente/producto está configurado el botelleo igual a esVentaSubunidades = true 
 # Entonces el sistema habilita las subunidades en el ingreso del pedido
-#Ejemplos:
-#|esVentaSubunidades| habilitaSubunidades |permite botelleo
-#|      true        |     Habilitará      |   SI
-#|	    false	    |    No habilitará    |   NO
+# Ejemplos:
+# |_esVentaSubunidades| _habilitaSubunidades |permiteBotelleo
+# |   true		     |     Condicional     |   SI
+# |	  false			 | 	   Condicional	   |   NO
+# |   true           |     Siempre         |   SI
+# |   false          |     Siempre         |   SI  
+# |	  -              | 	   Nunca	       |   NO  
 
 
 # UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=436%3A2150&scaling=scale-down&page-id=436%3A1256
@@ -26,7 +29,8 @@ Característica: Modificar línea del pedido
 Escenario: N°1 El prevendedor selecciona un producto que no permite botelleo y no requiere motivo
     Dado que el prevendedor se encuentra en el pedido 
     Cuando selecciona un producto de la lista del pedido 
-	Y _esVentaSubunidades = false
+	#Y _esVentaSubunidades = false
+	Y permiteBotelleo = no
     Y _requiereMotivo = false
     Entonces el sistema mostrará el código 
 	Y la descripción del producto 
@@ -37,7 +41,8 @@ Escenario: N°1 El prevendedor selecciona un producto que no permite botelleo y 
 Escenario: N°2 El prevendedor selecciona un producto que permite botelleo y no requiere motivo
     Dado que el prevendedor se encuentra en el pedido 
     Cuando selecciona un producto de la lista del pedido 
-	Y _esVentaSubunidades = true
+	Y permiteBotelleo = si
+	#Y _esVentaSubunidades = true
     Y _requiereMotivo = false
     Entonces el sistema mostrará el código 
 	Y la descripción del producto 
@@ -46,8 +51,9 @@ Escenario: N°2 El prevendedor selecciona un producto que permite botelleo y no 
 
 Escenario: N°3 El prevendedor selecciona un producto que no permite botelleo y requiere motivo
     Dado que el prevendedor se encuentra en el pedido 
-    Cuando selecciona un producto de la lista del pedido 
-	Y _esVentaSubunidades = false
+    Cuando selecciona un producto de la lista del pedido
+    Y permiteBotelleo = no 	
+	#Y _esVentaSubunidades = false
     Y _requiereMotivo = true
     Entonces el sistema mostrará el código 
 	Y la descripción del producto 
@@ -58,9 +64,12 @@ Escenario: N°3 El prevendedor selecciona un producto que no permite botelleo y 
 Escenario: N°4 El prevendedor selecciona un producto que permite botelleo y requiere motivo
     Dado que el prevendedor se encuentra en el pedido 
     Cuando selecciona un producto de la lista del pedido 
-	Y _esVentaSubunidades = false
+	Y permiteBotelleo = si
+	#Y _esVentaSubunidades = false
     Y _requiereMotivo = true
     Entonces el sistema mostrará el código 
 	Y la descripción del producto 
 	Y habilitará el ingreso de unidades y subunidades inicializadas con lo registrado en el pedido 
 	Y habilitará el ingreso del motivo cargado con las descripciones del catálogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y con el motivo registrado como seleccionado.
+	
+	

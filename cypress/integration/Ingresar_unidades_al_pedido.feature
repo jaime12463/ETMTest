@@ -25,9 +25,12 @@
 # Cuando para el cliente/producto está configurado el botelleo igual a esVentaSubunidades = true 
 # Entonces el sistema habilita las subunidades en el ingreso del pedido
 # Ejemplos:
-# |esVentaSubunidades| habilitaSubunidades |permiteBotelleo
-# |    true		     |     Habilitará      |   SI
-# |    false		 |    No habilitará    |   NO
+# |_esVentaSubunidades| _habilitaSubunidades |permiteBotelleo
+# |   true		      |     Condicional      |   SI
+# |	  false		     | 	   Condicional	    |   NO
+# |   true            |     Siempre          |   SI
+# |   false          |     Siempre          |   SI  
+# |	  -              | 	   Nunca	        |   NO  
 
 # sprint 8 UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA?node-id=329%3A3&scaling=scale-down&page-id=329%3A2&starting-point-node-id=329%3A3
 
