@@ -4,14 +4,27 @@ import {
 	ETiposDePago,
 	TCompromisoDeCobro,
 } from 'models/redux';
+import {TFunction} from 'react-i18next';
 
-export const transformDate = (date: string): string =>
-	`${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}`;
+export const formatearNumero = (
+	numero: number,
+	t: TFunction<'translation'>
+) => {
+	//TODO: aca de acuerdo a la configuracion regional debe cambiar decimales y puntos
+	if (t('simbolos.conDecimales'))
+		return `${t('simbolos.moneda')} ${numero.toFixed(2)}`;
+	else return `${t('simbolos.moneda')} ${numero}`;
+};
 
-export const darFormatoFecha = (fecha: string): string => {
+export const formatearFecha = (
+	fecha: string, //Formato fecha recibida: AAAA-DD-MMM
+	t: TFunction<'translation'>
+): string => {
 	const arregloFecha: string[] = fecha.split('-');
-	const stringFecha: string = `${arregloFecha[2]}-${arregloFecha[1]}-${arregloFecha[0]}`;
-	return stringFecha;
+	let stringFecha: string;
+	if (t('simbolos.formatoFechaAmericano') === 'true')
+		return `${arregloFecha[2]}-${arregloFecha[1]}-${arregloFecha[0]}`;
+	else return `${arregloFecha[1]}-${arregloFecha[2]}-${arregloFecha[0]}`;
 };
 
 export const fechaDispositivo = (): string => {
@@ -107,28 +120,6 @@ export const obtenerTotalesCompromisoDeCobroCliente = (
 	}
 
 	return totalCompromisosDeCobroMismaFecha;
-};
-
-export const buscarPedidosParaElMismoDia = (
-	pedidosCliente: any,
-	fechaEntrega: string | undefined
-) => {
-	const resultado =
-		pedidosCliente &&
-		pedidosCliente.reduce(
-			(acum: [string], pedido: TPedidoClienteParaEnviar) => {
-				if (
-					pedido.estado === EEstadosDeUnPedido.Activo &&
-					pedido.fechaEntrega === fechaEntrega
-				) {
-					acum.push(pedido.codigoPedido);
-				}
-				return acum;
-			},
-			[]
-		);
-
-	return resultado;
 };
 
 export const obtenerUnidadesMismoProducto = (

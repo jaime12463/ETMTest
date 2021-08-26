@@ -13,6 +13,7 @@ import {
 } from './hooks';
 import {useMostrarAdvertenciaEnDialogo, useResetLineaActual} from 'hooks';
 import {useTranslation} from 'react-i18next';
+import {formatearNumero} from 'utils/methods';
 
 type Props = {
 	hookForm: THookForm<TFormTomaDePedido>;
@@ -69,7 +70,7 @@ const InputsUnidadesYSubUnidades: FunctionComponent<Props> = (props) => {
 						inputDataCY='cantidad-producto-unidades'
 						disabled={productoActual === null}
 						id='unidades_producto'
-						helperText={`${t('general.signoMoneda')} ${precioConImpuestoUnidad?.toFixed(2) ?? '0.00'}`}
+						helperText={formatearNumero(precioConImpuestoUnidad ?? 0, t)}
 						inputRef={(input) => {
 							if (inputFocus === 'unidades') {
 								input?.focus();
@@ -87,7 +88,7 @@ const InputsUnidadesYSubUnidades: FunctionComponent<Props> = (props) => {
 						inputDataCY='cantidad-producto-subUnidades'
 						disabled={productoActual === null || !esPermitidoSubUnidades}
 						id='subUnidades_producto'
-						helperText={`${t('general.signoMoneda')} ${precioConImpuestoSubunidad?.toFixed(2) ?? '0.00'}`}
+						helperText={formatearNumero(precioConImpuestoSubunidad ?? 0, t)}
 						inputRef={(input) => {
 							if (inputFocus === 'subUnidades') {
 								input?.focus();

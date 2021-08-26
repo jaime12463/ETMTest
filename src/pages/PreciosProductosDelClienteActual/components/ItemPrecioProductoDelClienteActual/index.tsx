@@ -17,7 +17,12 @@ const ItemPrecioProductoDelClienteActual: FunctionComponent<Props> = (
 	const estilos = useEstilos();
 
 	return (
-		<Grid container onClick={() => { if (onClickItem) onClickItem(item);}}>
+		<Grid
+			container
+			onClick={() => {
+				if (onClickItem) onClickItem(item);
+			}}
+		>
 			<Grid item xs={8}>
 				<Box
 					display='flex'
@@ -33,7 +38,7 @@ const ItemPrecioProductoDelClienteActual: FunctionComponent<Props> = (
 			<Grid item xs={4}>
 				<Box display='flex' justifyContent='end' px={1}>
 					<Typography variant='body2'>
-						<Numero tipo="moneda" valor={item.precioConImpuestoUnidad} decimales={2}/>
+						<Numero valor={item.precioConImpuestoUnidad} />
 					</Typography>
 				</Box>
 			</Grid>

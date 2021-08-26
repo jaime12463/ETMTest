@@ -65,7 +65,7 @@ const ItemProductoAgregadoAlPedidoActual: FunctionComponent<Props> = (
 							</Grid>
 							<Grid item xs={4}>
 								<Box fontWeight='fontWeightLight' fontSize={11}>
-									<Numero tipo='moneda' valor={total} decimales={2} />
+									<Numero valor={total} />
 								</Box>
 							</Grid>
 						</Grid>
