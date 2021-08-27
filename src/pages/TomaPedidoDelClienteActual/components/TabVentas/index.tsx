@@ -14,6 +14,7 @@ import {Box, Grid, Container} from '@material-ui/core';
 import {useForm} from 'react-hook-form';
 import {TotalesMetodoDeVentaDelPedidoActual} from '../index';
 import {useObtenerConfiguracion} from 'redux/hooks';
+import ListadoCanjesAgregadosAlPedidoActual from '../ListadoCanjesAgregadosAlPedidoActual';
 
 type Props = {};
 
@@ -72,12 +73,20 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 					stateInputFocus={stateInputFocus}
 				/>
 			</Box>
+			{/*TODO: Mostrar solo cuando el SelectTipoDePedido es Venta */}
 			<ListadoProductosAgregadosAlPedidoActual
 				setProductoActual={setProductoActual}
 				hookForm={hookForm}
 				preciosProductos={preciosProductos}
 				setInputFocus={setInputFocus}
 			/>
+			{/*TODO: Mostrar solo cuando el SelectTipoDePedido es Canje */}
+			{/*<ListadoCanjesAgregadosAlPedidoActual
+				setProductoActual={setProductoActual}
+				hookForm={hookForm}
+				preciosProductos={preciosProductos}
+				setInputFocus={setInputFocus}
+			/>*/}
 		</Fragment>
 	);
 };
