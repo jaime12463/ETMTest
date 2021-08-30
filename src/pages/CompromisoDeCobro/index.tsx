@@ -62,8 +62,7 @@ const CompromisoDeCobro: FunctionComponent<Props> = (props) => {
 				</Box>
 			</Box>
 			<Box my={2}>
-				{/* <ListadoDocumentos /> */}
-				<TarjetasPromoPush />
+				<ListadoDocumentos />
 			</Box>
 		</>
 	);
