@@ -4,14 +4,45 @@ import {
 	ETiposDePago,
 	TCompromisoDeCobro,
 } from 'models/redux';
+import {TFunction} from 'react-i18next';
 
-export const transformDate = (date: string): string =>
-	`${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}`;
+export const formatearNumero = (
+	numero: number,
+	t: TFunction<'translation'>
+): string => {
+	let numeroString;
 
-export const darFormatoFecha = (fecha: string): string => {
+	if (t('simbolos.conDecimales') == 'true')
+		numeroString = numero.toFixed(2).toString();
+	else numeroString = Math.trunc(numero).toString();
+
+	const arrayNumero = numeroString.split('.');
+
+	let parteEntera = arrayNumero[0];
+
+	var regx = /(\d+)(\d{3})/;
+
+	while (regx.test(parteEntera)) {
+		parteEntera = parteEntera.replace(regx, '$1' + t('simbolos.miles') + '$2');
+	}
+
+	let parteDecimal = arrayNumero[1];
+
+	if (parteDecimal) parteDecimal = t('simbolos.decimal') + parteDecimal;
+
+	const numeroFormateado: string = parteEntera + (parteDecimal ?? '');
+
+	return `${t('simbolos.moneda')} ${numeroFormateado}`;
+};
+
+export const formatearFecha = (
+	fecha: string, //Formato fecha recibida: AAAA-DD-MMM
+	t: TFunction<'translation'>
+): string => {
 	const arregloFecha: string[] = fecha.split('-');
-	const stringFecha: string = `${arregloFecha[2]}-${arregloFecha[1]}-${arregloFecha[0]}`;
-	return stringFecha;
+	if (t('simbolos.formatoFechaAmericano') === 'true')
+		return `${arregloFecha[2]}-${arregloFecha[1]}-${arregloFecha[0]}`;
+	else return `${arregloFecha[1]}-${arregloFecha[2]}-${arregloFecha[0]}`;
 };
 
 export const fechaDispositivo = (): string => {
@@ -107,28 +138,6 @@ export const obtenerTotalesCompromisoDeCobroCliente = (
 	}
 
 	return totalCompromisosDeCobroMismaFecha;
-};
-
-export const buscarPedidosParaElMismoDia = (
-	pedidosCliente: any,
-	fechaEntrega: string | undefined
-) => {
-	const resultado =
-		pedidosCliente &&
-		pedidosCliente.reduce(
-			(acum: [string], pedido: TPedidoClienteParaEnviar) => {
-				if (
-					pedido.estado === EEstadosDeUnPedido.Activo &&
-					pedido.fechaEntrega === fechaEntrega
-				) {
-					acum.push(pedido.codigoPedido);
-				}
-				return acum;
-			},
-			[]
-		);
-
-	return resultado;
 };
 
 export const obtenerUnidadesMismoProducto = (

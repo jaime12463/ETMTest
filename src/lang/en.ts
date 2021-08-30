@@ -35,7 +35,6 @@ const en = {
 		ventas: 'Sales',
 		canje: 'Exchange',
 		devolucion: 'Refund',
-		signoMoneda: '$',
 		credito: 'Credit',
 		contado: 'Counted',
 		venta: 'Sale',
@@ -45,6 +44,13 @@ const en = {
 		vencimiento: 'Expiration',
 		deudaPendiente: 'pending debt',
 		compromisoRegistrado: 'Registered Collection Commitments',
+	},
+	simbolos: {
+		decimal: ',',
+		miles: '.',
+		moneda: '$',
+		formatoFechaAmericano: 'true',
+		conDecimales: 'true',
 	},
 	titulos: {
 		bienvenido: 'Welcome',

@@ -1,6 +1,7 @@
 import {
 	ListadoProductosAgregadosAlPedidoActual,
 	FormularioAgregarProducto,
+	SelectTipoDePedido,
 } from '..';
 import {Fragment, FunctionComponent, useState} from 'react';
 import {
@@ -12,6 +13,7 @@ import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
 import {Box, Grid, Container} from '@material-ui/core';
 import {useForm} from 'react-hook-form';
 import {TotalesMetodoDeVentaDelPedidoActual} from '../index';
+import {useObtenerConfiguracion} from 'redux/hooks';
 
 type Props = {};
 
@@ -28,10 +30,13 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 		'productoABuscar'
 	);
 
+	const configuracion = useObtenerConfiguracion();
+
 	const defaultValues: TFormTomaDePedido = {
 		unidades: '',
 		subUnidades: '',
 		productoABuscar: '',
+		tipoDePedido: configuracion.tipoPedidos[0].codigo.toString(),
 	};
 
 	const {
@@ -50,6 +55,16 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 	return (
 		<Fragment>
 			<Box my={2}>
+				<Box my={2}>
+					<Grid container>
+						<Grid item xs={8}>
+							<SelectTipoDePedido hookForm={hookForm} />
+						</Grid>
+						<Grid item xs={4}>
+							Iconos
+						</Grid>
+					</Grid>
+				</Box>
 				<FormularioAgregarProducto
 					hookForm={hookForm}
 					stateProductoActual={{productoActual, setProductoActual}}

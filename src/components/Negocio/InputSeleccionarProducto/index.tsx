@@ -32,7 +32,7 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 		hookForm,
 	} = props;
 
-	const {productoActual, setProductoActual} = stateProductoActual;
+	const {setProductoActual} = stateProductoActual;
 
 	const {preciosProductos} = statePreciosProductos;
 
@@ -45,8 +45,6 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	const {path} = useRouteMatch();
 
 	const history = useHistory();
-
-	const estilos = useEstilos();
 
 	const {
 		mostrarAdvertenciaEnDialogo,
@@ -61,8 +59,6 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 		setInputFocus,
 		mostrarAdvertenciaEnDialogo
 	);
-
-	const {nombreProducto} = {...productoActual};
 
 	const {
 		validarEsPermitidoAgregarProductoAlPedido,
@@ -79,11 +75,7 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 						control={control}
 						name='productoABuscar'
 						inputDataCY='codigo-producto-a-buscar'
-						helperText={nombreProducto}
 						disabled={!validarEsPermitidoAgregarProductoAlPedido()}
-						FormHelperTextProps={{
-							className: estilos.helperText,
-						}}
 						id='producto_buscar'
 						inputRef={(input) => {
 							if (inputFocus === 'productoABuscar') {

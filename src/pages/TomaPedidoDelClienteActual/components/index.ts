@@ -6,6 +6,8 @@ import ItemProductoAgregadoAlPedidoActual from './ItemProductoAgregadoAlPedidoAc
 import TotalesMetodoDeVentaDelPedidoActual from './TotalesMetodoDeVentaDelPedidoActual';
 export {BotonCerrarPedidoDelCliente} from './BotonCerrarPedidoDelCliente';
 export {SwitchCambiarTipoPago} from './SwitchCambiarTipoPago';
+export {SelectTipoDePedido} from './SelectTipoDePedido';
+export {InfoProductoActual} from './InfoProductoActual';
 
 export {
 	TabVentas,

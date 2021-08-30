@@ -11,6 +11,8 @@ import Center from './Center';
 import BarraDeProgeso from './BarraDeProgreso';
 import Numero from './Numero';
 
+export {Fecha} from './Fecha';
+
 export {
 	Estructura,
 	Input,

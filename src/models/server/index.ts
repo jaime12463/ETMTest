@@ -26,9 +26,10 @@ export type TProducto = {
 	codigoProducto: number;
 	nombre: string;
 	presentacion: number;
-	subunidadesVentaMinima: number; //TODO: Preguntar si esta bien la key.
+	subunidadesVentaMinima: number;
 	implicito1?: number;
 	implicito2?: number;
+	tipoProducto: number; //TODO: Mirar si esto debe ser un enum
 };
 
 export type TVisitaPlanificada = {
@@ -55,10 +56,13 @@ export type TInformacionCrediticia = {
 export type TCondicicon = 'contado' | 'creditoFormal' | 'creditoInformal'; //TODO: Esto debe ser un ENUM
 
 export type TConfiguracionPedido = {
+	tipoPedidoHabilitados: TTipoPedidoHabilitado[];
 	ventaMinima?: TVentaMinima;
 	ventaContadoMaxima?: TVentaContadoMaxima;
 	cantidadMaximaUnidades?: number;
 };
+
+export type TTipoPedidoHabilitado = number;
 
 export type TVentaMinima = {
 	montoVentaMinima: number;
@@ -92,6 +96,15 @@ export type TPrecio = {
 	precioConImpuestoSubunidad: number;
 	vigenciaInicioPrecio: string;
 	vigenciaFinPrecio: string;
+	descuento: number;
+	componentes: TComponente[];
+};
+
+export type TComponente = {
+	CodigoProducto: number;
+	precioBase: number;
+	descuento: number;
+	precioFinal: number;
 };
 
 export type TDocumento = {
@@ -108,5 +121,26 @@ export type TDatosConfiguracion = {
 
 export type TConfiguracion = {
 	esFrecuenciaAbierta: boolean;
-	esVentaSubunidadesRuta: boolean;
+	tipoPedidos: TTipoPedido[];
+};
+
+export type TTipoPedido = {
+	codigo: number;
+	descripcion: string;
+	secuencia: number;
+	esValorizado: boolean;
+	esMandatorio: boolean;
+	habilitaPromocion: boolean;
+	contribuyeAMinimo: boolean;
+	habilitaSubunidades: 'condicional' | 'nunca' | 'siempre'; //TODO: Cambiar esto a un enum
+	validaSubunidadesMínimas: boolean;
+	tipoProductosHabilitados: number[];
+	generaEnvases: boolean;
+	requiereMotivo: boolean;
+	catalogoMotivos: TCatalogoMotivo[];
+};
+
+export type TCatalogoMotivo = {
+	codigo: number;
+	description: string;
 };

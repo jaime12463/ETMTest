@@ -3,6 +3,7 @@ import {useEstilos, BorderLinearProgress} from './useEstilos';
 import {Typography, Box} from '@material-ui/core';
 import {Numero} from 'components/UI';
 import {useTranslation} from 'react-i18next';
+import {formatearNumero} from 'utils/methods';
 
 export type Props = {
 	max: number | undefined;
@@ -46,10 +47,8 @@ const BarraDeProgeso = ({
 			>{`${titulo}`}</Typography>
 			<Typography className={estilos.label} variant='body2' data-cy={dataCY}>
 				{condicion !== 'contado'
-					? `${t('general.signoMoneda')}${valor.toFixed()}`
-					: `${t('general.signoMoneda')}${valor.toFixed()} / ${t(
-							'general.signoMoneda'
-					  )}${max}`}
+					? formatearNumero(valor, t)
+					: `${formatearNumero(valor, t)} / ${formatearNumero(max, t)}`}
 			</Typography>
 			<BorderLinearProgress
 				variant='determinate'

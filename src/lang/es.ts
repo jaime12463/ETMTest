@@ -35,7 +35,6 @@ const es = {
 		ventas: 'Ventas',
 		canje: 'Canje',
 		devolucion: 'Devolucion',
-		signoMoneda: '$',
 		credito: 'Crédito',
 		contado: 'Contado',
 		venta: 'Venta',
@@ -45,6 +44,13 @@ const es = {
 		vencimiento: 'Vencimiento',
 		deudaPendiente: 'Deuda Pendiente',
 		compromisoRegistrado: 'Compromisos de Cobro Registrados',
+	},
+	simbolos: {
+		decimal: '.',
+		miles: ',',
+		moneda: '$',
+		formatoFechaAmericano: 'false',
+		conDecimales: 'false',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',

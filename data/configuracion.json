@@ -1,10 +1,47 @@
 {
-	"datos": {
-		"configuraciones": [
-			{
-				"esFrecuenciaAbierta": true,
-				"esVentaSubunidadesRuta": true
-			}
-		]
-	}
+	"configuraciones": [
+		{
+			"esFrecuenciaAbierta": true,
+			"tipoPedidos": [
+				{
+					"codigo": 1,
+					"descripcion": "Venta",
+					"secuencia": 1,
+					"esValorizado": true,
+					"esMandatorio": true,
+					"habilitaPromocion": true,
+					"contribuyeAMinimo": true,
+					"habilitaSubunidades": "condicional",
+					"validaSubunidadesMínimas": true,
+					"tipoProductosHabilitados": [1, 9],
+					"generaEnvases": true,
+					"requiereMotivo": false
+				},
+				{
+					"codigo": 2,
+					"descripcion": "Canje",
+					"secuencia": 2,
+					"esValorizada": false,
+					"esMandatorio": false,
+					"habilitaPromocion": false,
+					"contribuyeAMinimo": false,
+					"habilitaSubunidades": "siempre",
+					"validaSubunidadesMinimas": false,
+					"tipoProductosHabilitados": [1],
+					"generaEnvases": false,
+					"requiereMotivo": true,
+					"catalogoMotivos": [
+						{
+							"codigo": 1,
+							"descripción": " Producto en mal estado"
+						},
+						{
+							"codigo": 2,
+							"descripción": "Envase deteriorado"
+						}
+					]
+				}
+			]
+		}
+	]
 }

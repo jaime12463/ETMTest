@@ -29,10 +29,6 @@ const InputsUnidadesYSubUnidades: FunctionComponent<Props> = (props) => {
 
 	const {handleSubmit, control, setValue, getValues} = hookForm;
 
-	const {precioConImpuestoSubunidad, precioConImpuestoUnidad} = {
-		...productoActual,
-	};
-
 	const {t} = useTranslation();
 
 	const resetLineaActual = useResetLineaActual(setValue, setProductoActual);
@@ -69,7 +65,6 @@ const InputsUnidadesYSubUnidades: FunctionComponent<Props> = (props) => {
 						inputDataCY='cantidad-producto-unidades'
 						disabled={productoActual === null}
 						id='unidades_producto'
-						helperText={`${t('general.signoMoneda')} ${precioConImpuestoUnidad?.toFixed(2) ?? '0.00'}`}
 						inputRef={(input) => {
 							if (inputFocus === 'unidades') {
 								input?.focus();
@@ -87,7 +82,6 @@ const InputsUnidadesYSubUnidades: FunctionComponent<Props> = (props) => {
 						inputDataCY='cantidad-producto-subUnidades'
 						disabled={productoActual === null || !esPermitidoSubUnidades}
 						id='subUnidades_producto'
-						helperText={`${t('general.signoMoneda')} ${precioConImpuestoSubunidad?.toFixed(2) ?? '0.00'}`}
 						inputRef={(input) => {
 							if (inputFocus === 'subUnidades') {
 								input?.focus();
