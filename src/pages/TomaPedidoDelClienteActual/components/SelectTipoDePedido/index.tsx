@@ -16,6 +16,7 @@ export const SelectTipoDePedido: FunctionComponent<Props> = (props) => {
 			control={hookForm.control}
 			opciones={opcionesTiposDePedidos}
 			name='tipoDePedido'
+			dataCY='select-cambiar-tipo-pedido'
 		/>
 	);
 };

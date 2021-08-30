@@ -44,8 +44,12 @@ const Select: FunctionComponent<PropsSelect> = (props) => {
 					}}
 					{...other}
 				>
-					{opciones.map((opcion) => (
-						<MenuItem key={opcion.label} value={opcion.value}>
+					{opciones.map((opcion, index) => (
+						<MenuItem
+							key={opcion.label}
+							value={opcion.value}
+							data-cy={`${dataCY}-${index}`}
+						>
 							{opcion.label}
 						</MenuItem>
 					))}
