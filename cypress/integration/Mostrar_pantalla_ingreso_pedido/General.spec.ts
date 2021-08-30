@@ -1,6 +1,8 @@
 import {Cuando, Entonces} from '../../pasos';
 
-Cuando('ingreso a registrar un pedido', () => {});
+Cuando('ingreso a registrar un pedido', () => {
+	cy.ingresarCodigoCliente('HS002');
+});
 
 Entonces('el sistema mostrará {string}', (estadoPanelIngresoProducto) => {
 	if (estadoPanelIngresoProducto === 'No') {

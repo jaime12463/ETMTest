@@ -23,25 +23,31 @@ Característica: Mostrar pantalla ingreso del pedido
 # sprint 8 UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA?node-id=329%3A3&scaling=scale-down&page-id=329%3A2&starting-point-node-id=329%3A3
 
 
-Escenario: N°0 - El tipo de pedido es valorizado
+Escenario: N°1 - El tipo de pedido es valorizado
     Dado que el tipo de pedido _esValorizado = true
     Cuando ingreso a registrar un pedido
-    Entonces el sistema mostrará el panel de ingreso del producto, el switch crédito, los totales e indicadores
+    Entonces el sistema mostrará el panel de ingreso del producto, el switch crédito, los totales
+#TODO: Aca toca especificar cuales totales mostrar
 
-Esquema del escenario: N°0 bis - El tipo de pedido es no valorizado
+Esquema del escenario: N°2 - El tipo de pedido es no valorizado
     Dado que el tipo de pedido _esValorizado = false
-    Y '<hayOtrosProductosEnPedidosMandatorios>'
+    Y '<hayPedidoMandatorioRegistrado>' hay pedido mandatorio registrado
     Cuando ingreso a registrar un pedido
+    Y '<hayPedidoMandatorioEnCurso>' hay pedido mandatorio en curso
     Entonces el sistema mostrará '<estadoPanelIngresoProducto>' y los totales
+    Y el switch credito no se mostrará
 
 Ejemplos:
-|hayOtrosProductosEnPedidosMandatorios|estadoPanelIngresoProducto|  
-|              SI                     |           SI             |
-|              NO                     |           NO             |         
+|hayPedidoMandatorioEnCurso|hayPedidoMandatorioRegistrado|estadoPanelIngresoProducto|
+|              SI          |              SI             |       HABILITADO         |
+|              NO          |              NO             |       DESHABILITADO      |
+|              SI          |              NO             |       HABILITADO         |
+|              NO          |              SI             |       HABILITADO         |
 
-# Pedidos mandatorios pueden ser en curso o ya registrados.
+# Pedidos mandatorios pueden ser en curso o ya registrados para la misma fecha de entrega.
+# hayPedidoMandatorioRegistrado: pedido con _esMandatorio = true para la misma fecha de entrega.
 
-Esquema del escenario: N°1 - El cliente es de contado
+Esquema del escenario: N°3 - El cliente es de contado
     Dado el tipo de pedido seleccionado es de un tipo de pedido _esValorizado = true
     Y que el cliente tiene condición de pago contado
     Y el consumido para la fecha de entrega, el informado más los pedidos de contado ya registrados, es '<condicion>' al _montoVentaContadoMaxima
@@ -55,7 +61,7 @@ Ejemplos:
 |Menor o igual| Si                            |
 |Mayor        | No                            |
 
-Esquema del escenario: N°2 - El cliente es de crédito formal
+Esquema del escenario: N°4 - El cliente es de crédito formal
     Dado el tipo de pedido seleccionado es de un tipo de pedido _esValorizado = true
     Y que el cliente tiene condición de pago crédito formal y '<esCreditoBloqueado>'
     Cuando ingreso a registrar un pedido 
@@ -69,7 +75,7 @@ Ejemplos:
 |     Si           | No                        |
 |     No           | Si                        |
 
-Esquema del escenario: N°3 - El cliente es de crédito informal sin crédito bloqueado
+Esquema del escenario: N°5 - El cliente es de crédito informal sin crédito bloqueado
     Dado el tipo de pedido seleccionado es de un tipo de pedido _esValorizado = true
     Y que el cliente tiene condición de pago crédito informal y _esCreditoBloqueado = false
     Cuando '<estadoCredito>' es crédito Disponible mayor a cero
@@ -86,7 +92,7 @@ Ejemplos:
 |     Si      |       Si         |Si                        |On                   |disabled                | 
 |     No      |       Si         |No                        |On                   |disabled                |
 
-Esquema del escenario: N°4 - El cliente es de crédito informal con crédito bloqueado
+Esquema del escenario: N°6 - El cliente es de crédito informal con crédito bloqueado
     Dado que el cliente tiene condición de pago creditoInformal y esCreditoBloqueado = true 
     Cuando '<estadoPedidoMaximo>' es Pedido máximo cumplido 
     Cuando ingreso a registrar un pedido
@@ -104,7 +110,7 @@ Esquema del escenario: N°4 - El cliente es de crédito informal con crédito bl
 # |         No         | habilitará panel de ingreso y switch en estado Off disabled   |
 # |         Si         | No habilitará panel de ingreso y switch en estado On disabled |
 
-Esquema del escenario: N°4 - Acceso a promo push
+Esquema del escenario: N°7 - Acceso a promo push
     Dado que se ingresó a la pantalla de pedido
 	Cuando se selecciona un tipo de pedido que '<habilitaPromocion>' 
 	Entonces el sistema '<visualizara>' el acceso a las promo push

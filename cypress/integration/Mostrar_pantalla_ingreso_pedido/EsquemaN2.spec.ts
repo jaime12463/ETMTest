@@ -6,10 +6,11 @@ Dado(
 		cy.fixture('db').then((db) => {
 			db.clientes['HS002'].informacionCrediticia.esCreditoBloqueado =
 				esCreditoBloqueado === 'Si';
-			cy.intercept('GET', '/femsa/tomapedidos', db).as('data');
+			cy.intercept('GET', '/femsa/tomapedidos', db).as('datos');
 		});
 		cy.navegarPageInicio('2021-06-09');
-		cy.wait('@data');
+		cy.esperarConfiguracion();
+		cy.wait('@datos');
 		cy.oprimirBotonSplash();
 		cy.ingresarCodigoCliente('HS002');
 	}
