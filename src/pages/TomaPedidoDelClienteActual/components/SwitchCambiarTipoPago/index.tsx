@@ -13,6 +13,7 @@ import {
 	useObtenerConfiguracion,
 	useObtenerPedidoActual,
 } from 'redux/hooks';
+import {useObtenerDatosTipoPedido} from 'hooks';
 
 type Props = {
 	producto?: TProductoPedido;
@@ -29,22 +30,16 @@ export const SwitchCambiarTipoPago: FunctionComponent<Props> = (props) => {
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
-	const {tipoPedidos} = useObtenerConfiguracion();
-
 	const pedidoActual = useObtenerPedidoActual();
-
-	// const datosTipoPedido
-
-	//TODO: Mirar como se debe inicializar tipo de pedido
 
 	const [mostrarSwitch, setMostrarSwitch] = useState<boolean>();
 
+	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
+
 	useEffect(() => {
-		console.log(pedidoActual.tipoPedido, 'pedidoActual.tipoPedido');
-		const datosTipoPedidoActual: TTipoPedido | undefined = tipoPedidos.find(
-			(tipoPedido) => tipoPedido.codigo === pedidoActual.tipoPedido
-		);
-		console.log(datosTipoPedidoActual, 'datosTipoPedidoActual');
+		const datosTipoPedidoActual:
+			| TTipoPedido
+			| undefined = obtenerDatosTipoPedido();
 		setMostrarSwitch(datosTipoPedidoActual?.esValorizado);
 	}, [pedidoActual.tipoPedido]);
 

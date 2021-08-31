@@ -13,5 +13,5 @@ export {useObtenerCreditoDisponible} from './useObtenerCreditoDisponible';
 export {useObtenerPedidosClienteMismaFechaEntrega} from './useObtenerPedidosClienteMismaFechaEntrega';
 export {useObtenerCompromisosDeCobroMismaFechaEntrega} from './useObtenerCompromisosDeCobroMismaFechaEntrega';
 export {useObtenerDeudasDelClienteActual} from './useObtenerDeudasDelClienteActual';
-
+export {useObtenerDatosTipoPedido} from './useObtenerDatosTipoPedido';
 export {useInicializarDatosYConfiguracion, useObtenerPrecioVigenteDelProducto};
