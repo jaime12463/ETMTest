@@ -79,7 +79,7 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 				hookForm={hookForm}
 				preciosProductos={preciosProductos}
 				setInputFocus={setInputFocus}
-			/>
+			/> 
 			{/*TODO: Mostrar solo cuando el SelectTipoDePedido es Canje */}
 			{/*<ListadoCanjesAgregadosAlPedidoActual
 				setProductoActual={setProductoActual}

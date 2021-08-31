@@ -4,7 +4,6 @@ import {
 	ETiposDePago,
 	TPedidoActual,
 	TProductoPedido,
-	TCompromisoDeCobro,
 } from 'models';
 import {RootState} from 'redux/store';
 
@@ -12,6 +11,7 @@ const estadoInicial: TPedidoActual = {
 	codigoPedido: '',
 	fechaEntrega: '',
 	estado: EEstadosDeUnPedido.Activo,
+	tipoPedido: 0,
 	productosPedido: [],
 };
 
@@ -49,6 +49,7 @@ export const pedidoActualSlice = createSlice({
 			action: PayloadAction<{
 				fechaEntrega: string;
 				codigoPedido: string;
+				tipoPedido: number;
 				estado?: EEstadosDeUnPedido;
 				productosPedido?: TProductoPedido[];
 			}>
@@ -56,11 +57,13 @@ export const pedidoActualSlice = createSlice({
 			const {
 				codigoPedido,
 				fechaEntrega,
+				tipoPedido,
 				estado,
 				productosPedido,
 			} = action.payload;
 			state.codigoPedido = codigoPedido;
 			state.fechaEntrega = fechaEntrega;
+			state.tipoPedido = tipoPedido;
 			if (productosPedido) state.productosPedido = productosPedido;
 			if (estado) state.estado = estado;
 		},
@@ -70,6 +73,7 @@ export const pedidoActualSlice = createSlice({
 			state.fechaEntrega = '';
 			state.estado = EEstadosDeUnPedido.Activo;
 			state.productosPedido = [];
+			state.tipoPedido = 0;
 		},
 
 		cambiarTipoPagoPoducto: (
@@ -92,6 +96,10 @@ export const pedidoActualSlice = createSlice({
 				producto.tipoPago = action.payload.tipoPago;
 			});
 		},
+
+		cambiarTipoPedido: (state, action: PayloadAction<{tipoPedido: number}>) => {
+			state.tipoPedido = action.payload.tipoPedido;
+		},
 	},
 });
 
@@ -103,5 +111,6 @@ export const {
 	resetearPedidoActual,
 	cambiarTipoPagoPoducto,
 	cambiarTipoPagoPoductosDelPedido,
+	cambiarTipoPedido,
 } = pedidoActualSlice.actions;
 export default pedidoActualSlice.reducer;

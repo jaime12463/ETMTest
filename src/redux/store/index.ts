@@ -4,7 +4,6 @@ import pedidoActualReducer from 'redux/features/pedidoActual/pedidoActualSlice';
 import clienteActualReducer from 'redux/features/clienteActual/clienteActualSlice';
 import datosReducer from 'redux/features/datos/datosSlice';
 import configuracionReducer from 'redux/features/configuracion/configuracionSlice';
-import estadoAppReducer from 'redux/features/estadoApp/estadoAppSlice';
 import compromisoDeCobroReducer from 'redux/features/compromisoDeCobro/compromisoDeCobroSlice';
 
 export const store = configureStore({
@@ -14,7 +13,6 @@ export const store = configureStore({
 		clienteActual: clienteActualReducer,
 		datos: datosReducer,
 		configuracion: configuracionReducer,
-		estadoApp: estadoAppReducer,
 		compromisoDeCobro: compromisoDeCobroReducer,
 	},
 });

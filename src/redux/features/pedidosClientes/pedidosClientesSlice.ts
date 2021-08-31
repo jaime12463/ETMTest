@@ -67,13 +67,6 @@ export const pedidosClientesSlice = createSlice({
 				tipoPago: ETiposDePago;
 			}>
 		) => {
-			const {
-				codigoPedido,
-				productosPedido,
-				fechaEntrega,
-				estado,
-			}: TPedidoActual = action.payload.pedidoActual;
-
 			const {codigoCliente}: TClienteActual = action.payload.clienteActual;
 
 			const tipoPago = action.payload.tipoPago;
@@ -82,10 +75,7 @@ export const pedidosClientesSlice = createSlice({
 				state[codigoCliente] = {pedidos: [], compromisosDeCobro: []};
 
 			const pedidoCliente: TPedidoClienteParaEnviar = {
-				codigoPedido,
-				productosPedido,
-				fechaEntrega,
-				estado,
+				...action.payload.pedidoActual,
 				tipoPago,
 				usuario: 'SFA01',
 				enviado: false,
@@ -101,14 +91,8 @@ export const pedidosClientesSlice = createSlice({
 				tipoPago: ETiposDePago;
 			}>
 		) => {
-			const {
-				codigoPedido,
-				productosPedido,
-				fechaEntrega,
-				estado,
-			}: TPedidoActual = action.payload.pedidoActual;
-
 			const {codigoCliente}: TClienteActual = action.payload.clienteActual;
+			const {pedidoActual} = action.payload;
 
 			const tipoPago = action.payload.tipoPago;
 
@@ -116,14 +100,11 @@ export const pedidosClientesSlice = createSlice({
 
 			const pedidosClienteFiltrandoElModificado = pedidosClienteActual.pedidos.filter(
 				(pedidoCliente: TPedidoClienteParaEnviar) =>
-					pedidoCliente.codigoPedido !== codigoPedido
+					pedidoCliente.codigoPedido !== pedidoActual.codigoPedido
 			);
 
 			const pedidoClienteModificado: TPedidoClienteParaEnviar = {
-				codigoPedido,
-				productosPedido,
-				fechaEntrega,
-				estado,
+				...pedidoActual,
 				tipoPago,
 				usuario: 'SFA01',
 				enviado: false,

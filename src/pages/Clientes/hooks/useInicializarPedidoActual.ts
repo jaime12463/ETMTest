@@ -11,6 +11,7 @@ export const useInicializarPedidoActual = () => {
 				inicializarPedidoActual({
 					fechaEntrega: fechaEntrega,
 					codigoPedido: uuidv4(),
+					tipoPedido: 1, //TODO: Inicializar tipo pedido
 				})
 			);
 		},

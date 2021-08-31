@@ -56,6 +56,7 @@ export enum EEstadosApp {
 export type TPedidoActual = {
 	codigoPedido: string;
 	fechaEntrega: string;
+	tipoPedido: number;
 	estado: EEstadosDeUnPedido;
 	productosPedido: TProductoPedido[];
 };
@@ -102,11 +103,7 @@ export type TPedidosClientes = {
 };
 
 export type TPedidoClienteParaEnviar = {
-	codigoPedido: string;
-	fechaEntrega: string;
 	usuario: string;
-	estado: EEstadosDeUnPedido;
 	tipoPago: ETiposDePago;
-	productosPedido: TProductoPedido[];
 	enviado: boolean;
-};
+} & TPedidoActual;
