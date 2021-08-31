@@ -10,6 +10,6 @@ export const useObtenerDatosTipoPedido = () => {
 			(tipoPedido) => tipoPedido.codigo === pedidoActual.tipoPedido
 		);
 		return datosTipoPedidoActual;
-	}, []);
+	}, [tipoPedidos, pedidoActual]);
 	return obtenerDatosTipoPedido;
 };

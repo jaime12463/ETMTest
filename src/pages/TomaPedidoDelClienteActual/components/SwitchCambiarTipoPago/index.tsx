@@ -40,8 +40,9 @@ export const SwitchCambiarTipoPago: FunctionComponent<Props> = (props) => {
 		const datosTipoPedidoActual:
 			| TTipoPedido
 			| undefined = obtenerDatosTipoPedido();
+		console.log(datosTipoPedidoActual, 'datosTipoPedidoActual');
 		setMostrarSwitch(datosTipoPedidoActual?.esValorizado);
-	}, [pedidoActual.tipoPedido]);
+	}, [pedidoActual.tipoPedido, obtenerDatosTipoPedido]);
 
 	return (
 		<Center>
