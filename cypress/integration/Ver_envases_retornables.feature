@@ -42,11 +42,11 @@ Esquema del escenario: N°2 – El producto del pedido tiene Implícito1 informa
 	Entonces el sistema mostrará '<implicito1>' con '<cantidadUnidades>' y '<cantidadSubunidades>' para retorno
 
 Ejemplos:
-|producto|cantidadUnidades|cantidadSubunidades|implicito1|	
-|360	 | 10	          |2                  |	1001	|
-|365	 |15	          |5	              | 1010	|
-|380	 |15	          |0	              | 1001	|
-|400	 |0	              |3	              | 1001	|
+	|producto|cantidadUnidades|cantidadSubunidades|implicito1|	
+	|360	 | 10	          |2                  |	1001	|
+	|365	 |15	          |5	              | 1010	|
+	|380	 |15	          |0	              | 1001	|
+	|400	 |0	              |3	              | 1001	|
 
 Esquema del escenario: N°3 – El producto del pedido tiene Implícito2 informado
 	Dado que se realizó la venta de '<cantidadUnidades>' mayores a cero del '<producto>' 
@@ -55,11 +55,11 @@ Esquema del escenario: N°3 – El producto del pedido tiene Implícito2 informa
 	Entonces el sistema mostrará '<implicito2>' con '<cantidadUnidades>' para retorno
 
 Ejemplos:
-|producto|cantidadUnidades|implicito2|	
-|360	 |10	          |	1020	|
-|365	 |15	          | 1020	|
-|380	 |15	          | 1020	|
-|400	 |0	              | 1020	|
+	|producto|cantidadUnidades|implicito2|	
+	|360	 |10	          |	1020	|
+	|365	 |15	          | 1020	|
+	|380	 |15	          | 1020	|
+	|400	 |0	              | 1020	|
 
 # Explicación escenario N°4
 # Dado que el _producto promo push con _codigoProducto 10010, tiene los siguientes _componentes
@@ -104,9 +104,9 @@ Ejemplos:
 # |1001	   |        3 	    |	  3   |      BOT   	|	0	  | 		9
 #
 #Entonces los envases de la promo push serían los siguientes:
-# |envase	unidades	subunidades
-# |1001         3             9
-# |1020         3
+# |envase |	unidades |	subunidades |
+# |1001   |    3     |        9     |
+# |1020   |    3     |              |
 #
 #
 # En resumen, el sistema calcula y consolida, por código de producto, la siguiente tabla
@@ -130,46 +130,46 @@ Esquema del escenario: N°4 - Contabilizar envases de productos promo push
     | 1001 |     3    |    9      |
     | 1020 |     3    |           |
 
-	Ejemplos:
+Ejemplos:
 	|codigoPromo|cantidadUnidades|
 	|   10010   |  3             |
 
 
 #Explicación escenario N°5
 # Se asume que los productos ingresados tienen _presentacion=12 y los siguientes implícitos
-# |producto|implicito1|Implícito2
-# 360	      	1001	1020
-# 365	        1010	
-# 380	        1001	1020
-# 390	        	
-# 400	        1001	1020
+# |producto|implicito1|Implícito2| 
+# | 360    | 1001     |	1020     |
+# | 365	   | 1010     |          |	
+# | 380	   | 1001     | 1020     |
+# | 390	   |     	  |          |
+# | 400	   | 1001     |	1020     |
 #
 #El calculo de los envases retornables se realiza, para cada producto, según se indica
 #en los escenarios anteriores, dando por resultado los siguientes implicitos.
-#|producto|implicito1|Unidades|subunidades
-#360 	1001		10		6
-#360		1020		10
-#365		1010		15
-#380		1001		15	
-#380		1020		15
-#400		1001		0		9
-#10010	1001		3		9
-#10010	1020		3
+#|producto|implicito1|Unidades|subunidades|
+#| 360 	  | 1001     |  10    |		6     |
+#| 360	  | 1020	 |  10    |           |  
+#| 365	  | 1010	 |  15    |           |
+#| 380	  | 1001	 |  15	  |           |
+#| 380	  | 1020	 |  15    |           |
+#| 400	  | 1001	 |   0	  |     9     |
+#| 10010  | 1001	 |   3    |     9     |
+#| 10010  | 1020	 |   3    |           |
 #
 #luego se consolida por implicito, ordenado por el codigo del implicito
 #
-#implicito	unidades	subunidades
-#1001			28			24
-#1010			15			0
-#1020			18
+#|implicito| unidades |	subunidades|
+#| 1001	   |   28	  |	   24      |
+#| 1010	   |   15	  |		0      |
+#| 1020	   |   18     |            |
 #
 #En caso de que se tengan que pasar a unidades las subunidades que excedan a la presentación
 #La parte entera de la división de las subunidades/presentación se suma a las unidades y el resto 
 #queda como subunidades
-#implicito	unidades	subunidades
-#1001			30			0
-#1010			15			0
-#1020			18
+#|implicito| unidades |	subunidades|
+#| 1001	   |   30	  |		0      |
+#| 1010	   |   15	  |		0      |
+#| 1020	   |   18     |            | 
 
 
 Escenario: N°5 - Consolidar los retornables del pedido
