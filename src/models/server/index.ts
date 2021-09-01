@@ -142,5 +142,5 @@ export type TTipoPedido = {
 
 export type TCatalogoMotivo = {
 	codigo: number;
-	description: string;
+	descripcion: string;
 };

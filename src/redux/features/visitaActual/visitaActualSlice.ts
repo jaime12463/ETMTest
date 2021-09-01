@@ -98,6 +98,10 @@ export const visitaActualSlice = createSlice({
 		) => {
 			state.tipoPedidoActual = action.payload.tipoPedido;
 		},
+
+		cambiarCatalogoMotivo: (state, action: PayloadAction<{catalogoMotivo: number}>) => {
+			//state.catalogoMotivo = action.payload.catalogoMotivo;
+		},
 	},
 });
 
@@ -110,5 +114,6 @@ export const {
 	cambiarTipoPagoPoductoDelPedidoActual,
 	cambiarTipoPagoPoductosDelPedidoActual,
 	cambiarTipoPedidoActual,
+	cambiarCatalogoMotivo,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;
