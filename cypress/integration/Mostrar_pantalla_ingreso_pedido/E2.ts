@@ -16,8 +16,7 @@ Dado('que el tipo de pedido _esValorizado = false', () => {
 
 Y('{string} hay pedido mandatorio en curso', (hayPedidoMandatorioEnCurso) => {
 	if (hayPedidoMandatorioEnCurso === 'SI') {
-		// TODO: Solucionar el data cy del select
-		cy.get('.MuiSelect-root').click();
+		cy.get('#select-cambiar-tipo-pedido').click();
 		cy.get('[data-cy=select-cambiar-tipo-pedido-1]').click();
 
 		cy.agregarProducto({
@@ -26,7 +25,7 @@ Y('{string} hay pedido mandatorio en curso', (hayPedidoMandatorioEnCurso) => {
 			subUnidades: 2,
 		});
 
-		cy.get('.MuiSelect-root').click();
+		cy.get('#select-cambiar-tipo-pedido').click();
 		cy.get('[data-cy=select-cambiar-tipo-pedido-0]').click();
 	}
 });

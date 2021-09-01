@@ -39,6 +39,7 @@ const Select: FunctionComponent<PropsSelect> = (props) => {
 						onChange(e);
 						handleChange(e);
 					}}
+					id={dataCY}
 					onBlur={onBlur}
 					fullWidth
 					inputProps={{

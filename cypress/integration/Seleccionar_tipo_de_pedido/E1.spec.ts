@@ -15,7 +15,7 @@ Dado('que se ingresó al cliente', () => {
 });
 
 Cuando('selecciono un tipo de pedido', () => {
-	cy.get('.MuiSelect-root').click();
+	cy.get('#select-cambiar-tipo-pedido').click();
 	cy.get('[data-cy=select-cambiar-tipo-pedido-1]').click();
 });
 
