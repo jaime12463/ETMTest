@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {
-	TPedidoActual,
+	TPedido,
 	TClienteActual,
 	TPedidoClienteParaEnviar,
 	TPedidosClientes,
@@ -39,7 +39,7 @@ export const pedidosClientesSlice = createSlice({
 			}>
 		) => {
 			const {
-				ID,
+				id,
 				fechaCreacion,
 				fechaEntrega,
 				monto,
@@ -47,7 +47,7 @@ export const pedidosClientesSlice = createSlice({
 			}: TCompromisoDeCobro = action.payload.compromisoDeCobroActual;
 			const {codigoCliente}: TClienteActual = action.payload.clienteActual;
 			const CompromisoDeCobro: TCompromisoDeCobro = {
-				ID,
+				id,
 				fechaCreacion,
 				fechaEntrega,
 				monto,
@@ -62,7 +62,7 @@ export const pedidosClientesSlice = createSlice({
 		agregarPedidoCliente: (
 			state,
 			action: PayloadAction<{
-				pedidoActual: TPedidoActual;
+				pedidoActual: TPedido;
 				clienteActual: TClienteActual;
 				tipoPago: ETiposDePago;
 			}>
@@ -86,7 +86,7 @@ export const pedidosClientesSlice = createSlice({
 		modificarPedidoCliente: (
 			state,
 			action: PayloadAction<{
-				pedidoActual: TPedidoActual;
+				pedidoActual: TPedido;
 				clienteActual: TClienteActual;
 				tipoPago: ETiposDePago;
 			}>

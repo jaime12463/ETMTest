@@ -69,7 +69,7 @@ export const obtenerTotalContadoPedidosCliente = (
 		(total: number, pedido: TPedidoClienteParaEnviar) => {
 			if (pedido.estado !== EEstadosDeUnPedido.Activo) return total;
 
-			for (let producto of pedido.productosPedido) {
+			for (let producto of pedido.productos) {
 				if (producto.tipoPago === ETiposDePago.Contado) total += producto.total;
 			}
 

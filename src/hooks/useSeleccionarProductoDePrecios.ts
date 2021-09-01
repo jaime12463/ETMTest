@@ -1,7 +1,7 @@
 import {Dispatch, SetStateAction, useCallback} from 'react';
 import {
 	TProductoPedido,
-	TPedidoActual,
+	TPedido,
 	TPrecioProducto,
 	InputsKeysFormTomaDePedido,
 	TFunctionMostarAvertenciaPorDialogo,
@@ -19,7 +19,7 @@ export const useSeleccionarProductoDePrecios = (
 	setInputFocus: Dispatch<SetStateAction<InputsKeysFormTomaDePedido>>,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
-	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
+	const pedidoActual: TPedido = useObtenerPedidoActual();
 	const {t} = useTranslation();
 	const seleccionarProductoDePrecios = useCallback(
 		({productoABuscar}: TInputFiltrarPreciosProductos) => {
@@ -42,7 +42,7 @@ export const useSeleccionarProductoDePrecios = (
 
 			const productoActualEncontrado:
 				| TProductoPedido
-				| undefined = pedidoActual.productosPedido.find(
+				| undefined = pedidoActual.productos.find(
 				(productoPedido: TProductoPedido) =>
 					productoPedido.codigoProducto === codigoProducto
 			);

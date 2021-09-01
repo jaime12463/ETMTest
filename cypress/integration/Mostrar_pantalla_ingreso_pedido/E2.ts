@@ -3,6 +3,7 @@ import {Dado, Entonces, Y} from '../../pasos';
 Dado('que el tipo de pedido _esValorizado = false', () => {
 	cy.fixture('configuracion').then((configuracion) => {
 		configuracion.configuraciones[0].tipoPedidos[0].esValorizado = false;
+		configuracion.configuraciones[0].tipoPedidos[1].esValorizado = true;
 		cy.intercept('GET', '/femsa/configuracion', configuracion).as(
 			'configuracion'
 		);

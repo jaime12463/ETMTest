@@ -1,14 +1,9 @@
 import {useObtenerPedidoActual} from 'redux/hooks';
-import {
-	TPedidoActual,
-	TProductoPedido,
-	TTotalPedido,
-	ETiposDePago,
-} from 'models';
-import {useMemo} from 'react';
+import {TPedido, TProductoPedido, TTotalPedido, ETiposDePago} from 'models';
+import {useCallback, useMemo} from 'react';
 
-export const useCalcularTotalPedido = (): TTotalPedido => {
-	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
+export const useCalcularTotalPedido = (): (() => TTotalPedido) => {
+	const pedidoActual: TPedido = useObtenerPedidoActual();
 	const TotalInicial: TTotalPedido = {
 		totalUnidades: 0,
 		totalPrecio: 0,
@@ -27,7 +22,7 @@ export const useCalcularTotalPedido = (): TTotalPedido => {
 	const reducerSumarProductos = (
 		total: TTotalPedido,
 		productoPedido: TProductoPedido
-	): any => ({
+	): TTotalPedido => ({
 		totalUnidades: total.totalUnidades + productoPedido.unidades,
 		totalSubUnidades: total.totalSubUnidades + productoPedido.subUnidades,
 		totalPrecio: total.totalPrecio + productoPedido.total,
@@ -60,10 +55,8 @@ export const useCalcularTotalPedido = (): TTotalPedido => {
 					: total.totalCredito.totalPrecio,
 		},
 	});
-	const totalPedido: TTotalPedido = useMemo(
-		() =>
-			pedidoActual.productosPedido.reduce(reducerSumarProductos, TotalInicial),
-		[pedidoActual]
-	);
-	return totalPedido;
+	const obtenerTotalPedidos = useCallback((): TTotalPedido => {
+		return pedidoActual.productos.reduce(reducerSumarProductos, TotalInicial);
+	}, [pedidoActual]);
+	return obtenerTotalPedidos;
 };

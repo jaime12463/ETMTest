@@ -1,1 +1,1 @@
-export {useResetPedidoActualAlDesmontar} from './useResetPedidoActualAlDesmontar'
+export {useResetVisitaActualAlDesmontar} from './useResetVisitaActualAlDesmontar';

@@ -13,7 +13,7 @@ export type TClienteActual = {
 };
 
 export type TCompromisoDeCobro = {
-	ID: string;
+	id: string;
 	fechaCreacion: string;
 	fechaEntrega: string;
 	monto: number;
@@ -39,32 +39,29 @@ export enum EEstadosFetch {
 	Idle,
 }
 
-//Estado App
-export type TEstadoApp = {
-	estado: EEstadosApp;
+//Visita Actual
+export type TVisita = {
+	fechaEntrega: string; //TODO: Deberia ir la visita con el pedido actual?
+	tipoPedidoActual: number;
+	pedidos: TPedidos;
 };
 
-export enum EEstadosApp {
-	PrimerInicio,
-	Cargando,
-	Advertencia,
-	Error,
-	Disponible,
-}
+export type TPedidos = {
+	[tipoPedido: number]: TPedido;
+};
 
-//Pedido Actual
-export type TPedidoActual = {
+export type TPedido = {
 	codigoPedido: string;
 	fechaEntrega: string;
-	tipoPedido: number;
 	estado: EEstadosDeUnPedido;
-	productosPedido: TProductoPedido[];
+	productos: TProductoPedido[];
 };
 
 export enum EEstadosDeUnPedido {
 	Activo,
 	Cancelado,
 }
+
 export type TProductoPedido = TPrecioProducto & TPedidoDelProducto;
 
 export type TPrecioProducto = {
@@ -106,4 +103,4 @@ export type TPedidoClienteParaEnviar = {
 	usuario: string;
 	tipoPago: ETiposDePago;
 	enviado: boolean;
-} & TPedidoActual;
+} & TPedido;

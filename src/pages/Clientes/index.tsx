@@ -30,7 +30,6 @@ const Clientes = () => {
 		mostrarAdvertenciaEnDialogo
 	);
 
-
 	return (
 		<Estructura titulo={t('titulos.clientes')}>
 			<Estructura.Cuerpo>

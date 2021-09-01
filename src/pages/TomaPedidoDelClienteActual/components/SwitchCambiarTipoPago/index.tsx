@@ -8,11 +8,7 @@ import {
 import {Switch} from '@material-ui/core';
 import {useCambiarTipoPago, usePermiteCambiarTipoPago} from './hooks';
 import {Center} from 'components/UI';
-import {
-	useObtenerClienteActual,
-	useObtenerConfiguracion,
-	useObtenerPedidoActual,
-} from 'redux/hooks';
+import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import {useObtenerDatosTipoPedido} from 'hooks';
 
 type Props = {
@@ -30,7 +26,7 @@ export const SwitchCambiarTipoPago: FunctionComponent<Props> = (props) => {
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
-	const pedidoActual = useObtenerPedidoActual();
+	const visitaActual = useObtenerVisitaActual();
 
 	const [mostrarSwitch, setMostrarSwitch] = useState<boolean>();
 
@@ -42,7 +38,7 @@ export const SwitchCambiarTipoPago: FunctionComponent<Props> = (props) => {
 			| undefined = obtenerDatosTipoPedido();
 		console.log(datosTipoPedidoActual, 'datosTipoPedidoActual');
 		setMostrarSwitch(datosTipoPedidoActual?.esValorizado);
-	}, [pedidoActual.tipoPedido, obtenerDatosTipoPedido]);
+	}, [visitaActual.tipoPedidoActual, obtenerDatosTipoPedido]);
 
 	return (
 		<Center>

@@ -11,7 +11,8 @@ type Props = {};
 
 export function BotonCerrarPedidoDelCliente(props: Props) {
 	const {t} = useTranslation();
-	const totalPedidoActual: TTotalPedido = useCalcularTotalPedido();
+	const calcularTotalPedido: () => TTotalPedido = useCalcularTotalPedido();
+	const totalPedidoActual = calcularTotalPedido();
 	const {
 		mostrarAdvertenciaEnDialogo,
 		mostarDialogo,

@@ -8,7 +8,7 @@ import {
 	TClienteActual,
 	TPedidoClienteParaEnviar,
 	TPedidosClientes,
-	TPedidoActual,
+	TPedido,
 } from 'models';
 import {useCallback} from 'react';
 
@@ -19,7 +19,7 @@ export const useObtenerPedidosClienteMismaFechaEntrega = (
 
 	const pedidosClientes: TPedidosClientes = useObtenerPedidosClientes();
 
-	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
+	const pedidoActual: TPedido = useObtenerPedidoActual();
 
 	const obtenerPedidosClienteMismaFechaEntrega = useCallback(
 		(codigoClienteEntrante: string) => {

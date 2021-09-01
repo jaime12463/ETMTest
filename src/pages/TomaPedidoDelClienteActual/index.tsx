@@ -16,14 +16,14 @@ import {
 	FechaEntregaDelPedidoActual,
 	InfoClienteDelPedidoActual,
 } from 'components/Negocio';
-import {useResetPedidoActualAlDesmontar} from './hooks';
+import {useResetVisitaActualAlDesmontar} from './hooks';
 import CompromisoDeCobro from 'pages/CompromisoDeCobro';
 import {validarDeshabilitarTabCompromisoDeCobro} from 'utils/validaciones';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [value, setValue] = React.useState(0);
 
-	useResetPedidoActualAlDesmontar();
+	useResetVisitaActualAlDesmontar();
 	return (
 		<Estructura>
 			<Estructura.Encabezado

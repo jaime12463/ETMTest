@@ -11,9 +11,9 @@ type Props = {
 
 const ItemListadoPedidosRealizados: FunctionComponent<Props> = (props) => {
 	const {item} = props;
-	const {fechaEntrega, productosPedido} = item;
+	const {fechaEntrega, productos} = item;
 	const calcularTotalPedido = useCalcularTotalPedidos();
-	const totalPedido = calcularTotalPedido(productosPedido).totalPrecio;
+	const totalPedido = calcularTotalPedido(productos).totalPrecio;
 	const {t} = useTranslation();
 
 	return (

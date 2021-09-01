@@ -1,6 +1,6 @@
 import {Grid} from '@material-ui/core';
 import {BarraDeProgeso, Center} from 'components/UI';
-import {TCliente, TClienteActual} from 'models';
+import {TCliente, TClienteActual, TTotalPedido} from 'models';
 import {
 	useObtenerDatosCliente,
 	useCalcularTotalPedido,
@@ -11,6 +11,7 @@ import {
 import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
+	useObtenerPedidoActual,
 } from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
 import {
@@ -19,11 +20,18 @@ import {
 	obtenerTotalesCompromisoDeCobroCliente,
 } from 'utils/methods';
 import {useObtenerColor} from './hooks/useObtenerColor';
+import {useEffect, useState} from 'react';
 
 const IndicadoresDelPedidoActual = () => {
 	const {t} = useTranslation();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const calcularTotalPedido = useCalcularTotalPedido();
+	const pedidoActual = useObtenerPedidoActual();
+	const [totalPedidoActual, setTotalPedidoActual] = useState<TTotalPedido>();
+	useEffect(() => {
+		const totalPedidoActual = calcularTotalPedido();
+		setTotalPedidoActual(totalPedidoActual);
+	}, [pedidoActual]);
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {
 		obtenerPedidosClienteMismaFechaEntrega,
@@ -61,7 +69,7 @@ const IndicadoresDelPedidoActual = () => {
 		{
 			titulo: t('general.pedidoMinimo'),
 			valorMax: datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima,
-			valor: totalesPedidoCliente + calcularTotalPedido.totalPrecio,
+			valor: totalesPedidoCliente + (totalPedidoActual?.totalPrecio ?? 0),
 			color: color.pedidoMinimo,
 			dataCY: 'indicador-pedido-minimo',
 		},
@@ -72,7 +80,7 @@ const IndicadoresDelPedidoActual = () => {
 					?.montoVentaContadoMaxima,
 			valor:
 				totalesContadoPedidoCliente +
-				calcularTotalPedido.totalContado.totalPrecio +
+				(totalPedidoActual?.totalContado.totalPrecio ?? 0) +
 				montoTotalCompromisos +
 				compromisoDeCobroActual.monto,
 			color: color.pedidoMaximo,
@@ -81,7 +89,8 @@ const IndicadoresDelPedidoActual = () => {
 		{
 			titulo: t('general.creditoDisponible'),
 			valorMax: datosCliente?.informacionCrediticia.disponible,
-			valor: creditoDisponible - calcularTotalPedido.totalCredito.totalPrecio,
+			valor:
+				creditoDisponible - (totalPedidoActual?.totalCredito.totalPrecio ?? 0),
 			color: color.creditoDisponible,
 			condicion: datosCliente?.informacionCrediticia.condicion,
 			dataCY: 'indicador-credito-maximo',

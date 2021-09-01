@@ -16,7 +16,7 @@ import {
 	TCliente,
 	TClienteActual,
 	TFunctionMostarAvertenciaPorDialogo,
-	TPedidoActual,
+	TPedido,
 	TPedidoClienteParaEnviar,
 	TPedidosClientes,
 	TProductoPedido,
@@ -43,8 +43,8 @@ export const useAgregarPedidoActualAPedidosClientes = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const dispatch = useAppDispatch();
-	const totalPedidoActual: TTotalPedido = useCalcularTotalPedido();
-	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
+	const calcularTotalPedido: () => TTotalPedido = useCalcularTotalPedido();
+	const pedidoActual: TPedido = useObtenerPedidoActual();
 	const pedidosClientes: TPedidosClientes = useObtenerPedidosClientes();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {
@@ -68,6 +68,8 @@ export const useAgregarPedidoActualAPedidosClientes = (
 	const agregarPedidoActualAPedidosClientes = useCallback(() => {
 		const pedidosCliente: TPedidoClienteParaEnviar[] =
 			pedidosClientes[clienteActual.codigoCliente]?.pedidos;
+
+		const totalPedidoActual = calcularTotalPedido();
 
 		if (!datosCliente) {
 			mostrarAdvertenciaEnDialogo(
@@ -141,15 +143,15 @@ export const useAgregarPedidoActualAPedidosClientes = (
 
 				dispatch(agregarPedidoCliente({pedidoActual, clienteActual, tipoPago}));
 			} else {
-				const productosContadoDelPedidoActual = pedidoActual.productosPedido.filter(
+				const productosContadoDelPedidoActual = pedidoActual.productos.filter(
 					(producto: TProductoPedido) =>
 						producto.tipoPago === ETiposDePago.Contado
 				);
 
 				if (productosContadoDelPedidoActual.length > 0) {
-					const pedidoContado: TPedidoActual = {
+					const pedidoContado: TPedido = {
 						...pedidoActual,
-						productosPedido: productosContadoDelPedidoActual,
+						productos: productosContadoDelPedidoActual,
 					};
 					dispatch(
 						agregarPedidoCliente({
@@ -160,15 +162,15 @@ export const useAgregarPedidoActualAPedidosClientes = (
 					);
 				}
 
-				const productosCreditoDelPedidoActual = pedidoActual.productosPedido.filter(
+				const productosCreditoDelPedidoActual = pedidoActual.productos.filter(
 					(producto: TProductoPedido) =>
 						producto.tipoPago === ETiposDePago.Credito
 				);
 
 				if (productosCreditoDelPedidoActual.length > 0) {
-					const pedidoCredito: TPedidoActual = {
+					const pedidoCredito: TPedido = {
 						...pedidoActual,
-						productosPedido: productosCreditoDelPedidoActual,
+						productos: productosCreditoDelPedidoActual,
 						codigoPedido: uuidv4(),
 					};
 					dispatch(
@@ -196,7 +198,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 	}, [
 		pedidosClienteMismaFechaEntrega,
 		pedidoActual,
-		totalPedidoActual,
+		calcularTotalPedido,
 		pedidosClientes,
 		clienteActual,
 		datosCliente,

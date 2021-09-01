@@ -3,7 +3,7 @@ import {Dispatch, FunctionComponent, SetStateAction} from 'react';
 import {ItemProductoAgregadoAlPedidoActual, SwitchCambiarTipoPago} from '..';
 import {
 	THeader,
-	TPedidoActual,
+	TPedido,
 	TPrecioProducto,
 	TProductoPedido,
 	THookForm,
@@ -28,9 +28,9 @@ type Props = {
 const ListadoProductosAgregadosAlPedidoActual: FunctionComponent<Props> = (
 	props
 ) => {
-	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
+	const pedidoActual: TPedido = useObtenerPedidoActual();
 
-	const {productosPedido} = pedidoActual;
+	const {productos} = pedidoActual;
 
 	const {hookForm, setProductoActual, preciosProductos, setInputFocus} = props;
 
@@ -82,7 +82,7 @@ const ListadoProductosAgregadosAlPedidoActual: FunctionComponent<Props> = (
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 			<List
 				headers={headers}
-				items={productosPedido}
+				items={productos}
 				ItemComponent={ItemProductoAgregadoAlPedidoActual}
 				onClickItem={onClickItem}
 			/>

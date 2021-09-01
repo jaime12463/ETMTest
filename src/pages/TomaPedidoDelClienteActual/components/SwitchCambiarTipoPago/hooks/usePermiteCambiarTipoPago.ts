@@ -11,7 +11,7 @@ import {validarTotalConMontoMaximoContado} from 'utils/validaciones';
 
 export const usePermiteCambiarTipoPago = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
-	const totalPedidoActual: TTotalPedido = useCalcularTotalPedido();
+	const calcularTotalPedido: () => TTotalPedido = useCalcularTotalPedido();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {creditoDisponible} = useObtenerCreditoDisponible();
 	const {
@@ -24,6 +24,8 @@ export const usePermiteCambiarTipoPago = () => {
 
 	const validarPermiteCambiarTipoPago = useCallback(() => {
 		if (!datosCliente) return;
+
+		const totalPedidoActual = calcularTotalPedido();
 
 		const {esCreditoBloqueado} = datosCliente.informacionCrediticia;
 
@@ -50,7 +52,7 @@ export const usePermiteCambiarTipoPago = () => {
 	}, [
 		pedidosClienteMismaFechaEntrega,
 		clienteActual,
-		totalPedidoActual,
+		calcularTotalPedido,
 		datosCliente,
 		creditoDisponible,
 	]);

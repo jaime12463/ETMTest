@@ -10,7 +10,7 @@ import {validarTotalConMontoMaximoContado} from 'utils/validaciones';
 
 export const useEsPermitidoAgregarProductoAlPedido = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
-	const totalPedidoActual: TTotalPedido = useCalcularTotalPedido();
+	const calcularTotalPedido: () => TTotalPedido = useCalcularTotalPedido();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {
 		pedidosClienteMismaFechaEntrega,
@@ -21,6 +21,8 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 		if (!datosCliente) return !esPermitidoAgregarProductoAlPedido;
 
 		const {esCreditoBloqueado} = datosCliente.informacionCrediticia;
+
+		const totalPedidoActual = calcularTotalPedido();
 
 		const esCreditoFormal = clienteActual.condicion === 'creditoFormal';
 		const esCreditoInformal = clienteActual.condicion === 'creditoInformal';
@@ -42,10 +44,12 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 		if (!esMenorAlMontoMaximoContado)
 			return !esPermitidoAgregarProductoAlPedido;
 
+		//aca validamos si tiene mas pedidos, o si tiene pedido mandatorio
+
 		return esPermitidoAgregarProductoAlPedido;
 	}, [
 		clienteActual,
-		totalPedidoActual,
+		calcularTotalPedido,
 		datosCliente,
 		pedidosClienteMismaFechaEntrega,
 	]);

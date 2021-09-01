@@ -1,15 +1,15 @@
 import {TTipoPedido} from 'models';
 import {useCallback} from 'react';
-import {useObtenerConfiguracion, useObtenerPedidoActual} from 'redux/hooks';
+import {useObtenerConfiguracion, useObtenerVisitaActual} from 'redux/hooks';
 
 export const useObtenerDatosTipoPedido = () => {
 	const {tipoPedidos} = useObtenerConfiguracion();
-	const pedidoActual = useObtenerPedidoActual();
+	const visitaActual = useObtenerVisitaActual();
 	const obtenerDatosTipoPedido = useCallback(() => {
 		const datosTipoPedidoActual: TTipoPedido | undefined = tipoPedidos.find(
-			(tipoPedido) => tipoPedido.codigo === pedidoActual.tipoPedido
+			(tipoPedido) => tipoPedido.codigo === visitaActual.tipoPedidoActual
 		);
 		return datosTipoPedidoActual;
-	}, [tipoPedidos, pedidoActual]);
+	}, [tipoPedidos, visitaActual]);
 	return obtenerDatosTipoPedido;
 };
