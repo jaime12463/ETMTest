@@ -1,14 +1,14 @@
 import {
 	useObtenerClienteActual,
 	useObtenerPedidosClientes,
-	useObtenerPedidoActual,
+	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {
 	EEstadosDeUnPedido,
 	TClienteActual,
 	TPedidoClienteParaEnviar,
 	TPedidosClientes,
-	TPedido,
+	TVisita,
 } from 'models';
 import {useCallback} from 'react';
 
@@ -19,10 +19,10 @@ export const useObtenerPedidosClienteMismaFechaEntrega = (
 
 	const pedidosClientes: TPedidosClientes = useObtenerPedidosClientes();
 
-	const pedidoActual: TPedido = useObtenerPedidoActual();
+	const visitaActual: TVisita = useObtenerVisitaActual();
 
 	const obtenerPedidosClienteMismaFechaEntrega = useCallback(
-		(codigoClienteEntrante: string) => {
+		(codigoClienteEntrante: string, fechaEntrega?: string) => {
 			const pedidosCliente: TPedidoClienteParaEnviar[] =
 				pedidosClientes[codigoClienteEntrante]?.pedidos;
 
@@ -31,15 +31,15 @@ export const useObtenerPedidosClienteMismaFechaEntrega = (
 			if (pedidosCliente) {
 				pedidosClienteMismaFechaEntrega = pedidosCliente.filter(
 					(pedidoCliente: TPedidoClienteParaEnviar) =>
-						pedidoCliente.fechaEntrega === pedidoActual.fechaEntrega &&
-						pedidoCliente.codigoPedido !== pedidoActual.codigoPedido &&
+						pedidoCliente.fechaEntrega ===
+							(fechaEntrega ?? visitaActual.fechaEntrega) &&
 						pedidoCliente.estado === EEstadosDeUnPedido.Activo
 				);
 			}
 
 			return pedidosClienteMismaFechaEntrega;
 		},
-		[pedidosClientes, pedidoActual, clienteActual]
+		[pedidosClientes, visitaActual, clienteActual]
 	);
 
 	const pedidosClienteMismaFechaEntrega = obtenerPedidosClienteMismaFechaEntrega(

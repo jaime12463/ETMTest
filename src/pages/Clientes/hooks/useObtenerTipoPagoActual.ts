@@ -1,6 +1,5 @@
-import {ETiposDePago, TCliente, TTotalPedido} from 'models';
+import {ETiposDePago, TCliente} from 'models';
 import {
-	useCalcularTotalPedido,
 	useObtenerCreditoDisponible,
 	useObtenerDatosCliente,
 	useObtenerPedidosClienteMismaFechaEntrega,
