@@ -1,17 +1,33 @@
 import {
 	useCalcularTotalPedido,
 	useObtenerDatosCliente,
+	useObtenerDatosTipoPedido,
 	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
-import {TCliente, TClienteActual, TTotalPedido} from 'models';
+import {
+	TCliente,
+	TClienteActual,
+	TPedido,
+	TTipoPedido,
+	TTotalPedido,
+} from 'models';
 import {useCallback} from 'react';
-import {useObtenerClienteActual} from 'redux/hooks';
+import {
+	useObtenerClienteActual,
+	useObtenerConfiguracion,
+	useObtenerPedidosClientes,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
 import {validarTotalConMontoMaximoContado} from 'utils/validaciones';
 
 export const useEsPermitidoAgregarProductoAlPedido = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const calcularTotalPedido: () => TTotalPedido = useCalcularTotalPedido();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+	const configuracion = useObtenerConfiguracion();
+	const pedidosClientes = useObtenerPedidosClientes();
+	const visitaActual = useObtenerVisitaActual();
+	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
 	const {
 		pedidosClienteMismaFechaEntrega,
 	} = useObtenerPedidosClienteMismaFechaEntrega();
@@ -44,7 +60,46 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 		if (!esMenorAlMontoMaximoContado)
 			return !esPermitidoAgregarProductoAlPedido;
 
-		//aca validamos si tiene mas pedidos, o si tiene pedido mandatorio
+		const HayPedidosMandatoriosRegistrados: boolean = pedidosClientes[
+			clienteActual.codigoCliente
+		]?.pedidos.some((pedido) => {
+			const datosTipoPedido:
+				| TTipoPedido
+				| undefined = configuracion.tipoPedidos.find(
+				(tipoPedido) => tipoPedido.codigo === pedido.tipoPedido
+			);
+			if (!datosTipoPedido) return false;
+			return (
+				datosTipoPedido.esMandatorio &&
+				pedido.fechaEntrega === visitaActual.fechaEntrega
+			);
+		});
+
+		const HayPedidosMandatoriosEnCurso: boolean = Object.values(
+			visitaActual.pedidos
+		).some((pedido: TPedido) => {
+			const datosTipoPedido:
+				| TTipoPedido
+				| undefined = configuracion.tipoPedidos.find(
+				(tipoPedido) => tipoPedido.codigo === pedido.tipoPedido
+			);
+
+			if (!datosTipoPedido) return false;
+			return (
+				datosTipoPedido.esMandatorio &&
+				pedido.fechaEntrega === visitaActual.fechaEntrega &&
+				pedido.productos.length !== 0
+			);
+		});
+
+		const datosTipoPedidoActual = obtenerDatosTipoPedido();
+
+		if (
+			!HayPedidosMandatoriosRegistrados &&
+			!HayPedidosMandatoriosEnCurso &&
+			!datosTipoPedidoActual?.esValorizado
+		)
+			return !esPermitidoAgregarProductoAlPedido;
 
 		return esPermitidoAgregarProductoAlPedido;
 	}, [

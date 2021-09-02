@@ -121,7 +121,6 @@ export const {
 	cambiarTipoPagoPoductoDelPedidoActual,
 	cambiarTipoPagoPoductosDelPedidoActual,
 	cambiarTipoPedidoActual,
-	cambiarCatalogoMotivo,
 	cambiarMostrarPromoPush,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

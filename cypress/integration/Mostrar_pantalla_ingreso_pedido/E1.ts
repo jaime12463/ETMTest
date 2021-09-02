@@ -1,4 +1,4 @@
-import {Dado, Entonces} from '../../pasos';
+import {Dado, Entonces, Y} from '../../pasos';
 
 Dado('que el tipo de pedido _esValorizado = true', () => {
 	cy.fixture('configuracion').then((configuracion) => {
@@ -13,15 +13,15 @@ Dado('que el tipo de pedido _esValorizado = true', () => {
 	cy.oprimirBotonSplash();
 });
 
-Entonces(
-	'el sistema mostrará el panel de ingreso del producto, el switch crédito, los totales',
-	() => {
-		//TODO: Cuales totales son
-		cy.get('[data-cy=codigo-producto-a-buscar]').should('be.enabled');
+Entonces('el sistema habilita el panel de ingreso del producto', () => {
+	//TODO: Cuales totales son
+	cy.get('[data-cy=codigo-producto-a-buscar]').should('be.enabled');
+});
 
-		cy.get('[data-cy=total-credito]').should('exist');
-		cy.get('[data-cy=total-contado]').should('exist');
+Y('mostrara el switch crédito y los totales', () => {
+	//TODO: Cuales totales son
+	cy.get('[data-cy=total-credito]').should('exist');
+	cy.get('[data-cy=total-contado]').should('exist');
 
-		cy.get('#switch-cambiar-tipoPago-').should('exist');
-	}
-);
+	cy.get('#switch-cambiar-tipoPago-').should('exist');
+});
