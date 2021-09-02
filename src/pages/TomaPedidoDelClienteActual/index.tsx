@@ -19,9 +19,13 @@ import {
 import {useResetVisitaActualAlDesmontar} from './hooks';
 import CompromisoDeCobro from 'pages/CompromisoDeCobro';
 import {validarDeshabilitarTabCompromisoDeCobro} from 'utils/validaciones';
+import {useObtenerMostrarPromoPush} from 'hooks';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [value, setValue] = React.useState(0);
+	const obtenerMostrarPromoPush = useObtenerMostrarPromoPush();
+
+	
 
 	useResetVisitaActualAlDesmontar();
 	return (
@@ -41,7 +45,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
 				<Grid container spacing={1}>
-					<PieDelTab value={value} />
+					{!obtenerMostrarPromoPush && <PieDelTab value={value} />}
 				</Grid>
 
 				<Grid container spacing={1}>
