@@ -2,11 +2,11 @@ import {FunctionComponent, useState} from 'react';
 import Select from 'components/UI/Select';
 import {TFormTomaDePedido, THookForm, TStateInputFocus, TStateProductoActual} from 'models';
 import {
-	useCambiarCatalogoMotivo,
 	useObtenerCatalogoMotivos,
 } from './hooks';
 import { useMostrarAdvertenciaEnDialogo, useResetLineaActual } from 'hooks';
 import { useAgregarProductoAlPedidoActual } from 'components/Negocio/InputsUnidadesYSubUnidades/hooks';
+import { Dialogo } from 'components/UI';
 
 type Props = {
 	hookForm: THookForm<TFormTomaDePedido>;
@@ -17,7 +17,6 @@ type Props = {
 export const SelectCatalogoMotivos: FunctionComponent<Props> = (props) => {
 	const {hookForm, stateInputFocus, stateProductoActual} = props;
 	const itemCatalogoMotivos = useObtenerCatalogoMotivos();
-	const cambiarCatalogoMotivo = useCambiarCatalogoMotivo();
 	const {productoActual, setProductoActual} = stateProductoActual;
 
 	const {handleSubmit, control, setValue, getValues} = hookForm;
@@ -40,13 +39,17 @@ export const SelectCatalogoMotivos: FunctionComponent<Props> = (props) => {
 	);
 		
 	return (
-		<Select
-			control={control}
-			opciones={itemCatalogoMotivos}
-			name='catalogoMotivo'
-			dataCY='select-cambiar-catalogo-motivo'
-			handleChange={handleSubmit(agregarProductoAlPedidoActual)}
-			autoFocus={stateInputFocus.inputFocus == 'catalogoMotivo'}
-		/>
+		<>
+			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+			<Select
+				control={control}
+				opciones={itemCatalogoMotivos}
+				name='catalogoMotivo'
+				dataCY='select-cambiar-catalogo-motivo'
+				handleChange={handleSubmit(agregarProductoAlPedidoActual)}
+				autoFocus={stateInputFocus.inputFocus == 'catalogoMotivo'}
+				disabled={productoActual === null}
+			/>
+		</>
 	);
 };
