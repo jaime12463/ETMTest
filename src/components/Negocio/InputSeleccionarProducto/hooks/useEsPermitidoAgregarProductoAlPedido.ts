@@ -93,7 +93,6 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 		});
 
 		const datosTipoPedidoActual = obtenerDatosTipoPedido();
-
 		if (
 			!HayPedidosMandatoriosRegistrados &&
 			!HayPedidosMandatoriosEnCurso &&
