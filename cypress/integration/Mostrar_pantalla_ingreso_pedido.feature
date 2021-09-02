@@ -26,7 +26,8 @@ Característica: Mostrar pantalla ingreso del pedido
 Escenario: N°1 - El tipo de pedido es valorizado
     Dado que el tipo de pedido _esValorizado = true
     Cuando ingreso a registrar un pedido
-    Entonces el sistema mostrará el panel de ingreso del producto, el switch crédito, los totales
+    Entonces el sistema habilita el panel de ingreso del producto
+    Y mostrara el switch crédito y los totales
 #TODO: Aca toca especificar cuales totales mostrar
 
 Esquema del escenario: N°2 - El tipo de pedido es no valorizado

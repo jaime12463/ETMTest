@@ -11,6 +11,7 @@ export const useInicializarPedidos = () => {
 			const pedido: TPedido = {
 				codigoPedido: uuidv4(),
 				estado: EEstadosDeUnPedido.Activo,
+				tipoPedido: tipoPedido.codigo,
 				fechaEntrega,
 				productos: [],
 			};
