@@ -3,7 +3,6 @@ import {Grid, Box} from '@material-ui/core';
 import {Center, Fecha, Numero} from 'components/UI';
 import useEstilos from './useEstilos';
 import React from 'react';
-
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';

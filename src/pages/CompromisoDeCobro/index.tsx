@@ -3,11 +3,7 @@ import {TCliente, TClienteActual} from 'models';
 import {useObtenerDatosCliente} from 'hooks';
 import {useObtenerClienteActual} from 'redux/hooks';
 import {Box, Grid, Paper} from '@material-ui/core';
-import {
-	ListadoDocumentos,
-	InputAgregarCompromisoDeCobro,
-	TarjetasPromoPush,
-} from './components';
+import {ListadoDocumentos, InputAgregarCompromisoDeCobro} from './components';
 import {useObtenerMontoTotalDocumentos} from './hooks/useObtenerMontoTotalDocumentos';
 import {Numero} from 'components/UI';
 

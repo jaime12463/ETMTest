@@ -12,12 +12,14 @@ export const useInicializarVisitaActual = () => {
 		(fechaEntrega: string) => {
 			const pedidos: TPedidos = inicializarPedidos(fechaEntrega);
 			const tipoPedidoActual: number = configuraciones.tipoPedidos[0].codigo;
+			const mostrarPromoPush: boolean = false;
 			dispatch(
 				inicializarVisitaActual({
 					visitaActual: {
 						fechaEntrega,
 						pedidos,
 						tipoPedidoActual,
+						mostrarPromoPush,
 					},
 				})
 			);
