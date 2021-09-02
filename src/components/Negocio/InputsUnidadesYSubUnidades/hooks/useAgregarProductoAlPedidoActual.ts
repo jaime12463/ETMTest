@@ -37,7 +37,7 @@ export const useAgregarProductoAlPedidoActual = (
 
 	const agregarProductoAlPedidoActual = useCallback(
 		(inputs: TFormTomaDePedido) => {
-			const {unidades, subUnidades} = inputs;
+			const {unidades, subUnidades, catalogoMotivo} = inputs;
 
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
 
@@ -65,6 +65,7 @@ export const useAgregarProductoAlPedidoActual = (
 								productoActual.precioConImpuestoUnidad * unidadesParseado +
 								productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
 							tipoPago: clienteActual.tipoPagoActual,
+							catalogoMotivo
 						},
 					})
 				);

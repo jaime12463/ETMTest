@@ -1,19 +1,24 @@
 import {Grid} from '@material-ui/core';
 import {Numero} from 'components/UI';
 import { useObtenerDatosTipoPedido } from 'hooks/useObtenerDatosTipoPedido';
-import {TStateProductoActual, TTipoPedido, TFormTomaDePedido} from 'models';
+import {TStateProductoActual, TTipoPedido, TFormTomaDePedido, TStateInputFocus, THookForm} from 'models';
 import {FunctionComponent} from 'react';
 import {useForm} from 'react-hook-form';
 import { SelectCatalogoMotivos } from '../SelectCatalogoMotivos';
 
 type Props = {
 	stateProductoActual: TStateProductoActual;
+	stateInputFocus: TStateInputFocus;
+	hookForm: THookForm<TFormTomaDePedido>;
 };
 
 export const InfoProductoActual: FunctionComponent<Props> = (props) => {
 	const {
-		stateProductoActual: {productoActual},
+		stateProductoActual,
+		hookForm,
+		stateInputFocus
 	} = props;
+	const { productoActual } = stateProductoActual;
 
 	const {
 		nombreProducto,
@@ -26,22 +31,6 @@ export const InfoProductoActual: FunctionComponent<Props> = (props) => {
 	const datosTipoPedidoActual:
 	| TTipoPedido
 	| undefined = obtenerDatosTipoPedido();
-
-	const defaultValues: TFormTomaDePedido = {
-		unidades: '',
-		subUnidades: '',
-		productoABuscar: '',
-		tipoDePedido: '',
-	};
-
-	const {
-		control,
-		handleSubmit,
-		setValue,
-		getValues,
-	} = useForm<TFormTomaDePedido>({defaultValues});
-
-	const hookForm = {control, handleSubmit, setValue, getValues};
 
 	return (
 		<Grid container>
@@ -63,7 +52,7 @@ export const InfoProductoActual: FunctionComponent<Props> = (props) => {
 			{datosTipoPedidoActual?.requiereMotivo &&
 				<Grid item xs={6}>
 					<Grid container>
-						<SelectCatalogoMotivos hookForm={hookForm} />
+						<SelectCatalogoMotivos hookForm={hookForm} stateInputFocus={stateInputFocus} stateProductoActual={stateProductoActual}/>
 					</Grid>
 				</Grid>
 			}

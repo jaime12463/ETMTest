@@ -85,6 +85,7 @@ export type TPedidoDelProducto = {
 	subUnidades: number;
 	total: number;
 	tipoPago: ETiposDePago;
+	catalogoMotivo: string;
 };
 
 export enum ETiposDePago {
