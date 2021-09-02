@@ -51,6 +51,8 @@ export const useSeleccionarProductoDePrecios = (
 
 			let subUnidadesParseado: string = '';
 
+			let catalogoMotivo: string = '';
+
 			if (productoActualEncontrado) {
 				unidadesParseado =
 					productoActualEncontrado.unidades !== 0
@@ -60,10 +62,12 @@ export const useSeleccionarProductoDePrecios = (
 					productoActualEncontrado.subUnidades !== 0
 						? productoActualEncontrado.subUnidades.toString()
 						: '';
+				catalogoMotivo = productoActualEncontrado.catalogoMotivo.toString();
 			}
 			setValue('unidades', unidadesParseado);
 			setValue('subUnidades', subUnidadesParseado);
 			setValue('productoABuscar', productoABuscar);
+			setValue('catalogoMotivo', catalogoMotivo)
 
 			setProductoActual(productoEncontrado);
 
