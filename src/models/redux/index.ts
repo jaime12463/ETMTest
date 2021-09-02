@@ -51,6 +51,7 @@ export type TPedidos = {
 };
 
 export type TPedido = {
+	tipoPedido: number;
 	codigoPedido: string;
 	fechaEntrega: string;
 	estado: EEstadosDeUnPedido;
