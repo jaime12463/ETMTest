@@ -38,6 +38,7 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 		subUnidades: '',
 		productoABuscar: '',
 		tipoDePedido: configuracion.tipoPedidos[0].codigo.toString(),
+		catalogoMotivo: '',
 	};
 
 	const {

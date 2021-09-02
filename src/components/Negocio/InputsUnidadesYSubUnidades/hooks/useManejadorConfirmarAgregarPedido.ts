@@ -23,7 +23,7 @@ export const useManejadorConfirmarAgregarPedido = (
 			if (oprimioBotonAceptar) {
 				const {setInputFocus} = stateInputFocus;
 
-				const {unidades, subUnidades} = getValues();
+				const {unidades, subUnidades, catalogoMotivo} = getValues();
 
 				const unidadesParseado: number =
 					unidades !== '' ? parseInt(unidades) : 0;
@@ -43,6 +43,7 @@ export const useManejadorConfirmarAgregarPedido = (
 								productoActual.precioConImpuestoUnidad * unidadesParseado +
 								productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
 							tipoPago: clienteActual.tipoPagoActual,
+							catalogoMotivo,
 						},
 					})
 				);
