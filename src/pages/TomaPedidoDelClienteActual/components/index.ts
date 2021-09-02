@@ -9,13 +9,17 @@ export {BotonCerrarPedidoDelCliente} from './BotonCerrarPedidoDelCliente';
 export {SwitchCambiarTipoPago} from './SwitchCambiarTipoPago';
 export {SelectTipoDePedido} from './SelectTipoDePedido';
 export {InfoProductoActual} from './InfoProductoActual';
+import TarjetasPromoPush from './TarjetasPromoPush';
+import ItemTarjetaPromoPush from './ItemTarjetaPromoPush';
 
 export {
 	TabVentas,
 	ListadoProductosAgregadosAlPedidoActual,
 	IndicadoresDelPedidoActual,
 	FormularioAgregarProducto,
+	TarjetasPromoPush,
 	ItemProductoAgregadoAlPedidoActual,
 	TotalesMetodoDeVentaDelPedidoActual,
 	ItemCanjeAgregadoAlPedidoActual,
+	ItemTarjetaPromoPush,
 };

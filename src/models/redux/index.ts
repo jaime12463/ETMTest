@@ -44,6 +44,7 @@ export type TVisita = {
 	fechaEntrega: string; //TODO: Deberia ir la visita con el pedido actual?
 	tipoPedidoActual: number;
 	pedidos: TPedidos;
+	mostrarPromoPush: boolean;
 };
 
 export type TPedidos = {

@@ -6,6 +6,7 @@ const estadoInicial: TVisita = {
 	fechaEntrega: '',
 	tipoPedidoActual: 0,
 	pedidos: {},
+	mostrarPromoPush: false,
 };
 
 export const visitaActualSlice = createSlice({
@@ -54,16 +55,19 @@ export const visitaActualSlice = createSlice({
 				pedidos,
 				fechaEntrega,
 				tipoPedidoActual,
+				mostrarPromoPush,
 			} = action.payload.visitaActual;
 			state.pedidos = pedidos;
 			state.fechaEntrega = fechaEntrega;
 			state.tipoPedidoActual = tipoPedidoActual;
+			state.mostrarPromoPush = mostrarPromoPush;
 		},
 
 		resetearVisitaActual: (state) => {
 			state.pedidos = {};
 			state.fechaEntrega = '';
 			state.tipoPedidoActual = 0;
+			state.mostrarPromoPush = false;
 		},
 
 		cambiarTipoPagoPoductoDelPedidoActual: (
@@ -99,8 +103,18 @@ export const visitaActualSlice = createSlice({
 			state.tipoPedidoActual = action.payload.tipoPedido;
 		},
 
-		cambiarCatalogoMotivo: (state, action: PayloadAction<{catalogoMotivo: number}>) => {
+		cambiarCatalogoMotivo: (
+			state,
+			action: PayloadAction<{catalogoMotivo: number}>
+		) => {
 			//state.catalogoMotivo = action.payload.catalogoMotivo;
+		},
+
+		cambiarMostrarPromoPush: (
+			state,
+			action: PayloadAction<{mostrarPromoPush: boolean}>
+		) => {
+			state.mostrarPromoPush = action.payload.mostrarPromoPush;
 		},
 	},
 });
@@ -115,5 +129,6 @@ export const {
 	cambiarTipoPagoPoductosDelPedidoActual,
 	cambiarTipoPedidoActual,
 	cambiarCatalogoMotivo,
+	cambiarMostrarPromoPush,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

@@ -15,6 +15,9 @@ import {useForm} from 'react-hook-form';
 import {TotalesMetodoDeVentaDelPedidoActual} from '../index';
 import {useObtenerConfiguracion} from 'redux/hooks';
 import ListadoCanjesAgregadosAlPedidoActual from '../ListadoCanjesAgregadosAlPedidoActual';
+import {MenuPromoPush} from 'components/Negocio';
+import {useObtenerMostrarPromoPush} from 'hooks';
+import {TarjetasPromoPush} from '..';
 
 type Props = {};
 
@@ -51,6 +54,8 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 
 	const hookForm = {control, handleSubmit, setValue, getValues};
 
+	const obtenerMostrarPromoPush = useObtenerMostrarPromoPush();
+
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 
 	return (
@@ -62,7 +67,7 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 							<SelectTipoDePedido hookForm={hookForm} />
 						</Grid>
 						<Grid item xs={4}>
-							Iconos
+							<MenuPromoPush />
 						</Grid>
 					</Grid>
 				</Box>
@@ -74,12 +79,16 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 				/>
 			</Box>
 			{/*TODO: Mostrar solo cuando el SelectTipoDePedido es Venta */}
-			<ListadoProductosAgregadosAlPedidoActual
-				setProductoActual={setProductoActual}
-				hookForm={hookForm}
-				preciosProductos={preciosProductos}
-				setInputFocus={setInputFocus}
-			/> 
+			{!obtenerMostrarPromoPush ? (
+				<ListadoProductosAgregadosAlPedidoActual
+					setProductoActual={setProductoActual}
+					hookForm={hookForm}
+					preciosProductos={preciosProductos}
+					setInputFocus={setInputFocus}
+				/>
+			) : (
+				<TarjetasPromoPush />
+			)}
 			{/*TODO: Mostrar solo cuando el SelectTipoDePedido es Canje */}
 			{/*<ListadoCanjesAgregadosAlPedidoActual
 				setProductoActual={setProductoActual}
