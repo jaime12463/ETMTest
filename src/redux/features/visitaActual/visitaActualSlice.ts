@@ -103,13 +103,6 @@ export const visitaActualSlice = createSlice({
 			state.tipoPedidoActual = action.payload.tipoPedido;
 		},
 
-		cambiarCatalogoMotivo: (
-			state,
-			action: PayloadAction<{catalogoMotivo: number}>
-		) => {
-			//state.catalogoMotivo = action.payload.catalogoMotivo;
-		},
-
 		cambiarMostrarPromoPush: (
 			state,
 			action: PayloadAction<{mostrarPromoPush: boolean}>
