@@ -18,7 +18,7 @@ function Item<T>(props: Props<T>) {
 	const {item, ItemComponent, onClick, estado, index, dataCY} = props;
 
 	return (
-		<ListItem button disableGutters={true} data-CY={dataCY}>
+		<ListItem button disableGutters={true} data-cy={dataCY}>
 			{
 				<ItemComponent
 					item={item}

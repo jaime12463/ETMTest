@@ -69,7 +69,7 @@ const ItemCanjeAgregadoAlPedidoActual: FunctionComponent<Props> = (
 								<Box 
 									fontWeight='fontWeightLight' 
 									fontSize={12} 
-									data-CY={`producto-pedido-motivo-${codigoProducto}`}
+									data-cy={`producto-pedido-motivo-${codigoProducto}`}
 								>
 									{catalogoMotivo}
 								</Box>
