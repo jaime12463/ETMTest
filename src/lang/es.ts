@@ -16,7 +16,7 @@ const es = {
 		razonSocial: 'Razón social',
 		denominacion: 'Denominación',
 		subunidades: 'Subunidades',
-		cerrarPedido: 'Cerrar pedido',
+		cerrarPedido: 'Cerrar visita',
 		si: 'Si',
 		no: 'No',
 		aceptar: 'Aceptar',

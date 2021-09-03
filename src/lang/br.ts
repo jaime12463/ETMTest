@@ -16,7 +16,7 @@ const br = {
 		razonSocial: 'Razão social',
 		denominacion: 'Denominação',
 		subunidades: 'Sub Unidades',
-		cerrarPedido: 'Fechar pedido',
+		cerrarPedido: 'Fechar visita',
 		si: 'Sim',
 		no: 'Não',
 		aceptar: 'Aceitar',
