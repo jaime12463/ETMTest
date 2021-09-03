@@ -8,8 +8,9 @@ import {
 	InputsKeysFormTomaDePedido,
 	TFormTomaDePedido,
 	TPrecioProducto,
+	TTipoPedido,
 } from 'models';
-import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
+import {useInicializarPreciosProductosDelClienteActual, useObtenerDatosTipoPedido} from 'hooks';
 import {Box, Grid, Container} from '@material-ui/core';
 import {useForm} from 'react-hook-form';
 import {TotalesMetodoDeVentaDelPedidoActual} from '../index';
@@ -57,6 +58,12 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 
 	const obtenerMostrarPromoPush = useObtenerMostrarPromoPush();
 
+	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
+	
+	const datosTipoPedidoActual:
+		| TTipoPedido
+		| undefined = obtenerDatosTipoPedido();
+
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 
 	return (
@@ -79,24 +86,27 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 					stateInputFocus={stateInputFocus}
 				/>
 			</Box>
-			{/*TODO: Mostrar solo cuando el SelectTipoDePedido es Venta */}
-			{!obtenerMostrarPromoPush ? (
+			{/*TODO: Mostrar solo cuando requiereMotivo es False. Tambien cuando esValorizado es True? */}			
+			{!obtenerMostrarPromoPush && !datosTipoPedidoActual?.requiereMotivo && 
 				<ListadoProductosAgregadosAlPedidoActual
 					setProductoActual={setProductoActual}
 					hookForm={hookForm}
 					preciosProductos={preciosProductos}
 					setInputFocus={setInputFocus}
 				/>
-			) : (
+			}
+			{/*TODO: Mostrar solo cuando requiereMotivo es True. Tambien cuando esValorizado es False? */}
+			{!obtenerMostrarPromoPush && datosTipoPedidoActual?.requiereMotivo &&
+				<ListadoCanjesAgregadosAlPedidoActual
+					setProductoActual={setProductoActual}
+					hookForm={hookForm}
+					preciosProductos={preciosProductos}
+					setInputFocus={setInputFocus}
+				/>
+			}
+			{obtenerMostrarPromoPush && 
 				<TarjetasPromoPush />
-			)}
-			{/*TODO: Mostrar solo cuando el SelectTipoDePedido es Canje */}
-			{/*<ListadoCanjesAgregadosAlPedidoActual
-				setProductoActual={setProductoActual}
-				hookForm={hookForm}
-				preciosProductos={preciosProductos}
-				setInputFocus={setInputFocus}
-			/>*/}
+			}
 		</Fragment>
 	);
 };
