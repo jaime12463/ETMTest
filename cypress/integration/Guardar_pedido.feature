@@ -1,6 +1,14 @@
 # language: es
 
-@Pedido @Guardar_pedido @Sprint7 @Sprint8 @Sprint9 @Sprint10
+@Pedido @Guardar_pedido @Sprint7 @Sprint8 @Sprint9 @Sprint10 @Sprint11
+
+# Sprint11: Si el pedido a cerrar es válido, y para la ruta _habilitaOrdenDeCompra=true 
+# y se registro algún pedido valorizado, se muestra un dialogo para el ingreso de la orden de compra. 
+# Habilitar el boton Si del diálogo si se ingresó la orden de compra.
+# Si el usuario responde Si, la orden de compra se debe registrar en la cabecera de todos los pedido cuyo _tipoPedido tiene _esValorizado=true.
+# Si el usuario responde No, el sistema continúa con el cierre normal del pedido
+
+# Sprint11 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=1256%3A2&scaling=min-zoom&page-id=1075%3A2&starting-point-node-id=1256%3A2
 
 # Cuando el tipo de pedido es Canje registrar lo sigguiente:
 #            Tipo de Operación: "Canje", se guarda el código del tipo de operación
@@ -34,8 +42,8 @@ Característica: Guardar actividad realizada
 
 Antecedentes:
     Dado un pedido ingresado y/o un compromiso de cobro registrado
-Y montoVentaMaximo = montoVentaContadoMaxima - consumido para la fecha de entrega - pedidos de contado registrados para la misma fecha de entrega - compromisos de cobro para la misma fecha de entrega
-Y creditoDisponible = informacionCrediticia.disponible – pedidos a crédito ya registrados – productos a crédito del pedido actual
+    Y montoVentaMaximo = montoVentaContadoMaxima - consumido para la fecha de entrega - pedidos de contado registrados para la misma fecha de entrega - compromisos de cobro para la misma fecha de entrega
+    Y creditoDisponible = informacionCrediticia.disponible – pedidos a crédito ya registrados – productos a crédito del pedido actual
 
 Escenario: N°1 – El cliente de contado o crédito formal no tiene pedidos activos para la fecha de entrega y el pedido cumple el mínimo y no excede el máximo. No se valida crédito disponible.
     Dado que el cliente no tiene pedidos en estado Activo para la misma fecha de entrega del pedido a guardar
@@ -90,3 +98,13 @@ Escenario: N°7 – El cliente es de crédito informal y el pedido a guardar a c
     Y el créditoDisponible es menor a cero
     Cuando guardo el pedido
     Entonces el sistema Mostrará mensaje “El pedido excede el crédito disponible” y permanecerá en la pantalla  
+
+Escenario: N°8 - Asociar orden de compra al pedido
+    Dado que se seleccionó cerrar pedido
+    Y se cumplieron todas las verificaciones de pedido en forma correcta
+    Y la ruta tiene _habilitaOrdenDeCompra = true
+    Cuando existe un pedido a guardar cuyo _tipoPedido tiene _esValorizado = true
+    Entonces el sistema mostrará una ventana de diálogo para el ingreso del 
+    código de la orden de compra
+    Y guardará la orden ingresada en la cabecera de todos los pedidos
+    cuyos _tipoPedido tenga _esValorizado = true
