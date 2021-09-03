@@ -16,7 +16,8 @@ Característica: Búsqueda de productos por atributos
     Para agregarlo al pedido
 
 Esquema del escenario: N°1 Filtrar producto en portafolio vigente cuando el tipo de pedido no valida presupuesto
-    Dado que el prevendedor seleccionó un pedido cuyo _tipoPedido tiene _validaPresupuesto = false
+    Dado que el prevendedor seleccionó un pedido cuyo _tipoPedido es un _tipoPedidoHabilitados 
+    Y tiene _validaPresupuesto = false
     Y tiene portafolio asignado con precio y vigencia inicial y final
     Cuando haya ingresado al menos dos o más caracteres
     Entonces el sistema muestra solamente los productos cuyo _tipoProducto sea el _tipoProductosHabilitados para el tipo de pedido en curso 
@@ -32,7 +33,8 @@ Ejemplos:
 
 
 Esquema del escenario: N°2 Filtrar producto en portafolio vigente con presupuesto de canje y el presupuesto no está vigente
-    Dado que el prevendedor seleccionó un pedido cuyo _tipoPedido tiene _validaPresupuesto = true
+    Dado que el prevendedor seleccionó un pedido cuyo _tipoPedido es un _tipoPedidoHabilitados
+    Y tiene _validaPresupuesto = true
     Y el _presupuestoTipoPedido para el _tipoPedido en curso tiene _vigenciaFinPresupuesto <= fecha de entrega
     Y _tieneProductosHabilitados = false
     Cuando haya ingresado al menos dos o más caracteres
@@ -48,7 +50,8 @@ Ejemplos:
 
 
 Esquema del escenario: N°3 Filtrar producto en portafolio vigente con presupuesto de canje cuando no tiene lista de productos habilitados
-    Dado que el prevendedor seleccionó un pedido cuyo _tipoPedido tiene _validaPresupuesto = true
+    Dado que el prevendedor seleccionó un pedido cuyo _tipoPedido es un _tipoPedidoHabilitados
+    Y tiene _validaPresupuesto = true
     Y el _presupuestoTipoPedido para el _tipoPedido en curso tiene _vigenciaInicioPresupuesto <= fecha de entrega <= _vigenciaFinPresupuesto
     Y _tieneProductosHabilitados = false
     Cuando haya ingresado al menos dos o más caracteres
@@ -65,7 +68,8 @@ Ejemplos:
 
 
 Esquema del escenario: N°4 Filtrar producto en portafolio vigente con presupuesto de canje cuando existe lista de productos habilitados
-    Dado que el prevendedor seleccionó un pedido cuyo _tipoPedido tiene _validaPresupuesto = true
+    Dado que el prevendedor seleccionó un pedido cuyo _tipoPedido es un _tipoPedidoHabilitados 
+    Y tiene _validaPresupuesto = true
     Y el _presupuestoTipoPedido para el _tipoPedido en curso tiene _vigenciaInicioPresupuesto <= fecha de entrega <= _vigenciaFinPresupuesto
     Y _tieneProductosHabilitados = true
     Cuando haya ingresado al menos dos o más caracteres
