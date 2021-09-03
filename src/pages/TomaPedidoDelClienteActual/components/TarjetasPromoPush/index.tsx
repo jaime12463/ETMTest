@@ -24,6 +24,7 @@ const TarjetasPromoPush = () => {
 			ItemComponent={ItemTarjetaPromoPush}
 			onClickItem={handleChange}
 			estado={expanded}
+			dataCY='listado-promoPush'
 		/>
 	);
 };

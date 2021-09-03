@@ -49,6 +49,7 @@ const ListadoEnvasesRetornables: FunctionComponent<Props> = (props) => {
 				return a.codigoImplicito - b.codigoImplicito;
 			})}
 			ItemComponent={ItemListadoEnvasesRetornables}
+			dataCY='listado-envases-retornables'
 		/>
 	);
 };

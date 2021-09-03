@@ -78,6 +78,7 @@ const ListadoCanjesAgregadosAlPedidoActual: FunctionComponent<Props> = (
 				items={productos}
 				ItemComponent={ItemCanjeAgregadoAlPedidoActual}
 				onClickItem={onClickItem}
+				dataCY='listado-RequiereMotivo'
 			/>
 		</>
 	);

@@ -85,6 +85,7 @@ const ListadoProductosAgregadosAlPedidoActual: FunctionComponent<Props> = (
 				items={productos}
 				ItemComponent={ItemProductoAgregadoAlPedidoActual}
 				onClickItem={onClickItem}
+				dataCY='listado-productos-agregados'
 			/>
 		</>
 	);
