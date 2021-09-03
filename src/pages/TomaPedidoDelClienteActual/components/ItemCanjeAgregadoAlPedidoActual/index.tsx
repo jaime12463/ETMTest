@@ -1,9 +1,8 @@
 import {FunctionComponent} from 'react';
 import {TProductoPedido} from 'models';
 import {Box, Grid} from '@material-ui/core';
-import {Numero} from 'components/UI';
-import {SwitchCambiarTipoPago} from '..';
 import {useTranslation} from 'react-i18next';
+import { useObtenerCatalogoMotivos } from '../SelectCatalogoMotivos/hooks';
 
 type Props = {
 	item: TProductoPedido;
@@ -18,6 +17,8 @@ const ItemCanjeAgregadoAlPedidoActual: FunctionComponent<Props> = (
 	const {codigoProducto, nombreProducto, unidades, subUnidades, catalogoMotivo} = item;
 
 	const {t} = useTranslation();
+
+	const itemCatalogoMotivos = useObtenerCatalogoMotivos(catalogoMotivo);
 
 	return (
 		<Grid container>
@@ -71,7 +72,7 @@ const ItemCanjeAgregadoAlPedidoActual: FunctionComponent<Props> = (
 									fontSize={12} 
 									data-cy={`producto-pedido-motivo-${codigoProducto}`}
 								>
-									{catalogoMotivo}
+									{itemCatalogoMotivos[0].label}
 								</Box>
 							</Grid>
 						</Grid>
