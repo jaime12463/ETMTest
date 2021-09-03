@@ -15,7 +15,7 @@ const ItemCanjeAgregadoAlPedidoActual: FunctionComponent<Props> = (
 ) => {
 	const {item, onClickItem} = props;
 
-	const {codigoProducto, nombreProducto, unidades, subUnidades} = item;
+	const {codigoProducto, nombreProducto, unidades, subUnidades, catalogoMotivo} = item;
 
 	const {t} = useTranslation();
 
@@ -67,7 +67,7 @@ const ItemCanjeAgregadoAlPedidoActual: FunctionComponent<Props> = (
 						<Grid container>
 							<Grid item xs={12}>
 								<Box fontWeight='fontWeightLight' fontSize={12}>
-									MOTIVO DE CANJE
+									{catalogoMotivo}
 								</Box>
 							</Grid>
 						</Grid>
