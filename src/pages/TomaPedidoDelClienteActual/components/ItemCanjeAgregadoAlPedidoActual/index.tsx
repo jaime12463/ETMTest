@@ -66,7 +66,11 @@ const ItemCanjeAgregadoAlPedidoActual: FunctionComponent<Props> = (
 						</Grid>
 						<Grid container>
 							<Grid item xs={12}>
-								<Box fontWeight='fontWeightLight' fontSize={12}>
+								<Box 
+									fontWeight='fontWeightLight' 
+									fontSize={12} 
+									data-CY={`producto-pedido-motivo-${codigoProducto}`}
+								>
 									{catalogoMotivo}
 								</Box>
 							</Grid>

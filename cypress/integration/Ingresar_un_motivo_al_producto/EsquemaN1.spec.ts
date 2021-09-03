@@ -31,6 +31,6 @@ Cuando('se selecciona el motivo', () => {
 Entonces(
 	'el sistema registrará el motivo y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.',
 	() => {
-
-	
+		cy.get('[data-cy=listado-RequiereMotivo-0]').should('exist');
+		cy.get('[data-cy=producto-pedido-motivo-1885]').should('exist');
 });
