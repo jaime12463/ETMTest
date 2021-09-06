@@ -95,31 +95,48 @@ const ItemTarjetaPromoPush = (props: any) => {
 				</CardActions>
 				<Collapse in={estado === index} timeout='auto' unmountOnExit>
 					<CardContent className={classes.cardContentExpand}>
-						<TableContainer>
-							<Table size='small'>
-								<TableBody>
-									{componentes.map((el: any, i: number) => (
-										<React.Fragment key={i}>
-											<TableRow>
-												<TableCell className={classes.celda}>
-													<Typography variant='body2'>
-														{`${el.CodigoProducto} ${
-															productos[el.CodigoProducto].nombre
-														}  ${promoPush.componentes[i].cantidad} ${
-															promoPush.componentes[i].unidadMedida
-														}`}
-													</Typography>
-													<Typography variant='body2'>
-														{`Precio: $${el.precioBase} Descuento: $${el.descuento}
-												 Total: $${el.precioFinal}`}
-													</Typography>
-												</TableCell>
-											</TableRow>
-										</React.Fragment>
-									))}
-								</TableBody>
-							</Table>
-						</TableContainer>
+						{componentes.map((el: any, i: number) => (
+							<React.Fragment key={i}>
+								<Box
+									display='flex '
+									justifyContent='space-between'
+									style={{width: '90%'}}
+								>
+									<Typography
+										variant='body2'
+										style={{
+											whiteSpace: 'nowrap',
+											textOverflow: 'ellipsis',
+											overflow: 'hidden',
+											maxWidth: 230,
+										}}
+									>
+										{el.CodigoProducto} {productos[el.CodigoProducto].nombre}
+									</Typography>
+									<Typography variant='body2'>
+										{promoPush.componentes[i].cantidad}
+									</Typography>
+									<Typography variant='body2'>
+										{promoPush.componentes[i].unidadMedida}
+									</Typography>
+								</Box>
+								<Box
+									display='flex '
+									justifyContent='space-between'
+									style={{width: '90%', marginBottom: 10}}
+								>
+									<Typography variant='body2'>
+										{`Precio:  $${el.precioBase}`}
+									</Typography>
+									<Typography variant='body2'>
+										{`Desc.:  $${el.descuento}`}
+									</Typography>
+									<Typography variant='body2'>
+										{`Total: $${el.precioFinal}`}
+									</Typography>
+								</Box>
+							</React.Fragment>
+						))}
 					</CardContent>
 				</Collapse>
 			</CardContent>

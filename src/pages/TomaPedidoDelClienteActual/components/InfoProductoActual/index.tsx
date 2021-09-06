@@ -3,8 +3,8 @@ import {Numero} from 'components/UI';
 import { useObtenerDatosTipoPedido } from 'hooks/useObtenerDatosTipoPedido';
 import {TStateProductoActual, TTipoPedido, TFormTomaDePedido, TStateInputFocus, THookForm} from 'models';
 import {FunctionComponent} from 'react';
-import {useForm} from 'react-hook-form';
 import { SelectCatalogoMotivos } from '../SelectCatalogoMotivos';
+import useEstilos from 'theme/useEstilosGenerales';
 
 type Props = {
 	stateProductoActual: TStateProductoActual;
@@ -32,9 +32,11 @@ export const InfoProductoActual: FunctionComponent<Props> = (props) => {
 	| TTipoPedido
 	| undefined = obtenerDatosTipoPedido();
 
+	const estilos = useEstilos();
+
 	return (
 		<Grid container>
-			<Grid item xs={6}>
+			<Grid item xs={6} className={estilos.cortarTexto}>
 				{nombreProducto}
 			</Grid>
 			{!datosTipoPedidoActual?.requiereMotivo &&
