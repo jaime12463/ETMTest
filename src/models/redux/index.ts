@@ -2,6 +2,7 @@ import {
 	TDatosConfiguracion,
 	TDatosClientesProductos,
 	TCondicicon,
+	TPromoPush,
 } from 'models/server';
 
 //Cliente Actual
@@ -79,6 +80,7 @@ export type TPrecioProducto = {
 	codigoImplicito2?: number;
 	nombreImplicito2?: string;
 	unidadesDisponibles?: number;
+	promoPush?: TPromoPush;
 };
 
 export type TPedidoDelProducto = {

@@ -1,13 +1,14 @@
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
-import {Box, Grid, Container} from '@material-ui/core';
+import {Box} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import {useAppDispatch} from 'redux/hooks';
 import {cambiarMostrarPromoPush} from 'redux/features/visitaActual/visitaActualSlice';
+import {useObtenerMostrarPromoPush} from 'hooks';
 
 const MenuPromoPush = (): any => {
 	const dispatch = useAppDispatch();
-
+	const obtenerMostrarPromoPush = useObtenerMostrarPromoPush();
 	const iconos = [
 		{icono: ShoppingCartIcon, mostrarPromoPush: false},
 		{icono: LocalOfferIcon, mostrarPromoPush: true},
@@ -25,6 +26,11 @@ const MenuPromoPush = (): any => {
 					onClick={() => {
 						cambiandoMostrarPromoPush(el.mostrarPromoPush);
 					}}
+					color={
+						obtenerMostrarPromoPush === el.mostrarPromoPush
+							? 'primary'
+							: 'default'
+					}
 				>
 					<el.icono />
 				</IconButton>
