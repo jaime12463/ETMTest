@@ -100,7 +100,6 @@ const ItemTarjetaPromoPush = (props: any) => {
 									<TableBody key={i}>
 										<TableRow>
 											{el.CodigoProducto}
-
 											<TableRow>
 												{`Precio: $${el.precioBase} Descuento: $${el.descuento}
 												 Total: $${el.precioFinal}`}

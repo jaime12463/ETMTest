@@ -25,8 +25,6 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const [value, setValue] = React.useState(0);
 	const obtenerMostrarPromoPush = useObtenerMostrarPromoPush();
 
-	
-
 	useResetVisitaActualAlDesmontar();
 	return (
 		<Estructura>
@@ -63,9 +61,11 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 
 function BotonVerEnvases() {
 	const {t} = useTranslation();
+	const obtenerMostrarPromoPush = useObtenerMostrarPromoPush();
 	let {path} = useRouteMatch();
 	let history = useHistory();
-	return (
+
+	return !obtenerMostrarPromoPush ? (
 		<Button
 			variant='contained'
 			color='primary'
@@ -75,7 +75,7 @@ function BotonVerEnvases() {
 		>
 			{t('general.verEnvases').toUpperCase()}
 		</Button>
-	);
+	) : null;
 }
 
 function BotonVerPedidosDelClienteActual() {
