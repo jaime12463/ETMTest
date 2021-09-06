@@ -37,6 +37,15 @@ const useEstilos = makeStyles((theme: Theme) =>
 			overflow: 'hidden',
 			maxWidth: 230,
 		},
+		celdaProducto:{
+			fontSize:'0.7rem',
+			lineHeight:1,
+			borderBottom:0,
+		},
+		celdaValores:{
+			fontSize:'0.7rem',
+			lineHeight:1
+		}
 	})
 );
 
