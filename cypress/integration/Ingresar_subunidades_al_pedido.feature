@@ -4,24 +4,26 @@
 
 # Sprint11:
 # Validación de presupuesto y productos habilitados para el tipo de pedido
-# Cuando se ingresa un producto en canje se tiene que validar la cantidad, unidades + subunidades, contra el presupuesto del producto - los productos que ya se registraron para ese tipo de pedido para cualquier cliente de la ruta.
+# Cuando se ingresa un producto en canje se tiene que validar la cantidad de unidades + subunidades, contra el presupuesto tipo de pedido - los productos que ya se registraron para ese tipo de pedido en todos cliente de la ruta.
 #
 # Calculo del presupuesto disponible del producto
-# presupuestoProducto = _presupuesto - (unidades + subunidades) 
-#    unidades = sumatoria de las unidades de todos los pedidos registrados del tipo de pedido en curso cuyo _validaPresupuesto = true, que no fueron transmitidos, para la fecha misma fecha de entrega de todos los clientes de la ruta 
-#    subunidades = (sumatoria de las subunidades de todos los pedidos registrados del tipo de pedido en curso cuyo _validaPresupuesto = true, que no fueron transmitidos, para la fecha misma fecha de entrega de todos los clientes de la ruta ) / _presentación )
+# presupuestoActual = _presupuesto - (unidades + subunidades) 
+#    unidades = sumatoria de las unidades de todos los pedidos registrados del tipo de pedido en curso cuyo _validaPresupuesto = true, que no fueron transmitidos, de todos los clientes de la ruta 
+#    subunidades = (sumatoria de las subunidades de todos los pedidos registrados del tipo de pedido en curso cuyo _validaPresupuesto = true, que no fueron transmitidos, de todos los clientes de la ruta ) / _presentación )
 # 
 # Ejemplo:
-#    _presupuesto = 2 para el _codigoProducto = 350 para el _tipoPedido = 2, cuyo _habilitaPresupuesto = true
+#    _presupuesto = 2 (unidades) para el _codigoProducto = 350 para el _tipoPedido = 2, cuyo _validaPresupuesto = true
 #    _presentacion = 12 del producto.
-#    Pedido registrado de Canje N1: 
+#    Pedido registrado de Canje N1 para el cliente 2345: 
 #                unidades = 1, subunidades = 3
-#    Pedido registrado de Canje N2: 
+#    Pedido registrado de Canje N2 para el cliente 5403: 
 #                unidades = 0, subunidades = 6
 #
-#    presupuestoProducto = _presupuesto - ( unidades + subunidades)
+#    presupuestoActual = _presupuesto - ( unidades + subunidades)
 #    subunidades = (3 + 6) / 12 = 0,75
-#    presupuestoProducto = 2 - ( 1 + 0,75) = 0,25
+#    presupuestoActual = 2 - ( 1 + 0,75) = 0,25
+
+
 
 
 # requiereMotivo del producto para el tipo de pedido que lo tenga configurado
@@ -83,7 +85,7 @@ Escenario: N°2 – Ingreso de subunidad correcta y no requiere motivo y el tipo
     Y _requiereMotivo = false
     Y tipo de pedido del pedido en curso tiene _validaPresupuesto = true
     Cuando se ingresan subunidades
-    Y presupuestoProducto - cantidad de unidades ingresadas - cantidad de subunidades ingresadas  >= 0   
+    Y presupuestoActual - cantidad de unidades ingresadas - cantidad de subunidades ingresadas  >= 0   
     Entonces el sistema registrará las subunidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
 
  Escenario: N°3 – Ingreso de subunidad correcta y requiere motivo y el tipo de pedido del pedido en curso valida presupuesto y cumple con el mismo
@@ -93,7 +95,7 @@ Escenario: N°2 – Ingreso de subunidad correcta y no requiere motivo y el tipo
     Y _requiereMotivo = true
     Y tipo de pedido del pedido en curso tiene _validaPresupuesto = true
     Cuando se ingresan subunidades
-    Y presupuestoProducto - cantidad de unidades ingresadas - cantidad de subunidades ingresadas  >= 0    Entonces el sistema registrará las subunidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
+    Y presupuestoActual - cantidad de unidades ingresadas - cantidad de subunidades ingresadas  >= 0    Entonces el sistema registrará las subunidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
     Entonces el sistema registrará las subunidades y continuará con el ingreso del motivo
 
 #Cuando se ingresa un producto nuevo, se asume como condición de pago del producto la condición de pago general del pedido. 
@@ -113,5 +115,5 @@ Escenario: N°5 – Ingreso de subunidades no es múltiplo
 Escenario: N°6 – Ingreso de subunidad no cumple con el presupuesto para el tipo de pedido del pedido en curso que valida presupuesto
     Dado que el tipo de pedido del pedido en curso tiene _validaPresupuesto = true
     Cuando se ingresan subunidades
-    Y presupuestoProducto - cantidad de unidades ingresadas - cantidad de subunidades ingresadas < 0 
-    Entonces el sistema mostrará el mensaje  "La cantidad excede el presupuesto disponible de " & presupuestoProducto y permanecerá en el ingreso de la cantidad de subunidades.
+    Y presupuestoActual - cantidad de unidades ingresadas - cantidad de subunidades ingresadas < 0 
+    Entonces el sistema mostrará el mensaje  "La cantidad ingresada excede el presupuesto asignado para el " & _descripción del _tipoPedido y permanecerá en el ingreso de la cantidad de subunidades.

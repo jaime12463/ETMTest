@@ -4,24 +4,24 @@
 
 # Sprint11:
 # Validación de presupuesto y productos habilitados para el tipo de pedido
-# Cuando se ingresa un producto en canje se tiene que validar la cantidad, unidades + subunidades, contra el presupuesto del producto - los productos que ya se registraron para ese tipo de pedido para cualquier cliente de la ruta.
+# Cuando se ingresa un producto en canje se tiene que validar la cantidad de unidades + subunidades, contra el presupuesto tipo de pedido - los productos que ya se registraron para ese tipo de pedido en todos cliente de la ruta.
 #
 # Calculo del presupuesto disponible del producto
-# presupuestoProducto = _presupuesto - (unidades + subunidades) 
-#    unidades = sumatoria de las unidades de todos los pedidos registrados del tipo de pedido en curso cuyo _validaPresupuesto = true, que no fueron transmitidos, para la fecha misma fecha de entrega de todos los clientes de la ruta 
-#    subunidades = (sumatoria de las subunidades de todos los pedidos registrados del tipo de pedido en curso cuyo _validaPresupuesto = true, que no fueron transmitidos, para la fecha misma fecha de entrega de todos los clientes de la ruta ) / _presentación )
+# presupuestoActual = _presupuesto - (unidades + subunidades) 
+#    unidades = sumatoria de las unidades de todos los pedidos registrados del tipo de pedido en curso cuyo _validaPresupuesto = true, que no fueron transmitidos, de todos los clientes de la ruta 
+#    subunidades = (sumatoria de las subunidades de todos los pedidos registrados del tipo de pedido en curso cuyo _validaPresupuesto = true, que no fueron transmitidos, de todos los clientes de la ruta ) / _presentación )
 # 
 # Ejemplo:
-#    _presupuesto = 2 (unidades) para el _codigoProducto = 350 para el _tipoPedido = 2, cuyo _habilitaPresupuesto = true
+#    _presupuesto = 2 (unidades) para el _codigoProducto = 350 para el _tipoPedido = 2, cuyo _validaPresupuesto = true
 #    _presentacion = 12 del producto.
-#    Pedido registrado de Canje N1: 
+#    Pedido registrado de Canje N1 para el cliente 2345: 
 #                unidades = 1, subunidades = 3
-#    Pedido registrado de Canje N2: 
+#    Pedido registrado de Canje N2 para el cliente 5403: 
 #                unidades = 0, subunidades = 6
 #
-#    presupuestoProducto = _presupuesto - ( unidades + subunidades)
+#    presupuestoActual = _presupuesto - ( unidades + subunidades)
 #    subunidades = (3 + 6) / 12 = 0,75
-#    presupuestoProducto = 2 - ( 1 + 0,75) = 0,25
+#    presupuestoActual = 2 - ( 1 + 0,75) = 0,25
 
 
 
@@ -58,20 +58,24 @@ Escenario: N°1 Producto inexistente
     Cuando ingresa un producto que no tiene precio vigente para la fecha de entrega calculada en el portafolio del cliente
     Entonces el sistema mostrará mensaje “El código no corresponde a un producto del portafolio del cliente” 
 
-Escenario: N°2 Producto no habilitado
+Escenario: N°2 Producto no habilitado para el tipo de pedido
     Cuando ingresa un producto que  tiene precio vigente para la fecha de entrega calculada en el portafolio del cliente
-    Y el _tipoProducto es un _tipoProductoHabilitado para el _tipoPedido en curso
-    Entonces el sistema mostrará mensaje “El producto no está habilitado para el" + _tipoProducto.descripcion
+    Y el _tipoProducto no es un _tipoProductoHabilitado para el _tipoPedido en curso
+    Entonces el sistema mostrará mensaje "El producto no está habilitado para " + _descripcion del _tipoPedidos
 
 Escenario: N°3 Producto no habilitado para el tipo de pedido que valida presupuesto
-    Cuando ingresa un producto en un pedido cuyo tipo de pedido tiene _validaPresupuesto = true 
-    Y el _codigoProducto no está informado en los _productos de _presupuestoTipoPedido para el tipo de pedido 
-    Entonces el sistema mostrará el mensaje "El producto no está habilitado para "  & _descripción del tipo de pedido 
+    Cuando ingresa un producto que  tiene precio vigente para la fecha de entrega calculada en el portafolio del cliente 
+    Y tiene _validaPresupuesto = true 
+    Y tiene _tieneProductosHabilitados = true en el _presupuestoTipoPedido del _tipoPedido en curso 
+    Y el _codigoProducto no está informado en los _productosHabilitados  
+    Entonces el sistema mostrará el mensaje "El producto no está habilitado para "  & _descripción del _tipoPedidos
 
 Escenario: N°4 Producto no tiene presupuesto para el tipo de pedido que valida presupuesto 
-    Cuando ingresa un producto en el pedido cuyo un tipo de pedido tiene _validaPresupuesto = true
-    Y el _codigoProducto está informado en los _productos de _presupuestoTipoPedido para el tipo de pedido
-    Y presupuestoProducto = 0 
+    Cuando ingresa un producto que  tiene precio vigente para la fecha de entrega calculada en el portafolio del cliente 
+    Y tiene _validaPresupuesto = true 
+    Y tiene _tieneProductosHabilitados = true en el _presupuestoTipoPedido del _tipoPedido en curso 
+    Y el _codigoProducto está informado en los _productosHabilitados  
+    Y presupuestoActual = 0 
     Entonces el sistema mostrará el mensaje "El producto no tiene presupuesto disponible"
     Y permanecerá en el ingreso de producto.
 
@@ -123,11 +127,13 @@ Escenario: N°8 El prevendedor ingresa un producto que aún no se encuentra en e
     Y habilitará el ingreso de unidades y subunidades inicializadas en cero
     Y habilitará el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
 
+
 Escenario: N°9 El prevendedor ingresa un producto que aún no se encuentra en el pedido, cuyo tipo de pedido valida presupuesto, está habilitado y tiene presupuesto,  y tiene precio vigente para la fecha de entrega y no permite botelleo y no requiere motivo
     Cuando ingresa un producto del portafolio del cliente que no se encuentra en el pedido cuyo tipo de pedido tiene _validaPresupuesto = true
-    Y presupuestoProducto > 0 
     Y tiene precio informado para la fecha de entrega calculada 
+    Y tiene _tieneProductosHabilitados = false en el _presupuestoTipoPedido del _tipoPedido en curso
     Y el _tipoProducto es un _tipoProductoHabilitado para el _tipoPedido en curso
+    Y presupuestoActual > 0 
     Y permiteBotelleo = no
     Y _requiereMotivo = false
     Entonces el sistema mostrará la descripción del producto
@@ -138,9 +144,10 @@ Escenario: N°9 El prevendedor ingresa un producto que aún no se encuentra en e
 
 Escenario: N°10 El prevendedor ingresa un producto que aún no se encuentra en el pedido, cuyo tipo de pedido valida presupuesto, está habilitado y tiene presupuesto, y tiene precio vigente para la fecha de entrega y permite botelleo y no requiere motivo
     Cuando ingresa un producto del portafolio del cliente que no se encuentra en el pedido cuyo tipo de pedido tiene _validaPresupuesto = true
-    Y presupuestoProducto > 0 
     Y tiene precio informado para la fecha de entrega calculada 
+    Y tiene _tieneProductosHabilitados = false en el _presupuestoTipoPedido del _tipoPedido en curso
     Y el _tipoProducto es un _tipoProductoHabilitado para el _tipoPedido en curso
+    Y presupuestoActual > 0 
     Y permiteBotelleo = si
     Y _requiereMotivo = false
     Entonces el sistema mostrará la descripción del producto
@@ -151,9 +158,10 @@ Escenario: N°10 El prevendedor ingresa un producto que aún no se encuentra en 
 
 Escenario: N°11 El prevendedor ingresa un producto que aún no se encuentra en el pedido, cuyo tipo de pedido valida presupuesto, y está habilitado y tiene presupuesto, y tiene precio vigente para la fecha de entrega y no permite botelleo y requiere motivo
     Cuando ingresa un producto del portafolio del cliente que no se encuentra en el pedido cuyo tipo de pedido tiene _validaPresupuesto = true
-    Y presupuestoProducto > 0 
     Y tiene precio informado para la fecha de entrega calculada 
+    Y tiene _tieneProductosHabilitados = false en el _presupuestoTipoPedido del _tipoPedido en curso
     Y el _tipoProducto es un _tipoProductoHabilitado para el _tipoPedido en curso
+    Y presupuestoActual > 0 
     Y permiteBotelleo = no
     Y _requiereMotivo = true
     Entonces el sistema mostrará la descripción del producto
@@ -164,9 +172,10 @@ Escenario: N°11 El prevendedor ingresa un producto que aún no se encuentra en 
 
 Escenario: N°12 El prevendedor ingresa un producto que aún no se encuentra en el pedido, cuyo tipo de pedido  valida presupuesto, y está habilitado y tiene presupuesto, y tiene precio vigente para la fecha de entrega y  permite botelleo y requiere motivo
     Cuando ingresa un producto del portafolio del cliente que no se encuentra en el pedido cuyo tipo de pedido tiene _validaPresupuesto = true
-    Y presupuestoProducto > 0 
     Y tiene precio informado para la fecha de entrega calculada 
+    Y tiene _tieneProductosHabilitados = false en el _presupuestoTipoPedido del _tipoPedido en curso
     Y el _tipoProducto es un _tipoProductoHabilitado para el _tipoPedido en curso
+    Y presupuestoActual > 0 
     Y permiteBotelleo = si
     Y _requiereMotivo = true
     Entonces el sistema mostrará la descripción del producto
@@ -176,7 +185,64 @@ Escenario: N°12 El prevendedor ingresa un producto que aún no se encuentra en 
     Y habilitará el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
 
 
-Escenario: N°13 El prevendedor ingresa un producto que se encuentra en el pedido y no permite botelleo y no requiere motivo
+Escenario: N°13 El prevendedor ingresa un producto que aún no se encuentra en el pedido, cuyo tipo de pedido valida presupuesto, está habilitado y tiene presupuesto,  y tiene precio vigente para la fecha de entrega y no permite botelleo y no requiere motivo
+    Cuando ingresa un producto del portafolio del cliente que no se encuentra en el pedido cuyo tipo de pedido tiene _validaPresupuesto = true
+    Y tiene precio informado para la fecha de entrega calculada 
+    Y tiene _tieneProductosHabilitados = true en el _presupuestoTipoPedido del _tipoPedido en curso
+    Y el _codigoProducto está informado en los _productosHabilitados  
+    Y presupuestoActual > 0 
+    Y permiteBotelleo = no
+    Y _requiereMotivo = false
+    Entonces el sistema mostrará la descripción del producto
+    Y el precio unidad 
+    Y habilitará el ingreso de unidades inicializadas en cero
+    Y no habilitará el ingreso de subunidades
+    Y no habilitará el ingreso del motivo.
+
+Escenario: N°14 El prevendedor ingresa un producto que aún no se encuentra en el pedido, cuyo tipo de pedido valida presupuesto, está habilitado y tiene presupuesto, y tiene precio vigente para la fecha de entrega y permite botelleo y no requiere motivo
+    Cuando ingresa un producto del portafolio del cliente que no se encuentra en el pedido cuyo tipo de pedido tiene _validaPresupuesto = true
+    Y tiene precio informado para la fecha de entrega calculada 
+    Y tiene _tieneProductosHabilitados = true en el _presupuestoTipoPedido del _tipoPedido en curso
+    Y el _codigoProducto está informado en los _productosHabilitados  
+    Y presupuestoActual > 0 
+    Y permiteBotelleo = si
+    Y _requiereMotivo = false
+    Entonces el sistema mostrará la descripción del producto
+    Y el precio unidad
+    Y el precio subunidad 
+    Y habilitará el ingreso de unidades y subunidades inicializadas en cero
+    Y no habilitará el ingreso del motivo.
+
+Escenario: N°15 El prevendedor ingresa un producto que aún no se encuentra en el pedido, cuyo tipo de pedido valida presupuesto, y está habilitado y tiene presupuesto, y tiene precio vigente para la fecha de entrega y no permite botelleo y requiere motivo
+    Cuando ingresa un producto del portafolio del cliente que no se encuentra en el pedido cuyo tipo de pedido tiene _validaPresupuesto = true
+    Y tiene precio informado para la fecha de entrega calculada 
+    Y tiene _tieneProductosHabilitados = true en el _presupuestoTipoPedido del _tipoPedido en curso
+    Y el _codigoProducto está informado en los _productosHabilitados  
+    Y presupuestoActual > 0 
+    Y permiteBotelleo = no
+    Y _requiereMotivo = true
+    Entonces el sistema mostrará la descripción del producto
+    Y el precio unidad 
+    Y habilitará el ingreso de unidades inicializadas en cero
+    Y no habilitará el ingreso de subunidades
+    Y habilitará el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, sin motivo seleccionado.
+
+Escenario: N°16 El prevendedor ingresa un producto que aún no se encuentra en el pedido, cuyo tipo de pedido  valida presupuesto, y está habilitado y tiene presupuesto, y tiene precio vigente para la fecha de entrega y  permite botelleo y requiere motivo
+    Cuando ingresa un producto del portafolio del cliente que no se encuentra en el pedido cuyo tipo de pedido tiene _validaPresupuesto = true
+    Y tiene precio informado para la fecha de entrega calculada 
+    Y tiene _tieneProductosHabilitados = true en el _presupuestoTipoPedido del _tipoPedido en curso
+    Y el _codigoProducto está informado en los _productosHabilitados  
+    Y presupuestoActual > 0 
+    Y permiteBotelleo = si
+    Y _requiereMotivo = true
+    Entonces el sistema mostrará la descripción del producto
+    Y el precio unidad
+    Y el precio subunidad 
+    Y habilitará el ingreso de unidades y subunidades inicializadas en cero
+    Y habilitará el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
+
+
+Escenario: N°17 El prevendedor ingresa un producto que se encuentra en el pedido y no permite botelleo y no requiere motivo
     Cuando ingresa un producto que se encuentra en el pedido 
     Y permiteBotelleo = no
     Y _requiereMotivo = false
@@ -186,7 +252,7 @@ Escenario: N°13 El prevendedor ingresa un producto que se encuentra en el pedid
     Y no habilitará el ingreso de subunidades 
     Y no habilitará el ingreso del motivo.
 
-Escenario: N°14 El prevendedor ingresa un producto que se encuentra en el pedido y permite botelleo y no requiere motivo
+Escenario: N°18 El prevendedor ingresa un producto que se encuentra en el pedido y permite botelleo y no requiere motivo
     Cuando ingresa un producto que ya se encuentra en el pedido 
     Y permiteBotelleo = si
     Y _requiereMotivo = false
@@ -196,7 +262,7 @@ Escenario: N°14 El prevendedor ingresa un producto que se encuentra en el pedid
     Y habilitará el ingreso de unidades y subunidades inicializadas con lo registrado en el pedido
     Y no habilitará el ingreso del motivo.
 
-Escenario: N°15 El prevendedor ingresa un producto que se encuentra en el pedido y no permite botelleo y  requiere motivo
+Escenario: N°19 El prevendedor ingresa un producto que se encuentra en el pedido y no permite botelleo y  requiere motivo
     Cuando ingresa un producto que se encuentra en el pedido 
     Y permiteBotelleo = no
     Y _requiereMotivo = true
@@ -206,7 +272,7 @@ Escenario: N°15 El prevendedor ingresa un producto que se encuentra en el pedid
     Y no habilitará el ingreso de subunidades 
     Y habilitará el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y con el motivo registrado como seleccionado.
 
-Escenario: N°16 El prevendedor ingresa un producto que se encuentra en el pedido y  permite botelleo y  requiere motivo
+Escenario: N°20 El prevendedor ingresa un producto que se encuentra en el pedido y  permite botelleo y  requiere motivo
     Cuando ingresa un producto que se encuentra en el pedido 
     Y permiteBotelleo = si
     Y _requiereMotivo = true
