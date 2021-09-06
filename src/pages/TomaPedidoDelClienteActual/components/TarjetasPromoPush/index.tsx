@@ -7,10 +7,17 @@ const TarjetasPromoPush = () => {
 	const obtenerPromoPushDelCliente = useObtenerPromoPushDelCliente();
 	const [expanded, setExpanded] = useState<string>('');
 
-	const handleChange = (panel: string) => (event: React.ChangeEvent<{}>) => {
-		setExpanded(panel);
+	const handleChange = (retorno: any) => (event: React.ChangeEvent<{}>) => {
+		console.log("panel clik", retorno);
+		if (retorno.modo=='expand')
+		{
+			setExpanded(retorno.estado);
+		}
+		
 	};
-
+	const handleSelect = (item: any) => (event: React.ChangeEvent<{}>) => {
+		console.log("On Select", item);
+	};
 	return (
 		<List
 			headers={[]}

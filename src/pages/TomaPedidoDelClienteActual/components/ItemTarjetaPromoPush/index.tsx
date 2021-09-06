@@ -50,7 +50,7 @@ const ItemTarjetaPromoPush = (props: any) => {
 
 	return (
 		<Card className={classes.root}>
-			<CardHeader
+			<CardHeader onClick={onClickItem({codigo:codigoProducto, modo:'select'})}
 				title={
 					<Box display='flex ' justifyContent='space-between'>
 						<Typography variant='body2'>{codigoProducto}</Typography>
@@ -96,7 +96,7 @@ const ItemTarjetaPromoPush = (props: any) => {
 						className={clsx(classes.expand, {
 							[classes.expandOpen]: estado === index ? true : false,
 						})}
-						onClick={onClickItem(estado === index ? false : index)}
+						onClick={onClickItem({estado:( estado === index ? false : index), modo:'expand'})}
 						aria-expanded={estado === index ? true : false}
 					>
 						<ExpandMoreIcon />
