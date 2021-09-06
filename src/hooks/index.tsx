@@ -15,3 +15,4 @@ export {useObtenerCompromisosDeCobroMismaFechaEntrega} from './useObtenerComprom
 export {useObtenerDeudasDelClienteActual} from './useObtenerDeudasDelClienteActual';
 export {useObtenerDatosTipoPedido} from './useObtenerDatosTipoPedido';
 export {useObtenerMostrarPromoPush} from './useObtenerMostrarPromoPush';
+export {useObtenerPromoPushDelCliente} from './useObtenerPromoPushDelCliente';
