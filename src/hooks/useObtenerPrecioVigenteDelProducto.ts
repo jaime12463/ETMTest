@@ -1,6 +1,6 @@
 import {TPrecio} from 'models';
 
-const useObtenerPrecioVigenteDelProducto = () => {
+export const useObtenerPrecioVigenteDelProducto = () => {
 	const obtenerPrecioVigenteDelProducto = (
 		preciosProductos: TPrecio[],
 		fechaEntrega: string
@@ -15,5 +15,3 @@ const useObtenerPrecioVigenteDelProducto = () => {
 	};
 	return obtenerPrecioVigenteDelProducto;
 };
-
-export default useObtenerPrecioVigenteDelProducto;

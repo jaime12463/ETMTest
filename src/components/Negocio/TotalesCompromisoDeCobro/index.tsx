@@ -31,7 +31,7 @@ const TotalesCompromisoDeCobro = ({titulo, total, dataCY}: Props) => {
 						</TableCell>
 						<TableCell className={estilos.celda} data-cy={`total-${dataCY}`}>
 							<Typography variant='caption'>
-								<Numero tipo='moneda' valor={total} decimales={2} />
+								<Numero valor={total} />
 							</Typography>
 						</TableCell>
 					</TableRow>

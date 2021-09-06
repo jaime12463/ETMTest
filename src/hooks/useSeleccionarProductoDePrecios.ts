@@ -1,7 +1,7 @@
 import {Dispatch, SetStateAction, useCallback} from 'react';
 import {
 	TProductoPedido,
-	TPedidoActual,
+	TPedido,
 	TPrecioProducto,
 	InputsKeysFormTomaDePedido,
 	TFunctionMostarAvertenciaPorDialogo,
@@ -19,7 +19,7 @@ export const useSeleccionarProductoDePrecios = (
 	setInputFocus: Dispatch<SetStateAction<InputsKeysFormTomaDePedido>>,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
-	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
+	const pedidoActual: TPedido = useObtenerPedidoActual();
 	const {t} = useTranslation();
 	const seleccionarProductoDePrecios = useCallback(
 		({productoABuscar}: TInputFiltrarPreciosProductos) => {
@@ -42,7 +42,7 @@ export const useSeleccionarProductoDePrecios = (
 
 			const productoActualEncontrado:
 				| TProductoPedido
-				| undefined = pedidoActual.productosPedido.find(
+				| undefined = pedidoActual.productos.find(
 				(productoPedido: TProductoPedido) =>
 					productoPedido.codigoProducto === codigoProducto
 			);
@@ -50,6 +50,8 @@ export const useSeleccionarProductoDePrecios = (
 			let unidadesParseado: string = '';
 
 			let subUnidadesParseado: string = '';
+
+			let catalogoMotivo: string = '';
 
 			if (productoActualEncontrado) {
 				unidadesParseado =
@@ -60,10 +62,12 @@ export const useSeleccionarProductoDePrecios = (
 					productoActualEncontrado.subUnidades !== 0
 						? productoActualEncontrado.subUnidades.toString()
 						: '';
+				catalogoMotivo = productoActualEncontrado.catalogoMotivo.toString();
 			}
 			setValue('unidades', unidadesParseado);
 			setValue('subUnidades', subUnidadesParseado);
 			setValue('productoABuscar', productoABuscar);
+			setValue('catalogoMotivo', catalogoMotivo)
 
 			setProductoActual(productoEncontrado);
 

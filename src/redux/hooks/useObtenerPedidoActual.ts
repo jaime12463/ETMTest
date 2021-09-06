@@ -1,8 +1,9 @@
-import {TPedidoActual} from 'models';
+import {TPedido} from 'models';
 import {useAppSelector} from 'redux/hooks';
-import {selectPedidoActual} from 'redux/features/pedidoActual/pedidoActualSlice';
+import {selectVisitaActual} from 'redux/features/visitaActual/visitaActualSlice';
 
-export const useObtenerPedidoActual = (): TPedidoActual => {
-	const pedidoActual: TPedidoActual = useAppSelector(selectPedidoActual);
+export const useObtenerPedidoActual = (): TPedido => {
+	const {pedidos, tipoPedidoActual} = useAppSelector(selectVisitaActual);
+	const pedidoActual = pedidos[tipoPedidoActual];
 	return pedidoActual;
 };

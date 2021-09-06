@@ -59,10 +59,11 @@ export const useObtenerColor = () => {
 	);
 
 	useEffect(() => {
+		const totalPedidoActual = calcularTotalPedido();
 		setColor({
 			pedidoMinimo:
 				obtenerporcentaje(
-					totalesPedidoCliente + calcularTotalPedido.totalPrecio,
+					totalesPedidoCliente + totalPedidoActual.totalPrecio,
 					datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
 				) >= 100
 					? 'verde'
@@ -70,7 +71,7 @@ export const useObtenerColor = () => {
 			pedidoMaximo:
 				obtenerporcentaje(
 					totalesContadoPedidoCliente +
-						calcularTotalPedido.totalContado.totalPrecio +
+						totalPedidoActual.totalContado.totalPrecio +
 						montoTotalCompromisos +
 						compromisoDeCobroActual.monto,
 					datosCliente?.configuracionPedido.ventaContadoMaxima
@@ -80,13 +81,13 @@ export const useObtenerColor = () => {
 					: 'verde',
 			creditoDisponible:
 				obtenerporcentaje(
-					creditoDisponible - calcularTotalPedido.totalCredito.totalPrecio,
+					creditoDisponible - totalPedidoActual.totalCredito.totalPrecio,
 					datosCliente?.informacionCrediticia.disponible
 				) <= 0
 					? 'rojo'
 					: 'verde',
 		});
-	}, [calcularTotalPedido, compromisoDeCobroActual, obtenerporcentaje]);
+	}, [compromisoDeCobroActual, obtenerporcentaje, calcularTotalPedido]);
 
 	return color;
 };

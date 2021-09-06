@@ -11,6 +11,7 @@ export const useResetLineaActual = (
 		setValue('productoABuscar', '');
 		setValue('unidades', '');
 		setValue('subUnidades', '');
+		setValue('catalogoMotivo', '');
 	};
 	return resetLineaActual;
 };

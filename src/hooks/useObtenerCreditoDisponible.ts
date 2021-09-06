@@ -8,29 +8,34 @@ export const useObtenerCreditoDisponible = (codigoCliente?: string) => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 
-	const obtenerCreditoDisponible = useCallback((codigoClienteEntrante: string) => {
-		let creditoDisponible: number = 0;
+	const obtenerCreditoDisponible = useCallback(
+		(codigoClienteEntrante: string) => {
+			let creditoDisponible: number = 0;
 
-		let totalCreditoEnPedidos: number = 0;
+			let totalCreditoEnPedidos: number = 0;
 
-		pedidosClientes[codigoClienteEntrante]?.pedidos.forEach((pedidos) => {
-			pedidos.productosPedido.forEach((producto) => {
-				if (producto.tipoPago === ETiposDePago.Credito)
-					totalCreditoEnPedidos += producto.total;
+			pedidosClientes[codigoClienteEntrante]?.pedidos.forEach((pedidos) => {
+				pedidos.productos.forEach((producto) => {
+					if (producto.tipoPago === ETiposDePago.Credito)
+						totalCreditoEnPedidos += producto.total;
+				});
 			});
-		});
 
-		const datosCliente = obtenerDatosCliente(codigoClienteEntrante);
+			const datosCliente = obtenerDatosCliente(codigoClienteEntrante);
 
-		const creditoDisponibleUsuario: number =
-			datosCliente?.informacionCrediticia?.disponible ?? 0;
+			const creditoDisponibleUsuario: number =
+				datosCliente?.informacionCrediticia?.disponible ?? 0;
 
-		creditoDisponible = creditoDisponibleUsuario - totalCreditoEnPedidos; //TODO: Esto podria ser negativo?
+			creditoDisponible = creditoDisponibleUsuario - totalCreditoEnPedidos; //TODO: Esto podria ser negativo?
 
-		return creditoDisponible;
-	}, [pedidosClientes, obtenerDatosCliente]);
+			return creditoDisponible;
+		},
+		[pedidosClientes, obtenerDatosCliente]
+	);
 
-	const creditoDisponible = obtenerCreditoDisponible(codigoCliente??clienteActual.codigoCliente);
-	
+	const creditoDisponible = obtenerCreditoDisponible(
+		codigoCliente ?? clienteActual.codigoCliente
+	);
+
 	return {obtenerCreditoDisponible, creditoDisponible};
 };

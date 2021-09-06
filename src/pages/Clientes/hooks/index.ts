@@ -1,12 +1,6 @@
-import {useInicializarPedidoActual} from './useInicializarPedidoActual';
-import {useValidarInicializarPedidoActual} from './useValidarInicializarPedidoActual';
-import {useInicializarClienteActual} from './useInicializarClienteActual';
-import {useValidarInicializarClienteActual} from './useValidarInicializarClienteActual';
+export {useInicializarVisitaActual} from './useInicializarVisitaActual';
+export {useValidarInicializarPedidoActual} from './useValidarInicializarPedidoActual';
+export {useInicializarClienteActual} from './useInicializarClienteActual';
+export {useValidarInicializarClienteActual} from './useValidarInicializarClienteActual';
 export {useObtenerTipoPagoActual} from './useObtenerTipoPagoActual';
-
-export {
-	useInicializarClienteActual,
-	useValidarInicializarClienteActual,
-	useInicializarPedidoActual,
-	useValidarInicializarPedidoActual,
-};
+export {useInicializarPedidos} from './useInicializarPedidos';

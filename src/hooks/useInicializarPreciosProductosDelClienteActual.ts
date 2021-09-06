@@ -1,14 +1,14 @@
 import {Dispatch, SetStateAction, useCallback, useEffect} from 'react';
-import {TPrecioProducto, TPedidoActual, TClienteActual} from 'models';
+import {TPrecioProducto, TClienteActual, TVisita} from 'models';
 import {useObtenerPreciosProductosDelCliente} from 'hooks';
 import {useObtenerDatosCliente} from 'hooks';
-import {useObtenerClienteActual, useObtenerPedidoActual} from 'redux/hooks';
+import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 
 export const useInicializarPreciosProductosDelClienteActual = (
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>
 ) => {
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
-	const pedidoActual: TPedidoActual = useObtenerPedidoActual();
+	const visitaActual: TVisita = useObtenerVisitaActual();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 
@@ -17,11 +17,11 @@ export const useInicializarPreciosProductosDelClienteActual = (
 		if (datosCliente) {
 			preciosProductosDelCliente = obtenerPreciosProductosDelCliente(
 				datosCliente,
-				pedidoActual.fechaEntrega
+				visitaActual.fechaEntrega
 			);
 		}
 		setPreciosProductos(preciosProductosDelCliente);
-	}, [datosCliente, pedidoActual, obtenerPreciosProductosDelCliente]);
+	}, [datosCliente, visitaActual, obtenerPreciosProductosDelCliente]);
 
 	return useEffect(() => {
 		inicializarPreciosProductosDelClienteActual();

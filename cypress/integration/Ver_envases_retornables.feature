@@ -184,8 +184,9 @@ Escenario: N°5 - Consolidar los retornables del pedido
 	Cuando quiero ver los envases retornables del pedido  
 	Entonces el sistema mostrará
 	|implicito| unidades |subunidades|
-	|1001	  |		28	 | 		24   | 
+	|1001	  |		30	 | 		 0   | 
 	|1010	  |		15	 | 		 0   |
 	|1020	  |		18   |		 0	 |
 
+# como las subunidades exceden la presentación, se visualizan como cajas según la presentación
 

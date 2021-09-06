@@ -19,10 +19,34 @@ Característica: Ingresar al portafolio del cliente
     Quiero ver el portafolio vigente del cliente
     Para agregar productos al pedido
 
-Escenario: N°1 - Ver portafolio del cliente
+Escenario: N°1 - Ver portafolio del cliente cuando no valida presupuesto
     Dado que el prevendedor ingresó un cliente que tiene habilitado el ingreso de productos al pedido
+    Y seleccionó un pedido cuyo _tipoPedido tiene _validaPresupuesto = false
     Cuando selecciona ver portafolio
     Entonces el sistema mostrará los productos del portafolio vigente asignado al cliente cuyo _tipoProducto sea el _tipoProductosHabilitados para el tipo de pedido en curso
-    Y si el tipo de pedido en curso _validaPresupuesto = true se mostrarán los productos del _presupuestoTipoPedido cuyo _tipoPedido corresponda al tipo de pedido en curso
+
+Escenario: N°2 - Ver portafolio del cliente cuando valida presupuesto y no está vigente
+    Dado que el prevendedor ingresó un cliente que tiene habilitado el ingreso de productos al pedido
+    Y seleccionó un pedido cuyo _tipoPedido tiene _validaPresupuesto = true
+    Y el _presupuestoTipoPedido para el _tipoPedido en curso tiene presupuesto no vigente
+    Y _tieneProductosHabilitados = false
+    Cuando selecciona ver portafolio
+    Entonces el sistema mostrará los productos del portafolio vigente asignado al cliente cuyo _tipoProducto sea el _tipoProductosHabilitados para el tipo de pedido en curso
+
+Escenario: N°3 - Ver portafolio del cliente cuando valida presupuesto y no tiene lista de productos habilitados
+    Dado que el prevendedor ingresó un cliente que tiene habilitado el ingreso de productos al pedido
+    Y seleccionó un pedido cuyo _tipoPedido tiene _validaPresupuesto = true
+    Y el _presupuestoTipoPedido para el _tipoPedido en curso tiene presupuesto vigente
+    Y _tieneProductosHabilitados = false
+    Cuando selecciona ver portafolio
+    Entonces el sistema mostrará los productos del portafolio vigente asignado al cliente cuyo _tipoProducto sea el _tipoProductosHabilitados para el tipo de pedido en curso
     Y tengan _presupuesto, menos los productos que ya se registraron para ese tipo de pedido para cualquier cliente de la ruta, mayor a 0
 
+Escenario: N°4 - Ver portafolio del cliente cuando valida presupuesto y tiene lista de productos habilitados
+    Dado que el prevendedor ingresó un cliente que tiene habilitado el ingreso de productos al pedido
+    Y seleccionó un pedido cuyo _tipoPedido tiene _validaPresupuesto = true
+    Y el _presupuestoTipoPedido para el _tipoPedido en curso tiene presupuesto vigente
+    Y _tieneProductosHabilitados = true
+    Cuando selecciona ver portafolio
+    Entonces el sistema mostrará los _productosHabilitados del portafolio asignado al cliente 
+    Y tengan _presupuesto, menos los productos que ya se registraron para ese tipo de pedido para cualquier cliente de la ruta, mayor a 0

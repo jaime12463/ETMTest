@@ -2,7 +2,7 @@ import {
 	useObtenerClienteActual,
 	useObtenerPedidosClientes,
 	useObtenerCompromisoDeCobroActual,
-	useObtenerPedidoActual,
+	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {TClienteActual, TPedidosClientes, TCompromisoDeCobro} from 'models';
 import {useCallback} from 'react';
@@ -13,8 +13,8 @@ export const useObtenerCompromisosDeCobroMismaFechaEntrega = (
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
 	const compromisosDeCobroCliente: TPedidosClientes = useObtenerPedidosClientes();
-	const pedidoActual = useObtenerPedidoActual();
-	const {fechaEntrega} = pedidoActual;
+	const visitaActual = useObtenerVisitaActual();
+	const {fechaEntrega} = visitaActual;
 	const compromisoDeCobroActual: TCompromisoDeCobro = useObtenerCompromisoDeCobroActual();
 
 	const obtenerCompromisosDeCobroMismaFechaEntrega = useCallback(
