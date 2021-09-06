@@ -1,17 +1,16 @@
 import {Grid} from '@material-ui/core';
 import {BarraDeProgeso, Center} from 'components/UI';
-import {TCliente, TClienteActual, TTotalPedido} from 'models';
+import {TCliente, TClienteActual} from 'models';
 import {
 	useObtenerDatosCliente,
-	useCalcularTotalPedido,
 	useObtenerPedidosClienteMismaFechaEntrega,
 	useObtenerCreditoDisponible,
 	useObtenerCompromisosDeCobroMismaFechaEntrega,
+	useObtenerTotalPedidosVisitaActual,
 } from 'hooks';
 import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
-	useObtenerPedidoActual,
 } from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
 import {
@@ -20,18 +19,13 @@ import {
 	obtenerTotalesCompromisoDeCobroCliente,
 } from 'utils/methods';
 import {useObtenerColor} from './hooks/useObtenerColor';
-import {useEffect, useState} from 'react';
 
 const IndicadoresDelPedidoActual = () => {
 	const {t} = useTranslation();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
-	const calcularTotalPedido = useCalcularTotalPedido();
-	const pedidoActual = useObtenerPedidoActual();
-	const [totalPedidoActual, setTotalPedidoActual] = useState<TTotalPedido>();
-	useEffect(() => {
-		const totalPedidoActual = calcularTotalPedido();
-		setTotalPedidoActual(totalPedidoActual);
-	}, [pedidoActual]);
+
+	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
+
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {
 		obtenerPedidosClienteMismaFechaEntrega,
@@ -69,7 +63,9 @@ const IndicadoresDelPedidoActual = () => {
 		{
 			titulo: t('general.pedidoMinimo'),
 			valorMax: datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima,
-			valor: totalesPedidoCliente + (totalPedidoActual?.totalPrecio ?? 0),
+			valor:
+				totalesPedidoCliente +
+				(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0),
 			color: color.pedidoMinimo,
 			dataCY: 'indicador-pedido-minimo',
 		},
@@ -80,7 +76,7 @@ const IndicadoresDelPedidoActual = () => {
 					?.montoVentaContadoMaxima,
 			valor:
 				totalesContadoPedidoCliente +
-				(totalPedidoActual?.totalContado.totalPrecio ?? 0) +
+				(obtenerTotalPedidosVisitaActual().totalContado.totalPrecio ?? 0) +
 				montoTotalCompromisos +
 				compromisoDeCobroActual.monto,
 			color: color.pedidoMaximo,
@@ -90,7 +86,8 @@ const IndicadoresDelPedidoActual = () => {
 			titulo: t('general.creditoDisponible'),
 			valorMax: datosCliente?.informacionCrediticia.disponible,
 			valor:
-				creditoDisponible - (totalPedidoActual?.totalCredito.totalPrecio ?? 0),
+				creditoDisponible -
+				(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0),
 			color: color.creditoDisponible,
 			condicion: datosCliente?.informacionCrediticia.condicion,
 			dataCY: 'indicador-credito-maximo',

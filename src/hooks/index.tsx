@@ -16,3 +16,4 @@ export {useObtenerDeudasDelClienteActual} from './useObtenerDeudasDelClienteActu
 export {useObtenerDatosTipoPedido} from './useObtenerDatosTipoPedido';
 export {useObtenerMostrarPromoPush} from './useObtenerMostrarPromoPush';
 export {useObtenerPromoPushDelCliente} from './useObtenerPromoPushDelCliente';
+export {useObtenerTotalPedidosVisitaActual} from './useObtenerTotalPedidosVisitaActual';
