@@ -41,9 +41,6 @@ const ItemTarjetaPromoPush = (props: any) => {
 		componentes,
 		promoPush,
 	} = item;
-
-	console.log(item);
-	console.log(productos);
 	const classes = useEstilos();
 
 	return (
