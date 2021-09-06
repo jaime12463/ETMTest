@@ -45,7 +45,7 @@ Característica: Mostrar pantalla ingreso del pedido
 # sprint 8 UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA?node-id=329%3A3&scaling=scale-down&page-id=329%3A2&starting-point-node-id=329%3A3
 
 
-Escenario: N°1 - El tipo de pedido es valorizado
+Escenario: N°0 - El tipo de pedido es valorizado
     Dado que el tipo de pedido _esValorizado = true
     Cuando ingreso a registrar un pedido
     Entonces el sistema habilita el panel de ingreso del producto
@@ -57,7 +57,6 @@ Esquema del escenario: N°1 - El tipo de pedido es no valorizado y no valida pre
     Y _validaPresupuesto = false
     Y '<hayOtrosProductosEnPedidosMandatorios>'
     Cuando ingreso a registrar un pedido
-    Y '<hayPedidoMandatorioEnCurso>' hay pedido mandatorio en curso
     Entonces el sistema mostrará '<estadoPanelIngresoProducto>' y los totales
     Y el switch credito no se mostrará
 
@@ -121,7 +120,7 @@ Ejemplos:
 |     Si           | No                        |
 |     No           | Si                        |
 
-Esquema del escenario: N°5 - El cliente es de crédito informal sin crédito bloqueado
+Esquema del escenario: N°7 - El cliente es de crédito informal sin crédito bloqueado
     Dado tipo de pedido _esValorizado = true y cliente con _esCreditoBloqueado = false
     Cuando ingreso a registrar un pedido con un cliente en condición de pago crédito informal
     Y '<estadoCredito>' es crédito Disponible mayor a cero
@@ -139,7 +138,7 @@ Ejemplos:
 
 Esquema del escenario: N°8 - El cliente es de crédito informal con crédito bloqueado
     Dado que el cliente tiene condición de pago creditoInformal y esCreditoBloqueado = true 
-    Cuando '<estadoPedidoMaximo>' es Pedido máximo cumplido 
+    Y '<estadoPedidoMaximo>' es Pedido máximo cumplido 
     Cuando ingreso a registrar un pedido
     Entonces el sistema '<estadoPanelIngresoProducto>', '<estadoEncendidoSwitch>' y '<estadoHabilitacionSwitch>'
 
@@ -148,12 +147,6 @@ Ejemplos:
 |       No         |Si                        |Off                  |disabled                | 
 |       Si         |No                        |On                   |disabled                |
 
-
-
-Ejemplos:
-|estadoPedidoMaximo|estadoPanelIngresoProducto|estadoEncendidoSwitch|estadoHabilitacionSwitch|
-|       No         |Si                        |Off                  |disabled                |
-|       Si         |No                        |On                   |disabled                | 
 
 Esquema del escenario: N°9 - Acceso a promo push
     Dado que se ingresó a la pantalla de pedido
