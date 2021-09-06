@@ -32,8 +32,6 @@ export const formatearNumero = (
 
 	const numeroFormateado: string = parteEntera + (parteDecimal ?? '');
 
-	console.log(`${t('simbolos.moneda')} ${numeroFormateado}`);
-
 	return `${t('simbolos.moneda')} ${numeroFormateado}`;
 };
 

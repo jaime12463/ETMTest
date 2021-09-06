@@ -4,6 +4,7 @@ const useEstilos = makeStyles((theme: Theme) =>
 		root: {
 			width: '100%',
 			paddingBottom: 0,
+			overflow: 'hidden',
 		},
 		expand: {
 			position: 'relative',
@@ -31,6 +32,10 @@ const useEstilos = makeStyles((theme: Theme) =>
 		},
 		celda: {
 			borderBottom: 'none',
+			whiteSpace: 'nowrap',
+			textOverflow: 'ellipsis',
+			overflow: 'hidden',
+			maxWidth: 230,
 		},
 	})
 );
