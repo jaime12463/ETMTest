@@ -22,6 +22,9 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {TPromoPush} from 'models';
 import {useObtenerDatos} from 'redux/hooks';
+import {makeStyles} from '@material-ui/core/styles';
+import {useTranslation} from 'react-i18next';
+import {formatearNumero} from 'utils/methods';
 
 type Props = {
 	item: TPromoPush;
@@ -29,6 +32,7 @@ type Props = {
 };
 
 const ItemTarjetaPromoPush = (props: any) => {
+	const {t} = useTranslation();
 	const {item, onClickItem, estado, index} = props;
 	const datos = useObtenerDatos();
 	const {productos} = datos;
@@ -41,16 +45,15 @@ const ItemTarjetaPromoPush = (props: any) => {
 		componentes,
 		promoPush,
 	} = item;
+
 	const classes = useEstilos();
 
 	return (
 		<Card className={classes.root}>
-			<CardHeader
+			<CardHeader onClick={onClickItem({codigo:codigoProducto, modo:'select'})}
 				title={
 					<Box display='flex ' justifyContent='space-between'>
-						<Typography variant='body2' style={{fontWeight: 600}}>
-							{codigoProducto}
-						</Typography>
+						<Typography variant='body2'>{codigoProducto}</Typography>
 						<Typography variant='body2'>
 							Disponible: {unidadesDisponibles}
 						</Typography>
@@ -66,28 +69,34 @@ const ItemTarjetaPromoPush = (props: any) => {
 				disableTypography={true}
 			/>
 			<CardContent className={classes.cardContent}>
-				<Typography variant='caption' component='p' style={{fontWeight: 600}}>
-					{nombreProducto}
+				<Typography variant='caption' component='p'>
+					<strong> {nombreProducto} </strong>
 				</Typography>
-				<Grid item xs={10}>
-					<Box display='flex ' justifyContent='space-between'>
-						<Grid item xs={1}>
-							<Typography variant='caption'>
-								Descuento: <Numero valor={descuento} />
-							</Typography>
+				<Grid container>
+					<Grid item xs={10}>
+						<Grid container >
+							<Grid item>
+								<Typography variant='caption'>
+									Descuento: {formatearNumero(descuento, t)}
+								</Typography>
+							</Grid>
+							
+							<Grid item xs={6}/>
+							<Grid item>
+								<Typography variant='caption'>
+									Total: {formatearNumero(precioConImpuestoUnidad, t)}
+								</Typography>
+							</Grid>
+							
 						</Grid>
-
-						<Typography variant='caption'>
-							Total: ${precioConImpuestoUnidad}
-						</Typography>
-					</Box>
+					</Grid>
 				</Grid>
 				<CardActions disableSpacing style={{padding: 0}}>
 					<IconButton
 						className={clsx(classes.expand, {
 							[classes.expandOpen]: estado === index ? true : false,
 						})}
-						onClick={onClickItem(estado === index ? false : index)}
+						onClick={onClickItem({estado:( estado === index ? false : index), modo:'expand'})}
 						aria-expanded={estado === index ? true : false}
 					>
 						<ExpandMoreIcon />
@@ -95,48 +104,38 @@ const ItemTarjetaPromoPush = (props: any) => {
 				</CardActions>
 				<Collapse in={estado === index} timeout='auto' unmountOnExit>
 					<CardContent className={classes.cardContentExpand}>
-						{componentes.map((el: any, i: number) => (
-							<React.Fragment key={i}>
-								<Box
-									display='flex '
-									justifyContent='space-between'
-									style={{width: '90%'}}
-								>
-									<Typography
-										variant='body2'
-										style={{
-											whiteSpace: 'nowrap',
-											textOverflow: 'ellipsis',
-											overflow: 'hidden',
-											maxWidth: 230,
-										}}
-									>
-										{el.CodigoProducto} {productos[el.CodigoProducto].nombre}
-									</Typography>
-									<Typography variant='body2'>
-										{promoPush.componentes[i].cantidad}
-									</Typography>
-									<Typography variant='body2'>
-										{promoPush.componentes[i].unidadMedida}
-									</Typography>
-								</Box>
-								<Box
-									display='flex '
-									justifyContent='space-between'
-									style={{width: '90%', marginBottom: 10}}
-								>
-									<Typography variant='body2'>
-										{`Precio:  $${el.precioBase}`}
-									</Typography>
-									<Typography variant='body2'>
-										{`Desc.:  $${el.descuento}`}
-									</Typography>
-									<Typography variant='body2'>
-										{`Total: $${el.precioFinal}`}
-									</Typography>
-								</Box>
-							</React.Fragment>
-						))}
+						<TableContainer>
+							<Table size='small'>
+								<TableBody>
+									{componentes.map((el: any, i: number) => (
+										<React.Fragment key={i}>
+											<TableRow>
+												<TableCell colSpan={4} className={classes.celdaProducto}>
+															{`${el.CodigoProducto} ${
+																productos[el.CodigoProducto].nombre
+															}  ${promoPush.componentes[i].cantidad} ${
+																promoPush.componentes[i].unidadMedida
+															}`}
+													</TableCell>
+											</TableRow>
+											<TableRow>
+												<TableCell/>
+												<TableCell className={classes.celdaValores}>
+													Precio: {formatearNumero(el.precioBase,t)} 
+												</TableCell>
+												<TableCell className={classes.celdaValores}>
+													 Descuento: {formatearNumero(el.descuento,t)}
+												</TableCell>
+												<TableCell className={classes.celdaValores}>
+												 	Total: {formatearNumero(el.precioFinal,t)}
+												</TableCell>
+
+											</TableRow>
+										</React.Fragment>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
 					</CardContent>
 				</Collapse>
 			</CardContent>
