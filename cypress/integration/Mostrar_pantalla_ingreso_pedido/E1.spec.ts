@@ -18,7 +18,7 @@ Entonces('el sistema habilita el panel de ingreso del producto', () => {
 });
 
 Y('mostrara el switch crédito y los totales', () => {
-	//TODO: Cuales totales son? hay que cambiar la feature
+	//TODO: Cual totales es?
 	cy.get('[data-cy=total-credito]').should('exist');
 	cy.get('[data-cy=total-contado]').should('exist');
 

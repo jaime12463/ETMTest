@@ -56,7 +56,7 @@ Entonces(
 			cy.get('[data-cy=codigo-producto-a-buscar]').should('be.enabled');
 		}
 
-		//TODO: Aca cual total es?
+		//TODO: Cual totales es?
 	}
 );
 

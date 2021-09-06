@@ -74,7 +74,7 @@ Ejemplos:
 |     No           | Si                        |
 
 Esquema del escenario: N°5 - El cliente es de crédito informal sin crédito bloqueado
-    Dado el tipo de pedido seleccionado es de un tipo de pedido _esValorizado = true y _esCreditoBloqueado = false
+    Dado tipo de pedido _esValorizado = true y cliente con _esCreditoBloqueado = false
     Cuando ingreso a registrar un pedido con un cliente en condición de pago crédito informal
     Y '<estadoCredito>' es crédito Disponible mayor a cero
     Y '<estadoPedidoMaximo>' es Pedido máximo cumplido
@@ -84,28 +84,22 @@ Esquema del escenario: N°5 - El cliente es de crédito informal sin crédito bl
 
 Ejemplos:
 |estadoCredito|estadoPedidoMaximo|estadoPanelIngresoProducto|estadoEncendidoSwitch|estadoHabilitacionSwitch|
-|     Si      |       No         |Si                        |On                   |enabled                 |
-|     No      |       No         |Si                        |Off                  |disabled                | 
-|     Si      |       Si         |Si                        |On                   |disabled                | 
-|     No      |       Si         |No                        |On                   |disabled                |
+|     Si      |       No         |HABILITADO                |On                   |enabled                 |
+|     No      |       No         |HABILITADO                |Off                  |disabled                | 
+|     Si      |       Si         |HABILITADO                |On                   |disabled                | 
+|     No      |       Si         |DESHABILITADO             |On                   |disabled                |
 
 Esquema del escenario: N°6 - El cliente es de crédito informal con crédito bloqueado
-    Dado que el cliente tiene condición de pago creditoInformal y esCreditoBloqueado = true 
-    Cuando '<estadoPedidoMaximo>' es Pedido máximo cumplido 
-    Cuando ingreso a registrar un pedido
-    Entonces el sistema '<estadoPanelIngresoProducto>', '<estadoEncendidoSwitch>' y '<estadoHabilitacionSwitch>'
+    Dado que se ingreso con un cliente con _esCreditoBloqueado = true
+    Cuando ingreso a registrar un pedido con un cliente en condición de pago crédito informal
+    Y '<estadoPedidoMaximo>' es Pedido máximo cumplido 
+    Entonces el sistema mostrará '<estadoPanelIngresoProducto>', '<estadoEncendidoSwitch>' y '<estadoHabilitacionSwitch>'
 
 
-# Esquema del escenario: N°3 - El cliente es de crédito informal con crédito bloqueado
-#     Dado que el cliente tiene condición de pago creditoInformal y esCreditoBloqueado = true 
-#     Cuando <estadoPedidoMaximo> es Pedido máximo cumplido 
-#     Cuando ingreso a registrar un pedido 
-#     Entonces el sistema <mostraraControles>
-
-# Ejemplos:
-# | estadoPedidoMaximo | mostraraControles |
-# |         No         | habilitará panel de ingreso y switch en estado Off disabled   |
-# |         Si         | No habilitará panel de ingreso y switch en estado On disabled |
+Ejemplos:
+|estadoPedidoMaximo|estadoPanelIngresoProducto|estadoEncendidoSwitch|estadoHabilitacionSwitch|
+|       No         |Si                        |Off                  |disabled                |
+|       Si         |No                        |On                   |disabled                | 
 
 Esquema del escenario: N°7 - Acceso a promo push
     Dado que se ingresó a la pantalla de pedido
