@@ -95,26 +95,24 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				esVentaSubunidades
 			);
 
+			const datosTipoPedidoActual:
+			| TTipoPedido
+			| undefined = obtenerDatosTipoPedido();
+			
 			if (inputFocus === 'unidades' && esPermitidoSubUnidades) {
 				setInputFocus('subUnidades');
 				return esValidacionCorrecta;
 			}
 
-			const datosTipoPedidoActual:
-			| TTipoPedido
-			| undefined = obtenerDatosTipoPedido();
+			if (inputFocus === 'unidades' && !esPermitidoSubUnidades && datosTipoPedidoActual?.requiereMotivo) {
+				setInputFocus('catalogoMotivo');
+				return esValidacionCorrecta;
+			}
 
 			if (inputFocus === 'subUnidades' && datosTipoPedidoActual?.requiereMotivo) {
 				setInputFocus('catalogoMotivo');
 				return esValidacionCorrecta;
 			}
-
-			/// ToDo: No deteecta cambio de motivos
-/*
-			if (inputFocus === 'catalogoMotivo') {
-				setInputFocus('catalogoMotivo');
-				return esValidacionCorrecta;
-			}*/
 
 			if (!esPermitidoSubUnidades && subUnidadesParseado !== 0) {
 				mostrarAdvertenciaEnDialogo(
