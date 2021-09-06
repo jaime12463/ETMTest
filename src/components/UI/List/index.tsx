@@ -14,10 +14,12 @@ type Props<T> = {
 	ItemComponent: React.FC<{item: T; onClickItem?: (item: T) => void}>;
 	headers?: THeader[];
 	onClickItem?: (item: T) => void;
+	estado?: any;
+	dataCY: string;
 };
 
 function List<T>(props: Props<T>) {
-	const {items, ItemComponent, headers, onClickItem} = props;
+	const {items, ItemComponent, headers, onClickItem, estado, dataCY} = props;
 	return (
 		<ListMUI
 			component='div'
@@ -49,8 +51,11 @@ function List<T>(props: Props<T>) {
 							<Item
 								item={item}
 								ItemComponent={ItemComponent}
+								index={index}
 								key={index}
 								onClick={onClickItem}
+								estado={estado}
+								dataCY={`${dataCY}-${index}`}
 							/>
 						</React.Fragment>
 					);

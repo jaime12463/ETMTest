@@ -94,7 +94,9 @@ export type THookForm<T> = {
 };
 
 export type TFormTomaDePedido = TInputsUnidadesYSubUnidades &
-	TInputFiltrarPreciosProductos;
+	TInputFiltrarPreciosProductos &
+	TSelectTipoDePedido &
+	TSelectCatalogoMotivo;
 
 export type TInputsCodigoCliente = {
 	codigoCliente: string;
@@ -112,7 +114,21 @@ export type TInputFiltrarPreciosProductos = {
 	productoABuscar: string;
 };
 
+export type TSelectTipoDePedido = {
+	tipoDePedido: string;
+};
+
 export type InputsKeysFormTomaDePedido =
 	| 'unidades'
 	| 'subUnidades'
-	| 'productoABuscar';
+	| 'productoABuscar'
+	| 'catalogoMotivo';
+
+export type TOpcionSelect = {
+	value: string;
+	label: string;
+};
+
+export type TSelectCatalogoMotivo = {
+	catalogoMotivo: string;
+};

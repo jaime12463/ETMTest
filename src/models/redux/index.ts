@@ -2,6 +2,7 @@ import {
 	TDatosConfiguracion,
 	TDatosClientesProductos,
 	TCondicicon,
+	TPromoPush,
 } from 'models/server';
 
 //Cliente Actual
@@ -13,7 +14,7 @@ export type TClienteActual = {
 };
 
 export type TCompromisoDeCobro = {
-	ID: string;
+	id: string;
 	fechaCreacion: string;
 	fechaEntrega: string;
 	monto: number;
@@ -39,31 +40,31 @@ export enum EEstadosFetch {
 	Idle,
 }
 
-//Estado App
-export type TEstadoApp = {
-	estado: EEstadosApp;
+//Visita Actual
+export type TVisita = {
+	fechaEntrega: string; //TODO: Deberia ir la visita con el pedido actual?
+	tipoPedidoActual: number;
+	pedidos: TPedidos;
+	mostrarPromoPush: boolean;
 };
 
-export enum EEstadosApp {
-	PrimerInicio,
-	Cargando,
-	Advertencia,
-	Error,
-	Disponible,
-}
+export type TPedidos = {
+	[tipoPedido: number]: TPedido;
+};
 
-//Pedido Actual
-export type TPedidoActual = {
+export type TPedido = {
+	tipoPedido: number;
 	codigoPedido: string;
 	fechaEntrega: string;
 	estado: EEstadosDeUnPedido;
-	productosPedido: TProductoPedido[];
+	productos: TProductoPedido[];
 };
 
 export enum EEstadosDeUnPedido {
 	Activo,
 	Cancelado,
 }
+
 export type TProductoPedido = TPrecioProducto & TPedidoDelProducto;
 
 export type TPrecioProducto = {
@@ -79,6 +80,7 @@ export type TPrecioProducto = {
 	codigoImplicito2?: number;
 	nombreImplicito2?: string;
 	unidadesDisponibles?: number;
+	promoPush?: TPromoPush;
 };
 
 export type TPedidoDelProducto = {
@@ -86,6 +88,7 @@ export type TPedidoDelProducto = {
 	subUnidades: number;
 	total: number;
 	tipoPago: ETiposDePago;
+	catalogoMotivo: string;
 };
 
 export enum ETiposDePago {
@@ -102,11 +105,7 @@ export type TPedidosClientes = {
 };
 
 export type TPedidoClienteParaEnviar = {
-	codigoPedido: string;
-	fechaEntrega: string;
 	usuario: string;
-	estado: EEstadosDeUnPedido;
 	tipoPago: ETiposDePago;
-	productosPedido: TProductoPedido[];
 	enviado: boolean;
-};
+} & TPedido;

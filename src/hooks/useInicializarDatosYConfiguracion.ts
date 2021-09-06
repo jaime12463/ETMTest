@@ -3,7 +3,7 @@ import {obtenerDatosClientesProductosAsync} from '../redux/features/datos/datosS
 import {obtenerDatosConfiguracionAsync} from '../redux/features/configuracion/configuracionSlice';
 import {useAppDispatch} from '../redux/hooks';
 
-const useInicializarDatosYConfigiguracion = () => {
+export const useInicializarDatosYConfiguracion = () => {
 	const dispatch = useAppDispatch();
 
 	return useEffect(() => {
@@ -11,5 +11,3 @@ const useInicializarDatosYConfigiguracion = () => {
 		dispatch(obtenerDatosConfiguracionAsync());
 	}, [dispatch]);
 };
-
-export default useInicializarDatosYConfigiguracion;

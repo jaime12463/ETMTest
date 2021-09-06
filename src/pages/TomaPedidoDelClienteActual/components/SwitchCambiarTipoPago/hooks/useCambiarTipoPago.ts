@@ -2,9 +2,9 @@ import {ETiposDePago, TClienteActual, TProductoPedido} from 'models';
 import {useCallback} from 'react';
 import {cambiarTipoPagoActual} from 'redux/features/clienteActual/clienteActualSlice';
 import {
-	cambiarTipoPagoPoducto,
-	cambiarTipoPagoPoductosDelPedido,
-} from 'redux/features/pedidoActual/pedidoActualSlice';
+	cambiarTipoPagoPoductoDelPedidoActual,
+	cambiarTipoPagoPoductosDelPedidoActual,
+} from 'redux/features/visitaActual/visitaActualSlice';
 import {useAppDispatch, useObtenerClienteActual} from 'redux/hooks';
 
 export const useCambiarTipoPago = () => {
@@ -21,7 +21,9 @@ export const useCambiarTipoPago = () => {
 
 				const {codigoProducto} = producto;
 
-				dispatch(cambiarTipoPagoPoducto({codigoProducto, tipoPago}));
+				dispatch(
+					cambiarTipoPagoPoductoDelPedidoActual({codigoProducto, tipoPago})
+				);
 				return;
 			}
 
@@ -30,7 +32,7 @@ export const useCambiarTipoPago = () => {
 					? ETiposDePago.Credito
 					: ETiposDePago.Contado;
 
-			dispatch(cambiarTipoPagoPoductosDelPedido({tipoPago}));
+			dispatch(cambiarTipoPagoPoductosDelPedidoActual({tipoPago}));
 
 			dispatch(cambiarTipoPagoActual({tipoPagoActual: tipoPago}));
 		},

@@ -10,6 +10,7 @@ import {
 	InputsUnidadesYSubUnidades,
 	InputSeleccionarProducto,
 } from 'components/Negocio';
+import {InfoProductoActual} from '..';
 
 export type Props = {
 	hookForm: THookForm<TFormTomaDePedido>;
@@ -41,6 +42,12 @@ const FormularioAgregarProducto = (props: Props) => {
 					stateProductoActual={stateProductoActual}
 					stateInputFocus={stateInputFocus}
 				/>
+			</Grid>
+			<Grid item xs={12}>
+				<InfoProductoActual
+					hookForm={hookForm}
+					stateProductoActual={stateProductoActual}
+					stateInputFocus={stateInputFocus} />
 			</Grid>
 		</Grid>
 	);

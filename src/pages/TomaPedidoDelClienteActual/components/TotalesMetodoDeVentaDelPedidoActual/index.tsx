@@ -6,20 +6,21 @@ import {useObtenerDatosCliente, useCalcularTotalPedido} from 'hooks';
 const TotalesMetodoDeVentaDelPedidoActual: any = () => {
 	const {t} = useTranslation();
 	const calcularTotalPedido = useCalcularTotalPedido();
+	const totalPedidoActual = calcularTotalPedido();
 
 	const metodosDeVenta = [
 		{
 			metodo: t('general.credito'),
-			total: calcularTotalPedido.totalCredito.totalPrecio,
-			unidades: calcularTotalPedido.totalCredito.totalUnidades,
-			subunidades: calcularTotalPedido.totalCredito.totalSubUnidades,
+			total: totalPedidoActual.totalCredito.totalPrecio,
+			unidades: totalPedidoActual.totalCredito.totalUnidades,
+			subunidades: totalPedidoActual.totalCredito.totalSubUnidades,
 			dataCY: 'credito',
 		},
 		{
 			metodo: t('general.contado'),
-			total: calcularTotalPedido.totalContado.totalPrecio,
-			unidades: calcularTotalPedido.totalContado.totalUnidades,
-			subunidades: calcularTotalPedido.totalContado.totalSubUnidades,
+			total: totalPedidoActual.totalContado.totalPrecio,
+			unidades: totalPedidoActual.totalContado.totalUnidades,
+			subunidades: totalPedidoActual.totalContado.totalSubUnidades,
 			dataCY: 'contado',
 		},
 	];

@@ -6,6 +6,7 @@ import {
 	TDatosClientesProductos,
 	TPrecioProducto,
 	TStateInputFocus,
+	TTipoPedido,
 } from 'models';
 import {useCallback} from 'react';
 import {
@@ -16,6 +17,7 @@ import {
 } from 'utils/validaciones';
 import {
 	useObtenerDatosCliente, 
+	useObtenerDatosTipoPedido, 
 	useObtenerPedidosClienteMismaFechaEntrega
 } from 'hooks';
 import {useObtenerClienteActual, useObtenerDatos} from 'redux/hooks';
@@ -45,6 +47,8 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 
 	const {obtenerPedidosClienteMismaFechaEntrega} = useObtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
 	const pedidosCliente = obtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
+
+	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
 
 	const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido(
 		productoActual,
@@ -93,6 +97,15 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 
 			if (inputFocus === 'unidades' && esPermitidoSubUnidades) {
 				setInputFocus('subUnidades');
+				return esValidacionCorrecta;
+			}
+
+			const datosTipoPedidoActual:
+			| TTipoPedido
+			| undefined = obtenerDatosTipoPedido();
+
+			if (inputFocus === 'subUnidades' && datosTipoPedidoActual?.requiereMotivo) {
+				setInputFocus('catalogoMotivo');
 				return esValidacionCorrecta;
 			}
 

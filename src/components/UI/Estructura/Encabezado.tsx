@@ -29,7 +29,11 @@ const Encabezado = ({children, esConFechaHaciaAtras, acciones}: Props) => {
 					<Grid item xs={2}>
 						<Center>
 							{esConFechaHaciaAtras && (
-								<IconButton size='small' onClick={() => history.goBack()}>
+								<IconButton
+									size='small'
+									onClick={() => history.goBack()}
+									data-cy='boton-atras'
+								>
 									<ArrowBackIcon style={{color: 'white'}} />
 								</IconButton>
 							)}

@@ -27,11 +27,7 @@ const CompromisoDeCobro: FunctionComponent<Props> = (props) => {
 						{`Limite de Credito:`}
 					</Grid>
 					<Grid item xs={3}>
-						<Numero
-							tipo='moneda'
-							valor={limiteDeCredito ? limiteDeCredito : 0}
-							decimales={2}
-						/>
+						<Numero valor={limiteDeCredito ? limiteDeCredito : 0} />
 					</Grid>
 				</Grid>
 			</Box>
@@ -42,9 +38,7 @@ const CompromisoDeCobro: FunctionComponent<Props> = (props) => {
 					</Grid>
 					<Grid item xs={3}>
 						<Numero
-							tipo='moneda'
 							valor={limiteDeCredito ? limiteDeCredito - totalDocumentos : 0}
-							decimales={2}
 						/>
 					</Grid>
 				</Grid>

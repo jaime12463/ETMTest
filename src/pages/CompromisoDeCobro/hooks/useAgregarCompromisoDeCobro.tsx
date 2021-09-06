@@ -36,7 +36,7 @@ export const useAgregarCompromisoDeCobro = (
 
 			dispatch(
 				agregarCompromisoDeCobro({
-					ID: uuidv4(),
+					id: uuidv4(),
 					fechaCreacion,
 					fechaEntrega,
 					monto: montoParseado,

@@ -3,7 +3,7 @@ import {TCompromisoDeCobro} from 'models';
 import {RootState} from 'redux/store';
 
 const estadoInicial: TCompromisoDeCobro = {
-	ID: '',
+	id: '',
 	fechaCreacion: '',
 	fechaEntrega: '',
 	monto: 0,
@@ -19,14 +19,14 @@ export const compromisoDeCobroSlice = createSlice({
 			action: PayloadAction<TCompromisoDeCobro>
 		) => {
 			const {
-				ID,
+				id,
 				fechaCreacion,
 				fechaEntrega,
 				monto,
 				tipoDocumento,
 			} = action.payload;
 
-			state.ID = ID;
+			state.id = id;
 			state.fechaCreacion = fechaCreacion;
 			state.fechaEntrega = fechaEntrega;
 			state.monto = monto;
@@ -34,7 +34,7 @@ export const compromisoDeCobroSlice = createSlice({
 		},
 
 		limpiarCompromisoDeCobroActual: (state) => {
-			state.ID = '';
+			state.id = '';
 			state.fechaCreacion = '';
 			state.fechaEntrega = '';
 			state.monto = 0;

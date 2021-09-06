@@ -2,20 +2,20 @@
 	"clientes": {
 		"120104325": {
 			"codigoCliente": 120104325,
-			"detalles": {"nombreComercial": "CREM LA MORENITA"},
+			"detalles": {"nombreComercial": "KIOSCO 24hs"},
 			"visitasPlanificadas": [
 				{"dia": "2021-06-08", "secuencia": 3},
-				{"dia": "2021-06-11", "secuencia": 5}
+				{"dia": "2001-06-11", "secuencia": 5}
 			],
 			"fechasEntrega": [
 				{"fechaVisita": "2021-06-09", "fechaEntrega": "2021-06-10"},
-				{"fechaVisita": "2021-06-10", "fechaEntrega": "2021-06-11"},
-				{"fechaVisita": "2021-06-11", "fechaEntrega": "2021-06-12"}
+				{"fechaVisita": "2021-06-10", "fechaEntrega": "2001-06-11"},
+				{"fechaVisita": "2001-06-11", "fechaEntrega": "2001-06-12"}
 			],
 			"informacionCrediticia": {
 				"condicion": "creditoInformal",
-				"limite": 30000,
-				"disponible": 10000,
+				"limite": 3000,
+				"disponible": 1000,
 				"esCreditoBloqueado": false,
 				"documentos": [
 					{
@@ -33,6 +33,7 @@
 				]
 			},
 			"configuracionPedido": {
+				"tipoPedidoHabilitados": [1, 2],
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -51,14 +52,13 @@
 			},
 			"portafolio": [
 				{
-					"codigoProducto": 17640,
+					"codigoProducto": 340,
 					"esVentaSubunidades": true,
-					"unidadesDisponibles": 10,
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,
 							"precioConImpuestoSubunidad": 8.84,
-							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaInicioPrecio": "2001-01-01",
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
@@ -66,6 +66,34 @@
 							"precioConImpuestoSubunidad": 8.75,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
+					"codigoProducto": 229033,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 18.4,
+							"precioConImpuestoSubunidad": 18.4,
+							"descuento": 1.6,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31",
+							"componentes": [
+								{
+									"CodigoProducto": 97185,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								},
+								{
+									"CodigoProducto": 97373,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								}
+							]
 						}
 					]
 				}
@@ -104,6 +132,7 @@
 				]
 			},
 			"configuracionPedido": {
+				"tipoPedidoHabilitados": [1, 2],
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -140,8 +169,9 @@
 					]
 				},
 				{
-					"codigoProducto": 420,
-					"esVentaSubunidades": true,
+					"codigoProducto": 229033,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 100,
@@ -192,6 +222,7 @@
 				]
 			},
 			"configuracionPedido": {
+				"tipoPedidoHabilitados": [1, 2],
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -221,6 +252,25 @@
 						},
 						{
 							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
+					"codigoProducto": 229033,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 100,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 100,
 							"precioConImpuestoSubunidad": 8.75,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
@@ -262,6 +312,7 @@
 				]
 			},
 			"configuracionPedido": {
+				"tipoPedidoHabilitados": [1, 2],
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -315,40 +366,119 @@
 							"vigenciaFinPrecio": "9999-12-31"
 						}
 					]
+				},
+				{
+					"codigoProducto": 340,
+					"esVentaSubunidades": true,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 106,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
+					"codigoProducto": 420,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 100,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 100,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
 				}
 			]
 		}
 	},
 	"productos": {
+		"340": {
+			"codigoProducto": 340,
+			"nombre": "AGUA",
+			"presentación": 12,
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 1
+		},
 		"420": {
 			"codigoProducto": 420,
-			"nombre": "YOLI LIMON BOT 900 NR 12PK",
+			"nombre": "YOLI LIMON BOT 1.5L 12PK",
 			"presentación": 12,
-			"subunidadesVentaMinima": 1
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 1
 		},
 		"1885": {
 			"codigoProducto": 1885,
 			"nombre": "YOLI LIMON BOT 900 NR 12PK",
 			"presentación": 12,
-			"subunidadesVentaMinima": 1
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 1
 		},
 		"17640": {
 			"codigoProducto": 17640,
-			"nombre": "2 coca + 1 sprit 50%",
+			"nombre": "coca 2L",
 			"presentación": 24,
-			"subunidadesVentaMinima": 3
+			"subunidadesVentaMinima": 3,
+			"implicito1": 170456,
+			"implicito2": 170445,
+			"tipoProducto": 1
+		},
+		"97185": {
+			"codigoProducto": 97185,
+			"nombre": "GENEROSA DURAZNO 413 ML 6PK",
+			"presentación": 6,
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 1
+		},
+		"97373": {
+			"codigoProducto": 97373,
+			"nombre": "MINIBRICK DURAZNO 250ML 8PK",
+			"presentación": 8,
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 1
 		},
 		"170445": {
 			"codigoProducto": 170445,
 			"nombre": "CAJA PLÁSTICA 24 CAV.",
 			"presentación": 1,
-			"subunidadesVentaMinima": 1
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 5
 		},
 		"170456": {
 			"codigoProducto": 170456,
 			"nombre": "ENVASE COCA-COLA 12",
 			"presentación": 24,
-			"subunidadesVentaMinima": 3
+			"subunidadesVentaMinima": 3,
+			"tipoProducto": 5
+		},
+		"229033": {
+			"codigoProducto": 229033,
+			"nombre": "1001-PJ DELVALLE413V+DELVALLE250TETRA=8%",
+			"presentación": 1,
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 9,
+			"promoPush": {
+				"codigoPromocion": 1234,
+				"componentes": [
+					{"codigoProducto": 97185, "cantidad": 2, "unidadMedida": "CAJ"},
+					{"codigoProducto": 97373, "cantidad": 2, "unidadMedida": "BOT"}
+				]
+			}
 		}
 	}
 }

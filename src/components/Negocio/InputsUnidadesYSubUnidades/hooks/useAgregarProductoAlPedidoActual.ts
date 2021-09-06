@@ -1,9 +1,9 @@
 import {useCallback} from 'react';
 import {useAppDispatch, useObtenerClienteActual} from 'redux/hooks';
 import {
-	agregarProductoAlPedidoDelCliente,
-	borrarProductoDelPedidoDelCliente,
-} from 'redux/features/pedidoActual/pedidoActualSlice';
+	editarProductoDelPedidoActual,
+	borrarProductoDelPedidoActual,
+} from 'redux/features/visitaActual/visitaActualSlice';
 import {
 	TClienteActual,
 	TFormTomaDePedido,
@@ -12,14 +12,14 @@ import {
 	TStateInputFocus,
 } from 'models';
 import {useValidarAgregarProductoAlPedidoCliente} from '.';
-import { UseFormGetValues } from 'react-hook-form';
+import {UseFormGetValues} from 'react-hook-form';
 
 export const useAgregarProductoAlPedidoActual = (
 	productoActual: TPrecioProducto | null,
 	resetLineaActual: () => void,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
 	stateInputFocus: TStateInputFocus,
-	getValues: UseFormGetValues<TFormTomaDePedido>,
+	getValues: UseFormGetValues<TFormTomaDePedido>
 ) => {
 	const dispatch = useAppDispatch();
 
@@ -37,7 +37,7 @@ export const useAgregarProductoAlPedidoActual = (
 
 	const agregarProductoAlPedidoActual = useCallback(
 		(inputs: TFormTomaDePedido) => {
-			const {unidades, subUnidades} = inputs;
+			const {unidades, subUnidades, catalogoMotivo} = inputs;
 
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
 
@@ -56,17 +56,20 @@ export const useAgregarProductoAlPedidoActual = (
 
 			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
 				dispatch(
-					agregarProductoAlPedidoDelCliente({
-						...productoActual,
-						unidades: unidadesParseado,
-						subUnidades: subUnidadesParseado,
-						total:
-							productoActual.precioConImpuestoUnidad * unidadesParseado +
-							productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
-						tipoPago: clienteActual.tipoPagoActual,
+					editarProductoDelPedidoActual({
+						productoPedido: {
+							...productoActual,
+							unidades: unidadesParseado,
+							subUnidades: subUnidadesParseado,
+							total:
+								productoActual.precioConImpuestoUnidad * unidadesParseado +
+								productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
+							tipoPago: clienteActual.tipoPagoActual,
+							catalogoMotivo
+						},
 					})
 				);
-			} else dispatch(borrarProductoDelPedidoDelCliente(codigoProducto));
+			} else dispatch(borrarProductoDelPedidoActual({codigoProducto}));
 
 			setInputFocus('productoABuscar');
 

@@ -30,6 +30,19 @@ export type TProducto = {
 	implicito1?: number;
 	implicito2?: number;
 	tipoProducto: number; //TODO: Mirar si esto debe ser un enum
+	promoPush?: TPromoPush;
+	
+};
+
+export type TPromoPush = {
+	codigoPromocion: number;
+	componentes: TPromoPushComponente[];
+};
+
+export type TPromoPushComponente = {
+	codigoProducto: number;
+	cantidad: number;
+	unidadMedia: string;
 };
 
 export type TVisitaPlanificada = {
@@ -142,5 +155,5 @@ export type TTipoPedido = {
 
 export type TCatalogoMotivo = {
 	codigo: number;
-	description: string;
+	descripcion: string;
 };
