@@ -67,7 +67,7 @@ export const useInicializarClienteActual = (
 				})
 			);
 
-			inicializarVisitaActual(fechaEntrega);
+			inicializarVisitaActual(fechaEntrega, codigoCliente);
 
 			history.push(`${nombresRutas.ingresarPedido}`);
 		},

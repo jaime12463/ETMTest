@@ -1,6 +1,7 @@
 import {Cuando, Entonces} from '../../pasos';
 
 Cuando('ingreso a registrar un pedido', () => {
+	//Este no es tan general, que cliente se deberia ingresar?
 	cy.ingresarCodigoCliente('HS002');
 });
 

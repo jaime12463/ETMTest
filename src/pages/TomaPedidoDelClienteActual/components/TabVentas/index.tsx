@@ -10,11 +10,9 @@ import {
 	TPrecioProducto,
 } from 'models';
 import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
-import {Box, Grid, Container} from '@material-ui/core';
+import {Box, Grid} from '@material-ui/core';
 import {useForm} from 'react-hook-form';
-import {TotalesMetodoDeVentaDelPedidoActual} from '../index';
-import {useObtenerConfiguracion} from 'redux/hooks';
-import ListadoCanjesAgregadosAlPedidoActual from '../ListadoCanjesAgregadosAlPedidoActual';
+import {useObtenerVisitaActual} from 'redux/hooks';
 import {MenuPromoPush} from 'components/Negocio';
 import {useObtenerMostrarPromoPush} from 'hooks';
 import {TarjetasPromoPush} from '..';
@@ -34,13 +32,13 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 		'productoABuscar'
 	);
 
-	const configuracion = useObtenerConfiguracion();
+	const visitaActual = useObtenerVisitaActual();
 
 	const defaultValues: TFormTomaDePedido = {
 		unidades: '',
 		subUnidades: '',
 		productoABuscar: '',
-		tipoDePedido: configuracion.tipoPedidos[0].codigo.toString(),
+		tipoDePedido: visitaActual.tipoPedidoActual.toString(),
 		catalogoMotivo: '',
 	};
 

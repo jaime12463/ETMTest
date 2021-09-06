@@ -14,12 +14,11 @@ Dado('que el tipo de pedido _esValorizado = true', () => {
 });
 
 Entonces('el sistema habilita el panel de ingreso del producto', () => {
-	//TODO: Cuales totales son
 	cy.get('[data-cy=codigo-producto-a-buscar]').should('be.enabled');
 });
 
 Y('mostrara el switch crédito y los totales', () => {
-	//TODO: Cuales totales son
+	//TODO: Cuales totales son? hay que cambiar la feature
 	cy.get('[data-cy=total-credito]').should('exist');
 	cy.get('[data-cy=total-contado]').should('exist');
 
