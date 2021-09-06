@@ -29,7 +29,6 @@ const TarjetasPromoPush: FunctionComponent<Props> = (props) => {
 	const {setValue} = hookForm;
 
 	const handleChange = (retorno: any) => (event: React.ChangeEvent<{}>) => {
-		console.log(retorno);
 		if (retorno.modo == 'expand') {
 			setExpanded(retorno.estado);
 		} else {
