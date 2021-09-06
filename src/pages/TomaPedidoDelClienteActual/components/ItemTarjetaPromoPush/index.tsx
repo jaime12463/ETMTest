@@ -69,7 +69,14 @@ const ItemTarjetaPromoPush = (props: any) => {
 				</Typography>
 				<Grid item xs={10}>
 					<Box display='flex ' justifyContent='space-between'>
-						<Typography variant='caption'>Descuento: ${descuento}</Typography>
+						<Grid item xs={1}>
+							<Box display='flex ' flexDirection={'row'}>
+								<Typography variant='caption'>
+									Descuento: <Numero valor={descuento} />
+								</Typography>
+							</Box>
+						</Grid>
+
 						<Typography variant='caption'>
 							Total: ${precioConImpuestoUnidad}
 						</Typography>

@@ -352,6 +352,32 @@
 						}
 					]
 				},
+				{
+					"codigoProducto": 229050,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+                    "precios": [
+                        {
+                            "precioConImpuestoUnidad": 18.4,
+                            "precioConImpuestoSubunidad": 18.4,
+							"descuento": 1.6,
+                            "vigenciaInicioPrecio": "2017-09-07",
+                            "vigenciaFinPrecio": "9999-12-31",
+							"componentes":[{
+								"CodigoProducto": 97185,
+								"precioBase": 10,	
+								"descuento": 0.8,	
+								"precioFinal": 9.2	
+								}, 
+								{"CodigoProducto": 97373,
+								"precioBase": 10,		
+								"descuento": 0.8,	
+								"precioFinal": 9.2	
+								}
+							]
+                        }
+                    ]
+				},
 {
 					"codigoProducto": 229033,
 					"esVentaSubunidades": false,
@@ -378,6 +404,7 @@
                         }
                     ]
 				}
+
 			]
 		},
 		{
@@ -563,6 +590,28 @@
 		},
 		{
 			"codigoProducto": 229033,
+			"nombre": "1001-PJ DELVALLE413V+DELVALLE250TETRA=8%",
+			"presentación": 1,
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 9,
+			"promoPush": {
+				"codigoPromocion": 1234,
+				"componentes": [
+					{
+						"codigoProducto": 97185,
+						"cantidad": 2,
+						"unidadMedida": "CAJ"
+					},
+					{
+						"codigoProducto": 97373,
+						"cantidad": 2,
+						"unidadMedida": "BOT"
+					}
+				]
+			}
+		},
+				{
+			"codigoProducto": 229050,
 			"nombre": "1001-PJ DELVALLE413V+DELVALLE250TETRA=8%",
 			"presentación": 1,
 			"subunidadesVentaMinima": 1,
