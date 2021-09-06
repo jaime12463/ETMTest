@@ -8,14 +8,19 @@ import {
 	InputsKeysFormTomaDePedido,
 	TFormTomaDePedido,
 	TPrecioProducto,
+	TTipoPedido,
 } from 'models';
-import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
-import {Box, Grid} from '@material-ui/core';
+import {
+	useInicializarPreciosProductosDelClienteActual,
+	useObtenerDatosTipoPedido,
+} from 'hooks';
+import {Box, Grid, Container} from '@material-ui/core';
 import {useForm} from 'react-hook-form';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {MenuPromoPush} from 'components/Negocio';
 import {useObtenerMostrarPromoPush} from 'hooks';
 import {TarjetasPromoPush} from '..';
+import ListadoCanjesAgregadosAlPedidoActual from '../ListadoCanjesAgregadosAlPedidoActual';
 
 type Props = {};
 
@@ -55,6 +60,12 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 
 	const obtenerMostrarPromoPush = useObtenerMostrarPromoPush();
 
+	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
+
+	const datosTipoPedidoActual:
+		| TTipoPedido
+		| undefined = obtenerDatosTipoPedido();
+
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 
 	return (
@@ -77,24 +88,25 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 					stateInputFocus={stateInputFocus}
 				/>
 			</Box>
-			{/*TODO: Mostrar solo cuando el SelectTipoDePedido es Venta */}
-			{!obtenerMostrarPromoPush ? (
+			{/*TODO: Mostrar solo cuando requiereMotivo es False. Tambien cuando esValorizado es True? */}
+			{!obtenerMostrarPromoPush && !datosTipoPedidoActual?.requiereMotivo && (
 				<ListadoProductosAgregadosAlPedidoActual
 					setProductoActual={setProductoActual}
 					hookForm={hookForm}
 					preciosProductos={preciosProductos}
 					setInputFocus={setInputFocus}
 				/>
-			) : (
-				<TarjetasPromoPush />
 			)}
-			{/*TODO: Mostrar solo cuando el SelectTipoDePedido es Canje */}
-			{/*<ListadoCanjesAgregadosAlPedidoActual
-				setProductoActual={setProductoActual}
-				hookForm={hookForm}
-				preciosProductos={preciosProductos}
-				setInputFocus={setInputFocus}
-			/>*/}
+			{/*TODO: Mostrar solo cuando requiereMotivo es True. Tambien cuando esValorizado es False? */}
+			{!obtenerMostrarPromoPush && datosTipoPedidoActual?.requiereMotivo && (
+				<ListadoCanjesAgregadosAlPedidoActual
+					setProductoActual={setProductoActual}
+					hookForm={hookForm}
+					preciosProductos={preciosProductos}
+					setInputFocus={setInputFocus}
+				/>
+			)}
+			{obtenerMostrarPromoPush && <TarjetasPromoPush />}
 		</Fragment>
 	);
 };

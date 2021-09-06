@@ -69,7 +69,6 @@ const ListadoCanjesAgregadosAlPedidoActual: FunctionComponent<Props> = (
 		});
 	};
 
-	//TODO: productosPedido deberia estar filtrado por tipoProductosHabilitados del codigo 2
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
@@ -78,6 +77,7 @@ const ListadoCanjesAgregadosAlPedidoActual: FunctionComponent<Props> = (
 				items={productos}
 				ItemComponent={ItemCanjeAgregadoAlPedidoActual}
 				onClickItem={onClickItem}
+				dataCY='listado-RequiereMotivo'
 			/>
 		</>
 	);

@@ -35,6 +35,7 @@ const ListadoDocumentos = () => {
 				documentosClienteActual !== undefined ? documentosClienteActual : []
 			}
 			ItemComponent={ItemListadoDocumentos}
+			dataCY='listado-documentos'
 		/>
 	);
 };
