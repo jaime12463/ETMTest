@@ -7,12 +7,21 @@ import {useInicializarPedidos} from '.';
 export const useInicializarVisitaActual = () => {
 	const dispatch = useAppDispatch();
 	const inicializarPedidos = useInicializarPedidos();
-	const configuraciones = useObtenerConfiguracion();
+	const configuracion = useObtenerConfiguracion();
 	const useInicializarPedidoActual = useCallback(
-		(fechaEntrega: string) => {
-			const pedidos: TPedidos = inicializarPedidos(fechaEntrega);
-			const tipoPedidoActual: number = configuraciones.tipoPedidos[0].codigo;
+		(fechaEntrega: string, codigoCliente: string) => {
+			const pedidos: TPedidos = inicializarPedidos(fechaEntrega, codigoCliente);
+
+			const tiposPedidos = configuracion.tipoPedidos
+				.map((x) => x)
+				.sort((a, b) => a.secuencia - b.secuencia);
+
+			const tipoPedidoActual: number =
+				tiposPedidos.find((tipoPedido) => tipoPedido.esValorizado)?.codigo ??
+				tiposPedidos[0].codigo;
+
 			const mostrarPromoPush: boolean = false;
+
 			dispatch(
 				inicializarVisitaActual({
 					visitaActual: {

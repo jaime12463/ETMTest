@@ -8,7 +8,7 @@ declare global {
 
 		type TPropsFunctionAgregarPedido = {
 			codigoCliente: string;
-			opcionTipoPedido: number;
+			opcionTipoPedido?: number;
 			propsAgregarProducto: TPropsFunctionAgregarProducto;
 		};
 		interface Chainable {
@@ -61,8 +61,12 @@ Cypress.Commands.add(
 		propsAgregarProducto,
 	}: Cypress.TPropsFunctionAgregarPedido) => {
 		cy.ingresarCodigoCliente(codigoCliente);
-		cy.get('#select-cambiar-tipo-pedido').click();
-		cy.get(`[data-cy=select-cambiar-tipo-pedido-${opcionTipoPedido}]`).click();
+		if (opcionTipoPedido) {
+			cy.get('#select-cambiar-tipo-pedido').click();
+			cy.get(
+				`[data-cy=select-cambiar-tipo-pedido-${opcionTipoPedido}]`
+			).click();
+		}
 		cy.agregarProducto(propsAgregarProducto);
 		cy.oprimirBotonCerrarPedido();
 	}

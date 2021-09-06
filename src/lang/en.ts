@@ -16,7 +16,7 @@ const en = {
 		razonSocial: 'Social reason',
 		denominacion: 'Denomination',
 		subunidades: 'Subunits',
-		cerrarPedido: 'Close order',
+		cerrarPedido: 'Close visit',
 		si: 'Yes',
 		no: 'No',
 		aceptar: 'Accept',

@@ -73,6 +73,7 @@ const ListPreciosProductosDelClienteActual: FunctionComponent<Props> = (
 				ItemComponent={ItemPrecioProductoDelClienteActual}
 				items={preciosProductos}
 				onClickItem={onClickItem}
+				dataCY='listado-producto-clienteActual'
 			/>
 		</>
 	);

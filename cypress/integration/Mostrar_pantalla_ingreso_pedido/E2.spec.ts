@@ -2,9 +2,10 @@ import {Dado, Entonces, Y} from '../../pasos';
 
 Dado('que el tipo de pedido _esValorizado = false', () => {
 	cy.fixture('configuracion').then((configuracion) => {
-		configuracion.configuraciones[0].tipoPedidos[0].esValorizado = false;
-		configuracion.configuraciones[0].tipoPedidos[1].esValorizado = true;
-		configuracion.configuraciones[0].tipoPedidos[1].esMandatorio = true;
+		configuracion.configuraciones[0].tipoPedidos[1].esValorizado = false;
+		configuracion.configuraciones[0].tipoPedidos[0].esValorizado = true;
+		configuracion.configuraciones[0].tipoPedidos[0].esMandatorio = true;
+		configuracion.configuraciones[0].tipoPedidos[0].requiereMotivo = false;
 		cy.intercept('GET', '/femsa/configuracion', configuracion).as(
 			'configuracion'
 		);
@@ -19,10 +20,8 @@ Y(
 	'{string} hay pedido mandatorio registrado',
 	(hayPedidoMandatorioRegistrado) => {
 		if (hayPedidoMandatorioRegistrado === 'SI') {
-			//Aca podemos verificar que este deshabilitado
 			cy.agregarPedido({
 				codigoCliente: 'HS002',
-				opcionTipoPedido: 1,
 				propsAgregarProducto: {
 					codigoProducto: 1885,
 					unidades: 10,
@@ -35,23 +34,20 @@ Y(
 
 Y('{string} hay pedido mandatorio en curso', (hayPedidoMandatorioEnCurso) => {
 	if (hayPedidoMandatorioEnCurso === 'SI') {
-		cy.get('#select-cambiar-tipo-pedido').click();
-		cy.get('[data-cy=select-cambiar-tipo-pedido-1]').click();
-
 		cy.agregarProducto({
 			codigoProducto: 1885,
 			unidades: 10,
 			subUnidades: 2,
 		});
-
-		cy.get('#select-cambiar-tipo-pedido').click();
-		cy.get('[data-cy=select-cambiar-tipo-pedido-0]').click();
 	}
 });
 
 Entonces(
 	'el sistema mostrará {string} y los totales',
 	(estadoPanelIngresoProducto) => {
+		cy.get('#select-cambiar-tipo-pedido').click();
+		cy.get('[data-cy=select-cambiar-tipo-pedido-1]').click();
+
 		if (estadoPanelIngresoProducto === 'DESHABILITADO') {
 			cy.get('[data-cy=codigo-producto-a-buscar]').should('be.disabled');
 			cy.get('[data-cy=cantidad-producto-unidades]').should('be.disabled');
@@ -60,7 +56,7 @@ Entonces(
 			cy.get('[data-cy=codigo-producto-a-buscar]').should('be.enabled');
 		}
 
-		//TODO: Aca el total es distinto
+		//TODO: Aca cual total es?
 	}
 );
 

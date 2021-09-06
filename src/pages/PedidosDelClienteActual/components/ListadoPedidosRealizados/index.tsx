@@ -36,6 +36,7 @@ const ListadoPedidosRealizados = () => {
 			headers={headers}
 			items={pedidosClienteActual}
 			ItemComponent={ItemListadoPedidosRealizados}
+			dataCY='listado-pedidos-realizados'
 		/>
 	);
 };
