@@ -46,7 +46,7 @@ export const useObtenerPromoPushDelCliente = () => {
 	);
 
 	return promoPushFiltradas.sort((a: any, b: any) => {
-		if (a.codigoProducto < b.codigoProducto) {
+		if (a.codigoProducto > b.codigoProducto) {
 			return 1;
 		} else {
 			return -1;

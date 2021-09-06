@@ -109,6 +109,13 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				return esValidacionCorrecta;
 			}
 
+			/// ToDo: No deteecta cambio de motivos
+/*
+			if (inputFocus === 'catalogoMotivo') {
+				setInputFocus('catalogoMotivo');
+				return esValidacionCorrecta;
+			}*/
+
 			if (!esPermitidoSubUnidades && subUnidadesParseado !== 0) {
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.subUnidadesNoPermitidas'),
