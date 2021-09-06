@@ -58,6 +58,7 @@ const InputsUnidadesYSubUnidades: FunctionComponent<Props> = (props) => {
 				<Grid item xs={6}>
 					<FormInput
 						onSubmitForm={handleSubmit(agregarProductoAlPedidoActual)}
+						onClick={() => setInputFocus('unidades')}
 						labelForm={t('general.unidades')}
 						name='unidades'
 						control={control}
@@ -75,6 +76,7 @@ const InputsUnidadesYSubUnidades: FunctionComponent<Props> = (props) => {
 				<Grid item xs={6}>
 					<FormInput
 						onSubmitForm={handleSubmit(agregarProductoAlPedidoActual)}
+						onClick={() => setInputFocus('subUnidades')}
 						labelForm={t('general.subUnidades')}
 						name='subUnidades'
 						control={control}

@@ -1,17 +1,20 @@
-import {FunctionComponent, useState} from 'react';
+import {FunctionComponent} from 'react';
 import Select from 'components/UI/Select';
-import {TFormTomaDePedido, THookForm, TStateInputFocus, TStateProductoActual} from 'models';
 import {
-	useObtenerCatalogoMotivos,
-} from './hooks';
-import { useMostrarAdvertenciaEnDialogo, useResetLineaActual } from 'hooks';
-import { useAgregarProductoAlPedidoActual } from 'components/Negocio/InputsUnidadesYSubUnidades/hooks';
-import { Dialogo } from 'components/UI';
+	TFormTomaDePedido,
+	THookForm,
+	TStateInputFocus,
+	TStateProductoActual,
+} from 'models';
+import {useObtenerCatalogoMotivos} from './hooks';
+import {useMostrarAdvertenciaEnDialogo, useResetLineaActual} from 'hooks';
+import {useAgregarProductoAlPedidoActual} from 'components/Negocio/InputsUnidadesYSubUnidades/hooks';
+import {Dialogo} from 'components/UI';
 
 type Props = {
 	hookForm: THookForm<TFormTomaDePedido>;
 	stateInputFocus: TStateInputFocus;
-	stateProductoActual: TStateProductoActual
+	stateProductoActual: TStateProductoActual;
 };
 
 export const SelectCatalogoMotivos: FunctionComponent<Props> = (props) => {
@@ -20,7 +23,6 @@ export const SelectCatalogoMotivos: FunctionComponent<Props> = (props) => {
 	const {productoActual, setProductoActual} = stateProductoActual;
 
 	const {handleSubmit, control, setValue, getValues} = hookForm;
-
 
 	const resetLineaActual = useResetLineaActual(setValue, setProductoActual);
 
@@ -37,7 +39,7 @@ export const SelectCatalogoMotivos: FunctionComponent<Props> = (props) => {
 		stateInputFocus,
 		getValues
 	);
-		
+
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
@@ -46,9 +48,11 @@ export const SelectCatalogoMotivos: FunctionComponent<Props> = (props) => {
 				opciones={itemCatalogoMotivos}
 				name='catalogoMotivo'
 				dataCY='select-cambiar-catalogo-motivo'
-				handleChange={handleSubmit(agregarProductoAlPedidoActual)}
+				handleChange={() => {}}
 				autoFocus={stateInputFocus.inputFocus == 'catalogoMotivo'}
+				onClick={handleSubmit(agregarProductoAlPedidoActual)}
 				disabled={productoActual === null}
+				onFocus={() => stateInputFocus.setInputFocus('catalogoMotivo')}
 			/>
 		</>
 	);

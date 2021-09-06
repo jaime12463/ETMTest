@@ -65,7 +65,7 @@ export const useAgregarProductoAlPedidoActual = (
 								productoActual.precioConImpuestoUnidad * unidadesParseado +
 								productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
 							tipoPago: clienteActual.tipoPagoActual,
-							catalogoMotivo
+							catalogoMotivo,
 						},
 					})
 				);
@@ -80,6 +80,7 @@ export const useAgregarProductoAlPedidoActual = (
 			validarAgregarProductoAlPedidoCliente,
 			dispatch,
 			setInputFocus,
+			inputFocus,
 		]
 	);
 	return agregarProductoAlPedidoActual;
