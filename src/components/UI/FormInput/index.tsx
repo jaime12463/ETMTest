@@ -27,7 +27,7 @@ const FormInput: FunctionComponent<Props & PropsInput> = (props) => {
 					{...other}
 					inputProps={{
 						autoComplete: 'off',
-						min: '1',
+						min: '0',
 					}}
 				/>
 			</form>
