@@ -70,11 +70,9 @@ const ItemTarjetaPromoPush = (props: any) => {
 				<Grid item xs={10}>
 					<Box display='flex ' justifyContent='space-between'>
 						<Grid item xs={1}>
-							<Box display='flex ' flexDirection={'row'}>
-								<Typography variant='caption'>
-									Descuento: <Numero valor={descuento} />
-								</Typography>
-							</Box>
+							<Typography variant='caption'>
+								Descuento: <Numero valor={descuento} />
+							</Typography>
 						</Grid>
 
 						<Typography variant='caption'>
