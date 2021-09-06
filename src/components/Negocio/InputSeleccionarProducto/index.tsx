@@ -82,6 +82,7 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 								input?.focus();
 							}
 						}}
+						onClick={() => setInputFocus('productoABuscar')}
 						InputProps={{
 							endAdornment: (
 								<IconButton
