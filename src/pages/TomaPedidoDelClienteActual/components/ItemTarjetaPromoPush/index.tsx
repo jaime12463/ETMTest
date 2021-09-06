@@ -48,7 +48,9 @@ const ItemTarjetaPromoPush = (props: any) => {
 			<CardHeader
 				title={
 					<Box display='flex ' justifyContent='space-between'>
-						<Typography variant='body2'>{codigoProducto}</Typography>
+						<Typography variant='body2' style={{fontWeight: 600}}>
+							{codigoProducto}
+						</Typography>
 						<Typography variant='body2'>
 							Disponible: {unidadesDisponibles}
 						</Typography>
@@ -64,12 +66,17 @@ const ItemTarjetaPromoPush = (props: any) => {
 				disableTypography={true}
 			/>
 			<CardContent className={classes.cardContent}>
-				<Typography variant='caption' component='p'>
+				<Typography variant='caption' component='p' style={{fontWeight: 600}}>
 					{nombreProducto}
 				</Typography>
 				<Grid item xs={10}>
 					<Box display='flex ' justifyContent='space-between'>
-						<Typography variant='caption'>Descuento: ${descuento}</Typography>
+						<Grid item xs={1}>
+							<Typography variant='caption'>
+								Descuento: <Numero valor={descuento} />
+							</Typography>
+						</Grid>
+
 						<Typography variant='caption'>
 							Total: ${precioConImpuestoUnidad}
 						</Typography>
