@@ -21,13 +21,16 @@ const useEstilos = makeStyles((theme: Theme) =>
 		cardContent: {
 			margin: 0,
 			paddingBottom: 0,
-			padding: 10,
+			padding: 5,
 			'&:last-child': {
 				paddingBottom: 0,
 			},
 		},
 		cardContentExpand: {
 			paddingTop: 0,
+		},
+		celda: {
+			borderBottom: 'none',
 		},
 	})
 );

@@ -4,10 +4,9 @@ import {
 	Box,
 	Table,
 	TableBody,
-	TableCell,
 	TableContainer,
 	TableRow,
-	Paper,
+	TableCell,
 } from '@material-ui/core';
 import {Center, Fecha, Numero} from 'components/UI';
 import useEstilos from './useEstilos';
@@ -22,6 +21,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {TPromoPush} from 'models';
+import {useObtenerDatos} from 'redux/hooks';
 
 type Props = {
 	item: TPromoPush;
@@ -30,6 +30,8 @@ type Props = {
 
 const ItemTarjetaPromoPush = (props: any) => {
 	const {item, onClickItem, estado, index} = props;
+	const datos = useObtenerDatos();
+	const {productos} = datos;
 	const {
 		codigoProducto,
 		nombreProducto,
@@ -39,25 +41,20 @@ const ItemTarjetaPromoPush = (props: any) => {
 		componentes,
 		promoPush,
 	} = item;
-	let promos;
-	console.log(item);
-	const classes = useEstilos();
 
-	/* 	const buscarProductoEnPromoPush = () => {
-		componentes.map((producto: any) => {
-			promoPush.componentes.filter(
-				(el: any) => el.codigoProducto === producto.CodigoProducto
-			);
-		});
-	}; */
+	console.log(item);
+	console.log(productos);
+	const classes = useEstilos();
 
 	return (
 		<Card className={classes.root}>
 			<CardHeader
 				title={
 					<Box display='flex ' justifyContent='space-between'>
-						<Typography variant='body2'>290293</Typography>
-						<Typography variant='body2'>Disponible: 10</Typography>
+						<Typography variant='body2'>{codigoProducto}</Typography>
+						<Typography variant='body2'>
+							Disponible: {unidadesDisponibles}
+						</Typography>
 					</Box>
 				}
 				style={{
@@ -96,17 +93,27 @@ const ItemTarjetaPromoPush = (props: any) => {
 					<CardContent className={classes.cardContentExpand}>
 						<TableContainer>
 							<Table size='small'>
-								{componentes.map((el: any, i: number) => (
-									<TableBody key={i}>
-										<TableRow>
-											{el.CodigoProducto}
+								<TableBody>
+									{componentes.map((el: any, i: number) => (
+										<React.Fragment key={i}>
 											<TableRow>
-												{`Precio: $${el.precioBase} Descuento: $${el.descuento}
+												<TableCell className={classes.celda}>
+													<Typography variant='body2'>
+														{`${el.CodigoProducto} ${
+															productos[el.CodigoProducto].nombre
+														}  ${promoPush.componentes[i].cantidad} ${
+															promoPush.componentes[i].unidadMedida
+														}`}
+													</Typography>
+													<Typography variant='body2'>
+														{`Precio: $${el.precioBase} Descuento: $${el.descuento}
 												 Total: $${el.precioFinal}`}
+													</Typography>
+												</TableCell>
 											</TableRow>
-										</TableRow>
-									</TableBody>
-								))}
+										</React.Fragment>
+									))}
+								</TableBody>
 							</Table>
 						</TableContainer>
 					</CardContent>
