@@ -10,6 +10,7 @@ import {
 	useObtenerPedidosClienteMismaFechaEntrega,
 	useObtenerCreditoDisponible,
 	useObtenerCompromisosDeCobroMismaFechaEntrega,
+	useObtenerTotalPedidosVisitaActual,
 } from 'hooks';
 import {TCliente, TClienteActual} from 'models';
 import {
@@ -26,6 +27,7 @@ export const useObtenerColor = () => {
 		pedidoMaximo: 'verde',
 		creditoDisponible: 'verde',
 	});
+
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {
@@ -41,7 +43,7 @@ export const useObtenerColor = () => {
 	const totalesPedidoCliente = obtenerTotalesPedidosCliente(
 		pedidosClienteMismaFechaEntrega
 	);
-	const calcularTotalPedido = useCalcularTotalPedido();
+	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
 	const totalesContadoPedidoCliente = obtenerTotalesContadoPedidosCliente(
 		pedidosClienteMismaFechaEntrega
@@ -58,8 +60,9 @@ export const useObtenerColor = () => {
 		compromisosDeCobroMismaFechaEntrega
 	);
 
+	const totalPedidoActual = obtenerTotalPedidosVisitaActual();
+
 	useEffect(() => {
-		const totalPedidoActual = calcularTotalPedido();
 		setColor({
 			pedidoMinimo:
 				obtenerporcentaje(
@@ -87,7 +90,11 @@ export const useObtenerColor = () => {
 					? 'rojo'
 					: 'verde',
 		});
-	}, [compromisoDeCobroActual, obtenerporcentaje, calcularTotalPedido]);
+	}, [
+		compromisoDeCobroActual,
+		obtenerporcentaje,
+		totalPedidoActual.totalPrecio,
+	]);
 
 	return color;
 };
