@@ -73,15 +73,15 @@ const ItemTarjetaPromoPush = (props: any) => {
 				<Typography variant='caption' component='p'>
 					{nombreProducto}
 				</Typography>
-				<Grid item xs={11}>
+				<Grid item xs={10}>
 					<Box display='flex ' justifyContent='space-between'>
-						<Typography variant='body2'>Descuento: ${descuento}</Typography>
-						<Typography variant='body2'>
+						<Typography variant='caption'>Descuento: ${descuento}</Typography>
+						<Typography variant='caption'>
 							Total: ${precioConImpuestoUnidad}
 						</Typography>
 					</Box>
 				</Grid>
-				<CardActions disableSpacing>
+				<CardActions disableSpacing style={{padding: 0}}>
 					<IconButton
 						className={clsx(classes.expand, {
 							[classes.expandOpen]: estado === index ? true : false,
@@ -99,9 +99,8 @@ const ItemTarjetaPromoPush = (props: any) => {
 								{componentes.map((el: any, i: number) => (
 									<TableBody key={i}>
 										<TableRow>
-											<Typography variant='caption' component='p'>
-												{el.CodigoProducto}
-											</Typography>
+											{el.CodigoProducto}
+
 											<TableRow>
 												{`Precio: $${el.precioBase} Descuento: $${el.descuento}
 												 Total: $${el.precioFinal}`}

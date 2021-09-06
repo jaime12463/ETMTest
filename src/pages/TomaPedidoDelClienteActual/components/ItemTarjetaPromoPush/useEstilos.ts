@@ -6,11 +6,11 @@ const useEstilos = makeStyles((theme: Theme) =>
 			paddingBottom: 0,
 		},
 		expand: {
+			position: 'relative',
 			transform: 'rotate(0deg)',
-			marginTop: -10,
-			marginBottom: 0,
+			top: -30,
 			marginLeft: 'auto',
-			paddingBottom: 0,
+			padding: 0,
 			transition: theme.transitions.create('transform', {
 				duration: theme.transitions.duration.shortest,
 			}),
