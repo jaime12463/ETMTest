@@ -45,5 +45,11 @@ export const useObtenerPromoPushDelCliente = () => {
 				obtenerUnidadesMismoProducto(pedidosCliente, producto.codigoProducto))
 	);
 
-	return promoPushFiltradas;
+	return promoPushFiltradas.sort((a: any, b: any) => {
+		if (a.codigoProducto < b.codigoProducto) {
+			return 1;
+		} else {
+			return -1;
+		}
+	});
 };
