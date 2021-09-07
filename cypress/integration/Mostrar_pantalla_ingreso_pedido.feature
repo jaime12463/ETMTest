@@ -160,3 +160,13 @@ Ejemplos:
 |       false     | no mostrará | 
 
 # Cuando estén en canje u otro pedido que no habilita los iconos, no se deben visualizar los iconos.
+
+Esquema del escenario: N°10 - Acceso orden de compra
+    Dado que se ingresó a la pantalla de pedido
+    Cuando la ruta tiene '<_habilitaOrdenDeCompra>'
+    Entonces el sistema '<visualizara>' el acceso a la asociación de orden de compra al pedido
+
+Ejemplos:
+|_habilitaOrdenDeCompra|visualizara  |
+|         true         |  mostrará   |
+|         false        | no mostrará |
