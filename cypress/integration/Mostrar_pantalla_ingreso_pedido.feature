@@ -65,25 +65,25 @@ Ejemplos:
 |              SI                     |           SI             |
 |              NO                     |           NO             |  
 
-Escenario: N°2 - El tipo de pedido es no valorizado, valida presupuesto y no está en vigencia
+Escenario: N°2 - El tipo de pedido es no valorizado, valida presupuesto y no está en vigencia según fecha del dispositivo
     Dado que el tipo de pedido _esValorizado = false
     Y _validaPresupuesto = true
-    Y el _tipoPedido en _presupuestoTipoPedido no se encuentra dentro de la vigencia de _vigenciaInicioPresupuesto y _vigenciaFinPresupuesto 
+    Y la fecha de dispositivo no se encuentra dentro de la vigencia de _vigenciaInicioPresupuesto y _vigenciaFinPresupuesto del _tipoPedido en _presupuestoTipoPedido 
     Cuando ingreso a registrar un pedido
     Entonces el sistema mostrará  los totales
 
-Esquema del escenario: N°3 - El tipo de pedido es no valorizado, valida presupuesto, está en vigencia y no tiene presupuesto
+Esquema del escenario: N°3 - El tipo de pedido es no valorizado, valida presupuesto, está en vigencia según fecha del dispositivo, y no tiene presupuesto
     Dado que el tipo de pedido _esValorizado = false
     Y _validaPresupuesto = true
-    Y el _tipoPedido en _presupuestoTipoPedido se encuentra dentro de la vigencia de _vigenciaInicioPresupuesto y _vigenciaFinPresupuesto 
+    Y el _tipoPedido en _presupuestoTipoPedido tiene _vigenciaInicioPresupuesto <= fecha del dispositivo <= _vigenciaFinPresupuesto 
     Y presupuestoActual = 0 
     Cuando ingreso a registrar un pedido
     Entonces el sistema mostrará los totales
 
-Esquema del escenario: N°4 - El tipo de pedido es no valorizado, valida presupuesto, está en vigencia y tiene presupuesto
+Esquema del escenario: N°4 - El tipo de pedido es no valorizado, valida presupuesto, está en vigencia según fecha del dispositivo, y tiene presupuesto
     Dado que el tipo de pedido _esValorizado = false
     Y _validaPresupuesto = true
-    Y el _tipoPedido en _presupuestoTipoPedido se encuentra dentro de la vigencia de _vigenciaInicioPresupuesto y _vigenciaFinPresupuesto 
+    Y el _tipoPedido en _presupuestoTipoPedido tiene _vigenciaInicioPresupuesto <= fecha del dispositivo <= _vigenciaFinPresupuesto 
     Y presupuestoActual > 0 
     Y '<hayOtrosProductosEnPedidosMandatorios>'
     Cuando ingreso a registrar un pedido
