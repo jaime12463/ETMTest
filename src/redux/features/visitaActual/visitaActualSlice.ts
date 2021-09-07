@@ -45,6 +45,13 @@ export const visitaActualSlice = createSlice({
 			];
 		},
 
+		borrarProductosDeVisitaActual: (
+			state,
+			action: PayloadAction<{tipoPedidoActual: number}>
+		) => {
+			state.pedidos[action.payload.tipoPedidoActual].productos = [];
+		},
+
 		inicializarVisitaActual: (
 			state,
 			action: PayloadAction<{
@@ -118,6 +125,7 @@ export const {
 	borrarProductoDelPedidoActual,
 	inicializarVisitaActual,
 	resetearVisitaActual,
+	borrarProductosDeVisitaActual,
 	cambiarTipoPagoPoductoDelPedidoActual,
 	cambiarTipoPagoPoductosDelPedidoActual,
 	cambiarTipoPedidoActual,
