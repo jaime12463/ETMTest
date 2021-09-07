@@ -9,19 +9,22 @@
 # Filtrar productos por atributos: código de producto, descripción del producto.
 # UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=123%3A1241&scaling=scale-down&page-id=123%3A371
 
+# El teclado, para la solución mobile, en el filtro deberá ser un teclado alfanumérico
 
 Característica: Búsqueda de productos por atributos
     Como Prevendedor
     Quiero realizar la búsqueda de un producto por atributos
     Para agregarlo al pedido
 
-
+Antecedentes:
+    Dado que el prevendedor seleccionó un pedido cuyo _tipoPedido es un _tipoPedidoHabilitados 
 
 Esquema del escenario: N°1 Filtrar producto en portafolio vigente cuando el tipo de pedido no valida presupuesto
-    Dado que el prevendedor seleccionó un pedido cuyo _tipoPedido es un _tipoPedidoHabilitados 
-    Y tiene _validaPresupuesto = false
+    Dado que el _tipoPedido tiene _validaPresupuesto = false
     Y tiene portafolio asignado con precio y vigencia inicial y final
-    Cuando haya ingresado al menos dos o más caracteres
+    Cuando se selecciona el control de búsqueda 
+    Y se muestra el teclado alfanumérico
+    Y se ingresan al menos dos o más caracteres
     Entonces el sistema muestra solamente los productos cuyo _tipoProducto sea el _tipoProductosHabilitados para el tipo de pedido en curso 
     Y que contengan lo ingresado por el prevendedor en su código o en su descricpción
     Y que pertenezcan al portafolio del cliente
@@ -36,10 +39,11 @@ Ejemplos:
 
 
 Esquema del escenario: N°2 Filtrar producto en portafolio vigente con presupuesto de canje cuando no tiene lista de productos habilitados
-    Dado que el prevendedor seleccionó un pedido cuyo _tipoPedido es un _tipoPedidoHabilitados
-    Y tiene _validaPresupuesto = true
+    Dado que el _tipoPedido tiene _validaPresupuesto = true
     Y _tieneProductosHabilitados = false
-    Cuando haya ingresado al menos dos o más caracteres
+    Cuando se selecciona el control de búsqueda 
+    Y se muestra el teclado alfanumérico
+    Y se ingresan al menos dos o más caracteres
     Entonces el sistema mostrará los productos del portafolio asignado al cliente cuyo _tipoProducto sea el _tipoProductosHabilitados para el tipo de pedido en curso
     Y que contengan lo ingresado por el prevendedor en su código o en su descricpción
     Y cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
@@ -52,10 +56,11 @@ Ejemplos:
 
 
 Esquema del escenario: N°3 Filtrar producto en portafolio vigente con presupuesto de canje cuando existe lista de productos habilitados
-    Dado que el prevendedor seleccionó un pedido cuyo _tipoPedido es un _tipoPedidoHabilitados 
-    Y tiene _validaPresupuesto = true
+    Dado que el _tipoPedido tiene _validaPresupuesto = true
     Y _tieneProductosHabilitados = true
-    Cuando haya ingresado al menos dos o más caracteres
+    Cuando se selecciona el control de búsqueda
+    Y se muestra el teclado alfanumérico
+    Y se ingresan al menos dos o más caracteres
     Entonces el sistema mostrará los _productosHabilitados en el presupuesto con _vigenciaInicioPresupuesto <= fecha del dispositivo <= _vigenciaFinPresupuesto
     que estén en el portafolio del cliente cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
     Y que contengan lo ingresado por el prevendedor en su código o en su descricpción
