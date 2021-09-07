@@ -14,6 +14,5 @@ export {useObtenerPedidosClienteMismaFechaEntrega} from './useObtenerPedidosClie
 export {useObtenerCompromisosDeCobroMismaFechaEntrega} from './useObtenerCompromisosDeCobroMismaFechaEntrega';
 export {useObtenerDeudasDelClienteActual} from './useObtenerDeudasDelClienteActual';
 export {useObtenerDatosTipoPedido} from './useObtenerDatosTipoPedido';
-export {useObtenerMostrarPromoPush} from './useObtenerMostrarPromoPush';
 export {useObtenerPromoPushDelCliente} from './useObtenerPromoPushDelCliente';
 export {useObtenerTotalPedidosVisitaActual} from './useObtenerTotalPedidosVisitaActual';

@@ -14,11 +14,10 @@ import {
 	useInicializarPreciosProductosDelClienteActual,
 	useObtenerDatosTipoPedido,
 } from 'hooks';
-import {Box, Grid, Container} from '@material-ui/core';
+import {Box, Grid} from '@material-ui/core';
 import {useForm} from 'react-hook-form';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {MenuPromoPush} from 'components/Negocio';
-import {useObtenerMostrarPromoPush} from 'hooks';
 import {TarjetasPromoPush} from '..';
 import ListadoCanjesAgregadosAlPedidoActual from '../ListadoCanjesAgregadosAlPedidoActual';
 
@@ -58,8 +57,6 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 
 	const hookForm = {control, handleSubmit, setValue, getValues};
 
-	const obtenerMostrarPromoPush = useObtenerMostrarPromoPush();
-
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
 
 	const datosTipoPedidoActual:
@@ -89,24 +86,26 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 				/>
 			</Box>
 			{/*TODO: Mostrar solo cuando requiereMotivo es False. Tambien cuando esValorizado es True? */}
-			{!obtenerMostrarPromoPush && !datosTipoPedidoActual?.requiereMotivo && (
-				<ListadoProductosAgregadosAlPedidoActual
-					setProductoActual={setProductoActual}
-					hookForm={hookForm}
-					preciosProductos={preciosProductos}
-					setInputFocus={setInputFocus}
-				/>
-			)}
+			{!visitaActual.mostrarPromoPush &&
+				!datosTipoPedidoActual?.requiereMotivo && (
+					<ListadoProductosAgregadosAlPedidoActual
+						setProductoActual={setProductoActual}
+						hookForm={hookForm}
+						preciosProductos={preciosProductos}
+						setInputFocus={setInputFocus}
+					/>
+				)}
 			{/*TODO: Mostrar solo cuando requiereMotivo es True. Tambien cuando esValorizado es False? */}
-			{!obtenerMostrarPromoPush && datosTipoPedidoActual?.requiereMotivo && (
-				<ListadoCanjesAgregadosAlPedidoActual
-					setProductoActual={setProductoActual}
-					hookForm={hookForm}
-					preciosProductos={preciosProductos}
-					setInputFocus={setInputFocus}
-				/>
-			)}
-			{obtenerMostrarPromoPush && <TarjetasPromoPush />}
+			{!visitaActual.mostrarPromoPush &&
+				datosTipoPedidoActual?.requiereMotivo && (
+					<ListadoCanjesAgregadosAlPedidoActual
+						setProductoActual={setProductoActual}
+						hookForm={hookForm}
+						preciosProductos={preciosProductos}
+						setInputFocus={setInputFocus}
+					/>
+				)}
+			{visitaActual.mostrarPromoPush && <TarjetasPromoPush />}
 		</Fragment>
 	);
 };

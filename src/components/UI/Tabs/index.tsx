@@ -1,11 +1,9 @@
 import {FunctionComponent} from 'react';
 import {makeStyles, Theme} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
 import {Tabs as TabsMUI, Tab, Grid} from '@material-ui/core';
 import {TabPanel} from 'components/UI';
 import React from 'react';
 import {TTab} from 'models';
-import {useObtenerMostrarPromoPush} from 'hooks';
 
 type Props = {
 	tabs: TTab[];
@@ -29,7 +27,6 @@ function a11yProps(index: any) {
 
 const Tabs: FunctionComponent<Props> = ({tabs, value, setValue}) => {
 	const classes = useStyles();
-	const obtenerMostrarPromoPush = useObtenerMostrarPromoPush();
 	const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
 		setValue(newValue);
 	};
