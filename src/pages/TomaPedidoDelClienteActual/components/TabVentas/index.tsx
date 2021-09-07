@@ -105,7 +105,14 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 						setInputFocus={setInputFocus}
 					/>
 				)}
-			{visitaActual.mostrarPromoPush && <TarjetasPromoPush />}
+			{visitaActual.mostrarPromoPush && (
+				<TarjetasPromoPush
+					setProductoActual={setProductoActual}
+					hookForm={hookForm}
+					preciosProductos={preciosProductos}
+					setInputFocus={setInputFocus}
+				/>
+			)}
 		</Fragment>
 	);
 };
