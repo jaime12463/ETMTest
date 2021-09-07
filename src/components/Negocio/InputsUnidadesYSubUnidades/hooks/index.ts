@@ -2,7 +2,8 @@ import {useAgregarProductoAlPedidoActual} from './useAgregarProductoAlPedidoActu
 import {useValidarAgregarProductoAlPedidoCliente} from './useValidarAgregarProductoAlPedidoCliente';
 import {useValidarProductoPermiteSubUnidades} from './useValidarProductoPermiteSubUnidades';
 import useObtenerEsPermitidoSubUnidades from './useObtenerEsPermitidoSubUnidades';
-import { useManejadorConfirmarAgregarPedido } from './useManejadorConfirmarAgregarPedido';
+import {useManejadorConfirmarAgregarPedido} from './useManejadorConfirmarAgregarPedido';
+import {useManejadorConfirmarEliminarPedidosNoMandatorios} from './useManejadorConfirmarEliminarPedidosNoMandatorios';
 
 export {
 	useAgregarProductoAlPedidoActual,
@@ -10,4 +11,5 @@ export {
 	useValidarProductoPermiteSubUnidades,
 	useObtenerEsPermitidoSubUnidades,
 	useManejadorConfirmarAgregarPedido,
+	useManejadorConfirmarEliminarPedidosNoMandatorios,
 };
