@@ -2,6 +2,7 @@
 export type TDatosClientesProductos = {
 	clientes: TClientes;
 	productos: TProductos;
+	presupuestoTipoPedido: TpresupuestoTipoPedido[];
 };
 
 export type TClientes = {
@@ -127,6 +128,15 @@ export type TDocumento = {
 	monto: number;
 };
 
+export type TpresupuestoTipoPedido = {
+	tipoPedido: number;
+	presupuesto: number;
+	vigenciaInicioPresupuesto: string;
+	vigenciaFinPresupuesto: string;
+	tieneProductosHabilitados: boolean;
+	productosHabilitados: number[];
+};
+
 //configuraciones.json
 export type TDatosConfiguracion = {
 	configuraciones: TConfiguracion[];
@@ -134,6 +144,7 @@ export type TDatosConfiguracion = {
 
 export type TConfiguracion = {
 	esFrecuenciaAbierta: boolean;
+	habilitaOrdenDeCompra: boolean;
 	tipoPedidos: TTipoPedido[];
 };
 
@@ -151,6 +162,7 @@ export type TTipoPedido = {
 	generaEnvases: boolean;
 	requiereMotivo: boolean;
 	catalogoMotivos: TCatalogoMotivo[];
+	validaPresupuesto: boolean;
 };
 
 export type TCatalogoMotivo = {

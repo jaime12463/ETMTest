@@ -8,6 +8,7 @@ const estadoInicial: TDatosSlice = {
 	datos: {
 		clientes: {},
 		productos: {},
+		presupuestoTipoPedido: [],
 	},
 };
 

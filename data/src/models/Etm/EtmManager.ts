@@ -48,8 +48,13 @@ export default class EtmManager {
 			'codigoProducto'
 		);
 
+		const presupuestoHash = transformacionJsonConHash(
+			json.presupuestoTipoPedido,
+			'tipoPedido'
+		);
+
 		let jsonFinal = JSON.parse(
-			`{"clientes":${clientesHash}, "productos":${productosHash}}`
+			`{"clientes":${clientesHash}, "productos":${productosHash}, "presupuestoTipoPedido":${presupuestoHash}}`
 		);
 		return jsonFinal;
 	};
