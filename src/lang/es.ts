@@ -89,6 +89,7 @@ const es = {
 		montoMayorDeuda: 'El monto no puede ser mayor a la deuda registrada',
 		excedeUnidadesDisponibles:
 			'La cantidad es mayor al disponible: {{disponible}}',
+		borrarPedidosNoMandatorios: 'Se borraran todos los pedidos no obligatorios',
 	},
 };
 export default es;

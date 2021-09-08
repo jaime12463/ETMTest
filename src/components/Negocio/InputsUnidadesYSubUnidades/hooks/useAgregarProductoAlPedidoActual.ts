@@ -11,8 +11,15 @@ import {
 	TPrecioProducto,
 	TStateInputFocus,
 } from 'models';
-import {useValidarAgregarProductoAlPedidoCliente} from '.';
+import {
+	useValidarAgregarProductoAlPedidoCliente,
+	useManejadorConfirmarEliminarPedidosNoMandatorios,
+} from '.';
 import {UseFormGetValues} from 'react-hook-form';
+
+import {validarHayMasProductosMandatorios} from 'utils/validaciones';
+import {useTranslation} from 'react-i18next';
+import {useObtenerProductosMandatoriosVisitaActual} from 'hooks';
 
 export const useAgregarProductoAlPedidoActual = (
 	productoActual: TPrecioProducto | null,
@@ -22,6 +29,7 @@ export const useAgregarProductoAlPedidoActual = (
 	getValues: UseFormGetValues<TFormTomaDePedido>
 ) => {
 	const dispatch = useAppDispatch();
+	const {t} = useTranslation();
 
 	const {inputFocus, setInputFocus} = stateInputFocus;
 
@@ -32,7 +40,11 @@ export const useAgregarProductoAlPedidoActual = (
 		getValues,
 		resetLineaActual
 	);
-
+	const productosMandatoriosVisitaActual = useObtenerProductosMandatoriosVisitaActual();
+	const manejadorConfirmarEliminarPedidosNoMandatorios = useManejadorConfirmarEliminarPedidosNoMandatorios(
+		productosMandatoriosVisitaActual.noMandatorios,
+		productoActual?.codigoProducto
+	);
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
 	const agregarProductoAlPedidoActual = useCallback(
@@ -69,8 +81,25 @@ export const useAgregarProductoAlPedidoActual = (
 						},
 					})
 				);
-			} else dispatch(borrarProductoDelPedidoActual({codigoProducto}));
-
+			} else {
+				if (
+					validarHayMasProductosMandatorios(
+						productosMandatoriosVisitaActual.mandatorios
+					)
+				) {
+					dispatch(borrarProductoDelPedidoActual({codigoProducto}));
+				} else {
+					mostrarAdvertenciaEnDialogo(
+						t('advertencias.borrarPedidosNoMandatorios'),
+						'eliminar-linea-pedido',
+						manejadorConfirmarEliminarPedidosNoMandatorios,
+						{
+							aceptar: t('general.si'),
+							cancelar: t('general.no'),
+						}
+					);
+				}
+			}
 			setInputFocus('productoABuscar');
 
 			resetLineaActual();
