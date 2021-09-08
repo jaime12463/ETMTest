@@ -114,6 +114,23 @@ export const pedidosClientesSlice = createSlice({
 
 			state[codigoCliente].pedidos = pedidosClienteFiltrandoElModificado;
 		},
+
+		agregarPedidosCliente: (
+			state,
+			action: PayloadAction<{
+				pedidos: TPedidoClienteParaEnviar[];
+				clienteActual: TClienteActual;
+			}>
+		) => {
+			const {codigoCliente}: TClienteActual = action.payload.clienteActual;
+			const pedidos: TPedidoClienteParaEnviar[] = action.payload.pedidos;
+			if (!state[codigoCliente])
+				state[codigoCliente] = {pedidos: [], compromisosDeCobro: []};
+			state[codigoCliente].pedidos = [
+				...state[codigoCliente].pedidos,
+				...pedidos,
+			];
+		},
 	},
 });
 
@@ -124,5 +141,6 @@ export const {
 	modificarPedidoCliente,
 	cancelarPedidoDelCliente,
 	guardarCompromisoDecobroCliente,
+	agregarPedidosCliente,
 } = pedidosClientesSlice.actions;
 export default pedidosClientesSlice.reducer;

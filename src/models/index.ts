@@ -18,22 +18,15 @@ export type TConsolidadoImplicitos = {
 	subUnidades: number;
 };
 
-export type TTotalPedido = {
-	totalUnidades: number;
-	totalSubUnidades: number;
-	totalPrecio: number;
-	totalContado: TTotalPedidoContado;
-	totalCredito: TTotalPedidoCredito;
-};
-export type TTotalPedidoContado = {
+export type TTotal = {
 	totalUnidades: number;
 	totalSubUnidades: number;
 	totalPrecio: number;
 };
-export type TTotalPedidoCredito = {
-	totalUnidades: number;
-	totalSubUnidades: number;
-	totalPrecio: number;
+
+export type TTotalPedido = TTotal & {
+	totalContado: TTotal;
+	totalCredito: TTotal;
 };
 
 export type TFunctionMostarAvertenciaPorDialogo = (
@@ -131,4 +124,19 @@ export type TOpcionSelect = {
 
 export type TSelectCatalogoMotivo = {
 	catalogoMotivo: string;
+};
+
+export type TPropsFunctionMostarAdvertencia = {
+	mensaje: string;
+	dataCy: string;
+	manejadorClick?: (oprimioBotonAceptar: boolean) => void;
+	textosBotonesDefault?: {
+		aceptar: string;
+		cancelar: string;
+	};
+};
+
+export type TRetornoValidacion = {
+	propsAdvertencia: TPropsFunctionMostarAdvertencia | null;
+	esValido: boolean;
 };

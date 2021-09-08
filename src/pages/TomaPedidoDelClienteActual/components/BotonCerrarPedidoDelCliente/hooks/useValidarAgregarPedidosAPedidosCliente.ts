@@ -43,11 +43,11 @@ export const useValidarAgregarPedidosAPedidosCliente = () => {
 
 		const retornoValidacion: TRetornoValidacion = {
 			esValido: false,
-			propsAvertencia: null,
+			propsAdvertencia: null,
 		};
 
 		if (!datosCliente) {
-			retornoValidacion.propsAvertencia = {
+			retornoValidacion.propsAdvertencia = {
 				dataCy: 'no-datos-cliente',
 				mensaje: t('No se encontro datos del cliente'),
 			};
@@ -64,7 +64,7 @@ export const useValidarAgregarPedidosAPedidosCliente = () => {
 			!esValidoMontoMinidoPedido &&
 			pedidosClienteMismaFechaEntrega.length === 0
 		) {
-			retornoValidacion.propsAvertencia = {
+			retornoValidacion.propsAdvertencia = {
 				dataCy: 'pedido-minimo',
 				mensaje: t('advertencias.pedidoMinimo', {
 					monto: datosCliente.configuracionPedido.ventaMinima?.montoVentaMinima,
@@ -83,7 +83,7 @@ export const useValidarAgregarPedidosAPedidosCliente = () => {
 		);
 
 		if (!esMenorAlMontoMaximoContado) {
-			retornoValidacion.propsAvertencia = {
+			retornoValidacion.propsAdvertencia = {
 				dataCy: 'monto-maximo',
 				mensaje: t('advertencias.masDelMontoMaximo', {
 					montoVentaMaxima:
@@ -101,7 +101,7 @@ export const useValidarAgregarPedidosAPedidosCliente = () => {
 			clienteActual.condicion === 'creditoInformal';
 
 		if (esCondicionCreditoInformal && !esMenorAlMontoMaximoCredito) {
-			retornoValidacion.propsAvertencia = {
+			retornoValidacion.propsAdvertencia = {
 				dataCy: 'credito-maximo',
 				mensaje: t('advertencias.excedeCreditoDsiponible'),
 			};

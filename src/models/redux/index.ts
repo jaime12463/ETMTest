@@ -106,6 +106,6 @@ export type TPedidosClientes = {
 
 export type TPedidoClienteParaEnviar = {
 	usuario: string;
-	tipoPago: ETiposDePago;
+	tipoPago?: ETiposDePago;
 	enviado: boolean;
 } & TPedido;
