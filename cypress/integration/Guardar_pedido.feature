@@ -1,6 +1,14 @@
 # language: es
 
-@Pedido @Guardar_pedido @Sprint7 @Sprint8 @Sprint9 @Sprint10
+@Pedido @Guardar_pedido @Sprint7 @Sprint8 @Sprint9 @Sprint10 @Sprint11
+
+# Sprint11: Si el pedido a cerrar es válido, y para la ruta _habilitaOrdenDeCompra=true 
+# y se registro algún pedido valorizado, se muestra un dialogo para el ingreso de la orden de compra. 
+# Habilitar el boton Si del diálogo si se ingresó la orden de compra.
+# Si el usuario responde Si, la orden de compra se debe registrar en la cabecera de todos los pedido cuyo _tipoPedido tiene _esValorizado=true.
+# Si el usuario responde No, el sistema continúa con el cierre normal del pedido
+
+# Sprint11 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=1256%3A2&scaling=min-zoom&page-id=1075%3A2&starting-point-node-id=1256%3A2
 
 # Cuando el tipo de pedido es Canje registrar lo sigguiente:
 #            Tipo de Operación: "Canje", se guarda el código del tipo de operación
@@ -34,8 +42,8 @@ Característica: Guardar actividad realizada
 
 Antecedentes:
     Dado un pedido ingresado y/o un compromiso de cobro registrado
-Y montoVentaMaximo = montoVentaContadoMaxima - consumido para la fecha de entrega - pedidos de contado registrados para la misma fecha de entrega - compromisos de cobro para la misma fecha de entrega
-Y creditoDisponible = informacionCrediticia.disponible – pedidos a crédito ya registrados – productos a crédito del pedido actual
+    Y montoVentaMaximo = montoVentaContadoMaxima - consumido para la fecha de entrega - pedidos de contado registrados para la misma fecha de entrega - compromisos de cobro para la misma fecha de entrega
+    Y creditoDisponible = informacionCrediticia.disponible – pedidos a crédito ya registrados – productos a crédito del pedido actual
 
 Escenario: N°1 – El cliente de contado o crédito formal no tiene pedidos activos para la fecha de entrega y el pedido cumple el mínimo y no excede el máximo. No se valida crédito disponible.
     Dado que el cliente no tiene pedidos en estado Activo para la misma fecha de entrega del pedido a guardar
@@ -43,8 +51,9 @@ Escenario: N°1 – El cliente de contado o crédito formal no tiene pedidos act
     Y la suma del monto de los productos de contado, cuyo tipo de pedido _esValorizado = true,  + compromiso de cobro es menor o igual a montoVentaMaximo
     Y la _condición de crédito del cliente es distinta de crédito informal
     Cuando guardo el pedido
-    Entonces el sistema guardará el pedido y lo mostrará en la lista de pedidos del cliente
-    
+    Entonces el sistema guardará el pedido 
+    Y registrará la orden de compra en la cabecera de todos los pedidos cuyos tipos de pedido son _esValorizado = true
+    Y volverá a la pantalla de cliente
 
 Escenario: N°2 – El cliente de crédito informal no tiene pedidos activos para la fecha de entrega y no excede el límite de crédito y el pedido cumple el mínimo y no excede el máximo
     Dado que el cliente no tiene pedidos en estado Activo para la misma fecha de entrega del pedido a guardar
@@ -53,28 +62,31 @@ Escenario: N°2 – El cliente de crédito informal no tiene pedidos activos par
     Y la _condición de crédito del cliente es igual crédito informal 
     Y el creditoDisponible es mayor o igual a cero
     Cuando guardo el pedido
-    Entonces el sistema guardará el pedido y lo mostrará en la lista de pedidos del cliente
+    Entonces el sistema guardará el pedido 
+    Y registrará la orden de compra en la cabecera de todos los pedidos cuyos tipos de pedido son _esValorizado = true
 
 
 Escenario: N°3 – El total del pedido no cumple con el pedido mínimo 
     Dado que el cliente no tiene pedidos en estado Activo para la misma fecha de entrega del pedido a guardar
      Y la suma del monto del pedido a guardar, cuyo tipo de pedido _contribuyeAMinimo = true, es menor al _montoVentaMinimo del cliente 
     Cuando guardo el pedido
-    Entonces el sistema Mostrará mensaje “El pedido no alcanza el monto de venta mínima montoVentaMinimo” y permanecerá en la pantalla  
+    Entonces el sistema Mostrará mensaje "El pedido no alcanza el monto de venta mínima montoVentaMinimo" y permanecerá en la pantalla  
     
 
 Escenario: N°4 – El pedido de contado excede con el pedido máximo 
     Dado que la suma del monto de los productos de contado, cuyo tipo de pedido _esValorizado = true,  + compromiso de cobro es mayor a montoVentaMaximo
     Y la _condición de crédito del cliente es igual crédito informal 
     Cuando guardo el pedido
-    Entonces el sistema Mostrará mensaje “El pedido excede el monto de venta máxima montoVentaMaximo” y permanecerá en la pantalla  
+    Entonces el sistema Mostrará mensaje "El pedido excede el monto de venta máxima montoVentaMaximo" y permanecerá en la pantalla  
     
 Escenario: N°5 – El pedido a guardar no necesita cumplir el pedido mínimo ya que hay otros pedidos para la fecha entrega, los productos de contado no superan el monto máximo y el cliente no es de crédito informal, por lo que no valida el crédito
     Dado que el cliente tiene otros pedidos activos para la fecha de entrega 
     Y la suma del monto de los productos de contado, cuyo tipo de pedido _esValorizado = true,  + compromiso de cobro es menor o igual a montoVentaMaximo 
     Y el cliente no tiene _condición de pago igual a crédito informal
     Cuando guardo el pedido
-    Entonces el sistema guardará el pedido y volverá a la pantalla de cliente
+    Entonces el sistema guardará el pedido 
+    Y registrará la orden de compra en la cabecera de todos los pedidos cuyos tipos de pedido son _esValorizado = true
+    Y volverá a la pantalla de cliente
 
 Escenario: N°6 – El pedido a guardar no necesita cumplir el pedido mínimo ya que hay otros pedidos activos, los productos de contado no superan el monto máximo y el cliente de crédito informal no supero el crédito disponible
     Dado que el cliente tiene otros pedidos activos para la fecha de entrega 
@@ -82,11 +94,13 @@ Escenario: N°6 – El pedido a guardar no necesita cumplir el pedido mínimo ya
     Y el cliente tiene _condición de pago crédito informal  
     Y el creditoDisponible es mayor o igual a cero
     Cuando guardo el pedido
-    Entonces el sistema guardará el pedido y volverá a la pantalla de cliente
+    Entonces el sistema guardará el pedido 
+    Y registrará la orden de compra en la cabecera de todos los pedidos cuyos tipos de pedido son _esValorizado = true
+    Y volverá a la pantalla de cliente
 
 Escenario: N°7 – El cliente es de crédito informal y el pedido a guardar a crédito excede el crédito disponible
     Dado que el cliente tiene _condición de pago crédito informal 
     Y se ingresaron productos con _condición de pago crédito
     Y el créditoDisponible es menor a cero
     Cuando guardo el pedido
-    Entonces el sistema Mostrará mensaje “El pedido excede el crédito disponible” y permanecerá en la pantalla  
+    Entonces el sistema Mostrará mensaje "El pedido excede el crédito disponible" y permanecerá en la pantalla  
