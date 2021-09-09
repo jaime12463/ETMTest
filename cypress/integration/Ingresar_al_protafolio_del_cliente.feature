@@ -1,9 +1,6 @@
 # language: es
 
-@Pedido @Ver_portafolio @Sprint8 @Sprint10 @Sprint11
-
-# Sprint11: si el tipo de pedido _validaPresupuesto, se muestran los productos de _presupuestoTipoPedido
-# cuyo _tipoPedido corresponda con el tipo de pedido en curso y tengan presupuesto > 0
+@Pedido @Ver_portafolio @Sprint8 @Sprint10
 
 # sprint 10 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=702%3A2&scaling=min-zoom&page-id=501%3A2&starting-point-node-id=702%3A2
 # Portafolio según tipo de producto habilitado para el tipo de pedido
