@@ -2,6 +2,7 @@
 	"configuraciones": [
 		{
 			"esFrecuenciaAbierta": true,
+			"habilitaOrdenDeCompra":true,
 			"tipoPedidos": [
 				{
 					"codigo": 1,
@@ -15,7 +16,8 @@
 					"validaSubunidadesMínimas": true,
 					"tipoProductosHabilitados": [1, 9],
 					"generaEnvases": true,
-					"requiereMotivo": false
+					"requiereMotivo": false,
+					"validaPresupuesto": false
 				},
 				{
 					"codigo": 2,
@@ -39,7 +41,8 @@
 							"codigo": 2,
 							"descripcion": "Envase deteriorado"
 						}
-					]
+					],
+					"validaPresupuesto": true
 				}
 			]
 		}
