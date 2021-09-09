@@ -8,12 +8,18 @@ import {
 	InputsKeysFormTomaDePedido,
 	TFormTomaDePedido,
 	TPrecioProducto,
+	TTipoPedido,
 } from 'models';
-import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
-import {Box, Grid, Container} from '@material-ui/core';
+import {
+	useInicializarPreciosProductosDelClienteActual,
+	useObtenerDatosTipoPedido,
+} from 'hooks';
+import {Box, Grid} from '@material-ui/core';
 import {useForm} from 'react-hook-form';
-import {TotalesMetodoDeVentaDelPedidoActual} from '../index';
-import {useObtenerConfiguracion} from 'redux/hooks';
+import {useObtenerVisitaActual} from 'redux/hooks';
+import {MenuPromoPush} from 'components/Negocio';
+import {TarjetasPromoPush} from '..';
+import ListadoCanjesAgregadosAlPedidoActual from '../ListadoCanjesAgregadosAlPedidoActual';
 
 type Props = {};
 
@@ -30,13 +36,14 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 		'productoABuscar'
 	);
 
-	const configuracion = useObtenerConfiguracion();
+	const visitaActual = useObtenerVisitaActual();
 
 	const defaultValues: TFormTomaDePedido = {
 		unidades: '',
 		subUnidades: '',
 		productoABuscar: '',
-		tipoDePedido: configuracion.tipoPedidos[0].codigo.toString(),
+		tipoDePedido: visitaActual.tipoPedidoActual.toString(),
+		catalogoMotivo: '',
 	};
 
 	const {
@@ -50,6 +57,12 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 
 	const hookForm = {control, handleSubmit, setValue, getValues};
 
+	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
+
+	const datosTipoPedidoActual:
+		| TTipoPedido
+		| undefined = obtenerDatosTipoPedido();
+
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 
 	return (
@@ -61,7 +74,7 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 							<SelectTipoDePedido hookForm={hookForm} />
 						</Grid>
 						<Grid item xs={4}>
-							Iconos
+							<MenuPromoPush />
 						</Grid>
 					</Grid>
 				</Box>
@@ -72,12 +85,34 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 					stateInputFocus={stateInputFocus}
 				/>
 			</Box>
-			<ListadoProductosAgregadosAlPedidoActual
-				setProductoActual={setProductoActual}
-				hookForm={hookForm}
-				preciosProductos={preciosProductos}
-				setInputFocus={setInputFocus}
-			/>
+			{/*TODO: Mostrar solo cuando requiereMotivo es False. Tambien cuando esValorizado es True? */}
+			{!visitaActual.mostrarPromoPush &&
+				!datosTipoPedidoActual?.requiereMotivo && (
+					<ListadoProductosAgregadosAlPedidoActual
+						setProductoActual={setProductoActual}
+						hookForm={hookForm}
+						preciosProductos={preciosProductos}
+						setInputFocus={setInputFocus}
+					/>
+				)}
+			{/*TODO: Mostrar solo cuando requiereMotivo es True. Tambien cuando esValorizado es False? */}
+			{!visitaActual.mostrarPromoPush &&
+				datosTipoPedidoActual?.requiereMotivo && (
+					<ListadoCanjesAgregadosAlPedidoActual
+						setProductoActual={setProductoActual}
+						hookForm={hookForm}
+						preciosProductos={preciosProductos}
+						setInputFocus={setInputFocus}
+					/>
+				)}
+			{visitaActual.mostrarPromoPush && (
+				<TarjetasPromoPush
+					setProductoActual={setProductoActual}
+					hookForm={hookForm}
+					preciosProductos={preciosProductos}
+					setInputFocus={setInputFocus}
+				/>
+			)}
 		</Fragment>
 	);
 };

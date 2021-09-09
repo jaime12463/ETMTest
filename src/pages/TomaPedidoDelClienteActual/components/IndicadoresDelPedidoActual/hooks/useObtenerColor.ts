@@ -10,6 +10,7 @@ import {
 	useObtenerPedidosClienteMismaFechaEntrega,
 	useObtenerCreditoDisponible,
 	useObtenerCompromisosDeCobroMismaFechaEntrega,
+	useObtenerTotalPedidosVisitaActual,
 } from 'hooks';
 import {TCliente, TClienteActual} from 'models';
 import {
@@ -26,6 +27,7 @@ export const useObtenerColor = () => {
 		pedidoMaximo: 'verde',
 		creditoDisponible: 'verde',
 	});
+
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {
@@ -41,7 +43,7 @@ export const useObtenerColor = () => {
 	const totalesPedidoCliente = obtenerTotalesPedidosCliente(
 		pedidosClienteMismaFechaEntrega
 	);
-	const calcularTotalPedido = useCalcularTotalPedido();
+	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
 	const totalesContadoPedidoCliente = obtenerTotalesContadoPedidosCliente(
 		pedidosClienteMismaFechaEntrega
@@ -58,11 +60,13 @@ export const useObtenerColor = () => {
 		compromisosDeCobroMismaFechaEntrega
 	);
 
+	const totalPedidoActual = obtenerTotalPedidosVisitaActual();
+
 	useEffect(() => {
 		setColor({
 			pedidoMinimo:
 				obtenerporcentaje(
-					totalesPedidoCliente + calcularTotalPedido.totalPrecio,
+					totalesPedidoCliente + totalPedidoActual.totalPrecio,
 					datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
 				) >= 100
 					? 'verde'
@@ -70,7 +74,7 @@ export const useObtenerColor = () => {
 			pedidoMaximo:
 				obtenerporcentaje(
 					totalesContadoPedidoCliente +
-						calcularTotalPedido.totalContado.totalPrecio +
+						totalPedidoActual.totalContado.totalPrecio +
 						montoTotalCompromisos +
 						compromisoDeCobroActual.monto,
 					datosCliente?.configuracionPedido.ventaContadoMaxima
@@ -80,13 +84,17 @@ export const useObtenerColor = () => {
 					: 'verde',
 			creditoDisponible:
 				obtenerporcentaje(
-					creditoDisponible - calcularTotalPedido.totalCredito.totalPrecio,
+					creditoDisponible - totalPedidoActual.totalCredito.totalPrecio,
 					datosCliente?.informacionCrediticia.disponible
 				) <= 0
 					? 'rojo'
 					: 'verde',
 		});
-	}, [calcularTotalPedido, compromisoDeCobroActual, obtenerporcentaje]);
+	}, [
+		compromisoDeCobroActual,
+		obtenerporcentaje,
+		totalPedidoActual.totalPrecio,
+	]);
 
 	return color;
 };

@@ -16,7 +16,7 @@ const en = {
 		razonSocial: 'Social reason',
 		denominacion: 'Denomination',
 		subunidades: 'Subunits',
-		cerrarPedido: 'Close order',
+		cerrarPedido: 'Close visit',
 		si: 'Yes',
 		no: 'No',
 		aceptar: 'Accept',
@@ -89,6 +89,7 @@ const en = {
 		montoMayorDeuda: 'The amount cannot be greater than the registered debt',
 		excedeUnidadesDisponibles:
 			'The quantity is greater than available: {{disponible}}',
+		borrarPedidosNoMandatorios: 'All non-mandatory orders will be deleted',
 	},
 };
 export default en;

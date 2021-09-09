@@ -8,6 +8,7 @@ import {
 	TValidacionFechaVisita,
 	TValidacionFechaEntrega,
 	TPrecioProducto,
+	TPedido,
 } from 'models';
 import {
 	fechaDispositivo,
@@ -181,14 +182,27 @@ export const validarUnidadesDisponibles = (
 	let unidadesDisponibles = productoActual.unidadesDisponibles || 0; //Esto no va a pasar nunca
 	let unidadesCalculadas = unidadesDisponibles - disponibleHistorico;
 
-	if(unidadesCalculadas === 0)
-		return unidadesCalculadas;
+	if (unidadesCalculadas === 0) return unidadesCalculadas;
 
-	if((unidadesCalculadas - unidadesIngresadas) < 0)
-	{
-		let unidadesRetorno = (disponibleHistorico != 0) ? disponibleHistorico : unidadesDisponibles + disponibleHistorico;
+	if (unidadesCalculadas - unidadesIngresadas < 0) {
+		let unidadesRetorno =
+			disponibleHistorico != 0
+				? disponibleHistorico
+				: unidadesDisponibles + disponibleHistorico;
 		return unidadesRetorno;
 	}
 
 	return -1;
+};
+
+export const validarHayMasProductosMandatorios = (pedidos: TPedido[]) => {
+	let HayProductosMandatorios = false;
+
+	pedidos.forEach((pedido: TPedido) => {
+		if (pedido.productos.length > 1) {
+			return (HayProductosMandatorios = true);
+		}
+	});
+
+	return HayProductosMandatorios;
 };

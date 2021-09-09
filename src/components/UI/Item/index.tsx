@@ -2,16 +2,31 @@ import {ListItem} from '@material-ui/core';
 
 type Props<T> = {
 	item: T;
-	ItemComponent: React.FC<{item: T; onClickItem?: (item: T) => void}>;
+	ItemComponent: React.FC<{
+		item: T;
+		onClickItem?: (item: T) => void;
+		estado?: any;
+		index: number;
+	}>;
 	onClick?: (item: T) => void;
+	estado?: any;
+	index: number;
+	dataCY: string;
 };
 
 function Item<T>(props: Props<T>) {
-	const {item, ItemComponent, onClick} = props;
+	const {item, ItemComponent, onClick, estado, index, dataCY} = props;
 
 	return (
-		<ListItem button disableGutters={true}>
-			{<ItemComponent item={item} onClickItem={onClick} />}
+		<ListItem button disableGutters={true} data-cy={dataCY}>
+			{
+				<ItemComponent
+					item={item}
+					onClickItem={onClick}
+					estado={estado}
+					index={index}
+				/>
+			}
 		</ListItem>
 	);
 }

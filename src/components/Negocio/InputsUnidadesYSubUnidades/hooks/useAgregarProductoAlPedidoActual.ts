@@ -1,9 +1,9 @@
 import {useCallback} from 'react';
 import {useAppDispatch, useObtenerClienteActual} from 'redux/hooks';
 import {
-	agregarProductoAlPedidoDelCliente,
-	borrarProductoDelPedidoDelCliente,
-} from 'redux/features/pedidoActual/pedidoActualSlice';
+	editarProductoDelPedidoActual,
+	borrarProductoDelPedidoActual,
+} from 'redux/features/visitaActual/visitaActualSlice';
 import {
 	TClienteActual,
 	TFormTomaDePedido,
@@ -11,17 +11,25 @@ import {
 	TPrecioProducto,
 	TStateInputFocus,
 } from 'models';
-import {useValidarAgregarProductoAlPedidoCliente} from '.';
-import { UseFormGetValues } from 'react-hook-form';
+import {
+	useValidarAgregarProductoAlPedidoCliente,
+	useManejadorConfirmarEliminarPedidosNoMandatorios,
+} from '.';
+import {UseFormGetValues} from 'react-hook-form';
+
+import {validarHayMasProductosMandatorios} from 'utils/validaciones';
+import {useTranslation} from 'react-i18next';
+import {useObtenerProductosMandatoriosVisitaActual} from 'hooks';
 
 export const useAgregarProductoAlPedidoActual = (
 	productoActual: TPrecioProducto | null,
 	resetLineaActual: () => void,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
 	stateInputFocus: TStateInputFocus,
-	getValues: UseFormGetValues<TFormTomaDePedido>,
+	getValues: UseFormGetValues<TFormTomaDePedido>
 ) => {
 	const dispatch = useAppDispatch();
+	const {t} = useTranslation();
 
 	const {inputFocus, setInputFocus} = stateInputFocus;
 
@@ -32,12 +40,16 @@ export const useAgregarProductoAlPedidoActual = (
 		getValues,
 		resetLineaActual
 	);
-
+	const productosMandatoriosVisitaActual = useObtenerProductosMandatoriosVisitaActual();
+	const manejadorConfirmarEliminarPedidosNoMandatorios = useManejadorConfirmarEliminarPedidosNoMandatorios(
+		productosMandatoriosVisitaActual.noMandatorios,
+		productoActual?.codigoProducto
+	);
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
 	const agregarProductoAlPedidoActual = useCallback(
 		(inputs: TFormTomaDePedido) => {
-			const {unidades, subUnidades} = inputs;
+			const {unidades, subUnidades, catalogoMotivo} = inputs;
 
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
 
@@ -56,18 +68,38 @@ export const useAgregarProductoAlPedidoActual = (
 
 			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
 				dispatch(
-					agregarProductoAlPedidoDelCliente({
-						...productoActual,
-						unidades: unidadesParseado,
-						subUnidades: subUnidadesParseado,
-						total:
-							productoActual.precioConImpuestoUnidad * unidadesParseado +
-							productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
-						tipoPago: clienteActual.tipoPagoActual,
+					editarProductoDelPedidoActual({
+						productoPedido: {
+							...productoActual,
+							unidades: unidadesParseado,
+							subUnidades: subUnidadesParseado,
+							total:
+								productoActual.precioConImpuestoUnidad * unidadesParseado +
+								productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
+							tipoPago: clienteActual.tipoPagoActual,
+							catalogoMotivo,
+						},
 					})
 				);
-			} else dispatch(borrarProductoDelPedidoDelCliente(codigoProducto));
-
+			} else {
+				if (
+					validarHayMasProductosMandatorios(
+						productosMandatoriosVisitaActual.mandatorios
+					)
+				) {
+					dispatch(borrarProductoDelPedidoActual({codigoProducto}));
+				} else {
+					mostrarAdvertenciaEnDialogo(
+						t('advertencias.borrarPedidosNoMandatorios'),
+						'eliminar-linea-pedido',
+						manejadorConfirmarEliminarPedidosNoMandatorios,
+						{
+							aceptar: t('general.si'),
+							cancelar: t('general.no'),
+						}
+					);
+				}
+			}
 			setInputFocus('productoABuscar');
 
 			resetLineaActual();
@@ -77,6 +109,7 @@ export const useAgregarProductoAlPedidoActual = (
 			validarAgregarProductoAlPedidoCliente,
 			dispatch,
 			setInputFocus,
+			inputFocus,
 		]
 	);
 	return agregarProductoAlPedidoActual;

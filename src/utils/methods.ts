@@ -69,7 +69,7 @@ export const obtenerTotalContadoPedidosCliente = (
 		(total: number, pedido: TPedidoClienteParaEnviar) => {
 			if (pedido.estado !== EEstadosDeUnPedido.Activo) return total;
 
-			for (let producto of pedido.productosPedido) {
+			for (let producto of pedido.productos) {
 				if (producto.tipoPago === ETiposDePago.Contado) total += producto.total;
 			}
 
@@ -87,13 +87,13 @@ export const obtenerTotalesPedidosCliente = (
 	let totalPedidosMismaFecha = 0;
 	if (pedidosClienteMismaFechaEntrega.length !== 0) {
 		totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
-			(acum: any, pedidos: any) => {
-				if (pedidos.estado === EEstadosDeUnPedido.Activo) {
-					for (let pedido of pedidos.productosPedido) {
-						acum += pedido.total;
+			(total: number, pedido: TPedidoClienteParaEnviar) => {
+				if (pedido.estado === EEstadosDeUnPedido.Activo) {
+					for (let producto of pedido.productos) {
+						total += producto.total;
 					}
 				}
-				return acum;
+				return total;
 			},
 			0
 		);
@@ -108,13 +108,14 @@ export const obtenerTotalesContadoPedidosCliente = (
 	let totalPedidosMismaFecha = 0;
 	if (pedidosClienteMismaFechaEntrega.length !== 0) {
 		totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
-			(acum: any, pedidos: any) => {
-				if (pedidos.estado === EEstadosDeUnPedido.Activo) {
-					for (let pedido of pedidos.productosPedido) {
-						if (pedido.tipoPago === ETiposDePago.Contado) acum += pedido.total;
+			(total: number, pedido: TPedidoClienteParaEnviar) => {
+				if (pedido.estado === EEstadosDeUnPedido.Activo) {
+					for (let producto of pedido.productos) {
+						if (producto.tipoPago === ETiposDePago.Contado)
+							total += producto.total;
 					}
 				}
-				return acum;
+				return total;
 			},
 			0
 		);
@@ -129,9 +130,9 @@ export const obtenerTotalesCompromisoDeCobroCliente = (
 	let totalCompromisosDeCobroMismaFecha = 0;
 	if (compromisosDeCobroMismaFechaEntrega.length !== 0) {
 		totalCompromisosDeCobroMismaFecha = compromisosDeCobroMismaFechaEntrega.reduce(
-			(acum: any, el: any) => {
-				acum += el.monto;
-				return acum;
+			(total: number, compromiso: TCompromisoDeCobro) => {
+				total += compromiso.monto;
+				return total;
 			},
 			0
 		);
@@ -147,11 +148,12 @@ export const obtenerUnidadesMismoProducto = (
 	let totalUnidadesMismoProducto = 0;
 	if (pedidosCliente.length !== 0) {
 		totalUnidadesMismoProducto = pedidosCliente.reduce(
-			(acum: any, pedidos: any) => {
-				for (let pedido of pedidos.productosPedido) {
-					if (pedido.codigoProducto === codigoProducto) acum += pedido.unidades;
+			(total: any, pedido: TPedidoClienteParaEnviar) => {
+				for (let producto of pedido.productos) {
+					if (producto.codigoProducto === codigoProducto)
+						total += producto.unidades;
 				}
-				return acum;
+				return total;
 			},
 			0
 		);
@@ -159,3 +161,5 @@ export const obtenerUnidadesMismoProducto = (
 
 	return totalUnidadesMismoProducto;
 };
+
+

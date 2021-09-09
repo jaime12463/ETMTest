@@ -1,0 +1,1 @@
+export {useObtenerCatalogoMotivos} from './useObtenerCatalogoMotivos';

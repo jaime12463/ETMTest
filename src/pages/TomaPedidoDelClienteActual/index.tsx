@@ -16,14 +16,16 @@ import {
 	FechaEntregaDelPedidoActual,
 	InfoClienteDelPedidoActual,
 } from 'components/Negocio';
-import {useResetPedidoActualAlDesmontar} from './hooks';
+import {useResetVisitaActualAlDesmontar} from './hooks';
 import CompromisoDeCobro from 'pages/CompromisoDeCobro';
 import {validarDeshabilitarTabCompromisoDeCobro} from 'utils/validaciones';
+import {useObtenerVisitaActual} from 'redux/hooks';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [value, setValue] = React.useState(0);
+	const {mostrarPromoPush} = useObtenerVisitaActual();
 
-	useResetPedidoActualAlDesmontar();
+	useResetVisitaActualAlDesmontar();
 	return (
 		<Estructura>
 			<Estructura.Encabezado
@@ -41,7 +43,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
 				<Grid container spacing={1}>
-					<PieDelTab value={value} />
+					{!mostrarPromoPush && <PieDelTab value={value} />}
 				</Grid>
 
 				<Grid container spacing={1}>
@@ -59,9 +61,11 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 
 function BotonVerEnvases() {
 	const {t} = useTranslation();
+	const {mostrarPromoPush} = useObtenerVisitaActual();
 	let {path} = useRouteMatch();
 	let history = useHistory();
-	return (
+
+	return !mostrarPromoPush ? (
 		<Button
 			variant='contained'
 			color='primary'
@@ -71,7 +75,7 @@ function BotonVerEnvases() {
 		>
 			{t('general.verEnvases').toUpperCase()}
 		</Button>
-	);
+	) : null;
 }
 
 function BotonVerPedidosDelClienteActual() {

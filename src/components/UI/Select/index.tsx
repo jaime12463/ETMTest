@@ -1,6 +1,4 @@
-import {FunctionComponent} from 'react';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
+import {ChangeEvent, FunctionComponent} from 'react';
 import {MenuItem, Select as SelectMUI, SelectProps} from '@material-ui/core';
 import {Control, Controller} from 'react-hook-form';
 import {TOpcionSelect} from 'models';
@@ -12,6 +10,7 @@ type Props = {
 	rules?: any;
 	dataCY?: string;
 	label?: string;
+	handleChange: (e: ChangeEvent<any>) => void;
 	opciones: TOpcionSelect[];
 };
 
@@ -27,6 +26,7 @@ const Select: FunctionComponent<PropsSelect> = (props) => {
 		inputProps,
 		label,
 		opciones,
+		handleChange,
 		...other
 	} = props;
 
@@ -35,7 +35,11 @@ const Select: FunctionComponent<PropsSelect> = (props) => {
 			render={({field: {onChange, onBlur, value}}) => (
 				<SelectMUI
 					value={value}
-					onChange={onChange}
+					onChange={(e) => {
+						onChange(e);
+						handleChange(e);
+					}}
+					id={dataCY}
 					onBlur={onBlur}
 					fullWidth
 					inputProps={{
@@ -44,8 +48,12 @@ const Select: FunctionComponent<PropsSelect> = (props) => {
 					}}
 					{...other}
 				>
-					{opciones.map((opcion) => (
-						<MenuItem key={opcion.label} value={opcion.value}>
+					{opciones.map((opcion, index) => (
+						<MenuItem
+							key={opcion.label}
+							value={opcion.value}
+							data-cy={`${dataCY}-${index}`}
+						>
 							{opcion.label}
 						</MenuItem>
 					))}

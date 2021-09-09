@@ -2,6 +2,7 @@
 export type TDatosClientesProductos = {
 	clientes: TClientes;
 	productos: TProductos;
+	presupuestoTipoPedido: TpresupuestoTipoPedido[];
 };
 
 export type TClientes = {
@@ -30,6 +31,19 @@ export type TProducto = {
 	implicito1?: number;
 	implicito2?: number;
 	tipoProducto: number; //TODO: Mirar si esto debe ser un enum
+	promoPush?: TPromoPush;
+	
+};
+
+export type TPromoPush = {
+	codigoPromocion: number;
+	componentes: TPromoPushComponente[];
+};
+
+export type TPromoPushComponente = {
+	codigoProducto: number;
+	cantidad: number;
+	unidadMedia: string;
 };
 
 export type TVisitaPlanificada = {
@@ -114,6 +128,15 @@ export type TDocumento = {
 	monto: number;
 };
 
+export type TpresupuestoTipoPedido = {
+	tipoPedido: number;
+	presupuesto: number;
+	vigenciaInicioPresupuesto: string;
+	vigenciaFinPresupuesto: string;
+	tieneProductosHabilitados: boolean;
+	productosHabilitados: number[];
+};
+
 //configuraciones.json
 export type TDatosConfiguracion = {
 	configuraciones: TConfiguracion[];
@@ -121,6 +144,7 @@ export type TDatosConfiguracion = {
 
 export type TConfiguracion = {
 	esFrecuenciaAbierta: boolean;
+	habilitaOrdenDeCompra: boolean;
 	tipoPedidos: TTipoPedido[];
 };
 
@@ -138,9 +162,10 @@ export type TTipoPedido = {
 	generaEnvases: boolean;
 	requiereMotivo: boolean;
 	catalogoMotivos: TCatalogoMotivo[];
+	validaPresupuesto: boolean;
 };
 
 export type TCatalogoMotivo = {
 	codigo: number;
-	description: string;
+	descripcion: string;
 };

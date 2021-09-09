@@ -5,6 +5,7 @@ import InputFiltroPreciosProductosDelClienteActual from './InputFiltroPreciosPro
 import FechaEntregaDelPedidoActual from './FechaEntregaDelPedidoActual';
 import TotalesMetodoDeVenta from './TotalesMetodoDeVenta';
 import TotalesCompromisoDeCobro from './TotalesCompromisoDeCobro';
+import MenuPromoPush from './MenuPromoPush';
 
 export {
 	InfoClienteDelPedidoActual,
@@ -14,4 +15,5 @@ export {
 	FechaEntregaDelPedidoActual,
 	TotalesCompromisoDeCobro,
 	TotalesMetodoDeVenta,
+	MenuPromoPush,
 };

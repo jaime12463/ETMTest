@@ -1,6 +1,31 @@
 # language: es
 
-@Pedido @Validar_subunidades @Validar_minimo_subunidades @Sprint3 @sprint4 @Sprint10
+@Pedido @Validar_subunidades @Validar_minimo_subunidades @Sprint3 @sprint4 @Sprint10 @Sprint11
+
+# Sprint11:
+# Validación de presupuesto y productos habilitados para el tipo de pedido
+# Cuando se ingresa un producto en canje se tiene que validar la cantidad de unidades + subunidades, contra el presupuesto tipo de pedido - los productos que ya se registraron para ese tipo de pedido en todos cliente de la ruta.
+#
+# Calculo del presupuesto disponible del producto
+# presupuestoActual = _presupuesto - (unidades + subunidades) 
+#    unidades = sumatoria de las unidades de todos los pedidos registrados del tipo de pedido en curso cuyo _validaPresupuesto = true, que no fueron transmitidos, de todos los clientes de la ruta 
+#    subunidades = (sumatoria de las subunidades / presentación, de cada producto de los pedidos registrados del tipo de pedido en curso cuyo _validaPresupuesto = true, que no fueron transmitidos, de todos los clientes de la ruta )
+# 
+# Ejemplo:
+#    _presupuesto = 2 (unidades) para el _tipoPedido = 2, cuyo _validaPresupuesto = true
+
+#    producto 350 con _presentacion = 12 
+#    producto 360 con _presentacion = 24 
+#    Pedido registrado de Canje N1 para el cliente 2345: 
+#           350 X unidades = 1, subunidades = 3 -> 1 unidad + 3/12 unidades = 1.25 unidades
+#    Pedido registrado de Canje N2 para el cliente 5403: 
+#           360 X unidades = 0, subunidades = 12  -> 0 unidades + 12/24 unidades = 0.50 unidades
+#
+#    presupuestoActual = _presupuesto - ( unidades consumidas) = 2 - (1.25+0.50) = 0.75
+
+
+
+
 
 # requiereMotivo del producto para el tipo de pedido que lo tenga configurado
 # Sprint10: Se elimina el parametro esVentaSubunidadesRuta y se toma solo botelleo a nivel producto
@@ -45,33 +70,51 @@ Antecedentes:
     Y las subunidades están habilitadas
 	
 	
-Escenario: N°1 – Ingreso de subunidad correcta y no requiere motivo
+Escenario: N°1 – Ingreso de subunidad correcta y no requiere motivo y el tipo de pedido del pedido en curso no valida presupuesto
     Dado que el producto tiene una _presentacion 
 	Y que el tipo de pedido tiene _validaSubunidadesMinimas = true
     Y tiene _subunidadesVentaMinima
     Y _requiereMotivo = false
+    Y tipo de pedido del pedido en curso tiene _validaPresupuesto = false
     Cuando se ingresan subunidades
     Entonces el sistema registrará las subunidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
 
+Escenario: N°2 – Ingreso de subunidad correcta y no requiere motivo y el tipo de pedido del pedido en curso valida presupuesto y cumple con el mismo
+    Dado que el producto tiene una _presentacion 
+	Y que el tipo de pedido tiene _validaSubunidadesMinimas = true
+    Y tiene _subunidadesVentaMinima
+    Y _requiereMotivo = false
+    Y tipo de pedido del pedido en curso tiene _validaPresupuesto = true
+    Cuando se ingresan subunidades
+    Y presupuestoActual - cantidad de unidades ingresadas - cantidad de subunidades ingresadas  >= 0   
+    Entonces el sistema registrará las subunidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
 
- Escenario: N°2 – Ingreso de subunidad correcta y  requiere motivo
+ Escenario: N°3 – Ingreso de subunidad correcta y requiere motivo y el tipo de pedido del pedido en curso valida presupuesto y cumple con el mismo
     Dado que el producto tiene una _presentacion 
 	Y que el tipo de pedido tiene _validaSubunidadesMinimas = true
     Y tiene _subunidadesVentaMinima
     Y _requiereMotivo = true
+    Y tipo de pedido del pedido en curso tiene _validaPresupuesto = true
     Cuando se ingresan subunidades
+    Y presupuestoActual - cantidad de unidades ingresadas - cantidad de subunidades ingresadas  >= 0    Entonces el sistema registrará las subunidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
     Entonces el sistema registrará las subunidades y continuará con el ingreso del motivo
+
 #Cuando se ingresa un producto nuevo, se asume como condición de pago del producto la condición de pago general del pedido. 
 
-Escenario: N°3 – Ingreso de subunidades mayor o igual que la presentación
+Escenario: N°4 – Ingreso de subunidades mayor o igual que la presentación
     Dado que el producto tiene una _presentacion 
     Cuando se ingresan subunidades
     Entonces el sistema mostrará el mensaje “Las subunidades debe ser menores a la presentación _presentacion” y permanecerá en la pantalla para corregir
 
-
-Escenario: N°4 – Ingreso de subunidades no es múltiplo
+Escenario: N°5 – Ingreso de subunidades no es múltiplo
     Dado que el producto tiene _presentacion
 	Y que el tipo de pedido tiene _validaSubunidadesMinimas = true
     Y tiene _subunidadesVentaMinima
     Cuando se ingresan subunidades
     Entonces el sistema mostrará el mensaje “Las subunidades debe ser en múltiplos de _subunidadesVentaMinima ” y permanecerá en la pantalla para corregir
+
+Escenario: N°6 – Ingreso de subunidad no cumple con el presupuesto para el tipo de pedido del pedido en curso que valida presupuesto
+    Dado que el tipo de pedido del pedido en curso tiene _validaPresupuesto = true
+    Cuando se ingresan subunidades
+    Y presupuestoActual - cantidad de unidades ingresadas - cantidad de subunidades ingresadas < 0 
+    Entonces el sistema mostrará el mensaje  "La cantidad ingresada excede el presupuesto asignado para el " & _descripción del _tipoPedido y permanecerá en el ingreso de la cantidad de subunidades.

@@ -9,9 +9,12 @@ import {useObtenerConfiguracion} from 'redux/hooks';
 import {useHistory} from 'react-router-dom';
 import nombresRutas from 'routes/nombresRutas';
 import {inicializarClienteActual} from 'redux/features/clienteActual/clienteActualSlice';
-import {useObtenerTipoPagoActual, useValidarInicializarClienteActual} from '.';
-import {useInicializarPedidoActual} from './useInicializarPedidoActual';
-import {useValidarInicializarPedidoActual} from './useValidarInicializarPedidoActual';
+import {
+	useObtenerTipoPagoActual,
+	useValidarInicializarClienteActual,
+	useInicializarVisitaActual,
+	useValidarInicializarPedidoActual,
+} from '.';
 
 export const useInicializarClienteActual = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
@@ -24,7 +27,7 @@ export const useInicializarClienteActual = (
 		mostrarAdvertenciaEnDialogo
 	);
 
-	const inicializarPedidoActual = useInicializarPedidoActual();
+	const inicializarVisitaActual = useInicializarVisitaActual();
 
 	const validarInicializarPedidoActual = useValidarInicializarPedidoActual(
 		mostrarAdvertenciaEnDialogo
@@ -64,11 +67,16 @@ export const useInicializarClienteActual = (
 				})
 			);
 
-			inicializarPedidoActual(fechaEntrega);
+			inicializarVisitaActual(fechaEntrega, codigoCliente);
 
 			history.push(`${nombresRutas.ingresarPedido}`);
 		},
-		[mostrarAdvertenciaEnDialogo, dispatch, configuracion]
+		[
+			mostrarAdvertenciaEnDialogo,
+			dispatch,
+			configuracion,
+			inicializarVisitaActual,
+		]
 	);
 
 	return asignarClienteActual;

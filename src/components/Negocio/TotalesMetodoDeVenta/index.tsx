@@ -12,8 +12,8 @@ import {useTranslation} from 'react-i18next';
 import Numero from 'components/UI/Numero';
 
 export type Props = {
-	metodoVenta: string;
-	total: number;
+	metodoVenta?: string;
+	total?: number;
 	unidades: number;
 	subunidades: number;
 	dataCY: string;
@@ -35,11 +35,11 @@ const TotalesMetodoDeVenta = ({
 				<TableBody>
 					<TableRow>
 						<TableCell className={estilos.celda}>
-							{`${t('general.total')} ${metodoVenta}:`}
+							{`${t('general.total')} ${metodoVenta ?? ''}:`}
 						</TableCell>
 						<TableCell className={estilos.celda} data-cy={`total-${dataCY}`}>
 							<Typography variant='caption'>
-								<Numero valor={total} />
+								{total && <Numero valor={total} />}
 							</Typography>
 						</TableCell>
 					</TableRow>

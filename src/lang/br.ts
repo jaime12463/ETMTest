@@ -16,7 +16,7 @@ const br = {
 		razonSocial: 'Razão social',
 		denominacion: 'Denominação',
 		subunidades: 'Sub Unidades',
-		cerrarPedido: 'Fechar pedido',
+		cerrarPedido: 'Fechar visita',
 		si: 'Sim',
 		no: 'Não',
 		aceptar: 'Aceitar',
@@ -85,6 +85,8 @@ const br = {
 		montoMayorDeuda: 'O valor não pode ser maior que a dívida registrada',
 		excedeUnidadesDisponibles:
 			'A quantidade é maior do que a disponível: {{disponible}}',
+		borrarPedidosNoMandatorios:
+			'Todos os pedidos não obrigatórios serão excluídos',
 	},
 };
 export default br;

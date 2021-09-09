@@ -3,10 +3,10 @@ import {BarraDeProgeso, Center} from 'components/UI';
 import {TCliente, TClienteActual} from 'models';
 import {
 	useObtenerDatosCliente,
-	useCalcularTotalPedido,
 	useObtenerPedidosClienteMismaFechaEntrega,
 	useObtenerCreditoDisponible,
 	useObtenerCompromisosDeCobroMismaFechaEntrega,
+	useObtenerTotalPedidosVisitaActual,
 } from 'hooks';
 import {
 	useObtenerClienteActual,
@@ -23,7 +23,9 @@ import {useObtenerColor} from './hooks/useObtenerColor';
 const IndicadoresDelPedidoActual = () => {
 	const {t} = useTranslation();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
-	const calcularTotalPedido = useCalcularTotalPedido();
+	//TODO: Acomodar para que tome los pedidos cerrados de la misma fecha de entrega, por ahora solo toma del pedido en curso
+	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
+
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {
 		obtenerPedidosClienteMismaFechaEntrega,
@@ -61,7 +63,9 @@ const IndicadoresDelPedidoActual = () => {
 		{
 			titulo: t('general.pedidoMinimo'),
 			valorMax: datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima,
-			valor: totalesPedidoCliente + calcularTotalPedido.totalPrecio,
+			valor:
+				totalesPedidoCliente +
+				(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0),
 			color: color.pedidoMinimo,
 			dataCY: 'indicador-pedido-minimo',
 		},
@@ -72,7 +76,7 @@ const IndicadoresDelPedidoActual = () => {
 					?.montoVentaContadoMaxima,
 			valor:
 				totalesContadoPedidoCliente +
-				calcularTotalPedido.totalContado.totalPrecio +
+				(obtenerTotalPedidosVisitaActual().totalContado.totalPrecio ?? 0) +
 				montoTotalCompromisos +
 				compromisoDeCobroActual.monto,
 			color: color.pedidoMaximo,
@@ -81,7 +85,9 @@ const IndicadoresDelPedidoActual = () => {
 		{
 			titulo: t('general.creditoDisponible'),
 			valorMax: datosCliente?.informacionCrediticia.disponible,
-			valor: creditoDisponible - calcularTotalPedido.totalCredito.totalPrecio,
+			valor:
+				creditoDisponible -
+				(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0),
 			color: color.creditoDisponible,
 			condicion: datosCliente?.informacionCrediticia.condicion,
 			dataCY: 'indicador-credito-maximo',
@@ -104,7 +110,7 @@ const IndicadoresDelPedidoActual = () => {
 								disable={
 									el.condicion === 'contado'
 										? true
-										: el.valorMax === undefined
+										: el.valorMax === 0
 										? true
 										: false
 								}
