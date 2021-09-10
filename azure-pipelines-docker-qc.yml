@@ -5,10 +5,10 @@
 trigger:
   branches:
     include:
-    - feature/*
+      - feature/*
 
 resources:
-- repo: self
+  - repo: self
 
 variables:
   # Container registry service connection established during pipeline creation
@@ -24,39 +24,39 @@ variables:
   vmImageName: 'ubuntu-latest'
 
 stages:
-- stage: Build
-  displayName: Build and push stage
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: gitversion/setup@0
-      displayName: Install GitVersion
-      inputs:
-        versionSpec: '5.5.0'
-    - task: gitversion/execute@0
-      displayName: Determine Version
+  - stage: Build
+    displayName: Build and push stage
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: gitversion/setup@0
+            displayName: Install GitVersion
+            inputs:
+              versionSpec: '5.5.0'
+          - task: gitversion/execute@0
+            displayName: Determine Version
 
-    - task: Docker@2
-      displayName: Build and push app image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(GitVersion.FullSemVer)
-          latest
-    - task: Docker@2
-      displayName: Build and push server to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepositoryServer)
-        buildContext: $(Build.SourcesDirectory)/data
-        dockerfile: $(dockerServerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(GitVersion.FullSemVer)
-          latest          
+          - task: Docker@2
+            displayName: Build and push app image to container registry
+            inputs:
+              command: buildAndPush
+              repository: $(imageRepository)
+              dockerfile: $(dockerfilePath)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(GitVersion.FullSemVer)
+                latest
+          - task: Docker@2
+            displayName: Build and push server to container registry
+            inputs:
+              command: buildAndPush
+              repository: $(imageRepositoryServer)
+              buildContext: $(Build.SourcesDirectory)/data
+              dockerfile: $(dockerServerfilePath)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(GitVersion.FullSemVer)
+                latest
