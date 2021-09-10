@@ -1,6 +1,8 @@
 # language: es
 
-@Pedido @Validar_unidades @Unidades_maximas_por_producto @Sprint3 @Sprint8 @Sprint9 @Sprint10 @Sprint11
+@Pedido @Validar_unidades @Unidades_maximas_por_producto @Sprint3 @Sprint8 @Sprint9 @Sprint10 @Sprint11 @Sprint12
+
+# Sprint12: Se debe actualizar el disponible cuando se ingresa un producto promopush
 
 # Sprint11:
 # Validación de presupuesto y productos habilitados para el tipo de pedido
@@ -83,6 +85,7 @@ Escenario: N°3 – La cantidad es menor o igual a la permitida y  menor a las u
 Cuando se ingresa una cantidad
 Y es menor o igual a la _cantidadMáximaUnidades
 Y es menor o igual a _unidadesDisponibles del producto para el cliente
+Y el producto no es _promopush
 Y permiteBotelleo = no
 Y _requiereMotivo = false
 Y tipo de pedido del pedido en curso tiene _validaPresupuesto = false
@@ -119,4 +122,17 @@ Entonces el sistema registrará las unidades y continuará con el ingreso del mo
 Escenario: N°7 – La cantidad es mayor a las unidades disponibles del producto para el cliente.
 Cuando se ingresan unidades mayores a _unidadesDisponibles del producto para el cliente
 Entonces el sistema mostrará el mensaje “La cantidad es mayor al disponible: 10” y permanece en el campo para que el prevendedor pueda corregir la cantidad
+
+
+Escenario: N°8 – El producto es promopush y la cantidad es menor o igual a la permitida y  menor a las unidades disponibles
+Cuando se ingresa una cantidad
+Y es menor o igual a la _cantidadMáximaUnidades
+Y es menor o igual a _unidadesDisponibles del producto para el cliente
+Y el producto es _promopush
+Entonces el sistema registrará las unidades 
+Y mostrará _unidadesDisponibles menos la cantidad ya registrada en otros pedidos para la misma promoción menos las unidades ingresadas del pedido en curso
+Y actualizará los totales e indicadores 
+Y permanecerá en la pantalla para el ingreso de un nuevo producto.
+
+# Al modificar o eliminar unidades de promo push, se debe actualizar el disponible en pantalla. 
 
