@@ -55,15 +55,15 @@ export const useCalcularTotalPedidos = (): ((
 					: total.totalCredito.totalPrecio,
 		},
 	});
-	const calcularTotalPedido = useCallback(
+	const calcularTotalPedido = 
 		(productosPedido: TProductoPedido[]) => {
 			const totalPedido: TTotalPedido = productosPedido.reduce(
 				reducerSumarProductos,
 				TotalInicial
 			);
 			return totalPedido;
-		},
-		[]
-	);
+		}
+	
+	
 	return calcularTotalPedido;
 };
