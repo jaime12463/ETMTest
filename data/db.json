@@ -919,6 +919,114 @@
 					}
 				]
 			}
+		},
+		{
+			"codigoProducto": 10010,
+			"nombre": "10010-PJ PROMOPUSH_COMBO",
+			"presentación": 1,
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 9,
+			"promoPush": {
+				"codigoPromocion": 5678,
+				"componentes": [
+					{
+						"codigoProducto": 360,
+						"cantidad": 2,
+						"unidadMedida": "CAJ"
+					},
+					{
+						"codigoProducto": 380,
+						"cantidad": 6,
+						"unidadMedida": "BOT"
+					},
+					{
+						"codigoProducto": 1001,
+						"cantidad": 1,
+						"unidadMedida": "CAJ"
+					},
+					{
+						"codigoProducto": 1020,
+						"cantidad": 1,
+						"unidadMedida": "CAJ"
+					},
+					{
+						"codigoProducto": 1001,
+						"cantidad": 3,
+						"unidadMedida": "BOT"
+					}
+				]
+			},
+			"implicito1": 1001,
+			"implicito2": 1020
+		},
+		{
+			"codigoProducto": 1001,
+			"nombre": "PRODUCTO 1001",
+			"presentación": 1,
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 5
+		},
+		{
+			"codigoProducto": 1020,
+			"nombre": "PRODUCTO 1020",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"tipoProducto": 5
+		},
+		{
+			"codigoProducto": 360,
+			"nombre": "PRODUCTO 360",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"implicito1": 1001,
+			"implicito2": 1020,
+			"tipoProducto": 1
+		},
+		{
+			"codigoProducto": 380,
+			"nombre": "PRODUCTO 380",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"implicito1": 1001,
+			"implicito2": 1020,
+			"tipoProducto": 1
+		},
+		{
+			"codigoProducto": 1001,
+			"nombre": "PRODUCTO 1001",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"tipoProducto": 1
+		},
+		{
+			"codigoProducto": 1020,
+			"nombre": "PRODUCTO 1020",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"tipoProducto": 1
+		},
+		{
+			"codigoProducto": 365,
+			"nombre": "PRODUCTO 365",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"implicito1": 1010,
+			"tipoProducto": 1
+		},
+		{
+			"codigoProducto": 390,
+			"nombre": "PRODUCTO 390",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"tipoProducto": 1
+		},
+		{
+			"codigoProducto": 400,
+			"nombre": "PRODUCTO 400",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"implicito2": 1001,
+			"tipoProducto": 1
 		}
 	],
 	"presupuestoTipoPedido": [
