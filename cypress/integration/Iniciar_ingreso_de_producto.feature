@@ -59,39 +59,39 @@ Ejemplos:
 
 
 
-Esquema del escenario: N°5 El prevendedor ingresa un producto que aún no se encuentra en el pedido cuyo tipo de pedido no valida presupuesto,  el tipo de producto está habilitado para el tipo de pedido, y tiene precio vigente para la fecha de entrega y no permite botelleo y no requiere motivo
-    Dado un producto cuyo tipo de pedido tiene valida presupuesto = <_validaPresupuesto>, y <_requiereMotivo> requiere motivo, y requiere motivo = <_requiereMotivo>
+Esquema del escenario: N°5  El prevendedor ingresa un producto que aún no se encuentra en el pedido, con _validaPresupuesto = true
+    Dado un producto cuyo tipo de pedido tiene valida presupuesto = false, y '<permiteBotelleo>' permite botelleo, y requiere motivo = '<_requiereMotivo>'
     Y tiene precio informado para la fecha de entrega calculada
     Y el _tipoProducto es un _tipoProductoHabilitado para el _tipoPedido en curso
     Cuando ingresa un producto del portafolio del cliente que no se encuentra en el pedido 
     Entonces el sistema mostrará la descripción del producto
     Y el precio unidad
-    Y el precio subunidad <mostarPrecioSubunidad> se mostrará
+    Y el precio subunidad '<mostarPrecioSubunidad>' se mostrará
     Y habilitará el ingreso de unidades inicializadas en cero
-    Y <habilitaIngresoSubunidades> habilita el ingreso de subunidades es inicializadas en cero
-    Y <habilitaIngresoMotivo> habilita el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
+    Y '<habilitaIngresoSubunidades>' habilita el ingreso de subunidades es inicializadas en cero
+    Y '<habilitaIngresoMotivo>' habilita el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
 
 Ejemplos:
-|_validaPresupuesto|permiteBotelleo|_requiereMotivo|mostarPrecioSubunidad|habilitaIngresoSubunidades|habilitaIngresoMotivo|
-|false             |no             |false          |no                   |no                        |no                   |
-|false             |si             |false          |si                   |si                        |no                   |
-|false             |no             |true           |no                   |no                        |si                   |
-|false             |si             |true           |si                   |si                        |si                   |
+|permiteBotelleo|_requiereMotivo|mostarPrecioSubunidad|habilitaIngresoSubunidades|habilitaIngresoMotivo|
+|no             |false          |no                   |no                        |no                   |
+|si             |false          |si                   |si                        |no                   |
+|no             |true           |no                   |no                        |si                   |
+|si             |true           |si                   |si                        |si                   |
 
 
 
-Esquema del escenario: N°6 El prevendedor ingresa un producto que aún no se encuentra en el pedido cuyo tipo de pedido no valida presupuesto,  el tipo de producto está habilitado para el tipo de pedido, y tiene precio vigente para la fecha de entrega y no permite botelleo y no requiere motivo
-    Dado un producto cuyo tipo de pedido tiene valida presupuesto = true, y <_requiereMotivo> requiere motivo, y requiere motivo = <_requiereMotivo>
+Esquema del escenario: N°6 El prevendedor ingresa un producto que aún no se encuentra en el pedido, con _validaPresupuesto = true y _tieneProductosHabilitados = false
+    Dado un producto cuyo tipo de pedido tiene _validaPresupuesto = true, y '<permiteBotelleo>' permite botelleo, y requiere motivo = '<_requiereMotivo>'
     Y tiene precio informado para la fecha de entrega calculada
     Y tiene _tieneProductosHabilitados = false en el _presupuestoTipoPedido del _tipoPedido en curso
     Y el _tipoProducto es un _tipoProductoHabilitado para el _tipoPedido en curso
     Cuando ingresa un producto del portafolio del cliente que no se encuentra en el pedido 
     Entonces el sistema mostrará la descripción del producto
     Y el precio unidad
-    Y el precio subunidad <mostarPrecioSubunidad> se mostrará
+    Y el precio subunidad '<mostarPrecioSubunidad>' se mostrará
     Y habilitará el ingreso de unidades inicializadas en cero
-    Y <habilitaIngresoSubunidades> habilita el ingreso de subunidades es inicializadas en cero
-    Y <habilitaIngresoMotivo> habilita el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
+    Y '<habilitaIngresoSubunidades>' habilita el ingreso de subunidades es inicializadas en cero
+    Y '<habilitaIngresoMotivo>' habilita el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
 
 Ejemplos:
 |permiteBotelleo|_requiereMotivo|mostarPrecioSubunidad|habilitaIngresoSubunidades|habilitaIngresoMotivo|
@@ -102,18 +102,18 @@ Ejemplos:
 
 
 
-Esquema del escenario: N°7 El prevendedor ingresa un producto que aún no se encuentra en el pedido cuyo tipo de pedido no valida presupuesto,  el tipo de producto está habilitado para el tipo de pedido, y tiene precio vigente para la fecha de entrega y no permite botelleo y no requiere motivo
-    Dado un producto cuyo tipo de pedido tiene valida presupuesto = true, y <_requiereMotivo> requiere motivo, y requiere motivo = <_requiereMotivo>
+Esquema del escenario: N°7 El prevendedor ingresa un producto que aún no se encuentra en el pedido, con _validaPresupuesto = true y _tieneProductosHabilitados = true
+    Dado un producto cuyo tipo de pedido tiene _validaPresupuesto = true, y '<permiteBotelleo>' permite botelleo, y requiere motivo = '<_requiereMotivo>'
     Y tiene precio informado para la fecha de entrega calculada
     Y tiene _tieneProductosHabilitados = true en el _presupuestoTipoPedido del _tipoPedido en curso
     Y el _codigoProducto está informado en los _productosHabilitados
     Cuando ingresa un producto del portafolio del cliente que no se encuentra en el pedido 
     Entonces el sistema mostrará la descripción del producto
     Y el precio unidad
-    Y el precio subunidad <mostarPrecioSubunidad> se mostrará
+    Y el precio subunidad '<mostarPrecioSubunidad>' se mostrará
     Y habilitará el ingreso de unidades inicializadas en cero
-    Y <habilitaIngresoSubunidades> habilita el ingreso de subunidades es inicializadas en cero
-    Y <habilitaIngresoMotivo> habilita el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
+    Y '<habilitaIngresoSubunidades>' habilita el ingreso de subunidades es inicializadas en cero
+    Y '<habilitaIngresoMotivo>' habilita el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
 
 Ejemplos:
 |permiteBotelleo|_requiereMotivo|mostarPrecioSubunidad|habilitaIngresoSubunidades|habilitaIngresoMotivo|
@@ -124,15 +124,15 @@ Ejemplos:
 
 
 
-Esquema del escenario: N°8 El prevendedor ingresa un producto que aún no se encuentra en el pedido cuyo tipo de pedido no valida presupuesto,  el tipo de producto está habilitado para el tipo de pedido, y tiene precio vigente para la fecha de entrega y no permite botelleo y no requiere motivo
-    Dado un producto cuyo tipo de pedido permite botelleo = <permiteBotelleo>, y <_requiereMotivo> requiere motivo
+Esquema del escenario: N°8 El prevendedor ingresa un producto que se encuentra ya en el pedido
+    Dado un producto que '<permiteBotelleo>' permite botelleo, y requiere motivo = '<_requiereMotivo>' 
     Cuando ingresa un producto que se encuentra en el pedido
     Entonces el sistema mostrará la descripción del producto
     Y el precio unidad
-    Y el precio subunidad <mostarPrecioSubunidad> se mostrará
+    Y el precio subunidad '<mostarPrecioSubunidad>' se mostrará
     Y habilitará el ingreso de unidades inicializadas en cero
-    Y <habilitaIngresoSubunidades> habilita el ingreso de subunidades es inicializadas en cero
-    Y <habilitaIngresoMotivo> habilita el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
+    Y '<habilitaIngresoSubunidades>' habilita el ingreso de subunidades es inicializadas en cero
+    Y '<habilitaIngresoMotivo>' habilita el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
 
 Ejemplos:
 |permiteBotelleo|_requiereMotivo|mostarPrecioSubunidad|habilitaIngresoSubunidades|habilitaIngresoMotivo|
