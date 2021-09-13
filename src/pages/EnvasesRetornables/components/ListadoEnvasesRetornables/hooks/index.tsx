@@ -1,5 +1,7 @@
 import {useObtenerConsolidacionImplicitos} from './useObtenerConsolidacionImplicitos';
+import {useObtenerImplicitosPromoPush} from './useObtenerImplicitosPromoPush';
 
 export {
-	useObtenerConsolidacionImplicitos
+	useObtenerConsolidacionImplicitos,
+	useObtenerImplicitosPromoPush,
 };
