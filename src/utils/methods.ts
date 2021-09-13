@@ -3,6 +3,7 @@ import {
 	EEstadosDeUnPedido,
 	ETiposDePago,
 	TCompromisoDeCobro,
+	TVisita
 } from 'models/redux';
 import {TFunction} from 'react-i18next';
 
@@ -163,3 +164,12 @@ export const obtenerUnidadesMismoProducto = (
 };
 
 
+export const presupuestoCanjes= () => {
+	
+	return {
+		calcular: ():number => {
+			console.log("calculando presupuesto");
+			return 48;
+		}
+	}
+}
