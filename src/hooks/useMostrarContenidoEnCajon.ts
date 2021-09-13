@@ -3,7 +3,10 @@ import {useCallback, useState} from 'react';
 export const useMostrarContenidoEnCajon = () => {
 	const [mostrarCajon, setMostrarCajon] = useState({bottom: false});
 
-	const [parametrosCajon, setParametrosCajon] = useState({});
+	const [parametrosCajon, setParametrosCajon] = useState({
+		children: null,
+		toggleCajon: (anchor: string, open: boolean) => {},
+	});
 
 	const toggleCajon = (anchor: string, open: boolean) => (event: any) => {
 		if (

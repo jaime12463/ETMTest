@@ -44,13 +44,7 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 
 	const {handleSubmit, control, setValue} = hookForm;
 
-	const [estadoCajon, setEstadoCajon] = useState(false);
-
 	const {t} = useTranslation();
-
-	const {path} = useRouteMatch();
-
-	const history = useHistory();
 
 	const {
 		mostrarAdvertenciaEnDialogo,

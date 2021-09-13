@@ -50,7 +50,7 @@ const es = {
 		miles: ',',
 		moneda: '$',
 		formatoFechaAmericano: 'false',
-		conDecimales: 'false',
+		conDecimales: 'true',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',

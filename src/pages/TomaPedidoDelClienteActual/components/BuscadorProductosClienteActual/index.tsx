@@ -1,17 +1,19 @@
-import {useEffect, useState} from 'react';
+import {useState, Dispatch, SetStateAction} from 'react';
+import {FunctionComponent} from 'react';
 import {BuscadorenLista} from 'components/UI';
-import {
-	InputsKeysFormTomaDePedido,
-	TFormTomaDePedido,
-	TPrecioProducto,
-} from 'models';
+import {TPrecioProducto} from 'models';
 import {ItemBuscadorProductosClienteActual} from '..';
 import {useFiltrarPreciosProductosDelClienteActual} from './hooks/useFiltrarPreciosProductosDelClienteActual';
 
-const BuscadorProductosClienteActual = ({
+type Props = {
+	setMostrarCajon: Dispatch<SetStateAction<{bottom: boolean}>>;
+	seleccionarProductoDePrecios: Function;
+};
+
+const BuscadorProductosClienteActual: FunctionComponent<Props> = ({
 	seleccionarProductoDePrecios,
 	setMostrarCajon,
-}: any) => {
+}: Props) => {
 	const [preciosProductos, setPreciosProductos] = useState<TPrecioProducto[]>(
 		[]
 	);
