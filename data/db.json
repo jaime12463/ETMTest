@@ -920,18 +920,5 @@
 				]
 			}
 		}
-	],
-	"presupuestoTipoPedido": [
-		{
-			"tipoPedido": 2,
-			"presupuesto": 48,
-            "vigenciaInicioPresupuesto": "2021-09-01",
-			"vigenciaFinPresupuesto": "2021-09-06",
-			"tieneProductosHabilitados": true,
-			"productosHabilitados": [
-				97185,
-				97373
-			]
-		}
 	]
 }
