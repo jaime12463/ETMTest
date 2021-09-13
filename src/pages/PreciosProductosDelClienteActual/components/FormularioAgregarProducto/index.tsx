@@ -33,13 +33,6 @@ const FormularioAgregarProducto = (props: Props) => {
 					statePreciosProductos={statePreciosProductos}
 				/>
 			</Grid>
-			<Grid item xs={12}>
-				<InputsUnidadesYSubUnidades
-					hookForm={hookForm}
-					stateProductoActual={stateProductoActual}
-					stateInputFocus={stateInputFocus}
-				/>
-			</Grid>
 		</Grid>
 	);
 };

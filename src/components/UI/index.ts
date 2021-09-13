@@ -10,6 +10,8 @@ import Rutas from './Rutas';
 import Center from './Center';
 import BarraDeProgeso from './BarraDeProgreso';
 import Numero from './Numero';
+import Cajon from './Cajon';
+import BuscadorenLista from './BuscadorenLista';
 
 export {Fecha} from './Fecha';
 
@@ -26,4 +28,6 @@ export {
 	Center,
 	BarraDeProgeso,
 	Numero,
+	Cajon,
+	BuscadorenLista,
 };

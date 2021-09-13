@@ -69,7 +69,7 @@ const ListPreciosProductosDelClienteActual: FunctionComponent<Props> = (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 			<List
-				headers={headers}
+				headers={[]}
 				ItemComponent={ItemPrecioProductoDelClienteActual}
 				items={preciosProductos}
 				onClickItem={onClickItem}
