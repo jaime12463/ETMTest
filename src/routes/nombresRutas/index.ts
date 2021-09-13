@@ -3,7 +3,6 @@ const nombresRutas = {
 	clientes: '/clientes',
 	ingresarPedido: '/ingresarPedido',
 	pedidosCliente: '/pedidosCliente',
-	preciosProductos: '/preciosProductos',
 	envasesRetornables: '/envasesretornables',
 };
 

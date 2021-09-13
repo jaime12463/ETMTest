@@ -1,17 +1,14 @@
 import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
-import {makeStyles} from '@material-ui/core/styles';
+import {useEstilos} from './useEstilos';
 
-const useStyles = makeStyles((theme) => ({
-	drawerPaper: {
-		height: '90vh',
-		borderRadius: '8px 8px 0px 0px',
-		overflow: 'hidden',
-	},
-}));
+type Props = {
+	children: React.ReactNode;
+	toggleCajon: Function;
+};
 
-const Cajon = ({children, toggleCajon}: any) => {
-	const classes = useStyles();
+const Cajon = ({children, toggleCajon}: Props) => {
+	const classes = useEstilos();
 
 	const funcionprueba = () => children;
 
