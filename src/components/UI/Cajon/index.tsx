@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Cajon = ({children, toggleCajon}: any) => {
 	const classes = useStyles();
+
+	const funcionprueba = () => children;
+
 	return (
 		<React.Fragment>
 			<Drawer
@@ -21,7 +24,7 @@ const Cajon = ({children, toggleCajon}: any) => {
 				onClose={toggleCajon('bottom', false)}
 				classes={{paper: classes.drawerPaper}}
 			>
-				{children}
+				{funcionprueba()}
 			</Drawer>
 		</React.Fragment>
 	);

@@ -18,30 +18,32 @@ const BuscadorenLista = ({
 
 	return (
 		<>
-			<Grid container>
-				<Box m='auto' width={'90%'} mb={2} mt={1}>
-					<Grid item xs>
-						<FormInput
-							onChangeForm={handleSubmit(manejadorInput)}
-							control={control}
-							name='buscador'
-							inputDataCY='item-a-buscar'
-							id='item-a-buscar'
-							label={t('general.buscar')}
-							autoFocus
+			<div role='presentation'>
+				<Grid container>
+					<Box m='auto' width={'90%'} mb={2} mt={1}>
+						<Grid item xs>
+							<FormInput
+								onChangeForm={handleSubmit(manejadorInput)}
+								control={control}
+								name='buscador'
+								inputDataCY='item-a-buscar'
+								id='item-a-buscar'
+								label={t('general.buscar')}
+								autoFocus
+							/>
+						</Grid>
+					</Box>
+					<Grid item xs={12}>
+						<List
+							headers={[]}
+							ItemComponent={itemComponent}
+							items={lista}
+							onClickItem={onClick}
+							dataCY='listado-buscador'
 						/>
 					</Grid>
-				</Box>
-				<Grid item xs={12}>
-					<List
-						headers={[]}
-						ItemComponent={itemComponent}
-						items={lista}
-						onClickItem={onClick}
-						dataCY='listado-buscador'
-					/>
 				</Grid>
-			</Grid>
+			</div>
 		</>
 	);
 };
