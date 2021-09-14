@@ -43,7 +43,7 @@ export type TPromoPush = {
 export type TPromoPushComponente = {
 	codigoProducto: number;
 	cantidad: number;
-	unidadMedia: string;
+	unidadMedida: string;
 };
 
 export type TVisitaPlanificada = {

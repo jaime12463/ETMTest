@@ -97,10 +97,8 @@ export enum ETiposDePago {
 }
 
 export type TImplicitos = {
-	codigoImplicito1: number;
-	nombreImplicito1: string;
-	codigoImplicito2: number;
-	nombreImplicito2: string;
+	codigoImplicito?: number;
+	nombreImplicito?: string;
 }
 
 //Pedidos Clientes

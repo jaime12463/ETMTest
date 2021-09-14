@@ -1,45 +1,41 @@
-import {TImplicitos, TPromoPush} from 'models';
+import {TImplicitos} from 'models';
 import {useObtenerDatos} from 'redux/hooks';
 
 export const useObtenerImplicitosPromoPush = () => {
 	const datos = useObtenerDatos();
 
 	const obtenerImplicitosPromoPush = (
-		promoPush : TPromoPush | undefined
+		codigoProducto : number
 	): TImplicitos[] => {
 		const {productos} = datos;
 
-		let promoPushConImplicitos : any;
-		promoPushConImplicitos = promoPush?.componentes.map(
-		(componentes) => {
-			let nombreComponenteImplicito1: string | undefined;
-			let nombreComponenteImplicito2: string | undefined;
+		let promoPushConImplicitos : TImplicitos[] = [];
+		let nombreComponenteImplicito: string | undefined;
 
-			let {
-				implicito1: componenteImplicito1,
-				implicito2: componenteImplicito2,
-			} = productos[componentes.codigoProducto]
-			
-			if(componenteImplicito1) {
-				nombreComponenteImplicito1 = componenteImplicito1
-					? productos[componenteImplicito1].nombre
-					: undefined;
-			}
-			
-			if(componenteImplicito2) {
-				nombreComponenteImplicito2 = componenteImplicito2
-					? productos[componenteImplicito2].nombre
-					: undefined;
-			}
-			
-			if(typeof componenteImplicito1 !== 'undefined' && typeof componenteImplicito2 !== 'undefined')
-				return {
-					codigoImplicito1: componenteImplicito1,
-					nombreImplicito1: nombreComponenteImplicito1,
-					codigoImplicito2: componenteImplicito2,
-					nombreImplicito2: nombreComponenteImplicito2,
-				}
-		});
+		let {
+			implicito1: componenteImplicito1,
+			implicito2: componenteImplicito2,
+		} = productos[codigoProducto]
+		
+		if(componenteImplicito1) {
+			nombreComponenteImplicito = componenteImplicito1
+				? productos[componenteImplicito1].nombre
+				: undefined;
+			promoPushConImplicitos.push({
+				codigoImplicito: componenteImplicito1,
+				nombreImplicito: nombreComponenteImplicito,
+			});
+		}
+		
+		if(componenteImplicito2) {
+			nombreComponenteImplicito = componenteImplicito2
+				? productos[componenteImplicito2].nombre
+				: undefined;
+			promoPushConImplicitos.push({
+				codigoImplicito: componenteImplicito2,
+				nombreImplicito: nombreComponenteImplicito,
+			});
+		}
 
 		return promoPushConImplicitos;
 	};
