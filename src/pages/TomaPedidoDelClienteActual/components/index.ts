@@ -11,6 +11,8 @@ export {SelectTipoDePedido} from './SelectTipoDePedido';
 export {InfoProductoActual} from './InfoProductoActual';
 import TarjetasPromoPush from './TarjetasPromoPush';
 import ItemTarjetaPromoPush from './ItemTarjetaPromoPush';
+import BuscadorProductosClienteActual from './BuscadorProductosClienteActual';
+import ItemBuscadorProductosClienteActual from './ItemBuscadorProductosClienteActual';
 
 export {
 	TabVentas,
@@ -22,4 +24,6 @@ export {
 	TotalesMetodoDeVentaDelPedidoActual,
 	ItemCanjeAgregadoAlPedidoActual,
 	ItemTarjetaPromoPush,
+	BuscadorProductosClienteActual,
+	ItemBuscadorProductosClienteActual,
 };

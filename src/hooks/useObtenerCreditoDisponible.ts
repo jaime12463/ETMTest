@@ -3,6 +3,10 @@ import {ETiposDePago, TClienteActual, TPedidosClientes} from 'models';
 import {useCallback} from 'react';
 import {useObtenerClienteActual, useObtenerPedidosClientes} from 'redux/hooks';
 
+/*
+	creditoDisponible = 
+	    informacionCrediticia.disponible – pedidos a crédito ya registrados – productos a crédito del pedido actual
+*/
 export const useObtenerCreditoDisponible = (codigoCliente?: string) => {
 	const pedidosClientes: TPedidosClientes = useObtenerPedidosClientes();
 	const clienteActual: TClienteActual = useObtenerClienteActual();

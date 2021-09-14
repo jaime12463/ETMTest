@@ -20,8 +20,8 @@ import {limpiarCompromisoDeCobroActual} from 'redux/features/compromisoDeCobro/c
 import {useAppDispatch} from 'redux/hooks';
 import {useHistory} from 'react-router-dom';
 import {
-	useSepararPedidosCreditoContado,
-	useValidarAgregarPedidosAPedidosCliente,
+	useSepararPedidosCreditoContado, useValidarCierreVisitaCliente
+	
 } from '.';
 
 export const useAgregarPedidoActualAPedidosClientes = (
@@ -33,7 +33,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 	const history = useHistory();
 	const visitaActual = useObtenerVisitaActual();
 
-	const validarAgregarPedidosAPedidosCliente = useValidarAgregarPedidosAPedidosCliente();
+	const validarCierreDeVisita = useValidarCierreVisitaCliente();
 
 	const separarPedidosCreditoContado = useSepararPedidosCreditoContado();
 
@@ -47,7 +47,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 		const {
 			esValido,
 			propsAdvertencia,
-		}: TRetornoValidacion = validarAgregarPedidosAPedidosCliente();
+		}: TRetornoValidacion = validarCierreDeVisita();
 
 		if (!esValido && propsAdvertencia) {
 			const {

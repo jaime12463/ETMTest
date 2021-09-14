@@ -49,7 +49,7 @@ const br = {
 		miles: ',',
 		moneda: 'R$',
 		formatoFechaAmericano: 'false',
-		conDecimales: 'false',
+		conDecimales: 'true',
 	},
 	titulos: {
 		bienvenido: 'Bem Vindo',

@@ -1,13 +1,15 @@
+
 import {
 	useCalcularTotalPedido,
 	useObtenerCreditoDisponible,
 	useObtenerDatosCliente,
 	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
-import {TCliente, TClienteActual, TTotalPedido} from 'models';
+import {TCliente, TClienteActual, TTotalPedido,TRetornoValidacion} from 'models';
 import {useCallback, useEffect, useState} from 'react';
 import {useObtenerClienteActual} from 'redux/hooks';
-import {validarTotalConMontoMaximoContado} from 'utils/validaciones';
+import {obtenerTotalContadoPedidosCliente} from 'utils/methods';
+import { validarSiExcedeAlMaximoContado } from 'utils/validaciones/validacionesDePedidos';
 
 export const usePermiteCambiarTipoPago = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
@@ -31,10 +33,10 @@ export const usePermiteCambiarTipoPago = () => {
 
 		const {configuracionPedido}: TCliente = datosCliente;
 
-		const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
+		const retornoSiExcedeAlMaximoContado:TRetornoValidacion = validarSiExcedeAlMaximoContado(
+			(configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0),
 			totalPedidoActual.totalContado.totalPrecio,
-			pedidosClienteMismaFechaEntrega,
-			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0
+			obtenerTotalContadoPedidosCliente(pedidosClienteMismaFechaEntrega)
 		);
 
 		const hayCreditoDisponible = creditoDisponible > 0;
@@ -44,7 +46,7 @@ export const usePermiteCambiarTipoPago = () => {
 
 		if (
 			esCondicionCreditoInformal &&
-			esMenorAlMontoMaximoContado &&
+			retornoSiExcedeAlMaximoContado.esValido &&
 			hayCreditoDisponible &&
 			!esCreditoBloqueado
 		)

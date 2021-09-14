@@ -1,11 +1,13 @@
-import {ETiposDePago, TCliente} from 'models';
+import {ETiposDePago, TCliente, TRetornoValidacion} from 'models';
 import {
 	useObtenerCreditoDisponible,
 	useObtenerDatosCliente,
 	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
+import {obtenerTotalContadoPedidosCliente} from 'utils/methods';
 import {useCallback} from 'react';
-import {validarTotalConMontoMaximoContado} from 'utils/validaciones';
+import { validarSiExcedeAlMaximoContado } from 'utils/validaciones/validacionesDePedidos';
+import { RepeatOneRounded } from '@material-ui/icons';
 
 export const useObtenerTipoPagoActual = () => {
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
@@ -43,17 +45,23 @@ export const useObtenerTipoPagoActual = () => {
 			const {configuracionPedido}: TCliente = datosCliente;
 
 			const {esCreditoBloqueado} = datosCliente.informacionCrediticia;
-
+/*
 			const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
 				0,
 				pedidosClienteMismaFechaEntrega,
 				configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0
 			);
+*/			
+			const retornoSiExcedeAlMaximoContado:TRetornoValidacion = validarSiExcedeAlMaximoContado(
+				(configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0),
+				0,
+				obtenerTotalContadoPedidosCliente(pedidosClienteMismaFechaEntrega)
+			);
 
 			tipoPagoActual = ETiposDePago.Credito;
 
 			if (
-				esMenorAlMontoMaximoContado &&
+				retornoSiExcedeAlMaximoContado.esValido &&
 				(!hayCreditoDisponible || esCreditoBloqueado)
 			)
 				tipoPagoActual = ETiposDePago.Contado;

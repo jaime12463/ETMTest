@@ -96,6 +96,13 @@ export enum ETiposDePago {
 	Credito,
 }
 
+export type TImplicitos = {
+	codigoImplicito1: number;
+	nombreImplicito1: string;
+	codigoImplicito2: number;
+	nombreImplicito2: string;
+}
+
 //Pedidos Clientes
 export type TPedidosClientes = {
 	[codigoCliente: string]: {

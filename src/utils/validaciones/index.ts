@@ -1,3 +1,4 @@
+import i18n from 'i18next'; 
 import {
 	TPrecio,
 	TFechaEntrega,
@@ -9,6 +10,7 @@ import {
 	TValidacionFechaEntrega,
 	TPrecioProducto,
 	TPedido,
+	
 } from 'models';
 import {
 	fechaDispositivo,
@@ -16,6 +18,14 @@ import {
 	obtenerUnidadesMismoProducto,
 } from 'utils/methods';
 import {useObtenerDeudasDelClienteActual} from 'hooks';
+
+
+/*--------------------------------------------------------------------------------------------*/
+/*
+	Region de validaciones
+*/
+
+
 
 export const validarDeshabilitarTabCompromisoDeCobro = () => {
 	let deshabilitarTabCompromisoDeCobro = false;
@@ -46,31 +56,6 @@ export const validarUnidadesMinimasProducto = (
 	if (cantidadMaximaUnidades) {
 		if (unidades > cantidadMaximaUnidades) return false;
 	}
-	return true;
-};
-
-export const validarMontoMinimoPedido = (
-	montoTotalPedido: number,
-	configuracionPedido: TConfiguracionPedido
-): boolean => {
-	const montoVentaMinima = configuracionPedido.ventaMinima?.montoVentaMinima;
-	if (montoVentaMinima) {
-		if (montoTotalPedido < montoVentaMinima) return false;
-	}
-	return true;
-};
-
-export const validarTotalConMontoMaximoContado = (
-	totalPedidoActual: number,
-	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[],
-	montoVentaMaxima: number
-): boolean => {
-	const toatlPedidosClienteMismaFechaEntregaYPedidoActual: number =
-		obtenerTotalContadoPedidosCliente(pedidosClienteMismaFechaEntrega) +
-		totalPedidoActual;
-
-	if (toatlPedidosClienteMismaFechaEntregaYPedidoActual > montoVentaMaxima)
-		return false;
 	return true;
 };
 

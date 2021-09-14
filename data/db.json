@@ -212,6 +212,88 @@
 							"vigenciaFinPrecio": "9999-12-31"
 						}
 					]
+				},
+				{
+					"codigoProducto": 10010,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 18.4,
+							"precioConImpuestoSubunidad": 18.4,
+							"descuento": 1.6,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "9999-12-31",
+							"componentes": [
+								{
+									"CodigoProducto": 360,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								},
+								{
+									"CodigoProducto": 380,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								},
+								{
+									"CodigoProducto": 1001,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								},
+								{
+									"CodigoProducto": 1020,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								},
+								{
+									"CodigoProducto": 1001,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								}
+							]
+						}
+					]
+				},
+				{
+					"codigoProducto": 360,
+					"esVentaSubunidades": false,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 106,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2001-01-01",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
+					"codigoProducto": 380,
+					"esVentaSubunidades": false,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 106,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2001-01-01",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
 				}
 			]
 		},
@@ -919,6 +1001,114 @@
 					}
 				]
 			}
+		},
+		{
+			"codigoProducto": 10010,
+			"nombre": "10010-PJ PROMOPUSH_COMBO",
+			"presentación": 1,
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 9,
+			"promoPush": {
+				"codigoPromocion": 5678,
+				"componentes": [
+					{
+						"codigoProducto": 360,
+						"cantidad": 2,
+						"unidadMedida": "CAJ"
+					},
+					{
+						"codigoProducto": 380,
+						"cantidad": 6,
+						"unidadMedida": "BOT"
+					},
+					{
+						"codigoProducto": 1001,
+						"cantidad": 1,
+						"unidadMedida": "CAJ"
+					},
+					{
+						"codigoProducto": 1020,
+						"cantidad": 1,
+						"unidadMedida": "CAJ"
+					},
+					{
+						"codigoProducto": 1001,
+						"cantidad": 3,
+						"unidadMedida": "BOT"
+					}
+				]
+			},
+			"implicito1": 1001,
+			"implicito2": 1020
+		},
+		{
+			"codigoProducto": 1001,
+			"nombre": "PRODUCTO 1001",
+			"presentación": 12,
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 5
+		},
+		{
+			"codigoProducto": 1020,
+			"nombre": "PRODUCTO 1020",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"tipoProducto": 5
+		},
+		{
+			"codigoProducto": 360,
+			"nombre": "PRODUCTO 360",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"implicito1": 1001,
+			"implicito2": 1020,
+			"tipoProducto": 1
+		},
+		{
+			"codigoProducto": 380,
+			"nombre": "PRODUCTO 380",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"implicito1": 1001,
+			"implicito2": 1020,
+			"tipoProducto": 1
+		},
+		{
+			"codigoProducto": 1001,
+			"nombre": "PRODUCTO 1001",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"tipoProducto": 1
+		},
+		{
+			"codigoProducto": 1020,
+			"nombre": "PRODUCTO 1020",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"tipoProducto": 1
+		},
+		{
+			"codigoProducto": 365,
+			"nombre": "PRODUCTO 365",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"implicito1": 1010,
+			"tipoProducto": 1
+		},
+		{
+			"codigoProducto": 390,
+			"nombre": "PRODUCTO 390",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"tipoProducto": 1
+		},
+		{
+			"codigoProducto": 400,
+			"nombre": "PRODUCTO 400",
+			"presentación": 12,
+			"subunidadesVentaMinima": 3,
+			"implicito2": 1001,
+			"tipoProducto": 1
 		}
 	],
 	"presupuestoTipoPedido": [

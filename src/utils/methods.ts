@@ -3,6 +3,9 @@ import {
 	EEstadosDeUnPedido,
 	ETiposDePago,
 	TCompromisoDeCobro,
+	TVisita,
+	TProductoPedido,
+	TPedido,
 } from 'models/redux';
 import {TFunction} from 'react-i18next';
 
@@ -162,4 +165,29 @@ export const obtenerUnidadesMismoProducto = (
 	return totalUnidadesMismoProducto;
 };
 
+export const obtenerUnidadesProductoVisitaActual = (
+	pedidosCliente: TProductoPedido[],
+	codigoProducto: number
+): number => {
+	let totalUnidadesMismoProducto = 0;
+	if (pedidosCliente.length !== 0) {
+		totalUnidadesMismoProducto = pedidosCliente.reduce(
+			(total: any, pedido: TProductoPedido) => {
+				if (pedido.codigoProducto === codigoProducto) total += pedido.unidades;
+				return total;
+			},
+			0
+		);
+	}
 
+	return totalUnidadesMismoProducto;
+};
+
+export const presupuestoCanjes = () => {
+	return {
+		calcular: (): number => {
+			console.log('calculando presupuesto');
+			return 48;
+		},
+	};
+};

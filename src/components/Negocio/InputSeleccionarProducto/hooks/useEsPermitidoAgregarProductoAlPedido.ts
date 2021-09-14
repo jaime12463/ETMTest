@@ -10,6 +10,7 @@ import {
 	TPedido,
 	TTipoPedido,
 	TTotalPedido,
+	TRetornoValidacion
 } from 'models';
 import {useCallback} from 'react';
 import {
@@ -18,7 +19,9 @@ import {
 	useObtenerPedidosClientes,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {validarTotalConMontoMaximoContado} from 'utils/validaciones';
+import {obtenerTotalContadoPedidosCliente} from 'utils/methods';
+import { validarSiExcedeAlMaximoContado } from 'utils/validaciones/validacionesDePedidos';
+//import {validarTotalConMontoMaximoContado} from 'utils/validaciones';
 
 export const useEsPermitidoAgregarProductoAlPedido = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
@@ -47,17 +50,24 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 			return !esPermitidoAgregarProductoAlPedido;
 
 		const {configuracionPedido}: TCliente = datosCliente;
-
+/*
 		const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
 			totalPedidoActual.totalContado.totalPrecio,
 			pedidosClienteMismaFechaEntrega,
 			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0
 		);
+*/
+		const retornoSiExcedeAlMaximoContado:TRetornoValidacion = validarSiExcedeAlMaximoContado(
+			(configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0),
+			totalPedidoActual.totalContado.totalPrecio,
+			obtenerTotalContadoPedidosCliente(pedidosClienteMismaFechaEntrega)
+		);
 
-		if (esCreditoInformal && !esMenorAlMontoMaximoContado && esCreditoBloqueado)
+
+		if (esCreditoInformal && !retornoSiExcedeAlMaximoContado.esValido && esCreditoBloqueado)
 			return !esPermitidoAgregarProductoAlPedido;
 
-		if (!esMenorAlMontoMaximoContado)
+		if (!retornoSiExcedeAlMaximoContado.esValido)
 			return !esPermitidoAgregarProductoAlPedido;
 
 		const HayPedidosMandatoriosRegistrados: boolean = pedidosClientes[
