@@ -42,8 +42,8 @@ export const useObtenerConsolidacionImplicitos = () => {
 
 				if(promoPush)
 				{
-					console.log("pedido promo", x, " : ", pedido);
-					console.log("Unidades ingresadas:", unidades, "Subunidades ingresadas:", subUnidades);
+					//console.log("pedido promo", x, " : ", pedido);
+					//console.log("Unidades ingresadas:", unidades, "Subunidades ingresadas:", subUnidades);
 					
 					promoPush.componentes.map((componente) => {
 						let implicitosPromoPush: TImplicitos[] = obtenerImplicitosPromoPush(componente.codigoProducto);
@@ -61,10 +61,10 @@ export const useObtenerConsolidacionImplicitos = () => {
 							subUnidadesImplicito = unidades *  componente.cantidad;
 						}
 
-						console.log("-----------Informacion de componente: ", componente.codigoProducto);
-						console.log("_UnidadMedida", componente.unidadMedida , "_Cantidad", componente.cantidad);
+						//console.log("-----------Informacion de componente: ", componente.codigoProducto);
+						//console.log("_UnidadMedida", componente.unidadMedida , "_Cantidad", componente.cantidad);
 
-						console.log("implicitosPromoPush obtencion", implicitosPromoPush);
+						//console.log("implicitosPromoPush obtencion", implicitosPromoPush);
 
 						implicitosPromoPush.map((implicito, posicion) => {
 							if(implicito.codigoImplicito)
