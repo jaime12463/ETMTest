@@ -87,6 +87,8 @@ const br = {
 			'A quantidade é maior do que a disponível: {{disponible}}',
 		borrarPedidosNoMandatorios:
 			'Todos os pedidos não obrigatórios serão excluídos',
+		ProductoNoEstaHabilitado:
+			'O produto não está habilitado para {{descripcion}}',
 	},
 };
 export default br;

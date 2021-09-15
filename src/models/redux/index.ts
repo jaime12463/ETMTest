@@ -81,6 +81,7 @@ export type TPrecioProducto = {
 	nombreImplicito2?: string;
 	unidadesDisponibles?: number;
 	promoPush?: TPromoPush;
+	tipoProducto: number;
 };
 
 export type TPedidoDelProducto = {
@@ -99,7 +100,7 @@ export enum ETiposDePago {
 export type TImplicitos = {
 	codigoImplicito?: number;
 	nombreImplicito?: string;
-}
+};
 
 //Pedidos Clientes
 export type TPedidosClientes = {

@@ -40,9 +40,15 @@ Dado(
 
 			cy.intercept('GET', '/femsa/tomapedidos', db).as('datos');
 		});
+		cy.fixture('configuracion').then((configuracion) => {
+			configuracion.configuraciones[0].tipoPedidos[0].validaPresupuesto = true;
+			cy.intercept('GET', '/femsa/configuracion', configuracion).as(
+				'configuracion'
+			);
+		});
 		cy.navegarPageInicio('2021-06-09');
 		cy.wait('@datos');
-		cy.esperarConfiguracion();
+		cy.wait('@configuracion');
 		cy.oprimirBotonSplash();
 		cy.ingresarCodigoCliente('HS002');
 	}
