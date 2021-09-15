@@ -27,8 +27,8 @@ Dado(
 				tipoProducto: 1,
 			};
 
-			db.presupuestoTipoPedido = [
-				{
+			db.presupuestoTipoPedido = {
+				1: {
 					tipoPedido: 1,
 					presupuesto: 48,
 					vigenciaInicioPresupuesto: '2020-09-01',
@@ -36,7 +36,7 @@ Dado(
 					tieneProductosHabilitados: true,
 					productosHabilitados: [],
 				},
-			];
+			};
 
 			cy.intercept('GET', '/femsa/tomapedidos', db).as('datos');
 		});
