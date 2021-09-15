@@ -1074,20 +1074,6 @@
 			"tipoProducto": 1
 		},
 		{
-			"codigoProducto": 1001,
-			"nombre": "PRODUCTO 1001",
-			"presentación": 12,
-			"subunidadesVentaMinima": 3,
-			"tipoProducto": 1
-		},
-		{
-			"codigoProducto": 1020,
-			"nombre": "PRODUCTO 1020",
-			"presentación": 12,
-			"subunidadesVentaMinima": 3,
-			"tipoProducto": 1
-		},
-		{
 			"codigoProducto": 365,
 			"nombre": "PRODUCTO 365",
 			"presentación": 12,
