@@ -43,6 +43,7 @@ export const useObtenerPreciosProductosDelCliente = () => {
 						presentacion,
 						subunidadesVentaMinima,
 						promoPush,
+						tipoProducto,
 					} = producto;
 
 					const nombreImplicito1: string | undefined = codigoImplicito1
@@ -84,6 +85,7 @@ export const useObtenerPreciosProductosDelCliente = () => {
 						promoPush,
 						descuento,
 						componentes,
+						tipoProducto,
 					};
 				}
 			);

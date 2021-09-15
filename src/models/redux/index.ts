@@ -81,6 +81,7 @@ export type TPrecioProducto = {
 	nombreImplicito2?: string;
 	unidadesDisponibles?: number;
 	promoPush?: TPromoPush;
+	tipoProducto: number;
 };
 
 export type TPedidoDelProducto = {
@@ -101,7 +102,7 @@ export type TImplicitos = {
 	nombreImplicito1: string;
 	codigoImplicito2: number;
 	nombreImplicito2: string;
-}
+};
 
 //Pedidos Clientes
 export type TPedidosClientes = {

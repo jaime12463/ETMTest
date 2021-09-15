@@ -2,7 +2,7 @@
 export type TDatosClientesProductos = {
 	clientes: TClientes;
 	productos: TProductos;
-	presupuestoTipoPedido: TpresupuestoTipoPedido[];
+	presupuestoTipoPedido: TpresupuestosTipoPedido;
 };
 
 export type TClientes = {
@@ -11,6 +11,10 @@ export type TClientes = {
 
 export type TProductos = {
 	[codigoProducto: number]: TProducto;
+};
+
+export type TpresupuestosTipoPedido = {
+	[tipoPedido: number]: TpresupuestoTipoPedido;
 };
 
 export type TCliente = {
@@ -32,7 +36,6 @@ export type TProducto = {
 	implicito2?: number;
 	tipoProducto: number; //TODO: Mirar si esto debe ser un enum
 	promoPush?: TPromoPush;
-	
 };
 
 export type TPromoPush = {
