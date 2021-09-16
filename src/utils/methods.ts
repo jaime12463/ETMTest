@@ -195,7 +195,7 @@ export const obtenerUnidadesProductoVisitaActual = (
 
 export const obtenerProductosHabilitados = (
 	preciosProductos: TPrecioProducto[],
-	presupuestoTipoPedido: TpresupuestoTipoPedido[],
+	presupuestoTipoPedido: any,
 	tipoPedido: number
 ) => {
 	const fechaDipostivo = fechaDispositivo();
