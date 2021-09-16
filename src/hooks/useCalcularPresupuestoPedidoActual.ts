@@ -10,7 +10,7 @@ export const useCalcularPresupuestoPedidoActual= () =>
     const calcularPresupuestoTipoPedido = useCalcularPresupuestoTipoPedido();
 
     const calcularPresupuestoPedidoActual = (
-        pedidoActual:TPedido, presentacionProducto:number, unidades:number=0, subUnidades:number=0):number => {
+        pedidoActual:TPedido,  unidades:number=0, subUnidades:number=0, presentacionProducto:number=0):number => {
 
             console.log("calculando presupuesto");
 			// Cálculo presupuesto sobre todos los pedidos ingresados del mismo tipo de pedido
@@ -22,9 +22,9 @@ export const useCalcularPresupuestoPedidoActual= () =>
 				consumidoEnPedidoActual += item.unidades + item.subUnidades/item.presentacion;
 				return consumidoEnPedidoActual;
 			}, consumidoEnPedidoActual );
-            
+
 			//Unidades y subunidades que se estan ingresando.
-			consumidoEnPedidoActual += unidades + subUnidades/presentacionProducto;
+			consumidoEnPedidoActual += unidades + ((presentacionProducto>0) ? subUnidades/presentacionProducto : 0);
 			
 			const saldoPresupuesto = (saldoPresupuestoTipoPedido- consumidoEnPedidoActual);
 
