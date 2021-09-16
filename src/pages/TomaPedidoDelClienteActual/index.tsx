@@ -24,8 +24,16 @@ import {useObtenerVisitaActual} from 'redux/hooks';
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [value, setValue] = React.useState(0);
 	const {mostrarPromoPush} = useObtenerVisitaActual();
+	
 
 	useResetVisitaActualAlDesmontar();
+	/*useEffect(() => {
+		effect
+		return () => {
+			cleanup
+		}
+	}, [])
+	*/
 	return (
 		<Estructura>
 			<Estructura.Encabezado

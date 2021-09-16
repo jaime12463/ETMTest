@@ -1,13 +1,16 @@
-import {TPedidos} from 'models';
+import {TDatosClientesProductos, TPedidos} from 'models';
 import {useCallback} from 'react';
 import {inicializarVisitaActual} from 'redux/features/visitaActual/visitaActualSlice';
-import {useAppDispatch, useObtenerConfiguracion} from 'redux/hooks';
+import {useAppDispatch, useObtenerConfiguracion,useObtenerDatos,useObtenerPedidosClientes} from 'redux/hooks';
 import {useInicializarPedidos} from '.';
+
 
 export const useInicializarVisitaActual = () => {
 	const dispatch = useAppDispatch();
 	const inicializarPedidos = useInicializarPedidos();
 	const configuracion = useObtenerConfiguracion();
+	
+
 	const useInicializarPedidoActual = useCallback(
 		(fechaEntrega: string, codigoCliente: string) => {
 			const pedidos: TPedidos = inicializarPedidos(fechaEntrega, codigoCliente);
@@ -21,7 +24,9 @@ export const useInicializarVisitaActual = () => {
 				tiposPedidos[0].codigo;
 
 			const mostrarPromoPush: boolean = false;
+		
 
+			
 			dispatch(
 				inicializarVisitaActual({
 					visitaActual: {
@@ -29,6 +34,7 @@ export const useInicializarVisitaActual = () => {
 						pedidos,
 						tipoPedidoActual,
 						mostrarPromoPush,
+						saldoPresupuestoTipoPedido:{},
 					},
 				})
 			);

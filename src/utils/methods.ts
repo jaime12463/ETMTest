@@ -1,11 +1,21 @@
 import {
+	TPedidosClientes,
 	TPedidoClienteParaEnviar,
 	EEstadosDeUnPedido,
 	ETiposDePago,
 	TCompromisoDeCobro,
-	TVisita
+	TProductoPedido,
+	TPedido
 } from 'models/redux';
+import {
+	TpresupuestoTipoPedido
+} from 'models/server';
+import {
+	useObtenerPedidosClientes,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
 import {TFunction} from 'react-i18next';
+import { ImportExport } from '@material-ui/icons';
 
 export const formatearNumero = (
 	numero: number,
@@ -164,12 +174,50 @@ export const obtenerUnidadesMismoProducto = (
 };
 
 
-export const presupuestoCanjes= () => {
-	
+export const presupuestoTipoPedido= ( pedidosClientes:TPedidosClientes,presupuestoPorTipoDePedido: TpresupuestoTipoPedido[], fechaDispositivo:string) => {
+	let presupuestoTipoPedido:any={};
+	const fechaDispositivoDate=new Date(fechaDispositivo);
+	const obtenerPresupuestoVigente = (tipoPedido:number):number => {
+		let total=presupuestoPorTipoDePedido.find( 
+			item => item.tipoPedido===tipoPedido && 
+			(fechaDispositivoDate >= new Date(item.vigenciaInicioPresupuesto) && fechaDispositivoDate <= new Date(item.vigenciaFinPresupuesto))
+			)?.presupuesto ?? 0;
+		return total;
+	}
+	const calcularPresupuestoInicial= (tipoPedido:number, presentacionProducto:number) => {
+		let pedidosTabla=new Array<TProductoPedido>();
+		for ( let pedidoCliente in pedidosClientes)
+		{
+			pedidosClientes[pedidoCliente].pedidos.forEach( pedido => {
+				if(pedido.tipoPedido===tipoPedido) {
+					pedido.productos.forEach((item) =>pedidosTabla.push(item));
+				}
+			});
+		}
+		console.table(pedidosTabla);
+		let total=obtenerPresupuestoVigente(tipoPedido);
+		presupuestoTipoPedido[tipoPedido] = pedidosTabla.reduce( (total,item)=> {
+			 total -= (item.unidades + item.subUnidades/presentacionProducto)
+			 return total;
+		}, total );
+	}
 	return {
-		calcular: ():number => {
+		calcular: (pedidoActual:TPedido, presentacionProducto:number, unidades:number=0, subUnidades:number=0):number => {
 			console.log("calculando presupuesto");
-			return 48;
+			// Cálculo presupuesto sobre todos los pedidos ingresados del mismo tipo de pedido
+			if (!presupuestoTipoPedido[pedidoActual.tipoPedido])	calcularPresupuestoInicial(pedidoActual.tipoPedido,presentacionProducto);
+			let consumidoEnPedidoActual=0; 
+			// Cálculo presupuesto segun el pedido actual sobre lo ingresado
+			pedidoActual.productos.reduce( (consumidoEnPedidoActual, item) => {
+				consumidoEnPedidoActual += item.unidades + item.subUnidades/presentacionProducto;
+				return consumidoEnPedidoActual;
+			}, consumidoEnPedidoActual );
+			//Unidades y subunidades que se estan ingresando.
+			consumidoEnPedidoActual += unidades + subUnidades/presentacionProducto;
+			
+			const saldoPresupuesto = (presupuestoTipoPedido[pedidoActual.tipoPedido] - consumidoEnPedidoActual);
+
+			return saldoPresupuesto;
 		}
 	}
 }

@@ -17,3 +17,6 @@ export {useObtenerDatosTipoPedido} from './useObtenerDatosTipoPedido';
 export {useObtenerPromoPushDelCliente} from './useObtenerPromoPushDelCliente';
 export {useObtenerTotalPedidosVisitaActual} from './useObtenerTotalPedidosVisitaActual';
 export {useObtenerProductosMandatoriosVisitaActual} from './useObtenerProductosMandatoriosVisitaActual';
+export {useObtenerTiposPedidoSegunConfiguracion} from './useObtenerTiposPedidoSegunConfiguracion';
+export {useCalcularPresupuestoTipoPedido} from './useCalcularPresupuestoTipoPedido';
+export {useCalcularPresupuestoPedidoActual} from './useCalcularPresupuestoPedidoActual';
