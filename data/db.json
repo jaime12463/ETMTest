@@ -1474,7 +1474,7 @@
 			"codigoProducto": 360,
 			"nombre": "PRODUCTO 360",
 			"presentacion": 12,
-			"subunidadesVentaMinima": 3,
+			"subunidadesVentaMinima": 7,
 			"implicito1": 1001,
 			"implicito2": 1020,
 			"tipoProducto": 1

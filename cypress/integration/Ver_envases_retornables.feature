@@ -125,7 +125,7 @@ Ejemplos:
 Esquema del escenario: N°4 - Contabilizar envases de productos promo push
 	Dado que se realizó la venta <cantidadUnidades> de un producto Promo Push <codigoPromo>
 	Cuando quiero ver los envases retornables del pedido  
-	Entonces el sistema mostrará
+	Entonces el sistema mostrará lo siguiente
 	|envase| unidades |subunidades|
     | 1001 |     3    |    9      |
     | 1020 |     3    |           |
