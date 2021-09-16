@@ -3,10 +3,11 @@ import {
 	EEstadosDeUnPedido,
 	ETiposDePago,
 	TCompromisoDeCobro,
-	TVisita,
 	TProductoPedido,
-	TPedido,
+	TPrecioProducto,
 } from 'models/redux';
+
+import {TpresupuestoTipoPedido} from 'models/server';
 import {TFunction} from 'react-i18next';
 
 export const formatearNumero = (
@@ -181,6 +182,31 @@ export const obtenerUnidadesProductoVisitaActual = (
 	}
 
 	return totalUnidadesMismoProducto;
+};
+
+export const obtenerProductosHabilitados = (
+	preciosProductos: TPrecioProducto[],
+	presupuestoTipoPedido: TpresupuestoTipoPedido[],
+	tipoPedido: number
+) => {
+	const fechaDipostivo = fechaDispositivo();
+
+	const presupuestoEnFecha = presupuestoTipoPedido.find(
+		(presupuesto: TpresupuestoTipoPedido) =>
+			presupuesto.tipoPedido === tipoPedido &&
+			presupuesto.vigenciaInicioPresupuesto <= fechaDipostivo &&
+			fechaDipostivo <= presupuesto.vigenciaFinPresupuesto
+	);
+	const preciosProductosFiltrado = preciosProductos.filter(
+		(producto: TPrecioProducto) => {
+			if (presupuestoEnFecha)
+				for (let productoHabilitado of presupuestoEnFecha?.productosHabilitados) {
+					if (producto.codigoProducto === productoHabilitado) return producto;
+				}
+		}
+	);
+
+	return preciosProductosFiltrado;
 };
 
 export const presupuestoCanjes = () => {

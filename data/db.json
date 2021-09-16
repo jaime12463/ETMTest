@@ -1113,14 +1113,37 @@
 	],
 	"presupuestoTipoPedido": [
 		{
+			"tipoPedido": 3,
+			"presupuesto": 48,
+            "vigenciaInicioPresupuesto": "2021-06-01",
+			"vigenciaFinPresupuesto": "2021-09-06",
+			"tieneProductosHabilitados": true,
+			"productosHabilitados": [
+
+			]
+		},
+		{
 			"tipoPedido": 2,
 			"presupuesto": 48,
-            "vigenciaInicioPresupuesto": "2021-09-01",
+            "vigenciaInicioPresupuesto": "2021-06-01",
 			"vigenciaFinPresupuesto": "2021-09-06",
 			"tieneProductosHabilitados": true,
 			"productosHabilitados": [
 				97185,
-				97373
+				97373,
+				1885
+			]
+		},
+				{
+			"tipoPedido": 2,
+			"presupuesto": 49,
+            "vigenciaInicioPresupuesto": "2021-09-01",
+			"vigenciaFinPresupuesto": "2021-10-06",
+			"tieneProductosHabilitados": true,
+			"productosHabilitados": [
+				97185,
+				97373,
+				1885
 			]
 		}
 	]

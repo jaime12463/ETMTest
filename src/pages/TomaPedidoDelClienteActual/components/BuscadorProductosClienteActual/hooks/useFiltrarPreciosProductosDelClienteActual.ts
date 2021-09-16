@@ -1,20 +1,29 @@
 import {useCallback, useEffect} from 'react';
 import {
-	TInputFiltrarPreciosProductos,
 	TPrecioProducto,
 	TStatePreciosProductos,
+	TDatosClientesProductos,
 } from 'models';
 import {
 	useObtenerDatosCliente,
 	useObtenerPreciosProductosDelCliente,
+	useObtenerDatosTipoPedido,
 } from 'hooks';
-import {useObtenerPedidoActual, useObtenerClienteActual} from 'redux/hooks';
+import {
+	useObtenerPedidoActual,
+	useObtenerClienteActual,
+	useObtenerDatos,
+} from 'redux/hooks';
+
+import {obtenerProductosHabilitados} from 'utils/methods';
 
 export const useFiltrarPreciosProductosDelClienteActual = (
 	statePreciosProductos: TStatePreciosProductos
 ) => {
 	const {preciosProductos, setPreciosProductos} = statePreciosProductos;
-
+	const datos: TDatosClientesProductos = useObtenerDatos();
+	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
+	const datosTipoPedidoActual = obtenerDatosTipoPedido();
 	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
 
 	const pedidoActual = useObtenerPedidoActual();
@@ -28,10 +37,26 @@ export const useFiltrarPreciosProductosDelClienteActual = (
 
 	if (!fechaEntrega) return;
 
-	const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
+	let preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
 		datosCliente,
 		fechaEntrega
-	);
+	).filter((producto: TPrecioProducto) => {
+		if (datosTipoPedidoActual)
+			for (let tipo of datosTipoPedidoActual?.tipoProductosHabilitados) {
+				if (producto.tipoProducto === tipo) return producto;
+			}
+	});
+
+	if (
+		datosTipoPedidoActual?.validaPresupuesto &&
+		datosTipoPedidoActual?.tipoProductosHabilitados
+	) {
+		preciosProductosDelCliente = obtenerProductosHabilitados(
+			preciosProductosDelCliente,
+			datos.presupuestoTipoPedido,
+			datosTipoPedidoActual.codigo
+		);
+	}
 
 	useEffect(() => {
 		setPreciosProductos(preciosProductosDelCliente);

@@ -32,7 +32,6 @@ export type TProducto = {
 	implicito2?: number;
 	tipoProducto: number; //TODO: Mirar si esto debe ser un enum
 	promoPush?: TPromoPush;
-	
 };
 
 export type TPromoPush = {
