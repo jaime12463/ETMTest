@@ -147,7 +147,7 @@ Ejemplos:
 #El calculo de los envases retornables se realiza, para cada producto, según se indica
 #en los escenarios anteriores, dando por resultado los siguientes implicitos.
 #|producto|implicito1|Unidades|subunidades|
-#| 360 	  | 1001     |  10    |		6     |
+#| 360 	  | 1001     |  10    |		7     |
 #| 360	  | 1020	 |  10    |           |  
 #| 365	  | 1010	 |  15    |           |
 #| 380	  | 1001	 |  15	  |           |
@@ -159,24 +159,24 @@ Ejemplos:
 #luego se consolida por implicito, ordenado por el codigo del implicito
 #
 #|implicito| unidades |	subunidades|
-#| 1001	   |   28	  |	   24      |
+#| 1001	   |   28	  |	   25      |
 #| 1010	   |   15	  |		0      |
-#| 1020	   |   18     |            |
+#| 1020	   |   28     |            |
 #
 #En caso de que se tengan que pasar a unidades las subunidades que excedan a la presentación
-#La parte entera de la división de las subunidades/presentación se suma a las unidades y el resto 
+#La parte entera de la división de las subunidades/presentación (del implicito) se suma a las unidades y el resto 
 #queda como subunidades
 #|implicito| unidades |	subunidades|
-#| 1001	   |   30	  |		0      |
+#| 1001	   |   30	  |		1      |
 #| 1010	   |   15	  |		0      |
-#| 1020	   |   18     |            | 
+#| 1020	   |   28     |            | 
 
 
 Escenario: N°5 - Consolidar los retornables del pedido
 	Dado que se capturó el siguiente pedido
 	|producto|cantidadUnidades|cantidadSubunidades|
-	| 360	 |      10	      |       6           |
-	| 365	 |      15	      |       5	          |	
+	| 360	 |      10	      |       7           |
+	| 365	 |      15	      |       0	          |	
 	| 380	 |      15	      |       0	          | 
 	| 390	 |       5	      |       5		      |
 	| 400	 |       0	      |       9	          | 
@@ -184,9 +184,9 @@ Escenario: N°5 - Consolidar los retornables del pedido
 	Cuando quiero ver los envases retornables del pedido  
 	Entonces el sistema mostrará
 	|implicito| unidades |subunidades|
-	|1001	  |		30	 | 		 0   | 
+	|1001	  |		30	 | 		 1   | 
 	|1010	  |		15	 | 		 0   |
-	|1020	  |		18   |		 0	 |
+	|1020	  |		28   |		 0	 |
 
 # como las subunidades exceden la presentación, se visualizan como cajas según la presentación
 
