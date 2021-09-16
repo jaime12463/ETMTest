@@ -2,7 +2,7 @@
 export type TDatosClientesProductos = {
 	clientes: TClientes;
 	productos: TProductos;
-	presupuestoTipoPedido: TpresupuestoTipoPedido[];
+	presupuestoTipoPedido: TpresupuestosTipoPedido;
 };
 
 export type TClientes = {
@@ -11,6 +11,10 @@ export type TClientes = {
 
 export type TProductos = {
 	[codigoProducto: number]: TProducto;
+};
+
+export type TpresupuestosTipoPedido = {
+	[tipoPedido: number]: TpresupuestoTipoPedido;
 };
 
 export type TCliente = {
@@ -42,7 +46,7 @@ export type TPromoPush = {
 export type TPromoPushComponente = {
 	codigoProducto: number;
 	cantidad: number;
-	unidadMedia: string;
+	unidadMedida: string;
 };
 
 export type TVisitaPlanificada = {

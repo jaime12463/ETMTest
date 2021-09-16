@@ -5,17 +5,17 @@
 			"detalles": {"nombreComercial": "KIOSCO 24hs"},
 			"visitasPlanificadas": [
 				{"dia": "2021-06-08", "secuencia": 3},
-				{"dia": "2001-06-11", "secuencia": 5}
+				{"dia": "2021-06-11", "secuencia": 5}
 			],
 			"fechasEntrega": [
 				{"fechaVisita": "2021-06-09", "fechaEntrega": "2021-06-10"},
-				{"fechaVisita": "2021-06-10", "fechaEntrega": "2001-06-11"},
-				{"fechaVisita": "2001-06-11", "fechaEntrega": "2001-06-12"}
+				{"fechaVisita": "2021-06-10", "fechaEntrega": "2021-06-11"},
+				{"fechaVisita": "2021-06-11", "fechaEntrega": "2021-06-12"}
 			],
 			"informacionCrediticia": {
 				"condicion": "creditoInformal",
 				"limite": 3000,
-				"disponible": 1000,
+				"disponible": 10000,
 				"esCreditoBloqueado": false,
 				"documentos": [
 					{
@@ -79,7 +79,190 @@
 							"precioConImpuestoSubunidad": 18.4,
 							"descuento": 1.6,
 							"vigenciaInicioPrecio": "2017-09-07",
-							"vigenciaFinPrecio": "2017-09-31",
+							"vigenciaFinPrecio": "2023-09-31",
+							"componentes": [
+								{
+									"CodigoProducto": 97373,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								},
+								{
+									"CodigoProducto": 97185,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								}
+							]
+						}
+					]
+				},
+				{
+					"codigoProducto": 229050,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 18.4,
+							"precioConImpuestoSubunidad": 18.4,
+							"descuento": 1.6,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2023-09-31",
+							"componentes": [
+								{
+									"CodigoProducto": 97185,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								},
+								{
+									"CodigoProducto": 97373,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								}
+							]
+						}
+					]
+				},
+				{
+					"codigoProducto": 17640,
+					"esVentaSubunidades": true,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 106,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
+					"codigoProducto": 1885,
+					"esVentaSubunidades": true,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 106,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
+					"codigoProducto": 420,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 100,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 100,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				}
+			]
+		},
+		"120107000": {
+			"codigoCliente": "120107000",
+			"detalles": {"nombreComercial": "CREM LA MORENITA"},
+			"visitasPlanificadas": [
+				{"dia": "2021-06-08", "secuencia": 3},
+				{"dia": "2021-06-11", "secuencia": 5}
+			],
+			"fechasEntrega": [
+				{"fechaVisita": "2021-06-09", "fechaEntrega": "2021-06-10"},
+				{"fechaVisita": "2021-06-10", "fechaEntrega": "2021-06-11"},
+				{"fechaVisita": "2021-06-11", "fechaEntrega": "2021-06-12"}
+			],
+			"informacionCrediticia": {
+				"condicion": "contado",
+				"limite": 3000,
+				"disponible": 10000,
+				"esCreditoBloqueado": false,
+				"documentos": [
+					{
+						"numero": "12123456789",
+						"fecha": "2021-06-11",
+						"vencimiento": "2021-09-11",
+						"monto": 5000
+					},
+					{
+						"numero": "22123459999",
+						"fecha": "2021-07-11",
+						"vencimiento": "2021-10-11",
+						"monto": 5400
+					}
+				]
+			},
+			"configuracionPedido": {
+				"tipoPedidoHabilitados": [1],
+				"ventaMinima": {
+					"montoVentaMinima": 1000,
+					"cumplimientoPorFecha": [
+						{"fechaEntrega": "2021-06-10", "cumplido": true},
+						{"fechaEntrega": "2021-06-11", "cumplido": false}
+					]
+				},
+				"ventaContadoMaxima": {
+					"montoVentaContadoMaxima": 3000,
+					"consumidoPorFecha": [
+						{"fechaEntrega": "2021-06-10", "consumido": 2000},
+						{"fechaEntrega": "2021-06-11", "consumido": 0}
+					]
+				},
+				"cantidadMaximaUnidades": 100
+			},
+			"portafolio": [
+				{
+					"codigoProducto": 1885,
+					"esVentaSubunidades": true,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 106,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
+					"codigoProducto": 229033,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 18.4,
+							"precioConImpuestoSubunidad": 18.4,
+							"descuento": 1.6,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "9999-12-31",
 							"componentes": [
 								{
 									"CodigoProducto": 97185,
@@ -174,16 +357,25 @@
 					"unidadesDisponibles": 10,
 					"precios": [
 						{
-							"precioConImpuestoUnidad": 100,
-							"precioConImpuestoSubunidad": 8.84,
+							"precioConImpuestoUnidad": 18.4,
+							"precioConImpuestoSubunidad": 18.4,
+							"descuento": 1.6,
 							"vigenciaInicioPrecio": "2017-09-07",
-							"vigenciaFinPrecio": "2017-09-31"
-						},
-						{
-							"precioConImpuestoUnidad": 100,
-							"precioConImpuestoSubunidad": 8.75,
-							"vigenciaInicioPrecio": "2017-10-01",
-							"vigenciaFinPrecio": "9999-12-31"
+							"vigenciaFinPrecio": "9999-12-31",
+							"componentes": [
+								{
+									"CodigoProducto": 97185,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								},
+								{
+									"CodigoProducto": 97373,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								}
+							]
 						}
 					]
 				}
@@ -259,21 +451,58 @@
 					]
 				},
 				{
+					"codigoProducto": 229050,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 18.4,
+							"precioConImpuestoSubunidad": 18.4,
+							"descuento": 1.6,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "9999-12-31",
+							"componentes": [
+								{
+									"CodigoProducto": 97185,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								},
+								{
+									"CodigoProducto": 97373,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								}
+							]
+						}
+					]
+				},
+				{
 					"codigoProducto": 229033,
 					"esVentaSubunidades": false,
 					"unidadesDisponibles": 10,
 					"precios": [
 						{
-							"precioConImpuestoUnidad": 100,
-							"precioConImpuestoSubunidad": 8.84,
+							"precioConImpuestoUnidad": 18.4,
+							"precioConImpuestoSubunidad": 18.4,
+							"descuento": 1.6,
 							"vigenciaInicioPrecio": "2017-09-07",
-							"vigenciaFinPrecio": "2017-09-31"
-						},
-						{
-							"precioConImpuestoUnidad": 100,
-							"precioConImpuestoSubunidad": 8.75,
-							"vigenciaInicioPrecio": "2017-10-01",
-							"vigenciaFinPrecio": "9999-12-31"
+							"vigenciaFinPrecio": "9999-12-31",
+							"componentes": [
+								{
+									"CodigoProducto": 97185,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								},
+								{
+									"CodigoProducto": 97373,
+									"precioBase": 10,
+									"descuento": 0.8,
+									"precioFinal": 9.2
+								}
+							]
 						}
 					]
 				}
@@ -479,6 +708,30 @@
 					{"codigoProducto": 97373, "cantidad": 2, "unidadMedida": "BOT"}
 				]
 			}
+		},
+		"229050": {
+			"codigoProducto": 229050,
+			"nombre": "3001-PJ GENEROSA_DURAZNO+MINIBRICK_DURAZNO",
+			"presentación": 1,
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 9,
+			"promoPush": {
+				"codigoPromocion": 1234,
+				"componentes": [
+					{"codigoProducto": 97185, "cantidad": 2, "unidadMedida": "CAJ"},
+					{"codigoProducto": 97373, "cantidad": 2, "unidadMedida": "BOT"}
+				]
+			}
+		}
+	},
+	"presupuestoTipoPedido": {
+		"2": {
+			"tipoPedido": 2,
+			"presupuesto": 48,
+			"vigenciaInicioPresupuesto": "2021-09-01",
+			"vigenciaFinPresupuesto": "2021-09-06",
+			"tieneProductosHabilitados": true,
+			"productosHabilitados": [97185, 97373]
 		}
 	}
 }

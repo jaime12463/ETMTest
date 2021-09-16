@@ -85,6 +85,8 @@ const es = {
 			'Se cancelarán todos los pedidos con fecha de entrega {{fechaDeEntrega}} ¿Desea continuar?',
 		ProductoNoEstaEnPortafolioCliente:
 			'El código no corresponde a un portafolio vigente del cliente',
+		ProductoNoEstaHabilitado:
+			'El producto no está habilitado para {{descripcion}}',
 		excedeCreditoDsiponible: 'El pedido excede el crédito disponible',
 		montoMayorDeuda: 'El monto no puede ser mayor a la deuda registrada',
 		excedeUnidadesDisponibles:
