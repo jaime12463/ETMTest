@@ -1,4 +1,4 @@
-import { TDatosClientesProductos, TPedido, TPedidosClientes, TProductoPedido } from "models";
+import { TDatosClientesProductos, TPedido, TPedidosClientes, TPresupuestoTipoPedidoTotal, TProductoPedido } from "models";
 import {useAppSelector ,useAppDispatch, useObtenerDatos, useObtenerPedidosClientes } from "redux/hooks";
 import { fechaDispositivo } from "utils/methods";
 import {selectVisitaActual, cambiarSaldoPresupuestoTipoPedido} from 'redux/features/visitaActual/visitaActualSlice';
@@ -10,9 +10,9 @@ export const useCalcularPresupuestoTipoPedido = () =>{
     const fechaDispositivoDate=new Date(fechaDispositivo());
     const pedidosClientes:TPedidosClientes= useObtenerPedidosClientes();
     const datos: TDatosClientesProductos = useObtenerDatos();
-
+    const {saldoPresupuestoTipoPedido} = useAppSelector(selectVisitaActual);
     const calcularPresupuestoTipoPedido = (tipoPedido:number)  => {
-        const {saldoPresupuestoTipoPedido} = useAppSelector(selectVisitaActual);
+        
         let presupuestoTipoPedido:any={};
         const obtenerPresupuestoVigente = (tipoPedido:number):number => {
             let total=datos.presupuestoTipoPedido.find( 
@@ -44,8 +44,15 @@ export const useCalcularPresupuestoTipoPedido = () =>{
 
         if (saldoPresupuestoTipoPedido[tipoPedido]===undefined)
         {
-            saldoPresupuestoTipoPedido[tipoPedido]=calcularPresupuestoInicial(tipoPedido) ?? 0;
-            dispatch(cambiarSaldoPresupuestoTipoPedido({saldoPresupuestoTipoPedido}))
+            let saldoPresupuesto=calcularPresupuestoInicial(tipoPedido);
+
+            dispatch(cambiarSaldoPresupuestoTipoPedido(
+                { 
+                    saldoPresupuestoTipoPedido:{
+                        ...saldoPresupuestoTipoPedido,
+                        [tipoPedido]:saldoPresupuesto
+                    }
+                }))
         }
         
         return saldoPresupuestoTipoPedido[tipoPedido];
