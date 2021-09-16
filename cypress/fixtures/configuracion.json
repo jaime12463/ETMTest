@@ -21,7 +21,7 @@
 					"codigo": 2,
 					"descripcion": "Canje",
 					"secuencia": 2,
-					"esValorizada": false,
+					"esValorizado": false,
 					"esMandatorio": false,
 					"habilitaPromocion": false,
 					"contribuyeAMinimo": false,

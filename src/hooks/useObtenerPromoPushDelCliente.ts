@@ -6,7 +6,11 @@ import {
 import {useObtenerClienteActual, useObtenerPedidoActual} from 'redux/hooks';
 import {TClienteActual, TPrecioProducto, TCliente} from 'models';
 import {validarUnidadesDisponibles} from 'utils/validaciones';
-import {obtenerUnidadesMismoProducto} from 'utils/methods';
+import {
+	obtenerUnidadesMismoProducto,
+	obtenerUnidadesProductoVisitaActual,
+} from 'utils/methods';
+
 
 export const useObtenerPromoPushDelCliente = () => {
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
@@ -42,6 +46,10 @@ export const useObtenerPromoPushDelCliente = () => {
 		(producto: any, i: number) =>
 			(producto.unidadesDisponibles =
 				producto.unidadesDisponibles -
+				obtenerUnidadesProductoVisitaActual(
+					pedidoActual.productos,
+					producto.codigoProducto
+				) -
 				obtenerUnidadesMismoProducto(pedidosCliente, producto.codigoProducto))
 	);
 

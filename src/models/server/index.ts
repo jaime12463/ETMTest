@@ -13,6 +13,7 @@ export type TProductos = {
 	[codigoProducto: number]: TProducto;
 };
 
+
 export type TCliente = {
 	codigoCliente: string;
 	visitasPlanificadas: TVisitaPlanificada[];
@@ -32,7 +33,6 @@ export type TProducto = {
 	implicito2?: number;
 	tipoProducto: number; //TODO: Mirar si esto debe ser un enum
 	promoPush?: TPromoPush;
-	
 };
 
 export type TPromoPush = {
@@ -43,7 +43,7 @@ export type TPromoPush = {
 export type TPromoPushComponente = {
 	codigoProducto: number;
 	cantidad: number;
-	unidadMedia: string;
+	unidadMedida: string;
 };
 
 export type TVisitaPlanificada = {

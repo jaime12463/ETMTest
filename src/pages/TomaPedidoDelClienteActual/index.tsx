@@ -20,6 +20,7 @@ import {useResetVisitaActualAlDesmontar} from './hooks';
 import CompromisoDeCobro from 'pages/CompromisoDeCobro';
 import {validarDeshabilitarTabCompromisoDeCobro} from 'utils/validaciones';
 import {useObtenerVisitaActual} from 'redux/hooks';
+import { useObtenerDatosTipoPedido } from 'hooks';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [value, setValue] = React.useState(0);
@@ -72,6 +73,8 @@ function BotonVerEnvases() {
 	const {mostrarPromoPush} = useObtenerVisitaActual();
 	let {path} = useRouteMatch();
 	let history = useHistory();
+	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
+	const datosTipoPedidoActual = obtenerDatosTipoPedido();
 
 	return !mostrarPromoPush ? (
 		<Button
@@ -80,6 +83,7 @@ function BotonVerEnvases() {
 			data-cy='boton-verEnvases'
 			onClick={() => history.push(`${path}${nombresRutas.envasesRetornables}`)}
 			fullWidth
+			disabled={!datosTipoPedidoActual?.generaEnvases}
 		>
 			{t('general.verEnvases').toUpperCase()}
 		</Button>

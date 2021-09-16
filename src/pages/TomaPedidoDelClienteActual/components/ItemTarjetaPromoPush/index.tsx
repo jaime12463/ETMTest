@@ -31,6 +31,8 @@ type Props = {
 	onClickItem: (item: any) => void;
 };
 
+/* 2 US */
+
 const ItemTarjetaPromoPush = (props: any) => {
 	const {t} = useTranslation();
 	const {item, onClickItem, estado, index} = props;

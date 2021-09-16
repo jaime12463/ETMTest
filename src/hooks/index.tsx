@@ -20,3 +20,5 @@ export {useObtenerProductosMandatoriosVisitaActual} from './useObtenerProductosM
 export {useObtenerTiposPedidoSegunConfiguracion} from './useObtenerTiposPedidoSegunConfiguracion';
 export {useCalcularPresupuestoTipoPedido} from './useCalcularPresupuestoTipoPedido';
 export {useCalcularPresupuestoPedidoActual} from './useCalcularPresupuestoPedidoActual';
+export {useObtenerPresupuestosTipoPedidoActual} from './useObtenerPresupuestosTipoPedidoActual';
+export {useMostrarContenidoEnCajon} from './useMostrarContenidoEnCajon';
