@@ -46,27 +46,43 @@ export const useSeleccionarProductoDePrecios = (
 
 			const {codigoProducto} = productoEncontrado;
 			const datosTipoPedidoActual = obtenerDatosTipoPedido();
-
-			if (datosTipoPedidoActual?.validaPresupuesto) {
-				const presupuestoTipoPedido = obtenerPresupuestosTipoPedidoActual();
-				if (
-					presupuestoTipoPedido?.tieneProductosHabilitados &&
-					!presupuestoTipoPedido?.productosHabilitados.includes(codigoProducto)
-				) {
-					mostrarAdvertenciaEnDialogo(
-						t('advertencias.ProductoNoEstaHabilitado', {
-							descripcion: datosTipoPedidoActual.descripcion,
-						}),
-						'producto-no-esta-habilitado'
-					);
-					return;
-				}
-			}
+			const presupuestoTipoPedido = obtenerPresupuestosTipoPedidoActual();
 
 			if (
+				!datosTipoPedidoActual?.validaPresupuesto &&
 				!datosTipoPedidoActual?.tipoProductosHabilitados.includes(
 					productoEncontrado.tipoProducto
 				)
+			) {
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.ProductoNoEstaHabilitado', {
+						descripcion: datosTipoPedidoActual?.descripcion,
+					}),
+					'producto-no-esta-habilitado'
+				);
+				return;
+			}
+
+			if (
+				datosTipoPedidoActual?.validaPresupuesto &&
+				!presupuestoTipoPedido?.tieneProductosHabilitados &&
+				!datosTipoPedidoActual?.tipoProductosHabilitados.includes(
+					productoEncontrado.tipoProducto
+				)
+			) {
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.ProductoNoEstaHabilitado', {
+						descripcion: datosTipoPedidoActual?.descripcion,
+					}),
+					'producto-no-esta-habilitado'
+				);
+				return;
+			}
+
+			if (
+				datosTipoPedidoActual?.validaPresupuesto &&
+				presupuestoTipoPedido?.tieneProductosHabilitados &&
+				!presupuestoTipoPedido.productosHabilitados.includes(codigoProducto)
 			) {
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.ProductoNoEstaHabilitado', {
