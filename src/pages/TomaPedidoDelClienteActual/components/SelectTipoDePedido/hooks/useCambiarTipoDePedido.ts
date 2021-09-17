@@ -9,7 +9,7 @@ import {
 import {useAppDispatch, useObtenerConfiguracion} from 'redux/hooks';
 import { convertCompilerOptionsFromJson } from 'typescript';
 
-export const useCambiarTipoDePedido = () => {
+export const useCambiarTipoDePedido = (resetLineaActual: () => void,) => {
 	const dispatch = useAppDispatch();
 	const calcularPresupuestoTipoPedido = useCalcularPresupuestoTipoPedido();
 	const {tipoPedidos} = useObtenerConfiguracion();
@@ -27,6 +27,8 @@ export const useCambiarTipoDePedido = () => {
 			console.log('No valida presupuesto');
 			dispatch(cambiarBloquearPanelCarga({bloquearPanelCarga: false}))
 		}
+
+		resetLineaActual();
 		
 		//TODO: Tipar y mejorar esto
 		dispatch(cambiarTipoPedidoActual({tipoPedido}));
