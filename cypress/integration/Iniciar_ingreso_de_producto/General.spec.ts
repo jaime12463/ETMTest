@@ -101,20 +101,46 @@ Y(
 );
 
 //E5, E6, E7, E8
-Entonces('el sistema mostrará la descripción del producto', () => {});
+Entonces('el sistema mostrará la descripción del producto', () => {
+	cy.get('[data-cy=info-producto]').should('exist');
+});
 
-Y('el precio unidad', () => {});
+Y('el precio unidad {string} se mostrará', (mostarPrecioUnidad) => {
+	if (mostarPrecioUnidad === 'si') {
+		cy.get('[data-cy=info-unidades]').should('exist');
+	} else {
+		cy.get('[data-cy=info-unidades]').should('not.exist');
+	}
+});
 
-Y('el precio subunidad {string} se mostrará', (mostarPrecioSubunidad) => {});
+Y('el precio subunidad {string} se mostrará', (mostarPrecioSubunidad) => {
+	if (mostarPrecioSubunidad === 'si') {
+		cy.get('[data-cy=info-subunidades]').should('exist');
+	} else {
+		cy.get('[data-cy=info-subunidades]').should('not.exist');
+	}
+});
 
 Y('habilitará el ingreso de unidades inicializadas en cero', () => {});
 
 Y(
 	'{string} habilita el ingreso de subunidades es inicializadas en cero',
-	(habilitaIngresoSubunidades) => {}
+	(habilitaIngresoSubunidades) => {
+		if (habilitaIngresoSubunidades === 'si') {
+			cy.get('[data-cy=cantidad-producto-subUnidades]').should('be.enabled');
+		} else {
+			cy.get('[data-cy=cantidad-producto-subUnidades]').should('be.disabled');
+		}
+	}
 );
 
 Y(
 	'{string} habilita el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.',
-	(habilitaIngresoMotivo) => {}
+	(habilitaIngresoMotivo) => {
+		if (habilitaIngresoMotivo === 'si') {
+			cy.get('#select-cambiar-catalogo-motivo').should('exist');
+		} else {
+			cy.get('#select-cambiar-catalogo-motivo').should('not.exist');
+		}
+	}
 );
