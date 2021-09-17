@@ -13,13 +13,18 @@ const useStyles = makeStyles({
 
 type Props = {
 	valor: number;
+	dataCy?: string;
 };
 
 function Numero(props: Props) {
 	const {t} = useTranslation();
 	const classes = useStyles();
-	const {valor} = props;
-	return <div className={classes.numero}>{formatearNumero(valor, t)}</div>;
+	const {valor, dataCy} = props;
+	return (
+		<div className={classes.numero} data-cy={dataCy ?? ''}>
+			{formatearNumero(valor, t)}
+		</div>
+	);
 }
 
 export default Numero;
