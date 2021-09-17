@@ -40,6 +40,10 @@ export const SelectCatalogoMotivos: FunctionComponent<Props> = (props) => {
 		getValues
 	);
 
+	const funct = () => {
+		console.log("teclado");
+	}
+
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
@@ -53,6 +57,7 @@ export const SelectCatalogoMotivos: FunctionComponent<Props> = (props) => {
 				onClick={handleSubmit(agregarProductoAlPedidoActual)}
 				disabled={productoActual === null}
 				onFocus={() => stateInputFocus.setInputFocus('catalogoMotivo')}
+				onClose={handleSubmit(agregarProductoAlPedidoActual)}
 			/>
 		</>
 	);
