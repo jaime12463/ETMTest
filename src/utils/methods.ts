@@ -193,19 +193,27 @@ export const obtenerUnidadesProductoVisitaActual = (
 	return totalUnidadesMismoProducto;
 };
 
-export const obtenerProductosHabilitados = (
-	preciosProductos: TPrecioProducto[],
-	presupuestoTipoPedido: any,
-	tipoPedido: number
-) => {
-	const fechaDipostivo = fechaDispositivo();
 
-	const presupuestoEnFecha = presupuestoTipoPedido.find(
+export const obtenerPresupuestoConfiguradoSegunVigencia = (tipoPedido: number, presupuestoTipoPedido: TpresupuestoTipoPedido[]) =>
+{
+	const fechaDipostivo = fechaDispositivo();
+	return presupuestoTipoPedido.find(
 		(presupuesto: TpresupuestoTipoPedido) =>
 			presupuesto.tipoPedido === tipoPedido &&
 			presupuesto.vigenciaInicioPresupuesto <= fechaDipostivo &&
 			fechaDipostivo <= presupuesto.vigenciaFinPresupuesto
 	);
+}
+
+export const obtenerProductosHabilitados = (
+	preciosProductos: TPrecioProducto[],
+	presupuestoTipoPedido: TpresupuestoTipoPedido[],
+	tipoPedido: number
+) => {
+	const fechaDipostivo = fechaDispositivo();
+
+	const presupuestoEnFecha = obtenerPresupuestoConfiguradoSegunVigencia(tipoPedido, presupuestoTipoPedido);
+
 	const preciosProductosFiltrado = preciosProductos.filter(
 		(producto: TPrecioProducto) => {
 			if (presupuestoEnFecha)
