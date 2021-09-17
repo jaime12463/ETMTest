@@ -50,7 +50,7 @@ export type TVisita = {
 	pedidos: TPedidos;
 	mostrarPromoPush: boolean;
 	bloquearPanelCarga: boolean;
-	ordenDeCompra:number;
+	ordenDeCompra:string;
 };
 
 export type TPresupuestoTipoPedidoTotal =

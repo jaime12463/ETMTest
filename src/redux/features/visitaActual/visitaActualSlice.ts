@@ -9,7 +9,7 @@ const estadoInicial: TVisita = {
 	pedidos: {},
 	mostrarPromoPush: false,
 	bloquearPanelCarga:true,
-	ordenDeCompra:0
+	ordenDeCompra:''
 };
 
 export const visitaActualSlice = createSlice({

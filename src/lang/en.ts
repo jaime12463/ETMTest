@@ -44,6 +44,7 @@ const en = {
 		vencimiento: 'Expiration',
 		deudaPendiente: 'pending debt',
 		compromisoRegistrado: 'Registered Collection Commitments',
+		agregarOrdenDeCompra:'Add Purchase Order?'
 	},
 	simbolos: {
 		decimal: ',',

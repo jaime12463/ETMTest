@@ -44,6 +44,7 @@ const es = {
 		vencimiento: 'Vencimiento',
 		deudaPendiente: 'Deuda Pendiente',
 		compromisoRegistrado: 'Compromisos de Cobro Registrados',
+		agregarOrdenDeCompra:'¿Agregar Orden Compra?'
 	},
 	simbolos: {
 		decimal: '.',
