@@ -35,7 +35,8 @@ export const useInicializarVisitaActual = () => {
 						tipoPedidoActual,
 						mostrarPromoPush,
 						saldoPresupuestoTipoPedido:{},
-						bloquearPanelCarga
+						bloquearPanelCarga,
+						ordenDeCompra:'',
 					},
 				})
 			);
