@@ -6,7 +6,7 @@ import {
 	BotonCerrarPedidoDelCliente,
 } from './components';
 import {TotalesCompromisoDeCobroPedidoActual} from '../CompromisoDeCobro/components/index';
-import {Estructura, Tabs} from 'components/UI';
+import {Dialogo, Estructura, Tabs} from 'components/UI';
 import {Button, Grid, IconButton, Box} from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
 import {useHistory, useRouteMatch} from 'react-router-dom';
@@ -19,8 +19,9 @@ import {
 import {useResetVisitaActualAlDesmontar} from './hooks';
 import CompromisoDeCobro from 'pages/CompromisoDeCobro';
 import {validarDeshabilitarTabCompromisoDeCobro} from 'utils/validaciones';
-import {useObtenerVisitaActual} from 'redux/hooks';
-import { useObtenerDatosTipoPedido } from 'hooks';
+import {useAppDispatch, useAppSelector, useObtenerConfiguracion, useObtenerVisitaActual} from 'redux/hooks';
+import { useMostrarAdvertenciaEnDialogo, useObtenerDatosTipoPedido, useObtenerTiposPedidoSegunConfiguracion } from 'hooks';
+import { cambiarOrdenDeCompra, selectVisitaActual } from 'redux/features/visitaActual/visitaActualSlice';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [value, setValue] = React.useState(0);
@@ -56,6 +57,9 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				</Grid>
 
 				<Grid container spacing={1}>
+					<Grid item xs={12}>
+						<BotonAgregarOrdenDeCompra />
+					</Grid>
 					<Grid item xs={6}>
 						<BotonVerEnvases />
 					</Grid>
@@ -67,6 +71,56 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 		</Estructura>
 	);
 };
+
+function BotonAgregarOrdenDeCompra() {
+	const {t} = useTranslation();
+	const dispatch = useAppDispatch();
+	const {ordenDeCompra} = useAppSelector(selectVisitaActual);
+	const {pedidos} = useObtenerVisitaActual();
+	const obtenerTiposPedidoSegunConfiguracion=  useObtenerTiposPedidoSegunConfiguracion;
+	const {
+		mostrarAdvertenciaEnDialogo,
+		mostarDialogo,
+		parametrosDialogo,
+	} = useMostrarAdvertenciaEnDialogo();
+	
+	let {path} = useRouteMatch();
+	let history = useHistory();
+
+	const tipoPedidosValorizados=obtenerTiposPedidoSegunConfiguracion("esValorizado",true)();
+	const tiposDePedidosValorizadosIngresadosConProductos= Object.keys(pedidos).filter( 
+		pedido => tipoPedidosValorizados.includes(Number(pedido)) && pedidos[Number(pedido)]?.productos.length>0 
+	);
+
+	console.log("Pedidos", pedidos);
+	console.log( "contiene tipos valorizados" ,tiposDePedidosValorizadosIngresadosConProductos.length);
+	
+	const manjadorClickDialog= (resultado:boolean, data:any) =>
+	{
+		console.log("retorno dialogo", data);
+		if(resultado) dispatch(cambiarOrdenDeCompra({ordenDeCompra:data.textoInput}));
+	}
+
+	const manejadorClick= () => {
+		mostrarAdvertenciaEnDialogo(t('general.deseaAgregarOrdenDeCompra'),'dialog-agregarOrden', manjadorClickDialog,undefined,ordenDeCompra,t('titulos.ordenDeCompra'));
+	}
+
+	return (
+		<>
+			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+			<Button
+				variant='contained'
+				color='primary'
+				data-cy='boton-agregarOrdenDeCompra'
+				onClick={manejadorClick }
+				fullWidth
+				disabled={tiposDePedidosValorizadosIngresadosConProductos.length<=0}
+			>
+				{t('general.agregarOrdenDeCompra').toUpperCase()}
+			</Button>
+		</>
+	);
+}
 
 function BotonVerEnvases() {
 	const {t} = useTranslation();

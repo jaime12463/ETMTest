@@ -45,6 +45,7 @@ const en = {
 		deudaPendiente: 'pending debt',
 		compromisoRegistrado: 'Registered Collection Commitments',
 		agregarOrdenDeCompra: 'Add Purchase Order?',
+		deseaAgregarOrdenDeCompra: 'Do you want to associate a purchase order?',
 	},
 	simbolos: {
 		decimal: ',',
@@ -61,6 +62,7 @@ const en = {
 		clientes: 'Customers',
 		envases: 'Returnable packaging',
 		PedidosDelClienteActual: 'Customer orders',
+		ordenDeCompra: 'Purchase Order',
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',

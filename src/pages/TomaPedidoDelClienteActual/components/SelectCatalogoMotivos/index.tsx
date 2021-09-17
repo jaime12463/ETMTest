@@ -53,6 +53,7 @@ export const SelectCatalogoMotivos: FunctionComponent<Props> = (props) => {
 				onClick={handleSubmit(agregarProductoAlPedidoActual)}
 				disabled={productoActual === null}
 				onFocus={() => stateInputFocus.setInputFocus('catalogoMotivo')}
+				onClose={handleSubmit(agregarProductoAlPedidoActual)}
 			/>
 		</>
 	);

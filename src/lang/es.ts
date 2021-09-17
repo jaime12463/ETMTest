@@ -45,6 +45,7 @@ const es = {
 		deudaPendiente: 'Deuda Pendiente',
 		compromisoRegistrado: 'Compromisos de Cobro Registrados',
 		agregarOrdenDeCompra: '¿Agregar Orden Compra?',
+		deseaAgregarOrdenDeCompra: '¿Desea asociar una orden de compra?',
 	},
 	simbolos: {
 		decimal: '.',
@@ -61,6 +62,7 @@ const es = {
 		clientes: 'Clientes',
 		envases: 'Envases retornables',
 		PedidosDelClienteActual: 'Pedidos del cliente',
+		ordenDeCompra: 'Orden de Compra',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
