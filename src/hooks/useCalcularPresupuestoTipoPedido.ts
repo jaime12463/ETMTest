@@ -1,0 +1,63 @@
+import { TDatosClientesProductos, TPedido, TPedidosClientes, TPresupuestoTipoPedidoTotal, TProductoPedido } from "models";
+import {useAppSelector ,useAppDispatch, useObtenerDatos, useObtenerPedidosClientes } from "redux/hooks";
+import { fechaDispositivo } from "utils/methods";
+import {selectVisitaActual, cambiarSaldoPresupuestoTipoPedido} from 'redux/features/visitaActual/visitaActualSlice';
+
+
+
+export const useCalcularPresupuestoTipoPedido = () =>{
+    const dispatch = useAppDispatch();
+    const fechaDispositivoDate=new Date(fechaDispositivo());
+    const pedidosClientes:TPedidosClientes= useObtenerPedidosClientes();
+    const datos: TDatosClientesProductos = useObtenerDatos();
+    const {saldoPresupuestoTipoPedido} = useAppSelector(selectVisitaActual);
+    const calcularPresupuestoTipoPedido = (tipoPedido:number)  => {
+        
+        let presupuestoTipoPedido:any={};
+        const obtenerPresupuestoVigente = (tipoPedido:number):number => {
+            let total=datos.presupuestoTipoPedido.find( 
+                item => item.tipoPedido===tipoPedido && 
+                (fechaDispositivoDate >= new Date(item.vigenciaInicioPresupuesto) && fechaDispositivoDate <= new Date(item.vigenciaFinPresupuesto))
+                )?.presupuesto ?? 0;
+            return total;
+        }
+	    const calcularPresupuestoInicial= (tipoPedido:number) => {
+            let pedidosTabla=new Array<TProductoPedido>();
+            for ( let pedidoCliente in pedidosClientes)
+            {
+                pedidosClientes[pedidoCliente].pedidos.forEach( pedido => {
+                    if(pedido.tipoPedido===tipoPedido) {
+                        pedido.productos.forEach((item) =>pedidosTabla.push(item));
+                    }
+                });
+            }
+            console.table(pedidosTabla);
+            let total=obtenerPresupuestoVigente(tipoPedido);
+            presupuestoTipoPedido[tipoPedido] = pedidosTabla.reduce( (total,item)=> {
+                total -= (item.unidades + item.subUnidades/item.presentacion)
+                return total;
+            }, total );
+            
+
+             return total;
+        }
+
+        if (saldoPresupuestoTipoPedido[tipoPedido]===undefined)
+        {
+            let saldoPresupuesto=calcularPresupuestoInicial(tipoPedido);
+
+            dispatch(cambiarSaldoPresupuestoTipoPedido(
+                { 
+                    saldoPresupuestoTipoPedido:{
+                        ...saldoPresupuestoTipoPedido,
+                        [tipoPedido]:saldoPresupuesto
+                    }
+                }))
+        }
+        
+        return saldoPresupuestoTipoPedido[tipoPedido];
+        
+        
+    }
+    return calcularPresupuestoTipoPedido;
+}

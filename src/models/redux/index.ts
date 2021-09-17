@@ -40,13 +40,21 @@ export enum EEstadosFetch {
 	Idle,
 }
 
+
+
 //Visita Actual
 export type TVisita = {
 	fechaEntrega: string; //TODO: Deberia ir la visita con el pedido actual?
 	tipoPedidoActual: number;
+	saldoPresupuestoTipoPedido:TPresupuestoTipoPedidoTotal;
 	pedidos: TPedidos;
 	mostrarPromoPush: boolean;
 };
+
+export type TPresupuestoTipoPedidoTotal =
+{
+	[tipoPedido:number]:number;
+}
 
 export type TPedidos = {
 	[tipoPedido: number]: TPedido;

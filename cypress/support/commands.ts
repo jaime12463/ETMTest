@@ -27,6 +27,7 @@ declare global {
 			esperarConfiguracion(): void;
 			oprimirBotonAtras(): void;
 			oprimirBotonCerrarPedido(): void;
+			oprimirBotonVerEnvases(): void;
 		}
 	}
 }
@@ -117,4 +118,8 @@ Cypress.Commands.add('oprimirBotonAtras', () => {
 
 Cypress.Commands.add('oprimirBotonCerrarPedido', () => {
 	cy.get('[data-cy=boton-cerrarPedido]').click();
+});
+
+Cypress.Commands.add('oprimirBotonVerEnvases', () => {
+	cy.get('[data-cy=boton-verEnvases]').click();
 });

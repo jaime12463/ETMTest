@@ -1,10 +1,11 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {ETiposDePago, TVisita, TProductoPedido} from 'models';
+import {ETiposDePago, TVisita, TProductoPedido, TPresupuestoTipoPedidoTotal} from 'models';
 import {RootState} from 'redux/store';
 
 const estadoInicial: TVisita = {
 	fechaEntrega: '',
 	tipoPedidoActual: 0,
+	saldoPresupuestoTipoPedido:{},
 	pedidos: {},
 	mostrarPromoPush: false,
 };
@@ -116,6 +117,12 @@ export const visitaActualSlice = createSlice({
 		) => {
 			state.mostrarPromoPush = action.payload.mostrarPromoPush;
 		},
+		cambiarSaldoPresupuestoTipoPedido: (
+			state,
+			action: PayloadAction<{saldoPresupuestoTipoPedido: TPresupuestoTipoPedidoTotal }>
+		) => {
+			state.saldoPresupuestoTipoPedido = action.payload.saldoPresupuestoTipoPedido;
+		},
 	},
 });
 
@@ -130,5 +137,6 @@ export const {
 	cambiarTipoPagoPoductosDelPedidoActual,
 	cambiarTipoPedidoActual,
 	cambiarMostrarPromoPush,
+	cambiarSaldoPresupuestoTipoPedido,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

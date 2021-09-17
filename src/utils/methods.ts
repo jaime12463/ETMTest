@@ -1,13 +1,23 @@
 import {
+	TPedidosClientes,
 	TPedidoClienteParaEnviar,
 	EEstadosDeUnPedido,
 	ETiposDePago,
 	TCompromisoDeCobro,
-	TVisita,
 	TProductoPedido,
 	TPedido,
+	TPrecioProducto,
 } from 'models/redux';
+
+import {
+	useObtenerPedidosClientes,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
+	
+
+import {TpresupuestoTipoPedido} from 'models/server';
 import {TFunction} from 'react-i18next';
+import { ImportExport } from '@material-ui/icons';
 
 export const formatearNumero = (
 	numero: number,
@@ -183,11 +193,27 @@ export const obtenerUnidadesProductoVisitaActual = (
 	return totalUnidadesMismoProducto;
 };
 
-export const presupuestoCanjes = () => {
-	return {
-		calcular: (): number => {
-			console.log('calculando presupuesto');
-			return 48;
-		},
-	};
+export const obtenerProductosHabilitados = (
+	preciosProductos: TPrecioProducto[],
+	presupuestoTipoPedido: any,
+	tipoPedido: number
+) => {
+	const fechaDipostivo = fechaDispositivo();
+
+	const presupuestoEnFecha = presupuestoTipoPedido.find(
+		(presupuesto: TpresupuestoTipoPedido) =>
+			presupuesto.tipoPedido === tipoPedido &&
+			presupuesto.vigenciaInicioPresupuesto <= fechaDipostivo &&
+			fechaDipostivo <= presupuesto.vigenciaFinPresupuesto
+	);
+	const preciosProductosFiltrado = preciosProductos.filter(
+		(producto: TPrecioProducto) => {
+			if (presupuestoEnFecha)
+				for (let productoHabilitado of presupuestoEnFecha?.productosHabilitados) {
+					if (producto.codigoProducto === productoHabilitado) return producto;
+				}
+		}
+	);
+
+	return preciosProductosFiltrado;
 };
