@@ -25,7 +25,7 @@ export const useInicializarVisitaActual = () => {
 
 			const mostrarPromoPush: boolean = false;
 		
-
+			const bloquearPanelCarga: boolean=false;
 			
 			dispatch(
 				inicializarVisitaActual({
@@ -35,6 +35,7 @@ export const useInicializarVisitaActual = () => {
 						tipoPedidoActual,
 						mostrarPromoPush,
 						saldoPresupuestoTipoPedido:{},
+						bloquearPanelCarga
 					},
 				})
 			);

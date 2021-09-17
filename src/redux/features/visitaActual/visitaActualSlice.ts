@@ -8,6 +8,7 @@ const estadoInicial: TVisita = {
 	saldoPresupuestoTipoPedido:{},
 	pedidos: {},
 	mostrarPromoPush: false,
+	bloquearPanelCarga:true
 };
 
 export const visitaActualSlice = createSlice({
@@ -64,11 +65,13 @@ export const visitaActualSlice = createSlice({
 				fechaEntrega,
 				tipoPedidoActual,
 				mostrarPromoPush,
+				bloquearPanelCarga,
 			} = action.payload.visitaActual;
 			state.pedidos = pedidos;
 			state.fechaEntrega = fechaEntrega;
 			state.tipoPedidoActual = tipoPedidoActual;
 			state.mostrarPromoPush = mostrarPromoPush;
+			state.bloquearPanelCarga=bloquearPanelCarga;
 		},
 
 		resetearVisitaActual: (state) => {
@@ -76,6 +79,7 @@ export const visitaActualSlice = createSlice({
 			state.fechaEntrega = '';
 			state.tipoPedidoActual = 0;
 			state.mostrarPromoPush = false;
+			state.bloquearPanelCarga=true;
 		},
 
 		cambiarTipoPagoPoductoDelPedidoActual: (
@@ -123,6 +127,12 @@ export const visitaActualSlice = createSlice({
 		) => {
 			state.saldoPresupuestoTipoPedido = action.payload.saldoPresupuestoTipoPedido;
 		},
+		cambiarBloquearPanelCarga: (
+			state,
+			action: PayloadAction<{bloquearPanelCarga: boolean }>
+		) => {
+			state.bloquearPanelCarga = action.payload.bloquearPanelCarga;
+		},
 	},
 });
 
@@ -138,5 +148,6 @@ export const {
 	cambiarTipoPedidoActual,
 	cambiarMostrarPromoPush,
 	cambiarSaldoPresupuestoTipoPedido,
+	cambiarBloquearPanelCarga,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

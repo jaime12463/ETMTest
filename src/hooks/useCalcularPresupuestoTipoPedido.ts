@@ -41,10 +41,11 @@ export const useCalcularPresupuestoTipoPedido = () =>{
 
              return total;
         }
+        let saldoPresupuesto=saldoPresupuestoTipoPedido[tipoPedido];
 
-        if (saldoPresupuestoTipoPedido[tipoPedido]===undefined)
+        if (saldoPresupuesto===undefined)
         {
-            let saldoPresupuesto=calcularPresupuestoInicial(tipoPedido);
+            saldoPresupuesto=calcularPresupuestoInicial(tipoPedido);
 
             dispatch(cambiarSaldoPresupuestoTipoPedido(
                 { 
@@ -55,7 +56,7 @@ export const useCalcularPresupuestoTipoPedido = () =>{
                 }))
         }
         
-        return saldoPresupuestoTipoPedido[tipoPedido];
+        return saldoPresupuesto;
         
         
     }

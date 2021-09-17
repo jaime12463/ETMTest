@@ -49,6 +49,7 @@ export type TVisita = {
 	saldoPresupuestoTipoPedido:TPresupuestoTipoPedidoTotal;
 	pedidos: TPedidos;
 	mostrarPromoPush: boolean;
+	bloquearPanelCarga: boolean;
 };
 
 export type TPresupuestoTipoPedidoTotal =
