@@ -70,7 +70,7 @@ const br = {
 			'O cliente não tem portifólio vigente para a data de entrega informada',
 		limiteSubUnidades:
 			'As sub unidades devem ser menores que a apresentação do produto',
-		pedidoMinimo: 'Não cumpre com o pedido mínimo de ${{monto}}',
+		pedidoMinimo: 'O pedido não atinge o valor mínimo de venda ${{monto}}',
 		montoMinimo: 'Não cumpre com o valor mínimo de venda do pedido',
 		subUnidadesNoPermitidas:
 			'As subunidades não estão habilitadas para este produto',

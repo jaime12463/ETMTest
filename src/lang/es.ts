@@ -44,7 +44,7 @@ const es = {
 		vencimiento: 'Vencimiento',
 		deudaPendiente: 'Deuda Pendiente',
 		compromisoRegistrado: 'Compromisos de Cobro Registrados',
-		agregarOrdenDeCompra:'¿Agregar Orden Compra?'
+		agregarOrdenDeCompra: '¿Agregar Orden Compra?',
 	},
 	simbolos: {
 		decimal: '.',
@@ -73,7 +73,7 @@ const es = {
 			'El cliente no tiene portafolio vigente para la fecha de entrega informada',
 		limiteSubUnidades:
 			'Las subunidades deben ser menores a la presentación del producto',
-		pedidoMinimo: 'No cumple con el pedido mínimo de ${{monto}}',
+		pedidoMinimo: 'El pedido no alcanza el monto de venta mínima  ${{monto}}',
 		montoMinimo: 'No cumple con el monto mínimo de venta del pedido',
 		subUnidadesNoPermitidas:
 			'Las subunidades no están habilitadas para este producto',

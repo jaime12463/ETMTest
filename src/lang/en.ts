@@ -44,7 +44,7 @@ const en = {
 		vencimiento: 'Expiration',
 		deudaPendiente: 'pending debt',
 		compromisoRegistrado: 'Registered Collection Commitments',
-		agregarOrdenDeCompra:'Add Purchase Order?'
+		agregarOrdenDeCompra: 'Add Purchase Order?',
 	},
 	simbolos: {
 		decimal: ',',
@@ -74,7 +74,7 @@ const en = {
 			'The client does not have a current portfolio for the reported delivery date',
 		limiteSubUnidades:
 			'The subunits must be smaller than the presentation of product',
-		pedidoMinimo: 'Does not fulfil minimum order of ${{monto}}',
+		pedidoMinimo: 'The order does not reach the minimum sale amount ${{monto}}',
 		montoMinimo: 'Does not fulfil the minimum sale amount of the order',
 		subUnidadesNoPermitidas: 'The subUnits is disabled for this product',
 		masDelMontoMaximo:
