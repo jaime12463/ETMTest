@@ -48,7 +48,7 @@ export const SelectCatalogoMotivos: FunctionComponent<Props> = (props) => {
 				opciones={itemCatalogoMotivos}
 				name='catalogoMotivo'
 				dataCY='select-cambiar-catalogo-motivo'
-				handleChange={() => {}}
+				handleChange={handleSubmit(agregarProductoAlPedidoActual)}
 				autoFocus={stateInputFocus.inputFocus == 'catalogoMotivo'}
 				onClick={handleSubmit(agregarProductoAlPedidoActual)}
 				disabled={productoActual === null}

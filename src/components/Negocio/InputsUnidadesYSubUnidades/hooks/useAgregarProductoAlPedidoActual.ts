@@ -56,11 +56,11 @@ export const useAgregarProductoAlPedidoActual = (
 			const subUnidadesParseado: number =
 				subUnidades !== '' ? parseInt(subUnidades) : 0;
 
+			if (!productoActual) return;
+
 			const esValidoAgregarProductoAlPedidoCliente: boolean = validarAgregarProductoAlPedidoCliente(
 				inputs
 			);
-
-			if (!productoActual) return;
 
 			const {codigoProducto} = productoActual;
 
