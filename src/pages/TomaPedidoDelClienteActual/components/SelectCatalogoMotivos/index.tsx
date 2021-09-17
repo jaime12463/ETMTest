@@ -40,10 +40,6 @@ export const SelectCatalogoMotivos: FunctionComponent<Props> = (props) => {
 		getValues
 	);
 
-	const funct = () => {
-		console.log("teclado");
-	}
-
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}

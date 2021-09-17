@@ -71,7 +71,10 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 				<Box my={2}>
 					<Grid container>
 						<Grid item xs={8}>
-							<SelectTipoDePedido hookForm={hookForm} />
+							<SelectTipoDePedido 
+								hookForm={hookForm} 
+								stateProductoActual={{productoActual, setProductoActual}} 
+							/>
 						</Grid>
 						<Grid item xs={4}>
 							<MenuPromoPush />
