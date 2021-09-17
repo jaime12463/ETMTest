@@ -4,18 +4,21 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { TextField } from '@material-ui/core';
 import {useTranslation} from 'react-i18next';
+import { useState } from 'react';
 
 export type Props = {
 	titulo?: string;
 	mensaje?: string;
 	conBotonCancelar?: boolean;
-	manejadorClick?: (oprimioBotonAceptar: boolean) => void;
+	manejadorClick?: (oprimioBotonAceptar: boolean, data?:any) => void;
 	textosBotonesDefault?: {
 		aceptar: string;
 		cancelar?: string;
 	};
 	dataCy: string;
+	textoInput?:string;
 };
 
 const Dialogo = ({
@@ -25,12 +28,22 @@ const Dialogo = ({
 	manejadorClick = () => {},
 	textosBotonesDefault,
 	dataCy,
+	textoInput=undefined,
 }: Props) => {
 	const {t} = useTranslation();
 
-	const manejarClick = (oprimioBotonAceptar: boolean) => {
-		manejadorClick(oprimioBotonAceptar);
+	const manejarClick = (oprimioBotonAceptar: boolean, data?:any) => {
+		manejadorClick(oprimioBotonAceptar, data);
 	};
+
+	const [data, setData] = useState({
+		textoInput: '',
+		
+	  });
+	
+	  const handleChange = (prop:any) => (event:any) => {
+		setData({ ...data, [prop]: event.target.value });
+	  };
 
 	return (
 		<Dialog
@@ -41,15 +54,21 @@ const Dialogo = ({
 			{titulo !== '' && (
 				<DialogTitle id='alert-dialog-title'>{titulo}</DialogTitle>
 			)}
-			{mensaje !== '' && (
-				<DialogContent>
+			<DialogContent>
+				{mensaje !== '' && (
 					<DialogContentText id='alert-dialog-description' data-cy={dataCy}>
 						{mensaje}
 					</DialogContentText>
-				</DialogContent>
-			)}
+					
+				)}
+				{
+					textoInput !== undefined && (
+						<TextField defaultValue={textoInput} onChange={ handleChange('textoInput')}/>
+					)
+				}
+			</DialogContent>
 			<DialogActions>
-				<Button onClick={() => manejarClick(true)} color='primary'>
+				<Button onClick={() => manejarClick(true, data)} color='primary'>
 					{textosBotonesDefault?.aceptar ?? t('general.aceptar')}
 				</Button>
 				{conBotonCancelar && (

@@ -1,6 +1,6 @@
 import { TDatosClientesProductos, TPedido, TPedidosClientes, TPresupuestoTipoPedidoTotal, TProductoPedido } from "models";
 import {useAppSelector ,useAppDispatch, useObtenerDatos, useObtenerPedidosClientes } from "redux/hooks";
-import { fechaDispositivo } from "utils/methods";
+import { fechaDispositivo,obtenerPresupuestoConfiguradoSegunVigencia } from "utils/methods";
 import {selectVisitaActual, cambiarSaldoPresupuestoTipoPedido} from 'redux/features/visitaActual/visitaActualSlice';
 
 
@@ -14,6 +14,7 @@ export const useCalcularPresupuestoTipoPedido = () =>{
     const calcularPresupuestoTipoPedido = (tipoPedido:number)  => {
         
         let presupuestoTipoPedido:any={};
+        /*
         const obtenerPresupuestoVigente = (tipoPedido:number):number => {
             let total=datos.presupuestoTipoPedido.find( 
                 item => item.tipoPedido===tipoPedido && 
@@ -21,6 +22,8 @@ export const useCalcularPresupuestoTipoPedido = () =>{
                 )?.presupuesto ?? 0;
             return total;
         }
+        */
+       
 	    const calcularPresupuestoInicial= (tipoPedido:number) => {
             let pedidosTabla=new Array<TProductoPedido>();
             for ( let pedidoCliente in pedidosClientes)
@@ -32,7 +35,9 @@ export const useCalcularPresupuestoTipoPedido = () =>{
                 });
             }
             console.table(pedidosTabla);
-            let total=obtenerPresupuestoVigente(tipoPedido);
+            const presupuestoVigenteConfigurado=obtenerPresupuestoConfiguradoSegunVigencia(tipoPedido,datos.presupuestoTipoPedido);
+            let total= presupuestoVigenteConfigurado?.presupuesto ?? 0; //obtenerPresupuestoVigente(tipoPedido);
+           
             presupuestoTipoPedido[tipoPedido] = pedidosTabla.reduce( (total,item)=> {
                 total -= (item.unidades + item.subUnidades/item.presentacion)
                 return total;
