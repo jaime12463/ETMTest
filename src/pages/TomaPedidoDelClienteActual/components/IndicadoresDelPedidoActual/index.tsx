@@ -23,7 +23,7 @@ import {useObtenerColor} from './hooks/useObtenerColor';
 const IndicadoresDelPedidoActual = () => {
 	const {t} = useTranslation();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
-	//TODO: Acomodar para que tome los pedidos cerrados de la misma fecha de entrega, por ahora solo toma del pedido en curso
+
 	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();

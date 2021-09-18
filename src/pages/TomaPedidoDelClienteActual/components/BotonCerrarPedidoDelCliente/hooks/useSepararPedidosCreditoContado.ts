@@ -78,7 +78,7 @@ export const useSepararPedidosCreditoContado = () => {
 				}
 			}
 
-			if (!datosTipoPedido?.esValorizado) {
+			if (!datosTipoPedido?.esValorizado && pedido.productos.length) {
 				pedidosPorTipoDePago.push(pedido);
 			}
 

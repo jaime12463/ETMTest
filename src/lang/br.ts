@@ -86,7 +86,7 @@ const br = {
 		excedeUnidadesDisponibles:
 			'A quantidade é maior do que a disponível: {{disponible}}',
 		borrarPedidosNoMandatorios:
-			'Todos os pedidos não obrigatórios serão excluídos',
+			'O pedido de {{tipoPedido}} será excluído. Você deseja continuar?',
 		ProductoNoEstaHabilitado:
 			'O produto não está habilitado para {{descripcion}}',
 	},

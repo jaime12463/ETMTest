@@ -93,7 +93,8 @@ const en = {
 		montoMayorDeuda: 'The amount cannot be greater than the registered debt',
 		excedeUnidadesDisponibles:
 			'The quantity is greater than available: {{disponible}}',
-		borrarPedidosNoMandatorios: 'All non-mandatory orders will be deleted',
+		borrarPedidosNoMandatorios:
+			'The order of {{tipoPedido}} will be deleted. do you wish to continue?',
 	},
 };
 export default en;
