@@ -9,15 +9,11 @@ import {
 	TPrecioProducto,
 } from 'models/redux';
 
-import {
-	useObtenerPedidosClientes,
-	useObtenerVisitaActual,
-} from 'redux/hooks';
-	
+import {useObtenerPedidosClientes, useObtenerVisitaActual} from 'redux/hooks';
 
 import {TpresupuestoTipoPedido} from 'models/server';
 import {TFunction} from 'react-i18next';
-import { ImportExport } from '@material-ui/icons';
+import {ImportExport} from '@material-ui/icons';
 
 export const formatearNumero = (
 	numero: number,
@@ -81,9 +77,32 @@ export const obtenerTotalContadoPedidosCliente = (
 	totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
 		(total: number, pedido: TPedidoClienteParaEnviar) => {
 			if (pedido.estado !== EEstadosDeUnPedido.Activo) return total;
-
 			for (let producto of pedido.productos) {
 				if (producto.tipoPago === ETiposDePago.Contado) total += producto.total;
+			}
+
+			return total;
+		},
+		0
+	);
+
+	return totalPedidosMismaFecha;
+};
+
+export const obtenerTotalCreditoPedidosCliente = (
+	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[]
+): number => {
+	let totalPedidosMismaFecha = 0;
+
+	if (pedidosClienteMismaFechaEntrega.length === 0)
+		return totalPedidosMismaFecha;
+
+	totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
+		(total: number, pedido: TPedidoClienteParaEnviar) => {
+			if (pedido.estado !== EEstadosDeUnPedido.Activo) return total;
+
+			for (let producto of pedido.productos) {
+				if (producto.tipoPago === ETiposDePago.Credito) total += producto.total;
 			}
 
 			return total;

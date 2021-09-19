@@ -1,4 +1,4 @@
-import i18n from 'i18next'; 
+import i18n from 'i18next';
 import {
 	TPrecio,
 	TFechaEntrega,
@@ -10,7 +10,6 @@ import {
 	TValidacionFechaEntrega,
 	TPrecioProducto,
 	TPedido,
-	
 } from 'models';
 import {
 	fechaDispositivo,
@@ -19,13 +18,10 @@ import {
 } from 'utils/methods';
 import {useObtenerDeudasDelClienteActual} from 'hooks';
 
-
 /*--------------------------------------------------------------------------------------------*/
 /*
 	Region de validaciones
 */
-
-
 
 export const validarDeshabilitarTabCompromisoDeCobro = () => {
 	let deshabilitarTabCompromisoDeCobro = false;
@@ -183,6 +179,8 @@ export const validarUnidadesDisponibles = (
 export const validarHayMasProductosMandatorios = (pedidos: TPedido[]) => {
 	let HayProductosMandatorios = false;
 
+	if (pedidos.length > 1) return (HayProductosMandatorios = true);
+
 	pedidos.forEach((pedido: TPedido) => {
 		if (pedido.productos.length > 1) {
 			return (HayProductosMandatorios = true);
@@ -190,4 +188,16 @@ export const validarHayMasProductosMandatorios = (pedidos: TPedido[]) => {
 	});
 
 	return HayProductosMandatorios;
+};
+
+export const validarHayMasProductosNoMandatorios = (pedidos: TPedido[]) => {
+	let HayProductosNoMandatorios = false;
+
+	pedidos.forEach((pedido: TPedido) => {
+		if (pedido.productos.length) {
+			return (HayProductosNoMandatorios = true);
+		}
+	});
+
+	return HayProductosNoMandatorios;
 };

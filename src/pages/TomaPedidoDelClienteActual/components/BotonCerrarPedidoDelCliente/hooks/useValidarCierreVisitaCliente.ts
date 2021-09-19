@@ -5,6 +5,7 @@ import {
 	useObtenerPedidosClienteMismaFechaEntrega,
 	useObtenerCompromisosDeCobroMismaFechaEntrega,
 	useObtenerTotalPedidosVisitaActual,
+	useObtenerDatosTipoPedido,
 } from 'hooks';
 import {
 	useObtenerClienteActual,
@@ -14,6 +15,7 @@ import {TClienteActual, TRetornoValidacion, TTotalPedido} from 'models';
 
 import {
 	obtenerTotalContadoPedidosCliente,
+	obtenerTotalCreditoPedidosCliente,
 } from 'utils/methods';
 
 import {
@@ -46,37 +48,53 @@ export const useValidarCierreVisitaCliente = () => {
 	} = useObtenerPedidosClienteMismaFechaEntrega();
 	const {creditoDisponible} = useObtenerCreditoDisponible();
 	const calcularTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
+	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
+	const datosTipoPedidoActual = obtenerDatosTipoPedido();
 
 	const validarCierreVisitaCliente = (): TRetornoValidacion => {
-		
-		const totalPedidosVisitaActual =calcularTotalPedidosVisitaActual();
-		const totalContadoPedidosClienteMismaFechaEntrega= obtenerTotalContadoPedidosCliente(pedidosClienteMismaFechaEntrega);
-		
+		const totalPedidosVisitaActual = calcularTotalPedidosVisitaActual(true);
+		const totalContadoPedidosClienteMismaFechaEntrega = obtenerTotalContadoPedidosCliente(
+			pedidosClienteMismaFechaEntrega
+		);
+		const totalCreditoPedidosClienteMismaFechaEntrega = obtenerTotalCreditoPedidosCliente(
+			pedidosClienteMismaFechaEntrega
+		);
+
 		let retornoValidacion: TRetornoValidacion = {
 			esValido: false,
 			propsAdvertencia: null,
 		};
 
-		retornoValidacion= validarDatosCliente(datosCliente);
+		retornoValidacion = validarDatosCliente(datosCliente);
 		if (!retornoValidacion.esValido) return retornoValidacion;
 
-		retornoValidacion= validarSiExcedeElMontoMinimo(datosCliente, (totalPedidosVisitaActual.totalPrecio + totalContadoPedidosClienteMismaFechaEntrega));
+		retornoValidacion = validarSiExcedeElMontoMinimo(
+			datosCliente,
+			totalPedidosVisitaActual.totalPrecio +
+				totalContadoPedidosClienteMismaFechaEntrega +
+				totalCreditoPedidosClienteMismaFechaEntrega
+		);
+
 		if (!retornoValidacion.esValido) return retornoValidacion;
 
-		retornoValidacion= validarSiExcedeAlMaximoContado(
-			(datosCliente?.configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0),
-			totalPedidosVisitaActual.totalPrecio +	compromisoDeCobroActual.monto +	montoTotalCompromisos,
+		retornoValidacion = validarSiExcedeAlMaximoContado(
+			datosCliente?.configuracionPedido.ventaContadoMaxima
+				?.montoVentaContadoMaxima ?? 0,
+			totalPedidosVisitaActual.totalContado.totalPrecio +
+				compromisoDeCobroActual.monto +
+				montoTotalCompromisos,
 			totalContadoPedidosClienteMismaFechaEntrega
 		);
 		if (!retornoValidacion.esValido) return retornoValidacion;
 
-		retornoValidacion=validarSiExcedeAlMaximoDeCredito(clienteActual.condicion, creditoDisponible,totalPedidosVisitaActual.totalCredito.totalPrecio)
+		retornoValidacion = validarSiExcedeAlMaximoDeCredito(
+			clienteActual.condicion,
+			creditoDisponible,
+			totalPedidosVisitaActual.totalCredito.totalPrecio
+		);
 		if (!retornoValidacion.esValido) return retornoValidacion;
 
 		return retornoValidacion;
-		
-
-		
 	};
 
 	return validarCierreVisitaCliente;

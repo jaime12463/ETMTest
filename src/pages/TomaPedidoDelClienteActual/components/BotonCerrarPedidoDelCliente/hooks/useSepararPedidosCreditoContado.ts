@@ -5,11 +5,16 @@ import {
 	TPedidoClienteParaEnviar,
 	TProductoPedido,
 } from 'models';
-import {useObtenerClienteActual, useObtenerConfiguracion} from 'redux/hooks';
+import {
+	useObtenerClienteActual,
+	useObtenerConfiguracion,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
 
 export const useSepararPedidosCreditoContado = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const configuracion = useObtenerConfiguracion();
+	const visitaActual = useObtenerVisitaActual();
 
 	const separarPedidosCreditoContado = (
 		pedidosArray: TPedido[]
@@ -29,6 +34,7 @@ export const useSepararPedidosCreditoContado = () => {
 			if (!esCondicionCreditoInformal && datosTipoPedido?.esValorizado) {
 				pedidosPorTipoDePago.push({
 					...pedido,
+					ordenDeCompra: visitaActual.ordenDeCompra,
 					tipoPago:
 						clienteActual.condicion === 'creditoFormal'
 							? ETiposDePago.Credito
@@ -50,6 +56,7 @@ export const useSepararPedidosCreditoContado = () => {
 					pedidosPorTipoDePago.push({
 						...pedidoContado,
 						tipoPago: ETiposDePago.Credito,
+						ordenDeCompra: visitaActual.ordenDeCompra,
 					});
 				}
 
@@ -66,11 +73,12 @@ export const useSepararPedidosCreditoContado = () => {
 					pedidosPorTipoDePago.push({
 						...pedidoCredito,
 						tipoPago: ETiposDePago.Credito,
+						ordenDeCompra: visitaActual.ordenDeCompra,
 					});
 				}
 			}
 
-			if (!datosTipoPedido?.esValorizado) {
+			if (!datosTipoPedido?.esValorizado && pedido.productos.length) {
 				pedidosPorTipoDePago.push(pedido);
 			}
 
