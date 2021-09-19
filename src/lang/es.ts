@@ -44,7 +44,7 @@ const es = {
 		vencimiento: 'Vencimiento',
 		deudaPendiente: 'Deuda Pendiente',
 		compromisoRegistrado: 'Compromisos de Cobro Registrados',
-		agregarOrdenDeCompra:'¿Agregar Orden Compra?'
+		agregarOrdenDeCompra: '¿Agregar Orden Compra?',
 	},
 	simbolos: {
 		decimal: '.',
@@ -93,6 +93,8 @@ const es = {
 		excedeUnidadesDisponibles:
 			'La cantidad es mayor al disponible: {{disponible}}',
 		borrarPedidosNoMandatorios: 'Se borraran todos los pedidos no obligatorios',
+		excedePresupuesto:
+			'La cantidad ingresada excede el presupuesto asignado para {{descripcion}}',
 	},
 };
 export default es;

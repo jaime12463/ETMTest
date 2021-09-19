@@ -89,6 +89,8 @@ const br = {
 			'Todos os pedidos não obrigatórios serão excluídos',
 		ProductoNoEstaHabilitado:
 			'O produto não está habilitado para {{descripcion}}',
+		excedePresupuesto:
+			'O valor inserido excede o orçamento alocado para {{descripcion}}',
 	},
 };
 export default br;

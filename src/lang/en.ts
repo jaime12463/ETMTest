@@ -44,7 +44,7 @@ const en = {
 		vencimiento: 'Expiration',
 		deudaPendiente: 'pending debt',
 		compromisoRegistrado: 'Registered Collection Commitments',
-		agregarOrdenDeCompra:'Add Purchase Order?'
+		agregarOrdenDeCompra: 'Add Purchase Order?',
 	},
 	simbolos: {
 		decimal: ',',
@@ -92,6 +92,8 @@ const en = {
 		excedeUnidadesDisponibles:
 			'The quantity is greater than available: {{disponible}}',
 		borrarPedidosNoMandatorios: 'All non-mandatory orders will be deleted',
+		excedePresupuesto:
+			'The amount entered exceeds the budget allocated for {{descripcion}}',
 	},
 };
 export default en;
