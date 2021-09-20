@@ -91,6 +91,8 @@ const br = {
 			'O produto não está habilitado para {{descripcion}}',
 		excedePresupuesto:
 			'O valor inserido excede o orçamento alocado para {{descripcion}}',
+		ordenDeCompraEnBlanco:
+			'Você deve inserir um pedido de compra',
 	},
 };
 export default br;

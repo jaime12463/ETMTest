@@ -87,7 +87,7 @@ const en = {
 		cancelarTodosLosPedido:
 			'All orders with a delivery date {{fechaDeEntrega}} will be canceled Do you wish to continue?',
 		ProductoNoEstaEnPortafolioCliente:
-			'The code does not correspond to a current portfolio of the client',
+			'The code does not correspond to a current producto in the portfolio of the client',
 		ProductoNoEstaHabilitado: 'The product is not enabled for {{descripcion}}',
 		excedeCreditoDsiponible: 'The order exceeds the available credit',
 		montoMayorDeuda: 'The amount cannot be greater than the registered debt',
@@ -97,6 +97,8 @@ const en = {
 			'The amount entered exceeds the budget allocated for {{descripcion}}',
 		borrarPedidosNoMandatorios:
 			'The order of {{tipoPedido}} will be deleted. do you wish to continue?',
+		ordenDeCompraEnBlanco:
+			'You must enter a purchase orden',
 	},
 };
 export default en;
