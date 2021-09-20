@@ -50,10 +50,7 @@
 				]
 			},
 			"configuracionPedido": {
-				"tipoPedidoHabilitados": [
-					1,
-					2
-				],
+				"tipoPedidoHabilitados": [1, 2],
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -347,9 +344,7 @@
 				]
 			},
 			"configuracionPedido": {
-				"tipoPedidoHabilitados": [
-					1
-				],
+				"tipoPedidoHabilitados": [1],
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -477,10 +472,7 @@
 				]
 			},
 			"configuracionPedido": {
-				"tipoPedidoHabilitados": [
-					1,
-					2
-				],
+				"tipoPedidoHabilitados": [1, 2],
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -744,10 +736,7 @@
 				]
 			},
 			"configuracionPedido": {
-				"tipoPedidoHabilitados": [
-					1,
-					2
-				],
+				"tipoPedidoHabilitados": [1, 2],
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -1039,10 +1028,7 @@
 				]
 			},
 			"configuracionPedido": {
-				"tipoPedidoHabilitados": [
-					1,
-					2
-				],
+				"tipoPedidoHabilitados": [1, 2],
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -1130,7 +1116,6 @@
 				{
 					"codigoProducto": 420,
 					"esVentaSubunidades": false,
-					"unidadesDisponibles": 10,
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 100,
@@ -1195,24 +1180,6 @@
 				{
 					"codigoProducto": 360,
 					"esVentaSubunidades": false,
-					"precios": [
-						{
-							"precioConImpuestoUnidad": 106,
-							"precioConImpuestoSubunidad": 8.84,
-							"vigenciaInicioPrecio": "2001-01-01",
-							"vigenciaFinPrecio": "2017-09-31"
-						},
-						{
-							"precioConImpuestoUnidad": 105,
-							"precioConImpuestoSubunidad": 8.75,
-							"vigenciaInicioPrecio": "2017-10-01",
-							"vigenciaFinPrecio": "9999-12-31"
-						}
-					]
-				},
-				{
-					"codigoProducto": 365,
-					"esVentaSubunidades": true,
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,
@@ -1445,9 +1412,7 @@
 						"unidadMedida": "BOT"
 					}
 				]
-			},
-			"implicito1": 1001,
-			"implicito2": 1020
+			}
 		},
 		{
 			"codigoProducto": 1001,
@@ -1515,38 +1480,12 @@
 	],
 	"presupuestoTipoPedido": [
 		{
-			"tipoPedido": 3,
-			"presupuesto": 48,
-            "vigenciaInicioPresupuesto": "2021-06-01",
-			"vigenciaFinPresupuesto": "2021-09-06",
-			"tieneProductosHabilitados": true,
-			"productosHabilitados": [
-
-			]
-		},
-		{
 			"tipoPedido": 2,
 			"presupuesto": 48,
-            "vigenciaInicioPresupuesto": "2021-06-01",
+			"vigenciaInicioPresupuesto": "2021-06-01",
 			"vigenciaFinPresupuesto": "2021-09-06",
 			"tieneProductosHabilitados": true,
-			"productosHabilitados": [
-				97185,
-				97373,
-				1885
-			]
-		},
-				{
-			"tipoPedido": 2,
-			"presupuesto": 49,
-            "vigenciaInicioPresupuesto": "2021-09-01",
-			"vigenciaFinPresupuesto": "2021-10-06",
-			"tieneProductosHabilitados": true,
-			"productosHabilitados": [
-				97185,
-				97373,
-				1885
-			]
+			"productosHabilitados": [340, 365]
 		}
 	]
 }
