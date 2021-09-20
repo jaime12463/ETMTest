@@ -19,12 +19,14 @@ const ItemListadoPedidosRealizados: FunctionComponent<Props> = (props) => {
 	const {t} = useTranslation();
 	const tipoDePedido = configuracion.tipoPedidos.find(
 		(tipoPedidos) => tipoPedidos.codigo === tipoPedido
-	)?.descripcion;
+	);
 
 	return (
 		<Grid container>
 			<Grid item xs>
-				<Center>{t(`general.${tipoDePedido?.toLocaleLowerCase()}`)}</Center>
+				<Center>
+					{t(`general.${tipoDePedido?.descripcion?.toLocaleLowerCase()}`)}
+				</Center>
 			</Grid>
 			<Grid item xs>
 				<Center>
@@ -33,7 +35,7 @@ const ItemListadoPedidosRealizados: FunctionComponent<Props> = (props) => {
 			</Grid>
 			<Grid item xs>
 				<Center>
-					<Numero valor={totalPedido} />
+					{tipoDePedido?.esValorizado && <Numero valor={totalPedido} />}
 				</Center>
 			</Grid>
 		</Grid>
