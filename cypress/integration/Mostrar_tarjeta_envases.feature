@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Envases @Sprint12
+@Pedido @Envases @Paso3 @Sprint12
 
 # sprint 12 UX: https://www.figma.com/file/a6j0OiJCxmdy9DupAaFiac/Order-taking-SFA?node-id=0%3A1
 
@@ -13,6 +13,6 @@ Característica: Mostrar tarjeta de envases
 
 Escenario: N°1 - Mostrar tarjeta de envases
     Dado que existe un pedido cuyo tipo de pedido tiene _generaEnvases = true 
-    Cuando estamos en la fase 3 - otros de la pantalla del sistema
+    Cuando estamos en el paso 3 - otros de la pantalla del sistema
     Entonces el sistema mostrará la tarjeta de envases con su título
-    Y la cantidad de items que contiene la tarjeta
+    Y la cantidad de items que resultan del cálculo de generación de envases
