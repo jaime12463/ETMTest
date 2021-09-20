@@ -87,7 +87,7 @@ const es = {
 		cancelarTodosLosPedido:
 			'Se cancelarán todos los pedidos con fecha de entrega {{fechaDeEntrega}} ¿Desea continuar?',
 		ProductoNoEstaEnPortafolioCliente:
-			'El código no corresponde a un portafolio vigente del cliente',
+			'El código no corresponde a un producto vigente del portafolio del cliente',
 		ProductoNoEstaHabilitado:
 			'El producto no está habilitado para {{descripcion}}',
 		excedeCreditoDsiponible: 'El pedido excede el crédito disponible',
@@ -98,6 +98,8 @@ const es = {
 			'La cantidad ingresada excede el presupuesto asignado para {{descripcion}}',
 		borrarPedidosNoMandatorios:
 			'Se borrará el pedido de {{tipoPedido}}. ¿Desea continuar?',
+		ordenDeCompraEnBlanco:
+			'Debe ingresar una orden de compra',
 	},
 };
 export default es;

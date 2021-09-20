@@ -26,7 +26,7 @@ import { cambiarOrdenDeCompra, selectVisitaActual } from 'redux/features/visitaA
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [value, setValue] = React.useState(0);
 	const {mostrarPromoPush} = useObtenerVisitaActual();
-	
+	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
 
 	useResetVisitaActualAlDesmontar();
 	/*useEffect(() => {
@@ -57,9 +57,11 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				</Grid>
 
 				<Grid container spacing={1}>
+					{habilitaOrdenDeCompra &&
 					<Grid item xs={12}>
 						<BotonAgregarOrdenDeCompra />
 					</Grid>
+					}
 					<Grid item xs={6}>
 						<BotonVerEnvases />
 					</Grid>
@@ -97,12 +99,26 @@ function BotonAgregarOrdenDeCompra() {
 	
 	const manjadorClickDialog= (resultado:boolean, data:any) =>
 	{
-		console.log("retorno dialogo", data);
-		if(resultado) dispatch(cambiarOrdenDeCompra({ordenDeCompra:data.textoInput}));
+		if(resultado)
+			if(data.textoInput.trim() !== '')
+				dispatch(cambiarOrdenDeCompra({ordenDeCompra:data.textoInput}));
+			else
+			{
+				//EMAHOY
+				console.log("DATA en blanco y acepto. Debe mostrar segunda advertencia");
+				
+			}
 	}
 
 	const manejadorClick= () => {
-		mostrarAdvertenciaEnDialogo(t('general.deseaAgregarOrdenDeCompra'),'dialog-agregarOrden', manjadorClickDialog,undefined,ordenDeCompra,t('titulos.ordenDeCompra'));
+		mostrarAdvertenciaEnDialogo(
+			t('general.deseaAgregarOrdenDeCompra'),
+			'dialog-agregarOrden', 
+			manjadorClickDialog,
+			undefined,
+			ordenDeCompra,
+			t('titulos.ordenDeCompra')
+		);
 	}
 
 	return (
