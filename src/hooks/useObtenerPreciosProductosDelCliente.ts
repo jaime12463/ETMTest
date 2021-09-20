@@ -8,11 +8,15 @@ import {
 	TPrecio,
 } from 'models';
 import {validarFechaVigenciaProducto} from 'utils/validaciones';
-import {useObtenerPrecioVigenteDelProducto} from 'hooks';
+import {
+	useObtenerPrecioVigenteDelProducto,
+	useObtenerDatosTipoPedido,
+} from 'hooks';
 
 export const useObtenerPreciosProductosDelCliente = () => {
 	const datos = useObtenerDatos();
 	const obtenerPrecioVigenteDelProducto = useObtenerPrecioVigenteDelProducto();
+
 	const obtenerPreciosProductosDelCliente = useCallback(
 		(clienteEncontrado: TCliente, fechaEntrega: string): TPrecioProducto[] => {
 			let preciosProductosDelCliente: TPrecioProducto[] = [];

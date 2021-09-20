@@ -8,6 +8,7 @@ import {
 	useObtenerDatosCliente,
 	useObtenerPreciosProductosDelCliente,
 	useObtenerDatosTipoPedido,
+	useObtenerPresupuestosTipoPedidoActual,
 } from 'hooks';
 import {
 	useObtenerPedidoActual,
@@ -21,6 +22,8 @@ export const useFiltrarPreciosProductosDelClienteActual = (
 	statePreciosProductos: TStatePreciosProductos
 ) => {
 	const {preciosProductos, setPreciosProductos} = statePreciosProductos;
+	const obtenerPresupuestoPedidoActual = useObtenerPresupuestosTipoPedidoActual();
+	const presupuestoPedidoActual = obtenerPresupuestoPedidoActual();
 	const datos: TDatosClientesProductos = useObtenerDatos();
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
 	const datosTipoPedidoActual = obtenerDatosTipoPedido();
@@ -40,16 +43,15 @@ export const useFiltrarPreciosProductosDelClienteActual = (
 	let preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
 		datosCliente,
 		fechaEntrega
-	).filter((producto: TPrecioProducto) => {
-		if (datosTipoPedidoActual)
-			for (let tipo of datosTipoPedidoActual?.tipoProductosHabilitados) {
-				if (producto.tipoProducto === tipo) return producto;
-			}
-	});
+	).filter((producto) =>
+		datosTipoPedidoActual?.tipoProductosHabilitados.includes(
+			producto.tipoProducto
+		)
+	);
 
 	if (
-		datosTipoPedidoActual?.validaPresupuesto &&
-		datosTipoPedidoActual?.tipoProductosHabilitados
+		presupuestoPedidoActual?.tieneProductosHabilitados &&
+		datosTipoPedidoActual?.validaPresupuesto
 	) {
 		preciosProductosDelCliente = obtenerProductosHabilitados(
 			preciosProductosDelCliente,
@@ -62,29 +64,22 @@ export const useFiltrarPreciosProductosDelClienteActual = (
 		setPreciosProductos(preciosProductosDelCliente);
 	}, []);
 
-	const filtrarPreciosProductosDelClienteActual = useCallback(
-		({buscador}) => {
-			if (buscador == '') {
-				setPreciosProductos(preciosProductosDelCliente);
-				return;
-			}
+	const filtrarPreciosProductosDelClienteActual = ({buscador}: any) => {
+		if (buscador == '') {
+			setPreciosProductos(preciosProductosDelCliente);
+			return;
+		}
 
-			const preciosProductosFiltrados: TPrecioProducto[] = preciosProductosDelCliente.filter(
-				(precioProducto: TPrecioProducto) =>
-					precioProducto.codigoProducto.toString().includes(buscador) ||
-					precioProducto.nombreProducto
-						.toLowerCase()
-						.includes(buscador.toLowerCase())
-			);
+		const preciosProductosFiltrados: TPrecioProducto[] = preciosProductosDelCliente.filter(
+			(precioProducto: TPrecioProducto) =>
+				precioProducto.codigoProducto.toString().includes(buscador) ||
+				precioProducto.nombreProducto
+					.toLowerCase()
+					.includes(buscador.toLowerCase())
+		);
 
-			setPreciosProductos(preciosProductosFiltrados);
-		},
-		[
-			preciosProductos,
-			datosCliente,
-			obtenerPreciosProductosDelCliente,
-			pedidoActual,
-		]
-	);
+		setPreciosProductos(preciosProductosFiltrados);
+	};
+
 	return filtrarPreciosProductosDelClienteActual;
 };

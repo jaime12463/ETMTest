@@ -7,7 +7,10 @@ export const useObtenerPresupuestosTipoPedidoActual = () => {
 	const obtenerPresupuestosTipoPedidoActual = ():
 		| TpresupuestoTipoPedido
 		| undefined => {
-		return datos.presupuestoTipoPedido[tipoPedidoActual];
+		return datos.presupuestoTipoPedido.find(
+			(presupuesto) => presupuesto.tipoPedido === tipoPedidoActual
+		);
 	};
+
 	return obtenerPresupuestosTipoPedidoActual;
 };
