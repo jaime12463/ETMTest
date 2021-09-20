@@ -1,6 +1,9 @@
 import {Button} from '@material-ui/core';
 import {Dialogo} from 'components/UI';
-import {useMostrarAdvertenciaEnDialogo} from 'hooks';
+import {
+	useMostrarAdvertenciaEnDialogo,
+	useObtenerTotalPedidosVisitaActual,
+} from 'hooks';
 import {useTranslation} from 'react-i18next';
 import {useAgregarPedidoActualAPedidosClientes} from './hooks';
 import {useCalcularTotalPedido} from 'hooks';
@@ -12,15 +15,16 @@ type Props = {};
 export function BotonCerrarPedidoDelCliente(props: Props) {
 	const {t} = useTranslation();
 	const calcularTotalPedido: () => TTotalPedido = useCalcularTotalPedido();
-	const totalPedidoActual = calcularTotalPedido();
 	const {
 		mostrarAdvertenciaEnDialogo,
 		mostarDialogo,
 		parametrosDialogo,
 	} = useMostrarAdvertenciaEnDialogo();
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
+	const calcularTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
+	const totalPedidosVisitaActual = calcularTotalPedidosVisitaActual();
 	const desabilitarCerrarPedido =
-		totalPedidoActual.totalPrecio <= 0
+		totalPedidosVisitaActual.totalPrecio <= 0
 			? compromisoDeCobroActual.monto <= 0
 				? true
 				: false
