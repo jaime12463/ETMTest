@@ -181,7 +181,10 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				subUnidadesParseado
 			);
 
-			if (!esSubUnidadEsMultiplo) {
+			if (
+				datosTipoPedidoActual?.validaSubunidadesMinimas &&
+				!esSubUnidadEsMultiplo
+			) {
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.subUnidadesNoMultiplo', {
 						subunidadesVentaMinima,

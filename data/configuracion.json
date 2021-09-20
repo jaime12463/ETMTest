@@ -2,7 +2,7 @@
 	"configuraciones": [
 		{
 			"esFrecuenciaAbierta": true,
-			"habilitaOrdenDeCompra":true,
+			"habilitaOrdenDeCompra": true,
 			"tipoPedidos": [
 				{
 					"codigo": 1,
@@ -13,7 +13,7 @@
 					"habilitaPromocion": true,
 					"contribuyeAMinimo": true,
 					"habilitaSubunidades": "condicional",
-					"validaSubunidadesMínimas": true,
+					"validaSubunidadesMinimas": true,
 					"tipoProductosHabilitados": [1, 9],
 					"generaEnvases": true,
 					"requiereMotivo": false,

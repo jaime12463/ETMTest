@@ -13,7 +13,6 @@ export type TProductos = {
 	[codigoProducto: number]: TProducto;
 };
 
-
 export type TCliente = {
 	codigoCliente: string;
 	visitasPlanificadas: TVisitaPlanificada[];
@@ -157,7 +156,7 @@ export type TTipoPedido = {
 	habilitaPromocion: boolean;
 	contribuyeAMinimo: boolean;
 	habilitaSubunidades: 'condicional' | 'nunca' | 'siempre'; //TODO: Cambiar esto a un enum
-	validaSubunidadesMínimas: boolean;
+	validaSubunidadesMinimas: boolean;
 	tipoProductosHabilitados: number[];
 	generaEnvases: boolean;
 	requiereMotivo: boolean;
