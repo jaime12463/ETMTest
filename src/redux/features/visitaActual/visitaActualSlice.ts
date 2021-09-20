@@ -1,15 +1,20 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {ETiposDePago, TVisita, TProductoPedido, TPresupuestoTipoPedidoTotal} from 'models';
+import {
+	ETiposDePago,
+	TVisita,
+	TProductoPedido,
+	TPresupuestoTipoPedidoTotal,
+} from 'models';
 import {RootState} from 'redux/store';
 
 const estadoInicial: TVisita = {
 	fechaEntrega: '',
 	tipoPedidoActual: 0,
-	saldoPresupuestoTipoPedido:{},
+	saldoPresupuestoTipoPedido: {},
 	pedidos: {},
 	mostrarPromoPush: false,
-	bloquearPanelCarga:true,
-	ordenDeCompra:''
+	bloquearPanelCarga: true,
+	ordenDeCompra: '',
 };
 
 export const visitaActualSlice = createSlice({
@@ -73,8 +78,8 @@ export const visitaActualSlice = createSlice({
 			state.fechaEntrega = fechaEntrega;
 			state.tipoPedidoActual = tipoPedidoActual;
 			state.mostrarPromoPush = mostrarPromoPush;
-			state.bloquearPanelCarga=bloquearPanelCarga;
-			state.ordenDeCompra=ordenDeCompra;
+			state.bloquearPanelCarga = bloquearPanelCarga;
+			state.ordenDeCompra = ordenDeCompra;
 		},
 
 		resetearVisitaActual: (state) => {
@@ -82,8 +87,9 @@ export const visitaActualSlice = createSlice({
 			state.fechaEntrega = '';
 			state.tipoPedidoActual = 0;
 			state.mostrarPromoPush = false;
-			state.bloquearPanelCarga=true;
-			state.ordenDeCompra='';
+			state.bloquearPanelCarga = true;
+			state.ordenDeCompra = '';
+			state.saldoPresupuestoTipoPedido = {};
 		},
 
 		cambiarTipoPagoPoductoDelPedidoActual: (
@@ -127,19 +133,22 @@ export const visitaActualSlice = createSlice({
 		},
 		cambiarSaldoPresupuestoTipoPedido: (
 			state,
-			action: PayloadAction<{saldoPresupuestoTipoPedido: TPresupuestoTipoPedidoTotal }>
+			action: PayloadAction<{
+				saldoPresupuestoTipoPedido: TPresupuestoTipoPedidoTotal;
+			}>
 		) => {
-			state.saldoPresupuestoTipoPedido = action.payload.saldoPresupuestoTipoPedido;
+			state.saldoPresupuestoTipoPedido =
+				action.payload.saldoPresupuestoTipoPedido;
 		},
 		cambiarBloquearPanelCarga: (
 			state,
-			action: PayloadAction<{bloquearPanelCarga: boolean }>
+			action: PayloadAction<{bloquearPanelCarga: boolean}>
 		) => {
 			state.bloquearPanelCarga = action.payload.bloquearPanelCarga;
 		},
 		cambiarOrdenDeCompra: (
 			state,
-			action: PayloadAction<{ordenDeCompra: string }>
+			action: PayloadAction<{ordenDeCompra: string}>
 		) => {
 			state.ordenDeCompra = action.payload.ordenDeCompra;
 		},

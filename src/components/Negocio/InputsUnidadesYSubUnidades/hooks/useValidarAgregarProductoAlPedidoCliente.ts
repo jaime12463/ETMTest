@@ -16,6 +16,7 @@ import {
 	validarUnidadesDisponibles,
 } from 'utils/validaciones';
 import {
+	useCalcularPresupuestoPedidoActual,
 	useCalcularPresupuestoTipoPedido,
 	useObtenerDatosCliente,
 	useObtenerDatosTipoPedido,
@@ -24,7 +25,7 @@ import {
 import {
 	useObtenerClienteActual,
 	useObtenerDatos,
-	useObtenerVisitaActual,
+	useObtenerPedidoActual,
 } from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
 import {
@@ -47,7 +48,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
-	const visitaActual = useObtenerVisitaActual();
+	const pedidoActual = useObtenerPedidoActual();
 
 	const datos: TDatosClientesProductos = useObtenerDatos();
 
@@ -57,7 +58,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 		obtenerPedidosClienteMismaFechaEntrega,
 	} = useObtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
 
-	const calcularPresupuestoTipoPedido = useCalcularPresupuestoTipoPedido();
+	const calcularPresupuestoPedidoActual = useCalcularPresupuestoPedidoActual();
 
 	const pedidosCliente = obtenerPedidosClienteMismaFechaEntrega(
 		clienteActual.codigoCliente
@@ -115,14 +116,14 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				| undefined = obtenerDatosTipoPedido();
 
 			if (datosTipoPedidoActual?.validaPresupuesto) {
-				const saldoPresupuestoTipoPedido = calcularPresupuestoTipoPedido(
-					visitaActual.tipoPedidoActual
+				const saldoPresupuesto = calcularPresupuestoPedidoActual(
+					pedidoActual,
+					unidadesParseado,
+					subUnidadesParseado,
+					presentacion
 				);
-				const presupuestoLineaActual =
-					unidadesParseado + subUnidadesParseado / presentacion;
-				const presupuestoActual =
-					saldoPresupuestoTipoPedido - presupuestoLineaActual;
-				if (presupuestoActual < 0) {
+
+				if (saldoPresupuesto < 0) {
 					mostrarAdvertenciaEnDialogo(
 						t('advertencias.excedePresupuesto', {
 							descripcion: datosTipoPedidoActual.descripcion,
