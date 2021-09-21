@@ -55,7 +55,7 @@ export const useSepararPedidosCreditoContado = () => {
 					};
 					pedidosPorTipoDePago.push({
 						...pedidoContado,
-						tipoPago: ETiposDePago.Credito,
+						tipoPago: ETiposDePago.Contado,
 						ordenDeCompra: visitaActual.ordenDeCompra,
 					});
 				}
