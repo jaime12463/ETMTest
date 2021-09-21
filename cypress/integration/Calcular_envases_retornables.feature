@@ -1,6 +1,8 @@
 # language: es
 
-@Pedido @Ver_envases @Sprint8 @Sprint11
+@Pedido @Calcular_envases @Sprint8 @Sprint11 @Sprint12
+
+# Sprint12: Calculo de envases por condicion de pago
 
 # Sprint11: se toma en cuenta para la generación de envases, aquellos envases derivados de las promo push
 # Cuando la unidad de medida es "CAJ" se agregan el implícito 1 e implícito 2 donde la cantidad son unidades
@@ -32,34 +34,36 @@ Escenario: N°1 – El producto del pedido no tiene Implícito1 ni Implícito2 i
 	Y que el producto no es promo push 
 	Y no tiene _Implícito1
 	Y tampoco tiene _Implícito2 informados
-	Cuando quiero ver los envases retornables
-	Entonces el sistema no muestra envases para ese producto
+	Cuando se calculan los envases retornables
+	Entonces el sistema no calculará envases para ese producto
 
 Esquema del escenario: N°2 – El producto del pedido tiene Implícito1 informado
 	Dado que se realizó la venta de '<cantidadUnidades>' y '<cantidadSubunidades>' de '<producto>' 
 	Y éste tiene '<implicito1>' informado
-	Cuando quiero ver los envases retornables del pedido
-	Entonces el sistema mostrará '<implicito1>' con '<cantidadUnidades>' y '<cantidadSubunidades>' para retorno
+	Y la condición de pago es '<condicion>'
+	Cuando se calculan los envases retornables del pedido
+	Entonces el sistema calculará el '<implicito1>' con '<cantidadUnidades>' y '<cantidadSubunidades>' para retorno
 
 Ejemplos:
-	|producto|cantidadUnidades|cantidadSubunidades|implicito1|	
-	|360	 | 10	          |2                  |	1001	|
-	|365	 |15	          |5	              | 1010	|
-	|380	 |15	          |0	              | 1001	|
-	|400	 |0	              |3	              | 1001	|
+	|producto|cantidadUnidades|cantidadSubunidades|implicito1|condicion|	
+	|360	 | 10	          |2                  |	1001	|contado   |
+	|365	 |15	          |5	              | 1010	|credito   |
+	|380	 |15	          |0	              | 1001	|credito   |
+	|400	 |0	              |3	              | 1001	|contado   |
 
 Esquema del escenario: N°3 – El producto del pedido tiene Implícito2 informado
 	Dado que se realizó la venta de '<cantidadUnidades>' mayores a cero del '<producto>' 
 	Y éste tiene '<implicito2>' informado
-	Cuando quiero ver los envases retornables del pedido
-	Entonces el sistema mostrará '<implicito2>' con '<cantidadUnidades>' para retorno
+	Y la condición de pago es '<condicion>'
+	Cuando se calculan los envases retornables del pedido
+	Entonces el sistema calculará el '<implicito2>' con '<cantidadUnidades>' para retorno
 
 Ejemplos:
-	|producto|cantidadUnidades|implicito2|	
-	|360	 |10	          |	1020	|
-	|365	 |15	          | 1020	|
-	|380	 |15	          | 1020	|
-	|400	 |0	              | 1020	|
+	|producto|cantidadUnidades|implicito2|condicion|	
+	|360	 |10	          |	1020	|contado   |
+	|365	 |15	          | 1020	|credito   |
+	|380	 |15	          | 1020	|credito   |
+	|400	 |0	              | 1020	|contado   |
 
 # Explicación escenario N°4
 # Dado que el _producto promo push con _codigoProducto 10010, tiene los siguientes _componentes
@@ -124,15 +128,16 @@ Ejemplos:
 
 Esquema del escenario: N°4 - Contabilizar envases de productos promo push
 	Dado que se realizó la venta <cantidadUnidades> de un producto Promo Push <codigoPromo>
-	Cuando quiero ver los envases retornables del pedido  
-	Entonces el sistema mostrará
-	|envase| unidades |subunidades|
-    | 1001 |     3    |    9      |
-    | 1020 |     3    |           |
+	Y su condición de pago es '<condicion>'
+	Cuando se calculan los envases retornables del pedido  
+	Entonces el sistema calculará
+	|envase| unidades |subunidades|condicion|
+    | 1001 |     3    |    9      | contado |
+    | 1020 |     3    |           | contado |
 
 Ejemplos:
-	|codigoPromo|cantidadUnidades|
-	|   10010   |  3             |
+	|codigoPromo|cantidadUnidades|condicion|
+	|   10010   |  3             | contado |
 
 
 #Explicación escenario N°5
@@ -171,22 +176,23 @@ Ejemplos:
 #| 1010	   |   15	  |		0      |
 #| 1020	   |   28     |            | 
 
-
 Escenario: N°5 - Consolidar los retornables del pedido
 	Dado que se capturó el siguiente pedido
-	|producto|cantidadUnidades|cantidadSubunidades|
-	| 360	 |      10	      |       7           |
-	| 365	 |      15	      |       0	          |	
-	| 380	 |      15	      |       0	          | 
-	| 390	 |       5	      |       5		      |
-	| 400	 |       0	      |       9	          | 
-	| 10010  |       3        |       0           |   
-	Cuando quiero ver los envases retornables del pedido  
-	Entonces el sistema mostrará
-	|implicito| unidades |subunidades|
-	|1001	  |		30	 | 		 1   | 
-	|1010	  |		15	 | 		 0   |
-	|1020	  |		28   |		 0	 |
+	|producto|cantidadUnidades|cantidadSubunidades|condicion|
+	| 360	 |      10	      |       7           | contado |
+	| 365	 |      15	      |       0	          | credito |	
+	| 380	 |      15	      |       0	          | credito |
+	| 390	 |       5	      |       5		      | contado |
+	| 400	 |       0	      |       9	          | contado |
+	| 10010  |       3        |       0           | contado |  
+	Cuando se calculan los envases retornables del pedido  
+	Entonces el sistema calculará
+	|implicito| unidades |subunidades|condicion|
+	|1001	  |		15	 | 		 1   | contado |
+	|1001     |     15   |       0   | credito |
+	|1010	  |		15	 | 		 0   | credito |
+	|1020     |     13   |       0   | contado |
+	|1020	  |		15   |		 0	 | credito |
 
 # como las subunidades exceden la presentación, se visualizan como cajas según la presentación
 
