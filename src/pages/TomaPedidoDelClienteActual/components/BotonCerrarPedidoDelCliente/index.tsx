@@ -6,29 +6,47 @@ import {
 } from 'hooks';
 import {useTranslation} from 'react-i18next';
 import {useAgregarPedidoActualAPedidosClientes} from './hooks';
-import {useCalcularTotalPedido} from 'hooks';
-import {TTotalPedido} from 'models';
-import {useObtenerCompromisoDeCobroActual} from 'redux/hooks';
+import {
+	useObtenerPedidosClienteMismaFechaEntrega,
+	useObtenerProductosMandatoriosVisitaActual,
+} from 'hooks';
+import {TClienteActual} from 'models';
+import {
+	useObtenerCompromisoDeCobroActual,
+	useObtenerConfiguracion,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
+import {validarHabilitarBotonCerrarPedido} from 'utils/validaciones/index';
 
 type Props = {};
 
 export function BotonCerrarPedidoDelCliente(props: Props) {
 	const {t} = useTranslation();
-	const calcularTotalPedido: () => TTotalPedido = useCalcularTotalPedido();
+	const visitaActual = useObtenerVisitaActual();
+	const configuracion = useObtenerConfiguracion();
 	const {
 		mostrarAdvertenciaEnDialogo,
 		mostarDialogo,
 		parametrosDialogo,
 	} = useMostrarAdvertenciaEnDialogo();
+	const productosMandatoriosVisitaActual = useObtenerProductosMandatoriosVisitaActual();
+
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 	const calcularTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const totalPedidosVisitaActual = calcularTotalPedidosVisitaActual();
+
 	const desabilitarCerrarPedido =
 		totalPedidosVisitaActual.totalPrecio <= 0
 			? compromisoDeCobroActual.monto <= 0
 				? true
 				: false
 			: false;
+
+	const habilitarBotonCerrarPedido = validarHabilitarBotonCerrarPedido(
+		totalPedidosVisitaActual.totalPrecio,
+		compromisoDeCobroActual.monto,
+		productosMandatoriosVisitaActual
+	);
 
 	const agregarPedidoActualAPedidosClientes = useAgregarPedidoActualAPedidosClientes(
 		mostrarAdvertenciaEnDialogo
@@ -43,7 +61,7 @@ export function BotonCerrarPedidoDelCliente(props: Props) {
 				data-cy='boton-cerrarPedido'
 				onClick={agregarPedidoActualAPedidosClientes}
 				fullWidth
-				disabled={desabilitarCerrarPedido}
+				disabled={!habilitarBotonCerrarPedido}
 			>
 				{t('general.cerrarPedido').toUpperCase()}
 			</Button>

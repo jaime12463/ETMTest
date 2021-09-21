@@ -19,7 +19,10 @@ export const useObtenerProductosMandatoriosVisitaActual = () => {
 		clienteActual.codigoCliente
 	);
 
-	const pedidos: {mandatorios: TPedido[]; noMandatorios: TPedido[]} = {
+	const pedidos: {
+		mandatorios: TPedido[];
+		noMandatorios: TPedido[];
+	} = {
 		mandatorios: [],
 		noMandatorios: [],
 	};
