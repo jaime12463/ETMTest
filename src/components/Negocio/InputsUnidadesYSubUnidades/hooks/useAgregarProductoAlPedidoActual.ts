@@ -101,14 +101,6 @@ export const useAgregarProductoAlPedidoActual = (
 					})
 				);
 			} else {
-				console.log(
-					validarHayMasProductosMandatorios(
-						productosMandatoriosVisitaActual.mandatorios
-					)
-				);
-
-				console.log(productosMandatoriosVisitaActual.mandatorios);
-
 				if (
 					!configuracionTipoDePedidoActual?.esMandatorio ||
 					validarHayMasProductosMandatorios(

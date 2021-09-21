@@ -196,3 +196,23 @@ export const validarHayMasProductosNoMandatorios = (pedidos: TPedido[]) => {
 
 	return HayProductosNoMandatorios;
 };
+
+export const validarHabilitarBotonCerrarPedido = (
+	TotalvisitaActual: number,
+	MontocompromisoCobro: number,
+	pedidos: {
+		mandatorios: TPedido[];
+		noMandatorios: TPedido[];
+	}
+) => {
+	let validarHabilitarBotonVisita = false;
+
+	if (
+		TotalvisitaActual > 0 ||
+		MontocompromisoCobro > 0 ||
+		pedidos.mandatorios.length > 0
+	)
+		return (validarHabilitarBotonVisita = true);
+
+	return validarHabilitarBotonVisita;
+};

@@ -48,6 +48,9 @@ export const useSeleccionarProductoDePrecios = (
 			const datosTipoPedidoActual = obtenerDatosTipoPedido();
 			const presupuestoTipoPedido = obtenerPresupuestosTipoPedidoActual();
 
+
+			
+
 			if (
 				!datosTipoPedidoActual?.validaPresupuesto &&
 				!datosTipoPedidoActual?.tipoProductosHabilitados.includes(
