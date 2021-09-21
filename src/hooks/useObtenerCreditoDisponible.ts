@@ -1,7 +1,15 @@
-import {useObtenerDatosCliente} from 'hooks';
+import {
+	useObtenerDatosCliente,
+	useObtenerPedidosClienteMismaFechaEntrega,
+} from 'hooks';
 import {ETiposDePago, TClienteActual, TPedidosClientes} from 'models';
 import {useCallback} from 'react';
-import {useObtenerClienteActual, useObtenerPedidosClientes} from 'redux/hooks';
+import {
+	useObtenerClienteActual,
+	useObtenerConfiguracion,
+	useObtenerPedidosClientes,
+} from 'redux/hooks';
+import {calcularTotalPedidosClienteValorizadosPorTipoPago} from 'utils/methods';
 
 /*
 	creditoDisponible = 
@@ -11,26 +19,31 @@ export const useObtenerCreditoDisponible = (codigoCliente?: string) => {
 	const pedidosClientes: TPedidosClientes = useObtenerPedidosClientes();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
-
+	const {
+		obtenerPedidosClienteMismaFechaEntrega,
+	} = useObtenerPedidosClienteMismaFechaEntrega();
+	const {tipoPedidos} = useObtenerConfiguracion();
 	const obtenerCreditoDisponible = useCallback(
 		(codigoClienteEntrante: string) => {
-			let creditoDisponible: number = 0;
+			const pedidosClienteMismaFechaEntrega = obtenerPedidosClienteMismaFechaEntrega(
+				clienteActual.codigoCliente
+			);
 
-			let totalCreditoEnPedidos: number = 0;
-
-			pedidosClientes[codigoClienteEntrante]?.pedidos.forEach((pedidos) => {
-				pedidos.productos.forEach((producto) => {
-					if (producto.tipoPago === ETiposDePago.Credito)
-						totalCreditoEnPedidos += producto.total;
-				});
-			});
+			const totalCreditoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
+				{
+					pedidosClienteMismaFechaEntrega,
+					tipoPedidos,
+					tipoPago: ETiposDePago.Credito,
+				}
+			);
 
 			const datosCliente = obtenerDatosCliente(codigoClienteEntrante);
 
 			const creditoDisponibleUsuario: number =
 				datosCliente?.informacionCrediticia?.disponible ?? 0;
 
-			creditoDisponible = creditoDisponibleUsuario - totalCreditoEnPedidos; //TODO: Esto podria ser negativo?
+			const creditoDisponible =
+				creditoDisponibleUsuario - totalCreditoPedidosClienteMismaFechaEntrega; //TODO: Esto podria ser negativo?
 
 			return creditoDisponible;
 		},

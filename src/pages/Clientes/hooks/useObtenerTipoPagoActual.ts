@@ -4,10 +4,10 @@ import {
 	useObtenerDatosCliente,
 	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
-import {obtenerTotalContadoPedidosCliente} from 'utils/methods';
+import {calcularTotalPedidosClienteValorizadosPorTipoPago} from 'utils/methods';
 import {useCallback} from 'react';
-import { validarSiExcedeAlMaximoContado } from 'utils/validaciones/validacionesDePedidos';
-import { RepeatOneRounded } from '@material-ui/icons';
+import {validarSiExcedeAlMaximoContado} from 'utils/validaciones/validacionesDePedidos';
+import {useObtenerConfiguracion} from 'redux/hooks';
 
 export const useObtenerTipoPagoActual = () => {
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
@@ -15,7 +15,7 @@ export const useObtenerTipoPagoActual = () => {
 	const {
 		obtenerPedidosClienteMismaFechaEntrega,
 	} = useObtenerPedidosClienteMismaFechaEntrega();
-
+	const {tipoPedidos} = useObtenerConfiguracion();
 	const obtenerTipoPagoActual = useCallback(
 		(codigoCliente: string): ETiposDePago => {
 			const datosCliente = obtenerDatosCliente(codigoCliente);
@@ -45,17 +45,19 @@ export const useObtenerTipoPagoActual = () => {
 			const {configuracionPedido}: TCliente = datosCliente;
 
 			const {esCreditoBloqueado} = datosCliente.informacionCrediticia;
-/*
-			const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
-				0,
-				pedidosClienteMismaFechaEntrega,
-				configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0
+
+			const totalContadoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
+				{
+					pedidosClienteMismaFechaEntrega,
+					tipoPedidos,
+					tipoPago: ETiposDePago.Contado,
+				}
 			);
-*/			
-			const retornoSiExcedeAlMaximoContado:TRetornoValidacion = validarSiExcedeAlMaximoContado(
-				(configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0),
+
+			const retornoSiExcedeAlMaximoContado: TRetornoValidacion = validarSiExcedeAlMaximoContado(
+				configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0,
 				0,
-				obtenerTotalContadoPedidosCliente(pedidosClienteMismaFechaEntrega)
+				totalContadoPedidosClienteMismaFechaEntrega
 			);
 
 			tipoPagoActual = ETiposDePago.Credito;

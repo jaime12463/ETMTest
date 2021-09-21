@@ -1,22 +1,18 @@
 import {
-	useCalcularTotalPedido,
 	useObtenerCreditoDisponible,
 	useObtenerDatosCliente,
 	useObtenerPedidosClienteMismaFechaEntrega,
 	useObtenerCompromisosDeCobroMismaFechaEntrega,
 	useObtenerTotalPedidosVisitaActual,
-	useObtenerDatosTipoPedido,
 } from 'hooks';
 import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
+	useObtenerConfiguracion,
 } from 'redux/hooks';
-import {TClienteActual, TRetornoValidacion, TTotalPedido} from 'models';
+import {ETiposDePago, TClienteActual, TRetornoValidacion} from 'models';
 
-import {
-	obtenerTotalContadoPedidosCliente,
-	obtenerTotalCreditoPedidosCliente,
-} from 'utils/methods';
+import {calcularTotalPedidosClienteValorizadosPorTipoPago} from 'utils/methods';
 
 import {
 	validarDatosCliente,
@@ -26,10 +22,8 @@ import {
 } from 'utils/validaciones/validacionesDePedidos';
 
 import {obtenerTotalesCompromisoDeCobroCliente} from 'utils/methods';
-import {useTranslation} from 'react-i18next';
 
 export const useValidarCierreVisitaCliente = () => {
-	const calcularTotalPedido: () => TTotalPedido = useCalcularTotalPedido();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {
 		obtenerCompromisosDeCobroMismaFechaEntrega,
@@ -42,22 +36,28 @@ export const useValidarCierreVisitaCliente = () => {
 		compromisosDeCobroMismaFechaEntrega
 	);
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
-	const {t} = useTranslation();
 	const {
 		pedidosClienteMismaFechaEntrega,
 	} = useObtenerPedidosClienteMismaFechaEntrega();
 	const {creditoDisponible} = useObtenerCreditoDisponible();
 	const calcularTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
-	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
-	const datosTipoPedidoActual = obtenerDatosTipoPedido();
+	const {tipoPedidos} = useObtenerConfiguracion();
 
 	const validarCierreVisitaCliente = (): TRetornoValidacion => {
 		const totalPedidosVisitaActual = calcularTotalPedidosVisitaActual(true);
-		const totalContadoPedidosClienteMismaFechaEntrega = obtenerTotalContadoPedidosCliente(
-			pedidosClienteMismaFechaEntrega
+		const totalContadoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
+			{
+				pedidosClienteMismaFechaEntrega,
+				tipoPedidos,
+				tipoPago: ETiposDePago.Contado,
+			}
 		);
-		const totalCreditoPedidosClienteMismaFechaEntrega = obtenerTotalCreditoPedidosCliente(
-			pedidosClienteMismaFechaEntrega
+		const totalCreditoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
+			{
+				pedidosClienteMismaFechaEntrega,
+				tipoPedidos,
+				tipoPago: ETiposDePago.Credito,
+			}
 		);
 
 		let retornoValidacion: TRetornoValidacion = {

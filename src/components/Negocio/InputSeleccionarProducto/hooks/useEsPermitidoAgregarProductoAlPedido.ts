@@ -11,6 +11,7 @@ import {
 	TTipoPedido,
 	TTotalPedido,
 	TRetornoValidacion,
+	ETiposDePago,
 } from 'models';
 import {useCallback} from 'react';
 import {
@@ -19,9 +20,8 @@ import {
 	useObtenerPedidosClientes,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {obtenerTotalContadoPedidosCliente} from 'utils/methods';
+import {calcularTotalPedidosClienteValorizadosPorTipoPago} from 'utils/methods';
 import {validarSiExcedeAlMaximoContado} from 'utils/validaciones/validacionesDePedidos';
-//import {validarTotalConMontoMaximoContado} from 'utils/validaciones';
 
 export const useEsPermitidoAgregarProductoAlPedido = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
@@ -31,6 +31,7 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 	const pedidosClientes = useObtenerPedidosClientes();
 	const visitaActual = useObtenerVisitaActual();
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
+	const {tipoPedidos} = useObtenerConfiguracion();
 	const {
 		pedidosClienteMismaFechaEntrega,
 	} = useObtenerPedidosClienteMismaFechaEntrega();
@@ -50,17 +51,19 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 			return !esPermitidoAgregarProductoAlPedido;
 
 		const {configuracionPedido}: TCliente = datosCliente;
-		/*
-		const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
-			totalPedidoActual.totalContado.totalPrecio,
-			pedidosClienteMismaFechaEntrega,
-			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0
+
+		const totalContadoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
+			{
+				pedidosClienteMismaFechaEntrega,
+				tipoPedidos,
+				tipoPago: ETiposDePago.Contado,
+			}
 		);
-*/
+
 		const retornoSiExcedeAlMaximoContado: TRetornoValidacion = validarSiExcedeAlMaximoContado(
 			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0,
 			totalPedidoActual.totalContado.totalPrecio,
-			obtenerTotalContadoPedidosCliente(pedidosClienteMismaFechaEntrega)
+			totalContadoPedidosClienteMismaFechaEntrega
 		);
 
 		if (
