@@ -76,7 +76,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 
 	const validarAgregarProductoAlPedidoCliente = useCallback(
 		(inputs: TFormTomaDePedido): boolean => {
-			const {unidades, subUnidades} = inputs;
+			const {unidades, subUnidades, productoABuscar} = inputs;
 
 			let esValidacionCorrecta: boolean = false;
 
@@ -120,6 +120,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					pedidoActual,
 					unidadesParseado,
 					subUnidadesParseado,
+					parseInt(productoABuscar),
 					presentacion
 				);
 
