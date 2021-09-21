@@ -6,24 +6,16 @@ import {
 } from 'hooks';
 import {useTranslation} from 'react-i18next';
 import {useAgregarPedidoActualAPedidosClientes} from './hooks';
-import {
-	useObtenerPedidosClienteMismaFechaEntrega,
-	useObtenerProductosMandatoriosVisitaActual,
-} from 'hooks';
-import {TClienteActual} from 'models';
-import {
-	useObtenerCompromisoDeCobroActual,
-	useObtenerConfiguracion,
-	useObtenerVisitaActual,
-} from 'redux/hooks';
+import {useObtenerProductosMandatoriosVisitaActual} from 'hooks';
+
+import {useObtenerCompromisoDeCobroActual} from 'redux/hooks';
 import {validarHabilitarBotonCerrarPedido} from 'utils/validaciones/index';
 
 type Props = {};
 
 export function BotonCerrarPedidoDelCliente(props: Props) {
 	const {t} = useTranslation();
-	const visitaActual = useObtenerVisitaActual();
-	const configuracion = useObtenerConfiguracion();
+
 	const {
 		mostrarAdvertenciaEnDialogo,
 		mostarDialogo,
@@ -34,13 +26,6 @@ export function BotonCerrarPedidoDelCliente(props: Props) {
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 	const calcularTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const totalPedidosVisitaActual = calcularTotalPedidosVisitaActual();
-
-	const desabilitarCerrarPedido =
-		totalPedidosVisitaActual.totalPrecio <= 0
-			? compromisoDeCobroActual.monto <= 0
-				? true
-				: false
-			: false;
 
 	const habilitarBotonCerrarPedido = validarHabilitarBotonCerrarPedido(
 		totalPedidosVisitaActual.totalPrecio,
