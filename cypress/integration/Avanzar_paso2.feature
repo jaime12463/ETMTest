@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Indicador_avance @Paso3 @Sprint12
+@Pedido @Paso2 @Sprint12
 
 # sprint 12 UX: https://www.figma.com/file/a6j0OiJCxmdy9DupAaFiac/Order-taking-SFA?node-id=0%3A1
 
@@ -24,7 +24,7 @@ Ejemplos:
 #modificar un producto es cambiar su cantidad o condición de pago
 
 Escenario: N°2 - El pedido no sufre cambios en los productos
-    Dado que no se modificó ningún producto de del pedido cuyo _tipoPedido tiene _generaEnvases = true
+    Dado que no se modificó ningún producto del pedido cuyo _tipoPedido tiene _generaEnvases = true
     Cuando avanzo al paso 3 de la visita
     Entonces el sistema no recalculará los envases para retorno.
 
