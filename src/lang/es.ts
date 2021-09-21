@@ -44,13 +44,15 @@ const es = {
 		vencimiento: 'Vencimiento',
 		deudaPendiente: 'Deuda Pendiente',
 		compromisoRegistrado: 'Compromisos de Cobro Registrados',
+		agregarOrdenDeCompra: '¿Agregar Orden Compra?',
+		deseaAgregarOrdenDeCompra: '¿Desea asociar una orden de compra?',
 	},
 	simbolos: {
 		decimal: '.',
 		miles: ',',
 		moneda: '$',
 		formatoFechaAmericano: 'false',
-		conDecimales: 'false',
+		conDecimales: 'true',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',
@@ -60,6 +62,7 @@ const es = {
 		clientes: 'Clientes',
 		envases: 'Envases retornables',
 		PedidosDelClienteActual: 'Pedidos del cliente',
+		ordenDeCompra: 'Orden de Compra',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
@@ -72,7 +75,7 @@ const es = {
 			'El cliente no tiene portafolio vigente para la fecha de entrega informada',
 		limiteSubUnidades:
 			'Las subunidades deben ser menores a la presentación del producto',
-		pedidoMinimo: 'No cumple con el pedido mínimo de ${{monto}}',
+		pedidoMinimo: 'El pedido no alcanza el monto de venta mínima  ${{monto}}',
 		montoMinimo: 'No cumple con el monto mínimo de venta del pedido',
 		subUnidadesNoPermitidas:
 			'Las subunidades no están habilitadas para este producto',
@@ -84,12 +87,19 @@ const es = {
 		cancelarTodosLosPedido:
 			'Se cancelarán todos los pedidos con fecha de entrega {{fechaDeEntrega}} ¿Desea continuar?',
 		ProductoNoEstaEnPortafolioCliente:
-			'El código no corresponde a un portafolio vigente del cliente',
+			'El código no corresponde a un producto vigente del portafolio del cliente',
+		ProductoNoEstaHabilitado:
+			'El producto no está habilitado para {{descripcion}}',
 		excedeCreditoDsiponible: 'El pedido excede el crédito disponible',
 		montoMayorDeuda: 'El monto no puede ser mayor a la deuda registrada',
 		excedeUnidadesDisponibles:
 			'La cantidad es mayor al disponible: {{disponible}}',
-		borrarPedidosNoMandatorios: 'Se borraran todos los pedidos no obligatorios',
+		excedePresupuesto:
+			'La cantidad ingresada excede el presupuesto asignado para {{descripcion}}',
+		borrarPedidosNoMandatorios:
+			'Se borrará el pedido de {{tipoPedido}}. ¿Desea continuar?',
+		ordenDeCompraEnBlanco:
+			'Debe ingresar una orden de compra',
 	},
 };
 export default es;

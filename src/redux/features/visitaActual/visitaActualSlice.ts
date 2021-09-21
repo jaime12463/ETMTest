@@ -1,12 +1,20 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {ETiposDePago, TVisita, TProductoPedido} from 'models';
+import {
+	ETiposDePago,
+	TVisita,
+	TProductoPedido,
+	TPresupuestoTipoPedidoTotal,
+} from 'models';
 import {RootState} from 'redux/store';
 
 const estadoInicial: TVisita = {
 	fechaEntrega: '',
 	tipoPedidoActual: 0,
+	saldoPresupuestoTipoPedido: {},
 	pedidos: {},
 	mostrarPromoPush: false,
+	bloquearPanelCarga: true,
+	ordenDeCompra: '',
 };
 
 export const visitaActualSlice = createSlice({
@@ -63,11 +71,15 @@ export const visitaActualSlice = createSlice({
 				fechaEntrega,
 				tipoPedidoActual,
 				mostrarPromoPush,
+				bloquearPanelCarga,
+				ordenDeCompra,
 			} = action.payload.visitaActual;
 			state.pedidos = pedidos;
 			state.fechaEntrega = fechaEntrega;
 			state.tipoPedidoActual = tipoPedidoActual;
 			state.mostrarPromoPush = mostrarPromoPush;
+			state.bloquearPanelCarga = bloquearPanelCarga;
+			state.ordenDeCompra = ordenDeCompra;
 		},
 
 		resetearVisitaActual: (state) => {
@@ -75,6 +87,9 @@ export const visitaActualSlice = createSlice({
 			state.fechaEntrega = '';
 			state.tipoPedidoActual = 0;
 			state.mostrarPromoPush = false;
+			state.bloquearPanelCarga = true;
+			state.ordenDeCompra = '';
+			state.saldoPresupuestoTipoPedido = {};
 		},
 
 		cambiarTipoPagoPoductoDelPedidoActual: (
@@ -116,6 +131,27 @@ export const visitaActualSlice = createSlice({
 		) => {
 			state.mostrarPromoPush = action.payload.mostrarPromoPush;
 		},
+		cambiarSaldoPresupuestoTipoPedido: (
+			state,
+			action: PayloadAction<{
+				saldoPresupuestoTipoPedido: TPresupuestoTipoPedidoTotal;
+			}>
+		) => {
+			state.saldoPresupuestoTipoPedido =
+				action.payload.saldoPresupuestoTipoPedido;
+		},
+		cambiarBloquearPanelCarga: (
+			state,
+			action: PayloadAction<{bloquearPanelCarga: boolean}>
+		) => {
+			state.bloquearPanelCarga = action.payload.bloquearPanelCarga;
+		},
+		cambiarOrdenDeCompra: (
+			state,
+			action: PayloadAction<{ordenDeCompra: string}>
+		) => {
+			state.ordenDeCompra = action.payload.ordenDeCompra;
+		},
 	},
 });
 
@@ -130,5 +166,8 @@ export const {
 	cambiarTipoPagoPoductosDelPedidoActual,
 	cambiarTipoPedidoActual,
 	cambiarMostrarPromoPush,
+	cambiarSaldoPresupuestoTipoPedido,
+	cambiarBloquearPanelCarga,
+	cambiarOrdenDeCompra,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

@@ -21,7 +21,7 @@ import {useAppDispatch} from 'redux/hooks';
 import {useHistory} from 'react-router-dom';
 import {
 	useSepararPedidosCreditoContado,
-	useValidarAgregarPedidosAPedidosCliente,
+	useValidarCierreVisitaCliente,
 } from '.';
 
 export const useAgregarPedidoActualAPedidosClientes = (
@@ -33,7 +33,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 	const history = useHistory();
 	const visitaActual = useObtenerVisitaActual();
 
-	const validarAgregarPedidosAPedidosCliente = useValidarAgregarPedidosAPedidosCliente();
+	const validarCierreDeVisita = useValidarCierreVisitaCliente();
 
 	const separarPedidosCreditoContado = useSepararPedidosCreditoContado();
 
@@ -42,12 +42,12 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			(pedido) => pedido
 		);
 
-		console.log(pedidosArray);
+		//console.log(pedidosArray);
 
 		const {
 			esValido,
 			propsAdvertencia,
-		}: TRetornoValidacion = validarAgregarPedidosAPedidosCliente();
+		}: TRetornoValidacion = validarCierreDeVisita();
 
 		if (!esValido && propsAdvertencia) {
 			const {
@@ -69,7 +69,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			pedidosArray
 		);
 
-		console.log(pedidosSeparadosCreditoContadoArray);
+		//console.log(pedidosSeparadosCreditoContadoArray);
 
 		dispatch(
 			agregarPedidosCliente({

@@ -10,6 +10,8 @@ import {
 	TPedido,
 	TTipoPedido,
 	TTotalPedido,
+	TRetornoValidacion,
+	ETiposDePago,
 } from 'models';
 import {useCallback} from 'react';
 import {
@@ -18,7 +20,8 @@ import {
 	useObtenerPedidosClientes,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {validarTotalConMontoMaximoContado} from 'utils/validaciones';
+import {calcularTotalPedidosClienteValorizadosPorTipoPago} from 'utils/methods';
+import {validarSiExcedeAlMaximoContado} from 'utils/validaciones/validacionesDePedidos';
 
 export const useEsPermitidoAgregarProductoAlPedido = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
@@ -28,6 +31,7 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 	const pedidosClientes = useObtenerPedidosClientes();
 	const visitaActual = useObtenerVisitaActual();
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
+	const {tipoPedidos} = useObtenerConfiguracion();
 	const {
 		pedidosClienteMismaFechaEntrega,
 	} = useObtenerPedidosClienteMismaFechaEntrega();
@@ -48,16 +52,28 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 
 		const {configuracionPedido}: TCliente = datosCliente;
 
-		const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
-			totalPedidoActual.totalContado.totalPrecio,
-			pedidosClienteMismaFechaEntrega,
-			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0
+		const totalContadoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
+			{
+				pedidosClienteMismaFechaEntrega,
+				tipoPedidos,
+				tipoPago: ETiposDePago.Contado,
+			}
 		);
 
-		if (esCreditoInformal && !esMenorAlMontoMaximoContado && esCreditoBloqueado)
+		const retornoSiExcedeAlMaximoContado: TRetornoValidacion = validarSiExcedeAlMaximoContado(
+			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0,
+			totalPedidoActual.totalContado.totalPrecio,
+			totalContadoPedidosClienteMismaFechaEntrega
+		);
+
+		if (
+			esCreditoInformal &&
+			!retornoSiExcedeAlMaximoContado.esValido &&
+			esCreditoBloqueado
+		)
 			return !esPermitidoAgregarProductoAlPedido;
 
-		if (!esMenorAlMontoMaximoContado)
+		if (!retornoSiExcedeAlMaximoContado.esValido)
 			return !esPermitidoAgregarProductoAlPedido;
 
 		const HayPedidosMandatoriosRegistrados: boolean = pedidosClientes[

@@ -49,7 +49,7 @@ const br = {
 		miles: ',',
 		moneda: 'R$',
 		formatoFechaAmericano: 'false',
-		conDecimales: 'false',
+		conDecimales: 'true',
 	},
 	titulos: {
 		bienvenido: 'Bem Vindo',
@@ -70,7 +70,7 @@ const br = {
 			'O cliente não tem portifólio vigente para a data de entrega informada',
 		limiteSubUnidades:
 			'As sub unidades devem ser menores que a apresentação do produto',
-		pedidoMinimo: 'Não cumpre com o pedido mínimo de ${{monto}}',
+		pedidoMinimo: 'O pedido não atinge o valor mínimo de venda ${{monto}}',
 		montoMinimo: 'Não cumpre com o valor mínimo de venda do pedido',
 		subUnidadesNoPermitidas:
 			'As subunidades não estão habilitadas para este produto',
@@ -86,7 +86,13 @@ const br = {
 		excedeUnidadesDisponibles:
 			'A quantidade é maior do que a disponível: {{disponible}}',
 		borrarPedidosNoMandatorios:
-			'Todos os pedidos não obrigatórios serão excluídos',
+			'O pedido de {{tipoPedido}} será excluído. Você deseja continuar?',
+		ProductoNoEstaHabilitado:
+			'O produto não está habilitado para {{descripcion}}',
+		excedePresupuesto:
+			'O valor inserido excede o orçamento alocado para {{descripcion}}',
+		ordenDeCompraEnBlanco:
+			'Você deve inserir um pedido de compra',
 	},
 };
 export default br;

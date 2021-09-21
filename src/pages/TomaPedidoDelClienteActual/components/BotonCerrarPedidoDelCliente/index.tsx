@@ -1,30 +1,37 @@
 import {Button} from '@material-ui/core';
 import {Dialogo} from 'components/UI';
-import {useMostrarAdvertenciaEnDialogo} from 'hooks';
+import {
+	useMostrarAdvertenciaEnDialogo,
+	useObtenerTotalPedidosVisitaActual,
+} from 'hooks';
 import {useTranslation} from 'react-i18next';
 import {useAgregarPedidoActualAPedidosClientes} from './hooks';
-import {useCalcularTotalPedido} from 'hooks';
-import {TTotalPedido} from 'models';
+import {useObtenerProductosMandatoriosVisitaActual} from 'hooks';
+
 import {useObtenerCompromisoDeCobroActual} from 'redux/hooks';
+import {validarHabilitarBotonCerrarPedido} from 'utils/validaciones/index';
 
 type Props = {};
 
 export function BotonCerrarPedidoDelCliente(props: Props) {
 	const {t} = useTranslation();
-	const calcularTotalPedido: () => TTotalPedido = useCalcularTotalPedido();
-	const totalPedidoActual = calcularTotalPedido();
+
 	const {
 		mostrarAdvertenciaEnDialogo,
 		mostarDialogo,
 		parametrosDialogo,
 	} = useMostrarAdvertenciaEnDialogo();
+	const productosMandatoriosVisitaActual = useObtenerProductosMandatoriosVisitaActual();
+
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
-	const desabilitarCerrarPedido =
-		totalPedidoActual.totalPrecio <= 0
-			? compromisoDeCobroActual.monto <= 0
-				? true
-				: false
-			: false;
+	const calcularTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
+	const totalPedidosVisitaActual = calcularTotalPedidosVisitaActual();
+
+	const habilitarBotonCerrarPedido = validarHabilitarBotonCerrarPedido(
+		totalPedidosVisitaActual.totalPrecio,
+		compromisoDeCobroActual.monto,
+		productosMandatoriosVisitaActual
+	);
 
 	const agregarPedidoActualAPedidosClientes = useAgregarPedidoActualAPedidosClientes(
 		mostrarAdvertenciaEnDialogo
@@ -39,7 +46,7 @@ export function BotonCerrarPedidoDelCliente(props: Props) {
 				data-cy='boton-cerrarPedido'
 				onClick={agregarPedidoActualAPedidosClientes}
 				fullWidth
-				disabled={desabilitarCerrarPedido}
+				disabled={!habilitarBotonCerrarPedido}
 			>
 				{t('general.cerrarPedido').toUpperCase()}
 			</Button>

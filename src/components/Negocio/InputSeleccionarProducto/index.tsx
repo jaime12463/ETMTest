@@ -1,5 +1,5 @@
-import {FunctionComponent} from 'react';
-import {Dialogo, FormInput} from 'components/UI';
+import {FunctionComponent, useState} from 'react';
+import {Dialogo, FormInput, Cajon} from 'components/UI';
 import {
 	TFormTomaDePedido,
 	THookForm,
@@ -12,10 +12,14 @@ import SearchIcon from '@material-ui/icons/Search';
 import nombresRutas from 'routes/nombresRutas';
 import {useRouteMatch, useHistory} from 'react-router-dom';
 import {useSeleccionarProductoDePrecios} from 'hooks';
-import {useMostrarAdvertenciaEnDialogo} from 'hooks';
+import {
+	useMostrarAdvertenciaEnDialogo,
+	useMostrarContenidoEnCajon,
+} from 'hooks';
 import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';
 import {useEsPermitidoAgregarProductoAlPedido} from './hooks';
+import {BuscadorProductosClienteActual} from 'pages/TomaPedidoDelClienteActual/components';
 
 export type Props = {
 	hookForm: THookForm<TFormTomaDePedido>;
@@ -42,15 +46,18 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 
 	const {t} = useTranslation();
 
-	const {path} = useRouteMatch();
-
-	const history = useHistory();
-
 	const {
 		mostrarAdvertenciaEnDialogo,
 		mostarDialogo,
 		parametrosDialogo,
 	} = useMostrarAdvertenciaEnDialogo();
+
+	const {
+		mostrarCajon,
+		mostrarContenidoEnCajon,
+		parametrosCajon,
+		setMostrarCajon,
+	} = useMostrarContenidoEnCajon();
 
 	const seleccionarProductoDePrecios = useSeleccionarProductoDePrecios(
 		setProductoActual,
@@ -67,6 +74,7 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+			{mostrarCajon.bottom && <Cajon {...parametrosCajon} />}
 			<Grid container>
 				<Grid item xs={12}>
 					<FormInput
@@ -89,7 +97,14 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 									aria-label='search'
 									size='small'
 									onClick={() =>
-										history.push(`${path}${nombresRutas.preciosProductos}`)
+										mostrarContenidoEnCajon(
+											<BuscadorProductosClienteActual
+												seleccionarProductoDePrecios={
+													seleccionarProductoDePrecios
+												}
+												setMostrarCajon={setMostrarCajon}
+											/>
+										)
 									}
 								>
 									<SearchIcon />

@@ -1,10 +1,19 @@
 import {
+	TPedidosClientes,
 	TPedidoClienteParaEnviar,
 	EEstadosDeUnPedido,
 	ETiposDePago,
 	TCompromisoDeCobro,
+	TProductoPedido,
+	TPedido,
+	TPrecioProducto,
 } from 'models/redux';
+
+import {useObtenerPedidosClientes, useObtenerVisitaActual} from 'redux/hooks';
+
+import {TpresupuestoTipoPedido, TTipoPedido} from 'models/server';
 import {TFunction} from 'react-i18next';
+import {ImportExport} from '@material-ui/icons';
 
 export const formatearNumero = (
 	numero: number,
@@ -57,22 +66,26 @@ export const fechaDispositivo = (): string => {
 	return fecha;
 };
 
-export const obtenerTotalContadoPedidosCliente = (
-	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[]
-): number => {
-	let totalPedidosMismaFecha = 0;
-
-	if (pedidosClienteMismaFechaEntrega.length === 0)
-		return totalPedidosMismaFecha;
-
-	totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
+export const calcularTotalPedidosClienteValorizadosPorTipoPago = ({
+	pedidosClienteMismaFechaEntrega,
+	tipoPedidos,
+	tipoPago,
+}: {
+	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[];
+	tipoPedidos: TTipoPedido[];
+	tipoPago: ETiposDePago;
+}): number => {
+	const totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
 		(total: number, pedido: TPedidoClienteParaEnviar) => {
-			if (pedido.estado !== EEstadosDeUnPedido.Activo) return total;
-
-			for (let producto of pedido.productos) {
-				if (producto.tipoPago === ETiposDePago.Contado) total += producto.total;
+			if (
+				pedido.tipoPago === tipoPago &&
+				tipoPedidos.find((tipoPedido) => tipoPedido.codigo == pedido.tipoPedido)
+					?.esValorizado
+			) {
+				for (let producto of pedido.productos) {
+					if (producto.tipoPago === tipoPago) total += producto.total;
+				}
 			}
-
 			return total;
 		},
 		0
@@ -81,38 +94,24 @@ export const obtenerTotalContadoPedidosCliente = (
 	return totalPedidosMismaFecha;
 };
 
-export const obtenerTotalesPedidosCliente = (
-	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[]
-): number => {
+export const obtenerTotalesPedidosCliente = ({
+	pedidosClienteMismaFechaEntrega,
+	tipoPedidos,
+}: {
+	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[];
+	tipoPedidos: TTipoPedido[];
+}): number => {
 	let totalPedidosMismaFecha = 0;
 	if (pedidosClienteMismaFechaEntrega.length !== 0) {
 		totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
 			(total: number, pedido: TPedidoClienteParaEnviar) => {
-				if (pedido.estado === EEstadosDeUnPedido.Activo) {
+				if (
+					tipoPedidos.find(
+						(tipoPedido) => tipoPedido.codigo == pedido.tipoPedido
+					)?.esValorizado
+				) {
 					for (let producto of pedido.productos) {
 						total += producto.total;
-					}
-				}
-				return total;
-			},
-			0
-		);
-	}
-
-	return totalPedidosMismaFecha;
-};
-
-export const obtenerTotalesContadoPedidosCliente = (
-	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[]
-): number => {
-	let totalPedidosMismaFecha = 0;
-	if (pedidosClienteMismaFechaEntrega.length !== 0) {
-		totalPedidosMismaFecha = pedidosClienteMismaFechaEntrega.reduce(
-			(total: number, pedido: TPedidoClienteParaEnviar) => {
-				if (pedido.estado === EEstadosDeUnPedido.Activo) {
-					for (let producto of pedido.productos) {
-						if (producto.tipoPago === ETiposDePago.Contado)
-							total += producto.total;
 					}
 				}
 				return total;
@@ -162,4 +161,57 @@ export const obtenerUnidadesMismoProducto = (
 	return totalUnidadesMismoProducto;
 };
 
+export const obtenerUnidadesProductoVisitaActual = (
+	pedidosCliente: TProductoPedido[],
+	codigoProducto: number
+): number => {
+	let totalUnidadesMismoProducto = 0;
+	if (pedidosCliente.length !== 0) {
+		totalUnidadesMismoProducto = pedidosCliente.reduce(
+			(total: any, pedido: TProductoPedido) => {
+				if (pedido.codigoProducto === codigoProducto) total += pedido.unidades;
+				return total;
+			},
+			0
+		);
+	}
 
+	return totalUnidadesMismoProducto;
+};
+
+export const obtenerPresupuestoConfiguradoSegunVigencia = (
+	tipoPedido: number,
+	presupuestoTipoPedido: TpresupuestoTipoPedido[]
+) => {
+	const fechaDipostivo = fechaDispositivo();
+	return presupuestoTipoPedido.find(
+		(presupuesto: TpresupuestoTipoPedido) =>
+			presupuesto.tipoPedido === tipoPedido &&
+			presupuesto.vigenciaInicioPresupuesto <= fechaDipostivo &&
+			fechaDipostivo <= presupuesto.vigenciaFinPresupuesto
+	);
+};
+
+export const obtenerProductosHabilitados = (
+	preciosProductos: TPrecioProducto[],
+	presupuestoTipoPedido: TpresupuestoTipoPedido[],
+	tipoPedido: number
+) => {
+	const fechaDipostivo = fechaDispositivo();
+
+	const presupuestoEnFecha = obtenerPresupuestoConfiguradoSegunVigencia(
+		tipoPedido,
+		presupuestoTipoPedido
+	);
+
+	const preciosProductosFiltrado = preciosProductos.filter(
+		(producto: TPrecioProducto) => {
+			if (presupuestoEnFecha)
+				for (let productoHabilitado of presupuestoEnFecha?.productosHabilitados) {
+					if (producto.codigoProducto === productoHabilitado) return producto;
+				}
+		}
+	);
+
+	return preciosProductosFiltrado;
+};

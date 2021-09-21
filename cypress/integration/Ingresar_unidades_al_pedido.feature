@@ -69,54 +69,53 @@ Antecedentes:
 @Test_dispositivo_1
 Escenario: N°1 – La cantidad es mayor a la permitida y menor a las unidades disponibles
 	Cuando se ingresan unidades mayores a _cantidadMáximaUnidades
-	Y es menor o igual a las _unidadesDisponibles del producto para el cliente
+	Y es menor o igual a las _unidadesDisponibles del producto para el cliente menos la cantidad ya registrada en otros pedidos para el mismo producto 
 	Entonces el sistema mostrará el mensaje “La cantidad es mayor a 100 ¿Desea continuar?” SiNo
 
 Escenario: N°2 – La cantidad es menor o igual a la permitida y  menor a las unidades disponibles y las subunidades están habilitadas
-Cuando se ingresa una cantidad
-Y es menor o igual a la _cantidadMáximaUnidades
-Y es menor o igual a _unidadesDisponibles del producto para el cliente
-Y permiteBotelleo = si
-Entonces el sistema registrará las unidades y continuará con el ingreso de las subunidades
+	Cuando se ingresa una cantidad
+	Y es menor o igual a la _cantidadMáximaUnidades
+	Y es menor o igual a _unidadesDisponibles del producto para el cliente menos la cantidad ya registrada en otros pedidos para el mismo producto
+	Y permiteBotelleo = si
+	Entonces el sistema registrará las unidades y continuará con el ingreso de las subunidades
 
 Escenario: N°3 – La cantidad es menor o igual a la permitida y  menor a las unidades disponibles y las subunidades están deshabilitadas y no se requiere motivo y el tipo de pedido del pedido en curso no valida presupuesto
-Cuando se ingresa una cantidad
-Y es menor o igual a la _cantidadMáximaUnidades
-Y es menor o igual a _unidadesDisponibles del producto para el cliente
-Y permiteBotelleo = no
-Y _requiereMotivo = false
-Y tipo de pedido del pedido en curso tiene _validaPresupuesto = false
-Entonces el sistema registrará las unidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
+	Cuando se ingresa una cantidad
+	Y es menor o igual a la _cantidadMáximaUnidades
+	Y es menor o igual a _unidadesDisponibles del producto para el cliente menos la cantidad ya registrada en otros pedidos para el mismo producto
+	Y permiteBotelleo = no
+	Y _requiereMotivo = false
+	Y tipo de pedido del pedido en curso tiene _validaPresupuesto = false
+	Entonces el sistema registrará las unidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
 
 Escenario: N°4 – La cantidad es menor o igual a la permitida y  menor a las unidades disponibles y las subunidades están deshabilitadas y no se requiere motivo y el tipo de pedido del pedido en curso valida presupuesto
-Cuando se ingresa una cantidad
-Y es menor o igual a la _cantidadMáximaUnidades
-Y es menor o igual a _unidadesDisponibles del producto para el cliente
-Y permiteBotelleo = no
-Y _requiereMotivo = false
-Y tipo de pedido del pedido en curso tiene _validaPresupuesto = true
-Y presupuestoActual - cantidad de unidades ingresadas >= 0 
-Entonces el sistema registrará las unidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
+	Cuando se ingresa una cantidad
+	Y es menor o igual a la _cantidadMáximaUnidades
+	Y es menor o igual a _unidadesDisponibles del producto para el cliente menos la cantidad ya registrada en otros pedidos para el mismo producto
+	Y permiteBotelleo = no
+	Y _requiereMotivo = false
+	Y tipo de pedido del pedido en curso tiene _validaPresupuesto = true
+	Y presupuestoActual - cantidad de unidades ingresadas >= 0 
+	Entonces el sistema registrará las unidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
 
 Escenario: N°5 – La cantidad no cumple con el presupuesto cuando el tipo de pedido del pedido en curso valida presupuesto.
-Cuando se ingresa una cantidad
-Y tipo de pedido del pedido en curso tiene _validaPresupuesto = true
-Y presupuestoActual - cantidad de unidades ingresadas < 0 
-Entonces el sistema mostrará el mensaje  "La cantidad ingresada excede el presupuesto asignado para el " & _descripción del _tipoPedido y permanecerá en el ingreso de la cantidad.
+	Cuando se ingresa una cantidad
+	Y tipo de pedido del pedido en curso tiene _validaPresupuesto = true
+	Y presupuestoActual - cantidad de unidades ingresadas < 0 
+	Entonces el sistema mostrará el mensaje  "La cantidad ingresada excede el presupuesto asignado para el " & _descripción del _tipoPedido y permanecerá en el ingreso de la cantidad.
 
 Escenario: N°6 – La cantidad es menor o igual a la permitida y las subunidades están deshabilitadas y requiere motivo y el tipo de pedido del pedido en curso valida presupuesto
-Cuando se ingresa una cantidad
-Y es menor o igual a la _cantidadMáximaUnidades
-Y es menor o igual a _unidadesDisponibles del producto para el cliente
-Y permiteBotelleo = no
-Y _requiereMotivo = true
-Y tipo de pedido del pedido en curso tiene _validaPresupuesto = true
-Y presupuestoActual - cantidad de unidades ingresadas >= 0
-Entonces el sistema registrará las unidades y continuará con el ingreso del motivo
+	Cuando se ingresa una cantidad
+	Y es menor o igual a la _cantidadMáximaUnidades
+	Y es menor o igual a _unidadesDisponibles del producto para el cliente menos la cantidad ya registrada en otros pedidos para el mismo producto
+	Y permiteBotelleo = no
+	Y _requiereMotivo = true
+	Y tipo de pedido del pedido en curso tiene _validaPresupuesto = true
+	Y presupuestoActual - cantidad de unidades ingresadas >= 0
+	Entonces el sistema registrará las unidades y continuará con el ingreso del motivo
 
 #Cuando se ingresa un producto nuevo, se asume como condición de pago del producto la condición de pago general del pedido. 
 
 Escenario: N°7 – La cantidad es mayor a las unidades disponibles del producto para el cliente.
-Cuando se ingresan unidades mayores a _unidadesDisponibles del producto para el cliente
-Entonces el sistema mostrará el mensaje “La cantidad es mayor al disponible: 10” y permanece en el campo para que el prevendedor pueda corregir la cantidad
-
+	Cuando se ingresan unidades mayores a _unidadesDisponibles del producto para el cliente menos la cantidad ya registrada en otros pedidos para el mismo producto
+	Entonces el sistema mostrará el mensaje “La cantidad es mayor al disponible: 10” y permanece en el campo para que el prevendedor pueda corregir la cantidad

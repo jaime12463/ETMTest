@@ -10,12 +10,13 @@ import {
 	TPrecioProducto,
 	TPedido,
 } from 'models';
-import {
-	fechaDispositivo,
-	obtenerTotalContadoPedidosCliente,
-	obtenerUnidadesMismoProducto,
-} from 'utils/methods';
+import {fechaDispositivo, obtenerUnidadesMismoProducto} from 'utils/methods';
 import {useObtenerDeudasDelClienteActual} from 'hooks';
+
+/*--------------------------------------------------------------------------------------------*/
+/*
+	Region de validaciones
+*/
 
 export const validarDeshabilitarTabCompromisoDeCobro = () => {
 	let deshabilitarTabCompromisoDeCobro = false;
@@ -46,31 +47,6 @@ export const validarUnidadesMinimasProducto = (
 	if (cantidadMaximaUnidades) {
 		if (unidades > cantidadMaximaUnidades) return false;
 	}
-	return true;
-};
-
-export const validarMontoMinimoPedido = (
-	montoTotalPedido: number,
-	configuracionPedido: TConfiguracionPedido
-): boolean => {
-	const montoVentaMinima = configuracionPedido.ventaMinima?.montoVentaMinima;
-	if (montoVentaMinima) {
-		if (montoTotalPedido < montoVentaMinima) return false;
-	}
-	return true;
-};
-
-export const validarTotalConMontoMaximoContado = (
-	totalPedidoActual: number,
-	pedidosClienteMismaFechaEntrega: TPedidoClienteParaEnviar[],
-	montoVentaMaxima: number
-): boolean => {
-	const toatlPedidosClienteMismaFechaEntregaYPedidoActual: number =
-		obtenerTotalContadoPedidosCliente(pedidosClienteMismaFechaEntrega) +
-		totalPedidoActual;
-
-	if (toatlPedidosClienteMismaFechaEntregaYPedidoActual > montoVentaMaxima)
-		return false;
 	return true;
 };
 
@@ -198,6 +174,8 @@ export const validarUnidadesDisponibles = (
 export const validarHayMasProductosMandatorios = (pedidos: TPedido[]) => {
 	let HayProductosMandatorios = false;
 
+	if (pedidos.length > 1) return (HayProductosMandatorios = true);
+
 	pedidos.forEach((pedido: TPedido) => {
 		if (pedido.productos.length > 1) {
 			return (HayProductosMandatorios = true);
@@ -205,4 +183,36 @@ export const validarHayMasProductosMandatorios = (pedidos: TPedido[]) => {
 	});
 
 	return HayProductosMandatorios;
+};
+
+export const validarHayMasProductosNoMandatorios = (pedidos: TPedido[]) => {
+	let HayProductosNoMandatorios = false;
+
+	pedidos.forEach((pedido: TPedido) => {
+		if (pedido.productos.length) {
+			return (HayProductosNoMandatorios = true);
+		}
+	});
+
+	return HayProductosNoMandatorios;
+};
+
+export const validarHabilitarBotonCerrarPedido = (
+	TotalvisitaActual: number,
+	MontocompromisoCobro: number,
+	pedidos: {
+		mandatorios: TPedido[];
+		noMandatorios: TPedido[];
+	}
+) => {
+	let validarHabilitarBotonVisita = false;
+
+	if (
+		TotalvisitaActual > 0 ||
+		MontocompromisoCobro > 0 ||
+		pedidos.mandatorios.length > 0
+	)
+		return (validarHabilitarBotonVisita = true);
+
+	return validarHabilitarBotonVisita;
 };

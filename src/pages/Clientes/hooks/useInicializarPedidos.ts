@@ -22,6 +22,7 @@ export const useInicializarPedidos = () => {
 						estado: EEstadosDeUnPedido.Activo,
 						tipoPedido: tipoPedido.codigo,
 						fechaEntrega,
+						ordenDeCompra: '',
 						productos: [],
 					};
 					pedidos[tipoPedido.codigo] = pedido;

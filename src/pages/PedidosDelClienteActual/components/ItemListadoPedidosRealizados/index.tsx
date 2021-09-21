@@ -4,6 +4,7 @@ import {Grid} from '@material-ui/core';
 import {Center, Fecha, Numero} from 'components/UI';
 import {useCalcularTotalPedidos} from 'hooks';
 import {useTranslation} from 'react-i18next';
+import {useObtenerConfiguracion} from 'redux/hooks';
 
 type Props = {
 	item: TPedidoClienteParaEnviar;
@@ -11,15 +12,21 @@ type Props = {
 
 const ItemListadoPedidosRealizados: FunctionComponent<Props> = (props) => {
 	const {item} = props;
-	const {fechaEntrega, productos} = item;
+	const {fechaEntrega, productos, tipoPedido} = item;
 	const calcularTotalPedido = useCalcularTotalPedidos();
 	const totalPedido = calcularTotalPedido(productos).totalPrecio;
+	const configuracion = useObtenerConfiguracion();
 	const {t} = useTranslation();
+	const tipoDePedido = configuracion.tipoPedidos.find(
+		(tipoPedidos) => tipoPedidos.codigo === tipoPedido
+	);
 
 	return (
 		<Grid container>
 			<Grid item xs>
-				<Center>{t('general.venta')}</Center>
+				<Center>
+					{t(`general.${tipoDePedido?.descripcion?.toLocaleLowerCase()}`)}
+				</Center>
 			</Grid>
 			<Grid item xs>
 				<Center>
@@ -28,7 +35,7 @@ const ItemListadoPedidosRealizados: FunctionComponent<Props> = (props) => {
 			</Grid>
 			<Grid item xs>
 				<Center>
-					<Numero valor={totalPedido} />
+					{tipoDePedido?.esValorizado && <Numero valor={totalPedido} />}
 				</Center>
 			</Grid>
 		</Grid>

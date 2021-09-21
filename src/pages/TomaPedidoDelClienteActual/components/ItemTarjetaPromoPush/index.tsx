@@ -31,6 +31,8 @@ type Props = {
 	onClickItem: (item: any) => void;
 };
 
+/* 2 US */
+
 const ItemTarjetaPromoPush = (props: any) => {
 	const {t} = useTranslation();
 	const {item, onClickItem, estado, index} = props;
@@ -50,7 +52,8 @@ const ItemTarjetaPromoPush = (props: any) => {
 
 	return (
 		<Card className={classes.root}>
-			<CardHeader onClick={onClickItem({codigo:codigoProducto, modo:'select'})}
+			<CardHeader
+				onClick={onClickItem({codigo: codigoProducto, modo: 'select'})}
 				title={
 					<Box display='flex ' justifyContent='space-between'>
 						<Typography variant='body2'>{codigoProducto}</Typography>
@@ -74,20 +77,19 @@ const ItemTarjetaPromoPush = (props: any) => {
 				</Typography>
 				<Grid container>
 					<Grid item xs={10}>
-						<Grid container >
+						<Grid container>
 							<Grid item>
 								<Typography variant='caption'>
 									Descuento: {formatearNumero(descuento, t)}
 								</Typography>
 							</Grid>
-							
-							<Grid item xs={6}/>
+
+							<Grid item xs={6} />
 							<Grid item>
 								<Typography variant='caption'>
 									Total: {formatearNumero(precioConImpuestoUnidad, t)}
 								</Typography>
 							</Grid>
-							
 						</Grid>
 					</Grid>
 				</Grid>
@@ -96,7 +98,10 @@ const ItemTarjetaPromoPush = (props: any) => {
 						className={clsx(classes.expand, {
 							[classes.expandOpen]: estado === index ? true : false,
 						})}
-						onClick={onClickItem({estado:( estado === index ? false : index), modo:'expand'})}
+						onClick={onClickItem({
+							estado: estado === index ? false : index,
+							modo: 'expand',
+						})}
 						aria-expanded={estado === index ? true : false}
 					>
 						<ExpandMoreIcon />
@@ -107,32 +112,35 @@ const ItemTarjetaPromoPush = (props: any) => {
 						<TableContainer>
 							<Table size='small'>
 								<TableBody>
-									{componentes.map((el: any, i: number) => (
-										<React.Fragment key={i}>
-											<TableRow>
-												<TableCell colSpan={4} className={classes.celdaProducto}>
-															{`${el.CodigoProducto} ${
-																productos[el.CodigoProducto].nombre
-															}  ${promoPush.componentes[i].cantidad} ${
-																promoPush.componentes[i].unidadMedida
-															}`}
+									{componentes &&
+										componentes.map((el: any, i: number) => (
+											<React.Fragment key={i}>
+												<TableRow>
+													<TableCell
+														colSpan={4}
+														className={classes.celdaProducto}
+													>
+														{`${el.CodigoProducto} ${
+															productos[el.CodigoProducto].nombre
+														}  ${promoPush.componentes[i].cantidad} ${
+															promoPush.componentes[i].unidadMedida
+														}`}
 													</TableCell>
-											</TableRow>
-											<TableRow>
-												<TableCell/>
-												<TableCell className={classes.celdaValores}>
-													Precio: {formatearNumero(el.precioBase,t)} 
-												</TableCell>
-												<TableCell className={classes.celdaValores}>
-													 Descuento: {formatearNumero(el.descuento,t)}
-												</TableCell>
-												<TableCell className={classes.celdaValores}>
-												 	Total: {formatearNumero(el.precioFinal,t)}
-												</TableCell>
-
-											</TableRow>
-										</React.Fragment>
-									))}
+												</TableRow>
+												<TableRow>
+													<TableCell />
+													<TableCell className={classes.celdaValores}>
+														Precio: {formatearNumero(el.precioBase, t)}
+													</TableCell>
+													<TableCell className={classes.celdaValores}>
+														Descuento: {formatearNumero(el.descuento, t)}
+													</TableCell>
+													<TableCell className={classes.celdaValores}>
+														Total: {formatearNumero(el.precioFinal, t)}
+													</TableCell>
+												</TableRow>
+											</React.Fragment>
+										))}
 								</TableBody>
 							</Table>
 						</TableContainer>

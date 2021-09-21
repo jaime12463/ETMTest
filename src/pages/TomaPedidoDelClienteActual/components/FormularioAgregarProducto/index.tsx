@@ -1,4 +1,4 @@
-import {Grid} from '@material-ui/core';
+import {Grid, Paper} from '@material-ui/core';
 import {
 	TFormTomaDePedido,
 	THookForm,
@@ -11,6 +11,8 @@ import {
 	InputSeleccionarProducto,
 } from 'components/Negocio';
 import {InfoProductoActual} from '..';
+import {useAppSelector, useAppDispatch } from "redux/hooks";
+import { selectVisitaActual } from 'redux/features/visitaActual/visitaActualSlice';
 
 export type Props = {
 	hookForm: THookForm<TFormTomaDePedido>;
@@ -20,6 +22,7 @@ export type Props = {
 };
 
 const FormularioAgregarProducto = (props: Props) => {
+	const {bloquearPanelCarga} = useAppSelector(selectVisitaActual);
 	const {
 		stateProductoActual,
 		statePreciosProductos,
@@ -27,29 +30,31 @@ const FormularioAgregarProducto = (props: Props) => {
 		stateInputFocus,
 	} = props;
 	return (
-		<Grid container spacing={1}>
-			<Grid item xs={6}>
-				<InputSeleccionarProducto
-					hookForm={hookForm}
-					stateProductoActual={stateProductoActual}
-					statePreciosProductos={statePreciosProductos}
-					stateInputFocus={stateInputFocus}
-				/>
+		<fieldset disabled={bloquearPanelCarga} >
+			<Grid container spacing={1}>
+				<Grid item xs={6}>
+					<InputSeleccionarProducto
+						hookForm={hookForm}
+						stateProductoActual={stateProductoActual}
+						statePreciosProductos={statePreciosProductos}
+						stateInputFocus={stateInputFocus}
+					/>
+				</Grid>
+				<Grid item xs={6}>
+					<InputsUnidadesYSubUnidades
+						hookForm={hookForm}
+						stateProductoActual={stateProductoActual}
+						stateInputFocus={stateInputFocus}
+					/>
+				</Grid>
+				<Grid item xs={12}>
+					<InfoProductoActual
+						hookForm={hookForm}
+						stateProductoActual={stateProductoActual}
+						stateInputFocus={stateInputFocus} />
+				</Grid>
 			</Grid>
-			<Grid item xs={6}>
-				<InputsUnidadesYSubUnidades
-					hookForm={hookForm}
-					stateProductoActual={stateProductoActual}
-					stateInputFocus={stateInputFocus}
-				/>
-			</Grid>
-			<Grid item xs={12}>
-				<InfoProductoActual
-					hookForm={hookForm}
-					stateProductoActual={stateProductoActual}
-					stateInputFocus={stateInputFocus} />
-			</Grid>
-		</Grid>
+		</fieldset>
 	);
 };
 

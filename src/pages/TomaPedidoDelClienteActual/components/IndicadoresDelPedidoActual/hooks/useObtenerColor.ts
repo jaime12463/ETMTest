@@ -1,8 +1,8 @@
 import {useState, useEffect} from 'react';
 import {
 	obtenerTotalesPedidosCliente,
-	obtenerTotalesContadoPedidosCliente,
 	obtenerTotalesCompromisoDeCobroCliente,
+	calcularTotalPedidosClienteValorizadosPorTipoPago,
 } from 'utils/methods';
 import {
 	useObtenerDatosCliente,
@@ -12,10 +12,11 @@ import {
 	useObtenerCompromisosDeCobroMismaFechaEntrega,
 	useObtenerTotalPedidosVisitaActual,
 } from 'hooks';
-import {TCliente, TClienteActual} from 'models';
+import {ETiposDePago, TCliente, TClienteActual} from 'models';
 import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
+	useObtenerConfiguracion,
 } from 'redux/hooks';
 
 const obtenerporcentaje = (valor: number, valorMax: number = 0) => {
@@ -39,14 +40,19 @@ export const useObtenerColor = () => {
 	const pedidosClienteMismaFechaEntrega = obtenerPedidosClienteMismaFechaEntrega(
 		clienteActual.codigoCliente
 	);
-
-	const totalesPedidoCliente = obtenerTotalesPedidosCliente(
-		pedidosClienteMismaFechaEntrega
-	);
+	const {tipoPedidos} = useObtenerConfiguracion();
+	const totalesPedidoCliente = obtenerTotalesPedidosCliente({
+		pedidosClienteMismaFechaEntrega,
+		tipoPedidos,
+	});
 	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
-	const totalesContadoPedidoCliente = obtenerTotalesContadoPedidosCliente(
-		pedidosClienteMismaFechaEntrega
+	const totalContadoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
+		{
+			pedidosClienteMismaFechaEntrega,
+			tipoPedidos,
+			tipoPago: ETiposDePago.Contado,
+		}
 	);
 	const {
 		obtenerCompromisosDeCobroMismaFechaEntrega,
@@ -73,7 +79,7 @@ export const useObtenerColor = () => {
 					: 'rojo',
 			pedidoMaximo:
 				obtenerporcentaje(
-					totalesContadoPedidoCliente +
+					totalContadoPedidosClienteMismaFechaEntrega +
 						totalPedidoActual.totalContado.totalPrecio +
 						montoTotalCompromisos +
 						compromisoDeCobroActual.monto,

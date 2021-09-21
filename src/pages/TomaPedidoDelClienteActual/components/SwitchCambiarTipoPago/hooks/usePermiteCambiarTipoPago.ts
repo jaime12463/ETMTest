@@ -4,10 +4,17 @@ import {
 	useObtenerDatosCliente,
 	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
-import {TCliente, TClienteActual, TTotalPedido} from 'models';
+import {
+	TCliente,
+	TClienteActual,
+	TTotalPedido,
+	TRetornoValidacion,
+	ETiposDePago,
+} from 'models';
 import {useCallback, useEffect, useState} from 'react';
-import {useObtenerClienteActual} from 'redux/hooks';
-import {validarTotalConMontoMaximoContado} from 'utils/validaciones';
+import {useObtenerClienteActual, useObtenerConfiguracion} from 'redux/hooks';
+import {calcularTotalPedidosClienteValorizadosPorTipoPago} from 'utils/methods';
+import {validarSiExcedeAlMaximoContado} from 'utils/validaciones/validacionesDePedidos';
 
 export const usePermiteCambiarTipoPago = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
@@ -21,7 +28,7 @@ export const usePermiteCambiarTipoPago = () => {
 	const [permiteCambiarTipoPago, setPermiteCambiarTipoPago] = useState<boolean>(
 		false
 	);
-
+	const {tipoPedidos} = useObtenerConfiguracion();
 	const validarPermiteCambiarTipoPago = useCallback(() => {
 		if (!datosCliente) return;
 
@@ -31,10 +38,18 @@ export const usePermiteCambiarTipoPago = () => {
 
 		const {configuracionPedido}: TCliente = datosCliente;
 
-		const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
+		const totalContadoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
+			{
+				pedidosClienteMismaFechaEntrega,
+				tipoPedidos,
+				tipoPago: ETiposDePago.Contado,
+			}
+		);
+
+		const retornoSiExcedeAlMaximoContado: TRetornoValidacion = validarSiExcedeAlMaximoContado(
+			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0,
 			totalPedidoActual.totalContado.totalPrecio,
-			pedidosClienteMismaFechaEntrega,
-			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0
+			totalContadoPedidosClienteMismaFechaEntrega
 		);
 
 		const hayCreditoDisponible = creditoDisponible > 0;
@@ -44,7 +59,7 @@ export const usePermiteCambiarTipoPago = () => {
 
 		if (
 			esCondicionCreditoInformal &&
-			esMenorAlMontoMaximoContado &&
+			retornoSiExcedeAlMaximoContado.esValido &&
 			hayCreditoDisponible &&
 			!esCreditoBloqueado
 		)

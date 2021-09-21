@@ -8,11 +8,15 @@ import {
 	TPrecio,
 } from 'models';
 import {validarFechaVigenciaProducto} from 'utils/validaciones';
-import {useObtenerPrecioVigenteDelProducto} from 'hooks';
+import {
+	useObtenerPrecioVigenteDelProducto,
+	useObtenerDatosTipoPedido,
+} from 'hooks';
 
 export const useObtenerPreciosProductosDelCliente = () => {
 	const datos = useObtenerDatos();
 	const obtenerPrecioVigenteDelProducto = useObtenerPrecioVigenteDelProducto();
+
 	const obtenerPreciosProductosDelCliente = useCallback(
 		(clienteEncontrado: TCliente, fechaEntrega: string): TPrecioProducto[] => {
 			let preciosProductosDelCliente: TPrecioProducto[] = [];
@@ -43,6 +47,7 @@ export const useObtenerPreciosProductosDelCliente = () => {
 						presentacion,
 						subunidadesVentaMinima,
 						promoPush,
+						tipoProducto,
 					} = producto;
 
 					const nombreImplicito1: string | undefined = codigoImplicito1
@@ -84,6 +89,7 @@ export const useObtenerPreciosProductosDelCliente = () => {
 						promoPush,
 						descuento,
 						componentes,
+						tipoProducto,
 					};
 				}
 			);

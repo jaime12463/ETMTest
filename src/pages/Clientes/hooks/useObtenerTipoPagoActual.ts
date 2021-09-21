@@ -1,11 +1,13 @@
-import {ETiposDePago, TCliente} from 'models';
+import {ETiposDePago, TCliente, TRetornoValidacion} from 'models';
 import {
 	useObtenerCreditoDisponible,
 	useObtenerDatosCliente,
 	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
+import {calcularTotalPedidosClienteValorizadosPorTipoPago} from 'utils/methods';
 import {useCallback} from 'react';
-import {validarTotalConMontoMaximoContado} from 'utils/validaciones';
+import {validarSiExcedeAlMaximoContado} from 'utils/validaciones/validacionesDePedidos';
+import {useObtenerConfiguracion} from 'redux/hooks';
 
 export const useObtenerTipoPagoActual = () => {
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
@@ -13,7 +15,7 @@ export const useObtenerTipoPagoActual = () => {
 	const {
 		obtenerPedidosClienteMismaFechaEntrega,
 	} = useObtenerPedidosClienteMismaFechaEntrega();
-
+	const {tipoPedidos} = useObtenerConfiguracion();
 	const obtenerTipoPagoActual = useCallback(
 		(codigoCliente: string): ETiposDePago => {
 			const datosCliente = obtenerDatosCliente(codigoCliente);
@@ -44,16 +46,24 @@ export const useObtenerTipoPagoActual = () => {
 
 			const {esCreditoBloqueado} = datosCliente.informacionCrediticia;
 
-			const esMenorAlMontoMaximoContado: boolean = validarTotalConMontoMaximoContado(
+			const totalContadoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
+				{
+					pedidosClienteMismaFechaEntrega,
+					tipoPedidos,
+					tipoPago: ETiposDePago.Contado,
+				}
+			);
+
+			const retornoSiExcedeAlMaximoContado: TRetornoValidacion = validarSiExcedeAlMaximoContado(
+				configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0,
 				0,
-				pedidosClienteMismaFechaEntrega,
-				configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0
+				totalContadoPedidosClienteMismaFechaEntrega
 			);
 
 			tipoPagoActual = ETiposDePago.Credito;
 
 			if (
-				esMenorAlMontoMaximoContado &&
+				retornoSiExcedeAlMaximoContado.esValido &&
 				(!hayCreditoDisponible || esCreditoBloqueado)
 			)
 				tipoPagoActual = ETiposDePago.Contado;

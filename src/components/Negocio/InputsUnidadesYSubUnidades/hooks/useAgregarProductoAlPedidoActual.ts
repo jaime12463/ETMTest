@@ -1,5 +1,10 @@
 import {useCallback} from 'react';
-import {useAppDispatch, useObtenerClienteActual} from 'redux/hooks';
+import {
+	useAppDispatch,
+	useObtenerClienteActual,
+	useObtenerConfiguracion,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
 import {
 	editarProductoDelPedidoActual,
 	borrarProductoDelPedidoActual,
@@ -17,7 +22,10 @@ import {
 } from '.';
 import {UseFormGetValues} from 'react-hook-form';
 
-import {validarHayMasProductosMandatorios} from 'utils/validaciones';
+import {
+	validarHayMasProductosMandatorios,
+	validarHayMasProductosNoMandatorios,
+} from 'utils/validaciones';
 import {useTranslation} from 'react-i18next';
 import {useObtenerProductosMandatoriosVisitaActual} from 'hooks';
 
@@ -46,6 +54,17 @@ export const useAgregarProductoAlPedidoActual = (
 		productoActual?.codigoProducto
 	);
 	const clienteActual: TClienteActual = useObtenerClienteActual();
+	const configuracion = useObtenerConfiguracion();
+
+	const visitaActual = useObtenerVisitaActual();
+
+	const configuracionTipoDePedidoActual = configuracion.tipoPedidos.find(
+		(tipoPedido) => tipoPedido.codigo === visitaActual.tipoPedidoActual
+	);
+
+	const pedidoNoMandatorio = configuracion.tipoPedidos.find(
+		(tipoPedido) => tipoPedido.esMandatorio === false
+	);
 
 	const agregarProductoAlPedidoActual = useCallback(
 		(inputs: TFormTomaDePedido) => {
@@ -56,11 +75,11 @@ export const useAgregarProductoAlPedidoActual = (
 			const subUnidadesParseado: number =
 				subUnidades !== '' ? parseInt(subUnidades) : 0;
 
+			if (!productoActual) return;
+
 			const esValidoAgregarProductoAlPedidoCliente: boolean = validarAgregarProductoAlPedidoCliente(
 				inputs
 			);
-
-			if (!productoActual) return;
 
 			const {codigoProducto} = productoActual;
 
@@ -83,14 +102,20 @@ export const useAgregarProductoAlPedidoActual = (
 				);
 			} else {
 				if (
+					!configuracionTipoDePedidoActual?.esMandatorio ||
 					validarHayMasProductosMandatorios(
 						productosMandatoriosVisitaActual.mandatorios
+					) ||
+					!validarHayMasProductosNoMandatorios(
+						productosMandatoriosVisitaActual.noMandatorios
 					)
 				) {
 					dispatch(borrarProductoDelPedidoActual({codigoProducto}));
 				} else {
 					mostrarAdvertenciaEnDialogo(
-						t('advertencias.borrarPedidosNoMandatorios'),
+						t('advertencias.borrarPedidosNoMandatorios', {
+							tipoPedido: pedidoNoMandatorio?.descripcion,
+						}),
 						'eliminar-linea-pedido',
 						manejadorConfirmarEliminarPedidosNoMandatorios,
 						{

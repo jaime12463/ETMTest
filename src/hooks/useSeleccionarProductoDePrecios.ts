@@ -11,6 +11,10 @@ import {
 import {useObtenerPedidoActual} from 'redux/hooks';
 import {UseFormSetValue} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
+import {
+	useObtenerDatosTipoPedido,
+	useObtenerPresupuestosTipoPedidoActual,
+} from 'hooks';
 
 export const useSeleccionarProductoDePrecios = (
 	setProductoActual: Dispatch<SetStateAction<TPrecioProducto | null>>,
@@ -20,6 +24,8 @@ export const useSeleccionarProductoDePrecios = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const pedidoActual: TPedido = useObtenerPedidoActual();
+	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
+	const obtenerPresupuestosTipoPedidoActual = useObtenerPresupuestosTipoPedidoActual();
 	const {t} = useTranslation();
 	const seleccionarProductoDePrecios = useCallback(
 		({productoABuscar}: TInputFiltrarPreciosProductos) => {
@@ -39,6 +45,56 @@ export const useSeleccionarProductoDePrecios = (
 			}
 
 			const {codigoProducto} = productoEncontrado;
+			const datosTipoPedidoActual = obtenerDatosTipoPedido();
+			const presupuestoTipoPedido = obtenerPresupuestosTipoPedidoActual();
+
+
+			
+
+			if (
+				!datosTipoPedidoActual?.validaPresupuesto &&
+				!datosTipoPedidoActual?.tipoProductosHabilitados.includes(
+					productoEncontrado.tipoProducto
+				)
+			) {
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.ProductoNoEstaHabilitado', {
+						descripcion: datosTipoPedidoActual?.descripcion,
+					}),
+					'producto-no-esta-habilitado'
+				);
+				return;
+			}
+
+			if (
+				datosTipoPedidoActual?.validaPresupuesto &&
+				!presupuestoTipoPedido?.tieneProductosHabilitados &&
+				!datosTipoPedidoActual?.tipoProductosHabilitados.includes(
+					productoEncontrado.tipoProducto
+				)
+			) {
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.ProductoNoEstaHabilitado', {
+						descripcion: datosTipoPedidoActual?.descripcion,
+					}),
+					'producto-no-esta-habilitado'
+				);
+				return;
+			}
+
+			if (
+				datosTipoPedidoActual?.validaPresupuesto &&
+				presupuestoTipoPedido?.tieneProductosHabilitados &&
+				!presupuestoTipoPedido.productosHabilitados.includes(codigoProducto)
+			) {
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.ProductoNoEstaHabilitado', {
+						descripcion: datosTipoPedidoActual?.descripcion,
+					}),
+					'producto-no-esta-habilitado'
+				);
+				return;
+			}
 
 			const productoActualEncontrado:
 				| TProductoPedido
@@ -67,7 +123,7 @@ export const useSeleccionarProductoDePrecios = (
 			setValue('unidades', unidadesParseado);
 			setValue('subUnidades', subUnidadesParseado);
 			setValue('productoABuscar', productoABuscar);
-			setValue('catalogoMotivo', catalogoMotivo)
+			setValue('catalogoMotivo', catalogoMotivo);
 
 			setProductoActual(productoEncontrado);
 

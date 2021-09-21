@@ -49,7 +49,9 @@ export default class EtmManager {
 		);
 
 		let jsonFinal = JSON.parse(
-			`{"clientes":${clientesHash}, "productos":${productosHash}}`
+			`{"clientes":${clientesHash}, "productos":${productosHash}, "presupuestoTipoPedido":${JSON.stringify(
+				json.presupuestoTipoPedido
+			)}}`
 		);
 		return jsonFinal;
 	};

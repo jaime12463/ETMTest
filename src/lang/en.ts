@@ -44,6 +44,8 @@ const en = {
 		vencimiento: 'Expiration',
 		deudaPendiente: 'pending debt',
 		compromisoRegistrado: 'Registered Collection Commitments',
+		agregarOrdenDeCompra: 'Add Purchase Order?',
+		deseaAgregarOrdenDeCompra: 'Do you want to associate a purchase order?',
 	},
 	simbolos: {
 		decimal: ',',
@@ -60,6 +62,7 @@ const en = {
 		clientes: 'Customers',
 		envases: 'Returnable packaging',
 		PedidosDelClienteActual: 'Customer orders',
+		ordenDeCompra: 'Purchase Order',
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',
@@ -73,7 +76,7 @@ const en = {
 			'The client does not have a current portfolio for the reported delivery date',
 		limiteSubUnidades:
 			'The subunits must be smaller than the presentation of product',
-		pedidoMinimo: 'Does not fulfil minimum order of ${{monto}}',
+		pedidoMinimo: 'The order does not reach the minimum sale amount ${{monto}}',
 		montoMinimo: 'Does not fulfil the minimum sale amount of the order',
 		subUnidadesNoPermitidas: 'The subUnits is disabled for this product',
 		masDelMontoMaximo:
@@ -84,12 +87,18 @@ const en = {
 		cancelarTodosLosPedido:
 			'All orders with a delivery date {{fechaDeEntrega}} will be canceled Do you wish to continue?',
 		ProductoNoEstaEnPortafolioCliente:
-			'The code does not correspond to a current portfolio of the client',
+			'The code does not correspond to a current producto in the portfolio of the client',
+		ProductoNoEstaHabilitado: 'The product is not enabled for {{descripcion}}',
 		excedeCreditoDsiponible: 'The order exceeds the available credit',
 		montoMayorDeuda: 'The amount cannot be greater than the registered debt',
 		excedeUnidadesDisponibles:
 			'The quantity is greater than available: {{disponible}}',
-		borrarPedidosNoMandatorios: 'All non-mandatory orders will be deleted',
+		excedePresupuesto:
+			'The amount entered exceeds the budget allocated for {{descripcion}}',
+		borrarPedidosNoMandatorios:
+			'The order of {{tipoPedido}} will be deleted. do you wish to continue?',
+		ordenDeCompraEnBlanco:
+			'You must enter a purchase orden',
 	},
 };
 export default en;
