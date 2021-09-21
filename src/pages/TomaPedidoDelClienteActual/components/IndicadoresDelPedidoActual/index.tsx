@@ -1,6 +1,6 @@
 import {Grid} from '@material-ui/core';
 import {BarraDeProgeso, Center} from 'components/UI';
-import {TCliente, TClienteActual} from 'models';
+import {ETiposDePago, TCliente, TClienteActual} from 'models';
 import {
 	useObtenerDatosCliente,
 	useObtenerPedidosClienteMismaFechaEntrega,
@@ -11,12 +11,13 @@ import {
 import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
+	useObtenerConfiguracion,
 } from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
 import {
 	obtenerTotalesPedidosCliente,
-	obtenerTotalesContadoPedidosCliente,
 	obtenerTotalesCompromisoDeCobroCliente,
+	calcularTotalPedidosClienteValorizadosPorTipoPago,
 } from 'utils/methods';
 import {useObtenerColor} from './hooks/useObtenerColor';
 
@@ -36,12 +37,18 @@ const IndicadoresDelPedidoActual = () => {
 	const pedidosClienteMismaFechaEntrega = obtenerPedidosClienteMismaFechaEntrega(
 		clienteActual.codigoCliente
 	);
-	const totalesPedidoCliente = obtenerTotalesPedidosCliente(
-		pedidosClienteMismaFechaEntrega
-	);
+	const {tipoPedidos} = useObtenerConfiguracion();
+	const totalesPedidoCliente = obtenerTotalesPedidosCliente({
+		pedidosClienteMismaFechaEntrega,
+		tipoPedidos,
+	});
 
-	const totalesContadoPedidoCliente = obtenerTotalesContadoPedidosCliente(
-		pedidosClienteMismaFechaEntrega
+	const totalContadoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
+		{
+			pedidosClienteMismaFechaEntrega,
+			tipoPedidos,
+			tipoPago: ETiposDePago.Contado,
+		}
 	);
 
 	const {
@@ -75,7 +82,7 @@ const IndicadoresDelPedidoActual = () => {
 				datosCliente?.configuracionPedido.ventaContadoMaxima
 					?.montoVentaContadoMaxima,
 			valor:
-				totalesContadoPedidoCliente +
+				totalContadoPedidosClienteMismaFechaEntrega +
 				(obtenerTotalPedidosVisitaActual().totalContado.totalPrecio ?? 0) +
 				montoTotalCompromisos +
 				compromisoDeCobroActual.monto,
@@ -86,7 +93,7 @@ const IndicadoresDelPedidoActual = () => {
 			titulo: t('general.creditoDisponible'),
 			valorMax: datosCliente?.informacionCrediticia.disponible,
 			valor:
-				creditoDisponible -
+				creditoDisponible - //error
 				(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0),
 			color: color.creditoDisponible,
 			condicion: datosCliente?.informacionCrediticia.condicion,

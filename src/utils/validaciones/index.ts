@@ -1,4 +1,3 @@
-import i18n from 'i18next';
 import {
 	TPrecio,
 	TFechaEntrega,
@@ -11,11 +10,7 @@ import {
 	TPrecioProducto,
 	TPedido,
 } from 'models';
-import {
-	fechaDispositivo,
-	obtenerTotalContadoPedidosCliente,
-	obtenerUnidadesMismoProducto,
-} from 'utils/methods';
+import {fechaDispositivo, obtenerUnidadesMismoProducto} from 'utils/methods';
 import {useObtenerDeudasDelClienteActual} from 'hooks';
 
 /*--------------------------------------------------------------------------------------------*/
