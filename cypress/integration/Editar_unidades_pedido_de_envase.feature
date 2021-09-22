@@ -67,13 +67,13 @@ Antecedentes:
 	
 Escenario: N°1 – La cantidad es mayor a la disponible para retorno
 	Cuando se modifican las unidades del producto envase para cualquier tipo de pedido de envase
-	Y la cantidad ingresada supera a la cantidad de unidades actual de retorno + las cantidad de unidades inicial de la celda que se está modificando 
+	Y la cantidad ingresada supera a la cantidad de unidades actual de retorno + las cantidad de unidades inicial del item que se está modificando 
     Entonces el sistema mostrará el mensaje “La cantidad excede a las disponibles para retorno” 
     
 
 Esquema del escenario: N°2 – La cantidad es menor o igual a la disponible para retorno
 	Cuando se modifican las unidades para cualquier tipo de pedido de envase
-	Y la cantidad ingresada no supera a la cantidad de unidades actual de retorno + la cantidad de unidades inicial de la celda que se está modificando 
+	Y la cantidad ingresada no supera a la cantidad de unidades actual de retorno + la cantidad de unidades inicial del item que se está modificando 
     Y el tipo de pedido de envase es valorizado = '<_esValorizado>'
 	Entonces el sistema registrará las unidades ingresadas para el tipo de pedido de envase 
     y actualizará las unidades para retorno 
@@ -85,4 +85,6 @@ Ejemplos:
 |   true	  | actualizará    |   
 |	false	  | no actualizará | 
   
-# Cuando al ingresar una cantidad valida para un producto de envase de un tipo de pedido de envase que es valorizado se debe registrar también la condición de pago
+# Cuando se informa una cantidad mayor a cero se agrega/modifica una línea en al tipo de pedido correspondiente.
+# Si el tipo de pedido es valorizado, se copia la condición de pago del ítem a retornar.
+# Si se informan unidades y subunidades en cero, se quita el producto del tipo de pedido correspondiente (venta, préstamo)
