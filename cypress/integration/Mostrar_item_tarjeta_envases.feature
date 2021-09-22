@@ -19,11 +19,25 @@ Característica: Mostrar items en tarjetas de envases
 Escenario: N°1 - Mostrar items de tarjeta de envases
     Dado que existe un pedido cuyo tipo de pedido tiene _generaEnvases = true 
     Y estamos en el paso 3 del pedido
+    Y el _tipoPedido tiene un _tipoPedidoEnvase que tiene _esValorizada = true 
     Cuando se selecciona la tarjeta de envases
     Entonces el sistema desplegará la tarjeta de envases
     Y mostrará las tarjetas de items ordenadas por codigo de producto y por condicion de pago
     con los datos de condición de pago, codigo y descripcion de envase, unidades y subunidades para retorno resultantes del cálculo de envases,
     precio de la unidad y subunidad y los totales de unidad y subunidad, todos no editables
+    Y mostrará por cada TipoPedidoEnvasesHabilitados, de forma ordenada según la configuración, una línea con los datos de descripcion corta del tipo de pedido,
+    unidades y subunidades editables y habilitadas según la configuración del pedido
+
+
+Escenario: N°2 - Mostrar items de tarjeta de envases de pedido no valorizado
+    Dado que existe un pedido cuyo tipo de pedido tiene _generaEnvases = true 
+    Y estamos en el paso 3 del pedido
+    Y el _tipoPedido no tiene un _tipoPedidoEnvase que tiene _esValorizada = true 
+    Cuando se selecciona la tarjeta de envases
+    Entonces el sistema desplegará la tarjeta de envases
+    Y mostrará las tarjetas de items ordenadas por codigo de producto
+    con los datos codigo y descripcion de envase, unidades y subunidades para retorno resultantes del cálculo de envases,
+    y los totales de unidad y subunidad, todos no editables
     Y mostrará por cada TipoPedidoEnvasesHabilitados, de forma ordenada según la configuración, una línea con los datos de descripcion corta del tipo de pedido,
     unidades y subunidades editables y habilitadas según la configuración del pedido
 
