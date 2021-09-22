@@ -144,12 +144,14 @@ export type TDatosConfiguracion = {
 export type TConfiguracion = {
 	esFrecuenciaAbierta: boolean;
 	habilitaOrdenDeCompra: boolean;
+	TipoPedidoEnvasesHabilitados: number[];
 	tipoPedidos: TTipoPedido[];
 };
 
 export type TTipoPedido = {
 	codigo: number;
 	descripcion: string;
+	descripcionCorta: string;
 	secuencia: number;
 	esValorizado: boolean;
 	esMandatorio: boolean;
