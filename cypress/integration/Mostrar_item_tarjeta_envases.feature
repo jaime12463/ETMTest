@@ -2,7 +2,7 @@
 
 @Pedido @Item_Envases @Paso3 @Sprint12
 
-# sprint 12 UX: https://www.figma.com/file/a6j0OiJCxmdy9DupAaFiac/Order-taking-SFA?node-id=0%3A1
+# sprint 12 UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA_S12_S13_S14?node-id=871%3A5542&scaling=scale-down&page-id=871%3A5541&starting-point-node-id=871%3A5542
 
 # Crear una tarjeta para cada envases generado para retorno, ordenado por código de producto, condición de pago (primero contado, después crédito)
 # Mostrar:
