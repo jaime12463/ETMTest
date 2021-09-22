@@ -42,8 +42,6 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 
 		const {esCreditoBloqueado} = datosCliente.informacionCrediticia;
 
-		const totalPedidoActual = calcularTotalPedido();
-
 		const esCreditoFormal = clienteActual.condicion === 'creditoFormal';
 		const esCreditoInformal = clienteActual.condicion === 'creditoInformal';
 
@@ -60,9 +58,24 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 			}
 		);
 
+		let totalContadoVisitaActual = 0;
+
+		Object.values(visitaActual.pedidos).forEach((pedido) => {
+			pedido.productos.forEach((producto) => {
+				if (
+					producto.tipoPago === ETiposDePago.Contado &&
+					tipoPedidos.find(
+						(tipoPedido) => tipoPedido.codigo == pedido.tipoPedido
+					)?.esValorizado
+				) {
+					totalContadoVisitaActual += producto.total;
+				}
+			});
+		});
+
 		const retornoSiExcedeAlMaximoContado: TRetornoValidacion = validarSiExcedeAlMaximoContado(
 			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0,
-			totalPedidoActual.totalContado.totalPrecio,
+			totalContadoVisitaActual,
 			totalContadoPedidosClienteMismaFechaEntrega
 		);
 
