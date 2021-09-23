@@ -7,7 +7,7 @@ import {
 	TStatePreciosProductos,
 	TStateProductoActual,
 } from 'models';
-import {IconButton, Grid} from '@material-ui/core';
+import {IconButton, Grid} from '@mui/material';
 import SearchIcon from '@material-ui/icons/Search';
 import nombresRutas from 'routes/nombresRutas';
 import {useRouteMatch, useHistory} from 'react-router-dom';

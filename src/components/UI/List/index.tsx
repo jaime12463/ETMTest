@@ -4,7 +4,7 @@ import {
 	List as ListMUI,
 	ListSubheader,
 	Divider,
-} from '@material-ui/core';
+} from '@mui/material';
 import {Item} from 'components/UI';
 import {THeader} from 'models';
 import React, {Fragment} from 'react';
@@ -31,7 +31,7 @@ function List<T>(props: Props<T>) {
 						component='div'
 						disableGutters={true}
 					>
-						<Grid container justify='center'>
+						<Grid container>
 							{headers.map((header, index) => (
 								<Grid item xs={header.width} key={index}>
 									{header.component}

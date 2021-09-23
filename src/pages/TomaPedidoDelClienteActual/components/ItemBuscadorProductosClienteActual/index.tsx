@@ -1,10 +1,10 @@
-import {Box, Grid, Typography} from '@material-ui/core';
+import {Box, Grid, Typography} from '@mui/material';
 import {TPrecioProducto} from 'models';
 import {FunctionComponent} from 'react';
 import useEstilos from 'theme/useEstilosGenerales';
 import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
-import Divider from '@material-ui/core/Divider';
+import Divider from '@mui/material/Divider';
 
 type Props = {
 	item: TPrecioProducto;

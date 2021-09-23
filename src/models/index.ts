@@ -1,4 +1,4 @@
-import {GridSize} from '@material-ui/core';
+import {GridSize} from '@mui/material';
 import {TPrecioProducto} from 'models/redux';
 import React, {Dispatch, ReactElement, SetStateAction} from 'react';
 import {

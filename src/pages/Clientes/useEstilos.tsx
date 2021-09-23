@@ -1,5 +1,5 @@
-import {makeStyles} from '@material-ui/core';
-const useEstilos = makeStyles((theme) => ({
+import {makeStyles} from '@material-ui/styles';
+const useEstilos = makeStyles(() => ({
 	margin: {
 		marginTop: 20,
 	},

@@ -1,7 +1,7 @@
 import Rutas from 'components/UI/Rutas';
 import {Provider} from 'react-redux';
 import {store} from 'redux/store';
-import {ThemeProvider} from '@material-ui/core/styles';
+import {ThemeProvider} from '@material-ui/styles';
 import theme from 'theme';
 
 const App = () => {

@@ -1,7 +1,7 @@
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
-import {Box} from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
+import {Box} from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {cambiarMostrarPromoPush} from 'redux/features/visitaActual/visitaActualSlice';
 import {useObtenerDatosTipoPedido} from 'hooks';

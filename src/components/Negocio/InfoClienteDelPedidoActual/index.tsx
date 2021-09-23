@@ -1,4 +1,4 @@
-import {Grid, Typography} from '@material-ui/core';
+import {Grid, Typography} from '@mui/material';
 import {TClienteActual} from 'models';
 import {FunctionComponent} from 'react';
 import {useObtenerClienteActual} from 'redux/hooks';

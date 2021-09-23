@@ -1,6 +1,6 @@
 import {FunctionComponent} from 'react';
 import {TDocumento} from 'models';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import {Center, Fecha, Numero} from 'components/UI';
 
 type Props = {

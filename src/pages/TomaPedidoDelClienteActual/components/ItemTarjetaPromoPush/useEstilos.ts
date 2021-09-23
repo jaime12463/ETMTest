@@ -1,4 +1,5 @@
-import {makeStyles, Theme, createStyles} from '@material-ui/core/styles';
+import {makeStyles, createStyles} from '@material-ui/styles';
+import {Theme} from '@mui/material';
 const useEstilos = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
@@ -37,15 +38,15 @@ const useEstilos = makeStyles((theme: Theme) =>
 			overflow: 'hidden',
 			maxWidth: 230,
 		},
-		celdaProducto:{
-			fontSize:'0.7rem',
-			lineHeight:1,
-			borderBottom:0,
+		celdaProducto: {
+			fontSize: '0.7rem',
+			lineHeight: 1,
+			borderBottom: 0,
 		},
-		celdaValores:{
-			fontSize:'0.7rem',
-			lineHeight:1
-		}
+		celdaValores: {
+			fontSize: '0.7rem',
+			lineHeight: 1,
+		},
 	})
 );
 

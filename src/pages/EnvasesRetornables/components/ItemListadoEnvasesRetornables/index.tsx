@@ -1,6 +1,6 @@
 import {FunctionComponent} from 'react';
 import {TConsolidadoImplicitos} from 'models';
-import {Box, Grid, Typography} from '@material-ui/core';
+import {Box, Grid, Typography} from '@mui/material';
 import useEstilos from 'theme/useEstilosGenerales';
 
 type Props = {
@@ -15,7 +15,7 @@ const ItemListadoEnvasesRetornables: FunctionComponent<Props> = (props) => {
 	const estilos = useEstilos();
 
 	return (
-		<Grid container justify='center'>
+		<Grid container>
 			<Grid item xs={6}>
 				<Box
 					display='flex'
@@ -29,12 +29,12 @@ const ItemListadoEnvasesRetornables: FunctionComponent<Props> = (props) => {
 				</Box>
 			</Grid>
 			<Grid item xs={3}>
-				<Box display='flex' justifyContent="flex-end" px={1}>
+				<Box display='flex' justifyContent='flex-end' px={1}>
 					<Typography variant='body2'>{unidades}</Typography>
 				</Box>
 			</Grid>
 			<Grid item xs={3}>
-				<Box display='flex' justifyContent="flex-end" px={1}>
+				<Box display='flex' justifyContent='flex-end' px={1}>
 					<Typography variant='body2'>{subUnidades}</Typography>
 				</Box>
 			</Grid>

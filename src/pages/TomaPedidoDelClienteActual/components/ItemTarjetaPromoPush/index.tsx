@@ -7,22 +7,22 @@ import {
 	TableContainer,
 	TableRow,
 	TableCell,
-} from '@material-ui/core';
+} from '@mui/material';
 import {Center, Fecha, Numero} from 'components/UI';
 import useEstilos from './useEstilos';
 import React from 'react';
 import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {TPromoPush} from 'models';
 import {useObtenerDatos} from 'redux/hooks';
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/styles';
 import {useTranslation} from 'react-i18next';
 import {formatearNumero} from 'utils/methods';
 

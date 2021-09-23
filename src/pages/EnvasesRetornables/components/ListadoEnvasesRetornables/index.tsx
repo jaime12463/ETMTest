@@ -1,7 +1,7 @@
 import {List} from 'components/UI';
 import {FunctionComponent} from 'react';
 import {THeader, TProductoPedido} from 'models';
-import {Box} from '@material-ui/core';
+import {Box} from '@mui/material';
 import {TConsolidadoImplicitos} from 'models';
 import {useObtenerConsolidacionImplicitos} from './hooks';
 import {useObtenerVisitaActual, useObtenerConfiguracion} from 'redux/hooks';
@@ -22,12 +22,11 @@ const ListadoEnvasesRetornables: FunctionComponent<Props> = (props) => {
 	Object.values(visitaActual.pedidos).forEach((pedido) => {
 		let esGeneraEnvases = false;
 		tipoPedidos.forEach((tipoPedido) => {
-			if(tipoPedido.codigo === pedido.tipoPedido)
+			if (tipoPedido.codigo === pedido.tipoPedido)
 				esGeneraEnvases = tipoPedido.generaEnvases;
 		});
 
-		if(esGeneraEnvases)
-			pedidosArray = pedidosArray.concat(pedido.productos);
+		if (esGeneraEnvases) pedidosArray = pedidosArray.concat(pedido.productos);
 	});
 
 	const consolidacionImplicitos: TConsolidadoImplicitos[] = obtenerConsolidacionImplicitos(

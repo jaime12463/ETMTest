@@ -14,7 +14,7 @@ import {
 	useInicializarPreciosProductosDelClienteActual,
 	useObtenerDatosTipoPedido,
 } from 'hooks';
-import {Box, Grid} from '@material-ui/core';
+import {Box, Grid} from '@mui/material';
 import {useForm} from 'react-hook-form';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {MenuPromoPush} from 'components/Negocio';
@@ -71,9 +71,9 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 				<Box my={2}>
 					<Grid container>
 						<Grid item xs={8}>
-							<SelectTipoDePedido 
-								hookForm={hookForm} 
-								stateProductoActual={{productoActual, setProductoActual}} 
+							<SelectTipoDePedido
+								hookForm={hookForm}
+								stateProductoActual={{productoActual, setProductoActual}}
 							/>
 						</Grid>
 						<Grid item xs={4}>

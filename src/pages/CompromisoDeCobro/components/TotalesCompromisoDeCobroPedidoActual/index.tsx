@@ -2,7 +2,7 @@ import {TotalesCompromisoDeCobro} from 'components/Negocio';
 import {useObtenerClienteActual} from 'redux/hooks';
 import {TClienteActual} from 'models';
 import {useObtenerCompromisosDeCobroMismaFechaEntrega} from 'hooks';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import {useTranslation} from 'react-i18next';
 import {useObtenerMontoTotalDocumentos} from '../../hooks';
 import {obtenerTotalesCompromisoDeCobroCliente} from 'utils/methods';

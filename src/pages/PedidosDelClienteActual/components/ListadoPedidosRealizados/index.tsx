@@ -1,5 +1,5 @@
 import {List} from 'components/UI';
-import {Box} from '@material-ui/core';
+import {Box} from '@mui/material';
 import {THeader, TClienteActual} from 'models';
 import {useTranslation} from 'react-i18next';
 import {ItemListadoPedidosRealizados} from '..';

@@ -1,5 +1,5 @@
 import {useHistory} from 'react-router-dom';
-import {Box, Grid, IconButton} from '@material-ui/core';
+import {Box, Grid, IconButton} from '@mui/material';
 import Headers from 'assests/images/pop_up_onda.png';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {Fragment} from 'react';

@@ -1,24 +1,26 @@
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { TextField } from '@material-ui/core';
+import {
+	TextField,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+} from '@mui/material';
 import {useTranslation} from 'react-i18next';
-import { useState } from 'react';
+import {useState} from 'react';
 
 export type Props = {
 	titulo?: string;
 	mensaje?: string;
 	conBotonCancelar?: boolean;
-	manejadorClick?: (oprimioBotonAceptar: boolean, data?:any) => void;
+	manejadorClick?: (oprimioBotonAceptar: boolean, data?: any) => void;
 	textosBotonesDefault?: {
 		aceptar: string;
 		cancelar?: string;
 	};
 	dataCy: string;
-	textoInput?:string;
+	textoInput?: string;
 };
 
 const Dialogo = ({
@@ -28,22 +30,21 @@ const Dialogo = ({
 	manejadorClick = () => {},
 	textosBotonesDefault,
 	dataCy,
-	textoInput=undefined,
+	textoInput = undefined,
 }: Props) => {
 	const {t} = useTranslation();
 
-	const manejarClick = (oprimioBotonAceptar: boolean, data?:any) => {
+	const manejarClick = (oprimioBotonAceptar: boolean, data?: any) => {
 		manejadorClick(oprimioBotonAceptar, data);
 	};
 
 	const [data, setData] = useState({
 		textoInput: '',
-		
-	  });
-	
-	  const handleChange = (prop:any) => (event:any) => {
-		setData({ ...data, [prop]: event.target.value });
-	  };
+	});
+
+	const handleChange = (prop: any) => (event: any) => {
+		setData({...data, [prop]: event.target.value});
+	};
 
 	return (
 		<Dialog
@@ -59,13 +60,13 @@ const Dialogo = ({
 					<DialogContentText id='alert-dialog-description' data-cy={dataCy}>
 						{mensaje}
 					</DialogContentText>
-					
 				)}
-				{
-					textoInput !== undefined && (
-						<TextField defaultValue={textoInput} onChange={ handleChange('textoInput')}/>
-					)
-				}
+				{textoInput !== undefined && (
+					<TextField
+						defaultValue={textoInput}
+						onChange={handleChange('textoInput')}
+					/>
+				)}
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={() => manejarClick(true, data)} color='primary'>

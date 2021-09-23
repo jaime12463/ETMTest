@@ -1,5 +1,5 @@
 import {FunctionComponent} from 'react';
-import {Box, Typography} from '@material-ui/core';
+import {Box, Typography} from '@mui/material';
 import {useObtenerPedidoActual} from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
 import {Center, Fecha} from 'components/UI';

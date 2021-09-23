@@ -1,5 +1,10 @@
 import {ChangeEvent, FunctionComponent} from 'react';
-import {MenuItem, Select as SelectMUI, SelectProps} from '@material-ui/core';
+import {
+	MenuItem,
+	Select as SelectMUI,
+	SelectChangeEvent,
+	SelectProps,
+} from '@mui/material';
 import {Control, Controller} from 'react-hook-form';
 import {TOpcionSelect} from 'models';
 
@@ -10,7 +15,7 @@ type Props = {
 	rules?: any;
 	dataCY?: string;
 	label?: string;
-	handleChange: (e: ChangeEvent<any>) => void;
+	handleChange: (e: any) => void;
 	opciones: TOpcionSelect[];
 };
 

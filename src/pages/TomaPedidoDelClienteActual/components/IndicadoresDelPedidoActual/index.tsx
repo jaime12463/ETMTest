@@ -1,4 +1,4 @@
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import {BarraDeProgeso, Center} from 'components/UI';
 import {ETiposDePago, TCliente, TClienteActual} from 'models';
 import {
@@ -28,35 +28,30 @@ const IndicadoresDelPedidoActual = () => {
 	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
-	const {
-		obtenerPedidosClienteMismaFechaEntrega,
-	} = useObtenerPedidosClienteMismaFechaEntrega();
+	const {obtenerPedidosClienteMismaFechaEntrega} =
+		useObtenerPedidosClienteMismaFechaEntrega();
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(
 		clienteActual.codigoCliente
 	);
-	const pedidosClienteMismaFechaEntrega = obtenerPedidosClienteMismaFechaEntrega(
-		clienteActual.codigoCliente
-	);
+	const pedidosClienteMismaFechaEntrega =
+		obtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
 	const {tipoPedidos} = useObtenerConfiguracion();
 	const totalesPedidoCliente = obtenerTotalesPedidosCliente({
 		pedidosClienteMismaFechaEntrega,
 		tipoPedidos,
 	});
 
-	const totalContadoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
-		{
+	const totalContadoPedidosClienteMismaFechaEntrega =
+		calcularTotalPedidosClienteValorizadosPorTipoPago({
 			pedidosClienteMismaFechaEntrega,
 			tipoPedidos,
 			tipoPago: ETiposDePago.Contado,
-		}
-	);
+		});
 
-	const {
-		obtenerCompromisosDeCobroMismaFechaEntrega,
-	} = useObtenerCompromisosDeCobroMismaFechaEntrega();
-	const compromisosDeCobroMismaFechaEntrega = obtenerCompromisosDeCobroMismaFechaEntrega(
-		clienteActual.codigoCliente
-	);
+	const {obtenerCompromisosDeCobroMismaFechaEntrega} =
+		useObtenerCompromisosDeCobroMismaFechaEntrega();
+	const compromisosDeCobroMismaFechaEntrega =
+		obtenerCompromisosDeCobroMismaFechaEntrega(clienteActual.codigoCliente);
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 	const montoTotalCompromisos = obtenerTotalesCompromisoDeCobroCliente(
 		compromisosDeCobroMismaFechaEntrega
@@ -103,7 +98,7 @@ const IndicadoresDelPedidoActual = () => {
 
 	return (
 		<div>
-			<Grid container direction='row' justify='center' spacing={3}>
+			<Grid container direction='row' spacing={3}>
 				{indicadores.map((el, i) => (
 					<Grid item xs='auto' key={i} style={{padding: 7}}>
 						<Center>

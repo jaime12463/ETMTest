@@ -1,6 +1,6 @@
 import {FunctionComponent} from 'react';
-import {makeStyles, Theme} from '@material-ui/core/styles';
-import {Tabs as TabsMUI, Tab, Grid} from '@material-ui/core';
+import {makeStyles} from '@material-ui/styles';
+import {Tabs as TabsMUI, Tab, Grid} from '@mui/material';
 import {TabPanel} from 'components/UI';
 import React from 'react';
 import {TTab} from 'models';
@@ -11,7 +11,7 @@ type Props = {
 	setValue: any;
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
 	root: {
 		flexGrow: 1,
 		width: '100%',

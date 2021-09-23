@@ -1,4 +1,4 @@
-import {ListItem} from '@material-ui/core';
+import {ListItem} from '@mui/material';
 
 type Props<T> = {
 	item: T;

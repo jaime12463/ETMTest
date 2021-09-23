@@ -1,5 +1,5 @@
 import {FunctionComponent} from 'react';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import {Dialogo, FormInput} from 'components/UI';
 import {
 	THookForm,

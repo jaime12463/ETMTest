@@ -1,12 +1,6 @@
-import {
-	makeStyles,
-	createStyles,
-	withStyles,
-	Theme,
-} from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import {makeStyles, createStyles, withStyles} from '@material-ui/styles';
 
-export const useEstilos = makeStyles((theme) => ({
+export const useEstilos = makeStyles(() => ({
 	container: {
 		width: 'fit-content',
 		textAlign: 'center',
@@ -24,7 +18,7 @@ export const useEstilos = makeStyles((theme) => ({
 	},
 }));
 
-export const BorderLinearProgress = withStyles((theme: Theme) =>
+export const BorderLinearProgress = withStyles(() =>
 	createStyles({
 		root: {
 			height: 20,
@@ -46,4 +40,6 @@ export const BorderLinearProgress = withStyles((theme: Theme) =>
 			backgroundColor: '#FFFFFF',
 		},
 	})
-)(LinearProgress);
+);
+//TODO: EL CAMBIO A MUI AFECTO ESTO
+// )(LinearProgress);

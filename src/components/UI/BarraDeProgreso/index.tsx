@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
+//TODO: EL CAMBIO A MUI AFECTO ESTO
 import {useEstilos, BorderLinearProgress} from './useEstilos';
-import {Typography, Box} from '@material-ui/core';
+import {Typography, Box, LinearProgress} from '@mui/material';
 import {Numero} from 'components/UI';
 import {useTranslation} from 'react-i18next';
 import {formatearNumero} from 'utils/methods';
@@ -50,10 +51,11 @@ const BarraDeProgeso = ({
 					? formatearNumero(valor, t)
 					: `${formatearNumero(valor, t)} / ${formatearNumero(max, t)}`}
 			</Typography>
-			<BorderLinearProgress
+			<LinearProgress
 				variant='determinate'
-				value={progreso <= 0 ? setProgreso(5) : progreso}
-				barcolor={colorActual}
+				//TODO: EL CAMBIO A MUI AFECTO ESTO
+				// value={progreso <= 0 ? setProgreso(5) : progreso}
+				// barcolor={colorActual}
 			/>
 		</div>
 	);
