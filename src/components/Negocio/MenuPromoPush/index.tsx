@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-/* import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import LocalOfferIcon from '@material-ui/icons/LocalOffer'; */
-=======
->>>>>>> ed61a035d802e908877b5caa670e0c1699185039
 import {Box} from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
@@ -39,11 +34,7 @@ const MenuPromoPush = (): any => {
 					}}
 					color={mostrarPromoPush ? 'primary' : 'default'}
 				>
-<<<<<<< HEAD
-			{'PromoPush'}
-=======
 					Icono Promo
->>>>>>> ed61a035d802e908877b5caa670e0c1699185039
 				</IconButton>
 			)}
 		</Box>
