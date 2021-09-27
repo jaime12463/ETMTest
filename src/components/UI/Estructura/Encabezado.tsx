@@ -1,9 +1,19 @@
-import {useHistory} from 'react-router-dom';
-import {Box, Grid, IconButton} from '@mui/material';
-import Headers from 'assests/images/pop_up_onda.png';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {Fragment} from 'react';
-import {Center} from '..';
+import {styled} from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import {useHistory} from 'react-router-dom';
+import Logo from 'assests/images/logo.svg';
+import {Grid, Stack, Box} from '@mui/material';
+
+const StyledToolbar = styled(Toolbar)(({theme}) => ({
+	alignItems: 'flex-start',
+	paddingTop: theme.spacing(1),
+	paddingBottom: theme.spacing(1),
+}));
 
 type Props = {
 	children: React.ReactNode;
@@ -14,20 +24,11 @@ type Props = {
 const Encabezado = ({children, esConFechaHaciaAtras, acciones}: Props) => {
 	const history = useHistory();
 	return (
-		<Box display='flex' justifyContent='center' component='header'>
-			<Box
-				display='flex'
-				style={{
-					backgroundImage: `url(${Headers})`,
-					backgroundSize: 'cover',
-					height: '75px',
-					width: '444px',
-				}}
-				pb={2}
-			>
+		<AppBar position='static' elevation={0}>
+			<StyledToolbar>
 				<Grid container>
-					<Grid item xs={2}>
-						<Center>
+					<Grid item xs={12}>
+						<Stack direction='row' spacing={2} justifyContent='space-between'>
 							{esConFechaHaciaAtras && (
 								<IconButton
 									size='small'
@@ -37,17 +38,27 @@ const Encabezado = ({children, esConFechaHaciaAtras, acciones}: Props) => {
 									<ArrowBackIcon style={{color: 'white'}} />
 								</IconButton>
 							)}
-						</Center>
+							{acciones ?? <Fragment />}
+						</Stack>
 					</Grid>
-					<Grid item xs={8}>
-						<Center>{children}</Center>
-					</Grid>
-					<Grid item xs={2}>
-						<Center>{acciones ?? <Fragment />}</Center>
+					<Grid item xs={12}>
+						<Stack direction='row' spacing={2}>
+							<Box ml={1}>
+								<img src={Logo} alt='logo'></img>
+							</Box>
+							<Stack
+								direction='column'
+								justifyContent='flex-end'
+								alignItems='flex-start'
+								spacing={1}
+							>
+								<Typography style={{fontWeight: 'bold'}}>{children}</Typography>
+							</Stack>
+						</Stack>
 					</Grid>
 				</Grid>
-			</Box>
-		</Box>
+			</StyledToolbar>
+		</AppBar>
 	);
 };
 

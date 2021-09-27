@@ -21,13 +21,7 @@ const Estructura = ({esConFechaHaciaAtras = true, titulo, children}: Props) => {
 					<CssBaseline />
 					{titulo !== undefined && (
 						<Encabezado esConFechaHaciaAtras={esConFechaHaciaAtras}>
-							<Typography
-								component='h5'
-								variant='body2'
-								style={{color: 'white'}}
-							>
-								{titulo}
-							</Typography>
+							{titulo}
 						</Encabezado>
 					)}
 					<CssBaseline />
