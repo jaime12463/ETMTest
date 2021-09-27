@@ -6,12 +6,11 @@ import {
 	BotonCerrarPedidoDelCliente,
 } from './components';
 import {TotalesCompromisoDeCobroPedidoActual} from '../CompromisoDeCobro/components/index';
-import {Dialogo, Estructura, Tabs} from 'components/UI';
+import {Dialogo, Estructura, Tabs, BotonBarraInferior} from 'components/UI';
 import {Button, Grid, IconButton, Box} from '@mui/material';
 import {useTranslation} from 'react-i18next';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 import nombresRutas from 'routes/nombresRutas';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import {
 	FechaEntregaDelPedidoActual,
 	InfoClienteDelPedidoActual,
@@ -64,23 +63,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				<TabsPedidoActual value={value} setValue={setValue} />
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
-				<Grid container spacing={1}>
-					{!mostrarPromoPush && <PieDelTab value={value} />}
-				</Grid>
-
-				<Grid container spacing={1}>
-					{habilitaOrdenDeCompra && (
-						<Grid item xs={12}>
-							<BotonAgregarOrdenDeCompra />
-						</Grid>
-					)}
-					<Grid item xs={6}>
-						<BotonVerEnvases />
-					</Grid>
-					<Grid item xs={6}>
-						<BotonCerrarPedidoDelCliente />
-					</Grid>
-				</Grid>
+				<BotonBarraInferior></BotonBarraInferior>
 			</Estructura.PieDePagina>
 		</Estructura>
 	);
@@ -91,12 +74,10 @@ function BotonAgregarOrdenDeCompra() {
 	const dispatch = useAppDispatch();
 	const {ordenDeCompra} = useAppSelector(selectVisitaActual);
 	const {pedidos} = useObtenerVisitaActual();
-	const obtenerTiposPedidoSegunConfiguracion = useObtenerTiposPedidoSegunConfiguracion;
-	const {
-		mostrarAdvertenciaEnDialogo,
-		mostarDialogo,
-		parametrosDialogo,
-	} = useMostrarAdvertenciaEnDialogo();
+	const obtenerTiposPedidoSegunConfiguracion =
+		useObtenerTiposPedidoSegunConfiguracion;
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+		useMostrarAdvertenciaEnDialogo();
 
 	let {path} = useRouteMatch();
 	let history = useHistory();
@@ -189,7 +170,7 @@ function BotonVerPedidosDelClienteActual() {
 			size='small'
 			onClick={() => history.push(`${path}${nombresRutas.pedidosCliente}`)}
 		>
-			<AssignmentIcon style={{color: 'white'}} />
+			Icono Pedidos
 		</IconButton>
 	);
 }

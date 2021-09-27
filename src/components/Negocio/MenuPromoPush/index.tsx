@@ -1,5 +1,3 @@
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import {Box} from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
@@ -27,7 +25,7 @@ const MenuPromoPush = (): any => {
 				}}
 				color={!mostrarPromoPush ? 'primary' : 'default'}
 			>
-				<ShoppingCartIcon />
+				Icono carrito
 			</IconButton>
 			{datosTipoPedido?.habilitaPromocion && (
 				<IconButton
@@ -36,7 +34,7 @@ const MenuPromoPush = (): any => {
 					}}
 					color={mostrarPromoPush ? 'primary' : 'default'}
 				>
-					<LocalOfferIcon />
+					Icono Promo
 				</IconButton>
 			)}
 		</Box>

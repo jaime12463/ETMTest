@@ -8,7 +8,6 @@ import {
 	TStateProductoActual,
 } from 'models';
 import {IconButton, Grid} from '@mui/material';
-import SearchIcon from '@material-ui/icons/Search';
 import nombresRutas from 'routes/nombresRutas';
 import {useRouteMatch, useHistory} from 'react-router-dom';
 import {useSeleccionarProductoDePrecios} from 'hooks';
@@ -46,11 +45,8 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 
 	const {t} = useTranslation();
 
-	const {
-		mostrarAdvertenciaEnDialogo,
-		mostarDialogo,
-		parametrosDialogo,
-	} = useMostrarAdvertenciaEnDialogo();
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+		useMostrarAdvertenciaEnDialogo();
 
 	const {
 		mostrarCajon,
@@ -67,9 +63,8 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 		mostrarAdvertenciaEnDialogo
 	);
 
-	const {
-		validarEsPermitidoAgregarProductoAlPedido,
-	} = useEsPermitidoAgregarProductoAlPedido();
+	const {validarEsPermitidoAgregarProductoAlPedido} =
+		useEsPermitidoAgregarProductoAlPedido();
 
 	return (
 		<>
@@ -107,7 +102,7 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 										)
 									}
 								>
-									<SearchIcon />
+									Icono Buscar
 								</IconButton>
 							),
 						}}

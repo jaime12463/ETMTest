@@ -14,6 +14,7 @@ import Cajon from './Cajon';
 import BuscadorenLista from './BuscadorenLista';
 
 export {Fecha} from './Fecha';
+export {BotonBarraInferior} from './BotonBarraInferior';
 
 export {
 	Estructura,
