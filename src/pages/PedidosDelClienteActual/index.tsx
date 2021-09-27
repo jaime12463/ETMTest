@@ -22,7 +22,9 @@ const PedidosDelClienteActual: React.FC = () => {
 					titulo={'Canje'}
 					subTitulo={'subtitulo'}
 				>
-					{'holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'}
+					{
+						'holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+					}
 				</TarjetaColapsable>
 				<TarjetaColapsable
 					setExpandido={setExpandido}

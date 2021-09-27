@@ -1,7 +1,4 @@
 import {
-	Accordion,
-	AccordionDetails,
-	AccordionSummary,
 	Box,
 	Card,
 	CardActions,
@@ -10,7 +7,7 @@ import {
 	CardContent,
 	IconButton,
 } from '@mui/material';
-import {useState, Dispatch, SetStateAction, Children} from 'react';
+import {Dispatch, SetStateAction} from 'react';
 import useEstilos from './useEstilos';
 import clsx from 'clsx';
 
@@ -42,20 +39,33 @@ export const TarjetaColapsable = ({
 	return (
 		<>
 			<Card>
-				<CardHeader title={titulo} subheader={subTitulo}></CardHeader>
+				<CardHeader
+					title={
+						<Box display='flex' justifyContent='space-between'>
+							<Box alignSelf='center'>{titulo}</Box>
+							<Box>
+								<CardActions disableSpacing style={{padding: 0}}>
+									<IconButton
+										className={clsx(classes.expand, {
+											[classes.expandOpen]: expandido === id ? true : false,
+										})}
+										onClick={manejadorExpandido({
+											id: expandido === id ? false : id,
+										})}
+										aria-expanded={expandido === id ? true : false}
+									>
+										{'<>'}
+									</IconButton>
+								</CardActions>
+							</Box>
+						</Box>
+					}
+					subheader={subTitulo}
+				></CardHeader>
 				<CardContent>
-					{children}
-					<CardActions disableSpacing style={{padding: 0}}>
-						<IconButton
-							className={clsx(classes.expand, {
-								[classes.expandOpen]: expandido === id ? true : false,
-							})}
-							onClick={manejadorExpandido({id: expandido === id ? false : id})}
-							aria-expanded={expandido === id ? true : false}
-						>
-							{'<>'}
-						</IconButton>
-					</CardActions>
+					<Collapse in={expandido === id} timeout='auto' unmountOnExit>
+						{children}
+					</Collapse>
 				</CardContent>
 			</Card>
 		</>
