@@ -12,6 +12,7 @@ import BarraDeProgeso from './BarraDeProgreso';
 import Numero from './Numero';
 import Cajon from './Cajon';
 import BuscadorenLista from './BuscadorenLista';
+export {TarjetaColapsable} from './TarjetaColapsable';
 
 export {Fecha} from './Fecha';
 

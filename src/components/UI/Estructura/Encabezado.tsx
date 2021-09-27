@@ -4,7 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+/* import ArrowBackIcon from '@material-ui/icons/ArrowBack'; */
 import {useHistory} from 'react-router-dom';
 import Logo from 'assests/images/logo.svg';
 import {Grid, Stack, Box} from '@mui/material';
@@ -35,7 +35,8 @@ const Encabezado = ({children, esConFechaHaciaAtras, acciones}: Props) => {
 									onClick={() => history.goBack()}
 									data-cy='boton-atras'
 								>
-									<ArrowBackIcon style={{color: 'white'}} />
+									{'Atras'}
+									{/* <ArrowBackIcon style={{color: 'white'}} /> */}
 								</IconButton>
 							)}
 							{acciones ?? <Fragment />}

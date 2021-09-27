@@ -1,6 +1,5 @@
 import {Hidden} from '@mui/material';
 import {makeStyles, createStyles, withStyles} from '@material-ui/styles';
-import {Height} from '@material-ui/icons';
 export const useEstilos = makeStyles(() => ({
 	celda: {
 		borderBottom: 'none',

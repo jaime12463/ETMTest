@@ -11,7 +11,7 @@ import {Button, Grid, IconButton, Box} from '@mui/material';
 import {useTranslation} from 'react-i18next';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 import nombresRutas from 'routes/nombresRutas';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+/* import AssignmentIcon from '@material-ui/icons/Assignment'; */
 import {
 	FechaEntregaDelPedidoActual,
 	InfoClienteDelPedidoActual,
@@ -91,12 +91,10 @@ function BotonAgregarOrdenDeCompra() {
 	const dispatch = useAppDispatch();
 	const {ordenDeCompra} = useAppSelector(selectVisitaActual);
 	const {pedidos} = useObtenerVisitaActual();
-	const obtenerTiposPedidoSegunConfiguracion = useObtenerTiposPedidoSegunConfiguracion;
-	const {
-		mostrarAdvertenciaEnDialogo,
-		mostarDialogo,
-		parametrosDialogo,
-	} = useMostrarAdvertenciaEnDialogo();
+	const obtenerTiposPedidoSegunConfiguracion =
+		useObtenerTiposPedidoSegunConfiguracion;
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+		useMostrarAdvertenciaEnDialogo();
 
 	let {path} = useRouteMatch();
 	let history = useHistory();
@@ -189,7 +187,7 @@ function BotonVerPedidosDelClienteActual() {
 			size='small'
 			onClick={() => history.push(`${path}${nombresRutas.pedidosCliente}`)}
 		>
-			<AssignmentIcon style={{color: 'white'}} />
+			{'pedidos cliente'}
 		</IconButton>
 	);
 }
