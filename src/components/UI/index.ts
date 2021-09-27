@@ -15,6 +15,7 @@ import BuscadorenLista from './BuscadorenLista';
 export {TarjetaColapsable} from './TarjetaColapsable';
 
 export {Fecha} from './Fecha';
+export {BotonBarraInferior} from './BotonBarraInferior';
 
 export {
 	Estructura,

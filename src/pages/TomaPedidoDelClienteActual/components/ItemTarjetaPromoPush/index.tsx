@@ -19,7 +19,6 @@ import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-/* import ExpandMoreIcon from '@material-ui/icons/ExpandMore'; */
 import {TPromoPush} from 'models';
 import {useObtenerDatos} from 'redux/hooks';
 import {makeStyles} from '@material-ui/styles';
@@ -104,7 +103,7 @@ const ItemTarjetaPromoPush = (props: any) => {
 						})}
 						aria-expanded={estado === index ? true : false}
 					>
-						{'expandir'}
+						Icono expandir
 					</IconButton>
 				</CardActions>
 				<Collapse in={estado === index} timeout='auto' unmountOnExit>

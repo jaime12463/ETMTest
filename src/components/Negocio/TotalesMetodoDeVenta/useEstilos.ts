@@ -1,5 +1,4 @@
-import {Hidden} from '@mui/material';
-import {makeStyles, createStyles, withStyles} from '@material-ui/styles';
+import {makeStyles} from '@material-ui/styles';
 export const useEstilos = makeStyles(() => ({
 	celda: {
 		borderBottom: 'none',
