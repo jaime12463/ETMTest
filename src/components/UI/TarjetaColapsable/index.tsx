@@ -38,7 +38,11 @@ export const TarjetaColapsable = ({
 
 	return (
 		<>
-			<Card>
+			<Card
+				className={clsx(classes.root, {
+					[classes.inactiva]: expandido !== id ? true : false,
+				})}
+			>
 				<CardHeader
 					title={
 						<Box display='flex' justifyContent='space-between'>
@@ -62,7 +66,7 @@ export const TarjetaColapsable = ({
 					}
 					subheader={subTitulo}
 				></CardHeader>
-				<CardContent>
+				<CardContent className={expandido !== id ? classes.cardContent : ''}>
 					<Collapse in={expandido === id} timeout='auto' unmountOnExit>
 						{children}
 					</Collapse>
