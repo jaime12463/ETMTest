@@ -1,5 +1,5 @@
 import {GridSize} from '@mui/material';
-import {TPrecioProducto} from 'models/redux';
+import {ETiposDePago, TPrecioProducto} from 'models/redux';
 import React, {Dispatch, ReactElement, SetStateAction} from 'react';
 import {
 	Control,
@@ -16,6 +16,7 @@ export type TConsolidadoImplicitos = {
 	nombreImplicito: string;
 	unidades: number;
 	subUnidades: number;
+	tipoPago?: ETiposDePago;
 };
 
 export type TTotal = {
