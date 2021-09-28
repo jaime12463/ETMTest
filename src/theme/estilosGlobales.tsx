@@ -4,7 +4,7 @@ const GlobalStyles = () => {
 	return (
 		<GlobalThemeStyles
 			styles={{
-				body: {
+				'#root': {
 					background: '#E5E5E5',
 				},
 			}}
