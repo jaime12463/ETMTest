@@ -63,7 +63,11 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				<TabsPedidoActual value={value} setValue={setValue} />
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
-				<BotonBarraInferior></BotonBarraInferior>
+				<BotonBarraInferior
+					descripcion='Continuar a Toma de pedido'
+					numeroItems={130}
+					total='1000.00$'
+				></BotonBarraInferior>
 			</Estructura.PieDePagina>
 		</Estructura>
 	);
