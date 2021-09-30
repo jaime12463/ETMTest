@@ -1,5 +1,5 @@
 import {Grid} from '@mui/material';
-import {BarraDeProgeso, Center} from 'components/UI';
+import {BarraDeProgreso, Center} from 'components/UI';
 import {ETiposDePago, TCliente, TClienteActual} from 'models';
 import {
 	useObtenerDatosCliente,
@@ -102,7 +102,7 @@ const IndicadoresDelPedidoActual = () => {
 				{indicadores.map((el, i) => (
 					<Grid item xs='auto' key={i} style={{padding: 7}}>
 						<Center>
-							<BarraDeProgeso
+							<BarraDeProgreso
 								titulo={el.titulo}
 								max={el.valorMax}
 								valor={el.valor}
