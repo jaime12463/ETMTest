@@ -36,7 +36,7 @@ const theme = createTheme({
 			light: '#D9D9D9',
 			lighter: '#F2F2F2',
 		},
-		blues: {
+		info: {
 			main: '#5594E9',
 			light: '#8DC4FF',
 			dark: '#0067B6',

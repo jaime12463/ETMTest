@@ -51,7 +51,7 @@ const Encabezado = ({children, esConFechaHaciaAtras, acciones}: Props) => {
 								alignItems='flex-start'
 								spacing={1}
 							>
-								<h1>{children}</h1>
+								<Typography style={{fontWeight: 'bold'}}>{children}</Typography>
 							</Stack>
 						</Stack>
 					</Grid>

@@ -6,7 +6,6 @@ declare module '@mui/material/styles/createPalette' {
 	}
 	interface PaletteOptions {
 		greys: PaletteColorOptions;
-		blues: PaletteColorOptions;
 		browns: PaletteColorOptions;
 	}
 }
