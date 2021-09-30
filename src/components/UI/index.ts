@@ -16,6 +16,7 @@ export {TarjetaColapsable} from './TarjetaColapsable';
 export {Fecha} from './Fecha';
 export {BotonBarraInferior} from './BotonBarraInferior';
 export {TarjetaDoble} from './TarjetaDoble';
+export {Stepper} from './Stepper';
 
 export {
 	Estructura,

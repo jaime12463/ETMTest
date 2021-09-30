@@ -6,7 +6,13 @@ import {
 	BotonCerrarPedidoDelCliente,
 } from './components';
 import {TotalesCompromisoDeCobroPedidoActual} from '../CompromisoDeCobro/components/index';
-import {Dialogo, Estructura, Tabs, BotonBarraInferior} from 'components/UI';
+import {
+	Dialogo,
+	Estructura,
+	Tabs,
+	BotonBarraInferior,
+	Stepper,
+} from 'components/UI';
 import {Button, Grid, IconButton, Box} from '@mui/material';
 import {useTranslation} from 'react-i18next';
 import {useHistory, useRouteMatch} from 'react-router-dom';
@@ -56,7 +62,9 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				<InfoClienteDelPedidoActual />
 			</Estructura.Encabezado>
 			<Estructura.Cuerpo>
-				<FechaEntregaDelPedidoActual />
+				<Box my={3}>
+					<Stepper pasoActivo={1} />
+				</Box>
 				<Box mb={3}>
 					<IndicadoresDelPedidoActual />
 				</Box>
