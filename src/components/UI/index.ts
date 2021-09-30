@@ -8,7 +8,7 @@ import TabPanel from './TabPanel';
 import FormInput from './FormInput';
 import Rutas from './Rutas';
 import Center from './Center';
-import BarraDeProgeso from './BarraDeProgreso';
+import BarraDeProgreso from './BarraDeProgreso';
 import Numero from './Numero';
 import Cajon from './Cajon';
 import BuscadorenLista from './BuscadorenLista';
@@ -29,7 +29,7 @@ export {
 	FormInput,
 	Rutas,
 	Center,
-	BarraDeProgeso,
+	BarraDeProgreso,
 	Numero,
 	Cajon,
 	BuscadorenLista,
