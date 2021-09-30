@@ -40,7 +40,7 @@ const theme = createTheme({
 		browns: {main: '#FFE5DE', light: '#F5F0EF', dark: '#CCB3AC'},
 	},
 	typography: {
-		fontFamily: ['Open Sans', 'Poppins'].join(','),
+		fontFamily: ['Poppins', 'Open Sans'].join(','),
 	},
 });
 
