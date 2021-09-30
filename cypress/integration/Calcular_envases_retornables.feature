@@ -37,13 +37,13 @@ Escenario: N°1 – El producto del pedido no tiene Implícito1 ni Implícito2 i
 	Cuando se calculan los envases retornables
 	Entonces el sistema no calculará envases para ese producto
 
-Esquema del escenario: N°2 – El producto del pedido tiene Implícito1 informado
+Esquema del escenario: N°2 – El producto del pedido tiene Implícito1 informado con tipo de pedido de envases habilitado valorizado
 	Dado que se realizó la venta de '<cantidadUnidades>' y '<cantidadSubunidades>' de '<producto>' 
 	Y éste tiene '<implicito1>' informado
-	Y el _tipoPedido tiene un _tipoPedidoEnvase que _esValorizada = true 
+	Y tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
 	Y la condición de pago es '<condicion>'
 	Cuando se calculan los envases retornables del pedido
-	Entonces el sistema calculará el '<implicito1>' con '<cantidadUnidades>' y '<cantidadSubunidades>' para retorno
+	Entonces el sistema calculará el '<implicito1>' con '<cantidadUnidades>' y '<cantidadSubunidades>' y '<condicion>' para retorno
 
 Ejemplos:
 	|producto|cantidadUnidades|cantidadSubunidades|implicito1|condicion|	
@@ -52,10 +52,10 @@ Ejemplos:
 	|380	 |15	          |0	              | 1001	|credito   |
 	|400	 |0	              |3	              | 1001	|contado   |
 
-Esquema del escenario: N°3 – El producto del pedido tiene Implícito1 informado no valorizado
+Esquema del escenario: N°3 – El producto del pedido tiene Implícito1 informado con tipo de pedido de envases habilitado no valorizado
 	Dado que se realizó la venta de '<cantidadUnidades>' y '<cantidadSubunidades>' de '<producto>' 
 	Y éste tiene '<implicito1>' informado
-	Y el _tipoPedido no tiene un _tipoPedidoEnvase que _esValorizada = true 
+	Y no tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
 	Cuando se calculan los envases retornables del pedido
 	Entonces el sistema calculará el '<implicito1>' con '<cantidadUnidades>' y '<cantidadSubunidades>' para retorno
 
@@ -66,13 +66,13 @@ Ejemplos:
 	|380	 |15	          |0	              | 1001	|
 	|400	 |0	              |3	              | 1001	|
 
-Esquema del escenario: N°4 – El producto del pedido tiene Implícito2 informado
+Esquema del escenario: N°4 – El producto del pedido tiene Implícito2 informado con tipo de pedido de envases habilitado valorizado
 	Dado que se realizó la venta de '<cantidadUnidades>' mayores a cero del '<producto>' 
 	Y éste tiene '<implicito2>' informado
-	Y el _tipoPedido tiene un _tipoPedidoEnvase que _esValorizada = true 
+	Y tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
 	Y la condición de pago es '<condicion>'
 	Cuando se calculan los envases retornables del pedido
-	Entonces el sistema calculará el '<implicito2>' con '<cantidadUnidades>' para retorno
+	Entonces el sistema calculará el '<implicito2>' con '<cantidadUnidades>' y '<condicion>' para retorno
 
 Ejemplos:
 	|producto|cantidadUnidades|implicito2|condicion|	
@@ -81,10 +81,10 @@ Ejemplos:
 	|380	 |15	          | 1020	|credito   |
 	|400	 |0	              | 1020	|contado   |
 
-Esquema del escenario: N°5 – El producto del pedido tiene Implícito2 informado no valorizado
+Esquema del escenario: N°5 – El producto del pedido tiene Implícito2 informado con tipo de pedido de envases habilitado no valorizado
 	Dado que se realizó la venta de '<cantidadUnidades>' mayores a cero del '<producto>' 
 	Y éste tiene '<implicito2>' informado
-	Y el _tipoPedido no tiene un _tipoPedidoEnvase que _esValorizada = true 
+	Y no tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
 	Cuando se calculan los envases retornables del pedido
 	Entonces el sistema calculará el '<implicito2>' con '<cantidadUnidades>' para retorno
 
@@ -156,9 +156,9 @@ Ejemplos:
 #La parte entera de la división de las subunidades/presentación se suma a las unidades y el resto 
 #queda como subunidades
 
-Esquema del escenario: N°6 - Contabilizar envases de productos promo push
+Esquema del escenario: N°6 - Contabilizar envases de productos promo push con tipo de pedido de envases habilitado valorizado
 	Dado que se realizó la venta <cantidadUnidades> de un producto Promo Push <codigoPromo>
-	Y el _tipoPedido tiene un _tipoPedidoEnvase que _esValorizada = true 
+	Y tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
 	Y su condición de pago es '<condicion>'
 	Cuando se calculan los envases retornables del pedido  
 	Entonces el sistema calculará
@@ -170,9 +170,9 @@ Ejemplos:
 	|codigoPromo|cantidadUnidades|condicion|
 	|   10010   |  3             | contado |
 
-Esquema del escenario: N°7 - Contabilizar envases de productos promo push no valorizado
+Esquema del escenario: N°7 - Contabilizar envases de productos promo push con tipo de pedido de envases habilitado no valorizado
 	Dado que se realizó la venta <cantidadUnidades> de un producto Promo Push <codigoPromo>
-	Y el _tipoPedido no tiene un _tipoPedidoEnvase que _esValorizada = true 
+	Y no tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
 	Cuando se calculan los envases retornables del pedido  
 	Entonces el sistema calculará
 	|envase| unidades |subunidades|
@@ -220,7 +220,7 @@ Ejemplos:
 #| 1010	   |   15	  |		0      |
 #| 1020	   |   28     |            | 
 
-Escenario: N°8 - Consolidar los retornables del pedido
+Escenario: N°8 - Consolidar los retornables del pedido con tipo de pedido de envases habilitado valorizado
 	Dado que se capturó el siguiente pedido
 	|producto|cantidadUnidades|cantidadSubunidades|condicion|
 	| 360	 |      10	      |       7           | contado |
@@ -229,7 +229,7 @@ Escenario: N°8 - Consolidar los retornables del pedido
 	| 390	 |       5	      |       5		      | contado |
 	| 400	 |       0	      |       9	          | contado |
 	| 10010  |       3        |       0           | contado |  
-	Y el _tipoPedido tiene un _tipoPedidoEnvase que _esValorizada = true 
+	Y tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
 	Cuando se calculan los envases retornables del pedido  
 	Entonces el sistema calculará
 	|implicito| unidades |subunidades|condicion|
@@ -241,7 +241,7 @@ Escenario: N°8 - Consolidar los retornables del pedido
 
 # como las subunidades exceden la presentación, se visualizan como cajas según la presentación
 
-Escenario: N°9 - Consolidar los retornables del pedido no valorizado
+Escenario: N°9 - Consolidar los retornables del pedido con pedido de envases habilitado no valorizado
 	Dado que se capturó el siguiente pedido
 	|producto|cantidadUnidades|cantidadSubunidades|condicion|
 	| 360	 |      10	      |       7           | contado |
@@ -250,7 +250,7 @@ Escenario: N°9 - Consolidar los retornables del pedido no valorizado
 	| 390	 |       5	      |       5		      | contado |
 	| 400	 |       0	      |       9	          | contado |
 	| 10010  |       3        |       0           | contado | 
-	Y el _tipoPedido no tiene un _tipoPedidoEnvase que _esValorizada = true  
+	Y no tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true  
 	Cuando se calculan los envases retornables del pedido  
 	Entonces el sistema calculará
 	|implicito| unidades |subunidades|

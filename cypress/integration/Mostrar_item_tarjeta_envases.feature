@@ -16,10 +16,10 @@ Característica: Mostrar items en tarjetas de envases
     Quiero ver los items que conforman a la tarjeta de envases para retorno
     Para gestionar la venta y prestamo de los envases al cliente
 
-Escenario: N°1 - Mostrar items de tarjeta de envases
+Escenario: N°1 - Mostrar items de tarjeta de envases con tipo de pedido de envases habilitado valorizado
     Dado que existe un pedido cuyo tipo de pedido tiene _generaEnvases = true 
     Y estamos en el paso 3 del pedido
-    Y el _tipoPedido tiene un _tipoPedidoEnvase que tiene _esValorizada = true 
+    Y tiene un _tipoPedidoEnvasesHabilitados que tiene _esValorizada = true 
     Cuando se selecciona la tarjeta de envases
     Entonces el sistema desplegará la tarjeta de envases
     Y mostrará las tarjetas de items ordenadas por codigo de producto y por condicion de pago
@@ -29,10 +29,10 @@ Escenario: N°1 - Mostrar items de tarjeta de envases
     unidades y subunidades editables y habilitadas según la configuración del pedido
 
 
-Escenario: N°2 - Mostrar items de tarjeta de envases de pedido no valorizado
+Escenario: N°2 - Mostrar items de tarjeta de envases de pedido con tipo de pedido de envases habilitado no valorizado
     Dado que existe un pedido cuyo tipo de pedido tiene _generaEnvases = true 
     Y estamos en el paso 3 del pedido
-    Y el _tipoPedido no tiene un _tipoPedidoEnvase que tiene _esValorizada = true 
+    Y no tiene un _tipoPedidoEnvasesHabilitados que tiene _esValorizada = true 
     Cuando se selecciona la tarjeta de envases
     Entonces el sistema desplegará la tarjeta de envases
     Y mostrará las tarjetas de items ordenadas por codigo de producto
