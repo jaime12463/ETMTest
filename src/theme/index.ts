@@ -1,5 +1,9 @@
 import {createTheme, Palette} from '@mui/material/styles';
 
+const pxToRem = (value: number) => {
+	return `${value / 16}rem`;
+};
+
 const theme = createTheme({
 	palette: {
 		primary: {
@@ -41,6 +45,52 @@ const theme = createTheme({
 	},
 	typography: {
 		fontFamily: ['Poppins', 'Open Sans'].join(','),
+		fontWeightRegular: 400,
+		fontWeightMedium: 500,
+		fontWeightBold: 600,
+		h1: {
+			fontWeight: 600,
+			lineHeight: pxToRem(32),
+			fontSize: pxToRem(32),
+		},
+		h2: {
+			fontWeight: 400,
+			lineHeight: pxToRem(24),
+			fontSize: pxToRem(24),
+		},
+		h3: {
+			fontWeight: 400,
+			lineHeight: pxToRem(20),
+			fontSize: pxToRem(20),
+		},
+		subtitle1: {
+			fontWeight: 600,
+			lineHeight: 1.5,
+			fontSize: pxToRem(16),
+		},
+		subtitle2: {
+			fontWeight: 600,
+			lineHeight: pxToRem(14),
+			fontSize: pxToRem(14),
+		},
+		body1: {
+			lineHeight: 1.5,
+			fontSize: pxToRem(16),
+		},
+		body2: {
+			lineHeight: 1.5,
+			fontSize: pxToRem(14),
+		},
+		caption: {
+			lineHeight: 1.5,
+			fontSize: pxToRem(10),
+		},
+		overline: {
+			color: '#FF5A36',
+			fontWeight: 600,
+			lineHeight: 1.5,
+			fontSize: pxToRem(14),
+		},
 	},
 });
 
