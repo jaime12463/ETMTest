@@ -63,11 +63,12 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 			</Estructura.Encabezado>
 			<Estructura.Cuerpo>
 				<Box my={3}>
-					<Stepper pasoActivo={1} />
-				</Box>
-				<Box mb={3}>
 					<IndicadoresDelPedidoActual />
 				</Box>
+				<Box my={3}>
+					<Stepper pasoActivo={1} />
+				</Box>
+				
 				<TabsPedidoActual value={value} setValue={setValue} />
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>

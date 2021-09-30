@@ -1,8 +1,11 @@
-import {makeStyles, createStyles, withStyles} from '@material-ui/styles';
 
-export const useEstilos = makeStyles(() => ({
+import {makeStyles, createStyles, withStyles} from '@mui/styles';
+import { LinearProgress} from '@mui/material';
+export const useEstilos = makeStyles((theme) => ({
 	container: {
-		width: 'fit-content',
+		width: '100%',
+		paddingRight:'6px',
+		paddingLeft:'6px',
 		textAlign: 'center',
 	},
 	label: {
@@ -18,10 +21,10 @@ export const useEstilos = makeStyles(() => ({
 	},
 }));
 
-export const BorderLinearProgress = withStyles(() =>
+export const BorderLinearProgress = withStyles((theme) =>
 	createStyles({
 		root: {
-			height: 20,
+			height: 18,
 			width: 100,
 			textAlign: 'center',
 			flex: '1 0 auto',
@@ -40,6 +43,4 @@ export const BorderLinearProgress = withStyles(() =>
 			backgroundColor: '#FFFFFF',
 		},
 	})
-);
-//TODO: EL CAMBIO A MUI AFECTO ESTO
-// )(LinearProgress);
+)(LinearProgress);

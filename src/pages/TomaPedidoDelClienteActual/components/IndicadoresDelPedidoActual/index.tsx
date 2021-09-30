@@ -61,47 +61,48 @@ const IndicadoresDelPedidoActual = () => {
 
 	const color = useObtenerColor();
 
-	const indicadores = [
-		{
-			titulo: t('general.pedidoMinimo'),
-			valorMax: datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima,
-			valor:
-				totalesPedidoCliente +
-				(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0),
-			color: color.pedidoMinimo,
-			dataCY: 'indicador-pedido-minimo',
-		},
-		{
-			titulo: t('general.pedidoMaximo'),
-			valorMax:
-				datosCliente?.configuracionPedido.ventaContadoMaxima
-					?.montoVentaContadoMaxima,
-			valor:
-				totalContadoPedidosClienteMismaFechaEntrega +
-				(obtenerTotalPedidosVisitaActual().totalContado.totalPrecio ?? 0) +
-				montoTotalCompromisos +
-				compromisoDeCobroActual.monto,
-			color: color.pedidoMaximo,
-			dataCY: 'indicador-credito-minimo',
-		},
-		{
-			titulo: t('general.creditoDisponible'),
-			valorMax: datosCliente?.informacionCrediticia.disponible,
-			valor:
-				creditoDisponible - //error
-				(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0),
-			color: color.creditoDisponible,
-			condicion: datosCliente?.informacionCrediticia.condicion,
-			dataCY: 'indicador-credito-maximo',
-		},
-	];
-
+	const indicadores = [];
+	if ( datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima)
+		indicadores.push(
+			{
+				titulo: t('general.pedidoMinimo'),
+				valorMax: datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima,
+				valor:
+					totalesPedidoCliente +
+					(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0),
+				color: color.pedidoMinimo,
+				dataCY: 'indicador-pedido-minimo',
+			});
+	if ( datosCliente?.configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima)
+		indicadores.push(
+			{
+				titulo: t('general.pedidoMaximo'),
+				valorMax: datosCliente?.configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima,
+				valor:
+					totalContadoPedidosClienteMismaFechaEntrega +
+					(obtenerTotalPedidosVisitaActual().totalContado.totalPrecio ?? 0) +
+					montoTotalCompromisos +
+					compromisoDeCobroActual.monto,
+				color: color.pedidoMaximo,
+				dataCY: 'indicador-credito-minimo',
+			});
+	if (datosCliente?.informacionCrediticia.condicion==='creditoFormal')
+		indicadores.push(
+			{
+				titulo: t('general.creditoDisponible'),
+				valorMax: datosCliente?.informacionCrediticia.disponible,
+				valor:
+					creditoDisponible - //error
+					(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0),
+				color: color.creditoDisponible,
+				condicion: datosCliente?.informacionCrediticia.condicion,
+				dataCY: 'indicador-credito-maximo',
+			});
+	
 	return (
-		<div>
-			<Grid container direction='row' spacing={3}>
+			<Grid container  spacing={3}>
 				{indicadores.map((el, i) => (
-					<Grid item xs='auto' key={i} style={{padding: 7}}>
-						<Center>
+					<Grid item xs key={i}>
 							<BarraDeProgreso
 								titulo={el.titulo}
 								max={el.valorMax}
@@ -109,19 +110,10 @@ const IndicadoresDelPedidoActual = () => {
 								color={el.color}
 								condicion={el.condicion}
 								dataCY={el.dataCY}
-								disable={
-									el.condicion === 'contado'
-										? true
-										: el.valorMax === 0
-										? true
-										: false
-								}
 							/>
-						</Center>
 					</Grid>
 				))}
 			</Grid>
-		</div>
 	);
 };
 
