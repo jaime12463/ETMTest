@@ -21,4 +21,3 @@ Escenario: N°1 - Ver tarjetas de promociones
 	Y el precio total de la promoción.
 	
 # disponible total = _unidadesDisponbles - cantidades ya registrada para la misma promo - cantidad ingresada para el pedido en curso
-

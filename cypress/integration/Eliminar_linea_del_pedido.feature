@@ -1,6 +1,8 @@
 # language: es
 
-@Pedido @Eliminar_producto @Sprint3 @Sprint10
+@Pedido @Eliminar_producto @Sprint3 @Sprint10 @Sprint12
+
+# Sprint12: se modifica mensaje de eliminar pedido no mandatorio.
 
 # UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA?node-id=436%3A2150&scaling=scale-down&page-id=436%3A1256
 
@@ -36,4 +38,7 @@ Ejemplos:
 |     true       |               false				        | Borrará el producto                                                                  |
 |     false      |                 -				        | Borrará el producto                                                                  |
 
-#Si el usuario confirma, el sistema borra el producto todos los productos de los tipos de en curso.
+# Mensaje: Se borrará el pedido de tipoPedido.descripcion. ¿Desea continuar?
+# siendo tipoPedido.descripcion la descripcion del tipoPedido que tiene esMandatorio = false
+
+# Si el usuario confirma, el sistema borra todos los productos de los pedidos no mandatorios en curso.
