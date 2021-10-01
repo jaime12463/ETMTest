@@ -48,7 +48,7 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 
 	return (
 		<>
-			{esGeneraEnvases && (
+			{true && (
 				<TarjetaColapsable
 					titulo={<Typography variant={'subtitle1'}>Envases</Typography>}
 					subTitulo={
