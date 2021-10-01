@@ -82,13 +82,13 @@
 							"vigenciaFinPrecio": "2023-09-31",
 							"componentes": [
 								{
-									"CodigoProducto": 97373,
+									"codigoProducto": 97373,
 									"precioBase": 10,
 									"descuento": 0.8,
 									"precioFinal": 9.2
 								},
 								{
-									"CodigoProducto": 97185,
+									"codigoProducto": 97185,
 									"precioBase": 10,
 									"descuento": 0.8,
 									"precioFinal": 9.2
@@ -110,13 +110,13 @@
 							"vigenciaFinPrecio": "2023-09-31",
 							"componentes": [
 								{
-									"CodigoProducto": 97185,
+									"codigoProducto": 97185,
 									"precioBase": 10,
 									"descuento": 0.8,
 									"precioFinal": 9.2
 								},
 								{
-									"CodigoProducto": 97373,
+									"codigoProducto": 97373,
 									"precioBase": 10,
 									"descuento": 0.8,
 									"precioFinal": 9.2
@@ -265,13 +265,13 @@
 							"vigenciaFinPrecio": "9999-12-31",
 							"componentes": [
 								{
-									"CodigoProducto": 97185,
+									"codigoProducto": 97185,
 									"precioBase": 10,
 									"descuento": 0.8,
 									"precioFinal": 9.2
 								},
 								{
-									"CodigoProducto": 97373,
+									"codigoProducto": 97373,
 									"precioBase": 10,
 									"descuento": 0.8,
 									"precioFinal": 9.2
@@ -364,13 +364,13 @@
 							"vigenciaFinPrecio": "9999-12-31",
 							"componentes": [
 								{
-									"CodigoProducto": 97185,
+									"codigoProducto": 97185,
 									"precioBase": 10,
 									"descuento": 0.8,
 									"precioFinal": 9.2
 								},
 								{
-									"CodigoProducto": 97373,
+									"codigoProducto": 97373,
 									"precioBase": 10,
 									"descuento": 0.8,
 									"precioFinal": 9.2
@@ -463,13 +463,13 @@
 							"vigenciaFinPrecio": "9999-12-31",
 							"componentes": [
 								{
-									"CodigoProducto": 97185,
+									"codigoProducto": 97185,
 									"precioBase": 10,
 									"descuento": 0.8,
 									"precioFinal": 9.2
 								},
 								{
-									"CodigoProducto": 97373,
+									"codigoProducto": 97373,
 									"precioBase": 10,
 									"descuento": 0.8,
 									"precioFinal": 9.2
@@ -491,13 +491,13 @@
 							"vigenciaFinPrecio": "9999-12-31",
 							"componentes": [
 								{
-									"CodigoProducto": 97185,
+									"codigoProducto": 97185,
 									"precioBase": 10,
 									"descuento": 0.8,
 									"precioFinal": 9.2
 								},
 								{
-									"CodigoProducto": 97373,
+									"codigoProducto": 97373,
 									"precioBase": 10,
 									"descuento": 0.8,
 									"precioFinal": 9.2

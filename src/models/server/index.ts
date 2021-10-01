@@ -114,7 +114,7 @@ export type TPrecio = {
 };
 
 export type TComponente = {
-	CodigoProducto: number;
+	codigoProducto: number;
 	precioBase: number;
 	descuento: number;
 	precioFinal: number;
