@@ -1,6 +1,6 @@
 import {Box, Typography, TextField, Grid, Input} from '@mui/material';
-import {TConsolidadoImplicitos} from 'models';
-import {TarjetaDoble} from 'components/UI';
+import {TConsolidadoImplicitos, TStateSubUnidadesEnvases} from 'models';
+import {Dialogo, TarjetaDoble} from 'components/UI';
 import {formatearNumero} from 'utils/methods';
 import Chip from '@mui/material/Chip';
 import botella from 'assests/iconos/botella.svg';
@@ -8,7 +8,8 @@ import caja from 'assests/iconos/caja.svg';
 import {ETiposDePago} from 'models';
 import {useTranslation} from 'react-i18next';
 import {styled} from '@mui/material/styles';
-import {useState} from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { useMostrarAdvertenciaEnDialogo } from 'hooks';
 
 const InputStyled = styled(Input)(({theme}) => ({
 	borderRadius: '4px',
@@ -50,60 +51,67 @@ const TarjetaEnvasesRetornables = ({
 	const [unidadesPrestamo, setUnidadesPrestamo] = useState(0);
 	const [subUnidadesPrestamo, setSubUnidadesPrestamo] = useState(0);
 
-	const cambioSubUnidadesPorVenta = (
-		SubUnidadesIngresadas: number
-	): boolean => {
+	const {
+		mostrarAdvertenciaEnDialogo,
+		mostarDialogo,
+		parametrosDialogo,
+	} = useMostrarAdvertenciaEnDialogo();	
+
+	const cambioSubUnidadesPorTipoPedido = 
+	(subUnidadesIngresadas: number, subUnidadesEnvasesPrincipal: number, setSubUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>, subunidadesSecundario: number): boolean => {
+
 		let subUnidadesPermitidas = false;
 
-		if (SubUnidadesIngresadas >= 0) {
-			if (SubUnidadesIngresadas <= subUnidadesRetorno + subUnidadesVenta) {
-				setSubUnidadesRetorno(
-					subUnidadesIniciales - subUnidadesPrestamo - SubUnidadesIngresadas
-				);
-				setSubUnidadesVenta(SubUnidadesIngresadas);
+		if (!Number.isNaN(subUnidadesIngresadas))
+			if(subUnidadesIngresadas <= (subUnidadesRetorno + subUnidadesEnvasesPrincipal))
+			{
+				setSubUnidadesRetorno((subUnidadesIniciales - subunidadesSecundario) - subUnidadesIngresadas);
+				setSubUnidadesEnvasesPrincipal(subUnidadesIngresadas);
 				subUnidadesPermitidas = true;
-			} else {
-				//SACAR MENSAJE
-				console.log('La cantidad excede a las disponibles para retorno');
 			}
-		}
+			else
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.cantidadSuperiorEnvases'),
+					'supera-cantidad-en-envases'
+				);
+		else
+			console.log("ES NAN!");
 
 		return subUnidadesPermitidas;
 	};
 
-	const cambioSubUnidadesPorPrestamo = (SubUnidadesIngresadas: number) => {
-		let subUnidadesPermitidas = false;
+	const cambioUnidadesPorTipoPedido = 
+	(unidadesIngresadas: number, unidadesEnvasesPrincipal: number, setUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>, unidadesSecundario: number): boolean => {
 
-		if (SubUnidadesIngresadas >= 0) {
-			if (SubUnidadesIngresadas <= subUnidadesRetorno + subUnidadesPrestamo) {
-				setSubUnidadesRetorno(
-					subUnidadesIniciales - subUnidadesVenta - SubUnidadesIngresadas
-				);
-				setSubUnidadesPrestamo(SubUnidadesIngresadas);
-				subUnidadesPermitidas = true;
-			} else {
-				//SACAR MENSAJE
-				console.log('La cantidad excede a las disponibles para retorno');
+		let unidadesPermitidas = false;
+
+		if (!Number.isNaN(unidadesIngresadas))
+			if(unidadesIngresadas <= (unidadesRetorno + unidadesEnvasesPrincipal))
+			{
+				setUnidadesRetorno((unidadesIniciales - unidadesSecundario) - unidadesIngresadas);
+				setUnidadesEnvasesPrincipal(unidadesIngresadas);
+				unidadesPermitidas = true;
 			}
-		}
+			else
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.cantidadSuperiorEnvases'),
+					'supera-cantidad-en-envases'
+				);
+		else
+			console.log("ES NAN!");			
 
-		return subUnidadesPermitidas;
-	};
+		return unidadesPermitidas;
+	}
 
 	return (
-		<TarjetaDoble
-			derecha={
-				<Box
-					p={1.5}
-					pb={0}
-					maxWidth={'180px'}
-					minWidth={'180px'}
-					minHeight={'125px'}
-					maxHeight={'125px'}
-				>
-					<Grid container>
-						<Grid
+		<>
+			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+			<TarjetaDoble
+				derecha={
+					<Box p={1.5} pb={0} minWidth={'180px'} minHeight={'125px'}>
+						<Box
 							display='flex'
+							p={1.5}
 							width={'100%'}
 							alignItems='center'
 							justifyContent='space-between'
@@ -112,14 +120,11 @@ const TarjetaEnvasesRetornables = ({
 								{'Retorno:'}
 							</Typography>
 							<InputStyled value={unidadesRetorno} disableUnderline readOnly />
-							<InputStyled
-								value={subUnidadesRetorno}
-								disableUnderline
-								readOnly
-							/>
-						</Grid>
-						<Grid
+							<InputStyled value={subUnidadesRetorno} disableUnderline readOnly />
+						</Box>
+						<Box
 							display='flex'
+							p={1.5}
 							width={'100%'}
 							alignItems='center'
 							justifyContent='space-between'
@@ -127,17 +132,29 @@ const TarjetaEnvasesRetornables = ({
 							<Typography fontFamily='Open Sans' variant={'caption'}>
 								{'Venta:'}
 							</Typography>
-							<InputStyled value={unidadesVenta} disableUnderline />
-							<InputStyled
-								value={subUnidadesVenta}
-								disableUnderline
-								onChange={(e) =>
-									cambioSubUnidadesPorVenta(parseInt(e.target.value))
-								}
+							<InputStyled 
+								value={unidadesVenta} disableUnderline 
+								onChange={e => cambioUnidadesPorTipoPedido(
+									parseInt(e.target.value),
+									unidadesVenta,
+									setUnidadesVenta,
+									unidadesPrestamo
+								)}
 							/>
-						</Grid>
-						<Grid
+							<InputStyled 
+								value={subUnidadesVenta} 
+								disableUnderline
+								onChange={e => cambioSubUnidadesPorTipoPedido(
+									parseInt(e.target.value),
+									subUnidadesVenta,
+									setSubUnidadesVenta,
+									subUnidadesPrestamo
+								)}
+							/>
+						</Box>
+						<Box
 							display='flex'
+							p={1.5}
 							width={'100%'}
 							alignItems='center'
 							justifyContent='space-between'
@@ -146,71 +163,96 @@ const TarjetaEnvasesRetornables = ({
 								{'Prestamo:'}
 							</Typography>
 
-							<InputStyled value={unidadesPrestamo} disableUnderline />
-							<InputStyled
-								value={subUnidadesPrestamo}
-								onChange={(e) =>
-									cambioSubUnidadesPorPrestamo(parseInt(e.target.value))
-								}
-								disableUnderline
+							<InputStyled 
+								value={unidadesPrestamo} disableUnderline 
+								onChange={e => cambioUnidadesPorTipoPedido(
+									parseInt(e.target.value),
+									unidadesPrestamo,
+									setUnidadesPrestamo,
+									unidadesVenta
+								)}
 							/>
-						</Grid>
-					</Grid>
-				</Box>
-			}
-			izquierda={
-				<Box p={1.5} pb={0} minWidth={'304px'} minHeight={'125px'}>
-					<Box
-						style={{
-							visibility: envase.tipoPago === undefined ? 'hidden' : 'visible',
-						}}
-						sx={{
-							width: '80px',
-							height: '16px',
-							marginBottom: 2,
-						}}
-					>
-						{envase.tipoPago !== undefined && (
-							<ChipStyled
-								label={
-									<Typography variant={'caption'} color='white'>
-										{ETiposDePago[envase.tipoPago]}
-									</Typography>
-								}
-								color={envase.tipoPago === 1 ? 'success' : 'primary'}
+							<InputStyled 
+								value={subUnidadesPrestamo} 
+								onChange={e => cambioSubUnidadesPorTipoPedido(
+									parseInt(e.target.value),
+									subUnidadesPrestamo,
+									setSubUnidadesPrestamo,
+									subUnidadesVenta
+								)}
+								disableUnderline 
 							/>
-						)}
-					</Box>
-					<Typography fontFamily='Open Sans' variant={'subtitle2'}>
-						{envase.codigoImplicito}
-					</Typography>
-					<Typography variant={'subtitle2'}>
-						{envase.nombreImplicito}
-					</Typography>
-					<Box
-						display='flex'
-						width={'60%'}
-						alignItems='center'
-						justifyContent='space-between'
-					>
-						<img style={{width: '19px'}} src={caja} alt='icono caja' />
-						<Typography variant={'caption'}>
-							{`x${envase.presentacion} `}
-						</Typography>
-						<Typography variant={'subtitle3'}>
-							{envase.precioConImpuestoUnidad &&
-								formatearNumero(envase.precioConImpuestoUnidad, t)}
-						</Typography>
+						</Box>
+						<Box
+							display='flex'
+							p={1.5}
+							width={'100%'}
+							alignItems='center'
+							justifyContent='space-between'
+						>
+							<Typography fontFamily='Open Sans' variant={'caption'}>
+								{'Total:'}
+							</Typography>
 
-						<img style={{width: '19px'}} src={botella} alt='icono botella' />
-						<Typography variant={'subtitle3'}>
-							{envase.precioConImpuestoSubunidad &&
-								formatearNumero(envase.precioConImpuestoSubunidad, t)}
-						</Typography>
+							<InputStyled value={unidadesIniciales} disableUnderline readOnly />
+							<InputStyled value={subUnidadesIniciales} disableUnderline readOnly />
+						</Box>				
 					</Box>
-				</Box>
-			}
-		></TarjetaDoble>
+				}
+				izquierda={
+					<Box p={1.5} pb={0} minWidth={'304px'} minHeight={'125px'}>
+						<Box
+							style={{
+								visibility: envase.tipoPago === undefined ? 'hidden' : 'visible',
+							}}
+							sx={{
+								width: '80px',
+								height: '16px',
+								marginBottom: 2,
+							}}
+						>
+							{envase.tipoPago !== undefined && (
+								<ChipStyled
+									label={
+										<Typography variant={'caption'} color='white'>
+											{ETiposDePago[envase.tipoPago]}
+										</Typography>
+									}
+									color={envase.tipoPago === 1 ? 'success' : 'primary'}
+								/>
+							)}
+						</Box>
+						<Typography fontFamily='Open Sans' variant={'subtitle2'}>
+							{envase.codigoImplicito}
+						</Typography>
+						<Typography variant={'subtitle2'}>
+							{envase.nombreImplicito}
+						</Typography>
+						<Box
+							display='flex'
+							width={'60%'}
+							alignItems='center'
+							justifyContent='space-between'
+						>
+							<img style={{width: '19px'}} src={caja} alt='icono caja' />
+							<Typography variant={'caption'}>
+								{`x${envase.presentacion} `}
+							</Typography>
+							<Typography variant={'subtitle3'}>
+								{envase.precioConImpuestoUnidad &&
+									formatearNumero(envase.precioConImpuestoUnidad, t)}
+							</Typography>
+
+							<img style={{width: '19px'}} src={botella} alt='icono botella' />
+							<Typography variant={'subtitle3'}>
+								{envase.precioConImpuestoSubunidad &&
+									formatearNumero(envase.precioConImpuestoSubunidad, t)}
+							</Typography>
+						</Box>
+					</Box>
+				}
+			></TarjetaDoble>
+		</>
 	);
 };
 

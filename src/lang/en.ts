@@ -99,6 +99,8 @@ const en = {
 			'The order of {{tipoPedido}} will be deleted. do you wish to continue?',
 		ordenDeCompraEnBlanco:
 			'You must enter a purchase orden',
+		cantidadSuperiorEnvases:
+			'The amount exceeds those available for return'
 	},
 };
 export default en;
