@@ -10,6 +10,7 @@ import {
 import {Dispatch, SetStateAction} from 'react';
 import useEstilos from './useEstilos';
 import clsx from 'clsx';
+import flechaAbajo from '../../../assests/iconos/chevron--down.svg';
 
 type Props = {
 	children: React.ReactNode;
@@ -58,7 +59,7 @@ export const TarjetaColapsable = ({
 										})}
 										aria-expanded={expandido === id ? true : false}
 									>
-										{'<>'}
+										<img src={flechaAbajo} alt='flecha abajo' />
 									</IconButton>
 								</CardActions>
 							</Box>

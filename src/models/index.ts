@@ -17,6 +17,9 @@ export type TConsolidadoImplicitos = {
 	unidades: number;
 	subUnidades: number;
 	tipoPago?: ETiposDePago;
+	presentacion?: number;
+	precioConImpuestoUnidad?: number;
+	precioConImpuestoSubunidad?: number;
 };
 
 export type TTotal = {
@@ -76,6 +79,11 @@ export type TStatePreciosProductos = {
 export type TStateInputFocus = {
 	inputFocus: InputsKeysFormTomaDePedido;
 	setInputFocus: Dispatch<SetStateAction<InputsKeysFormTomaDePedido>>;
+};
+
+export type TStateSubUnidadesEnvases = {
+	subUnidadesEnvases: number;
+	setSubUnidadesEnvases: Dispatch<SetStateAction<number>>;
 };
 
 //Formularios

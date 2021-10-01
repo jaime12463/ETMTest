@@ -13,9 +13,9 @@ const useEstilos = makeStyles((theme: Theme) =>
 			top: -30,
 			marginLeft: 'auto',
 			padding: 0,
-			transition: theme.transitions.create('transform', {
+			/* 			transition: theme.transitions.create('transform', {
 				duration: theme.transitions.duration.shortest,
-			}),
+			}), */
 		},
 		expandOpen: {
 			transform: 'rotate(180deg)',

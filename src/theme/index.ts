@@ -49,37 +49,46 @@ const theme = createTheme({
 		fontWeightMedium: 500,
 		fontWeightBold: 600,
 		h1: {
-			fontWeight: 600,
-			lineHeight: pxToRem(32),
-			fontSize: pxToRem(32),
+			fontWeight: 400,
+			lineHeight: '32px',
+			fontSize: '32px',
 		},
 		h2: {
 			fontWeight: 400,
-			lineHeight: pxToRem(24),
-			fontSize: pxToRem(24),
+			lineHeight: '24px',
+			fontSize: '24px',
 		},
 		h3: {
 			fontWeight: 400,
-			lineHeight: pxToRem(20),
-			fontSize: pxToRem(20),
+			lineHeight: '20px',
+			fontSize: '20px',
 		},
 		subtitle1: {
 			fontWeight: 600,
-			lineHeight: 1.5,
-			fontSize: pxToRem(16),
+			lineHeight: '16px',
+			fontSize: '16px',
 		},
 		subtitle2: {
 			fontWeight: 600,
-			lineHeight: pxToRem(14),
-			fontSize: pxToRem(14),
+			lineHeight: '14px',
+			fontSize: '14px',
+		},
+		subtitle3: {
+			fontWeight: 600,
+			lineHeight: '12px',
+			fontSize: '12px',
 		},
 		body1: {
-			lineHeight: 1.5,
-			fontSize: pxToRem(16),
+			lineHeight: '16px',
+			fontSize: '16px',
 		},
 		body2: {
-			lineHeight: 1.5,
-			fontSize: pxToRem(14),
+			lineHeight: '14px',
+			fontSize: '14px',
+		},
+		body3: {
+			lineHeight: '12px',
+			fontSize: '12px',
 		},
 		caption: {
 			lineHeight: 1,
@@ -89,8 +98,8 @@ const theme = createTheme({
 		overline: {
 			color: '#FF5A36',
 			fontWeight: 600,
-			lineHeight: 1.5,
-			fontSize: pxToRem(14),
+			lineHeight: '14px',
+			fontSize: '14px',
 		},
 	},
 });

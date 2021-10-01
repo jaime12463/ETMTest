@@ -44,6 +44,8 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const [value, setValue] = React.useState(0);
 	const {mostrarPromoPush} = useObtenerVisitaActual();
 	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
+	const history = useHistory();
+	let {path} = useRouteMatch();
 
 	useResetVisitaActualAlDesmontar();
 	/*useEffect(() => {
@@ -76,7 +78,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 					descripcion='Continuar a Toma de pedido'
 					numeroItems={130}
 					total='1000.00$'
-					onClick={() => {}}
+					onClick={() => history.push(`${path}${nombresRutas.envasesRetornables}`)}
 				/>
 			</Estructura.PieDePagina>
 		</Estructura>
@@ -183,6 +185,8 @@ function BotonVerPedidosDelClienteActual() {
 		<IconButton
 			size='small'
 			onClick={() => history.push(`${path}${nombresRutas.pedidosCliente}`)}
+
+			/* 	onClick={() => history.push(`${path}${nombresRutas.pedidosCliente}`)} */
 		>
 			Icono Pedidos
 		</IconButton>
