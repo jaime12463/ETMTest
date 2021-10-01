@@ -51,6 +51,8 @@ export const useObtenerConsolidacionImplicitos = () => {
 						unidades: unidades,
 						subUnidades: subUnidades,
 						tipoPago: esDivisionPorPago ? tipoPago : undefined, //Agregado tipoPago si es DivisionPorPago
+						precioConImpuestoUnidad,
+						precioConImpuestoSubunidad,
 					});
 			};
 

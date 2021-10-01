@@ -3,13 +3,15 @@ import {TConsolidadoImplicitos, TStateSubUnidadesEnvases} from 'models';
 import {Dialogo, TarjetaDoble} from 'components/UI';
 import {formatearNumero} from 'utils/methods';
 import Chip from '@mui/material/Chip';
+/* import {BotellaIcon, CajaIcon} from 'assests/iconos'; */
 import botella from 'assests/iconos/botella.svg';
 import caja from 'assests/iconos/caja.svg';
+
 import {ETiposDePago} from 'models';
 import {useTranslation} from 'react-i18next';
 import {styled} from '@mui/material/styles';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { useMostrarAdvertenciaEnDialogo } from 'hooks';
+import {Dispatch, SetStateAction, useState} from 'react';
+import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 
 const InputStyled = styled(Input)(({theme}) => ({
 	borderRadius: '4px',
@@ -25,8 +27,9 @@ const InputStyled = styled(Input)(({theme}) => ({
 const ChipStyled = styled(Chip)(({theme}) => ({
 	textAlign: 'center',
 	fontFamily: 'Open Sans',
-	width: '75px',
-	height: '16px',
+	width: '70px',
+	height: '18px',
+	padding: 0,
 }));
 
 const TarjetaEnvasesRetornables = ({
@@ -51,159 +54,196 @@ const TarjetaEnvasesRetornables = ({
 	const [unidadesPrestamo, setUnidadesPrestamo] = useState(0);
 	const [subUnidadesPrestamo, setSubUnidadesPrestamo] = useState(0);
 
-	const {
-		mostrarAdvertenciaEnDialogo,
-		mostarDialogo,
-		parametrosDialogo,
-	} = useMostrarAdvertenciaEnDialogo();	
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+		useMostrarAdvertenciaEnDialogo();
 
-	const cambioSubUnidadesPorTipoPedido = 
-	(subUnidadesIngresadas: number, subUnidadesEnvasesPrincipal: number, setSubUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>, subunidadesSecundario: number): boolean => {
-
+	const cambioSubUnidadesPorTipoPedido = (
+		subUnidadesIngresadas: number,
+		subUnidadesEnvasesPrincipal: number,
+		setSubUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>,
+		subunidadesSecundario: number
+	): boolean => {
 		let subUnidadesPermitidas = false;
 
 		if (!Number.isNaN(subUnidadesIngresadas))
-			if(subUnidadesIngresadas <= (subUnidadesRetorno + subUnidadesEnvasesPrincipal))
-			{
-				setSubUnidadesRetorno((subUnidadesIniciales - subunidadesSecundario) - subUnidadesIngresadas);
+			if (
+				subUnidadesIngresadas <=
+				subUnidadesRetorno + subUnidadesEnvasesPrincipal
+			) {
+				setSubUnidadesRetorno(
+					subUnidadesIniciales - subunidadesSecundario - subUnidadesIngresadas
+				);
 				setSubUnidadesEnvasesPrincipal(subUnidadesIngresadas);
 				subUnidadesPermitidas = true;
-			}
-			else
+			} else
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.cantidadSuperiorEnvases'),
 					'supera-cantidad-en-envases'
 				);
-		else
-			console.log("ES NAN!");
+		else console.log('ES NAN!');
 
 		return subUnidadesPermitidas;
 	};
+	console.log(envase);
 
-	const cambioUnidadesPorTipoPedido = 
-	(unidadesIngresadas: number, unidadesEnvasesPrincipal: number, setUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>, unidadesSecundario: number): boolean => {
-
+	const cambioUnidadesPorTipoPedido = (
+		unidadesIngresadas: number,
+		unidadesEnvasesPrincipal: number,
+		setUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>,
+		unidadesSecundario: number
+	): boolean => {
 		let unidadesPermitidas = false;
 
 		if (!Number.isNaN(unidadesIngresadas))
-			if(unidadesIngresadas <= (unidadesRetorno + unidadesEnvasesPrincipal))
-			{
-				setUnidadesRetorno((unidadesIniciales - unidadesSecundario) - unidadesIngresadas);
+			if (unidadesIngresadas <= unidadesRetorno + unidadesEnvasesPrincipal) {
+				setUnidadesRetorno(
+					unidadesIniciales - unidadesSecundario - unidadesIngresadas
+				);
 				setUnidadesEnvasesPrincipal(unidadesIngresadas);
 				unidadesPermitidas = true;
-			}
-			else
+			} else
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.cantidadSuperiorEnvases'),
 					'supera-cantidad-en-envases'
 				);
-		else
-			console.log("ES NAN!");			
+		else console.log('ES NAN!');
 
 		return unidadesPermitidas;
-	}
+	};
 
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 			<TarjetaDoble
 				derecha={
-					<Box p={1.5} pb={0} minWidth={'180px'} minHeight={'125px'}>
-						<Box
+					<Grid container p={1} minWidth={'180px'} minHeight={'125px'}>
+						<Grid
+							container
 							display='flex'
-							p={1.5}
-							width={'100%'}
+							xs={10}
 							alignItems='center'
 							justifyContent='space-between'
+							rowSpacing={0}
 						>
-							<Typography fontFamily='Open Sans' variant={'caption'}>
-								{'Retorno:'}
-							</Typography>
-							<InputStyled value={unidadesRetorno} disableUnderline readOnly />
-							<InputStyled value={subUnidadesRetorno} disableUnderline readOnly />
-						</Box>
-						<Box
-							display='flex'
-							p={1.5}
-							width={'100%'}
-							alignItems='center'
-							justifyContent='space-between'
-						>
-							<Typography fontFamily='Open Sans' variant={'caption'}>
-								{'Venta:'}
-							</Typography>
-							<InputStyled 
-								value={unidadesVenta} disableUnderline 
-								onChange={e => cambioUnidadesPorTipoPedido(
-									parseInt(e.target.value),
-									unidadesVenta,
-									setUnidadesVenta,
-									unidadesPrestamo
-								)}
-							/>
-							<InputStyled 
-								value={subUnidadesVenta} 
-								disableUnderline
-								onChange={e => cambioSubUnidadesPorTipoPedido(
-									parseInt(e.target.value),
-									subUnidadesVenta,
-									setSubUnidadesVenta,
-									subUnidadesPrestamo
-								)}
-							/>
-						</Box>
-						<Box
-							display='flex'
-							p={1.5}
-							width={'100%'}
-							alignItems='center'
-							justifyContent='space-between'
-						>
-							<Typography fontFamily='Open Sans' variant={'caption'}>
-								{'Prestamo:'}
-							</Typography>
+							<Grid xs={4}>
+								<Typography fontFamily='Open Sans' variant={'caption'}>
+									{'Retorno:'}
+								</Typography>
+							</Grid>
 
-							<InputStyled 
-								value={unidadesPrestamo} disableUnderline 
-								onChange={e => cambioUnidadesPorTipoPedido(
-									parseInt(e.target.value),
-									unidadesPrestamo,
-									setUnidadesPrestamo,
-									unidadesVenta
-								)}
-							/>
-							<InputStyled 
-								value={subUnidadesPrestamo} 
-								onChange={e => cambioSubUnidadesPorTipoPedido(
-									parseInt(e.target.value),
-									subUnidadesPrestamo,
-									setSubUnidadesPrestamo,
-									subUnidadesVenta
-								)}
-								disableUnderline 
-							/>
-						</Box>
-						<Box
+							<Grid xs={3}>
+								<InputStyled
+									inputProps={{style: {textAlign: 'center'}}}
+									value={unidadesRetorno}
+									disableUnderline
+									readOnly
+								/>
+							</Grid>
+
+							<Grid xs={3}>
+								<InputStyled
+									inputProps={{style: {textAlign: 'center'}}}
+									value={subUnidadesRetorno}
+									disableUnderline
+									readOnly
+								/>
+							</Grid>
+						</Grid>
+						<Grid
+							container
 							display='flex'
-							p={1.5}
-							width={'100%'}
+							xs={10}
 							alignItems='center'
 							justifyContent='space-between'
 						>
-							<Typography fontFamily='Open Sans' variant={'caption'}>
-								{'Total:'}
-							</Typography>
+							<Grid xs={4}>
+								<Typography fontFamily='Open Sans' variant={'caption'}>
+									{'Venta: '}
+								</Typography>
+							</Grid>
+							<Grid xs={3}>
+								<InputStyled
+									inputProps={{style: {textAlign: 'center'}}}
+									value={unidadesVenta}
+									disableUnderline
+									onChange={(e) =>
+										cambioUnidadesPorTipoPedido(
+											parseInt(e.target.value),
+											unidadesVenta,
+											setUnidadesVenta,
+											unidadesPrestamo
+										)
+									}
+								/>
+							</Grid>
+							<Grid xs={3}>
+								<InputStyled
+									inputProps={{style: {textAlign: 'center'}}}
+									value={subUnidadesVenta}
+									disableUnderline
+									onChange={(e) =>
+										cambioSubUnidadesPorTipoPedido(
+											parseInt(e.target.value),
+											subUnidadesVenta,
+											setSubUnidadesVenta,
+											subUnidadesPrestamo
+										)
+									}
+								/>
+							</Grid>
+						</Grid>
+						<Grid
+							display='flex'
+							xs={10}
+							alignItems='center'
+							justifyContent='space-between'
+						>
+							<Grid xs={4}>
+								<Typography fontFamily='Open Sans' variant={'caption'}>
+									{'Prestamo:'}
+								</Typography>
+							</Grid>
 
-							<InputStyled value={unidadesIniciales} disableUnderline readOnly />
-							<InputStyled value={subUnidadesIniciales} disableUnderline readOnly />
-						</Box>				
-					</Box>
+							<Grid xs={3}>
+								<InputStyled
+									inputProps={{style: {textAlign: 'center'}}}
+									value={unidadesPrestamo}
+									disableUnderline
+									onChange={(e) =>
+										cambioUnidadesPorTipoPedido(
+											parseInt(e.target.value),
+											unidadesPrestamo,
+											setUnidadesPrestamo,
+											unidadesVenta
+										)
+									}
+								/>
+							</Grid>
+
+							<Grid xs={3}>
+								<InputStyled
+									inputProps={{style: {textAlign: 'center'}}}
+									value={subUnidadesPrestamo}
+									onChange={(e) =>
+										cambioSubUnidadesPorTipoPedido(
+											parseInt(e.target.value),
+											subUnidadesPrestamo,
+											setSubUnidadesPrestamo,
+											subUnidadesVenta
+										)
+									}
+									disableUnderline
+								/>
+							</Grid>
+						</Grid>
+					</Grid>
 				}
 				izquierda={
 					<Box p={1.5} pb={0} minWidth={'304px'} minHeight={'125px'}>
 						<Box
 							style={{
-								visibility: envase.tipoPago === undefined ? 'hidden' : 'visible',
+								visibility:
+									envase.tipoPago === undefined ? 'hidden' : 'visible',
 							}}
 							sx={{
 								width: '80px',
@@ -214,7 +254,12 @@ const TarjetaEnvasesRetornables = ({
 							{envase.tipoPago !== undefined && (
 								<ChipStyled
 									label={
-										<Typography variant={'caption'} color='white'>
+										<Typography
+											variant={'caption'}
+											color='white'
+											textAlign='center'
+											p={0}
+										>
 											{ETiposDePago[envase.tipoPago]}
 										</Typography>
 									}
@@ -228,6 +273,7 @@ const TarjetaEnvasesRetornables = ({
 						<Typography variant={'subtitle2'}>
 							{envase.nombreImplicito}
 						</Typography>
+						<br />
 						<Box
 							display='flex'
 							width={'60%'}
@@ -257,3 +303,27 @@ const TarjetaEnvasesRetornables = ({
 };
 
 export default TarjetaEnvasesRetornables;
+
+{
+	/* 						<Box
+							display='flex'
+							width={'100%'}
+							alignItems='center'
+							justifyContent='space-between'
+						>
+							<Typography fontFamily='Open Sans' variant={'caption'}>
+								{'Total:'}
+							</Typography>
+
+							<InputStyled
+								value={unidadesIniciales}
+								disableUnderline
+								readOnly
+							/>
+							<InputStyled
+								value={subUnidadesIniciales}
+								disableUnderline
+								readOnly
+							/>
+						</Box> */
+}
