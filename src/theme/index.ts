@@ -91,8 +91,9 @@ const theme = createTheme({
 			fontSize: '12px',
 		},
 		caption: {
-			lineHeight: '10px',
-			fontSize: '10px',
+			lineHeight: 1,
+			fontSize: pxToRem(10),
+			color:'#565657',
 		},
 		overline: {
 			color: '#FF5A36',

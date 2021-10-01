@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
-//TODO: EL CAMBIO A MUI AFECTO ESTO
+import {styled} from '@mui/material/styles';
 import {useEstilos, BorderLinearProgress} from './useEstilos';
 import {Typography, Box, LinearProgress} from '@mui/material';
-import {Numero} from 'components/UI';
+
 import {useTranslation} from 'react-i18next';
 import {formatearNumero} from 'utils/methods';
 
@@ -16,7 +16,18 @@ export type Props = {
 	dataCY: string;
 };
 
-const BarraDeProgeso = ({
+const BarraDeLinea = styled(LinearProgress)({
+	height: '18px',
+	width: 100,
+	textAlign: 'center',
+	flex: '1 0 auto',
+	//paddingTop: 4,
+	//paddingBottom: 4,
+	backgroundRepeat: 'no-repeat',
+	borderRadius: '4px',
+});
+
+const BarraDeProgreso = ({
 	max = 0,
 	valor,
 	titulo,
@@ -38,27 +49,33 @@ const BarraDeProgeso = ({
 	}, [valor, progreso, color]);
 
 	return (
-		<div
-			className={estilos.container}
-			style={disable === true ? {display: 'none'} : {display: 'block'}}
-		>
-			<Typography
-				className={estilos.titulo}
-				variant='caption'
-			>{`${titulo}`}</Typography>
-			<Typography className={estilos.label} variant='body2' data-cy={dataCY}>
-				{condicion !== 'contado'
-					? formatearNumero(valor, t)
-					: `${formatearNumero(valor, t)} / ${formatearNumero(max, t)}`}
-			</Typography>
+		<Box>
+			<Box
+				sx={{
+					marginBottom: '9px',
+					textAlign: 'center',
+					lineHeight: 1,
+				}}
+			>
+				<Typography component='p' variant='caption'>{`${titulo}`}</Typography>
+				<Typography component='p' variant='caption' data-cy={dataCY}>
+					{condicion !== 'contado'
+						? formatearNumero(valor, t)
+						: `${formatearNumero(valor, t)} / ${formatearNumero(max, t)}`}
+				</Typography>
+			</Box>
 			<LinearProgress
 				variant='determinate'
-				//TODO: EL CAMBIO A MUI AFECTO ESTO
-				// value={progreso <= 0 ? setProgreso(5) : progreso}
-				// barcolor={colorActual}
+				value={progreso ?? 0} //{ progreso <= 0 ? setProgreso(5) : progreso ?? 0}
+				sx={{
+					height: 18,
+					color: colorActual,
+					backgroundColor: '#B2B2B2',
+					borderRadius: '4px',
+				}}
 			/>
-		</div>
+		</Box>
 	);
 };
 
-export default BarraDeProgeso;
+export default BarraDeProgreso;

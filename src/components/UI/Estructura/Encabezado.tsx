@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import {useHistory} from 'react-router-dom';
 import Logo from 'assests/images/logo.svg';
 import {Grid, Stack, Box} from '@mui/material';
-
+import {RetrocederIcon} from 'assests/iconos';
 const StyledToolbar = styled(Toolbar)(({theme}) => ({
 	alignItems: 'flex-start',
 	paddingTop: theme.spacing(1),
@@ -34,7 +34,7 @@ const Encabezado = ({children, esConFechaHaciaAtras, acciones}: Props) => {
 									onClick={() => history.goBack()}
 									data-cy='boton-atras'
 								>
-									Icono Flecha atras
+									<RetrocederIcon style={{color: 'white'}} />
 								</IconButton>
 							)}
 							{acciones ?? <Fragment />}

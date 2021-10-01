@@ -4,6 +4,7 @@ import {
 	TomaPedidoDelClienteActual,
 	EnvasesRetornables,
 	PedidosDelClienteActual,
+	Planeacion,
 } from 'pages';
 import {ReactNode} from 'react';
 import nombresRutas from './nombresRutas';
@@ -17,6 +18,10 @@ const routes: any = [
 	{
 		path: nombresRutas.clientes,
 		componente: <Clientes />,
+	},
+	{
+		path: nombresRutas.planeacion,
+		componente: <Planeacion />,
 	},
 	{
 		path: nombresRutas.ingresarPedido,
