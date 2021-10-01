@@ -17,6 +17,9 @@ const InputStyled = styled(Input)(({theme}) => ({
 	width: '28px',
 	height: '22px',
 	backgroundColor: 'white',
+	fontWeight: 600,
+	lineHeight: '12px',
+	fontSize: '12px',
 }));
 
 const ChipStyled = styled(Chip)(({theme}) => ({
@@ -33,16 +36,14 @@ const TarjetaEnvasesRetornables = ({
 }) => {
 	const {t} = useTranslation();
 
-	const {
-		unidades,
-		subUnidades,
-	} = envase;
+	const {unidades, subUnidades} = envase;
 
 	const unidadesIniciales = unidades;
 	const subUnidadesIniciales = subUnidades;
 
 	const [unidadesRetorno, setUnidadesRetorno] = useState(unidadesIniciales);
-	const [subUnidadesRetorno, setSubUnidadesRetorno] = useState(subUnidadesIniciales);
+	const [subUnidadesRetorno, setSubUnidadesRetorno] =
+		useState(subUnidadesIniciales);
 
 	const [unidadesVenta, setUnidadesVenta] = useState(0);
 	const [subUnidadesVenta, setSubUnidadesVenta] = useState(0);
@@ -57,35 +58,34 @@ const TarjetaEnvasesRetornables = ({
 	} = useMostrarAdvertenciaEnDialogo();	
 
 	const cambioSubUnidadesPorTipoPedido = 
-	(SubUnidadesIngresadas: number, subUnidadesEnvasesPrincipal: number, setSubUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>, subunidadesSecundario: number): boolean => {
+	(subUnidadesIngresadas: number, subUnidadesEnvasesPrincipal: number, setSubUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>, subunidadesSecundario: number): boolean => {
 
 		let subUnidadesPermitidas = false;
 
-		if(SubUnidadesIngresadas>= 0)
-		{
-			if(SubUnidadesIngresadas <= (subUnidadesRetorno + subUnidadesEnvasesPrincipal))
+		if (!Number.isNaN(subUnidadesIngresadas))
+			if(subUnidadesIngresadas <= (subUnidadesRetorno + subUnidadesEnvasesPrincipal))
 			{
-				setSubUnidadesRetorno((subUnidadesIniciales - subunidadesSecundario) - SubUnidadesIngresadas);
-				setSubUnidadesEnvasesPrincipal(SubUnidadesIngresadas);
+				setSubUnidadesRetorno((subUnidadesIniciales - subunidadesSecundario) - subUnidadesIngresadas);
+				setSubUnidadesEnvasesPrincipal(subUnidadesIngresadas);
 				subUnidadesPermitidas = true;
 			}
 			else
-			{
-				//SACAR MENSAJE
-				console.log("La cantidad excede a las disponibles para retorno");
-			}
-		}
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.cantidadSuperiorEnvases'),
+					'supera-cantidad-en-envases'
+				);
+		else
+			console.log("ES NAN!");
 
 		return subUnidadesPermitidas;
-	}
+	};
 
 	const cambioUnidadesPorTipoPedido = 
 	(unidadesIngresadas: number, unidadesEnvasesPrincipal: number, setUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>, unidadesSecundario: number): boolean => {
 
 		let unidadesPermitidas = false;
 
-		if(unidadesIngresadas>= 0)
-		{
+		if (!Number.isNaN(unidadesIngresadas))
 			if(unidadesIngresadas <= (unidadesRetorno + unidadesEnvasesPrincipal))
 			{
 				setUnidadesRetorno((unidadesIniciales - unidadesSecundario) - unidadesIngresadas);
@@ -93,11 +93,12 @@ const TarjetaEnvasesRetornables = ({
 				unidadesPermitidas = true;
 			}
 			else
-			{
-				//SACAR MENSAJE
-				console.log("La cantidad excede a las disponibles para retorno");
-			}
-		}
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.cantidadSuperiorEnvases'),
+					'supera-cantidad-en-envases'
+				);
+		else
+			console.log("ES NAN!");			
 
 		return unidadesPermitidas;
 	}

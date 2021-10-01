@@ -5,6 +5,7 @@ const nombresRutas = {
 	pedidosCliente: '/pedidosCliente',
 	envasesRetornables: '/envasesretornables',
 	planeacion: '/planeacion',
+	finalizarPedido: '/finalizarpedido',
 };
 
 export default nombresRutas;

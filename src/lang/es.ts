@@ -100,6 +100,8 @@ const es = {
 			'Se borrará el pedido de {{tipoPedido}}. ¿Desea continuar?',
 		ordenDeCompraEnBlanco:
 			'Debe ingresar una orden de compra',
+		cantidadSuperiorEnvases:
+			'La cantidad excede a las disponibles para retorno',
 	},
 };
 export default es;
