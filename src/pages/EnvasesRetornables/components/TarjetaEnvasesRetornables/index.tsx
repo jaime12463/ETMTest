@@ -79,6 +79,29 @@ const TarjetaEnvasesRetornables = ({
 		return subUnidadesPermitidas;
 	}
 
+	const cambioUnidadesPorTipoPedido = 
+	(unidadesIngresadas: number, unidadesEnvasesPrincipal: number, setUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>, unidadesSecundario: number): boolean => {
+
+		let unidadesPermitidas = false;
+
+		if(unidadesIngresadas>= 0)
+		{
+			if(unidadesIngresadas <= (unidadesRetorno + unidadesEnvasesPrincipal))
+			{
+				setUnidadesRetorno((unidadesIniciales - unidadesSecundario) - unidadesIngresadas);
+				setUnidadesEnvasesPrincipal(unidadesIngresadas);
+				unidadesPermitidas = true;
+			}
+			else
+			{
+				//SACAR MENSAJE
+				console.log("La cantidad excede a las disponibles para retorno");
+			}
+		}
+
+		return unidadesPermitidas;
+	}
+
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
@@ -108,7 +131,15 @@ const TarjetaEnvasesRetornables = ({
 							<Typography fontFamily='Open Sans' variant={'caption'}>
 								{'Venta:'}
 							</Typography>
-							<InputStyled value={unidadesVenta} disableUnderline />
+							<InputStyled 
+								value={unidadesVenta} disableUnderline 
+								onChange={e => cambioUnidadesPorTipoPedido(
+									parseInt(e.target.value),
+									unidadesVenta,
+									setUnidadesVenta,
+									unidadesPrestamo
+								)}
+							/>
 							<InputStyled 
 								value={subUnidadesVenta} 
 								disableUnderline
@@ -131,7 +162,15 @@ const TarjetaEnvasesRetornables = ({
 								{'Prestamo:'}
 							</Typography>
 
-							<InputStyled value={unidadesPrestamo} disableUnderline />
+							<InputStyled 
+								value={unidadesPrestamo} disableUnderline 
+								onChange={e => cambioUnidadesPorTipoPedido(
+									parseInt(e.target.value),
+									unidadesPrestamo,
+									setUnidadesPrestamo,
+									unidadesVenta
+								)}
+							/>
 							<InputStyled 
 								value={subUnidadesPrestamo} 
 								onChange={e => cambioSubUnidadesPorTipoPedido(
