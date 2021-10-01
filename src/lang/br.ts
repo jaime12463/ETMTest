@@ -93,6 +93,8 @@ const br = {
 			'O valor inserido excede o orçamento alocado para {{descripcion}}',
 		ordenDeCompraEnBlanco:
 			'Você deve inserir um pedido de compra',
+		cantidadSuperiorEnvases:
+			'O valor excede os disponíveis para devolução',			
 	},
 };
 export default br;

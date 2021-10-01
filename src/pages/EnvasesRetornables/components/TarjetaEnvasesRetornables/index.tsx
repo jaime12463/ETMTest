@@ -57,24 +57,24 @@ const TarjetaEnvasesRetornables = ({
 	} = useMostrarAdvertenciaEnDialogo();	
 
 	const cambioSubUnidadesPorTipoPedido = 
-	(SubUnidadesIngresadas: number, subUnidadesEnvasesPrincipal: number, setSubUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>, subunidadesSecundario: number): boolean => {
+	(subUnidadesIngresadas: number, subUnidadesEnvasesPrincipal: number, setSubUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>, subunidadesSecundario: number): boolean => {
 
 		let subUnidadesPermitidas = false;
 
-		if(SubUnidadesIngresadas>= 0)
-		{
-			if(SubUnidadesIngresadas <= (subUnidadesRetorno + subUnidadesEnvasesPrincipal))
+		if (!Number.isNaN(subUnidadesIngresadas))
+			if(subUnidadesIngresadas <= (subUnidadesRetorno + subUnidadesEnvasesPrincipal))
 			{
-				setSubUnidadesRetorno((subUnidadesIniciales - subunidadesSecundario) - SubUnidadesIngresadas);
-				setSubUnidadesEnvasesPrincipal(SubUnidadesIngresadas);
+				setSubUnidadesRetorno((subUnidadesIniciales - subunidadesSecundario) - subUnidadesIngresadas);
+				setSubUnidadesEnvasesPrincipal(subUnidadesIngresadas);
 				subUnidadesPermitidas = true;
 			}
 			else
-			{
-				//SACAR MENSAJE
-				console.log("La cantidad excede a las disponibles para retorno");
-			}
-		}
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.cantidadSuperiorEnvases'),
+					'supera-cantidad-en-envases'
+				);
+		else
+			console.log("ES NAN!");
 
 		return subUnidadesPermitidas;
 	}
@@ -84,8 +84,7 @@ const TarjetaEnvasesRetornables = ({
 
 		let unidadesPermitidas = false;
 
-		if(unidadesIngresadas>= 0)
-		{
+		if (!Number.isNaN(unidadesIngresadas))
 			if(unidadesIngresadas <= (unidadesRetorno + unidadesEnvasesPrincipal))
 			{
 				setUnidadesRetorno((unidadesIniciales - unidadesSecundario) - unidadesIngresadas);
@@ -93,11 +92,12 @@ const TarjetaEnvasesRetornables = ({
 				unidadesPermitidas = true;
 			}
 			else
-			{
-				//SACAR MENSAJE
-				console.log("La cantidad excede a las disponibles para retorno");
-			}
-		}
+				mostrarAdvertenciaEnDialogo(
+					t('advertencias.cantidadSuperiorEnvases'),
+					'supera-cantidad-en-envases'
+				);
+		else
+			console.log("ES NAN!");			
 
 		return unidadesPermitidas;
 	}

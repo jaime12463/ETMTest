@@ -58,7 +58,6 @@ export const useObtenerConsolidacionImplicitos = () => {
 			let consolidado: TConsolidadoImplicitos[] = [];
 			const determinarDividirPorPago = useDeterminarDividirPorPago();
 			const esDivisionPorPago = determinarDividirPorPago();
-			console.log('DIGO SI', esDivisionPorPago);
 
 			productosPedido.forEach((pedido) => {
 				const {
