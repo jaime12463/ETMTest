@@ -49,18 +49,16 @@ const TarjetaEnvasesRetornables = ({
 	const [unidadesPrestamo, setUnidadesPrestamo] = useState(0);
 	const [subUnidadesPrestamo, setSubUnidadesPrestamo] = useState(0);
 
-	const cambioSubUnidadesPorVenta = (SubUnidadesIngresadas: number) => {
-		if(SubUnidadesIngresadas)
-		{
-			console.log("ingreso:", SubUnidadesIngresadas);
-			console.log("SubUnidadesIngresadas", SubUnidadesIngresadas);
-			console.log("SubunidadesRetorno", subUnidadesRetorno);
-			console.log("SubunidadesVenta", subUnidadesVenta);
+	const cambioSubUnidadesPorVenta = (SubUnidadesIngresadas: number): boolean => {
+		let subUnidadesPermitidas = false;
 
+		if(SubUnidadesIngresadas>= 0)
+		{
 			if(SubUnidadesIngresadas <= (subUnidadesRetorno + subUnidadesVenta))
 			{
 				setSubUnidadesRetorno((subUnidadesIniciales - subUnidadesPrestamo) - SubUnidadesIngresadas);
 				setSubUnidadesVenta(SubUnidadesIngresadas);
+				subUnidadesPermitidas = true;
 			}
 			else
 			{
@@ -68,20 +66,20 @@ const TarjetaEnvasesRetornables = ({
 				console.log("La cantidad excede a las disponibles para retorno");
 			}
 		}
+
+		return subUnidadesPermitidas;
 	}
 
 	const cambioSubUnidadesPorPrestamo = (SubUnidadesIngresadas: number) => {
-		if(SubUnidadesIngresadas)
-		{
-			/*console.log("ingreso:", SubUnidadesIngresadas);
-			console.log("SubUnidadesIngresadas", SubUnidadesIngresadas);
-			console.log("SubunidadesRetorno", subUnidadesRetorno);
-			console.log("SubunidadesPrestamo", subUnidadesPrestamo);*/
+		let subUnidadesPermitidas = false;
 
+		if(SubUnidadesIngresadas >= 0)
+		{
 			if(SubUnidadesIngresadas <= (subUnidadesRetorno + subUnidadesPrestamo))
 			{
 				setSubUnidadesRetorno((subUnidadesIniciales - subUnidadesVenta)  - SubUnidadesIngresadas);
 				setSubUnidadesPrestamo(SubUnidadesIngresadas);
+				subUnidadesPermitidas = true;
 			}
 			else
 			{
@@ -89,6 +87,8 @@ const TarjetaEnvasesRetornables = ({
 				console.log("La cantidad excede a las disponibles para retorno");
 			}
 		}
+
+		return subUnidadesPermitidas;
 	}	
 
 	return (
