@@ -1,9 +1,11 @@
 import {FunctionComponent} from 'react';
 import {makeStyles} from '@material-ui/styles';
 import {Tabs as TabsMUI, Tab, Grid} from '@mui/material';
-import {TabPanel} from 'components/UI';
 import React from 'react';
 import {TTab} from 'models';
+import TabPanel from '@mui/lab/TabPanel';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
 
 type Props = {
 	tabs: TTab[];
@@ -18,43 +20,35 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-function a11yProps(index: any) {
-	return {
-		id: `scrollable-auto-tab-${index}`,
-		'aria-controls': `scrollable-auto-tabpanel-${index}`,
-	};
-}
-
 const Tabs: FunctionComponent<Props> = ({tabs, value, setValue}) => {
-	const classes = useStyles();
-	const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+	const handleChange = (event: React.SyntheticEvent, newValue: string) => {
 		setValue(newValue);
 	};
+
 	return (
-		<div className={classes.root}>
-			<TabsMUI
-				value={value}
-				onChange={handleChange}
-				indicatorColor='primary'
-				textColor='primary'
-				variant='fullWidth'
-			>
-				{tabs.map((tab, index) => (
-					<Tab
-						label={tab.label}
-						style={{maxWidth: '50%', fontSize: '0.85rem'}}
-						key={index}
-						disabled={tab.deshabilitar}
-						{...a11yProps(index)}
-					/>
-				))}
-			</TabsMUI>
-			{tabs.map((tab, index) => (
-				<TabPanel value={value} index={index} key={index}>
-					{tab.component}
-				</TabPanel>
-			))}
-		</div>
+		<>
+			<TabContext value={value.toString()}>
+				<TabList onChange={handleChange} aria-label='lab API tabs example'>
+					{tabs.map((tab, index) => (
+						<Tab
+							label={tab.label}
+							style={{maxWidth: '50%', fontSize: '0.85rem'}}
+							key={index}
+							value={index.toString()}
+							disabled={tab.deshabilitar}
+						/>
+					))}
+				</TabList>
+				{tabs.map(
+					(tab, index) =>
+						value == index && (
+							<TabPanel value={value.toString()} key={index}>
+								{tab.component}
+							</TabPanel>
+						)
+				)}
+			</TabContext>
+		</>
 	);
 };
 

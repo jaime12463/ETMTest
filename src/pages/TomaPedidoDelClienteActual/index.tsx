@@ -65,9 +65,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				<Box my={3}>
 					<Stepper pasoActivo={1} />
 				</Box>
-				<Box mb={3}>
-					<IndicadoresDelPedidoActual />
-				</Box>
+				<Box mb={3}>{/* <IndicadoresDelPedidoActual /> */}</Box>
 				<TabsPedidoActual value={value} setValue={setValue} />
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
@@ -193,12 +191,12 @@ function TabsPedidoActual({value, setValue}: any) {
 	const tabs = [
 		{
 			label: t('general.ventas'),
-			component: TabVentas,
+			component: <TabVentas />,
 			deshabilitar: false,
 		},
 		{
 			label: t('general.compromisoCobro'),
-			component: CompromisoDeCobro,
+			component: <CompromisoDeCobro />,
 			deshabilitar: validarDeshabilitarTabCompromisoDeCobro(),
 		},
 	];
