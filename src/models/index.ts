@@ -81,6 +81,11 @@ export type TStateInputFocus = {
 	setInputFocus: Dispatch<SetStateAction<InputsKeysFormTomaDePedido>>;
 };
 
+export type TStateSubUnidadesEnvases = {
+	subUnidadesEnvases: number;
+	setSubUnidadesEnvases: Dispatch<SetStateAction<number>>;
+};
+
 //Formularios
 
 export type THookForm<T> = {
