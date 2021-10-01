@@ -120,8 +120,8 @@ const ItemTarjetaPromoPush = (props: any) => {
 														colSpan={4}
 														className={classes.celdaProducto}
 													>
-														{`${el.CodigoProducto} ${
-															productos[el.CodigoProducto].nombre
+														{`${el.codigoProducto} ${
+															productos[el.codigoProducto].nombre
 														}  ${promoPush.componentes[i].cantidad} ${
 															promoPush.componentes[i].unidadMedida
 														}`}
