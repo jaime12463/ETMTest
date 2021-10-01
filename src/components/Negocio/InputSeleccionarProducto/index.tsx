@@ -19,6 +19,7 @@ import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';
 import {useEsPermitidoAgregarProductoAlPedido} from './hooks';
 import {BuscadorProductosClienteActual} from 'pages/TomaPedidoDelClienteActual/components';
+import {BuscarIcon} from 'assests/iconos';
 
 export type Props = {
 	hookForm: THookForm<TFormTomaDePedido>;
@@ -102,7 +103,7 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 										)
 									}
 								>
-									Icono Buscar
+									<BuscarIcon />
 								</IconButton>
 							),
 						}}

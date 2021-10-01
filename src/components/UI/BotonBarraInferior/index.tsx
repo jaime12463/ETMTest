@@ -6,6 +6,7 @@ type Props = {
 	numeroItems: number;
 	descripcion: string;
 	total: string;
+	onClick: (e: any) => void;
 };
 
 export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
@@ -16,6 +17,7 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 			color='success'
 			fullWidth
 			style={{borderRadius: '24px', color: 'white'}}
+			onClick={props.onClick}
 		>
 			<Grid
 				container

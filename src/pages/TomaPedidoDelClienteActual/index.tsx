@@ -76,7 +76,8 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 					descripcion='Continuar a Toma de pedido'
 					numeroItems={130}
 					total='1000.00$'
-				></BotonBarraInferior>
+					onClick={() => {}}
+				/>
 			</Estructura.PieDePagina>
 		</Estructura>
 	);

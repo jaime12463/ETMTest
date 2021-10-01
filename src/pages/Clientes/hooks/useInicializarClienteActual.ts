@@ -40,19 +40,15 @@ export const useInicializarClienteActual = (
 	//TODO: Esta logica puede ser mas limpia.
 	const asignarClienteActual = useCallback(
 		({codigoCliente}: TInputsCodigoCliente) => {
-			const {
-				esValidoInicializarClienteActual,
-				datosCliente,
-			} = validarInicializarClienteActual(codigoCliente);
+			const {esValidoInicializarClienteActual, datosCliente} =
+				validarInicializarClienteActual(codigoCliente);
 
 			if (!esValidoInicializarClienteActual) return;
 
 			if (!datosCliente) return;
 
-			const {
-				esValidoInicializarPedidoActual,
-				fechaEntrega,
-			} = validarInicializarPedidoActual(datosCliente);
+			const {esValidoInicializarPedidoActual, fechaEntrega} =
+				validarInicializarPedidoActual(datosCliente);
 
 			if (!esValidoInicializarPedidoActual) return;
 
@@ -69,7 +65,7 @@ export const useInicializarClienteActual = (
 
 			inicializarVisitaActual(fechaEntrega, codigoCliente);
 
-			history.push(`${nombresRutas.ingresarPedido}`);
+			history.push(`${nombresRutas.planeacion}`);
 		},
 		[
 			mostrarAdvertenciaEnDialogo,

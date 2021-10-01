@@ -25,7 +25,7 @@ const MenuPromoPush = (): any => {
 				}}
 				color={!mostrarPromoPush ? 'primary' : 'default'}
 			>
-				Icono carrito
+				C
 			</IconButton>
 			{datosTipoPedido?.habilitaPromocion && (
 				<IconButton
@@ -34,7 +34,7 @@ const MenuPromoPush = (): any => {
 					}}
 					color={mostrarPromoPush ? 'primary' : 'default'}
 				>
-					Icono Promo
+					P
 				</IconButton>
 			)}
 		</Box>
