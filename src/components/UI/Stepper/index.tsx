@@ -1,6 +1,6 @@
 import {FunctionComponent} from 'react';
 import Box from '@mui/material/Box';
-import {StepConnector, Stepper as StepperMUI} from '@mui/material';
+import {StepConnector, Stepper as StepperMUI, Typography} from '@mui/material';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import {styled} from '@mui/material/styles';
@@ -28,7 +28,9 @@ export const Stepper: FunctionComponent<Props> = (props) => {
 			>
 				{steps.map((label) => (
 					<Step key={label}>
-						<StepLabel StepIconComponent={QontoStepIcon}>{label}</StepLabel>
+						<StepLabel StepIconComponent={QontoStepIcon}>
+							<Typography variant="caption" sx={{fontFamily:'Poppins'}}>{label}</Typography>
+						</StepLabel>
 					</Step>
 				))}
 			</StepperMUI>
