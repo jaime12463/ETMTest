@@ -8,6 +8,7 @@ import caja from 'assests/iconos/caja.svg';
 import {ETiposDePago} from 'models';
 import {useTranslation} from 'react-i18next';
 import {styled} from '@mui/material/styles';
+import { useState } from 'react';
 
 const InputStyled = styled(Input)(({theme}) => ({
 	borderRadius: '4px',
@@ -31,22 +32,131 @@ const TarjetaEnvasesRetornables = ({
 }) => {
 	const {t} = useTranslation();
 
+	const {
+		unidades,
+		subUnidades,
+	} = envase;
+
+	const unidadesIniciales = unidades;
+	const subUnidadesIniciales = subUnidades;
+
+	const [unidadesRetorno, setUnidadesRetorno] = useState(unidadesIniciales);
+	const [subUnidadesRetorno, setSubUnidadesRetorno] = useState(subUnidadesIniciales);
+
+	const [unidadesVenta, setUnidadesVenta] = useState(0);
+	const [subUnidadesVenta, setSubUnidadesVenta] = useState(0);
+
+	const [unidadesPrestamo, setUnidadesPrestamo] = useState(0);
+	const [subUnidadesPrestamo, setSubUnidadesPrestamo] = useState(0);
+
+	const cambioSubUnidadesPorVenta = (SubUnidadesIngresadas: number) => {
+		if(SubUnidadesIngresadas)
+		{
+			console.log("ingreso:", SubUnidadesIngresadas);
+			console.log("SubUnidadesIngresadas", SubUnidadesIngresadas);
+			console.log("SubunidadesRetorno", subUnidadesRetorno);
+			console.log("SubunidadesVenta", subUnidadesVenta);
+
+			if(SubUnidadesIngresadas <= (subUnidadesRetorno + subUnidadesVenta))
+			{
+				setSubUnidadesRetorno((subUnidadesIniciales - subUnidadesPrestamo) - SubUnidadesIngresadas);
+				setSubUnidadesVenta(SubUnidadesIngresadas);
+			}
+			else
+			{
+				//SACAR MENSAJE
+				console.log("La cantidad excede a las disponibles para retorno");
+			}
+		}
+	}
+
+	const cambioSubUnidadesPorPrestamo = (SubUnidadesIngresadas: number) => {
+		if(SubUnidadesIngresadas)
+		{
+			/*console.log("ingreso:", SubUnidadesIngresadas);
+			console.log("SubUnidadesIngresadas", SubUnidadesIngresadas);
+			console.log("SubunidadesRetorno", subUnidadesRetorno);
+			console.log("SubunidadesPrestamo", subUnidadesPrestamo);*/
+
+			if(SubUnidadesIngresadas <= (subUnidadesRetorno + subUnidadesPrestamo))
+			{
+				setSubUnidadesRetorno((subUnidadesIniciales - subUnidadesVenta)  - SubUnidadesIngresadas);
+				setSubUnidadesPrestamo(SubUnidadesIngresadas);
+			}
+			else
+			{
+				//SACAR MENSAJE
+				console.log("La cantidad excede a las disponibles para retorno");
+			}
+		}
+	}	
+
 	return (
 		<TarjetaDoble
 			derecha={
-				<Box
-					display='flex'
-					p={1.5}
-					width={'100%'}
-					alignItems='center'
-					justifyContent='space-between'
-				>
-					<Typography fontFamily='Open Sans' variant={'caption'}>
-						{'Retorno:'}
-					</Typography>
+				<Box p={1.5} pb={0} minWidth={'180px'} minHeight={'125px'}>
+					<Box
+						display='flex'
+						p={1.5}
+						width={'100%'}
+						alignItems='center'
+						justifyContent='space-between'
+					>
+						<Typography fontFamily='Open Sans' variant={'caption'}>
+							{'Retorno:'}
+						</Typography>
+						<InputStyled value={unidadesRetorno} disableUnderline readOnly />
+						<InputStyled value={subUnidadesRetorno} disableUnderline readOnly />
+					</Box>
+					<Box
+						display='flex'
+						p={1.5}
+						width={'100%'}
+						alignItems='center'
+						justifyContent='space-between'
+					>
+						<Typography fontFamily='Open Sans' variant={'caption'}>
+							{'Venta:'}
+						</Typography>
+						<InputStyled value={unidadesVenta} disableUnderline />
+						<InputStyled 
+							value={subUnidadesVenta} 
+							disableUnderline
+							onChange={e => cambioSubUnidadesPorVenta(parseInt(e.target.value))}
+						/>
+					</Box>
+					<Box
+						display='flex'
+						p={1.5}
+						width={'100%'}
+						alignItems='center'
+						justifyContent='space-between'
+					>
+						<Typography fontFamily='Open Sans' variant={'caption'}>
+							{'Prestamo:'}
+						</Typography>
 
-					<InputStyled value={envase.unidades} disableUnderline readOnly />
-					<InputStyled value={envase.subUnidades} disableUnderline readOnly />
+						<InputStyled value={unidadesPrestamo} disableUnderline />
+						<InputStyled 
+							value={subUnidadesPrestamo} 
+							onChange={e => cambioSubUnidadesPorPrestamo(parseInt(e.target.value))}
+							disableUnderline 
+						/>
+					</Box>
+					<Box
+						display='flex'
+						p={1.5}
+						width={'100%'}
+						alignItems='center'
+						justifyContent='space-between'
+					>
+						<Typography fontFamily='Open Sans' variant={'caption'}>
+							{'Total:'}
+						</Typography>
+
+						<InputStyled value={unidadesIniciales} disableUnderline readOnly />
+						<InputStyled value={subUnidadesIniciales} disableUnderline readOnly />
+					</Box>				
 				</Box>
 			}
 			izquierda={
