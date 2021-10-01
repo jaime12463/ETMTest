@@ -1,15 +1,12 @@
-import {
-	Box,
-	Card,
-	Grid,
-} from '@mui/material';
+import {Box, Card, Grid} from '@mui/material';
 import {styled} from '@mui/material/styles';
 
 const CardContenedor = styled(Card)(({theme}) => ({
 	boxShadow: 'none',
 	display: 'flex',
-	border: '1.5px solid #E4E4E4',
+	border: '1px solid #D9D9D9',
 	borderRadius: '8px',
+	marginBottom: '15px',
 }));
 
 const Izquierda = styled(Grid)(({theme}) => ({

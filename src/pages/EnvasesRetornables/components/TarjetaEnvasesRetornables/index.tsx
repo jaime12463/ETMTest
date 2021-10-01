@@ -8,7 +8,7 @@ import caja from 'assests/iconos/caja.svg';
 import {ETiposDePago} from 'models';
 import {useTranslation} from 'react-i18next';
 import {styled} from '@mui/material/styles';
-import { useState } from 'react';
+import {useState} from 'react';
 
 const InputStyled = styled(Input)(({theme}) => ({
 	borderRadius: '4px',
@@ -16,6 +16,9 @@ const InputStyled = styled(Input)(({theme}) => ({
 	width: '28px',
 	height: '22px',
 	backgroundColor: 'white',
+	fontWeight: 600,
+	lineHeight: '12px',
+	fontSize: '12px',
 }));
 
 const ChipStyled = styled(Chip)(({theme}) => ({
@@ -32,16 +35,14 @@ const TarjetaEnvasesRetornables = ({
 }) => {
 	const {t} = useTranslation();
 
-	const {
-		unidades,
-		subUnidades,
-	} = envase;
+	const {unidades, subUnidades} = envase;
 
 	const unidadesIniciales = unidades;
 	const subUnidadesIniciales = subUnidades;
 
 	const [unidadesRetorno, setUnidadesRetorno] = useState(unidadesIniciales);
-	const [subUnidadesRetorno, setSubUnidadesRetorno] = useState(subUnidadesIniciales);
+	const [subUnidadesRetorno, setSubUnidadesRetorno] =
+		useState(subUnidadesIniciales);
 
 	const [unidadesVenta, setUnidadesVenta] = useState(0);
 	const [subUnidadesVenta, setSubUnidadesVenta] = useState(0);
@@ -49,114 +50,112 @@ const TarjetaEnvasesRetornables = ({
 	const [unidadesPrestamo, setUnidadesPrestamo] = useState(0);
 	const [subUnidadesPrestamo, setSubUnidadesPrestamo] = useState(0);
 
-	const cambioSubUnidadesPorVenta = (SubUnidadesIngresadas: number): boolean => {
+	const cambioSubUnidadesPorVenta = (
+		SubUnidadesIngresadas: number
+	): boolean => {
 		let subUnidadesPermitidas = false;
 
-		if(SubUnidadesIngresadas>= 0)
-		{
-			if(SubUnidadesIngresadas <= (subUnidadesRetorno + subUnidadesVenta))
-			{
-				setSubUnidadesRetorno((subUnidadesIniciales - subUnidadesPrestamo) - SubUnidadesIngresadas);
+		if (SubUnidadesIngresadas >= 0) {
+			if (SubUnidadesIngresadas <= subUnidadesRetorno + subUnidadesVenta) {
+				setSubUnidadesRetorno(
+					subUnidadesIniciales - subUnidadesPrestamo - SubUnidadesIngresadas
+				);
 				setSubUnidadesVenta(SubUnidadesIngresadas);
 				subUnidadesPermitidas = true;
-			}
-			else
-			{
+			} else {
 				//SACAR MENSAJE
-				console.log("La cantidad excede a las disponibles para retorno");
+				console.log('La cantidad excede a las disponibles para retorno');
 			}
 		}
 
 		return subUnidadesPermitidas;
-	}
+	};
 
 	const cambioSubUnidadesPorPrestamo = (SubUnidadesIngresadas: number) => {
 		let subUnidadesPermitidas = false;
 
-		if(SubUnidadesIngresadas >= 0)
-		{
-			if(SubUnidadesIngresadas <= (subUnidadesRetorno + subUnidadesPrestamo))
-			{
-				setSubUnidadesRetorno((subUnidadesIniciales - subUnidadesVenta)  - SubUnidadesIngresadas);
+		if (SubUnidadesIngresadas >= 0) {
+			if (SubUnidadesIngresadas <= subUnidadesRetorno + subUnidadesPrestamo) {
+				setSubUnidadesRetorno(
+					subUnidadesIniciales - subUnidadesVenta - SubUnidadesIngresadas
+				);
 				setSubUnidadesPrestamo(SubUnidadesIngresadas);
 				subUnidadesPermitidas = true;
-			}
-			else
-			{
+			} else {
 				//SACAR MENSAJE
-				console.log("La cantidad excede a las disponibles para retorno");
+				console.log('La cantidad excede a las disponibles para retorno');
 			}
 		}
 
 		return subUnidadesPermitidas;
-	}	
+	};
 
 	return (
 		<TarjetaDoble
 			derecha={
-				<Box p={1.5} pb={0} minWidth={'180px'} minHeight={'125px'}>
-					<Box
-						display='flex'
-						p={1.5}
-						width={'100%'}
-						alignItems='center'
-						justifyContent='space-between'
-					>
-						<Typography fontFamily='Open Sans' variant={'caption'}>
-							{'Retorno:'}
-						</Typography>
-						<InputStyled value={unidadesRetorno} disableUnderline readOnly />
-						<InputStyled value={subUnidadesRetorno} disableUnderline readOnly />
-					</Box>
-					<Box
-						display='flex'
-						p={1.5}
-						width={'100%'}
-						alignItems='center'
-						justifyContent='space-between'
-					>
-						<Typography fontFamily='Open Sans' variant={'caption'}>
-							{'Venta:'}
-						</Typography>
-						<InputStyled value={unidadesVenta} disableUnderline />
-						<InputStyled 
-							value={subUnidadesVenta} 
-							disableUnderline
-							onChange={e => cambioSubUnidadesPorVenta(parseInt(e.target.value))}
-						/>
-					</Box>
-					<Box
-						display='flex'
-						p={1.5}
-						width={'100%'}
-						alignItems='center'
-						justifyContent='space-between'
-					>
-						<Typography fontFamily='Open Sans' variant={'caption'}>
-							{'Prestamo:'}
-						</Typography>
+				<Box
+					p={1.5}
+					pb={0}
+					maxWidth={'180px'}
+					minWidth={'180px'}
+					minHeight={'125px'}
+					maxHeight={'125px'}
+				>
+					<Grid container>
+						<Grid
+							display='flex'
+							width={'100%'}
+							alignItems='center'
+							justifyContent='space-between'
+						>
+							<Typography fontFamily='Open Sans' variant={'caption'}>
+								{'Retorno:'}
+							</Typography>
+							<InputStyled value={unidadesRetorno} disableUnderline readOnly />
+							<InputStyled
+								value={subUnidadesRetorno}
+								disableUnderline
+								readOnly
+							/>
+						</Grid>
+						<Grid
+							display='flex'
+							width={'100%'}
+							alignItems='center'
+							justifyContent='space-between'
+						>
+							<Typography fontFamily='Open Sans' variant={'caption'}>
+								{'Venta:'}
+							</Typography>
+							<InputStyled value={unidadesVenta} disableUnderline />
+							<InputStyled
+								value={subUnidadesVenta}
+								disableUnderline
+								onChange={(e) =>
+									cambioSubUnidadesPorVenta(parseInt(e.target.value))
+								}
+							/>
+						</Grid>
+						<Grid
+							display='flex'
+							width={'100%'}
+							alignItems='center'
+							justifyContent='space-between'
+						>
+							<Typography fontFamily='Open Sans' variant={'caption'}>
+								{'Prestamo:'}
+							</Typography>
 
-						<InputStyled value={unidadesPrestamo} disableUnderline />
-						<InputStyled 
-							value={subUnidadesPrestamo} 
-							onChange={e => cambioSubUnidadesPorPrestamo(parseInt(e.target.value))}
-							disableUnderline 
-						/>
-					</Box>
-					<Box
-						display='flex'
-						p={1.5}
-						width={'100%'}
-						alignItems='center'
-						justifyContent='space-between'
-					>
-						<Typography fontFamily='Open Sans' variant={'caption'}>
-							{'Total:'}
-						</Typography>
-
-						<InputStyled value={unidadesIniciales} disableUnderline readOnly />
-						<InputStyled value={subUnidadesIniciales} disableUnderline readOnly />
-					</Box>				
+							<InputStyled value={unidadesPrestamo} disableUnderline />
+							<InputStyled
+								value={subUnidadesPrestamo}
+								onChange={(e) =>
+									cambioSubUnidadesPorPrestamo(parseInt(e.target.value))
+								}
+								disableUnderline
+							/>
+						</Grid>
+					</Grid>
 				</Box>
 			}
 			izquierda={
