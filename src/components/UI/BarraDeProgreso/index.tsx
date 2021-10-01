@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react';
-import { styled } from '@mui/styles';
-//TODO: EL CAMBIO A MUI AFECTO ESTO
+import {styled} from '@mui/material/styles';
 import {useEstilos, BorderLinearProgress} from './useEstilos';
 import {Typography, Box, LinearProgress} from '@mui/material';
 
@@ -17,7 +16,7 @@ export type Props = {
 	dataCY: string;
 };
 
-const BarraDeLinea= styled(LinearProgress)({
+const BarraDeLinea = styled(LinearProgress)({
 	height: '18px',
 	width: 100,
 	textAlign: 'center',
@@ -51,13 +50,15 @@ const BarraDeProgreso = ({
 
 	return (
 		<Box>
-			<Box sx={{
-				marginBottom:'9px',
-				textAlign:'center',
-				lineHeight:1
-			}}>
-				<Typography component="p"variant='caption'>{`${titulo}`}</Typography>
-				<Typography component="p" variant='caption' data-cy={dataCY}>
+			<Box
+				sx={{
+					marginBottom: '9px',
+					textAlign: 'center',
+					lineHeight: 1,
+				}}
+			>
+				<Typography component='p' variant='caption'>{`${titulo}`}</Typography>
+				<Typography component='p' variant='caption' data-cy={dataCY}>
 					{condicion !== 'contado'
 						? formatearNumero(valor, t)
 						: `${formatearNumero(valor, t)} / ${formatearNumero(max, t)}`}
@@ -65,12 +66,12 @@ const BarraDeProgreso = ({
 			</Box>
 			<LinearProgress
 				variant='determinate'
-				value={ progreso ?? 0} //{ progreso <= 0 ? setProgreso(5) : progreso ?? 0}
+				value={progreso ?? 0} //{ progreso <= 0 ? setProgreso(5) : progreso ?? 0}
 				sx={{
-					height:18,
-					color:colorActual,
-					backgroundColor:'#B2B2B2',
-					borderRadius:'4px',
+					height: 18,
+					color: colorActual,
+					backgroundColor: '#B2B2B2',
+					borderRadius: '4px',
 				}}
 			/>
 		</Box>
