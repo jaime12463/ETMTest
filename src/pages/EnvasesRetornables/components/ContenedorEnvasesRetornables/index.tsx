@@ -33,7 +33,7 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 	const consolidacionImplicitos: TConsolidadoImplicitos[] =
 		obtenerConsolidacionImplicitos(pedidosArray);
 
-	const prueba: TConsolidadoImplicitos[] = [
+	/* 	const prueba: TConsolidadoImplicitos[] = [
 		{
 			codigoImplicito: 1001,
 			nombreImplicito: 'COCA COLA',
@@ -44,24 +44,28 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 			precioConImpuestoUnidad: 150,
 			precioConImpuestoSubunidad: 15,
 		},
-	];
+	]; */
 
 	return (
-		<TarjetaColapsable
-			titulo={<Typography variant={'subtitle1'}>Envases</Typography>}
-			subTitulo={
-				<Typography variant={'body3'}>
-					Revisa la cantidad de envases para tus productos.
-				</Typography>
-			}
-			id='Envases'
-			expandido={expandido}
-			setExpandido={setExpandido}
-		>
-			{prueba.map((envase: TConsolidadoImplicitos) => (
-				<TarjetaEnvasesRetornables envase={envase} />
-			))}
-		</TarjetaColapsable>
+		<>
+			{esGeneraEnvases && (
+				<TarjetaColapsable
+					titulo={<Typography variant={'subtitle1'}>Envases</Typography>}
+					subTitulo={
+						<Typography variant={'body3'}>
+							Revisa la cantidad de envases para tus productos.
+						</Typography>
+					}
+					id='Envases'
+					expandido={expandido}
+					setExpandido={setExpandido}
+				>
+					{consolidacionImplicitos.map((envase: TConsolidadoImplicitos) => (
+						<TarjetaEnvasesRetornables envase={envase} />
+					))}
+				</TarjetaColapsable>
+			)}
+		</>
 	);
 };
 

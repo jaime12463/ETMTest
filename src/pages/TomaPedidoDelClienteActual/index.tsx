@@ -180,7 +180,8 @@ function BotonVerPedidosDelClienteActual() {
 	return (
 		<IconButton
 			size='small'
-			onClick={() => history.push(`${path}${nombresRutas.envasesRetornables}`)}
+			onClick={() => history.push(`${path}${nombresRutas.pedidosCliente}`)}
+
 			/* 	onClick={() => history.push(`${path}${nombresRutas.pedidosCliente}`)} */
 		>
 			Icono Pedidos
