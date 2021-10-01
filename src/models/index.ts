@@ -17,6 +17,9 @@ export type TConsolidadoImplicitos = {
 	unidades: number;
 	subUnidades: number;
 	tipoPago?: ETiposDePago;
+	presentacion?: number;
+	precioConImpuestoUnidad?: number;
+	precioConImpuestoSubunidad?: number;
 };
 
 export type TTotal = {

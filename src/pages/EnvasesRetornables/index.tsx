@@ -1,7 +1,7 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Estructura} from 'components/UI';
-import {ListadoEnvasesRetornables} from './components';
+import {ContenedorEnvasesRetornables} from './components';
 
 const EnvasesRetornables: React.FC = () => {
 	const {t} = useTranslation();
@@ -9,7 +9,7 @@ const EnvasesRetornables: React.FC = () => {
 	return (
 		<Estructura titulo={t('titulos.envases')} esConFechaHaciaAtras={true}>
 			<Estructura.Cuerpo>
-				<ListadoEnvasesRetornables />
+				<ContenedorEnvasesRetornables />
 			</Estructura.Cuerpo>
 		</Estructura>
 	);
