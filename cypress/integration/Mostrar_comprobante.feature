@@ -7,6 +7,66 @@ Característica: Mostrar comprobante
    quiero ver el comprobante con el resumen de la visita 
    para comunicar al cliente
 
+#El orden en que se muestran las secciones es
+Contado
+Productos
+Promo push
+Envases contado
+Crédito
+Prestamo envases
+Canje
+Compromiso de cobro
+
+ Esquema del escenario: N°1 - Mostrar productos en comprobante
+    Dado que estoy en el paso 4 en finalizar pedido
+    y se ingresaron productos que no son promo push en el _tipoPedido con codigo=venta
+   con  '<condicionPago>'
+    cuando despliego la tarjeta comprobante  
+    entonces el sistema mostrará el título "Items de" &<condicionPago>,
+    la lista de los productos ingresados visualizando
+    el código de producto, indicador presentación unidades, cantidad de unidades, precio unitario por unidad, subtotal de las unidades,
+    indicador presentación unidades, cantidad de subunidades vendidas, precio unitario por subunidad, subtotal de las subunidades vendidas,
+    ordenados por código de productos
+    Y el monto total de los productos. 
+
+     Esquema del escenario: N°1 - Mostrar promo push en comprobante
+    Dado que estoy en el paso 4 en finalizar pedido
+    y se ingresaron productos que son promo push en el _tipoPedido con codigo=venta
+    con '<condicionPago>'
+    cuando despliego la tarjeta comprobante  
+    entonces el sistema mostrará una lista de los productos no promo push con <condiciónpago> visualizando
+    el código de producto, indicador presentación unidades, cantidad de unidades, precio unitario por unidad, subtotal de las unidades,
+    indicador presentación unidades, cantidad de subunidades vendidas, precio unitario por subunidad, subtotal de las subunidades vendidas,
+    Y el monto total 
+     
+
+    Esquema del escenario: N°1 - Mostrar venta de envases en comprovante
+    Dado que estoy en el paso 4 en finalizar pedido
+    y se ingresaron productos  en el _tipoPedido con codigo="ventaEnvase"
+    con '<condicionPago>'
+    cuando despliego la tarjeta comprobante  
+    entonces el sistema mostrará una lista de los productos no promo push con <condiciónpago> visualizando
+    el código de producto, indicador presentación unidades, cantidad de unidades, precio unitario por unidad, subtotal de las unidades,
+    indicador presentación unidades, cantidad de subunidades vendidas, precio unitario por subunidad, subtotal de las subunidades vendidas,
+    Y el monto total 
+
+condiciónpago
+contado
+credito
+
+    Esquema del escenario: N°1 - Mostrar canjes en comprovante
+    Dado que estoy en el paso 4 en finalizar pedido
+    y se ingresaron productos  en el _tipoPedido con codigo="Canje"
+    cuando despliego la tarjeta comprobante  
+    entonces el sistema mostrará una lista de los productos no promo push con <condiciónpago> visualizando
+    el código de producto, indicador presentación unidades, cantidad de unidades, precio unitario por unidad, subtotal de las unidades,
+    indicador presentación unidades, cantidad de subunidades vendidas, precio unitario por subunidad, subtotal de las subunidades vendidas,
+    Y el monto total 
+
+
+
+#Las secciones se ordenan por condición de pago, primero contado /crédito
+
 Esquema del escenario: N°1 - Mostrar comprobante
     Dado que estoy en el paso 4 en finalizar pedido
     Y '<productosNoPromoPushContado>' ingresó productos no promo push de contado
