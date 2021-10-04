@@ -27,8 +27,8 @@ Característica: Mostrar tarjeta de canje
 Escenario: N°1 - Mostrar tarjeta de canje
     Dado que estamos en el paso 3 - otros
     Cuando se muestran las tarjetas 
-    Entonces el sistema mostrará la tarjeta de canej asociada al _tipoPedido cuyo _codigo = "Canje" cerrada con
-    su título, subtitulo y cantidad de items, como la suma de tarjetas de productos que contenga la tarjeta
+    Entonces el sistema mostrará la tarjeta de canje asociada al _tipoPedido cuyo _codigo = "Canje" cerrada con
+    su título, subtitulo y cantidad de items igual a la cantidad de productos ingresados en el pedido
     Y mostrará el control para desplegar la tarjeta
 
     #canje de pedidos ya registrados (presupuesto)
@@ -37,7 +37,7 @@ Escenario: N°2 - El tipo de pedido es no valorizado y no valida presupuesto
     Y no hay productos en el _tipoPedido cuyo _codigo = "Venta"
     Cuando se muestra la tarjeta de canje
     Entonces el sistema mostrará la tarjeta cerrada con
-    su título, subtitulo y cantidad de items, como la suma de tarjetas de productos que contenga la tarjeta
+    su título, subtitulo y cantidad de itemsigual a la cantidad de productos ingresados en el pedido
     Y mostrará el mensaje "No puede generar el pedido de " + _tipoPedido.descripcion
     Y no mostará el control de desplegar tarjeta
 
