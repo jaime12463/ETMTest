@@ -44,18 +44,12 @@ export const useAgregarPedidoActualAPedidosClientes = (
 
 		//console.log(pedidosArray);
 
-		const {
-			esValido,
-			propsAdvertencia,
-		}: TRetornoValidacion = validarCierreDeVisita();
+		const {esValido, propsAdvertencia}: TRetornoValidacion =
+			validarCierreDeVisita();
 
 		if (!esValido && propsAdvertencia) {
-			const {
-				dataCy,
-				mensaje,
-				manejadorClick,
-				textosBotonesDefault,
-			} = propsAdvertencia;
+			const {dataCy, mensaje, manejadorClick, textosBotonesDefault} =
+				propsAdvertencia;
 			mostrarAdvertenciaEnDialogo(
 				mensaje,
 				dataCy,
@@ -65,11 +59,8 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			return;
 		}
 
-		const pedidosSeparadosCreditoContadoArray: TPedidoClienteParaEnviar[] = separarPedidosCreditoContado(
-			pedidosArray
-		);
-
-		//console.log(pedidosSeparadosCreditoContadoArray);
+		const pedidosSeparadosCreditoContadoArray: TPedidoClienteParaEnviar[] =
+			separarPedidosCreditoContado(pedidosArray);
 
 		dispatch(
 			agregarPedidosCliente({
@@ -89,7 +80,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			dispatch(limpiarCompromisoDeCobroActual());
 		}
 
-		history.goBack();
+		history.push('/clientes');
 	}, [clienteActual, compromisoDeCobroActual, visitaActual]);
 	return agregarPedidoActualAPedidosClientes;
 };
