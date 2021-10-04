@@ -68,6 +68,15 @@ const TarjetaEnvasesRetornables = ({
 				)?.descripcionCorta
 		);
 
+	const buscarPedidoValorizado = configuracion.TipoPedidoEnvasesHabilitados.map(
+		(tipoEnvases) =>
+			configuracion.tipoPedidos.find(
+				(tipoPedidos) => tipoPedidos.codigo === tipoEnvases
+			)?.esValorizado === true
+	);
+
+	let tieneTipoPedidoValorizado = buscarPedidoValorizado.includes(true);
+
 	const cambioSubUnidadesPorTipoPedido = (
 		subUnidadesIngresadas: number,
 		subUnidadesEnvasesPrincipal: number,
@@ -305,20 +314,28 @@ const TarjetaEnvasesRetornables = ({
 							alignItems='center'
 							justifyContent='space-between'
 						>
-							<img style={{width: '19px'}} src={caja} alt='icono caja' />
-							<Typography variant={'caption'}>
-								{`x${envase.presentacion} `}
-							</Typography>
-							<Typography variant={'subtitle3'}>
-								{envase.precioConImpuestoUnidad &&
-									formatearNumero(envase.precioConImpuestoUnidad, t)}
-							</Typography>
+							{tieneTipoPedidoValorizado && (
+								<>
+									<img style={{width: '19px'}} src={caja} alt='icono caja' />
+									<Typography variant={'caption'}>
+										{`x${envase.presentacion} `}
+									</Typography>
+									<Typography variant={'subtitle3'}>
+										{envase.precioConImpuestoUnidad &&
+											formatearNumero(envase.precioConImpuestoUnidad, t)}
+									</Typography>
 
-							<img style={{width: '19px'}} src={botella} alt='icono botella' />
-							<Typography variant={'subtitle3'}>
-								{envase.precioConImpuestoSubunidad &&
-									formatearNumero(envase.precioConImpuestoSubunidad, t)}
-							</Typography>
+									<img
+										style={{width: '19px'}}
+										src={botella}
+										alt='icono botella'
+									/>
+									<Typography variant={'subtitle3'}>
+										{envase.precioConImpuestoSubunidad &&
+											formatearNumero(envase.precioConImpuestoSubunidad, t)}
+									</Typography>
+								</>
+							)}
 						</Box>
 					</Box>
 				}

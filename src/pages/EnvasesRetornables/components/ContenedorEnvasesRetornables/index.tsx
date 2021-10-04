@@ -38,6 +38,32 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 	const consolidacionImplicitos: TConsolidadoImplicitos[] =
 		obtenerConsolidacionImplicitos(pedidosArray);
 
+	/* 	const consolidacionImplicitosOrdenados =
+		consolidacionImplicitos &&
+		consolidacionImplicitos.sort(
+			(
+				a: TConsolidadoImplicitos | undefined,
+				b: TConsolidadoImplicitos | undefined
+			) => {
+				if (!a.tipoPago || !b.tipoPago) return;
+				if (!a.codigoImplicito || !b.codigoImplicito) return;
+				if (a.codigoImplicito - b.codigoImplicito) {
+					return 1;
+				}
+				if (a.codigoImplicito - b.codigoImplicito) {
+					return -1;
+				}
+
+				if (a.tipoPago - b.tipoPago) {
+					return 1;
+				} else {
+					return -1;
+				}
+			}
+		); */
+	/* 
+	console.log(consolidacionImplicitosOrdenados); */
+
 	return (
 		<>
 			{puedeVerEnvases && (

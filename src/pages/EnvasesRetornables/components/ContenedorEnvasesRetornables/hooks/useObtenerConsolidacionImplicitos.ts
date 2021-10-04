@@ -4,18 +4,36 @@ import {
 	TConsolidadoImplicitos,
 	TImplicitos,
 	TProductoPedido,
+	TCliente,
+	TClienteActual,
+	TPrecioProducto,
 } from 'models';
 import {
 	useObtenerImplicitosPromoPush,
 	useObtenerDatosProducto,
 	useDeterminarDividirPorPago,
 } from '.';
+import {
+	useObtenerPreciosProductosDelCliente,
+	useObtenerDatosCliente,
+} from 'hooks';
+import {useObtenerClienteActual, useObtenerPedidoActual} from 'redux/hooks';
 
 export const useObtenerConsolidacionImplicitos = () => {
 	const obtenerImplicitosPromoPush = useObtenerImplicitosPromoPush();
 	const obtenerDatosProducto = useObtenerDatosProducto();
+	const {obtenerDatosCliente} = useObtenerDatosCliente();
+	const clienteActual: TClienteActual = useObtenerClienteActual();
+	const pedidoActual = useObtenerPedidoActual();
 	const representacionUnidades = 'CAJ';
 	const representacionSubunidades = 'BOT';
+	const datosCliente: TCliente | undefined = obtenerDatosCliente(
+		clienteActual.codigoCliente
+	);
+	const fechaEntrega: string = pedidoActual.fechaEntrega;
+
+	const obtenerPreciosProductosDelCliente =
+		useObtenerPreciosProductosDelCliente();
 
 	const obtenerConsolidacionImplicitos = useCallback(
 		(productosPedido: TProductoPedido[]) => {
@@ -25,11 +43,10 @@ export const useObtenerConsolidacionImplicitos = () => {
 				nombreImplicito: string | undefined,
 				unidades: number,
 				subUnidades: number,
-				tipoPago: ETiposDePago,
-				precioConImpuestoUnidad: number,
-				precioConImpuestoSubunidad: number
+				tipoPago: ETiposDePago
 			) => {
 				let flatAgregado = false;
+
 				consolidadoImplicitos.forEach((consolidado) => {
 					//ACA: REVISAR ESTO!
 					if (
@@ -51,8 +68,6 @@ export const useObtenerConsolidacionImplicitos = () => {
 						unidades: unidades,
 						subUnidades: subUnidades,
 						tipoPago: esDivisionPorPago ? tipoPago : undefined, //Agregado tipoPago si es DivisionPorPago
-						precioConImpuestoUnidad,
-						precioConImpuestoSubunidad,
 					});
 			};
 
@@ -62,21 +77,7 @@ export const useObtenerConsolidacionImplicitos = () => {
 			const esDivisionPorPago = determinarDividirPorPago();
 
 			productosPedido.forEach((pedido) => {
-				const {
-					unidades,
-					subUnidades,
-					promoPush,
-					tipoPago,
-					precioConImpuestoUnidad,
-					precioConImpuestoSubunidad,
-				} = pedido;
-
-				console.log(
-					'Este Producto',
-					pedido.codigoProducto,
-					' se esta pagando con:',
-					tipoPago
-				);
+				const {unidades, subUnidades, promoPush, tipoPago} = pedido;
 
 				if (promoPush) {
 					promoPush.componentes.map((componente) => {
@@ -106,9 +107,7 @@ export const useObtenerConsolidacionImplicitos = () => {
 									implicito.nombreImplicito,
 									unidadesImplicito,
 									subUnidadesImplicito,
-									tipoPago,
-									precioConImpuestoUnidad,
-									precioConImpuestoSubunidad
+									tipoPago
 								);
 							}
 						});
@@ -123,9 +122,7 @@ export const useObtenerConsolidacionImplicitos = () => {
 								nombre,
 								-unidadesImplicito,
 								-subUnidadesImplicito,
-								tipoPago,
-								precioConImpuestoUnidad,
-								precioConImpuestoSubunidad
+								tipoPago
 							);
 					});
 				} else {
@@ -136,9 +133,7 @@ export const useObtenerConsolidacionImplicitos = () => {
 							pedido.nombreImplicito1,
 							unidades,
 							subUnidades,
-							tipoPago,
-							precioConImpuestoUnidad,
-							precioConImpuestoSubunidad
+							tipoPago
 						);
 
 					if (typeof pedido.codigoImplicito2 !== 'undefined')
@@ -148,15 +143,22 @@ export const useObtenerConsolidacionImplicitos = () => {
 							pedido.nombreImplicito2,
 							unidades,
 							0,
-							tipoPago,
-							precioConImpuestoUnidad,
-							precioConImpuestoSubunidad
+							tipoPago
 						);
 				}
 			});
+			if (!datosCliente) return consolidado;
+			const preciosProductosDelCliente = obtenerPreciosProductosDelCliente(
+				datosCliente,
+				fechaEntrega
+			);
 
 			consolidado = consolidadoImplicitos.map((implicito) => {
 				let {presentacion} = obtenerDatosProducto(implicito.codigoImplicito);
+				let productoImplicito = preciosProductosDelCliente.find(
+					(el) => el.codigoProducto === implicito.codigoImplicito
+				);
+
 				let unidadesSinExceso = 0,
 					subUnidadesSinExceso = 0;
 
@@ -170,8 +172,18 @@ export const useObtenerConsolidacionImplicitos = () => {
 						unidades: unidadesSinExceso,
 						subUnidades: subUnidadesSinExceso,
 						presentacion,
+						precioConImpuestoUnidad: productoImplicito?.precioConImpuestoUnidad,
+						precioConImpuestoSubunidad:
+							productoImplicito?.precioConImpuestoSubunidad,
 					};
-				} else return {...implicito, presentacion};
+				} else
+					return {
+						...implicito,
+						presentacion,
+						precioConImpuestoUnidad: productoImplicito?.precioConImpuestoUnidad,
+						precioConImpuestoSubunidad:
+							productoImplicito?.precioConImpuestoSubunidad,
+					};
 			});
 
 			return consolidado;
