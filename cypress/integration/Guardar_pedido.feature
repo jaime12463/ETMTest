@@ -1,6 +1,16 @@
 # language: es
 
-@Pedido @Guardar_pedido @Sprint7 @Sprint8 @Sprint9 @Sprint10 @Sprint11
+@Pedido @Guardar_pedido @Sprint7 @Sprint8 @Sprint9 @Sprint10 @Sprint11 @Sprint13
+
+# Sprint13: 
+# Registrar detalle: se deben registrar los subtotales de monto de unidades y subunidades por separado, los cuales serán necesarios para el comprobante del resumen del pedido 
+#            subtotal_unidades: cantidad de unidades por precio unitario unidad
+#            subtotal_subunidades: cantidad de subunidades por precio unitario subunidad
+
+# Cuando el tipo de pedido es envases registrar lo siguiente:
+#            Tipo de Operación: Venta/Préstamo Envase, se guarda el código del tipo de operación
+#            Si el tipo de pedido de envase es de venta, se debe guardar la condición de pago = Crédito/Contado
+
 
 # Sprint11: Si el pedido a cerrar es válido, y para la ruta _habilitaOrdenDeCompra=true 
 # y se registro algún pedido valorizado, se muestra un dialogo para el ingreso de la orden de compra. 
@@ -10,7 +20,7 @@
 
 # Sprint11 UX: https://www.figma.com/proto/uBjkg7VM1HtzllsNIvkLKn/SFA_S9_S10_S11?node-id=1256%3A2&scaling=min-zoom&page-id=1075%3A2&starting-point-node-id=1256%3A2
 
-# Cuando el tipo de pedido es Canje registrar lo sigguiente:
+# Cuando el tipo de pedido es Canje registrar lo siguiente:
 #            Tipo de Operación: "Canje", se guarda el código del tipo de operación
 #            Registrar detalle del producto: código de motivo  
 
