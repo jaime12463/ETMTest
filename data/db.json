@@ -1179,7 +1179,7 @@
 				},
 				{
 					"codigoProducto": 360,
-					"esVentaSubunidades": false,
+					"esVentaSubunidades": true,
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,
@@ -1188,8 +1188,8 @@
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
-							"precioConImpuestoUnidad": 105,
-							"precioConImpuestoSubunidad": 8.75,
+							"precioConImpuestoUnidad": 24,
+							"precioConImpuestoSubunidad": 2,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}
@@ -1244,6 +1244,42 @@
 						{
 							"precioConImpuestoUnidad": 105,
 							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+								{
+					"codigoProducto": 1001,
+					"esVentaSubunidades": true,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 12,
+							"precioConImpuestoSubunidad": 1,
+							"vigenciaInicioPrecio": "2001-01-01",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 12,
+							"precioConImpuestoSubunidad": 1,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				 {
+					"codigoProducto": 1020,
+					"esVentaSubunidades": true,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 5,
+							"precioConImpuestoSubunidad": 5,
+							"vigenciaInicioPrecio": "2001-01-01",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 5,
+							"precioConImpuestoSubunidad": 5,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}
@@ -1416,16 +1452,16 @@
 		},
 		{
 			"codigoProducto": 1001,
-			"nombre": "PRODUCTO 1001",
+			"nombre": "ENVASE",
 			"presentacion": 12,
 			"subunidadesVentaMinima": 1,
 			"tipoProducto": 5
 		},
 		{
 			"codigoProducto": 1020,
-			"nombre": "PRODUCTO 1020",
-			"presentacion": 12,
-			"subunidadesVentaMinima": 3,
+			"nombre": "CAJA PLASTICA",
+			"presentacion": 1,
+			"subunidadesVentaMinima": 1,
 			"tipoProducto": 5
 		},
 		{

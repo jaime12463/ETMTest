@@ -1,6 +1,6 @@
 import {TarjetaColapsable} from 'components/UI';
 import {FunctionComponent, useState} from 'react';
-import {TProductoPedido} from 'models';
+import {TProductoPedido, ETiposDePago} from 'models';
 import {Typography} from '@mui/material';
 import {TConsolidadoImplicitos} from 'models';
 import {useObtenerConsolidacionImplicitos} from './hooks';
@@ -36,7 +36,14 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 	});
 
 	const consolidacionImplicitos: TConsolidadoImplicitos[] =
-		obtenerConsolidacionImplicitos(pedidosArray);
+		obtenerConsolidacionImplicitos(pedidosArray).sort((a, b) =>
+			a.tipoPago !== undefined
+				? b.tipoPago !== undefined
+					? a.tipoPago - b.tipoPago || a.codigoImplicito - b.codigoImplicito
+					: 0
+				: 0
+		);
+
 
 	return (
 		<>
