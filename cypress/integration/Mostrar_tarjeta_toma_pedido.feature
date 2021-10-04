@@ -20,8 +20,8 @@ Escenario: N°2 - El cliente es de contado y supera el monto de venta contado
     Dado que existe la tarjeta del _tipoPedido cuyo _codigo = "Venta"
     Y el cliente tiene condición de pago contado
     Cuando selecciono desplegar la tarjeta
-    Y el consumido para la fecha de entrega, los pedidos de contado ya registrados sin tener en cuenta el pedido en curso, es mayor al _montoVentaContadoMaxima
-    Entonces el sistema mostrará el mensaje "Supera el monto de venta contado" 
+    Y el consumido para la fecha de entrega, los pedidos de contado ya registrados sin tener en cuenta el pedido en curso y sin los compromisos de pago realizados en la visita actual, es mayor al _montoVentaContadoMaxima
+    Entonces el sistema mostrará el mensaje "Excede el monto de venta máxima montoVentaContadoMaxima" 
     Y no desplegará la tarjeta
 
 #pedido
@@ -38,17 +38,17 @@ Escenario: N°4 - El cliente es de crédito informal sin credito bloqueado y con
     Dado que existe la tarjeta del _tipoPedido cuyo _codigo = "Venta"  
     Y el cliente tiene condición de pago crédito informal
     Y _esCreditoBloqueado = false
-    Y el crédito disponible es mayor a cero
-    Y el Pedido máximo está cumplido, sin contar el pedido en curso
+    Y el crédito disponible es igual a cero
+    Y el Pedido máximo está cumplido, sin contar el pedido en curso y sin los compromisos de pago realizados en la visita actual
     Cuando selecciono desplegar la tarjeta
-    Entonces el sistema mostrará el mensaje "Pedido máximo cumplido" 
+    Entonces el sistema mostrará el mensaje "Sin créidto disponible y excede el monto de venta máxima montoVentaContadoMaxima" 
     Y no desplegará la tarjeta
 
 Escenario: N°5 - El cliente es de crédito informal con crédito bloqueado
     Dado que existe la tarjeta del _tipoPedido cuyo _codigo = "Venta"  
     Y el cliente tiene condición de pago crédito informal
     Y _esCreditoBloqueado = true
-    Y el Pedido máximo está cumplido, sin contar el pedido en curso
+    Y el Pedido máximo está cumplido, sin contar el pedido en curso y sin los compromisos de pago realizados en la visita actual
     Cuando selecciono desplegar la tarjeta
     Entonces el sistema mostrará el mensaje "Pedido máximo cumplido y crédito bloqueado" 
     Y no desplegará la tarjeta
