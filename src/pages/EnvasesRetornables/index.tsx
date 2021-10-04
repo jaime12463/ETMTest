@@ -5,6 +5,7 @@ import {ContenedorEnvasesRetornables} from './components';
 import {Box} from '@mui/material';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 import nombresRutas from 'routes/nombresRutas';
+import {InfoClienteDelPedidoActual} from 'components/Negocio';
 
 const EnvasesRetornables: React.FC = () => {
 	const {t} = useTranslation();
@@ -12,7 +13,10 @@ const EnvasesRetornables: React.FC = () => {
 	let {path} = useRouteMatch();
 
 	return (
-		<Estructura titulo={t('titulos.envases')} esConFechaHaciaAtras={true}>
+		<Estructura>
+				<Estructura.Encabezado esConFechaHaciaAtras={true}>
+					<InfoClienteDelPedidoActual />
+				</Estructura.Encabezado>
 			<Estructura.Cuerpo>
 				<Box my={3}>
 					<Stepper pasoActivo={2} />

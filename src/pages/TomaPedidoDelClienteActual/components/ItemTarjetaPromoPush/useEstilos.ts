@@ -10,7 +10,6 @@ const useEstilos = makeStyles((theme: Theme) =>
 		expand: {
 			position: 'relative',
 			transform: 'rotate(0deg)',
-			top: -30,
 			marginLeft: 'auto',
 			padding: 0,
 			/* 			transition: theme.transitions.create('transform', {

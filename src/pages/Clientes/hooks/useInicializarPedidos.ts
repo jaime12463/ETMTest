@@ -12,21 +12,15 @@ export const useInicializarPedidos = () => {
 			const datosCliente = obtenerDatosCliente(codigoCliente);
 			const pedidos: TPedidos = {};
 			configuraciones.tipoPedidos.forEach((tipoPedido: TTipoPedido) => {
-				if (
-					datosCliente?.configuracionPedido.tipoPedidoHabilitados.includes(
-						tipoPedido.codigo
-					)
-				) {
-					const pedido: TPedido = {
-						codigoPedido: uuidv4(),
-						estado: EEstadosDeUnPedido.Activo,
-						tipoPedido: tipoPedido.codigo,
-						fechaEntrega,
-						ordenDeCompra: '',
-						productos: [],
-					};
-					pedidos[tipoPedido.codigo] = pedido;
-				}
+				const pedido: TPedido = {
+					codigoPedido: uuidv4(),
+					estado: EEstadosDeUnPedido.Activo,
+					tipoPedido: tipoPedido.codigo,
+					fechaEntrega,
+					ordenDeCompra: '',
+					productos: [],
+				};
+				pedidos[tipoPedido.codigo] = pedido;
 			});
 			return pedidos;
 		},
