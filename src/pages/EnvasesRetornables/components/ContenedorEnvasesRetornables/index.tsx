@@ -6,6 +6,7 @@ import {TConsolidadoImplicitos} from 'models';
 import {useObtenerConsolidacionImplicitos} from './hooks';
 import {useObtenerVisitaActual, useObtenerConfiguracion} from 'redux/hooks';
 import TarjetaEnvasesRetornables from '../TarjetaEnvasesRetornables';
+import {borrarProductosDeVisitaActual} from 'redux/features/visitaActual/visitaActualSlice';
 
 type Props = {};
 
@@ -20,11 +21,15 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 	//  si lo que se quiere es que se realice solo en el primer render (Como esta se hace cada render)
 	let pedidosArray: TProductoPedido[] = [];
 	let esGeneraEnvases = false;
+	let puedeVerEnvases = false;
 
 	Object.values(visitaActual.pedidos).forEach((pedido) => {
 		tipoPedidos.forEach((tipoPedido) => {
 			if (tipoPedido.codigo === pedido.tipoPedido)
 				esGeneraEnvases = tipoPedido.generaEnvases;
+			if (tipoPedido.generaEnvases && pedido.productos.length) {
+				puedeVerEnvases = true;
+			}
 		});
 
 		if (esGeneraEnvases) pedidosArray = pedidosArray.concat(pedido.productos);
@@ -33,22 +38,9 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 	const consolidacionImplicitos: TConsolidadoImplicitos[] =
 		obtenerConsolidacionImplicitos(pedidosArray);
 
-	/* 	const prueba: TConsolidadoImplicitos[] = [
-		{
-			codigoImplicito: 1001,
-			nombreImplicito: 'COCA COLA',
-			unidades: 10,
-			subUnidades: 1,
-			tipoPago: 1,
-			presentacion: 12,
-			precioConImpuestoUnidad: 150,
-			precioConImpuestoSubunidad: 15,
-		},
-	]; */
-
 	return (
 		<>
-			{true && (
+			{puedeVerEnvases && (
 				<TarjetaColapsable
 					titulo={<Typography variant={'subtitle1'}>Envases</Typography>}
 					subTitulo={
@@ -60,9 +52,11 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 					expandido={expandido}
 					setExpandido={setExpandido}
 				>
-					{consolidacionImplicitos.map((envase: TConsolidadoImplicitos) => (
-						<TarjetaEnvasesRetornables envase={envase} />
-					))}
+					{consolidacionImplicitos.map(
+						(envase: TConsolidadoImplicitos, i: number) => (
+							<TarjetaEnvasesRetornables envase={envase} key={i} />
+						)
+					)}
 				</TarjetaColapsable>
 			)}
 		</>

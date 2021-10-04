@@ -12,6 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {styled} from '@mui/material/styles';
 import {Dispatch, SetStateAction, useState} from 'react';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
+import {useObtenerConfiguracion} from 'redux/hooks';
 
 const InputStyled = styled(Input)(({theme}) => ({
 	borderRadius: '4px',
@@ -57,6 +58,16 @@ const TarjetaEnvasesRetornables = ({
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
 
+	const configuracion = useObtenerConfiguracion();
+
+	const pedidosEnvasesHabilitados =
+		configuracion.TipoPedidoEnvasesHabilitados.map(
+			(tipoEnvases) =>
+				configuracion.tipoPedidos.find(
+					(tipoPedidos) => tipoPedidos.codigo === tipoEnvases
+				)?.descripcionCorta
+		);
+
 	const cambioSubUnidadesPorTipoPedido = (
 		subUnidadesIngresadas: number,
 		subUnidadesEnvasesPrincipal: number,
@@ -84,7 +95,6 @@ const TarjetaEnvasesRetornables = ({
 
 		return subUnidadesPermitidas;
 	};
-	console.log(envase);
 
 	const cambioUnidadesPorTipoPedido = (
 		unidadesIngresadas: number,
@@ -116,22 +126,59 @@ const TarjetaEnvasesRetornables = ({
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 			<TarjetaDoble
 				derecha={
-					<Grid container p={1} minWidth={'180px'} minHeight={'125px'}>
+					<Grid
+						container
+						p={1}
+						spacing={1}
+						maxWidth={'180px'}
+						maxHeight={'125px'}
+					>
 						<Grid
-							container
+							item
 							display='flex'
-							xs={10}
+							alignItems='center'
+							justifyContent='flex-end'
+							xs={12}
+							ml={4}
+						>
+							<Grid
+								item
+								xs={4}
+								display='flex'
+								alignItems='center'
+								justifyContent='flex-start'
+								mr={-0.4}
+							>
+								<img style={{width: '19px'}} src={caja} alt='icono caja' />
+							</Grid>
+							<Grid
+								item
+								xs={5}
+								display='flex'
+								alignItems='center'
+								justifyContent='center'
+							>
+								<img
+									style={{width: '19px'}}
+									src={botella}
+									alt='icono botella'
+								/>
+							</Grid>
+						</Grid>
+						<Grid
+							item
+							display='flex'
 							alignItems='center'
 							justifyContent='space-between'
-							rowSpacing={0}
+							xs={12}
 						>
-							<Grid xs={4}>
+							<Grid item xs={4}>
 								<Typography fontFamily='Open Sans' variant={'caption'}>
 									{'Retorno:'}
 								</Typography>
 							</Grid>
 
-							<Grid xs={3}>
+							<Grid item xs={3}>
 								<InputStyled
 									inputProps={{style: {textAlign: 'center'}}}
 									value={unidadesRetorno}
@@ -140,7 +187,7 @@ const TarjetaEnvasesRetornables = ({
 								/>
 							</Grid>
 
-							<Grid xs={3}>
+							<Grid item xs={3}>
 								<InputStyled
 									inputProps={{style: {textAlign: 'center'}}}
 									value={subUnidadesRetorno}
@@ -149,93 +196,71 @@ const TarjetaEnvasesRetornables = ({
 								/>
 							</Grid>
 						</Grid>
-						<Grid
-							container
-							display='flex'
-							xs={10}
-							alignItems='center'
-							justifyContent='space-between'
-						>
-							<Grid xs={4}>
-								<Typography fontFamily='Open Sans' variant={'caption'}>
-									{'Venta: '}
-								</Typography>
-							</Grid>
-							<Grid xs={3}>
-								<InputStyled
-									inputProps={{style: {textAlign: 'center'}}}
-									value={unidadesVenta}
-									disableUnderline
-									onChange={(e) =>
-										cambioUnidadesPorTipoPedido(
-											parseInt(e.target.value),
-											unidadesVenta,
-											setUnidadesVenta,
-											unidadesPrestamo
-										)
-									}
-								/>
-							</Grid>
-							<Grid xs={3}>
-								<InputStyled
-									inputProps={{style: {textAlign: 'center'}}}
-									value={subUnidadesVenta}
-									disableUnderline
-									onChange={(e) =>
-										cambioSubUnidadesPorTipoPedido(
-											parseInt(e.target.value),
-											subUnidadesVenta,
-											setSubUnidadesVenta,
-											subUnidadesPrestamo
-										)
-									}
-								/>
-							</Grid>
-						</Grid>
-						<Grid
-							display='flex'
-							xs={10}
-							alignItems='center'
-							justifyContent='space-between'
-						>
-							<Grid xs={4}>
-								<Typography fontFamily='Open Sans' variant={'caption'}>
-									{'Prestamo:'}
-								</Typography>
-							</Grid>
 
-							<Grid xs={3}>
-								<InputStyled
-									inputProps={{style: {textAlign: 'center'}}}
-									value={unidadesPrestamo}
-									disableUnderline
-									onChange={(e) =>
-										cambioUnidadesPorTipoPedido(
-											parseInt(e.target.value),
-											unidadesPrestamo,
-											setUnidadesPrestamo,
-											unidadesVenta
-										)
-									}
-								/>
+						{pedidosEnvasesHabilitados?.map((tipoPedido) => (
+							<Grid
+								item
+								display='flex'
+								alignItems='center'
+								justifyContent='space-between'
+								xs={12}
+								key={tipoPedido}
+							>
+								<Grid item xs={4}>
+									<Typography fontFamily='Open Sans' variant={'caption'}>
+										{`${tipoPedido}`}
+									</Typography>
+								</Grid>
+								<Grid item xs={3}>
+									<InputStyled
+										inputProps={{style: {textAlign: 'center'}}}
+										value={
+											tipoPedido === 'Venta' ? unidadesVenta : unidadesPrestamo
+										}
+										disableUnderline
+										onChange={(e) =>
+											cambioUnidadesPorTipoPedido(
+												parseInt(e.target.value),
+												tipoPedido === 'Venta'
+													? unidadesVenta
+													: unidadesPrestamo,
+												tipoPedido === 'Venta'
+													? setUnidadesVenta
+													: setUnidadesPrestamo,
+												tipoPedido === 'Venta'
+													? unidadesPrestamo
+													: unidadesVenta
+											)
+										}
+									/>
+								</Grid>
+								<Grid item xs={3}>
+									<InputStyled
+										inputProps={{style: {textAlign: 'center'}}}
+										value={
+											tipoPedido === 'Venta'
+												? subUnidadesVenta
+												: subUnidadesPrestamo
+										}
+										disableUnderline
+										onChange={(e) =>
+											cambioSubUnidadesPorTipoPedido(
+												parseInt(e.target.value),
+												tipoPedido === 'Venta'
+													? subUnidadesVenta
+													: subUnidadesPrestamo,
+												tipoPedido === 'Venta'
+													? setSubUnidadesVenta
+													: setSubUnidadesPrestamo,
+												tipoPedido === 'Venta'
+													? subUnidadesPrestamo
+													: subUnidadesVenta
+											)
+										}
+									/>
+								</Grid>
 							</Grid>
-
-							<Grid xs={3}>
-								<InputStyled
-									inputProps={{style: {textAlign: 'center'}}}
-									value={subUnidadesPrestamo}
-									onChange={(e) =>
-										cambioSubUnidadesPorTipoPedido(
-											parseInt(e.target.value),
-											subUnidadesPrestamo,
-											setSubUnidadesPrestamo,
-											subUnidadesVenta
-										)
-									}
-									disableUnderline
-								/>
-							</Grid>
-						</Grid>
+						))}
 					</Grid>
 				}
 				izquierda={

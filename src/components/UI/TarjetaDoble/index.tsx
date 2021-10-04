@@ -27,8 +27,12 @@ export const TarjetaDoble = ({derecha, izquierda}: Props) => {
 	return (
 		<CardContenedor>
 			<Grid container>
-				<Izquierda xs={7}>{izquierda}</Izquierda>
-				<Derecha xs={5}>{derecha}</Derecha>
+				<Izquierda item xs={7}>
+					{izquierda}
+				</Izquierda>
+				<Derecha item xs={5}>
+					{derecha}
+				</Derecha>
 			</Grid>
 		</CardContenedor>
 	);
