@@ -24,6 +24,7 @@ import {useObtenerDatos} from 'redux/hooks';
 import {makeStyles} from '@material-ui/styles';
 import {useTranslation} from 'react-i18next';
 import {formatearNumero} from 'utils/methods';
+import {FlechaAbajoIcon} from '../../../../assests/iconos'
 
 type Props = {
 	item: TPromoPush;
@@ -92,7 +93,7 @@ const ItemTarjetaPromoPush = (props: any) => {
 						</Grid>
 					</Grid>
 				</Grid>
-				<CardActions disableSpacing style={{padding: 0}}>
+				<CardActions disableSpacing style={{padding: 0, display:'flex', flexDirection: 'row-reverse'}}>
 					<IconButton
 						className={clsx(classes.expand, {
 							[classes.expandOpen]: estado === index ? true : false,
@@ -103,7 +104,7 @@ const ItemTarjetaPromoPush = (props: any) => {
 						})}
 						aria-expanded={estado === index ? true : false}
 					>
-						Icono expandir
+						<FlechaAbajoIcon />	
 					</IconButton>
 				</CardActions>
 				<Collapse in={estado === index} timeout='auto' unmountOnExit>

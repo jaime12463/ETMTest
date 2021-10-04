@@ -4,8 +4,8 @@ import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {cambiarMostrarPromoPush} from 'redux/features/visitaActual/visitaActualSlice';
 import {useObtenerDatosTipoPedido} from 'hooks';
 
-import Caja from '../../../assests/iconos/caja.svg'
-import Promociones from '../../../assests/iconos/Promociones.svg'
+
+import {PromocionesRellenoIcon, CajaIcon} from '../../../assests/iconos'
 
 const MenuPromoPush = (): any => {
 	const dispatch = useAppDispatch();
@@ -28,7 +28,7 @@ const MenuPromoPush = (): any => {
 				}}
 				color={!mostrarPromoPush ? 'primary' : 'default'}
 			>
-				<img src={Caja} alt="Caja" />
+				<CajaIcon />
 			</IconButton>
 			{datosTipoPedido?.habilitaPromocion && (
 				<IconButton
@@ -37,7 +37,7 @@ const MenuPromoPush = (): any => {
 					}}
 					color={mostrarPromoPush ? 'primary' : 'default'}
 				>
-					<img src={Promociones} alt="Promociones" />
+					<PromocionesRellenoIcon />
 				</IconButton>
 			)}
 		</Box>
