@@ -8,7 +8,7 @@ export const Planeacion: React.FC = () => {
 	const history = useHistory();
 	return (
 		<Estructura>
-			<Estructura.Encabezado esConFechaHaciaAtras={true}>
+			<Estructura.Encabezado esConFechaHaciaAtras={true} resetearCliente={true}>
 				<InfoClienteDelPedidoActual />
 			</Estructura.Encabezado>
 			<Estructura.Cuerpo>

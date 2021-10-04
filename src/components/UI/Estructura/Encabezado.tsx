@@ -8,6 +8,7 @@ import {useHistory} from 'react-router-dom';
 import Logo from 'assests/images/logo.svg';
 import {Grid, Stack, Box} from '@mui/material';
 import {RetrocederIcon} from 'assests/iconos';
+import { useResetVisitaActual } from 'hooks';
 const StyledToolbar = styled(Toolbar)(({theme}) => ({
 	alignItems: 'flex-start',
 	paddingTop: theme.spacing(1),
@@ -18,10 +19,24 @@ type Props = {
 	children: React.ReactNode;
 	acciones?: JSX.Element;
 	esConFechaHaciaAtras?: boolean;
+	resetearCliente?: boolean;
 };
 
-const Encabezado = ({children, esConFechaHaciaAtras, acciones}: Props) => {
+const Encabezado = ({children, esConFechaHaciaAtras, acciones, resetearCliente}: Props) => {
 	const history = useHistory();
+
+	const resetCliente = useResetVisitaActual()
+
+	const irAtras = () => {
+		if(resetearCliente){
+			resetCliente()
+			history.push('/clientes')
+			return
+		}
+
+		history.goBack()
+	}
+
 	return (
 		<AppBar position='static' elevation={0}>
 			<StyledToolbar>
@@ -31,7 +46,7 @@ const Encabezado = ({children, esConFechaHaciaAtras, acciones}: Props) => {
 							{esConFechaHaciaAtras && (
 								<IconButton
 									size='small'
-									onClick={() => history.goBack()}
+									onClick={irAtras}
 									data-cy='boton-atras'
 								>
 									<RetrocederIcon style={{color: 'white'}} />

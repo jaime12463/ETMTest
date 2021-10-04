@@ -21,7 +21,6 @@ import {
 	FechaEntregaDelPedidoActual,
 	InfoClienteDelPedidoActual,
 } from 'components/Negocio';
-import {useResetVisitaActualAlDesmontar} from './hooks';
 import CompromisoDeCobro from 'pages/CompromisoDeCobro';
 import {validarDeshabilitarTabCompromisoDeCobro} from 'utils/validaciones';
 import {
@@ -47,14 +46,6 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const history = useHistory();
 	let {path} = useRouteMatch();
 
-	useResetVisitaActualAlDesmontar();
-	/*useEffect(() => {
-		effect
-		return () => {
-			cleanup
-		}
-	}, [])
-	*/
 	return (
 		<Estructura>
 			<Estructura.Encabezado
