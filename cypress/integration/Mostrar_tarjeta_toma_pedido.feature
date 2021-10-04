@@ -34,14 +34,14 @@ Escenario: N°3 - El cliente es de crédito formal con credito bloqueado
     Y no desplegará la tarjeta
 
 #solos los pedidos registrados. No considerar el pedido en curso
-Escenario: N°4 - El cliente es de crédito informal sin credito bloqueado y con crédito disponbile
+Escenario: N°4 - El cliente es de crédito informal sin credito bloqueado y sin crédito disponbile
     Dado que existe la tarjeta del _tipoPedido cuyo _codigo = "Venta"  
     Y el cliente tiene condición de pago crédito informal
     Y _esCreditoBloqueado = false
     Y el crédito disponible es igual a cero
     Y el Pedido máximo está cumplido, sin contar el pedido en curso y sin los compromisos de pago realizados en la visita actual
     Cuando selecciono desplegar la tarjeta
-    Entonces el sistema mostrará el mensaje "Sin créidto disponible y excede el monto de venta máxima montoVentaContadoMaxima" 
+    Entonces el sistema mostrará el mensaje "Sin crédito disponible y excede el monto de venta máxima montoVentaContadoMaxima" 
     Y no desplegará la tarjeta
 
 Escenario: N°5 - El cliente es de crédito informal con crédito bloqueado

@@ -44,6 +44,8 @@ Escenario: N°2 - El tipo de pedido es no valorizado y no valida presupuesto
     Y mostrará el panel de ingreso del producto
     Y mostrará las tarjetas de productos en el caso que tenga ingresados productos
 
+# Pendidos mandatorios pueden ser en curso o ya registrados (inclusive por otras plataformas).
+
 #canje de pedidos ya registrados (presupuesto)
 Esquema del escenario: N°3 - El tipo de pedido es no valorizado, valida presupuesto, está en vigencia según fecha del dispositivo, y tiene presupuesto
     Dado que la tarjeta es de _tipoPedido.codigo = "Canje"

@@ -61,7 +61,7 @@ Ejemplos:
 
 
 # solo pedidos ya registrados
-Esquema del escenario: N°5 - El cliente es de crédito informal con crédito bloqueado
+Escenario: N°5 - El cliente es de crédito informal con crédito bloqueado
     Dado que la tarjeta es de _tipoPedido.codigo = "Venta"
     Y el cliente tiene condicion de pago crédito informal
     Y _esCreditoBloqueado = true
