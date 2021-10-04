@@ -38,6 +38,7 @@ import {
 	cambiarOrdenDeCompra,
 	selectVisitaActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
+import {PromocionesRellenoIcon} from '../../assests/iconos'
 
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [value, setValue] = React.useState(0);
@@ -179,7 +180,7 @@ function BotonVerPedidosDelClienteActual() {
 
 			/* 	onClick={() => history.push(`${path}${nombresRutas.pedidosCliente}`)} */
 		>
-			Icono Pedidos
+			<PromocionesRellenoIcon fill="#fff"/>
 		</IconButton>
 	);
 }
