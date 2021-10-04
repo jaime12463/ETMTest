@@ -20,7 +20,7 @@ Escenario: N°2 - El cliente es de contado
     Dado que la tarjeta es de _tipoPedido.codigo = "Venta"
     Y el cliente tiene condición de pago contado
     Cuando se selecciono desplegar la tarjeta
-    Y el consumido para la fecha de entrega, el informado más los pedidos de contado ya registrados sin contar el pedido en curso, es menor o igual al _montoVentaContadoMaxima
+    Y el consumido para la fecha de entrega, el informado más los pedidos de contado ya registrados sin contar el pedido en curso y sin los compromisos de pago realizados en la visita actual, es menor o igual al _montoVentaContadoMaxima
     Entonces el sistema asigna como pedido actual el _tipoPedido.codigo = "Venta"
     Y desplegará la tarjeta 
     Y mostrará el panel de ingreso del producto
@@ -46,7 +46,7 @@ Esquema del escenario: N°4 - El cliente es de crédito informal sin crédito bl
     Y _esCreditoBloqueado = false
     Cuando se selecciono desplegar la tarjeta
     Y '<estadoCredito>' es crédito Disponible mayor a cero
-    Y '<estadoPedidoMaximo>' es Pedido máximo cumplido
+    Y '<estadoPedidoMaximo>' es Pedido máximo cumplido, sin contar el pedido en curso y sin los compromisos de pago realizados en la visita actual
     Entonces el sistema asigna como pedido actual el _tipoPedido.codigo = "Venta"
     Y mostrará '<estadoPanelIngresoProducto>', '<estadoEncendidoSwitch>' y '<estadoHabilitacionSwitch>' 
     Y mostrará las tarjetas de productos en el caso que tenga ingresados productos
@@ -61,12 +61,12 @@ Ejemplos:
 
 
 # solo pedidos ya registrados
-Esquema del escenario: N°5 - El cliente es de crédito informal con crédito bloqueado
+Escenario: N°5 - El cliente es de crédito informal con crédito bloqueado
     Dado que la tarjeta es de _tipoPedido.codigo = "Venta"
     Y el cliente tiene condicion de pago crédito informal
     Y _esCreditoBloqueado = true
     Cuando se selecciono desplegar la tarjeta
-    Y el cliente no tiene Pedido máximo cumplido, sin contar el pedido en curso 
+    Y el cliente no tiene Pedido máximo cumplido, sin contar el pedido en curso y sin los compromisos de pago realizados en la visita actual
     Entonces el sistema asigna como pedido actual el _tipoPedido.codigo = "Venta"
     Y mostrará el panel de ingreso del producto
     Y el switch en estado Off Disabled 
