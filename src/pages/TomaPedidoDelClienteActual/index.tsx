@@ -55,6 +55,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 		}
 	}, [])
 	*/
+	
 	return (
 		<Estructura>
 			<Estructura.Encabezado
