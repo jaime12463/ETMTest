@@ -11,4 +11,4 @@ Característica: Mostrar resumen del pedido
 Escenario: N°1 - Mostrar total de items
     Dado que se ingreso un cliente 
     Cuando estoy en la visita del cliente
-    Entonces el sistema mostrará el total de productos ingresados al _tipoPedido cuyo _codigo = "Venta" visualizando totalDeProductos en 3 dígitos + "items"    
+    Entonces el sistema mostrará el total de productos ingresados en los _tipoPedido con _esValorizado = true, en formato de tres dígitos con ceros a izquierda    
