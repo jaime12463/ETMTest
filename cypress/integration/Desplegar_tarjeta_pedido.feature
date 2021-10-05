@@ -4,7 +4,7 @@
 
 Característica: Desplegar tarjeta de pedido
     Como prevendedor
-    Quiero quiero desplegar la tarjeta de toma de pedido 
+    Quiero desplegar la tarjeta de toma de pedido 
     Para registrar productos 
 
 Antecedentes:

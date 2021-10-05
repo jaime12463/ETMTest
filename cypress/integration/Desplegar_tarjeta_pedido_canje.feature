@@ -36,7 +36,7 @@ Escenario: N°1 - Desplegar tarjeta canje
 #canje de pedidos ya registrados (presupuesto)
 Escenario: N°2 - El tipo de pedido es no valorizado y no valida presupuesto
     Dado que _validaPresupuesto = false
-    Y hay productos en el _tipoPedido cuyo _codigo = "Venta"
+    Y hay productos en _tipoPedido que _esMandatorio = true
     Cuando muestra la tarjeta desplegada
     Entonces el sistema mostrará el panel de ingreso del producto
     Y mostrará las tarjetas de productos en el caso que tenga ingresados productos
@@ -48,7 +48,7 @@ Esquema del escenario: N°3 - El tipo de pedido es no valorizado, valida presupu
     Dado que _validaPresupuesto = true
     Y el _tipoPedido en _presupuestoTipoPedido tiene _vigenciaInicioPresupuesto <= fecha del dispositivo <= _vigenciaFinPresupuesto 
     Y presupuestoActual > 0 
-    Y hay productos en el _tipoPedido cuyo _codigo = "Venta"
+    Y hay productos en _tipoPedido que _esMandatorio = true
     Cuando muestra la tarjeta desplegada
     Entonces el sistema mostrará el panel de ingreso del producto
     Y mostrará las tarjetas de productos en el caso que tenga ingresados productos

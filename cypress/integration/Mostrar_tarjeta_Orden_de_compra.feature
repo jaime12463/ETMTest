@@ -12,7 +12,7 @@
 Escenario: N°1 - Mostrar tarjeta orden de compra
     Dado estoy en paso 3 - otros
     Y _habilitaOrdenDeCompra = true
-    Y hay productos en el _tipoPedido cuyo _codigo = "Venta"
+    Y hay productos un _tipoPedido que _esValorizado = true
     Cuando se muestran las tarjetas
     Entonces el sistema mostrará la tarjeta de orden de compra con el control para ingresar el código de orden de compra
     Y el icono de ingreso correcto oculto

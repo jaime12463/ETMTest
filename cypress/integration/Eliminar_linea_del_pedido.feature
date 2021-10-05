@@ -21,7 +21,7 @@ Escenario: N°2 – Eliminar producto del tipo de pedido no mandatorio seleccion
 	Dado que estoy en un pedido cuyo tipo de pedido _esMandatorio = false
 	Y tiene productos ingresados
 	Cuando se selecciono borrar en la tarjeta del producto
-	Entonces el sistema cambiará a 0 todas las cantidades del producto en la tarjeta.
+	Entonces el sistema eliminará el producto y la tarjeta.
 
 Escenario: N°3 – El cliente tiene tipos de pedidos mandatorios registrados para la fecha de entrega y quiere eliminar producto del tipo de pedido mandatorio en curso. El prevendedor puede registrar un pedido del tipo no mandatorio
 	Dado que se seleccionó un producto de un pedido cuyo tipo de pedido _esMandatorio = true 
@@ -34,7 +34,7 @@ Escenario: N°4 – El cliente tiene tipos de pedidos mandatorios registrados pa
 	Dado que estoy en un pedido cuyo tipo de pedido _esMandatorio = true 
     Y hay al menos un pedido cuyo tipo de pedido _esMandatorio = true registrado para la fecha de entrega 
 	Cuando se selecciono borrar en la tarjeta del producto
-	Entonces el sistema cambiará a 0 todas las cantidades del producto en la tarjeta.
+	Entonces el sistema eliminará el producto y la tarjeta.
 
 Esquema del escenario: N°5 – Eliminar producto del tipo de pedido mandatorio sin otro tipo de pedido mandatorio registrado
 	Dado que se seleccionó un producto de un pedido cuyo tipo de producto _esMandatorio = true
@@ -64,6 +64,6 @@ Esquema del escenario: N°6 – Eliminar producto del tipo de pedido mandatorio 
 
 Ejemplos:
 |esUltimoProducto|hayProductosIngresadosPedidosNoMandatorios| realizaraAccion                                                                      |
-|     true		 |               true                       | Avisa que se cambiarán a 0 las cantidades de los pedidos no obligatorios y pide confirmación de continuar   |
-|     true       |               false				        | cambiará a 0 las cantidades de la tarjeta                                                                |
-|     false      |                 -				        | cambiará a 0 las cantidades de la tarjeta
+|     true		 |               true                       | Avisa que se eliminarán todos de los pedidos no obligatorios y pide confirmación de continuar   |
+|     true       |               false				        | borrará el producto y la tarjeta                                                                |
+|     false      |                 -				        | borrará el producto y la tarjeta
