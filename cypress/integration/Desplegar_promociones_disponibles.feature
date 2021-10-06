@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @PromoPush @Ver_promociones @Sprint10 @Sprint11
+@Pedido @PromoPush @Ver_promociones @Sprint10 @Sprint11 @Sprint13
 
 # Sprint 11 UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA_S12_S13_S14?node-id=802%3A2&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=802%3A2
 
