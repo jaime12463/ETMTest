@@ -66,4 +66,10 @@ Ejemplos:
 |esUltimoProducto|hayProductosIngresadosPedidosNoMandatorios| realizaraAccion                                                                      |
 |     true		 |               true                       | Avisa que se eliminarán todos de los pedidos no obligatorios y pide confirmación de continuar   |
 |     true       |               false				        | borrará el producto y la tarjeta                                                                |
-|     false      |                 -				        | borrará el producto y la tarjeta
+|     false      |                 -				        | borrará el producto y la tarjeta                                                      |
+
+
+Escenario: N°7 - Eliminar producto de promocion
+	Dado que estoy en una promocion
+	Cuando selecciono el icono de borrar dentro de la tarjeta del producto
+	Entonces el sistema inicializará en 0 la cantidad ingresada del producto seleccionado.
