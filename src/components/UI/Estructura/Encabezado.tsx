@@ -30,8 +30,6 @@ const Encabezado = ({children, esConFechaHaciaAtras, acciones, resetearCliente}:
 	const irAtras = () => {
 		if(resetearCliente){
 			resetCliente()
-			history.push('/clientes')
-			return
 		}
 
 		history.goBack()

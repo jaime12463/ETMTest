@@ -51,7 +51,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 		<Estructura>
 			<Estructura.Encabezado
 				esConFechaHaciaAtras={true}
-				acciones={<BotonVerPedidosDelClienteActual />}
+				// acciones={<BotonVerPedidosDelClienteActual />}
 			>
 				<InfoClienteDelPedidoActual />
 			</Estructura.Encabezado>
