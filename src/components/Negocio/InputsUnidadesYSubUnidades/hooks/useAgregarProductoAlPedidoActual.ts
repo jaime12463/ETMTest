@@ -3,6 +3,7 @@ import {
 	useAppDispatch,
 	useObtenerClienteActual,
 	useObtenerConfiguracion,
+	useObtenerPedidoActual,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {
@@ -13,6 +14,7 @@ import {
 	TClienteActual,
 	TFormTomaDePedido,
 	TFunctionMostarAvertenciaPorDialogo,
+	TPedido,
 	TPrecioProducto,
 	TStateInputFocus,
 } from 'models';
@@ -66,6 +68,8 @@ export const useAgregarProductoAlPedidoActual = (
 		(tipoPedido) => tipoPedido.esMandatorio === false
 	);
 
+	const {productos}: TPedido = useObtenerPedidoActual()
+
 	const agregarProductoAlPedidoActual = useCallback(
 		(inputs: TFormTomaDePedido) => {
 			const {unidades, subUnidades, catalogoMotivo} = inputs;
@@ -83,6 +87,10 @@ export const useAgregarProductoAlPedidoActual = (
 
 			const {codigoProducto} = productoActual;
 
+			const productoBuscado = productos.find(producto =>{
+				return producto.codigoProducto === codigoProducto
+			})
+
 			if (!esValidoAgregarProductoAlPedidoCliente) return;
 
 			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
@@ -95,7 +103,7 @@ export const useAgregarProductoAlPedidoActual = (
 							total:
 								productoActual.precioConImpuestoUnidad * unidadesParseado +
 								productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
-							tipoPago: clienteActual.tipoPagoActual,
+							tipoPago: productoBuscado ? productoBuscado.tipoPago : clienteActual.tipoPagoActual,
 							catalogoMotivo,
 						},
 					})
