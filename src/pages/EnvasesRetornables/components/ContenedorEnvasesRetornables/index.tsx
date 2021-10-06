@@ -17,8 +17,7 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 
 	const {tipoPedidos} = useObtenerConfiguracion();
 	const obtenerConsolidacionImplicitos = useObtenerConsolidacionImplicitos();
-	//	TODO: La ejecución de obtenerConsolidacionImplicitos tiene que estar dentro de un useEffect
-	//  si lo que se quiere es que se realice solo en el primer render (Como esta se hace cada render)
+
 	let pedidosArray: TProductoPedido[] = [];
 	let esGeneraEnvases = false;
 	let puedeVerEnvases = false;
@@ -37,11 +36,9 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 
 	const consolidacionImplicitos: TConsolidadoImplicitos[] =
 		obtenerConsolidacionImplicitos(pedidosArray).sort((a, b) =>
-			a.tipoPago !== undefined
-				? b.tipoPago !== undefined
-					? a.tipoPago - b.tipoPago || a.codigoImplicito - b.codigoImplicito
-					: 0
-				: 0
+			a.tipoPago !== undefined && b.tipoPago !== undefined
+				? a.codigoImplicito - b.codigoImplicito || a.tipoPago - b.tipoPago 
+				: a.codigoImplicito - b.codigoImplicito
 		);
 
 

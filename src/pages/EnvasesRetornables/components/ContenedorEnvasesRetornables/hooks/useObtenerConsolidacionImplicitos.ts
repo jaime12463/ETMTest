@@ -48,7 +48,6 @@ export const useObtenerConsolidacionImplicitos = () => {
 				let flatAgregado = false;
 
 				consolidadoImplicitos.forEach((consolidado) => {
-					//ACA: REVISAR ESTO!
 					if (
 						codigoImplicito === consolidado.codigoImplicito &&
 						((esDivisionPorPago && consolidado.tipoPago === tipoPago) ||
@@ -61,13 +60,12 @@ export const useObtenerConsolidacionImplicitos = () => {
 					}
 				});
 				if (flatAgregado == false)
-					//Aca: Debo ingresar al array con el tipo de condicion generado en la orden
 					consolidadoImplicitos.push({
 						codigoImplicito: codigoImplicito || 0,
 						nombreImplicito: nombreImplicito || '',
 						unidades: unidades,
 						subUnidades: subUnidades,
-						tipoPago: esDivisionPorPago ? tipoPago : undefined, //Agregado tipoPago si es DivisionPorPago
+						tipoPago: esDivisionPorPago ? tipoPago : undefined,
 					});
 			};
 

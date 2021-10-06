@@ -100,7 +100,7 @@ const TarjetaEnvasesRetornables = ({
 					t('advertencias.cantidadSuperiorEnvases'),
 					'supera-cantidad-en-envases'
 				);
-		else console.log('ES NAN!');
+		//else console.log('ES NAN!');
 
 		return subUnidadesPermitidas;
 	};
@@ -125,7 +125,7 @@ const TarjetaEnvasesRetornables = ({
 					t('advertencias.cantidadSuperiorEnvases'),
 					'supera-cantidad-en-envases'
 				);
-		else console.log('ES NAN!');
+		//else console.log('ES NAN!');
 
 		return unidadesPermitidas;
 	};
