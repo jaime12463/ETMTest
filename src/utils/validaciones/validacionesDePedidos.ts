@@ -33,18 +33,22 @@ export const validarSiExcedeElMontoMinimo = (cliente:TCliente | undefined, total
 };
 
 export const validarSiExcedeAlMaximoContado = ( 
-	montoVentaMaxima:number, 
-	totalVisita:number,
-	totalContadoPedidosClienteMismaFechaEntrega:number): TRetornoValidacion => {
-	return {
-		esValido:( (totalVisita+totalContadoPedidosClienteMismaFechaEntrega) <= montoVentaMaxima),
-		propsAdvertencia : {
-			dataCy: 'monto-maximo',
-			mensaje: i18n.t('advertencias.masDelMontoMaximo', {
-				montoVentaMaxima: montoVentaMaxima,
-			}),
-	   }
-   };
+	montoVentaMaxima: number, 
+	totalVisita: number,
+	totalContadoPedidosClienteMismaFechaEntrega: number
+): TRetornoValidacion => {
+		return {
+			esValido: ( 
+				(montoVentaMaxima === 0 ? true : false) 
+				|| (totalVisita+totalContadoPedidosClienteMismaFechaEntrega) <= montoVentaMaxima
+			),
+			propsAdvertencia : {
+				dataCy: 'monto-maximo',
+				mensaje: i18n.t('advertencias.masDelMontoMaximo', {
+					montoVentaMaxima: montoVentaMaxima,
+				}),
+			}
+		};
 };
 
 export const validarSiExcedeAlMaximoDeCredito = (
