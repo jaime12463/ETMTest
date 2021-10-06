@@ -6,15 +6,18 @@ import {Box} from '@mui/material';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 import nombresRutas from 'routes/nombresRutas';
 import {InfoClienteDelPedidoActual} from 'components/Negocio';
+import {useObtenerClienteActual} from '../../redux/hooks'
+import { TClienteActual } from 'models';
 
 const EnvasesRetornables: React.FC = () => {
 	const {t} = useTranslation();
 	const history = useHistory();
 	let {path} = useRouteMatch();
+	const {razonSocial}: TClienteActual = useObtenerClienteActual()
 
 	return (
 		<Estructura>
-				<Estructura.Encabezado esConFechaHaciaAtras={true}>
+				<Estructura.Encabezado esConFechaHaciaAtras={true} titulo={razonSocial}>
 					<InfoClienteDelPedidoActual />
 				</Estructura.Encabezado>
 			<Estructura.Cuerpo>

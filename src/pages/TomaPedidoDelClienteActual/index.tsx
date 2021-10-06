@@ -39,6 +39,8 @@ import {
 	selectVisitaActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {PromocionesRellenoIcon} from '../../assests/iconos'
+import {useObtenerClienteActual} from '../../redux/hooks'
+import { TClienteActual } from 'models';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [value, setValue] = React.useState(0);
@@ -46,11 +48,13 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
 	const history = useHistory();
 	let {path} = useRouteMatch();
+	const {razonSocial}: TClienteActual = useObtenerClienteActual()
 
 	return (
 		<Estructura>
 			<Estructura.Encabezado
 				esConFechaHaciaAtras={true}
+				titulo={razonSocial}
 				// acciones={<BotonVerPedidosDelClienteActual />}
 			>
 				<InfoClienteDelPedidoActual />

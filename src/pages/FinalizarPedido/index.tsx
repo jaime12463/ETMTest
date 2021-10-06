@@ -14,6 +14,8 @@ import {useObtenerProductosMandatoriosVisitaActual} from 'hooks';
 
 import {useObtenerCompromisoDeCobroActual} from 'redux/hooks';
 import {validarHabilitarBotonCerrarPedido} from 'utils/validaciones/index';
+import {useObtenerClienteActual} from '../../redux/hooks'
+import { TClienteActual } from 'models';
 
 export const FinalizarPedido: React.FC = () => {
 	const {t} = useTranslation();
@@ -37,10 +39,11 @@ export const FinalizarPedido: React.FC = () => {
 		useAgregarPedidoActualAPedidosClientes(mostrarAdvertenciaEnDialogo);
 
 	const history = useHistory();
+	const {razonSocial}: TClienteActual = useObtenerClienteActual()
 	return (
 		<>
 			<Estructura>
-				<Estructura.Encabezado esConFechaHaciaAtras={true}>
+				<Estructura.Encabezado esConFechaHaciaAtras={true} titulo={razonSocial}>
 					<InfoClienteDelPedidoActual />
 				</Estructura.Encabezado>
 				<Estructura.Cuerpo>

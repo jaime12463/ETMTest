@@ -9,20 +9,22 @@ import Logo from 'assests/images/logo.svg';
 import {Grid, Stack, Box} from '@mui/material';
 import {RetrocederIcon} from 'assests/iconos';
 import { useResetVisitaActual } from 'hooks';
+import LogoRecortado from 'assests/images/logo-recorte.svg'
+
 const StyledToolbar = styled(Toolbar)(({theme}) => ({
 	alignItems: 'flex-start',
 	paddingTop: theme.spacing(1),
 	paddingBottom: theme.spacing(1),
 }));
 
-type Props = {
-	children: React.ReactNode;
+interface Props {
 	acciones?: JSX.Element;
 	esConFechaHaciaAtras?: boolean;
 	resetearCliente?: boolean;
+	titulo?: string;
 };
 
-const Encabezado = ({children, esConFechaHaciaAtras, acciones, resetearCliente}: Props) => {
+const Encabezado : React.FC<Props> = ({children, esConFechaHaciaAtras, acciones, resetearCliente, titulo}) => {
 	const history = useHistory();
 
 	const resetCliente = useResetVisitaActual()
@@ -36,10 +38,10 @@ const Encabezado = ({children, esConFechaHaciaAtras, acciones, resetearCliente}:
 	}
 
 	return (
-		<AppBar position='static' elevation={0}>
+		<AppBar position='static' elevation={0} >
 			<StyledToolbar>
-				<Grid container>
-					<Grid item xs={12}>
+				<Grid container alignItems="flex-end" flexWrap="nowrap">
+					<Grid item>
 						<Stack direction='row' spacing={2} justifyContent='space-between'>
 							{esConFechaHaciaAtras && (
 								<IconButton
@@ -48,25 +50,35 @@ const Encabezado = ({children, esConFechaHaciaAtras, acciones, resetearCliente}:
 									data-cy='boton-atras'
 								>
 									<RetrocederIcon style={{color: 'white'}} />
-								</IconButton>
-							)}
-							{acciones ?? <Fragment />}
+							</IconButton>
+								)}
+							{acciones && acciones}
 						</Stack>
 					</Grid>
-					<Grid item xs={12}>
+					<Grid item>
 						<Stack direction='row' spacing={2}>
-							<Box ml={1}>
-								<img src={Logo} alt='logo'></img>
-							</Box>
-							<Stack
-								direction='column'
-								justifyContent='flex-end'
-								alignItems='flex-start'
-								spacing={1}
-							>
-								<Typography style={{fontWeight: 'bold'}}>{children}</Typography>
+								<Box ml={1}>
+								{
+									titulo 
+									? 
+										(
+												titulo?.length > 20 
+													? <img src={Logo} alt='logo'></img> 
+													: <img src={LogoRecortado} alt='logo'></img>
+										) 
+									: 
+										<img src={Logo} alt='logo'></img>
+								}
+								</Box>
+								<Stack
+									direction='column'
+									justifyContent='flex-end'
+									alignItems='flex-start'
+									spacing={1}
+								>
+									<Typography style={{fontWeight: 'bold'}}>{titulo ?? children}</Typography>
+								</Stack>
 							</Stack>
-						</Stack>
 					</Grid>
 				</Grid>
 			</StyledToolbar>

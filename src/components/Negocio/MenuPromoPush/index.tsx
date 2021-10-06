@@ -37,7 +37,7 @@ const MenuPromoPush = (): any => {
 					}}
 					color={mostrarPromoPush ? 'primary' : 'default'}
 				>
-					<PromocionesRellenoIcon fill="#2F000E" />
+					<PromocionesRellenoIcon />
 				</IconButton>
 			)}
 		</Box>
