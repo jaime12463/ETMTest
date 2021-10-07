@@ -44,7 +44,7 @@ const QontoConnector = styled(StepConnector)(({theme}) => ({
 		left: 'calc(-50% + 16px)',
 		right: 'calc(50% + 16px)',
 		height: 30,
-		width: 100,
+		width: '100%',
 		marginLeft: '-9px',
 	},
 	[`&.${stepConnectorClasses.active}`]: {
