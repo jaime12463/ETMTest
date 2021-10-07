@@ -22,6 +22,7 @@ import {
 } from 'hooks';
 import {useObtenerConfiguracion, useObtenerVisitaActual} from 'redux/hooks';
 import {useAgregarProductoAlPedidoActual} from '../../hooks/useAgregarProductoAlPedidoActual';
+import { InputTipoPedido } from '..';
 
 const InputStyled = styled(Input)(({theme}) => ({
 	borderRadius: '4px',
@@ -263,7 +264,10 @@ const TarjetaEnvasesRetornables = ({
 						</Grid>
 
 						{pedidosEnvasesHabilitados?.map((tipoPedido) => (
-							<Grid
+							<InputTipoPedido
+								tipoPedido = {tipoPedido}
+							/>
+							/*<Grid
 								item
 								display='flex'
 								alignItems='center'
@@ -334,7 +338,7 @@ const TarjetaEnvasesRetornables = ({
 										}
 									/>
 								</Grid>
-							</Grid>
+							</Grid>*/
 						))}
 					</Grid>
 				}
