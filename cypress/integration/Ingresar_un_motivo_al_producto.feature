@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido  @Sprint10
+@Pedido  @Sprint10 @Sprint13
 
 
 # Ingreso del motivo para cuando el tipo de pedido lo requiera segun configuracion requiereMotivo
@@ -20,6 +20,7 @@ Escenario: N°1 – Ingreso del motivo
     Y el _tipoPedido en curso _requiereMotivo
     Cuando se selecciona el motivo
     Entonces el sistema registrará el motivo y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
- 
+    Y cambiará el icono pendiente a correcto
+    Y cambiará el recuadro del item a color verde
 #Cuando se ingresa un producto nuevo, se asume como condición de pago del producto la condición de pago general del pedido. 
 	

@@ -11,10 +11,10 @@ Característica: Calcular total del pedido de la visita
 
 Escenario: N°1 - Calcular total
     Dado que se ingresan productos en pedidos cuyo _tipoPedido es _esValorizado = true
-    Y se ingresan compromisos de cobro
+    Y se ingresó un compromiso de cobro
     Cuando se calculan los precios y totales
     Entonces el sistema calculará el total del pedido de la visita como la suma
     de los totales de los pedidos cuyo _tipoPedido es _esValorizado = true
-    más los valores de los compromisos de cobro realizados.
+    más el monto del compromiso de cobro ingresado.
 
 # Se contemplan para el calculo los pedidos a credito y a contado
