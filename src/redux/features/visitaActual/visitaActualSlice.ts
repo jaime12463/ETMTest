@@ -37,6 +37,25 @@ export const visitaActualSlice = createSlice({
 				action.payload.productoPedido,
 			];
 		},
+		agregarProductoDelPedidoActual: (
+			state,
+			action: PayloadAction<{
+				productoPedido: TProductoPedido;
+				codigoTipoPedidoActual: number;
+			}>
+		) => {
+			const productosPedidoClienteFiltrados = state.pedidos[
+				action.payload.codigoTipoPedidoActual
+			].productos.filter(
+				(precioProducto: TProductoPedido) =>
+					precioProducto.codigoProducto !==
+					action.payload.productoPedido.codigoProducto
+			);
+			state.pedidos[action.payload.codigoTipoPedidoActual].productos = [
+				...productosPedidoClienteFiltrados,
+				action.payload.productoPedido,
+			];
+		},
 
 		borrarProductoDelPedidoActual: (
 			state,
@@ -157,6 +176,7 @@ export const visitaActualSlice = createSlice({
 
 export const selectVisitaActual = (state: RootState) => state.visitaActual;
 export const {
+	agregarProductoDelPedidoActual,
 	editarProductoDelPedidoActual,
 	borrarProductoDelPedidoActual,
 	inicializarVisitaActual,

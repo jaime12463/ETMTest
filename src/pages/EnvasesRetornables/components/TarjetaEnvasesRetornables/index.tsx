@@ -1,9 +1,14 @@
 import {Box, Typography, TextField, Grid, Input} from '@mui/material';
-import {TConsolidadoImplicitos, TStateSubUnidadesEnvases} from 'models';
+import {
+	TConsolidadoImplicitos,
+	TStateSubUnidadesEnvases,
+	TPrecioProducto,
+	TPedido,
+	TProductoPedido,
+} from 'models';
 import {Dialogo, TarjetaDoble} from 'components/UI';
 import {formatearNumero} from 'utils/methods';
 import Chip from '@mui/material/Chip';
-/* import {BotellaIcon, CajaIcon} from 'assests/iconos'; */
 import botella from 'assests/iconos/botella.svg';
 import caja from 'assests/iconos/caja.svg';
 
@@ -11,8 +16,12 @@ import {ETiposDePago} from 'models';
 import {useTranslation} from 'react-i18next';
 import {styled} from '@mui/material/styles';
 import {Dispatch, SetStateAction, useState} from 'react';
-import {useMostrarAdvertenciaEnDialogo} from 'hooks';
-import {useObtenerConfiguracion} from 'redux/hooks';
+import {
+	useMostrarAdvertenciaEnDialogo,
+	useInicializarPreciosProductosDelClienteActual,
+} from 'hooks';
+import {useObtenerConfiguracion, useObtenerVisitaActual} from 'redux/hooks';
+import {useAgregarProductoAlPedidoActual} from '../../hooks/useAgregarProductoAlPedidoActual';
 
 const InputStyled = styled(Input)(({theme}) => ({
 	borderRadius: '4px',
@@ -38,34 +47,63 @@ const TarjetaEnvasesRetornables = ({
 }: {
 	envase: TConsolidadoImplicitos;
 }) => {
+	const [preciosProductos, setPreciosProductos] = useState<TPrecioProducto[]>(
+		[]
+	);
+	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
+	const visitaActual = useObtenerVisitaActual();
+
+	const productoEnPedidos = Object.values(visitaActual.pedidos).map(
+		(pedido: TPedido) =>
+			pedido.productos.find(
+				(producto: TProductoPedido) =>
+					producto.codigoProducto === envase.codigoImplicito
+			)
+	);
+
 	const {t} = useTranslation();
 
 	const {unidades, subUnidades} = envase;
 
 	const unidadesIniciales = unidades;
 	const subUnidadesIniciales = subUnidades;
+	const [unidadesVenta, setUnidadesVenta] = useState(
+		productoEnPedidos[2] ? productoEnPedidos[2].unidades : 0
+	);
+	const [subUnidadesVenta, setSubUnidadesVenta] = useState(
+		productoEnPedidos[2] ? productoEnPedidos[2].subUnidades : 0
+	);
 
-	const [unidadesRetorno, setUnidadesRetorno] = useState(unidadesIniciales);
-	const [subUnidadesRetorno, setSubUnidadesRetorno] =
-		useState(subUnidadesIniciales);
+	const [unidadesPrestamo, setUnidadesPrestamo] = useState(
+		productoEnPedidos[3] ? productoEnPedidos[3].unidades : 0
+	);
+	const [subUnidadesPrestamo, setSubUnidadesPrestamo] = useState(
+		productoEnPedidos[3] ? productoEnPedidos[3].subUnidades : 0
+	);
 
-	const [unidadesVenta, setUnidadesVenta] = useState(0);
-	const [subUnidadesVenta, setSubUnidadesVenta] = useState(0);
-
-	const [unidadesPrestamo, setUnidadesPrestamo] = useState(0);
-	const [subUnidadesPrestamo, setSubUnidadesPrestamo] = useState(0);
+	const [unidadesRetorno, setUnidadesRetorno] = useState(
+		unidadesIniciales - unidadesVenta - unidadesPrestamo
+	);
+	const [subUnidadesRetorno, setSubUnidadesRetorno] = useState(
+		subUnidadesIniciales - subUnidadesVenta - subUnidadesPrestamo
+	);
 
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
 
 	const configuracion = useObtenerConfiguracion();
 
+	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual();
+	const productoEnvase = preciosProductos.find(
+		(producto: TPrecioProducto) =>
+			producto.codigoProducto === envase.codigoImplicito
+	);
+
 	const pedidosEnvasesHabilitados =
-		configuracion.TipoPedidoEnvasesHabilitados.map(
-			(tipoEnvases) =>
-				configuracion.tipoPedidos.find(
-					(tipoPedidos) => tipoPedidos.codigo === tipoEnvases
-				)?.descripcionCorta
+		configuracion.TipoPedidoEnvasesHabilitados.map((tipoEnvases) =>
+			configuracion.tipoPedidos.find(
+				(tipoPedidos) => tipoPedidos.codigo === tipoEnvases
+			)
 		);
 
 	const buscarPedidoValorizado = configuracion.TipoPedidoEnvasesHabilitados.map(
@@ -81,7 +119,9 @@ const TarjetaEnvasesRetornables = ({
 		subUnidadesIngresadas: number,
 		subUnidadesEnvasesPrincipal: number,
 		setSubUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>,
-		subunidadesSecundario: number
+		subunidadesSecundario: number,
+		codigoTipoPedidoActual: number | undefined,
+		unidades: number
 	): boolean => {
 		let subUnidadesPermitidas = false;
 
@@ -95,12 +135,19 @@ const TarjetaEnvasesRetornables = ({
 				);
 				setSubUnidadesEnvasesPrincipal(subUnidadesIngresadas);
 				subUnidadesPermitidas = true;
+
+				agregarProductoAlPedidoActual(
+					productoEnvase,
+					unidades,
+					subUnidadesIngresadas,
+					envase.tipoPago,
+					codigoTipoPedidoActual
+				);
 			} else
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.cantidadSuperiorEnvases'),
 					'supera-cantidad-en-envases'
 				);
-		//else console.log('ES NAN!');
 
 		return subUnidadesPermitidas;
 	};
@@ -109,7 +156,9 @@ const TarjetaEnvasesRetornables = ({
 		unidadesIngresadas: number,
 		unidadesEnvasesPrincipal: number,
 		setUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>,
-		unidadesSecundario: number
+		unidadesSecundario: number,
+		codigoTipoPedidoActual: number | undefined,
+		subUnidades: number
 	): boolean => {
 		let unidadesPermitidas = false;
 
@@ -120,12 +169,19 @@ const TarjetaEnvasesRetornables = ({
 				);
 				setUnidadesEnvasesPrincipal(unidadesIngresadas);
 				unidadesPermitidas = true;
+
+				agregarProductoAlPedidoActual(
+					productoEnvase,
+					unidadesIngresadas,
+					subUnidades,
+					envase.tipoPago,
+					codigoTipoPedidoActual
+				);
 			} else
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.cantidadSuperiorEnvases'),
 					'supera-cantidad-en-envases'
 				);
-		//else console.log('ES NAN!');
 
 		return unidadesPermitidas;
 	};
@@ -213,32 +269,38 @@ const TarjetaEnvasesRetornables = ({
 								alignItems='center'
 								justifyContent='space-between'
 								xs={12}
-								key={tipoPedido}
+								key={tipoPedido?.descripcionCorta}
 							>
 								<Grid item xs={4}>
 									<Typography fontFamily='Open Sans' variant={'caption'}>
-										{`${tipoPedido}`}
+										{`${tipoPedido?.descripcionCorta}`}
 									</Typography>
 								</Grid>
 								<Grid item xs={3}>
 									<InputStyled
 										inputProps={{style: {textAlign: 'center'}}}
 										value={
-											tipoPedido === 'Venta' ? unidadesVenta : unidadesPrestamo
+											tipoPedido?.descripcionCorta === 'Venta'
+												? unidadesVenta
+												: unidadesPrestamo
 										}
 										disableUnderline
 										onChange={(e) =>
 											cambioUnidadesPorTipoPedido(
 												parseInt(e.target.value),
-												tipoPedido === 'Venta'
+												tipoPedido?.descripcionCorta === 'Venta'
 													? unidadesVenta
 													: unidadesPrestamo,
-												tipoPedido === 'Venta'
+												tipoPedido?.descripcionCorta === 'Venta'
 													? setUnidadesVenta
 													: setUnidadesPrestamo,
-												tipoPedido === 'Venta'
+												tipoPedido?.descripcionCorta === 'Venta'
 													? unidadesPrestamo
-													: unidadesVenta
+													: unidadesVenta,
+												tipoPedido?.codigo,
+												tipoPedido?.descripcionCorta === 'Venta'
+													? subUnidadesVenta
+													: subUnidadesPrestamo
 											)
 										}
 									/>
@@ -247,7 +309,7 @@ const TarjetaEnvasesRetornables = ({
 									<InputStyled
 										inputProps={{style: {textAlign: 'center'}}}
 										value={
-											tipoPedido === 'Venta'
+											tipoPedido?.descripcionCorta === 'Venta'
 												? subUnidadesVenta
 												: subUnidadesPrestamo
 										}
@@ -255,15 +317,19 @@ const TarjetaEnvasesRetornables = ({
 										onChange={(e) =>
 											cambioSubUnidadesPorTipoPedido(
 												parseInt(e.target.value),
-												tipoPedido === 'Venta'
+												tipoPedido?.descripcionCorta === 'Venta'
 													? subUnidadesVenta
 													: subUnidadesPrestamo,
-												tipoPedido === 'Venta'
+												tipoPedido?.descripcionCorta === 'Venta'
 													? setSubUnidadesVenta
 													: setSubUnidadesPrestamo,
-												tipoPedido === 'Venta'
+												tipoPedido?.descripcionCorta === 'Venta'
 													? subUnidadesPrestamo
-													: subUnidadesVenta
+													: subUnidadesVenta,
+												tipoPedido?.codigo,
+												tipoPedido?.descripcionCorta === 'Venta'
+													? unidadesVenta
+													: unidadesPrestamo
 											)
 										}
 									/>

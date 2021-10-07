@@ -32,9 +32,8 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 		null
 	);
 
-	const [inputFocus, setInputFocus] = useState<InputsKeysFormTomaDePedido>(
-		'productoABuscar'
-	);
+	const [inputFocus, setInputFocus] =
+		useState<InputsKeysFormTomaDePedido>('productoABuscar');
 
 	const visitaActual = useObtenerVisitaActual();
 
@@ -46,12 +45,8 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 		catalogoMotivo: '',
 	};
 
-	const {
-		control,
-		handleSubmit,
-		setValue,
-		getValues,
-	} = useForm<TFormTomaDePedido>({defaultValues});
+	const {control, handleSubmit, setValue, getValues} =
+		useForm<TFormTomaDePedido>({defaultValues});
 
 	const stateInputFocus = {inputFocus, setInputFocus};
 
@@ -59,11 +54,12 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
 
-	const datosTipoPedidoActual:
-		| TTipoPedido
-		| undefined = obtenerDatosTipoPedido();
+	const datosTipoPedidoActual: TTipoPedido | undefined =
+		obtenerDatosTipoPedido();
 
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
+
+
 
 	return (
 		<Fragment>
