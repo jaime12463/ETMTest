@@ -62,7 +62,20 @@ const IndicadoresDelPedidoActual = () => {
 	const color = useObtenerColor();
 
 	const indicadores = [];
-	if ( datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima)
+	if (datosCliente?.informacionCrediticia.condicion!=='contado')
+		indicadores.push(
+			{
+				titulo: t('general.creditoDisponible'),
+				valorMax: datosCliente?.informacionCrediticia.disponible,
+				valor:
+					creditoDisponible - //error
+					(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0),
+				color: color.creditoDisponible,
+				condicion: datosCliente?.informacionCrediticia.condicion,
+				dataCY: 'indicador-credito-maximo',
+			});
+
+	if ( datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima )
 		indicadores.push(
 			{
 				titulo: t('general.pedidoMinimo'),
@@ -86,18 +99,7 @@ const IndicadoresDelPedidoActual = () => {
 				color: color.pedidoMaximo,
 				dataCY: 'indicador-credito-minimo',
 			});
-	if (datosCliente?.informacionCrediticia.condicion==='creditoFormal')
-		indicadores.push(
-			{
-				titulo: t('general.creditoDisponible'),
-				valorMax: datosCliente?.informacionCrediticia.disponible,
-				valor:
-					creditoDisponible - //error
-					(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0),
-				color: color.creditoDisponible,
-				condicion: datosCliente?.informacionCrediticia.condicion,
-				dataCY: 'indicador-credito-maximo',
-			});
+	
 	
 	return (
 			<Grid container  spacing={3}>
