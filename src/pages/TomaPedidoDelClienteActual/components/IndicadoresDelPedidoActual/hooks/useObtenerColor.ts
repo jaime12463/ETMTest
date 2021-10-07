@@ -24,9 +24,9 @@ const obtenerporcentaje = (valor: number, valorMax: number = 0) => {
 };
 export const useObtenerColor = () => {
 	const [color, setColor] = useState({
-		pedidoMinimo: 'rojo',
-		pedidoMaximo: 'verde',
-		creditoDisponible: 'verde',
+		pedidoMinimo: 'primary',
+		pedidoMaximo: 'success',
+		creditoDisponible: 'success',
 	});
 
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
@@ -75,8 +75,8 @@ export const useObtenerColor = () => {
 					totalesPedidoCliente + totalPedidoActual.totalPrecio,
 					datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
 				) >= 100
-					? 'verde'
-					: 'rojo',
+					? 'success'
+					: 'primary',
 			pedidoMaximo:
 				obtenerporcentaje(
 					totalContadoPedidosClienteMismaFechaEntrega +
@@ -86,15 +86,15 @@ export const useObtenerColor = () => {
 					datosCliente?.configuracionPedido.ventaContadoMaxima
 						?.montoVentaContadoMaxima
 				) > 100
-					? 'rojo'
-					: 'verde',
+					? 'primary'
+					: 'success',
 			creditoDisponible:
 				obtenerporcentaje(
 					creditoDisponible - totalPedidoActual.totalCredito.totalPrecio,
 					datosCliente?.informacionCrediticia.disponible
 				) <= 0
-					? 'rojo'
-					: 'verde',
+					? 'primary'
+					: 'success',
 		});
 	}, [
 		compromisoDeCobroActual,
