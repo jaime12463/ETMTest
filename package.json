@@ -86,6 +86,7 @@
 	"devDependencies": {
 		"@cypress/browserify-preprocessor": "^3.0.1",
 		"@types/cypress-cucumber-preprocessor": "^4.0.1",
+		"@types/lodash": "^4.14.175",
 		"@types/uuid": "^8.3.1",
 		"cypress": "^7.4.0",
 		"cypress-cucumber-preprocessor": "^4.1.3",

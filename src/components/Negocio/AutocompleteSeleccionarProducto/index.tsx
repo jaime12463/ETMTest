@@ -1,4 +1,4 @@
-import {FunctionComponent, useState} from 'react';
+import {FunctionComponent, useCallback, useState, useEffect} from 'react';
 import {Dialogo, FormInput, Cajon} from 'components/UI';
 import {
 	TFormTomaDePedido,
@@ -23,6 +23,7 @@ import {useTranslation} from 'react-i18next';
 import {BuscarIcon} from 'assests/iconos';
 import { useFiltrarPreciosProductosDelClienteActual } from '../InputFiltroPreciosProductosDelClienteActual/hooks';
 //import {useFiltrarPreciosProductosDelClienteActual} from './hooks/useFiltrarPreciosProductosDelClienteActual';
+import {debounce} from 'lodash';
 
 export type Props = {
 	hookForm: THookForm<TFormTomaDePedido>;
@@ -45,13 +46,29 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 
 	const {preciosProductos} = statePreciosProductos;
 
-	/*const filtrarPreciosProductosDelClienteActual = useFiltrarPreciosProductosDelClienteActual(
-		statePreciosProductos
-	);*/
+	/*const [options, setOptions] = useState([]);
+	const [inputValue, setInputValue] = useState("");
+	const getOptionsDelayed = useCallback(
+	  debounce((text, callback) => {
+		setOptions([]);
+		//getOptionsAsync(text).then(callback);
 
-	preciosProductos.map((producto) => {
-		console.log("Producotos", producto);
-	});
+		setTimeout(() => {
+			preciosProductos.filter(
+				(o) => o.title.toLowerCase().indexOf(query.toLowerCase()) > -1
+			);
+		}, 1500);
+
+
+	  }, 200),
+	  []
+	);
+	
+	useEffect(() => {
+		getOptionsDelayed(inputValue, (filteredOptions: any) => {
+		  setOptions(filteredOptions);
+		});
+	  }, [inputValue, getOptionsDelayed]);*/
 
 	return (
 		<>
@@ -62,7 +79,8 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 						className={estilos.cajaAutocomplete}
 						disablePortal
 						id="combo-box-demo"
-						options={top100Films}
+						options={preciosProductos}
+						getOptionLabel={(option) => option.nombreProducto}
 						sx={{ width: 330 }}
 						renderInput={
 							(params) => 
@@ -74,6 +92,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 									InputProps={{ ...params.InputProps, disableUnderline: true }}
 								/>	
 						}
+						//onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
 						
 						/*InputProps={{
 							endAdornment: (
