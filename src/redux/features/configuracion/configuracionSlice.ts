@@ -4,20 +4,27 @@ import {obtenerDatosConfiguracion} from 'server';
 import {
 	EEstadosFetch,
 	TDatosConfiguracionesSlice,
+	TConfiguracion,
 	TDatosConfiguracion,
 } from 'models';
 
 const estadoInicial: TDatosConfiguracionesSlice = {
 	estado: EEstadosFetch.Idle,
 	datos: {
-		configuraciones: [],
+		configuraciones: {
+			esFrecuenciaAbierta: false,
+			habilitaOrdenDeCompra: false,
+			TipoPedidoEnvasesHabilitados: [],
+			tipoPedidos: [],
+		},
 	},
 };
 
-export const obtenerDatosConfiguracionAsync = createAsyncThunk<TDatosConfiguracion>(
-	'configuracion/obtenerDatosConfiguracionAsync',
-	async () => await obtenerDatosConfiguracion()
-);
+export const obtenerDatosConfiguracionAsync =
+	createAsyncThunk<TDatosConfiguracion>(
+		'configuracion/obtenerDatosConfiguracionAsync',
+		async () => await obtenerDatosConfiguracion()
+	);
 
 export const datosSlice = createSlice({
 	name: 'configuracion',

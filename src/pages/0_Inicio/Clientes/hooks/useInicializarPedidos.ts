@@ -1,3 +1,4 @@
+import {Console} from 'console';
 import {useObtenerDatosCliente} from 'hooks';
 import {EEstadosDeUnPedido, TPedido, TPedidos, TTipoPedido} from 'models';
 import {useCallback} from 'react';
@@ -6,6 +7,7 @@ import {v4 as uuidv4} from 'uuid';
 
 export const useInicializarPedidos = () => {
 	const configuraciones = useObtenerConfiguracion();
+
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const inicializarPedidos = useCallback(
 		(fechaEntrega: string, codigoCliente: string) => {

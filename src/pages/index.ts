@@ -1,11 +1,11 @@
-import Inicio from './Inicio';
-import Clientes from './Clientes';
-import PedidosDelClienteActual from './PedidosDelClienteActual';
-import TomaPedidoDelClienteActual from './TomaPedidoDelClienteActual';
-import EnvasesRetornables from './EnvasesRetornables';
-import CompromisoDeCobro from './CompromisoDeCobro';
-export {Planeacion} from './Planeacion';
-export {FinalizarPedido} from './FinalizarPedido';
+import Inicio from './0_Inicio/Splash';
+import Clientes from './0_Inicio/Clientes';
+import PedidosDelClienteActual from './1_Planeacion/PedidosDelClienteActual';
+import TomaPedidoDelClienteActual from './2_TomaDePedido';
+import EnvasesRetornables from './3_Otros/EnvasesRetornables';
+import CompromisoDeCobro from './3_Otros/CompromisoDeCobro';
+export {Planeacion} from './1_Planeacion';
+export {FinalizarPedido} from './4_FinalizarPedido';
 
 export {
 	Inicio,

@@ -16,18 +16,9 @@ export const useInicializarVisitaActual = () => {
 			const datosCliente = obtenerDatosCliente(codigoCliente);
 			const pedidos: TPedidos = inicializarPedidos(fechaEntrega, codigoCliente);
 
-			const tiposPedidos = configuracion.tipoPedidos
-				.map((x) => x)
-				.sort((a, b) => a.secuencia - b.secuencia);
+			const tiposPedidos = configuracion.tipoPedidos;
 
-			const tipoPedidoActual: number =
-				tiposPedidos.find(
-					(tipoPedido) =>
-						tipoPedido.esValorizado &&
-						datosCliente?.configuracionPedido.tipoPedidoHabilitados.includes(
-							tipoPedido.codigo
-						)
-				)?.codigo ?? tiposPedidos[0].codigo;
+			const tipoPedidoActual: string = tiposPedidos[0]?.codigo;
 
 			const mostrarPromoPush: boolean = false;
 

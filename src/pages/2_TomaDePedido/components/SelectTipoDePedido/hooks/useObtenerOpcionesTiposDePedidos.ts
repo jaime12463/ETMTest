@@ -14,11 +14,7 @@ export const useObtenerOpcionesTiposDePedidos = (): TOpcionSelect[] => {
 	let opcionesTiposDePedidos: TOpcionSelect[] = [];
 
 	tiposPedidos.forEach((tipoPedido) => {
-		if (
-			datosCliente?.configuracionPedido.tipoPedidoHabilitados.includes(
-				tipoPedido.codigo
-			)
-		) {
+		{
 			opcionesTiposDePedidos.push({
 				value: tipoPedido.codigo.toString(),
 				label: tipoPedido.descripcion,

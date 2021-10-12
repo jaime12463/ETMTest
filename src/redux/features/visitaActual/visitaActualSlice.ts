@@ -9,7 +9,7 @@ import {RootState} from 'redux/store';
 
 const estadoInicial: TVisita = {
 	fechaEntrega: '',
-	tipoPedidoActual: 0,
+	tipoPedidoActual: '',
 	saldoPresupuestoTipoPedido: {},
 	pedidos: {},
 	mostrarPromoPush: false,
@@ -74,7 +74,7 @@ export const visitaActualSlice = createSlice({
 
 		borrarProductosDeVisitaActual: (
 			state,
-			action: PayloadAction<{tipoPedidoActual: number}>
+			action: PayloadAction<{tipoPedidoActual: string}>
 		) => {
 			state.pedidos[action.payload.tipoPedidoActual].productos = [];
 		},
@@ -104,7 +104,7 @@ export const visitaActualSlice = createSlice({
 		resetearVisitaActual: (state) => {
 			state.pedidos = {};
 			state.fechaEntrega = '';
-			state.tipoPedidoActual = 0;
+			state.tipoPedidoActual = '';
 			state.mostrarPromoPush = false;
 			state.bloquearPanelCarga = true;
 			state.ordenDeCompra = '';
@@ -139,7 +139,7 @@ export const visitaActualSlice = createSlice({
 
 		cambiarTipoPedidoActual: (
 			state,
-			action: PayloadAction<{tipoPedido: number}>
+			action: PayloadAction<{tipoPedido: string}>
 		) => {
 			state.tipoPedidoActual = action.payload.tipoPedido;
 		},

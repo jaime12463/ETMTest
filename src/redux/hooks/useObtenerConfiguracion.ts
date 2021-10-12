@@ -6,6 +6,7 @@ export const useObtenerConfiguracion = (): TConfiguracion => {
 	const {
 		datos: {configuraciones},
 	} = useAppSelector(selectConfiguracion);
-	const configuracion: TConfiguracion = configuraciones[0];
+
+	const configuracion: TConfiguracion = configuraciones;
 	return configuracion;
 };

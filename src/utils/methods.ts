@@ -179,7 +179,7 @@ export const obtenerUnidadesProductoVisitaActual = (
 };
 
 export const obtenerPresupuestoConfiguradoSegunVigencia = (
-	tipoPedido: number,
+	tipoPedido: string,
 	presupuestoTipoPedido: TpresupuestoTipoPedido[]
 ) => {
 	const fechaDipostivo = fechaDispositivo();
@@ -194,7 +194,7 @@ export const obtenerPresupuestoConfiguradoSegunVigencia = (
 export const obtenerProductosHabilitados = (
 	preciosProductos: TPrecioProducto[],
 	presupuestoTipoPedido: TpresupuestoTipoPedido[],
-	tipoPedido: number
+	tipoPedido: string
 ) => {
 	const fechaDipostivo = fechaDispositivo();
 

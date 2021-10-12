@@ -5,7 +5,7 @@ import {
 	TotalesMetodoDeVentaDelPedidoActual,
 	BotonCerrarPedidoDelCliente,
 } from './components';
-import {TotalesCompromisoDeCobroPedidoActual} from '../CompromisoDeCobro/components/index';
+import {TotalesCompromisoDeCobroPedidoActual} from 'pages/3_Otros/CompromisoDeCobro/components/index';
 import {
 	Dialogo,
 	Estructura,
@@ -21,7 +21,7 @@ import {
 	FechaEntregaDelPedidoActual,
 	InfoClienteDelPedidoActual,
 } from 'components/Negocio';
-import CompromisoDeCobro from 'pages/CompromisoDeCobro';
+import CompromisoDeCobro from 'pages/3_Otros/CompromisoDeCobro';
 import {validarDeshabilitarTabCompromisoDeCobro} from 'utils/validaciones';
 import {
 	useAppDispatch,
@@ -38,9 +38,9 @@ import {
 	cambiarOrdenDeCompra,
 	selectVisitaActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {PromocionesRellenoIcon} from '../../assests/iconos'
-import {useObtenerClienteActual} from '../../redux/hooks'
-import { TClienteActual } from 'models';
+import {PromocionesRellenoIcon} from '../../assests/iconos';
+import {useObtenerClienteActual} from '../../redux/hooks';
+import {TClienteActual} from 'models';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [value, setValue] = React.useState(0);
@@ -48,7 +48,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
 	const history = useHistory();
 	let {path} = useRouteMatch();
-	const {razonSocial}: TClienteActual = useObtenerClienteActual()
+	const {razonSocial}: TClienteActual = useObtenerClienteActual();
 
 	return (
 		<Estructura>
@@ -74,7 +74,9 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 					descripcion='Continuar a Toma de pedido'
 					numeroItems={130}
 					total='1000.00$'
-					onClick={() => history.push(`${path}${nombresRutas.envasesRetornables}`)}
+					onClick={() =>
+						history.push(`${path}${nombresRutas.envasesRetornables}`)
+					}
 				/>
 			</Estructura.PieDePagina>
 		</Estructura>
@@ -102,8 +104,8 @@ function BotonAgregarOrdenDeCompra() {
 		pedidos
 	).filter(
 		(pedido) =>
-			tipoPedidosValorizados.includes(Number(pedido)) &&
-			pedidos[Number(pedido)]?.productos.length > 0
+			tipoPedidosValorizados.includes(pedido) &&
+			pedidos[pedido]?.productos.length > 0
 	);
 
 	console.log('Pedidos', pedidos);
@@ -184,7 +186,7 @@ function BotonVerPedidosDelClienteActual() {
 
 			/* 	onClick={() => history.push(`${path}${nombresRutas.pedidosCliente}`)} */
 		>
-			<PromocionesRellenoIcon fill="#fff"/>
+			<PromocionesRellenoIcon fill='#fff' />
 		</IconButton>
 	);
 }
