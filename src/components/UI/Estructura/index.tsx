@@ -4,7 +4,7 @@ import Encabezado from './Encabezado';
 import Cuerpo from './Cuerpo';
 import PieDePagina from './PieDePagina';
 import {useRouteMatch} from 'react-router-dom';
-import {CssBaseline, Typography} from '@material-ui/core';
+import {CssBaseline, Typography} from '@mui/material';
 
 export type Props = {
 	children: React.ReactNode;
@@ -21,13 +21,7 @@ const Estructura = ({esConFechaHaciaAtras = true, titulo, children}: Props) => {
 					<CssBaseline />
 					{titulo !== undefined && (
 						<Encabezado esConFechaHaciaAtras={esConFechaHaciaAtras}>
-							<Typography
-								component='h5'
-								variant='body2'
-								style={{color: 'white'}}
-							>
-								{titulo}
-							</Typography>
+							{titulo}
 						</Encabezado>
 					)}
 					<CssBaseline />

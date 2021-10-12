@@ -1,6 +1,6 @@
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/styles';
 
-const useEstilos = makeStyles((theme) => ({
+const useEstilos = makeStyles(() => ({
 	helperText: {
 		whiteSpace: 'nowrap',
 		textOverflow: 'ellipsis',

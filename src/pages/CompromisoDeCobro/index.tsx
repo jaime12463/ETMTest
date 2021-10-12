@@ -2,7 +2,7 @@ import {FunctionComponent} from 'react';
 import {TCliente, TClienteActual} from 'models';
 import {useObtenerDatosCliente} from 'hooks';
 import {useObtenerClienteActual} from 'redux/hooks';
-import {Box, Grid, Paper} from '@material-ui/core';
+import {Box, Grid, Paper} from '@mui/material';
 import {ListadoDocumentos, InputAgregarCompromisoDeCobro} from './components';
 import {useObtenerMontoTotalDocumentos} from './hooks/useObtenerMontoTotalDocumentos';
 import {Numero} from 'components/UI';

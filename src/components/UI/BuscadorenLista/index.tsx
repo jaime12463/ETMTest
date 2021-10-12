@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Grid, Box} from '@material-ui/core';
+import {Grid, Box} from '@mui/material';
 import {FormInput, List, Center} from 'components/UI';
 import {useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';

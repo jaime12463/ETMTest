@@ -5,7 +5,7 @@ import {
 	TProductoPedido,
 	TTipoPedido,
 } from 'models';
-import {Switch} from '@material-ui/core';
+import {Switch} from '@mui/material';
 import {useCambiarTipoPago, usePermiteCambiarTipoPago} from './hooks';
 import {Center} from 'components/UI';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';

@@ -7,8 +7,7 @@ import {
 	TStatePreciosProductos,
 	TStateProductoActual,
 } from 'models';
-import {IconButton, Grid} from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
+import {IconButton, Grid} from '@mui/material';
 import nombresRutas from 'routes/nombresRutas';
 import {useRouteMatch, useHistory} from 'react-router-dom';
 import {useSeleccionarProductoDePrecios} from 'hooks';
@@ -20,6 +19,7 @@ import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';
 import {useEsPermitidoAgregarProductoAlPedido} from './hooks';
 import {BuscadorProductosClienteActual} from 'pages/TomaPedidoDelClienteActual/components';
+import {BuscarIcon} from 'assests/iconos';
 
 export type Props = {
 	hookForm: THookForm<TFormTomaDePedido>;
@@ -46,11 +46,8 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 
 	const {t} = useTranslation();
 
-	const {
-		mostrarAdvertenciaEnDialogo,
-		mostarDialogo,
-		parametrosDialogo,
-	} = useMostrarAdvertenciaEnDialogo();
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+		useMostrarAdvertenciaEnDialogo();
 
 	const {
 		mostrarCajon,
@@ -67,9 +64,8 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 		mostrarAdvertenciaEnDialogo
 	);
 
-	const {
-		validarEsPermitidoAgregarProductoAlPedido,
-	} = useEsPermitidoAgregarProductoAlPedido();
+	const {validarEsPermitidoAgregarProductoAlPedido} =
+		useEsPermitidoAgregarProductoAlPedido();
 
 	return (
 		<>
@@ -107,7 +103,7 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 										)
 									}
 								>
-									<SearchIcon />
+									<BuscarIcon />
 								</IconButton>
 							),
 						}}

@@ -1,6 +1,6 @@
 import {FunctionComponent} from 'react';
 import {TProductoPedido} from 'models';
-import {Box, Grid, Divider} from '@material-ui/core';
+import {Box, Grid, Divider} from '@mui/material';
 import {Numero} from 'components/UI';
 import {SwitchCambiarTipoPago} from '..';
 import {useTranslation} from 'react-i18next';

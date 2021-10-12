@@ -1,4 +1,4 @@
-import {Box, Grid} from '@material-ui/core';
+import {Box, Grid} from '@mui/material';
 import useEstilos from './useEstilos';
 import {Estructura, Dialogo, FormInput} from 'components/UI';
 import {TInputsCodigoCliente} from 'models';

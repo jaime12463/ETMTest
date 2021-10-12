@@ -1,5 +1,5 @@
-import {GridSize} from '@material-ui/core';
-import {TPrecioProducto} from 'models/redux';
+import {GridSize} from '@mui/material';
+import {ETiposDePago, TPrecioProducto} from 'models/redux';
 import React, {Dispatch, ReactElement, SetStateAction} from 'react';
 import {
 	Control,
@@ -16,6 +16,10 @@ export type TConsolidadoImplicitos = {
 	nombreImplicito: string;
 	unidades: number;
 	subUnidades: number;
+	tipoPago?: ETiposDePago;
+	presentacion?: number;
+	precioConImpuestoUnidad?: number;
+	precioConImpuestoSubunidad?: number;
 };
 
 export type TTotal = {
@@ -75,6 +79,11 @@ export type TStatePreciosProductos = {
 export type TStateInputFocus = {
 	inputFocus: InputsKeysFormTomaDePedido;
 	setInputFocus: Dispatch<SetStateAction<InputsKeysFormTomaDePedido>>;
+};
+
+export type TStateSubUnidadesEnvases = {
+	subUnidadesEnvases: number;
+	setSubUnidadesEnvases: Dispatch<SetStateAction<number>>;
 };
 
 //Formularios

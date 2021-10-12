@@ -4,8 +4,10 @@ import {
 	TomaPedidoDelClienteActual,
 	EnvasesRetornables,
 	PedidosDelClienteActual,
+	Planeacion,
+	FinalizarPedido,
 } from 'pages';
-import {ReactNode} from 'react';
+
 import nombresRutas from './nombresRutas';
 
 //TODO: Hay que tipar esto aca y en el componente de rutas
@@ -19,6 +21,10 @@ const routes: any = [
 		componente: <Clientes />,
 	},
 	{
+		path: nombresRutas.planeacion,
+		componente: <Planeacion />,
+	},
+	{
 		path: nombresRutas.ingresarPedido,
 		componente: <TomaPedidoDelClienteActual />,
 		subRutas: [
@@ -29,6 +35,10 @@ const routes: any = [
 			{
 				path: nombresRutas.pedidosCliente,
 				componente: <PedidosDelClienteActual />,
+			},
+			{
+				path: nombresRutas.finalizarPedido,
+				componente: <FinalizarPedido />,
 			},
 		],
 	},

@@ -1,6 +1,6 @@
 import {FormEventHandler, FunctionComponent} from 'react';
 import Input, {PropsInput} from 'components/UI/Input';
-import {Box, InputLabel, Typography} from '@material-ui/core';
+import {Box, InputLabel, Typography} from '@mui/material';
 
 export type Props = {
 	onChangeForm?: FormEventHandler<HTMLFormElement> | undefined;

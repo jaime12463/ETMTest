@@ -1,5 +1,5 @@
 import {TotalesMetodoDeVenta} from 'components/Negocio';
-import {Grid} from '@material-ui/core';
+import {Grid} from '@mui/material';
 import {useTranslation} from 'react-i18next';
 import {useCalcularTotalPedido, useObtenerDatosTipoPedido} from 'hooks';
 

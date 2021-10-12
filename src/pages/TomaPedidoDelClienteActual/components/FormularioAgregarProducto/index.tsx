@@ -1,4 +1,4 @@
-import {Grid, Paper} from '@material-ui/core';
+import {Grid, Paper} from '@mui/material';
 import {
 	TFormTomaDePedido,
 	THookForm,
@@ -11,8 +11,8 @@ import {
 	InputSeleccionarProducto,
 } from 'components/Negocio';
 import {InfoProductoActual} from '..';
-import {useAppSelector, useAppDispatch } from "redux/hooks";
-import { selectVisitaActual } from 'redux/features/visitaActual/visitaActualSlice';
+import {useAppSelector, useAppDispatch} from 'redux/hooks';
+import {selectVisitaActual} from 'redux/features/visitaActual/visitaActualSlice';
 
 export type Props = {
 	hookForm: THookForm<TFormTomaDePedido>;
@@ -30,7 +30,7 @@ const FormularioAgregarProducto = (props: Props) => {
 		stateInputFocus,
 	} = props;
 	return (
-		<fieldset disabled={bloquearPanelCarga} >
+		<fieldset disabled={bloquearPanelCarga}>
 			<Grid container spacing={1}>
 				<Grid item xs={6}>
 					<InputSeleccionarProducto
@@ -51,7 +51,8 @@ const FormularioAgregarProducto = (props: Props) => {
 					<InfoProductoActual
 						hookForm={hookForm}
 						stateProductoActual={stateProductoActual}
-						stateInputFocus={stateInputFocus} />
+						stateInputFocus={stateInputFocus}
+					/>
 				</Grid>
 			</Grid>
 		</fieldset>

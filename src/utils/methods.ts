@@ -13,7 +13,6 @@ import {useObtenerPedidosClientes, useObtenerVisitaActual} from 'redux/hooks';
 
 import {TpresupuestoTipoPedido, TTipoPedido} from 'models/server';
 import {TFunction} from 'react-i18next';
-import {ImportExport} from '@material-ui/icons';
 
 export const formatearNumero = (
 	numero: number,
@@ -55,9 +54,8 @@ export const formatearFecha = (
 };
 
 export const fechaDispositivo = (): string => {
-	let fechaDispositivo: string | null = window.localStorage.getItem(
-		'fechaDipostivo'
-	);
+	let fechaDispositivo: string | null =
+		window.localStorage.getItem('fechaDipostivo');
 
 	const fecha: string = fechaDispositivo
 		? new Date(fechaDispositivo).toISOString().split('T')[0]
@@ -128,13 +126,14 @@ export const obtenerTotalesCompromisoDeCobroCliente = (
 ): number => {
 	let totalCompromisosDeCobroMismaFecha = 0;
 	if (compromisosDeCobroMismaFechaEntrega.length !== 0) {
-		totalCompromisosDeCobroMismaFecha = compromisosDeCobroMismaFechaEntrega.reduce(
-			(total: number, compromiso: TCompromisoDeCobro) => {
-				total += compromiso.monto;
-				return total;
-			},
-			0
-		);
+		totalCompromisosDeCobroMismaFecha =
+			compromisosDeCobroMismaFechaEntrega.reduce(
+				(total: number, compromiso: TCompromisoDeCobro) => {
+					total += compromiso.monto;
+					return total;
+				},
+				0
+			);
 	}
 
 	return totalCompromisosDeCobroMismaFecha;

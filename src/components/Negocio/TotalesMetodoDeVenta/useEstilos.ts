@@ -1,12 +1,5 @@
-import {Hidden} from '@material-ui/core';
-import {
-	makeStyles,
-	createStyles,
-	withStyles,
-	Theme,
-} from '@material-ui/core/styles';
-import {Height} from '@material-ui/icons';
-export const useEstilos = makeStyles((theme) => ({
+import {makeStyles} from '@material-ui/styles';
+export const useEstilos = makeStyles(() => ({
 	celda: {
 		borderBottom: 'none',
 		paddingRight: 5,

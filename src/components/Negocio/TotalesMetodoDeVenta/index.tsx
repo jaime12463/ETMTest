@@ -6,7 +6,7 @@ import {
 	TableContainer,
 	TableRow,
 	Paper,
-} from '@material-ui/core';
+} from '@mui/material';
 import {useEstilos} from './useEstilos';
 import {useTranslation} from 'react-i18next';
 import Numero from 'components/UI/Numero';

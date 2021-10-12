@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/styles';
 import {useTranslation} from 'react-i18next';
 import {formatearNumero} from 'utils/methods';
 

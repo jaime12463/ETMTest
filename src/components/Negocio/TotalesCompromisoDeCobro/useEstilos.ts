@@ -1,5 +1,5 @@
-import {makeStyles} from '@material-ui/core/styles';
-export const useEstilos = makeStyles((theme) => ({
+import {makeStyles} from '@material-ui/styles';
+export const useEstilos = makeStyles(() => ({
 	celda: {
 		fontSize: '0.8rem',
 	},

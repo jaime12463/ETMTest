@@ -3,10 +3,12 @@
 		{
 			"esFrecuenciaAbierta": true,
 			"habilitaOrdenDeCompra": true,
+			"TipoPedidoEnvasesHabilitados": [3,4],
 			"tipoPedidos": [
 				{
 					"codigo": 1,
 					"descripcion": "Venta",
+					"descripcionCorta": "Venta",
 					"secuencia": 1,
 					"esValorizado": true,
 					"esMandatorio": true,
@@ -22,6 +24,7 @@
 				{
 					"codigo": 2,
 					"descripcion": "Canje",
+					"descripcionCorta": "Canje",
 					"secuencia": 2,
 					"esValorizado": false,
 					"esMandatorio": false,
@@ -43,6 +46,38 @@
 						}
 					],
 					"validaPresupuesto": true
+				},
+				{
+					"codigo": 3, 
+					"descripcion": "Venta Envase",
+					"descripcionCorta": "Venta",
+					"secuencia": 0,	
+					"esValorizado": true,
+					"esMandatorio" : false,
+					"habilitaPromocion" : false,
+					"contribuyeAMinimo" : true, 
+					"habilitaSubunidades" : "condicional",
+					"validaSubunidadesMinimas": false,
+					"tipoProductosHabilitados":[5],
+					"generaEnvases" : false,
+					"validaPresupuesto": false,
+					"requiereMotivo": false
+				},
+				{
+					"codigo": 4, 
+					"descripcion": "Préstamo Envase",
+					"descripcionCorta": "Préstamo",
+					"secuencia": 0,	
+					"esValorizado": false,
+					"esMandatorio" : false,
+					"habilitaPromocion" : false,
+					"contribuyeAMinimo" : false,
+					"habilitaSubunidades" : "condicional",
+					"validaSubunidadesMinimas": false,
+					"tipoProductosHabilitados":[5],
+					"generaEnvases" : false,
+					"validaPresupuesto": false,
+					"requiereMotivo": false
 				}
 			]
 		}

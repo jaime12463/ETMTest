@@ -10,7 +10,7 @@ import {
 	TFormTomaDePedido,
 	InputsKeysFormTomaDePedido,
 } from 'models';
-import {Box} from '@material-ui/core';
+import {Box} from '@mui/material';
 import {useObtenerPedidoActual} from 'redux/hooks';
 import {
 	useMostrarAdvertenciaEnDialogo,

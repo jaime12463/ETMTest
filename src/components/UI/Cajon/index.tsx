@@ -1,5 +1,5 @@
 import React from 'react';
-import Drawer from '@material-ui/core/Drawer';
+import {Drawer} from '@mui/material';
 import {useEstilos} from './useEstilos';
 
 type Props = {

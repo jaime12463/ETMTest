@@ -1,5 +1,5 @@
-import {Grid} from '@material-ui/core';
-import {BarraDeProgeso, Center} from 'components/UI';
+import {Grid} from '@mui/material';
+import {BarraDeProgreso, Center} from 'components/UI';
 import {ETiposDePago, TCliente, TClienteActual} from 'models';
 import {
 	useObtenerDatosCliente,
@@ -28,35 +28,30 @@ const IndicadoresDelPedidoActual = () => {
 	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
-	const {
-		obtenerPedidosClienteMismaFechaEntrega,
-	} = useObtenerPedidosClienteMismaFechaEntrega();
+	const {obtenerPedidosClienteMismaFechaEntrega} =
+		useObtenerPedidosClienteMismaFechaEntrega();
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(
 		clienteActual.codigoCliente
 	);
-	const pedidosClienteMismaFechaEntrega = obtenerPedidosClienteMismaFechaEntrega(
-		clienteActual.codigoCliente
-	);
+	const pedidosClienteMismaFechaEntrega =
+		obtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
 	const {tipoPedidos} = useObtenerConfiguracion();
 	const totalesPedidoCliente = obtenerTotalesPedidosCliente({
 		pedidosClienteMismaFechaEntrega,
 		tipoPedidos,
 	});
 
-	const totalContadoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
-		{
+	const totalContadoPedidosClienteMismaFechaEntrega =
+		calcularTotalPedidosClienteValorizadosPorTipoPago({
 			pedidosClienteMismaFechaEntrega,
 			tipoPedidos,
 			tipoPago: ETiposDePago.Contado,
-		}
-	);
+		});
 
-	const {
-		obtenerCompromisosDeCobroMismaFechaEntrega,
-	} = useObtenerCompromisosDeCobroMismaFechaEntrega();
-	const compromisosDeCobroMismaFechaEntrega = obtenerCompromisosDeCobroMismaFechaEntrega(
-		clienteActual.codigoCliente
-	);
+	const {obtenerCompromisosDeCobroMismaFechaEntrega} =
+		useObtenerCompromisosDeCobroMismaFechaEntrega();
+	const compromisosDeCobroMismaFechaEntrega =
+		obtenerCompromisosDeCobroMismaFechaEntrega(clienteActual.codigoCliente);
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 	const montoTotalCompromisos = obtenerTotalesCompromisoDeCobroCliente(
 		compromisosDeCobroMismaFechaEntrega
@@ -66,67 +61,61 @@ const IndicadoresDelPedidoActual = () => {
 
 	const color = useObtenerColor();
 
-	const indicadores = [
-		{
-			titulo: t('general.pedidoMinimo'),
-			valorMax: datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima,
-			valor:
-				totalesPedidoCliente +
-				(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0),
-			color: color.pedidoMinimo,
-			dataCY: 'indicador-pedido-minimo',
-		},
-		{
-			titulo: t('general.pedidoMaximo'),
-			valorMax:
-				datosCliente?.configuracionPedido.ventaContadoMaxima
-					?.montoVentaContadoMaxima,
-			valor:
-				totalContadoPedidosClienteMismaFechaEntrega +
-				(obtenerTotalPedidosVisitaActual().totalContado.totalPrecio ?? 0) +
-				montoTotalCompromisos +
-				compromisoDeCobroActual.monto,
-			color: color.pedidoMaximo,
-			dataCY: 'indicador-credito-minimo',
-		},
-		{
-			titulo: t('general.creditoDisponible'),
-			valorMax: datosCliente?.informacionCrediticia.disponible,
-			valor:
-				creditoDisponible - //error
-				(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0),
-			color: color.creditoDisponible,
-			condicion: datosCliente?.informacionCrediticia.condicion,
-			dataCY: 'indicador-credito-maximo',
-		},
-	];
+	const indicadores = [];
+	if (datosCliente?.informacionCrediticia.condicion!=='contado')
+		indicadores.push(
+			{
+				titulo: t('general.creditoDisponible'),
+				valorMax: datosCliente?.informacionCrediticia.disponible,
+				valor:
+					creditoDisponible - //error
+					(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0),
+				color: color.creditoDisponible,
+				condicion: datosCliente?.informacionCrediticia.condicion,
+				dataCY: 'indicador-credito-maximo',
+			});
 
+	if ( datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima )
+		indicadores.push(
+			{
+				titulo: t('general.pedidoMinimo'),
+				valorMax: datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima,
+				valor:
+					totalesPedidoCliente +
+					(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0),
+				color: color.pedidoMinimo,
+				dataCY: 'indicador-pedido-minimo',
+			});
+	if ( datosCliente?.configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima)
+		indicadores.push(
+			{
+				titulo: t('general.pedidoMaximo'),
+				valorMax: datosCliente?.configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima,
+				valor:
+					totalContadoPedidosClienteMismaFechaEntrega +
+					(obtenerTotalPedidosVisitaActual().totalContado.totalPrecio ?? 0) +
+					montoTotalCompromisos +
+					compromisoDeCobroActual.monto,
+				color: color.pedidoMaximo,
+				dataCY: 'indicador-credito-minimo',
+			});
+	
+	
 	return (
-		<div>
-			<Grid container direction='row' justify='center' spacing={3}>
+			<Grid container  spacing={3}>
 				{indicadores.map((el, i) => (
-					<Grid item xs='auto' key={i} style={{padding: 7}}>
-						<Center>
-							<BarraDeProgeso
+					<Grid item xs key={i}>
+							<BarraDeProgreso
 								titulo={el.titulo}
 								max={el.valorMax}
 								valor={el.valor}
 								color={el.color}
 								condicion={el.condicion}
 								dataCY={el.dataCY}
-								disable={
-									el.condicion === 'contado'
-										? true
-										: el.valorMax === 0
-										? true
-										: false
-								}
 							/>
-						</Center>
 					</Grid>
 				))}
 			</Grid>
-		</div>
 	);
 };
 

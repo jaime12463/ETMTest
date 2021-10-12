@@ -14,7 +14,7 @@ import {
 	useInicializarPreciosProductosDelClienteActual,
 	useObtenerDatosTipoPedido,
 } from 'hooks';
-import {Box, Grid} from '@material-ui/core';
+import {Box, Grid} from '@mui/material';
 import {useForm} from 'react-hook-form';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {MenuPromoPush} from 'components/Negocio';
@@ -32,9 +32,8 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 		null
 	);
 
-	const [inputFocus, setInputFocus] = useState<InputsKeysFormTomaDePedido>(
-		'productoABuscar'
-	);
+	const [inputFocus, setInputFocus] =
+		useState<InputsKeysFormTomaDePedido>('productoABuscar');
 
 	const visitaActual = useObtenerVisitaActual();
 
@@ -46,12 +45,8 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 		catalogoMotivo: '',
 	};
 
-	const {
-		control,
-		handleSubmit,
-		setValue,
-		getValues,
-	} = useForm<TFormTomaDePedido>({defaultValues});
+	const {control, handleSubmit, setValue, getValues} =
+		useForm<TFormTomaDePedido>({defaultValues});
 
 	const stateInputFocus = {inputFocus, setInputFocus};
 
@@ -59,11 +54,12 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
 
-	const datosTipoPedidoActual:
-		| TTipoPedido
-		| undefined = obtenerDatosTipoPedido();
+	const datosTipoPedidoActual: TTipoPedido | undefined =
+		obtenerDatosTipoPedido();
 
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
+
+
 
 	return (
 		<Fragment>
@@ -71,9 +67,9 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 				<Box my={2}>
 					<Grid container>
 						<Grid item xs={8}>
-							<SelectTipoDePedido 
-								hookForm={hookForm} 
-								stateProductoActual={{productoActual, setProductoActual}} 
+							<SelectTipoDePedido
+								hookForm={hookForm}
+								stateProductoActual={{productoActual, setProductoActual}}
 							/>
 						</Grid>
 						<Grid item xs={4}>
