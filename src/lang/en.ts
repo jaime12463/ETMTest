@@ -46,6 +46,7 @@ const en = {
 		compromisoRegistrado: 'Registered Collection Commitments',
 		agregarOrdenDeCompra: 'Add Purchase Order?',
 		deseaAgregarOrdenDeCompra: 'Do you want to associate a purchase order?',
+		agregarProductoSKU: 'add product by SKU...',	
 	},
 	simbolos: {
 		decimal: ',',
@@ -100,7 +101,7 @@ const en = {
 		ordenDeCompraEnBlanco:
 			'You must enter a purchase orden',
 		cantidadSuperiorEnvases:
-			'The amount exceeds those available for return'
+			'The amount exceeds those available for return',		
 	},
 };
 export default en;

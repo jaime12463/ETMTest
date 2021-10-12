@@ -9,6 +9,7 @@ import {
 import {
 	InputsUnidadesYSubUnidades,
 	InputSeleccionarProducto,
+	AutocompleteSeleccionarProducto,
 } from 'components/Negocio';
 import {InfoProductoActual} from '..';
 import {useAppSelector, useAppDispatch} from 'redux/hooks';
@@ -32,6 +33,14 @@ const FormularioAgregarProducto = (props: Props) => {
 	return (
 		<fieldset disabled={bloquearPanelCarga}>
 			<Grid container spacing={1}>
+				<Grid item xs={12}>
+					<AutocompleteSeleccionarProducto
+						hookForm={hookForm}
+						stateProductoActual={stateProductoActual}
+						statePreciosProductos={statePreciosProductos}
+						stateInputFocus={stateInputFocus}
+					/>
+				</Grid>
 				<Grid item xs={6}>
 					<InputSeleccionarProducto
 						hookForm={hookForm}

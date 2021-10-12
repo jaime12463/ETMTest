@@ -46,6 +46,7 @@ const es = {
 		compromisoRegistrado: 'Compromisos de Cobro Registrados',
 		agregarOrdenDeCompra: '¿Agregar Orden Compra?',
 		deseaAgregarOrdenDeCompra: '¿Desea asociar una orden de compra?',
+		agregarProductoSKU: 'Agregar producto por SKU...',
 	},
 	simbolos: {
 		decimal: '.',

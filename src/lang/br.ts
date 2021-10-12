@@ -43,6 +43,7 @@ const br = {
 		vencimiento: 'expiração',
 		deudaPendiente: 'Dívida pendente',
 		compromisoRegistrado: 'Compromissos de cobrança registrados',
+		agregarProductoSKU: 'Adicionar produto por SKU...',	
 	},
 	simbolos: {
 		decimal: '.',
@@ -94,7 +95,7 @@ const br = {
 		ordenDeCompraEnBlanco:
 			'Você deve inserir um pedido de compra',
 		cantidadSuperiorEnvases:
-			'O valor excede os disponíveis para devolução',			
+			'O valor excede os disponíveis para devolução',						
 	},
 };
 export default br;
