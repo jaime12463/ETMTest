@@ -11,6 +11,18 @@ import {Dispatch, SetStateAction} from 'react';
 import useEstilos from './useEstilos';
 import clsx from 'clsx';
 import flechaAbajo from '../../../assests/iconos/chevron--down.svg';
+import Chip from '@mui/material/Chip';
+import { styled } from '@mui/material/styles'
+
+const ChipStyled = styled(Chip)(() =>({
+	background: '#000',
+	color: '#fff',
+	fontFamily: 'Open Sans',
+	fontWeight: 'bold',
+	opacity: '0.7',
+	padding: '0 6px',
+}))
+
 
 type Props = {
 	children: React.ReactNode;
@@ -19,6 +31,7 @@ type Props = {
 	titulo: React.ReactNode;
 	subTitulo?: React.ReactNode;
 	id: string;
+	cantidadItems?: number;
 };
 
 export const TarjetaColapsable = ({
@@ -28,6 +41,7 @@ export const TarjetaColapsable = ({
 	subTitulo,
 	expandido,
 	id,
+	cantidadItems
 }: Props) => {
 	const manejadorExpandido =
 		({id}: any) =>
@@ -50,6 +64,13 @@ export const TarjetaColapsable = ({
 							<Box alignSelf='center'>{titulo}</Box>
 							<Box>
 								<CardActions disableSpacing style={{padding: 0}}>
+									{ 
+										cantidadItems !== undefined && cantidadItems > 0 && 
+											<ChipStyled 
+												size="small" 
+												label={`${cantidadItems} Items`} 
+											/>
+									}	
 									<IconButton
 										className={clsx(classes.expand, {
 											[classes.expandOpen]: expandido === id ? true : false,
