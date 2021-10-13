@@ -23,15 +23,18 @@ import {useTranslation} from 'react-i18next';
 import {BuscarIcon} from 'assests/iconos';
 import { useFiltrarPreciosProductosDelClienteActual } from '../InputFiltroPreciosProductosDelClienteActual/hooks';
 //import {useFiltrarPreciosProductosDelClienteActual} from './hooks/useFiltrarPreciosProductosDelClienteActual';
-// import {debounce} from 'lodash';
-
-
+import {debounce} from 'lodash';
 export type Props = {
 	hookForm: THookForm<TFormTomaDePedido>;
 	stateProductoActual: TStateProductoActual;
 	statePreciosProductos: TStatePreciosProductos;
 	stateInputFocus: TStateInputFocus;
 };
+
+const ingresoValor = (event: any, newValue: TPrecioProducto | null) => {
+
+	console.log("PASE POR function");
+}
 
 const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	const {
@@ -45,85 +48,46 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 
 	const estilos = useEstilos();
 
-	const {preciosProductos} = statePreciosProductos;
+	const {preciosProductos, setPreciosProductos} = statePreciosProductos;
 
-	/*const [options, setOptions] = useState([]);
-	const [inputValue, setInputValue] = useState("");
-	const getOptionsDelayed = useCallback(
-	  debounce((text, callback) => {
-		setOptions([]);
-		//getOptionsAsync(text).then(callback);
-
-		setTimeout(() => {
-			preciosProductos.filter(
-				(o) => o.title.toLowerCase().indexOf(query.toLowerCase()) > -1
-			);
-		}, 1500);
-
-
-	  }, 200),
-	  []
-	);
-	
-	useEffect(() => {
-		getOptionsDelayed(inputValue, (filteredOptions: any) => {
-		  setOptions(filteredOptions);
-		});
-	  }, [inputValue, getOptionsDelayed]);*/
+	const [productoSeleccionado, setProductoSeleccionado] = useState<TPrecioProducto | null>();
+	const [textoIngresado, setTextoIngresado] = useState('');
 
 	return (
 		<>
 			<Grid container>
 				<Grid item xs={12}>	
-					<BuscarIcon />			
 					<Autocomplete
 						className={estilos.cajaAutocomplete}
-						disablePortal
-						id="combo-box-demo"
+						value={productoSeleccionado}
+						onChange={(event: any, nuevoValor: TPrecioProducto | null) => {
+							setProductoSeleccionado(nuevoValor);
+							//console.log("onChange!", productoSeleccionado);
+						}}
+						inputValue={textoIngresado}
+						onInputChange={(event, newInputValue) => {
+							setTextoIngresado(newInputValue);
+							//console.log("onInputChange!", textoIngresado);
+						}}
+						id="autocomplete-seleccionar-producto"
 						options={preciosProductos}
-						getOptionLabel={(option) => option.nombreProducto}
+						getOptionLabel={(option) => option['codigoProducto'].toString()}
 						sx={{ width: 330 }}
 						renderInput={
 							(params) => 
 								<TextField 
 									{...params} 
-									label={`${t('general.agregarProductoSKU')}`}
+									label={`${t('general.agregarProductoSKU')}`} 
 									variant="standard"
 									className={estilos.textSeleccionar}
 									InputProps={{ ...params.InputProps, disableUnderline: true }}
-								/>	
-						}
-						//onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
-						
-						/*InputProps={{
-							endAdornment: (
-								<IconButton
-									aria-label='search'
-									size='small'
-									onClick={() =>
-										mostrarContenidoEnCajon(
-											<BuscadorProductosClienteActual
-												seleccionarProductoDePrecios={
-													seleccionarProductoDePrecios
-												}
-												setMostrarCajon={setMostrarCajon}
-											/>
-										)
-									}
-								>
-									<BuscarIcon />
-								</IconButton>
-							),
-						}}*/
+								/>
+							}
 					/>
 				</Grid>
 			</Grid>
 		</>
 	);
 };
-
-const top100Films = [
-	{ label: 'The Shawshank Redemption', year: 1994 },
-  ];
 
 export default AutocompleteSeleccionarProducto;
