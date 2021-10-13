@@ -29,7 +29,7 @@ const TomaPedido: React.FC = () => {
 	const [productoActual, setProductoActual] = React.useState<TPrecioProducto | null>(null);
 	const [inputFocus, setInputFocus] = React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
 	const visitaActual = useObtenerVisitaActual();
-	const {Venta} = visitaActual.pedidos
+	const {venta} = visitaActual.pedidos
 	const defaultValues: TFormTomaDePedido = {
 		unidades: '',
 		subUnidades: '',
@@ -54,7 +54,7 @@ const TomaPedido: React.FC = () => {
     subTitulo={<Typography variant={'body3'}>Modifica tu pedido con las mejores opciones para tu cliente.</Typography>}
     expandido={expandido}
     setExpandido={setExpandido}
-    cantidadItems={Venta.productos.length}
+    cantidadItems={venta.productos.length}
   >
     <AutocompleteSeleccionarProducto
       hookForm={hookForm}
@@ -63,7 +63,7 @@ const TomaPedido: React.FC = () => {
       stateInputFocus={stateInputFocus} 
     />
     
-    {Venta.productos.length > 0 && Venta.productos.map((producto) =>{
+    {venta.productos.length > 0 && venta.productos.map((producto) =>{
       return <TarjetaDoble key={producto.codigoProducto} izquierda={<Izquierda producto={producto} />} derecha={<Derecha producto={producto} />}/>
     })}
   </TarjetaColapsable>
