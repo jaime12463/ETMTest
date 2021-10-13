@@ -17,12 +17,12 @@ export const useInicializarPedidos = () => {
 				const pedido: TPedido = {
 					codigoPedido: uuidv4(),
 					estado: EEstadosDeUnPedido.Activo,
-					tipoPedido: tipoPedido.codigo,
+					tipoPedido: tipoPedido.codigo.toLowerCase(),
 					fechaEntrega,
 					ordenDeCompra: '',
 					productos: [],
 				};
-				pedidos[tipoPedido.codigo] = pedido;
+				pedidos[tipoPedido.codigo.toLowerCase()] = pedido;
 			});
 			return pedidos;
 		},
