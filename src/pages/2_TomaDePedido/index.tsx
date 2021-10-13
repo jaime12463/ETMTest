@@ -42,7 +42,13 @@ import {
 	cambiarOrdenDeCompra,
 	selectVisitaActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {AgregarRedondoIcon, BotellaIcon, CajaIcon, PromocionesRellenoIcon, QuitarRellenoIcon} from '../../assests/iconos';
+import {
+	AgregarRedondoIcon,
+	BotellaIcon,
+	CajaIcon,
+	PromocionesRellenoIcon,
+	QuitarRellenoIcon,
+} from '../../assests/iconos';
 import {useObtenerClienteActual} from '../../redux/hooks';
 import {InputsKeysFormTomaDePedido, TClienteActual, TFormTomaDePedido, TPrecioProducto, TProductoPedido, TTipoPedido} from 'models';
 
