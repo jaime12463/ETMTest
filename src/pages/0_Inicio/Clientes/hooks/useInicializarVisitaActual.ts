@@ -18,7 +18,7 @@ export const useInicializarVisitaActual = () => {
 
 			const tiposPedidos = configuracion.tipoPedidos;
 
-			const tipoPedidoActual: string = tiposPedidos[0]?.codigo.toLowerCase();
+			const tipoPedidoActual: string = tiposPedidos[0]?.codigo;
 
 			const mostrarPromoPush: boolean = false;
 

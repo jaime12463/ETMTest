@@ -19,7 +19,7 @@ export const useCambiarTipoDePedido = (resetLineaActual: () => void) => {
 		const tipoPedidoConfiguracion = tipoPedidos.find(
 			(tipo) => tipo.codigo === tipoPedido
 		);
-		// ToDo: Obtener el tipo de pedido si tiene
+
 		if (tipoPedidoConfiguracion?.validaPresupuesto) {
 			const presupuestoTipoPedidoSaldo =
 				calcularPresupuestoTipoPedido(tipoPedido);

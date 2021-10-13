@@ -144,7 +144,7 @@ export type TDatosConfiguracion = {
 export type TConfiguracion = {
 	esFrecuenciaAbierta: boolean;
 	habilitaOrdenDeCompra: boolean;
-	TipoPedidoEnvasesHabilitados: string[];
+	tipoPedidoEnvasesHabilitados: string[];
 	tipoPedidos: TTipoPedido[];
 };
 

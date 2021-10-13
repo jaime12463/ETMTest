@@ -8,7 +8,7 @@
 # Mostrar:
 # Condición de pago, código y descripción del envase, unidades y subunidades para retorno, 
 # Precio de la unidad y subunidad, Totales de unidades/subunidades (Toda información no editable)
-# Mostrar una línea por cada TipoPedidoEnvasesHabilitados en el orden informados en la configuración: Descripción del tipo de pedido, caja de unidades y subunidades habilitados según configuración del tipo de pedido.
+# Mostrar una línea por cada tipoPedidoEnvasesHabilitados en el orden informados en la configuración: Descripción del tipo de pedido, caja de unidades y subunidades habilitados según configuración del tipo de pedido.
 
 
 Característica: Mostrar items en tarjetas de envases
