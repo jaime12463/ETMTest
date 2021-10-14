@@ -1,5 +1,4 @@
 import ListadoProductosAgregadosAlPedidoActual from './ListadoProductosAgregadosAlPedidoActual';
-import IndicadoresDelPedidoActual from './IndicadoresDelPedidoActual';
 import TabVentas from './TabVentas';
 import FormularioAgregarProducto from './FormularioAgregarProducto';
 import ItemProductoAgregadoAlPedidoActual from './ItemProductoAgregadoAlPedidoActual';
@@ -17,7 +16,6 @@ import ItemBuscadorProductosClienteActual from './ItemBuscadorProductosClienteAc
 export {
 	TabVentas,
 	ListadoProductosAgregadosAlPedidoActual,
-	IndicadoresDelPedidoActual,
 	FormularioAgregarProducto,
 	TarjetasPromoPush,
 	ItemProductoAgregadoAlPedidoActual,

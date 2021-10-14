@@ -1,11 +1,10 @@
 import React from 'react';
 import {
-	IndicadoresDelPedidoActual,
 	TabVentas,
 	TotalesMetodoDeVentaDelPedidoActual,
 	BotonCerrarPedidoDelCliente,
 } from './components';
-import {TotalesCompromisoDeCobroPedidoActual} from 'pages/3_Otros/CompromisoDeCobro/components/index';
+import {TotalesCompromisoDeCobroPedidoActual} from 'pages/Pasos/3_Otros/CompromisoDeCobro/components/index';
 import {
 	Dialogo,
 	Estructura,
@@ -24,7 +23,7 @@ import {
 	FechaEntregaDelPedidoActual,
 	InfoClienteDelPedidoActual,
 } from 'components/Negocio';
-import CompromisoDeCobro from 'pages/3_Otros/CompromisoDeCobro';
+import CompromisoDeCobro from 'pages/Pasos/3_Otros/CompromisoDeCobro';
 import {validarDeshabilitarTabCompromisoDeCobro} from 'utils/validaciones';
 import {
 	useAppDispatch,
@@ -48,8 +47,8 @@ import {
 	CajaIcon,
 	PromocionesRellenoIcon,
 	QuitarRellenoIcon,
-} from '../../assests/iconos';
-import {useObtenerClienteActual} from '../../redux/hooks';
+} from '../../../assests/iconos';
+import {useObtenerClienteActual} from '../../../redux/hooks';
 import {InputsKeysFormTomaDePedido, TClienteActual, TFormTomaDePedido, TPrecioProducto, TProductoPedido, TTipoPedido} from 'models';
 
 import { useForm } from 'react-hook-form';
@@ -74,10 +73,8 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 			</Estructura.Encabezado>
 			<Estructura.Cuerpo>
 				<Box my={3}>
-					<IndicadoresDelPedidoActual />
 				</Box>
 				<Box my={3}>
-					<Stepper pasoActivo={1} />
 				</Box>
 
 				<TabsPedidoActual value={value} setValue={setValue} />

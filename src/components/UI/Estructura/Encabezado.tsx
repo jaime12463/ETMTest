@@ -22,9 +22,10 @@ interface Props {
 	esConFechaHaciaAtras?: boolean;
 	resetearCliente?: boolean;
 	titulo?: string;
+	onClick?: Function;
 };
 
-const Encabezado : React.FC<Props> = ({children, esConFechaHaciaAtras, acciones, resetearCliente, titulo}) => {
+const Encabezado : React.FC<Props> = ({children, esConFechaHaciaAtras, acciones, resetearCliente, titulo, onClick}) => {
 	const history = useHistory();
 
 	const resetCliente = useResetVisitaActual()
@@ -46,7 +47,7 @@ const Encabezado : React.FC<Props> = ({children, esConFechaHaciaAtras, acciones,
 							{esConFechaHaciaAtras && (
 								<IconButton
 									size='small'
-									onClick={irAtras}
+									onClick={ () => (onClick) ? onClick() : null }
 									data-cy='boton-atras'
 								>
 									<RetrocederIcon style={{color: 'white'}} />

@@ -6,9 +6,13 @@ import {useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import {useInicializarClienteActual} from './hooks';
+import { useResetVisitaActual } from 'hooks';
+
+
 
 const Clientes = () => {
 	const estilos = useEstilos();
+	const resetCliente = useResetVisitaActual();
 
 	const {t} = useTranslation();
 
@@ -26,9 +30,13 @@ const Clientes = () => {
 		parametrosDialogo,
 	} = useMostrarAdvertenciaEnDialogo();
 
+	
+
 	const asignarClienteActual = useInicializarClienteActual(
 		mostrarAdvertenciaEnDialogo
 	);
+
+	//resetCliente();
 
 	return (
 		<Estructura titulo={t('titulos.clientes')}>

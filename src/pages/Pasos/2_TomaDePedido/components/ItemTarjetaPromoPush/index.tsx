@@ -24,7 +24,7 @@ import {useObtenerDatos} from 'redux/hooks';
 import {makeStyles} from '@material-ui/styles';
 import {useTranslation} from 'react-i18next';
 import {formatearNumero} from 'utils/methods';
-import {FlechaAbajoIcon} from '../../../../assests/iconos'
+import {FlechaAbajoIcon} from '../../../../../assests/iconos'
 
 type Props = {
 	item: TPromoPush;
