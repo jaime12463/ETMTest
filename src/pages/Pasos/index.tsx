@@ -3,7 +3,7 @@ import {useHistory} from 'react-router-dom';
 import {
 	IndicadoresDelPedidoActual,
 } from './components';
-import controlador from './controlador';
+import  { controlador, TControlador} from './controlador';
 import {
 	Dialogo,
 	Estructura,
@@ -57,7 +57,7 @@ const Pasos: React.FC = () => {
 				</Box>
 				<Box my={3}>
 					<Stepper 
-						pasos={controlador.map((paso:any) => paso.titulo)} 
+						pasos={controlador.map((paso:TControlador, index) => `${index+1}. ${paso.titulo}` )} 
 						pasoActivo={pasoActual} 	
 					/>
 				</Box>
