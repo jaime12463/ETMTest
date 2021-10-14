@@ -5,8 +5,8 @@
 			"tipoPedidoEnvasesHabilitados": ["VentaEnvase","PrestamoEnvase"],
 			"tipoPedidos": [{
 				"codigo": "Venta",
-				"descripcion": "Venda",
-				"descripcionCorta": "Venda",
+				"descripcion": "Venta",
+				"descripcionCorta": "Venta",
 				"secuencia": 1,	
 				"esValorizado": true,
 				"esMandatorio" : true,
@@ -21,8 +21,8 @@
 				},
 				{
 				"codigo": "Canje",
-				"descripcion": "Troca",
-				"descripcionCorta": "Troca",
+				"descripcion": "Canje",
+				"descripcionCorta": "Canje",
 				"secuencia": 2,	
 				"esValorizada": false,
 				"esMandatorio" : false,

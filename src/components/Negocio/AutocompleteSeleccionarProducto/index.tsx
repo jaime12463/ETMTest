@@ -1,5 +1,4 @@
 import {FunctionComponent, useCallback, useState, useEffect} from 'react';
-import {Dialogo, FormInput, Cajon} from 'components/UI';
 import {
 	TFormTomaDePedido,
 	THookForm,
@@ -9,31 +8,24 @@ import {
 	TStateProductoActual,
 } from 'models';
 import {IconButton, Grid, TextField, Autocomplete, Paper} from '@mui/material';
-import nombresRutas from 'routes/nombresRutas';
-import {useRouteMatch, useHistory} from 'react-router-dom';
-import {useSeleccionarProductoDePrecios} from 'hooks';
+import {useFiltrarPreciosProductosDelClienteActual, useSeleccionarProductoDePrecios} from 'hooks';
 import {
 	useMostrarAdvertenciaEnDialogo,
 	useMostrarContenidoEnCajon,
 } from 'hooks';
 import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';
-//import {useEsPermitidoAgregarProductoAlPedido} from './hooks';
-//import {BuscadorProductosClienteActual} from 'pages/TomaPedidoDelClienteActual/components';
 import {BuscarIcon, AgregarIcon} from 'assests/iconos';
-import { useFiltrarPreciosProductosDelClienteActual } from '../InputFiltroPreciosProductosDelClienteActual/hooks';
-//import {useFiltrarPreciosProductosDelClienteActual} from './hooks/useFiltrarPreciosProductosDelClienteActual';
+import { useEsPermitidoAgregarProductoAlPedido } from './hooks';
+import { Cajon, Dialogo } from 'components/UI';
+import {BuscadorProductosClienteActual} from 'pages/Pasos/2_TomaDePedido/components';
 
 export type Props = {
 	hookForm: THookForm<TFormTomaDePedido>;
 	stateProductoActual: TStateProductoActual;
 	statePreciosProductos: TStatePreciosProductos;
 	stateInputFocus: TStateInputFocus;
-};
-
-const filtrarOpciones = () => {
-
-}
+};	
 
 const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	const {
@@ -49,52 +41,74 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 
 	const {preciosProductos, setPreciosProductos} = statePreciosProductos;
 
+	const {handleSubmit, control, setValue} = hookForm;
+
+	const {setProductoActual} = stateProductoActual;
+
+	const {inputFocus, setInputFocus} = stateInputFocus;
+
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+	useMostrarAdvertenciaEnDialogo();
+
+	const {
+		mostrarCajon,
+		mostrarContenidoEnCajon,
+		parametrosCajon,
+		setMostrarCajon,
+	} = useMostrarContenidoEnCajon();
+
+	const seleccionarProductoDePrecios = useSeleccionarProductoDePrecios(
+		setProductoActual,
+		setValue,
+		preciosProductos,
+		setInputFocus,
+		mostrarAdvertenciaEnDialogo
+	);
+
+	let preciosProductosDelClienteActual: TPrecioProducto[] | undefined = [];
+
+	preciosProductosDelClienteActual = useFiltrarPreciosProductosDelClienteActual(
+		statePreciosProductos
+	);
+
+	const {validarEsPermitidoAgregarProductoAlPedido} =
+		useEsPermitidoAgregarProductoAlPedido();
+
 	const [productoSeleccionado, setProductoSeleccionado] = useState<TPrecioProducto | null>();
 	const [textoIngresado, setTextoIngresado] = useState('');
 	const [opciones, setOpciones] = useState<TPrecioProducto[]> (preciosProductos);
 
-	/*useEffect(() => {
-		if(textoIngresado.length >= 3)
-		{
-			//setOpciones(preciosProductos);
-
-			const opcionesFiltradas = preciosProductos.filter(					
-				(o: TPrecioProducto) => o.codigoProducto.toString().toLowerCase().indexOf(textoIngresado.toLowerCase()) > -1);
-			console.log("opcionesFiltradas", opcionesFiltradas);
-
-			setOpciones(opcionesFiltradas);
-
-			console.log("opciones", opciones);
-		}
-
-		if(textoIngresado.length === 0)
-		{
-			setOpciones(preciosProductos);
-		}
-
-	}, [textoIngresado]);
-
-	useEffect(() => {			
-		setOpciones(preciosProductos);
-		console.log("opciones", opciones);
-	}, []);*/
-
 	return (
 		<>
+			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+			{mostrarCajon.bottom && <Cajon {...parametrosCajon} />}
 			<Grid container>
 				<Grid item xs={12}>	
-					<Grid className={estilos.cajaAutocomplete} style={{ display: "flex" }}>
+					<Grid 
+						className={estilos.cajaAutocomplete} 
+						style={{ display: "flex" }}
+					>
 						<IconButton
 							aria-label='search'
 							size='small'
 							onClick={() =>
-								console.log("Boton lupa")
+								mostrarContenidoEnCajon(
+									<BuscadorProductosClienteActual
+										seleccionarProductoDePrecios={
+											seleccionarProductoDePrecios
+										}
+										setMostrarCajon={setMostrarCajon}
+									/>
+								)
 							}
+							disabled={!validarEsPermitidoAgregarProductoAlPedido()}
 						>
 							<BuscarIcon />
 						</IconButton>
 						<Autocomplete
-							options={preciosProductos}
+							options={preciosProductosDelClienteActual ?? preciosProductos}
+							getOptionLabel={(option) => 
+								option['codigoProducto'].toString() + ' - ' + option['nombreProducto']}
 							value={productoSeleccionado}
 							onChange={(event: any, nuevoValor: TPrecioProducto | null) => {
 								setProductoSeleccionado(nuevoValor);
@@ -104,7 +118,6 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 								setTextoIngresado(newInputValue);
 							}}
 							id="autocomplete-seleccionar-producto"
-							getOptionLabel={(option) => option['codigoProducto'].toString()}
 							sx={{ width: 250}}
 							renderInput={
 								(params) => 
@@ -116,6 +129,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 										InputProps={{ ...params.InputProps, disableUnderline: true }}
 									/>
 								}
+							disabled={!validarEsPermitidoAgregarProductoAlPedido()}
 						/>
 						<IconButton
 							aria-label='search'
@@ -123,6 +137,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 							onClick={() =>
 								console.log("Boton mas")
 							}
+							disabled={!validarEsPermitidoAgregarProductoAlPedido()}
 						>
 							<AgregarIcon/>
 						</IconButton>
