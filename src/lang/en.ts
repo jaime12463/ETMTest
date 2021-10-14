@@ -103,5 +103,11 @@ const en = {
 		cantidadSuperiorEnvases:
 			'The amount exceeds those available for return',		
 	},
+	pasos: {
+		planeacion:'Planning',
+		tomaDePedido:'Order taking',
+		otros:'Others',
+		finalizar:' Finalize order'
+	}
 };
 export default en;

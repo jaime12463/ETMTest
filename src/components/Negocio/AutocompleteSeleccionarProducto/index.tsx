@@ -8,7 +8,7 @@ import {
 	TStatePreciosProductos,
 	TStateProductoActual,
 } from 'models';
-import {IconButton, Grid, TextField, Autocomplete} from '@mui/material';
+import {IconButton, Grid, TextField, Autocomplete, Paper} from '@mui/material';
 import nombresRutas from 'routes/nombresRutas';
 import {useRouteMatch, useHistory} from 'react-router-dom';
 import {useSeleccionarProductoDePrecios} from 'hooks';
@@ -20,11 +20,9 @@ import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';
 //import {useEsPermitidoAgregarProductoAlPedido} from './hooks';
 //import {BuscadorProductosClienteActual} from 'pages/TomaPedidoDelClienteActual/components';
-import {BuscarIcon} from 'assests/iconos';
+import {BuscarIcon, AgregarIcon} from 'assests/iconos';
 import { useFiltrarPreciosProductosDelClienteActual } from '../InputFiltroPreciosProductosDelClienteActual/hooks';
 //import {useFiltrarPreciosProductosDelClienteActual} from './hooks/useFiltrarPreciosProductosDelClienteActual';
-// import {debounce} from 'lodash';
-
 
 export type Props = {
 	hookForm: THookForm<TFormTomaDePedido>;
@@ -32,6 +30,10 @@ export type Props = {
 	statePreciosProductos: TStatePreciosProductos;
 	stateInputFocus: TStateInputFocus;
 };
+
+const filtrarOpciones = () => {
+
+}
 
 const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	const {
@@ -45,85 +47,90 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 
 	const estilos = useEstilos();
 
-	const {preciosProductos} = statePreciosProductos;
+	const {preciosProductos, setPreciosProductos} = statePreciosProductos;
 
-	/*const [options, setOptions] = useState([]);
-	const [inputValue, setInputValue] = useState("");
-	const getOptionsDelayed = useCallback(
-	  debounce((text, callback) => {
-		setOptions([]);
-		//getOptionsAsync(text).then(callback);
+	const [productoSeleccionado, setProductoSeleccionado] = useState<TPrecioProducto | null>();
+	const [textoIngresado, setTextoIngresado] = useState('');
+	const [opciones, setOpciones] = useState<TPrecioProducto[]> (preciosProductos);
 
-		setTimeout(() => {
-			preciosProductos.filter(
-				(o) => o.title.toLowerCase().indexOf(query.toLowerCase()) > -1
-			);
-		}, 1500);
+	/*useEffect(() => {
+		if(textoIngresado.length >= 3)
+		{
+			//setOpciones(preciosProductos);
 
+			const opcionesFiltradas = preciosProductos.filter(					
+				(o: TPrecioProducto) => o.codigoProducto.toString().toLowerCase().indexOf(textoIngresado.toLowerCase()) > -1);
+			console.log("opcionesFiltradas", opcionesFiltradas);
 
-	  }, 200),
-	  []
-	);
-	
-	useEffect(() => {
-		getOptionsDelayed(inputValue, (filteredOptions: any) => {
-		  setOptions(filteredOptions);
-		});
-	  }, [inputValue, getOptionsDelayed]);*/
+			setOpciones(opcionesFiltradas);
+
+			console.log("opciones", opciones);
+		}
+
+		if(textoIngresado.length === 0)
+		{
+			setOpciones(preciosProductos);
+		}
+
+	}, [textoIngresado]);
+
+	useEffect(() => {			
+		setOpciones(preciosProductos);
+		console.log("opciones", opciones);
+	}, []);*/
 
 	return (
 		<>
 			<Grid container>
 				<Grid item xs={12}>	
-					<BuscarIcon />			
-					<Autocomplete
-						className={estilos.cajaAutocomplete}
-						disablePortal
-						id="combo-box-demo"
-						options={preciosProductos}
-						getOptionLabel={(option) => option.nombreProducto}
-						sx={{ width: 330 }}
-						renderInput={
-							(params) => 
-								<TextField 
-									{...params} 
-									label={`${t('general.agregarProductoSKU')}`}
-									variant="standard"
-									className={estilos.textSeleccionar}
-									InputProps={{ ...params.InputProps, disableUnderline: true }}
-								/>	
-						}
-						//onInputChange={(e, newInputValue) => setInputValue(newInputValue)}
-						
-						/*InputProps={{
-							endAdornment: (
-								<IconButton
-									aria-label='search'
-									size='small'
-									onClick={() =>
-										mostrarContenidoEnCajon(
-											<BuscadorProductosClienteActual
-												seleccionarProductoDePrecios={
-													seleccionarProductoDePrecios
-												}
-												setMostrarCajon={setMostrarCajon}
-											/>
-										)
-									}
-								>
-									<BuscarIcon />
-								</IconButton>
-							),
-						}}*/
-					/>
+					<Grid className={estilos.cajaAutocomplete} style={{ display: "flex" }}>
+						<IconButton
+							aria-label='search'
+							size='small'
+							onClick={() =>
+								console.log("Boton lupa")
+							}
+						>
+							<BuscarIcon />
+						</IconButton>
+						<Autocomplete
+							options={preciosProductos}
+							value={productoSeleccionado}
+							onChange={(event: any, nuevoValor: TPrecioProducto | null) => {
+								setProductoSeleccionado(nuevoValor);
+							}}
+							inputValue={textoIngresado}
+							onInputChange={(event, newInputValue) => {
+								setTextoIngresado(newInputValue);
+							}}
+							id="autocomplete-seleccionar-producto"
+							getOptionLabel={(option) => option['codigoProducto'].toString()}
+							sx={{ width: 250}}
+							renderInput={
+								(params) => 
+									<TextField 
+										{...params} 
+										label={`${t('general.agregarProductoSKU')}`} 
+										variant="standard"
+										className={estilos.textSeleccionar}
+										InputProps={{ ...params.InputProps, disableUnderline: true }}
+									/>
+								}
+						/>
+						<IconButton
+							aria-label='search'
+							size='small'
+							onClick={() =>
+								console.log("Boton mas")
+							}
+						>
+							<AgregarIcon/>
+						</IconButton>
+					</Grid>
 				</Grid>
 			</Grid>
 		</>
 	);
 };
-
-const top100Films = [
-	{ label: 'The Shawshank Redemption', year: 1994 },
-  ];
 
 export default AutocompleteSeleccionarProducto;

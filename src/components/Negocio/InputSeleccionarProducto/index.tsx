@@ -18,7 +18,7 @@ import {
 import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';
 import {useEsPermitidoAgregarProductoAlPedido} from './hooks';
-import {BuscadorProductosClienteActual} from 'pages/2_TomaDePedido/components';
+import {BuscadorProductosClienteActual} from 'pages/Pasos/2_TomaDePedido/components';
 import {BuscarIcon} from 'assests/iconos';
 
 export type Props = {

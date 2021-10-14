@@ -9,12 +9,12 @@ import {
 	useObtenerTotalPedidosVisitaActual,
 } from 'hooks';
 import {useTranslation} from 'react-i18next';
-import {useAgregarPedidoActualAPedidosClientes} from 'pages/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
+import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
 import {useObtenerProductosMandatoriosVisitaActual} from 'hooks';
 
 import {useObtenerCompromisoDeCobroActual} from 'redux/hooks';
 import {validarHabilitarBotonCerrarPedido} from 'utils/validaciones/index';
-import {useObtenerClienteActual} from '../../redux/hooks';
+import {useObtenerClienteActual} from '../../../redux/hooks';
 import {TClienteActual} from 'models';
 
 export const FinalizarPedido: React.FC = () => {
@@ -48,7 +48,6 @@ export const FinalizarPedido: React.FC = () => {
 				</Estructura.Encabezado>
 				<Estructura.Cuerpo>
 					<Box my={3}>
-						<Stepper pasoActivo={3} />
 					</Box>
 				</Estructura.Cuerpo>
 				<Estructura.PieDePagina>

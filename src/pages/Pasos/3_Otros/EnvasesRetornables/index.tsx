@@ -22,7 +22,6 @@ const EnvasesRetornables: React.FC = () => {
 			</Estructura.Encabezado>
 			<Estructura.Cuerpo>
 				<Box my={3}>
-					<Stepper pasoActivo={2} />
 				</Box>
 				<ContenedorEnvasesRetornables />
 			</Estructura.Cuerpo>

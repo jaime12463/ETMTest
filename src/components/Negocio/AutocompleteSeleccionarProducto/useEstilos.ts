@@ -12,7 +12,12 @@ const useEstilos = makeStyles(() => ({
 		ontStyle: "normal",
 		fontWeight: "normal",
 		fontSize: "12px",
-		lineHeight: "16px"
+		lineHeight: "16px",
+		display: "flex",
+		alignItems: "center",
+		position: "static",
+		color: "#B2B2B2",
+		bottom: "6px"
 	}
 }));
 
