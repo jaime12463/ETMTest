@@ -18,12 +18,12 @@ import {
 	TPedido,
 	TPrecioProducto,
 	TStateInputFocus,
+	TProductoPedido,
 } from 'models';
 import {
 	useValidarAgregarProductoAlPedidoCliente,
 	useManejadorConfirmarEliminarPedidosNoMandatorios,
-} from '.';
-import {UseFormGetValues} from 'react-hook-form';
+} from './index';
 
 import {
 	validarHayMasProductosMandatorios,
@@ -33,30 +33,29 @@ import {useTranslation} from 'react-i18next';
 import {useObtenerProductosMandatoriosVisitaActual} from 'hooks';
 
 export const useAgregarProductoAlPedidoActual = (
-	productoActual: TPrecioProducto | null,
-	resetLineaActual: () => void,
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
-	getValues: UseFormGetValues<TFormTomaDePedido>
+	codigoProducto: number,
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
 
-	const validarAgregarProductoAlPedidoCliente =
+	/* 	const validarAgregarProductoAlPedidoCliente =
 		useValidarAgregarProductoAlPedidoCliente(
 			mostrarAdvertenciaEnDialogo,
 			productoActual,
 			getValues,
 			resetLineaActual
-		);
+		); */
+
 	const productosMandatoriosVisitaActual =
 		useObtenerProductosMandatoriosVisitaActual();
-	const manejadorConfirmarEliminarPedidosNoMandatorios =
+
+	/* 	const manejadorConfirmarEliminarPedidosNoMandatorios =
 		useManejadorConfirmarEliminarPedidosNoMandatorios(
 			productosMandatoriosVisitaActual.noMandatorios,
-			productoActual?.codigoProducto
-		);
+			codigoProducto
+		); */
 
-		
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const configuracion = useObtenerConfiguracion();
 
@@ -73,43 +72,19 @@ export const useAgregarProductoAlPedidoActual = (
 	const {productos}: TPedido = useObtenerPedidoActual();
 
 	const agregarProductoAlPedidoActual = useCallback(
-		(inputs: TFormTomaDePedido) => {
-			const {unidades, subUnidades, catalogoMotivo} = inputs;
-
-			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
-
-			const subUnidadesParseado: number =
-				subUnidades !== '' ? parseInt(subUnidades) : 0;
-
+		(productoActual: TProductoPedido | undefined) => {
 			if (!productoActual) return;
 
-			const esValidoAgregarProductoAlPedidoCliente: boolean =
-				validarAgregarProductoAlPedidoCliente(inputs);
+			/* 			const esValidoAgregarProductoAlPedidoCliente: boolean =
+				validarAgregarProductoAlPedidoCliente(inputs); */
 
 			const {codigoProducto} = productoActual;
 
-			const productoBuscado = productos.find((producto) => {
-				return producto.codigoProducto === codigoProducto;
-			});
+			/* 			if (!esValidoAgregarProductoAlPedidoCliente) return; */
 
-			if (!esValidoAgregarProductoAlPedidoCliente) return;
-
-			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
+			if (productoActual.unidades > 0 || productoActual.subUnidades > 0) {
 				dispatch(
-					agregarProductoDelPedidoActual({
-						productoPedido: {
-							...productoActual,
-							unidades: 0,
-							subUnidades: 0,
-							total:
-								productoActual.precioConImpuestoUnidad * unidadesParseado +
-								productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
-							tipoPago: productoBuscado
-								? productoBuscado.tipoPago
-								: clienteActual.tipoPagoActual,
-							catalogoMotivo,
-						},
-					})
+					editarProductoDelPedidoActual({productoPedido: productoActual})
 				);
 			} else {
 				if (
@@ -123,7 +98,7 @@ export const useAgregarProductoAlPedidoActual = (
 				) {
 					dispatch(borrarProductoDelPedidoActual({codigoProducto}));
 				} else {
-					mostrarAdvertenciaEnDialogo(
+					/* 					mostrarAdvertenciaEnDialogo(
 						t('advertencias.borrarPedidosNoMandatorios', {
 							tipoPedido: pedidoNoMandatorio?.descripcion,
 						}),
@@ -133,13 +108,11 @@ export const useAgregarProductoAlPedidoActual = (
 							aceptar: t('general.si'),
 							cancelar: t('general.no'),
 						}
-					);
+					); */
 				}
 			}
-
-			resetLineaActual();
 		},
-		[productoActual, validarAgregarProductoAlPedidoCliente, dispatch]
+		[dispatch]
 	);
 	return agregarProductoAlPedidoActual;
 };

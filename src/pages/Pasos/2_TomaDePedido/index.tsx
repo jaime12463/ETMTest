@@ -49,9 +49,16 @@ import {
 	QuitarRellenoIcon,
 } from '../../../assests/iconos';
 import {useObtenerClienteActual} from '../../../redux/hooks';
-import {InputsKeysFormTomaDePedido, TClienteActual, TFormTomaDePedido, TPrecioProducto, TProductoPedido, TTipoPedido} from 'models';
+import {
+	InputsKeysFormTomaDePedido,
+	TClienteActual,
+	TFormTomaDePedido,
+	TPrecioProducto,
+	TProductoPedido,
+	TTipoPedido,
+} from 'models';
 
-import { useForm } from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import TomaPedido from './TomaPedidos';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
@@ -72,15 +79,12 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				<InfoClienteDelPedidoActual />
 			</Estructura.Encabezado>
 			<Estructura.Cuerpo>
-				<Box my={3}>
-				</Box>
-				<Box my={3}>
-				</Box>
+				<Box my={3}></Box>
+				<Box my={3}></Box>
 
-				<TabsPedidoActual value={value} setValue={setValue} />
-				
+				{/* <TabsPedidoActual value={value} setValue={setValue} /> */}
+
 				<TomaPedido />
-
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
 				<BotonBarraInferior

@@ -36,7 +36,6 @@ export const SelectCatalogoMotivos: FunctionComponent<Props> = (props) => {
 		productoActual,
 		resetLineaActual,
 		mostrarAdvertenciaEnDialogo,
-		stateInputFocus,
 		getValues
 	);
 

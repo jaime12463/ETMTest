@@ -31,7 +31,7 @@ import {useTranslation} from 'react-i18next';
 import {
 	useValidarProductoPermiteSubUnidades,
 	useManejadorConfirmarAgregarPedido,
-} from '.';
+} from './index';
 import {UseFormGetValues} from 'react-hook-form';
 
 export const useValidarAgregarProductoAlPedidoCliente = (

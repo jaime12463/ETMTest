@@ -7,7 +7,7 @@ import {
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {
-	agregarProductoDelPedidoActual,
+	agregarEnvaseDelPedidoActual,
 	borrarProductoDelPedidoActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {
@@ -17,11 +17,6 @@ import {
 	TPrecioProducto,
 	ETiposDePago,
 } from 'models';
-
-import {UseFormGetValues} from 'react-hook-form';
-
-import {useTranslation} from 'react-i18next';
-import {useObtenerProductosMandatoriosVisitaActual} from 'hooks';
 
 export const useAgregarProductoAlPedidoActual = () => {
 	const dispatch = useAppDispatch();
@@ -40,7 +35,7 @@ export const useAgregarProductoAlPedidoActual = () => {
 
 			if (unidades > 0 || subUnidades > 0) {
 				dispatch(
-					agregarProductoDelPedidoActual({
+					agregarEnvaseDelPedidoActual({
 						productoPedido: {
 							...productoActual,
 							unidades: unidades,
