@@ -1,42 +1,107 @@
-import {FunctionComponent} from 'react';
 import {
 	Grid,
+	Card,
+	Typography,
 	Box,
-	Table,
-	TableBody,
-	TableContainer,
-	TableRow,
-	TableCell,
+	Stack,
+	IconButton,
+	Input,
+	Button,
+	Collapse,
+	CardActions,
+	CardContent,
+	Divider,
 } from '@mui/material';
-import {Center, Fecha, Numero} from 'components/UI';
-import useEstilos from './useEstilos';
-import React from 'react';
+import {Theme} from '@mui/material';
+import {styled} from '@mui/material/styles';
+import {makeStyles, createStyles} from '@material-ui/styles';
 import clsx from 'clsx';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 import {TPromoPush} from 'models';
 import {useObtenerDatos} from 'redux/hooks';
-import {makeStyles} from '@material-ui/styles';
+import {
+	AgregarRedondoIcon,
+	QuitarRellenoIcon,
+	FlechaAbajoIcon,
+	CajaIcon,
+	BorrarIcon,
+	CheckRedondoIcon,
+} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import {formatearNumero} from 'utils/methods';
-import {FlechaAbajoIcon} from '../../../../../assests/iconos'
 
 type Props = {
-	item: TPromoPush;
+	item: any;
 	onClickItem: (item: any) => void;
 };
 
-/* 2 US */
+const InputStyled = styled(Input)(({}) => ({
+	borderRadius: '10px',
+	border: '1px solid #2F000E',
+	height: '16px',
+	width: '42px',
+	backgroundColor: 'white',
+	fontWeight: 600,
+	lineHeight: '16px',
+	fontSize: '12px',
+}));
+
+const GridStyled = styled(Grid)(({theme}) => ({
+	display: 'flex',
+}));
+
+const ButtonStyled = styled(Button)(({theme}) => ({
+	border: '1.5px solid #651C32',
+	boxSizing: 'border-box',
+	borderRadius: '20px',
+	minHeight: '10px',
+	textTransform: 'none',
+	'&:hover': {
+		background: 'none',
+	},
+}));
+
+const CardStyled = styled(Card)(({theme}) => ({
+	border: '1.5px solid #D9D9D9',
+	boxSizing: 'border-box',
+	borderRadius: ' 8px',
+	minHeight: '124px',
+	minWidth: '304px',
+	boxShadow: 'none',
+}));
+
+const useEstilos = makeStyles((theme: Theme) =>
+	createStyles({
+		expand: {
+			transform: 'rotate(0deg)',
+			padding: 0,
+		},
+		expandOpen: {
+			transform: 'rotate(180deg)',
+		},
+		inactiva: {
+			opacity: 0.6,
+		},
+		cardContent: {
+			'&.MuiCardContent-root': {
+				padding: 0,
+
+				'&.MuiCardContent-root:last-child': {
+					padding: 0,
+				},
+			},
+		},
+	})
+);
 
 const ItemTarjetaPromoPush = (props: any) => {
+	const [expandido, setExpandido] = useState<string | boolean>(false);
+	const [unidades, setUnidades] = useState(0);
 	const {t} = useTranslation();
-	const {item, onClickItem, estado, index} = props;
+	const classes = useEstilos();
+	const {item, onClickItem} = props;
 	const datos = useObtenerDatos();
+
 	const {productos} = datos;
 	const {
 		codigoProducto,
@@ -48,106 +113,156 @@ const ItemTarjetaPromoPush = (props: any) => {
 		promoPush,
 	} = item;
 
-	const classes = useEstilos();
+	const id = '0';
+
+	const manejadorExpandido =
+		({id}: any) =>
+		(event: React.SyntheticEvent) => {
+			setExpandido(id);
+		};
 
 	return (
-		<Card className={classes.root}>
-			<CardHeader
-				onClick={onClickItem({codigo: codigoProducto, modo: 'select'})}
-				title={
-					<Box display='flex ' justifyContent='space-between'>
-						<Typography variant='body2'>{codigoProducto}</Typography>
-						<Typography variant='body2'>
-							Disponible: {unidadesDisponibles}
-						</Typography>
+		<CardStyled
+			sx={
+				unidades > 0
+					? {border: '1.5px solid #00CF91'}
+					: {border: '1.5px solid #D9D9D9'}
+			}
+		>
+			<Grid container p={2}>
+				<GridStyled item xs={6}>
+					<Box display='flex' flexDirection='column'>
+						<Stack spacing={1}>
+							<Box display='flex' flexDirection='column'>
+								<Typography variant='subtitle3'>{codigoProducto}</Typography>
+								<Typography variant='subtitle3'>{nombreProducto}</Typography>
+							</Box>
+							<Box display='flex' flexDirection='column'>
+								<Typography variant='subtitle3'>
+									{formatearNumero(precioConImpuestoUnidad, t)}
+								</Typography>
+							</Box>
+							<Box display='flex' flexDirection='column'>
+								<Typography color='primary' variant='caption'>
+									Ahorras: {formatearNumero(descuento, t)}
+								</Typography>
+							</Box>
+						</Stack>
 					</Box>
-				}
-				style={{
-					backgroundColor: '#c7d2fb',
-					paddingLeft: 6,
-					paddingRight: 6,
-					paddingBottom: 5,
-					paddingTop: 5,
-				}}
-				disableTypography={true}
-			/>
-			<CardContent className={classes.cardContent}>
-				<Typography variant='caption' component='p'>
-					<strong> {nombreProducto} </strong>
-				</Typography>
-				<Grid container>
-					<Grid item xs={10}>
-						<Grid container>
-							<Grid item>
-								<Typography variant='caption'>
-									Descuento: {formatearNumero(descuento, t)}
+				</GridStyled>
+				<GridStyled item xs={6} p={1}>
+					<Stack spacing={1}>
+						<Box textAlign='right'>
+							<Typography variant='caption'>Aplicación maxima</Typography>
+						</Box>
+						<Box>
+							<IconButton size='small'>
+								<QuitarRellenoIcon
+									width='18px'
+									height='18px'
+									onClick={() => setUnidades(unidades - 1)}
+								/>
+							</IconButton>
+							<InputStyled
+								value={unidades}
+								disableUnderline
+								inputProps={{style: {textAlign: 'center'}}}
+							/>
+							<IconButton size='small'>
+								<AgregarRedondoIcon
+									width='18px'
+									height='18px'
+									onClick={() => setUnidades(unidades + 1)}
+								/>
+							</IconButton>
+							<Typography variant={'subtitle3'} fontWeight={700}>
+								/ {unidadesDisponibles}
+							</Typography>
+						</Box>
+					</Stack>
+				</GridStyled>
+				<Grid xs={12}>
+					<CardContent>
+						<Collapse in={expandido === id} timeout='auto' unmountOnExit>
+							<Stack>
+								<Divider />
+								<Typography variant={'subtitle3'} fontWeight={700} mt={1}>
+									Paquetes
 								</Typography>
-							</Grid>
-
-							<Grid item xs={6} />
-							<Grid item>
-								<Typography variant='caption'>
-									Total: {formatearNumero(precioConImpuestoUnidad, t)}
-								</Typography>
-							</Grid>
-						</Grid>
-					</Grid>
-				</Grid>
-				<CardActions disableSpacing style={{padding: 0, display:'flex', flexDirection: 'row-reverse'}}>
-					<IconButton
-						className={clsx(classes.expand, {
-							[classes.expandOpen]: estado === index ? true : false,
-						})}
-						onClick={onClickItem({
-							estado: estado === index ? false : index,
-							modo: 'expand',
-						})}
-						aria-expanded={estado === index ? true : false}
-					>
-						<FlechaAbajoIcon />	
-					</IconButton>
-				</CardActions>
-				<Collapse in={estado === index} timeout='auto' unmountOnExit>
-					<CardContent className={classes.cardContentExpand}>
-						<TableContainer>
-							<Table size='small'>
-								<TableBody>
+								<Box>
 									{componentes &&
 										componentes.map((el: any, i: number) => (
 											<React.Fragment key={i}>
-												<TableRow>
-													<TableCell
-														colSpan={4}
-														className={classes.celdaProducto}
-													>
-														{`${el.codigoProducto} ${
-															productos[el.codigoProducto].nombre
-														}  ${promoPush.componentes[i].cantidad} ${
-															promoPush.componentes[i].unidadMedida
-														}`}
-													</TableCell>
-												</TableRow>
-												<TableRow>
-													<TableCell />
-													<TableCell className={classes.celdaValores}>
-														Precio: {formatearNumero(el.precioBase, t)}
-													</TableCell>
-													<TableCell className={classes.celdaValores}>
-														Descuento: {formatearNumero(el.descuento, t)}
-													</TableCell>
-													<TableCell className={classes.celdaValores}>
-														Total: {formatearNumero(el.precioFinal, t)}
-													</TableCell>
-												</TableRow>
+												<Grid container mt={1}>
+													<GridStyled xs={8}>
+														<Box display='flex' flexDirection='column'>
+															<Typography variant='subtitle3'>
+																{el.codigoProducto}
+															</Typography>
+															<Typography variant='subtitle3'>
+																{productos[el.codigoProducto].nombre}
+															</Typography>
+														</Box>
+													</GridStyled>
+													<GridStyled xs={4}>
+														<Box display='flex' flexDirection='column'>
+															<Box display='flex' textAlign='center'>
+																<CajaIcon width={'19px'} height='14px' />
+																<Typography variant='caption' mt={0.3}>
+																	{`x${promoPush.componentes[i].cantidad}
+																	${formatearNumero(el.precioBase, t)}`}
+																</Typography>
+															</Box>
+															<Box>
+																<Typography color='primary' variant='caption'>
+																	Ahorras: {formatearNumero(el.descuento, t)}
+																</Typography>
+															</Box>
+															<Box>
+																<Typography variant='subtitle3'>
+																	Total: {formatearNumero(el.precioFinal, t)}
+																</Typography>
+															</Box>
+														</Box>
+													</GridStyled>
+												</Grid>
+												<Divider />
 											</React.Fragment>
 										))}
-								</TableBody>
-							</Table>
-						</TableContainer>
+								</Box>
+							</Stack>
+						</Collapse>
 					</CardContent>
-				</Collapse>
-			</CardContent>
-		</Card>
+				</Grid>
+				<Grid item xs={12}>
+					<ButtonStyled
+						disableFocusRipple
+						fullWidth
+						disableRipple
+						onClick={manejadorExpandido({
+							id: expandido === id ? false : id,
+						})}
+					>
+						<CardActions disableSpacing style={{padding: 0}}>
+							<Box display='flex'>
+								<Typography variant='caption' color='secondary'>
+									Ver detalle
+								</Typography>
+								<IconButton
+									className={clsx(classes.expand, {
+										[classes.expandOpen]: expandido === id ? true : false,
+									})}
+									aria-expanded={expandido === id ? true : false}
+									style={{padding: 0}}
+								>
+									<FlechaAbajoIcon width='10px' height='10px' />
+								</IconButton>
+							</Box>
+						</CardActions>
+					</ButtonStyled>
+				</Grid>
+			</Grid>
+		</CardStyled>
 	);
 };
 

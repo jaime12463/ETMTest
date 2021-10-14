@@ -21,6 +21,8 @@ const BuscadorProductosClienteActual: FunctionComponent<Props> = ({
 	const filtrarPreciosProductosDelClienteActual = useFiltrarPreciosProductosDelClienteActual(
 		{preciosProductos, setPreciosProductos}
 	);
+
+	
 	const onClickItem = (item: TPrecioProducto) => {
 		seleccionarProductoDePrecios({
 			productoABuscar: item.codigoProducto.toString(),

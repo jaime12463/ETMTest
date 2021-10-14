@@ -8,8 +8,8 @@ export {BotonCerrarPedidoDelCliente} from './BotonCerrarPedidoDelCliente';
 export {SwitchCambiarTipoPago} from './SwitchCambiarTipoPago';
 export {SelectTipoDePedido} from './SelectTipoDePedido';
 export {InfoProductoActual} from './InfoProductoActual';
-import TarjetasPromoPush from 'pages/2_TomaDePedido/PromoPush/TarjetasPromoPush';
-import ItemTarjetaPromoPush from '../PromoPush/ItemTarjetaPromoPush';
+import TarjetasPromoPush from '../components/TarjetasPromoPush';
+import ItemTarjetaPromoPush from '../components/ItemTarjetaPromoPush';
 import BuscadorProductosClienteActual from './BuscadorProductosClienteActual';
 import ItemBuscadorProductosClienteActual from './ItemBuscadorProductosClienteActual';
 
