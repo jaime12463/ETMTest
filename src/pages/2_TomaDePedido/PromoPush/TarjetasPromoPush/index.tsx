@@ -1,6 +1,6 @@
 import {List, Dialogo} from 'components/UI';
 import {Dispatch, FunctionComponent, SetStateAction} from 'react';
-import {ItemTarjetaPromoPush} from '..';
+import ItemTarjetaPromoPush from '../ItemTarjetaPromoPush/index';
 import {
 	useObtenerPromoPushDelCliente,
 	useMostrarAdvertenciaEnDialogo,
@@ -38,11 +38,8 @@ const TarjetasPromoPush: FunctionComponent<Props> = (props) => {
 		}
 	};
 
-	const {
-		mostrarAdvertenciaEnDialogo,
-		mostarDialogo,
-		parametrosDialogo,
-	} = useMostrarAdvertenciaEnDialogo();
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+		useMostrarAdvertenciaEnDialogo();
 
 	const seleccionarProductoDePrecios = useSeleccionarProductoDePrecios(
 		setProductoActual,

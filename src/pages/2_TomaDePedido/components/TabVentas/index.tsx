@@ -41,7 +41,7 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 		unidades: '',
 		subUnidades: '',
 		productoABuscar: '',
-		tipoDePedido: visitaActual.tipoPedidoActual.toString(),
+		tipoDePedido: visitaActual.tipoPedidoActual,
 		catalogoMotivo: '',
 	};
 
@@ -58,8 +58,6 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 		obtenerDatosTipoPedido();
 
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
-
-
 
 	return (
 		<Fragment>
