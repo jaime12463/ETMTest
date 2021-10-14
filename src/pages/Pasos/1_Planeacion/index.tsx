@@ -1,11 +1,14 @@
+import React from 'react';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { TarjetaColapsable } from 'components/UI';
-import { useState } from 'react';
+
+
 export const Planeacion: React.FC = () => {
-	const [expandido, setExpandido] = useState<string | boolean>(false);
+	const [expandido, setExpandido] = React.useState<string | boolean>(false);
 
 	return (
-		<div>
+		<Stack spacing={2} >
 			<TarjetaColapsable
 					titulo={<Typography variant={'subtitle1'}>Pedidos en curso</Typography>}
 					subTitulo={
@@ -32,6 +35,6 @@ export const Planeacion: React.FC = () => {
 			>
 				<div>SUGERIDOS PARA TI PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
-	  </div>
+	  </Stack>
 	);
 };
