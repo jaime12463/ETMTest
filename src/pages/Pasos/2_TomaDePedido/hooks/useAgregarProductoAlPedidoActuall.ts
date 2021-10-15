@@ -10,6 +10,7 @@ import {
 	editarProductoDelPedidoActual,
 	borrarProductoDelPedidoActual,
 	agregarProductoDelPedidoActual,
+	borrarProductosDeVisitaActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {
 	TClienteActual,
@@ -33,28 +34,17 @@ import {useTranslation} from 'react-i18next';
 import {useObtenerProductosMandatoriosVisitaActual} from 'hooks';
 
 export const useAgregarProductoAlPedidoActual = (
-	codigoProducto: number,
+	codigoProducto: number | undefined,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
 
-	/* 	const validarAgregarProductoAlPedidoCliente =
-		useValidarAgregarProductoAlPedidoCliente(
-			mostrarAdvertenciaEnDialogo,
-			productoActual,
-			getValues,
-			resetLineaActual
-		); */
+	/* const validarAgregarProductoAlPedidoCliente =
+		useValidarAgregarProductoAlPedidoCliente(mostrarAdvertenciaEnDialogo);  */
 
 	const productosMandatoriosVisitaActual =
 		useObtenerProductosMandatoriosVisitaActual();
-
-	/* 	const manejadorConfirmarEliminarPedidosNoMandatorios =
-		useManejadorConfirmarEliminarPedidosNoMandatorios(
-			productosMandatoriosVisitaActual.noMandatorios,
-			codigoProducto
-		); */
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const configuracion = useObtenerConfiguracion();
@@ -71,12 +61,30 @@ export const useAgregarProductoAlPedidoActual = (
 
 	const {productos}: TPedido = useObtenerPedidoActual();
 
+	const manejadorConfirmarEliminarPedidosNoMandatorios = (
+		oprimioBotonAceptar: boolean
+	) => {
+		if (oprimioBotonAceptar && codigoProducto) {
+			productosMandatoriosVisitaActual.noMandatorios.forEach(
+				(pedido: TPedido) => {
+					dispatch(
+						borrarProductosDeVisitaActual({
+							tipoPedidoActual: pedido.tipoPedido,
+						})
+					);
+				}
+			);
+
+			dispatch(borrarProductoDelPedidoActual({codigoProducto: codigoProducto}));
+		}
+	};
+
 	const agregarProductoAlPedidoActual = useCallback(
 		(productoActual: TProductoPedido | undefined) => {
 			if (!productoActual) return;
 
-			/* 			const esValidoAgregarProductoAlPedidoCliente: boolean =
-				validarAgregarProductoAlPedidoCliente(inputs); */
+			/* 		const esValidoAgregarProductoAlPedidoCliente: boolean =
+				validarAgregarProductoAlPedidoCliente(productoActual); */
 
 			const {codigoProducto} = productoActual;
 
@@ -98,7 +106,7 @@ export const useAgregarProductoAlPedidoActual = (
 				) {
 					dispatch(borrarProductoDelPedidoActual({codigoProducto}));
 				} else {
-					/* 					mostrarAdvertenciaEnDialogo(
+					mostrarAdvertenciaEnDialogo(
 						t('advertencias.borrarPedidosNoMandatorios', {
 							tipoPedido: pedidoNoMandatorio?.descripcion,
 						}),
@@ -108,11 +116,11 @@ export const useAgregarProductoAlPedidoActual = (
 							aceptar: t('general.si'),
 							cancelar: t('general.no'),
 						}
-					); */
+					);
 				}
 			}
 		},
-		[dispatch]
+		[dispatch, codigoProducto]
 	);
 	return agregarProductoAlPedidoActual;
 };

@@ -228,7 +228,16 @@ const Derecha: React.FC<Props> = ({producto}) => {
 					</Grid>
 					<Grid item>
 						<IconButton size='small'>
-							<QuitarRellenoIcon width='18px' height='18px' />
+							<QuitarRellenoIcon
+								width='18px'
+								height='18px'
+								onClick={() =>
+									agregarProductoAlPedido({
+										...producto,
+										unidades: producto.unidades - 1,
+									})
+								}
+							/>
 						</IconButton>
 					</Grid>
 					<Grid item>
@@ -243,12 +252,12 @@ const Derecha: React.FC<Props> = ({producto}) => {
 							<AgregarRedondoIcon
 								width='18px'
 								height='18px'
-								onClick={() =>
+								/* 								onClick={() =>
 									agregarProductoAlPedido({
 										...producto,
 										unidades: producto.unidades + 1,
 									})
-								}
+								} */
 							/>
 						</IconButton>
 					</Grid>

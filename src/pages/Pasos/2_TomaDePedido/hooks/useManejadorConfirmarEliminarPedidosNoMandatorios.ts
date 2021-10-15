@@ -10,7 +10,10 @@ export const useManejadorConfirmarEliminarPedidosNoMandatorios = (
 	noMandatorios: TPedido[],
 	codigoProductoActual: number | undefined
 ) => {
+	//if (!codigoProductoActual) return;
 	const dispatch = useAppDispatch();
+
+	console.log('entro1')
 
 	const manejadorConfirmarEliminarPedidosNoMandatorios = useCallback(
 		(oprimioBotonAceptar: boolean) => {
@@ -28,7 +31,7 @@ export const useManejadorConfirmarEliminarPedidosNoMandatorios = (
 				);
 			}
 		},
-		[noMandatorios]
+		[noMandatorios, codigoProductoActual]
 	);
 
 	return manejadorConfirmarEliminarPedidosNoMandatorios;

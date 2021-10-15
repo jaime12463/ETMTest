@@ -70,33 +70,11 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const {razonSocial}: TClienteActual = useObtenerClienteActual();
 
 	return (
-		<Estructura>
-			<Estructura.Encabezado
-				esConFechaHaciaAtras={true}
-				titulo={razonSocial}
-				// acciones={<BotonVerPedidosDelClienteActual />}
-			>
-				<InfoClienteDelPedidoActual />
-			</Estructura.Encabezado>
-			<Estructura.Cuerpo>
-				<Box my={3}></Box>
-				<Box my={3}></Box>
+		<>
+			{/* <TabsPedidoActual value={value} setValue={setValue} /> */}
 
-				{/* <TabsPedidoActual value={value} setValue={setValue} /> */}
-
-				<TomaPedido />
-			</Estructura.Cuerpo>
-			<Estructura.PieDePagina>
-				<BotonBarraInferior
-					descripcion='Continuar a Toma de pedido'
-					numeroItems={130}
-					total='1000.00$'
-					onClick={() =>
-						history.push(`${path}${nombresRutas.envasesRetornables}`)
-					}
-				/>
-			</Estructura.PieDePagina>
-		</Estructura>
+			<TomaPedido />
+		</>
 	);
 };
 
