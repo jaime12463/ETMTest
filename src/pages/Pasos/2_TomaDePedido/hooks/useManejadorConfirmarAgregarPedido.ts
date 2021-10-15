@@ -15,8 +15,7 @@ import {useAppDispatch} from 'redux/hooks';
 export const useManejadorConfirmarAgregarPedido = (
 	productoActual: TPrecioProducto | null,
 	clienteActual: TClienteActual,
-	getValues: UseFormGetValues<TFormTomaDePedido>,
-	resetLineaActual: () => void
+	getValues: UseFormGetValues<TFormTomaDePedido>
 ) => {
 	const dispatch = useAppDispatch();
 
@@ -47,8 +46,6 @@ export const useManejadorConfirmarAgregarPedido = (
 						},
 					})
 				);
-
-				resetLineaActual();
 			}
 		},
 		[productoActual]

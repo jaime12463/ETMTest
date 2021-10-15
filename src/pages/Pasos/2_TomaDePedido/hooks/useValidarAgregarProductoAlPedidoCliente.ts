@@ -7,7 +7,6 @@ import {
 	TPrecioProducto,
 	TStateInputFocus,
 	TTipoPedido,
-	TProductoPedido,
 } from 'models';
 import {useCallback} from 'react';
 import {
@@ -32,10 +31,13 @@ import {useTranslation} from 'react-i18next';
 import {
 	useValidarProductoPermiteSubUnidades,
 	useManejadorConfirmarAgregarPedido,
-} from './index';
+} from '.';
+import {UseFormGetValues} from 'react-hook-form';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	productoActual: TPrecioProducto | null,
+	getValues: UseFormGetValues<TFormTomaDePedido>
 ) => {
 	const {t} = useTranslation();
 
@@ -60,40 +62,39 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 	);
 
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
-	/* 
+
 	const manejadorConfirmarAgregarPedido = useManejadorConfirmarAgregarPedido(
 		productoActual,
 		clienteActual,
-
+		getValues
 	);
- */
+
 	const validarAgregarProductoAlPedidoCliente = useCallback(
-		(productoActual: TProductoPedido | undefined): boolean => {
-			//const {unidades, subUnidades} = productoActual;
+		(inputs: TFormTomaDePedido): boolean => {
+			const {unidades, subUnidades, productoABuscar} = inputs;
 
 			let esValidacionCorrecta: boolean = false;
 
 			if (!productoActual) {
-				/* 				mostrarAdvertenciaEnDialogo(
+				mostrarAdvertenciaEnDialogo(
 					t('error.noProductoActual'),
 					'no-producto-actual'
-				); */
+				);
 				return esValidacionCorrecta;
 			}
 
 			if (!datosCliente) {
-				/* 				mostrarAdvertenciaEnDialogo(
+				mostrarAdvertenciaEnDialogo(
 					t('error.NoDatosCliente'),
 					'no-datos-cliente'
-				); */
+				);
 				return esValidacionCorrecta;
 			}
 
-			/* 			const unidadesParseado: number =
-				productoActual.unidades !== '' ? parseInt(unidades) : 0;
+			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
 
 			const subUnidadesParseado: number =
-				subUnidades !== '' ? parseInt(subUnidades) : 0; */
+				subUnidades !== '' ? parseInt(subUnidades) : 0;
 
 			const {presentacion, subunidadesVentaMinima, esVentaSubunidades} =
 				productoActual;
@@ -107,9 +108,9 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			if (datosTipoPedidoActual?.validaPresupuesto) {
 				const saldoPresupuesto = calcularPresupuestoPedidoActual(
 					pedidoActual,
-					productoActual.unidades,
-					productoActual.subUnidades,
-					productoActual.codigoProducto,
+					unidadesParseado,
+					subUnidadesParseado,
+					parseInt(productoABuscar),
 					presentacion
 				);
 
@@ -124,7 +125,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				}
 			}
 
-			if (!esPermitidoSubUnidades && productoActual.unidades !== 0) {
+			if (!esPermitidoSubUnidades && subUnidadesParseado !== 0) {
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.subUnidadesNoPermitidas'),
 					'sub-unidades-no-permitidas'
@@ -134,7 +135,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 
 			const esSubUnidadesMenorAPresentacion = validarSubUnidadesConPresentacion(
 				presentacion,
-				productoActual.subUnidades
+				subUnidadesParseado
 			);
 
 			if (!esSubUnidadesMenorAPresentacion) {
@@ -145,9 +146,11 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				return esValidacionCorrecta;
 			}
 
+			console.log(subUnidadesParseado);
+
 			const esSubUnidadEsMultiplo = validarSubUnidadesEsMultiplo(
 				subunidadesVentaMinima,
-				productoActual.subUnidades
+				subUnidadesParseado
 			);
 
 			if (
@@ -165,11 +168,11 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 
 			if (
 				typeof productoActual.unidadesDisponibles !== 'undefined' &&
-				productoActual.unidades !== 0
+				unidadesParseado !== 0
 			) {
 				const unidadesDisponibles = validarUnidadesDisponibles(
 					pedidosCliente,
-					productoActual.unidades,
+					unidadesParseado,
 					productoActual
 				);
 
@@ -187,11 +190,11 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			const {configuracionPedido}: TCliente = datosCliente;
 
 			const esUnidadesMenorAlMaximoUnidades = validarUnidadesMinimasProducto(
-				productoActual.unidades,
+				unidadesParseado,
 				configuracionPedido
 			);
 
-			/* 			if (!esUnidadesMenorAlMaximoUnidades) {
+			if (!esUnidadesMenorAlMaximoUnidades) {
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.cantidadEsMayor', {
 						cantidad: configuracionPedido.cantidadMaximaUnidades,
@@ -204,13 +207,20 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					}
 				);
 				return esValidacionCorrecta;
-			} */
+			}
 
 			esValidacionCorrecta = true;
 
 			return esValidacionCorrecta;
 		},
-		[clienteActual, datos, datosCliente, mostrarAdvertenciaEnDialogo, t]
+		[
+			productoActual,
+			clienteActual,
+			datos,
+			datosCliente,
+			mostrarAdvertenciaEnDialogo,
+			t,
+		]
 	);
 	return validarAgregarProductoAlPedidoCliente;
 };

@@ -10,7 +10,6 @@ import {
 	editarProductoDelPedidoActual,
 	borrarProductoDelPedidoActual,
 	agregarProductoDelPedidoActual,
-	borrarProductosDeVisitaActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {
 	TClienteActual,
@@ -24,7 +23,8 @@ import {
 import {
 	useValidarAgregarProductoAlPedidoCliente,
 	useManejadorConfirmarEliminarPedidosNoMandatorios,
-} from './index';
+} from '.';
+import {UseFormGetValues} from 'react-hook-form';
 
 import {
 	validarHayMasProductosMandatorios,
@@ -34,17 +34,27 @@ import {useTranslation} from 'react-i18next';
 import {useObtenerProductosMandatoriosVisitaActual} from 'hooks';
 
 export const useAgregarProductoAlPedidoActual = (
-	codigoProducto: number | undefined,
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
+	productoActual: TProductoPedido | null,
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	getValues: any,
+	setGetValues: any
 ) => {
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
 
-	/* const validarAgregarProductoAlPedidoCliente =
-		useValidarAgregarProductoAlPedidoCliente(mostrarAdvertenciaEnDialogo);  */
-
+	const validarAgregarProductoAlPedidoCliente =
+		useValidarAgregarProductoAlPedidoCliente(
+			mostrarAdvertenciaEnDialogo,
+			productoActual,
+			getValues
+		);
 	const productosMandatoriosVisitaActual =
 		useObtenerProductosMandatoriosVisitaActual();
+	const manejadorConfirmarEliminarPedidosNoMandatorios =
+		useManejadorConfirmarEliminarPedidosNoMandatorios(
+			productosMandatoriosVisitaActual.noMandatorios,
+			productoActual?.codigoProducto
+		);
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const configuracion = useObtenerConfiguracion();
@@ -61,38 +71,51 @@ export const useAgregarProductoAlPedidoActual = (
 
 	const {productos}: TPedido = useObtenerPedidoActual();
 
-	const manejadorConfirmarEliminarPedidosNoMandatorios = (
-		oprimioBotonAceptar: boolean
-	) => {
-		if (oprimioBotonAceptar && codigoProducto) {
-			productosMandatoriosVisitaActual.noMandatorios.forEach(
-				(pedido: TPedido) => {
-					dispatch(
-						borrarProductosDeVisitaActual({
-							tipoPedidoActual: pedido.tipoPedido,
-						})
-					);
-				}
-			);
-
-			dispatch(borrarProductoDelPedidoActual({codigoProducto: codigoProducto}));
-		}
-	};
-
 	const agregarProductoAlPedidoActual = useCallback(
-		(productoActual: TProductoPedido | undefined) => {
+		(inputs: any) => {
+			const {unidades, subUnidades, catalogoMotivo} = inputs;
+
+			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
+
+			const subUnidadesParseado: number =
+				subUnidades !== '' ? parseInt(subUnidades) : 0;
+
 			if (!productoActual) return;
 
-			/* 		const esValidoAgregarProductoAlPedidoCliente: boolean =
-				validarAgregarProductoAlPedidoCliente(productoActual); */
+			const esValidoAgregarProductoAlPedidoCliente: boolean =
+				validarAgregarProductoAlPedidoCliente(inputs);
 
 			const {codigoProducto} = productoActual;
 
-			/* 			if (!esValidoAgregarProductoAlPedidoCliente) return; */
+			const productoBuscado = productos.find((producto) => {
+				return producto.codigoProducto === codigoProducto;
+			});
 
-			if (productoActual.unidades > 0 || productoActual.subUnidades > 0) {
+			if (!esValidoAgregarProductoAlPedidoCliente)
+				return setGetValues({
+					unidades: productoActual.unidades,
+					subUnidades: productoActual.subUnidades,
+					productoABuscar: '',
+					tipoDePedido: visitaActual.tipoPedidoActual,
+					catalogoMotivo: '',
+				});
+
+			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
 				dispatch(
-					editarProductoDelPedidoActual({productoPedido: productoActual})
+					agregarProductoDelPedidoActual({
+						productoPedido: {
+							...productoActual,
+							unidades: unidadesParseado,
+							subUnidades: subUnidadesParseado,
+							total:
+								productoActual.precioConImpuestoUnidad * unidadesParseado +
+								productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
+							tipoPago: productoBuscado
+								? productoBuscado.tipoPago
+								: clienteActual.tipoPagoActual,
+							catalogoMotivo,
+						},
+					})
 				);
 			} else {
 				if (
@@ -104,7 +127,7 @@ export const useAgregarProductoAlPedidoActual = (
 						productosMandatoriosVisitaActual.noMandatorios
 					)
 				) {
-					dispatch(borrarProductoDelPedidoActual({codigoProducto}));
+				/* 	dispatch(borrarProductoDelPedidoActual({codigoProducto})); */
 				} else {
 					mostrarAdvertenciaEnDialogo(
 						t('advertencias.borrarPedidosNoMandatorios', {
@@ -120,7 +143,7 @@ export const useAgregarProductoAlPedidoActual = (
 				}
 			}
 		},
-		[dispatch, codigoProducto]
+		[productoActual, validarAgregarProductoAlPedidoCliente, dispatch]
 	);
 	return agregarProductoAlPedidoActual;
 };

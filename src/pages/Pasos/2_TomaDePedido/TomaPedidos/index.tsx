@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
 	InputsKeysFormTomaDePedido,
 	TClienteActual,
@@ -6,6 +6,8 @@ import {
 	TPrecioProducto,
 	TProductoPedido,
 	TTipoPedido,
+	TStateInputFocus,
+	TVisita,
 } from 'models';
 import {
 	useAppDispatch,
@@ -17,18 +19,10 @@ import {
 	useInicializarPreciosProductosDelClienteActual,
 	useObtenerDatosTipoPedido,
 } from 'hooks';
-import {
-	editarProductoDelPedidoActual,
-	borrarProductoDelPedidoActual,
-	agregarProductoDelPedidoActual,
-} from 'redux/features/visitaActual/visitaActualSlice';
+import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 
 import {TarjetaColapsable, TarjetaDoble, Dialogo} from 'components/UI';
-import {
-	AutocompleteSeleccionarProducto,
-	InputsUnidadesYSubUnidades,
-	InputSeleccionarProducto,
-} from 'components/Negocio';
+import {InputSeleccionarProducto} from 'components/Negocio';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import {
@@ -40,8 +34,7 @@ import {
 import {IconButton} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import Input from '@mui/material/Input';
-import {useAgregarProductoAlPedidoActual} from '../hooks/useAgregarProductoAlPedidoActuall';
-
+import {useAgregarProductoAlPedidoActual} from '../hooks';
 import {
 	useMostrarAdvertenciaEnDialogo,
 	useMostrarContenidoEnCajon,
@@ -66,8 +59,10 @@ const TomaPedido: React.FC = () => {
 	>([]);
 	const [productoActual, setProductoActual] =
 		React.useState<TPrecioProducto | null>(null);
+
 	const [inputFocus, setInputFocus] =
 		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
+
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
 	const defaultValues: TFormTomaDePedido = {
@@ -136,19 +131,25 @@ const TomaPedido: React.FC = () => {
 				stateInputFocus={stateInputFocus}
 			/>
 
-			<InputsUnidadesYSubUnidades
-				hookForm={hookForm}
-				stateProductoActual={{productoActual, setProductoActual}}
-				stateInputFocus={stateInputFocus}
-			/>
-
 			{venta.productos.length > 0 &&
 				venta.productos.map((producto) => {
 					return (
 						<TarjetaDoble
 							key={producto.codigoProducto}
-							izquierda={<Izquierda producto={producto} />}
-							derecha={<Derecha producto={producto} />}
+							izquierda={
+								<Izquierda
+									producto={producto}
+									stateInputFocus={stateInputFocus}
+									visitaActual={visitaActual}
+								/>
+							}
+							derecha={
+								<Derecha
+									producto={producto}
+									stateInputFocus={stateInputFocus}
+									visitaActual={visitaActual}
+								/>
+							}
 						/>
 					);
 				})}
@@ -158,11 +159,11 @@ const TomaPedido: React.FC = () => {
 
 interface Props {
 	producto: TProductoPedido;
+	stateInputFocus: TStateInputFocus;
+	visitaActual: TVisita;
 }
 
 const Izquierda: React.FC<Props> = ({producto}) => {
-	console.log(producto);
-
 	return (
 		<Grid container direction='column' padding={2}>
 			<Grid item>
@@ -172,7 +173,6 @@ const Izquierda: React.FC<Props> = ({producto}) => {
 				<Typography fontSize='12px' fontFamily='Poppins' fontWeight='600'>
 					{producto.nombreProducto.toUpperCase()}
 				</Typography>
-				{/* <Typography fontSize="10px">12 oz | Vidrio | Retornable</Typography> A DEFINIR DE DONDE VIENE ESTA INFO */}
 			</Grid>
 			<Grid container direction='row' spacing={0.5} alignItems='center'>
 				<Grid item>
@@ -202,13 +202,67 @@ const Izquierda: React.FC<Props> = ({producto}) => {
 	);
 };
 
-const Derecha: React.FC<Props> = ({producto}) => {
+const Derecha: React.FC<Props> = ({
+	producto,
+	stateInputFocus,
+	visitaActual,
+}) => {
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
 
-	const agregarProductoAlPedido = useAgregarProductoAlPedidoActual(
-		producto.codigoProducto,
-		mostrarAdvertenciaEnDialogo
+	const defaultValues = {
+		unidades: producto.unidades,
+		subUnidades: producto.subUnidades,
+		productoABuscar: '',
+		tipoDePedido: visitaActual.tipoPedidoActual,
+		catalogoMotivo: '',
+	};
+
+	const [getValues, setGetValues] = React.useState(defaultValues);
+
+	const {inputFocus, setInputFocus} = stateInputFocus;
+
+	const handleOnChangue = (e: any) => {
+		setGetValues({...getValues, [e.target.name]: e.target.value});
+	};
+
+	const handleKeyPress = (event: any) => {
+		if (event.key === 'Enter') {
+			agregarProductoAlPedidoActual(getValues);
+			if (inputFocus === 'unidades') {
+				setInputFocus('subUnidades');
+			} else if (inputFocus === 'subUnidades') {
+				setInputFocus('productoABuscar');
+			}
+		}
+	};
+
+	useEffect(() => {
+		agregarProductoAlPedidoActual(getValues);
+	}, [getValues]);
+
+	const handleButtons = (e: any) => {
+		const {value, name} = e.currentTarget;
+
+		if (name === 'unidades') {
+			setGetValues({
+				...getValues,
+				[name]: value === '+' ? ++getValues.unidades : --getValues.unidades,
+			});
+		} else if (name === 'subUnidades') {
+			setGetValues({
+				...getValues,
+				[name]:
+					value === '+' ? ++getValues.subUnidades : --getValues.subUnidades,
+			});
+		}
+	};
+
+	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
+		producto,
+		mostrarAdvertenciaEnDialogo,
+		getValues,
+		setGetValues
 	);
 
 	return (
@@ -227,38 +281,40 @@ const Derecha: React.FC<Props> = ({producto}) => {
 						<CajaIcon />
 					</Grid>
 					<Grid item>
-						<IconButton size='small'>
-							<QuitarRellenoIcon
-								width='18px'
-								height='18px'
-								onClick={() =>
-									agregarProductoAlPedido({
-										...producto,
-										unidades: producto.unidades - 1,
-									})
-								}
-							/>
+						<IconButton
+							size='small'
+							value='-'
+							name='unidades'
+							onClick={(e) => handleButtons(e)}
+						>
+							<QuitarRellenoIcon width='18px' height='18px' />
 						</IconButton>
 					</Grid>
 					<Grid item>
 						<InputStyled
-							value={producto.unidades}
+							value={getValues.unidades}
+							onChange={(e) => handleOnChangue(e)}
+							onKeyPress={(e) => handleKeyPress(e)}
 							disableUnderline
+							name='unidades'
+							id='unidades_producto'
+							onClick={() => setInputFocus('unidades')}
 							inputProps={{style: {textAlign: 'center'}}}
+							inputRef={(input) => {
+								if (inputFocus === 'unidades') {
+									input?.focus();
+								}
+							}}
 						/>
 					</Grid>
 					<Grid item>
-						<IconButton size='small'>
-							<AgregarRedondoIcon
-								width='18px'
-								height='18px'
-								/* 								onClick={() =>
-									agregarProductoAlPedido({
-										...producto,
-										unidades: producto.unidades + 1,
-									})
-								} */
-							/>
+						<IconButton
+							size='small'
+							name='unidades'
+							value='+'
+							onClick={(e) => handleButtons(e)}
+						>
+							<AgregarRedondoIcon width='18px' height='18px' />
 						</IconButton>
 					</Grid>
 				</Grid>
@@ -267,24 +323,40 @@ const Derecha: React.FC<Props> = ({producto}) => {
 						<BotellaIcon />
 					</Grid>
 					<Grid item>
-						<IconButton size='small'>
+						<IconButton
+							size='small'
+							name='subUnidades'
+							value='-'
+							onClick={(e) => handleButtons(e)}
+						>
 							<QuitarRellenoIcon width='18px' height='18px' />
 						</IconButton>
 					</Grid>
 					<Grid item>
 						<InputStyled
-							value={producto.subUnidades}
+							onKeyPress={(e) => handleKeyPress(e)}
+							onChange={(e) => handleOnChangue(e)}
+							value={getValues.subUnidades}
 							disableUnderline
+							id='subUnidades_producto'
+							name='subUnidades'
+							onClick={() => setInputFocus('subUnidades')}
 							inputProps={{style: {textAlign: 'center'}}}
+							inputRef={(input) => {
+								if (inputFocus === 'subUnidades') {
+									input?.focus();
+								}
+							}}
 						/>
 					</Grid>
 					<Grid item>
-						<IconButton size='small'>
-							<AgregarRedondoIcon
-								width='18px'
-								height='18px'
-								onClick={() => console.log(producto.subUnidades + 1)}
-							/>
+						<IconButton
+							size='small'
+							name='subUnidades'
+							value='+'
+							onClick={(e) => handleButtons(e)}
+						>
+							<AgregarRedondoIcon width='18px' height='18px' />
 						</IconButton>
 					</Grid>
 				</Grid>
