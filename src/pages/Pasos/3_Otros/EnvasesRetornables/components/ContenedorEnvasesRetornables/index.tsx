@@ -44,23 +44,13 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 	return (
 		<>
 			{puedeVerEnvases && (
-				<TarjetaColapsable
-					titulo={<Typography variant={'subtitle1'}>Envases</Typography>}
-					subTitulo={
-						<Typography variant={'body3'}>
-							Revisa la cantidad de envases para tus productos.
-						</Typography>
-					}
-					id='Envases'
-					expandido={expandido}
-					setExpandido={setExpandido}
-				>
+				<>
 					{consolidacionImplicitos.map(
 						(envase: TConsolidadoImplicitos, i: number) => (
 							<TarjetaEnvasesRetornables envase={envase} key={i} />
 						)
 					)}
-				</TarjetaColapsable>
+				</>
 			)}
 		</>
 	);
