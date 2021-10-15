@@ -127,7 +127,16 @@ const TarjetaPromoPush = (props: any) => {
 						<Stack spacing={1}>
 							<Box display='flex' flexDirection='column'>
 								<Typography variant='subtitle3'>{codigoProducto}</Typography>
-								<Typography variant='subtitle3'>{nombreProducto}</Typography>
+								<Typography
+									sx={{
+										width: '200px',
+										overflow: 'hidden',
+										textOverflow: 'ellipsis',
+									}}
+									variant='subtitle3'
+								>
+									{nombreProducto}
+								</Typography>
 							</Box>
 							<Box display='flex' flexDirection='column'>
 								<Typography variant='subtitle3'>
