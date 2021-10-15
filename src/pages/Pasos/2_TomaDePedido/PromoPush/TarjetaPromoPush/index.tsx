@@ -122,7 +122,7 @@ const TarjetaPromoPush = (props: any) => {
 			}
 		>
 			<Grid container p={2}>
-				<GridStyled item xs={6}>
+				<GridStyled item xs={7}>
 					<Box display='flex' flexDirection='column'>
 						<Stack spacing={1}>
 							<Box display='flex' flexDirection='column'>
@@ -142,7 +142,7 @@ const TarjetaPromoPush = (props: any) => {
 						</Stack>
 					</Box>
 				</GridStyled>
-				<GridStyled item xs={6} p={1}>
+				<GridStyled item xs={5}>
 					<Stack spacing={1}>
 						<Box textAlign='right'>
 							<Typography variant='caption'>Aplicación maxima</Typography>
@@ -176,64 +176,58 @@ const TarjetaPromoPush = (props: any) => {
 						</Box>
 					</Stack>
 				</GridStyled>
-				<Grid item xs={12}>
-					<CardContent>
-						<Collapse
-							in={expandidoPromoPush === id}
-							timeout='auto'
-							unmountOnExit
-						>
-							<Stack>
-								<Divider />
-								<Typography variant={'subtitle3'} fontWeight={700} mt={1}>
-									Paquetes
-								</Typography>
-								<Box>
-									{componentes &&
-										componentes.map((el: any, i: number) => (
-											<React.Fragment key={i}>
-												<Grid container mt={1}>
-													<GridStyled item xs={8}>
-														<Box display='flex' flexDirection='column'>
-															<Typography variant='subtitle3'>
-																{el.codigoProducto}
-															</Typography>
-															<Typography variant='subtitle3'>
-																{productos[el.codigoProducto].nombre}
-															</Typography>
-														</Box>
-													</GridStyled>
-													<GridStyled item xs={4}>
-														<Box display='flex' flexDirection='column'>
-															<Box display='flex' textAlign='center'>
-																<CajaIcon width={'19px'} height='14px' />
-																<Typography variant='caption' mt={0.3}>
-																	{`x${promoPush.componentes[i].cantidad}
+				<Grid item xs={12} mt={0.5}>
+					<Collapse in={expandidoPromoPush === id} timeout='auto' unmountOnExit>
+						<Stack>
+							<Divider />
+							<Typography variant={'subtitle3'} fontWeight={700} mt={1}>
+								Paquetes
+							</Typography>
+							<Box>
+								{componentes &&
+									componentes.map((el: any, i: number) => (
+										<React.Fragment key={i}>
+											<Grid container mt={1}>
+												<GridStyled item xs={8}>
+													<Box display='flex' flexDirection='column'>
+														<Typography variant='subtitle3'>
+															{el.codigoProducto}
+														</Typography>
+														<Typography variant='subtitle3'>
+															{productos[el.codigoProducto].nombre}
+														</Typography>
+													</Box>
+												</GridStyled>
+												<GridStyled item xs={4}>
+													<Box display='flex' flexDirection='column'>
+														<Box display='flex' textAlign='center'>
+															<CajaIcon width={'19px'} height='14px' />
+															<Typography variant='caption' mt={0.3}>
+																{`x${promoPush.componentes[i].cantidad}
 																	${formatearNumero(el.precioBase, t)}`}
-																</Typography>
-															</Box>
-															<Box>
-																<Typography color='primary' variant='caption'>
-																	Ahorras: {formatearNumero(el.descuento, t)}
-																</Typography>
-															</Box>
-															<Box>
-																<Typography variant='subtitle3'>
-																	Total: {formatearNumero(el.precioFinal, t)}
-																</Typography>
-															</Box>
+															</Typography>
 														</Box>
-													</GridStyled>
-												</Grid>
-												<Divider />
-											</React.Fragment>
-										))}
-								</Box>
-							</Stack>
-						</Collapse>
-					</CardContent>
+														<Box>
+															<Typography color='primary' variant='caption'>
+																Ahorras: {formatearNumero(el.descuento, t)}
+															</Typography>
+														</Box>
+														<Box>
+															<Typography variant='subtitle3'>
+																Total: {formatearNumero(el.precioFinal, t)}
+															</Typography>
+														</Box>
+													</Box>
+												</GridStyled>
+											</Grid>
+											<Divider />
+										</React.Fragment>
+									))}
+							</Box>
+						</Stack>
+					</Collapse>
 				</Grid>
-				<Grid item xs={12}>
+				<Grid item xs={12} mt={1}>
 					<ButtonStyled
 						disableFocusRipple
 						fullWidth
