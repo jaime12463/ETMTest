@@ -37,8 +37,6 @@ export const visitaActualSlice = createSlice({
 				action.payload.productoPedido,
 			]; */
 
-			console.log(action.payload.productoPedido);
-
 			const productoPedidoCliente = state.pedidos[
 				state.tipoPedidoActual
 			].productos.filter(
@@ -55,17 +53,23 @@ export const visitaActualSlice = createSlice({
 			state,
 			action: PayloadAction<{productoPedido: TProductoPedido}>
 		) => {
-			const productosPedidoClienteFiltrados = state.pedidos[
-				state.tipoPedidoActual
-			].productos.filter(
+			const producto = state.pedidos[state.tipoPedidoActual].productos.find(
 				(precioProducto: TProductoPedido) =>
-					precioProducto.codigoProducto !==
+					precioProducto.codigoProducto ===
 					action.payload.productoPedido.codigoProducto
 			);
-			state.pedidos[state.tipoPedidoActual].productos = [
-				...productosPedidoClienteFiltrados,
-				action.payload.productoPedido,
-			];
+
+			if (producto) {
+				producto.unidades = action.payload.productoPedido.unidades;
+				producto.subUnidades = action.payload.productoPedido.subUnidades;
+				producto.total = action.payload.productoPedido.total;
+				producto.tipoPago = action.payload.productoPedido.tipoPago;
+			} else {
+				state.pedidos[state.tipoPedidoActual].productos = [
+					...state.pedidos[state.tipoPedidoActual].productos,
+					action.payload.productoPedido,
+				];
+			}
 		},
 
 		agregarEnvaseDelPedidoActual: (

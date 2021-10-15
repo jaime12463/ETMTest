@@ -22,9 +22,6 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 	let esGeneraEnvases = false;
 	let puedeVerEnvases = false;
 
-	console.log(puedeVerEnvases);
-	console.log('entro');
-
 	Object.values(visitaActual.pedidos).forEach((pedido) => {
 		tipoPedidos.forEach((tipoPedido) => {
 			if (tipoPedido.codigo === pedido.tipoPedido)
