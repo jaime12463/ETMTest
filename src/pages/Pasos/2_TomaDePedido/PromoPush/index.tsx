@@ -17,8 +17,14 @@ const TextStyled = styled(Typography)(() => ({
 	fontSize: '10px',
 }))
 
+interface BotonProps {
+	push: boolean,
+	ongoing: boolean
+}
+
 const PromoPush: React.FC = () => {
   const [expandido, setExpandido] = React.useState<boolean | string>(false)
+	const [promoActiva, setPromoActiva] = React.useState<BotonProps>({push: true, ongoing: false})
   const promociones = useObtenerPromoPushDelCliente()
 	const classes = useEstilos()
 
@@ -36,8 +42,18 @@ const PromoPush: React.FC = () => {
 			// cantidadItems={venta.productos.length}
 		>
 			<Grid container justifyContent="space-evenly" paddingBottom={2}>
-				<Button className={classes.root}>Promo push</Button>
-				<Button className={classes.root}>Promo ongoing</Button>
+				<Button 
+					sx={promoActiva.push === true ? {opacity: '1'} : {opacity: '0.5'}} 
+					className={classes.root}
+				>
+					Promo push
+				</Button>
+				<Button 
+					sx={promoActiva.ongoing === true ? {opacity: '1'} : {opacity: '0.5'}} 
+					className={classes.root}
+				>
+					Promo ongoing
+				</Button>
 			</Grid>
 
 			<Grid container justifyContent="space-between" alignItems="center">

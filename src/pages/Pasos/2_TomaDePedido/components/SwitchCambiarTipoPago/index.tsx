@@ -10,6 +10,7 @@ import {useCambiarTipoPago, usePermiteCambiarTipoPago} from './hooks';
 import {Center} from 'components/UI';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import {useObtenerDatosTipoPedido} from 'hooks';
+import useEstilos from './useEstilos'
 
 type Props = {
 	producto?: TProductoPedido;
@@ -31,6 +32,8 @@ export const SwitchCambiarTipoPago: FunctionComponent<Props> = (props) => {
 	const [mostrarSwitch, setMostrarSwitch] = useState<boolean>();
 
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
+
+	const classes = useEstilos()
 
 	useEffect(() => {
 		const datosTipoPedidoActual:
@@ -56,6 +59,7 @@ export const SwitchCambiarTipoPago: FunctionComponent<Props> = (props) => {
 					}
 					id={`switch-cambiar-tipoPago-` + (producto?.codigoProducto ?? ``)}
 					disabled={!permiteCambiarTipoPago}
+					className={classes.root}
 				/>
 			)}
 		</Center>

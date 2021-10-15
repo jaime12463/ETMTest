@@ -6,7 +6,6 @@ const CardContenedor = styled(Card)(({theme}) => ({
 	display: 'flex',
 	border: '1px solid #D9D9D9',
 	borderRadius: '8px',
-	marginBottom: '15px',
 }));
 
 const Izquierda = styled(Grid)(({theme}) => ({

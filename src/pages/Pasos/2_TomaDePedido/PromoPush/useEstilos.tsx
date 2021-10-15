@@ -12,7 +12,6 @@ const useEstilos = makeStyles((theme: Theme) =>
         fontSize: '12px',
         fontWeight: '600',
         height: '32px',
-        opacity: '0.5',
         textTransform: 'inherit',
         width: '137px',
         '&:hover':{

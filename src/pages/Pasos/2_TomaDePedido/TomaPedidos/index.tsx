@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React from 'react';
 import {
 	InputsKeysFormTomaDePedido,
 	TClienteActual,
@@ -25,13 +25,16 @@ import {TarjetaColapsable, TarjetaDoble, Dialogo} from 'components/UI';
 import {InputSeleccionarProducto} from 'components/Negocio';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack'
+import IconButton from '@mui/material/IconButton'
+import Chip from '@mui/material/Chip'
 import {
 	AgregarRedondoIcon,
+	BorrarIcon,
 	BotellaIcon,
 	CajaIcon,
 	QuitarRellenoIcon,
 } from 'assests/iconos';
-import {IconButton} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import Input from '@mui/material/Input';
 import {useAgregarProductoAlPedidoActual} from '../hooks';
@@ -39,17 +42,24 @@ import {
 	useMostrarAdvertenciaEnDialogo,
 	useMostrarContenidoEnCajon,
 } from 'hooks';
+import useEstilos from '../useEstilos'
+import { SwitchCambiarTipoPago } from '../components';
 
 const InputStyled = styled(Input)(({}) => ({
-	borderRadius: '10px',
-	border: '1px solid #2F000E',
-	height: '22px',
-	width: '42px',
 	backgroundColor: 'white',
-	fontWeight: 600,
-	lineHeight: '16px',
+	border: '1px solid #2F000E',
+	borderRadius: '10px',
 	fontSize: '12px',
+	fontWeight: 600,
+	height: '16px',
+	lineHeight: '16px',
+	width: '42px',
 }));
+
+const TextStyled = styled(Typography)(() => ({
+	color: '#651C32',
+	fontSize: '10px',
+}))
 
 const TomaPedido: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
@@ -84,6 +94,7 @@ const TomaPedido: React.FC = () => {
 
 	const dispatch = useAppDispatch();
 	const catalogoMotivo = '';
+	const classes = useEstilos()
 
 	React.useEffect(() => {
 		if (productoActual !== null) {
@@ -117,6 +128,7 @@ const TomaPedido: React.FC = () => {
 			setExpandido={setExpandido}
 			cantidadItems={venta.productos.length}
 		>
+			<Stack spacing="10px">
 			{/* <AutocompleteSeleccionarProducto
       hookForm={hookForm}
       stateProductoActual={{productoActual, setProductoActual}} 
@@ -131,10 +143,15 @@ const TomaPedido: React.FC = () => {
 				stateInputFocus={stateInputFocus}
 			/>
 
+			<Grid container alignItems="center" justifyContent="space-between">
+				<SwitchCambiarTipoPago />
+				<Chip className={classes.root} size="small" icon={<BorrarIcon width="7.5px" height="7.5px" />} label={<TextStyled>Borrar todo</TextStyled>} />
+			</Grid>
+
 			{venta.productos.length > 0 &&
 				venta.productos.map((producto) => {
 					return (
-						<TarjetaDoble
+						<TarjetaDoble	
 							key={producto.codigoProducto}
 							izquierda={
 								<Izquierda
@@ -153,6 +170,7 @@ const TomaPedido: React.FC = () => {
 						/>
 					);
 				})}
+			</Stack>
 		</TarjetaColapsable>
 	);
 };
@@ -197,7 +215,6 @@ const Izquierda: React.FC<Props> = ({producto}) => {
 					>{`$${producto.precioConImpuestoSubunidad}`}</Typography>
 				</Grid>
 			</Grid>
-			<Grid></Grid>
 		</Grid>
 	);
 };
@@ -222,12 +239,12 @@ const Derecha: React.FC<Props> = ({
 
 	const {inputFocus, setInputFocus} = stateInputFocus;
 
-	const handleOnChangue = (e: any) => {
-		setGetValues({...getValues, [e.target.name]: e.target.value});
+	const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+		setGetValues({...getValues, [e.target.name]: e.target.value.replace(/[^0-9]/g, '')});
 	};
 
-	const handleKeyPress = (event: any) => {
-		if (event.key === 'Enter') {
+	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+		if (e.key === 'Enter') {
 			agregarProductoAlPedidoActual(getValues);
 			if (inputFocus === 'unidades') {
 				setInputFocus('subUnidades');
@@ -237,19 +254,25 @@ const Derecha: React.FC<Props> = ({
 		}
 	};
 
-	useEffect(() => {
+	React.useEffect(() => {
 		agregarProductoAlPedidoActual(getValues);
 	}, [getValues]);
 
-	const handleButtons = (e: any) => {
+	const handleButtons = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		const {value, name} = e.currentTarget;
 
 		if (name === 'unidades') {
+			if(value === '-' && getValues.unidades === 0){
+				return 
+			}
 			setGetValues({
 				...getValues,
 				[name]: value === '+' ? ++getValues.unidades : --getValues.unidades,
 			});
 		} else if (name === 'subUnidades') {
+			if(value === '-' && getValues.subUnidades === 0){
+				return 
+			}
 			setGetValues({
 				...getValues,
 				[name]:
@@ -293,13 +316,13 @@ const Derecha: React.FC<Props> = ({
 					<Grid item>
 						<InputStyled
 							value={getValues.unidades}
-							onChange={(e) => handleOnChangue(e)}
+							onChange={(e) => handleOnChange(e)}
 							onKeyPress={(e) => handleKeyPress(e)}
 							disableUnderline
 							name='unidades'
 							id='unidades_producto'
 							onClick={() => setInputFocus('unidades')}
-							inputProps={{style: {textAlign: 'center'}}}
+							inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
 							inputRef={(input) => {
 								if (inputFocus === 'unidades') {
 									input?.focus();
@@ -329,19 +352,19 @@ const Derecha: React.FC<Props> = ({
 							value='-'
 							onClick={(e) => handleButtons(e)}
 						>
-							<QuitarRellenoIcon width='18px' height='18px' />
+							<QuitarRellenoIcon width='18px' height='18px'/>
 						</IconButton>
 					</Grid>
 					<Grid item>
 						<InputStyled
 							onKeyPress={(e) => handleKeyPress(e)}
-							onChange={(e) => handleOnChangue(e)}
+							onChange={(e) => handleOnChange(e)}
 							value={getValues.subUnidades}
 							disableUnderline
 							id='subUnidades_producto'
 							name='subUnidades'
 							onClick={() => setInputFocus('subUnidades')}
-							inputProps={{style: {textAlign: 'center'}}}
+							inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
 							inputRef={(input) => {
 								if (inputFocus === 'subUnidades') {
 									input?.focus();
