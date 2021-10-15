@@ -45,8 +45,8 @@ export const visitaActualSlice = createSlice({
 					action.payload.productoPedido.codigoProducto
 			);
 			state.pedidos[state.tipoPedidoActual].productos = [
-				...productoPedidoCliente,
 				action.payload.productoPedido,
+				...productoPedidoCliente,
 			];
 		},
 		agregarProductoDelPedidoActual: (

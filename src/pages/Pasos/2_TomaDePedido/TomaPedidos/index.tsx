@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
 	InputsKeysFormTomaDePedido,
 	TClienteActual,
@@ -73,6 +73,8 @@ const TomaPedido: React.FC = () => {
 	const [inputFocus, setInputFocus] =
 		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
 
+	const [focusId, setFocusId] = React.useState(0);
+
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
 	const defaultValues: TFormTomaDePedido = {
@@ -112,6 +114,8 @@ const TomaPedido: React.FC = () => {
 					},
 				})
 			);
+
+			setFocusId(productoActual.codigoProducto);
 		}
 	}, [productoActual]);
 
@@ -163,6 +167,8 @@ const TomaPedido: React.FC = () => {
 										producto={producto}
 										stateInputFocus={stateInputFocus}
 										visitaActual={visitaActual}
+										key={producto.codigoProducto}
+										statefocusId={{focusId, setFocusId}}
 									/>
 								}
 								derecha={
@@ -170,6 +176,7 @@ const TomaPedido: React.FC = () => {
 										producto={producto}
 										stateInputFocus={stateInputFocus}
 										visitaActual={visitaActual}
+										statefocusId={{focusId, setFocusId}}
 									/>
 								}
 							/>
@@ -184,6 +191,7 @@ interface Props {
 	producto: TProductoPedido;
 	stateInputFocus: TStateInputFocus;
 	visitaActual: TVisita;
+	statefocusId: any;
 }
 
 const Izquierda: React.FC<Props> = ({producto}) => {
@@ -228,6 +236,7 @@ const Derecha: React.FC<Props> = ({
 	producto,
 	stateInputFocus,
 	visitaActual,
+	statefocusId,
 }) => {
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
@@ -239,6 +248,7 @@ const Derecha: React.FC<Props> = ({
 		tipoDePedido: visitaActual.tipoPedidoActual,
 		catalogoMotivo: '',
 	};
+	const {focusId, setFocusId} = statefocusId;
 
 	const [getValues, setGetValues] = React.useState(defaultValues);
 
@@ -251,6 +261,7 @@ const Derecha: React.FC<Props> = ({
 			...getValues,
 			[e.target.name]: e.target.value.replace(/[^0-9]/g, ''),
 		});
+		setFocusId(producto.codigoProducto);
 	};
 
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -259,6 +270,7 @@ const Derecha: React.FC<Props> = ({
 			if (inputFocus === 'unidades') {
 				setInputFocus('subUnidades');
 			} else if (inputFocus === 'subUnidades') {
+				setFocusId(0);
 				setInputFocus('productoABuscar');
 			}
 		}
@@ -291,6 +303,7 @@ const Derecha: React.FC<Props> = ({
 					value === '+' ? ++getValues.subUnidades : --getValues.subUnidades,
 			});
 		}
+		setFocusId(0);
 	};
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
@@ -333,10 +346,16 @@ const Derecha: React.FC<Props> = ({
 							disableUnderline
 							name='unidades'
 							id='unidades_producto'
-							onClick={() => setInputFocus('unidades')}
+							onClick={() => {
+								setInputFocus('unidades');
+								setFocusId(producto.codigoProducto);
+							}}
 							inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
 							inputRef={(input) => {
-								if (inputFocus === 'unidades') {
+								if (
+									inputFocus === 'unidades' &&
+									focusId === producto.codigoProducto
+								) {
 									input?.focus();
 								}
 							}}
@@ -375,10 +394,16 @@ const Derecha: React.FC<Props> = ({
 							disableUnderline
 							id='subUnidades_producto'
 							name='subUnidades'
-							onClick={() => setInputFocus('subUnidades')}
+							onClick={() => {
+								setInputFocus('subUnidades');
+								setFocusId(producto.codigoProducto);
+							}}
 							inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
 							inputRef={(input) => {
-								if (inputFocus === 'subUnidades') {
+								if (
+									inputFocus === 'subUnidades' &&
+									focusId === producto.codigoProducto
+								) {
 									input?.focus();
 								}
 							}}
