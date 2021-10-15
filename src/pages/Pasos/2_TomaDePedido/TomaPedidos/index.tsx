@@ -284,11 +284,12 @@ const Derecha: React.FC<Props> = ({
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
 	) => {
 		const {value, name} = e.currentTarget;
-
+		setFocusId(producto.codigoProducto);
 		if (name === 'unidades') {
 			if (value === '-' && getValues.unidades === 0) {
 				return;
 			}
+			setInputFocus('unidades');
 			setGetValues({
 				...getValues,
 				[name]: value === '+' ? ++getValues.unidades : --getValues.unidades,
@@ -297,13 +298,13 @@ const Derecha: React.FC<Props> = ({
 			if (value === '-' && getValues.subUnidades === 0) {
 				return;
 			}
+			setInputFocus('subUnidades');
 			setGetValues({
 				...getValues,
 				[name]:
 					value === '+' ? ++getValues.subUnidades : --getValues.subUnidades,
 			});
 		}
-		setFocusId(0);
 	};
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
