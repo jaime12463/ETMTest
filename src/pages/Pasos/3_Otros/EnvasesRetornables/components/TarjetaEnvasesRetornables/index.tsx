@@ -68,6 +68,7 @@ const TarjetaEnvasesRetornables = ({
 
 	const unidadesIniciales = unidades;
 	const subUnidadesIniciales = subUnidades;
+
 	const [unidadesVenta, setUnidadesVenta] = useState(
 		productoEnPedidos[2] ? productoEnPedidos[2].unidades : 0
 	);

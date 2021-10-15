@@ -37,10 +37,9 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 	const consolidacionImplicitos: TConsolidadoImplicitos[] =
 		obtenerConsolidacionImplicitos(pedidosArray).sort((a, b) =>
 			a.tipoPago !== undefined && b.tipoPago !== undefined
-				? a.codigoImplicito - b.codigoImplicito || a.tipoPago - b.tipoPago 
+				? a.codigoImplicito - b.codigoImplicito || a.tipoPago - b.tipoPago
 				: a.codigoImplicito - b.codigoImplicito
 		);
-
 
 	return (
 		<>

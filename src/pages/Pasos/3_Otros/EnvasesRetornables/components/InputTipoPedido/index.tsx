@@ -22,9 +22,7 @@ type Props = {
 };
 
 const InputTipoPedido: FunctionComponent<Props> = (props) => {
-	const {
-		tipoPedido,
-	} = props;
+	const {tipoPedido} = props;
 
 	const [unidadesTipoPedido, setUnidadesTipoPedido] = useState(
 		/*productoEnPedidos[2] ? productoEnPedidos[2].unidades :*/ 0
@@ -32,7 +30,6 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 	const [subUnidadesTipoPedido, setSubUnidadesTipoPedido] = useState(
 		/*productoEnPedidos[2] ? productoEnPedidos[2].subUnidades :*/ 0
 	);
-
 
 	return (
 		<>
@@ -46,7 +43,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 			>
 				<Grid item xs={4}>
 					<Typography fontFamily='Open Sans' variant={'caption'}>
-						{`${tipoPedido?.descripcionCorta}`}
+						{`${tipoPedido?.descripcionCorta}:`}
 					</Typography>
 				</Grid>
 				<Grid item xs={3}>

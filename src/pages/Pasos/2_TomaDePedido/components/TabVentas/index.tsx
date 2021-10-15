@@ -18,7 +18,7 @@ import {Box, Grid} from '@mui/material';
 import {useForm} from 'react-hook-form';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {MenuPromoPush} from 'components/Negocio';
-import {TarjetasPromoPush} from '..';
+import TarjetasPromoPush from '../../PromoPush/TarjetaPromoPush';
 import ListadoCanjesAgregadosAlPedidoActual from '../ListadoCanjesAgregadosAlPedidoActual';
 
 type Props = {};
@@ -102,14 +102,14 @@ const TabVentas: FunctionComponent<Props> = (props) => {
 						setInputFocus={setInputFocus}
 					/>
 				)}
-			{visitaActual.mostrarPromoPush && (
+			{/* 			{visitaActual.mostrarPromoPush && (
 				<TarjetasPromoPush
 					setProductoActual={setProductoActual}
 					hookForm={hookForm}
 					preciosProductos={preciosProductos}
 					setInputFocus={setInputFocus}
 				/>
-			)}
+			)} */}
 		</Fragment>
 	);
 };

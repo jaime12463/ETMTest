@@ -30,11 +30,6 @@ import {
 import {useTranslation} from 'react-i18next';
 import {formatearNumero} from 'utils/methods';
 
-type Props = {
-	item: any;
-	onClickItem: (item: any) => void;
-};
-
 const InputStyled = styled(Input)(({}) => ({
 	borderRadius: '10px',
 	border: '1px solid #2F000E',
@@ -94,12 +89,11 @@ const useEstilos = makeStyles((theme: Theme) =>
 	})
 );
 
-const ItemTarjetaPromoPush = (props: any) => {
-	const [expandido, setExpandido] = useState<string | boolean>(false);
+const TarjetaPromoPush = (props: any) => {
 	const [unidades, setUnidades] = useState<number>(0);
 	const {t} = useTranslation();
 	const classes = useEstilos();
-	const {item, onClickItem} = props;
+	const {item, expandidoPromoPush, setExpandidoexpandidoPromoPush, id} = props;
 	const datos = useObtenerDatos();
 
 	const {productos} = datos;
@@ -113,12 +107,10 @@ const ItemTarjetaPromoPush = (props: any) => {
 		promoPush,
 	} = item;
 
-	const id = '0';
-
 	const manejadorExpandido =
 		({id}: any) =>
 		(event: React.SyntheticEvent) => {
-			setExpandido(id);
+			setExpandidoexpandidoPromoPush(id);
 		};
 
 	return (
@@ -156,11 +148,11 @@ const ItemTarjetaPromoPush = (props: any) => {
 							<Typography variant='caption'>Aplicación maxima</Typography>
 						</Box>
 						<Box>
-							<IconButton size='small' onClick={() => setUnidades(unidades - 1)}>
-								<QuitarRellenoIcon
-									width='18px'
-									height='18px'		
-								/>
+							<IconButton
+								size='small'
+								onClick={() => setUnidades(unidades - 1)}
+							>
+								<QuitarRellenoIcon width='18px' height='18px' />
 							</IconButton>
 							<InputStyled
 								value={unidades}
@@ -168,15 +160,15 @@ const ItemTarjetaPromoPush = (props: any) => {
 								inputProps={{
 									style: {textAlign: 'center'},
 									inputMode: 'numeric',
-									pattern: '[0-9]*'
+									pattern: '[0-9]*',
 								}}
 								onChange={(e) => setUnidades(Number(e.target.value))}
 							/>
-							<IconButton size='small' onClick={() => setUnidades(unidades + 1)}>
-								<AgregarRedondoIcon
-									width='18px'
-									height='18px'
-								/>
+							<IconButton
+								size='small'
+								onClick={() => setUnidades(unidades + 1)}
+							>
+								<AgregarRedondoIcon width='18px' height='18px' />
 							</IconButton>
 							<Typography variant={'subtitle3'} fontWeight={700}>
 								/ {unidadesDisponibles}
@@ -186,7 +178,11 @@ const ItemTarjetaPromoPush = (props: any) => {
 				</GridStyled>
 				<Grid item xs={12}>
 					<CardContent>
-						<Collapse in={expandido === id} timeout='auto' unmountOnExit>
+						<Collapse
+							in={expandidoPromoPush === id}
+							timeout='auto'
+							unmountOnExit
+						>
 							<Stack>
 								<Divider />
 								<Typography variant={'subtitle3'} fontWeight={700} mt={1}>
@@ -243,7 +239,7 @@ const ItemTarjetaPromoPush = (props: any) => {
 						fullWidth
 						disableRipple
 						onClick={manejadorExpandido({
-							id: expandido === id ? false : id,
+							id: expandidoPromoPush === id ? false : id,
 						})}
 					>
 						<CardActions disableSpacing style={{padding: 0}}>
@@ -253,9 +249,10 @@ const ItemTarjetaPromoPush = (props: any) => {
 								</Typography>
 								<IconButton
 									className={clsx(classes.expand, {
-										[classes.expandOpen]: expandido === id ? true : false,
+										[classes.expandOpen]:
+											expandidoPromoPush === id ? true : false,
 									})}
-									aria-expanded={expandido === id ? true : false}
+									aria-expanded={expandidoPromoPush === id ? true : false}
 									style={{padding: 0}}
 								>
 									<FlechaAbajoIcon width='10px' height='10px' />
@@ -269,4 +266,4 @@ const ItemTarjetaPromoPush = (props: any) => {
 	);
 };
 
-export default ItemTarjetaPromoPush;
+export default TarjetaPromoPush;

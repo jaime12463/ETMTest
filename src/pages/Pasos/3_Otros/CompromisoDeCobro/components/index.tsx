@@ -2,11 +2,11 @@ import ListadoDocumentos from './ListadoDocumentos';
 import ItemListadoDocumentos from './ItemListadoDocumentos';
 import InputAgregarCompromisoDeCobro from './InputAgregarCompromisoDeCobro';
 import TotalesCompromisoDeCobroPedidoActual from './TotalesCompromisoDeCobroPedidoActual';
-import ItemTarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/components/ItemTarjetaPromoPush';
+import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoPush';
 
 export {
 	ListadoDocumentos,
-	ItemTarjetaPromoPush,
+	TarjetaPromoPush,
 	ItemListadoDocumentos,
 	InputAgregarCompromisoDeCobro,
 	TotalesCompromisoDeCobroPedidoActual,
