@@ -96,7 +96,7 @@ const useEstilos = makeStyles((theme: Theme) =>
 
 const ItemTarjetaPromoPush = (props: any) => {
 	const [expandido, setExpandido] = useState<string | boolean>(false);
-	const [unidades, setUnidades] = useState(0);
+	const [unidades, setUnidades] = useState<number>(0);
 	const {t} = useTranslation();
 	const classes = useEstilos();
 	const {item, onClickItem} = props;
@@ -156,23 +156,26 @@ const ItemTarjetaPromoPush = (props: any) => {
 							<Typography variant='caption'>Aplicación maxima</Typography>
 						</Box>
 						<Box>
-							<IconButton size='small'>
+							<IconButton size='small' onClick={() => setUnidades(unidades - 1)}>
 								<QuitarRellenoIcon
 									width='18px'
-									height='18px'
-									onClick={() => setUnidades(unidades - 1)}
+									height='18px'		
 								/>
 							</IconButton>
 							<InputStyled
 								value={unidades}
 								disableUnderline
-								inputProps={{style: {textAlign: 'center'}}}
+								inputProps={{
+									style: {textAlign: 'center'},
+									inputMode: 'numeric',
+									pattern: '[0-9]*'
+								}}
+								onChange={(e) => setUnidades(Number(e.target.value))}
 							/>
-							<IconButton size='small'>
+							<IconButton size='small' onClick={() => setUnidades(unidades + 1)}>
 								<AgregarRedondoIcon
 									width='18px'
 									height='18px'
-									onClick={() => setUnidades(unidades + 1)}
 								/>
 							</IconButton>
 							<Typography variant={'subtitle3'} fontWeight={700}>
@@ -181,7 +184,7 @@ const ItemTarjetaPromoPush = (props: any) => {
 						</Box>
 					</Stack>
 				</GridStyled>
-				<Grid xs={12}>
+				<Grid item xs={12}>
 					<CardContent>
 						<Collapse in={expandido === id} timeout='auto' unmountOnExit>
 							<Stack>
@@ -194,7 +197,7 @@ const ItemTarjetaPromoPush = (props: any) => {
 										componentes.map((el: any, i: number) => (
 											<React.Fragment key={i}>
 												<Grid container mt={1}>
-													<GridStyled xs={8}>
+													<GridStyled item xs={8}>
 														<Box display='flex' flexDirection='column'>
 															<Typography variant='subtitle3'>
 																{el.codigoProducto}
@@ -204,7 +207,7 @@ const ItemTarjetaPromoPush = (props: any) => {
 															</Typography>
 														</Box>
 													</GridStyled>
-													<GridStyled xs={4}>
+													<GridStyled item xs={4}>
 														<Box display='flex' flexDirection='column'>
 															<Box display='flex' textAlign='center'>
 																<CajaIcon width={'19px'} height='14px' />

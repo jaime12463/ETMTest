@@ -14,7 +14,7 @@ import {
 	TarjetaColapsable,
 	TarjetaDoble,
 } from 'components/UI';
-import {Button, Grid, IconButton, Box, Typography, Input} from '@mui/material';
+import {Button, Grid, IconButton, Box, Typography, Input, Stack} from '@mui/material';
 import {useTranslation} from 'react-i18next';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 import nombresRutas from 'routes/nombresRutas';
@@ -60,6 +60,7 @@ import {
 
 import {useForm} from 'react-hook-form';
 import TomaPedido from './TomaPedidos';
+import PromoPush from './PromoPush';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [value, setValue] = React.useState(0);
@@ -70,11 +71,12 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const {razonSocial}: TClienteActual = useObtenerClienteActual();
 
 	return (
-		<>
+		<Stack spacing={2}>
 			{/* <TabsPedidoActual value={value} setValue={setValue} /> */}
 
 			<TomaPedido />
-		</>
+			<PromoPush />
+		</Stack>
 	);
 };
 
