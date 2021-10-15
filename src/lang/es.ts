@@ -64,6 +64,11 @@ const es = {
 		envases: 'Envases retornables',
 		PedidosDelClienteActual: 'Pedidos del cliente',
 		ordenDeCompra: 'Orden de Compra',
+		tarjetaEnvases:'Revisa la cantidad de envases para tus productos',
+		tarjetaCanjes:'Indica la cantidad de producto para cambio',
+		tarjetaCompromisoCobro:'Generar un compromiso de codro',
+		tarjetaOrdenDeCompra:'Ingresa el número de orden de compra del cliente'
+
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',

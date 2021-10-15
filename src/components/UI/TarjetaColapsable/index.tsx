@@ -32,6 +32,8 @@ type Props = {
 	subTitulo?: React.ReactNode;
 	id: string;
 	cantidadItems?: number;
+	disabled?: boolean;
+	mensaje?:React.ReactNode;
 };
 
 export const TarjetaColapsable = ({
@@ -41,7 +43,10 @@ export const TarjetaColapsable = ({
 	subTitulo,
 	expandido,
 	id,
-	cantidadItems
+	cantidadItems,
+	disabled,
+	mensaje
+
 }: Props) => {
 	const manejadorExpandido =
 		({id}: any) =>
@@ -71,22 +76,29 @@ export const TarjetaColapsable = ({
 												label={`${cantidadItems} Items`} 
 											/>
 									}	
-									<IconButton
-										className={clsx(classes.expand, {
-											[classes.expandOpen]: expandido === id ? true : false,
-										})}
-										onClick={manejadorExpandido({
-											id: expandido === id ? false : id,
-										})}
-										aria-expanded={expandido === id ? true : false}
-									>
-										<img src={flechaAbajo} alt='flecha abajo' />
-									</IconButton>
+									{ (!disabled) ? (
+										<IconButton
+											className={clsx(classes.expand, {
+												[classes.expandOpen]: expandido === id ? true : false,
+											})}
+											onClick={manejadorExpandido({
+												id: expandido === id ? false : id,
+											})}
+											aria-expanded={expandido === id ? true : false}
+										>
+											<img src={flechaAbajo} alt='flecha abajo' />
+										</IconButton>
+									) : (null)}
 								</CardActions>
 							</Box>
 						</Box>
 					}
-					subheader={subTitulo}
+					subheader={
+						<div>
+							<p>{subTitulo}</p>
+							{(disabled) ? (<p>{mensaje}</p>):(null)}
+						</div>
+					}
 				></CardHeader>
 				<CardContent className={expandido !== id ? classes.cardContent : ''}>
 					<Collapse in={expandido === id} timeout='auto' unmountOnExit>
