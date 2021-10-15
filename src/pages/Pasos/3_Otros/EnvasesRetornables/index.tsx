@@ -15,28 +15,7 @@ const EnvasesRetornables: React.FC = () => {
 	let {path} = useRouteMatch();
 	const {razonSocial}: TClienteActual = useObtenerClienteActual();
 
-	return (
-		<Estructura>
-			<Estructura.Encabezado esConFechaHaciaAtras={true} titulo={razonSocial}>
-				<InfoClienteDelPedidoActual />
-			</Estructura.Encabezado>
-			<Estructura.Cuerpo>
-				<Box my={3}>
-				</Box>
-				<ContenedorEnvasesRetornables />
-			</Estructura.Cuerpo>
-			<Estructura.PieDePagina>
-				<BotonBarraInferior
-					descripcion='Continuar a Toma de pedido'
-					numeroItems={130}
-					total='1000.00$'
-					onClick={() =>
-						history.push(`/ingresarPedido${nombresRutas.finalizarPedido}`)
-					}
-				/>
-			</Estructura.PieDePagina>
-		</Estructura>
-	);
+	return <ContenedorEnvasesRetornables />;
 };
 
 export default EnvasesRetornables;
