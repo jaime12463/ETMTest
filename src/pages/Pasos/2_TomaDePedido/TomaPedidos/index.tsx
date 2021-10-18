@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
 	InputsKeysFormTomaDePedido,
 	TClienteActual,
@@ -19,7 +19,7 @@ import {
 	useInicializarPreciosProductosDelClienteActual,
 	useObtenerDatosTipoPedido,
 } from 'hooks';
-import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
+import {agregarProductoDelPedidoActual, borrarProductoDelPedidoActual, borrarProductosDeVisitaActual} from 'redux/features/visitaActual/visitaActualSlice';
 
 import {TarjetaColapsable, TarjetaDoble, Dialogo} from 'components/UI';
 import {InputSeleccionarProducto} from 'components/Negocio';
@@ -33,6 +33,7 @@ import {
 	BorrarIcon,
 	BotellaIcon,
 	CajaIcon,
+	CheckRedondoIcon,
 	QuitarRellenoIcon,
 } from 'assests/iconos';
 import {styled} from '@mui/material/styles';
@@ -117,7 +118,7 @@ const TomaPedido: React.FC = () => {
 
 			setFocusId(productoActual.codigoProducto);
 		}
-	}, [productoActual]);
+	}, [productoActual?.codigoProducto]);
 
 	return (
 		<TarjetaColapsable
@@ -134,11 +135,11 @@ const TomaPedido: React.FC = () => {
 		>
 			<Stack spacing='10px'>
 				{/* <AutocompleteSeleccionarProducto
-      hookForm={hookForm}
-      stateProductoActual={{productoActual, setProductoActual}} 
-      statePreciosProductos={{preciosProductos, setPreciosProductos}} 
-      stateInputFocus={stateInputFocus} 
-    /> */}
+					hookForm={hookForm}
+					stateProductoActual={{productoActual, setProductoActual}} 
+					statePreciosProductos={{preciosProductos, setPreciosProductos}} 
+					stateInputFocus={stateInputFocus} 
+    		/> */}
 
 				<InputSeleccionarProducto
 					hookForm={hookForm}
@@ -154,6 +155,8 @@ const TomaPedido: React.FC = () => {
 						size='small'
 						icon={<BorrarIcon width='7.5px' height='7.5px' />}
 						label={<TextStyled>Borrar todo</TextStyled>}
+						onClick={() => dispatch(borrarProductosDeVisitaActual({tipoPedidoActual: visitaActual.tipoPedidoActual}))}
+						sx={{'&:hover': {background: 'none'}}}
 					/>
 				</Grid>
 
@@ -187,16 +190,25 @@ const TomaPedido: React.FC = () => {
 	);
 };
 
+interface StateFocusID {
+	focusId: number;
+	setFocusId: React.Dispatch<React.SetStateAction<number>>
+}
 interface Props {
 	producto: TProductoPedido;
 	stateInputFocus: TStateInputFocus;
 	visitaActual: TVisita;
-	statefocusId: any;
+	statefocusId: StateFocusID;
 }
 
 const Izquierda: React.FC<Props> = ({producto}) => {
 	return (
-		<Grid container direction='column' padding={2}>
+		<Grid container direction='column' p="12px">
+      <Grid container>
+        <Grid item>
+          <SwitchCambiarTipoPago />
+        </Grid>
+      </Grid>
 			<Grid item>
 				<Typography fontSize='12px' fontWeight='600'>
 					{producto.codigoProducto}
@@ -205,9 +217,9 @@ const Izquierda: React.FC<Props> = ({producto}) => {
 					{producto.nombreProducto.toUpperCase()}
 				</Typography>
 			</Grid>
-			<Grid container direction='row' spacing={0.5} alignItems='center'>
+			<Grid container direction='row' columnSpacing={0.5} marginTop="2px" alignItems='center'>
 				<Grid item>
-					<CajaIcon />
+					<CajaIcon height="14px" width="19px" />
 				</Grid>
 				<Grid item>
 					<Typography fontSize='10px'>{`x${producto.presentacion}`}</Typography>
@@ -219,7 +231,7 @@ const Izquierda: React.FC<Props> = ({producto}) => {
 					>{`$${producto.precioConImpuestoUnidad}`}</Typography>
 				</Grid>
 				<Grid item>
-					<BotellaIcon />
+					<BotellaIcon height="14px" width="14px" />
 				</Grid>
 				<Grid item>
 					<Typography
@@ -253,6 +265,10 @@ const Derecha: React.FC<Props> = ({
 	const [getValues, setGetValues] = React.useState(defaultValues);
 
 	const {inputFocus, setInputFocus} = stateInputFocus;
+	
+	const [mostrarAcciones, setMostrarAcciones] = React.useState<boolean>(false)
+
+	const dispatch = useAppDispatch()
 
 	const handleOnChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -263,7 +279,7 @@ const Derecha: React.FC<Props> = ({
 		});
 		setFocusId(producto.codigoProducto);
 	};
-
+	
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === 'Enter') {
 			agregarProductoAlPedidoActual(getValues);
@@ -275,6 +291,15 @@ const Derecha: React.FC<Props> = ({
 			}
 		}
 	};
+	
+	React.useEffect(() =>{
+		if(getValues.unidades > 0 || getValues.subUnidades > 0){
+			setMostrarAcciones(true)
+		}
+		
+		return () => setMostrarAcciones(false)
+	}, [getValues.unidades, getValues.subUnidades])
+	
 
 	React.useEffect(() => {
 		agregarProductoAlPedidoActual(getValues);
@@ -322,12 +347,33 @@ const Derecha: React.FC<Props> = ({
 				direction='column'
 				alignItems='center'
 				justifyContent='center'
-				padding={2}
 				height='100%'
+				p="12px"
 			>
-				<Grid container direction='row' alignItems='center'>
+				{
+					mostrarAcciones &&
+						<Grid container direction="row" alignItems="center" justifyContent="end">
+							<Grid item>
+								<IconButton onClick={() => dispatch(borrarProductoDelPedidoActual({codigoProducto: producto.codigoProducto})) }>
+									<BorrarIcon 
+										height="15px" 
+										width="15px"
+									/>
+								</IconButton>
+							</Grid>
+							<Grid item>
+								<IconButton>
+									<CheckRedondoIcon 
+										height="17.5px" 
+										width="17.5px"
+									/>
+								</IconButton>
+							</Grid>
+						</Grid>
+				}
+				<Grid container direction='row' alignItems='center' justifyContent="center" flexWrap="nowrap">
 					<Grid item>
-						<CajaIcon />
+						<CajaIcon height="13px" width="18px" />
 					</Grid>
 					<Grid item>
 						<IconButton
@@ -373,9 +419,9 @@ const Derecha: React.FC<Props> = ({
 						</IconButton>
 					</Grid>
 				</Grid>
-				<Grid container direction='row' alignItems='center'>
+				<Grid container direction='row' alignItems='center' justifyContent="center" flexWrap="nowrap">
 					<Grid item>
-						<BotellaIcon />
+						<BotellaIcon width='18px' height='18px' />
 					</Grid>
 					<Grid item>
 						<IconButton

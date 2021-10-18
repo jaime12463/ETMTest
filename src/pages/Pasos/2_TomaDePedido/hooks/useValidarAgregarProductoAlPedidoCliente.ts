@@ -146,8 +146,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				return esValidacionCorrecta;
 			}
 
-			console.log(subUnidadesParseado);
-
 			const esSubUnidadEsMultiplo = validarSubUnidadesEsMultiplo(
 				subunidadesVentaMinima,
 				subUnidadesParseado
