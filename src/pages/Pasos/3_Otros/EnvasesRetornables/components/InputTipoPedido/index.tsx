@@ -19,17 +19,33 @@ const InputStyled = styled(Input)(({theme}) => ({
 
 type Props = {
 	tipoPedido: TTipoPedido | undefined;
+	stateTipoEnvases: any;
+};
+
+type Envases = {
+	tipoEnvase: string;
+	unidades: number;
+	subUnidades: number;
 };
 
 const InputTipoPedido: FunctionComponent<Props> = (props) => {
-	const {tipoPedido} = props;
+	const {tipoPedido, stateTipoEnvases} = props;
+	const {valoresEnvase, setValoresEnvase} = stateTipoEnvases;
+	/* 	const [envase, setEnvase] = useState<{
+		tipoEnvase: string;
+		unidades: number;
+		subUnidades: number;
+	}>({tipoEnvase: '', unidades: 0, subUnidades: 0}); */
 
-	const [unidadesTipoPedido, setUnidadesTipoPedido] = useState(
-		/*productoEnPedidos[2] ? productoEnPedidos[2].unidades :*/ 0
-	);
-	const [subUnidadesTipoPedido, setSubUnidadesTipoPedido] = useState(
-		/*productoEnPedidos[2] ? productoEnPedidos[2].subUnidades :*/ 0
-	);
+	let envase: Envases = {tipoEnvase: '', unidades: 0, subUnidades: 0};
+
+	if (tipoPedido) {
+		let envaseActual = valoresEnvase.find(
+			(envase: any) => tipoPedido.descripcionCorta === envase.tipoEnvase
+		);
+
+		envase = envaseActual;
+	}
 
 	return (
 		<>
@@ -47,18 +63,24 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 					</Typography>
 				</Grid>
 				<Grid item xs={3}>
-					<InputStyled
-						inputProps={{style: {textAlign: 'center'}}}
-						value={unidadesTipoPedido}
-						disableUnderline
-					/>
+					{tipoPedido && (
+						<InputStyled
+							inputProps={{style: {textAlign: 'center'}}}
+							value={envase?.unidades}
+							disableUnderline
+							onFocus={(e) => e.target.select()}
+						/>
+					)}
 				</Grid>
 				<Grid item xs={3}>
-					<InputStyled
-						inputProps={{style: {textAlign: 'center'}}}
-						value={subUnidadesTipoPedido}
-						disableUnderline
-					/>
+					{tipoPedido && (
+						<InputStyled
+							inputProps={{style: {textAlign: 'center'}}}
+							value={envase?.subUnidades}
+							disableUnderline
+							onFocus={(e) => e.target.select()}
+						/>
+					)}
 				</Grid>
 			</Grid>
 		</>

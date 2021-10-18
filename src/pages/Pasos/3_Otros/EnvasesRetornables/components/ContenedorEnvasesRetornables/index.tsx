@@ -1,7 +1,7 @@
 import {TarjetaColapsable} from 'components/UI';
 import {FunctionComponent, useState} from 'react';
 import {TProductoPedido, ETiposDePago} from 'models';
-import {Typography} from '@mui/material';
+import {Stack, Typography} from '@mui/material';
 import {TConsolidadoImplicitos} from 'models';
 import {useObtenerConsolidacionImplicitos} from './hooks';
 import {useObtenerVisitaActual, useObtenerConfiguracion} from 'redux/hooks';
@@ -41,18 +41,16 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 				: a.codigoImplicito - b.codigoImplicito
 		);
 
-	console.log(consolidacionImplicitos);
-
 	return (
 		<>
 			{puedeVerEnvases && (
-				<>
+				<Stack spacing={1.5}>
 					{consolidacionImplicitos.map(
 						(envase: TConsolidadoImplicitos, i: number) => (
 							<TarjetaEnvasesRetornables envase={envase} key={i} />
 						)
 					)}
-				</>
+				</Stack>
 			)}
 		</>
 	);

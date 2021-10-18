@@ -38,7 +38,7 @@ export const useAgregarProductoAlPedidoActual = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
 	getValues: UseFormGetValues<TFormTomaDePedido>
 ) => {
-	console.log(getValues);
+
 
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();

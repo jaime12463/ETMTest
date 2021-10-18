@@ -51,6 +51,7 @@ const TarjetaEnvasesRetornables = ({
 	const [preciosProductos, setPreciosProductos] = useState<TPrecioProducto[]>(
 		[]
 	);
+
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 	const visitaActual = useObtenerVisitaActual();
 
@@ -69,7 +70,7 @@ const TarjetaEnvasesRetornables = ({
 	const unidadesIniciales = unidades;
 	const subUnidadesIniciales = subUnidades;
 
-	const [unidadesVenta, setUnidadesVenta] = useState(
+	/* 	const [unidadesVenta, setUnidadesVenta] = useState(
 		productoEnPedidos[2] ? productoEnPedidos[2].unidades : 0
 	);
 	const [subUnidadesVenta, setSubUnidadesVenta] = useState(
@@ -88,7 +89,7 @@ const TarjetaEnvasesRetornables = ({
 	);
 	const [subUnidadesRetorno, setSubUnidadesRetorno] = useState(
 		subUnidadesIniciales - subUnidadesVenta - subUnidadesPrestamo
-	);
+	); */
 
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
@@ -115,9 +116,21 @@ const TarjetaEnvasesRetornables = ({
 			)?.esValorizado === true
 	);
 
+	console.log(pedidosEnvasesHabilitados);
+
+	const tipoPedidosEnvases = pedidosEnvasesHabilitados.map((tipoEnvases) => ({
+		tipoEnvase: tipoEnvases?.descripcionCorta,
+		unidades: 0,
+		subUnidades: 0,
+	}));
+
+	const envasesDefault = tipoPedidosEnvases;
+
+	const [valoresEnvase, setValoresEnvase] = useState(envasesDefault);
+
 	let tieneTipoPedidoValorizado = buscarPedidoValorizado.includes(true);
 
-	const cambioSubUnidadesPorTipoPedido = (
+	/* const cambioSubUnidadesPorTipoPedido = (
 		subUnidadesIngresadas: number,
 		subUnidadesEnvasesPrincipal: number,
 		setSubUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>,
@@ -152,9 +165,9 @@ const TarjetaEnvasesRetornables = ({
 				);
 
 		return subUnidadesPermitidas;
-	};
+	}; */
 
-	const cambioUnidadesPorTipoPedido = (
+	/* const cambioUnidadesPorTipoPedido = (
 		unidadesIngresadas: number,
 		unidadesEnvasesPrincipal: number,
 		setUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>,
@@ -187,9 +200,7 @@ const TarjetaEnvasesRetornables = ({
 
 		return unidadesPermitidas;
 	};
-
-	console.log(envase);
-
+ */
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
@@ -250,7 +261,6 @@ const TarjetaEnvasesRetornables = ({
 							<Grid item xs={3}>
 								<InputStyled
 									inputProps={{style: {textAlign: 'center'}}}
-									value={unidadesRetorno}
 									disableUnderline
 									readOnly
 								/>
@@ -259,7 +269,6 @@ const TarjetaEnvasesRetornables = ({
 							<Grid item xs={3}>
 								<InputStyled
 									inputProps={{style: {textAlign: 'center'}}}
-									value={subUnidadesRetorno}
 									disableUnderline
 									readOnly
 								/>
@@ -267,79 +276,10 @@ const TarjetaEnvasesRetornables = ({
 						</Grid>
 
 						{pedidosEnvasesHabilitados?.map((tipoPedido) => (
-							<InputTipoPedido tipoPedido={tipoPedido} />
-							/*<Grid
-								item
-								display='flex'
-								alignItems='center'
-								justifyContent='space-between'
-								xs={12}
-								key={tipoPedido?.descripcionCorta}
-							>
-								<Grid item xs={4}>
-									<Typography fontFamily='Open Sans' variant={'caption'}>
-										{`${tipoPedido?.descripcionCorta}`}
-									</Typography>
-								</Grid>
-								<Grid item xs={3}>
-									<InputStyled
-										inputProps={{style: {textAlign: 'center'}}}
-										value={
-											tipoPedido?.descripcionCorta === 'Venta'
-												? unidadesVenta
-												: unidadesPrestamo
-										}
-										disableUnderline
-										onChange={(e) =>
-											cambioUnidadesPorTipoPedido(
-												parseInt(e.target.value),
-												tipoPedido?.descripcionCorta === 'Venta'
-													? unidadesVenta
-													: unidadesPrestamo,
-												tipoPedido?.descripcionCorta === 'Venta'
-													? setUnidadesVenta
-													: setUnidadesPrestamo,
-												tipoPedido?.descripcionCorta === 'Venta'
-													? unidadesPrestamo
-													: unidadesVenta,
-												tipoPedido?.codigo,
-												tipoPedido?.descripcionCorta === 'Venta'
-													? subUnidadesVenta
-													: subUnidadesPrestamo
-											)
-										}
-									/>
-								</Grid>
-								<Grid item xs={3}>
-									<InputStyled
-										inputProps={{style: {textAlign: 'center'}}}
-										value={
-											tipoPedido?.descripcionCorta === 'Venta'
-												? subUnidadesVenta
-												: subUnidadesPrestamo
-										}
-										disableUnderline
-										onChange={(e) =>
-											cambioSubUnidadesPorTipoPedido(
-												parseInt(e.target.value),
-												tipoPedido?.descripcionCorta === 'Venta'
-													? subUnidadesVenta
-													: subUnidadesPrestamo,
-												tipoPedido?.descripcionCorta === 'Venta'
-													? setSubUnidadesVenta
-													: setSubUnidadesPrestamo,
-												tipoPedido?.descripcionCorta === 'Venta'
-													? subUnidadesPrestamo
-													: subUnidadesVenta,
-												tipoPedido?.codigo,
-												tipoPedido?.descripcionCorta === 'Venta'
-													? unidadesVenta
-													: unidadesPrestamo
-											)
-										}
-									/>
-								</Grid>
-							</Grid>*/
+							<InputTipoPedido
+								tipoPedido={tipoPedido}
+								stateTipoEnvases={{valoresEnvase, setValoresEnvase}}
+							/>
 						))}
 					</Grid>
 				}
@@ -416,27 +356,3 @@ const TarjetaEnvasesRetornables = ({
 };
 
 export default TarjetaEnvasesRetornables;
-
-{
-	/* 						<Box
-							display='flex'
-							width={'100%'}
-							alignItems='center'
-							justifyContent='space-between'
-						>
-							<Typography fontFamily='Open Sans' variant={'caption'}>
-								{'Total:'}
-							</Typography>
-
-							<InputStyled
-								value={unidadesIniciales}
-								disableUnderline
-								readOnly
-							/>
-							<InputStyled
-								value={subUnidadesIniciales}
-								disableUnderline
-								readOnly
-							/>
-						</Box> */
-}

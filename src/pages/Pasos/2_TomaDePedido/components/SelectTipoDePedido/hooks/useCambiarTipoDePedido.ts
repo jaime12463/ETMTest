@@ -33,7 +33,7 @@ export const useCambiarTipoDePedido = (resetLineaActual: () => void) => {
 				})
 			);
 		} else {
-			console.log('No valida presupuesto');
+		
 			dispatch(cambiarBloquearPanelCarga({bloquearPanelCarga: false}));
 		}
 
