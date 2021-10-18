@@ -1059,6 +1059,44 @@
 			},
 			"portafolio": [
 				{
+					"codigoProducto": 170456,
+					"esVentaSubunidades": true,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 106,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
+					"codigoProducto": 170445,
+					"esVentaSubunidades": true,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 106,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
 					"codigoProducto": 17640,
 					"esVentaSubunidades": true,
 					"unidadesDisponibles": 10,

@@ -1,45 +1,59 @@
 import {FunctionComponent, useState} from 'react';
 import {useHistory} from 'react-router-dom';
-import {
-	IndicadoresDelPedidoActual,
-} from './components';
-import  { controlador, TControlador} from './controlador';
-import {
-	Dialogo,
-	Estructura,
-	BotonBarraInferior,
-	Stepper,
-} from 'components/UI';
+import {IndicadoresDelPedidoActual} from './components';
+import {controlador, TControlador} from './controlador';
+import {Dialogo, Estructura, BotonBarraInferior, Stepper} from 'components/UI';
 import {Box} from '@mui/material';
+import {InfoClienteDelPedidoActual} from 'components/Negocio';
 import {
-	
-	InfoClienteDelPedidoActual,
-} from 'components/Negocio';
+	useObtenerPedidosValorizados,
+	useObtenerTotalPedidosVisitaActual,
+} from 'hooks';
 
+import {
+	useObtenerClienteActual,
+	useObtenerCompromisoDeCobroActual,
+} from 'redux/hooks';
+import {
+	InputsKeysFormTomaDePedido,
+	TClienteActual,
+	TFormTomaDePedido,
+	TPrecioProducto,
+	TProductoPedido,
+	TTipoPedido,
+} from 'models';
 
-import {useObtenerClienteActual} from 'redux/hooks';
-import {InputsKeysFormTomaDePedido, TClienteActual, TFormTomaDePedido, TPrecioProducto, TProductoPedido, TTipoPedido} from 'models';
+const formatearItems = (items: number) => {
+	const cerosCharacters = 3;
 
+	let ceros = cerosCharacters - items.toString().length;
+	return '0'.repeat(ceros) + items.toString();
+};
 
 const Pasos: React.FC = () => {
 	const [pasoActual, setPasoActual] = useState(0);
 	const history = useHistory();
 	const {razonSocial}: TClienteActual = useObtenerClienteActual();
-	 
-	const manejadorPasoAtras=() =>
-	{
-		if ( pasoActual==0)
-		{
+
+	const ObtenerPedidosValorizados = useObtenerPedidosValorizados();
+	const itemsValorizados = ObtenerPedidosValorizados();
+	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
+	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
+
+	const totalVisitaActual =
+		obtenerTotalPedidosVisitaActual().totalPrecio +
+		compromisoDeCobroActual.monto;
+
+	const manejadorPasoAtras = () => {
+		if (pasoActual == 0) {
 			history.goBack();
-		}else{
-			setPasoActual(pasoActual-1);
+		} else {
+			setPasoActual(pasoActual - 1);
 		}
-	}
-	const manejadorPasoAdelante= ()=>
-	{
-		if (pasoActual < controlador.length-1) 
-			setPasoActual(pasoActual+1);
-	}
+	};
+	const manejadorPasoAdelante = () => {
+		if (pasoActual < controlador.length - 1) setPasoActual(pasoActual + 1);
+	};
 
 	return (
 		<Estructura>
@@ -56,40 +70,34 @@ const Pasos: React.FC = () => {
 					<IndicadoresDelPedidoActual />
 				</Box>
 				<Box my={3}>
-					<Stepper 
-						pasos={controlador.map((paso:TControlador, index) => `${index+1}. ${paso.titulo}` )} 
-						pasoActivo={pasoActual} 	
+					<Stepper
+						pasos={controlador.map(
+							(paso: TControlador, index) => `${index + 1}. ${paso.titulo}`
+						)}
+						pasoActivo={pasoActual}
 					/>
 				</Box>
 
 				<Contenedor pasoActivo={pasoActual} />
-
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
 				<BotonBarraInferior
 					descripcion='Continuar a Toma de pedido'
-					numeroItems={130}
-					total='1000.00$'
-					onClick={() =>
-						//history.push(`${path}${nombresRutas.envasesRetornables}`)
-						manejadorPasoAdelante()
-					}
+					numeroItems={formatearItems(itemsValorizados.length)}
+					total={totalVisitaActual}
+					onClick={() => manejadorPasoAdelante()}
 				/>
 			</Estructura.PieDePagina>
 		</Estructura>
 	);
 };
 
-
 type Props = {
 	pasoActivo: number;
-	
 };
 
-const Contenedor: FunctionComponent<Props> = ({pasoActivo}) =>{
-	return(
-		controlador[pasoActivo].componente
-	)
-}
+const Contenedor: FunctionComponent<Props> = ({pasoActivo}) => {
+	return controlador[pasoActivo].componente;
+};
 
 export default Pasos;

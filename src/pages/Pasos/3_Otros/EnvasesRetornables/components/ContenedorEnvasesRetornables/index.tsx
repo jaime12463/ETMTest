@@ -41,6 +41,8 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 				: a.codigoImplicito - b.codigoImplicito
 		);
 
+	console.log(consolidacionImplicitos);
+
 	return (
 		<>
 			{puedeVerEnvases && (

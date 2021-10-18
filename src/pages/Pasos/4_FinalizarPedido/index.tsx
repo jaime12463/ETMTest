@@ -42,24 +42,7 @@ export const FinalizarPedido: React.FC = () => {
 	const {razonSocial}: TClienteActual = useObtenerClienteActual();
 	return (
 		<>
-			<Estructura>
-				<Estructura.Encabezado esConFechaHaciaAtras={true} titulo={razonSocial}>
-					<InfoClienteDelPedidoActual />
-				</Estructura.Encabezado>
-				<Estructura.Cuerpo>
-					<Box my={3}>
-					</Box>
-				</Estructura.Cuerpo>
-				<Estructura.PieDePagina>
-					{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-					<BotonBarraInferior
-						descripcion='Finalizar Pedido'
-						numeroItems={130}
-						total='1000.00$'
-						onClick={() => agregarPedidoActualAPedidosClientes()}
-					/>
-				</Estructura.PieDePagina>
-			</Estructura>
+			<>{mostarDialogo && <Dialogo {...parametrosDialogo} />}</>
 		</>
 	);
 };

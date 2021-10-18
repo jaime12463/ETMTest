@@ -188,6 +188,8 @@ const TarjetaEnvasesRetornables = ({
 		return unidadesPermitidas;
 	};
 
+	console.log(envase);
+
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}

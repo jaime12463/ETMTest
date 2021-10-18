@@ -1,15 +1,18 @@
 import {FunctionComponent} from 'react';
+import {formatearNumero} from 'utils/methods';
 import Button from '@mui/material/Button';
 import {Box, Grid, Stack} from '@mui/material';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
-	numeroItems: number;
+	numeroItems: string;
 	descripcion: string;
-	total: string;
+	total: number;
 	onClick: (e: any) => void;
 };
 
 export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
+	const {t} = useTranslation();
 	return (
 		<Button
 			variant='contained'
@@ -74,7 +77,7 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 					xs={3}
 					style={{fontSize: '20px', fontWeight: 600, lineHeight: '24px'}}
 				>
-					{props.total}
+					{formatearNumero(props.total, t)}
 				</Grid>
 			</Grid>
 		</Button>
