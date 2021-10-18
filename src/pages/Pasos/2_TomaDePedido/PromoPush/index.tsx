@@ -1,5 +1,5 @@
 import React from 'react';
-import {TarjetaColapsable} from 'components/UI';
+import {TarjetaColapsable, Dialogo} from 'components/UI';
 import {Typography, Button, Grid, Radio, Chip, Stack} from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import {styled} from '@mui/material/styles';
@@ -7,6 +7,10 @@ import TarjetaPromoPush from './TarjetaPromoPush';
 import {useObtenerPromoPushDelCliente} from 'hooks';
 import useEstilos from './useEstilos';
 import {BorrarIcon} from 'assests/iconos';
+import {useAgregarProductoAlPedidoActual} from './hooks/useAgregarProductoAlPedidoActual';
+import {useObtenerVisitaActual} from 'redux/hooks';
+import {useMostrarAdvertenciaEnDialogo} from 'hooks';
+import {TProductoPedido} from 'models';
 
 const TextStyled = styled(Typography)(() => ({
 	color: '#651C32',
