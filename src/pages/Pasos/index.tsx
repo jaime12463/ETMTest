@@ -1,4 +1,4 @@
-import {FunctionComponent, useState} from 'react';
+import {FunctionComponent, useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {IndicadoresDelPedidoActual} from './components';
 import {controlador, TControlador} from './controlador';
@@ -27,6 +27,7 @@ const formatearItems = (items: number) => {
 const Pasos: React.FC = () => {
 	const {t} = useTranslation();
 	const [pasoActual, setPasoActual] = useState(0);
+	const [leyendaBoton, setLeyendaBoton]=useState(`${t('general.continuarA')} ${t(controlador[1].titulo)}`);
 	const history = useHistory();
 	const {razonSocial}: TClienteActual = useObtenerClienteActual();
 
@@ -39,6 +40,15 @@ const Pasos: React.FC = () => {
 		obtenerTotalPedidosVisitaActual().totalPrecio +
 		compromisoDeCobroActual.monto;
 
+		useEffect(() => {
+			if (pasoActual < controlador.length - 1)
+			{
+				setLeyendaBoton(`${t('general.continuarA')}\n ${t(controlador[pasoActual+1].titulo).toLowerCase()}`);
+			} else {
+				setLeyendaBoton(t(controlador[pasoActual].titulo));
+			}
+
+		}, [pasoActual])
 	const manejadorPasoAtras = () => {
 		if (pasoActual == 0) {
 			history.goBack();
@@ -47,7 +57,10 @@ const Pasos: React.FC = () => {
 		}
 	};
 	const manejadorPasoAdelante = () => {
-		if (pasoActual < controlador.length - 1) setPasoActual(pasoActual + 1);
+		if (pasoActual < controlador.length - 1)
+		{
+			 setPasoActual(pasoActual + 1);
+		}
 	};
 
 	return (
@@ -77,7 +90,7 @@ const Pasos: React.FC = () => {
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
 				<BotonBarraInferior
-					descripcion='Continuar a Toma de pedido'
+					descripcion={leyendaBoton}
 					numeroItems={formatearItems(itemsValorizados.length)}
 					total={totalVisitaActual}
 					onClick={() => manejadorPasoAdelante()}

@@ -47,6 +47,7 @@ const en = {
 		agregarOrdenDeCompra: 'Add Purchase Order?',
 		deseaAgregarOrdenDeCompra: 'Do you want to associate a purchase order?',
 		agregarProductoSKU: 'add product by SKU...',	
+		continuarA: 'Continue to  ',
 	},
 	simbolos: {
 		decimal: ',',
