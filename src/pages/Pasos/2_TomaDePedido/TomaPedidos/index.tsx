@@ -23,7 +23,7 @@ import {
 } from 'redux/features/visitaActual/visitaActualSlice';
 
 import {TarjetaColapsable, TarjetaDoble, Dialogo} from 'components/UI';
-import {InputSeleccionarProducto} from 'components/Negocio';
+import {AutocompleteSeleccionarProducto, InputSeleccionarProducto} from 'components/Negocio';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -130,19 +130,14 @@ const TomaPedido: React.FC = () => {
 			cantidadItems={venta.productos.length}
 		>
 			<Stack spacing='10px'>
-				{/* <AutocompleteSeleccionarProducto
+				 <AutocompleteSeleccionarProducto
 					hookForm={hookForm}
 					stateProductoActual={{productoActual, setProductoActual}} 
 					statePreciosProductos={{preciosProductos, setPreciosProductos}} 
 					stateInputFocus={stateInputFocus} 
-    		/> */}
+    		/> 
 
-				<InputSeleccionarProducto
-					hookForm={hookForm}
-					stateProductoActual={{productoActual, setProductoActual}}
-					statePreciosProductos={{preciosProductos, setPreciosProductos}}
-					stateInputFocus={stateInputFocus}
-				/>
+				
 
 				<Grid container alignItems='center' justifyContent='space-between'>
 					<SwitchCambiarTipoPago />

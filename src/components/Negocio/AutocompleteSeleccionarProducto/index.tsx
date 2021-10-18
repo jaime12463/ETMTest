@@ -69,15 +69,21 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 
 	const [productoSeleccionado, setProductoSeleccionado] = useState<TPrecioProducto | null>();
 	const [textoIngresado, setTextoIngresado] = useState('');
-	const [opciones, setOpciones] = useState<TPrecioProducto[]>([]);// (preciosProductos);
+	const [opciones, setOpciones] = useState<TPrecioProducto[]>([]); //(preciosProductos);
 
 
 	useEffect(()=>{
-		console.log("éntre en effect");
-		if(textoIngresado.length>=3)
-			setOpciones(preciosProductos.filter((item)=> (item.nombreProducto.toLowerCase().indexOf(textoIngresado.toLowerCase()) > -1 || item.codigoProducto.toString()==textoIngresado)));
+		console.log("éntre en effect - texto ingresado", textoIngresado);
+		if (textoIngresado.length>= 3)
+		{
+			const lista= preciosProductos.filter((item)=> (item.nombreProducto.toLowerCase().indexOf(textoIngresado.toLowerCase()) > -1 || item.codigoProducto.toString()==textoIngresado))
+			setOpciones(lista);
+		}else if(textoIngresado.length===0)
+		{
+			setOpciones([]);
+		}
 
-	},[textoIngresado.length>=3])
+	},[textoIngresado])
 
 	return (
 		<>
@@ -95,6 +101,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 							<BuscarIcon />
 						</IconButton>
 						<Autocomplete
+							filterOptions={(x) => x}
 							options={opciones}
 							getOptionLabel={(option) => 
 								option['codigoProducto'].toString() + ' - ' + option['nombreProducto']}
