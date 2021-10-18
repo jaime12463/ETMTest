@@ -52,8 +52,7 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 							style={{
 								fontSize: '10px',
 								fontWeight: 'bold',
-								lineHeight: '18px',
-								textTransform: 'uppercase',
+								lineHeight: '10px',
 							}}
 						>
 							ITEMS
@@ -68,6 +67,7 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 						fontWeight: 'normal',
 						lineHeight: '14px',
 						textAlign: 'center',
+						textTransform:'none'
 					}}
 				>
 					{props.descripcion}

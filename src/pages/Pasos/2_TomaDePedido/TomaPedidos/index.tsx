@@ -120,68 +120,55 @@ const TomaPedido: React.FC = () => {
 	}, [productoActual?.codigoProducto]);
 
 	return (
-		<TarjetaColapsable
-			id='Toma de pedido'
-			titulo={<Typography variant={'subtitle1'}>Toma de pedido</Typography>}
-			subTitulo={
-				<Typography variant={'body3'}>
-					Modifica tu pedido con las mejores opciones para tu cliente.
-				</Typography>
-			}
-			expandido={expandido}
-			setExpandido={setExpandido}
-			cantidadItems={venta.productos.length}
-		>
-			<Stack spacing='10px'>
-				<AutocompleteSeleccionarProducto
-					hookForm={hookForm}
-					stateProductoActual={{productoActual, setProductoActual}}
-					statePreciosProductos={{preciosProductos, setPreciosProductos}}
-					stateInputFocus={stateInputFocus}
+		<Stack spacing='10px'>
+			<AutocompleteSeleccionarProducto
+				hookForm={hookForm}
+				stateProductoActual={{productoActual, setProductoActual}}
+				statePreciosProductos={{preciosProductos, setPreciosProductos}}
+				stateInputFocus={stateInputFocus}
+			/>
+
+			<Grid container alignItems='center' justifyContent='space-between'>
+				<SwitchCambiarTipoPago />
+				<Chip
+					className={classes.root}
+					size='small'
+					icon={<BorrarIcon width='7.5px' height='7.5px' />}
+					label={<TextStyled>Borrar todo</TextStyled>}
+					onClick={() =>
+						dispatch(
+							borrarProductosDeVisitaActual({
+								tipoPedidoActual: visitaActual.tipoPedidoActual,
+							})
+						)
+					}
+					sx={{'&:hover': {background: 'none'}}}
 				/>
+			</Grid>
 
-				<Grid container alignItems='center' justifyContent='space-between'>
-					<SwitchCambiarTipoPago />
-					<Chip
-						className={classes.root}
-						size='small'
-						icon={<BorrarIcon width='7.5px' height='7.5px' />}
-						label={<TextStyled>Borrar todo</TextStyled>}
-						onClick={() =>
-							dispatch(
-								borrarProductosDeVisitaActual({
-									tipoPedidoActual: visitaActual.tipoPedidoActual,
-								})
-							)
-						}
-						sx={{'&:hover': {background: 'none'}}}
-					/>
-				</Grid>
-
-				{venta.productos.length > 0 &&
-					venta.productos.map((producto) => {
-						return (
-							<TarjetaDoble
-								key={producto.codigoProducto}
-								izquierda={
-									<Izquierda
-										producto={producto}
-										condicion={clienteActual.condicion}
-									/>
-								}
-								derecha={
-									<Derecha
-										producto={producto}
-										stateInputFocus={stateInputFocus}
-										visitaActual={visitaActual}
-										statefocusId={{focusId, setFocusId}}
-									/>
-								}
-							/>
-						);
-					})}
-			</Stack>
-		</TarjetaColapsable>
+			{venta.productos.length > 0 &&
+				venta.productos.map((producto) => {
+					return (
+						<TarjetaDoble
+							key={producto.codigoProducto}
+							izquierda={
+								<Izquierda
+									producto={producto}
+									condicion={clienteActual.condicion}
+								/>
+							}
+							derecha={
+								<Derecha
+									producto={producto}
+									stateInputFocus={stateInputFocus}
+									visitaActual={visitaActual}
+									statefocusId={{focusId, setFocusId}}
+								/>
+							}
+						/>
+					);
+				})}
+		</Stack>
 	);
 };
 

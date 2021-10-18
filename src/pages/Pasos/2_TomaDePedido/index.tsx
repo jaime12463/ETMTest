@@ -14,7 +14,15 @@ import {
 	TarjetaColapsable,
 	TarjetaDoble,
 } from 'components/UI';
-import {Button, Grid, IconButton, Box, Typography, Input, Stack} from '@mui/material';
+import {
+	Button,
+	Grid,
+	IconButton,
+	Box,
+	Typography,
+	Input,
+	Stack,
+} from '@mui/material';
 import {useTranslation} from 'react-i18next';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 import nombresRutas from 'routes/nombresRutas';
@@ -63,19 +71,41 @@ import TomaPedido from './TomaPedidos';
 import PromoPush from './PromoPush';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
-	const [value, setValue] = React.useState(0);
-	const {mostrarPromoPush} = useObtenerVisitaActual();
-	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
-	const history = useHistory();
-	let {path} = useRouteMatch();
-	const {razonSocial}: TClienteActual = useObtenerClienteActual();
+	const [expandido, setExpandido] = React.useState<boolean | string>(false);
+	const visitaActual = useObtenerVisitaActual();
+	const {venta} = visitaActual.pedidos;
 
 	return (
 		<Stack spacing={2}>
 			{/* <TabsPedidoActual value={value} setValue={setValue} /> */}
+			<TarjetaColapsable
+				id='Toma de pedido'
+				titulo={<Typography variant={'subtitle1'}>Toma de pedido</Typography>}
+				subTitulo={
+					<Typography variant={'body3'}>
+						Modifica tu pedido con las mejores opciones para tu cliente.
+					</Typography>
+				}
+				expandido={expandido}
+				setExpandido={setExpandido}
+				cantidadItems={venta.productos.length}
+			>
+				<TomaPedido />
+			</TarjetaColapsable>
 
-			<TomaPedido />
-			<PromoPush />
+			<TarjetaColapsable
+				id='Promociones'
+				titulo={<Typography variant={'subtitle1'}>Promociones</Typography>}
+				subTitulo={
+					<Typography variant={'body3'}>
+						Selecciona las promociones que tienes disponible para tus clientes.
+					</Typography>
+				}
+				expandido={expandido}
+				setExpandido={setExpandido}
+			>
+				<PromoPush />
+			</TarjetaColapsable>
 		</Stack>
 	);
 };
@@ -105,14 +135,13 @@ function BotonAgregarOrdenDeCompra() {
 			pedidos[pedido]?.productos.length > 0
 	);
 
-
 	const manjadorClickDialog = (resultado: boolean, data: any) => {
 		if (resultado)
 			if (data.textoInput.trim() !== '')
 				dispatch(cambiarOrdenDeCompra({ordenDeCompra: data.textoInput}));
 			else {
 				//EMAHOY
-/* 				console.log(
+				/* 				console.log(
 					'DATA en blanco y acepto. Debe mostrar segunda advertencia'
 				); */
 			}

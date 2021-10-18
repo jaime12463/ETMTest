@@ -47,13 +47,14 @@ const es = {
 		agregarOrdenDeCompra: '¿Agregar Orden Compra?',
 		deseaAgregarOrdenDeCompra: '¿Desea asociar una orden de compra?',
 		agregarProductoSKU: 'Agregar producto por SKU...',
+		continuarA: 'Continuar a ',
 	},
 	simbolos: {
 		decimal: '.',
 		miles: ',',
 		moneda: '$',
 		formatoFechaAmericano: 'false',
-		conDecimales: 'true',
+		conDecimales: 'false',
 	},
 	titulos: {
 		bienvenido: 'Bienvenido',
