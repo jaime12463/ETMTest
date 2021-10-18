@@ -2,7 +2,7 @@ import {FunctionComponent, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {IndicadoresDelPedidoActual} from './components';
 import {controlador, TControlador} from './controlador';
-import {Dialogo, Estructura, BotonBarraInferior, Stepper} from 'components/UI';
+import {Estructura, BotonBarraInferior, Stepper} from 'components/UI';
 import {Box} from '@mui/material';
 import {InfoClienteDelPedidoActual} from 'components/Negocio';
 import {
@@ -14,14 +14,8 @@ import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
 } from 'redux/hooks';
-import {
-	InputsKeysFormTomaDePedido,
-	TClienteActual,
-	TFormTomaDePedido,
-	TPrecioProducto,
-	TProductoPedido,
-	TTipoPedido,
-} from 'models';
+import {TClienteActual} from 'models';
+import {useTranslation} from 'react-i18next';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -31,6 +25,7 @@ const formatearItems = (items: number) => {
 };
 
 const Pasos: React.FC = () => {
+	const {t} = useTranslation();
 	const [pasoActual, setPasoActual] = useState(0);
 	const history = useHistory();
 	const {razonSocial}: TClienteActual = useObtenerClienteActual();
@@ -72,7 +67,7 @@ const Pasos: React.FC = () => {
 				<Box my={3}>
 					<Stepper
 						pasos={controlador.map(
-							(paso: TControlador, index) => `${index + 1}. ${paso.titulo}`
+							(paso: TControlador, index) => `${index + 1}. ${t(paso.titulo)}`
 						)}
 						pasoActivo={pasoActual}
 					/>
