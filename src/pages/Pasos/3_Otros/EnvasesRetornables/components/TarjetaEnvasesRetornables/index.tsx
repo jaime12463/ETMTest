@@ -70,6 +70,14 @@ const TarjetaEnvasesRetornables = ({
 	const unidadesIniciales = unidades;
 	const subUnidadesIniciales = subUnidades;
 
+	const [retorno, setRetorno] = useState<{
+		unidades: number;
+		subUnidades: number;
+	}>({
+		unidades: unidadesIniciales,
+		subUnidades: subUnidadesIniciales,
+	});
+
 	/* 	const [unidadesVenta, setUnidadesVenta] = useState(
 		productoEnPedidos[2] ? productoEnPedidos[2].unidades : 0
 	);
@@ -116,8 +124,6 @@ const TarjetaEnvasesRetornables = ({
 			)?.esValorizado === true
 	);
 
-	console.log(pedidosEnvasesHabilitados);
-
 	const tipoPedidosEnvases = pedidosEnvasesHabilitados.map((tipoEnvases) => ({
 		tipoEnvase: tipoEnvases?.descripcionCorta,
 		unidades: 0,
@@ -130,7 +136,7 @@ const TarjetaEnvasesRetornables = ({
 
 	let tieneTipoPedidoValorizado = buscarPedidoValorizado.includes(true);
 
-	/* const cambioSubUnidadesPorTipoPedido = (
+	/* 	const cambioSubUnidadesPorTipoPedido = (
 		subUnidadesIngresadas: number,
 		subUnidadesEnvasesPrincipal: number,
 		setSubUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>,
@@ -167,28 +173,28 @@ const TarjetaEnvasesRetornables = ({
 		return subUnidadesPermitidas;
 	}; */
 
-	/* const cambioUnidadesPorTipoPedido = (
+	/* 	const cambioUnidadesPorTipoPedido = (
 		unidadesIngresadas: number,
-		unidadesEnvasesPrincipal: number,
-		setUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>,
-		unidadesSecundario: number,
-		codigoTipoPedidoActual: number | undefined,
-		subUnidades: number
+		tipoEnvase: string,
+		totalUnidadesTiposEnvase: any,
+		codigoTipoPedidoActual: string | undefined
 	): boolean => {
 		let unidadesPermitidas = false;
 
 		if (!Number.isNaN(unidadesIngresadas))
-			if (unidadesIngresadas <= unidadesRetorno + unidadesEnvasesPrincipal) {
-				setUnidadesRetorno(
-					unidadesIniciales - unidadesSecundario - unidadesIngresadas
-				);
+			if (unidadesIngresadas <= retorno.unidades + unidadesEnvasesPrincipal) {
+				setRetorno({
+					...retorno,
+					unidades:
+						unidadesIniciales - totalUnidadesTiposEnvase - unidadesIngresadas,
+				});
 				setUnidadesEnvasesPrincipal(unidadesIngresadas);
 				unidadesPermitidas = true;
 
 				agregarProductoAlPedidoActual(
 					productoEnvase,
 					unidadesIngresadas,
-					subUnidades,
+					0,
 					envase.tipoPago,
 					codigoTipoPedidoActual
 				);
@@ -199,8 +205,8 @@ const TarjetaEnvasesRetornables = ({
 				);
 
 		return unidadesPermitidas;
-	};
- */
+	}; */
+
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
@@ -262,6 +268,7 @@ const TarjetaEnvasesRetornables = ({
 								<InputStyled
 									inputProps={{style: {textAlign: 'center'}}}
 									disableUnderline
+									value={unidadesIniciales}
 									readOnly
 								/>
 							</Grid>
@@ -270,6 +277,7 @@ const TarjetaEnvasesRetornables = ({
 								<InputStyled
 									inputProps={{style: {textAlign: 'center'}}}
 									disableUnderline
+									value={subUnidadesIniciales}
 									readOnly
 								/>
 							</Grid>

@@ -76,7 +76,7 @@ export const visitaActualSlice = createSlice({
 			state,
 			action: PayloadAction<{
 				productoPedido: TProductoPedido;
-				codigoTipoPedidoActual: number;
+				codigoTipoPedidoActual: string;
 			}>
 		) => {
 			const productosPedidoClienteFiltrados = state.pedidos[

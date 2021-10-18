@@ -1,5 +1,5 @@
 import {TarjetaColapsable} from 'components/UI';
-import {FunctionComponent, useState} from 'react';
+import React, {FunctionComponent, useState} from 'react';
 import {TProductoPedido, ETiposDePago, TTipoPedido} from 'models';
 import {Grid, Input, styled, Typography} from '@mui/material';
 import {TConsolidadoImplicitos} from 'models';
@@ -20,6 +20,7 @@ const InputStyled = styled(Input)(({theme}) => ({
 type Props = {
 	tipoPedido: TTipoPedido | undefined;
 	stateTipoEnvases: any;
+	/* 	cambioUnidadesPorTipoPedido: any; */
 };
 
 type Envases = {
@@ -31,20 +32,19 @@ type Envases = {
 const InputTipoPedido: FunctionComponent<Props> = (props) => {
 	const {tipoPedido, stateTipoEnvases} = props;
 	const {valoresEnvase, setValoresEnvase} = stateTipoEnvases;
-	/* 	const [envase, setEnvase] = useState<{
-		tipoEnvase: string;
-		unidades: number;
-		subUnidades: number;
-	}>({tipoEnvase: '', unidades: 0, subUnidades: 0}); */
 
 	let envase: Envases = {tipoEnvase: '', unidades: 0, subUnidades: 0};
+	let otrosTiposEnvase: any = [];
 
 	if (tipoPedido) {
 		let envaseActual = valoresEnvase.find(
 			(envase: any) => tipoPedido.descripcionCorta === envase.tipoEnvase
 		);
-
 		envase = envaseActual;
+
+		otrosTiposEnvase = valoresEnvase.filter(
+			(envase: any) => tipoPedido.descripcionCorta !== envase.tipoEnvase
+		);
 	}
 
 	return (
@@ -68,6 +68,14 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 							inputProps={{style: {textAlign: 'center'}}}
 							value={envase?.unidades}
 							disableUnderline
+							/* 							onChange={(e) =>
+								cambioUnidadesPorTipoPedido(
+									e.target.value,
+									envase?.tipoEnvase,
+									otrosTiposEnvase,
+									tipoPedido.codigo
+								)
+							} */
 							onFocus={(e) => e.target.select()}
 						/>
 					)}

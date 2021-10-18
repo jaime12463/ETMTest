@@ -23,7 +23,10 @@ import {
 } from 'redux/features/visitaActual/visitaActualSlice';
 
 import {TarjetaColapsable, TarjetaDoble, Dialogo} from 'components/UI';
-import {AutocompleteSeleccionarProducto, InputSeleccionarProducto} from 'components/Negocio';
+import {
+	AutocompleteSeleccionarProducto,
+	InputSeleccionarProducto,
+} from 'components/Negocio';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -130,14 +133,12 @@ const TomaPedido: React.FC = () => {
 			cantidadItems={venta.productos.length}
 		>
 			<Stack spacing='10px'>
-				 <AutocompleteSeleccionarProducto
+				<AutocompleteSeleccionarProducto
 					hookForm={hookForm}
-					stateProductoActual={{productoActual, setProductoActual}} 
-					statePreciosProductos={{preciosProductos, setPreciosProductos}} 
-					stateInputFocus={stateInputFocus} 
-    		/> 
-
-				
+					stateProductoActual={{productoActual, setProductoActual}}
+					statePreciosProductos={{preciosProductos, setPreciosProductos}}
+					stateInputFocus={stateInputFocus}
+				/>
 
 				<Grid container alignItems='center' justifyContent='space-between'>
 					<SwitchCambiarTipoPago />
@@ -395,6 +396,7 @@ const Derecha: React.FC<DerechaProps> = ({
 							setInputFocus('unidades');
 							setFocusId(producto.codigoProducto);
 						}}
+						onFocus={(e) => e.target.select()}
 						inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
 						inputRef={(input) => {
 							if (
@@ -435,6 +437,7 @@ const Derecha: React.FC<DerechaProps> = ({
 							setInputFocus('subUnidades');
 							setFocusId(producto.codigoProducto);
 						}}
+						onFocus={(e) => e.target.select()}
 						inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
 						inputRef={(input) => {
 							if (

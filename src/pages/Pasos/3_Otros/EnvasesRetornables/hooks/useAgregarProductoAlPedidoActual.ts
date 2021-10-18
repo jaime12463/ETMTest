@@ -27,7 +27,7 @@ export const useAgregarProductoAlPedidoActual = () => {
 			unidades: number,
 			subUnidades: number,
 			tipoPago: ETiposDePago | undefined,
-			codigoTipoPedidoActual: number | undefined
+			codigoTipoPedidoActual: string | undefined
 		) => {
 			if (!productoActual || !tipoPago || !codigoTipoPedidoActual) return;
 

@@ -10,11 +10,6 @@ import {useObtenerClienteActual} from 'redux/hooks';
 import {TClienteActual} from 'models';
 
 const EnvasesRetornables: React.FC = () => {
-	const {t} = useTranslation();
-	const history = useHistory();
-	let {path} = useRouteMatch();
-	const {razonSocial}: TClienteActual = useObtenerClienteActual();
-
 	return <ContenedorEnvasesRetornables />;
 };
 
