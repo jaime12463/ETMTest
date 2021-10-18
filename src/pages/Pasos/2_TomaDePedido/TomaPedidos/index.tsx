@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
 	InputsKeysFormTomaDePedido,
 	TClienteActual,
@@ -256,6 +256,8 @@ const Derecha: React.FC<DerechaProps> = ({
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
 
+	const [puedeAgregar, setPuedeAgregar] = useState(false);
+
 	const defaultValues = {
 		unidades: producto.unidades,
 		subUnidades: producto.subUnidades,
@@ -273,6 +275,13 @@ const Derecha: React.FC<DerechaProps> = ({
 
 	const dispatch = useAppDispatch();
 
+	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
+		producto,
+		mostrarAdvertenciaEnDialogo,
+		getValues,
+		setGetValues
+	);
+
 	const handleOnChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
@@ -281,6 +290,7 @@ const Derecha: React.FC<DerechaProps> = ({
 			[e.target.name]: e.target.value.replace(/[^0-9]/g, ''),
 		});
 		setFocusId(producto.codigoProducto);
+		setPuedeAgregar(true);
 	};
 
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -296,16 +306,19 @@ const Derecha: React.FC<DerechaProps> = ({
 	};
 
 	React.useEffect(() => {
+		if (puedeAgregar) {
+			agregarProductoAlPedidoActual(getValues);
+			setPuedeAgregar(false);
+		}
+	}, [puedeAgregar]);
+
+	React.useEffect(() => {
 		if (getValues.unidades > 0 || getValues.subUnidades > 0) {
 			setMostrarAcciones(true);
 		}
 
 		return () => setMostrarAcciones(false);
 	}, [getValues.unidades, getValues.subUnidades]);
-
-	React.useEffect(() => {
-		agregarProductoAlPedidoActual(getValues);
-	}, [getValues]);
 
 	const handleButtons = (
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -332,14 +345,8 @@ const Derecha: React.FC<DerechaProps> = ({
 					value === '+' ? ++getValues.subUnidades : --getValues.subUnidades,
 			});
 		}
+		agregarProductoAlPedidoActual(getValues);
 	};
-
-	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
-		producto,
-		mostrarAdvertenciaEnDialogo,
-		getValues,
-		setGetValues
-	);
 
 	return (
 		<>

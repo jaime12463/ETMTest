@@ -127,7 +127,7 @@ export const useAgregarProductoAlPedidoActual = (
 						productosMandatoriosVisitaActual.noMandatorios
 					)
 				) {
-				/* 	dispatch(borrarProductoDelPedidoActual({codigoProducto})); */
+					dispatch(borrarProductoDelPedidoActual({codigoProducto}));
 				} else {
 					mostrarAdvertenciaEnDialogo(
 						t('advertencias.borrarPedidosNoMandatorios', {
