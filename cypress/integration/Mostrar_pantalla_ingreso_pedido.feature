@@ -51,7 +51,7 @@ Escenario: N°0 - El tipo de pedido es valorizado
     Entonces el sistema habilita el panel de ingreso del producto
     Y mostrara el switch crédito y los totales
 
-
+#canje de pedidos ya registrados (presupuesto)
 Esquema del escenario: N°1 - El tipo de pedido es no valorizado y no valida presupuesto
     Dado que el tipo de pedido _esValorizado = false
     Y _validaPresupuesto = false
@@ -62,9 +62,10 @@ Esquema del escenario: N°1 - El tipo de pedido es no valorizado y no valida pre
 
 Ejemplos:
 |hayOtrosProductosEnPedidosMandatorios|estadoPanelIngresoProducto|  
-|              SI                     |           SI             |
-|              NO                     |           NO             |  
+|              SI                     |           SI             | desplegar|
+|              NO                     |           NO             | mostrar |
 
+#canje de pedidos ya registrados (presupuesto)
 Escenario: N°2 - El tipo de pedido es no valorizado, valida presupuesto y no está en vigencia según fecha del dispositivo
     Dado que el tipo de pedido _esValorizado = false
     Y _validaPresupuesto = true
@@ -72,6 +73,7 @@ Escenario: N°2 - El tipo de pedido es no valorizado, valida presupuesto y no es
     Cuando ingreso a registrar un pedido
     Entonces el sistema mostrará  los totales
 
+#canje de pedidos ya registrados (presupuesto)
 Esquema del escenario: N°3 - El tipo de pedido es no valorizado, valida presupuesto, está en vigencia según fecha del dispositivo, y no tiene presupuesto
     Dado que el tipo de pedido _esValorizado = false
     Y _validaPresupuesto = true
@@ -80,6 +82,7 @@ Esquema del escenario: N°3 - El tipo de pedido es no valorizado, valida presupu
     Cuando ingreso a registrar un pedido
     Entonces el sistema mostrará los totales
 
+#canje de pedidos ya registrados (presupuesto)
 Esquema del escenario: N°4 - El tipo de pedido es no valorizado, valida presupuesto, está en vigencia según fecha del dispositivo, y tiene presupuesto
     Dado que el tipo de pedido _esValorizado = false
     Y _validaPresupuesto = true
@@ -91,10 +94,11 @@ Esquema del escenario: N°4 - El tipo de pedido es no valorizado, valida presupu
 
 Ejemplos:
 |hayOtrosProductosEnPedidosMandatorios|estadoPanelIngresoProducto|  
-|              SI                     |           SI             |
-|              NO                     |           NO             |  
+|              SI                     |           SI             | desplegar |
+|              NO                     |           NO             | mostrar   | 
 # Pedidos mandatorios pueden ser en curso o ya registrados.
 
+#solo pedidos ya registrados
 Esquema del escenario: N°5 - El cliente es de contado
     Dado el tipo de pedido seleccionado es de un tipo de pedido _esValorizado = true
     Cuando ingreso a registrar un pedido con un cliente en condición de pago contado
@@ -105,9 +109,10 @@ Esquema del escenario: N°5 - El cliente es de contado
 
 Ejemplos:
 |condicion    |estadoPanelIngresoProducto     |
-|Menor o igual| Si                            |
-|Mayor        | No                            |
+|Menor o igual| Si                            | desplegar|
+|Mayor        | No                            | mostrar  |
 
+#pedido
 Esquema del escenario: N°6 - El cliente es de crédito formal
     Dado el tipo de pedido seleccionado es de un tipo de pedido _esValorizado = true y '<esCreditoBloqueado>'
     Cuando ingreso a registrar un pedido con un cliente en condición de pago crédito formal
@@ -117,9 +122,10 @@ Esquema del escenario: N°6 - El cliente es de crédito formal
 
 Ejemplos:
 |esCreditoBloqueado|estadoPanelIngresoProducto |
-|     Si           | No                        |
-|     No           | Si                        |
+|     Si           | No                        | mostrar |
+|     No           | Si                        | desplegar |
 
+#solos los pedidos registrados. No considerar el pedido en curso
 Esquema del escenario: N°7 - El cliente es de crédito informal sin crédito bloqueado
     Dado tipo de pedido _esValorizado = true y cliente con _esCreditoBloqueado = false
     Cuando ingreso a registrar un pedido con un cliente en condición de pago crédito informal
@@ -130,12 +136,12 @@ Esquema del escenario: N°7 - El cliente es de crédito informal sin crédito bl
 
 Ejemplos:
 |estadoCredito|estadoPedidoMaximo|estadoPanelIngresoProducto|estadoEncendidoSwitch|estadoHabilitacionSwitch|
-|     Si      |       No         |Si                        |On                   |enabled                 |
-|     No      |       No         |Si                        |Off                  |disabled                | 
-|     Si      |       Si         |Si                        |On                   |disabled                | 
-|     No      |       Si         |No                        |On                   |disabled                |
+|     Si      |       No         |Si                        |On                   |enabled                 | desplegar |
+|     No      |       No         |Si                        |Off                  |disabled                | desplegar |
+|     Si      |       Si         |Si                        |On                   |disabled                | desplegar |
+|     No      |       Si         |No                        |On                   |disabled                | mostrar   |
 
-
+# solo pedidos ya registrados
 Esquema del escenario: N°8 - El cliente es de crédito informal con crédito bloqueado
     Dado que el cliente tiene condición de pago creditoInformal y esCreditoBloqueado = true 
     Y '<estadoPedidoMaximo>' es Pedido máximo cumplido 
@@ -144,8 +150,8 @@ Esquema del escenario: N°8 - El cliente es de crédito informal con crédito bl
 
 Ejemplos:
 |estadoPedidoMaximo|estadoPanelIngresoProducto|estadoEncendidoSwitch|estadoHabilitacionSwitch|
-|       No         |Si                        |Off                  |disabled                | 
-|       Si         |No                        |On                   |disabled                |
+|       No         |Si                        |Off                  |disabled                | desplegar |
+|       Si         |No                        |On                   |disabled                | mostrar |
 
 
 Esquema del escenario: N°9 - Acceso a promo push
