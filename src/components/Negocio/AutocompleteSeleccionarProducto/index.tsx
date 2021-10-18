@@ -2,6 +2,7 @@ import {FunctionComponent, useCallback, useState, useEffect} from 'react';
 import {
 	TFormTomaDePedido,
 	THookForm,
+	TInputFiltrarPreciosProductos,
 	TPrecioProducto,
 	TStateInputFocus,
 	TStatePreciosProductos,
@@ -10,14 +11,13 @@ import {
 import {IconButton, Grid, TextField, Autocomplete, Paper} from '@mui/material';
 import {useFiltrarPreciosProductosDelClienteActual, useSeleccionarProductoDePrecios} from 'hooks';
 import {
-	useMostrarAdvertenciaEnDialogo,
-	useMostrarContenidoEnCajon,
+	useMostrarAdvertenciaEnDialogo
 } from 'hooks';
 import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';
 import {BuscarIcon, AgregarIcon} from 'assests/iconos';
 import { useEsPermitidoAgregarProductoAlPedido } from './hooks';
-import { Cajon, Dialogo } from 'components/UI';
+import { Dialogo } from 'components/UI';
 import {BuscadorProductosClienteActual} from 'pages/Pasos/2_TomaDePedido/components';
 
 export type Props = {
@@ -50,13 +50,6 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 	useMostrarAdvertenciaEnDialogo();
 
-	const {
-		mostrarCajon,
-		mostrarContenidoEnCajon,
-		parametrosCajon,
-		setMostrarCajon,
-	} = useMostrarContenidoEnCajon();
-
 	const seleccionarProductoDePrecios = useSeleccionarProductoDePrecios(
 		setProductoActual,
 		setValue,
@@ -76,12 +69,18 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 
 	const [productoSeleccionado, setProductoSeleccionado] = useState<TPrecioProducto | null>();
 	const [textoIngresado, setTextoIngresado] = useState('');
-	const [opciones, setOpciones] = useState<TPrecioProducto[]> (preciosProductos);
+	const [opciones, setOpciones] = useState<TPrecioProducto[]>([]);// (preciosProductos);
+
+
+	useEffect(()=>{
+		console.log("éntre en effect");
+		if(textoIngresado.length>=3)
+			setOpciones(preciosProductos.filter((item)=> (item.nombreProducto.toLowerCase().indexOf(textoIngresado.toLowerCase()) > -1 || item.codigoProducto.toString()==textoIngresado)));
+
+	},[textoIngresado.length>=3])
 
 	return (
 		<>
-			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-			{mostrarCajon.bottom && <Cajon {...parametrosCajon} />}
 			<Grid container>
 				<Grid item xs={12}>	
 					<Grid 
@@ -91,22 +90,12 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 						<IconButton
 							aria-label='search'
 							size='small'
-							onClick={() =>
-								mostrarContenidoEnCajon(
-									<BuscadorProductosClienteActual
-										seleccionarProductoDePrecios={
-											seleccionarProductoDePrecios
-										}
-										setMostrarCajon={setMostrarCajon}
-									/>
-								)
-							}
 							disabled={!validarEsPermitidoAgregarProductoAlPedido()}
 						>
 							<BuscarIcon />
 						</IconButton>
 						<Autocomplete
-							options={preciosProductosDelClienteActual ?? preciosProductos}
+							options={opciones}
 							getOptionLabel={(option) => 
 								option['codigoProducto'].toString() + ' - ' + option['nombreProducto']}
 							value={productoSeleccionado}
@@ -115,6 +104,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 							}}
 							inputValue={textoIngresado}
 							onInputChange={(event, newInputValue) => {
+								console.log('pase auto auto');
 								setTextoIngresado(newInputValue);
 							}}
 							id="autocomplete-seleccionar-producto"
@@ -134,8 +124,11 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 						<IconButton
 							aria-label='search'
 							size='small'
-							onClick={() =>
-								console.log("Boton mas")
+							onClick={() => {
+								seleccionarProductoDePrecios(
+									{productoABuscar: (productoSeleccionado?.codigoProducto ? productoSeleccionado?.codigoProducto.toString() : '' )}
+								);
+								}
 							}
 							disabled={!validarEsPermitidoAgregarProductoAlPedido()}
 						>
