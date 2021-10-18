@@ -105,11 +105,6 @@ function BotonAgregarOrdenDeCompra() {
 			pedidos[pedido]?.productos.length > 0
 	);
 
-	console.log('Pedidos', pedidos);
-	console.log(
-		'contiene tipos valorizados',
-		tiposDePedidosValorizadosIngresadosConProductos.length
-	);
 
 	const manjadorClickDialog = (resultado: boolean, data: any) => {
 		if (resultado)
@@ -117,9 +112,9 @@ function BotonAgregarOrdenDeCompra() {
 				dispatch(cambiarOrdenDeCompra({ordenDeCompra: data.textoInput}));
 			else {
 				//EMAHOY
-				console.log(
+/* 				console.log(
 					'DATA en blanco y acepto. Debe mostrar segunda advertencia'
-				);
+				); */
 			}
 	};
 

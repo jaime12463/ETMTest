@@ -73,7 +73,7 @@ export const SwitchCambiarTipoPago: FunctionComponent<Props> = (props) => {
 
 	const classes = useEstilos(switchTipoPago)
 
-	console.log(clienteActual)
+
 
 	useEffect(() => {
 		const datosTipoPedidoActual:

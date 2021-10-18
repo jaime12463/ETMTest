@@ -59,7 +59,7 @@ export const useFiltrarPreciosProductosDelClienteActual = (
 			datos.presupuestoTipoPedido,
 			datosTipoPedidoActual.codigo
 		);
-		console.log(datosTipoPedidoActual?.codigo);
+
 	}
 
 	useEffect(() => {
