@@ -14,40 +14,33 @@ const TextStyled = styled(Typography)(() => ({
 }));
 
 interface BotonProps {
-	push: boolean,
-	ongoing: boolean
+	push: boolean;
+	ongoing: boolean;
 }
 
 const PromoPush: React.FC = () => {
-  const [expandido, setExpandido] = React.useState<boolean | string>(false)
-	const [promoActiva, setPromoActiva] = React.useState<BotonProps>({push: true, ongoing: false})
-  const promociones = useObtenerPromoPushDelCliente()
+	const [expandido, setExpandido] = React.useState<boolean | string>(false);
+	const [promoActiva, setPromoActiva] = React.useState<BotonProps>({
+		push: true,
+		ongoing: false,
+	});
+	const promociones = useObtenerPromoPushDelCliente();
 	const [expandidoPromoPush, setExpandidoexpandidoPromoPush] = React.useState<
 		string | boolean
 	>(false);
 	const classes = useEstilos();
 
 	return (
-		<TarjetaColapsable
-			id='Promociones'
-			titulo={<Typography variant={'subtitle1'}>Promociones</Typography>}
-			subTitulo={
-				<Typography variant={'body3'}>
-					Selecciona las promociones que tienes disponible para tus clientes.
-				</Typography>
-			}
-			expandido={expandido}
-			setExpandido={setExpandido}
-		>
-			<Grid container justifyContent="space-evenly" paddingBottom={2}>
-				<Button 
-					sx={promoActiva.push === true ? {opacity: '1'} : {opacity: '0.5'}} 
+		<>
+			<Grid container justifyContent='space-evenly' paddingBottom={2}>
+				<Button
+					sx={promoActiva.push === true ? {opacity: '1'} : {opacity: '0.5'}}
 					className={classes.root}
 				>
 					Promo push
 				</Button>
-				<Button 
-					sx={promoActiva.ongoing === true ? {opacity: '1'} : {opacity: '0.5'}} 
+				<Button
+					sx={promoActiva.ongoing === true ? {opacity: '1'} : {opacity: '0.5'}}
 					className={classes.root}
 				>
 					Promo ongoing
@@ -83,7 +76,7 @@ const PromoPush: React.FC = () => {
 						);
 					})}
 			</Stack>
-		</TarjetaColapsable>
+		</>
 	);
 };
 
