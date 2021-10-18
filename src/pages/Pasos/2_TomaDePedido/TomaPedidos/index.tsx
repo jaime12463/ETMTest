@@ -2,10 +2,10 @@ import React from 'react';
 import {
 	InputsKeysFormTomaDePedido,
 	TClienteActual,
+	TCondicicon,
 	TFormTomaDePedido,
 	TPrecioProducto,
 	TProductoPedido,
-	TTipoPedido,
 	TStateInputFocus,
 	TVisita,
 } from 'models';
@@ -15,19 +15,21 @@ import {
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {useForm} from 'react-hook-form';
+import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
 import {
-	useInicializarPreciosProductosDelClienteActual,
-	useObtenerDatosTipoPedido,
-} from 'hooks';
-import {agregarProductoDelPedidoActual, borrarProductoDelPedidoActual, borrarProductosDeVisitaActual} from 'redux/features/visitaActual/visitaActualSlice';
+	agregarProductoDelPedidoActual,
+	borrarProductoDelPedidoActual,
+	borrarProductosDeVisitaActual,
+} from 'redux/features/visitaActual/visitaActualSlice';
 
 import {TarjetaColapsable, TarjetaDoble, Dialogo} from 'components/UI';
-import {InputSeleccionarProducto} from 'components/Negocio';
+import {AutocompleteSeleccionarProducto, InputSeleccionarProducto} from 'components/Negocio';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import Chip from '@mui/material/Chip';
+import Box from '@mui/material/Box';
 import {
 	AgregarRedondoIcon,
 	BorrarIcon,
@@ -39,10 +41,7 @@ import {
 import {styled} from '@mui/material/styles';
 import Input from '@mui/material/Input';
 import {useAgregarProductoAlPedidoActual} from '../hooks';
-import {
-	useMostrarAdvertenciaEnDialogo,
-	useMostrarContenidoEnCajon,
-} from 'hooks';
+import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import useEstilos from '../useEstilos';
 import {SwitchCambiarTipoPago} from '../components';
 
@@ -89,9 +88,6 @@ const TomaPedido: React.FC = () => {
 		useForm<TFormTomaDePedido>({defaultValues});
 	const stateInputFocus = {inputFocus, setInputFocus};
 	const hookForm = {control, handleSubmit, setValue, getValues};
-	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
-	const datosTipoPedidoActual: TTipoPedido | undefined =
-		obtenerDatosTipoPedido();
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
@@ -134,19 +130,14 @@ const TomaPedido: React.FC = () => {
 			cantidadItems={venta.productos.length}
 		>
 			<Stack spacing='10px'>
-				{/* <AutocompleteSeleccionarProducto
+				 <AutocompleteSeleccionarProducto
 					hookForm={hookForm}
 					stateProductoActual={{productoActual, setProductoActual}} 
 					statePreciosProductos={{preciosProductos, setPreciosProductos}} 
 					stateInputFocus={stateInputFocus} 
-    		/> */}
+    		/> 
 
-				<InputSeleccionarProducto
-					hookForm={hookForm}
-					stateProductoActual={{productoActual, setProductoActual}}
-					statePreciosProductos={{preciosProductos, setPreciosProductos}}
-					stateInputFocus={stateInputFocus}
-				/>
+				
 
 				<Grid container alignItems='center' justifyContent='space-between'>
 					<SwitchCambiarTipoPago />
@@ -155,7 +146,13 @@ const TomaPedido: React.FC = () => {
 						size='small'
 						icon={<BorrarIcon width='7.5px' height='7.5px' />}
 						label={<TextStyled>Borrar todo</TextStyled>}
-						onClick={() => dispatch(borrarProductosDeVisitaActual({tipoPedidoActual: visitaActual.tipoPedidoActual}))}
+						onClick={() =>
+							dispatch(
+								borrarProductosDeVisitaActual({
+									tipoPedidoActual: visitaActual.tipoPedidoActual,
+								})
+							)
+						}
 						sx={{'&:hover': {background: 'none'}}}
 					/>
 				</Grid>
@@ -168,10 +165,7 @@ const TomaPedido: React.FC = () => {
 								izquierda={
 									<Izquierda
 										producto={producto}
-										stateInputFocus={stateInputFocus}
-										visitaActual={visitaActual}
-										key={producto.codigoProducto}
-										statefocusId={{focusId, setFocusId}}
+										condicion={clienteActual.condicion}
 									/>
 								}
 								derecha={
@@ -190,61 +184,69 @@ const TomaPedido: React.FC = () => {
 	);
 };
 
+interface IzquierdaProps {
+	producto: TProductoPedido;
+	condicion: TCondicicon;
+}
+
+const Izquierda: React.FC<IzquierdaProps> = ({producto, condicion}) => {
+	return (
+		<Box
+			sx={{
+				display: 'grid',
+				gridTemplateRows: 'repeat(3, 1fr)',
+				padding: '12px 14px 0 14px',
+				height: '100%',
+			}}
+		>
+			<Box sx={{placeSelf: 'start', alignSelf: 'start'}}>
+				{condicion === 'creditoInformal' && (
+					<SwitchCambiarTipoPago producto={producto} />
+				)}
+			</Box>
+			<Box>
+				<Typography fontSize='12px' fontWeight='600'>
+					{producto.codigoProducto}
+				</Typography>
+				<Typography
+					fontSize='12px'
+					fontFamily='Poppins'
+					fontWeight='600'
+					marginBottom='4px'
+				>
+					{producto.nombreProducto.toUpperCase()}
+				</Typography>
+			</Box>
+			<Box display='flex'>
+				<CajaIcon height='14px' width='19px' />
+				<Typography
+					fontSize='10px'
+					marginRight='4px'
+				>{`x${producto.presentacion}`}</Typography>
+				<Typography fontSize='12px' fontWeight='600' marginRight='8px'>
+					{`$${producto.precioConImpuestoUnidad}`}
+				</Typography>
+				<BotellaIcon height='14px' width='14px' />
+				<Typography fontSize='12px' fontWeight='600' marginLeft='4px'>
+					{`$${producto.precioConImpuestoSubunidad}`}
+				</Typography>
+			</Box>
+		</Box>
+	);
+};
+
 interface StateFocusID {
 	focusId: number;
-	setFocusId: React.Dispatch<React.SetStateAction<number>>
+	setFocusId: React.Dispatch<React.SetStateAction<number>>;
 }
-interface Props {
+interface DerechaProps {
 	producto: TProductoPedido;
 	stateInputFocus: TStateInputFocus;
 	visitaActual: TVisita;
 	statefocusId: StateFocusID;
 }
 
-const Izquierda: React.FC<Props> = ({producto}) => {
-	return (
-		<Grid container direction='column' p="12px">
-      <Grid container>
-        <Grid item>
-          <SwitchCambiarTipoPago />
-        </Grid>
-      </Grid>
-			<Grid item>
-				<Typography fontSize='12px' fontWeight='600'>
-					{producto.codigoProducto}
-				</Typography>
-				<Typography fontSize='12px' fontFamily='Poppins' fontWeight='600'>
-					{producto.nombreProducto.toUpperCase()}
-				</Typography>
-			</Grid>
-			<Grid container direction='row' columnSpacing={0.5} marginTop="2px" alignItems='center'>
-				<Grid item>
-					<CajaIcon height="14px" width="19px" />
-				</Grid>
-				<Grid item>
-					<Typography fontSize='10px'>{`x${producto.presentacion}`}</Typography>
-				</Grid>
-				<Grid item>
-					<Typography
-						fontSize='12px'
-						fontWeight='600'
-					>{`$${producto.precioConImpuestoUnidad}`}</Typography>
-				</Grid>
-				<Grid item>
-					<BotellaIcon height="14px" width="14px" />
-				</Grid>
-				<Grid item>
-					<Typography
-						fontSize='12px'
-						fontWeight='600'
-					>{`$${producto.precioConImpuestoSubunidad}`}</Typography>
-				</Grid>
-			</Grid>
-		</Grid>
-	);
-};
-
-const Derecha: React.FC<Props> = ({
+const Derecha: React.FC<DerechaProps> = ({
 	producto,
 	stateInputFocus,
 	visitaActual,
@@ -265,10 +267,10 @@ const Derecha: React.FC<Props> = ({
 	const [getValues, setGetValues] = React.useState(defaultValues);
 
 	const {inputFocus, setInputFocus} = stateInputFocus;
-	
-	const [mostrarAcciones, setMostrarAcciones] = React.useState<boolean>(false)
 
-	const dispatch = useAppDispatch()
+	const [mostrarAcciones, setMostrarAcciones] = React.useState<boolean>(false);
+
+	const dispatch = useAppDispatch();
 
 	const handleOnChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -279,7 +281,7 @@ const Derecha: React.FC<Props> = ({
 		});
 		setFocusId(producto.codigoProducto);
 	};
-	
+
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === 'Enter') {
 			agregarProductoAlPedidoActual(getValues);
@@ -291,15 +293,14 @@ const Derecha: React.FC<Props> = ({
 			}
 		}
 	};
-	
-	React.useEffect(() =>{
-		if(getValues.unidades > 0 || getValues.subUnidades > 0){
-			setMostrarAcciones(true)
+
+	React.useEffect(() => {
+		if (getValues.unidades > 0 || getValues.subUnidades > 0) {
+			setMostrarAcciones(true);
 		}
-		
-		return () => setMostrarAcciones(false)
-	}, [getValues.unidades, getValues.subUnidades])
-	
+
+		return () => setMostrarAcciones(false);
+	}, [getValues.unidades, getValues.subUnidades]);
 
 	React.useEffect(() => {
 		agregarProductoAlPedidoActual(getValues);
@@ -342,132 +343,118 @@ const Derecha: React.FC<Props> = ({
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-			<Grid
-				container
-				direction='column'
-				alignItems='center'
-				justifyContent='center'
-				height='100%'
-				p="12px"
+			<Box
+				sx={{
+					display: 'grid',
+					gridTemplateRows: 'repeat(3, 1fr)',
+					padding: '12px 0',
+					placeItems: 'center',
+					justifyContent: 'center',
+					height: '100%',
+				}}
 			>
-				{
-					mostrarAcciones &&
-						<Grid container direction="row" alignItems="center" justifyContent="end">
-							<Grid item>
-								<IconButton onClick={() => dispatch(borrarProductoDelPedidoActual({codigoProducto: producto.codigoProducto})) }>
-									<BorrarIcon 
-										height="15px" 
-										width="15px"
-									/>
-								</IconButton>
-							</Grid>
-							<Grid item>
-								<IconButton>
-									<CheckRedondoIcon 
-										height="17.5px" 
-										width="17.5px"
-									/>
-								</IconButton>
-							</Grid>
-						</Grid>
-				}
-				<Grid container direction='row' alignItems='center' justifyContent="center" flexWrap="nowrap">
-					<Grid item>
-						<CajaIcon height="13px" width="18px" />
-					</Grid>
-					<Grid item>
-						<IconButton
-							size='small'
-							value='-'
-							name='unidades'
-							onClick={(e) => handleButtons(e)}
-						>
-							<QuitarRellenoIcon width='18px' height='18px' />
-						</IconButton>
-					</Grid>
-					<Grid item>
-						<InputStyled
-							value={getValues.unidades}
-							onChange={(e) => handleOnChange(e)}
-							onKeyPress={(e) => handleKeyPress(e)}
-							disableUnderline
-							name='unidades'
-							id='unidades_producto'
-							onClick={() => {
-								setInputFocus('unidades');
-								setFocusId(producto.codigoProducto);
-							}}
-							inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
-							inputRef={(input) => {
-								if (
-									inputFocus === 'unidades' &&
-									focusId === producto.codigoProducto
-								) {
-									input?.focus();
+				<Box sx={{justifySelf: 'end', alignSelf: 'start'}}>
+					{mostrarAcciones && (
+						<>
+							<IconButton
+								sx={{padding: '0 5px'}}
+								onClick={() =>
+									dispatch(
+										borrarProductoDelPedidoActual({
+											codigoProducto: producto.codigoProducto,
+										})
+									)
 								}
-							}}
-						/>
-					</Grid>
-					<Grid item>
-						<IconButton
-							size='small'
-							name='unidades'
-							value='+'
-							onClick={(e) => handleButtons(e)}
-						>
-							<AgregarRedondoIcon width='18px' height='18px' />
-						</IconButton>
-					</Grid>
-				</Grid>
-				<Grid container direction='row' alignItems='center' justifyContent="center" flexWrap="nowrap">
-					<Grid item>
-						<BotellaIcon width='18px' height='18px' />
-					</Grid>
-					<Grid item>
-						<IconButton
-							size='small'
-							name='subUnidades'
-							value='-'
-							onClick={(e) => handleButtons(e)}
-						>
-							<QuitarRellenoIcon width='18px' height='18px' />
-						</IconButton>
-					</Grid>
-					<Grid item>
-						<InputStyled
-							onKeyPress={(e) => handleKeyPress(e)}
-							onChange={(e) => handleOnChange(e)}
-							value={getValues.subUnidades}
-							disableUnderline
-							id='subUnidades_producto'
-							name='subUnidades'
-							onClick={() => {
-								setInputFocus('subUnidades');
-								setFocusId(producto.codigoProducto);
-							}}
-							inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
-							inputRef={(input) => {
-								if (
-									inputFocus === 'subUnidades' &&
-									focusId === producto.codigoProducto
-								) {
-									input?.focus();
-								}
-							}}
-						/>
-					</Grid>
-					<Grid item>
-						<IconButton
-							size='small'
-							name='subUnidades'
-							value='+'
-							onClick={(e) => handleButtons(e)}
-						>
-							<AgregarRedondoIcon width='18px' height='18px' />
-						</IconButton>
-					</Grid>
-				</Grid>
-			</Grid>
+							>
+								<BorrarIcon height='15px' width='15px' />
+							</IconButton>
+							<IconButton sx={{padding: '0 5px'}}>
+								<CheckRedondoIcon height='17.5px' width='17.5px' />
+							</IconButton>
+						</>
+					)}
+				</Box>
+				<Box sx={{display: 'flex', alignItems: 'center'}}>
+					<CajaIcon height='13px' width='18px' />
+					<IconButton
+						size='small'
+						value='-'
+						name='unidades'
+						onClick={(e) => handleButtons(e)}
+					>
+						<QuitarRellenoIcon width='18px' height='18px' />
+					</IconButton>
+					<InputStyled
+						value={getValues.unidades}
+						onChange={(e) => handleOnChange(e)}
+						onKeyPress={(e) => handleKeyPress(e)}
+						disableUnderline
+						name='unidades'
+						id='unidades_producto'
+						onClick={() => {
+							setInputFocus('unidades');
+							setFocusId(producto.codigoProducto);
+						}}
+						inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
+						inputRef={(input) => {
+							if (
+								inputFocus === 'unidades' &&
+								focusId === producto.codigoProducto
+							) {
+								input?.focus();
+							}
+						}}
+					/>
+					<IconButton
+						size='small'
+						name='unidades'
+						value='+'
+						onClick={(e) => handleButtons(e)}
+					>
+						<AgregarRedondoIcon width='18px' height='18px' />
+					</IconButton>
+				</Box>
+				<Box sx={{display: 'flex', alignItems: 'center'}}>
+					<BotellaIcon width='18px' height='18px' />
+					<IconButton
+						size='small'
+						value='-'
+						name='unidades'
+						onClick={(e) => handleButtons(e)}
+					>
+						<QuitarRellenoIcon width='18px' height='18px' />
+					</IconButton>
+					<InputStyled
+						onKeyPress={(e) => handleKeyPress(e)}
+						onChange={(e) => handleOnChange(e)}
+						value={getValues.subUnidades}
+						disableUnderline
+						id='subUnidades_producto'
+						name='subUnidades'
+						onClick={() => {
+							setInputFocus('subUnidades');
+							setFocusId(producto.codigoProducto);
+						}}
+						inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
+						inputRef={(input) => {
+							if (
+								inputFocus === 'subUnidades' &&
+								focusId === producto.codigoProducto
+							) {
+								input?.focus();
+							}
+						}}
+					/>
+					<IconButton
+						size='small'
+						name='subUnidades'
+						value='+'
+						onClick={(e) => handleButtons(e)}
+					>
+						<AgregarRedondoIcon width='18px' height='18px' />
+					</IconButton>
+				</Box>
+			</Box>
 		</>
 	);
 };

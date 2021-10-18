@@ -1,4 +1,4 @@
-import {FunctionComponent, useEffect, useState} from 'react';
+import React from 'react';
 import {
 	ETiposDePago,
 	TClienteActual,
@@ -10,49 +10,49 @@ import {useCambiarTipoPago, usePermiteCambiarTipoPago} from './hooks';
 import {Center} from 'components/UI';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import {useObtenerDatosTipoPedido} from 'hooks';
-import useEstilos, { SwitchProps } from './useEstilos'
-import { styled } from '@mui/material/styles'
+import useEstilos, {SwitchProps} from './useEstilos';
+import {styled} from '@mui/material/styles';
 
 type Props = {
 	producto?: TProductoPedido;
 };
 
-const CustomSwitch = styled(Switch)(() =>({
+const CustomSwitch = styled(Switch)(() => ({
 	border: 'none',
 	borderRadius: '50px',
-  height: '18px',
+	height: '18px',
 	padding: '0.6px',
-  width: '72px',
-  '& .MuiSwitch-root': {
-
-  },
-  '& .MuiSwitch-switchBase': {
-    height: '18px',
-    color: '#fff',
-    transform: 'translateX(-5px)',
+	width: '72px',
+	'& .MuiSwitch-switchBase': {
+		height: '18px',
+		color: '#fff',
+		transform: 'translateX(-5px)',
 		zIndex: '10',
-    '&.Mui-checked': {
-      transform: 'translateX(50px)'
-    },
-  },
-  '& .MuiSwitch-track':{
-    background: '#FF0000',
+		'&.Mui-checked': {
+			transform: 'translateX(50px)',
+		},
+	},
+	'& .MuiSwitch-track': {
+		background: '#FF0000',
 		color: '#fff',
-    opacity: '1',
-  },
-  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-    backgroundColor: '#00CF91',
-    opacity: '1',
-  },
-  '& .MuiSwitch-thumb': {
+		opacity: '1',
+	},
+	'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+		backgroundColor: '#00CF91',
+		opacity: '1',
+	},
+	'& .MuiSwitch-switchBase.Mui-disabled+.MuiSwitch-track': {
+		opacity: 1,
+	},
+	'& .MuiSwitch-thumb': {
 		color: '#fff',
-    width: 18,
-    height: 18,
-    boxShadow: '0px 0.1px 2.5px rgba(0, 0, 0, 0.5)',
-  },
-}))
+		width: 18,
+		height: 18,
+		boxShadow: '0px 0.1px 2.5px rgba(0, 0, 0, 0.5)',
+	},
+}));
 
-export const SwitchCambiarTipoPago: FunctionComponent<Props> = (props) => {
+export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 	const {producto} = props;
 
 	const {tipoPago} = {...producto};
@@ -65,22 +65,29 @@ export const SwitchCambiarTipoPago: FunctionComponent<Props> = (props) => {
 
 	const visitaActual = useObtenerVisitaActual();
 
-	const [mostrarSwitch, setMostrarSwitch] = useState<boolean>();
+	const [mostrarSwitch, setMostrarSwitch] = React.useState<boolean>();
 
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
 
-	const [switchTipoPago, setSwitchTipoPago] = useState<SwitchProps>({content: Boolean(clienteActual.tipoPagoActual)})
+	const [switchTipoPago, setSwitchTipoPago] = React.useState<SwitchProps>(
+		producto
+			? {content: Boolean(producto.tipoPago)}
+			: {content: Boolean(clienteActual.tipoPagoActual)}
+	);
 
-	const classes = useEstilos(switchTipoPago)
+	const classes = useEstilos(switchTipoPago);
 
-
-
-	useEffect(() => {
-		const datosTipoPedidoActual:
-			| TTipoPedido
-			| undefined = obtenerDatosTipoPedido();
+	React.useEffect(() => {
+		const datosTipoPedidoActual: TTipoPedido | undefined =
+			obtenerDatosTipoPedido();
 		setMostrarSwitch(datosTipoPedidoActual?.esValorizado);
 	}, [visitaActual.tipoPedidoActual, obtenerDatosTipoPedido]);
+
+	React.useEffect(() => {
+		if (producto) {
+			setSwitchTipoPago({content: Boolean(clienteActual.tipoPagoActual)});
+		}
+	}, [clienteActual.tipoPagoActual]);
 
 	return (
 		<Center>
@@ -92,8 +99,10 @@ export const SwitchCambiarTipoPago: FunctionComponent<Props> = (props) => {
 							: clienteActual.tipoPagoActual === ETiposDePago.Credito
 					}
 					onChange={() => {
-						cambiarTipoPago(producto)
-						setSwitchTipoPago(prevTipoPago => ({content: !prevTipoPago.content}))
+						cambiarTipoPago(producto);
+						setSwitchTipoPago((prevTipoPago) => ({
+							content: producto ? !producto.tipoPago : !prevTipoPago.content,
+						}));
 					}}
 					inputProps={{'aria-label': 'secondary checkbox'}}
 					size='small'
@@ -102,7 +111,7 @@ export const SwitchCambiarTipoPago: FunctionComponent<Props> = (props) => {
 					}
 					id={`switch-cambiar-tipoPago-` + (producto?.codigoProducto ?? ``)}
 					disabled={!permiteCambiarTipoPago}
-					classes={{track: classes.track,}}
+					classes={{track: classes.track}}
 				/>
 			)}
 		</Center>
