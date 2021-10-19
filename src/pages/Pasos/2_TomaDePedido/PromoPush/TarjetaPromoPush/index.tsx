@@ -173,9 +173,9 @@ const TarjetaPromoPush = (props: any) => {
 		agregarProductoAlPedidoActual(getValues);
 	};
 
-	/* 	React.useEffect(() => {
+	React.useEffect(() => {
 		agregarProductoAlPedidoActual(getValues);
-	}, [getValues]); */
+	}, [getValues]);
 
 	const manejadorExpandido =
 		({id}: any) =>
@@ -200,7 +200,7 @@ const TarjetaPromoPush = (props: any) => {
 									<Typography variant='subtitle3'>{codigoProducto}</Typography>
 									<Typography
 										sx={{
-											width: '200px',
+											width: '150px',
 											overflow: 'hidden',
 											textOverflow: 'ellipsis',
 										}}
@@ -285,14 +285,8 @@ const TarjetaPromoPush = (props: any) => {
 															<Typography variant='subtitle3'>
 																{el.codigoProducto}
 															</Typography>
-															<Typography
-																variant='subtitle3'
-																sx={{
-																	whiteSpace: 'nowrap',
-																	overflow: 'hidden',
-																	textOverflow: 'ellipsis',
-																}}
-															>
+
+															<Typography variant='subtitle3'>
 																{productos[el.codigoProducto].nombre}
 															</Typography>
 														</Box>
