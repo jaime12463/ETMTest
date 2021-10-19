@@ -59,9 +59,10 @@ Esquema del escenario: N°5 El prevendedor ingresa un producto que aún no se en
     Dado '<permiteBotelleo>' permite botelleo, y requiere motivo = '<_requiereMotivo>'
     Cuando ingresa un producto habilitado
     Entonces el sistema creará una nueva tarjeta 
-    Y mostrará la descripción del producto
-    Y el precio unidad '<mostarPrecioUnidad>' se mostrará
-    Y el precio subunidad '<mostarPrecioSubunidad>' se mostrará
+    Y mostrará el _codigoProducto 
+    Y el _nombre
+    Y el _precioConImpuestoUnidad '<mostarPrecioUnidad>' se mostrará
+    Y el _precioConImpuestoSubunidad '<mostarPrecioSubunidad>' se mostrará
     Y habilitará el ingreso de unidades inicializadas en cero
     Y '<habilitaIngresoSubunidades>' se mostrará el ingreso de subunidades es inicializadas en cero
     Y '<habilitaIngresoMotivo>' se mostrará el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
