@@ -146,7 +146,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 							<TextField
 								{...params}
 								variant='standard'
-								className={estilos.textSeleccionar}
+								className={estilos.root}
 								InputProps={{...params.InputProps, disableUnderline: true}}
 								placeholder={`${t('general.agregarProductoSKU')}`}
 							/>
