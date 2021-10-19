@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Agregar_producto @Sprint8 @Sprint10 @Sprint11
+@Pedido @Agregar_producto @Sprint8 @Sprint10 @Sprint11 @Sprint14
 
 
 # Sprint10: Se elimina parámetro esVentaSubunidadesRuta y se deja por producto el botelleo
@@ -63,8 +63,8 @@ Esquema del escenario: N°5 El prevendedor ingresa un producto que aún no se en
     Y el precio unidad '<mostarPrecioUnidad>' se mostrará
     Y el precio subunidad '<mostarPrecioSubunidad>' se mostrará
     Y habilitará el ingreso de unidades inicializadas en cero
-    Y '<habilitaIngresoSubunidades>' habilita el ingreso de subunidades es inicializadas en cero
-    Y '<habilitaIngresoMotivo>' habilita el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
+    Y '<habilitaIngresoSubunidades>' se mostrará el ingreso de subunidades es inicializadas en cero
+    Y '<habilitaIngresoMotivo>' se mostrará el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
     Y hará foco en las unidades
 Ejemplos:
 |permiteBotelleo|_requiereMotivo|mostarPrecioUnidad|mostarPrecioSubunidad|habilitaIngresoSubunidades|habilitaIngresoMotivo|
