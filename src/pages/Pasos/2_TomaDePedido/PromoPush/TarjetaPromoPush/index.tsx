@@ -193,7 +193,7 @@ const TarjetaPromoPush = (props: any) => {
 				}
 			>
 				<Grid container p={2}>
-					<GridStyled item xs={7}>
+					<GridStyled item xs={6}>
 						<Box display='flex' flexDirection='column'>
 							<Stack spacing={1}>
 								<Box display='flex' flexDirection='column'>
@@ -222,7 +222,7 @@ const TarjetaPromoPush = (props: any) => {
 							</Stack>
 						</Box>
 					</GridStyled>
-					<GridStyled item xs={5}>
+					<GridStyled item xs={6}>
 						<Stack spacing={1}>
 							<Box textAlign='right'>
 								<Typography variant='caption'>Aplicación maxima</Typography>
