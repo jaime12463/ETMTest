@@ -174,8 +174,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					productoActual
 				);
 
-				console.log('unidadesParseado', unidadesParseado);
-
 				if (unidadesDisponibles >= 0) {
 					mostrarAdvertenciaEnDialogo(
 						t('advertencias.excedeUnidadesDisponibles', {

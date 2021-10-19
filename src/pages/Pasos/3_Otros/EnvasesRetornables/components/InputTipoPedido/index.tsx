@@ -20,7 +20,8 @@ const InputStyled = styled(Input)(({theme}) => ({
 type Props = {
 	tipoPedido: TTipoPedido | undefined;
 	stateTipoEnvases: any;
-	/* 	cambioUnidadesPorTipoPedido: any; */
+	cambioUnidadesPorTipoPedido: any;
+	cambioSubUnidadesPorTipoPedido: any;
 };
 
 type Envases = {
@@ -30,7 +31,12 @@ type Envases = {
 };
 
 const InputTipoPedido: FunctionComponent<Props> = (props) => {
-	const {tipoPedido, stateTipoEnvases} = props;
+	const {
+		tipoPedido,
+		stateTipoEnvases,
+		cambioUnidadesPorTipoPedido,
+		cambioSubUnidadesPorTipoPedido,
+	} = props;
 	const {valoresEnvase, setValoresEnvase} = stateTipoEnvases;
 
 	let envase: Envases = {tipoEnvase: '', unidades: 0, subUnidades: 0};
@@ -42,7 +48,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 		);
 		envase = envaseActual;
 
-		otrosTiposEnvase = valoresEnvase.filter(
+		otrosTiposEnvase = valoresEnvase.find(
 			(envase: any) => tipoPedido.descripcionCorta !== envase.tipoEnvase
 		);
 	}
@@ -68,14 +74,14 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 							inputProps={{style: {textAlign: 'center'}}}
 							value={envase?.unidades}
 							disableUnderline
-							/* 							onChange={(e) =>
+							onChange={(e) =>
 								cambioUnidadesPorTipoPedido(
 									e.target.value,
 									envase?.tipoEnvase,
 									otrosTiposEnvase,
 									tipoPedido.codigo
 								)
-							} */
+							}
 							onFocus={(e) => e.target.select()}
 						/>
 					)}
@@ -86,6 +92,14 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 							inputProps={{style: {textAlign: 'center'}}}
 							value={envase?.subUnidades}
 							disableUnderline
+							onChange={(e) =>
+								cambioSubUnidadesPorTipoPedido(
+									e.target.value,
+									envase?.tipoEnvase,
+									otrosTiposEnvase,
+									tipoPedido.codigo
+								)
+							}
 							onFocus={(e) => e.target.select()}
 						/>
 					)}

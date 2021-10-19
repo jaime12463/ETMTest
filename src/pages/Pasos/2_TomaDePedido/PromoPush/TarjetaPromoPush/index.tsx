@@ -173,9 +173,9 @@ const TarjetaPromoPush = (props: any) => {
 		agregarProductoAlPedidoActual(getValues);
 	};
 
-	React.useEffect(() => {
+	/* 	React.useEffect(() => {
 		agregarProductoAlPedidoActual(getValues);
-	}, [getValues]);
+	}, [getValues]); */
 
 	const manejadorExpandido =
 		({id}: any) =>
