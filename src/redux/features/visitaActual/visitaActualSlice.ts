@@ -44,6 +44,7 @@ export const visitaActualSlice = createSlice({
 					precioProducto.codigoProducto !==
 					action.payload.productoPedido.codigoProducto
 			);
+
 			state.pedidos[state.tipoPedidoActual].productos = [
 				action.payload.productoPedido,
 				...productoPedidoCliente,
@@ -66,8 +67,8 @@ export const visitaActualSlice = createSlice({
 				producto.tipoPago = action.payload.productoPedido.tipoPago;
 			} else {
 				state.pedidos[state.tipoPedidoActual].productos = [
-					...state.pedidos[state.tipoPedidoActual].productos,
 					action.payload.productoPedido,
+					...state.pedidos[state.tipoPedidoActual].productos,
 				];
 			}
 		},
