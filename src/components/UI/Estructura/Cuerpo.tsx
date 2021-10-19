@@ -1,12 +1,8 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {Box, Container} from '@mui/material';
 import useEstilos from './useEstilos';
 
-export type Props = {
-	children: React.ReactNode;
-};
-
-const Cuerpo = ({children}: Props) => {
+const Cuerpo: React.FC = ({children}) => {
 	const estilos = useEstilos();
 	return (
 		<Box
@@ -20,12 +16,13 @@ const Cuerpo = ({children}: Props) => {
 				component='main'
 				disableGutters={true}
 				className={estilos.main}
+				classes={{maxWidthXs: estilos.maxWidthXs}}
 				style={{
 					paddingRight: '1rem',
 					paddingLeft: '1rem',
 				}}
 			>
-				<Fragment>{children}</Fragment>
+				{children}
 			</Container>
 		</Box>
 	);
