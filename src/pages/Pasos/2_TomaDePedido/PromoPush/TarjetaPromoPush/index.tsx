@@ -9,30 +9,25 @@ import {
 	Button,
 	Collapse,
 	CardActions,
-	CardContent,
 	Divider,
 } from '@mui/material';
 import {Theme} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {makeStyles, createStyles} from '@material-ui/styles';
 import clsx from 'clsx';
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
-import {Dialogo} from 'components/UI';
-import {TPromoPush} from 'models';
+import React, {useState} from 'react';
+
 import {useObtenerDatos} from 'redux/hooks';
 import {
 	AgregarRedondoIcon,
 	QuitarRellenoIcon,
 	FlechaAbajoIcon,
 	CajaIcon,
-	BorrarIcon,
-	CheckRedondoIcon,
 } from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {formatearNumero} from 'utils/methods';
 import {useAgregarProductoAlPedidoActual} from '../hooks/useAgregarProductoAlPedidoActual';
-import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 
 const InputStyled = styled(Input)(({}) => ({
 	borderRadius: '10px',
@@ -107,7 +102,7 @@ const TarjetaPromoPush = (props: any) => {
 	const {
 		codigoProducto,
 		nombreProducto,
-		unidadesRestantes,
+		unidadesDisponibles,
 		precioConImpuestoUnidad,
 		descuento,
 		componentes,
@@ -173,9 +168,9 @@ const TarjetaPromoPush = (props: any) => {
 		agregarProductoAlPedidoActual(getValues);
 	};
 
-	/* 	React.useEffect(() => {
+	React.useEffect(() => {
 		agregarProductoAlPedidoActual(getValues);
-	}, [getValues]); */
+	}, [getValues]);
 
 	const manejadorExpandido =
 		({id}: any) =>
@@ -259,7 +254,7 @@ const TarjetaPromoPush = (props: any) => {
 									<AgregarRedondoIcon width='18px' height='18px' />
 								</IconButton>
 								<Typography variant={'subtitle3'} fontWeight={700}>
-									/ {unidadesRestantes}
+									/ {unidadesDisponibles}
 								</Typography>
 							</Box>
 						</Stack>
