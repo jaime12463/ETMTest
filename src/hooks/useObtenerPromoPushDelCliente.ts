@@ -11,7 +11,6 @@ import {
 	obtenerUnidadesProductoVisitaActual,
 } from 'utils/methods';
 
-
 export const useObtenerPromoPushDelCliente = () => {
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const pedidoActual = useObtenerPedidoActual();
@@ -19,15 +18,15 @@ export const useObtenerPromoPushDelCliente = () => {
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(
 		clienteActual.codigoCliente
 	);
-	const {
-		obtenerPedidosClienteMismaFechaEntrega,
-	} = useObtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
+	const {obtenerPedidosClienteMismaFechaEntrega} =
+		useObtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
 	const pedidosCliente = obtenerPedidosClienteMismaFechaEntrega(
 		clienteActual.codigoCliente
 	);
 
 	const fechaEntrega: string = pedidoActual.fechaEntrega;
-	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
+	const obtenerPreciosProductosDelCliente =
+		useObtenerPreciosProductosDelCliente();
 	if (!datosCliente) return;
 	const preciosProductosDelCliente: any = obtenerPreciosProductosDelCliente(
 		datosCliente,
@@ -44,7 +43,7 @@ export const useObtenerPromoPushDelCliente = () => {
 
 	promoPushFiltradas.map(
 		(producto: any, i: number) =>
-			(producto.unidadesDisponibles =
+			(producto.unidadesRestantes =
 				producto.unidadesDisponibles -
 				obtenerUnidadesProductoVisitaActual(
 					pedidoActual.productos,
