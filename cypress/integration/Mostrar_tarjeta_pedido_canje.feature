@@ -31,6 +31,8 @@ Escenario: N°1 - Mostrar tarjeta de canje
     su título, subtitulo y cantidad de items igual a la cantidad de productos ingresados en el pedido
     Y mostrará el control para desplegar la tarjeta
 
+# producto ingresado = producto que tenga en sus cantidades > 0
+
     #canje de pedidos ya registrados (presupuesto)
 Escenario: N°2 - El tipo de pedido es no valorizado y no valida presupuesto
     Dado que estamos en el paso 3 - otros

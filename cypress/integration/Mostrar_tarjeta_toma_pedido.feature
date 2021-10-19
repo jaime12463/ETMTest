@@ -14,6 +14,7 @@ Escenario: N°1 - Mostrar tarjeta de pedido
     su título, subtitulo y cantidad de items igual a la cantidad de productos ingresados en el pedido
     Y mostrará el control para desplegar la tarjeta
 
+# producto ingresado = producto que tenga en sus cantidades > 0
 
 #pedido
 Escenario: N°2 - El cliente es de contado y supera el monto de venta contado
