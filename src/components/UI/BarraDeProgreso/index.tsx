@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {styled} from '@mui/material/styles';
-import { BorderLinearProgress} from './useEstilos';
+import {BorderLinearProgress} from './useEstilos';
 import {Typography, Box, LinearProgress} from '@mui/material';
 
 import {useTranslation} from 'react-i18next';
@@ -15,7 +15,6 @@ export type Props = {
 	condicion?: string;
 	dataCY: string;
 };
-
 
 const BarraDeProgreso = ({
 	max = 0,
@@ -56,8 +55,7 @@ const BarraDeProgreso = ({
 			<BorderLinearProgress
 				variant='determinate'
 				value={progreso ?? 0} //{ progreso <= 0 ? setProgreso(5) : progreso ?? 0}
-				color={colorActual==='success' ? 'success' : 'primary'}
-				
+				color={colorActual === 'success' ? 'success' : 'primary'}
 			/>
 		</Box>
 	);

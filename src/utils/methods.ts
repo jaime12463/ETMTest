@@ -40,7 +40,7 @@ export const formatearNumero = (
 
 	const numeroFormateado: string = parteEntera + (parteDecimal ?? '');
 
-	return `${t('simbolos.moneda')} ${numeroFormateado}`;
+	return `${t('simbolos.moneda')}${numeroFormateado}`;
 };
 
 export const formatearFecha = (

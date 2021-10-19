@@ -14,13 +14,14 @@ type Props = {
 
 export const Stepper: FunctionComponent<Props> = ({pasos, pasoActivo}) => {
 	return (
-		<Box sx={{width: '100%'}}>
+		<Box width='100%'>
 			<StepperMUI
 				alternativeLabel
 				activeStep={pasoActivo}
 				connector={<QontoConnector />}
+				sx={{marginBottom: '22px'}}
 			>
-				{pasos.map((label, index) => (
+				{pasos.map((label) => (
 					<Step key={label}>
 						<StepLabel StepIconComponent={QontoStepIcon}>
 							<Typography variant='caption' sx={{fontFamily: 'Poppins'}}>
