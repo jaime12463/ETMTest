@@ -19,23 +19,22 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 			size='large'
 			color='success'
 			fullWidth
-			style={{borderRadius: '24px', color: 'white'}}
+			style={{borderRadius: '24px', color: 'white', padding: '8px 12px'}}
 			onClick={props.onClick}
 		>
 			<Grid
 				container
 				direction='row'
 				alignItems='center'
-				justifyContent='space-between'
-				paddingY={0.2}
+				justifyContent='center'
 			>
 				<Grid item xs={3}>
 					<div
 						style={{
 							background: 'rgba(0, 0, 0, 0.35)',
 							borderRadius: '14px',
-							paddingTop: '4px',
-							paddingBottom: '4px',
+							padding: '4px',
+							width: '80px',
 						}}
 					>
 						<span
@@ -67,7 +66,8 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 						fontWeight: 'normal',
 						lineHeight: '14px',
 						textAlign: 'center',
-						textTransform:'none'
+						textTransform: 'none',
+						paddingLeft: '8px',
 					}}
 				>
 					{props.descripcion}
