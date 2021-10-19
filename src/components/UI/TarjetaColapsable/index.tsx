@@ -1,3 +1,4 @@
+import React, {Dispatch, SetStateAction} from 'react';
 import {
 	Box,
 	Card,
@@ -7,25 +8,22 @@ import {
 	CardContent,
 	IconButton,
 } from '@mui/material';
-import {Dispatch, SetStateAction} from 'react';
 import useEstilos from './useEstilos';
 import clsx from 'clsx';
 import flechaAbajo from '../../../assests/iconos/chevron--down.svg';
 import Chip from '@mui/material/Chip';
-import { styled } from '@mui/material/styles'
+import {styled} from '@mui/material/styles';
 
-const ChipStyled = styled(Chip)(() =>({
+const ChipStyled = styled(Chip)(() => ({
 	background: '#000',
 	color: '#fff',
 	fontFamily: 'Open Sans',
 	fontWeight: 'bold',
 	opacity: '0.7',
 	padding: '0 6px',
-}))
-
+}));
 
 type Props = {
-	children: React.ReactNode;
 	setExpandido: Dispatch<SetStateAction<string | boolean>>;
 	expandido: string | boolean;
 	titulo: React.ReactNode;
@@ -33,10 +31,10 @@ type Props = {
 	id: string;
 	cantidadItems?: number;
 	disabled?: boolean;
-	mensaje?:React.ReactNode;
+	mensaje?: React.ReactNode;
 };
 
-export const TarjetaColapsable = ({
+export const TarjetaColapsable: React.FC<Props> = ({
 	children,
 	setExpandido,
 	titulo,
@@ -45,9 +43,8 @@ export const TarjetaColapsable = ({
 	id,
 	cantidadItems,
 	disabled,
-	mensaje
-
-}: Props) => {
+	mensaje,
+}) => {
 	const manejadorExpandido =
 		({id}: any) =>
 		(event: React.SyntheticEvent) => {
@@ -64,19 +61,16 @@ export const TarjetaColapsable = ({
 				})}
 			>
 				<CardHeader
+					style={{padding: 0}}
 					title={
 						<Box display='flex' justifyContent='space-between'>
 							<Box alignSelf='center'>{titulo}</Box>
 							<Box>
 								<CardActions disableSpacing style={{padding: 0}}>
-									{ 
-										cantidadItems !== undefined && cantidadItems > 0 && 
-											<ChipStyled 
-												size="small" 
-												label={`${cantidadItems} Items`} 
-											/>
-									}	
-									{ (!disabled) ? (
+									{cantidadItems !== undefined && cantidadItems > 0 && (
+										<ChipStyled size='small' label={`${cantidadItems} Items`} />
+									)}
+									{!disabled ? (
 										<IconButton
 											className={clsx(classes.expand, {
 												[classes.expandOpen]: expandido === id ? true : false,
@@ -88,19 +82,22 @@ export const TarjetaColapsable = ({
 										>
 											<img src={flechaAbajo} alt='flecha abajo' />
 										</IconButton>
-									) : (null)}
+									) : null}
 								</CardActions>
 							</Box>
 						</Box>
 					}
 					subheader={
 						<div>
-							<p>{subTitulo}</p>
-							{(disabled) ? (<p>{mensaje}</p>):(null)}
+							<p style={{margin: '10px 0 0 0'}}>{subTitulo}</p>
+							{disabled ? <p>{mensaje}</p> : null}
 						</div>
 					}
 				></CardHeader>
-				<CardContent className={expandido !== id ? classes.cardContent : ''}>
+				<CardContent
+					className={expandido !== id ? classes.root : ''}
+					style={{padding: 0}}
+				>
 					<Collapse in={expandido === id} timeout='auto' unmountOnExit>
 						{children}
 					</Collapse>

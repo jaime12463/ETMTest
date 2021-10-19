@@ -21,16 +21,23 @@ const Derecha = styled(Grid)(() => ({
 type Props = {
 	derecha: React.ReactNode;
 	izquierda: React.ReactNode;
+	widthIzquierda: string;
+	widthDerecha: string;
 };
 
-export const TarjetaDoble = ({derecha, izquierda}: Props) => {
+export const TarjetaDoble = ({
+	derecha,
+	izquierda,
+	widthIzquierda,
+	widthDerecha,
+}: Props) => {
 	return (
 		<CardContenedor>
-			<Grid container>
-				<Izquierda item xs={7}>
+			<Grid container minWidth='304px' maxWidth='304px'>
+				<Izquierda item width={widthIzquierda}>
 					{izquierda}
 				</Izquierda>
-				<Derecha item xs={5}>
+				<Derecha item width={widthDerecha}>
 					{derecha}
 				</Derecha>
 			</Grid>

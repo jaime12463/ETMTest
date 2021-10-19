@@ -7,6 +7,7 @@ const useEstilos = makeStyles((theme: Theme) =>
 				background: '#FFFFFF',
 				boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.25)',
 				borderRadius: '8px',
+				padding: '16px 18px',
 			},
 		},
 		expand: {
@@ -17,16 +18,7 @@ const useEstilos = makeStyles((theme: Theme) =>
 			transform: 'rotate(180deg)',
 		},
 		inactiva: {
-			opacity: 0.6,
-		},
-		cardContent: {
-			'&.MuiCardContent-root': {
-				padding: 0,
-
-				'&.MuiCardContent-root:last-child': {
-					padding: 0,
-				},
-			},
+			opacity: 0.5,
 		},
 	})
 );

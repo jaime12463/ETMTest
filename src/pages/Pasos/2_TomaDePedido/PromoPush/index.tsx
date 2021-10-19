@@ -39,7 +39,12 @@ const PromoPush: React.FC = () => {
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-			<Grid container justifyContent='space-evenly' paddingBottom={2}>
+			<Grid
+				container
+				justifyContent='space-evenly'
+				paddingBottom={2}
+				marginTop='18px'
+			>
 				<Button
 					sx={promoActiva.push === true ? {opacity: '1'} : {opacity: '0.5'}}
 					className={classes.root}

@@ -105,6 +105,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 				direction='row'
 				flexWrap='nowrap'
 				alignItems='center'
+				marginTop='18px'
 			>
 				<Grid item>
 					<IconButton

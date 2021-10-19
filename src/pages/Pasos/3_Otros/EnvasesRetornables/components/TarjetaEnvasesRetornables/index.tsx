@@ -211,6 +211,8 @@ const TarjetaEnvasesRetornables = ({
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 			<TarjetaDoble
+				widthDerecha='134px'
+				widthIzquierda='170px'
 				derecha={
 					<Grid
 						container
@@ -260,7 +262,7 @@ const TarjetaEnvasesRetornables = ({
 						>
 							<Grid item xs={4}>
 								<Typography fontFamily='Open Sans' variant={'caption'}>
-									{'Retorno:'}
+									Retorno:
 								</Typography>
 							</Grid>
 
@@ -327,12 +329,7 @@ const TarjetaEnvasesRetornables = ({
 							{envase.nombreImplicito}
 						</Typography>
 						<br />
-						<Box
-							display='flex'
-							width={'60%'}
-							alignItems='center'
-							justifyContent='space-between'
-						>
+						<Box display='flex' alignItems='center' gap='4px'>
 							{tieneTipoPedidoValorizado && (
 								<>
 									<img style={{width: '19px'}} src={caja} alt='icono caja' />

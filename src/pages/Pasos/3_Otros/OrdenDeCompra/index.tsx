@@ -14,7 +14,7 @@ const OrdenDeCompra: React.FC = () => {
 	const classes = useEstilos();
 
 	return (
-		<Box>
+		<Box marginTop='10px'>
 			<TextField
 				label='Número de orden de compra'
 				variant='filled'

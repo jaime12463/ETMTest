@@ -163,6 +163,8 @@ const TomaPedido: React.FC = () => {
 									statefocusId={{focusId, setFocusId}}
 								/>
 							}
+							widthIzquierda='179px'
+							widthDerecha='125px'
 						/>
 					);
 				})}

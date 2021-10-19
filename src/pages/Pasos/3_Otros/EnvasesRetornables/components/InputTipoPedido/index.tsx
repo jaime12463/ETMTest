@@ -58,7 +58,11 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 				key={tipoPedido?.descripcionCorta}
 			>
 				<Grid item xs={4}>
-					<Typography fontFamily='Open Sans' variant={'caption'}>
+					<Typography
+						fontFamily='Open Sans'
+						variant={'caption'}
+						style={{textTransform: 'capitalize'}}
+					>
 						{`${tipoPedido?.descripcionCorta}:`}
 					</Typography>
 				</Grid>

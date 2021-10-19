@@ -7,6 +7,7 @@ import {useObtenerConsolidacionImplicitos} from './hooks';
 import {useObtenerVisitaActual, useObtenerConfiguracion} from 'redux/hooks';
 import TarjetaEnvasesRetornables from '../TarjetaEnvasesRetornables';
 import {borrarProductosDeVisitaActual} from 'redux/features/visitaActual/visitaActualSlice';
+import Box from '@mui/material/Box';
 
 type Props = {};
 
@@ -42,7 +43,7 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 		);
 
 	return (
-		<>
+		<Box marginTop='32px'>
 			{puedeVerEnvases && (
 				<Stack spacing={1.5}>
 					{consolidacionImplicitos.map(
@@ -52,7 +53,7 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 					)}
 				</Stack>
 			)}
-		</>
+		</Box>
 	);
 };
 

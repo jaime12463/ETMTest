@@ -17,10 +17,7 @@ const Cuerpo: React.FC = ({children}) => {
 				disableGutters={true}
 				className={estilos.main}
 				classes={{maxWidthXs: estilos.maxWidthXs}}
-				style={{
-					paddingRight: '1rem',
-					paddingLeft: '1rem',
-				}}
+				style={{padding: '0 10px'}}
 			>
 				{children}
 			</Container>
