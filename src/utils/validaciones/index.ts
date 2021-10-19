@@ -158,10 +158,10 @@ export const validarUnidadesDisponibles = (
 	let unidadesDisponibles = productoActual.unidadesDisponibles || 0; //Esto no va a pasar nunca
 	let unidadesCalculadas = unidadesDisponibles - disponibleHistorico;
 	//console.log('productoActual', productoActual);
-	console.log('unidadesCalculadas', unidadesCalculadas);
+	//console.log('unidadesCalculadas', productoActual.unidadesDisponibles);
 
 	if (unidadesCalculadas === 0) return unidadesCalculadas;
-
+	console.log('calculadas', unidadesCalculadas);
 	if (unidadesCalculadas - unidadesIngresadas < 0) {
 		let unidadesRetorno =
 			disponibleHistorico != 0

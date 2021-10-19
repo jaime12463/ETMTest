@@ -136,30 +136,51 @@ const TarjetaEnvasesRetornables = ({
 
 	let tieneTipoPedidoValorizado = buscarPedidoValorizado.includes(true);
 
-	/* 	const cambioSubUnidadesPorTipoPedido = (
+	const cambioSubUnidadesPorTipoPedido = (
 		subUnidadesIngresadas: number,
-		subUnidadesEnvasesPrincipal: number,
-		setSubUnidadesEnvasesPrincipal: Dispatch<SetStateAction<number>>,
-		subunidadesSecundario: number,
-		codigoTipoPedidoActual: number | undefined,
-		unidades: number
+		tipoEnvase: string,
+		totalSubUnidadesTiposEnvase: any,
+		codigoTipoPedidoActual: string | undefined
 	): boolean => {
-		let subUnidadesPermitidas = false;
+		let unidadesPermitidas = false;
 
-		if (!Number.isNaN(subUnidadesIngresadas))
+		let envaseActual = valoresEnvase.find(
+			(envase: any) => envase.tipoEnvase === tipoEnvase
+		);
+
+		if (!Number.isNaN(subUnidadesIngresadas) && envaseActual && tipoEnvase)
 			if (
 				subUnidadesIngresadas <=
-				subUnidadesRetorno + subUnidadesEnvasesPrincipal
+				retorno.subUnidades + envaseActual?.subUnidades
 			) {
-				setSubUnidadesRetorno(
-					subUnidadesIniciales - subunidadesSecundario - subUnidadesIngresadas
+				setRetorno({
+					...retorno,
+					subUnidades: Number(
+						unidadesIniciales -
+							totalSubUnidadesTiposEnvase.subUnidades -
+							subUnidadesIngresadas
+					),
+				});
+
+				let newEnvases = valoresEnvase.filter(
+					(envase: any) => envase.tipoEnvase !== tipoEnvase
 				);
-				setSubUnidadesEnvasesPrincipal(subUnidadesIngresadas);
-				subUnidadesPermitidas = true;
+
+				newEnvases.push({
+					tipoEnvase: tipoEnvase,
+					unidades: envaseActual.unidades,
+					subUnidades: Number(subUnidadesIngresadas),
+				});
+
+				//console.log(newEnvases);
+
+				setValoresEnvase(newEnvases);
+
+				unidadesPermitidas = true;
 
 				agregarProductoAlPedidoActual(
 					productoEnvase,
-					unidades,
+					envaseActual.unidades,
 					subUnidadesIngresadas,
 					envase.tipoPago,
 					codigoTipoPedidoActual
@@ -170,10 +191,10 @@ const TarjetaEnvasesRetornables = ({
 					'supera-cantidad-en-envases'
 				);
 
-		return subUnidadesPermitidas;
-	}; */
+		return unidadesPermitidas;
+	};
 
-	/* 	const cambioUnidadesPorTipoPedido = (
+	const cambioUnidadesPorTipoPedido = (
 		unidadesIngresadas: number,
 		tipoEnvase: string,
 		totalUnidadesTiposEnvase: any,
@@ -181,20 +202,43 @@ const TarjetaEnvasesRetornables = ({
 	): boolean => {
 		let unidadesPermitidas = false;
 
-		if (!Number.isNaN(unidadesIngresadas))
-			if (unidadesIngresadas <= retorno.unidades + unidadesEnvasesPrincipal) {
+		let envaseActual = valoresEnvase.find(
+			(envase: any) => envase.tipoEnvase === tipoEnvase
+		);
+
+		if (!Number.isNaN(unidadesIngresadas) && envaseActual && tipoEnvase)
+			if (unidadesIngresadas <= retorno.unidades + envaseActual?.unidades) {
 				setRetorno({
 					...retorno,
-					unidades:
-						unidadesIniciales - totalUnidadesTiposEnvase - unidadesIngresadas,
+					unidades: Number(
+						unidadesIniciales -
+							totalUnidadesTiposEnvase.unidades -
+							unidadesIngresadas
+					),
 				});
-				setUnidadesEnvasesPrincipal(unidadesIngresadas);
+
+				let newEnvases = valoresEnvase.filter(
+					(envase: any) => envase.tipoEnvase !== tipoEnvase
+				);
+
+				console.log(retorno);
+
+				newEnvases.push({
+					tipoEnvase: tipoEnvase,
+					unidades: Number(unidadesIngresadas),
+					subUnidades: envaseActual.subUnidades,
+				});
+
+				//console.log(newEnvases);
+
+				setValoresEnvase(newEnvases);
+
 				unidadesPermitidas = true;
 
 				agregarProductoAlPedidoActual(
 					productoEnvase,
 					unidadesIngresadas,
-					0,
+					envaseActual.subUnidades,
 					envase.tipoPago,
 					codigoTipoPedidoActual
 				);
@@ -205,7 +249,7 @@ const TarjetaEnvasesRetornables = ({
 				);
 
 		return unidadesPermitidas;
-	}; */
+	};
 
 	return (
 		<>
@@ -270,7 +314,7 @@ const TarjetaEnvasesRetornables = ({
 								<InputStyled
 									inputProps={{style: {textAlign: 'center'}}}
 									disableUnderline
-									value={unidadesIniciales}
+									value={retorno.unidades}
 									readOnly
 								/>
 							</Grid>
@@ -279,7 +323,7 @@ const TarjetaEnvasesRetornables = ({
 								<InputStyled
 									inputProps={{style: {textAlign: 'center'}}}
 									disableUnderline
-									value={subUnidadesIniciales}
+									value={retorno.subUnidades}
 									readOnly
 								/>
 							</Grid>
@@ -289,6 +333,8 @@ const TarjetaEnvasesRetornables = ({
 							<InputTipoPedido
 								tipoPedido={tipoPedido}
 								stateTipoEnvases={{valoresEnvase, setValoresEnvase}}
+								cambioUnidadesPorTipoPedido={cambioUnidadesPorTipoPedido}
+								cambioSubUnidadesPorTipoPedido={cambioSubUnidadesPorTipoPedido}
 							/>
 						))}
 					</Grid>

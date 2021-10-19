@@ -107,7 +107,7 @@ const TarjetaPromoPush = (props: any) => {
 	const {
 		codigoProducto,
 		nombreProducto,
-		unidadesDisponibles,
+		unidadesRestantes,
 		precioConImpuestoUnidad,
 		descuento,
 		componentes,
@@ -173,9 +173,9 @@ const TarjetaPromoPush = (props: any) => {
 		agregarProductoAlPedidoActual(getValues);
 	};
 
-	React.useEffect(() => {
+	/* 	React.useEffect(() => {
 		agregarProductoAlPedidoActual(getValues);
-	}, [getValues]);
+	}, [getValues]); */
 
 	const manejadorExpandido =
 		({id}: any) =>
@@ -259,7 +259,7 @@ const TarjetaPromoPush = (props: any) => {
 									<AgregarRedondoIcon width='18px' height='18px' />
 								</IconButton>
 								<Typography variant={'subtitle3'} fontWeight={700}>
-									/ {unidadesDisponibles}
+									/ {unidadesRestantes}
 								</Typography>
 							</Box>
 						</Stack>
