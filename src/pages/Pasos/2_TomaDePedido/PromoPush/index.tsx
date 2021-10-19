@@ -23,7 +23,9 @@ interface BotonProps {
 }
 
 const PromoPush: React.FC = () => {
-	const [expandido, setExpandido] = React.useState<boolean | string>(false);
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+		useMostrarAdvertenciaEnDialogo();
+
 	const [promoActiva, setPromoActiva] = React.useState<BotonProps>({
 		push: true,
 		ongoing: false,
@@ -36,6 +38,7 @@ const PromoPush: React.FC = () => {
 
 	return (
 		<>
+			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 			<Grid container justifyContent='space-evenly' paddingBottom={2}>
 				<Button
 					sx={promoActiva.push === true ? {opacity: '1'} : {opacity: '0.5'}}
@@ -76,6 +79,7 @@ const PromoPush: React.FC = () => {
 								id={promocion.nombreProducto}
 								expandidoPromoPush={expandidoPromoPush}
 								setExpandidoexpandidoPromoPush={setExpandidoexpandidoPromoPush}
+								mostrarAdvertenciaEnDialogo={mostrarAdvertenciaEnDialogo}
 							/>
 						);
 					})}

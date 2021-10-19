@@ -48,8 +48,10 @@ export const useAgregarProductoAlPedidoActual = (
 			productoActual,
 			getValues
 		);
+
 	const productosMandatoriosVisitaActual =
 		useObtenerProductosMandatoriosVisitaActual();
+
 	const manejadorConfirmarEliminarPedidosNoMandatorios =
 		useManejadorConfirmarEliminarPedidosNoMandatorios(
 			productosMandatoriosVisitaActual.noMandatorios,
@@ -93,7 +95,7 @@ export const useAgregarProductoAlPedidoActual = (
 
 			if (!esValidoAgregarProductoAlPedidoCliente)
 				return setGetValues({
-					unidades: 0,
+					unidades: getValues.unidades - 1,
 					subUnidades: 0,
 					productoABuscar: '',
 					tipoDePedido: visitaActual.tipoPedidoActual,

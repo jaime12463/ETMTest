@@ -65,8 +65,6 @@ const TextStyled = styled(Typography)(() => ({
 }));
 
 const TomaPedido: React.FC = () => {
-	const [expandido, setExpandido] = React.useState<string | boolean>(false);
-
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
@@ -84,7 +82,7 @@ const TomaPedido: React.FC = () => {
 		unidades: '',
 		subUnidades: '',
 		productoABuscar: '',
-		tipoDePedido: visitaActual.tipoPedidoActual.toString(),
+		tipoDePedido: visitaActual.tipoPedidoActual,
 		catalogoMotivo: '',
 	};
 	const {control, handleSubmit, setValue, getValues} =

@@ -102,22 +102,8 @@ const TarjetaPromoPush = (props: any) => {
 		expandidoPromoPush,
 		setExpandidoexpandidoPromoPush,
 		id,
-
 		mostrarAdvertenciaEnDialogo,
 	} = props;
-	const visitaActual = useObtenerVisitaActual();
-
-	const defaultValues = {
-		unidades: 0,
-		subUnidades: 0,
-		productoABuscar: '',
-		tipoDePedido: visitaActual.tipoPedidoActual,
-		catalogoMotivo: '',
-	};
-	const [getValues, setGetValues] = React.useState(defaultValues);
-
-	const datos = useObtenerDatos();
-	const {productos} = datos;
 	const {
 		codigoProducto,
 		nombreProducto,
@@ -127,6 +113,25 @@ const TarjetaPromoPush = (props: any) => {
 		componentes,
 		promoPush,
 	} = item;
+	const visitaActual = useObtenerVisitaActual();
+	const {venta} = visitaActual.pedidos;
+
+	const producto = venta.productos.find(
+		(producto) => producto.codigoProducto === codigoProducto
+	);
+
+	const defaultValues = {
+		unidades: producto ? producto.unidades : 0,
+		subUnidades: producto ? producto.subUnidades : 0,
+		productoABuscar: '',
+		tipoDePedido: visitaActual.tipoPedidoActual,
+		catalogoMotivo: '',
+	};
+
+	const [getValues, setGetValues] = React.useState(defaultValues);
+
+	const datos = useObtenerDatos();
+	const {productos} = datos;
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		item,
@@ -168,12 +173,9 @@ const TarjetaPromoPush = (props: any) => {
 		agregarProductoAlPedidoActual(getValues);
 	};
 
-	React.useEffect(() => {
-		if (puedeAgregar) {
-			agregarProductoAlPedidoActual(getValues);
-			setPuedeAgregar(false);
-		}
-	}, [puedeAgregar]);
+	/* 	React.useEffect(() => {
+		agregarProductoAlPedidoActual(getValues);
+	}, [getValues]); */
 
 	const manejadorExpandido =
 		({id}: any) =>
@@ -283,7 +285,14 @@ const TarjetaPromoPush = (props: any) => {
 															<Typography variant='subtitle3'>
 																{el.codigoProducto}
 															</Typography>
-															<Typography variant='subtitle3'>
+															<Typography
+																variant='subtitle3'
+																sx={{
+																	whiteSpace: 'nowrap',
+																	overflow: 'hidden',
+																	textOverflow: 'ellipsis',
+																}}
+															>
 																{productos[el.codigoProducto].nombre}
 															</Typography>
 														</Box>

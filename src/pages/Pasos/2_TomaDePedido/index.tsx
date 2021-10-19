@@ -56,17 +56,7 @@ import {
 	PromocionesRellenoIcon,
 	QuitarRellenoIcon,
 } from '../../../assests/iconos';
-import {useObtenerClienteActual} from '../../../redux/hooks';
-import {
-	InputsKeysFormTomaDePedido,
-	TClienteActual,
-	TFormTomaDePedido,
-	TPrecioProducto,
-	TProductoPedido,
-	TTipoPedido,
-} from 'models';
 
-import {useForm} from 'react-hook-form';
 import TomaPedido from './TomaPedidos';
 import PromoPush from './PromoPush';
 
@@ -77,7 +67,6 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 
 	return (
 		<Stack spacing={2}>
-			{/* <TabsPedidoActual value={value} setValue={setValue} /> */}
 			<TarjetaColapsable
 				id='Toma de pedido'
 				titulo={<Typography variant={'subtitle1'}>Toma de pedido</Typography>}

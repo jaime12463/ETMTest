@@ -48,6 +48,7 @@ export const useAgregarProductoAlPedidoActual = (
 			productoActual,
 			getValues
 		);
+
 	const productosMandatoriosVisitaActual =
 		useObtenerProductosMandatoriosVisitaActual();
 	const manejadorConfirmarEliminarPedidosNoMandatorios =
@@ -85,12 +86,6 @@ export const useAgregarProductoAlPedidoActual = (
 			const esValidoAgregarProductoAlPedidoCliente: boolean =
 				validarAgregarProductoAlPedidoCliente(inputs);
 
-			const {codigoProducto} = productoActual;
-
-			const productoBuscado = productos.find((producto) => {
-				return producto.codigoProducto === codigoProducto;
-			});
-
 			if (!esValidoAgregarProductoAlPedidoCliente)
 				return setGetValues({
 					unidades: productoActual.unidades,
@@ -100,6 +95,11 @@ export const useAgregarProductoAlPedidoActual = (
 					catalogoMotivo: '',
 				});
 
+			const {codigoProducto} = productoActual;
+
+			const productoBuscado = productos.find((producto) => {
+				return producto.codigoProducto === codigoProducto;
+			});
 			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
 				dispatch(
 					agregarProductoDelPedidoActual({
