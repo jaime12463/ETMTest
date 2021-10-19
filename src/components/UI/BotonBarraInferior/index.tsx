@@ -60,7 +60,7 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 				</Grid>
 				<Grid
 					item
-					xs={6}
+					xs={5}
 					style={{
 						fontSize: '14px',
 						fontWeight: 'normal',
@@ -74,7 +74,7 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 				</Grid>
 				<Grid
 					item
-					xs={3}
+					xs={4}
 					style={{fontSize: '20px', fontWeight: 600, lineHeight: '24px'}}
 				>
 					{formatearNumero(props.total, t)}
