@@ -348,7 +348,7 @@ const Derecha: React.FC<DerechaProps> = ({
 					height: '100%',
 				}}
 			>
-				<Box sx={{justifySelf: 'end', alignSelf: 'start'}}>
+				<Box justifySelf='end' alignSelf='start'>
 					{mostrarAcciones && (
 						<>
 							<IconButton
@@ -369,15 +369,20 @@ const Derecha: React.FC<DerechaProps> = ({
 						</>
 					)}
 				</Box>
-				<Box sx={{display: 'flex', alignItems: 'center'}}>
+				<Box display='flex' alignItems='center'>
 					<CajaIcon height='13px' width='18px' />
 					<IconButton
 						size='small'
 						value='-'
 						name='unidades'
 						onClick={(e) => handleButtons(e)}
+						disabled={producto.unidades > 0 ? false : true}
 					>
-						<QuitarRellenoIcon width='18px' height='18px' />
+						<QuitarRellenoIcon
+							width='18px'
+							height='18px'
+							fill={producto.unidades > 0 ? '#2F000E' : '#D9D9D9'}
+						/>
 					</IconButton>
 					<InputStyled
 						value={getValues.unidades}
@@ -410,15 +415,20 @@ const Derecha: React.FC<DerechaProps> = ({
 						<AgregarRedondoIcon width='18px' height='18px' />
 					</IconButton>
 				</Box>
-				<Box sx={{display: 'flex', alignItems: 'center'}}>
+				<Box display='flex' alignItems='center'>
 					<BotellaIcon width='18px' height='18px' />
 					<IconButton
 						size='small'
 						value='-'
 						name='unidades'
 						onClick={(e) => handleButtons(e)}
+						disabled={producto.subUnidades > 0 ? false : true}
 					>
-						<QuitarRellenoIcon width='18px' height='18px' />
+						<QuitarRellenoIcon
+							width='18px'
+							height='18px'
+							fill={producto.subUnidades > 0 ? '#2F000E' : '#D9D9D9'}
+						/>
 					</IconButton>
 					<InputStyled
 						onKeyPress={(e) => handleKeyPress(e)}

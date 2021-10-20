@@ -228,8 +228,13 @@ const TarjetaPromoPush = (props: any) => {
 									name='unidades'
 									value='-'
 									onClick={(e) => handleButtons(e)}
+									disabled={getValues.unidades > 0 ? false : true}
 								>
-									<QuitarRellenoIcon width='18px' height='18px' />
+									<QuitarRellenoIcon
+										width='18px'
+										height='18px'
+										fill={getValues.unidades > 0 ? '#2F000E' : '#D9D9D9'}
+									/>
 								</IconButton>
 								<InputStyled
 									value={getValues.unidades}

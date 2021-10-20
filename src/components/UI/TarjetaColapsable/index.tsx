@@ -20,7 +20,7 @@ const ChipStyled = styled(Chip)(() => ({
 	fontFamily: 'Open Sans',
 	fontWeight: 'bold',
 	opacity: '0.7',
-	padding: '0 6px',
+	padding: '2px 12px',
 }));
 
 type Props = {
