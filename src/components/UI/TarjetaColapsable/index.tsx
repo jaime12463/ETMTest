@@ -20,7 +20,10 @@ const ChipStyled = styled(Chip)(() => ({
 	fontFamily: 'Open Sans',
 	fontWeight: 'bold',
 	opacity: '0.7',
-	padding: '2px 12px',
+	'&.MuiChip-sizeSmall': {
+		fontSize: '12px',
+		padding: '2px 4px',
+	},
 }));
 
 type Props = {
@@ -68,7 +71,11 @@ export const TarjetaColapsable: React.FC<Props> = ({
 							<Box>
 								<CardActions disableSpacing style={{padding: 0}}>
 									{cantidadItems !== undefined && cantidadItems > 0 && (
-										<ChipStyled size='small' label={`${cantidadItems} Items`} />
+										<ChipStyled
+											size='small'
+											label={`${cantidadItems} Items`}
+											className={classes.root}
+										/>
 									)}
 									{!disabled ? (
 										<IconButton
