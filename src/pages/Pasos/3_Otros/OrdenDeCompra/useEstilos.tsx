@@ -5,10 +5,6 @@ const useEstilos = makeStyles(() =>
 		root: {
 			background: '#F5F0EF',
 			fontSize: '14px',
-			'& .MuiFormHelperText-root': {
-				fontSize: '10px',
-				marginTop: '6px',
-			},
 			'& .MuiFilledInput-input': {
 				fontFamily: 'Open Sans',
 				fontSize: '14px',
@@ -16,6 +12,7 @@ const useEstilos = makeStyles(() =>
 			},
 			'& .MuiFormLabel-root': {
 				color: '#8A4C5F',
+				fontSize: '14px',
 			},
 			'& label.Mui-focused': {
 				color: '#8A4C5F',
