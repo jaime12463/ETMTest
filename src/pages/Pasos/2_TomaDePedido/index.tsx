@@ -64,9 +64,9 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<boolean | string>(false);
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
-	const productosConUnidades = venta.productos.filter(
-		(producto) => producto.unidades > 0
-	);
+	const productosConUnidades = venta.productos.filter((producto) => {
+		return producto.unidades > 0 || producto.subUnidades > 0;
+	});
 
 	return (
 		<Stack spacing={2}>

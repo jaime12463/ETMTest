@@ -351,18 +351,6 @@ const Derecha: React.FC<DerechaProps> = ({
 				<Box justifySelf='end' alignSelf='start'>
 					{mostrarAcciones && (
 						<>
-							<IconButton
-								sx={{padding: '0 5px'}}
-								onClick={() =>
-									dispatch(
-										borrarProductoDelPedidoActual({
-											codigoProducto: producto.codigoProducto,
-										})
-									)
-								}
-							>
-								<BorrarIcon height='15px' width='15px' />
-							</IconButton>
 							<IconButton sx={{padding: '0 5px'}}>
 								<CheckRedondoIcon height='17.5px' width='17.5px' />
 							</IconButton>
@@ -375,7 +363,7 @@ const Derecha: React.FC<DerechaProps> = ({
 						size='small'
 						value='-'
 						name='unidades'
-						onClick={(e) => handleButtons(e)}
+						onClick={handleButtons}
 						disabled={producto.unidades > 0 ? false : true}
 					>
 						<QuitarRellenoIcon
@@ -386,8 +374,8 @@ const Derecha: React.FC<DerechaProps> = ({
 					</IconButton>
 					<InputStyled
 						value={getValues.unidades}
-						onChange={(e) => handleOnChange(e)}
-						onKeyPress={(e) => handleKeyPress(e)}
+						onChange={handleOnChange}
+						onKeyPress={handleKeyPress}
 						disableUnderline
 						name='unidades'
 						id='unidades_producto'
@@ -410,7 +398,7 @@ const Derecha: React.FC<DerechaProps> = ({
 						size='small'
 						name='unidades'
 						value='+'
-						onClick={(e) => handleButtons(e)}
+						onClick={handleButtons}
 					>
 						<AgregarRedondoIcon width='18px' height='18px' />
 					</IconButton>
@@ -420,8 +408,8 @@ const Derecha: React.FC<DerechaProps> = ({
 					<IconButton
 						size='small'
 						value='-'
-						name='unidades'
-						onClick={(e) => handleButtons(e)}
+						name='subUnidades'
+						onClick={handleButtons}
 						disabled={producto.subUnidades > 0 ? false : true}
 					>
 						<QuitarRellenoIcon
@@ -431,8 +419,8 @@ const Derecha: React.FC<DerechaProps> = ({
 						/>
 					</IconButton>
 					<InputStyled
-						onKeyPress={(e) => handleKeyPress(e)}
-						onChange={(e) => handleOnChange(e)}
+						onKeyPress={handleKeyPress}
+						onChange={handleOnChange}
 						value={getValues.subUnidades}
 						disableUnderline
 						id='subUnidades_producto'
@@ -456,7 +444,7 @@ const Derecha: React.FC<DerechaProps> = ({
 						size='small'
 						name='subUnidades'
 						value='+'
-						onClick={(e) => handleButtons(e)}
+						onClick={handleButtons}
 					>
 						<AgregarRedondoIcon width='18px' height='18px' />
 					</IconButton>
