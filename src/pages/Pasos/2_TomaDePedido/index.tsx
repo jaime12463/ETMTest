@@ -64,6 +64,9 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<boolean | string>(false);
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
+	const productosConUnidades = venta.productos.filter(
+		(producto) => producto.unidades > 0
+	);
 
 	return (
 		<Stack spacing={2}>
@@ -77,7 +80,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				}
 				expandido={expandido}
 				setExpandido={setExpandido}
-				cantidadItems={venta.productos.length}
+				cantidadItems={productosConUnidades.length}
 			>
 				<TomaPedido />
 			</TarjetaColapsable>

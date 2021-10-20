@@ -18,10 +18,7 @@ import {
 
 import {obtenerProductosHabilitados} from 'utils/methods';
 
-export const useFiltrarPreciosProductosDelClienteActual = (
-	statePreciosProductos: TStatePreciosProductos
-):TPrecioProducto[] | undefined => {
-	const {preciosProductos, setPreciosProductos} = statePreciosProductos;
+export const useFiltrarPreciosProductosDelClienteActual = () => {
 	const obtenerPresupuestoPedidoActual =
 		useObtenerPresupuestosTipoPedidoActual();
 	const presupuestoPedidoActual = obtenerPresupuestoPedidoActual();
@@ -42,9 +39,7 @@ export const useFiltrarPreciosProductosDelClienteActual = (
 
 	if (!fechaEntrega) return;
 
-	let preciosProductosDelCliente: TPrecioProducto[] = [];
-
-	preciosProductosDelCliente =
+	let preciosProductosDelCliente: TPrecioProducto[] =
 		obtenerPreciosProductosDelCliente(datosCliente, fechaEntrega).filter(
 			(producto) =>
 				datosTipoPedidoActual?.tipoProductosHabilitados.includes(
@@ -61,30 +56,7 @@ export const useFiltrarPreciosProductosDelClienteActual = (
 			datos.presupuestoTipoPedido,
 			datosTipoPedidoActual.codigo
 		);
-		console.log(datosTipoPedidoActual?.codigo);
 	}
-
-	useEffect(() => {
-		setPreciosProductos(preciosProductosDelCliente);
-	}, []);
-
-	const filtrarPreciosProductosDelClienteActual = ({buscador}: any) => {
-		if (buscador == '') {
-			setPreciosProductos(preciosProductosDelCliente);
-			return;
-		}
-
-		const preciosProductosFiltrados: TPrecioProducto[] =
-			preciosProductosDelCliente.filter(
-				(precioProducto: TPrecioProducto) =>
-					precioProducto.codigoProducto.toString().includes(buscador) ||
-					precioProducto.nombreProducto
-						.toLowerCase()
-						.includes(buscador.toLowerCase())
-			);
-
-		setPreciosProductos(preciosProductosFiltrados);
-	};
 
 	return preciosProductosDelCliente;
 };

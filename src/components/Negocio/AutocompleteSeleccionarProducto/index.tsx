@@ -60,18 +60,15 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
 
+	let preciosProductosDelClienteActual =
+		useFiltrarPreciosProductosDelClienteActual();
+
 	const seleccionarProductoDePrecios = useSeleccionarProductoDePrecios(
 		setProductoActual,
 		setValue,
-		preciosProductos,
+		preciosProductosDelClienteActual,
 		setInputFocus,
 		mostrarAdvertenciaEnDialogo
-	);
-
-	let preciosProductosDelClienteActual: TPrecioProducto[] | undefined = [];
-
-	preciosProductosDelClienteActual = useFiltrarPreciosProductosDelClienteActual(
-		statePreciosProductos
 	);
 
 	const {validarEsPermitidoAgregarProductoAlPedido} =
@@ -83,9 +80,8 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	const [opciones, setOpciones] = useState<TPrecioProducto[]>([]); //(preciosProductos);
 
 	useEffect(() => {
-		console.log('éntre en effect - texto ingresado', textoIngresado);
-		if (textoIngresado.length >= 3) {
-			const lista = preciosProductos.filter(
+		if (textoIngresado.length >= 3 && preciosProductosDelClienteActual) {
+			const lista = preciosProductosDelClienteActual.filter(
 				(item) =>
 					item.nombreProducto
 						.toLowerCase()
@@ -97,6 +93,23 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 			setOpciones([]);
 		}
 	}, [textoIngresado]);
+
+	const handleInputChangue = (
+		event: any,
+		newInputValue: string,
+		reason: string
+	) => {
+		if (event) {
+			if (reason === 'clear') {
+				setTextoIngresado('');
+			} else if (
+				(reason === 'reset' && event.type === 'click') ||
+				reason === 'input'
+			) {
+				setTextoIngresado(newInputValue);
+			}
+		}
+	};
 
 	return (
 		<>
@@ -132,24 +145,32 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 								option['nombreProducto']
 							}`
 						}
-						value={productoSeleccionado}
+						//value={productoSeleccionado}
+
 						onChange={(event: any, nuevoValor: TPrecioProducto | null) => {
 							setProductoSeleccionado(nuevoValor);
 						}}
 						inputValue={textoIngresado}
-						onInputChange={(event, newInputValue) => {
-							console.log('pase auto auto');
-							setTextoIngresado(newInputValue);
-						}}
+						onInputChange={(event, newInputValue, reason) =>
+							handleInputChangue(event, newInputValue, reason)
+						}
 						id='autocomplete-seleccionar-producto'
 						fullWidth
 						renderInput={(params) => (
 							<TextField
 								{...params}
 								variant='standard'
+								onClick={() => {
+									setInputFocus('productoABuscar');
+								}}
 								className={estilos.root}
 								InputProps={{...params.InputProps, disableUnderline: true}}
 								placeholder={`${t('general.agregarProductoSKU')}`}
+								inputRef={(input) => {
+									if (inputFocus === 'productoABuscar') {
+										input?.focus();
+									}
+								}}
 							/>
 						)}
 						disabled={!validarEsPermitidoAgregarProductoAlPedido()}
@@ -159,7 +180,9 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 					<IconButton
 						aria-label='search'
 						size='small'
-						onClick={() => {
+						name='boton-+'
+						onClick={(e: any) => {
+							handleInputChangue(e, '', 'clear');
 							seleccionarProductoDePrecios({
 								productoABuscar: productoSeleccionado?.codigoProducto
 									? productoSeleccionado?.codigoProducto.toString()
@@ -168,7 +191,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 						}}
 						disabled={!validarEsPermitidoAgregarProductoAlPedido()}
 					>
-						<AgregarIcon height='15px' width='15px' />
+						<AgregarIcon name='boton-+' height='15px' width='15px' />
 					</IconButton>
 				</Grid>
 			</GridAutocomplete>
