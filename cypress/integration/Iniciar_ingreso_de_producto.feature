@@ -57,6 +57,7 @@ Ejemplos:
 
 Esquema del escenario: N°5 El prevendedor ingresa un producto que aún no se encuentra en el pedido, con _validaPresupuesto = true y _tieneProductosHabilitados = false
     Dado '<permiteBotelleo>' permite botelleo, y requiere motivo = '<_requiereMotivo>'
+    y el tipo de pedido es valorizado = '<_esValorizado>'
     Cuando ingresa un producto habilitado
     Entonces el sistema creará una nueva tarjeta 
     Y mostrará el _codigoProducto 
@@ -68,11 +69,11 @@ Esquema del escenario: N°5 El prevendedor ingresa un producto que aún no se en
     Y '<habilitaIngresoMotivo>' se mostrará el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
     Y hará foco en las unidades
 Ejemplos:
-|permiteBotelleo|_requiereMotivo|mostarPrecioUnidad|mostarPrecioSubunidad|habilitaIngresoSubunidades|habilitaIngresoMotivo|
-|no             |false          |si                |no                   |no                        |no                   |
-|si             |false          |si                |si                   |si                        |no                   |
-|no             |true           |si                |no                   |no                        |si                   |
-|si             |true           |si                |no                   |si                        |si                   |
+|_esValorizado|permiteBotelleo|_requiereMotivo|mostarPrecioUnidad|mostarPrecioSubunidad|habilitaIngresoSubunidades|habilitaIngresoMotivo|
+|true         |no             |false          |si                |no                   |no                        |no                   |
+|true         |si             |false          |si                |si                   |si                        |no                   |
+|false        |no             |true           |no                |no                   |no                        |si                   |
+|flase        |si             |true           |no                |no                   |si                        |si                   |
 
 
 Escenario: N°6  El prevendedor ingresa un producto que aún no se encuentra en el pedido, con _validaPresupuesto = false

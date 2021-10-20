@@ -73,12 +73,12 @@ Característica: Mostrar comprobante
     |contado|
     |credito|
 
-#    Esquema del escenario: N°4 - Mostrar canjes en comprobante
-#    Dado que estoy en el paso 4 en finalizar pedido
-#    y se ingresaron productos  en el _tipoPedido con codigo = "Canje"
-#    Cuando despliego la tarjeta comprobante  
-#    Entonces el sistema mostrará una lista de los productos canjeados isualizando
-#    el código de producto, indicador presentación unidades, cantidad de unidades
-#    indicador presentación subunidades, cantidad de subunidades vendidas
+    Escenario: N°4 - Mostrar canjes en comprobante
+    Dado que estoy en el paso 4 en finalizar pedido
+    y se ingresaron productos  en el _tipoPedido con codigo = "Canje"
+    Cuando despliego la tarjeta comprobante  
+    Entonces el sistema mostrará una lista de los productos canjeados visualizando
+    el código de producto, indicador presentación unidades, cantidad de unidades
+    indicador presentación subunidades, cantidad de subunidades vendidas
     
 
