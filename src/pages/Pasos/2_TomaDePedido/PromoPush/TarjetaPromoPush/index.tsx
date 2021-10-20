@@ -23,6 +23,7 @@ import {
 	QuitarRellenoIcon,
 	FlechaAbajoIcon,
 	CajaIcon,
+	CheckRedondoIcon,
 } from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import {useObtenerVisitaActual} from 'redux/hooks';
@@ -49,6 +50,7 @@ const ButtonStyled = styled(Button)(({theme}) => ({
 	boxSizing: 'border-box',
 	borderRadius: '20px',
 	minHeight: '10px',
+	height: '16px',
 	textTransform: 'none',
 	'&:hover': {
 		background: 'none',
@@ -186,141 +188,154 @@ const TarjetaPromoPush = (props: any) => {
 						? {border: '1.5px solid #00CF91'}
 						: {border: '1.5px solid #D9D9D9'}
 				}
+				style={{padding: '12px 14px'}}
 			>
-				<Grid container p={2}>
-					<GridStyled item xs={6}>
-						<Box display='flex' flexDirection='column'>
-							<Stack spacing={1}>
-								<Box display='flex' flexDirection='column'>
-									<Typography variant='subtitle3'>{codigoProducto}</Typography>
-									<Typography
-										sx={{
-											width: '150px',
-											overflow: 'hidden',
-											textOverflow: 'ellipsis',
-										}}
-										variant='subtitle3'
-									>
-										{nombreProducto}
-									</Typography>
-								</Box>
-								<Box display='flex' flexDirection='column'>
-									<Typography variant='subtitle3'>
-										{formatearNumero(precioConImpuestoUnidad, t)}
-									</Typography>
-								</Box>
-								<Box display='flex' flexDirection='column'>
-									<Typography color='primary' variant='caption'>
-										Ahorras: {formatearNumero(descuento, t)}
-									</Typography>
-								</Box>
-							</Stack>
-						</Box>
-					</GridStyled>
-					<GridStyled item xs={6}>
-						<Stack spacing={1}>
-							<Box textAlign='right'>
-								<Typography variant='caption'>Aplicación maxima</Typography>
-							</Box>
-							<Box>
-								<IconButton
-									size='small'
-									name='unidades'
-									value='-'
-									onClick={(e) => handleButtons(e)}
-									disabled={getValues.unidades > 0 ? false : true}
-								>
-									<QuitarRellenoIcon
-										width='18px'
-										height='18px'
-										fill={getValues.unidades > 0 ? '#2F000E' : '#D9D9D9'}
-									/>
-								</IconButton>
-								<InputStyled
-									value={getValues.unidades}
-									disableUnderline
-									name='unidades'
-									id='unidades_producto'
-									onFocus={(e) => e.target.select()}
-									inputProps={{
-										style: {textAlign: 'center'},
-										inputMode: 'numeric',
-										pattern: '[0-9]*',
-									}}
-									onChange={(e) => handleOnChange(e)}
-									onKeyPress={(e) => handleKeyPress(e)}
+				{getValues.unidades > 0 && (
+					<Box
+						display='flex'
+						justifyContent='end'
+						alignItems='center'
+						marginBottom='8px'
+					>
+						<CheckRedondoIcon height='17.5px' width='17.5px' />
+					</Box>
+				)}
+				<Box
+					display='grid'
+					gridTemplateColumns='repeat(2, 1fr)'
+					marginBottom='8px'
+				>
+					<Box display='flex' flexDirection='column'>
+						<Typography variant='subtitle3' marginBottom='2px'>
+							{codigoProducto}
+						</Typography>
+						<Typography variant='subtitle3' marginBottom='6px'>
+							{nombreProducto}
+						</Typography>
+						<Typography variant='subtitle3' marginBottom='6px'>
+							{formatearNumero(precioConImpuestoUnidad, t)}
+						</Typography>
+						<Typography variant='caption' color='primary'>
+							Ahorras: {formatearNumero(precioConImpuestoUnidad, t)}
+						</Typography>
+					</Box>
+					<Box
+						display='flex'
+						flexDirection='column'
+						justifyContent='center'
+						alignItems='center'
+					>
+						<Typography
+							variant='caption'
+							alignSelf='end'
+							marginBottom='14px'
+							fontFamily='Open Sans'
+						>
+							Aplicación maxima
+						</Typography>
+						<Box
+							alignSelf='end'
+							display='flex'
+							alignItems='center'
+							justifyContent='center'
+						>
+							<IconButton
+								size='small'
+								name='unidades'
+								value='-'
+								onClick={handleButtons}
+								disabled={getValues.unidades > 0 ? false : true}
+							>
+								<QuitarRellenoIcon
+									width='18px'
+									height='18px'
+									fill={getValues.unidades > 0 ? '#2F000E' : '#D9D9D9'}
 								/>
-								<IconButton
-									size='small'
-									name='unidades'
-									value='+'
-									onClick={(e) => handleButtons(e)}
-								>
-									<AgregarRedondoIcon width='18px' height='18px' />
-								</IconButton>
-								<Typography variant={'subtitle3'} fontWeight={700}>
-									/ {unidadesDisponibles}
-								</Typography>
+							</IconButton>
+							<InputStyled
+								value={getValues.unidades}
+								disableUnderline
+								name='unidades'
+								id='unidades_producto'
+								onFocus={(e) => e.target.select()}
+								inputProps={{
+									style: {textAlign: 'center'},
+									inputMode: 'numeric',
+									pattern: '[0-9]*',
+								}}
+								onChange={handleOnChange}
+								onKeyPress={handleKeyPress}
+							/>
+							<IconButton
+								size='small'
+								name='unidades'
+								value='+'
+								onClick={handleButtons}
+							>
+								<AgregarRedondoIcon width='18px' height='18px' />
+							</IconButton>
+							<Typography variant={'subtitle3'} fontWeight={700}>
+								/ {unidadesDisponibles}
+							</Typography>
+						</Box>
+					</Box>
+				</Box>
+				<Box>
+					<Collapse in={expandidoPromoPush === id} timeout='auto' unmountOnExit>
+						<Stack>
+							<Divider />
+							<Typography variant={'subtitle3'} fontWeight={700} mt={1}>
+								Paquetes
+							</Typography>
+							<Box>
+								{componentes &&
+									componentes.map((el: any, i: number) => (
+										<>
+											<Grid container mt={1} key={el.codigoProducto}>
+												<GridStyled item xs={8}>
+													<Box display='flex' flexDirection='column'>
+														<Typography variant='subtitle3'>
+															{el.codigoProducto}
+														</Typography>
+
+														<Typography variant='subtitle3'>
+															{productos[el.codigoProducto].nombre}
+														</Typography>
+													</Box>
+												</GridStyled>
+												<GridStyled item xs={4}>
+													<Box
+														display='flex'
+														flexDirection='column'
+														marginBottom='8px'
+													>
+														<Box display='flex' textAlign='center'>
+															<CajaIcon width={'19px'} height='14px' />
+															<Typography variant='caption' mt={0.3}>
+																{`x${promoPush.componentes[i].cantidad}
+																	${formatearNumero(el.precioBase, t)}`}
+															</Typography>
+														</Box>
+														<Box>
+															<Typography color='primary' variant='caption'>
+																Ahorras: {formatearNumero(el.descuento, t)}
+															</Typography>
+														</Box>
+														<Box>
+															<Typography variant='subtitle3'>
+																Total: {formatearNumero(el.precioFinal, t)}
+															</Typography>
+														</Box>
+													</Box>
+												</GridStyled>
+											</Grid>
+											<Divider />
+										</>
+									))}
 							</Box>
 						</Stack>
-					</GridStyled>
-					<Grid item xs={12} mt={0.5}>
-						<Collapse
-							in={expandidoPromoPush === id}
-							timeout='auto'
-							unmountOnExit
-						>
-							<Stack>
-								<Divider />
-								<Typography variant={'subtitle3'} fontWeight={700} mt={1}>
-									Paquetes
-								</Typography>
-								<Box>
-									{componentes &&
-										componentes.map((el: any, i: number) => (
-											<React.Fragment key={i}>
-												<Grid container mt={1}>
-													<GridStyled item xs={8}>
-														<Box display='flex' flexDirection='column'>
-															<Typography variant='subtitle3'>
-																{el.codigoProducto}
-															</Typography>
-
-															<Typography variant='subtitle3'>
-																{productos[el.codigoProducto].nombre}
-															</Typography>
-														</Box>
-													</GridStyled>
-													<GridStyled item xs={4}>
-														<Box display='flex' flexDirection='column'>
-															<Box display='flex' textAlign='center'>
-																<CajaIcon width={'19px'} height='14px' />
-																<Typography variant='caption' mt={0.3}>
-																	{`x${promoPush.componentes[i].cantidad}
-																	${formatearNumero(el.precioBase, t)}`}
-																</Typography>
-															</Box>
-															<Box>
-																<Typography color='primary' variant='caption'>
-																	Ahorras: {formatearNumero(el.descuento, t)}
-																</Typography>
-															</Box>
-															<Box>
-																<Typography variant='subtitle3'>
-																	Total: {formatearNumero(el.precioFinal, t)}
-																</Typography>
-															</Box>
-														</Box>
-													</GridStyled>
-												</Grid>
-												<Divider />
-											</React.Fragment>
-										))}
-								</Box>
-							</Stack>
-						</Collapse>
-					</Grid>
-					<Grid item xs={12} mt={1}>
+					</Collapse>
+					<Box marginTop='8px'>
 						<ButtonStyled
 							disableFocusRipple
 							fullWidth
@@ -330,7 +345,7 @@ const TarjetaPromoPush = (props: any) => {
 							})}
 						>
 							<CardActions disableSpacing style={{padding: 0}}>
-								<Box display='flex'>
+								<Box display='flex' gap='6px'>
 									<Typography variant='caption' color='secondary'>
 										Ver detalle
 									</Typography>
@@ -347,8 +362,8 @@ const TarjetaPromoPush = (props: any) => {
 								</Box>
 							</CardActions>
 						</ButtonStyled>
-					</Grid>
-				</Grid>
+					</Box>
+				</Box>
 			</CardStyled>
 		</>
 	);
