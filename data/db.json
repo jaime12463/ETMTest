@@ -50,7 +50,7 @@
 				]
 			},
 			"configuracionPedido": {
-				"tipoPedidoHabilitados": [1, 2],
+				
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -344,7 +344,7 @@
 				]
 			},
 			"configuracionPedido": {
-				"tipoPedidoHabilitados": [1],
+			   "canjeHabilitado": true,
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -472,7 +472,7 @@
 				]
 			},
 			"configuracionPedido": {
-				"tipoPedidoHabilitados": [1, 2],
+				
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -736,7 +736,7 @@
 				]
 			},
 			"configuracionPedido": {
-				"tipoPedidoHabilitados": [1, 2],
+			
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -1028,7 +1028,7 @@
 				]
 			},
 			"configuracionPedido": {
-				"tipoPedidoHabilitados": [1, 2],
+				
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -1058,6 +1058,44 @@
 				"cantidadMaximaUnidades": 999
 			},
 			"portafolio": [
+				{
+					"codigoProducto": 170456,
+					"esVentaSubunidades": true,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 106,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
+					"codigoProducto": 170445,
+					"esVentaSubunidades": true,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 106,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 105,
+							"precioConImpuestoSubunidad": 8.75,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
 				{
 					"codigoProducto": 17640,
 					"esVentaSubunidades": true,
@@ -1516,7 +1554,7 @@
 	],
 	"presupuestoTipoPedido": [
 		{
-			"tipoPedido": 2,
+			"tipoPedido": "Canje",
 			"presupuesto": 48,
 			"vigenciaInicioPresupuesto": "2021-06-01",
 			"vigenciaFinPresupuesto": "2021-09-06",

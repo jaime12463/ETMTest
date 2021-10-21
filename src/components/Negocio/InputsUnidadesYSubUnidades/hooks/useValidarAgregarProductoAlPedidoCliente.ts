@@ -36,15 +36,14 @@ import {UseFormGetValues} from 'react-hook-form';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
-	stateInputFocus: TStateInputFocus,
 	productoActual: TPrecioProducto | null,
 	getValues: UseFormGetValues<TFormTomaDePedido>,
 	resetLineaActual: () => void
 ) => {
-	const {inputFocus, setInputFocus} = stateInputFocus;
 	const {t} = useTranslation();
 
-	const validarProductoPermiteSubUnidades = useValidarProductoPermiteSubUnidades();
+	const validarProductoPermiteSubUnidades =
+		useValidarProductoPermiteSubUnidades();
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
@@ -54,9 +53,8 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 
-	const {
-		obtenerPedidosClienteMismaFechaEntrega,
-	} = useObtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
+	const {obtenerPedidosClienteMismaFechaEntrega} =
+		useObtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
 
 	const calcularPresupuestoPedidoActual = useCalcularPresupuestoPedidoActual();
 
@@ -70,7 +68,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 		productoActual,
 		clienteActual,
 		getValues,
-		stateInputFocus,
 		resetLineaActual
 	);
 
@@ -101,19 +98,14 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			const subUnidadesParseado: number =
 				subUnidades !== '' ? parseInt(subUnidades) : 0;
 
-			const {
-				presentacion,
-				subunidadesVentaMinima,
-				esVentaSubunidades,
-			} = productoActual;
+			const {presentacion, subunidadesVentaMinima, esVentaSubunidades} =
+				productoActual;
 
-			const esPermitidoSubUnidades = validarProductoPermiteSubUnidades(
-				esVentaSubunidades
-			);
+			const esPermitidoSubUnidades =
+				validarProductoPermiteSubUnidades(esVentaSubunidades);
 
-			const datosTipoPedidoActual:
-				| TTipoPedido
-				| undefined = obtenerDatosTipoPedido();
+			const datosTipoPedidoActual: TTipoPedido | undefined =
+				obtenerDatosTipoPedido();
 
 			if (datosTipoPedidoActual?.validaPresupuesto) {
 				const saldoPresupuesto = calcularPresupuestoPedidoActual(
@@ -133,28 +125,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					);
 					return esValidacionCorrecta;
 				}
-			}
-
-			if (inputFocus === 'unidades' && esPermitidoSubUnidades) {
-				setInputFocus('subUnidades');
-				return esValidacionCorrecta;
-			}
-
-			if (
-				inputFocus === 'unidades' &&
-				!esPermitidoSubUnidades &&
-				datosTipoPedidoActual?.requiereMotivo
-			) {
-				setInputFocus('catalogoMotivo');
-				return esValidacionCorrecta;
-			}
-
-			if (
-				inputFocus === 'subUnidades' &&
-				datosTipoPedidoActual?.requiereMotivo
-			) {
-				setInputFocus('catalogoMotivo');
-				return esValidacionCorrecta;
 			}
 
 			if (!esPermitidoSubUnidades && subUnidadesParseado !== 0) {
@@ -250,7 +220,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			datosCliente,
 			mostrarAdvertenciaEnDialogo,
 			t,
-			inputFocus,
 		]
 	);
 	return validarAgregarProductoAlPedidoCliente;

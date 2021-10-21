@@ -6,14 +6,16 @@ import {
 } from 'models';
 import {useCallback} from 'react';
 import {UseFormGetValues} from 'react-hook-form';
-import {editarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
+import {
+	editarProductoDelPedidoActual,
+	agregarProductoDelPedidoActual,
+} from 'redux/features/visitaActual/visitaActualSlice';
 import {useAppDispatch} from 'redux/hooks';
 
 export const useManejadorConfirmarAgregarPedido = (
 	productoActual: TPrecioProducto | null,
 	clienteActual: TClienteActual,
 	getValues: UseFormGetValues<TFormTomaDePedido>,
-	stateInputFocus: TStateInputFocus,
 	resetLineaActual: () => void
 ) => {
 	const dispatch = useAppDispatch();
@@ -21,8 +23,6 @@ export const useManejadorConfirmarAgregarPedido = (
 	const manejadorConfirmarAgregarPedido = useCallback(
 		(oprimioBotonAceptar: boolean) => {
 			if (oprimioBotonAceptar) {
-				const {setInputFocus} = stateInputFocus;
-
 				const {unidades, subUnidades, catalogoMotivo} = getValues();
 
 				const unidadesParseado: number =
@@ -34,7 +34,7 @@ export const useManejadorConfirmarAgregarPedido = (
 				if (!productoActual) return;
 
 				dispatch(
-					editarProductoDelPedidoActual({
+					agregarProductoDelPedidoActual({
 						productoPedido: {
 							...productoActual,
 							unidades: unidadesParseado,
@@ -47,8 +47,6 @@ export const useManejadorConfirmarAgregarPedido = (
 						},
 					})
 				);
-
-				setInputFocus('productoABuscar');
 
 				resetLineaActual();
 			}

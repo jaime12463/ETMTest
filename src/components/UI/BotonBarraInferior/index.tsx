@@ -1,38 +1,40 @@
 import {FunctionComponent} from 'react';
+import {formatearNumero} from 'utils/methods';
 import Button from '@mui/material/Button';
 import {Box, Grid, Stack} from '@mui/material';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
-	numeroItems: number;
+	numeroItems: string;
 	descripcion: string;
-	total: string;
+	total: number;
 	onClick: (e: any) => void;
 };
 
 export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
+	const {t} = useTranslation();
 	return (
 		<Button
 			variant='contained'
 			size='large'
 			color='success'
 			fullWidth
-			style={{borderRadius: '24px', color: 'white'}}
+			style={{borderRadius: '24px', color: 'white', padding: '8px 12px'}}
 			onClick={props.onClick}
 		>
 			<Grid
 				container
 				direction='row'
 				alignItems='center'
-				justifyContent='space-between'
-				paddingY={0.2}
+				justifyContent='center'
 			>
 				<Grid item xs={3}>
 					<div
 						style={{
 							background: 'rgba(0, 0, 0, 0.35)',
 							borderRadius: '14px',
-							paddingTop: '4px',
-							paddingBottom: '4px',
+							padding: '4px',
+							width: '80px',
 						}}
 					>
 						<span
@@ -49,8 +51,7 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 							style={{
 								fontSize: '10px',
 								fontWeight: 'bold',
-								lineHeight: '18px',
-								textTransform: 'uppercase',
+								lineHeight: '10px',
 							}}
 						>
 							ITEMS
@@ -59,22 +60,24 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 				</Grid>
 				<Grid
 					item
-					xs={6}
+					xs={5}
 					style={{
 						fontSize: '14px',
 						fontWeight: 'normal',
 						lineHeight: '14px',
 						textAlign: 'center',
+						textTransform: 'none',
+						paddingLeft: '8px',
 					}}
 				>
 					{props.descripcion}
 				</Grid>
 				<Grid
 					item
-					xs={3}
+					xs={4}
 					style={{fontSize: '20px', fontWeight: 600, lineHeight: '24px'}}
 				>
-					{props.total}
+					{formatearNumero(props.total, t)}
 				</Grid>
 			</Grid>
 		</Button>

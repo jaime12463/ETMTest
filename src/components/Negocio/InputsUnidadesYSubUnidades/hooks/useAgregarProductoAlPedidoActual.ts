@@ -9,6 +9,7 @@ import {
 import {
 	editarProductoDelPedidoActual,
 	borrarProductoDelPedidoActual,
+	agregarProductoDelPedidoActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {
 	TClienteActual,
@@ -35,26 +36,26 @@ export const useAgregarProductoAlPedidoActual = (
 	productoActual: TPrecioProducto | null,
 	resetLineaActual: () => void,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
-	stateInputFocus: TStateInputFocus,
 	getValues: UseFormGetValues<TFormTomaDePedido>
 ) => {
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
 
-	const {inputFocus, setInputFocus} = stateInputFocus;
+	const validarAgregarProductoAlPedidoCliente =
+		useValidarAgregarProductoAlPedidoCliente(
+			mostrarAdvertenciaEnDialogo,
+			productoActual,
+			getValues,
+			resetLineaActual
+		);
+	const productosMandatoriosVisitaActual =
+		useObtenerProductosMandatoriosVisitaActual();
+	const manejadorConfirmarEliminarPedidosNoMandatorios =
+		useManejadorConfirmarEliminarPedidosNoMandatorios(
+			productosMandatoriosVisitaActual.noMandatorios,
+			productoActual?.codigoProducto
+		);
 
-	const validarAgregarProductoAlPedidoCliente = useValidarAgregarProductoAlPedidoCliente(
-		mostrarAdvertenciaEnDialogo,
-		{inputFocus, setInputFocus},
-		productoActual,
-		getValues,
-		resetLineaActual
-	);
-	const productosMandatoriosVisitaActual = useObtenerProductosMandatoriosVisitaActual();
-	const manejadorConfirmarEliminarPedidosNoMandatorios = useManejadorConfirmarEliminarPedidosNoMandatorios(
-		productosMandatoriosVisitaActual.noMandatorios,
-		productoActual?.codigoProducto
-	);
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const configuracion = useObtenerConfiguracion();
 
@@ -68,7 +69,7 @@ export const useAgregarProductoAlPedidoActual = (
 		(tipoPedido) => tipoPedido.esMandatorio === false
 	);
 
-	const {productos}: TPedido = useObtenerPedidoActual()
+	const {productos}: TPedido = useObtenerPedidoActual();
 
 	const agregarProductoAlPedidoActual = useCallback(
 		(inputs: TFormTomaDePedido) => {
@@ -81,29 +82,30 @@ export const useAgregarProductoAlPedidoActual = (
 
 			if (!productoActual) return;
 
-			const esValidoAgregarProductoAlPedidoCliente: boolean = validarAgregarProductoAlPedidoCliente(
-				inputs
-			);
+			const esValidoAgregarProductoAlPedidoCliente: boolean =
+				validarAgregarProductoAlPedidoCliente(inputs);
 
 			const {codigoProducto} = productoActual;
 
-			const productoBuscado = productos.find(producto =>{
-				return producto.codigoProducto === codigoProducto
-			})
+			const productoBuscado = productos.find((producto) => {
+				return producto.codigoProducto === codigoProducto;
+			});
 
 			if (!esValidoAgregarProductoAlPedidoCliente) return;
 
 			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
 				dispatch(
-					editarProductoDelPedidoActual({
+					agregarProductoDelPedidoActual({
 						productoPedido: {
 							...productoActual,
-							unidades: unidadesParseado,
-							subUnidades: subUnidadesParseado,
+							unidades: 0,
+							subUnidades: 0,
 							total:
 								productoActual.precioConImpuestoUnidad * unidadesParseado +
 								productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
-							tipoPago: productoBuscado ? productoBuscado.tipoPago : clienteActual.tipoPagoActual,
+							tipoPago: productoBuscado
+								? productoBuscado.tipoPago
+								: clienteActual.tipoPagoActual,
 							catalogoMotivo,
 						},
 					})
@@ -133,17 +135,10 @@ export const useAgregarProductoAlPedidoActual = (
 					);
 				}
 			}
-			setInputFocus('productoABuscar');
 
 			resetLineaActual();
 		},
-		[
-			productoActual,
-			validarAgregarProductoAlPedidoCliente,
-			dispatch,
-			setInputFocus,
-			inputFocus,
-		]
+		[productoActual, validarAgregarProductoAlPedidoCliente, dispatch]
 	);
 	return agregarProductoAlPedidoActual;
 };

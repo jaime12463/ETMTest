@@ -22,3 +22,5 @@ export {useCalcularPresupuestoTipoPedido} from './useCalcularPresupuestoTipoPedi
 export {useCalcularPresupuestoPedidoActual} from './useCalcularPresupuestoPedidoActual';
 export {useObtenerPresupuestosTipoPedidoActual} from './useObtenerPresupuestosTipoPedidoActual';
 export {useMostrarContenidoEnCajon} from './useMostrarContenidoEnCajon';
+export {useFiltrarPreciosProductosDelClienteActual} from './useFiltrarPreciosProductosDelClienteActual';
+export {useObtenerPedidosValorizados} from './useObtenerPedidosValorizados';

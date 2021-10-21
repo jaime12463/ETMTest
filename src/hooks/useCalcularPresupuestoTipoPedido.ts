@@ -26,7 +26,7 @@ export const useCalcularPresupuestoTipoPedido = () => {
 	const pedidosClientes: TPedidosClientes = useObtenerPedidosClientes();
 	const datos: TDatosClientesProductos = useObtenerDatos();
 	const {saldoPresupuestoTipoPedido} = useAppSelector(selectVisitaActual);
-	const calcularPresupuestoTipoPedido = (tipoPedido: number) => {
+	const calcularPresupuestoTipoPedido = (tipoPedido: string) => {
 		let presupuestoTipoPedido: any = {};
 		/*
         const obtenerPresupuestoVigente = (tipoPedido:number):number => {
@@ -38,7 +38,7 @@ export const useCalcularPresupuestoTipoPedido = () => {
         }
         */
 
-		const calcularPresupuestoInicial = (tipoPedido: number) => {
+		const calcularPresupuestoInicial = (tipoPedido: string) => {
 			let pedidosTabla = new Array<TProductoPedido>();
 			for (let pedidoCliente in pedidosClientes) {
 				pedidosClientes[pedidoCliente].pedidos.forEach((pedido) => {
@@ -47,10 +47,11 @@ export const useCalcularPresupuestoTipoPedido = () => {
 					}
 				});
 			}
-			const presupuestoVigenteConfigurado = obtenerPresupuestoConfiguradoSegunVigencia(
-				tipoPedido,
-				datos.presupuestoTipoPedido
-			);
+			const presupuestoVigenteConfigurado =
+				obtenerPresupuestoConfiguradoSegunVigencia(
+					tipoPedido,
+					datos.presupuestoTipoPedido
+				);
 			let total = presupuestoVigenteConfigurado?.presupuesto ?? 0; //obtenerPresupuestoVigente(tipoPedido);
 
 			presupuestoTipoPedido[tipoPedido] = pedidosTabla.reduce((total, item) => {

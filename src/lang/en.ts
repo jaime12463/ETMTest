@@ -46,6 +46,8 @@ const en = {
 		compromisoRegistrado: 'Registered Collection Commitments',
 		agregarOrdenDeCompra: 'Add Purchase Order?',
 		deseaAgregarOrdenDeCompra: 'Do you want to associate a purchase order?',
+		agregarProductoSKU: 'add product by SKU...',	
+		continuarA: 'Continue to  ',
 	},
 	simbolos: {
 		decimal: ',',
@@ -63,6 +65,10 @@ const en = {
 		envases: 'Returnable packaging',
 		PedidosDelClienteActual: 'Customer orders',
 		ordenDeCompra: 'Purchase Order',
+		tarjetaEnvases:'Check the amount of packaging for your products',
+		tarjetaCanjes:'Indicate the quantity of product for exchange',
+		tarjetaCompromisoCobro:'Generate a codro commitment',
+		tarjetaOrdenDeCompra:"Enter the customer's purchase order number"
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',
@@ -100,7 +106,13 @@ const en = {
 		ordenDeCompraEnBlanco:
 			'You must enter a purchase orden',
 		cantidadSuperiorEnvases:
-			'The amount exceeds those available for return'
+			'The amount exceeds those available for return',		
 	},
+	pasos: {
+		planeacion:'Planning',
+		tomaDePedido:'Order taking',
+		otros:'Others',
+		finalizar:' Finalize order'
+	}
 };
 export default en;

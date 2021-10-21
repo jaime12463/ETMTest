@@ -6,6 +6,7 @@ import {
 	PedidosDelClienteActual,
 	Planeacion,
 	FinalizarPedido,
+	Pasos,
 } from 'pages';
 
 import nombresRutas from './nombresRutas';
@@ -19,6 +20,10 @@ const routes: any = [
 	{
 		path: nombresRutas.clientes,
 		componente: <Clientes />,
+	},
+	{
+		path: nombresRutas.pasos,
+		componente: <Pasos />,
 	},
 	{
 		path: nombresRutas.planeacion,

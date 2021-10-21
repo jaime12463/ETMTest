@@ -8,28 +8,25 @@ import {stepConnectorClasses} from '@mui/material/StepConnector';
 import {StepIconProps} from '@mui/material/StepIcon';
 
 type Props = {
+	pasos: string[];
 	pasoActivo: number;
 };
 
-const steps = [
-	'1. Planeación',
-	'2. Toma de pedido',
-	'3. Otros',
-	'4. Finalizar pedido',
-];
-
-export const Stepper: FunctionComponent<Props> = (props) => {
+export const Stepper: FunctionComponent<Props> = ({pasos, pasoActivo}) => {
 	return (
-		<Box sx={{width: '100%'}}>
+		<Box width='100%'>
 			<StepperMUI
 				alternativeLabel
-				activeStep={props.pasoActivo}
+				activeStep={pasoActivo}
 				connector={<QontoConnector />}
+				sx={{marginBottom: '22px'}}
 			>
-				{steps.map((label) => (
+				{pasos.map((label) => (
 					<Step key={label}>
 						<StepLabel StepIconComponent={QontoStepIcon}>
-							<Typography variant="caption" sx={{fontFamily:'Poppins'}}>{label}</Typography>
+							<Typography variant='caption' sx={{fontFamily: 'Poppins'}}>
+								{label}
+							</Typography>
 						</StepLabel>
 					</Step>
 				))}

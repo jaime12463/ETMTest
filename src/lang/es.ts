@@ -46,6 +46,8 @@ const es = {
 		compromisoRegistrado: 'Compromisos de Cobro Registrados',
 		agregarOrdenDeCompra: '¿Agregar Orden Compra?',
 		deseaAgregarOrdenDeCompra: '¿Desea asociar una orden de compra?',
+		agregarProductoSKU: 'Agregar producto por SKU...',
+		continuarA: 'Continuar a ',
 	},
 	simbolos: {
 		decimal: '.',
@@ -63,6 +65,10 @@ const es = {
 		envases: 'Envases retornables',
 		PedidosDelClienteActual: 'Pedidos del cliente',
 		ordenDeCompra: 'Orden de Compra',
+		tarjetaEnvases: 'Revisa la cantidad de envases para tus productos',
+		tarjetaCanjes: 'Indica la cantidad de producto para cambio',
+		tarjetaCompromisoCobro: 'Generar un compromiso de codro',
+		tarjetaOrdenDeCompra: 'Ingresa el número de orden de compra del cliente',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
@@ -98,10 +104,15 @@ const es = {
 			'La cantidad ingresada excede el presupuesto asignado para {{descripcion}}',
 		borrarPedidosNoMandatorios:
 			'Se borrará el pedido de {{tipoPedido}}. ¿Desea continuar?',
-		ordenDeCompraEnBlanco:
-			'Debe ingresar una orden de compra',
+		ordenDeCompraEnBlanco: 'Debe ingresar una orden de compra',
 		cantidadSuperiorEnvases:
 			'La cantidad excede a las disponibles para retorno',
+	},
+	pasos: {
+		planeacion: 'Planeación',
+		tomaDePedido: 'Toma de pedido',
+		otros: 'Otros',
+		finalizar: ' Finalizar pedido',
 	},
 };
 export default es;

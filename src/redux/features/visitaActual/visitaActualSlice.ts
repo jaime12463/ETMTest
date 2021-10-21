@@ -9,7 +9,7 @@ import {RootState} from 'redux/store';
 
 const estadoInicial: TVisita = {
 	fechaEntrega: '',
-	tipoPedidoActual: 0,
+	tipoPedidoActual: '',
 	saldoPresupuestoTipoPedido: {},
 	pedidos: {},
 	mostrarPromoPush: false,
@@ -25,7 +25,7 @@ export const visitaActualSlice = createSlice({
 			state,
 			action: PayloadAction<{productoPedido: TProductoPedido}>
 		) => {
-			const productosPedidoClienteFiltrados = state.pedidos[
+			/* 			const productosPedidoClienteFiltrados = state.pedidos[
 				state.tipoPedidoActual
 			].productos.filter(
 				(precioProducto: TProductoPedido) =>
@@ -35,13 +35,49 @@ export const visitaActualSlice = createSlice({
 			state.pedidos[state.tipoPedidoActual].productos = [
 				...productosPedidoClienteFiltrados,
 				action.payload.productoPedido,
+			]; */
+
+			const productoPedidoCliente = state.pedidos[
+				state.tipoPedidoActual
+			].productos.filter(
+				(precioProducto: TProductoPedido) =>
+					precioProducto.codigoProducto !==
+					action.payload.productoPedido.codigoProducto
+			);
+
+			state.pedidos[state.tipoPedidoActual].productos = [
+				action.payload.productoPedido,
+				...productoPedidoCliente,
 			];
 		},
 		agregarProductoDelPedidoActual: (
 			state,
+			action: PayloadAction<{productoPedido: TProductoPedido}>
+		) => {
+			const producto = state.pedidos[state.tipoPedidoActual].productos.find(
+				(precioProducto: TProductoPedido) =>
+					precioProducto.codigoProducto ===
+					action.payload.productoPedido.codigoProducto
+			);
+
+			if (producto) {
+				producto.unidades = action.payload.productoPedido.unidades;
+				producto.subUnidades = action.payload.productoPedido.subUnidades;
+				producto.total = action.payload.productoPedido.total;
+				producto.tipoPago = action.payload.productoPedido.tipoPago;
+			} else {
+				state.pedidos[state.tipoPedidoActual].productos = [
+					action.payload.productoPedido,
+					...state.pedidos[state.tipoPedidoActual].productos,
+				];
+			}
+		},
+
+		agregarEnvaseDelPedidoActual: (
+			state,
 			action: PayloadAction<{
 				productoPedido: TProductoPedido;
-				codigoTipoPedidoActual: number;
+				codigoTipoPedidoActual: string;
 			}>
 		) => {
 			const productosPedidoClienteFiltrados = state.pedidos[
@@ -74,7 +110,7 @@ export const visitaActualSlice = createSlice({
 
 		borrarProductosDeVisitaActual: (
 			state,
-			action: PayloadAction<{tipoPedidoActual: number}>
+			action: PayloadAction<{tipoPedidoActual: string}>
 		) => {
 			state.pedidos[action.payload.tipoPedidoActual].productos = [];
 		},
@@ -104,7 +140,7 @@ export const visitaActualSlice = createSlice({
 		resetearVisitaActual: (state) => {
 			state.pedidos = {};
 			state.fechaEntrega = '';
-			state.tipoPedidoActual = 0;
+			state.tipoPedidoActual = '';
 			state.mostrarPromoPush = false;
 			state.bloquearPanelCarga = true;
 			state.ordenDeCompra = '';
@@ -139,7 +175,7 @@ export const visitaActualSlice = createSlice({
 
 		cambiarTipoPedidoActual: (
 			state,
-			action: PayloadAction<{tipoPedido: number}>
+			action: PayloadAction<{tipoPedido: string}>
 		) => {
 			state.tipoPedidoActual = action.payload.tipoPedido;
 		},
@@ -176,6 +212,7 @@ export const visitaActualSlice = createSlice({
 
 export const selectVisitaActual = (state: RootState) => state.visitaActual;
 export const {
+	agregarEnvaseDelPedidoActual,
 	agregarProductoDelPedidoActual,
 	editarProductoDelPedidoActual,
 	borrarProductoDelPedidoActual,

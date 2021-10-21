@@ -19,22 +19,24 @@ import {
 export const useSeleccionarProductoDePrecios = (
 	setProductoActual: Dispatch<SetStateAction<TPrecioProducto | null>>,
 	setValue: UseFormSetValue<TFormTomaDePedido>,
-	preciosProductos: TPrecioProducto[],
+	preciosProductos: TPrecioProducto[] | undefined,
 	setInputFocus: Dispatch<SetStateAction<InputsKeysFormTomaDePedido>>,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const pedidoActual: TPedido = useObtenerPedidoActual();
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
-	const obtenerPresupuestosTipoPedidoActual = useObtenerPresupuestosTipoPedidoActual();
+	const obtenerPresupuestosTipoPedidoActual =
+		useObtenerPresupuestosTipoPedidoActual();
 	const {t} = useTranslation();
 	const seleccionarProductoDePrecios = useCallback(
 		({productoABuscar}: TInputFiltrarPreciosProductos) => {
-			const productoEncontrado:
-				| TPrecioProducto
-				| undefined = preciosProductos.find(
-				(precioProducto: TPrecioProducto) =>
-					precioProducto.codigoProducto === parseInt(productoABuscar)
-			);
+			if (!preciosProductos) return;
+
+			const productoEncontrado: TPrecioProducto | undefined =
+				preciosProductos.find(
+					(precioProducto: TPrecioProducto) =>
+						precioProducto.codigoProducto === parseInt(productoABuscar)
+				);
 
 			if (!productoEncontrado) {
 				mostrarAdvertenciaEnDialogo(
@@ -47,9 +49,6 @@ export const useSeleccionarProductoDePrecios = (
 			const {codigoProducto} = productoEncontrado;
 			const datosTipoPedidoActual = obtenerDatosTipoPedido();
 			const presupuestoTipoPedido = obtenerPresupuestosTipoPedidoActual();
-
-
-			
 
 			if (
 				!datosTipoPedidoActual?.validaPresupuesto &&
@@ -96,12 +95,11 @@ export const useSeleccionarProductoDePrecios = (
 				return;
 			}
 
-			const productoActualEncontrado:
-				| TProductoPedido
-				| undefined = pedidoActual.productos.find(
-				(productoPedido: TProductoPedido) =>
-					productoPedido.codigoProducto === codigoProducto
-			);
+			const productoActualEncontrado: TProductoPedido | undefined =
+				pedidoActual.productos.find(
+					(productoPedido: TProductoPedido) =>
+						productoPedido.codigoProducto === codigoProducto
+				);
 
 			let unidadesParseado: string = '';
 

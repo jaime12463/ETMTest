@@ -1,85 +1,84 @@
 {
-	"configuraciones": [
-		{
-			"esFrecuenciaAbierta": true,
-			"habilitaOrdenDeCompra": true,
-			"TipoPedidoEnvasesHabilitados": [3,4],
-			"tipoPedidos": [
-				{
-					"codigo": 1,
-					"descripcion": "Venta",
-					"descripcionCorta": "Venta",
-					"secuencia": 1,
-					"esValorizado": true,
-					"esMandatorio": true,
-					"habilitaPromocion": true,
-					"contribuyeAMinimo": true,
-					"habilitaSubunidades": "condicional",
-					"validaSubunidadesMinimas": true,
-					"tipoProductosHabilitados": [1, 9],
-					"generaEnvases": true,
-					"requiereMotivo": false,
-					"validaPresupuesto": false
+	"configuraciones": {
+			"esFrecuenciaAbierta": true,	
+			"habilitaOrdenDeCompra":true,
+			"tipoPedidoEnvasesHabilitados": ["VentaEnvase","PrestamoEnvase"],
+			"tipoPedidos": [{
+				"codigo": "Venta",
+				"descripcion": "Venta",
+				"descripcionCorta": "Venta",
+				"secuencia": 1,	
+				"esValorizado": true,
+				"esMandatorio" : true,
+				"habilitaPromocion" : true,
+				"contribuyeAMinimo" : true,
+				"habilitaSubunidades" : "condicional",
+				"validaSubunidadesMinimas": true,
+				"tipoProductosHabilitados":[1,9],
+				"generaEnvases": true,
+				"requiereMotivo": false,
+				"validaPresupuesto": false
 				},
 				{
-					"codigo": 2,
-					"descripcion": "Canje",
-					"descripcionCorta": "Canje",
-					"secuencia": 2,
-					"esValorizado": false,
-					"esMandatorio": false,
-					"habilitaPromocion": false,
-					"contribuyeAMinimo": false,
-					"habilitaSubunidades": "siempre",
-					"validaSubunidadesMinimas": false,
-					"tipoProductosHabilitados": [1],
-					"generaEnvases": false,
-					"requiereMotivo": true,
-					"catalogoMotivos": [
-						{
-							"codigo": 1,
-							"descripcion": " Producto en mal estado"
-						},
-						{
-							"codigo": 2,
-							"descripcion": "Envase deteriorado"
-						}
-					],
-					"validaPresupuesto": true
-				},
-				{
-					"codigo": 3, 
-					"descripcion": "Venta Envase",
-					"descripcionCorta": "Venta",
-					"secuencia": 0,	
-					"esValorizado": true,
-					"esMandatorio" : false,
-					"habilitaPromocion" : false,
-					"contribuyeAMinimo" : true, 
-					"habilitaSubunidades" : "condicional",
-					"validaSubunidadesMinimas": false,
-					"tipoProductosHabilitados":[5],
-					"generaEnvases" : false,
-					"validaPresupuesto": false,
-					"requiereMotivo": false
-				},
-				{
-					"codigo": 4, 
-					"descripcion": "Préstamo Envase",
-					"descripcionCorta": "Préstamo",
-					"secuencia": 0,	
-					"esValorizado": false,
-					"esMandatorio" : false,
-					"habilitaPromocion" : false,
-					"contribuyeAMinimo" : false,
-					"habilitaSubunidades" : "condicional",
-					"validaSubunidadesMinimas": false,
-					"tipoProductosHabilitados":[5],
-					"generaEnvases" : false,
-					"validaPresupuesto": false,
-					"requiereMotivo": false
-				}
-			]
-		}
-	]
-}
+				"codigo": "Canje",
+				"descripcion": "Canje",
+				"descripcionCorta": "Canje",
+				"secuencia": 2,	
+				"esValorizado": false,
+				"esMandatorio" : false,
+				"habilitaPromocion" : false,
+				"contribuyeAMinimo" : false,
+				"habilitaSubunidades" : "siempre",
+				"validaSubunidadesMinimas": false,
+				"tipoProductosHabilitados":[1],
+				"generaEnvases" : false,
+				"validaPresupuesto": true,
+				"requiereMotivo": true,
+				"catalogoMotivos" :[ 
+					{"codigo" : 1,
+					"descripción":" Producto en mal estado"
+					},
+					{"codigo" : 2,
+					"descripción": "Envase deteriorado"
+					}
+				]
+			},
+			{	
+				"codigo": "VentaEnvase", 
+				"descripcion": "Venta Envase",
+				"descripcionCorta": "Venta",
+				"secuencia": 0,	
+				"esValorizado": true,
+				"esMandatorio" : false,
+				"habilitaPromocion" : false,
+				"contribuyeAMinimo" : true, 
+				"habilitaSubunidades" : "condicional",
+				"validaSubunidadesMinimas": false,
+				"tipoProductosHabilitados":[5],
+				"generaEnvases" : false,
+				"validaPresupuesto": false,
+				"requiereMotivo": false
+			},
+			{	
+				"codigo": "PrestamoEnvase", 
+				"descripcion": "Préstamo Envase",
+				"descripcionCorta": "Préstamo",
+				"secuencia": 0,	
+				"esValorizado": false,
+				"esMandatorio" : false,
+				"habilitaPromocion" : false,
+				"contribuyeAMinimo" : false,
+				"habilitaSubunidades" : "condicional",
+				"validaSubunidadesMinimas": false,
+				"tipoProductosHabilitados":[5],
+				"generaEnvases" : false,
+				"validaPresupuesto": false,
+				"requiereMotivo": false
+			}
+
+
+		]	
+    	}
+   }
+
+   

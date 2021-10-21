@@ -1,8 +1,9 @@
 import {
-	TDatosConfiguracion,
 	TDatosClientesProductos,
 	TCondicicon,
 	TPromoPush,
+	TConfiguracion,
+	TDatosConfiguracion,
 } from 'models/server';
 
 //Cliente Actual
@@ -43,7 +44,7 @@ export enum EEstadosFetch {
 //Visita Actual
 export type TVisita = {
 	fechaEntrega: string; //TODO: Deberia ir la visita con el pedido actual?
-	tipoPedidoActual: number;
+	tipoPedidoActual: string;
 	saldoPresupuestoTipoPedido: TPresupuestoTipoPedidoTotal;
 	pedidos: TPedidos;
 	mostrarPromoPush: boolean;
@@ -52,15 +53,15 @@ export type TVisita = {
 };
 
 export type TPresupuestoTipoPedidoTotal = {
-	[tipoPedido: number]: number;
+	[tipoPedido: string]: number;
 };
 
 export type TPedidos = {
-	[tipoPedido: number]: TPedido;
+	[tipoPedido: string]: TPedido;
 };
 
 export type TPedido = {
-	tipoPedido: number;
+	tipoPedido: string;
 	codigoPedido: string;
 	fechaEntrega: string;
 	estado: EEstadosDeUnPedido;

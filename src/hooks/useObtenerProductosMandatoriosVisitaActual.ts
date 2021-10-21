@@ -6,7 +6,6 @@ import {
 } from 'redux/hooks';
 import {TPedido, TClienteActual, TPedidoClienteParaEnviar} from 'models';
 
-//TODO: Acomodar para que tome los pedidos cerrados de la misma fecha de entrega, por ahora solo toma del pedido en curso
 
 export const useObtenerProductosMandatoriosVisitaActual = () => {
 	const visitaActual = useObtenerVisitaActual();

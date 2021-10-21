@@ -69,13 +69,13 @@ export type TInformacionCrediticia = {
 export type TCondicicon = 'contado' | 'creditoFormal' | 'creditoInformal'; //TODO: Esto debe ser un ENUM
 
 export type TConfiguracionPedido = {
-	tipoPedidoHabilitados: TTipoPedidoHabilitado[];
+	canjeHabilitado: boolean;
 	ventaMinima?: TVentaMinima;
 	ventaContadoMaxima?: TVentaContadoMaxima;
 	cantidadMaximaUnidades?: number;
 };
 
-export type TTipoPedidoHabilitado = number;
+export type TTipoPedidoHabilitado = string;
 
 export type TVentaMinima = {
 	montoVentaMinima: number;
@@ -128,7 +128,7 @@ export type TDocumento = {
 };
 
 export type TpresupuestoTipoPedido = {
-	tipoPedido: number;
+	tipoPedido: string;
 	presupuesto: number;
 	vigenciaInicioPresupuesto: string;
 	vigenciaFinPresupuesto: string;
@@ -138,18 +138,18 @@ export type TpresupuestoTipoPedido = {
 
 //configuraciones.json
 export type TDatosConfiguracion = {
-	configuraciones: TConfiguracion[];
+	configuraciones: TConfiguracion;
 };
 
 export type TConfiguracion = {
 	esFrecuenciaAbierta: boolean;
 	habilitaOrdenDeCompra: boolean;
-	TipoPedidoEnvasesHabilitados: number[];
+	tipoPedidoEnvasesHabilitados: string[];
 	tipoPedidos: TTipoPedido[];
 };
 
 export type TTipoPedido = {
-	codigo: number;
+	codigo: string;
 	descripcion: string;
 	descripcionCorta: string;
 	secuencia: number;

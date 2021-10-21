@@ -6,6 +6,7 @@ import FechaEntregaDelPedidoActual from './FechaEntregaDelPedidoActual';
 import TotalesMetodoDeVenta from './TotalesMetodoDeVenta';
 import TotalesCompromisoDeCobro from './TotalesCompromisoDeCobro';
 import MenuPromoPush from './MenuPromoPush';
+import AutocompleteSeleccionarProducto from './AutocompleteSeleccionarProducto';
 
 export {
 	InfoClienteDelPedidoActual,
@@ -16,4 +17,5 @@ export {
 	TotalesCompromisoDeCobro,
 	TotalesMetodoDeVenta,
 	MenuPromoPush,
+	AutocompleteSeleccionarProducto,
 };

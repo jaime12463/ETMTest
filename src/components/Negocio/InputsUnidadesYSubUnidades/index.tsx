@@ -33,23 +33,18 @@ const InputsUnidadesYSubUnidades: FunctionComponent<Props> = (props) => {
 
 	const resetLineaActual = useResetLineaActual(setValue, setProductoActual);
 
-	const {
-		mostrarAdvertenciaEnDialogo,
-		mostarDialogo,
-		parametrosDialogo,
-	} = useMostrarAdvertenciaEnDialogo();
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+		useMostrarAdvertenciaEnDialogo();
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		productoActual,
 		resetLineaActual,
 		mostrarAdvertenciaEnDialogo,
-		{inputFocus, setInputFocus},
 		getValues
 	);
 
-	const esPermitidoSubUnidades = useObtenerEsPermitidoSubUnidades(
-		productoActual
-	);
+	const esPermitidoSubUnidades =
+		useObtenerEsPermitidoSubUnidades(productoActual);
 
 	return (
 		<>
