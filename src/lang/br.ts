@@ -43,7 +43,8 @@ const br = {
 		vencimiento: 'expiração',
 		deudaPendiente: 'Dívida pendente',
 		compromisoRegistrado: 'Compromissos de cobrança registrados',
-		agregarProductoSKU: 'Adicionar produto por SKU...',	
+		agregarProductoSKU: 'Adicionar produto por SKU...',
+		numeroOrdenDeCompra: 'Número da ordem de compra ',
 	},
 	simbolos: {
 		decimal: '.',
@@ -92,10 +93,8 @@ const br = {
 			'O produto não está habilitado para {{descripcion}}',
 		excedePresupuesto:
 			'O valor inserido excede o orçamento alocado para {{descripcion}}',
-		ordenDeCompraEnBlanco:
-			'Você deve inserir um pedido de compra',
-		cantidadSuperiorEnvases:
-			'O valor excede os disponíveis para devolução',						
+		ordenDeCompraEnBlanco: 'Você deve inserir um pedido de compra',
+		cantidadSuperiorEnvases: 'O valor excede os disponíveis para devolução',
 	},
 };
 export default br;
