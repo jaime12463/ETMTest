@@ -49,6 +49,11 @@ const en = {
 		agregarProductoSKU: 'add product by SKU...',
 		continuarA: 'Continue to  ',
 		numeroOrdenDeCompra: 'Purchase order number',
+		limiteDeCredito: 'Credit limit',
+		disponible: 'Available',
+		agregarCompromisoDeCobro: 'Add collection commitment',
+		totalDeudaPendiente: 'Total outstanding debt',
+		totalCompromisosRegistrados: 'Total collection commitments recorded',
 	},
 	simbolos: {
 		decimal: ',',

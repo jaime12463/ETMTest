@@ -45,6 +45,11 @@ const br = {
 		compromisoRegistrado: 'Compromissos de cobrança registrados',
 		agregarProductoSKU: 'Adicionar produto por SKU...',
 		numeroOrdenDeCompra: 'Número da ordem de compra ',
+		limiteDeCredito: 'Limite de crédito',
+		disponible: 'Disponível',
+		agregarCompromisoDeCobro: 'Adicionar compromisso de coleção',
+		totalDeudaPendiente: 'Dívida total pendente',
+		totalCompromisosRegistrados: 'Compromissos de cobrança totais registrados',
 	},
 	simbolos: {
 		decimal: '.',

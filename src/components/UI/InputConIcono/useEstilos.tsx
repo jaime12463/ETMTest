@@ -25,6 +25,7 @@ const useEstilos = makeStyles(() =>
 			},
 			'& label.Mui-focused': {
 				color: '#8A4C5F',
+				left: '2px',
 			},
 			'& .MuiFilledInput-root:after': {
 				borderColor: '#8A4C5F',

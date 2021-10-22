@@ -7,6 +7,7 @@ import {TarjetaColapsable} from 'components/UI';
 import {useTranslation} from 'react-i18next';
 import {useObtenerConfiguracion, useObtenerVisitaActual} from 'redux/hooks';
 import OrdenDeCompra from './OrdenDeCompra';
+import {CompromisoDeCobro} from 'pages';
 
 export const Otros: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
@@ -59,9 +60,9 @@ export const Otros: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 			>
-				{' '}
+				<CompromisoDeCobro />
 			</TarjetaColapsable>
-			{habilitaOrdenDeCompra ? (
+			{habilitaOrdenDeCompra && (
 				<TarjetaColapsable
 					titulo={
 						<Typography variant={'subtitle1'}>
@@ -79,7 +80,7 @@ export const Otros: React.FC = () => {
 				>
 					<OrdenDeCompra />
 				</TarjetaColapsable>
-			) : null}
+			)}
 		</Stack>
 	);
 };
