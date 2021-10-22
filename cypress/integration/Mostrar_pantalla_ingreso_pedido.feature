@@ -55,7 +55,7 @@ Escenario: N°0 - El tipo de pedido es valorizado
 Esquema del escenario: N°1 - El tipo de pedido es no valorizado y no valida presupuesto
     Dado que el tipo de pedido _esValorizado = false
     Y _validaPresupuesto = false
-    Y '<hayOtrosProductosEnPedidosMandatorios>'
+    Y '<hayOtrosProductosEnPedidosMandatorios>' y no son pedidos de _tipoPedidoEnvasesHabilitados
     Cuando ingreso a registrar un pedido
     Entonces el sistema mostrará '<estadoPanelIngresoProducto>' y los totales
     Y el switch credito no se mostrará
@@ -88,7 +88,7 @@ Esquema del escenario: N°4 - El tipo de pedido es no valorizado, valida presupu
     Y _validaPresupuesto = true
     Y el _tipoPedido en _presupuestoTipoPedido tiene _vigenciaInicioPresupuesto <= fecha del dispositivo <= _vigenciaFinPresupuesto 
     Y presupuestoActual > 0 
-    Y '<hayOtrosProductosEnPedidosMandatorios>'
+    Y '<hayOtrosProductosEnPedidosMandatorios>' y no son pedidos de _tipoPedidoEnvasesHabilitados
     Cuando ingreso a registrar un pedido
     Entonces el sistema mostrará '<estadoPanelIngresoProducto>' y los totales
 

@@ -11,6 +11,8 @@ Característica: Eliminar todo del pedido
 Escenario: N°1 - Borrar todos los productos que no son promo push
     Dado que estoy en un pedido que _esMandatorio = true
     Y que posee productos ingresados
+    Y existen productos cargados en otros pedidos que _esMandatorio = false 
+    Y que no forman parte de _tipoPedidoEnvasesHabilitados 
     Cuando selecciono borrar todo
     Entonces el sistema pide confirmación para eliminar todos los productos
     Y al aceptar se eliminarán todos los productos de todos los pedidos

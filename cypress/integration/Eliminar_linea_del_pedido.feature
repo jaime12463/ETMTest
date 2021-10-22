@@ -39,7 +39,7 @@ Escenario: N°4 – El cliente tiene tipos de pedidos mandatorios registrados pa
 Esquema del escenario: N°5 – Eliminar producto del tipo de pedido mandatorio sin otro tipo de pedido mandatorio registrado
 	Dado que se seleccionó un producto de un pedido cuyo tipo de producto _esMandatorio = true
 	Y '<esUltimoProducto>'
-	Y '<hayProductosIngresadosPedidosNoMandatorios>'
+	Y '<hayProductosIngresadosPedidosNoMandatorios>' y no son pedidos de _tipoPedidoEnvasesHabilitados
 	Cuando se ingresa cantidad 0 en unidades 
 	Y se ingresa cantidad 0 en subunidades
 	Entonces el sistema '<realizaraAccion>'.
@@ -58,7 +58,7 @@ Ejemplos:
 Esquema del escenario: N°6 – Eliminar producto del tipo de pedido mandatorio sin otro tipo de pedido mandatorio registrado
 	Dado que estoy en un pedido cuyo tipo de producto _esMandatorio = true
 	Y '<esUltimoProducto>'
-	Y '<hayProductosIngresadosPedidosNoMandatorios>'
+	Y '<hayProductosIngresadosPedidosNoMandatorios>' y no son pedidos de _tipoPedidoEnvasesHabilitados
 	Cuando se selecciono borrar en la tarjeta del producto
 	Entonces el sistema '<realizaraAccion>'.
 
