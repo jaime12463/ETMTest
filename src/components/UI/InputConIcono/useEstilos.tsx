@@ -2,6 +2,7 @@ import {makeStyles, createStyles} from '@material-ui/styles';
 
 interface Props {
 	valid: boolean;
+	error: boolean;
 }
 
 const useEstilos = makeStyles(() =>
@@ -15,7 +16,7 @@ const useEstilos = makeStyles(() =>
 			},
 			'& .MuiFilledInput-root': {
 				borderRadius: (props: Props) => (props.valid ? '10px' : '0px'),
-				color: '#000',
+				color: (props: Props) => (props.error ? '#FF0000' : '#000'),
 			},
 			'& .MuiFilledInput-input': {
 				fontFamily: 'Open Sans',
@@ -32,21 +33,12 @@ const useEstilos = makeStyles(() =>
 				left: '2px',
 			},
 			'& .MuiFilledInput-root:after': {
-				borderColor: '#8A4C5F',
+				borderColor: (props: Props) => (props.error ? '##FF0000' : '#8A4C5F'),
 				content: (props: Props) => (props.valid ? 'none' : "''"),
 			},
 			'& .MuiFilledInput-root:before': {
-				borderColor: '#8A4C5F',
+				borderColor: (props: Props) => (props.error ? '##FF0000' : '#8A4C5F'),
 				content: (props: Props) => (props.valid ? 'none' : ''),
-			},
-			'& .MuiInputBase-root-MuiFilledInput-root.Mui-focused': {
-				backgroundColor: 'none',
-			},
-			'& .MuiInputBase-root-MuiFilledInput-root': {
-				backgroundColor: 'none',
-			},
-			'& .MuiInputBase-root-MuiFilledInput-root:hover': {
-				backgroundColor: 'none',
 			},
 		},
 	})

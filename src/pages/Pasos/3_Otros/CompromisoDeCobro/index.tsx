@@ -22,6 +22,11 @@ import {useAgregarCompromisoDeCobro} from './hooks';
 import {useDispatch} from 'react-redux';
 import {limpiarCompromisoDeCobroActual} from 'redux/features/compromisoDeCobro/compromisoDeCobroSlice';
 
+interface Error {
+	error: boolean;
+	mensaje: string;
+}
+
 const CompromisoDeCobro: React.FC = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
@@ -49,6 +54,7 @@ const CompromisoDeCobro: React.FC = () => {
 	const [importe, setImporte] = React.useState<string>(defaultMonto);
 	const [importeFormateado, setImporteFormateado] = React.useState<string>('');
 	const [importeValido, setImporteValido] = React.useState<boolean>(false);
+	const [error, setError] = React.useState<Error>({error: false, mensaje: ''});
 
 	const formatoMiles = t('simbolos.miles') === ',' ? 'en-US' : 'es-ES';
 
@@ -69,15 +75,22 @@ const CompromisoDeCobro: React.FC = () => {
 				agregarCompromisoDeCobro({monto: importe});
 
 				if (Number(importe) > totalDocumentos) {
-					return setImporte(''), setImporteValido(false);
+					return (
+						setImporteValido(false),
+						setError({
+							error: true,
+							mensaje: t('advertencias.montoMayorDeuda'),
+						})
+					);
 				}
-
+				setError({error: false, mensaje: ''});
 				setImporteValido(true);
 			}
 
 			if (Number(importe) === 0) {
 				setImporteValido(false);
 				dispatch(limpiarCompromisoDeCobroActual());
+				setError({error: false, mensaje: ''});
 			}
 		}
 	};
@@ -91,7 +104,6 @@ const CompromisoDeCobro: React.FC = () => {
 
 	return (
 		<>
-			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 			<Box marginTop='18px' display='flex' alignItems='start' gap='22px'>
 				<Box display='flex' flexDirection='column' gap='14px'>
 					<Typography variant='body3'>
@@ -119,6 +131,8 @@ const CompromisoDeCobro: React.FC = () => {
 				label={t('general.agregarCompromisoDeCobro')}
 				margin='20px 0 0 0 '
 				simboloMoneda
+				error={error.error}
+				mensajeError={error.mensaje}
 			/>
 			<Grid container marginTop='18px' sx={{overflowY: 'scroll'}}>
 				<Grid
@@ -186,10 +200,7 @@ const CompromisoDeCobro: React.FC = () => {
 					</Grid>
 					<Grid item paddingRight='8px'>
 						<Typography variant='caption' fontWeight='500'>
-							{formatearNumero(
-								limiteDeCredito ? limiteDeCredito - totalDocumentos : 0,
-								t
-							)}
+							{formatearNumero(totalDocumentos, t)}
 						</Typography>
 					</Grid>
 				</Grid>
