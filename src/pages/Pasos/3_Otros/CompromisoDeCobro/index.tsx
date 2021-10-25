@@ -50,10 +50,28 @@ const CompromisoDeCobro: React.FC = () => {
 	const [importeFormateado, setImporteFormateado] = React.useState<string>('');
 	const [importeValido, setImporteValido] = React.useState<boolean>(false);
 
+	const formatoMiles = t('simbolos.miles') === ',' ? 'en-US' : 'es-ES';
+
+	React.useEffect(() => {
+		if (importe === '') {
+			return;
+		}
+
+		const importeFormateado = new Intl.NumberFormat(formatoMiles).format(
+			Number(importe)
+		);
+		setImporteFormateado(importeFormateado);
+	}, [importe]);
+
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === 'Enter') {
 			if (!Number.isNaN(Number(importe)) && Number(importe) > 0) {
 				agregarCompromisoDeCobro({monto: importe});
+
+				if (Number(importe) > totalDocumentos) {
+					return setImporte(''), setImporteValido(false);
+				}
+
 				setImporteValido(true);
 			}
 
@@ -68,6 +86,7 @@ const CompromisoDeCobro: React.FC = () => {
 		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 	) => {
 		setImporte(e.target.value.replace(/[^0-9]/g, ''));
+		setImporteFormateado(e.target.value.replace(/[^0-9]/g, ''));
 	};
 
 	return (
@@ -93,7 +112,7 @@ const CompromisoDeCobro: React.FC = () => {
 				</Box>
 			</Box>
 			<InputConIcono
-				value={importe}
+				value={importeFormateado}
 				valid={importeValido}
 				onChange={handleChange}
 				onKeyPress={handleKeyPress}
@@ -188,7 +207,7 @@ const CompromisoDeCobro: React.FC = () => {
 					</Grid>
 					<Grid item paddingRight='8px'>
 						<Typography variant='caption' fontWeight='500'>
-							{formatearNumero(Number(importe), t)}
+							{formatearNumero(compromisoDeCobroActual.monto, t)}
 						</Typography>
 					</Grid>
 				</Grid>
