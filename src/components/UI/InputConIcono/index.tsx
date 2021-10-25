@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import useEstilos from './useEstilos';
 import {CheckRedondoIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
+import InputAdornment from '@mui/material/InputAdornment';
 
 interface Props {
 	valid: boolean;
@@ -42,19 +43,20 @@ const InputConIcono: React.FC<Props> = ({
 				onChange={onChange}
 				onKeyPress={onKeyPress}
 				focused
-				inputProps={{
+				InputProps={{
+					startAdornment: simboloMoneda && (
+						<InputAdornment
+							position='start'
+							sx={{color: '#000', marginRight: 0}}
+						>
+							<Typography variant='body2'>{t('simbolos.moneda')}</Typography>
+						</InputAdornment>
+					),
 					inputMode: simboloMoneda ? 'numeric' : 'text',
-					style: {paddingLeft: simboloMoneda ? '30px' : '16px'},
-					enterKeyHint: 'done',
 				}}
 			/>
 			<Box position='absolute' right='16px' bottom='8px'>
 				{valid && <CheckRedondoIcon />}
-			</Box>
-			<Box position='absolute' left='12px' bottom='10px'>
-				<Typography variant='body2'>
-					{simboloMoneda && t('simbolos.moneda')}
-				</Typography>
 			</Box>
 		</Box>
 	);
