@@ -8,6 +8,7 @@ import {
 import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
+	useObtenerPedidosClientes,
 } from 'redux/hooks';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -55,6 +56,13 @@ const CompromisoDeCobro: React.FC = () => {
 	const [importeFormateado, setImporteFormateado] = React.useState<string>('');
 	const [importeValido, setImporteValido] = React.useState<boolean>(false);
 	const [error, setError] = React.useState<Error>({error: false, mensaje: ''});
+	const pedidosCliente = useObtenerPedidosClientes();
+
+	const compromisosDeCobro =
+		pedidosCliente[clienteActual.codigoCliente]?.compromisosDeCobro.reduce(
+			(total, actual) => total + actual.monto,
+			0
+		) ?? 0;
 
 	const formatoMiles = t('simbolos.miles') === ',' ? 'en-US' : 'es-ES';
 
@@ -218,7 +226,7 @@ const CompromisoDeCobro: React.FC = () => {
 					</Grid>
 					<Grid item paddingRight='8px'>
 						<Typography variant='caption' fontWeight='500'>
-							{formatearNumero(compromisoDeCobroActual.monto, t)}
+							{formatearNumero(compromisosDeCobro, t)}
 						</Typography>
 					</Grid>
 				</Grid>

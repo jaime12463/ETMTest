@@ -32,13 +32,13 @@ const useEstilos = makeStyles(() =>
 				color: '#8A4C5F',
 				left: '2px',
 			},
-			'& .MuiFilledInput-root:after': {
-				borderColor: (props: Props) => (props.error ? '##FF0000' : '#8A4C5F'),
-				content: (props: Props) => (props.valid ? 'none' : "''"),
+			'& .MuiFilledInput-root::after': {
+				borderColor: '#8A4C5F',
+				content: (props: Props) => (props.valid || props.error ? 'none' : "''"),
 			},
 			'& .MuiFilledInput-root:before': {
-				borderColor: (props: Props) => (props.error ? '##FF0000' : '#8A4C5F'),
-				content: (props: Props) => (props.valid ? 'none' : ''),
+				borderColor: '#8A4C5F',
+				content: (props: Props) => (props.valid || props.error ? 'none' : ''),
 			},
 		},
 	})

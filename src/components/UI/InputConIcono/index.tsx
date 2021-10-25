@@ -32,7 +32,6 @@ const InputConIcono: React.FC<Props> = ({
 	error = false,
 	mensajeError,
 }) => {
-	console.log(error);
 	const classes = useEstilos({valid, error});
 	const {t} = useTranslation();
 
@@ -48,6 +47,7 @@ const InputConIcono: React.FC<Props> = ({
 				onChange={onChange}
 				onKeyPress={onKeyPress}
 				focused
+				sx={{borderBottom: error ? '1px solid red' : 'none'}}
 				InputProps={{
 					startAdornment: simboloMoneda && (
 						<InputAdornment
