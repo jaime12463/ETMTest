@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import {TarjetaColapsable} from 'components/UI';
 import {useTranslation} from 'react-i18next';
 import {
+	useObtenerClienteActual,
 	useObtenerConfiguracion,
 	useObtenerVisitaActual,
 	useAppDispatch,
@@ -20,6 +21,7 @@ export const Otros: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
 	const {t} = useTranslation();
 	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
+	const {tipoPagoActual} = useObtenerClienteActual();
 	const visitaActual = useObtenerVisitaActual();
 	const {canje} = visitaActual.pedidos;
 
@@ -73,24 +75,26 @@ export const Otros: React.FC = () => {
 			>
 				<Canjes />
 			</TarjetaColapsable>
-			<TarjetaColapsable
-				titulo={
-					<Typography variant={'subtitle1'}>
-						{t('general.compromisoCobro')}
-					</Typography>
-				}
-				subTitulo={
-					<Typography variant={'body3'}>
-						{t('titulos.tarjetaCompromisoCobro')}
-					</Typography>
-				}
-				id='compromisoCobro'
-				expandido={expandido}
-				setExpandido={setExpandido}
-			>
-				<CompromisoDeCobro />
-			</TarjetaColapsable>
-			{habilitaOrdenDeCompra && (
+			{tipoPagoActual ? (
+				<TarjetaColapsable
+					titulo={
+						<Typography variant={'subtitle1'}>
+							{t('general.compromisoCobro')}
+						</Typography>
+					}
+					subTitulo={
+						<Typography variant={'body3'}>
+							{t('titulos.tarjetaCompromisoCobro')}
+						</Typography>
+					}
+					id='compromisoCobro'
+					expandido={expandido}
+					setExpandido={setExpandido}
+				>
+					<CompromisoDeCobro />
+				</TarjetaColapsable>
+			) : null}
+			{habilitaOrdenDeCompra ? (
 				<TarjetaColapsable
 					titulo={
 						<Typography variant={'subtitle1'}>
@@ -108,7 +112,7 @@ export const Otros: React.FC = () => {
 				>
 					<OrdenDeCompra />
 				</TarjetaColapsable>
-			)}
+			) : null}
 		</Stack>
 	);
 };

@@ -17,6 +17,8 @@ interface Props {
 	margin?: string;
 	label: string;
 	simboloMoneda?: boolean;
+	error?: boolean;
+	mensajeError?: string;
 }
 
 const InputConIcono: React.FC<Props> = ({
@@ -27,8 +29,10 @@ const InputConIcono: React.FC<Props> = ({
 	label,
 	simboloMoneda = false,
 	onKeyPress,
+	error = false,
+	mensajeError,
 }) => {
-	const classes = useEstilos({valid});
+	const classes = useEstilos({valid, error});
 	const {t} = useTranslation();
 
 	return (
@@ -43,13 +47,19 @@ const InputConIcono: React.FC<Props> = ({
 				onChange={onChange}
 				onKeyPress={onKeyPress}
 				focused
+				sx={{borderBottom: error ? '1px solid red' : 'none'}}
 				InputProps={{
 					startAdornment: simboloMoneda && (
 						<InputAdornment
 							position='start'
 							sx={{color: '#000', marginRight: 0}}
 						>
-							<Typography variant='body2'>{t('simbolos.moneda')}</Typography>
+							<Typography
+								variant='body2'
+								sx={{color: error ? '#FF0000' : 'inherit'}}
+							>
+								{t('simbolos.moneda')}
+							</Typography>
 						</InputAdornment>
 					),
 					inputMode: simboloMoneda ? 'numeric' : 'text',
@@ -58,6 +68,18 @@ const InputConIcono: React.FC<Props> = ({
 			<Box position='absolute' right='16px' bottom='8px'>
 				{valid && <CheckRedondoIcon />}
 			</Box>
+			{error && (
+				<Box marginTop='8px' paddingLeft='16px'>
+					<Typography
+						fontSize='10px'
+						fontFamily='Open Sans'
+						color='primary'
+						lineHeight='12px'
+					>
+						{mensajeError}
+					</Typography>
+				</Box>
+			)}
 		</Box>
 	);
 };
