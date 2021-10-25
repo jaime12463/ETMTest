@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {TPedido} from 'models';
+import {TPedido, TProductoPedido} from 'models';
 import {
 	borrarProductosDeVisitaActual,
 	borrarProductoDelPedidoActual,
@@ -8,13 +8,14 @@ import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 
 export const useManejadorConfirmarEliminarPedidosNoMandatorios = (
 	noMandatorios: TPedido[],
-	codigoProductoActual: number | undefined
+	codigoProductoActual?: number | undefined,
+	productos?: TProductoPedido[]
 ) => {
 	const dispatch = useAppDispatch();
 
 	const manejadorConfirmarEliminarPedidosNoMandatorios = useCallback(
 		(oprimioBotonAceptar: boolean) => {
-			if (oprimioBotonAceptar && codigoProductoActual) {
+			if (oprimioBotonAceptar) {
 				noMandatorios.forEach((pedido: TPedido) => {
 					dispatch(
 						borrarProductosDeVisitaActual({
@@ -23,9 +24,19 @@ export const useManejadorConfirmarEliminarPedidosNoMandatorios = (
 					);
 				});
 
-				dispatch(
-					borrarProductoDelPedidoActual({codigoProducto: codigoProductoActual})
-				);
+				if (codigoProductoActual) {
+					dispatch(
+						borrarProductoDelPedidoActual({
+							codigoProducto: codigoProductoActual,
+						})
+					);
+				} else if (productos) {
+					for (const producto of productos) {
+						borrarProductoDelPedidoActual({
+							codigoProducto: producto.codigoProducto,
+						});
+					}
+				}
 			}
 		},
 		[noMandatorios]

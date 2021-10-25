@@ -1,6 +1,7 @@
 import EnvasesRetornables from './EnvasesRetornables';
+import {Canjes} from './Canjes';
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import {TarjetaColapsable} from 'components/UI';
@@ -9,15 +10,32 @@ import {
 	useObtenerClienteActual,
 	useObtenerConfiguracion,
 	useObtenerVisitaActual,
+	useAppDispatch,
 } from 'redux/hooks';
 import OrdenDeCompra from './OrdenDeCompra';
+import {cambiarTipoPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 import {CompromisoDeCobro} from 'pages';
+import {useObtenerHabilitaCanje} from './hooks/useObtenerHabilitaCanje';
 
 export const Otros: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
 	const {t} = useTranslation();
 	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
 	const {tipoPagoActual} = useObtenerClienteActual();
+	const visitaActual = useObtenerVisitaActual();
+	const {canje} = visitaActual.pedidos;
+
+	const productosConUnidades = canje.productos.filter((producto) => {
+		return producto.unidades > 0 || producto.subUnidades > 0;
+	});
+
+	const habilitaCanje = useObtenerHabilitaCanje();
+
+	const dispatch = useAppDispatch();
+	useEffect(() => {
+		dispatch(cambiarTipoPedidoActual({tipoPedido: 'canje'}));
+	}, []);
+
 	return (
 		<Stack spacing={2}>
 			<TarjetaColapsable
@@ -47,8 +65,15 @@ export const Otros: React.FC = () => {
 				id='tarjetaCanjes'
 				expandido={expandido}
 				setExpandido={setExpandido}
+				cantidadItems={productosConUnidades.length}
+				disabled={!habilitaCanje}
+				mensaje={
+					<Typography color='primary' variant='subtitle3'>
+						No hay disponibilidad de canje para este cliente en este momento
+					</Typography>
+				}
 			>
-				{' '}
+				<Canjes />
 			</TarjetaColapsable>
 			{tipoPagoActual ? (
 				<TarjetaColapsable

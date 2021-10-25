@@ -8,7 +8,7 @@ import {
 	TStateInputFocus,
 	TTipoPedido,
 } from 'models';
-import {useCallback} from 'react';
+import {useCallback, useEffect} from 'react';
 import {
 	validarSubUnidadesConPresentacion,
 	validarSubUnidadesEsMultiplo,
@@ -26,6 +26,7 @@ import {
 	useObtenerClienteActual,
 	useObtenerDatos,
 	useObtenerPedidoActual,
+	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
 import {
@@ -43,7 +44,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 
 	const validarProductoPermiteSubUnidades =
 		useValidarProductoPermiteSubUnidades();
-
+	const visitaActual = useObtenerVisitaActual();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
 	const pedidoActual = useObtenerPedidoActual();
@@ -218,6 +219,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			datosCliente,
 			mostrarAdvertenciaEnDialogo,
 			t,
+			visitaActual,
 		]
 	);
 	return validarAgregarProductoAlPedidoCliente;

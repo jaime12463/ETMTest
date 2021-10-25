@@ -15,7 +15,7 @@ import {Theme} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {makeStyles, createStyles} from '@material-ui/styles';
 import clsx from 'clsx';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {useObtenerDatos} from 'redux/hooks';
 import {
@@ -126,6 +126,18 @@ const TarjetaPromoPush = (props: any) => {
 	};
 
 	const [getValues, setGetValues] = React.useState(defaultValues);
+
+	useEffect(() => {
+		const defaultValues = {
+			unidades: producto ? producto.unidades : 0,
+			subUnidades: producto ? producto.subUnidades : 0,
+			productoABuscar: '',
+			tipoDePedido: visitaActual.tipoPedidoActual,
+			catalogoMotivo: '',
+		};
+
+		setGetValues(defaultValues);
+	}, [producto]);
 
 	const datos = useObtenerDatos();
 	const {productos} = datos;

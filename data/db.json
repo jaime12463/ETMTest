@@ -50,7 +50,7 @@
 				]
 			},
 			"configuracionPedido": {
-				
+				"canjeHabilitado": true,
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -472,7 +472,7 @@
 				]
 			},
 			"configuracionPedido": {
-				
+				"canjeHabilitado": true,
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -736,7 +736,7 @@
 				]
 			},
 			"configuracionPedido": {
-			
+			"canjeHabilitado": true,
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -1028,7 +1028,7 @@
 				]
 			},
 			"configuracionPedido": {
-				
+				"canjeHabilitado": true,
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -1557,7 +1557,7 @@
 			"tipoPedido": "Canje",
 			"presupuesto": 48,
 			"vigenciaInicioPresupuesto": "2021-06-01",
-			"vigenciaFinPresupuesto": "2021-09-06",
+			"vigenciaFinPresupuesto": "9999-12-31",
 			"tieneProductosHabilitados": false,
 			"productosHabilitados": [340, 365]
 		}

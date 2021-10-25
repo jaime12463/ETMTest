@@ -107,6 +107,8 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			const datosTipoPedidoActual: TTipoPedido | undefined =
 				obtenerDatosTipoPedido();
 
+			console.log(datosTipoPedidoActual);
+
 			if (datosTipoPedidoActual?.validaPresupuesto) {
 				const saldoPresupuesto = calcularPresupuestoPedidoActual(
 					pedidoActual,

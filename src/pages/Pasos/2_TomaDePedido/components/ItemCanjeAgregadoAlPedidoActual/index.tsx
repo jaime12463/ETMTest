@@ -2,7 +2,7 @@ import {FunctionComponent} from 'react';
 import {TProductoPedido} from 'models';
 import {Box, Grid} from '@mui/material';
 import {useTranslation} from 'react-i18next';
-import {useObtenerCatalogoMotivos} from '../SelectCatalogoMotivos/hooks';
+/* import {useObtenerCatalogoMotivos} from '../SelectCatalogoMotivos/hooks'; */
 
 type Props = {
 	item: TProductoPedido;
@@ -22,7 +22,7 @@ const ItemCanjeAgregadoAlPedidoActual: FunctionComponent<Props> = (props) => {
 
 	const {t} = useTranslation();
 
-	const itemCatalogoMotivos = useObtenerCatalogoMotivos(catalogoMotivo);
+	/* 	const itemCatalogoMotivos = useObtenerCatalogoMotivos(catalogoMotivo); */
 
 	return (
 		<Grid container>
@@ -75,9 +75,7 @@ const ItemCanjeAgregadoAlPedidoActual: FunctionComponent<Props> = (props) => {
 									fontWeight='fontWeightLight'
 									fontSize={12}
 									data-cy={`producto-pedido-motivo-${codigoProducto}`}
-								>
-									{itemCatalogoMotivos[0].label}
-								</Box>
+								></Box>
 							</Grid>
 						</Grid>
 					</Grid>
