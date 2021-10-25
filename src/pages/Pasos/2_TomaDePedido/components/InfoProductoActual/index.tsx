@@ -9,7 +9,7 @@ import {
 	THookForm,
 } from 'models';
 import {FunctionComponent} from 'react';
-import {SelectCatalogoMotivos} from '../SelectCatalogoMotivos';
+//import {SelectCatalogoMotivos} from '../SelectCatalogoMotivos';
 import useEstilos from 'theme/useEstilosGenerales';
 import {useObtenerEsPermitidoSubUnidades} from 'components/Negocio/InputsUnidadesYSubUnidades/hooks';
 
@@ -23,23 +23,18 @@ export const InfoProductoActual: FunctionComponent<Props> = (props) => {
 	const {stateProductoActual, hookForm, stateInputFocus} = props;
 	const {productoActual} = stateProductoActual;
 
-	const {
-		nombreProducto,
-		precioConImpuestoSubunidad,
-		precioConImpuestoUnidad,
-	} = {...productoActual};
+	const {nombreProducto, precioConImpuestoSubunidad, precioConImpuestoUnidad} =
+		{...productoActual};
 
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
 
-	const datosTipoPedidoActual:
-		| TTipoPedido
-		| undefined = obtenerDatosTipoPedido();
+	const datosTipoPedidoActual: TTipoPedido | undefined =
+		obtenerDatosTipoPedido();
 
 	const estilos = useEstilos();
 
-	const esPermitidoSubUnidades = useObtenerEsPermitidoSubUnidades(
-		productoActual
-	);
+	const esPermitidoSubUnidades =
+		useObtenerEsPermitidoSubUnidades(productoActual);
 
 	return (
 		<Grid container>
@@ -71,11 +66,11 @@ export const InfoProductoActual: FunctionComponent<Props> = (props) => {
 			{datosTipoPedidoActual?.requiereMotivo && (
 				<Grid item xs={6}>
 					<Grid container>
-						<SelectCatalogoMotivos
+						{/* 						<SelectCatalogoMotivos
 							hookForm={hookForm}
 							stateInputFocus={stateInputFocus}
 							stateProductoActual={stateProductoActual}
-						/>
+						/> */}
 					</Grid>
 				</Grid>
 			)}

@@ -1,4 +1,3 @@
-import React, {useState} from 'react';
 import {
 	InputsKeysFormTomaDePedido,
 	TClienteActual,
@@ -8,32 +7,40 @@ import {
 	TProductoPedido,
 	TStateInputFocus,
 	TVisita,
+	TOpcionSelect,
 } from 'models';
+import {AutocompleteSeleccionarProducto} from 'components/Negocio';
+import React, {useEffect, useState} from 'react';
 import {
 	useAppDispatch,
 	useObtenerClienteActual,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {useForm} from 'react-hook-form';
-import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
-import {
-	agregarProductoDelPedidoActual,
-	borrarProductoDelPedidoActual,
-	borrarProductosDeVisitaActual,
-	cambiarTipoPedidoActual,
-} from 'redux/features/visitaActual/visitaActualSlice';
-
 import {TarjetaColapsable, TarjetaDoble, Dialogo} from 'components/UI';
 import {
-	AutocompleteSeleccionarProducto,
-	InputSeleccionarProducto,
-} from 'components/Negocio';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
-import Chip from '@mui/material/Chip';
-import Box from '@mui/material/Box';
+	useInicializarPreciosProductosDelClienteActual,
+	useCalcularPresupuestoTipoPedido,
+	useMostrarAdvertenciaEnDialogo,
+} from 'hooks';
+import {
+	agregarProductoDelPedidoActual,
+	cambiarTipoPedidoActual,
+} from 'redux/features/visitaActual/visitaActualSlice';
+import {
+	Stack,
+	Box,
+	Grid,
+	Typography,
+	IconButton,
+	Input,
+	Select,
+	MenuItem,
+	InputLabel,
+	InputBase,
+	Chip,
+	FormControl,
+} from '@mui/material';
 import {
 	AgregarRedondoIcon,
 	BorrarIcon,
@@ -43,11 +50,12 @@ import {
 	QuitarRellenoIcon,
 } from 'assests/iconos';
 import {styled} from '@mui/material/styles';
-import Input from '@mui/material/Input';
-import {useAgregarProductoAlPedidoActual} from '../hooks';
-import {useMostrarAdvertenciaEnDialogo} from 'hooks';
-import useEstilos from '../useEstilos';
-import {SwitchCambiarTipoPago} from '../components';
+import {makeStyles} from '@material-ui/styles';
+
+import {
+	useAgregarProductoAlPedidoActual,
+	useObtenerCatalogoMotivos,
+} from 'pages/Pasos/2_TomaDePedido/hooks/index';
 
 const InputStyled = styled(Input)(({}) => ({
 	backgroundColor: 'white',
@@ -60,29 +68,28 @@ const InputStyled = styled(Input)(({}) => ({
 	width: '42px',
 }));
 
-const TextStyled = styled(Typography)(() => ({
-	color: '#651C32',
-	fontSize: '10px',
+const ChipStyled = styled(Chip)(({theme}) => ({
+	textAlign: 'center',
+	fontFamily: 'Open Sans',
+	width: '72px',
+	height: '14px',
+	padding: '2px, 12px, 2px, 12px',
+	marginRight: '5px',
 }));
 
-const TomaPedido: React.FC = () => {
+export const Canjes = () => {
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
 	const [productoActual, setProductoActual] =
 		React.useState<TPrecioProducto | null>(null);
-
 	const [inputFocus, setInputFocus] =
 		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
-
 	const [focusId, setFocusId] = React.useState(0);
-
-	React.useEffect(() => {
-		dispatch(cambiarTipoPedidoActual({tipoPedido: 'venta'}));
-	}, []);
-
 	const visitaActual = useObtenerVisitaActual();
-	const {venta} = visitaActual.pedidos;
+
+	const {canje} = visitaActual.pedidos;
+
 	const defaultValues: TFormTomaDePedido = {
 		unidades: '',
 		subUnidades: '',
@@ -91,15 +98,21 @@ const TomaPedido: React.FC = () => {
 		catalogoMotivo: '',
 	};
 	const {control, handleSubmit, setValue, getValues} =
-		useForm<TFormTomaDePedido>({defaultValues});
-	const stateInputFocus = {inputFocus, setInputFocus};
+		useForm<TFormTomaDePedido>({
+			defaultValues,
+		});
+	const dispatch = useAppDispatch();
 	const hookForm = {control, handleSubmit, setValue, getValues};
+
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 	const clienteActual: TClienteActual = useObtenerClienteActual();
+	const stateInputFocus = {inputFocus, setInputFocus};
+	const [catalogoMotivo, setCatalogoMotivo] = useState({});
+	const calcularPresupuestoTipoPedido = useCalcularPresupuestoTipoPedido();
 
-	const dispatch = useAppDispatch();
-	const catalogoMotivo = '';
-	const classes = useEstilos();
+	useEffect(() => {
+		calcularPresupuestoTipoPedido('canje');
+	}, []);
 
 	React.useEffect(() => {
 		if (productoActual !== null) {
@@ -113,7 +126,7 @@ const TomaPedido: React.FC = () => {
 							productoActual.precioConImpuestoUnidad * 0 +
 							productoActual.precioConImpuestoSubunidad * 0,
 						tipoPago: clienteActual.tipoPagoActual,
-						catalogoMotivo,
+						catalogoMotivo: '',
 					},
 				})
 			);
@@ -131,33 +144,19 @@ const TomaPedido: React.FC = () => {
 				stateInputFocus={stateInputFocus}
 			/>
 
-			<Grid container alignItems='center' justifyContent='space-between'>
-				<SwitchCambiarTipoPago />
-				<Chip
-					className={classes.root}
-					size='small'
-					icon={<BorrarIcon width='7.5px' height='7.5px' />}
-					label={<TextStyled>Borrar todo</TextStyled>}
-					onClick={() =>
-						dispatch(
-							borrarProductosDeVisitaActual({
-								tipoPedidoActual: visitaActual.tipoPedidoActual,
-							})
-						)
-					}
-					sx={{'&:hover': {background: 'none'}}}
-				/>
-			</Grid>
+			{canje.productos.length > 0 &&
+				canje.productos.map((producto) => {
+					let color = producto.catalogoMotivo !== '' ? '#00CF91' : '#FF0000';
 
-			{venta.productos.length > 0 &&
-				venta.productos.map((producto) => {
 					return (
 						<TarjetaDoble
+							borderColor={color}
 							key={producto.codigoProducto}
 							izquierda={
 								<Izquierda
 									producto={producto}
 									condicion={clienteActual.condicion}
+									stateCatalogo={{catalogoMotivo, setCatalogoMotivo}}
 								/>
 							}
 							derecha={
@@ -166,6 +165,7 @@ const TomaPedido: React.FC = () => {
 									stateInputFocus={stateInputFocus}
 									visitaActual={visitaActual}
 									statefocusId={{focusId, setFocusId}}
+									stateCatalogo={{catalogoMotivo, setCatalogoMotivo}}
 								/>
 							}
 							widthIzquierda='179px'
@@ -180,23 +180,36 @@ const TomaPedido: React.FC = () => {
 interface IzquierdaProps {
 	producto: TProductoPedido;
 	condicion: TCondicicon;
+	stateCatalogo: any;
 }
 
-const Izquierda: React.FC<IzquierdaProps> = ({producto, condicion}) => {
+const Izquierda: React.FC<IzquierdaProps> = ({
+	producto,
+	condicion,
+	stateCatalogo,
+}) => {
+	const itemCatalogoMotivos = useObtenerCatalogoMotivos();
+
+	const {catalogoMotivo, setCatalogoMotivo} = stateCatalogo;
+	const [motivo, setMotivo] = useState('');
+
+	const handleOnChangueSelect = (e: any) => {
+		setMotivo(e.target.value);
+		setCatalogoMotivo({
+			...catalogoMotivo,
+			[producto.codigoProducto]: {codigoMotivo: e.target.value},
+		});
+	};
+
 	return (
 		<Box
 			sx={{
 				display: 'grid',
 				gridTemplateRows: 'repeat(3, 1fr)',
-				padding: '12px 14px 0 14px',
+				padding: '40px 14px 0 14px',
 				height: '100%',
 			}}
 		>
-			<Box sx={{placeSelf: 'start', alignSelf: 'start'}}>
-				{condicion === 'creditoInformal' && (
-					<SwitchCambiarTipoPago producto={producto} />
-				)}
-			</Box>
 			<Box>
 				<Typography fontSize='12px' fontWeight='600'>
 					{producto.codigoProducto}
@@ -216,13 +229,47 @@ const Izquierda: React.FC<IzquierdaProps> = ({producto, condicion}) => {
 					fontSize='10px'
 					marginRight='4px'
 				>{`x${producto.presentacion}`}</Typography>
-				<Typography fontSize='12px' fontWeight='600' marginRight='8px'>
-					{`$${producto.precioConImpuestoUnidad}`}
-				</Typography>
-				<BotellaIcon height='14px' width='14px' />
-				<Typography fontSize='12px' fontWeight='600' marginLeft='4px'>
-					{`$${producto.precioConImpuestoSubunidad}`}
-				</Typography>
+			</Box>
+			<Box>
+				<FormControl fullWidth>
+					<Select
+						value={
+							producto.catalogoMotivo === ''
+								? motivo[producto.codigoProducto]
+								: producto.catalogoMotivo
+						}
+						id='motivos-canje'
+						onChange={(e) => handleOnChangueSelect(e)}
+						sx={{
+							width: '159px',
+							height: '24px',
+							borderRadius: '4px',
+							fontSize: '10px',
+						}}
+						displayEmpty
+						renderValue={
+							producto.catalogoMotivo !== ''
+								? undefined
+								: motivo !== ''
+								? undefined
+								: () => 'Motivo del canje'
+						}
+					>
+						{itemCatalogoMotivos.map((motivo: TOpcionSelect) => (
+							<MenuItem
+								key={motivo.value}
+								sx={{
+									fontSize: '10px',
+									borderRadius: '4px',
+									paddingTop: '8px',
+								}}
+								value={motivo.value}
+							>
+								{motivo.label}
+							</MenuItem>
+						))}
+					</Select>
+				</FormControl>
 			</Box>
 		</Box>
 	);
@@ -237,6 +284,7 @@ interface DerechaProps {
 	stateInputFocus: TStateInputFocus;
 	visitaActual: TVisita;
 	statefocusId: StateFocusID;
+	stateCatalogo: any;
 }
 
 const Derecha: React.FC<DerechaProps> = ({
@@ -244,33 +292,37 @@ const Derecha: React.FC<DerechaProps> = ({
 	stateInputFocus,
 	visitaActual,
 	statefocusId,
+	stateCatalogo,
 }) => {
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
 
 	const [puedeAgregar, setPuedeAgregar] = useState(false);
+	const {catalogoMotivo, setCatalogoMotivo} = stateCatalogo;
 
 	const defaultValues = {
 		unidades: producto.unidades,
 		subUnidades: producto.subUnidades,
 		productoABuscar: '',
 		tipoDePedido: visitaActual.tipoPedidoActual,
-		catalogoMotivo: '',
+		catalogoMotivo: producto.catalogoMotivo,
 	};
-	const {focusId, setFocusId} = statefocusId;
+	const [getValue, setGetValues] = React.useState(defaultValues);
 
-	const [getValues, setGetValues] = React.useState(defaultValues);
+	useEffect(() => {
+		setGetValues(defaultValues);
+	}, []);
+
+	const {focusId, setFocusId} = statefocusId;
 
 	const {inputFocus, setInputFocus} = stateInputFocus;
 
 	const [mostrarAcciones, setMostrarAcciones] = React.useState<boolean>(false);
 
-	const dispatch = useAppDispatch();
-
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		producto,
 		mostrarAdvertenciaEnDialogo,
-		getValues,
+		getValue,
 		setGetValues
 	);
 
@@ -278,7 +330,7 @@ const Derecha: React.FC<DerechaProps> = ({
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
 		setGetValues({
-			...getValues,
+			...getValue,
 			[e.target.name]: e.target.value.replace(/[^0-9]/g, ''),
 		});
 		setFocusId(producto.codigoProducto);
@@ -287,7 +339,7 @@ const Derecha: React.FC<DerechaProps> = ({
 
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === 'Enter') {
-			agregarProductoAlPedidoActual(getValues);
+			agregarProductoAlPedidoActual(getValue);
 			if (inputFocus === 'unidades') {
 				setInputFocus('subUnidades');
 			} else if (inputFocus === 'subUnidades') {
@@ -298,19 +350,36 @@ const Derecha: React.FC<DerechaProps> = ({
 	};
 
 	React.useEffect(() => {
+		if (catalogoMotivo[producto.codigoProducto]) {
+			setGetValues({
+				...getValue,
+				catalogoMotivo: catalogoMotivo[producto.codigoProducto].codigoMotivo,
+			});
+		}
+		if (getValue.unidades > 0 || getValue.subUnidades > 0) {
+			if (catalogoMotivo[producto.codigoProducto]) {
+				agregarProductoAlPedidoActual({
+					...getValue,
+					catalogoMotivo: catalogoMotivo[producto.codigoProducto].codigoMotivo,
+				});
+			}
+		}
+	}, [catalogoMotivo]);
+
+	React.useEffect(() => {
 		if (puedeAgregar) {
-			agregarProductoAlPedidoActual(getValues);
+			agregarProductoAlPedidoActual(getValue);
 			setPuedeAgregar(false);
 		}
 	}, [puedeAgregar]);
 
 	React.useEffect(() => {
-		if (getValues.unidades > 0 || getValues.subUnidades > 0) {
-			setMostrarAcciones(true);
+		if (getValue.unidades > 0 || getValue.subUnidades > 0) {
+			if (getValue.catalogoMotivo !== '') setMostrarAcciones(true);
 		}
 
 		return () => setMostrarAcciones(false);
-	}, [getValues.unidades, getValues.subUnidades]);
+	}, [getValue, catalogoMotivo]);
 
 	const handleButtons = (
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -318,26 +387,25 @@ const Derecha: React.FC<DerechaProps> = ({
 		const {value, name} = e.currentTarget;
 		setFocusId(producto.codigoProducto);
 		if (name === 'unidades') {
-			if (value === '-' && getValues.unidades === 0) {
+			if (value === '-' && getValue.unidades === 0) {
 				return;
 			}
 			setInputFocus('unidades');
 			setGetValues({
-				...getValues,
-				[name]: value === '+' ? ++getValues.unidades : --getValues.unidades,
+				...getValue,
+				[name]: value === '+' ? ++getValue.unidades : --getValue.unidades,
 			});
 		} else if (name === 'subUnidades') {
-			if (value === '-' && getValues.subUnidades === 0) {
+			if (value === '-' && getValue.subUnidades === 0) {
 				return;
 			}
 			setInputFocus('subUnidades');
 			setGetValues({
-				...getValues,
-				[name]:
-					value === '+' ? ++getValues.subUnidades : --getValues.subUnidades,
+				...getValue,
+				[name]: value === '+' ? ++getValue.subUnidades : --getValue.subUnidades,
 			});
 		}
-		agregarProductoAlPedidoActual(getValues);
+		agregarProductoAlPedidoActual(getValue);
 	};
 
 	return (
@@ -354,11 +422,27 @@ const Derecha: React.FC<DerechaProps> = ({
 				}}
 			>
 				<Box justifySelf='end' alignSelf='start'>
-					{mostrarAcciones && (
+					{mostrarAcciones ? (
 						<>
 							<IconButton sx={{padding: '0 5px'}}>
 								<CheckRedondoIcon height='17.5px' width='17.5px' />
 							</IconButton>
+						</>
+					) : (
+						<>
+							<ChipStyled
+								label={
+									<Typography
+										variant={'caption'}
+										color='white'
+										textAlign='center'
+										fontFamily='Open Sans'
+									>
+										Pendiente
+									</Typography>
+								}
+								color={'primary'}
+							/>
 						</>
 					)}
 				</Box>
@@ -378,7 +462,7 @@ const Derecha: React.FC<DerechaProps> = ({
 						/>
 					</IconButton>
 					<InputStyled
-						value={getValues.unidades}
+						value={getValue.unidades}
 						onChange={handleOnChange}
 						onKeyPress={handleKeyPress}
 						disableUnderline
@@ -426,7 +510,7 @@ const Derecha: React.FC<DerechaProps> = ({
 					<InputStyled
 						onKeyPress={handleKeyPress}
 						onChange={handleOnChange}
-						value={getValues.subUnidades}
+						value={getValue.subUnidades}
 						disableUnderline
 						id='subUnidades_producto'
 						name='subUnidades'
@@ -458,5 +542,3 @@ const Derecha: React.FC<DerechaProps> = ({
 		</>
 	);
 };
-
-export default TomaPedido;

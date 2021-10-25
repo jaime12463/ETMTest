@@ -6,7 +6,7 @@ import {
 	TStateInputFocus,
 	TStateProductoActual,
 } from 'models';
-import {useObtenerCatalogoMotivos} from './hooks';
+//import {useObtenerCatalogoMotivos} from './hooks';
 import {useMostrarAdvertenciaEnDialogo, useResetLineaActual} from 'hooks';
 import {useAgregarProductoAlPedidoActual} from 'components/Negocio/InputsUnidadesYSubUnidades/hooks';
 import {Dialogo} from 'components/UI';
@@ -17,7 +17,9 @@ type Props = {
 	stateProductoActual: TStateProductoActual;
 };
 
-export const SelectCatalogoMotivos: FunctionComponent<Props> = (props) => {
+export {};
+
+/* export const SelectCatalogoMotivos: FunctionComponent<Props> = (props) => {
 	const {hookForm, stateInputFocus, stateProductoActual} = props;
 	const itemCatalogoMotivos = useObtenerCatalogoMotivos();
 	const {productoActual, setProductoActual} = stateProductoActual;
@@ -56,4 +58,4 @@ export const SelectCatalogoMotivos: FunctionComponent<Props> = (props) => {
 			/>
 		</>
 	);
-};
+}; */

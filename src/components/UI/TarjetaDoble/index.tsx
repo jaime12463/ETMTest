@@ -4,7 +4,6 @@ import {styled} from '@mui/material/styles';
 const CardContenedor = styled(Card)(() => ({
 	boxShadow: 'none',
 	display: 'flex',
-	border: '1px solid #D9D9D9',
 	borderRadius: '8px',
 }));
 
@@ -14,7 +13,7 @@ const Izquierda = styled(Grid)(() => ({
 
 const Derecha = styled(Grid)(() => ({
 	background: '#f4f4f4',
-	borderLeft: '1px solid #D9D9D9',
+
 	boxShadow: 'none',
 }));
 
@@ -23,6 +22,7 @@ type Props = {
 	izquierda: React.ReactNode;
 	widthIzquierda: string;
 	widthDerecha: string;
+	borderColor?: string;
 };
 
 export const TarjetaDoble = ({
@@ -30,9 +30,10 @@ export const TarjetaDoble = ({
 	izquierda,
 	widthIzquierda,
 	widthDerecha,
+	borderColor = '#D9D9D9',
 }: Props) => {
 	return (
-		<CardContenedor>
+		<CardContenedor sx={{border: `1px solid ${borderColor}`}}>
 			<Grid container minWidth='304px' maxWidth='304px'>
 				<Izquierda item width={widthIzquierda}>
 					{izquierda}

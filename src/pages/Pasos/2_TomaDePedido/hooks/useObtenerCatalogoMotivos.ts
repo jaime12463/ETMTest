@@ -1,22 +1,23 @@
 import {TCatalogoMotivo, TOpcionSelect, TTipoPedido} from 'models';
 import {useObtenerDatosTipoPedido} from 'hooks';
 
-export const useObtenerCatalogoMotivos = (codigoMotivo?: string): TOpcionSelect[] /*| undefined*/=> {
-
+export const useObtenerCatalogoMotivos = (
+	codigoMotivo?: string
+): TOpcionSelect[] /*| undefined*/ => {
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
 
-	const datosTipoPedidoActual:
-	| TTipoPedido
-	| undefined = obtenerDatosTipoPedido();
+	const datosTipoPedidoActual: TTipoPedido | undefined =
+		obtenerDatosTipoPedido();
 
 	let todosCatalogosMotivos: TOpcionSelect[];
 
-	if (!datosTipoPedidoActual) 
-	{
-		let defaultValues: TOpcionSelect[] = [{
-			value: '',
-			label: '',
-		}]
+	if (!datosTipoPedidoActual) {
+		let defaultValues: TOpcionSelect[] = [
+			{
+				value: '',
+				label: '',
+			},
+		];
 		return defaultValues;
 	}
 
@@ -29,13 +30,12 @@ export const useObtenerCatalogoMotivos = (codigoMotivo?: string): TOpcionSelect[
 		}
 	);
 
-	if(codigoMotivo)
-	{
+	if (codigoMotivo) {
 		let unicoMotivo: TOpcionSelect | undefined = todosCatalogosMotivos.find(
-			(motivo) => motivo.value === codigoMotivo			
+			(motivo) => motivo.value === codigoMotivo
 		);
 		let motivoAux: TOpcionSelect[] = [];
-		if(unicoMotivo) motivoAux.push(unicoMotivo);
+		if (unicoMotivo) motivoAux.push(unicoMotivo);
 
 		return motivoAux;
 	}
