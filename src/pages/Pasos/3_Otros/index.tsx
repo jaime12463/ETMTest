@@ -13,6 +13,7 @@ import {
 } from 'redux/hooks';
 import OrdenDeCompra from './OrdenDeCompra';
 import {cambiarTipoPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
+import {CompromisoDeCobro} from 'pages';
 
 export const Otros: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
@@ -76,9 +77,9 @@ export const Otros: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 			>
-				{' '}
+				<CompromisoDeCobro />
 			</TarjetaColapsable>
-			{habilitaOrdenDeCompra ? (
+			{habilitaOrdenDeCompra && (
 				<TarjetaColapsable
 					titulo={
 						<Typography variant={'subtitle1'}>
@@ -96,7 +97,7 @@ export const Otros: React.FC = () => {
 				>
 					<OrdenDeCompra />
 				</TarjetaColapsable>
-			) : null}
+			)}
 		</Stack>
 	);
 };

@@ -48,6 +48,12 @@ const es = {
 		deseaAgregarOrdenDeCompra: '¿Desea asociar una orden de compra?',
 		agregarProductoSKU: 'Agregar producto por SKU...',
 		continuarA: 'Continuar a ',
+		numeroOrdenDeCompra: 'Número de orden de compra',
+		limiteDeCredito: 'Límite de crédito',
+		disponible: 'Disponible',
+		agregarCompromisoDeCobro: 'Agregar compromiso de cobro',
+		totalDeudaPendiente: 'Total deuda pendiente',
+		totalCompromisosRegistrados: 'Total compromisos de cobro registrados',
 	},
 	simbolos: {
 		decimal: '.',
@@ -67,7 +73,7 @@ const es = {
 		ordenDeCompra: 'Orden de Compra',
 		tarjetaEnvases: 'Revisa la cantidad de envases para tus productos',
 		tarjetaCanjes: 'Indica la cantidad de producto para cambio',
-		tarjetaCompromisoCobro: 'Generar un compromiso de codro',
+		tarjetaCompromisoCobro: 'Generar un compromiso de cobro',
 		tarjetaOrdenDeCompra: 'Ingresa el número de orden de compra del cliente',
 	},
 	advertencias: {

@@ -1,12 +1,9 @@
 import React from 'react';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import InputAdornment from '@mui/material/InputAdornment';
-import useEstilos from './useEstilos';
-import {CheckRedondoIcon} from 'assests/iconos';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {cambiarOrdenDeCompra} from 'redux/features/visitaActual/visitaActualSlice';
 import {TVisita} from 'models';
+import InputConIcono from 'components/UI/InputConIcono';
+import {useTranslation} from 'react-i18next';
 
 const OrdenDeCompra: React.FC = () => {
 	const visitaActual: TVisita = useObtenerVisitaActual();
@@ -14,8 +11,8 @@ const OrdenDeCompra: React.FC = () => {
 		visitaActual.ordenDeCompra
 	);
 	const [mostrarIcono, setMostrarIcono] = React.useState<boolean>(false);
-	const classes = useEstilos({mostrarIcono});
 	const dispatch = useAppDispatch();
+	const {t} = useTranslation();
 
 	React.useEffect(() => {
 		if (ordenDeCompra.length > 0) {
@@ -33,21 +30,12 @@ const OrdenDeCompra: React.FC = () => {
 	};
 
 	return (
-		<Box marginTop='10px' position='relative'>
-			<TextField
-				label='Número de orden de compra'
-				variant='filled'
-				fullWidth
-				className={classes.root}
-				autoFocus
-				value={ordenDeCompra}
-				onChange={handleChange}
-				sx={{borderRadius: '100px'}}
-			/>
-			<Box position='absolute' right='16px' bottom='8px'>
-				{mostrarIcono && <CheckRedondoIcon />}
-			</Box>
-		</Box>
+		<InputConIcono
+			value={ordenDeCompra}
+			onChange={handleChange}
+			valid={mostrarIcono}
+			label={t('general.numeroOrdenDeCompra')}
+		/>
 	);
 };
 
