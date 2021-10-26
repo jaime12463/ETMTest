@@ -10,7 +10,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 interface Props {
 	valid: boolean;
 	value: string;
-	onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 	onChange: (
 		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 	) => void;
@@ -28,7 +27,6 @@ const InputConIcono: React.FC<Props> = ({
 	margin = '10px 0 0 0',
 	label,
 	simboloMoneda = false,
-	onKeyPress,
 	error = false,
 	mensajeError,
 }) => {
@@ -45,7 +43,6 @@ const InputConIcono: React.FC<Props> = ({
 				autoFocus
 				value={value}
 				onChange={onChange}
-				onKeyPress={onKeyPress}
 				focused
 				sx={{borderBottom: error ? '1px solid red' : 'none'}}
 				InputProps={{
