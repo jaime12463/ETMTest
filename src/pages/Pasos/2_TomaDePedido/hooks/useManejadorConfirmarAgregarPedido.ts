@@ -15,14 +15,14 @@ import {useAppDispatch} from 'redux/hooks';
 export const useManejadorConfirmarAgregarPedido = (
 	productoActual: TPrecioProducto | null,
 	clienteActual: TClienteActual,
-	getValues: UseFormGetValues<TFormTomaDePedido>
+	getValues: any
 ) => {
 	const dispatch = useAppDispatch();
 
 	const manejadorConfirmarAgregarPedido = useCallback(
 		(oprimioBotonAceptar: boolean) => {
 			if (oprimioBotonAceptar) {
-				const {unidades, subUnidades, catalogoMotivo} = getValues();
+				const {unidades, subUnidades, catalogoMotivo} = getValues;
 
 				const unidadesParseado: number =
 					unidades !== '' ? parseInt(unidades) : 0;
