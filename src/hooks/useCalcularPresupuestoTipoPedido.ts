@@ -48,8 +48,6 @@ export const useCalcularPresupuestoTipoPedido = () => {
 				});
 			}
 
-			console.log(datos.presupuestoTipoPedido);
-
 			const presupuestoVigenteConfigurado =
 				obtenerPresupuestoConfiguradoSegunVigencia(
 					tipoPedido,

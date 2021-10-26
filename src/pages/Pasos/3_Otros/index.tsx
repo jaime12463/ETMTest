@@ -12,7 +12,10 @@ import {
 	useObtenerVisitaActual,
 	useAppDispatch,
 } from 'redux/hooks';
-import {useCalcularPresupuestoTipoPedido} from 'hooks';
+import {
+	useCalcularPresupuestoTipoPedido,
+	useObtenerProductosMandatoriosVisitaActual,
+} from 'hooks';
 import OrdenDeCompra from './OrdenDeCompra';
 import {cambiarTipoPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 import {CompromisoDeCobro} from 'pages';
@@ -24,15 +27,16 @@ export const Otros: React.FC = () => {
 	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
 	const {tipoPagoActual} = useObtenerClienteActual();
 	const visitaActual = useObtenerVisitaActual();
-	const {canje, venta} = visitaActual.pedidos;
+	const {canje} = visitaActual.pedidos;
+
+	const productosMandatoriosVisitaActual =
+		useObtenerProductosMandatoriosVisitaActual();
 
 	const calcularPresupuestoTipoPedido = useCalcularPresupuestoTipoPedido();
 	const saldoPresupuestoTipoPedido = calcularPresupuestoTipoPedido('canje');
+
 	const productosEnCanjeConUnidades = canje.productos.filter((producto) => {
 		return producto.catalogoMotivo !== '';
-	});
-	const productosenVentaConUnidades = venta.productos.filter((producto) => {
-		return producto.unidades > 0 || producto.subUnidades > 0;
 	});
 
 	const habilitaCanje = useObtenerHabilitaCanje();
@@ -75,7 +79,7 @@ export const Otros: React.FC = () => {
 				disabled={
 					!habilitaCanje ||
 					saldoPresupuestoTipoPedido < 1 ||
-					productosenVentaConUnidades.length <= 0
+					productosMandatoriosVisitaActual.mandatorios.length < 1
 				}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
