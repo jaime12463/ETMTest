@@ -37,6 +37,8 @@ export const useFiltrarPreciosProductosDelClienteActual = () => {
 
 	const fechaEntrega: string = pedidoActual.fechaEntrega;
 
+	console.log(presupuestoPedidoActual);
+
 	if (!fechaEntrega) return;
 
 	let preciosProductosDelCliente: TPrecioProducto[] =
