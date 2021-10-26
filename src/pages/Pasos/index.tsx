@@ -2,18 +2,21 @@ import {FunctionComponent, useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {IndicadoresDelPedidoActual} from './components';
 import {controlador, TControlador} from './controlador';
-import {Estructura, BotonBarraInferior, Stepper} from 'components/UI';
+import {Estructura, BotonBarraInferior, Stepper, Dialogo} from 'components/UI';
 import {Box} from '@mui/material';
 import {InfoClienteDelPedidoActual} from 'components/Negocio';
 import {
 	useObtenerPedidosValorizados,
 	useObtenerTotalPedidosVisitaActual,
+	useMostrarAdvertenciaEnDialogo,
 } from 'hooks';
+import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
 
 import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
 } from 'redux/hooks';
+
 import {TClienteActual} from 'models';
 import {useTranslation} from 'react-i18next';
 
@@ -27,7 +30,9 @@ const formatearItems = (items: number) => {
 const Pasos: React.FC = () => {
 	const {t} = useTranslation();
 	const [pasoActual, setPasoActual] = useState(0);
-	const [leyendaBoton, setLeyendaBoton]=useState(`${t('general.continuarA')} ${t(controlador[1].titulo)}`);
+	const [leyendaBoton, setLeyendaBoton] = useState(
+		`${t('general.continuarA')} ${t(controlador[1].titulo)}`
+	);
 	const history = useHistory();
 	const {razonSocial}: TClienteActual = useObtenerClienteActual();
 
@@ -35,20 +40,26 @@ const Pasos: React.FC = () => {
 	const itemsValorizados = ObtenerPedidosValorizados();
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+		useMostrarAdvertenciaEnDialogo();
+	const agregarPedidoActualAPedidosClientes =
+		useAgregarPedidoActualAPedidosClientes(mostrarAdvertenciaEnDialogo);
 
 	const totalVisitaActual =
 		obtenerTotalPedidosVisitaActual().totalPrecio +
 		compromisoDeCobroActual.monto;
 
-		useEffect(() => {
-			if (pasoActual < controlador.length - 1)
-			{
-				setLeyendaBoton(`${t('general.continuarA')}\n ${t(controlador[pasoActual+1].titulo).toLowerCase()}`);
-			} else {
-				setLeyendaBoton(t(controlador[pasoActual].titulo));
-			}
-
-		}, [pasoActual])
+	useEffect(() => {
+		if (pasoActual < controlador.length - 1) {
+			setLeyendaBoton(
+				`${t('general.continuarA')}\n ${t(
+					controlador[pasoActual + 1].titulo
+				).toLowerCase()}`
+			);
+		} else {
+			setLeyendaBoton(t(controlador[pasoActual].titulo));
+		}
+	}, [pasoActual]);
 	const manejadorPasoAtras = () => {
 		if (pasoActual == 0) {
 			history.goBack();
@@ -57,9 +68,11 @@ const Pasos: React.FC = () => {
 		}
 	};
 	const manejadorPasoAdelante = () => {
-		if (pasoActual < controlador.length - 1)
-		{
-			 setPasoActual(pasoActual + 1);
+		if (pasoActual < controlador.length - 1) {
+			setPasoActual(pasoActual + 1);
+		} else {
+			console.log('entro');
+			agregarPedidoActualAPedidosClientes();
 		}
 	};
 
@@ -74,6 +87,7 @@ const Pasos: React.FC = () => {
 				<InfoClienteDelPedidoActual />
 			</Estructura.Encabezado>
 			<Estructura.Cuerpo>
+				{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 				<Box my={3}>
 					<IndicadoresDelPedidoActual />
 				</Box>
