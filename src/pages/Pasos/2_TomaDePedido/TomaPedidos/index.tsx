@@ -224,10 +224,14 @@ const Izquierda: React.FC<IzquierdaProps> = ({producto, condicion}) => {
 				<Typography fontSize='12px' fontWeight='600' marginRight='8px'>
 					{`$${producto.precioConImpuestoUnidad}`}
 				</Typography>
-				<BotellaIcon height='14px' width='14px' />
-				<Typography fontSize='12px' fontWeight='600' marginLeft='4px'>
-					{`$${producto.precioConImpuestoSubunidad}`}
-				</Typography>
+				{producto.esVentaSubunidades && (
+					<>
+						<BotellaIcon height='14px' width='14px' />
+						<Typography fontSize='12px' fontWeight='600' marginLeft='4px'>
+							{`$${producto.precioConImpuestoSubunidad}`}
+						</Typography>
+					</>
+				)}
 			</Box>
 		</Box>
 	);
@@ -279,6 +283,21 @@ const Derecha: React.FC<DerechaProps> = ({
 		setGetValues
 	);
 
+	React.useEffect(() => {
+		if (puedeAgregar) {
+			agregarProductoAlPedidoActual(getValues);
+			setPuedeAgregar(false);
+		}
+	}, [puedeAgregar]);
+
+	React.useEffect(() => {
+		if (getValues.unidades > 0 || getValues.subUnidades > 0) {
+			setMostrarAcciones(true);
+		}
+
+		return () => setMostrarAcciones(false);
+	}, [getValues.unidades, getValues.subUnidades]);
+
 	const handleOnChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
@@ -302,21 +321,6 @@ const Derecha: React.FC<DerechaProps> = ({
 		}
 	};
 
-	React.useEffect(() => {
-		if (puedeAgregar) {
-			agregarProductoAlPedidoActual(getValues);
-			setPuedeAgregar(false);
-		}
-	}, [puedeAgregar]);
-
-	React.useEffect(() => {
-		if (getValues.unidades > 0 || getValues.subUnidades > 0) {
-			setMostrarAcciones(true);
-		}
-
-		return () => setMostrarAcciones(false);
-	}, [getValues.unidades, getValues.subUnidades]);
-
 	const handleButtons = (
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
 	) => {
@@ -336,11 +340,20 @@ const Derecha: React.FC<DerechaProps> = ({
 				return;
 			}
 			setInputFocus('subUnidades');
-			setGetValues({
-				...getValues,
-				[name]:
-					value === '+' ? ++getValues.subUnidades : --getValues.subUnidades,
+			setGetValues((prevState) => {
+				return {
+					...prevState,
+					[name]:
+						value === '+'
+							? prevState.subUnidades + producto.subunidadesVentaMinima
+							: prevState.subUnidades - producto.subunidadesVentaMinima,
+				};
 			});
+			// setGetValues({
+			// 	...getValues,
+			// 	[name]:
+			// 		value === '+' ? ++getValues.subUnidades : --getValues.subUnidades,
+			// });
 		}
 		agregarProductoAlPedidoActual(getValues);
 	};
@@ -429,55 +442,70 @@ const Derecha: React.FC<DerechaProps> = ({
 					</IconButton>
 				</Box>
 				<Box display='flex' alignItems='center'>
-					<BotellaIcon width='18px' height='18px' />
-					<IconButton
-						size='small'
-						value='-'
-						name='subUnidades'
-						onClick={handleButtons}
-						disabled={producto.subUnidades > 0 ? false : true}
-					>
-						<QuitarRellenoIcon
-							width='18px'
-							height='18px'
-							fill={producto.subUnidades > 0 ? '#2F000E' : '#D9D9D9'}
-						/>
-					</IconButton>
-					<InputStyled
-						onKeyPress={handleKeyPress}
-						onChange={handleOnChange}
-						value={getValues.subUnidades}
-						disableUnderline
-						id='subUnidades_producto'
-						name='subUnidades'
-						onClick={() => {
-							setInputFocus('subUnidades');
-							setFocusId(producto.codigoProducto);
-						}}
-						onFocus={(e) => e.target.select()}
-						inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
-						inputRef={(input) => {
-							if (
-								inputFocus === 'subUnidades' &&
-								focusId === producto.codigoProducto
-							) {
-								input?.focus();
-							}
-						}}
-					/>
-					<IconButton
-						size='small'
-						name='subUnidades'
-						value='+'
-						onClick={handleButtons}
-						disabled={producto.esVentaSubunidades ? false : true}
-					>
-						<AgregarRedondoIcon
-							width='18px'
-							height='18px'
-							fill={producto.esVentaSubunidades ? '#2F000E' : '#D9D9D9'}
-						/>
-					</IconButton>
+					{producto.esVentaSubunidades && (
+						<>
+							<BotellaIcon width='18px' height='18px' />
+							<IconButton
+								size='small'
+								value='-'
+								name='subUnidades'
+								onClick={handleButtons}
+								disabled={getValues.subUnidades > 0 ? false : true}
+							>
+								<QuitarRellenoIcon
+									width='18px'
+									height='18px'
+									fill={getValues.subUnidades > 0 ? '#2F000E' : '#D9D9D9'}
+								/>
+							</IconButton>
+							<InputStyled
+								onKeyPress={handleKeyPress}
+								onChange={handleOnChange}
+								value={getValues.subUnidades}
+								disableUnderline
+								id='subUnidades_producto'
+								name='subUnidades'
+								onClick={() => {
+									setInputFocus('subUnidades');
+									setFocusId(producto.codigoProducto);
+								}}
+								onFocus={(e) => e.target.select()}
+								inputProps={{
+									style: {textAlign: 'center'},
+									inputMode: 'numeric',
+								}}
+								inputRef={(input) => {
+									if (
+										inputFocus === 'subUnidades' &&
+										focusId === producto.codigoProducto
+									) {
+										input?.focus();
+									}
+								}}
+							/>
+							<IconButton
+								size='small'
+								name='subUnidades'
+								value='+'
+								onClick={handleButtons}
+								disabled={
+									getValues.subUnidades >=
+									producto.presentacion - producto.subunidadesVentaMinima
+								}
+							>
+								<AgregarRedondoIcon
+									width='18px'
+									height='18px'
+									fill={
+										getValues.subUnidades >=
+										producto.presentacion - producto.subunidadesVentaMinima
+											? '#D9D9D9'
+											: '#2F000E'
+									}
+								/>
+							</IconButton>
+						</>
+					)}
 				</Box>
 			</Box>
 		</>
