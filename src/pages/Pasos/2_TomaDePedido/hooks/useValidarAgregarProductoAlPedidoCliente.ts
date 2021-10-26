@@ -106,14 +106,18 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			const datosTipoPedidoActual: TTipoPedido | undefined =
 				obtenerDatosTipoPedido();
 
+			//console.log(productoABuscar);
+
 			if (datosTipoPedidoActual?.validaPresupuesto) {
 				const saldoPresupuesto = calcularPresupuestoPedidoActual(
 					pedidoActual,
 					unidadesParseado,
 					subUnidadesParseado,
-					parseInt(productoABuscar),
+					productoActual.codigoProducto,
 					presentacion
 				);
+
+				//console.log(presentacion);
 
 				if (saldoPresupuesto < 0) {
 					mostrarAdvertenciaEnDialogo(
@@ -220,6 +224,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			mostrarAdvertenciaEnDialogo,
 			t,
 			visitaActual,
+			getValues,
 		]
 	);
 	return validarAgregarProductoAlPedidoCliente;

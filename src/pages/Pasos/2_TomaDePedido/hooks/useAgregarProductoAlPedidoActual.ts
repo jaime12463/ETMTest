@@ -76,8 +76,6 @@ export const useAgregarProductoAlPedidoActual = (
 		(inputs: any) => {
 			const {unidades, subUnidades, catalogoMotivo} = inputs;
 
-			console.log(catalogoMotivo);
-
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
 
 			const subUnidadesParseado: number =

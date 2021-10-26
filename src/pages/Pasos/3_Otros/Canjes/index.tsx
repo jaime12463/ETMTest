@@ -108,11 +108,6 @@ export const Canjes = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const stateInputFocus = {inputFocus, setInputFocus};
 	const [catalogoMotivo, setCatalogoMotivo] = useState({});
-	const calcularPresupuestoTipoPedido = useCalcularPresupuestoTipoPedido();
-
-	useEffect(() => {
-		calcularPresupuestoTipoPedido('canje');
-	}, []);
 
 	React.useEffect(() => {
 		if (productoActual !== null) {
@@ -298,7 +293,7 @@ const Derecha: React.FC<DerechaProps> = ({
 		useMostrarAdvertenciaEnDialogo();
 
 	const [puedeAgregar, setPuedeAgregar] = useState(false);
-	const {catalogoMotivo, setCatalogoMotivo} = stateCatalogo;
+	const {catalogoMotivo} = stateCatalogo;
 
 	const defaultValues = {
 		unidades: producto.unidades,
@@ -489,7 +484,7 @@ const Derecha: React.FC<DerechaProps> = ({
 						value='+'
 						onClick={handleButtons}
 					>
-						<AgregarRedondoIcon width='18px' height='18px' />
+						<AgregarRedondoIcon width='18px' height='18px' fill={'#2F000E'} />
 					</IconButton>
 				</Box>
 				<Box display='flex' alignItems='center'>
@@ -535,7 +530,7 @@ const Derecha: React.FC<DerechaProps> = ({
 						value='+'
 						onClick={handleButtons}
 					>
-						<AgregarRedondoIcon width='18px' height='18px' />
+						<AgregarRedondoIcon width='18px' height='18px' fill={'#2F000E'} />
 					</IconButton>
 				</Box>
 			</Box>
