@@ -78,7 +78,6 @@ const Pasos: React.FC = () => {
 		if (pasoActual < controlador.length - 1) {
 			setPasoActual(pasoActual + 1);
 		} else {
-			console.log('entro');
 			agregarPedidoActualAPedidosClientes();
 		}
 	};

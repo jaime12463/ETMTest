@@ -73,8 +73,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 		(inputs: TFormTomaDePedido): boolean => {
 			const {unidades, subUnidades, productoABuscar} = inputs;
 
-			console.log(inputs);
-
 			let esValidacionCorrecta: boolean = false;
 
 			if (!productoActual) {
