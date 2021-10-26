@@ -13,16 +13,12 @@ import {
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import {InputAgregarCompromisoDeCobro, ListadoDocumentos} from './components';
 import {useObtenerMontoTotalDocumentos} from './hooks/useObtenerMontoTotalDocumentos';
-import {Dialogo, Numero} from 'components/UI';
 import {useTranslation} from 'react-i18next';
 import InputConIcono from 'components/UI/InputConIcono';
 import {formatearNumero} from 'utils/methods';
 import {useAgregarCompromisoDeCobro} from './hooks';
-import {useDispatch} from 'react-redux';
-import {limpiarCompromisoDeCobroActual} from 'redux/features/compromisoDeCobro/compromisoDeCobroSlice';
-
+import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
 interface Error {
 	error: boolean;
 	mensaje: string;
@@ -51,12 +47,12 @@ const CompromisoDeCobro: React.FC = () => {
 		compromisoDeCobroActual.monto === 0
 			? ''
 			: compromisoDeCobroActual.monto.toString();
-	const dispatch = useDispatch();
 	const [importe, setImporte] = React.useState<string>(defaultMonto);
 	const [importeFormateado, setImporteFormateado] = React.useState<string>('');
 	const [importeValido, setImporteValido] = React.useState<boolean>(false);
 	const [error, setError] = React.useState<Error>({error: false, mensaje: ''});
 	const pedidosCliente = useObtenerPedidosClientes();
+	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
 
 	const compromisosDeCobro =
 		pedidosCliente[clienteActual.codigoCliente]?.compromisosDeCobro.reduce(
@@ -100,7 +96,7 @@ const CompromisoDeCobro: React.FC = () => {
 
 		if (Number(importe) === 0) {
 			setImporteValido(false);
-			dispatch(limpiarCompromisoDeCobroActual());
+			reiniciarCompromisoDeCobro();
 			setError({error: false, mensaje: ''});
 		}
 	}, [importe, compromisoDeCobroActual.monto]);

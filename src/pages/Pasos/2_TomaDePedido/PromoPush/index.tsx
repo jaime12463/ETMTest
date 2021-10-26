@@ -106,7 +106,7 @@ const PromoPush: React.FC = () => {
 
 			<Stack spacing={1.5}>
 				{promociones.length > 0 &&
-					promociones.map((promocion: any, i: number) => {
+					promociones.map((promocion: any) => {
 						return (
 							<TarjetaPromoPush
 								key={promocion.codigoProducto}
