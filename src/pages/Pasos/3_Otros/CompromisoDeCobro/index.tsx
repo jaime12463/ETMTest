@@ -75,33 +75,35 @@ const CompromisoDeCobro: React.FC = () => {
 			Number(importe)
 		);
 		setImporteFormateado(importeFormateado);
+
+		if (Number(importe) > totalDocumentos) {
+			return (
+				setImporteValido(false),
+				setError({
+					error: true,
+					mensaje: t('advertencias.montoMayorDeuda'),
+				})
+			);
+		}
+		setError({error: false, mensaje: ''});
+		setImporteValido(true);
 	}, [importe]);
 
-	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		if (e.key === 'Enter') {
-			if (!Number.isNaN(Number(importe)) && Number(importe) > 0) {
-				agregarCompromisoDeCobro({monto: importe});
-
-				if (Number(importe) > totalDocumentos) {
-					return (
-						setImporteValido(false),
-						setError({
-							error: true,
-							mensaje: t('advertencias.montoMayorDeuda'),
-						})
-					);
-				}
-				setError({error: false, mensaje: ''});
-				setImporteValido(true);
-			}
-
-			if (Number(importe) === 0) {
-				setImporteValido(false);
-				dispatch(limpiarCompromisoDeCobroActual());
-				setError({error: false, mensaje: ''});
-			}
+	React.useEffect(() => {
+		if (Number(importe) === compromisoDeCobroActual.monto) {
+			return;
 		}
-	};
+
+		if (!Number.isNaN(Number(importe)) && Number(importe) > 0) {
+			agregarCompromisoDeCobro({monto: importe});
+		}
+
+		if (Number(importe) === 0) {
+			setImporteValido(false);
+			dispatch(limpiarCompromisoDeCobroActual());
+			setError({error: false, mensaje: ''});
+		}
+	}, [importe, compromisoDeCobroActual.monto]);
 
 	const handleChange = (
 		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -135,7 +137,6 @@ const CompromisoDeCobro: React.FC = () => {
 				value={importeFormateado}
 				valid={importeValido}
 				onChange={handleChange}
-				onKeyPress={handleKeyPress}
 				label={t('general.agregarCompromisoDeCobro')}
 				margin='20px 0 0 0 '
 				simboloMoneda
