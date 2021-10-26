@@ -143,7 +143,11 @@ const CompromisoDeCobro: React.FC = () => {
 				error={error.error}
 				mensajeError={error.mensaje}
 			/>
-			<Grid container marginTop='18px' sx={{overflowY: 'scroll'}}>
+			<Grid
+				container
+				marginTop='18px'
+				sx={{overflowY: listaDocumentos.length > 0 ? 'scroll' : 'auto'}}
+			>
 				<Grid
 					container
 					sx={{
@@ -162,7 +166,7 @@ const CompromisoDeCobro: React.FC = () => {
 						<Typography variant='body3'>{t('general.saldo')}</Typography>
 					</Grid>
 				</Grid>
-				{listaDocumentos.length &&
+				{listaDocumentos.length > 0 &&
 					listaDocumentos.map((documento) => {
 						return (
 							<Grid
