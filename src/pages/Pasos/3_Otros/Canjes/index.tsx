@@ -108,11 +108,6 @@ export const Canjes = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const stateInputFocus = {inputFocus, setInputFocus};
 	const [catalogoMotivo, setCatalogoMotivo] = useState({});
-	const calcularPresupuestoTipoPedido = useCalcularPresupuestoTipoPedido();
-
-	useEffect(() => {
-		calcularPresupuestoTipoPedido('canje');
-	}, []);
 
 	React.useEffect(() => {
 		if (productoActual !== null) {
@@ -146,7 +141,19 @@ export const Canjes = () => {
 
 			{canje.productos.length > 0 &&
 				canje.productos.map((producto) => {
-					let color = producto.catalogoMotivo !== '' ? '#00CF91' : '#FF0000';
+					let color =
+						(producto.unidades > 0 && producto.catalogoMotivo !== '') ||
+						(producto.subUnidades > 0 && producto.catalogoMotivo !== '')
+							? '#00CF91'
+							: (producto.unidades < 1 &&
+									catalogoMotivo.hasOwnProperty(producto.codigoProducto)) ||
+							  (producto.subUnidades < 1 &&
+									catalogoMotivo.hasOwnProperty(producto.codigoProducto))
+							? '#FF0000'
+							: (producto.unidades > 0 && producto.catalogoMotivo === '') ||
+							  (producto.subUnidades > 0 && producto.catalogoMotivo === '')
+							? '#FF0000'
+							: '#D9D9D9';
 
 					return (
 						<TarjetaDoble
@@ -246,7 +253,6 @@ const Izquierda: React.FC<IzquierdaProps> = ({
 							borderRadius: '4px',
 							fontSize: '10px',
 						}}
-						displayEmpty
 						renderValue={
 							producto.catalogoMotivo !== ''
 								? undefined
@@ -298,7 +304,7 @@ const Derecha: React.FC<DerechaProps> = ({
 		useMostrarAdvertenciaEnDialogo();
 
 	const [puedeAgregar, setPuedeAgregar] = useState(false);
-	const {catalogoMotivo, setCatalogoMotivo} = stateCatalogo;
+	const {catalogoMotivo} = stateCatalogo;
 
 	const defaultValues = {
 		unidades: producto.unidades,
@@ -318,6 +324,7 @@ const Derecha: React.FC<DerechaProps> = ({
 	const {inputFocus, setInputFocus} = stateInputFocus;
 
 	const [mostrarAcciones, setMostrarAcciones] = React.useState<boolean>(false);
+	const [pendiente, setPendiente] = useState<boolean>(false);
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		producto,
@@ -375,10 +382,23 @@ const Derecha: React.FC<DerechaProps> = ({
 
 	React.useEffect(() => {
 		if (getValue.unidades > 0 || getValue.subUnidades > 0) {
-			if (getValue.catalogoMotivo !== '') setMostrarAcciones(true);
+			if (getValue.catalogoMotivo !== '') {
+				setMostrarAcciones(true);
+				setPendiente(false);
+			} else {
+				setPendiente(true);
+			}
+		} else {
+			if (getValue.catalogoMotivo !== '') {
+				setPendiente(true);
+			}
 		}
 
-		return () => setMostrarAcciones(false);
+		return () => {
+			setMostrarAcciones(false),
+				setPendiente(false),
+				delete catalogoMotivo[producto.codigoProducto];
+		};
 	}, [getValue, catalogoMotivo]);
 
 	const handleButtons = (
@@ -422,13 +442,14 @@ const Derecha: React.FC<DerechaProps> = ({
 				}}
 			>
 				<Box justifySelf='end' alignSelf='start'>
-					{mostrarAcciones ? (
+					{mostrarAcciones && (
 						<>
 							<IconButton sx={{padding: '0 5px'}}>
 								<CheckRedondoIcon height='17.5px' width='17.5px' />
 							</IconButton>
 						</>
-					) : (
+					)}
+					{pendiente && (
 						<>
 							<ChipStyled
 								label={
@@ -489,7 +510,7 @@ const Derecha: React.FC<DerechaProps> = ({
 						value='+'
 						onClick={handleButtons}
 					>
-						<AgregarRedondoIcon width='18px' height='18px' />
+						<AgregarRedondoIcon width='18px' height='18px' fill={'#2F000E'} />
 					</IconButton>
 				</Box>
 				<Box display='flex' alignItems='center'>
@@ -535,7 +556,7 @@ const Derecha: React.FC<DerechaProps> = ({
 						value='+'
 						onClick={handleButtons}
 					>
-						<AgregarRedondoIcon width='18px' height='18px' />
+						<AgregarRedondoIcon width='18px' height='18px' fill={'#2F000E'} />
 					</IconButton>
 				</Box>
 			</Box>

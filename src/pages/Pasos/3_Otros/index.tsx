@@ -12,6 +12,7 @@ import {
 	useObtenerVisitaActual,
 	useAppDispatch,
 } from 'redux/hooks';
+import {useCalcularPresupuestoTipoPedido} from 'hooks';
 import OrdenDeCompra from './OrdenDeCompra';
 import {cambiarTipoPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 import {CompromisoDeCobro} from 'pages';
@@ -23,17 +24,22 @@ export const Otros: React.FC = () => {
 	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
 	const {tipoPagoActual} = useObtenerClienteActual();
 	const visitaActual = useObtenerVisitaActual();
-	const {canje} = visitaActual.pedidos;
+	const {canje, venta} = visitaActual.pedidos;
 
-	const productosConUnidades = canje.productos.filter((producto) => {
+	const calcularPresupuestoTipoPedido = useCalcularPresupuestoTipoPedido();
+	const saldoPresupuestoTipoPedido = calcularPresupuestoTipoPedido('canje');
+	const productosEnCanjeConUnidades = canje.productos.filter((producto) => {
+		return producto.catalogoMotivo !== '';
+	});
+	const productosenVentaConUnidades = venta.productos.filter((producto) => {
 		return producto.unidades > 0 || producto.subUnidades > 0;
 	});
 
 	const habilitaCanje = useObtenerHabilitaCanje();
-
 	const dispatch = useAppDispatch();
 	useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'canje'}));
+		calcularPresupuestoTipoPedido('canje');
 	}, []);
 
 	return (
@@ -65,8 +71,12 @@ export const Otros: React.FC = () => {
 				id='tarjetaCanjes'
 				expandido={expandido}
 				setExpandido={setExpandido}
-				cantidadItems={productosConUnidades.length}
-				disabled={!habilitaCanje}
+				cantidadItems={productosEnCanjeConUnidades.length}
+				disabled={
+					!habilitaCanje ||
+					saldoPresupuestoTipoPedido < 1 ||
+					productosenVentaConUnidades.length <= 0
+				}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
 						No hay disponibilidad de canje para este cliente en este momento
