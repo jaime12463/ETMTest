@@ -21,6 +21,7 @@ Antecedentes:
 Escenario: N°1 - Mostrar promociones
 	Cuando selecciono el icono de promociones
 	Entonces el sistema mostrará en un popup las promopush ordenadas por código virtual ascendente
+	Y mostrará el _codigoProducto de la promoción, _nombre y _precio
 	Y mostarará el _totalDisponible
 	Y mostrará la suma de los descuentos de los componentes
 	Y el control para ver detalle de la promoción
