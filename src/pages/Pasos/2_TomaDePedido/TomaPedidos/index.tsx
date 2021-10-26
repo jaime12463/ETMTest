@@ -133,20 +133,25 @@ const TomaPedido: React.FC = () => {
 
 			<Grid container alignItems='center' justifyContent='space-between'>
 				<SwitchCambiarTipoPago />
-				<Chip
-					className={classes.root}
-					size='small'
-					icon={<BorrarIcon width='7.5px' height='7.5px' />}
-					label={<TextStyled>Borrar todo</TextStyled>}
-					onClick={() =>
-						dispatch(
-							borrarProductosDeVisitaActual({
-								tipoPedidoActual: visitaActual.tipoPedidoActual,
-							})
-						)
-					}
-					sx={{'&:hover': {background: 'none'}}}
-				/>
+				{venta.productos.length > 0 &&
+					venta.productos.some(
+						(producto) => producto.unidades > 0 || producto.subUnidades > 0
+					) && (
+						<Chip
+							className={classes.root}
+							size='small'
+							icon={<BorrarIcon width='7.5px' height='7.5px' />}
+							label={<TextStyled>Borrar todo</TextStyled>}
+							onClick={() =>
+								dispatch(
+									borrarProductosDeVisitaActual({
+										tipoPedidoActual: visitaActual.tipoPedidoActual,
+									})
+								)
+							}
+							sx={{'&:hover': {background: 'none'}}}
+						/>
+					)}
 			</Grid>
 
 			{venta.productos.length > 0 &&
@@ -404,8 +409,23 @@ const Derecha: React.FC<DerechaProps> = ({
 						name='unidades'
 						value='+'
 						onClick={handleButtons}
+						disabled={
+							producto.unidadesDisponibles &&
+							producto.unidades >= producto.unidadesDisponibles
+								? true
+								: false
+						}
 					>
-						<AgregarRedondoIcon width='18px' height='18px' />
+						<AgregarRedondoIcon
+							width='18px'
+							height='18px'
+							fill={
+								producto.unidadesDisponibles &&
+								producto.unidades >= producto.unidadesDisponibles
+									? '#D9D9D9'
+									: '#2F000E'
+							}
+						/>
 					</IconButton>
 				</Box>
 				<Box display='flex' alignItems='center'>
@@ -450,8 +470,13 @@ const Derecha: React.FC<DerechaProps> = ({
 						name='subUnidades'
 						value='+'
 						onClick={handleButtons}
+						disabled={producto.esVentaSubunidades ? false : true}
 					>
-						<AgregarRedondoIcon width='18px' height='18px' />
+						<AgregarRedondoIcon
+							width='18px'
+							height='18px'
+							fill={producto.esVentaSubunidades ? '#2F000E' : '#D9D9D9'}
+						/>
 					</IconButton>
 				</Box>
 			</Box>

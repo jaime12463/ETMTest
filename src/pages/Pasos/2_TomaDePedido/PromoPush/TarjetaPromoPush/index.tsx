@@ -284,7 +284,11 @@ const TarjetaPromoPush = (props: any) => {
 								value='+'
 								onClick={handleButtons}
 							>
-								<AgregarRedondoIcon width='18px' height='18px' />
+								<AgregarRedondoIcon
+									width='18px'
+									height='18px'
+									fill={'#2F000E'}
+								/>
 							</IconButton>
 							<Typography variant={'subtitle3'} fontWeight={700}>
 								/ {unidadesDisponibles}
