@@ -24,10 +24,14 @@ export const Otros: React.FC = () => {
 	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
 	const {tipoPagoActual} = useObtenerClienteActual();
 	const visitaActual = useObtenerVisitaActual();
-	const {canje} = visitaActual.pedidos;
+	const {canje, venta} = visitaActual.pedidos;
+
 	const calcularPresupuestoTipoPedido = useCalcularPresupuestoTipoPedido();
 	const saldoPresupuestoTipoPedido = calcularPresupuestoTipoPedido('canje');
-	const productosConUnidades = canje.productos.filter((producto) => {
+	const productosEnCanjeConUnidades = canje.productos.filter((producto) => {
+		return producto.catalogoMotivo !== '';
+	});
+	const productosenVentaConUnidades = venta.productos.filter((producto) => {
 		return producto.unidades > 0 || producto.subUnidades > 0;
 	});
 
@@ -67,8 +71,12 @@ export const Otros: React.FC = () => {
 				id='tarjetaCanjes'
 				expandido={expandido}
 				setExpandido={setExpandido}
-				cantidadItems={productosConUnidades.length}
-				disabled={!habilitaCanje || saldoPresupuestoTipoPedido < 1}
+				cantidadItems={productosEnCanjeConUnidades.length}
+				disabled={
+					!habilitaCanje ||
+					saldoPresupuestoTipoPedido < 1 ||
+					productosenVentaConUnidades.length <= 0
+				}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
 						No hay disponibilidad de canje para este cliente en este momento
