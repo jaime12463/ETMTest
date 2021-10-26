@@ -9,6 +9,7 @@ import {
 	useObtenerPedidosValorizados,
 	useObtenerTotalPedidosVisitaActual,
 	useMostrarAdvertenciaEnDialogo,
+	useResetVisitaActual,
 } from 'hooks';
 import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
 
@@ -19,6 +20,7 @@ import {
 
 import {TClienteActual} from 'models';
 import {useTranslation} from 'react-i18next';
+import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -49,6 +51,9 @@ const Pasos: React.FC = () => {
 		obtenerTotalPedidosVisitaActual().totalPrecio +
 		compromisoDeCobroActual.monto;
 
+	const reiniciarVisita = useResetVisitaActual();
+	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
+
 	useEffect(() => {
 		if (pasoActual < controlador.length - 1) {
 			setLeyendaBoton(
@@ -62,6 +67,8 @@ const Pasos: React.FC = () => {
 	}, [pasoActual]);
 	const manejadorPasoAtras = () => {
 		if (pasoActual == 0) {
+			reiniciarVisita();
+			reiniciarCompromisoDeCobro();
 			history.goBack();
 		} else {
 			setPasoActual(pasoActual - 1);

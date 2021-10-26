@@ -283,11 +283,18 @@ const TarjetaPromoPush = (props: any) => {
 								name='unidades'
 								value='+'
 								onClick={handleButtons}
+								disabled={
+									getValues.unidades >= unidadesDisponibles ? true : false
+								}
 							>
 								<AgregarRedondoIcon
 									width='18px'
 									height='18px'
-									fill={'#2F000E'}
+									fill={
+										getValues.unidades >= unidadesDisponibles
+											? '#D9D9D9'
+											: '#2F000E'
+									}
 								/>
 							</IconButton>
 							<Typography variant={'subtitle3'} fontWeight={700}>
@@ -306,8 +313,8 @@ const TarjetaPromoPush = (props: any) => {
 							<Box>
 								{componentes &&
 									componentes.map((el: any, i: number) => (
-										<>
-											<Grid container mt={1} key={el.codigoProducto}>
+										<div key={`${el.codigoProducto}${i}`}>
+											<Grid container mt={1}>
 												<GridStyled item xs={8}>
 													<Box display='flex' flexDirection='column'>
 														<Typography variant='subtitle3'>
@@ -346,7 +353,7 @@ const TarjetaPromoPush = (props: any) => {
 												</GridStyled>
 											</Grid>
 											<Divider />
-										</>
+										</div>
 									))}
 							</Box>
 						</Stack>
