@@ -175,6 +175,11 @@ const TomaPedido: React.FC = () => {
 							}
 							widthIzquierda='179px'
 							widthDerecha='125px'
+							borderColor={
+								producto.unidades > 0 || producto.subUnidades > 0
+									? '#00CF91'
+									: '#D9D9D9'
+							}
 						/>
 					);
 				})}
