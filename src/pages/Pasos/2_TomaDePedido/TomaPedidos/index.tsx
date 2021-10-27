@@ -335,27 +335,21 @@ const Derecha: React.FC<DerechaProps> = ({
 				...getValues,
 				[name]: value === '+' ? ++getValues.unidades : --getValues.unidades,
 			});
+			setPuedeAgregar(true);
 		} else if (name === 'subUnidades') {
 			if (value === '-' && getValues.subUnidades === 0) {
 				return;
 			}
 			setInputFocus('subUnidades');
-			setGetValues((prevState) => {
-				return {
-					...prevState,
-					[name]:
-						value === '+'
-							? prevState.subUnidades + producto.subunidadesVentaMinima
-							: prevState.subUnidades - producto.subunidadesVentaMinima,
-				};
-			});
-			// setGetValues({
-			// 	...getValues,
-			// 	[name]:
-			// 		value === '+' ? ++getValues.subUnidades : --getValues.subUnidades,
-			// });
+			setGetValues((prevState) => ({
+				...prevState,
+				[name]:
+					value === '+'
+						? prevState.subUnidades + producto.subunidadesVentaMinima
+						: prevState.subUnidades - producto.subunidadesVentaMinima,
+			}));
+			setPuedeAgregar(true);
 		}
-		agregarProductoAlPedidoActual(getValues);
 	};
 
 	return (
