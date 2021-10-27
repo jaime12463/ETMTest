@@ -89,7 +89,15 @@ const Pasos: React.FC = () => {
 		}
 	};
 
-	console.log(itemsValorizados);
+	const AccionesEstructura = () => (
+		<>
+			{pasoActual === 0 && (
+				<Button onClick={() => handleOpenVistaPromoPush()}>
+					<PromocionesRellenoIcon fill='white' />
+				</Button>
+			)}
+		</>
+	);
 
 	return (
 		<Estructura>
@@ -97,11 +105,7 @@ const Pasos: React.FC = () => {
 				esConFechaHaciaAtras={true}
 				titulo={razonSocial}
 				onClick={manejadorPasoAtras}
-				acciones={
-					<Button onClick={() => handleOpenVistaPromoPush()}>
-						<PromocionesRellenoIcon fill='white' />
-					</Button>
-				}
+				acciones={<AccionesEstructura />}
 			>
 				<InfoClienteDelPedidoActual />
 			</Estructura.Encabezado>
