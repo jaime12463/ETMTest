@@ -1,49 +1,99 @@
-import {  forwardRef, useCallback } from 'react';
-import { useSnackbar, SnackbarContent } from 'notistack';
-import {Card, CardHeader, CardActions,Typography, IconButton} from '@mui/material';
+import {forwardRef, useCallback} from 'react';
+import {useSnackbar, SnackbarContent} from 'notistack';
+import {
+	Card,
+	CardHeader,
+	CardActions,
+	Typography,
+	IconButton,
+	Box,
+} from '@mui/material';
+import useEstilos from './useEstilos';
+import {
+	AvisoIcon,
+	CheckRedondoIcon,
+	CruzCerrar,
+	WarningTrianguloIcon,
+} from 'assests/iconos';
+import theme from 'theme';
 
-const colorbg :any ={
-    "succes":"success.light",
-    "error":"primary.light",
-    "warning":"warning.light",
-    "info":"info.light",
-    "default":"greys.light"
+const colorbg: any = {
+	succes: 'success.light',
+	error: 'primary.light',
+	warning: 'warning.light',
+	info: 'info.light',
+	default: 'greys.light',
 };
-type TData ={
-    tipo:string;
-    titulo:string;
-    mensaje:string;
+
+interface Props {
+	id: string | number;
+	message: string;
 }
-const AvisoContenido = forwardRef<HTMLDivElement, { id: string | number, message: string }>((props, ref) => {
 
-    const { closeSnackbar } = useSnackbar();
-   
-    const data:TData =  JSON.parse(props.message);
+type TData = {
+	tipo: 'default' | 'error' | 'success' | 'warning' | 'info';
+	titulo: string;
+	mensaje: string;
+};
+const AvisoContenido = forwardRef<HTMLDivElement, Props>(
+	({id, message}, ref) => {
+		const {closeSnackbar} = useSnackbar();
 
-    const handleDismiss = useCallback(() => {
-        closeSnackbar(props.id);
-    }, [props.id, closeSnackbar]);
+		const {mensaje, tipo, titulo}: TData = JSON.parse(message);
 
+		const classes = useEstilos({tipo});
 
-    console.log ('custom', props);
-    return (
-        <SnackbarContent ref={ref} >
-            <Card  sx={{ backgroundColor: colorbg[data.tipo] }}>
-            <CardHeader
-                action={
-                <IconButton aria-label="close"  onClick={handleDismiss}>
-                    icono cerrar
-                </IconButton>
-                }
-                title={<Typography variant="body2">{data.titulo}</Typography>}
-                subheader={data.mensaje}
-            />
-                <CardActions>
-                  
-                </CardActions>
-            </Card>
-        </SnackbarContent>
-    );
-});
+		const handleDismiss = useCallback(() => {
+			closeSnackbar(id);
+		}, [id, closeSnackbar]);
+
+		let icono: any = null;
+
+		switch (tipo) {
+			case 'error':
+				icono = (
+					<CheckRedondoIcon
+						height='21px'
+						fill={`${theme.palette.primary.main}`}
+						width='21px'
+					/>
+				);
+				break;
+			case 'success':
+				icono = (
+					<CheckRedondoIcon
+						height='21px'
+						fill={`${theme.palette.success.main}`}
+						width='21px'
+					/>
+				);
+				break;
+			case 'warning':
+				icono = <WarningTrianguloIcon />;
+				break;
+			default:
+				throw new Error('Tipo de aviso no soportado');
+		}
+
+		return (
+			<SnackbarContent ref={ref}>
+				<Box width='350px' className={classes.container}>
+					<Box className={classes.content}>
+						{icono}
+						<Box className={classes.text}>
+							<Typography variant='subtitle3'>{titulo}</Typography>
+							<Typography variant='caption' fontFamily='Open Sans'>
+								{mensaje}
+							</Typography>
+						</Box>
+					</Box>
+					<IconButton aria-label='close' onClick={handleDismiss}>
+						<CruzCerrar />
+					</IconButton>
+				</Box>
+			</SnackbarContent>
+		);
+	}
+);
 
 export default AvisoContenido;

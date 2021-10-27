@@ -6,6 +6,7 @@ import useEstilos from './useEstilos';
 import {CheckRedondoIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import InputAdornment from '@mui/material/InputAdornment';
+import theme from 'theme';
 
 interface Props {
 	valid: boolean;
@@ -63,7 +64,7 @@ const InputConIcono: React.FC<Props> = ({
 				}}
 			/>
 			<Box position='absolute' right='16px' bottom='8px'>
-				{valid && <CheckRedondoIcon />}
+				{valid && <CheckRedondoIcon fill={`${theme.palette.success.main}`} />}
 			</Box>
 			{error && (
 				<Box marginTop='8px' paddingLeft='16px'>

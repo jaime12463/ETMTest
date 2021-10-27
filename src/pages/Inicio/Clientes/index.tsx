@@ -6,9 +6,7 @@ import {useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import {useInicializarClienteActual} from './hooks';
-import { useResetVisitaActual } from 'hooks';
-
-
+import {useResetVisitaActual} from 'hooks';
 
 const Clientes = () => {
 	const estilos = useEstilos();
@@ -24,13 +22,8 @@ const Clientes = () => {
 		defaultValues,
 	});
 
-	const {
-		mostrarAdvertenciaEnDialogo,
-		mostarDialogo,
-		parametrosDialogo,
-	} = useMostrarAdvertenciaEnDialogo();
-
-	
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+		useMostrarAdvertenciaEnDialogo();
 
 	const asignarClienteActual = useInicializarClienteActual(
 		mostrarAdvertenciaEnDialogo

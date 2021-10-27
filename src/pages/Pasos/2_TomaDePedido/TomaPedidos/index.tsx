@@ -48,6 +48,7 @@ import {useAgregarProductoAlPedidoActual} from '../hooks';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import useEstilos from '../useEstilos';
 import {SwitchCambiarTipoPago} from '../components';
+import theme from 'theme';
 
 const InputStyled = styled(Input)(({}) => ({
 	backgroundColor: 'white',
@@ -374,7 +375,11 @@ const Derecha: React.FC<DerechaProps> = ({
 					{mostrarAcciones && (
 						<>
 							<IconButton sx={{padding: '0 5px'}}>
-								<CheckRedondoIcon height='17.5px' width='17.5px' />
+								<CheckRedondoIcon
+									height='17.5px'
+									width='17.5px'
+									fill={`${theme.palette.success.main}`}
+								/>
 							</IconButton>
 						</>
 					)}

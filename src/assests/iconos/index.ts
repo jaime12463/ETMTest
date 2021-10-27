@@ -18,27 +18,30 @@ import {ReactComponent as BuscarIcon} from './search.svg';
 import {ReactComponent as QuitarRellenoIcon} from './subtract.svg';
 import {ReactComponent as BorrarIcon} from './Trash.svg';
 import {ReactComponent as AvisoIcon} from './warning.svg';
+import {ReactComponent as WarningTrianguloIcon} from './warning-triangle.svg';
+import {ReactComponent as CruzCerrar} from './cross.svg';
 
-
-export { 
-    AgregarIcon,
-    AgregarRedondoIcon,
-    RetrocederIcon,
-    BotellaIcon,
-    CajaIcon,
-    CheckRedondoIcon,
-    FlechaAbajoIcon,
-    FlechaArribaIcon,
-    FlechaDerechaIcon,
-    FlechaLeftIcon,
-    CerrarRedondoIcon,
-    CerrarIcon,
-    ConejoSfaIcon,
-    InformacionIcon,
-    PromocionesRellenoIcon,
-    PromocionesIcon,
-    BuscarIcon,
-    QuitarRellenoIcon,
-    BorrarIcon,
-    AvisoIcon,
+export {
+	AgregarIcon,
+	AgregarRedondoIcon,
+	RetrocederIcon,
+	BotellaIcon,
+	CajaIcon,
+	CheckRedondoIcon,
+	FlechaAbajoIcon,
+	FlechaArribaIcon,
+	FlechaDerechaIcon,
+	FlechaLeftIcon,
+	CerrarRedondoIcon,
+	CerrarIcon,
+	ConejoSfaIcon,
+	InformacionIcon,
+	PromocionesRellenoIcon,
+	PromocionesIcon,
+	BuscarIcon,
+	QuitarRellenoIcon,
+	BorrarIcon,
+	AvisoIcon,
+	WarningTrianguloIcon,
+	CruzCerrar,
 };
