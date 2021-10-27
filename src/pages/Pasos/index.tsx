@@ -82,6 +82,8 @@ const Pasos: React.FC = () => {
 		}
 	};
 
+	console.log(itemsValorizados);
+
 	return (
 		<Estructura>
 			<Estructura.Encabezado
