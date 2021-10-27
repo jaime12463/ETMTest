@@ -48,6 +48,7 @@ import {useAgregarProductoAlPedidoActual} from '../hooks';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import useEstilos from '../useEstilos';
 import {SwitchCambiarTipoPago} from '../components';
+import theme from 'theme';
 
 const InputStyled = styled(Input)(({}) => ({
 	backgroundColor: 'white',
@@ -175,6 +176,11 @@ const TomaPedido: React.FC = () => {
 							}
 							widthIzquierda='179px'
 							widthDerecha='125px'
+							borderColor={
+								producto.unidades > 0 || producto.subUnidades > 0
+									? '#00CF91'
+									: '#D9D9D9'
+							}
 						/>
 					);
 				})}
@@ -335,27 +341,21 @@ const Derecha: React.FC<DerechaProps> = ({
 				...getValues,
 				[name]: value === '+' ? ++getValues.unidades : --getValues.unidades,
 			});
+			setPuedeAgregar(true);
 		} else if (name === 'subUnidades') {
 			if (value === '-' && getValues.subUnidades === 0) {
 				return;
 			}
 			setInputFocus('subUnidades');
-			setGetValues((prevState) => {
-				return {
-					...prevState,
-					[name]:
-						value === '+'
-							? prevState.subUnidades + producto.subunidadesVentaMinima
-							: prevState.subUnidades - producto.subunidadesVentaMinima,
-				};
-			});
-			// setGetValues({
-			// 	...getValues,
-			// 	[name]:
-			// 		value === '+' ? ++getValues.subUnidades : --getValues.subUnidades,
-			// });
+			setGetValues((prevState) => ({
+				...prevState,
+				[name]:
+					value === '+'
+						? prevState.subUnidades + producto.subunidadesVentaMinima
+						: prevState.subUnidades - producto.subunidadesVentaMinima,
+			}));
+			setPuedeAgregar(true);
 		}
-		agregarProductoAlPedidoActual(getValues);
 	};
 
 	return (
@@ -375,7 +375,11 @@ const Derecha: React.FC<DerechaProps> = ({
 					{mostrarAcciones && (
 						<>
 							<IconButton sx={{padding: '0 5px'}}>
-								<CheckRedondoIcon height='17.5px' width='17.5px' />
+								<CheckRedondoIcon
+									height='17.5px'
+									width='17.5px'
+									fill={`${theme.palette.success.main}`}
+								/>
 							</IconButton>
 						</>
 					)}

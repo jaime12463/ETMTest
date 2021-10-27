@@ -29,6 +29,7 @@ import {useTranslation} from 'react-i18next';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {formatearNumero} from 'utils/methods';
 import {useAgregarProductoAlPedidoActual} from '../hooks/useAgregarProductoAlPedidoActual';
+import theme from 'theme';
 
 const InputStyled = styled(Input)(({}) => ({
 	borderRadius: '10px',
@@ -209,7 +210,11 @@ const TarjetaPromoPush = (props: any) => {
 						alignItems='center'
 						marginBottom='8px'
 					>
-						<CheckRedondoIcon height='17.5px' width='17.5px' />
+						<CheckRedondoIcon
+							height='17.5px'
+							width='17.5px'
+							fill={`${theme.palette.success.main}`}
+						/>
 					</Box>
 				)}
 				<Box
