@@ -68,8 +68,6 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 		return producto.unidades > 0 || producto.subUnidades > 0;
 	});
 
-	console.log(productosConUnidades.length);
-
 	return (
 		<Stack spacing={2}>
 			<TarjetaColapsable

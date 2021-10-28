@@ -6,7 +6,7 @@ import botella from 'assests/iconos/botella.svg';
 import {FunctionComponent, useState} from 'react';
 import {TConsolidadoImplicitos, TPrecioProducto, TTipoPedido} from 'models';
 import {useAgregarProductoAlPedidoActual} from '../../../../hooks/useAgregarProductoAlPedidoActual';
-import {useMostrarAdvertenciaEnDialogo} from 'hooks';
+import {useMostrarAdvertenciaEnDialogo, useMostrarAviso} from 'hooks';
 import {useTranslation} from 'react-i18next';
 import {Dialogo} from 'components/UI';
 import {useObtenerVisitaActual} from 'redux/hooks';
@@ -54,6 +54,8 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 		subUnidades: subUnidadesIniciales,
 	});
 
+	const mostrarAviso = useMostrarAviso();
+
 	const cambioUnidadesPorTipoPedido = (
 		unidadesIngresadas: number,
 		tipoEnvase: string,
@@ -98,11 +100,14 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 					envase.tipoPago,
 					codigoTipoPedidoActual
 				);
-			} else
-				mostrarAdvertenciaEnDialogo(
-					t('advertencias.cantidadSuperiorEnvases'),
-					'supera-cantidad-en-envases'
-				);
+			} else {
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('advertencias.cantidadSuperiorEnvases'),
+				// 	'supera-cantidad-en-envases'
+				// );
+
+				mostrarAviso('error', t('advertencias.cantidadSuperiorEnvases'));
+			}
 
 		return unidadesPermitidas;
 	};
@@ -124,6 +129,7 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 				subUnidadesIngresadas <=
 				retorno.subUnidades + envaseActual?.subUnidades
 			) {
+				console.log(subUnidadesIniciales);
 				setRetorno({
 					...retorno,
 					subUnidades: Number(
@@ -150,15 +156,17 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 				agregarProductoAlPedidoActual(
 					productoEnvase,
 					envaseActual.unidades,
-					subUnidadesIngresadas,
+					Number(subUnidadesIngresadas),
 					envase.tipoPago,
 					codigoTipoPedidoActual
 				);
-			} else
-				mostrarAdvertenciaEnDialogo(
-					t('advertencias.cantidadSuperiorEnvases'),
-					'supera-cantidad-en-envases'
-				);
+			} else {
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('advertencias.cantidadSuperiorEnvases'),
+				// 	'supera-cantidad-en-envases'
+				// );
+				mostrarAviso('error', t('advertencias.cantidadSuperiorEnvases'));
+			}
 
 		return unidadesPermitidas;
 	};

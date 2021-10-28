@@ -72,14 +72,20 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 					subUnidades: Number(productoActual.subUnidades),
 				});
 
+				console.log(
+					Number(retorno.subUnidades - productoActual.subUnidades),
+					retorno.subUnidades,
+					Number(productoActual.subUnidades)
+				);
+
 				setRetorno({
 					unidades: Number(
-						retorno.unidades - productoActual.unidades < 0
+						retorno.unidades - productoActual.unidades <= 0
 							? 0
 							: retorno.unidades - productoActual.unidades
 					),
 					subUnidades: Number(
-						retorno.subUnidades - productoActual.subUnidades < 0
+						retorno.subUnidades - productoActual.subUnidades <= 0
 							? 0
 							: retorno.subUnidades - productoActual.subUnidades
 					),

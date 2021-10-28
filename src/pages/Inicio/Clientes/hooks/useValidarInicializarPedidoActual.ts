@@ -8,7 +8,7 @@ import {
 	TCliente,
 	TPrecioProducto,
 } from 'models';
-import {useObtenerPreciosProductosDelCliente} from 'hooks';
+import {useMostrarAviso, useObtenerPreciosProductosDelCliente} from 'hooks';
 import {useObtenerConfiguracion} from 'redux/hooks';
 import {
 	validarObtenerFechaEntrega,
@@ -24,9 +24,12 @@ export const useValidarInicializarPedidoActual = (
 
 	const configuracion = useObtenerConfiguracion();
 
-	const obtenerPreciosProductosDelCliente = useObtenerPreciosProductosDelCliente();
+	const obtenerPreciosProductosDelCliente =
+		useObtenerPreciosProductosDelCliente();
 
 	const {t} = useTranslation();
+
+	const mostrarAviso = useMostrarAviso();
 
 	const validarInicializarPedidoActual = useCallback(
 		(
@@ -43,7 +46,12 @@ export const useValidarInicializarPedidoActual = (
 			const {esFrecuenciaAbierta}: TConfiguracion = configuracion;
 
 			if (!datosCliente) {
-				mostrarAdvertenciaEnDialogo(
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('advertencias.no-datos-cliente'),
+				// 	'no-datos-cliente'
+				// );
+				mostrarAviso(
+					'error',
 					t('advertencias.no-datos-cliente'),
 					'no-datos-cliente'
 				);
@@ -65,46 +73,64 @@ export const useValidarInicializarPedidoActual = (
 			const {esValidaVisitaPlanificada} = visitaPlanificada;
 
 			if (!esValidaVisitaPlanificada && esFrecuenciaAbierta) {
-				mostrarAdvertenciaEnDialogo(
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('advertencias.noVisitaPlanificada'),
+				// 	'fuera-frecuencia'
+				// );
+				mostrarAviso(
+					'error',
 					t('advertencias.noVisitaPlanificada'),
 					'fuera-frecuencia'
 				);
 				return estadoValidacion;
 			}
 			if (!esValidaVisitaPlanificada) {
-				mostrarAdvertenciaEnDialogo(
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('advertencias.fueraDeFrecuencia'),
+				// 	'fuera-frecuencia'
+				// );
+				mostrarAviso(
+					'error',
 					t('advertencias.fueraDeFrecuencia'),
 					'fuera-frecuencia'
 				);
 				return estadoValidacion;
 			}
 
-			const {
-				esValidaFechaEntrega,
-				fechaEntrega,
-			}: TValidacionFechaEntrega = validarObtenerFechaEntrega(
-				datosCliente.fechasEntrega
-			);
+			const {esValidaFechaEntrega, fechaEntrega}: TValidacionFechaEntrega =
+				validarObtenerFechaEntrega(datosCliente.fechasEntrega);
 
 			if (!esValidaFechaEntrega) {
-				mostrarAdvertenciaEnDialogo(
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('advertencias.noFechaEntregaInformada'),
+				// 	'no-fecha-informada'
+				// );
+				mostrarAviso(
+					'error',
 					t('advertencias.noFechaEntregaInformada'),
+					undefined,
+					undefined,
 					'no-fecha-informada'
 				);
 				return estadoValidacion;
 			}
 
-			const preciosProductosDelCliente: TPrecioProducto[] = obtenerPreciosProductosDelCliente(
-				datosCliente,
-				fechaEntrega
-			);
+			const preciosProductosDelCliente: TPrecioProducto[] =
+				obtenerPreciosProductosDelCliente(datosCliente, fechaEntrega);
 
 			const esPortafolioPreciosProductosMayorCero: boolean =
 				preciosProductosDelCliente.length > 0;
 
 			if (!esPortafolioPreciosProductosMayorCero) {
-				mostrarAdvertenciaEnDialogo(
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('advertencias.noPortafolioPrecios'),
+				// 	'no-portafolio-precios'
+				// );
+				mostrarAviso(
+					'error',
 					t('advertencias.noPortafolioPrecios'),
+					undefined,
+					undefined,
 					'no-portafolio-precios'
 				);
 				return estadoValidacion;
