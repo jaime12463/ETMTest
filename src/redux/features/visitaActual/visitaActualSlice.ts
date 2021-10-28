@@ -96,15 +96,26 @@ export const visitaActualSlice = createSlice({
 
 		borrarProductoDelPedidoActual: (
 			state,
-			action: PayloadAction<{codigoProducto: number}>
+			action: PayloadAction<{
+				codigoProducto: number;
+				codigoTipoPedidoActual?: string;
+			}>
 		) => {
+			let pedidoActual = '';
+			if (action.payload.codigoTipoPedidoActual) {
+				pedidoActual = action.payload.codigoTipoPedidoActual;
+			} else {
+				pedidoActual = state.tipoPedidoActual;
+			}
+			if (!pedidoActual) return;
 			const productosPedidoClienteFiltrados = state.pedidos[
-				state.tipoPedidoActual
+				pedidoActual
 			].productos.filter(
 				(precioProducto: TProductoPedido) =>
 					precioProducto.codigoProducto !== action.payload.codigoProducto
 			);
-			state.pedidos[state.tipoPedidoActual].productos = [
+
+			state.pedidos[pedidoActual].productos = [
 				...productosPedidoClienteFiltrados,
 			];
 		},

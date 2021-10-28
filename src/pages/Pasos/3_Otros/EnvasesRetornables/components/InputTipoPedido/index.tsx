@@ -1,5 +1,5 @@
 import {TarjetaColapsable} from 'components/UI';
-import React, {FunctionComponent, useState} from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 import {TProductoPedido, ETiposDePago, TTipoPedido} from 'models';
 import {Grid, Input, styled, Typography} from '@mui/material';
 import {TConsolidadoImplicitos} from 'models';
@@ -22,6 +22,8 @@ type Props = {
 	stateTipoEnvases: any;
 	cambioUnidadesPorTipoPedido: any;
 	cambioSubUnidadesPorTipoPedido: any;
+	productoEnvase: any;
+	stateRetorno: any;
 };
 
 type Envases = {
@@ -36,22 +38,67 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 		stateTipoEnvases,
 		cambioUnidadesPorTipoPedido,
 		cambioSubUnidadesPorTipoPedido,
+		productoEnvase,
+		stateRetorno,
 	} = props;
 	const {valoresEnvase, setValoresEnvase} = stateTipoEnvases;
 
-	let envase: Envases = {tipoEnvase: '', unidades: 0, subUnidades: 0};
-	let otrosTiposEnvase: any = [];
+	const [envase, setEnvase] = useState({
+		tipoEnvase: '',
+		unidades: 0,
+		subUnidades: 0,
+	});
 
-	if (tipoPedido) {
-		let envaseActual = valoresEnvase.find(
-			(envase: any) => tipoPedido.descripcionCorta === envase.tipoEnvase
-		);
-		envase = envaseActual;
+	const [otrosTiposEnvase, setOtrosTiposEnvase] = useState();
+	const {retorno, setRetorno} = stateRetorno;
 
-		otrosTiposEnvase = valoresEnvase.find(
-			(envase: any) => tipoPedido.descripcionCorta !== envase.tipoEnvase
-		);
-	}
+	const visitaActual = useObtenerVisitaActual();
+	if (!tipoPedido) return <></>;
+	const pedidoActual = visitaActual.pedidos[tipoPedido.codigo];
+
+	const productoActual = pedidoActual?.productos.find(
+		(producto) => producto?.codigoProducto === productoEnvase?.codigoProducto
+	);
+
+	const calcularUnidades = () => {
+		if (tipoPedido) {
+			let envaseActual = valoresEnvase.find(
+				(envase: any) => tipoPedido.descripcionCorta === envase.tipoEnvase
+			);
+			if (productoActual) {
+				setEnvase({
+					...envaseActual,
+					unidades: Number(productoActual.unidades),
+					subUnidades: Number(productoActual.subUnidades),
+				});
+
+				setRetorno({
+					unidades: Number(
+						retorno.unidades - productoActual.unidades < 0
+							? 0
+							: retorno.unidades - productoActual.unidades
+					),
+					subUnidades: Number(
+						retorno.subUnidades - productoActual.subUnidades < 0
+							? 0
+							: retorno.subUnidades - productoActual.subUnidades
+					),
+				});
+			} else {
+				setEnvase(envaseActual);
+			}
+
+			let otros = valoresEnvase.find(
+				(envase: any) => tipoPedido.descripcionCorta !== envase.tipoEnvase
+			);
+
+			setOtrosTiposEnvase(otros);
+		}
+	};
+
+	useEffect(() => {
+		calcularUnidades();
+	}, [visitaActual, valoresEnvase, tipoPedido]);
 
 	return (
 		<>
@@ -78,14 +125,14 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 							inputProps={{style: {textAlign: 'center'}}}
 							value={envase?.unidades}
 							disableUnderline
-							onChange={(e) =>
+							onChange={(e) => {
 								cambioUnidadesPorTipoPedido(
 									e.target.value,
 									envase?.tipoEnvase,
 									otrosTiposEnvase,
 									tipoPedido.codigo
-								)
-							}
+								);
+							}}
 							onFocus={(e) => e.target.select()}
 						/>
 					)}
@@ -96,14 +143,14 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 							inputProps={{style: {textAlign: 'center'}}}
 							value={envase?.subUnidades}
 							disableUnderline
-							onChange={(e) =>
+							onChange={(e) => {
 								cambioSubUnidadesPorTipoPedido(
 									e.target.value,
 									envase?.tipoEnvase,
 									otrosTiposEnvase,
 									tipoPedido.codigo
-								)
-							}
+								);
+							}}
 							onFocus={(e) => e.target.select()}
 						/>
 					)}

@@ -1,12 +1,7 @@
-import {
-	TConsolidadoImplicitos,
-	TPrecioProducto,
-} from 'models';
+import {TConsolidadoImplicitos, TPrecioProducto} from 'models';
 import {TarjetaDoble} from 'components/UI';
 import {useState} from 'react';
-import {
-	useInicializarPreciosProductosDelClienteActual,
-} from 'hooks';
+import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
 import {useObtenerConfiguracion} from 'redux/hooks';
 import TarjetaDobleDerecha from './components/TarjetaDobleDerecha';
 import TarjetaDobleIzquierda from './components/TarjetaDobleIzquierda';
@@ -16,7 +11,9 @@ const TarjetaEnvasesRetornables = ({
 }: {
 	envase: TConsolidadoImplicitos;
 }) => {
-	const [preciosProductos, setPreciosProductos] = useState<TPrecioProducto[]>([]);
+	const [preciosProductos, setPreciosProductos] = useState<TPrecioProducto[]>(
+		[]
+	);
 
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 
@@ -60,16 +57,16 @@ const TarjetaEnvasesRetornables = ({
 				widthIzquierda='170px'
 				izquierda={
 					<TarjetaDobleIzquierda
-						envase = {envase}
-						tieneTipoPedidoValorizado = {tieneTipoPedidoValorizado}
+						envase={envase}
+						tieneTipoPedidoValorizado={tieneTipoPedidoValorizado}
 					/>
 				}
 				derecha={
-					<TarjetaDobleDerecha 
-						pedidosEnvasesHabilitados = {pedidosEnvasesHabilitados}
-						stateTipoEnvases = {{valoresEnvase, setValoresEnvase}}
-						envase = {envase}
-						productoEnvase = {productoEnvase}
+					<TarjetaDobleDerecha
+						pedidosEnvasesHabilitados={pedidosEnvasesHabilitados}
+						stateTipoEnvases={{valoresEnvase, setValoresEnvase}}
+						envase={envase}
+						productoEnvase={productoEnvase}
 					/>
 				}
 			></TarjetaDoble>
