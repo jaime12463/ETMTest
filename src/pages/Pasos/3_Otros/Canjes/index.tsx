@@ -22,6 +22,7 @@ import {
 	useInicializarPreciosProductosDelClienteActual,
 	useCalcularPresupuestoTipoPedido,
 	useMostrarAdvertenciaEnDialogo,
+	useObtenerDatosCliente,
 } from 'hooks';
 import {
 	agregarProductoDelPedidoActual,
@@ -327,6 +328,10 @@ const Derecha: React.FC<DerechaProps> = ({
 	const [mostrarAcciones, setMostrarAcciones] = React.useState<boolean>(false);
 	const [pendiente, setPendiente] = useState<boolean>(false);
 
+	const clienteActual: TClienteActual = useObtenerClienteActual();
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+	const {configuracionPedido}: any = datosCliente;
+
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		producto,
 		mostrarAdvertenciaEnDialogo,
@@ -514,8 +519,21 @@ const Derecha: React.FC<DerechaProps> = ({
 						name='unidades'
 						value='+'
 						onClick={handleButtons}
+						disabled={
+							producto.unidades >= configuracionPedido?.cantidadMaximaUnidades
+								? true
+								: false
+						}
 					>
-						<AgregarRedondoIcon width='18px' height='18px' fill={'#2F000E'} />
+						<AgregarRedondoIcon
+							width='18px'
+							height='18px'
+							fill={
+								producto.unidades >= configuracionPedido?.cantidadMaximaUnidades
+									? '#D9D9D9'
+									: '#2F000E'
+							}
+						/>
 					</IconButton>
 				</Box>
 				<Box display='flex' alignItems='center'>
@@ -560,8 +578,21 @@ const Derecha: React.FC<DerechaProps> = ({
 						name='subUnidades'
 						value='+'
 						onClick={handleButtons}
+						disabled={
+							getValue.subUnidades >=
+							producto.presentacion - producto.subunidadesVentaMinima
+						}
 					>
-						<AgregarRedondoIcon width='18px' height='18px' fill={'#2F000E'} />
+						<AgregarRedondoIcon
+							width='18px'
+							height='18px'
+							fill={
+								getValue.subUnidades >=
+								producto.presentacion - producto.subunidadesVentaMinima
+									? '#D9D9D9'
+									: '#2F000E'
+							}
+						/>
 					</IconButton>
 				</Box>
 			</Box>

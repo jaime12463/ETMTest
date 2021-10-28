@@ -113,8 +113,8 @@ const es = {
 		ordenDeCompraEnBlanco: 'Debe ingresar una orden de compra',
 		cantidadSuperiorEnvases:
 			'La cantidad excede a las disponibles para retorno',
-		borrarPromosPush:
-			'Se borraran todas las Promo Push del pedido actual. ¿Desea continuar?',
+		borrarTodosTomaPedido:
+			'¿Quieres Borrar todos los productos?. Todos los productos seleccionados se borraran de la toma de pedido',
 	},
 	pasos: {
 		planeacion: 'Planeación',
