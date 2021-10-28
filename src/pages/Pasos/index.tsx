@@ -1,9 +1,10 @@
+import React from 'react';
 import {FunctionComponent, useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {IndicadoresDelPedidoActual} from './components';
 import {controlador, TControlador} from './controlador';
 import {Estructura, BotonBarraInferior, Stepper, Dialogo} from 'components/UI';
-import {Box} from '@mui/material';
+import {Box, Button} from '@mui/material';
 import {InfoClienteDelPedidoActual} from 'components/Negocio';
 import {
 	useObtenerPedidosValorizados,
@@ -13,6 +14,8 @@ import {
 } from 'hooks';
 import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
 
+import {VistaPromoPush} from 'pages/Pasos/1_Planeacion/VistaPromoPush/index';
+
 import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
@@ -21,6 +24,7 @@ import {
 import {TClienteActual} from 'models';
 import {useTranslation} from 'react-i18next';
 import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
+import {PromocionesRellenoIcon} from 'assests/iconos';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -32,6 +36,8 @@ const formatearItems = (items: number) => {
 const Pasos: React.FC = () => {
 	const {t} = useTranslation();
 	const [pasoActual, setPasoActual] = useState(0);
+	const [openVistaPromoPush, setOpenVistaPromoPush] = React.useState(false);
+
 	const [leyendaBoton, setLeyendaBoton] = useState(
 		`${t('general.continuarA')} ${t(controlador[1].titulo)}`
 	);
@@ -53,6 +59,7 @@ const Pasos: React.FC = () => {
 
 	const reiniciarVisita = useResetVisitaActual();
 	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
+	const handleOpenVistaPromoPush = () => setOpenVistaPromoPush(true);
 
 	useEffect(() => {
 		if (pasoActual < controlador.length - 1) {
@@ -82,7 +89,15 @@ const Pasos: React.FC = () => {
 		}
 	};
 
-	console.log(itemsValorizados);
+	const AccionesEstructura = () => (
+		<>
+			{pasoActual === 0 && (
+				<Button onClick={() => handleOpenVistaPromoPush()}>
+					<PromocionesRellenoIcon fill='white' />
+				</Button>
+			)}
+		</>
+	);
 
 	return (
 		<Estructura>
@@ -90,12 +105,17 @@ const Pasos: React.FC = () => {
 				esConFechaHaciaAtras={true}
 				titulo={razonSocial}
 				onClick={manejadorPasoAtras}
-				// acciones={<BotonVerPedidosDelClienteActual />}
+				acciones={<AccionesEstructura />}
 			>
 				<InfoClienteDelPedidoActual />
 			</Estructura.Encabezado>
 			<Estructura.Cuerpo>
 				{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+				{openVistaPromoPush && (
+					<VistaPromoPush
+						stateOpen={{openVistaPromoPush, setOpenVistaPromoPush}}
+					/>
+				)}
 				<Box my={3}>
 					<IndicadoresDelPedidoActual />
 				</Box>

@@ -226,7 +226,15 @@ const TarjetaPromoPush = (props: any) => {
 						<Typography variant='subtitle3' marginBottom='2px'>
 							{codigoProducto}
 						</Typography>
-						<Typography variant='subtitle3' marginBottom='6px'>
+						<Typography
+							variant='subtitle3'
+							sx={{
+								maxWidth: '137px',
+								textOverflow: 'ellipsis',
+								overflow: 'hidden',
+							}}
+							marginBottom='6px'
+						>
 							{nombreProducto}
 						</Typography>
 						<Typography variant='subtitle3' marginBottom='6px'>

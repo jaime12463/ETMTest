@@ -8,6 +8,7 @@ import {
 	TProductoPedido,
 	TStateInputFocus,
 	TVisita,
+	TCliente,
 } from 'models';
 import {
 	useAppDispatch,
@@ -45,10 +46,15 @@ import {
 import {styled} from '@mui/material/styles';
 import Input from '@mui/material/Input';
 import {useAgregarProductoAlPedidoActual} from '../hooks';
-import {useMostrarAdvertenciaEnDialogo} from 'hooks';
+import {
+	useMostrarAdvertenciaEnDialogo,
+	useBorrarTodoLosProductos,
+	useObtenerDatosCliente,
+} from 'hooks';
 import useEstilos from '../useEstilos';
 import {SwitchCambiarTipoPago} from '../components';
 import theme from 'theme';
+import {useTranslation} from 'react-i18next';
 
 const InputStyled = styled(Input)(({}) => ({
 	backgroundColor: 'white',
@@ -67,6 +73,7 @@ const TextStyled = styled(Typography)(() => ({
 }));
 
 const TomaPedido: React.FC = () => {
+	const {t} = useTranslation();
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
@@ -81,6 +88,9 @@ const TomaPedido: React.FC = () => {
 	React.useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'venta'}));
 	}, []);
+
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+		useMostrarAdvertenciaEnDialogo();
 
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
@@ -97,10 +107,14 @@ const TomaPedido: React.FC = () => {
 	const hookForm = {control, handleSubmit, setValue, getValues};
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 	const clienteActual: TClienteActual = useObtenerClienteActual();
-
 	const dispatch = useAppDispatch();
 	const catalogoMotivo = '';
 	const classes = useEstilos();
+
+	const borrarTodosLosProductos = useBorrarTodoLosProductos(
+		mostrarAdvertenciaEnDialogo,
+		venta.productos
+	);
 
 	React.useEffect(() => {
 		if (productoActual !== null) {
@@ -122,69 +136,81 @@ const TomaPedido: React.FC = () => {
 			setFocusId(productoActual.codigoProducto);
 		}
 	}, [productoActual?.codigoProducto]);
+	const manejadorConfirmarEliminarPedidos = (oprimioBotonAceptar: boolean) => {
+		if (oprimioBotonAceptar) {
+			borrarTodosLosProductos();
+		}
+	};
 
 	return (
-		<Stack spacing='10px'>
-			<AutocompleteSeleccionarProducto
-				hookForm={hookForm}
-				stateProductoActual={{productoActual, setProductoActual}}
-				statePreciosProductos={{preciosProductos, setPreciosProductos}}
-				stateInputFocus={stateInputFocus}
-			/>
+		<>
+			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+			<Stack spacing='10px'>
+				<AutocompleteSeleccionarProducto
+					hookForm={hookForm}
+					stateProductoActual={{productoActual, setProductoActual}}
+					statePreciosProductos={{preciosProductos, setPreciosProductos}}
+					stateInputFocus={stateInputFocus}
+				/>
 
-			<Grid container alignItems='center' justifyContent='space-between'>
-				<SwitchCambiarTipoPago />
+				<Grid container alignItems='center' justifyContent='space-between'>
+					<SwitchCambiarTipoPago />
+					{venta.productos.length > 0 &&
+						venta.productos.some(
+							(producto) => producto.unidades > 0 || producto.subUnidades > 0
+						) && (
+							<Chip
+								className={classes.root}
+								size='small'
+								icon={<BorrarIcon width='7.5px' height='7.5px' />}
+								label={<TextStyled>Borrar todo</TextStyled>}
+								onClick={() =>
+									mostrarAdvertenciaEnDialogo(
+										t('advertencias.borrarTodosTomaPedido'),
+										'eliminar-todosTomaPedido',
+										manejadorConfirmarEliminarPedidos,
+										{
+											aceptar: t('general.si'),
+											cancelar: t('general.no'),
+										}
+									)
+								}
+								sx={{'&:hover': {background: 'none'}}}
+							/>
+						)}
+				</Grid>
+
 				{venta.productos.length > 0 &&
-					venta.productos.some(
-						(producto) => producto.unidades > 0 || producto.subUnidades > 0
-					) && (
-						<Chip
-							className={classes.root}
-							size='small'
-							icon={<BorrarIcon width='7.5px' height='7.5px' />}
-							label={<TextStyled>Borrar todo</TextStyled>}
-							onClick={() =>
-								dispatch(
-									borrarProductosDeVisitaActual({
-										tipoPedidoActual: visitaActual.tipoPedidoActual,
-									})
-								)
-							}
-							sx={{'&:hover': {background: 'none'}}}
-						/>
-					)}
-			</Grid>
-
-			{venta.productos.length > 0 &&
-				venta.productos.map((producto) => {
-					return (
-						<TarjetaDoble
-							key={producto.codigoProducto}
-							izquierda={
-								<Izquierda
-									producto={producto}
-									condicion={clienteActual.condicion}
-								/>
-							}
-							derecha={
-								<Derecha
-									producto={producto}
-									stateInputFocus={stateInputFocus}
-									visitaActual={visitaActual}
-									statefocusId={{focusId, setFocusId}}
-								/>
-							}
-							widthIzquierda='179px'
-							widthDerecha='125px'
-							borderColor={
-								producto.unidades > 0 || producto.subUnidades > 0
-									? '#00CF91'
-									: '#D9D9D9'
-							}
-						/>
-					);
-				})}
-		</Stack>
+					venta.productos.map((producto) => {
+						return (
+							<TarjetaDoble
+								key={producto.codigoProducto}
+								izquierda={
+									<Izquierda
+										producto={producto}
+										condicion={clienteActual.condicion}
+									/>
+								}
+								derecha={
+									<Derecha
+										producto={producto}
+										stateInputFocus={stateInputFocus}
+										visitaActual={visitaActual}
+										statefocusId={{focusId, setFocusId}}
+									/>
+								}
+								widthIzquierda='179px'
+								widthDerecha='125px'
+								borderColor={
+									producto.unidades > 0 || producto.subUnidades > 0
+										? '#00CF91'
+										: '#D9D9D9'
+								}
+							/>
+						);
+					})}
+			</Stack>
+		</>
 	);
 };
 
@@ -280,7 +306,9 @@ const Derecha: React.FC<DerechaProps> = ({
 
 	const [mostrarAcciones, setMostrarAcciones] = React.useState<boolean>(false);
 
-	const dispatch = useAppDispatch();
+	const clienteActual: TClienteActual = useObtenerClienteActual();
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+	const {configuracionPedido}: any = datosCliente;
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		producto,
@@ -358,6 +386,8 @@ const Derecha: React.FC<DerechaProps> = ({
 		}
 	};
 
+	console.log(configuracionPedido?.cantidadMaximaUnidades);
+
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
@@ -427,8 +457,12 @@ const Derecha: React.FC<DerechaProps> = ({
 						value='+'
 						onClick={handleButtons}
 						disabled={
-							producto.unidadesDisponibles &&
-							producto.unidades >= producto.unidadesDisponibles
+							producto.unidadesDisponibles
+								? producto.unidades >= producto.unidadesDisponibles
+									? true
+									: false
+								: producto.unidades >=
+								  configuracionPedido?.cantidadMaximaUnidades
 								? true
 								: false
 						}
@@ -437,8 +471,12 @@ const Derecha: React.FC<DerechaProps> = ({
 							width='18px'
 							height='18px'
 							fill={
-								producto.unidadesDisponibles &&
-								producto.unidades >= producto.unidadesDisponibles
+								producto.unidadesDisponibles
+									? producto.unidades >= producto.unidadesDisponibles
+										? '#D9D9D9'
+										: '#2F000E'
+									: producto.unidades >=
+									  configuracionPedido?.cantidadMaximaUnidades
 									? '#D9D9D9'
 									: '#2F000E'
 							}
