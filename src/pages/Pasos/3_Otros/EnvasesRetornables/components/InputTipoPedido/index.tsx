@@ -24,6 +24,7 @@ type Props = {
 	cambioSubUnidadesPorTipoPedido: any;
 	productoEnvase: any;
 	stateRetorno: any;
+	stateDatosActual: any;
 };
 
 type Envases = {
@@ -40,6 +41,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 		cambioSubUnidadesPorTipoPedido,
 		productoEnvase,
 		stateRetorno,
+		stateDatosActual,
 	} = props;
 	const {valoresEnvase, setValoresEnvase} = stateTipoEnvases;
 
@@ -71,25 +73,6 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 					unidades: Number(productoActual.unidades),
 					subUnidades: Number(productoActual.subUnidades),
 				});
-
-				console.log(
-					Number(retorno.subUnidades - productoActual.subUnidades),
-					retorno.subUnidades,
-					Number(productoActual.subUnidades)
-				);
-
-				setRetorno({
-					unidades: Number(
-						retorno.unidades - productoActual.unidades <= 0
-							? 0
-							: retorno.unidades - productoActual.unidades
-					),
-					subUnidades: Number(
-						retorno.subUnidades - productoActual.subUnidades <= 0
-							? 0
-							: retorno.subUnidades - productoActual.subUnidades
-					),
-				});
 			} else {
 				setEnvase(envaseActual);
 			}
@@ -104,7 +87,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 
 	useEffect(() => {
 		calcularUnidades();
-	}, [visitaActual, valoresEnvase, tipoPedido]);
+	}, [visitaActual, valoresEnvase, tipoPedido, retorno]);
 
 	return (
 		<>
