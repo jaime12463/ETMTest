@@ -240,25 +240,16 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			);
 
 			if (!esUnidadesMenorAlMaximoUnidades) {
-				// mostrarAdvertenciaEnDialogo(
-				// 	t('advertencias.cantidadEsMayor', {
-				// 		cantidad: configuracionPedido.cantidadMaximaUnidades,
-				// 	}),
-				// 	'cantidad-es-mayor',
-				// 	manejadorConfirmarAgregarPedido,
-				// 	{
-				// 		aceptar: t('general.si'),
-				// 		cancelar: t('general.no'),
-				// 	}
-				// );
-				mostrarAviso(
-					'warning',
+				mostrarAdvertenciaEnDialogo(
 					t('advertencias.cantidadEsMayor', {
 						cantidad: configuracionPedido.cantidadMaximaUnidades,
 					}),
-					undefined,
-					{izquierda: t('general.si'), derecha: t('general.no')},
-					'cantidad-es-mayor'
+					'cantidad-es-mayor',
+					manejadorConfirmarAgregarPedido,
+					{
+						aceptar: t('general.si'),
+						cancelar: t('general.no'),
+					}
 				);
 				return esValidacionCorrecta;
 			}
