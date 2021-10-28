@@ -1,16 +1,11 @@
 import {forwardRef, useCallback} from 'react';
 import {useSnackbar, SnackbarContent} from 'notistack';
-import {
-	Card,
-	CardHeader,
-	CardActions,
-	Typography,
-	IconButton,
-	Box,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import useEstilos from './useEstilos';
 import {
-	AvisoIcon,
 	CheckRedondoIcon,
 	CruzCerrar,
 	WarningTrianguloIcon,
@@ -25,6 +20,11 @@ const colorbg: any = {
 	default: 'greys.light',
 };
 
+interface BotonesProps {
+	izquierda: string;
+	derecha: string;
+}
+
 interface Props {
 	id: string | number;
 	message: string;
@@ -34,14 +34,17 @@ type TData = {
 	tipo: 'default' | 'error' | 'success' | 'warning' | 'info';
 	titulo: string;
 	mensaje: string;
+	textoBotones?: BotonesProps;
+	dataCy?: string;
 };
+
 const AvisoContenido = forwardRef<HTMLDivElement, Props>(
 	({id, message}, ref) => {
 		const {closeSnackbar} = useSnackbar();
 
-		const {mensaje, tipo, titulo}: TData = JSON.parse(message);
+		const {mensaje, tipo, titulo, textoBotones}: TData = JSON.parse(message);
 
-		const classes = useEstilos({tipo});
+		const classes = useEstilos({tipo, conBotones: textoBotones ? true : false});
 
 		const handleDismiss = useCallback(() => {
 			closeSnackbar(id);
@@ -69,7 +72,12 @@ const AvisoContenido = forwardRef<HTMLDivElement, Props>(
 				);
 				break;
 			case 'warning':
-				icono = <WarningTrianguloIcon />;
+				icono = (
+					<WarningTrianguloIcon
+						height={textoBotones ? '31px' : '19px'}
+						width={textoBotones ? '34px' : '21px'}
+					/>
+				);
 				break;
 			default:
 				throw new Error('Tipo de aviso no soportado');
@@ -81,15 +89,55 @@ const AvisoContenido = forwardRef<HTMLDivElement, Props>(
 					<Box className={classes.content}>
 						{icono}
 						<Box className={classes.text}>
-							<Typography variant='subtitle3'>{titulo}</Typography>
-							<Typography variant='caption' fontFamily='Open Sans'>
+							<Typography
+								variant='subtitle3'
+								sx={{
+									marginTop: '4px',
+									textAlign: textoBotones ? 'center' : 'left',
+								}}
+							>
+								{titulo}
+							</Typography>
+							<Typography
+								variant='caption'
+								fontFamily='Open Sans'
+								sx={{
+									marginTop: '6px',
+									textAlign: textoBotones ? 'center' : 'left',
+								}}
+							>
 								{mensaje}
 							</Typography>
 						</Box>
 					</Box>
-					<IconButton aria-label='close' onClick={handleDismiss}>
-						<CruzCerrar />
-					</IconButton>
+					{!textoBotones && (
+						<IconButton
+							aria-label='close'
+							onClick={handleDismiss}
+							sx={{padding: '2px 5px 0 0'}}
+						>
+							<CruzCerrar />
+						</IconButton>
+					)}
+					{textoBotones && (
+						<Box className={classes.btn}>
+							<Button
+								variant='text'
+								color='secondary'
+								sx={{fontSize: '12px', padding: 0}}
+								onClick={handleDismiss}
+							>
+								{textoBotones.izquierda}
+							</Button>
+							<Button
+								variant='text'
+								color='secondary'
+								sx={{fontSize: '12px', padding: 0}}
+							>
+								{textoBotones.derecha}
+							</Button>
+						</Box>
+					)}
 				</Box>
 			</SnackbarContent>
 		);

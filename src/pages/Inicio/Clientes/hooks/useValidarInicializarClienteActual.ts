@@ -14,7 +14,7 @@ export const useValidarInicializarClienteActual = (
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 
 	const {t} = useTranslation();
-	const mostrarAviso=useMostrarAviso();
+	const mostrarAviso = useMostrarAviso();
 
 	const validarInicializarClienteActual = useCallback(
 		(codigoCliente: string): validacionInicializarClienteActual => {
@@ -22,15 +22,20 @@ export const useValidarInicializarClienteActual = (
 				esValidoInicializarClienteActual: false,
 				datosCliente: undefined,
 			};
-			const datosCliente: TCliente | undefined = obtenerDatosCliente(
-				codigoCliente
-			);
+			const datosCliente: TCliente | undefined =
+				obtenerDatosCliente(codigoCliente);
 			if (!datosCliente) {
 				/*(mostrarAdvertenciaEnDialogo(
 					t('advertencias.clienteNoExiste'),
 					'clienteNoPortafolio'
 				);*/
-				mostrarAviso('error', t('advertencias.clienteNoExiste'),'clienteNoPortafolio')
+				mostrarAviso(
+					'error',
+					t('advertencias.clienteNoExiste'),
+					undefined,
+					undefined,
+					'clienteNoPortafolio'
+				);
 				return estadoValidacion;
 			}
 			estadoValidacion = {

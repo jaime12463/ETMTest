@@ -6,6 +6,7 @@ import {TFunctionMostarAvertenciaPorDialogo, TClienteActual} from 'models';
 import {
 	useObtenerDatosCliente,
 	useObtenerCompromisosDeCobroMismaFechaEntrega,
+	useMostrarAviso,
 } from 'hooks';
 import {useObtenerClienteActual} from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
@@ -19,12 +20,10 @@ export const useValidarAgregarCompromisoDeCobro = (
 ) => {
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
-	const {
-		obtenerCompromisosDeCobroMismaFechaEntrega,
-	} = useObtenerCompromisosDeCobroMismaFechaEntrega();
-	const compromisosDeCobroMismaFechaEntrega = obtenerCompromisosDeCobroMismaFechaEntrega(
-		clienteActual.codigoCliente
-	);
+	const {obtenerCompromisosDeCobroMismaFechaEntrega} =
+		useObtenerCompromisosDeCobroMismaFechaEntrega();
+	const compromisosDeCobroMismaFechaEntrega =
+		obtenerCompromisosDeCobroMismaFechaEntrega(clienteActual.codigoCliente);
 	const montoTotalCompromisos = obtenerTotalesCompromisoDeCobroCliente(
 		compromisosDeCobroMismaFechaEntrega
 	);
@@ -33,6 +32,8 @@ export const useValidarAgregarCompromisoDeCobro = (
 
 	const {t} = useTranslation();
 
+	const mostrarAviso = useMostrarAviso();
+
 	const ValidarAgregarCompromisoDeCobro = useCallback(
 		(monto: number): validacionAgregarCompromisoDeCobro => {
 			let estadoValidacion: validacionAgregarCompromisoDeCobro = {
@@ -40,10 +41,11 @@ export const useValidarAgregarCompromisoDeCobro = (
 			};
 
 			if (monto > totalDeduda) {
-				mostrarAdvertenciaEnDialogo(
-					t('advertencias.montoMayorDeuda'),
-					'clienteNoPortafolio'
-				);
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('advertencias.montoMayorDeuda'),
+				// 	'clienteNoPortafolio'
+				// );
+				mostrarAviso('error', t('advertencias.montoMayorDeuda'));
 				return estadoValidacion;
 			}
 
