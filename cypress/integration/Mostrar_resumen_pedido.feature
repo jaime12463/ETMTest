@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Resumen_pedido @Sprint13
+@Pedido @Resumen_pedido @Sprint15
 
 Característica: Mostrar resumen del pedido 
     Como prevendedor 
