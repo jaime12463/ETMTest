@@ -60,6 +60,11 @@ import {
 import TomaPedido from './TomaPedidos';
 import PromoPush from './PromoPush';
 
+interface StateProps {
+	venta: boolean;
+	promociones: boolean;
+}
+
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<boolean | string>(false);
 	const visitaActual = useObtenerVisitaActual();
@@ -67,6 +72,34 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const productosConUnidades = venta.productos.filter((producto) => {
 		return producto.unidades > 0 || producto.subUnidades > 0;
 	});
+	const [tarjetasValidas, setTarjetasValidas] = React.useState<StateProps>({
+		venta: false,
+		promociones: false,
+	});
+
+	React.useEffect(() => {
+		if (
+			venta.productos.some(
+				(producto) => producto.unidades > 0 || producto.subUnidades > 0
+			)
+		) {
+			setTarjetasValidas({...tarjetasValidas, venta: true});
+		}
+
+		if (
+			venta.productos.some(
+				(producto) =>
+					(producto.unidades > 0 || producto.subUnidades > 0) &&
+					producto.promoPush
+			)
+		) {
+			setTarjetasValidas({venta: true, promociones: true});
+		}
+
+		return () => {
+			setTarjetasValidas({venta: false, promociones: false});
+		};
+	}, [venta.productos]);
 
 	return (
 		<Stack spacing={2}>
@@ -81,6 +114,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				cantidadItems={productosConUnidades.length}
+				valido={tarjetasValidas.venta}
 			>
 				<TomaPedido />
 			</TarjetaColapsable>
@@ -95,6 +129,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				}
 				expandido={expandido}
 				setExpandido={setExpandido}
+				valido={tarjetasValidas.promociones}
 			>
 				<PromoPush />
 			</TarjetaColapsable>

@@ -239,6 +239,7 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 
 				{pedidosEnvasesHabilitados?.map((tipoPedido) => (
 					<InputTipoPedido
+						key={tipoPedido?.codigo}
 						tipoPedido={tipoPedido}
 						stateTipoEnvases={{valoresEnvase, setValoresEnvase}}
 						cambioUnidadesPorTipoPedido={cambioUnidadesPorTipoPedido}
