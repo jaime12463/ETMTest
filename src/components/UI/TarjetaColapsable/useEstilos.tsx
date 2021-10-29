@@ -1,12 +1,18 @@
 import {makeStyles, createStyles} from '@material-ui/styles';
-import {Theme} from '@mui/material';
+import theme from 'theme';
 
-const useEstilos = makeStyles((theme: Theme) =>
+interface Props {
+	valido: boolean;
+}
+
+const useEstilos = makeStyles(() =>
 	createStyles({
 		root: {
 			'&.MuiCard-root': {
 				background: '#FFFFFF',
 				boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.25)',
+				border: (props: Props) =>
+					props.valido ? `1px solid ${theme.palette.success.main}` : 'none',
 				borderRadius: '8px',
 				padding: '16px 18px',
 			},

@@ -67,6 +67,37 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const productosConUnidades = venta.productos.filter((producto) => {
 		return producto.unidades > 0 || producto.subUnidades > 0;
 	});
+	const [ventaValida, setVentaValida] = React.useState<boolean>(false);
+	const [promocionesValida, setPromocionesValida] =
+		React.useState<boolean>(false);
+
+	React.useEffect(() => {
+		if (
+			venta.productos.some(
+				(producto) => producto.unidades > 0 || producto.subUnidades > 0
+			)
+		) {
+			setVentaValida(true);
+		} else {
+			setVentaValida(false);
+		}
+
+		if (
+			venta.productos.some(
+				(producto) =>
+					(producto.unidades > 0 || producto.subUnidades > 0) &&
+					producto.promoPush
+			)
+		) {
+			setPromocionesValida(true);
+		} else {
+			setPromocionesValida(false);
+		}
+		return () => {
+			setVentaValida(false);
+			setPromocionesValida(false);
+		};
+	}, [venta.productos]);
 
 	return (
 		<Stack spacing={2}>
@@ -81,6 +112,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				cantidadItems={productosConUnidades.length}
+				valido={ventaValida}
 			>
 				<TomaPedido />
 			</TarjetaColapsable>
@@ -95,6 +127,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				}
 				expandido={expandido}
 				setExpandido={setExpandido}
+				valido={promocionesValida}
 			>
 				<PromoPush />
 			</TarjetaColapsable>

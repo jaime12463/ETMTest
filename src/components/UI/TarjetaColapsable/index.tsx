@@ -35,6 +35,7 @@ type Props = {
 	cantidadItems?: number;
 	disabled?: boolean;
 	mensaje?: React.ReactNode;
+	valido?: boolean;
 };
 
 export const TarjetaColapsable: React.FC<Props> = ({
@@ -47,6 +48,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 	cantidadItems,
 	disabled,
 	mensaje,
+	valido = false,
 }) => {
 	const manejadorExpandido =
 		({id}: any) =>
@@ -54,7 +56,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 			setExpandido(id);
 		};
 
-	const classes = useEstilos();
+	const classes = useEstilos({valido});
 
 	return (
 		<>
