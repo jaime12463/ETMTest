@@ -21,13 +21,6 @@ import {cambiarTipoPedidoActual} from 'redux/features/visitaActual/visitaActualS
 import {CompromisoDeCobro} from 'pages';
 import {useObtenerHabilitaCanje} from './hooks/useObtenerHabilitaCanje';
 
-interface StateProps {
-	envases: boolean;
-	canjes: boolean;
-	ordenDeCompra: boolean;
-	compromisoDeCobro: boolean;
-}
-
 export const Otros: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
 	const {t} = useTranslation();
@@ -47,14 +40,16 @@ export const Otros: React.FC = () => {
 	});
 	const habilitaCanje = useObtenerHabilitaCanje();
 	const dispatch = useAppDispatch();
-	const [tarjetasValidas, setTarjetasValidas] = React.useState<StateProps>({
-		envases: false,
-		canjes: false,
-		compromisoDeCobro: false,
-		ordenDeCompra: false,
-	});
+	const [envasesValido, setEnvasesValido] = React.useState<boolean>(false);
+	const [canjeValido, setCanjeValido] = React.useState<boolean>(false);
+	const [compromisoDeCobroValido, setCompromisoDeCobroValido] =
+		React.useState<boolean>(false);
+	const [ordenDeCompraValido, setOrdenDeCompraValido] =
+		React.useState<boolean>(false);
 
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
+
+	console.log(visitaActual.pedidos.canje);
 
 	React.useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'canje'}));
@@ -66,26 +61,44 @@ export const Otros: React.FC = () => {
 			ventaenvase.productos.length > 0 ||
 			prestamoenvase.productos.length > 0
 		) {
-			setTarjetasValidas({...tarjetasValidas, envases: true});
+			setEnvasesValido(true);
+		} else {
+			setEnvasesValido(false);
+		}
+
+		if (
+			canje.productos.some(
+				(producto) =>
+					producto.catalogoMotivo !== '' &&
+					(producto.unidades > 0 || producto.subUnidades > 0)
+			)
+		) {
+			setCanjeValido(true);
+		} else {
+			setCanjeValido(false);
 		}
 
 		if (compromisoDeCobroActual.monto > 0) {
-			setTarjetasValidas({...tarjetasValidas, compromisoDeCobro: true});
+			setCompromisoDeCobroValido(true);
+		} else {
+			setCompromisoDeCobroValido(false);
 		}
 
 		if (visitaActual.ordenDeCompra !== '') {
-			setTarjetasValidas({...tarjetasValidas, ordenDeCompra: true});
+			setOrdenDeCompraValido(true);
+		} else {
+			setOrdenDeCompraValido(false);
 		}
 
-		return () =>
-			setTarjetasValidas({
-				envases: false,
-				canjes: false,
-				compromisoDeCobro: false,
-				ordenDeCompra: false,
-			});
+		return () => {
+			setCanjeValido(false);
+			setEnvasesValido(false);
+			setCompromisoDeCobroValido(false);
+			setOrdenDeCompraValido(false);
+		};
 	}, [
 		ventaenvase.productos,
+		canje.productos,
 		prestamoenvase.productos,
 		compromisoDeCobroActual.monto,
 		visitaActual.ordenDeCompra,
@@ -105,7 +118,7 @@ export const Otros: React.FC = () => {
 				id='tarjetaEnvases'
 				expandido={expandido}
 				setExpandido={setExpandido}
-				valido={tarjetasValidas.envases}
+				valido={envasesValido}
 			>
 				<EnvasesRetornables />
 			</TarjetaColapsable>
@@ -132,7 +145,7 @@ export const Otros: React.FC = () => {
 						No hay disponibilidad de canje para este cliente en este momento
 					</Typography>
 				}
-				valido={tarjetasValidas.canjes}
+				valido={canjeValido}
 			>
 				<Canjes />
 			</TarjetaColapsable>
@@ -151,7 +164,7 @@ export const Otros: React.FC = () => {
 					id='compromisoCobro'
 					expandido={expandido}
 					setExpandido={setExpandido}
-					valido={tarjetasValidas.compromisoDeCobro}
+					valido={compromisoDeCobroValido}
 				>
 					<CompromisoDeCobro />
 				</TarjetaColapsable>
@@ -171,7 +184,7 @@ export const Otros: React.FC = () => {
 					id='titulos.tarjetaEnvases'
 					expandido={expandido}
 					setExpandido={setExpandido}
-					valido={tarjetasValidas.ordenDeCompra}
+					valido={ordenDeCompraValido}
 				>
 					<OrdenDeCompra />
 				</TarjetaColapsable>

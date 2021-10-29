@@ -60,11 +60,6 @@ import {
 import TomaPedido from './TomaPedidos';
 import PromoPush from './PromoPush';
 
-interface StateProps {
-	venta: boolean;
-	promociones: boolean;
-}
-
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<boolean | string>(false);
 	const visitaActual = useObtenerVisitaActual();
@@ -72,10 +67,9 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const productosConUnidades = venta.productos.filter((producto) => {
 		return producto.unidades > 0 || producto.subUnidades > 0;
 	});
-	const [tarjetasValidas, setTarjetasValidas] = React.useState<StateProps>({
-		venta: false,
-		promociones: false,
-	});
+	const [ventaValida, setVentaValida] = React.useState<boolean>(false);
+	const [promocionesValida, setPromocionesValida] =
+		React.useState<boolean>(false);
 
 	React.useEffect(() => {
 		if (
@@ -83,7 +77,9 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				(producto) => producto.unidades > 0 || producto.subUnidades > 0
 			)
 		) {
-			setTarjetasValidas({...tarjetasValidas, venta: true});
+			setVentaValida(true);
+		} else {
+			setVentaValida(false);
 		}
 
 		if (
@@ -93,11 +89,13 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 					producto.promoPush
 			)
 		) {
-			setTarjetasValidas({venta: true, promociones: true});
+			setPromocionesValida(true);
+		} else {
+			setPromocionesValida(false);
 		}
-
 		return () => {
-			setTarjetasValidas({venta: false, promociones: false});
+			setVentaValida(false);
+			setPromocionesValida(false);
 		};
 	}, [venta.productos]);
 
@@ -114,7 +112,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				cantidadItems={productosConUnidades.length}
-				valido={tarjetasValidas.venta}
+				valido={ventaValida}
 			>
 				<TomaPedido />
 			</TarjetaColapsable>
@@ -129,7 +127,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				}
 				expandido={expandido}
 				setExpandido={setExpandido}
-				valido={tarjetasValidas.promociones}
+				valido={promocionesValida}
 			>
 				<PromoPush />
 			</TarjetaColapsable>
