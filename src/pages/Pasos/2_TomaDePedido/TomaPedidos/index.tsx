@@ -386,8 +386,6 @@ const Derecha: React.FC<DerechaProps> = ({
 		}
 	};
 
-	console.log(configuracionPedido?.cantidadMaximaUnidades);
-
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}

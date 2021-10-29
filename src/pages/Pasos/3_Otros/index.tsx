@@ -33,13 +33,14 @@ export const Otros: React.FC = () => {
 		useObtenerProductosMandatoriosVisitaActual();
 
 	const calcularPresupuestoTipoPedido = useCalcularPresupuestoTipoPedido();
-	const saldoPresupuestoTipoPedido = calcularPresupuestoTipoPedido('canje');
 
 	const productosEnCanjeConUnidades = canje.productos.filter((producto) => {
 		return producto.catalogoMotivo !== '';
 	});
 	const habilitaCanje = useObtenerHabilitaCanje();
 	const dispatch = useAppDispatch();
+	const [saldoPresupuestoTipoPedido, setSaldoPresupuestoTipoPedido] =
+		React.useState<number | undefined>();
 	const [envasesValido, setEnvasesValido] = React.useState<boolean>(false);
 	const [canjeValido, setCanjeValido] = React.useState<boolean>(false);
 	const [compromisoDeCobroValido, setCompromisoDeCobroValido] =
@@ -49,11 +50,9 @@ export const Otros: React.FC = () => {
 
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 
-	console.log(visitaActual.pedidos.canje);
-
 	React.useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'canje'}));
-		calcularPresupuestoTipoPedido('canje');
+		setSaldoPresupuestoTipoPedido(calcularPresupuestoTipoPedido('canje'));
 	}, []);
 
 	React.useEffect(() => {
@@ -137,7 +136,7 @@ export const Otros: React.FC = () => {
 				cantidadItems={productosEnCanjeConUnidades.length}
 				disabled={
 					!habilitaCanje ||
-					saldoPresupuestoTipoPedido < 1 ||
+					(saldoPresupuestoTipoPedido && saldoPresupuestoTipoPedido < 1) ||
 					productosMandatoriosVisitaActual.mandatorios.length < 1
 				}
 				mensaje={

@@ -15,8 +15,6 @@ export const useMostrarAviso = () => {
 		textoBotones?: BotonesProps,
 		dataCy?: string
 	) => {
-		console.log('mensaje', mensaje);
-
 		return enqueueSnackbar(
 			JSON.stringify({titulo, mensaje, tipo, textoBotones, dataCy}),
 			{
