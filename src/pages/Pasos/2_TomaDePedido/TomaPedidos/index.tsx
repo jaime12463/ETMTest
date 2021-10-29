@@ -118,24 +118,31 @@ const TomaPedido: React.FC = () => {
 
 	React.useEffect(() => {
 		if (productoActual !== null) {
-			dispatch(
-				agregarProductoDelPedidoActual({
-					productoPedido: {
-						...productoActual,
-						unidades: 0,
-						subUnidades: 0,
-						total:
-							productoActual.precioConImpuestoUnidad * 0 +
-							productoActual.precioConImpuestoSubunidad * 0,
-						tipoPago: clienteActual.tipoPagoActual,
-						catalogoMotivo,
-					},
-				})
+			const productoEnPedido = venta.productos.find(
+				(producto) => producto.codigoProducto === productoActual.codigoProducto
 			);
 
+			if (!productoEnPedido) {
+				dispatch(
+					agregarProductoDelPedidoActual({
+						productoPedido: {
+							...productoActual,
+							unidades: 0,
+							subUnidades: 0,
+							total:
+								productoActual.precioConImpuestoUnidad * 0 +
+								productoActual.precioConImpuestoSubunidad * 0,
+							tipoPago: clienteActual.tipoPagoActual,
+							catalogoMotivo,
+						},
+					})
+				);
+			}
 			setFocusId(productoActual.codigoProducto);
+			setProductoActual(null);
 		}
 	}, [productoActual?.codigoProducto]);
+
 	const manejadorConfirmarEliminarPedidos = (oprimioBotonAceptar: boolean) => {
 		if (oprimioBotonAceptar) {
 			borrarTodosLosProductos();
