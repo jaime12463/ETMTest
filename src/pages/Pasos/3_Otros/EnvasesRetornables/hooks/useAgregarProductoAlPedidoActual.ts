@@ -33,6 +33,8 @@ export const useAgregarProductoAlPedidoActual = () => {
 
 			const {codigoProducto} = productoActual;
 
+			console.log(unidades, subUnidades);
+
 			if (unidades > 0 || subUnidades > 0) {
 				dispatch(
 					agregarEnvaseDelPedidoActual({
@@ -50,7 +52,12 @@ export const useAgregarProductoAlPedidoActual = () => {
 					})
 				);
 			} else {
-				dispatch(borrarProductoDelPedidoActual({codigoProducto}));
+				dispatch(
+					borrarProductoDelPedidoActual({
+						codigoProducto,
+						codigoTipoPedidoActual,
+					})
+				);
 			}
 		},
 		[dispatch]

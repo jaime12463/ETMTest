@@ -3,12 +3,13 @@ import {styled} from '@mui/material/styles';
 import {InputTipoPedido} from '../../..';
 import caja from 'assests/iconos/caja.svg';
 import botella from 'assests/iconos/botella.svg';
-import {FunctionComponent, useState} from 'react';
+import {FunctionComponent, useEffect, useState} from 'react';
 import {TConsolidadoImplicitos, TPrecioProducto, TTipoPedido} from 'models';
 import {useAgregarProductoAlPedidoActual} from '../../../../hooks/useAgregarProductoAlPedidoActual';
 import {useMostrarAdvertenciaEnDialogo, useMostrarAviso} from 'hooks';
 import {useTranslation} from 'react-i18next';
 import {Dialogo} from 'components/UI';
+import {useObtenerVisitaActual} from 'redux/hooks';
 
 const InputStyled = styled(Input)(({theme}) => ({
 	borderRadius: '4px',
@@ -26,14 +27,25 @@ type Props = {
 	stateTipoEnvases: any;
 	envase: TConsolidadoImplicitos;
 	productoEnvase: TPrecioProducto | undefined;
+	productoPedido: any;
 };
 
 const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
-	const {pedidosEnvasesHabilitados, stateTipoEnvases, envase, productoEnvase} =
-		props;
+	const {
+		pedidosEnvasesHabilitados,
+		stateTipoEnvases,
+		envase,
+		productoEnvase,
+		productoPedido,
+	} = props;
 
 	const {valoresEnvase, setValoresEnvase} = stateTipoEnvases;
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual();
+
+	const [datosActual, setDatosActual] = useState({
+		venta: {unidades: 0, subUnidades: 0},
+		prestamo: {unidades: 0, subUnidades: 0},
+	});
 
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
@@ -52,6 +64,13 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 		unidades: unidadesIniciales,
 		subUnidades: subUnidadesIniciales,
 	});
+
+	useEffect(() => {
+		setRetorno({
+			unidades: unidadesIniciales - productoPedido.unidades,
+			subUnidades: subUnidadesIniciales - productoPedido.subUnidades,
+		});
+	}, [productoPedido]);
 
 	const mostrarAviso = useMostrarAviso();
 
@@ -72,7 +91,7 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 				setRetorno({
 					...retorno,
 					unidades: Number(
-						unidadesIniciales -
+						retorno.unidades -
 							totalUnidadesTiposEnvase.unidades -
 							unidadesIngresadas
 					),
@@ -88,15 +107,15 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 					subUnidades: envaseActual.subUnidades,
 				});
 
-				//console.log(newEnvases);
-
 				setValoresEnvase(newEnvases);
 
 				unidadesPermitidas = true;
 
+				console.log(codigoTipoPedidoActual);
+
 				agregarProductoAlPedidoActual(
 					productoEnvase,
-					unidadesIngresadas,
+					Number(unidadesIngresadas),
 					envaseActual.subUnidades,
 					envase.tipoPago,
 					codigoTipoPedidoActual
@@ -133,7 +152,7 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 				setRetorno({
 					...retorno,
 					subUnidades: Number(
-						unidadesIniciales -
+						retorno.subUnidades -
 							totalSubUnidadesTiposEnvase.subUnidades -
 							subUnidadesIngresadas
 					),
@@ -149,16 +168,14 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 					subUnidades: Number(subUnidadesIngresadas),
 				});
 
-				//console.log(newEnvases);
-
 				setValoresEnvase(newEnvases);
 
 				unidadesPermitidas = true;
 
 				agregarProductoAlPedidoActual(
 					productoEnvase,
-					subUnidadesIngresadas,
-					envaseActual.subUnidades,
+					envaseActual.unidades,
+					Number(subUnidadesIngresadas),
 					envase.tipoPago,
 					codigoTipoPedidoActual
 				);
@@ -241,9 +258,12 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 					<InputTipoPedido
 						key={tipoPedido?.codigo}
 						tipoPedido={tipoPedido}
+						productoEnvase={productoEnvase}
 						stateTipoEnvases={{valoresEnvase, setValoresEnvase}}
+						stateRetorno={{retorno, setRetorno}}
 						cambioUnidadesPorTipoPedido={cambioUnidadesPorTipoPedido}
 						cambioSubUnidadesPorTipoPedido={cambioSubUnidadesPorTipoPedido}
+						stateDatosActual={{datosActual, setDatosActual}}
 					/>
 				))}
 			</Grid>
