@@ -8,7 +8,7 @@ Característica: Ejecutar iniciativa
     Para incorporar los productos al pedido
 
 Escenario: N°1 - Agregar producto de la iniciativa al pedido
-    Dado que se ingresó
+    Dado que se ingresó al paso 1 - planeación del cliente
     Y se desplegó la tarjeta iniciativas
     Y se desplegó el detalle de una iniciativa
     Y no tiene estado
@@ -21,7 +21,7 @@ Escenario: N°1 - Agregar producto de la iniciativa al pedido
 # Los indicadores se deberán actualizar ya que se está agregando el producto de la iniciativa al pedido de venta. 
 
 Escenario: N°2 - Iniciativa con estado Cancelada
-    Dado que se ingresó
+    Dado que se ingresó al paso 1 - planeación del cliente
     Y se desplegó la tarjeta iniciativas
     Y se desplegó el detalle de una iniciativa
     Y tiene estado cancelada
