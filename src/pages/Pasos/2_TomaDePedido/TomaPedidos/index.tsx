@@ -85,10 +85,6 @@ const TomaPedido: React.FC = () => {
 
 	const [focusId, setFocusId] = React.useState(0);
 
-	React.useEffect(() => {
-		dispatch(cambiarTipoPedidoActual({tipoPedido: 'venta'}));
-	}, []);
-
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
 

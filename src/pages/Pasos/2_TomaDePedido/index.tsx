@@ -47,6 +47,7 @@ import {
 } from 'hooks';
 import {
 	cambiarOrdenDeCompra,
+	cambiarTipoPedidoActual,
 	selectVisitaActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {
@@ -70,6 +71,12 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const [ventaValida, setVentaValida] = React.useState<boolean>(false);
 	const [promocionesValida, setPromocionesValida] =
 		React.useState<boolean>(false);
+
+	const dispatch = useAppDispatch();
+
+	React.useEffect(() => {
+		dispatch(cambiarTipoPedidoActual({tipoPedido: 'venta'}));
+	}, []);
 
 	React.useEffect(() => {
 		if (
