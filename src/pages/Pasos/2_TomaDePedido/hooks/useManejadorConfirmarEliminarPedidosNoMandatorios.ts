@@ -23,14 +23,15 @@ export const useManejadorConfirmarEliminarPedidosNoMandatorios = (
 						})
 					);
 				});
-
-				if (codigoProductoActual) {
+				if (codigoProductoActual !== undefined) {
 					dispatch(
 						borrarProductoDelPedidoActual({
 							codigoProducto: codigoProductoActual,
 						})
 					);
-				} else if (productos) {
+				}
+				if (productos) {
+					console.log(productos);
 					for (const producto of productos) {
 						borrarProductoDelPedidoActual({
 							codigoProducto: producto.codigoProducto,
@@ -39,7 +40,7 @@ export const useManejadorConfirmarEliminarPedidosNoMandatorios = (
 				}
 			}
 		},
-		[noMandatorios]
+		[noMandatorios, productos, codigoProductoActual]
 	);
 
 	return manejadorConfirmarEliminarPedidosNoMandatorios;

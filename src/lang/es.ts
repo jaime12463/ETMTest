@@ -115,6 +115,8 @@ const es = {
 			'La cantidad excede a las disponibles para retorno',
 		borrarTodosTomaPedido:
 			'¿Quieres Borrar todos los productos?. Todos los productos seleccionados se borraran de la toma de pedido',
+		borrarPromosPush:
+			'¿Quieres Borrar todos los productos?. Todos los productos seleccionados se borraran de Promociones',
 	},
 	pasos: {
 		planeacion: 'Planeación',

@@ -73,6 +73,8 @@ const TextStyled = styled(Typography)(() => ({
 }));
 
 const TomaPedido: React.FC = () => {
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+		useMostrarAdvertenciaEnDialogo();
 	const {t} = useTranslation();
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
@@ -84,9 +86,6 @@ const TomaPedido: React.FC = () => {
 		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
 
 	const [focusId, setFocusId] = React.useState(0);
-
-	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
-		useMostrarAdvertenciaEnDialogo();
 
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
@@ -107,10 +106,7 @@ const TomaPedido: React.FC = () => {
 	const catalogoMotivo = '';
 	const classes = useEstilos();
 
-	const borrarTodosLosProductos = useBorrarTodoLosProductos(
-		mostrarAdvertenciaEnDialogo,
-		venta.productos
-	);
+	const borrarTodosLosProductos = useBorrarTodoLosProductos(venta.productos);
 
 	React.useEffect(() => {
 		if (productoActual !== null) {
