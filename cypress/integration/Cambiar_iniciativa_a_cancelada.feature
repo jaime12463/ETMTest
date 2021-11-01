@@ -15,7 +15,7 @@ Escenario: N°1 - Cancelar una iniciativa
     Entonces el sistema marcará en rojo la tarjeta de esa iniciativa
     Y mostrará la leyenda pendiente en rojo
     Y establecerá las unidades y subunidades en sus valores iniciales
-    Y mostrará el combo de motivos ordenados alfabeticamente.
+    Y mostrará el combo de _motivosCancelacionIniciativas ordenados alfabeticamente.
 
 Escenario: N°2 - Selección de motivo
     Dado que el estado de la iniciativa es cancelada
