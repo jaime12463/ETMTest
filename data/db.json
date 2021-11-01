@@ -344,7 +344,7 @@
 				]
 			},
 			"configuracionPedido": {
-			   "canjeHabilitado": true,
+				"canjeHabilitado": true,
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -683,6 +683,114 @@
 							"vigenciaFinPrecio": "9999-12-31"
 						}
 					]
+				},
+				{
+					"codigoProducto": 10020,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 90.0,
+							"precioConImpuestoSubunidad": 18.4,
+							"descuento": 15.0,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "9999-12-31",
+							"componentes": [
+								{
+									"codigoProducto": 97165,
+									"precioBase": 35,
+									"descuento": 5.0,
+									"precioFinal": 30.0
+								},
+								{
+									"codigoProducto": 97166,
+									"precioBase": 35,
+									"descuento": 5.0,
+									"precioFinal": 30.0
+								},
+								{
+									"codigoProducto": 97168,
+									"precioBase": 35,
+									"descuento": 5.0,
+									"precioFinal": 30.0
+								}
+							]
+						}
+					]
+				},
+				{
+					"codigoProducto": 10030,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 180.0,
+							"precioConImpuestoSubunidad": 18.4,
+							"descuento": 48.0,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "9999-12-31",
+							"componentes": [
+								{
+									"codigoProducto": 97370,
+									"precioBase": 70,
+									"descuento": 10.0,
+									"precioFinal": 60.0
+								},
+								{
+									"codigoProducto": 97371,
+									"precioBase": 110,
+									"descuento": 30.0,
+									"precioFinal": 80.0
+								},
+								{
+									"codigoProducto": 97372,
+									"precioBase": 48,
+									"descuento": 8.0,
+									"precioFinal": 40.0
+								}
+							]
+						}
+					]
+				},
+				{
+					"codigoProducto": 10040,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 500.0,
+							"precioConImpuestoSubunidad": 100.0,
+							"descuento": 68.0,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "9999-12-31",
+							"componentes": [
+								{
+									"codigoProducto": 97317,
+									"precioBase": 90,
+									"descuento": 25.0,
+									"precioFinal": 65.0
+								},
+								{
+									"codigoProducto": 97318,
+									"precioBase": 190,
+									"descuento": 15.0,
+									"precioFinal": 175.0
+								},
+								{
+									"codigoProducto": 97319,
+									"precioBase": 180,
+									"descuento": 8.0,
+									"precioFinal": 172.0
+								},
+								{
+									"codigoProducto": 97321,
+									"precioBase": 60,
+									"descuento": 20.0,
+									"precioFinal": 40.0
+								}
+							]
+						}
+					]
 				}
 			]
 		},
@@ -736,7 +844,7 @@
 				]
 			},
 			"configuracionPedido": {
-			"canjeHabilitado": true,
+				"canjeHabilitado": true,
 				"ventaMinima": {
 					"montoVentaMinima": 1000,
 					"cumplimientoPorFecha": [
@@ -973,6 +1081,114 @@
 							"precioConImpuestoSubunidad": 8.75,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
+					"codigoProducto": 10020,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 90.0,
+							"precioConImpuestoSubunidad": 18.4,
+							"descuento": 15.0,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "9999-12-31",
+							"componentes": [
+								{
+									"codigoProducto": 97165,
+									"precioBase": 35,
+									"descuento": 5.0,
+									"precioFinal": 30.0
+								},
+								{
+									"codigoProducto": 97166,
+									"precioBase": 35,
+									"descuento": 5.0,
+									"precioFinal": 30.0
+								},
+								{
+									"codigoProducto": 97168,
+									"precioBase": 35,
+									"descuento": 5.0,
+									"precioFinal": 30.0
+								}
+							]
+						}
+					]
+				},
+				{
+					"codigoProducto": 10030,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 180.0,
+							"precioConImpuestoSubunidad": 18.4,
+							"descuento": 48.0,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "9999-12-31",
+							"componentes": [
+								{
+									"codigoProducto": 97370,
+									"precioBase": 70,
+									"descuento": 10.0,
+									"precioFinal": 60.0
+								},
+								{
+									"codigoProducto": 97371,
+									"precioBase": 110,
+									"descuento": 30.0,
+									"precioFinal": 80.0
+								},
+								{
+									"codigoProducto": 97372,
+									"precioBase": 48,
+									"descuento": 8.0,
+									"precioFinal": 40.0
+								}
+							]
+						}
+					]
+				},
+				{
+					"codigoProducto": 10040,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 500.0,
+							"precioConImpuestoSubunidad": 100.0,
+							"descuento": 68.0,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "9999-12-31",
+							"componentes": [
+								{
+									"codigoProducto": 97317,
+									"precioBase": 90,
+									"descuento": 25.0,
+									"precioFinal": 65.0
+								},
+								{
+									"codigoProducto": 97318,
+									"precioBase": 190,
+									"descuento": 15.0,
+									"precioFinal": 175.0
+								},
+								{
+									"codigoProducto": 97319,
+									"precioBase": 180,
+									"descuento": 8.0,
+									"precioFinal": 172.0
+								},
+								{
+									"codigoProducto": 97321,
+									"precioBase": 60,
+									"descuento": 20.0,
+									"precioFinal": 40.0
+								}
+							]
 						}
 					]
 				}
@@ -1287,7 +1503,7 @@
 						}
 					]
 				},
-								{
+				{
 					"codigoProducto": 1001,
 					"esVentaSubunidades": true,
 					"precios": [
@@ -1305,7 +1521,7 @@
 						}
 					]
 				},
-				 {
+				{
 					"codigoProducto": 1020,
 					"esVentaSubunidades": true,
 					"precios": [
@@ -1320,6 +1536,114 @@
 							"precioConImpuestoSubunidad": 5,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
+					"codigoProducto": 10020,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 90.0,
+							"precioConImpuestoSubunidad": 18.4,
+							"descuento": 15.0,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "9999-12-31",
+							"componentes": [
+								{
+									"codigoProducto": 97165,
+									"precioBase": 35,
+									"descuento": 5.0,
+									"precioFinal": 30.0
+								},
+								{
+									"codigoProducto": 97166,
+									"precioBase": 35,
+									"descuento": 5.0,
+									"precioFinal": 30.0
+								},
+								{
+									"codigoProducto": 97168,
+									"precioBase": 35,
+									"descuento": 5.0,
+									"precioFinal": 30.0
+								}
+							]
+						}
+					]
+				},
+				{
+					"codigoProducto": 10030,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 180.0,
+							"precioConImpuestoSubunidad": 18.4,
+							"descuento": 48.0,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "9999-12-31",
+							"componentes": [
+								{
+									"codigoProducto": 97370,
+									"precioBase": 70,
+									"descuento": 10.0,
+									"precioFinal": 60.0
+								},
+								{
+									"codigoProducto": 97371,
+									"precioBase": 110,
+									"descuento": 30.0,
+									"precioFinal": 80.0
+								},
+								{
+									"codigoProducto": 97372,
+									"precioBase": 48,
+									"descuento": 8.0,
+									"precioFinal": 40.0
+								}
+							]
+						}
+					]
+				},
+				{
+					"codigoProducto": 10040,
+					"esVentaSubunidades": false,
+					"unidadesDisponibles": 10,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 500.0,
+							"precioConImpuestoSubunidad": 100.0,
+							"descuento": 68.0,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "9999-12-31",
+							"componentes": [
+								{
+									"codigoProducto": 97317,
+									"precioBase": 90,
+									"descuento": 25.0,
+									"precioFinal": 65.0
+								},
+								{
+									"codigoProducto": 97318,
+									"precioBase": 190,
+									"descuento": 15.0,
+									"precioFinal": 175.0
+								},
+								{
+									"codigoProducto": 97319,
+									"precioBase": 180,
+									"descuento": 8.0,
+									"precioFinal": 172.0
+								},
+								{
+									"codigoProducto": 97321,
+									"precioBase": 60,
+									"descuento": 20.0,
+									"precioFinal": 40.0
+								}
+							]
 						}
 					]
 				}
@@ -1550,7 +1874,166 @@
 			"implicito1": 1001,
 			"implicito2": 1020,
 			"tipoProducto": 1
-		}
+		},
+		{
+			"codigoProducto": 10020,
+			"nombre": "10020-PJ COMBO_DV ALUMINIO DZN MZN MGO",
+			"presentacion": 1,
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 9,
+			"promoPush": {
+				"codigoPromocion": 5688,
+				"componentes": [
+					{
+						"codigoProducto": 97165,
+						"cantidad": 1,
+						"unidadMedida": "CAJ"
+					},
+					{
+						"codigoProducto": 97166,
+						"cantidad": 1,
+						"unidadMedida": "CAJ"
+					},
+					{
+						"codigoProducto": 97168,
+						"cantidad": 1,
+						"unidadMedida": "CAJ"
+					}
+				]
+			}
+		},
+		{
+			"codigoProducto": 97165,
+			"nombre": "DV Aluminio Dzn 335ml 6pk",
+			"presentacion": 6,
+			"subunidadesVentaMinima": 3,
+			"implicito1": 171123,
+			"implicito2": 170445,
+			"tipoProducto": 1
+		},
+		{
+			"codigoProducto": 97166,
+			"nombre": "DV Aluminio Mzn 335ml 6pk",
+			"presentacion": 6,
+			"subunidadesVentaMinima": 3,
+			"implicito1": 171123,
+			"implicito2": 170445,
+			"tipoProducto": 1
+		},
+		{
+			"codigoProducto": 97168,
+			"nombre": "DV Aluminio Mgo 335ml 6pk",
+			"presentacion": 6,
+			"subunidadesVentaMinima": 3,
+			"implicito1": 171123,
+			"implicito2": 170445,
+			"tipoProducto": 1
+		},
+		{
+			"codigoProducto": 171123,
+			"nombre": "ENVASE SIDRAL M 1\/2 24PACK",
+			"presentacion": 24,
+			"subunidadesVentaMinima": 12,
+			"tipoProducto": 5
+		},
+		{
+			"codigoProducto": 10030,
+			"nombre": "10030-PJ COMBO MINIBRICK JUGOS MZN MZN MGO",
+			"presentacion": 1,
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 9,
+			"promoPush": {
+				"codigoPromocion": 5698,
+				"componentes": [
+					{
+						"codigoProducto": 97370,
+						"cantidad": 1,
+						"unidadMedida": "CAJ"
+					},
+					{
+						"codigoProducto": 97371,
+						"cantidad": 1,
+						"unidadMedida": "CAJ"
+					},
+					{
+						"codigoProducto": 97372,
+						"cantidad": 1,
+						"unidadMedida": "CAJ"
+					}
+				]
+			}
+		},
+		{
+			"codigoProducto": 97370,
+			"nombre": "MINIBRICK JUGO MANZANA 250 ML 8PK",
+			"presentacion": 8,
+			"subunidadesVentaMinima": 4
+		},
+		{
+			"codigoProducto": 97371,
+			"nombre": "MINIBRICK MANZANA 250 ML 8PK",
+			"presentacion": 8,
+			"subunidadesVentaMinima": 4
+		},
+		{
+			"codigoProducto": 97372,
+			"nombre": "MINIBRICK MANGO 250 ML 8PK",
+			"presentacion": 8,
+			"subunidadesVentaMinima": 4
+		},
+		{
+			"codigoProducto": 10040,
+			"nombre": "10040-PJ COMBO FRUTSI  MGO MZN UVA PCHE",
+			"presentacion": 1,
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 9,
+			"promoPush": {
+				"codigoPromocion": 5700,
+				"componentes": [
+					{
+						"codigoProducto": 97317,
+						"cantidad": 1,
+						"unidadMedida": "CAJ"
+					},
+					{
+						"codigoProducto": 97318,
+						"cantidad": 1,
+						"unidadMedida": "CAJ"
+					},
+					{
+						"codigoProducto": 97319,
+						"cantidad": 1,
+						"unidadMedida": "CAJ"
+					},
+					{
+						"codigoProducto": 97321,
+						"cantidad": 1,
+						"unidadMedida": "CAJ"
+					}
+
+				]
+			}
+		}, {
+            "codigoProducto": 97317,
+            "nombre": "FRUTSI MANGO 250ML 6PK",
+            "presentacion": 6,
+            "subunidadesVentaMinima": 3
+        }, {
+            "codigoProducto": 97318,
+            "nombre": "FRUTSI MANZANA 250 ML 6PK",
+            "presentacion": 6,
+            "subunidadesVentaMinima": 3
+        }, {
+            "codigoProducto": 97319,
+            "nombre": "FRUTSI UVA 250 ML 6PK",
+            "presentacion": 6,
+            "subunidadesVentaMinima": 3
+        }, {
+            "codigoProducto": 97321,
+            "nombre": "FRUTSI PONCHE FRUTAS 250ML 6PK",
+            "presentacion": 6,
+            "subunidadesVentaMinima": 3
+        }
 	],
 	"presupuestoTipoPedido": [
 		{
@@ -1559,7 +2042,10 @@
 			"vigenciaInicioPresupuesto": "2021-06-01",
 			"vigenciaFinPresupuesto": "9999-12-31",
 			"tieneProductosHabilitados": true,
-			"productosHabilitados": [340, 365]
+			"productosHabilitados": [
+				340,
+				365
+			]
 		}
 	]
 }
