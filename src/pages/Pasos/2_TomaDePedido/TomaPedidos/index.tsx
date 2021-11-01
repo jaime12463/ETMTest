@@ -16,7 +16,10 @@ import {
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {useForm} from 'react-hook-form';
-import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
+import {
+	useInicializarPreciosProductosDelClienteActual,
+	useMostrarAviso,
+} from 'hooks';
 import {
 	agregarProductoDelPedidoActual,
 	borrarProductoDelPedidoActual,
@@ -317,6 +320,8 @@ const Derecha: React.FC<DerechaProps> = ({
 		getValues,
 		setGetValues
 	);
+	const {t} = useTranslation();
+	const mostrarAviso = useMostrarAviso();
 
 	React.useEffect(() => {
 		if (puedeAgregar) {
@@ -333,6 +338,24 @@ const Derecha: React.FC<DerechaProps> = ({
 		return () => setMostrarAcciones(false);
 	}, [getValues.unidades, getValues.subUnidades]);
 
+	const validacionSubUnidades = () => {
+		if (getValues.subUnidades % producto.subunidadesVentaMinima === 0) {
+			return (
+				agregarProductoAlPedidoActual(getValues),
+				setFocusId(0),
+				setInputFocus('productoABuscar')
+			);
+		}
+
+		mostrarAviso(
+			'error',
+			t('advertencias.subUnidadesNoMultiplo', {
+				subunidadesVentaMinima: producto.subunidadesVentaMinima,
+			})
+		);
+		setGetValues({...getValues, subUnidades: producto.subunidadesVentaMinima});
+	};
+
 	const handleOnChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
@@ -341,17 +364,19 @@ const Derecha: React.FC<DerechaProps> = ({
 			[e.target.name]: e.target.value.replace(/[^0-9]/g, ''),
 		});
 		setFocusId(producto.codigoProducto);
-		setPuedeAgregar(true);
+
+		if (e.target.name === 'unidades') {
+			setPuedeAgregar(true);
+		}
 	};
 
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === 'Enter') {
-			agregarProductoAlPedidoActual(getValues);
 			if (inputFocus === 'unidades') {
 				setInputFocus('subUnidades');
+				agregarProductoAlPedidoActual(getValues);
 			} else if (inputFocus === 'subUnidades') {
-				setFocusId(0);
-				setInputFocus('productoABuscar');
+				validacionSubUnidades();
 			}
 		}
 	};
@@ -511,6 +536,7 @@ const Derecha: React.FC<DerechaProps> = ({
 									setFocusId(producto.codigoProducto);
 								}}
 								onFocus={(e) => e.target.select()}
+								onBlur={validacionSubUnidades}
 								inputProps={{
 									style: {textAlign: 'center'},
 									inputMode: 'numeric',
