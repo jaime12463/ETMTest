@@ -244,7 +244,7 @@ const TarjetaPromoPush = (props: any) => {
 							{formatearNumero(precioConImpuestoUnidad, t)}
 						</Typography>
 						<Typography variant='caption' color='primary'>
-							Ahorras: {formatearNumero(precioConImpuestoUnidad, t)}
+							Ahorras: {formatearNumero(descuento, t)}
 						</Typography>
 					</Box>
 					<Box

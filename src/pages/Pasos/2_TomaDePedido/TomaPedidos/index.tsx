@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
 	InputsKeysFormTomaDePedido,
 	TClienteActual,
@@ -86,7 +86,7 @@ const TomaPedido: React.FC = () => {
 		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
 
 	const [focusId, setFocusId] = React.useState(0);
-
+	const [borrarTodo, setBorrarTodo] = useState(false);
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
 	const defaultValues: TFormTomaDePedido = {

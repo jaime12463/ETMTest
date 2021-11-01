@@ -62,7 +62,7 @@ export const useBorrarTodoLosProductos = (productos: TProductoPedido[]) => {
 		(tipoPedido) => tipoPedido.esMandatorio === false
 	);
 
-	const borrarTodoLosProductos = useCallback(() => {
+	const borrarTodoLosProductos = () => {
 		if (
 			!configuracionTipoDePedidoActual?.esMandatorio ||
 			validarHayMasProductosMandatorios(
@@ -80,7 +80,6 @@ export const useBorrarTodoLosProductos = (productos: TProductoPedido[]) => {
 				);
 			}
 		} else {
-			console.log('entre');
 			mostrarAdvertenciaEnDialogo(
 				t('advertencias.borrarPedidosNoMandatorios', {
 					tipoPedido: pedidoNoMandatorio?.descripcion,
@@ -93,7 +92,7 @@ export const useBorrarTodoLosProductos = (productos: TProductoPedido[]) => {
 				}
 			);
 		}
-	}, [productos, mostrarAdvertenciaEnDialogo]);
+	};
 
 	return borrarTodoLosProductos;
 };
