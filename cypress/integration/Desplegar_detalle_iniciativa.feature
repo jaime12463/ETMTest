@@ -41,7 +41,7 @@ Esquema del escenario: N°3 – Desplegar detalle de iniciativa cancelada
     y quiero ver el detalle de una iniciativa cancelada 
     Cuando se despliega la iniciativa 
     Entonces el sistema mostrará el detalle de la iniciativa
-    Y mostrará la _descripcion
+    Y mostrará el _nombreActividad
     Y status = "Cancelado", motivo = motivo registrado, _planActividad, _descripcion, _vencimiento
     Y _codigoProducto, _nombre, _presentación de la unidades, precio por unidad, precio por subunidad
     Y los valores iniciales de cantidad de _unidades y _subunidades 
