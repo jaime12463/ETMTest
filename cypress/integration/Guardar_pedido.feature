@@ -119,10 +119,11 @@ Escenario: N°8 – Iniciativas cumplidas
     Dado que el cliente tiene iniciativas habilitadas para el pedido actual
     y el producto de la iniciativa se encuentra en el pedido con una cantidad mayor o igual a la de la iniciativa
     Cuando guardo el pedido
-    Entonces el sistema registrara la iniciativa con _status = "Ejecutada"
+    Entonces el sistema registrara la iniciativa con status = "Ejecutada"
+    indicando usuario, fecha y hora, código de iniciativa, código de cliente, status, producto, unidades y subunidades.
 
 Escenario: N°9 – Iniciativas no cumplidas
-    Dado que el cliente tiene iniciativas con _status = "Ejecutada" para el pedido actual
+    Dado que el cliente tiene iniciativas con status = "Ejecutada" para el pedido actual
     y el producto de la iniciativa se encuentra en el pedido con una cantidad menor a la de la iniciativa
     Cuando guardo el pedido
     Entonces el sistema elimina la iniciativa registrada

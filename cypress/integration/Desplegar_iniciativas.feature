@@ -11,15 +11,15 @@ Característica: Mostrar iniciativas.
 Esquema del escenario: N°1 – Desplegar tarjeta Iniciativas
     Dado que estoy en paso 1 - Planeación
     Cuando se despliega la tarjeta de iniciativas
-    Entonces el sistema mostrará un listado de las _iniciativas del cliente  ordenadas por _secuencia
-    Y cuya _fechaVencimiento sea >= a la fecha del dispositivo 
-    Y el status de la iniciativa es = '<_status>' 
+    Entonces el sistema mostrará un listado de las _iniciativasHabilitadas del cliente  ordenadas por _secuencia en forma ascendente
+    Y cuya _Vencimiento sea >= a la fecha del dispositivo 
+    Y el status de la iniciativa es = '<status>' 
     Y '<procesadaEnPedidoActual>' fue procesada para el pedido actual
-    Y '<mostrarIniciativa>' mostrará la iniciativa con la _descripcionLarga con el detalle plegado
+    Y '<mostrarIniciativa>' mostrará la iniciativa con el _nombreActividad con el detalle plegado
     Y el borde del item en color = '<colorIniciativa>'
    
 Ejemplos:
-|_status  |procesadaEnPedidoActual|mostrarIniciativa|colorIniciativa|
+|status   |procesadaEnPedidoActual|mostrarIniciativa|colorIniciativa|
 |         |                       |si               |negro          |
 |ejecutada|si                     |si               |verde          |
 |cancelada|si                     |si               |rojo           |
