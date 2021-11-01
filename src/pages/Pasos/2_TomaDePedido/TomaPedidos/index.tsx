@@ -242,6 +242,8 @@ const Izquierda: React.FC<IzquierdaProps> = ({producto, condicion}) => {
 					fontFamily='Poppins'
 					fontWeight='600'
 					marginBottom='4px'
+					noWrap
+					width='150px'
 				>
 					{producto.nombreProducto.toUpperCase()}
 				</Typography>
