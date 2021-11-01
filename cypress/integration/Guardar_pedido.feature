@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Guardar_pedido @Sprint7 @Sprint8 @Sprint9 @Sprint10 @Sprint11 @Sprint13
+@Pedido @Guardar_pedido @Iniciativas @Sprint7 @Sprint8 @Sprint9 @Sprint10 @Sprint11 @Sprint13 @Sprint15
 
 # Sprint13: 
 # Registrar detalle: se deben registrar los subtotales de monto de unidades y subunidades por separado, los cuales serán necesarios para el comprobante del resumen del pedido 
@@ -114,3 +114,16 @@ Escenario: N°7 – El cliente es de crédito informal y el pedido a guardar a c
     Y el créditoDisponible es menor a cero
     Cuando guardo el pedido
     Entonces el sistema Mostrará mensaje "El pedido excede el crédito disponible" y permanecerá en la pantalla  
+
+Escenario: N°8 – Iniciativas cumplidas
+    Dado que el cliente tiene iniciativas habilitadas para el pedido actual
+    y el producto de la iniciativa se encuentra en el pedido con una cantidad mayor o igual a la de la iniciativa
+    Cuando guardo el pedido
+    Entonces el sistema registrara la iniciativa con _status = "Ejecutada"
+
+Escenario: N°9 – Iniciativas no cumplidas
+    Dado que el cliente tiene iniciativas con _status = "Ejecutada" para el pedido actual
+    y el producto de la iniciativa se encuentra en el pedido con una cantidad menor a la de la iniciativa
+    Cuando guardo el pedido
+    Entonces el sistema elimina la iniciativa registrada
+   
