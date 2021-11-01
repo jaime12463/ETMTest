@@ -180,12 +180,15 @@ const TarjetaPromoPush = (props: any) => {
 			[name]: value === '+' ? ++getValues.unidades : --getValues.unidades,
 		});
 
-		agregarProductoAlPedidoActual(getValues);
+		setPuedeAgregar(true);
 	};
 
 	React.useEffect(() => {
-		agregarProductoAlPedidoActual(getValues);
-	}, [getValues]);
+		if (puedeAgregar) {
+			agregarProductoAlPedidoActual(getValues);
+			setPuedeAgregar(false);
+		}
+	}, [puedeAgregar]);
 
 	const manejadorExpandido =
 		({id}: any) =>
@@ -241,7 +244,7 @@ const TarjetaPromoPush = (props: any) => {
 							{formatearNumero(precioConImpuestoUnidad, t)}
 						</Typography>
 						<Typography variant='caption' color='primary'>
-							Ahorras: {formatearNumero(precioConImpuestoUnidad, t)}
+							Ahorras: {formatearNumero(descuento, t)}
 						</Typography>
 					</Box>
 					<Box

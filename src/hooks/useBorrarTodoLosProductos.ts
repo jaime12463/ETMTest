@@ -12,7 +12,10 @@ import {
 	agregarProductoDelPedidoActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
 
-import {useObtenerProductosMandatoriosVisitaActual} from 'hooks';
+import {
+	useObtenerProductosMandatoriosVisitaActual,
+	useMostrarAdvertenciaEnDialogo,
+} from 'hooks';
 import {
 	validarHayMasProductosMandatorios,
 	validarHayMasProductosNoMandatorios,
@@ -35,10 +38,7 @@ import {
 
 import {useTranslation} from 'react-i18next';
 
-export const useBorrarTodoLosProductos = (
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
-	productos: TProductoPedido[]
-) => {
+export const useBorrarTodoLosProductos = (productos: TProductoPedido[]) => {
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
 	const configuracion = useObtenerConfiguracion();
@@ -48,17 +48,21 @@ export const useBorrarTodoLosProductos = (
 	const configuracionTipoDePedidoActual = configuracion.tipoPedidos.find(
 		(tipoPedido) => tipoPedido.codigo === visitaActual.tipoPedidoActual
 	);
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+		useMostrarAdvertenciaEnDialogo();
 
 	const manejadorConfirmarEliminarPedidosNoMandatorios =
 		useManejadorConfirmarEliminarPedidosNoMandatorios(
-			productosMandatoriosVisitaActual.noMandatorios
+			productosMandatoriosVisitaActual.noMandatorios,
+			undefined,
+			productos
 		);
 
 	const pedidoNoMandatorio = configuracion.tipoPedidos.find(
 		(tipoPedido) => tipoPedido.esMandatorio === false
 	);
 
-	const borrarTodoLosProductos = useCallback(() => {
+	const borrarTodoLosProductos = () => {
 		if (
 			!configuracionTipoDePedidoActual?.esMandatorio ||
 			validarHayMasProductosMandatorios(
@@ -80,7 +84,7 @@ export const useBorrarTodoLosProductos = (
 				t('advertencias.borrarPedidosNoMandatorios', {
 					tipoPedido: pedidoNoMandatorio?.descripcion,
 				}),
-				'eliminar-linea-pedido',
+				'eliminar-pedidosNoMandatorios',
 				manejadorConfirmarEliminarPedidosNoMandatorios,
 				{
 					aceptar: t('general.si'),
@@ -88,7 +92,7 @@ export const useBorrarTodoLosProductos = (
 				}
 			);
 		}
-	}, [productos]);
+	};
 
 	return borrarTodoLosProductos;
 };
