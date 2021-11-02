@@ -1,16 +1,11 @@
 import {
 	useAppDispatch,
-	useObtenerClienteActual,
 	useObtenerConfiguracion,
-	useObtenerPedidoActual,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {useCallback} from 'react';
-import {
-	editarProductoDelPedidoActual,
-	borrarProductoDelPedidoActual,
-	agregarProductoDelPedidoActual,
-} from 'redux/features/visitaActual/visitaActualSlice';
+import {useCallback, useEffect} from 'react';
+import {borrarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
+import {Dialogo} from 'components/UI';
 
 import {
 	useObtenerProductosMandatoriosVisitaActual,
@@ -21,15 +16,7 @@ import {
 	validarHayMasProductosNoMandatorios,
 } from 'utils/validaciones';
 
-import {
-	TClienteActual,
-	TFormTomaDePedido,
-	TFunctionMostarAvertenciaPorDialogo,
-	TPedido,
-	TPrecioProducto,
-	TStateInputFocus,
-	TProductoPedido,
-} from 'models';
+import {TProductoPedido, TFunctionMostarAvertenciaPorDialogo} from 'models';
 
 import {
 	useValidarAgregarProductoAlPedidoCliente,
@@ -38,7 +25,12 @@ import {
 
 import {useTranslation} from 'react-i18next';
 
-export const useBorrarTodoLosProductos = (productos: TProductoPedido[]) => {
+import React from 'react';
+
+export const useBorrarTodoLosProductos = (
+	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	productos: TProductoPedido[]
+) => {
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
 	const configuracion = useObtenerConfiguracion();
@@ -48,9 +40,6 @@ export const useBorrarTodoLosProductos = (productos: TProductoPedido[]) => {
 	const configuracionTipoDePedidoActual = configuracion.tipoPedidos.find(
 		(tipoPedido) => tipoPedido.codigo === visitaActual.tipoPedidoActual
 	);
-	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
-		useMostrarAdvertenciaEnDialogo();
-
 	const manejadorConfirmarEliminarPedidosNoMandatorios =
 		useManejadorConfirmarEliminarPedidosNoMandatorios(
 			productosMandatoriosVisitaActual.noMandatorios,
@@ -62,7 +51,7 @@ export const useBorrarTodoLosProductos = (productos: TProductoPedido[]) => {
 		(tipoPedido) => tipoPedido.esMandatorio === false
 	);
 
-	const borrarTodoLosProductos = () => {
+	const borrarTodoLosProductos = useCallback(() => {
 		if (
 			!configuracionTipoDePedidoActual?.esMandatorio ||
 			validarHayMasProductosMandatorios(
@@ -92,7 +81,7 @@ export const useBorrarTodoLosProductos = (productos: TProductoPedido[]) => {
 				}
 			);
 		}
-	};
+	}, [mostrarAdvertenciaEnDialogo, productos, pedidoNoMandatorio]);
 
 	return borrarTodoLosProductos;
 };

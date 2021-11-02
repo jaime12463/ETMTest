@@ -32,7 +32,10 @@ const PromoPush: React.FC = () => {
 	>(false);
 	const classes = useEstilos();
 
-	const borrarTodosLosProductos = useBorrarTodoLosProductos(promociones);
+	const borrarTodosLosProductos = useBorrarTodoLosProductos(
+		mostrarAdvertenciaEnDialogo,
+		promociones
+	);
 	const manejadorConfirmarEliminarPromoPush = (
 		oprimioBotonAceptar: boolean
 	) => {

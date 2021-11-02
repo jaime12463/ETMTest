@@ -92,7 +92,7 @@ export const useAgregarProductoAlPedidoActual = (
 					subUnidades: productoActual.subUnidades,
 					productoABuscar: '',
 					tipoDePedido: visitaActual.tipoPedidoActual,
-					catalogoMotivo: '',
+					catalogoMotivo: catalogoMotivo,
 				});
 
 			const {codigoProducto} = productoActual;

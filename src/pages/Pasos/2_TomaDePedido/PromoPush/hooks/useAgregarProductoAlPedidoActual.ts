@@ -99,7 +99,7 @@ export const useAgregarProductoAlPedidoActual = (
 					subUnidades: 0,
 					productoABuscar: '',
 					tipoDePedido: visitaActual.tipoPedidoActual,
-					catalogoMotivo: '',
+					catalogoMotivo: catalogoMotivo,
 				});
 
 			if (unidadesParseado > 0 || subUnidadesParseado > 0) {

@@ -20,18 +20,10 @@ import {
 	useInicializarPreciosProductosDelClienteActual,
 	useMostrarAviso,
 } from 'hooks';
-import {
-	agregarProductoDelPedidoActual,
-	borrarProductoDelPedidoActual,
-	borrarProductosDeVisitaActual,
-	cambiarTipoPedidoActual,
-} from 'redux/features/visitaActual/visitaActualSlice';
+import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 
 import {TarjetaColapsable, TarjetaDoble, Dialogo} from 'components/UI';
-import {
-	AutocompleteSeleccionarProducto,
-	InputSeleccionarProducto,
-} from 'components/Negocio';
+import {AutocompleteSeleccionarProducto} from 'components/Negocio';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -78,6 +70,7 @@ const TextStyled = styled(Typography)(() => ({
 const TomaPedido: React.FC = () => {
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
+
 	const {t} = useTranslation();
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
@@ -89,7 +82,6 @@ const TomaPedido: React.FC = () => {
 		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
 
 	const [focusId, setFocusId] = React.useState(0);
-	const [borrarTodo, setBorrarTodo] = useState(false);
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
 	const defaultValues: TFormTomaDePedido = {
@@ -109,7 +101,10 @@ const TomaPedido: React.FC = () => {
 	const catalogoMotivo = '';
 	const classes = useEstilos();
 
-	const borrarTodosLosProductos = useBorrarTodoLosProductos(venta.productos);
+	const borrarTodosLosProductos = useBorrarTodoLosProductos(
+		mostrarAdvertenciaEnDialogo,
+		venta.productos
+	);
 
 	React.useEffect(() => {
 		if (productoActual !== null) {
