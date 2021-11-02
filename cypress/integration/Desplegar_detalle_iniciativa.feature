@@ -48,7 +48,8 @@ Esquema del escenario: N°3 – Desplegar detalle de iniciativa cancelada
     Y el borde de la iniciativa en color rojo y el ícono de cancelada 
     Y <ingresoTomaDePedido> se ingreso a la toma de pedido <habilitaSeleccion> habilita la selección del status 
     Y la seleccion del motivo cargado con la _descripcion de _motivosCancelacionIniciativas ordenados alfabeticamente en forma ascendente
-
+    Y las unidades y subunidades
+    
   Ejemplos:
  |ingresoTomaDePedido|habilitaSeleccion|
  |si                 |no habilita      |
