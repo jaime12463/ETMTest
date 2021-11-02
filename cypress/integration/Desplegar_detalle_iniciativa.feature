@@ -8,7 +8,7 @@ Característica: Mostrar detalle iniciativa.
 	Quiero visualizar el detalle de una iniciativa del cliente
 	Para saber precio y materiales que contiene
 
-Escenario: N°1 – Desplegar detalle de iniciativa pendiente
+Esquema del escenario: N°1 – Desplegar detalle de iniciativa pendiente
     Dado que estoy en la tarjeta de iniciativas
     y quiero ver el detalle de una iniciativa pendiente 
     Cuando se despliega la iniciativa 
@@ -17,7 +17,12 @@ Escenario: N°1 – Desplegar detalle de iniciativa pendiente
     Y status sin valor, _planActividad, _descripcion, _vencimiento
     Y _codigoProducto, _nombre, _presentación de la unidades, precio por unidad, precio por subunidad
     Y los valores iniciales de cantidad de _unidades y _subunidades
-    Y habilita la selección del status
+     Y <ingresoTomaDePedido> se ingreso a la toma de pedido <habilitaSeleccion> habilita la selección del status
+
+  Ejemplos:
+  |ingresoTomaDePedido|habilitaSeleccion|
+  |si                 |no habilita      |
+  |no                 |habilita         |
 
 Esquema del escenario: N°2 – Desplegar detalle de iniciativa ejecutada
     Dado que estoy en la tarjeta de iniciativas
@@ -48,8 +53,8 @@ Esquema del escenario: N°3 – Desplegar detalle de iniciativa cancelada
     Y el borde de la iniciativa en color rojo y el ícono de cancelada 
     Y <ingresoTomaDePedido> se ingreso a la toma de pedido <habilitaSeleccion> habilita la selección del status 
     Y la seleccion del motivo cargado con la _descripcion de _motivosCancelacionIniciativas ordenados alfabeticamente en forma ascendente
-    Y las unidades y subunidades
     
+
   Ejemplos:
  |ingresoTomaDePedido|habilitaSeleccion|
  |si                 |no habilita      |
