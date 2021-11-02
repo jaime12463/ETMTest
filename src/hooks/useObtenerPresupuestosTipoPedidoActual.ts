@@ -8,7 +8,7 @@ export const useObtenerPresupuestosTipoPedidoActual = () => {
 		| TpresupuestoTipoPedido
 		| undefined => {
 		return datos.presupuestoTipoPedido.find(
-			(presupuesto) => presupuesto.tipoPedido === tipoPedidoActual
+			(presupuesto) => presupuesto.tipoPedido.toLowerCase() === tipoPedidoActual
 		);
 	};
 

@@ -1,6 +1,6 @@
 import {useCallback} from 'react';
 import {TCliente, TFunctionMostarAvertenciaPorDialogo} from 'models';
-import {useObtenerDatosCliente} from 'hooks';
+import {useObtenerDatosCliente, useMostrarAviso} from 'hooks';
 import {useTranslation} from 'react-i18next';
 
 type validacionInicializarClienteActual = {
@@ -14,6 +14,7 @@ export const useValidarInicializarClienteActual = (
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 
 	const {t} = useTranslation();
+	const mostrarAviso = useMostrarAviso();
 
 	const validarInicializarClienteActual = useCallback(
 		(codigoCliente: string): validacionInicializarClienteActual => {
@@ -21,12 +22,18 @@ export const useValidarInicializarClienteActual = (
 				esValidoInicializarClienteActual: false,
 				datosCliente: undefined,
 			};
-			const datosCliente: TCliente | undefined = obtenerDatosCliente(
-				codigoCliente
-			);
+			const datosCliente: TCliente | undefined =
+				obtenerDatosCliente(codigoCliente);
 			if (!datosCliente) {
-				mostrarAdvertenciaEnDialogo(
+				/*(mostrarAdvertenciaEnDialogo(
 					t('advertencias.clienteNoExiste'),
+					'clienteNoPortafolio'
+				);*/
+				mostrarAviso(
+					'error',
+					t('advertencias.clienteNoExiste'),
+					undefined,
+					undefined,
 					'clienteNoPortafolio'
 				);
 				return estadoValidacion;

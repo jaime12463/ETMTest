@@ -12,6 +12,7 @@ import {useObtenerPedidoActual} from 'redux/hooks';
 import {UseFormSetValue} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {
+	useMostrarAviso,
 	useObtenerDatosTipoPedido,
 	useObtenerPresupuestosTipoPedidoActual,
 } from 'hooks';
@@ -28,6 +29,8 @@ export const useSeleccionarProductoDePrecios = (
 	const obtenerPresupuestosTipoPedidoActual =
 		useObtenerPresupuestosTipoPedidoActual();
 	const {t} = useTranslation();
+	const mostrarAviso = useMostrarAviso();
+
 	const seleccionarProductoDePrecios = useCallback(
 		({productoABuscar}: TInputFiltrarPreciosProductos) => {
 			if (!preciosProductos) return;
@@ -39,9 +42,13 @@ export const useSeleccionarProductoDePrecios = (
 				);
 
 			if (!productoEncontrado) {
-				mostrarAdvertenciaEnDialogo(
-					t('advertencias.ProductoNoEstaEnPortafolioCliente'),
-					'producto-no-esta-en-portafolio'
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('advertencias.ProductoNoEstaEnPortafolioCliente'),
+				// 	'producto-no-esta-en-portafolio'
+				// );
+				mostrarAviso(
+					'error',
+					t('advertencias.ProductoNoEstaEnPortafolioCliente')
 				);
 				return;
 			}
@@ -56,11 +63,17 @@ export const useSeleccionarProductoDePrecios = (
 					productoEncontrado.tipoProducto
 				)
 			) {
-				mostrarAdvertenciaEnDialogo(
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('advertencias.ProductoNoEstaHabilitado', {
+				// 		descripcion: datosTipoPedidoActual?.descripcion,
+				// 	}),
+				// 	'producto-no-esta-habilitado'
+				// );
+				mostrarAviso(
+					'error',
 					t('advertencias.ProductoNoEstaHabilitado', {
 						descripcion: datosTipoPedidoActual?.descripcion,
-					}),
-					'producto-no-esta-habilitado'
+					})
 				);
 				return;
 			}
@@ -72,11 +85,17 @@ export const useSeleccionarProductoDePrecios = (
 					productoEncontrado.tipoProducto
 				)
 			) {
-				mostrarAdvertenciaEnDialogo(
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('advertencias.ProductoNoEstaHabilitado', {
+				// 		descripcion: datosTipoPedidoActual?.descripcion,
+				// 	}),
+				// 	'producto-no-esta-habilitado'
+				// );
+				mostrarAviso(
+					'error',
 					t('advertencias.ProductoNoEstaHabilitado', {
 						descripcion: datosTipoPedidoActual?.descripcion,
-					}),
-					'producto-no-esta-habilitado'
+					})
 				);
 				return;
 			}
@@ -86,11 +105,17 @@ export const useSeleccionarProductoDePrecios = (
 				presupuestoTipoPedido?.tieneProductosHabilitados &&
 				!presupuestoTipoPedido.productosHabilitados.includes(codigoProducto)
 			) {
-				mostrarAdvertenciaEnDialogo(
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('advertencias.ProductoNoEstaHabilitado', {
+				// 		descripcion: datosTipoPedidoActual?.descripcion,
+				// 	}),
+				// 	'producto-no-esta-habilitado'
+				// );
+				mostrarAviso(
+					'error',
 					t('advertencias.ProductoNoEstaHabilitado', {
 						descripcion: datosTipoPedidoActual?.descripcion,
-					}),
-					'producto-no-esta-habilitado'
+					})
 				);
 				return;
 			}

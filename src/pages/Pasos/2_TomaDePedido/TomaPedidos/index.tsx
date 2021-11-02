@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
 	InputsKeysFormTomaDePedido,
 	TClienteActual,
@@ -8,6 +8,7 @@ import {
 	TProductoPedido,
 	TStateInputFocus,
 	TVisita,
+	TCliente,
 } from 'models';
 import {
 	useAppDispatch,
@@ -15,18 +16,14 @@ import {
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {useForm} from 'react-hook-form';
-import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
 import {
-	agregarProductoDelPedidoActual,
-	borrarProductoDelPedidoActual,
-	borrarProductosDeVisitaActual,
-} from 'redux/features/visitaActual/visitaActualSlice';
+	useInicializarPreciosProductosDelClienteActual,
+	useMostrarAviso,
+} from 'hooks';
+import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 
 import {TarjetaColapsable, TarjetaDoble, Dialogo} from 'components/UI';
-import {
-	AutocompleteSeleccionarProducto,
-	InputSeleccionarProducto,
-} from 'components/Negocio';
+import {AutocompleteSeleccionarProducto} from 'components/Negocio';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -44,9 +41,15 @@ import {
 import {styled} from '@mui/material/styles';
 import Input from '@mui/material/Input';
 import {useAgregarProductoAlPedidoActual} from '../hooks';
-import {useMostrarAdvertenciaEnDialogo} from 'hooks';
+import {
+	useMostrarAdvertenciaEnDialogo,
+	useBorrarTodoLosProductos,
+	useObtenerDatosCliente,
+} from 'hooks';
 import useEstilos from '../useEstilos';
 import {SwitchCambiarTipoPago} from '../components';
+import theme from 'theme';
+import {useTranslation} from 'react-i18next';
 
 const InputStyled = styled(Input)(({}) => ({
 	backgroundColor: 'white',
@@ -65,6 +68,10 @@ const TextStyled = styled(Typography)(() => ({
 }));
 
 const TomaPedido: React.FC = () => {
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+		useMostrarAdvertenciaEnDialogo();
+
+	const {t} = useTranslation();
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
@@ -75,7 +82,6 @@ const TomaPedido: React.FC = () => {
 		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
 
 	const [focusId, setFocusId] = React.useState(0);
-
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
 	const defaultValues: TFormTomaDePedido = {
@@ -91,84 +97,117 @@ const TomaPedido: React.FC = () => {
 	const hookForm = {control, handleSubmit, setValue, getValues};
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 	const clienteActual: TClienteActual = useObtenerClienteActual();
-
 	const dispatch = useAppDispatch();
 	const catalogoMotivo = '';
 	const classes = useEstilos();
 
+	const borrarTodosLosProductos = useBorrarTodoLosProductos(
+		mostrarAdvertenciaEnDialogo,
+		venta.productos
+	);
+
 	React.useEffect(() => {
 		if (productoActual !== null) {
-			dispatch(
-				agregarProductoDelPedidoActual({
-					productoPedido: {
-						...productoActual,
-						unidades: 0,
-						subUnidades: 0,
-						total:
-							productoActual.precioConImpuestoUnidad * 0 +
-							productoActual.precioConImpuestoSubunidad * 0,
-						tipoPago: clienteActual.tipoPagoActual,
-						catalogoMotivo,
-					},
-				})
+			const productoEnPedido = venta.productos.find(
+				(producto) => producto.codigoProducto === productoActual.codigoProducto
 			);
 
+			if (!productoEnPedido) {
+				dispatch(
+					agregarProductoDelPedidoActual({
+						productoPedido: {
+							...productoActual,
+							unidades: 0,
+							subUnidades: 0,
+							total:
+								productoActual.precioConImpuestoUnidad * 0 +
+								productoActual.precioConImpuestoSubunidad * 0,
+							tipoPago: clienteActual.tipoPagoActual,
+							catalogoMotivo,
+						},
+					})
+				);
+			}
 			setFocusId(productoActual.codigoProducto);
+			setProductoActual(null);
 		}
 	}, [productoActual?.codigoProducto]);
 
+	const manejadorConfirmarEliminarPedidos = (oprimioBotonAceptar: boolean) => {
+		if (oprimioBotonAceptar) {
+			borrarTodosLosProductos();
+		}
+	};
+
 	return (
-		<Stack spacing='10px'>
-			<AutocompleteSeleccionarProducto
-				hookForm={hookForm}
-				stateProductoActual={{productoActual, setProductoActual}}
-				statePreciosProductos={{preciosProductos, setPreciosProductos}}
-				stateInputFocus={stateInputFocus}
-			/>
-
-			<Grid container alignItems='center' justifyContent='space-between'>
-				<SwitchCambiarTipoPago />
-				<Chip
-					className={classes.root}
-					size='small'
-					icon={<BorrarIcon width='7.5px' height='7.5px' />}
-					label={<TextStyled>Borrar todo</TextStyled>}
-					onClick={() =>
-						dispatch(
-							borrarProductosDeVisitaActual({
-								tipoPedidoActual: visitaActual.tipoPedidoActual,
-							})
-						)
-					}
-					sx={{'&:hover': {background: 'none'}}}
+		<>
+			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+			<Stack spacing='10px'>
+				<AutocompleteSeleccionarProducto
+					hookForm={hookForm}
+					stateProductoActual={{productoActual, setProductoActual}}
+					statePreciosProductos={{preciosProductos, setPreciosProductos}}
+					stateInputFocus={stateInputFocus}
 				/>
-			</Grid>
 
-			{venta.productos.length > 0 &&
-				venta.productos.map((producto) => {
-					return (
-						<TarjetaDoble
-							key={producto.codigoProducto}
-							izquierda={
-								<Izquierda
-									producto={producto}
-									condicion={clienteActual.condicion}
-								/>
-							}
-							derecha={
-								<Derecha
-									producto={producto}
-									stateInputFocus={stateInputFocus}
-									visitaActual={visitaActual}
-									statefocusId={{focusId, setFocusId}}
-								/>
-							}
-							widthIzquierda='179px'
-							widthDerecha='125px'
-						/>
-					);
-				})}
-		</Stack>
+				<Grid container alignItems='center' justifyContent='space-between'>
+					<SwitchCambiarTipoPago />
+					{venta.productos.length > 0 &&
+						venta.productos.some(
+							(producto) => producto.unidades > 0 || producto.subUnidades > 0
+						) && (
+							<Chip
+								className={classes.root}
+								size='small'
+								icon={<BorrarIcon width='7.5px' height='7.5px' />}
+								label={<TextStyled>Borrar todo</TextStyled>}
+								onClick={() =>
+									mostrarAdvertenciaEnDialogo(
+										t('advertencias.borrarTodosTomaPedido'),
+										'eliminar-todosTomaPedido',
+										manejadorConfirmarEliminarPedidos,
+										{
+											aceptar: t('general.si'),
+											cancelar: t('general.no'),
+										}
+									)
+								}
+								sx={{'&:hover': {background: 'none'}}}
+							/>
+						)}
+				</Grid>
+
+				{venta.productos.length > 0 &&
+					venta.productos.map((producto) => {
+						return (
+							<TarjetaDoble
+								key={producto.codigoProducto}
+								izquierda={
+									<Izquierda
+										producto={producto}
+										condicion={clienteActual.condicion}
+									/>
+								}
+								derecha={
+									<Derecha
+										producto={producto}
+										stateInputFocus={stateInputFocus}
+										visitaActual={visitaActual}
+										statefocusId={{focusId, setFocusId}}
+									/>
+								}
+								widthIzquierda='179px'
+								widthDerecha='125px'
+								borderColor={
+									producto.unidades > 0 || producto.subUnidades > 0
+										? '#00CF91'
+										: '#D9D9D9'
+								}
+							/>
+						);
+					})}
+			</Stack>
+		</>
 	);
 };
 
@@ -192,32 +231,35 @@ const Izquierda: React.FC<IzquierdaProps> = ({producto, condicion}) => {
 					<SwitchCambiarTipoPago producto={producto} />
 				)}
 			</Box>
-			<Box>
-				<Typography fontSize='12px' fontWeight='600'>
-					{producto.codigoProducto}
-				</Typography>
+			<Box display='flex' flexDirection='column'>
+				<Typography variant='subtitle3'>{producto.codigoProducto}</Typography>
 				<Typography
-					fontSize='12px'
+					variant='subtitle3'
 					fontFamily='Poppins'
-					fontWeight='600'
 					marginBottom='4px'
+					noWrap
+					width='150px'
 				>
 					{producto.nombreProducto.toUpperCase()}
 				</Typography>
 			</Box>
-			<Box display='flex'>
+			<Box display='flex' alignItems='center' sx={{placeSelf: 'start'}}>
 				<CajaIcon height='14px' width='19px' />
 				<Typography
-					fontSize='10px'
+					variant='caption'
 					marginRight='4px'
 				>{`x${producto.presentacion}`}</Typography>
-				<Typography fontSize='12px' fontWeight='600' marginRight='8px'>
+				<Typography variant='subtitle3' marginRight='8px'>
 					{`$${producto.precioConImpuestoUnidad}`}
 				</Typography>
-				<BotellaIcon height='14px' width='14px' />
-				<Typography fontSize='12px' fontWeight='600' marginLeft='4px'>
-					{`$${producto.precioConImpuestoSubunidad}`}
-				</Typography>
+				{producto.esVentaSubunidades && (
+					<>
+						<BotellaIcon height='14px' width='14px' />
+						<Typography variant='subtitle3' marginLeft='4px'>
+							{`$${producto.precioConImpuestoSubunidad}`}
+						</Typography>
+					</>
+				)}
 			</Box>
 		</Box>
 	);
@@ -260,7 +302,9 @@ const Derecha: React.FC<DerechaProps> = ({
 
 	const [mostrarAcciones, setMostrarAcciones] = React.useState<boolean>(false);
 
-	const dispatch = useAppDispatch();
+	const clienteActual: TClienteActual = useObtenerClienteActual();
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+	const {configuracionPedido}: any = datosCliente;
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		producto,
@@ -268,29 +312,8 @@ const Derecha: React.FC<DerechaProps> = ({
 		getValues,
 		setGetValues
 	);
-
-	const handleOnChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	) => {
-		setGetValues({
-			...getValues,
-			[e.target.name]: e.target.value.replace(/[^0-9]/g, ''),
-		});
-		setFocusId(producto.codigoProducto);
-		setPuedeAgregar(true);
-	};
-
-	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
-		if (e.key === 'Enter') {
-			agregarProductoAlPedidoActual(getValues);
-			if (inputFocus === 'unidades') {
-				setInputFocus('subUnidades');
-			} else if (inputFocus === 'subUnidades') {
-				setFocusId(0);
-				setInputFocus('productoABuscar');
-			}
-		}
-	};
+	const {t} = useTranslation();
+	const mostrarAviso = useMostrarAviso();
 
 	React.useEffect(() => {
 		if (puedeAgregar) {
@@ -307,6 +330,55 @@ const Derecha: React.FC<DerechaProps> = ({
 		return () => setMostrarAcciones(false);
 	}, [getValues.unidades, getValues.subUnidades]);
 
+	const validacionSubUnidades = () => {
+		if (
+			getValues.subUnidades % producto.subunidadesVentaMinima !== 0 &&
+			getValues.subUnidades < producto.presentacion
+		) {
+			return (
+				mostrarAviso(
+					'error',
+					t('advertencias.subUnidadesNoMultiplo', {
+						subunidadesVentaMinima: producto.subunidadesVentaMinima,
+					})
+				),
+				setGetValues({
+					...getValues,
+					subUnidades: 0,
+				})
+			);
+		}
+
+		agregarProductoAlPedidoActual(getValues);
+		setFocusId(0);
+		setInputFocus('productoABuscar');
+	};
+
+	const handleOnChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	) => {
+		setGetValues({
+			...getValues,
+			[e.target.name]: e.target.value.replace(/[^0-9]/g, ''),
+		});
+		setFocusId(producto.codigoProducto);
+
+		if (e.target.name === 'unidades') {
+			setPuedeAgregar(true);
+		}
+	};
+
+	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+		if (e.key === 'Enter') {
+			if (inputFocus === 'unidades') {
+				setInputFocus('subUnidades');
+				agregarProductoAlPedidoActual(getValues);
+			} else if (inputFocus === 'subUnidades') {
+				validacionSubUnidades();
+			}
+		}
+	};
+
 	const handleButtons = (
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
 	) => {
@@ -321,18 +393,21 @@ const Derecha: React.FC<DerechaProps> = ({
 				...getValues,
 				[name]: value === '+' ? ++getValues.unidades : --getValues.unidades,
 			});
+			setPuedeAgregar(true);
 		} else if (name === 'subUnidades') {
 			if (value === '-' && getValues.subUnidades === 0) {
 				return;
 			}
 			setInputFocus('subUnidades');
-			setGetValues({
-				...getValues,
+			setGetValues((prevState) => ({
+				...prevState,
 				[name]:
-					value === '+' ? ++getValues.subUnidades : --getValues.subUnidades,
-			});
+					value === '+'
+						? prevState.subUnidades + producto.subunidadesVentaMinima
+						: prevState.subUnidades - producto.subunidadesVentaMinima,
+			}));
+			setPuedeAgregar(true);
 		}
-		agregarProductoAlPedidoActual(getValues);
 	};
 
 	return (
@@ -352,7 +427,11 @@ const Derecha: React.FC<DerechaProps> = ({
 					{mostrarAcciones && (
 						<>
 							<IconButton sx={{padding: '0 5px'}}>
-								<CheckRedondoIcon height='17.5px' width='17.5px' />
+								<CheckRedondoIcon
+									height='17.5px'
+									width='17.5px'
+									fill={`${theme.palette.success.main}`}
+								/>
 							</IconButton>
 						</>
 					)}
@@ -399,55 +478,99 @@ const Derecha: React.FC<DerechaProps> = ({
 						name='unidades'
 						value='+'
 						onClick={handleButtons}
+						disabled={
+							producto.unidadesDisponibles
+								? producto.unidades >= producto.unidadesDisponibles
+									? true
+									: false
+								: producto.unidades >=
+								  configuracionPedido?.cantidadMaximaUnidades
+								? true
+								: false
+						}
 					>
-						<AgregarRedondoIcon width='18px' height='18px' />
+						<AgregarRedondoIcon
+							width='18px'
+							height='18px'
+							fill={
+								producto.unidadesDisponibles
+									? producto.unidades >= producto.unidadesDisponibles
+										? '#D9D9D9'
+										: '#2F000E'
+									: producto.unidades >=
+									  configuracionPedido?.cantidadMaximaUnidades
+									? '#D9D9D9'
+									: '#2F000E'
+							}
+						/>
 					</IconButton>
 				</Box>
 				<Box display='flex' alignItems='center'>
-					<BotellaIcon width='18px' height='18px' />
-					<IconButton
-						size='small'
-						value='-'
-						name='subUnidades'
-						onClick={handleButtons}
-						disabled={producto.subUnidades > 0 ? false : true}
-					>
-						<QuitarRellenoIcon
-							width='18px'
-							height='18px'
-							fill={producto.subUnidades > 0 ? '#2F000E' : '#D9D9D9'}
-						/>
-					</IconButton>
-					<InputStyled
-						onKeyPress={handleKeyPress}
-						onChange={handleOnChange}
-						value={getValues.subUnidades}
-						disableUnderline
-						id='subUnidades_producto'
-						name='subUnidades'
-						onClick={() => {
-							setInputFocus('subUnidades');
-							setFocusId(producto.codigoProducto);
-						}}
-						onFocus={(e) => e.target.select()}
-						inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
-						inputRef={(input) => {
-							if (
-								inputFocus === 'subUnidades' &&
-								focusId === producto.codigoProducto
-							) {
-								input?.focus();
-							}
-						}}
-					/>
-					<IconButton
-						size='small'
-						name='subUnidades'
-						value='+'
-						onClick={handleButtons}
-					>
-						<AgregarRedondoIcon width='18px' height='18px' />
-					</IconButton>
+					{producto.esVentaSubunidades && (
+						<>
+							<BotellaIcon width='18px' height='18px' />
+							<IconButton
+								size='small'
+								value='-'
+								name='subUnidades'
+								onClick={handleButtons}
+								disabled={getValues.subUnidades > 0 ? false : true}
+							>
+								<QuitarRellenoIcon
+									width='18px'
+									height='18px'
+									fill={getValues.subUnidades > 0 ? '#2F000E' : '#D9D9D9'}
+								/>
+							</IconButton>
+							<InputStyled
+								onKeyPress={handleKeyPress}
+								onChange={handleOnChange}
+								value={getValues.subUnidades}
+								disableUnderline
+								id='subUnidades_producto'
+								name='subUnidades'
+								onClick={() => {
+									setInputFocus('subUnidades');
+									setFocusId(producto.codigoProducto);
+								}}
+								onFocus={(e) => e.target.select()}
+								onBlur={validacionSubUnidades}
+								inputProps={{
+									style: {textAlign: 'center'},
+									inputMode: 'numeric',
+								}}
+								inputRef={(input) => {
+									if (
+										inputFocus === 'subUnidades' &&
+										focusId === producto.codigoProducto
+									) {
+										input?.focus();
+									}
+								}}
+							/>
+							<IconButton
+								size='small'
+								name='subUnidades'
+								value='+'
+								onClick={handleButtons}
+								disabled={
+									getValues.subUnidades >=
+									producto.presentacion - producto.subunidadesVentaMinima
+								}
+							>
+								<AgregarRedondoIcon
+									width='18px'
+									height='18px'
+									fill={
+										getValues.subUnidades >=
+										producto.presentacion - producto.subunidadesVentaMinima
+											? '#D9D9D9'
+											: '#2F000E'
+									}
+								/>
+							</IconButton>
+						</>
+					)}
 				</Box>
 			</Box>
 		</>

@@ -18,6 +18,7 @@ import {
 import {
 	useCalcularPresupuestoPedidoActual,
 	useCalcularPresupuestoTipoPedido,
+	useMostrarAviso,
 	useObtenerDatosCliente,
 	useObtenerDatosTipoPedido,
 	useObtenerPedidosClienteMismaFechaEntrega,
@@ -71,6 +72,8 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 		resetLineaActual
 	);
 
+	const mostrarAviso = useMostrarAviso();
+
 	const validarAgregarProductoAlPedidoCliente = useCallback(
 		(inputs: TFormTomaDePedido): boolean => {
 			const {unidades, subUnidades, productoABuscar} = inputs;
@@ -78,18 +81,20 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			let esValidacionCorrecta: boolean = false;
 
 			if (!productoActual) {
-				mostrarAdvertenciaEnDialogo(
-					t('error.noProductoActual'),
-					'no-producto-actual'
-				);
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('error.noProductoActual'),
+				// 	'no-producto-actual'
+				// );
+				mostrarAviso('error', t('error.noProductoActual'));
 				return esValidacionCorrecta;
 			}
 
 			if (!datosCliente) {
-				mostrarAdvertenciaEnDialogo(
-					t('error.NoDatosCliente'),
-					'no-datos-cliente'
-				);
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('error.NoDatosCliente'),
+				// 	'no-datos-cliente'
+				// );
+				mostrarAviso('error', t('error.NoDatosCliente'));
 				return esValidacionCorrecta;
 			}
 
@@ -117,11 +122,17 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				);
 
 				if (saldoPresupuesto < 0) {
-					mostrarAdvertenciaEnDialogo(
+					// mostrarAdvertenciaEnDialogo(
+					// 	t('advertencias.excedePresupuesto', {
+					// 		descripcion: datosTipoPedidoActual.descripcion,
+					// 	}),
+					// 	'excede-presupuesto'
+					// );
+					mostrarAviso(
+						'error',
 						t('advertencias.excedePresupuesto', {
 							descripcion: datosTipoPedidoActual.descripcion,
-						}),
-						'excede-presupuesto'
+						})
 					);
 					return esValidacionCorrecta;
 				}
@@ -132,6 +143,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					t('advertencias.subUnidadesNoPermitidas'),
 					'sub-unidades-no-permitidas'
 				);
+				mostrarAviso('error', t('advertencias.subUnidadesNoPermitidas'));
 				return esValidacionCorrecta;
 			}
 
@@ -145,6 +157,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					t('advertencias.limiteSubUnidades'),
 					'limite-sub-unidades'
 				);
+				mostrarAviso('error', t('advertencias.limiteSubUnidades'));
 				return esValidacionCorrecta;
 			}
 
@@ -163,6 +176,10 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					}),
 					'sub-unidades-no-multiplo'
 				);
+				mostrarAviso(
+					'error',
+					t('advertencias.subUnidadesNoMultiplo', {subunidadesVentaMinima})
+				);
 				return esValidacionCorrecta;
 			}
 
@@ -177,11 +194,17 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				);
 
 				if (unidadesDisponibles >= 0) {
-					mostrarAdvertenciaEnDialogo(
+					// mostrarAdvertenciaEnDialogo(
+					// 	t('advertencias.excedeUnidadesDisponibles', {
+					// 		disponible: unidadesDisponibles,
+					// 	}),
+					// 	'excede-disponible'
+					// );
+					mostrarAviso(
+						'error',
 						t('advertencias.excedeUnidadesDisponibles', {
 							disponible: unidadesDisponibles,
-						}),
-						'excede-disponible'
+						})
 					);
 					return esValidacionCorrecta;
 				}

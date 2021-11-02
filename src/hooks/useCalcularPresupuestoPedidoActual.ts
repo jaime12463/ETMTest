@@ -30,10 +30,14 @@ export const useCalcularPresupuestoPedidoActual = () => {
 				if (codigoProducto !== producto.codigoProducto)
 					consumidoEnPedidoActual +=
 						producto.unidades + producto.subUnidades / producto.presentacion;
+
 				return consumidoEnPedidoActual;
 			},
 			consumidoEnPedidoActual
 		);
+		//console.log(consumidoEnPedidoActual);
+
+		//console.log(codigoProducto);
 
 		//Unidades y subunidades que se estan ingresando.
 		consumidoEnPedidoActual +=

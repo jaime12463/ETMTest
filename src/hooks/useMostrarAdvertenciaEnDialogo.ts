@@ -16,13 +16,13 @@ export const useMostrarAdvertenciaEnDialogo = () => {
 			dataCy: string,
 			manejadorClick?: (oprimioBotonAceptar: boolean, data?: any) => void,
 			textosBotonesDefault?: {aceptar: string; cancelar: string},
-			textoInput?:string,
-			titulo?:string,
+			textoInput?: string,
+			titulo?: string
 		) => {
 			setParametrosDialogo({
 				mensaje: mensaje,
 				manejadorClick: manejadorClick
-					? (oprimioBotonAceptar,data) => {
+					? (oprimioBotonAceptar, data) => {
 							manejadorClick(oprimioBotonAceptar, data);
 							setMostarDialogo(false);
 					  }
@@ -30,12 +30,17 @@ export const useMostrarAdvertenciaEnDialogo = () => {
 				conBotonCancelar: manejadorClick ? true : false,
 				dataCy: dataCy,
 				textosBotonesDefault: textosBotonesDefault,
-				textoInput:textoInput,
-				titulo:titulo,
+				textoInput: textoInput,
+				titulo: titulo,
 			});
 			setMostarDialogo(true);
 		},
 		[]
 	);
-	return {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo};
+	return {
+		mostrarAdvertenciaEnDialogo,
+		mostarDialogo,
+		parametrosDialogo,
+		setMostarDialogo,
+	};
 };

@@ -15,7 +15,7 @@ import {Theme} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {makeStyles, createStyles} from '@material-ui/styles';
 import clsx from 'clsx';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {useObtenerDatos} from 'redux/hooks';
 import {
@@ -29,6 +29,7 @@ import {useTranslation} from 'react-i18next';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {formatearNumero} from 'utils/methods';
 import {useAgregarProductoAlPedidoActual} from '../hooks/useAgregarProductoAlPedidoActual';
+import theme from 'theme';
 
 const InputStyled = styled(Input)(({}) => ({
 	borderRadius: '10px',
@@ -127,6 +128,18 @@ const TarjetaPromoPush = (props: any) => {
 
 	const [getValues, setGetValues] = React.useState(defaultValues);
 
+	useEffect(() => {
+		const defaultValues = {
+			unidades: producto ? producto.unidades : 0,
+			subUnidades: producto ? producto.subUnidades : 0,
+			productoABuscar: '',
+			tipoDePedido: visitaActual.tipoPedidoActual,
+			catalogoMotivo: '',
+		};
+
+		setGetValues(defaultValues);
+	}, [producto]);
+
 	const datos = useObtenerDatos();
 	const {productos} = datos;
 
@@ -167,12 +180,15 @@ const TarjetaPromoPush = (props: any) => {
 			[name]: value === '+' ? ++getValues.unidades : --getValues.unidades,
 		});
 
-		agregarProductoAlPedidoActual(getValues);
+		setPuedeAgregar(true);
 	};
 
 	React.useEffect(() => {
-		agregarProductoAlPedidoActual(getValues);
-	}, [getValues]);
+		if (puedeAgregar) {
+			agregarProductoAlPedidoActual(getValues);
+			setPuedeAgregar(false);
+		}
+	}, [puedeAgregar]);
 
 	const manejadorExpandido =
 		({id}: any) =>
@@ -197,7 +213,11 @@ const TarjetaPromoPush = (props: any) => {
 						alignItems='center'
 						marginBottom='8px'
 					>
-						<CheckRedondoIcon height='17.5px' width='17.5px' />
+						<CheckRedondoIcon
+							height='17.5px'
+							width='17.5px'
+							fill={`${theme.palette.success.main}`}
+						/>
 					</Box>
 				)}
 				<Box
@@ -209,14 +229,22 @@ const TarjetaPromoPush = (props: any) => {
 						<Typography variant='subtitle3' marginBottom='2px'>
 							{codigoProducto}
 						</Typography>
-						<Typography variant='subtitle3' marginBottom='6px'>
+						<Typography
+							variant='subtitle3'
+							sx={{
+								maxWidth: '137px',
+								textOverflow: 'ellipsis',
+								overflow: 'hidden',
+							}}
+							marginBottom='6px'
+						>
 							{nombreProducto}
 						</Typography>
 						<Typography variant='subtitle3' marginBottom='6px'>
 							{formatearNumero(precioConImpuestoUnidad, t)}
 						</Typography>
 						<Typography variant='caption' color='primary'>
-							Ahorras: {formatearNumero(precioConImpuestoUnidad, t)}
+							Ahorras: {formatearNumero(descuento, t)}
 						</Typography>
 					</Box>
 					<Box
@@ -271,8 +299,19 @@ const TarjetaPromoPush = (props: any) => {
 								name='unidades'
 								value='+'
 								onClick={handleButtons}
+								disabled={
+									getValues.unidades >= unidadesDisponibles ? true : false
+								}
 							>
-								<AgregarRedondoIcon width='18px' height='18px' />
+								<AgregarRedondoIcon
+									width='18px'
+									height='18px'
+									fill={
+										getValues.unidades >= unidadesDisponibles
+											? '#D9D9D9'
+											: '#2F000E'
+									}
+								/>
 							</IconButton>
 							<Typography variant={'subtitle3'} fontWeight={700}>
 								/ {unidadesDisponibles}
@@ -288,50 +327,49 @@ const TarjetaPromoPush = (props: any) => {
 								Paquetes
 							</Typography>
 							<Box>
-								{componentes &&
-									componentes.map((el: any, i: number) => (
-										<>
-											<Grid container mt={1} key={el.codigoProducto}>
-												<GridStyled item xs={8}>
-													<Box display='flex' flexDirection='column'>
-														<Typography variant='subtitle3'>
-															{el.codigoProducto}
-														</Typography>
+								{componentes?.map((el: any, i: number) => (
+									<div key={`${el.codigoProducto}${i}`}>
+										<Grid container mt={1}>
+											<GridStyled item xs={8}>
+												<Box display='flex' flexDirection='column'>
+													<Typography variant='subtitle3'>
+														{el.codigoProducto}
+													</Typography>
 
-														<Typography variant='subtitle3'>
-															{productos[el.codigoProducto].nombre}
+													<Typography variant='subtitle3'>
+														{productos[el.codigoProducto].nombre}
+													</Typography>
+												</Box>
+											</GridStyled>
+											<GridStyled item xs={4} justifyContent='end'>
+												<Box
+													display='flex'
+													flexDirection='column'
+													marginBottom='8px'
+												>
+													<Box display='flex' textAlign='center'>
+														<CajaIcon width={'19px'} height='14px' />
+														<Typography variant='caption' mt={0.3}>
+															{`x${promoPush.componentes[i].cantidad}
+																	${formatearNumero(el.precioBase, t)}`}
 														</Typography>
 													</Box>
-												</GridStyled>
-												<GridStyled item xs={4}>
-													<Box
-														display='flex'
-														flexDirection='column'
-														marginBottom='8px'
-													>
-														<Box display='flex' textAlign='center'>
-															<CajaIcon width={'19px'} height='14px' />
-															<Typography variant='caption' mt={0.3}>
-																{`x${promoPush.componentes[i].cantidad}
-																	${formatearNumero(el.precioBase, t)}`}
-															</Typography>
-														</Box>
-														<Box>
-															<Typography color='primary' variant='caption'>
-																Ahorras: {formatearNumero(el.descuento, t)}
-															</Typography>
-														</Box>
-														<Box>
-															<Typography variant='subtitle3'>
-																Total: {formatearNumero(el.precioFinal, t)}
-															</Typography>
-														</Box>
+													<Box>
+														<Typography color='primary' variant='caption'>
+															Ahorras: {formatearNumero(el.descuento, t)}
+														</Typography>
 													</Box>
-												</GridStyled>
-											</Grid>
-											<Divider />
-										</>
-									))}
+													<Box>
+														<Typography variant='subtitle3'>
+															Total: {formatearNumero(el.precioFinal, t)}
+														</Typography>
+													</Box>
+												</Box>
+											</GridStyled>
+										</Grid>
+										<Divider />
+									</div>
+								))}
 							</Box>
 						</Stack>
 					</Collapse>

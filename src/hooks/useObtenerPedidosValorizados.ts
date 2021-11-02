@@ -20,7 +20,7 @@ export const useObtenerPedidosValorizados = () => {
 		});
 
 		let productosConUnidades = productos.filter(
-			(productos) => productos.unidades > 0
+			(productos) => productos.unidades > 0 || productos.subUnidades > 0
 		);
 
 		return productosConUnidades;

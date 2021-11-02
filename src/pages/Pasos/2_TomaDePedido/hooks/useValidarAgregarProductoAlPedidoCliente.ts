@@ -8,7 +8,7 @@ import {
 	TStateInputFocus,
 	TTipoPedido,
 } from 'models';
-import {useCallback} from 'react';
+import {useCallback, useEffect} from 'react';
 import {
 	validarSubUnidadesConPresentacion,
 	validarSubUnidadesEsMultiplo,
@@ -18,6 +18,7 @@ import {
 import {
 	useCalcularPresupuestoPedidoActual,
 	useCalcularPresupuestoTipoPedido,
+	useMostrarAviso,
 	useObtenerDatosCliente,
 	useObtenerDatosTipoPedido,
 	useObtenerPedidosClienteMismaFechaEntrega,
@@ -26,6 +27,7 @@ import {
 	useObtenerClienteActual,
 	useObtenerDatos,
 	useObtenerPedidoActual,
+	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
 import {
@@ -43,7 +45,7 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 
 	const validarProductoPermiteSubUnidades =
 		useValidarProductoPermiteSubUnidades();
-
+	const visitaActual = useObtenerVisitaActual();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
 	const pedidoActual = useObtenerPedidoActual();
@@ -68,6 +70,8 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 		clienteActual,
 		getValues
 	);
+
+	const mostrarAviso = useMostrarAviso();
 
 	const validarAgregarProductoAlPedidoCliente = useCallback(
 		(inputs: TFormTomaDePedido): boolean => {
@@ -105,20 +109,33 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			const datosTipoPedidoActual: TTipoPedido | undefined =
 				obtenerDatosTipoPedido();
 
+			//console.log(productoABuscar);
+
 			if (datosTipoPedidoActual?.validaPresupuesto) {
 				const saldoPresupuesto = calcularPresupuestoPedidoActual(
 					pedidoActual,
 					unidadesParseado,
 					subUnidadesParseado,
-					parseInt(productoABuscar),
+					productoActual.codigoProducto,
 					presentacion
 				);
 
+				//console.log(presentacion);
+
 				if (saldoPresupuesto < 0) {
-					mostrarAdvertenciaEnDialogo(
+					// mostrarAdvertenciaEnDialogo(
+					// 	t('advertencias.excedePresupuesto', {
+					// 		descripcion: datosTipoPedidoActual.descripcion,
+					// 	}),
+					// 	'excede-presupuesto'
+					// );
+					mostrarAviso(
+						'error',
 						t('advertencias.excedePresupuesto', {
 							descripcion: datosTipoPedidoActual.descripcion,
 						}),
+						undefined,
+						undefined,
 						'excede-presupuesto'
 					);
 					return esValidacionCorrecta;
@@ -126,8 +143,15 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			}
 
 			if (!esPermitidoSubUnidades && subUnidadesParseado !== 0) {
-				mostrarAdvertenciaEnDialogo(
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('advertencias.subUnidadesNoPermitidas'),
+				// 	'sub-unidades-no-permitidas'
+				// );
+				mostrarAviso(
+					'error',
 					t('advertencias.subUnidadesNoPermitidas'),
+					undefined,
+					undefined,
 					'sub-unidades-no-permitidas'
 				);
 				return esValidacionCorrecta;
@@ -139,8 +163,15 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			);
 
 			if (!esSubUnidadesMenorAPresentacion) {
-				mostrarAdvertenciaEnDialogo(
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('advertencias.limiteSubUnidades'),
+				// 	'limite-sub-unidades'
+				// );
+				mostrarAviso(
+					'error',
 					t('advertencias.limiteSubUnidades'),
+					undefined,
+					undefined,
 					'limite-sub-unidades'
 				);
 				return esValidacionCorrecta;
@@ -155,10 +186,17 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				datosTipoPedidoActual?.validaSubunidadesMinimas &&
 				!esSubUnidadEsMultiplo
 			) {
-				mostrarAdvertenciaEnDialogo(
-					t('advertencias.subUnidadesNoMultiplo', {
-						subunidadesVentaMinima,
-					}),
+				// mostrarAdvertenciaEnDialogo(
+				// 	t('advertencias.subUnidadesNoMultiplo', {
+				// 		subunidadesVentaMinima,
+				// 	}),
+				// 	'sub-unidades-no-multiplo'
+				// );
+				mostrarAviso(
+					'error',
+					t('advertencias.subUnidadesNoMultiplo', {subunidadesVentaMinima}),
+					undefined,
+					undefined,
 					'sub-unidades-no-multiplo'
 				);
 				return esValidacionCorrecta;
@@ -175,10 +213,19 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 				);
 
 				if (unidadesDisponibles >= 0) {
-					mostrarAdvertenciaEnDialogo(
+					// mostrarAdvertenciaEnDialogo(
+					// 	t('advertencias.excedeUnidadesDisponibles', {
+					// 		disponible: unidadesDisponibles,
+					// 	}),
+					// 	'excede-disponible'
+					// );
+					mostrarAviso(
+						'error',
 						t('advertencias.excedeUnidadesDisponibles', {
 							disponible: unidadesDisponibles,
 						}),
+						undefined,
+						undefined,
 						'excede-disponible'
 					);
 					return esValidacionCorrecta;
@@ -218,6 +265,8 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			datosCliente,
 			mostrarAdvertenciaEnDialogo,
 			t,
+			visitaActual,
+			getValues,
 		]
 	);
 	return validarAgregarProductoAlPedidoCliente;

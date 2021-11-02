@@ -36,10 +36,10 @@
 				"requiereMotivo": true,
 				"catalogoMotivos" :[ 
 					{"codigo" : 1,
-					"descripción":" Producto en mal estado"
+					"descripcion":" Producto en mal estado"
 					},
 					{"codigo" : 2,
-					"descripción": "Envase deteriorado"
+					"descripcion": "Envase deteriorado"
 					}
 				]
 			},
@@ -61,8 +61,8 @@
 			},
 			{	
 				"codigo": "PrestamoEnvase", 
-				"descripcion": "Préstamo Envase",
-				"descripcionCorta": "Préstamo",
+				"descripcion": "Prestamo Envase",
+				"descripcionCorta": "Prestamo",
 				"secuencia": 0,	
 				"esValorizado": false,
 				"esMandatorio" : false,

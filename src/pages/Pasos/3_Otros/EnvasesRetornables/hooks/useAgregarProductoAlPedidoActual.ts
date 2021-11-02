@@ -50,7 +50,12 @@ export const useAgregarProductoAlPedidoActual = () => {
 					})
 				);
 			} else {
-				dispatch(borrarProductoDelPedidoActual({codigoProducto}));
+				dispatch(
+					borrarProductoDelPedidoActual({
+						codigoProducto,
+						codigoTipoPedidoActual,
+					})
+				);
 			}
 		},
 		[dispatch]
