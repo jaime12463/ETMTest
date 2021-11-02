@@ -79,7 +79,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	const [textoIngresado, setTextoIngresado] = useState<string>('');
 	const [opciones, setOpciones] = useState<TPrecioProducto[]>([]); //(preciosProductos);
 
-	useEffect(() => {
+	/* 	useEffect(() => {
 		if (textoIngresado.length >= 3 && preciosProductosDelClienteActual) {
 			const lista = preciosProductosDelClienteActual.filter(
 				(item) =>
@@ -92,23 +92,10 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 		} else if (textoIngresado.length === 0) {
 			setOpciones([]);
 		}
-	}, [textoIngresado]);
+	}, [textoIngresado]); */
 
-	const handleInputChangue = (
-		event: any,
-		newInputValue: string,
-		reason: string
-	) => {
-		if (event) {
-			if (reason === 'clear') {
-				setTextoIngresado('');
-			} else if (
-				(reason === 'reset' && event.type === 'click') ||
-				reason === 'input'
-			) {
-				setTextoIngresado(newInputValue);
-			}
-		}
+	const handleInputChangue = (e: any) => {
+		setTextoIngresado(e.target.value);
 	};
 
 	return (
@@ -127,9 +114,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 						disabled={!validarEsPermitidoAgregarProductoAlPedido()}
 						onClick={() => {
 							seleccionarProductoDePrecios({
-								productoABuscar: productoSeleccionado?.codigoProducto
-									? productoSeleccionado?.codigoProducto.toString()
-									: '',
+								productoABuscar: textoIngresado,
 							});
 						}}
 					>
@@ -137,43 +122,36 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 					</IconButton>
 				</Grid>
 				<Grid item xs={12}>
-					<Autocomplete
-						filterOptions={(x) => x}
-						options={opciones}
-						getOptionLabel={(option) =>
-							`${option['codigoProducto'].toString()} - ${
-								option['nombreProducto']
-							}`
-						}
-						//value={productoSeleccionado}
-
-						onChange={(event: any, nuevoValor: TPrecioProducto | null) => {
-							setProductoSeleccionado(nuevoValor);
+					<TextField
+						sx={{
+							'& .MuiInput-input': {
+								'&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+									appearance: 'none',
+								},
+							},
 						}}
-						inputValue={textoIngresado}
-						onInputChange={(event, newInputValue, reason) =>
-							handleInputChangue(event, newInputValue, reason)
-						}
-						id='autocomplete-seleccionar-producto'
-						fullWidth
-						renderInput={(params) => (
-							<TextField
-								{...params}
-								variant='standard'
-								onClick={() => {
-									setInputFocus('productoABuscar');
-								}}
-								className={estilos.root}
-								InputProps={{...params.InputProps, disableUnderline: true}}
-								placeholder={`${t('general.agregarProductoSKU')}`}
-								inputRef={(input) => {
-									if (inputFocus === 'productoABuscar') {
-										input?.focus();
-									}
-								}}
-							/>
-						)}
-						disabled={!validarEsPermitidoAgregarProductoAlPedido()}
+						type='number'
+						variant='standard'
+						value={textoIngresado}
+						onClick={() => {
+							setInputFocus('productoABuscar');
+						}}
+						onKeyPress={(e) => {
+							if (e.key === 'Enter') {
+								seleccionarProductoDePrecios({
+									productoABuscar: textoIngresado,
+								});
+							}
+						}}
+						onChange={(e) => handleInputChangue(e)}
+						className={estilos.root}
+						InputProps={{disableUnderline: true}}
+						placeholder={`${t('general.agregarProductoSKU')}`}
+						inputRef={(input) => {
+							if (inputFocus === 'productoABuscar') {
+								input?.focus();
+							}
+						}}
 					/>
 				</Grid>
 				<Grid item>
@@ -182,11 +160,8 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 						size='small'
 						name='boton-+'
 						onClick={(e: any) => {
-							handleInputChangue(e, '', 'clear');
 							seleccionarProductoDePrecios({
-								productoABuscar: productoSeleccionado?.codigoProducto
-									? productoSeleccionado?.codigoProducto.toString()
-									: '',
+								productoABuscar: textoIngresado,
 							});
 						}}
 						disabled={!validarEsPermitidoAgregarProductoAlPedido()}
