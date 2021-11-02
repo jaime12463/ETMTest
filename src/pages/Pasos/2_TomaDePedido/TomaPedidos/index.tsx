@@ -231,14 +231,11 @@ const Izquierda: React.FC<IzquierdaProps> = ({producto, condicion}) => {
 					<SwitchCambiarTipoPago producto={producto} />
 				)}
 			</Box>
-			<Box>
-				<Typography fontSize='12px' fontWeight='600'>
-					{producto.codigoProducto}
-				</Typography>
+			<Box display='flex' flexDirection='column'>
+				<Typography variant='subtitle3'>{producto.codigoProducto}</Typography>
 				<Typography
-					fontSize='12px'
+					variant='subtitle3'
 					fontFamily='Poppins'
-					fontWeight='600'
 					marginBottom='4px'
 					noWrap
 					width='150px'
@@ -246,19 +243,19 @@ const Izquierda: React.FC<IzquierdaProps> = ({producto, condicion}) => {
 					{producto.nombreProducto.toUpperCase()}
 				</Typography>
 			</Box>
-			<Box display='flex'>
+			<Box display='flex' alignItems='center' sx={{placeSelf: 'start'}}>
 				<CajaIcon height='14px' width='19px' />
 				<Typography
-					fontSize='10px'
+					variant='caption'
 					marginRight='4px'
 				>{`x${producto.presentacion}`}</Typography>
-				<Typography fontSize='12px' fontWeight='600' marginRight='8px'>
+				<Typography variant='subtitle3' marginRight='8px'>
 					{`$${producto.precioConImpuestoUnidad}`}
 				</Typography>
 				{producto.esVentaSubunidades && (
 					<>
 						<BotellaIcon height='14px' width='14px' />
-						<Typography fontSize='12px' fontWeight='600' marginLeft='4px'>
+						<Typography variant='subtitle3' marginLeft='4px'>
 							{`$${producto.precioConImpuestoSubunidad}`}
 						</Typography>
 					</>

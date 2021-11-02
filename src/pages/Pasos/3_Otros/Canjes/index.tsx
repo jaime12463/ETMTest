@@ -17,41 +17,32 @@ import {
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {useForm} from 'react-hook-form';
-import {TarjetaColapsable, TarjetaDoble, Dialogo} from 'components/UI';
+import {TarjetaDoble, Dialogo} from 'components/UI';
 import {
 	useInicializarPreciosProductosDelClienteActual,
-	useCalcularPresupuestoTipoPedido,
 	useMostrarAdvertenciaEnDialogo,
 	useObtenerDatosCliente,
 } from 'hooks';
-import {
-	agregarProductoDelPedidoActual,
-	cambiarTipoPedidoActual,
-} from 'redux/features/visitaActual/visitaActualSlice';
+import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 import {
 	Stack,
 	Box,
-	Grid,
 	Typography,
 	IconButton,
 	Input,
 	Select,
 	MenuItem,
-	InputLabel,
-	InputBase,
 	Chip,
 	FormControl,
 } from '@mui/material';
 import {
 	AgregarRedondoIcon,
-	BorrarIcon,
 	BotellaIcon,
 	CajaIcon,
 	CheckRedondoIcon,
 	QuitarRellenoIcon,
 } from 'assests/iconos';
 import {styled} from '@mui/material/styles';
-import {makeStyles} from '@material-ui/styles';
 
 import {
 	useAgregarProductoAlPedidoActual,
@@ -208,7 +199,7 @@ const Izquierda: React.FC<IzquierdaProps> = ({
 	const {catalogoMotivo, setCatalogoMotivo} = stateCatalogo;
 	const [motivo, setMotivo] = useState('');
 
-	const handleOnChangueSelect = (e: any) => {
+	const handleOnChangeSelect = (e: any) => {
 		setMotivo(e.target.value);
 		setCatalogoMotivo({
 			...catalogoMotivo,
@@ -220,28 +211,25 @@ const Izquierda: React.FC<IzquierdaProps> = ({
 		<Box
 			sx={{
 				display: 'grid',
-				gridTemplateRows: 'repeat(3, 1fr)',
-				padding: '40px 14px 0 14px',
+				gridTemplateRows: '1fr auto 1fr',
+				padding:
+					producto.unidades > 0 || producto.subUnidades > 0 || motivo !== ''
+						? '40px 14px 12px 14px'
+						: '12px 14px 12px 14px',
 				height: '100%',
 			}}
 		>
-			<Box>
-				<Typography fontSize='12px' fontWeight='600'>
-					{producto.codigoProducto}
-				</Typography>
-				<Typography
-					fontSize='12px'
-					fontFamily='Poppins'
-					fontWeight='600'
-					marginBottom='4px'
-				>
+			<Box display='flex' flexDirection='column'>
+				<Typography variant='subtitle3'>{producto.codigoProducto}</Typography>
+				<Typography variant='subtitle3' fontFamily='Poppins' marginBottom='4px'>
 					{producto.nombreProducto.toUpperCase()}
 				</Typography>
 			</Box>
-			<Box display='flex'>
+			<Box display='flex' alignItems='center' marginBottom='12px'>
 				<CajaIcon height='14px' width='19px' />
 				<Typography
-					fontSize='10px'
+					variant='caption'
+					fontFamily='Open Sans'
 					marginRight='4px'
 				>{`x${producto.presentacion}`}</Typography>
 			</Box>
@@ -254,7 +242,7 @@ const Izquierda: React.FC<IzquierdaProps> = ({
 								: producto.catalogoMotivo
 						}
 						id='motivos-canje'
-						onChange={(e) => handleOnChangueSelect(e)}
+						onChange={(e) => handleOnChangeSelect(e)}
 						sx={{
 							width: '159px',
 							height: '24px',
@@ -446,9 +434,10 @@ const Derecha: React.FC<DerechaProps> = ({
 			<Box
 				sx={{
 					display: 'grid',
-					gridTemplateRows: 'repeat(3, 1fr)',
+					gridTemplateRows:
+						pendiente || mostrarAcciones ? '1fr 3fr' : 'auto 1fr',
 					padding: '12px 0',
-					placeItems: 'center',
+					placeItems: 'start',
 					justifyContent: 'center',
 					height: '100%',
 				}}
@@ -483,123 +472,126 @@ const Derecha: React.FC<DerechaProps> = ({
 						</>
 					)}
 				</Box>
-				<Box display='flex' alignItems='center'>
-					<CajaIcon height='13px' width='18px' />
-					<IconButton
-						size='small'
-						value='-'
-						name='unidades'
-						onClick={handleButtons}
-						disabled={producto.unidades > 0 ? false : true}
-					>
-						<QuitarRellenoIcon
-							width='18px'
-							height='18px'
-							fill={producto.unidades > 0 ? '#2F000E' : '#D9D9D9'}
+				<Box display='flex' flexDirection='column'>
+					<Box display='flex' alignItems='center'>
+						<CajaIcon height='13px' width='18px' />
+						<IconButton
+							size='small'
+							value='-'
+							name='unidades'
+							onClick={handleButtons}
+							disabled={producto.unidades > 0 ? false : true}
+						>
+							<QuitarRellenoIcon
+								width='18px'
+								height='18px'
+								fill={producto.unidades > 0 ? '#2F000E' : '#D9D9D9'}
+							/>
+						</IconButton>
+						<InputStyled
+							value={getValue.unidades}
+							onChange={handleOnChange}
+							onKeyPress={handleKeyPress}
+							disableUnderline
+							name='unidades'
+							id='unidades_producto'
+							onClick={() => {
+								setInputFocus('unidades');
+								setFocusId(producto.codigoProducto);
+							}}
+							onFocus={(e) => e.target.select()}
+							inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
+							inputRef={(input) => {
+								if (
+									inputFocus === 'unidades' &&
+									focusId === producto.codigoProducto
+								) {
+									input?.focus();
+								}
+							}}
 						/>
-					</IconButton>
-					<InputStyled
-						value={getValue.unidades}
-						onChange={handleOnChange}
-						onKeyPress={handleKeyPress}
-						disableUnderline
-						name='unidades'
-						id='unidades_producto'
-						onClick={() => {
-							setInputFocus('unidades');
-							setFocusId(producto.codigoProducto);
-						}}
-						onFocus={(e) => e.target.select()}
-						inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
-						inputRef={(input) => {
-							if (
-								inputFocus === 'unidades' &&
-								focusId === producto.codigoProducto
-							) {
-								input?.focus();
-							}
-						}}
-					/>
-					<IconButton
-						size='small'
-						name='unidades'
-						value='+'
-						onClick={handleButtons}
-						disabled={
-							producto.unidades >= configuracionPedido?.cantidadMaximaUnidades
-								? true
-								: false
-						}
-					>
-						<AgregarRedondoIcon
-							width='18px'
-							height='18px'
-							fill={
+						<IconButton
+							size='small'
+							name='unidades'
+							value='+'
+							onClick={handleButtons}
+							disabled={
 								producto.unidades >= configuracionPedido?.cantidadMaximaUnidades
-									? '#D9D9D9'
-									: '#2F000E'
+									? true
+									: false
 							}
+						>
+							<AgregarRedondoIcon
+								width='18px'
+								height='18px'
+								fill={
+									producto.unidades >=
+									configuracionPedido?.cantidadMaximaUnidades
+										? '#D9D9D9'
+										: '#2F000E'
+								}
+							/>
+						</IconButton>
+					</Box>
+					<Box display='flex' alignItems='center'>
+						<BotellaIcon width='18px' height='18px' />
+						<IconButton
+							size='small'
+							value='-'
+							name='subUnidades'
+							onClick={handleButtons}
+							disabled={producto.subUnidades > 0 ? false : true}
+						>
+							<QuitarRellenoIcon
+								width='18px'
+								height='18px'
+								fill={producto.subUnidades > 0 ? '#2F000E' : '#D9D9D9'}
+							/>
+						</IconButton>
+						<InputStyled
+							onKeyPress={handleKeyPress}
+							onChange={handleOnChange}
+							value={getValue.subUnidades}
+							disableUnderline
+							id='subUnidades_producto'
+							name='subUnidades'
+							onClick={() => {
+								setInputFocus('subUnidades');
+								setFocusId(producto.codigoProducto);
+							}}
+							onFocus={(e) => e.target.select()}
+							inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
+							inputRef={(input) => {
+								if (
+									inputFocus === 'subUnidades' &&
+									focusId === producto.codigoProducto
+								) {
+									input?.focus();
+								}
+							}}
 						/>
-					</IconButton>
-				</Box>
-				<Box display='flex' alignItems='center'>
-					<BotellaIcon width='18px' height='18px' />
-					<IconButton
-						size='small'
-						value='-'
-						name='subUnidades'
-						onClick={handleButtons}
-						disabled={producto.subUnidades > 0 ? false : true}
-					>
-						<QuitarRellenoIcon
-							width='18px'
-							height='18px'
-							fill={producto.subUnidades > 0 ? '#2F000E' : '#D9D9D9'}
-						/>
-					</IconButton>
-					<InputStyled
-						onKeyPress={handleKeyPress}
-						onChange={handleOnChange}
-						value={getValue.subUnidades}
-						disableUnderline
-						id='subUnidades_producto'
-						name='subUnidades'
-						onClick={() => {
-							setInputFocus('subUnidades');
-							setFocusId(producto.codigoProducto);
-						}}
-						onFocus={(e) => e.target.select()}
-						inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
-						inputRef={(input) => {
-							if (
-								inputFocus === 'subUnidades' &&
-								focusId === producto.codigoProducto
-							) {
-								input?.focus();
-							}
-						}}
-					/>
-					<IconButton
-						size='small'
-						name='subUnidades'
-						value='+'
-						onClick={handleButtons}
-						disabled={
-							getValue.subUnidades >=
-							producto.presentacion - producto.subunidadesVentaMinima
-						}
-					>
-						<AgregarRedondoIcon
-							width='18px'
-							height='18px'
-							fill={
+						<IconButton
+							size='small'
+							name='subUnidades'
+							value='+'
+							onClick={handleButtons}
+							disabled={
 								getValue.subUnidades >=
 								producto.presentacion - producto.subunidadesVentaMinima
-									? '#D9D9D9'
-									: '#2F000E'
 							}
-						/>
-					</IconButton>
+						>
+							<AgregarRedondoIcon
+								width='18px'
+								height='18px'
+								fill={
+									getValue.subUnidades >=
+									producto.presentacion - producto.subunidadesVentaMinima
+										? '#D9D9D9'
+										: '#2F000E'
+								}
+							/>
+						</IconButton>
+					</Box>
 				</Box>
 			</Box>
 		</>
