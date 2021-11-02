@@ -94,7 +94,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 		}
 	}, [textoIngresado]); */
 
-	const handleInputChangue = (e: any) => {
+	const handleInputChange = (e: any) => {
 		setTextoIngresado(e.target.value);
 	};
 
@@ -129,6 +129,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 									appearance: 'none',
 								},
 							},
+							width: '100%',
 						}}
 						type='number'
 						variant='standard'
@@ -141,9 +142,10 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 								seleccionarProductoDePrecios({
 									productoABuscar: textoIngresado,
 								});
+								setTextoIngresado('');
 							}
 						}}
-						onChange={(e) => handleInputChangue(e)}
+						onChange={(e) => handleInputChange(e)}
 						className={estilos.root}
 						InputProps={{disableUnderline: true}}
 						placeholder={`${t('general.agregarProductoSKU')}`}

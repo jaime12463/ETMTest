@@ -334,21 +334,27 @@ const Derecha: React.FC<DerechaProps> = ({
 	}, [getValues.unidades, getValues.subUnidades]);
 
 	const validacionSubUnidades = () => {
-		if (getValues.subUnidades % producto.subunidadesVentaMinima === 0) {
+		if (
+			getValues.subUnidades % producto.subunidadesVentaMinima !== 0 &&
+			getValues.subUnidades < producto.presentacion
+		) {
 			return (
-				agregarProductoAlPedidoActual(getValues),
-				setFocusId(0),
-				setInputFocus('productoABuscar')
+				mostrarAviso(
+					'error',
+					t('advertencias.subUnidadesNoMultiplo', {
+						subunidadesVentaMinima: producto.subunidadesVentaMinima,
+					})
+				),
+				setGetValues({
+					...getValues,
+					subUnidades: 0,
+				})
 			);
 		}
 
-		mostrarAviso(
-			'error',
-			t('advertencias.subUnidadesNoMultiplo', {
-				subunidadesVentaMinima: producto.subunidadesVentaMinima,
-			})
-		);
-		setGetValues({...getValues, subUnidades: producto.subunidadesVentaMinima});
+		agregarProductoAlPedidoActual(getValues);
+		setFocusId(0);
+		setInputFocus('productoABuscar');
 	};
 
 	const handleOnChange = (
