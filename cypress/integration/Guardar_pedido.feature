@@ -28,7 +28,7 @@
 
 Característica: Guardar actividad realizada
     Como prevendedor
-    Quiero guardar el pedido y compromiso de cobro realizados
+    Quiero guardar el pedido y compromiso de cobro realizados y registar las iniciativas cumplidas
     Para luego informar a central la actividad realizada
 
 # Comentario:
