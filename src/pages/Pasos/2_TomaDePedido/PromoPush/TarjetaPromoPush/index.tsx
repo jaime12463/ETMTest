@@ -327,50 +327,49 @@ const TarjetaPromoPush = (props: any) => {
 								Paquetes
 							</Typography>
 							<Box>
-								{componentes &&
-									componentes.map((el: any, i: number) => (
-										<div key={`${el.codigoProducto}${i}`}>
-											<Grid container mt={1}>
-												<GridStyled item xs={8}>
-													<Box display='flex' flexDirection='column'>
-														<Typography variant='subtitle3'>
-															{el.codigoProducto}
-														</Typography>
+								{componentes?.map((el: any, i: number) => (
+									<div key={`${el.codigoProducto}${i}`}>
+										<Grid container mt={1}>
+											<GridStyled item xs={8}>
+												<Box display='flex' flexDirection='column'>
+													<Typography variant='subtitle3'>
+														{el.codigoProducto}
+													</Typography>
 
-														<Typography variant='subtitle3'>
-															{productos[el.codigoProducto].nombre}
+													<Typography variant='subtitle3'>
+														{productos[el.codigoProducto].nombre}
+													</Typography>
+												</Box>
+											</GridStyled>
+											<GridStyled item xs={4} justifyContent='end'>
+												<Box
+													display='flex'
+													flexDirection='column'
+													marginBottom='8px'
+												>
+													<Box display='flex' textAlign='center'>
+														<CajaIcon width={'19px'} height='14px' />
+														<Typography variant='caption' mt={0.3}>
+															{`x${promoPush.componentes[i].cantidad}
+																	${formatearNumero(el.precioBase, t)}`}
 														</Typography>
 													</Box>
-												</GridStyled>
-												<GridStyled item xs={4}>
-													<Box
-														display='flex'
-														flexDirection='column'
-														marginBottom='8px'
-													>
-														<Box display='flex' textAlign='center'>
-															<CajaIcon width={'19px'} height='14px' />
-															<Typography variant='caption' mt={0.3}>
-																{`x${promoPush.componentes[i].cantidad}
-																	${formatearNumero(el.precioBase, t)}`}
-															</Typography>
-														</Box>
-														<Box>
-															<Typography color='primary' variant='caption'>
-																Ahorras: {formatearNumero(el.descuento, t)}
-															</Typography>
-														</Box>
-														<Box>
-															<Typography variant='subtitle3'>
-																Total: {formatearNumero(el.precioFinal, t)}
-															</Typography>
-														</Box>
+													<Box>
+														<Typography color='primary' variant='caption'>
+															Ahorras: {formatearNumero(el.descuento, t)}
+														</Typography>
 													</Box>
-												</GridStyled>
-											</Grid>
-											<Divider />
-										</div>
-									))}
+													<Box>
+														<Typography variant='subtitle3'>
+															Total: {formatearNumero(el.precioFinal, t)}
+														</Typography>
+													</Box>
+												</Box>
+											</GridStyled>
+										</Grid>
+										<Divider />
+									</div>
+								))}
 							</Box>
 						</Stack>
 					</Collapse>
