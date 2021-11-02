@@ -16,6 +16,7 @@ Escenario: N°1 - Agregar producto de la iniciativa al pedido
     Y mostrará el icono de ejecución
     Y agregará el producto con la cantidad de unidades y subunidades establecidas como un _tipoPedido con _codigo = "Venta"
     Y establecerá al pedido la condición de pago definida para el cliente
+    Y habilitará las unidades y subunidades
 
 Escenario: N°3 - Ingresar unidades a la iniciativa
     Dado que se cambió el estado de la iniciativa a ejecutada
