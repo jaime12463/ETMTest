@@ -43,7 +43,7 @@ export enum EEstadosFetch {
 
 //Visita Actual
 export type TVisita = {
-	fechaEntrega: string; //TODO: Deberia ir la visita con el pedido actual?
+	fechaEntrega: string;
 	tipoPedidoActual: string;
 	saldoPresupuestoTipoPedido: TPresupuestoTipoPedidoTotal;
 	pedidos: TPedidos;

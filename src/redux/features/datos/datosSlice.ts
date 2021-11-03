@@ -9,13 +9,15 @@ const estadoInicial: TDatosSlice = {
 		clientes: {},
 		productos: {},
 		presupuestoTipoPedido: [],
+		iniciativas: [],
 	},
 };
 
-export const obtenerDatosClientesProductosAsync = createAsyncThunk<TDatosClientesProductos>(
-	'datos/obtenerDatosAsync',
-	async () => await obtenerDatosClientesProductos()
-);
+export const obtenerDatosClientesProductosAsync =
+	createAsyncThunk<TDatosClientesProductos>(
+		'datos/obtenerDatosAsync',
+		async () => await obtenerDatosClientesProductos()
+	);
 
 export const datosSlice = createSlice({
 	name: 'datos',
