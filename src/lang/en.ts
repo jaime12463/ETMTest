@@ -75,6 +75,9 @@ const en = {
 		tarjetaCanjes: 'Indicate the quantity of product for exchange',
 		tarjetaCompromisoCobro: 'Generate a codro commitment',
 		tarjetaOrdenDeCompra: "Enter the customer's purchase order number",
+		iniciativas: 'Initiatives',
+		tarjetaIniciativas:
+			'Select and/or edit the SKUs you want to place in this order.',
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',

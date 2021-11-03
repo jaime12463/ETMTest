@@ -75,6 +75,9 @@ const es = {
 		tarjetaCanjes: 'Indica la cantidad de producto para cambio',
 		tarjetaCompromisoCobro: 'Generar un compromiso de cobro',
 		tarjetaOrdenDeCompra: 'Ingresa el número de orden de compra del cliente',
+		iniciativas: 'Iniciativas',
+		tarjetaIniciativas:
+			'Selecciona y/o edita los SKUs que quieras colocar en este pedido.',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
