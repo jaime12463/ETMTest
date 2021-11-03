@@ -77,7 +77,15 @@
 			}
 
 
-		]	
+		],
+		"motivosCancelacionIniciativas" :[ 
+					{"codigo" : 1,
+					"descripcion": "Act. no corresponde al cliente"
+					},
+					{"codigo" : 2,
+					"descripcion": "Cliente no cuenta con envase"
+					}
+				]	
     	}
    }
 
