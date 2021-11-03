@@ -5,6 +5,7 @@ COPY package.json .
 COPY package-lock.json .
 COPY . .
 RUN npm install
+RUN export NODE_OPTIONS=--openssl-legacy-provider && yarn build && yarn install --production --ignore-scripts --prefer-offline
 RUN npm run build
 
 # => Run container
