@@ -7,6 +7,8 @@ import {
 	EEstadosDeUnPedido,
 	ETiposDePago,
 	TCompromisoDeCobro,
+	TIniciativasCliente,
+	TIniciativas,
 } from 'models';
 import {RootState} from 'redux/store';
 
@@ -54,9 +56,37 @@ export const pedidosClientesSlice = createSlice({
 				tipoDocumento,
 			};
 			if (!state[codigoCliente])
-				state[codigoCliente] = {pedidos: [], compromisosDeCobro: []};
+				state[codigoCliente] = {
+					pedidos: [],
+					compromisosDeCobro: [],
+					iniciativas: [],
+				};
 
 			state[codigoCliente].compromisosDeCobro.push(CompromisoDeCobro);
+		},
+
+		agregarIniciativasAlCliente: (
+			state,
+			action: PayloadAction<{
+				iniciativas: TIniciativasCliente[];
+				clienteActual: TClienteActual;
+				fechaEntrega: string;
+			}>
+		) => {
+			const {codigoCliente}: TClienteActual = action.payload.clienteActual;
+			if (!state[codigoCliente])
+				state[codigoCliente] = {
+					pedidos: [],
+					compromisosDeCobro: [],
+					iniciativas: [],
+				};
+			const iniciativasFiltradas = state[codigoCliente].iniciativas.filter(
+				(iniciativa) => iniciativa.fechaEntrega !== action.payload.fechaEntrega
+			);
+
+			state[codigoCliente].iniciativas = iniciativasFiltradas.concat(
+				action.payload.iniciativas
+			);
 		},
 
 		agregarPedidoCliente: (
@@ -72,7 +102,11 @@ export const pedidosClientesSlice = createSlice({
 			const tipoPago = action.payload.tipoPago;
 
 			if (!state[codigoCliente])
-				state[codigoCliente] = {pedidos: [], compromisosDeCobro: []};
+				state[codigoCliente] = {
+					pedidos: [],
+					compromisosDeCobro: [],
+					iniciativas: [],
+				};
 
 			const pedidoCliente: TPedidoClienteParaEnviar = {
 				...action.payload.pedidoActual,
@@ -98,10 +132,11 @@ export const pedidosClientesSlice = createSlice({
 
 			const pedidosClienteActual = state[codigoCliente];
 
-			const pedidosClienteFiltrandoElModificado = pedidosClienteActual.pedidos.filter(
-				(pedidoCliente: TPedidoClienteParaEnviar) =>
-					pedidoCliente.codigoPedido !== pedidoActual.codigoPedido
-			);
+			const pedidosClienteFiltrandoElModificado =
+				pedidosClienteActual.pedidos.filter(
+					(pedidoCliente: TPedidoClienteParaEnviar) =>
+						pedidoCliente.codigoPedido !== pedidoActual.codigoPedido
+				);
 
 			const pedidoClienteModificado: TPedidoClienteParaEnviar = {
 				...pedidoActual,
@@ -125,7 +160,11 @@ export const pedidosClientesSlice = createSlice({
 			const {codigoCliente}: TClienteActual = action.payload.clienteActual;
 			const pedidos: TPedidoClienteParaEnviar[] = action.payload.pedidos;
 			if (!state[codigoCliente])
-				state[codigoCliente] = {pedidos: [], compromisosDeCobro: []};
+				state[codigoCliente] = {
+					pedidos: [],
+					compromisosDeCobro: [],
+					iniciativas: [],
+				};
 			state[codigoCliente].pedidos = [
 				...state[codigoCliente].pedidos,
 				...pedidos,
@@ -142,5 +181,6 @@ export const {
 	cancelarPedidoDelCliente,
 	guardarCompromisoDecobroCliente,
 	agregarPedidosCliente,
+	agregarIniciativasAlCliente,
 } = pedidosClientesSlice.actions;
 export default pedidosClientesSlice.reducer;

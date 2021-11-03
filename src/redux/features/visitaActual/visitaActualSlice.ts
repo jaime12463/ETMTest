@@ -15,6 +15,7 @@ const estadoInicial: TVisita = {
 	mostrarPromoPush: false,
 	bloquearPanelCarga: true,
 	ordenDeCompra: '',
+	iniciativas: [],
 };
 
 export const visitaActualSlice = createSlice({
@@ -140,13 +141,16 @@ export const visitaActualSlice = createSlice({
 				mostrarPromoPush,
 				bloquearPanelCarga,
 				ordenDeCompra,
+				iniciativas,
 			} = action.payload.visitaActual;
+
 			state.pedidos = pedidos;
 			state.fechaEntrega = fechaEntrega;
 			state.tipoPedidoActual = tipoPedidoActual;
 			state.mostrarPromoPush = mostrarPromoPush;
 			state.bloquearPanelCarga = bloquearPanelCarga;
 			state.ordenDeCompra = ordenDeCompra;
+			state.iniciativas = iniciativas;
 		},
 
 		resetearVisitaActual: (state) => {

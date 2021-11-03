@@ -14,6 +14,7 @@ import {useCallback} from 'react';
 import {
 	agregarPedidosCliente,
 	guardarCompromisoDecobroCliente,
+	agregarIniciativasAlCliente,
 } from 'redux/features/pedidosClientes/pedidosClientesSlice';
 
 import {limpiarCompromisoDeCobroActual} from 'redux/features/compromisoDeCobro/compromisoDeCobroSlice';
@@ -42,8 +43,6 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			(pedido) => pedido
 		);
 
-		//console.log(pedidosArray);
-
 		const {esValido, propsAdvertencia}: TRetornoValidacion =
 			validarCierreDeVisita();
 
@@ -66,6 +65,14 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			agregarPedidosCliente({
 				pedidos: pedidosSeparadosCreditoContadoArray,
 				clienteActual,
+			})
+		);
+
+		dispatch(
+			agregarIniciativasAlCliente({
+				iniciativas: visitaActual.iniciativas,
+				clienteActual,
+				fechaEntrega: visitaActual.fechaEntrega,
 			})
 		);
 

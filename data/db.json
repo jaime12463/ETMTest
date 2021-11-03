@@ -1234,6 +1234,16 @@
 					"fechaEntrega": "2021-06-12"
 				}
 			],
+			"iniciativasHabilitadas": [
+				{
+					"codigoIniciativa": 1,
+					"secuencia": 2
+				},
+				{
+					"codigoIniciativa": 2,
+					"secuencia": 1
+				}
+			],
 			"informacionCrediticia": {
 				"condicion": "creditoInformal",
 				"limite": 20000,

@@ -2,8 +2,8 @@ import {
 	TDatosClientesProductos,
 	TCondicicon,
 	TPromoPush,
-	TConfiguracion,
 	TDatosConfiguracion,
+	TIniciativas,
 } from 'models/server';
 
 //Cliente Actual
@@ -50,6 +50,21 @@ export type TVisita = {
 	mostrarPromoPush: boolean;
 	bloquearPanelCarga: boolean;
 	ordenDeCompra: string;
+	iniciativas: TIniciativasCliente[];
+};
+
+export type TIniciativasCliente = {
+	estado: string;
+	secuencia: number;
+	fechaEntrega: string;
+	codigoIniciativa: number;
+	nombreActividad: string;
+	planActividad: string;
+	descripcion: string;
+	vencimiento: string;
+	codigoProducto: number;
+	unidades: number;
+	subUnidades: number;
 };
 
 export type TPresupuestoTipoPedidoTotal = {
@@ -116,6 +131,7 @@ export type TPedidosClientes = {
 	[codigoCliente: string]: {
 		pedidos: TPedidoClienteParaEnviar[];
 		compromisosDeCobro: TCompromisoDeCobro[];
+		iniciativas: TIniciativasCliente[];
 	};
 };
 
