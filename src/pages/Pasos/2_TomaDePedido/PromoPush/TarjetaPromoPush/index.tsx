@@ -383,11 +383,11 @@ const TarjetaPromoPush = (props: any) => {
 							})}
 						>
 							<CardActions disableSpacing style={{padding: 0}}>
-								<Box display='flex' gap='6px'>
+								<Box display='flex' gap='6px' alignItems='center'>
 									<Typography variant='caption' color='secondary'>
 										Ver detalle
 									</Typography>
-									<IconButton
+									<Box
 										className={clsx(classes.expand, {
 											[classes.expandOpen]:
 												expandidoPromoPush === id ? true : false,
@@ -396,7 +396,7 @@ const TarjetaPromoPush = (props: any) => {
 										style={{padding: 0}}
 									>
 										<FlechaAbajoIcon width='10px' height='10px' />
-									</IconButton>
+									</Box>
 								</Box>
 							</CardActions>
 						</ButtonStyled>

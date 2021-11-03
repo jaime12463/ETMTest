@@ -11,23 +11,29 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import {FlechaAbajoIcon} from 'assests/iconos';
+import {
+	AgregarRedondoIcon,
+	BotellaIcon,
+	CajaIcon,
+	FlechaAbajoIcon,
+	QuitarRellenoIcon,
+} from 'assests/iconos';
 import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
 import {makeStyles} from '@material-ui/styles';
 import useEstilos from './useEstilos';
 import clsx from 'clsx';
-import theme from 'theme';
 
 const InputStyled = styled(Input)(({}) => ({
+	backgroundColor: '#D9D9D9',
 	borderRadius: '10px',
-	border: '1px solid #2F000E',
-	height: '16px',
-	width: '42px',
-	backgroundColor: 'white',
-	fontWeight: 600,
-	lineHeight: '16px',
+	color: 'rgba(0, 0, 0, 0.5)',
 	fontSize: '12px',
+	fontWeight: 600,
+	height: '16px',
+	lineHeight: '16px',
+	pointerEvents: 'none',
+	width: '82px',
 }));
 
 const GridStyled = styled(Grid)(({theme}) => ({
@@ -79,56 +85,158 @@ const CardStyled = styled(Card)(({theme}) => ({
 // 	})
 // );
 
-const TarjetaIniciativas: React.FC = () => {
+interface Props {
+	expandido: boolean | string;
+	setExpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
+	id: string;
+	nombreIniciativa: string;
+	planActividad: string;
+	descripcion: string;
+	fechaVencimiento: string;
+	unidades: number;
+	subUnidades: number;
+	codigo: number;
+}
+
+const TarjetaIniciativas: React.FC<Props> = ({
+	expandido,
+	setExpandido,
+	id,
+	nombreIniciativa,
+	planActividad,
+	descripcion,
+	fechaVencimiento,
+	unidades,
+	subUnidades,
+	codigo,
+}) => {
 	const classes = useEstilos();
 	const {t} = useTranslation();
 
+	const manejadorExpandido =
+		({id}: any) =>
+		(event: React.SyntheticEvent) => {
+			setExpandido(id);
+		};
+
 	return (
-		<CardStyled
-			// sx={
-			//   getValues.unidades > 0
-			//     ? {border: '1.5px solid #00CF91'}
-			//     : {border: '1.5px solid #D9D9D9'}
-			// }
-			style={{padding: '12px 14px'}}
-		>
+		<CardStyled style={{padding: '12px 14px'}}>
 			<Box>
-				<Typography variant='subtitle2'>
-					Recupera share Sabores. Asegura cobertura de Fresca 600ml NR en este
-					cliente con Sku 35438939
-				</Typography>
-				<Collapse
-					// in={expandido === id}
-					timeout='auto'
-					unmountOnExit
-				>
-					<Stack>
-						<Divider />
+				<Box marginBottom='12px'>
+					<Typography variant='subtitle2'>{nombreIniciativa}</Typography>
+				</Box>
+				<Collapse in={expandido === id} timeout='auto' unmountOnExit>
+					<Divider />
+					<Stack spacing='12px' marginBottom='8px'>
+						<Box marginTop='8px'>
+							<Typography variant='body3' fontFamily='Open Sans'>
+								Estatus
+							</Typography>
+						</Box>
+						<Box display='flex' gap='8px' alignItems='center'>
+							<Typography variant='body3' fontFamily='Open Sans' flex='1'>
+								Plan de actividades
+							</Typography>
+							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
+								{planActividad}
+							</Typography>
+						</Box>
+						<Box display='flex' gap='8px' alignItems='center'>
+							<Typography variant='body3' fontFamily='Open Sans' flex='1'>
+								Descripción
+							</Typography>
+							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
+								{descripcion}
+							</Typography>
+						</Box>
+						<Box display='flex' gap='8px' alignItems='center'>
+							<Typography variant='body3' fontFamily='Open Sans' flex='1'>
+								Vigencia
+							</Typography>
+							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
+								{fechaVencimiento}
+							</Typography>
+						</Box>
 					</Stack>
+					<Divider />
+					<Box margin='8px 0'>
+						<Box
+							display='flex'
+							alignItems='center'
+							justifyContent='space-between'
+						>
+							<Box>
+								<Typography variant='subtitle3'>{codigo}</Typography>
+							</Box>
+							<Box
+								display='flex'
+								alignItems='center'
+								justifyContent='center'
+								flexDirection='column'
+								gap='12px'
+							>
+								<Box
+									display='flex'
+									alignItems='center'
+									justifyContent='center'
+									gap='10px'
+								>
+									<CajaIcon width='18px' height='18px' />
+									<InputStyled
+										inputProps={{
+											style: {textAlign: 'center'},
+											inputMode: 'numeric',
+										}}
+										disableUnderline
+										readOnly
+										value={unidades}
+									/>
+								</Box>
+								<Box
+									display='flex'
+									alignItems='center'
+									justifyContent='center'
+									gap='10px'
+								>
+									<BotellaIcon width='18px' height='18px' />
+									<InputStyled
+										inputProps={{
+											style: {textAlign: 'center'},
+											inputMode: 'numeric',
+										}}
+										disableUnderline
+										readOnly
+										value={subUnidades}
+									/>
+								</Box>
+							</Box>
+						</Box>
+					</Box>
+					<Divider />
 				</Collapse>
 				<Box marginTop='8px'>
 					<ButtonStyled
 						disableFocusRipple
 						fullWidth
 						disableRipple
-						// onClick={manejadorExpandido({
-						//   id: expandido === id ? false : id,
-						// })}
+						onClick={manejadorExpandido({
+							id: expandido === id ? false : id,
+						})}
 					>
 						<CardActions disableSpacing style={{padding: 0}}>
-							<Box display='flex' gap='6px'>
+							<Box display='flex' gap='6px' alignItems='center'>
 								<Typography variant='caption' color='secondary'>
 									Ver detalle
 								</Typography>
-								<IconButton
-									// className={clsx(classes.expand, {
-									// 	[classes.expandOpen]: expandido === id ? true : false,
-									// })}
-									// aria-expanded={expandido === id ? true : false}
+								<Box
+									className={clsx(classes.expand, {
+										[classes.expandOpen]: expandido === id ? true : false,
+									})}
+									aria-expanded={expandido === id ? true : false}
 									style={{padding: 0}}
 								>
 									<FlechaAbajoIcon width='10px' height='10px' />
-								</IconButton>
+								</Box>
 							</Box>
 						</CardActions>
 					</ButtonStyled>
