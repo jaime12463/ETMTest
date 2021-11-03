@@ -65,6 +65,9 @@ const br = {
 		visitaCliente: 'Visita do Cliente',
 		clientes: 'Clientes',
 		envases: 'Vasilhames Retornáveis',
+		iniciativas: 'Iniciativas',
+		tarjetaIniciativas:
+			'Selecione e/ou edite os SKUs que deseja colocar neste pedido.',
 	},
 	advertencias: {
 		clienteNoExiste: 'O código digitado não corresponde a um cliente',
