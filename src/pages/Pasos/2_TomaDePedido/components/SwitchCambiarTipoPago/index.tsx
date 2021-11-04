@@ -33,12 +33,12 @@ const CustomSwitch = styled(Switch)(() => ({
 		},
 	},
 	'& .MuiSwitch-track': {
-		background: '#FF0000',
+		background: '#2F000E',
 		color: '#fff',
 		opacity: '1',
 	},
 	'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-		backgroundColor: '#00CF91',
+		backgroundColor: '#009D63',
 		opacity: '1',
 	},
 	'& .MuiSwitch-switchBase.Mui-disabled+.MuiSwitch-track': {
