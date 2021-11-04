@@ -54,7 +54,8 @@ export type TVisita = {
 };
 
 export type TIniciativasCliente = {
-	estado: string;
+	estado: 'pendiente' | 'ejecutada' | 'cancelada';
+	motivo: string;
 	secuencia: number;
 	fechaEntrega: string;
 	codigoIniciativa: number;

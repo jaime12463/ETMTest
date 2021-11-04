@@ -223,6 +223,21 @@ export const visitaActualSlice = createSlice({
 		) => {
 			state.ordenDeCompra = action.payload.ordenDeCompra;
 		},
+
+		cambiarEstadoIniciativa: (
+			state,
+			action: PayloadAction<{
+				estado: 'pendiente' | 'ejecutada' | 'cancelada';
+				codigoIniciativa: number;
+			}>
+		) => {
+			state.iniciativas = state.iniciativas.map((iniciativa) => {
+				if (iniciativa.codigoIniciativa === action.payload.codigoIniciativa) {
+					iniciativa.estado = action.payload.estado;
+				}
+				return iniciativa;
+			});
+		},
 	},
 });
 
@@ -242,5 +257,6 @@ export const {
 	cambiarSaldoPresupuestoTipoPedido,
 	cambiarBloquearPanelCarga,
 	cambiarOrdenDeCompra,
+	cambiarEstadoIniciativa,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;
