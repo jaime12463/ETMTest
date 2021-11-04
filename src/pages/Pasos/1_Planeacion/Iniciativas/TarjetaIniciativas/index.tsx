@@ -17,6 +17,9 @@ import {
 	AgregarRedondoIcon,
 	BotellaIcon,
 	CajaIcon,
+	CerrarIcon,
+	CerrarRedondoIcon,
+	CheckRedondoIcon,
 	FlechaAbajoIcon,
 	QuitarRellenoIcon,
 } from 'assests/iconos';
@@ -31,6 +34,7 @@ import {
 } from 'redux/hooks';
 import {cambiarEstadoIniciativa} from 'redux/features/visitaActual/visitaActualSlice';
 import {TMotivosCancelacionIniciativas} from 'models';
+import theme from 'theme';
 
 const ButtonStyled = styled(Button)(() => ({
 	border: '1.5px solid #651C32',
@@ -156,15 +160,25 @@ const TarjetaIniciativas: React.FC<Props> = ({
 			style={{padding: '12px 14px', boxShadow: 'none'}}
 		>
 			<Box>
-				<Box marginBottom='12px'>
+				<Box display='flex' alignItems='start' marginBottom='12px' gap='40px'>
 					<Typography variant='subtitle2'>{nombreIniciativa}</Typography>
+					{estado === 'ejecutada' && (
+						<Box>
+							<CheckRedondoIcon fill={theme.palette.success.main} />
+						</Box>
+					)}
+					{estado === 'cancelada' && (
+						<Box>
+							<CerrarRedondoIcon />
+						</Box>
+					)}
 				</Box>
 				<Collapse in={expandido === id} timeout='auto' unmountOnExit>
 					<Divider />
 					<Stack spacing='12px' marginBottom='8px'>
 						<Box display='flex' alignItems='center' marginTop='8px'>
 							<Typography variant='body3' fontFamily='Open Sans' flex='1'>
-								Estatus
+								{t('general.estatus')}
 							</Typography>
 							<Box flex='3'>
 								<Select
@@ -180,19 +194,19 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										sx={{fontSize: '10px', fontFamily: 'Open Sans'}}
 										value='pendiente'
 									>
-										Pendiente
+										{t('general.pendiente')}
 									</MenuItem>
 									<MenuItem
 										sx={{fontSize: '10px', fontFamily: 'Open Sans'}}
 										value='ejecutada'
 									>
-										Ejecutada
+										{t('general.ejecutada')}
 									</MenuItem>
 									<MenuItem
 										sx={{fontSize: '10px', fontFamily: 'Open Sans'}}
 										value='cancelada'
 									>
-										Cancelada
+										{t('general.cancelada')}
 									</MenuItem>
 								</Select>
 							</Box>
@@ -200,7 +214,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						{estado === 'cancelada' && (
 							<Box display='flex' alignItems='center' marginTop='8px'>
 								<Typography variant='body3' fontFamily='Open Sans' flex='1'>
-									Motivo
+									{t('general.motivo')}
 								</Typography>
 								<Box flex='3'>
 									<Select
@@ -229,7 +243,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						)}
 						<Box display='flex' gap='8px' alignItems='center'>
 							<Typography variant='body3' fontFamily='Open Sans' flex='1'>
-								Plan de actividades
+								{t('general.planDeActividades')}
 							</Typography>
 							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
 								{planActividad}
@@ -237,7 +251,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						</Box>
 						<Box display='flex' gap='8px' alignItems='center'>
 							<Typography variant='body3' fontFamily='Open Sans' flex='1'>
-								Descripción
+								{t('general.descripcion')}
 							</Typography>
 							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
 								{descripcion}
@@ -245,7 +259,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						</Box>
 						<Box display='flex' gap='8px' alignItems='center'>
 							<Typography variant='body3' fontFamily='Open Sans' flex='1'>
-								Vigencia
+								{t('general.vigencia')}
 							</Typography>
 							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
 								{fechaVencimiento}
