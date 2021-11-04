@@ -51,5 +51,9 @@ Escenario: N°6 - Restar subunidades a la iniciativa
     Y no podrá ser menor al valor inicial
     Y cambiará las subunidades del producto en el pedido
 
+# Como es un tipo de pedido de venta, se mantienen todas las mismas 
+# validaciones del pedido y mensajes 
+# Se agrega a la iniciativa validar que no pueda ingresar menos cantidad 
+# a la indicada en la configuración de la iniciativa
 
 # Los indicadores se deberán actualizarse ya que se está agregando un producto a un tipo de pedido de venta. 
