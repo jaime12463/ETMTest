@@ -12,6 +12,7 @@ import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import {useObtenerDatosTipoPedido} from 'hooks';
 import useEstilos, {SwitchProps} from './useEstilos';
 import {styled} from '@mui/material/styles';
+import theme from 'theme';
 
 type Props = {
 	producto?: TProductoPedido;
@@ -33,12 +34,12 @@ const CustomSwitch = styled(Switch)(() => ({
 		},
 	},
 	'& .MuiSwitch-track': {
-		background: '#2F000E',
+		background: `${theme.palette.secondary.dark}`,
 		color: '#fff',
 		opacity: '1',
 	},
 	'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-		backgroundColor: '#009D63',
+		backgroundColor: `${theme.palette.success.dark}`,
 		opacity: '1',
 	},
 	'& .MuiSwitch-switchBase.Mui-disabled+.MuiSwitch-track': {
