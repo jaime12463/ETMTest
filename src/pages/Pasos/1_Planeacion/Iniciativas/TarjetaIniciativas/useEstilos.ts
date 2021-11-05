@@ -44,8 +44,6 @@ const useEstilos = makeStyles(() =>
 			},
 			height: '16px',
 			lineHeight: '16px',
-			pointerEvents: (props: Props) =>
-				props.estado === 'pendiente' ? 'none' : 'auto',
 			transition: 'all 0.3s ease-in-out',
 			width: (props: Props) =>
 				props.estado === 'pendiente' || props.estado === 'cancelada'

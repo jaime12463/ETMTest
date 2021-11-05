@@ -10,14 +10,12 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import FormControl from '@mui/material/FormControl';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import {
 	AgregarRedondoIcon,
 	BotellaIcon,
 	CajaIcon,
-	CerrarIcon,
 	CerrarRedondoIcon,
 	CheckRedondoIcon,
 	FlechaAbajoIcon,
@@ -29,12 +27,19 @@ import clsx from 'clsx';
 import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
 import {
 	useAppDispatch,
+	useObtenerClienteActual,
 	useObtenerConfiguracion,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {cambiarEstadoIniciativa} from 'redux/features/visitaActual/visitaActualSlice';
-import {TMotivosCancelacionIniciativas} from 'models';
+import {
+	borrarProductoDelPedidoActual,
+	cambiarEstadoIniciativa,
+	cambiarMotivoCancelacionIniciativa,
+} from 'redux/features/visitaActual/visitaActualSlice';
+import {TMotivosCancelacionIniciativas, TProductoPedido} from 'models';
 import theme from 'theme';
+import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
+import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 
 const ButtonStyled = styled(Button)(() => ({
 	border: '1.5px solid #651C32',
@@ -60,6 +65,7 @@ interface Props {
 	subUnidades: number;
 	codigo: number;
 	estado: 'pendiente' | 'ejecutada' | 'cancelada';
+	motivo: string;
 }
 
 interface GetValuesProps {
@@ -82,12 +88,17 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	subUnidades,
 	codigo,
 	estado,
+	motivo,
 }) => {
 	const classes = useEstilos({estado});
 	const {t} = useTranslation();
 	const producto = useObtenerProductoPorCodigo(codigo);
 	const visitaActual = useObtenerVisitaActual();
 	const {motivosCancelacionIniciativas} = useObtenerConfiguracion();
+	const clienteActual = useObtenerClienteActual();
+	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
+
+	if (!producto) return null;
 
 	const defaultValues: GetValuesProps = {
 		unidades,
@@ -96,13 +107,24 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		tipoDePedido: visitaActual.tipoPedidoActual,
 		catalogoMotivo: '',
 	};
-	const [open, setOpen] = React.useState<boolean>(false);
+
+	const productoACargar: TProductoPedido = {
+		...producto,
+		unidades,
+		subUnidades,
+		catalogoMotivo: '',
+		total: 0,
+		tipoPago: clienteActual.tipoPagoActual,
+	};
+
+	const [openEstado, setOpenEstado] = React.useState<boolean>(false);
 	const [openMotivo, setOpenMotivo] = React.useState<boolean>(false);
-	const [selectValue, setSelectValue] = React.useState<
+	const [estadoSelect, setEstadoSelect] = React.useState<
 		'pendiente' | 'ejecutada' | 'cancelada'
 	>(estado);
-	const [motivoValue, setMotivoValue] = React.useState<string>('');
+	const [motivoSelect, setMotivoSelect] = React.useState<string>('');
 
+	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 	const [getValues, setGetValues] =
 		React.useState<GetValuesProps>(defaultValues);
 
@@ -113,32 +135,73 @@ const TarjetaIniciativas: React.FC<Props> = ({
 			setExpandido(id);
 		};
 
-	const handleSelectChange = (e: SelectChangeEvent<typeof selectValue>) => {
+	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
+		productoACargar,
+		mostrarAdvertenciaEnDialogo,
+		getValues,
+		setGetValues
+	);
+
+	React.useEffect(() => {
+		if (estado === 'ejecutada' || puedeAgregar) {
+			agregarProductoAlPedidoActual(getValues);
+		}
+	}, [estado, puedeAgregar]);
+
+	const handleSelectChange = (e: SelectChangeEvent<typeof estadoSelect>) => {
 		switch (e.target.value) {
 			case 'pendiente':
-				setSelectValue('pendiente');
+				setEstadoSelect('pendiente');
 				dispatch(
 					cambiarEstadoIniciativa({
 						estado: 'pendiente',
 						codigoIniciativa: Number(id),
 					})
 				);
+				dispatch(
+					borrarProductoDelPedidoActual({
+						codigoProducto: producto.codigoProducto,
+					})
+				);
+				if (motivo !== '') {
+					dispatch(
+						cambiarMotivoCancelacionIniciativa({
+							motivo: '',
+							codigoIniciativa: Number(id),
+						})
+					);
+					setMotivoSelect('');
+				}
 				break;
 			case 'ejecutada':
-				setSelectValue('ejecutada');
+				setEstadoSelect('ejecutada');
 				dispatch(
 					cambiarEstadoIniciativa({
 						estado: 'ejecutada',
 						codigoIniciativa: Number(id),
 					})
 				);
+				if (motivo !== '') {
+					dispatch(
+						cambiarMotivoCancelacionIniciativa({
+							motivo: '',
+							codigoIniciativa: Number(id),
+						})
+					);
+					setMotivoSelect('');
+				}
 				break;
 			case 'cancelada':
-				setSelectValue('cancelada');
+				setEstadoSelect('cancelada');
 				dispatch(
 					cambiarEstadoIniciativa({
 						estado: 'cancelada',
 						codigoIniciativa: Number(id),
+					})
+				);
+				dispatch(
+					borrarProductoDelPedidoActual({
+						codigoProducto: producto.codigoProducto,
 					})
 				);
 				break;
@@ -160,14 +223,36 @@ const TarjetaIniciativas: React.FC<Props> = ({
 			style={{padding: '12px 14px', boxShadow: 'none'}}
 		>
 			<Box>
-				<Box display='flex' alignItems='start' marginBottom='12px' gap='40px'>
+				<Box
+					display='flex'
+					flexDirection={estado === 'pendiente' ? 'column' : 'row'}
+					alignItems='start'
+					marginBottom='12px'
+					gap={estado === 'pendiente' ? '8px' : '40px'}
+				>
+					{estado === 'pendiente' && (
+						<Box display='flex' justifyContent='flex-end' width='100%'>
+							<Typography
+								color='#fff'
+								fontFamily='Open Sans'
+								padding='2px 12px'
+								sx={{
+									background: theme.palette.primary.main,
+									borderRadius: '50px',
+								}}
+								variant='caption'
+							>
+								Pendiente
+							</Typography>
+						</Box>
+					)}
 					<Typography variant='subtitle2'>{nombreIniciativa}</Typography>
 					{estado === 'ejecutada' && (
 						<Box>
 							<CheckRedondoIcon fill={theme.palette.success.main} />
 						</Box>
 					)}
-					{estado === 'cancelada' && (
+					{estado === 'cancelada' && motivo !== '' && (
 						<Box>
 							<CerrarRedondoIcon />
 						</Box>
@@ -184,10 +269,10 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								<Select
 									className={classes.select}
 									sx={{fontSize: '10px', fontFamily: 'Open Sans'}}
-									open={open}
-									onClose={() => setOpen(false)}
-									onOpen={() => setOpen(true)}
-									value={selectValue}
+									open={openEstado}
+									onClose={() => setOpenEstado(false)}
+									onOpen={() => setOpenEstado(true)}
+									value={estadoSelect}
 									onChange={handleSelectChange}
 								>
 									<MenuItem
@@ -223,8 +308,16 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										open={openMotivo}
 										onClose={() => setOpenMotivo(false)}
 										onOpen={() => setOpenMotivo(true)}
-										value={motivoValue}
-										onChange={(e) => setMotivoValue(e.target.value)}
+										value={motivoSelect}
+										onChange={(e) => {
+											setMotivoSelect(e.target.value);
+											dispatch(
+												cambiarMotivoCancelacionIniciativa({
+													motivo: e.target.value,
+													codigoIniciativa: Number(id),
+												})
+											);
+										}}
 									>
 										{motivosCancelacionIniciativas?.map(
 											(motivo: TMotivosCancelacionIniciativas) => (
@@ -341,6 +434,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										name='unidades'
 										value={getValues.unidades}
 										onChange={handleInputChange}
+										disabled={estado !== 'ejecutada'}
 									/>
 									{estado === 'ejecutada' && (
 										<IconButton
@@ -394,6 +488,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										name='subUnidades'
 										value={getValues.subUnidades}
 										onChange={handleInputChange}
+										disabled={estado !== 'ejecutada'}
 									/>
 									{estado === 'ejecutada' && (
 										<IconButton
