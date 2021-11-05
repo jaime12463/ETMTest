@@ -119,6 +119,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				cantidadItems={productosConUnidades.length}
+				labelChip={`${productosConUnidades.length} Items`}
 				valido={ventaValida}
 			>
 				<TomaPedido />

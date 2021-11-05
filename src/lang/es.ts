@@ -59,6 +59,7 @@ const es = {
 		ejecutada: 'Ejecutada',
 		cancelada: 'Cancelada',
 		motivo: 'Motivo',
+		sinMotivo: 'Sin motivo',
 		planDeActividades: 'Plan de actividades',
 		descripcion: 'Descripción',
 		vigencia: 'Vigencia',

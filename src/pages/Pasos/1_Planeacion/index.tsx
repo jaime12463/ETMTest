@@ -4,10 +4,18 @@ import Typography from '@mui/material/Typography';
 import {TarjetaColapsable} from 'components/UI';
 import Iniciativas from './Iniciativas';
 import {useTranslation} from 'react-i18next';
+import {useObtenerVisitaActual} from 'redux/hooks';
 
 export const Planeacion: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
 	const {t} = useTranslation();
+	const {iniciativas} = useObtenerVisitaActual();
+
+	const iniciativasEjecutadas = iniciativas.filter(
+		(iniciativa) =>
+			iniciativa.estado === 'ejecutada' ||
+			(iniciativa.estado === 'cancelada' && iniciativa.motivo !== '')
+	);
 
 	return (
 		<Stack spacing={2}>
@@ -53,6 +61,8 @@ export const Planeacion: React.FC = () => {
 				id='Iniciativas'
 				expandido={expandido}
 				setExpandido={setExpandido}
+				cantidadItems={iniciativasEjecutadas.length}
+				labelChip={`${iniciativasEjecutadas.length} de ${iniciativas.length} Iniciativas`}
 			>
 				<Iniciativas />
 			</TarjetaColapsable>

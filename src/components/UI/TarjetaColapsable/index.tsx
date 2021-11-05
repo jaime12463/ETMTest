@@ -36,6 +36,7 @@ type Props = {
 	disabled?: boolean;
 	mensaje?: React.ReactNode;
 	valido?: boolean;
+	labelChip?: string;
 };
 
 export const TarjetaColapsable: React.FC<Props> = ({
@@ -49,6 +50,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 	disabled,
 	mensaje,
 	valido = false,
+	labelChip,
 }) => {
 	const manejadorExpandido =
 		({id}: any) =>
@@ -75,7 +77,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 									{cantidadItems !== undefined && cantidadItems > 0 && (
 										<ChipStyled
 											size='small'
-											label={`${cantidadItems} Items`}
+											label={labelChip}
 											className={classes.root}
 										/>
 									)}

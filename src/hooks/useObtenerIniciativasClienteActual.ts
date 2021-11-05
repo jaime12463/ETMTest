@@ -69,6 +69,8 @@ export const useObtenerIniciativasClienteActual = () => {
 							estado: 'pendiente',
 							motivo: '',
 							secuencia: secuenciaIniciativa ?? 0,
+							unidadesEjecutadas: iniciativa.unidades,
+							subUnidadesEjecutadas: iniciativa.subUnidades,
 							fechaEntrega,
 						};
 					}

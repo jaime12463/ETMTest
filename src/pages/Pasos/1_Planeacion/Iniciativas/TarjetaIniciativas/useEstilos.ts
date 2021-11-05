@@ -3,6 +3,7 @@ import theme from 'theme';
 
 interface Props {
 	estado: 'pendiente' | 'ejecutada' | 'cancelada';
+	inputsBloqueados: boolean;
 }
 
 const useEstilos = makeStyles(() =>
@@ -26,17 +27,23 @@ const useEstilos = makeStyles(() =>
 		},
 		input: {
 			backgroundColor: (props: Props) =>
-				props.estado === 'pendiente' || props.estado === 'cancelada'
+				props.estado === 'pendiente' ||
+				props.estado === 'cancelada' ||
+				props.inputsBloqueados
 					? '#D9D9D9'
 					: 'transparent',
 			border: (props: Props) =>
-				props.estado === 'pendiente' || props.estado === 'cancelada'
+				props.estado === 'pendiente' ||
+				props.estado === 'cancelada' ||
+				props.inputsBloqueados
 					? 'none'
 					: '1px solid #2F000E',
 			borderRadius: '10px',
 			'& .MuiInput-input': {
 				color: (props: Props) =>
-					props.estado === 'pendiente' || props.estado === 'cancelada'
+					props.estado === 'pendiente' ||
+					props.estado === 'cancelada' ||
+					props.inputsBloqueados
 						? 'rgba(0, 0, 0, 0.5)'
 						: '#000',
 				fontSize: '12px',
@@ -46,7 +53,9 @@ const useEstilos = makeStyles(() =>
 			lineHeight: '16px',
 			transition: 'all 0.3s ease-in-out',
 			width: (props: Props) =>
-				props.estado === 'pendiente' || props.estado === 'cancelada'
+				props.estado === 'pendiente' ||
+				props.estado === 'cancelada' ||
+				props.inputsBloqueados
 					? '82px'
 					: '42px',
 		},

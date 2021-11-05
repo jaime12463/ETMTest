@@ -66,6 +66,8 @@ export type TIniciativasCliente = {
 	codigoProducto: number;
 	unidades: number;
 	subUnidades: number;
+	unidadesEjecutadas: number;
+	subUnidadesEjecutadas: number;
 };
 
 export type TPresupuestoTipoPedidoTotal = {

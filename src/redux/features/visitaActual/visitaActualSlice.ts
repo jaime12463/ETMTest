@@ -251,6 +251,24 @@ export const visitaActualSlice = createSlice({
 				return iniciativa;
 			});
 		},
+
+		editarUnidadesOSubUnidadesEjecutadas: (
+			state,
+			action: PayloadAction<{
+				codigoIniciativa: number;
+				unidadesEjecutadas: number;
+				subUnidadesEjecutadas: number;
+			}>
+		) => {
+			state.iniciativas = state.iniciativas.map((iniciativa) => {
+				if (iniciativa.codigoIniciativa === action.payload.codigoIniciativa) {
+					iniciativa.unidadesEjecutadas = action.payload.unidadesEjecutadas;
+					iniciativa.subUnidadesEjecutadas =
+						action.payload.subUnidadesEjecutadas;
+				}
+				return iniciativa;
+			});
+		},
 	},
 });
 
@@ -272,5 +290,6 @@ export const {
 	cambiarOrdenDeCompra,
 	cambiarEstadoIniciativa,
 	cambiarMotivoCancelacionIniciativa,
+	editarUnidadesOSubUnidadesEjecutadas,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

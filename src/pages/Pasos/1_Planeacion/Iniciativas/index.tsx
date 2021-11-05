@@ -29,7 +29,9 @@ const Iniciativas: React.FC = () => {
 						'/'
 					)}
 					unidades={iniciativa.unidades}
+					unidadesEjecutadas={iniciativa.unidadesEjecutadas}
 					subUnidades={iniciativa.subUnidades}
+					subUnidadesEjecutadas={iniciativa.subUnidadesEjecutadas}
 					codigo={iniciativa.codigoProducto}
 					estado={iniciativa.estado}
 					motivo={iniciativa.motivo}

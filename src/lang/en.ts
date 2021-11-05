@@ -59,6 +59,7 @@ const en = {
 		ejecutada: 'Executed',
 		cancelada: 'Canceled',
 		motivo: 'Reason',
+		sinMotivo: 'Without reason',
 		planDeActividades: 'Activity Plan',
 		descripcion: 'Description',
 		vigencia: 'Validity',

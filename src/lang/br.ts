@@ -55,6 +55,7 @@ const br = {
 		ejecutada: 'Executado',
 		cancelada: 'Cancelado',
 		motivo: 'Motivo',
+		sinMotivo: 'Sem motivo',
 		planDeActividades: 'Plano de atividades',
 		descripcion: 'Descrição',
 		vigencia: 'Vigência',
