@@ -81,14 +81,14 @@ export const pedidosClientesSlice = createSlice({
 						compromisosDeCobro: [],
 						iniciativas: [],
 					};
-				const iniciativasFiltradas = state[codigoCliente].iniciativas.filter(
-					(iniciativa) =>
-						iniciativa.fechaEntrega !== action.payload.fechaEntrega
+
+				const iniciativasFiltadoPendientes = action.payload.iniciativas.filter(
+					(iniciativa) => iniciativa.estado !== 'pendiente'
 				);
 
-				state[codigoCliente].iniciativas = iniciativasFiltradas.concat(
-					action.payload.iniciativas
-				);
+				state[codigoCliente].iniciativas = state[
+					codigoCliente
+				].iniciativas.concat(iniciativasFiltadoPendientes);
 			}
 		},
 
