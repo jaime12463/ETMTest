@@ -5,6 +5,7 @@ import {
 	TProductoPedido,
 	TPresupuestoTipoPedidoTotal,
 } from 'models';
+import {stringify} from 'querystring';
 import {RootState} from 'redux/store';
 
 const estadoInicial: TVisita = {
@@ -238,6 +239,18 @@ export const visitaActualSlice = createSlice({
 				return iniciativa;
 			});
 		},
+
+		cambiarMotivoCancelacionIniciativa: (
+			state,
+			action: PayloadAction<{motivo: string; codigoIniciativa: number}>
+		) => {
+			state.iniciativas = state.iniciativas.map((iniciativa) => {
+				if (iniciativa.codigoIniciativa === action.payload.codigoIniciativa) {
+					iniciativa.motivo = action.payload.motivo;
+				}
+				return iniciativa;
+			});
+		},
 	},
 });
 
@@ -258,5 +271,6 @@ export const {
 	cambiarBloquearPanelCarga,
 	cambiarOrdenDeCompra,
 	cambiarEstadoIniciativa,
+	cambiarMotivoCancelacionIniciativa,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

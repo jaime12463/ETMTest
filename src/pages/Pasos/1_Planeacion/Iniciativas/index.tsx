@@ -11,6 +11,8 @@ const Iniciativas: React.FC = () => {
 	const {t} = useTranslation();
 	const {iniciativas} = useObtenerVisitaActual();
 
+	console.log(iniciativas);
+
 	return (
 		<Stack marginTop='18px' spacing='10px'>
 			{iniciativas?.map((iniciativa: TIniciativasCliente) => (
@@ -30,6 +32,7 @@ const Iniciativas: React.FC = () => {
 					subUnidades={iniciativa.subUnidades}
 					codigo={iniciativa.codigoProducto}
 					estado={iniciativa.estado}
+					motivo={iniciativa.motivo}
 				/>
 			))}
 		</Stack>
