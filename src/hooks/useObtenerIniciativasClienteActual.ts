@@ -7,12 +7,7 @@ import {
 	TIniciativasCliente,
 	TPedidosClientes,
 } from 'models';
-import {
-	useObtenerClienteActual,
-	useObtenerPedidosClientes,
-	useObtenerCompromisoDeCobroActual,
-	useObtenerVisitaActual,
-} from 'redux/hooks';
+import {useObtenerPedidosClientes} from 'redux/hooks';
 import {useObtenerDatos} from 'redux/hooks';
 
 export const useObtenerIniciativasClienteActual = () => {
@@ -48,33 +43,32 @@ export const useObtenerIniciativasClienteActual = () => {
 				)
 			);
 
-			const iniciativasParaElCliente: TIniciativasCliente[] =
-				iniciativasFiltradas.map((iniciativa) => {
-					const iniciativaEnPedido = iniciativasClientePedido.find(
-						(iniciativaPedido) =>
-							iniciativa.codigoIniciativa === iniciativaPedido.codigoIniciativa
-					);
+			let iniciativasParaElCliente: TIniciativasCliente[] = [];
 
-					if (iniciativaEnPedido) {
-						return iniciativaEnPedido;
-					} else {
-						const secuenciaIniciativa = iniciativasHabilitadas?.find(
-							(iniciativaHabilatada) =>
-								iniciativaHabilatada.codigoIniciativa ===
-								iniciativa.codigoIniciativa
-						)?.secuencia;
+			iniciativasFiltradas.forEach((iniciativa) => {
+				const iniciativaEnPedido = iniciativasClientePedido.find(
+					(iniciativaPedido) =>
+						iniciativa.codigoIniciativa === iniciativaPedido.codigoIniciativa
+				);
 
-						return {
-							...iniciativa,
-							estado: 'pendiente',
-							motivo: '',
-							secuencia: secuenciaIniciativa ?? 0,
-							unidadesEjecutadas: iniciativa.unidades,
-							subUnidadesEjecutadas: iniciativa.subUnidades,
-							fechaEntrega,
-						};
-					}
-				});
+				if (!iniciativaEnPedido) {
+					const secuenciaIniciativa = iniciativasHabilitadas?.find(
+						(iniciativaHabilatada) =>
+							iniciativaHabilatada.codigoIniciativa ===
+							iniciativa.codigoIniciativa
+					)?.secuencia;
+
+					iniciativasParaElCliente.push({
+						...iniciativa,
+						estado: 'pendiente',
+						motivo: '',
+						secuencia: secuenciaIniciativa ?? 0,
+						fechaEntrega,
+						unidadesEjecutadas: iniciativa.unidades,
+						subUnidadesEjecutadas: iniciativa.subUnidades,
+					});
+				}
+			});
 
 			return iniciativasParaElCliente.sort((a, b) => a.secuencia - b.secuencia);
 		},
