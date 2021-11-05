@@ -1,5 +1,10 @@
 import i18n from 'i18next';
-import {TCliente, TRetornoValidacion} from 'models';
+import {
+	TCliente,
+	TRetornoValidacion,
+	TIniciativasCliente,
+	TPedidos,
+} from 'models';
 export const validarDatosCliente = (
 	cliente: TCliente | undefined
 ): TRetornoValidacion => {
@@ -12,6 +17,23 @@ export const validarDatosCliente = (
 	};
 
 	return retornoValidacion;
+};
+
+export const validarProductosIniciativas = (
+	iniciativas: TIniciativasCliente[],
+	pedidos: TPedidos
+): TRetornoValidacion => {
+	const {venta} = pedidos;
+	const productosDeIniciativa = venta.productos.filter((producto) => {
+		const productoEnIniciativa = iniciativas.find(
+			(iniciativa) => iniciativa.codigoProducto === producto.codigoProducto
+		);
+		productoEnIniciativa ? true : false;
+	});
+
+	console.log(productosDeIniciativa);
+
+	return {esValido: true, propsAdvertencia: null};
 };
 
 export const validarSiExcedeElMontoMinimo = (
