@@ -43,8 +43,11 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			(pedido) => pedido
 		);
 
-		const {esValido, propsAdvertencia}: TRetornoValidacion =
-			validarCierreDeVisita();
+		const {
+			esValido,
+			propsAdvertencia,
+			iniciativasVerificadas,
+		}: TRetornoValidacion = validarCierreDeVisita();
 
 		if (!esValido && propsAdvertencia) {
 			const {dataCy, mensaje, manejadorClick, textosBotonesDefault} =
@@ -70,7 +73,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 
 		dispatch(
 			agregarIniciativasAlCliente({
-				iniciativas: visitaActual.iniciativas,
+				iniciativas: iniciativasVerificadas,
 				clienteActual,
 				fechaEntrega: visitaActual.fechaEntrega,
 			})

@@ -61,15 +61,11 @@ export const useValidarCierreVisitaCliente = () => {
 		let retornoValidacion: TRetornoValidacion = {
 			esValido: false,
 			propsAdvertencia: null,
+			iniciativasVerificadas: visitaActual.iniciativas,
 		};
 
 		retornoValidacion = validarDatosCliente(datosCliente);
 		if (!retornoValidacion.esValido) return retornoValidacion;
-
-		retornoValidacion = validarProductosIniciativas(
-			visitaActual.iniciativas,
-			visitaActual.pedidos
-		);
 
 		retornoValidacion = validarSiExcedeElMontoMinimo(
 			datosCliente,
@@ -88,6 +84,7 @@ export const useValidarCierreVisitaCliente = () => {
 				montoTotalCompromisos,
 			totalContadoPedidosClienteMismaFechaEntrega
 		);
+
 		if (!retornoValidacion.esValido) return retornoValidacion;
 
 		retornoValidacion = validarSiExcedeAlMaximoDeCredito(
@@ -97,6 +94,11 @@ export const useValidarCierreVisitaCliente = () => {
 		);
 
 		if (!retornoValidacion.esValido) return retornoValidacion;
+
+		retornoValidacion = validarProductosIniciativas(
+			visitaActual.iniciativas,
+			visitaActual.pedidos
+		); // Dejar este de ultimo
 
 		return retornoValidacion;
 	};

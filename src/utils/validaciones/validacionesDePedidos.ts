@@ -24,16 +24,39 @@ export const validarProductosIniciativas = (
 	pedidos: TPedidos
 ): TRetornoValidacion => {
 	const {venta} = pedidos;
-	const productosDeIniciativa = venta.productos.filter((producto) => {
+
+	const productosDeIniciativaEnPedido = venta.productos.filter((producto) => {
 		const productoEnIniciativa = iniciativas.find(
 			(iniciativa) => iniciativa.codigoProducto === producto.codigoProducto
 		);
-		productoEnIniciativa ? true : false;
+		if (productoEnIniciativa?.codigoProducto === producto.codigoProducto)
+			return true;
+
+		return false;
 	});
 
-	console.log(productosDeIniciativa);
+	const iniciativasVerificadas: TIniciativasCliente[] = iniciativas.map(
+		(iniciativa: TIniciativasCliente) => {
+			const producto = productosDeIniciativaEnPedido.find(
+				(producto) => producto.codigoProducto === iniciativa.codigoProducto
+			);
+			if (!producto) return iniciativa;
+			if (
+				producto?.unidades >= iniciativa.unidades &&
+				producto?.subUnidades >= iniciativa.subUnidades
+			) {
+				return {...iniciativa, estado: 'ejecutada'};
+			} else {
+				if (iniciativa.estado === 'ejecutada') {
+					return {...iniciativa, estado: 'pendiente'};
+				} else {
+					return iniciativa;
+				}
+			}
+		}
+	);
 
-	return {esValido: true, propsAdvertencia: null};
+	return {esValido: true, propsAdvertencia: null, iniciativasVerificadas};
 };
 
 export const validarSiExcedeElMontoMinimo = (

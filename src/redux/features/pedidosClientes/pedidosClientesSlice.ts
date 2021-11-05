@@ -68,25 +68,28 @@ export const pedidosClientesSlice = createSlice({
 		agregarIniciativasAlCliente: (
 			state,
 			action: PayloadAction<{
-				iniciativas: TIniciativasCliente[];
+				iniciativas: TIniciativasCliente[] | undefined;
 				clienteActual: TClienteActual;
 				fechaEntrega: string;
 			}>
 		) => {
-			const {codigoCliente}: TClienteActual = action.payload.clienteActual;
-			if (!state[codigoCliente])
-				state[codigoCliente] = {
-					pedidos: [],
-					compromisosDeCobro: [],
-					iniciativas: [],
-				};
-			const iniciativasFiltradas = state[codigoCliente].iniciativas.filter(
-				(iniciativa) => iniciativa.fechaEntrega !== action.payload.fechaEntrega
-			);
+			if (action.payload.iniciativas) {
+				const {codigoCliente}: TClienteActual = action.payload.clienteActual;
+				if (!state[codigoCliente])
+					state[codigoCliente] = {
+						pedidos: [],
+						compromisosDeCobro: [],
+						iniciativas: [],
+					};
+				const iniciativasFiltradas = state[codigoCliente].iniciativas.filter(
+					(iniciativa) =>
+						iniciativa.fechaEntrega !== action.payload.fechaEntrega
+				);
 
-			state[codigoCliente].iniciativas = iniciativasFiltradas.concat(
-				action.payload.iniciativas
-			);
+				state[codigoCliente].iniciativas = iniciativasFiltradas.concat(
+					action.payload.iniciativas
+				);
+			}
 		},
 
 		agregarPedidoCliente: (
