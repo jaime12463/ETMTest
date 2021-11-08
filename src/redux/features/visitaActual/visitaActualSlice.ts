@@ -164,6 +164,8 @@ export const visitaActualSlice = createSlice({
 			state.bloquearPanelCarga = true;
 			state.ordenDeCompra = '';
 			state.saldoPresupuestoTipoPedido = {};
+			state.iniciativas = [];
+			state.iniciativasBloqueadas = false;
 		},
 
 		cambiarTipoPagoPoductoDelPedidoActual: (
