@@ -24,3 +24,9 @@ Escenario: N°1 – Mostrar tarjeta Iniciativas
     Entonces el sistema mostrará la tarjeta de Iniciativas plegada con la cantidadIniciativasProcesadas para el pedido actual
     Y la cantidadIniciativasHabilitadas para el pedido actual 
     Y si cantidadIniciativasProcesadas > 0 mostrará el borde de la tarjeta en color verde
+
+Escenario: N°2 – Sin iniciativas asignadas
+    Dado un cliente seleccionado
+    Cuando accedo al paso 1 - Planeacion y el cliente no tiene iniciativas asignadas
+    Entonces el sistema mostrará la tarjeta de Iniciativas sin el control para desplegar
+    Y mostrará el mensaje "Este cliente no cuenta con iniciativas"
