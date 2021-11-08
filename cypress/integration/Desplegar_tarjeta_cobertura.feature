@@ -16,3 +16,4 @@ Escenario: N°1 - Desplegar cobertura
     Y mostrará _grupoCobertura
     Y mostrará la cantidad total de productos que tiene dicho grupo
     Y mostrará el control para ver el detalle de cada grupo
+    Y colapsará otras tarjetas del paso 1 - planeación
