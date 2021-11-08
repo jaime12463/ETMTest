@@ -63,6 +63,12 @@ export const Planeacion: React.FC = () => {
 				setExpandido={setExpandido}
 				cantidadItems={iniciativasEjecutadas.length}
 				labelChip={`${iniciativasEjecutadas.length} de ${iniciativas.length} Iniciativas`}
+				disabled={iniciativas.length === 0}
+				mensaje={
+					<Typography color='primary' variant='subtitle3'>
+						Este cliente no cuenta con iniciativas
+					</Typography>
+				}
 			>
 				<Iniciativas />
 			</TarjetaColapsable>

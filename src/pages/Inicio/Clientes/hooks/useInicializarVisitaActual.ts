@@ -39,6 +39,7 @@ export const useInicializarVisitaActual = () => {
 						bloquearPanelCarga,
 						ordenDeCompra: '',
 						iniciativas: iniciativasClienteActual(codigoCliente, fechaEntrega),
+						iniciativasBloqueadas: false,
 					},
 				})
 			);

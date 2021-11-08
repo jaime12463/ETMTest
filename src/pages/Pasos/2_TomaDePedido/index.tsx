@@ -46,6 +46,7 @@ import {
 	useObtenerTiposPedidoSegunConfiguracion,
 } from 'hooks';
 import {
+	bloquearIniciativas,
 	cambiarOrdenDeCompra,
 	cambiarTipoPedidoActual,
 	selectVisitaActual,
@@ -76,6 +77,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 
 	React.useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'venta'}));
+		dispatch(bloquearIniciativas());
 	}, []);
 
 	React.useEffect(() => {

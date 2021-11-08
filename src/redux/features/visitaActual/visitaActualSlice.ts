@@ -17,6 +17,7 @@ const estadoInicial: TVisita = {
 	bloquearPanelCarga: true,
 	ordenDeCompra: '',
 	iniciativas: [],
+	iniciativasBloqueadas: false,
 };
 
 export const visitaActualSlice = createSlice({
@@ -152,6 +153,7 @@ export const visitaActualSlice = createSlice({
 			state.bloquearPanelCarga = bloquearPanelCarga;
 			state.ordenDeCompra = ordenDeCompra;
 			state.iniciativas = iniciativas;
+			state.iniciativasBloqueadas = false;
 		},
 
 		resetearVisitaActual: (state) => {
@@ -269,6 +271,10 @@ export const visitaActualSlice = createSlice({
 				return iniciativa;
 			});
 		},
+
+		bloquearIniciativas: (state) => {
+			state.iniciativasBloqueadas = true;
+		},
 	},
 });
 
@@ -291,5 +297,6 @@ export const {
 	cambiarEstadoIniciativa,
 	cambiarMotivoCancelacionIniciativa,
 	editarUnidadesOSubUnidadesEjecutadas,
+	bloquearIniciativas,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

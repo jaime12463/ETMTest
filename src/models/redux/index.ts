@@ -51,6 +51,7 @@ export type TVisita = {
 	bloquearPanelCarga: boolean;
 	ordenDeCompra: string;
 	iniciativas: TIniciativasCliente[];
+	iniciativasBloqueadas: boolean;
 };
 
 export type TIniciativasCliente = {
