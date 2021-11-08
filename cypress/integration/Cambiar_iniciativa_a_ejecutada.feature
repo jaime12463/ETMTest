@@ -30,7 +30,6 @@ Escenario: N°4 - Restar unidades a la iniciativa
     Dado que se cambió el estado de la iniciativa a ejecutada
     Cuando resto las unidades
     Entonces el sistema restará las unidades en 1 
-    Y no podrá ser menor al valor inicial
     Y cambiará las unidades del producto en el pedido
 
 Escenario: N°5 - Ingresar subunidades a la iniciativa
@@ -48,12 +47,9 @@ Escenario: N°6 - Restar subunidades a la iniciativa
     Y tiene _subunidadesVentaMinima
     Cuando resto las subunidades
     Entonces el sistema restará las subunidades según _subunidadesVentaMinima 
-    Y no podrá ser menor al valor inicial
     Y cambiará las subunidades del producto en el pedido
 
 # Como es un tipo de pedido de venta, se mantienen todas las mismas 
 # validaciones del pedido y mensajes 
-# Se agrega a la iniciativa validar que no pueda ingresar menos cantidad 
-# a la indicada en la configuración de la iniciativa
 
 # Los indicadores se deberán actualizarse ya que se está agregando un producto a un tipo de pedido de venta. 
