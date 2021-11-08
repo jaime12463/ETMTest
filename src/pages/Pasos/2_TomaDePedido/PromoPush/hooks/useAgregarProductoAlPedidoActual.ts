@@ -116,6 +116,7 @@ export const useAgregarProductoAlPedidoActual = (
 								? productoBuscado.tipoPago
 								: clienteActual.tipoPagoActual,
 							catalogoMotivo,
+							visible: true,
 						},
 					})
 				);

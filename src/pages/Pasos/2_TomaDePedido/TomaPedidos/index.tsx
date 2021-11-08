@@ -22,7 +22,7 @@ import {
 } from 'hooks';
 import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 
-import {TarjetaColapsable, TarjetaDoble, Dialogo} from 'components/UI';
+import {TarjetaDoble, Dialogo, SwipeBorrar} from 'components/UI';
 import {AutocompleteSeleccionarProducto} from 'components/Negocio';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -124,6 +124,7 @@ const TomaPedido: React.FC = () => {
 								productoActual.precioConImpuestoSubunidad * 0,
 							tipoPago: clienteActual.tipoPagoActual,
 							catalogoMotivo,
+							visible: true,
 						},
 					})
 				);
@@ -178,33 +179,36 @@ const TomaPedido: React.FC = () => {
 				</Grid>
 
 				{venta.productos.length > 0 &&
-					venta.productos.map((producto) => {
-						return (
-							<TarjetaDoble
-								key={producto.codigoProducto}
-								izquierda={
-									<Izquierda
-										producto={producto}
-										condicion={clienteActual.condicion}
+					venta.productos.map((producto, i) => {
+						if (producto.visible) {
+							return (
+								<SwipeBorrar key={producto.codigoProducto} item={producto}>
+									<TarjetaDoble
+										izquierda={
+											<Izquierda
+												producto={producto}
+												condicion={clienteActual.condicion}
+											/>
+										}
+										derecha={
+											<Derecha
+												producto={producto}
+												stateInputFocus={stateInputFocus}
+												visitaActual={visitaActual}
+												statefocusId={{focusId, setFocusId}}
+											/>
+										}
+										widthIzquierda='179px'
+										widthDerecha='125px'
+										borderColor={
+											producto.unidades > 0 || producto.subUnidades > 0
+												? '#00CF91'
+												: '#D9D9D9'
+										}
 									/>
-								}
-								derecha={
-									<Derecha
-										producto={producto}
-										stateInputFocus={stateInputFocus}
-										visitaActual={visitaActual}
-										statefocusId={{focusId, setFocusId}}
-									/>
-								}
-								widthIzquierda='179px'
-								widthDerecha='125px'
-								borderColor={
-									producto.unidades > 0 || producto.subUnidades > 0
-										? '#00CF91'
-										: '#D9D9D9'
-								}
-							/>
-						);
+								</SwipeBorrar>
+							);
+						}
 					})}
 			</Stack>
 		</>
