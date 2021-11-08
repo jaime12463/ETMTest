@@ -50,6 +50,7 @@ import useEstilos from '../useEstilos';
 import {SwitchCambiarTipoPago} from '../components';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
+import {formatearNumero} from 'utils/methods';
 
 const InputStyled = styled(Input)(({}) => ({
 	backgroundColor: 'white',
@@ -221,6 +222,8 @@ interface IzquierdaProps {
 }
 
 const Izquierda: React.FC<IzquierdaProps> = ({producto, condicion}) => {
+	const {t} = useTranslation();
+
 	return (
 		<Box
 			sx={{
@@ -254,13 +257,13 @@ const Izquierda: React.FC<IzquierdaProps> = ({producto, condicion}) => {
 					marginRight='4px'
 				>{`x${producto.presentacion}`}</Typography>
 				<Typography variant='subtitle3' marginRight='8px'>
-					{`$${producto.precioConImpuestoUnidad}`}
+					{formatearNumero(producto.precioConImpuestoUnidad, t)}
 				</Typography>
 				{producto.esVentaSubunidades && (
 					<>
 						<BotellaIcon height='14px' width='14px' />
 						<Typography variant='subtitle3' marginLeft='4px'>
-							{`$${producto.precioConImpuestoSubunidad}`}
+							{formatearNumero(producto.precioConImpuestoSubunidad, t)}
 						</Typography>
 					</>
 				)}
