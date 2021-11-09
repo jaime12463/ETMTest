@@ -118,6 +118,7 @@ export type TPedidoDelProducto = {
 	total: number;
 	tipoPago: ETiposDePago;
 	catalogoMotivo: string;
+	estado?: 'activo' | 'eliminado';
 };
 
 export enum ETiposDePago {
