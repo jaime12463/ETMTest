@@ -2,6 +2,10 @@
 
 @Pedido @Cobertura @Desplegar @Sprint16
 
+# Total de productos cobertura = cantidad de productos que conforman un grupo de una cobertura 
+# Si el grupo está conformado por 5 productos, cuando se agregue 1 un producto al pedido
+# Se muestra en la tarjeta  "1 de 5 coberturas" 
+
 Característica: Desplegar tarjeta de cobertura
     Como prevendedor 
     Quiero ver las coberturas del cliente

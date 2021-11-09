@@ -1,0 +1,62 @@
+# language: es
+
+@Pedido @Cobertura @Editar_cantidades @Sprint16
+
+# Total de productos cobertura = cantidad de productos que conforman un grupo de una cobertura 
+# Si el grupo está conformado por 5 productos, cuando se agregue 1 un producto al pedido
+# Se muestra en la tarjeta  "1 de 5 coberturas" 
+
+Característica: Editar cobertura
+    Como prevendedor 
+    Quiero modificar las unidades y subunidades de los productos de la cobertura
+    Para agregar productos al Pedido
+
+Antecedentes:
+    Dado que se desplegó un grupo de cobertura
+
+Escenario: N°1 - Agregar producto al pedido
+    Cuando modifico las cantidades de un producto a un valor > 0
+    Entonces el sistema agregará el producto al pedido cuyo _tipoPedido = "Venta"
+    Y establecerá al pedido la condición de pago definida para el cliente
+    Y establecerá el borde en color verde
+    Y aumentará en 1 el total de productos de cobertura
+
+Escenario: N°2 - Quitar producto del pedido
+    Cuando modifico ambas cantidades a un valor = 0
+    Entonces el sistema eliminará el producto al pedido cuyo _tipoPedido = "Venta"
+    Y disminuirá en 1 el total de productos de cobertura
+
+Escenario: N°3 - Aumentar unidades de producto de cobertura
+    Dado que el producto que se seleccionó tiene _cantidadMáximaUnidades
+    Cuando aumento las unidades
+    Entonces el sistema aumentará las unidades en 1
+    Y no podrá superar _cantidadMáximaUnidades
+    Y cambiará las unidades del producto en el pedido
+
+Escenario: N°4 - Disminuir unidades de producto de cobertura
+    Dado que el producto que se seleccionó tiene _cantidadMáximaUnidades
+    Cuando disminuyo las unidades
+    Entonces el sistema disminuirá las unidades en 1
+    Y no podrá ser menor a 0
+    Y cambiará las unidades del producto en el pedido
+
+Escenario: N°5 - Aumentar subunidades de producto de cobertura
+    Dado que el _tipoPedido = "Venta" _validaSubunidadesMinimas = true
+    Y el producto que se seleccionó tiene _subunidadesVentaMinima
+    Cuando aumento las subunidades
+    Entonces el sistema aumentará las unidades en _subunidadesVentaMinima
+    Y no podrá superar _presentacion
+    Y cambiará las subunidades del producto en el pedido
+
+Escenario: N°6 - Disminuir subunidades de producto de cobertura
+    Dado que el _tipoPedido = "Venta" _validaSubunidadesMinimas = true
+    Y el producto que se seleccionó tiene _subunidadesVentaMinima
+    Cuando disminuyo las subunidades
+    Entonces el sistema disminuirá las unidades en _subunidadesVentaMinima
+    Y no podrá ser menor a 0
+    Y cambiará las subunidades del producto en el pedido
+
+# Como es un tipo de pedido de venta, se mantienen todas las mismas 
+# validaciones del pedido y mensajes 
+
+# Los indicadores se deberán actualizarse ya que se está agregando o quitando un producto a un tipo de pedido de venta. 
