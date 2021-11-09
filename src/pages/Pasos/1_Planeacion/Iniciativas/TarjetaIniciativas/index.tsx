@@ -10,8 +10,6 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import Select, {SelectChangeEvent} from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import {
 	AgregarRedondoIcon,
 	BotellaIcon,
@@ -37,15 +35,12 @@ import {
 	cambiarMotivoCancelacionIniciativa,
 	editarUnidadesOSubUnidadesEjecutadas,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {
-	InputsKeysFormTomaDePedido,
-	TMotivosCancelacionIniciativas,
-	TProductoPedido,
-} from 'models';
+import {InputsKeysFormTomaDePedido, TProductoPedido} from 'models';
 import theme from 'theme';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {useMostrarAdvertenciaEnDialogo, useMostrarAviso} from 'hooks';
 import {formatearNumero} from 'utils/methods';
+import CustomSelect from 'components/UI/CustomSelect';
 
 const ButtonStyled = styled(Button)(() => ({
 	border: '1.5px solid #651C32',
@@ -126,11 +121,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		tipoPago: clienteActual.tipoPagoActual,
 	};
 	const mostrarAviso = useMostrarAviso();
-	const [openEstado, setOpenEstado] = React.useState<boolean>(false);
-	const [openMotivo, setOpenMotivo] = React.useState<boolean>(false);
-	const [estadoSelect, setEstadoSelect] = React.useState<
-		'pendiente' | 'ejecutada' | 'cancelada'
-	>(estado);
+	const [estadoSelect, setEstadoSelect] = React.useState<string>(estado);
 	const [motivoSelect, setMotivoSelect] = React.useState<string>('');
 
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
@@ -190,62 +181,66 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		}
 	}, [estadoSelect, motivoSelect]);
 
-	const handleSelectChange = (e: SelectChangeEvent<typeof estadoSelect>) => {
-		switch (e.target.value) {
-			case 'pendiente':
-				setEstadoSelect('pendiente');
-				dispatch(
-					cambiarEstadoIniciativa({
-						estado: 'pendiente',
-						codigoIniciativa: Number(id),
-					})
-				);
-				dispatch(
-					borrarProductoDelPedidoActual({
-						codigoProducto: producto.codigoProducto,
-					})
-				);
-				if (motivo !== '') {
+	React.useEffect(() => {
+		if (!visitaActual.iniciativasBloqueadas) {
+			switch (estadoSelect) {
+				case 'pendiente':
+					setEstadoSelect('pendiente');
+					setGetValues({...getValues, unidades, subUnidades});
 					dispatch(
-						cambiarMotivoCancelacionIniciativa({
-							motivo: '',
+						cambiarEstadoIniciativa({
+							estado: 'pendiente',
 							codigoIniciativa: Number(id),
 						})
 					);
-					setMotivoSelect('');
-				}
-				break;
-			case 'ejecutada':
-				setEstadoSelect('ejecutada');
-				agregarProductoAlPedidoActual(getValues);
-				dispatch(
-					cambiarEstadoIniciativa({
-						estado: 'ejecutada',
-						codigoIniciativa: Number(id),
-					})
-				);
-				if (motivo !== '') {
 					dispatch(
-						cambiarMotivoCancelacionIniciativa({
-							motivo: '',
+						borrarProductoDelPedidoActual({
+							codigoProducto: producto.codigoProducto,
+						})
+					);
+					if (motivo !== '') {
+						dispatch(
+							cambiarMotivoCancelacionIniciativa({
+								motivo: '',
+								codigoIniciativa: Number(id),
+							})
+						);
+						setMotivoSelect('');
+					}
+					break;
+				case 'ejecutada':
+					setEstadoSelect('ejecutada');
+					agregarProductoAlPedidoActual(getValues);
+					dispatch(
+						cambiarEstadoIniciativa({
+							estado: 'ejecutada',
 							codigoIniciativa: Number(id),
 						})
 					);
-					setMotivoSelect('');
-				}
-				break;
-			case 'cancelada':
-				setEstadoSelect('cancelada');
-				dispatch(
-					borrarProductoDelPedidoActual({
-						codigoProducto: producto.codigoProducto,
-					})
-				);
-				break;
-			default:
-				break;
+					if (motivo !== '') {
+						dispatch(
+							cambiarMotivoCancelacionIniciativa({
+								motivo: '',
+								codigoIniciativa: Number(id),
+							})
+						);
+						setMotivoSelect('');
+					}
+					break;
+				case 'cancelada':
+					setEstadoSelect('cancelada');
+					setGetValues({...getValues, unidades, subUnidades});
+					dispatch(
+						borrarProductoDelPedidoActual({
+							codigoProducto: producto.codigoProducto,
+						})
+					);
+					break;
+				default:
+					break;
+			}
 		}
-	};
+	}, [estadoSelect]);
 
 	const handleButtons = (
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -396,76 +391,60 @@ const TarjetaIniciativas: React.FC<Props> = ({
 					<Divider />
 					<Stack spacing='12px' marginBottom='8px'>
 						<Box display='flex' alignItems='center' marginTop='8px'>
-							<Typography variant='body3' fontFamily='Open Sans' flex='1'>
+							<Typography
+								variant='body3'
+								fontFamily='Open Sans'
+								flex='1'
+								sx={{opacity: 0.5}}
+							>
 								{t('general.estatus')}
 							</Typography>
 							<Box flex='3'>
-								<Select
-									className={classes.select}
-									sx={{fontSize: '10px', fontFamily: 'Open Sans'}}
-									open={openEstado}
-									onClose={() => setOpenEstado(false)}
-									onOpen={() => setOpenEstado(true)}
-									value={estadoSelect}
-									onChange={handleSelectChange}
-									disabled={visitaActual.iniciativasBloqueadas}
-								>
-									<MenuItem
-										sx={{fontSize: '10px', fontFamily: 'Open Sans'}}
-										value='pendiente'
-									>
-										{t('general.pendiente')}
-									</MenuItem>
-									<MenuItem
-										sx={{fontSize: '10px', fontFamily: 'Open Sans'}}
-										value='ejecutada'
-									>
-										{t('general.ejecutada')}
-									</MenuItem>
-									<MenuItem
-										sx={{fontSize: '10px', fontFamily: 'Open Sans'}}
-										value='cancelada'
-									>
-										{t('general.cancelada')}
-									</MenuItem>
-								</Select>
+								<CustomSelect
+									opciones={[
+										t('general.pendiente'),
+										t('general.cancelada'),
+										t('general.ejecutada'),
+									]}
+									opcionSeleccionada={estadoSelect}
+									setOpcion={setEstadoSelect}
+									bloqueado={visitaActual.iniciativasBloqueadas}
+								/>
 							</Box>
 						</Box>
 						{estadoSelect === 'cancelada' && (
 							<Box display='flex' alignItems='center' marginTop='8px'>
-								<Typography variant='body3' fontFamily='Open Sans' flex='1'>
+								<Typography
+									variant='body3'
+									fontFamily='Open Sans'
+									flex='1'
+									sx={{opacity: 0.5}}
+								>
 									{t('general.motivo')}
 								</Typography>
 								<Box flex='3'>
-									<Select
-										className={classes.select}
-										sx={{fontSize: '10px', fontFamily: 'Open Sans'}}
-										open={openMotivo}
-										onClose={() => setOpenMotivo(false)}
-										onOpen={() => setOpenMotivo(true)}
-										value={motivoSelect}
-										onChange={(e) => {
-											setMotivoSelect(e.target.value);
-										}}
-										disabled={visitaActual.iniciativasBloqueadas}
-									>
-										{motivosCancelacionIniciativas?.map(
-											(motivo: TMotivosCancelacionIniciativas) => (
-												<MenuItem
-													sx={{fontSize: '10px'}}
-													key={motivo.codigo}
-													value={motivo.descripcion}
-												>
-													{motivo.descripcion}
-												</MenuItem>
-											)
-										)}
-									</Select>
+									<CustomSelect
+										opciones={[
+											'',
+											...motivosCancelacionIniciativas.map(
+												(motivos) => motivos.descripcion
+											),
+										]}
+										opcionSeleccionada={motivoSelect}
+										setOpcion={setMotivoSelect}
+										bloqueado={visitaActual.iniciativasBloqueadas}
+										border
+									/>
 								</Box>
 							</Box>
 						)}
 						<Box display='flex' gap='8px' alignItems='center'>
-							<Typography variant='body3' fontFamily='Open Sans' flex='1'>
+							<Typography
+								variant='body3'
+								fontFamily='Open Sans'
+								flex='1'
+								sx={{opacity: 0.5}}
+							>
 								{t('general.planDeActividades')}
 							</Typography>
 							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
@@ -473,7 +452,12 @@ const TarjetaIniciativas: React.FC<Props> = ({
 							</Typography>
 						</Box>
 						<Box display='flex' gap='8px' alignItems='center'>
-							<Typography variant='body3' fontFamily='Open Sans' flex='1'>
+							<Typography
+								variant='body3'
+								fontFamily='Open Sans'
+								flex='1'
+								sx={{opacity: 0.5}}
+							>
 								{t('general.descripcion')}
 							</Typography>
 							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
@@ -481,7 +465,12 @@ const TarjetaIniciativas: React.FC<Props> = ({
 							</Typography>
 						</Box>
 						<Box display='flex' gap='8px' alignItems='center'>
-							<Typography variant='body3' fontFamily='Open Sans' flex='1'>
+							<Typography
+								variant='body3'
+								fontFamily='Open Sans'
+								flex='1'
+								sx={{opacity: 0.5}}
+							>
 								{t('general.vigencia')}
 							</Typography>
 							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
@@ -566,7 +555,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										value={getValues.unidades}
 										onChange={handleInputChange}
 										disabled={
-											estado !== 'ejecutada' ||
+											estadoSelect !== 'ejecutada' ||
 											visitaActual.iniciativasBloqueadas
 										}
 										onKeyPress={handleKeyPress}
@@ -641,7 +630,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 											value={getValues.subUnidades}
 											onChange={handleInputChange}
 											disabled={
-												estado !== 'ejecutada' ||
+												estadoSelect !== 'ejecutada' ||
 												visitaActual.iniciativasBloqueadas
 											}
 											id='subUnidades_producto'
@@ -669,11 +658,22 @@ const TarjetaIniciativas: React.FC<Props> = ({
 													value='+'
 													sx={{padding: 0}}
 													onClick={handleButtons}
+													disabled={
+														getValues.subUnidades >=
+														producto.presentacion -
+															producto.subunidadesVentaMinima
+													}
 												>
 													<AgregarRedondoIcon
 														width='18px'
 														height='18px'
-														fill='#2F000E'
+														fill={
+															getValues.subUnidades >=
+															producto.presentacion -
+																producto.subunidadesVentaMinima
+																? '#D9D9D9'
+																: '#2F000E'
+														}
 													/>
 												</IconButton>
 											)}
@@ -696,7 +696,9 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						<CardActions disableSpacing style={{padding: 0}}>
 							<Box display='flex' gap='6px' alignItems='center'>
 								<Typography variant='caption' color='secondary'>
-									Ver detalle
+									{expandido === id
+										? t('general.ocultarDetalle')
+										: t('general.verDetalle')}
 								</Typography>
 								<Box
 									className={clsx(classes.expand, {

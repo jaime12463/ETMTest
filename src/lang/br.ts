@@ -10,6 +10,7 @@ const br = {
 		precio: 'Preço',
 		buscar: 'Buscar',
 		verDetalle: 'Ver Detalhe',
+		ocultarDetalle: 'Ocultar Detalhe',
 		fechaEntrega: 'Data de entrega',
 		codigo: 'Código',
 		nombre: 'Nome',
@@ -76,7 +77,7 @@ const br = {
 		envases: 'Vasilhames Retornáveis',
 		iniciativas: 'Iniciativas',
 		tarjetaIniciativas:
-			'Selecione e/ou edite os SKUs que deseja colocar neste pedido.',
+			'Selecione as iniciativas que você tem disponíveis para o seu cliente.',
 	},
 	advertencias: {
 		clienteNoExiste: 'O código digitado não corresponde a um cliente',

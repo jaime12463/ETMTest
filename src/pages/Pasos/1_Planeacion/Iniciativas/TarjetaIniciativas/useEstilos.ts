@@ -2,7 +2,7 @@ import {makeStyles, createStyles} from '@material-ui/styles';
 import theme from 'theme';
 
 interface Props {
-	estado: 'pendiente' | 'ejecutada' | 'cancelada';
+	estado: string;
 	inputsBloqueados: boolean;
 }
 
@@ -59,22 +59,6 @@ const useEstilos = makeStyles(() =>
 					? '82px'
 					: '42px',
 		},
-		button: {
-			border: '1.5px solid #651C32',
-			boxSizing: 'border-box',
-			borderRadius: '20px',
-			minHeight: '10px',
-			height: '16px',
-			textTransform: 'none',
-			'&:hover': {
-				background: 'none',
-			},
-		},
-		select: {
-			borderRadius: '4px',
-			height: '24px',
-			width: '196px',
-		},
 		root: {
 			width: '100%',
 			paddingBottom: 0,
@@ -99,22 +83,6 @@ const useEstilos = makeStyles(() =>
 		},
 		cardContentExpand: {
 			paddingTop: 0,
-		},
-		celda: {
-			borderBottom: 'none',
-			whiteSpace: 'nowrap',
-			textOverflow: 'ellipsis',
-			overflow: 'hidden',
-			maxWidth: 230,
-		},
-		celdaProducto: {
-			fontSize: '0.7rem',
-			lineHeight: 1,
-			borderBottom: 0,
-		},
-		celdaValores: {
-			fontSize: '0.7rem',
-			lineHeight: 1,
 		},
 	})
 );

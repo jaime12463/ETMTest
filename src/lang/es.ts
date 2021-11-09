@@ -10,6 +10,7 @@ const es = {
 		precio: 'Precio',
 		buscar: 'Buscar',
 		verDetalle: 'Ver Detalle',
+		ocultarDetalle: 'Ocultar Detalle',
 		fechaEntrega: 'Fecha de entrega',
 		codigo: 'Código',
 		nombre: 'Nombre',
@@ -86,7 +87,7 @@ const es = {
 		tarjetaOrdenDeCompra: 'Ingresa el número de orden de compra del cliente',
 		iniciativas: 'Iniciativas',
 		tarjetaIniciativas:
-			'Selecciona y/o edita los SKUs que quieras colocar en este pedido.',
+			'Selecciona las iniciativas que tienes disponible para tu cliente.',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
