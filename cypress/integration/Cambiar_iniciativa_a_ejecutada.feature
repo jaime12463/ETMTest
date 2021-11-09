@@ -21,7 +21,7 @@ Escenario: N°1 - Agregar producto de la iniciativa al pedido
 Escenario: N°3 - Ingresar unidades a la iniciativa
     Dado que se cambió el estado de la iniciativa a ejecutada
     Y tiene _cantidadMáximaUnidades
-    Cuando aumento las subunidades
+    Cuando aumento las unidades
     Entonces el sistema aumentará las unidades en 1
     Y no podrá superar _cantidadMáximaUnidades
     Y cambiará las unidades del producto en el pedido
