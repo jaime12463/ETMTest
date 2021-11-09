@@ -120,7 +120,7 @@ export const Canjes = () => {
 								productoActual.precioConImpuestoSubunidad * 0,
 							tipoPago: clienteActual.tipoPagoActual,
 							catalogoMotivo: '',
-							visible: true,
+							estado: 'activo',
 						},
 					})
 				);

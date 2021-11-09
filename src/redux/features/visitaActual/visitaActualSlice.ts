@@ -57,7 +57,7 @@ export const visitaActualSlice = createSlice({
 				producto.total = action.payload.productoPedido.total;
 				producto.tipoPago = action.payload.productoPedido.tipoPago;
 				producto.catalogoMotivo = action.payload.productoPedido.catalogoMotivo;
-				producto.visible = action.payload.productoPedido.visible;
+				producto.estado = action.payload.productoPedido.estado;
 			} else {
 				state.pedidos[state.tipoPedidoActual].productos = [
 					action.payload.productoPedido,

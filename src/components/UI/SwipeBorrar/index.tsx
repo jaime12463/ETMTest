@@ -16,12 +16,12 @@ export const SwipeBorrar = (props: Props) => {
 
 	const switchingHandler = (index: number, type: string) => {
 		if (index === 1 && type === 'end') {
-			const itemModificado = {...item, visible: false};
-
 			setTimeout(
 				() =>
 					dispatch(
-						editarProductoDelPedidoActual({productoPedido: itemModificado})
+						editarProductoDelPedidoActual({
+							productoPedido: {...item, estado: 'eliminado'},
+						})
 					),
 				700
 			);
@@ -29,26 +29,28 @@ export const SwipeBorrar = (props: Props) => {
 	};
 
 	return (
-		<SwipeableViews
-			onSwitching={(index, type) => switchingHandler(index, type)}
-			enableMouseEvents
-			hysteresis={0.3}
-		>
-			{children}
-
-			<Box
-				alignItems='center'
-				display='flex'
-				justifyContent='center'
-				sx={{
-					backgroundColor: 'red',
-					width: '100%',
-					height: '100%',
-					position: 'relative',
-				}}
+		<>
+			<SwipeableViews
+				onSwitching={(index, type) => switchingHandler(index, type)}
+				enableMouseEvents
+				hysteresis={0.3}
 			>
-				<Typography sx={{color: 'white'}}>Eliminar</Typography>
-			</Box>
-		</SwipeableViews>
+				{children}
+
+				<Box
+					alignItems='center'
+					display='flex'
+					justifyContent='center'
+					sx={{
+						backgroundColor: 'red',
+						width: '100%',
+						height: '100%',
+						position: 'relative',
+					}}
+				>
+					<Typography sx={{color: 'white'}}>Eliminar</Typography>
+				</Box>
+			</SwipeableViews>
+		</>
 	);
 };

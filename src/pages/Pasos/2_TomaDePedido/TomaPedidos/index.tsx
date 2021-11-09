@@ -73,6 +73,7 @@ const TomaPedido: React.FC = () => {
 		useMostrarAdvertenciaEnDialogo();
 
 	const {t} = useTranslation();
+
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
@@ -125,7 +126,7 @@ const TomaPedido: React.FC = () => {
 								productoActual.precioConImpuestoSubunidad * 0,
 							tipoPago: clienteActual.tipoPagoActual,
 							catalogoMotivo,
-							visible: true,
+							estado: 'activo',
 						},
 					})
 				);
@@ -180,8 +181,9 @@ const TomaPedido: React.FC = () => {
 				</Grid>
 
 				{venta.productos.length > 0 &&
-					venta.productos.map((producto, i) => {
-						if (producto.visible) {
+					venta.productos
+						.filter((producto) => producto.estado === 'activo')
+						.map((producto, i) => {
 							return (
 								<SwipeBorrar key={producto.codigoProducto} item={producto}>
 									<TarjetaDoble
@@ -209,8 +211,7 @@ const TomaPedido: React.FC = () => {
 									/>
 								</SwipeBorrar>
 							);
-						}
-					})}
+						})}
 			</Stack>
 		</>
 	);
