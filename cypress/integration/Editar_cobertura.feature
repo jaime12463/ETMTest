@@ -58,5 +58,6 @@ Escenario: N°6 - Disminuir subunidades de producto de cobertura
 
 # Como es un tipo de pedido de venta, se mantienen todas las mismas 
 # validaciones del pedido y mensajes 
+# no aplican descuentos escalonados / polarizados
 
 # Los indicadores se deberán actualizarse ya que se está agregando o quitando un producto a un tipo de pedido de venta. 
