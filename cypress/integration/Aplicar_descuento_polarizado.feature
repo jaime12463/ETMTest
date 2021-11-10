@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Cobertura @Desplegar @Sprint16
+@Pedido @Descuentos @Sprint16
 
 # El _nuevoPrecioUnidad_ se obtiene apicando el _porcentajeDescuentoPolarizado a _precioConImpuestoUnidad
 # y el _nuevoPrecioSubunidad_ se obtiene aplicando el _porcentajeDescuentoPolarizado a _precioConImpuestoSubunidad
