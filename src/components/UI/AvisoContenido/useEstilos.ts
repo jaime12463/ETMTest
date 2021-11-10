@@ -18,6 +18,8 @@ const useEstilos = makeStyles(() =>
 						return '#D6FBE0';
 					case 'warning':
 						return 'rgba(255, 251, 239, 0.95);';
+					case 'default':
+						return '#2F000E';
 					default:
 						throw new Error('Tipo de aviso no soportado');
 				}
@@ -30,6 +32,8 @@ const useEstilos = makeStyles(() =>
 						return `1.5px solid ${theme.palette.success.main}`;
 					case 'warning':
 						return `1.5px solid ${theme.palette.warning.main}`;
+					case 'default':
+						return `1.5px solid ${theme.palette.common.white}`;
 					default:
 						throw new Error('Tipo de aviso no soportado');
 				}

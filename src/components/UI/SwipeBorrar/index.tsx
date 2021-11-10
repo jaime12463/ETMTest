@@ -8,14 +8,17 @@ import {useAppDispatch} from 'redux/hooks';
 type Props = {
 	children: ReactNode;
 	item: TProductoPedido;
+	manejadorGesto:Function;
 };
 
 export const SwipeBorrar = (props: Props) => {
-	const {children, item} = props;
+	const {children, item, manejadorGesto} = props;
 	const dispatch = useAppDispatch();
 
 	const switchingHandler = (index: number, type: string) => {
 		if (index === 1 && type === 'end') {
+			manejadorGesto();
+			/*
 			setTimeout(
 				() =>
 					dispatch(
@@ -25,13 +28,14 @@ export const SwipeBorrar = (props: Props) => {
 					),
 				700
 			);
+			*/
 		}
 	};
 
 	return (
 		<>
 			<SwipeableViews
-				onSwitching={(index, type) => switchingHandler(index, type)}
+				onSwitching={(index, type) =>  switchingHandler(index, type)}
 				enableMouseEvents
 				hysteresis={0.3}
 			>

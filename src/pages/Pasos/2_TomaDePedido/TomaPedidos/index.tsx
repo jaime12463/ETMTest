@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {
 	InputsKeysFormTomaDePedido,
 	TClienteActual,
@@ -20,7 +20,7 @@ import {
 	useInicializarPreciosProductosDelClienteActual,
 	useMostrarAviso,
 } from 'hooks';
-import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
+import {agregarProductoDelPedidoActual, editarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 
 import {TarjetaDoble, Dialogo, SwipeBorrar} from 'components/UI';
 import {AutocompleteSeleccionarProducto} from 'components/Negocio';
@@ -51,6 +51,9 @@ import {SwitchCambiarTipoPago} from '../components';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {formatearNumero} from 'utils/methods';
+import { Button } from '@mui/material';
+import { useSnackbar } from 'notistack';
+import { AvisoDeshacer } from 'components/UI/AvisoContenido/AvisosPlantilla';
 
 const InputStyled = styled(Input)(({}) => ({
 	backgroundColor: 'white',
@@ -142,6 +145,50 @@ const TomaPedido: React.FC = () => {
 		}
 	};
 
+	const avisoDeshacer=useMostrarAviso();
+	const {enqueueSnackbar ,closeSnackbar } = useSnackbar();
+	const cambiarEstadoProducto = (producto:TProductoPedido,nuevoEstado: 'activo' | 'eliminado' | 'borrardo') => {
+		if (nuevoEstado==='borrardo')
+		{
+			//ToDo borrar
+		}else{
+			dispatch(
+				editarProductoDelPedidoActual({
+					productoPedido: {...producto, estado: nuevoEstado},
+				})
+			);
+		}
+	
+	}
+	const manejadorDeshacerGestoBorrar= (producto:TProductoPedido) => {
+			//ToDo : validaciones de borrado
+
+			cambiarEstadoProducto(producto,'eliminado');
+		
+			enqueueSnackbar(
+				(<AvisoDeshacer titulo="Tarjeta Eliminada"  acciones={
+					(
+						<Fragment>
+							<Button onClick={() => { 
+								cambiarEstadoProducto(producto,'activo');
+								closeSnackbar(producto.codigoProducto );
+							 }}>
+								Deshacer
+							</Button>
+							
+						</Fragment>
+					)
+				}/>)
+				,{
+				key:producto.codigoProducto ,
+				anchorOrigin:{
+					vertical: 'bottom',
+					horizontal: 'center',
+				},
+				onExit: ()=> alert('cerrar'),
+			});
+	};
+
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
@@ -185,7 +232,7 @@ const TomaPedido: React.FC = () => {
 						.filter((producto) => producto.estado === 'activo')
 						.map((producto, i) => {
 							return (
-								<SwipeBorrar key={producto.codigoProducto} item={producto}>
+								<SwipeBorrar key={producto.codigoProducto} item={producto} manejadorGesto={()=>manejadorDeshacerGestoBorrar(producto) }>
 									<TarjetaDoble
 										izquierda={
 											<Izquierda
