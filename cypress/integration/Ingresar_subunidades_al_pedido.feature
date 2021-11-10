@@ -68,9 +68,23 @@ Característica: Ingresar subunidades al pedido
 Antecedentes:
 	Dado que estoy en el ingreso del pedido y que se ingresó un código de producto
     Y las subunidades están habilitadas
+
+Esquema del escenario: N°1 – Ingreso de subunidad correcta y aplica descuento polarizado
+	Cuando se ingresa una cantidad correcta
+	Y se encuentra informado el _descuentoPolarizado para el _codigoProducto en el _portafolio del cliente
+    Y '<precioPolarizadoIngresado>' se ingreso el precio polarizado
+    Entonces el sistema registrará las subunidades 
+	Y habilitará el ingreso del precio polarizado	
+   	Y '<recalculaMontoAhorro>' recalculará el monto total de ahorro segun aplicar descuento polarizado
+
+ Ejemplos:
+    |precioPolarizadoIngresado|recalculaMontoAhorro|
+    |si                       |si                  |
+    |no                       |no                  |
+
+#Se da como cantidad ingresada cuando acepta la cantidad manual ingresada o se pierde el foco del campo
 	
-	
-Escenario: N°1 – Ingreso de subunidad correcta y no requiere motivo y el tipo de pedido del pedido en curso no valida presupuesto
+Escenario: N°2 – Ingreso de subunidad correcta y no requiere motivo y el tipo de pedido del pedido en curso no valida presupuesto
     Dado que el producto tiene una _presentacion 
 	Y que el tipo de pedido tiene _validaSubunidadesMinimas = true
     Y tiene _subunidadesVentaMinima
@@ -79,7 +93,7 @@ Escenario: N°1 – Ingreso de subunidad correcta y no requiere motivo y el tipo
     Cuando se ingresan subunidades
     Entonces el sistema registrará las subunidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
 
-Escenario: N°2 – Ingreso de subunidad correcta y no requiere motivo y el tipo de pedido del pedido en curso valida presupuesto y cumple con el mismo
+Escenario: N°3 – Ingreso de subunidad correcta y no requiere motivo y el tipo de pedido del pedido en curso valida presupuesto y cumple con el mismo
     Dado que el producto tiene una _presentacion 
 	Y que el tipo de pedido tiene _validaSubunidadesMinimas = true
     Y tiene _subunidadesVentaMinima
@@ -89,7 +103,7 @@ Escenario: N°2 – Ingreso de subunidad correcta y no requiere motivo y el tipo
     Y presupuestoActual - cantidad de unidades ingresadas - cantidad de subunidades ingresadas  >= 0   
     Entonces el sistema registrará las subunidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
 
- Escenario: N°3 – Ingreso de subunidad correcta y requiere motivo y el tipo de pedido del pedido en curso valida presupuesto y cumple con el mismo
+ Escenario: N°4 – Ingreso de subunidad correcta y requiere motivo y el tipo de pedido del pedido en curso valida presupuesto y cumple con el mismo
     Dado que el producto tiene una _presentacion 
 	Y que el tipo de pedido tiene _validaSubunidadesMinimas = true
     Y tiene _subunidadesVentaMinima
@@ -101,19 +115,19 @@ Escenario: N°2 – Ingreso de subunidad correcta y no requiere motivo y el tipo
 
 #Cuando se ingresa un producto nuevo, se asume como condición de pago del producto la condición de pago general del pedido. 
 
-Escenario: N°4 – Ingreso de subunidades mayor o igual que la presentación
+Escenario: N°5 – Ingreso de subunidades mayor o igual que la presentación
     Dado que el producto tiene una _presentacion 
     Cuando se ingresan subunidades
     Entonces el sistema mostrará el mensaje “Las subunidades debe ser menores a la presentación _presentacion” y permanecerá en la pantalla para corregir
 
-Escenario: N°5 – Ingreso de subunidades no es múltiplo
+Escenario: N°6 – Ingreso de subunidades no es múltiplo
     Dado que el producto tiene _presentacion
 	Y que el tipo de pedido tiene _validaSubunidadesMinimas = true
     Y tiene _subunidadesVentaMinima
     Cuando se ingresan subunidades
     Entonces el sistema mostrará el mensaje “Las subunidades debe ser en múltiplos de _subunidadesVentaMinima ” y permanecerá en la pantalla para corregir
 
-Escenario: N°6 – Ingreso de subunidad no cumple con el presupuesto para el tipo de pedido del pedido en curso que valida presupuesto
+Escenario: N°7 – Ingreso de subunidad no cumple con el presupuesto para el tipo de pedido del pedido en curso que valida presupuesto
     Dado que el tipo de pedido del pedido en curso tiene _validaPresupuesto = true
     Cuando se ingresan subunidades
     Y presupuestoActual - cantidad de unidades ingresadas - cantidad de subunidades ingresadas < 0 
