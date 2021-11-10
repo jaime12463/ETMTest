@@ -3,7 +3,7 @@ import theme from 'theme';
 
 interface Props {
 	tipo: 'default' | 'error' | 'success' | 'warning' | 'info';
-	conBotones: boolean;
+	conBotones?: boolean;
 }
 
 const useEstilos = makeStyles(() =>
@@ -64,6 +64,16 @@ const useEstilos = makeStyles(() =>
 			display: 'flex',
 			justifyContent: 'space-evenly',
 			width: '100%',
+		},
+		containerDeshacer: {
+			alignItems: 'center',
+			background: theme.palette.secondary.dark,
+			borderRadius: '8px',
+			display: 'flex',
+			height: '30px',
+			justifyContent: 'space-between',
+			padding: '10px 18px',
+			width: '340px',
 		},
 	})
 );
