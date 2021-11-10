@@ -51,5 +51,6 @@ Escenario: N°6 - Restar subunidades a la iniciativa
 
 # Como es un tipo de pedido de venta, se mantienen todas las mismas 
 # validaciones del pedido y mensajes 
+# no aplican descuentos escalonados / polarizados
 
 # Los indicadores se deberán actualizarse ya que se está agregando un producto a un tipo de pedido de venta. 
