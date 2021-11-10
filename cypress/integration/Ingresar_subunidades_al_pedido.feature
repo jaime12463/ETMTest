@@ -90,7 +90,6 @@ Escenario: N°2 – Ingreso de subunidad correcta y aplica descuento escalonado
 	Y se encuentra informado el _descuentoEscalonado para el _codigoProducto en el _portafolio del cliente
     Y las subunidades ingresadas están dentro de un rango del descuento escalonado
     Entonces el sistema mostrará el control para quitar el descuento
-    Y mostrará el descuento a aplicar _porcentajeDescuentoEscalonado
     Y calculará y mostrará los nuevos precios aplicando el _porcentajeDescuentoEscalonado al _precioConImpuestoSubunidad 
     Y los mostrará en rojo, debajo de los precios originales 
     Y calculará el ahorro para subunidades restando el _precioConImpuestoSubunidad - el nuevo precio calculado

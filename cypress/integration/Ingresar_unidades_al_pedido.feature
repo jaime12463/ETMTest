@@ -93,7 +93,6 @@ Escenario: N°3 – La cantidad de unidades ingresadas es correcta y aplica desc
 	Y se encuentra informado el _descuentoEscalonado para el _codigoProducto en el _portafolio del cliente
     Y las unidades ingresadas están dentro de un rango del descuento escalonado
     Entonces el sistema mostrará el control para quitar el descuento
-    Y mostrará el descuento a aplicar _porcentajeDescuentoEscalonado
     Y calculará y mostrará los nuevos precios aplicando el _porcentajeDescuentoEscalonado al _precioConImpuestoUnidad
     Y los mostrará en rojo, debajo de los precios originales 
     Y calculará el ahorro para unidades restando el _precioConImpuestoUnidad - el nuevo precio calculado
