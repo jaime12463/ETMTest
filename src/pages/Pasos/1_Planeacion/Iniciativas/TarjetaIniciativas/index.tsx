@@ -179,6 +179,17 @@ const TarjetaIniciativas: React.FC<Props> = ({
 				})
 			);
 		}
+
+		return () => {
+			if (estadoSelect === 'cancelada' && motivoSelect === '') {
+				dispatch(
+					cambiarEstadoIniciativa({
+						estado: 'pendiente',
+						codigoIniciativa: Number(id),
+					})
+				);
+			}
+		};
 	}, [estadoSelect, motivoSelect]);
 
 	React.useEffect(() => {
@@ -230,6 +241,12 @@ const TarjetaIniciativas: React.FC<Props> = ({
 				case 'cancelada':
 					setEstadoSelect('cancelada');
 					setGetValues({...getValues, unidades, subUnidades});
+					dispatch(
+						cambiarEstadoIniciativa({
+							estado: 'cancelada',
+							codigoIniciativa: Number(id),
+						})
+					);
 					dispatch(
 						borrarProductoDelPedidoActual({
 							codigoProducto: producto.codigoProducto,
