@@ -12,6 +12,7 @@ Escenario: N°1 - Eliminar descuento
     Y se mostró el control para eliminar el descuento
     Cuando selecciona eliminar descuento
     Entonces el sistema reestablecerá los precios del portafolio
+    Y actualizará los indicadores y totales
     Y marcará el producto para que no se vuelva a calcular el descuento escalonado
     Y ocultará los controles relacionados al descuento escalonado
 
