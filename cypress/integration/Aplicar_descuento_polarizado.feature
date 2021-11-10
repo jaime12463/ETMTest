@@ -2,8 +2,8 @@
 
 @Pedido @Cobertura @Desplegar @Sprint16
 
-# El _nuevoPrecioUnidad se obtiene apicando el _porcentajeDescuentoPolarizado a _precioConImpuestoUnidad
-# y el _nuevoPrecioSubunidad se obtiene aplicando el _porcentajeDescuentoPolarizado a _precioConImpuestoSubunidad
+# El _nuevoPrecioUnidad_ se obtiene apicando el _porcentajeDescuentoPolarizado a _precioConImpuestoUnidad
+# y el _nuevoPrecioSubunidad_ se obtiene aplicando el _porcentajeDescuentoPolarizado a _precioConImpuestoSubunidad
 
 Característica: Aplicar descuento polarizado
     Como prevendedor
@@ -21,10 +21,10 @@ Escenario: N°2 - Precio de venta al público en rango de descuento
     Dado que se ingresó un precio de venta al público de un producto
     Y tiene un _precioVentaAlPublicoDesde <= precio venta público <= _precioVentaAlPublicoDesde aplicable
     Cuando acepta el ingreso del precio al público
-    Entonces el sistema calculará el _nuevoPrecioUnidad y _nuevoPrecioSubunidad 
+    Entonces el sistema calculará el _nuevoPrecioUnidad_ y _nuevoPrecioSubunidad_ 
     Y los mostrará en rojo, debajo de los precios originales 
-    Y calculará el ahorro para unidades restando el _precioConImpuestoUnidad - _nuevoPrecioUnidad
-    Y calculará el ahorro para subunidades restando el _precioConImpuestoSubunidad - _nuevoPrecioSubunidad
+    Y calculará el ahorro para unidades restando el _precioConImpuestoUnidad - _nuevoPrecioUnidad_
+    Y calculará el ahorro para subunidades restando el _precioConImpuestoSubunidad - _nuevoPrecioSubunidad_
     Y actualizará los indicadores y totales en base al nuevo precio
     Y mostrará el icono verde de ok
 
