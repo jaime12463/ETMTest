@@ -24,7 +24,7 @@ const useEstilos = makeStyles(() =>
 			padding: '8px',
 			pointerEvents: (props: Props) => (props.bloqueado ? 'none' : 'auto'),
 			position: 'relative',
-			width: '196px',
+			width: '100%',
 		},
 		dropdown: {
 			background: '#fff',
@@ -33,7 +33,7 @@ const useEstilos = makeStyles(() =>
 			position: 'absolute',
 			left: '0',
 			top: '25px',
-			width: '196px',
+			width: '100%',
 			zIndex: 1,
 		},
 		options: {
@@ -48,8 +48,8 @@ const useEstilos = makeStyles(() =>
 		},
 		arrow: {
 			transform: (props: Props) =>
-				props.open ? 'rotate(180deg)' : 'rotate(0deg)',
-			transition: 'transform 0.2s',
+				props.open ? 'rotateX(180deg)' : 'rotateX(0deg)',
+			transition: 'transform 0.3s ease-in-out',
 		},
 	})
 );

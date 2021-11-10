@@ -144,6 +144,7 @@ export const Otros: React.FC = () => {
 						No hay disponibilidad de canje para este cliente en este momento
 					</Typography>
 				}
+				labelChip={`${canje.productos.length} Items`}
 				valido={canjeValido}
 			>
 				<Canjes />

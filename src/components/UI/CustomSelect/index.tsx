@@ -8,7 +8,7 @@ interface Props {
 	opcionSeleccionada: string;
 	opciones: string[];
 	setOpcion: React.Dispatch<React.SetStateAction<string>>;
-	bloqueado: boolean;
+	bloqueado?: boolean;
 	border?: boolean;
 }
 
@@ -16,7 +16,7 @@ const CustomSelect: React.FC<Props> = ({
 	opcionSeleccionada,
 	opciones,
 	setOpcion,
-	bloqueado,
+	bloqueado = false,
 	border,
 }) => {
 	const [open, setOpen] = React.useState<boolean>(false);
@@ -69,7 +69,7 @@ const CustomSelect: React.FC<Props> = ({
 						>
 							<Typography
 								variant='caption'
-								sx={{color: '#000', textTransform: 'capitalize'}}
+								sx={{color: '#000'}}
 								fontFamily='Open Sans'
 							>
 								{opcion}

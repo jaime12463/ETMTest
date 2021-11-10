@@ -122,7 +122,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	};
 	const mostrarAviso = useMostrarAviso();
 	const [estadoSelect, setEstadoSelect] = React.useState<string>(estado);
-	const [motivoSelect, setMotivoSelect] = React.useState<string>('');
+	const [motivoSelect, setMotivoSelect] = React.useState<string>(motivo);
 
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 	const [getValues, setGetValues] =
@@ -346,7 +346,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 					display='flex'
 					flexDirection={
 						estadoSelect === 'pendiente' ||
-						(estadoSelect === 'cancelada' && motivoSelect === '')
+						(estadoSelect === 'cancelada' && motivo === '')
 							? 'column'
 							: 'row'
 					}
@@ -354,12 +354,12 @@ const TarjetaIniciativas: React.FC<Props> = ({
 					marginBottom='12px'
 					gap={
 						estadoSelect === 'pendiente' ||
-						(estadoSelect === 'cancelada' && motivoSelect === '')
+						(estadoSelect === 'cancelada' && motivo === '')
 							? '8px'
 							: '40px'
 					}
 				>
-					{estadoSelect === 'cancelada' && motivoSelect === '' && (
+					{estadoSelect === 'cancelada' && motivo === '' && (
 						<Box display='flex' justifyContent='flex-end' width='100%'>
 							<Typography
 								color='#fff'
