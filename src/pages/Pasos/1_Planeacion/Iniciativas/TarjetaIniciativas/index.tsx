@@ -173,17 +173,6 @@ const TarjetaIniciativas: React.FC<Props> = ({
 				})
 			);
 		}
-
-		return () => {
-			if (estadoSelect === 'cancelada' && motivoSelect === '') {
-				dispatch(
-					cambiarEstadoIniciativa({
-						estado: 'pendiente',
-						codigoIniciativa: Number(id),
-					})
-				);
-			}
-		};
 	}, [estadoSelect, motivoSelect]);
 
 	React.useEffect(() => {
