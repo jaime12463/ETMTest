@@ -167,12 +167,6 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	React.useEffect(() => {
 		if (estadoSelect === 'cancelada' && motivoSelect !== '') {
 			dispatch(
-				cambiarEstadoIniciativa({
-					estado: 'cancelada',
-					codigoIniciativa: Number(id),
-				})
-			);
-			dispatch(
 				cambiarMotivoCancelacionIniciativa({
 					motivo: motivoSelect,
 					codigoIniciativa: Number(id),
@@ -356,7 +350,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	return (
 		<Card
 			className={classes.card}
-			style={{padding: '12px 14px', boxShadow: 'none'}}
+			style={{padding: '12px 14px', boxShadow: 'none', overflow: 'visible'}}
 		>
 			<Box>
 				<Box

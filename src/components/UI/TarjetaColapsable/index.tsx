@@ -66,6 +66,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 				className={clsx(classes.root, {
 					[classes.inactiva]: expandido !== id ? true : false,
 				})}
+				sx={{overflow: 'visible'}}
 			>
 				<CardHeader
 					style={{padding: 0}}

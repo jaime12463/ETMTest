@@ -18,6 +18,7 @@ export const VistaPromoPush = ({stateOpen}: any) => {
 			onClose={handleCloseVistaPromoPush}
 			aria-labelledby='modal-modal-title'
 			aria-describedby='modal-modal-description'
+			sx={{overflow: 'auto'}}
 		>
 			<Box display='flex' width='100%' justifyContent='center'>
 				<Card
