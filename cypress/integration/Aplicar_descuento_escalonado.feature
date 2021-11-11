@@ -17,6 +17,7 @@ Escenario: N°1 – La cantidad de unidades ingresadas es correcta y aplica desc
     Y las unidades ingresadas están dentro de un rango de descuento escalonado
     Cuando se acepta el ingreso de unidades en el producto
     Entonces el sistema calculará y mostrará el _nuevoPrecioUnidad_ y _nuevoPrecioSubunidad_
+    Y mostrará el control para quitar el descuento
     Y los mostrará en rojo, debajo de los precios originales 
     Y calculará el ahorro para unidades restando el _precioConImpuestoUnidad - _nuevoPrecioUnidad_
 	Y calculará el ahorro para subunidades restando el _precioConImpuestoSubunidad - _nuevoPrecioSubunidad_
@@ -25,3 +26,11 @@ Escenario: N°1 – La cantidad de unidades ingresadas es correcta y aplica desc
 # Se da como cantidad ingresada cuando acepta la cantidad manual ingresada o se pierde el foco del campo
 # Al guardar el producto, guardar el precio con descuento en los campos de precio de venta. Adicionalmente agregar el precio de lista del portafolio y el monto total de ahorro.
 
+
+Escenario: N°2 - Cantidad de unidades fuera de rango
+    Dado que se ingresó una cantidad correcta
+    Y Y se encuentra informado el _descuentoEscalonado para el _codigoProducto en el _portafolio del cliente
+    Y no un rango aplicable de descuento escalonado
+    Cuando acepta el ingreso del precio al público
+    Entonces el sistema no calculará y no aplicará descuento
+    Y no mostrará el controles relacionados al descuento
