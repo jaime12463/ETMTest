@@ -89,20 +89,9 @@ Esquema del escenario: N°2 – La cantidad unidades ingresada es correcta y apl
 
 Escenario: N°3 – La cantidad de unidades ingresadas es correcta y aplica descuento escalonado
 	Cuando se ingresa una cantidad correcta
-    Y no se eliminó el descuento
 	Y se encuentra informado el _descuentoEscalonado para el _codigoProducto en el _portafolio del cliente
-    Y las unidades ingresadas están dentro de un rango del descuento escalonado
-    Entonces el sistema mostrará el control para quitar el descuento
-    Y calculará y mostrará los nuevos precios aplicando el _porcentajeDescuentoEscalonado al _precioConImpuestoUnidad
-	Y _porcentajeDescuentoEscalonado al _precioConImpuestoSubunidad
-    Y los mostrará en rojo, debajo de los precios originales 
-    Y calculará el ahorro para unidades restando el _precioConImpuestoUnidad - el nuevo precio calculado de unidad
-	Y calculará el ahorro para subunidades restando el _precioConImpuestoSubunidad - el nuevo precio calculado de subunidad
-    Y actualizará los indicadores y totales en base a los nuevos precios 
-
-# Se da como cantidad ingresada cuando acepta la cantidad manual ingresada o se pierde el foco del campo
-# Al guardar el producto, guardar el precio con descuento en los campos de precio de venta. Adicionalmente agregar el precio de lista del portafolio y el monto total de ahorro.
-
+    Entonces el sistema aplicará el descuento escalonado
+     
 Escenario: N°4 – La cantidad es menor o igual a la permitida y  menor a las unidades disponibles y las subunidades están habilitadas
 	Cuando se ingresa una cantidad
 	Y es menor o igual a la _cantidadMáximaUnidades
