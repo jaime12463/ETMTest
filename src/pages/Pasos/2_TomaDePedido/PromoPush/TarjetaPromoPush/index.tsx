@@ -16,8 +16,9 @@ import {styled} from '@mui/material/styles';
 import {makeStyles, createStyles} from '@material-ui/styles';
 import clsx from 'clsx';
 import React, {useEffect, useState} from 'react';
+import {TClienteActual, ETiposDePago} from 'models';
 
-import {useObtenerDatos} from 'redux/hooks';
+import {useObtenerDatos, useObtenerClienteActual} from 'redux/hooks';
 import {
 	AgregarRedondoIcon,
 	QuitarRellenoIcon,
@@ -29,6 +30,7 @@ import {useTranslation} from 'react-i18next';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {formatearNumero} from 'utils/methods';
 import {useAgregarProductoAlPedidoActual} from '../hooks/useAgregarProductoAlPedidoActual';
+import {SwitchCambiarTipoPago} from '../../components';
 import theme from 'theme';
 
 const InputStyled = styled(Input)(({}) => ({
@@ -92,7 +94,11 @@ const useEstilos = makeStyles((theme: Theme) =>
 );
 
 const TarjetaPromoPush = (props: any) => {
+	const clienteActual: TClienteActual = useObtenerClienteActual();
+
+	const visitaActual = useObtenerVisitaActual();
 	const [puedeAgregar, setPuedeAgregar] = useState(false);
+
 	const {t} = useTranslation();
 	const classes = useEstilos();
 	const {
@@ -111,11 +117,15 @@ const TarjetaPromoPush = (props: any) => {
 		componentes,
 		promoPush,
 	} = item;
-	const visitaActual = useObtenerVisitaActual();
+
 	const {venta} = visitaActual.pedidos;
 
 	const producto = venta.productos.find(
 		(producto) => producto.codigoProducto === codigoProducto
+	);
+
+	const [promoPushTemporal, setPromoPushTemporal] = useState<ETiposDePago>(
+		producto ? producto.tipoPago : clienteActual.tipoPagoActual
 	);
 
 	const defaultValues = {
@@ -124,6 +134,7 @@ const TarjetaPromoPush = (props: any) => {
 		productoABuscar: '',
 		tipoDePedido: visitaActual.tipoPedidoActual,
 		catalogoMotivo: '',
+		tipoDePago: producto ? producto.tipoPago : promoPushTemporal,
 	};
 
 	const [getValues, setGetValues] = React.useState(defaultValues);
@@ -135,10 +146,11 @@ const TarjetaPromoPush = (props: any) => {
 			productoABuscar: '',
 			tipoDePedido: visitaActual.tipoPedidoActual,
 			catalogoMotivo: '',
+			tipoDePago: producto ? producto.tipoPago : promoPushTemporal,
 		};
 
 		setGetValues(defaultValues);
-	}, [producto]);
+	}, [producto, promoPushTemporal]);
 
 	const datos = useObtenerDatos();
 	const {productos} = datos;
@@ -206,20 +218,25 @@ const TarjetaPromoPush = (props: any) => {
 				}
 				style={{padding: '12px 14px'}}
 			>
-				{getValues.unidades > 0 && (
-					<Box
-						display='flex'
-						justifyContent='end'
-						alignItems='center'
-						marginBottom='8px'
-					>
+				<Box
+					display='flex'
+					justifyContent='space-between'
+					alignItems='center'
+					marginBottom='8px'
+				>
+					<SwitchCambiarTipoPago
+						producto={producto}
+						setPromoPushTemporal={setPromoPushTemporal}
+						promoPushTemporal={promoPushTemporal}
+					/>
+					{getValues.unidades > 0 && (
 						<CheckRedondoIcon
 							height='17.5px'
 							width='17.5px'
 							fill={`${theme.palette.success.main}`}
 						/>
-					</Box>
-				)}
+					)}
+				</Box>
 				<Box
 					display='grid'
 					gridTemplateColumns='repeat(2, 1fr)'

@@ -52,6 +52,7 @@ export const visitaActualSlice = createSlice({
 			);
 
 			if (producto) {
+				console.log(action.payload.productoPedido.tipoPago);
 				producto.unidades = action.payload.productoPedido.unidades;
 				producto.subUnidades = action.payload.productoPedido.subUnidades;
 				producto.total = action.payload.productoPedido.total;

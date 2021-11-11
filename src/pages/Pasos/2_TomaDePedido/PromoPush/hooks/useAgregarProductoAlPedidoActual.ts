@@ -75,7 +75,7 @@ export const useAgregarProductoAlPedidoActual = (
 
 	const agregarProductoAlPedidoActual = useCallback(
 		(inputs: any) => {
-			const {unidades, subUnidades, catalogoMotivo} = inputs;
+			const {unidades, subUnidades, catalogoMotivo, tipoDePago} = inputs;
 
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
 
@@ -102,6 +102,8 @@ export const useAgregarProductoAlPedidoActual = (
 					catalogoMotivo: catalogoMotivo,
 				});
 
+			// console.log(getValues.tipoPago);
+			// console.log(tipoPago);
 			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
 				dispatch(
 					agregarProductoDelPedidoActual({
@@ -112,9 +114,7 @@ export const useAgregarProductoAlPedidoActual = (
 							total:
 								productoActual.precioConImpuestoUnidad * unidadesParseado +
 								productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
-							tipoPago: productoBuscado
-								? productoBuscado.tipoPago
-								: clienteActual.tipoPagoActual,
+							tipoPago: productoBuscado ? productoBuscado.tipoPago : tipoDePago,
 							catalogoMotivo,
 							estado: 'activo',
 						},

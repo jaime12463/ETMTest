@@ -120,6 +120,8 @@ const TomaPedido: React.FC = () => {
 				(producto) => producto.codigoProducto === productoActual.codigoProducto
 			);
 
+			console.log(productoEnPedido);
+
 			if (!productoEnPedido) {
 				dispatch(
 					agregarProductoDelPedidoActual({
