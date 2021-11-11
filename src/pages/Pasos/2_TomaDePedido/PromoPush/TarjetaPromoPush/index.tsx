@@ -364,15 +364,27 @@ const TarjetaPromoPush = (props: any) => {
 													flexDirection='column'
 													marginBottom='8px'
 												>
-													<Box display='flex' textAlign='center'>
+													<Box
+														display='flex'
+														textAlign='center'
+														justifyContent='end'
+													>
 														<CajaIcon width={'19px'} height='14px' />
-														<Typography variant='caption' mt={0.3}>
+														<Typography
+															variant='caption'
+															fontFamily='Open Sans'
+															mt={0.3}
+														>
 															{`x${promoPush.componentes[i].cantidad}
 																	${formatearNumero(el.precioBase, t)}`}
 														</Typography>
 													</Box>
 													<Box>
-														<Typography color='primary' variant='caption'>
+														<Typography
+															color='primary'
+															fontFamily='Open Sans'
+															variant='caption'
+														>
 															Ahorras: {formatearNumero(el.descuento, t)}
 														</Typography>
 													</Box>
