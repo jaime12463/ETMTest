@@ -96,9 +96,9 @@ Escenario: N°3 – La cantidad de unidades ingresadas es correcta y aplica desc
     Y calculará y mostrará los nuevos precios aplicando el _porcentajeDescuentoEscalonado al _precioConImpuestoUnidad
 	Y _porcentajeDescuentoEscalonado al _precioConImpuestoSubunidad
     Y los mostrará en rojo, debajo de los precios originales 
-    Y calculará el ahorro para unidades restando el _precioConImpuestoUnidad - el nuevo precio calculado
-	Y calculará el ahorro para subunidades restando el _precioConImpuestoSubunidad - el nuevo precio calculado
-    Y actualizará los indicadores y totales en base al nuevo precio 
+    Y calculará el ahorro para unidades restando el _precioConImpuestoUnidad - el nuevo precio calculado de unidad
+	Y calculará el ahorro para subunidades restando el _precioConImpuestoSubunidad - el nuevo precio calculado de subunidad
+    Y actualizará los indicadores y totales en base a los nuevos precios 
 
 # Se da como cantidad ingresada cuando acepta la cantidad manual ingresada o se pierde el foco del campo
 # Al guardar el producto, guardar el precio con descuento en los campos de precio de venta. Adicionalmente agregar el precio de lista del portafolio y el monto total de ahorro.
