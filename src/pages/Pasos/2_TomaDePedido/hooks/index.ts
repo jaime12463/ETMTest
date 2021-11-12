@@ -4,5 +4,6 @@ export {useManejadorConfirmarAgregarPedido} from './useManejadorConfirmarAgregar
 export {useValidarAgregarProductoAlPedidoCliente} from './useValidarAgregarProductoAlPedidoCliente';
 export {useManejadorConfirmarEliminarPedidosNoMandatorios} from './useManejadorConfirmarEliminarPedidosNoMandatorios';
 export {useValidarProductoPermiteSubUnidades} from './useValidarProductoPermiteSubUnidades';
+export {useValidarBorrarPedido} from './useValidarBorrarPedido';
 
 export {useObtenerCatalogoMotivos} from './useObtenerCatalogoMotivos';

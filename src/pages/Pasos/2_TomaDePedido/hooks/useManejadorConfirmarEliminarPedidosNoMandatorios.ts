@@ -31,7 +31,6 @@ export const useManejadorConfirmarEliminarPedidosNoMandatorios = (
 					);
 				}
 				if (productos) {
-					console.log(productos);
 					for (const producto of productos) {
 						borrarProductoDelPedidoActual({
 							codigoProducto: producto.codigoProducto,

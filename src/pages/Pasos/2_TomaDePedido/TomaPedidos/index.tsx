@@ -8,12 +8,14 @@ import {
 	TProductoPedido,
 	TStateInputFocus,
 	TVisita,
-	TCliente,
+	TPedido,
 } from 'models';
+
 import {
 	useAppDispatch,
 	useObtenerClienteActual,
 	useObtenerVisitaActual,
+	useObtenerConfiguracion,
 } from 'redux/hooks';
 import {useForm} from 'react-hook-form';
 import {
@@ -23,6 +25,8 @@ import {
 import {
 	agregarProductoDelPedidoActual,
 	editarProductoDelPedidoActual,
+	borrarProductoDelPedidoActual,
+	borrarProductosDeVisitaActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
 
 import {TarjetaDoble, Dialogo, SwipeBorrar} from 'components/UI';
@@ -43,7 +47,10 @@ import {
 } from 'assests/iconos';
 import {styled} from '@mui/material/styles';
 import Input from '@mui/material/Input';
-import {useAgregarProductoAlPedidoActual} from '../hooks';
+import {
+	useAgregarProductoAlPedidoActual,
+	useValidarBorrarPedido,
+} from '../hooks';
 import {
 	useMostrarAdvertenciaEnDialogo,
 	useBorrarTodoLosProductos,
@@ -114,14 +121,15 @@ const TomaPedido: React.FC = () => {
 		venta.productos
 	);
 
+	const validarBorrarPedido = useValidarBorrarPedido(
+		mostrarAdvertenciaEnDialogo
+	);
+
 	React.useEffect(() => {
 		if (productoActual !== null) {
 			const productoEnPedido = venta.productos.find(
 				(producto) => producto.codigoProducto === productoActual.codigoProducto
 			);
-
-			console.log(productoEnPedido);
-
 			if (!productoEnPedido) {
 				dispatch(
 					agregarProductoDelPedidoActual({
@@ -154,7 +162,7 @@ const TomaPedido: React.FC = () => {
 	const {enqueueSnackbar, closeSnackbar} = useSnackbar();
 	const cambiarEstadoProducto = (
 		producto: TProductoPedido,
-		nuevoEstado: 'activo' | 'eliminado' | 'borrardo'
+		nuevoEstado: 'activo' | 'eliminado' | 'borrardo' | 'transito'
 	) => {
 		if (nuevoEstado === 'borrardo') {
 			//ToDo borrar
@@ -166,40 +174,64 @@ const TomaPedido: React.FC = () => {
 			);
 		}
 	};
-	const manejadorDeshacerGestoBorrar = (producto: TProductoPedido) => {
-		//ToDo : validaciones de borrado
 
+	const manejadorDeshacerGestoBorrar = (producto: TProductoPedido) => {
 		cambiarEstadoProducto(producto, 'eliminado');
 
-		enqueueSnackbar(
-			<AvisoDeshacer
-				titulo='Tarjeta Eliminada'
-				acciones={
-					<>
-						<Typography
-							variant='caption'
-							fontFamily='Poppins'
-							color='#fff'
-							sx={{cursor: 'pointer'}}
-							onClick={() => {
-								cambiarEstadoProducto(producto, 'activo');
-								closeSnackbar(producto.codigoProducto);
-							}}
-						>
-							Deshacer
-						</Typography>
-					</>
+		const aviso = ({
+			borrarProductosNoMandatorios,
+			productosNoMandatorios,
+		}: any) => {
+			enqueueSnackbar(
+				<AvisoDeshacer
+					titulo='Tarjeta Eliminada'
+					acciones={
+						<>
+							<Typography
+								variant='caption'
+								fontFamily='Poppins'
+								color='#fff'
+								sx={{cursor: 'pointer'}}
+								onClick={() => {
+									cambiarEstadoProducto(producto, 'activo');
+									closeSnackbar(producto.codigoProducto);
+								}}
+							>
+								Deshacer
+							</Typography>
+						</>
+					}
+				/>,
+				{
+					key: producto.codigoProducto,
+					anchorOrigin: {
+						vertical: 'bottom',
+						horizontal: 'center',
+					},
+					onClose: (event, reason, key) => {
+						if (reason === 'timeout') {
+							if (borrarProductosNoMandatorios) {
+								productosNoMandatorios.forEach((pedido: TPedido) => {
+									dispatch(
+										borrarProductosDeVisitaActual({
+											tipoPedidoActual: pedido.tipoPedido,
+										})
+									);
+								});
+							}
+							return dispatch(
+								borrarProductoDelPedidoActual({
+									codigoProducto: producto.codigoProducto,
+									codigoTipoPedidoActual: 'venta',
+								})
+							);
+						}
+					},
 				}
-			/>,
-			{
-				key: producto.codigoProducto,
-				anchorOrigin: {
-					vertical: 'bottom',
-					horizontal: 'center',
-				},
-				onExit: () => alert('cerrar'),
-			}
-		);
+			);
+		};
+
+		return validarBorrarPedido(aviso, cambiarEstadoProducto, producto);
 	};
 
 	return (
@@ -248,7 +280,10 @@ const TomaPedido: React.FC = () => {
 								<SwipeBorrar
 									key={producto.codigoProducto}
 									item={producto}
-									manejadorGesto={() => manejadorDeshacerGestoBorrar(producto)}
+									manejadorGesto={() => {
+										manejadorDeshacerGestoBorrar(producto);
+										return 0;
+									}}
 								>
 									<TarjetaDoble
 										izquierda={
