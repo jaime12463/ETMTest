@@ -39,7 +39,7 @@ const useEstilos = makeStyles(() =>
 		btnContainer: {
 			alignItems: 'center',
 			display: 'flex',
-			justifyContent: 'space-evenly',
+			justifyContent: 'space-around',
 			width: '100%',
 		},
 		btnAceptar: {
@@ -48,7 +48,8 @@ const useEstilos = makeStyles(() =>
 			borderRadius: '50px',
 			color: '#fff',
 			cursor: 'pointer',
-			padding: '8px 36px',
+			padding: '8px 16px',
+			minWidth: '130px',
 		},
 		btnCancelar: {
 			opacity: 0.5,

@@ -64,6 +64,10 @@ const es = {
 		planDeActividades: 'Plan de actividades',
 		descripcion: 'Descripción',
 		vigencia: 'Vigencia',
+		avanzar: 'Avanzar',
+		editarCantidades: 'Editar cantidades',
+		continuar: 'Continuar',
+		editar: 'Editar',
 	},
 	simbolos: {
 		decimal: '.',
@@ -88,6 +92,8 @@ const es = {
 		iniciativas: 'Iniciativas',
 		tarjetaIniciativas:
 			'Selecciona las iniciativas que tienes disponible para tu cliente.',
+		tituloProductosSinCargar: 'Productos sin modificar',
+		tituloIniciativasSinMotivo: 'Iniciativas canceladas sin motivos',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
@@ -130,6 +136,10 @@ const es = {
 			'¿Quieres Borrar todos los productos?. Todos los productos seleccionados se borraran de la toma de pedido',
 		borrarPromosPush:
 			'¿Quieres Borrar todos los productos?. Todos los productos seleccionados se borraran de Promociones',
+		mensajeProductosSinCargar:
+			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido.',
+		mensajeIniciativasSinMotivo:
+			'Por favor, ingrese un motivo para cada iniciativa cancelada.',
 	},
 	pasos: {
 		planeacion: 'Planeación',
