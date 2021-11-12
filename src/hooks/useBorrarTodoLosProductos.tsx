@@ -26,6 +26,7 @@ import {
 import {useTranslation} from 'react-i18next';
 
 import React from 'react';
+import Modal from 'components/UI/Modal';
 
 export const useBorrarTodoLosProductos = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
@@ -35,6 +36,9 @@ export const useBorrarTodoLosProductos = (
 	const {t} = useTranslation();
 	const configuracion = useObtenerConfiguracion();
 	const visitaActual = useObtenerVisitaActual();
+
+	//const {setAlerta, setConfigAlerta, alerta, configAlerta} = stateAlerta;
+
 	const productosMandatoriosVisitaActual =
 		useObtenerProductosMandatoriosVisitaActual();
 	const configuracionTipoDePedidoActual = configuracion.tipoPedidos.find(
@@ -54,12 +58,12 @@ export const useBorrarTodoLosProductos = (
 	const borrarTodoLosProductos = useCallback(() => {
 		if (
 			!configuracionTipoDePedidoActual?.esMandatorio ||
-			validarHayMasProductosMandatorios(
+			(validarHayMasProductosMandatorios(
 				productosMandatoriosVisitaActual.mandatorios
-			) ||
-			!validarHayMasProductosNoMandatorios(
-				productosMandatoriosVisitaActual.noMandatorios
-			)
+			) &&
+				!validarHayMasProductosNoMandatorios(
+					productosMandatoriosVisitaActual.noMandatorios
+				))
 		) {
 			for (const producto of productos) {
 				dispatch(
@@ -69,6 +73,16 @@ export const useBorrarTodoLosProductos = (
 				);
 			}
 		} else {
+			/* 			setConfigAlerta({
+				titulo: 'Se borraran los pedidos de canje',
+				mensaje: t('advertencias.borrarPedidosNoMandatorios', {
+					tipoPedido: pedidoNoMandatorio?.descripcion,
+				}),
+				tituloBotonAceptar: 'Si',
+				tituloBotonCancelar: 'No',
+				callbackAceptar: () => manejadorConfirmarEliminarPedidosNoMandatorios(),
+			});
+			setAlerta(true); */
 			mostrarAdvertenciaEnDialogo(
 				t('advertencias.borrarPedidosNoMandatorios', {
 					tipoPedido: pedidoNoMandatorio?.descripcion,
@@ -81,7 +95,19 @@ export const useBorrarTodoLosProductos = (
 				}
 			);
 		}
-	}, [mostrarAdvertenciaEnDialogo, productos, pedidoNoMandatorio]);
+	}, [productos, pedidoNoMandatorio, mostrarAdvertenciaEnDialogo]);
 
 	return borrarTodoLosProductos;
 };
+
+/* mostrarAdvertenciaEnDialogo(
+				t('advertencias.borrarPedidosNoMandatorios', {
+					tipoPedido: pedidoNoMandatorio?.descripcion,
+				}),
+				'eliminar-pedidosNoMandatorios',
+				manejadorConfirmarEliminarPedidosNoMandatorios,
+				{
+					aceptar: t('general.si'),
+					cancelar: t('general.no'),
+				}
+			); */

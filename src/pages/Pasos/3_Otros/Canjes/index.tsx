@@ -164,6 +164,8 @@ export const Canjes = () => {
 									producto={producto}
 									condicion={clienteActual.condicion}
 									stateCatalogo={{catalogoMotivo, setCatalogoMotivo}}
+									stateInputFocus={stateInputFocus}
+									statefocusId={{focusId, setFocusId}}
 								/>
 							}
 							derecha={
@@ -184,19 +186,28 @@ export const Canjes = () => {
 	);
 };
 
+interface StateFocusID {
+	focusId: number;
+	setFocusId: React.Dispatch<React.SetStateAction<number>>;
+}
 interface IzquierdaProps {
 	producto: TProductoPedido;
 	condicion: TCondicicon;
 	stateCatalogo: any;
+	stateInputFocus: TStateInputFocus;
+	statefocusId: StateFocusID;
 }
 
 const Izquierda: React.FC<IzquierdaProps> = ({
 	producto,
 	condicion,
 	stateCatalogo,
+	stateInputFocus,
+	statefocusId,
 }) => {
+	const {inputFocus, setInputFocus} = stateInputFocus;
 	const itemCatalogoMotivos = useObtenerCatalogoMotivos();
-
+	const {focusId, setFocusId} = statefocusId;
 	const {catalogoMotivo, setCatalogoMotivo} = stateCatalogo;
 	const [motivo, setMotivo] = useState('');
 
@@ -206,6 +217,8 @@ const Izquierda: React.FC<IzquierdaProps> = ({
 			...catalogoMotivo,
 			[producto.codigoProducto]: {codigoMotivo: e.target.value},
 		});
+		setFocusId(0);
+		setInputFocus('productoABuscar');
 	};
 
 	return (
@@ -257,6 +270,18 @@ const Izquierda: React.FC<IzquierdaProps> = ({
 								? undefined
 								: () => 'Motivo del canje'
 						}
+						onClick={() => {
+							setInputFocus('motivo');
+							setFocusId(producto.codigoProducto);
+						}}
+						inputRef={(input) => {
+							if (
+								inputFocus === 'motivo' &&
+								focusId === producto.codigoProducto
+							) {
+								input?.focus();
+							}
+						}}
 					>
 						{itemCatalogoMotivos.map((motivo: TOpcionSelect) => (
 							<MenuItem
@@ -278,10 +303,6 @@ const Izquierda: React.FC<IzquierdaProps> = ({
 	);
 };
 
-interface StateFocusID {
-	focusId: number;
-	setFocusId: React.Dispatch<React.SetStateAction<number>>;
-}
 interface DerechaProps {
 	producto: TProductoPedido;
 	stateInputFocus: TStateInputFocus;
@@ -351,8 +372,7 @@ const Derecha: React.FC<DerechaProps> = ({
 			if (inputFocus === 'unidades') {
 				setInputFocus('subUnidades');
 			} else if (inputFocus === 'subUnidades') {
-				setFocusId(0);
-				setInputFocus('productoABuscar');
+				setInputFocus('motivo');
 			}
 		}
 	};
