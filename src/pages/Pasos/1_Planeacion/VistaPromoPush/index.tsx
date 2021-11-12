@@ -2,7 +2,7 @@ import React from 'react';
 import {useObtenerPromoPushDelCliente} from 'hooks';
 import {TarjetaVistaPromoPush} from './TarjetaVistaPromoPush';
 import {Modal, Card, Box, Typography, Stack, Button} from '@mui/material';
-import {CerrarIcon} from 'assests/iconos';
+import {CerrarIcon, PromocionesRellenoIcon} from 'assests/iconos';
 
 export const VistaPromoPush = ({stateOpen}: any) => {
 	const {openVistaPromoPush, setOpenVistaPromoPush} = stateOpen;
@@ -46,11 +46,20 @@ export const VistaPromoPush = ({stateOpen}: any) => {
 						mt={'10px'}
 						mb={1}
 						sx={{
-							background: '#651C32',
+							background: '#FF0000',
 							borderRadius: ' 4px 4px 0px 0px',
 						}}
 					>
-						<Typography color='white' variant='subtitle3'>
+						<PromocionesRellenoIcon
+							style={{width: '11.69px', height: '11.69px'}}
+							fill={'white'}
+						/>
+						<Typography
+							color='white'
+							sx={{width: '74px'}}
+							fontFamily='Poppins'
+							variant='subtitle3'
+						>
 							Promo Push
 						</Typography>
 					</Box>

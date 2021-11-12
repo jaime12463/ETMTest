@@ -29,17 +29,6 @@ import {useTranslation} from 'react-i18next';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {formatearNumero} from 'utils/methods';
 
-const InputStyled = styled(Input)(({}) => ({
-	borderRadius: '10px',
-	border: '1px solid #2F000E',
-	height: '16px',
-	width: '42px',
-	backgroundColor: 'white',
-	fontWeight: 600,
-	lineHeight: '16px',
-	fontSize: '12px',
-}));
-
 const GridStyled = styled(Grid)(({theme}) => ({
 	display: 'flex',
 }));
@@ -57,7 +46,6 @@ const ButtonStyled = styled(Button)(({theme}) => ({
 }));
 
 const CardStyled = styled(Card)(({theme}) => ({
-	border: '1.5px solid #D9D9D9',
 	boxSizing: 'border-box',
 	borderRadius: ' 8px',
 	minHeight: '124px',
@@ -113,58 +101,108 @@ export const TarjetaVistaPromoPush = (props: any) => {
 		};
 
 	return (
-		<CardStyled style={{padding: '12px 14px'}}>
+		<CardStyled
+			sx={
+				expandidoPromoPush === id
+					? {border: '0px'}
+					: {border: '1.5px solid #D9D9D9'}
+			}
+		>
 			<Box
-				display='grid'
-				gridTemplateColumns='repeat(2, 1fr)'
-				marginBottom='8px'
+				sx={
+					expandidoPromoPush === id
+						? {
+								backgroundColor: '#8A4C5F',
+								borderTop: '0px',
+								padding: '12px 14px',
+						  }
+						: {backgroundColor: '#FFFFFF', padding: '0px 14px'}
+				}
 			>
-				<Box display='flex' flexDirection='column'>
-					<Typography variant='subtitle3' marginBottom='2px'>
-						{codigoProducto}
-					</Typography>
-					<Typography
-						sx={{
-							maxWidth: '137px',
-							textOverflow: 'ellipsis',
-							overflow: 'hidden',
-						}}
-						variant='subtitle3'
-						marginBottom='6px'
-					>
-						{nombreProducto}
-					</Typography>
-					<Typography variant='subtitle3' marginBottom='6px'>
-						{formatearNumero(precioConImpuestoUnidad, t)}
-					</Typography>
-					<Typography variant='caption' color='primary'>
-						Ahorras: {formatearNumero(precioConImpuestoUnidad, t)}
-					</Typography>
-				</Box>
 				<Box
-					display='flex'
-					flexDirection='column'
-					justifyContent='center'
-					alignItems='center'
-					ml={5}
+					display='grid'
+					gridTemplateColumns='repeat(2, 1fr)'
+					marginBottom='8px'
+					sx={
+						expandidoPromoPush === id ? {color: '#FFFFFF'} : {color: '#000000'}
+					}
 				>
-					<Typography
-						variant='caption'
-						alignSelf='end'
-						marginBottom='5px'
-						fontFamily='Open Sans'
-						sx={{width: '100%'}}
-					>
-						Unidades máximas que puedes aplicar:
-					</Typography>
-					<Box alignSelf='start' display='flex' ml={0.5}>
-						<Typography variant={'subtitle3'} fontWeight={700}>
-							{unidadesDisponibles}
+					<Box display='flex' flexDirection='column'>
+						<Typography color='white' variant='subtitle3' marginBottom='2px'>
+							{codigoProducto}
 						</Typography>
+						<Typography
+							sx={{
+								maxWidth: '137px',
+								textOverflow: 'ellipsis',
+								overflow: 'hidden',
+							}}
+							variant='subtitle3'
+							marginBottom='6px'
+						>
+							{nombreProducto}
+						</Typography>
+						<Typography variant='subtitle3' marginBottom='6px'>
+							{formatearNumero(precioConImpuestoUnidad, t)}
+						</Typography>
+						<Box
+							sx={{
+								backgroundColor: '#FF0000',
+								width: '98px',
+								height: '14px',
+								borderRadius: '50px',
+								display: 'flex',
+								alignContent: 'center',
+							}}
+						>
+							<Typography
+								fontFamily='Open Sans'
+								variant='caption'
+								textAlign='center'
+								color={'white'}
+								m='auto'
+							>
+								Ahorras: {formatearNumero(precioConImpuestoUnidad, t)}
+							</Typography>
+						</Box>
+					</Box>
+					<Box
+						display='flex'
+						flexDirection='column'
+						justifyContent='center'
+						alignItems='center'
+						ml={5}
+					>
+						<Typography
+							variant='caption'
+							alignSelf='end'
+							marginBottom='5px'
+							fontFamily='Open Sans'
+							sx={{width: '100%'}}
+							color={expandidoPromoPush === id ? 'white' : 'black'}
+						>
+							Unidades máximas que puedes aplicar:
+						</Typography>
+						<Box alignSelf='start' display='flex' ml={0.5}>
+							<Typography variant={'subtitle3'} fontWeight={700}>
+								{unidadesDisponibles}
+							</Typography>
+						</Box>
 					</Box>
 				</Box>
 			</Box>
-			<Box>
+
+			<Box
+				sx={
+					expandidoPromoPush === id
+						? {
+								border: '1.5px solid #D9D9D9',
+								borderTop: '0px',
+								padding: '12px 14px',
+						  }
+						: {border: '0px', padding: '0px 14px'}
+				}
+			>
 				<Collapse in={expandidoPromoPush === id} timeout='auto' unmountOnExit>
 					<Stack>
 						<Divider />
