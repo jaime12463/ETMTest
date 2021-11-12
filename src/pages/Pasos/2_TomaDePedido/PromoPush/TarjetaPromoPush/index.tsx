@@ -214,141 +214,216 @@ const TarjetaPromoPush = (props: any) => {
 				sx={
 					getValues.unidades > 0
 						? {border: '1.5px solid #00CF91'}
+						: expandidoPromoPush === id
+						? {border: '0px'}
 						: {border: '1.5px solid #D9D9D9'}
 				}
-				style={{padding: '12px 14px'}}
 			>
 				<Box
-					display='flex'
-					justifyContent='space-between'
-					alignItems='center'
-					marginBottom='8px'
+					sx={
+						expandidoPromoPush === id
+							? {
+									backgroundColor: '#8A4C5F',
+									borderTop: '0px',
+									padding: '12px 14px',
+							  }
+							: {backgroundColor: '#FFFFFF', padding: '5px 14px'}
+					}
 				>
-					<SwitchCambiarTipoPago
-						producto={producto}
-						setPromoPushTemporal={setPromoPushTemporal}
-						promoPushTemporal={promoPushTemporal}
-					/>
-					{getValues.unidades > 0 && (
-						<CheckRedondoIcon
-							height='17.5px'
-							width='17.5px'
-							fill={`${theme.palette.success.main}`}
-						/>
-					)}
-				</Box>
-				<Box
-					display='grid'
-					gridTemplateColumns='repeat(2, 1fr)'
-					marginBottom='8px'
-				>
-					<Box display='flex' flexDirection='column'>
-						<Typography variant='subtitle3' marginBottom='2px'>
-							{codigoProducto}
-						</Typography>
-						<Typography
-							variant='subtitle3'
-							sx={{
-								maxWidth: '137px',
-								textOverflow: 'ellipsis',
-								overflow: 'hidden',
-							}}
-							marginBottom='6px'
-						>
-							{nombreProducto}
-						</Typography>
-						<Typography variant='subtitle3' marginBottom='6px'>
-							{formatearNumero(precioConImpuestoUnidad, t)}
-						</Typography>
-						<Typography variant='caption' color='primary'>
-							Ahorras: {formatearNumero(descuento, t)}
-						</Typography>
-					</Box>
 					<Box
 						display='flex'
-						flexDirection='column'
-						justifyContent='center'
+						justifyContent='space-between'
 						alignItems='center'
+						marginBottom='8px'
 					>
-						<Typography
-							variant='caption'
-							alignSelf='end'
-							marginBottom='14px'
-							fontFamily='Open Sans'
-						>
-							Aplicación maxima
-						</Typography>
-						<Box
-							alignSelf='end'
-							display='flex'
-							alignItems='center'
-							justifyContent='center'
-						>
-							<IconButton
-								size='small'
-								name='unidades'
-								value='-'
-								onClick={handleButtons}
-								disabled={getValues.unidades > 0 ? false : true}
-							>
-								<QuitarRellenoIcon
-									width='18px'
-									height='18px'
-									fill={getValues.unidades > 0 ? '#2F000E' : '#D9D9D9'}
-								/>
-							</IconButton>
-							<InputStyled
-								value={getValues.unidades}
-								disableUnderline
-								name='unidades'
-								id='unidades_producto'
-								onFocus={(e) => e.target.select()}
-								inputProps={{
-									style: {textAlign: 'center'},
-									inputMode: 'numeric',
-									pattern: '[0-9]*',
-								}}
-								onChange={handleOnChange}
-								onKeyPress={handleKeyPress}
+						<SwitchCambiarTipoPago
+							producto={producto}
+							setPromoPushTemporal={setPromoPushTemporal}
+							promoPushTemporal={promoPushTemporal}
+						/>
+						{getValues.unidades > 0 && (
+							<CheckRedondoIcon
+								height='17.5px'
+								width='17.5px'
+								fill={`${theme.palette.success.main}`}
 							/>
-							<IconButton
-								size='small'
-								name='unidades'
-								value='+'
-								onClick={handleButtons}
-								disabled={
-									getValues.unidades >= unidadesDisponibles ? true : false
+						)}
+					</Box>
+					<Box
+						display='grid'
+						gridTemplateColumns='repeat(2, 1fr)'
+						marginBottom='8px'
+						sx={
+							expandidoPromoPush === id
+								? {color: '#FFFFFF'}
+								: {color: '#000000'}
+						}
+					>
+						<Box display='flex' flexDirection='column'>
+							<Typography variant='subtitle3' marginBottom='2px'>
+								{codigoProducto}
+							</Typography>
+							<Typography
+								variant='subtitle3'
+								sx={{
+									maxWidth: '137px',
+									textOverflow: 'ellipsis',
+									overflow: 'hidden',
+								}}
+								marginBottom='6px'
+							>
+								{nombreProducto}
+							</Typography>
+							<Typography variant='subtitle3' marginBottom='6px'>
+								{formatearNumero(precioConImpuestoUnidad, t)}
+							</Typography>
+							<Box
+								sx={{
+									backgroundColor: '#FF0000',
+									width: '98px',
+									height: '14px',
+									borderRadius: '50px',
+									display: 'flex',
+									alignContent: 'center',
+								}}
+							>
+								<Typography
+									fontFamily='Open Sans'
+									variant='caption'
+									textAlign='center'
+									color={'white'}
+									m='auto'
+								>
+									Ahorras: {formatearNumero(descuento, t)}
+								</Typography>
+							</Box>
+						</Box>
+						<Box
+							display='flex'
+							flexDirection='column'
+							justifyContent='center'
+							alignItems='center'
+						>
+							<Typography
+								variant='caption'
+								alignSelf='end'
+								marginBottom='14px'
+								fontFamily='Open Sans'
+								sx={
+									expandidoPromoPush === id
+										? {color: '#FFFFFF'}
+										: {color: '#000000'}
 								}
 							>
-								<AgregarRedondoIcon
-									width='18px'
-									height='18px'
-									fill={
-										getValues.unidades >= unidadesDisponibles
-											? '#D9D9D9'
-											: '#2F000E'
-									}
-								/>
-							</IconButton>
-							<Typography variant={'subtitle3'} fontWeight={700}>
-								/ {unidadesDisponibles}
+								Aplicación maxima
 							</Typography>
+							<Box
+								alignSelf='end'
+								display='flex'
+								alignItems='center'
+								justifyContent='center'
+							>
+								<IconButton
+									size='small'
+									name='unidades'
+									value='-'
+									onClick={handleButtons}
+									disabled={getValues.unidades > 0 ? false : true}
+								>
+									<QuitarRellenoIcon
+										width='18px'
+										height='18px'
+										fill={getValues.unidades > 0 ? '#2F000E' : '#D9D9D9'}
+									/>
+								</IconButton>
+								<InputStyled
+									value={getValues.unidades}
+									disableUnderline
+									name='unidades'
+									id='unidades_producto'
+									onFocus={(e) => e.target.select()}
+									inputProps={{
+										style: {textAlign: 'center'},
+										inputMode: 'numeric',
+										pattern: '[0-9]*',
+									}}
+									onChange={handleOnChange}
+									onKeyPress={handleKeyPress}
+								/>
+								<IconButton
+									size='small'
+									name='unidades'
+									value='+'
+									onClick={handleButtons}
+									disabled={
+										getValues.unidades >= unidadesDisponibles ? true : false
+									}
+								>
+									<AgregarRedondoIcon
+										width='18px'
+										height='18px'
+										fill={
+											getValues.unidades >= unidadesDisponibles
+												? '#D9D9D9'
+												: '#2F000E'
+										}
+									/>
+								</IconButton>
+								<Typography variant={'subtitle3'} fontWeight={700}>
+									/ {unidadesDisponibles}
+								</Typography>
+							</Box>
 						</Box>
 					</Box>
 				</Box>
-				<Box>
+
+				<Box
+					sx={
+						expandidoPromoPush === id
+							? getValues.unidades > 0
+								? {
+										border: '0px',
+								  }
+								: {
+										border: '1.5px solid #D9D9D9',
+								  }
+							: {border: '0px', padding: '4px 14px'}
+					}
+				>
 					<Collapse in={expandidoPromoPush === id} timeout='auto' unmountOnExit>
 						<Stack>
-							<Divider />
-							<Typography variant={'subtitle3'} fontWeight={700} mt={1}>
-								Paquetes
-							</Typography>
+							<Box width='100%' display='flex' flexDirection='row'>
+								<GridStyled item xs={6}>
+									<Typography
+										sx={{padding: '12px 14px'}}
+										variant={'subtitle3'}
+										fontWeight={700}
+									>
+										Paquetes
+									</Typography>
+								</GridStyled>
+								<GridStyled item xs={6}>
+									<Box
+										sx={{
+											minWidth: '100%',
+											minHeight: '100%',
+											backgroundColor: '#F5F0EF',
+										}}
+										mb={3}
+									></Box>
+								</GridStyled>
+							</Box>
+
 							<Box>
 								{componentes?.map((el: any, i: number) => (
-									<div key={`${el.codigoProducto}${i}`}>
-										<Grid container mt={1}>
-											<GridStyled item xs={8}>
-												<Box display='flex' flexDirection='column'>
+									<React.Fragment key={`${el.codigoProducto}${i}`}>
+										<Grid container>
+											<GridStyled
+												item
+												xs={6}
+												sx={{padding: '5px 14px 0px 14px'}}
+											>
+												<Box display='flex' flexDirection='column' pb={2}>
 													<Typography variant='subtitle3'>
 														{el.codigoProducto}
 													</Typography>
@@ -358,7 +433,15 @@ const TarjetaPromoPush = (props: any) => {
 													</Typography>
 												</Box>
 											</GridStyled>
-											<GridStyled item xs={4} justifyContent='end'>
+											<GridStyled
+												sx={{
+													backgroundColor: '#F5F0EF',
+													padding: '5px 14px 0px 14px',
+												}}
+												item
+												xs={6}
+												justifyContent='end'
+											>
 												<Box
 													display='flex'
 													flexDirection='column'
@@ -369,7 +452,11 @@ const TarjetaPromoPush = (props: any) => {
 														textAlign='center'
 														justifyContent='end'
 													>
-														<CajaIcon width={'19px'} height='14px' />
+														<CajaIcon
+															fill={'#2F000E'}
+															width={'19px'}
+															height='14px'
+														/>
 														<Typography
 															variant='caption'
 															fontFamily='Open Sans'
@@ -397,12 +484,12 @@ const TarjetaPromoPush = (props: any) => {
 											</GridStyled>
 										</Grid>
 										<Divider />
-									</div>
+									</React.Fragment>
 								))}
 							</Box>
 						</Stack>
 					</Collapse>
-					<Box marginTop='8px'>
+					<Box marginTop='8px' sx={{padding: '6px 14px'}}>
 						<ButtonStyled
 							disableFocusRipple
 							fullWidth
