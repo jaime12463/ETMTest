@@ -69,6 +69,9 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const productosConUnidades = venta.productos.filter((producto) => {
 		return producto.unidades > 0 || producto.subUnidades > 0;
 	});
+	const cantidadPromoPush = productosConUnidades.filter(
+		(producto) => producto.promoPush
+	);
 	const [ventaValida, setVentaValida] = React.useState<boolean>(false);
 	const [promocionesValida, setPromocionesValida] =
 		React.useState<boolean>(false);
@@ -138,6 +141,8 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				valido={promocionesValida}
+				cantidadItems={cantidadPromoPush.length}
+				labelChip={`${cantidadPromoPush.length} Items`}
 			>
 				<PromoPush />
 			</TarjetaColapsable>
