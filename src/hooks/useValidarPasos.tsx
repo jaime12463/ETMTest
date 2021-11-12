@@ -7,56 +7,44 @@ import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 
 interface ValidarPasos {
 	error: boolean;
-	contenidoMensaje: Configuracion;
+	contenidoMensaje?: Configuracion;
 }
 
-export const useValidarPasos = (
-	pasoActual: number
-): ValidarPasos | undefined => {
+export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 	const {t} = useTranslation();
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
 	const dispatch = useAppDispatch();
 
-	const [validacionPasos, setValidacionPasos] = React.useState<
-		ValidarPasos | undefined
-	>(undefined);
+	if (pasoActual === 0) {
+		const iniciativasCanceladasSinMotivo = visitaActual.iniciativas.some(
+			(iniciativa) =>
+				iniciativa.estado === 'cancelada' && iniciativa.motivo === ''
+		);
 
-	React.useEffect(() => {
-		if (pasoActual === 0) {
-			const iniciativasCanceladasSinMotivo = visitaActual.iniciativas.some(
-				(iniciativa) =>
-					iniciativa.estado === 'cancelada' && iniciativa.motivo === ''
-			);
-
-			setValidacionPasos({
-				error: iniciativasCanceladasSinMotivo,
-				contenidoMensaje: {
-					titulo: 'Iniciativas canceladas sin motivos',
-					mensaje:
-						'Por favor, ingrese un motivo para cada iniciativa cancelada.',
-					tituloBotonAceptar: 'Continuar',
-					tituloBotonCancelar: 'Editar',
-					callbackAceptar: () => {
-						visitaActual.iniciativas.map((iniciativa) => {
-							if (
-								iniciativa.estado === 'cancelada' &&
-								iniciativa.motivo === ''
-							) {
-								dispatch(
-									cambiarEstadoIniciativa({
-										codigoIniciativa: iniciativa.codigoIniciativa,
-										estado: 'pendiente',
-									})
-								);
-							}
-						});
-					},
-					iconoMensaje: <AvisoIcon />,
+		return {
+			error: iniciativasCanceladasSinMotivo,
+			contenidoMensaje: {
+				titulo: 'Iniciativas canceladas sin motivos',
+				mensaje: 'Por favor, ingrese un motivo para cada iniciativa cancelada.',
+				tituloBotonAceptar: 'Continuar',
+				tituloBotonCancelar: 'Editar',
+				callbackAceptar: () => {
+					visitaActual.iniciativas.map((iniciativa) => {
+						if (iniciativa.estado === 'cancelada' && iniciativa.motivo === '') {
+							dispatch(
+								cambiarEstadoIniciativa({
+									codigoIniciativa: iniciativa.codigoIniciativa,
+									estado: 'pendiente',
+								})
+							);
+						}
+					});
 				},
-			});
-		}
-	}, [pasoActual]);
+				iconoMensaje: <AvisoIcon />,
+			},
+		};
+	}
 
-	return validacionPasos;
+	return {error: false};
 };

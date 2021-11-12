@@ -7,7 +7,7 @@ import useEstilos from './useEstilos';
 export interface Configuracion {
 	titulo: string;
 	mensaje: string | ReactNode;
-	tituloBotonCancelar: string;
+	tituloBotonCancelar?: string;
 	tituloBotonAceptar: string;
 	callbackCancelar?: () => void;
 	callbackAceptar: () => void;
@@ -54,18 +54,20 @@ const Modal: React.FC<Props> = ({
 							</Typography>
 						</Box>
 						<Box className={classes.btnContainer}>
-							<button
-								className={`${classes.btnAceptar} ${classes.btnCancelar}`}
-								onClick={() => {
-									contenidoMensaje?.callbackCancelar &&
-										contenidoMensaje?.callbackCancelar();
-									setAlerta(false);
-								}}
-							>
-								<Typography variant='subtitle3' fontFamily='Open Sans'>
-									{contenidoMensaje?.tituloBotonCancelar}
-								</Typography>
-							</button>
+							{contenidoMensaje?.tituloBotonCancelar !== undefined && (
+								<button
+									className={`${classes.btnAceptar} ${classes.btnCancelar}`}
+									onClick={() => {
+										contenidoMensaje?.callbackCancelar &&
+											contenidoMensaje?.callbackCancelar();
+										setAlerta(false);
+									}}
+								>
+									<Typography variant='subtitle3' fontFamily='Open Sans'>
+										{contenidoMensaje?.tituloBotonCancelar}
+									</Typography>
+								</button>
+							)}
 							<button
 								className={classes.btnAceptar}
 								onClick={() => {
