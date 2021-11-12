@@ -44,6 +44,7 @@ const Modal: React.FC<Props> = ({
 								fontFamily='Open Sans'
 								fontWeight='700'
 								fontSize='14px'
+								sx={{opacity: 0.7}}
 							>
 								{contenidoMensaje?.titulo}
 							</Typography>

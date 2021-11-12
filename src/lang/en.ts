@@ -64,6 +64,10 @@ const en = {
 		planDeActividades: 'Activity Plan',
 		descripcion: 'Description',
 		vigencia: 'Validity',
+		avanzar: 'Next',
+		editarCantidades: 'Edit quantities',
+		continuar: 'Continue',
+		editar: 'Edit',
 	},
 	simbolos: {
 		decimal: ',',
@@ -88,6 +92,8 @@ const en = {
 		iniciativas: 'Initiatives',
 		tarjetaIniciativas:
 			'Select the initiatives that you have available for your client.',
+		tituloProductosSinCargar: 'Unmodified products',
+		tituloIniciativasSinMotivo: 'Initiatives canceled without reason',
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',
@@ -124,6 +130,10 @@ const en = {
 			'The order of {{tipoPedido}} will be deleted. do you wish to continue?',
 		ordenDeCompraEnBlanco: 'You must enter a purchase orden',
 		cantidadSuperiorEnvases: 'The amount exceeds those available for return',
+		mensajeProductosSinCargar:
+			'If you advance to the next stage, the cards that do not have amounts entered will be removed from your order taking.',
+		mensajeIniciativasSinMotivo:
+			'Please enter a reason for each canceled initiative.',
 	},
 	pasos: {
 		planeacion: 'Planning',
