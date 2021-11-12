@@ -11,6 +11,7 @@ import {
 	useObtenerTotalPedidosVisitaActual,
 	useMostrarAdvertenciaEnDialogo,
 	useResetVisitaActual,
+	useValidarPasos,
 } from 'hooks';
 import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
 
@@ -19,12 +20,14 @@ import {VistaPromoPush} from 'pages/Pasos/1_Planeacion/VistaPromoPush/index';
 import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
+	useObtenerVisitaActual,
 } from 'redux/hooks';
 
 import {TClienteActual} from 'models';
 import {useTranslation} from 'react-i18next';
 import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
 import {PromocionesRellenoIcon} from 'assests/iconos';
+import Modal from 'components/UI/Modal';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -35,7 +38,7 @@ const formatearItems = (items: number) => {
 
 const Pasos: React.FC = () => {
 	const {t} = useTranslation();
-	const [pasoActual, setPasoActual] = useState(0);
+	const [pasoActual, setPasoActual] = useState<number>(0);
 	const [openVistaPromoPush, setOpenVistaPromoPush] = React.useState(false);
 
 	const [leyendaBoton, setLeyendaBoton] = useState(
@@ -81,7 +84,15 @@ const Pasos: React.FC = () => {
 			setPasoActual(pasoActual - 1);
 		}
 	};
+
+	const valido = useValidarPasos(pasoActual);
+
+	const [alertaPasos, setAlertaPasos] = React.useState<boolean>(false);
+
 	const manejadorPasoAdelante = () => {
+		if (valido?.error) {
+			return setAlertaPasos(true);
+		}
 		if (pasoActual < controlador.length - 1) {
 			setPasoActual(pasoActual + 1);
 		} else {
@@ -129,6 +140,12 @@ const Pasos: React.FC = () => {
 				</Box>
 
 				<Contenedor pasoActivo={pasoActual} />
+				<Modal
+					setAlerta={setAlertaPasos}
+					alerta={alertaPasos}
+					setPasoActual={setPasoActual}
+					contenidoMensaje={valido?.contenidoMensaje}
+				/>
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
 				<BotonBarraInferior
