@@ -39,6 +39,7 @@ import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import {
 	AgregarRedondoIcon,
+	AvisoIcon,
 	BorrarIcon,
 	BotellaIcon,
 	CajaIcon,
@@ -91,6 +92,7 @@ const TomaPedido: React.FC = () => {
 		mensaje: '',
 		tituloBotonAceptar: '',
 		tituloBotonCancelar: '',
+		iconoMensaje: <></>,
 		callbackAceptar: () => {},
 	});
 
@@ -270,9 +272,10 @@ const TomaPedido: React.FC = () => {
 										titulo: '¿Quieres Borrar Todos Los Productos?',
 										mensaje:
 											'Todos los productos seleccionados se borraran de toma de pedido',
-										tituloBotonAceptar: 'Si',
-										tituloBotonCancelar: 'No',
+										tituloBotonAceptar: 'Borrar todo',
+										tituloBotonCancelar: 'Cancelar',
 										callbackAceptar: () => borrarTodosLosProductos(),
+										iconoMensaje: <AvisoIcon />,
 									});
 									setAlerta(true);
 								}}
