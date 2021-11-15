@@ -135,7 +135,7 @@ const es = {
 		borrarTodosTomaPedido:
 			'¿Quieres Borrar todos los productos?. Todos los productos seleccionados se borraran de la toma de pedido',
 		borrarPromosPush:
-			'¿Quieres Borrar todos los productos?. Todos los productos seleccionados se borraran de Promociones',
+			'Todos los productos seleccionados se borraran de Promociones',
 		mensajeProductosSinCargar:
 			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido.',
 		mensajeIniciativasSinMotivo:

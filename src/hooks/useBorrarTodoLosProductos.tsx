@@ -27,6 +27,7 @@ import {useTranslation} from 'react-i18next';
 
 import React from 'react';
 import Modal from 'components/UI/Modal';
+import {AvisoIcon} from 'assests/iconos';
 
 export const useBorrarTodoLosProductos = (
 	// mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
@@ -58,13 +59,12 @@ export const useBorrarTodoLosProductos = (
 
 	const borrarTodoLosProductos = useCallback(() => {
 		if (
-			!configuracionTipoDePedidoActual?.esMandatorio ||
-			(validarHayMasProductosMandatorios(
+			validarHayMasProductosMandatorios(
 				productosMandatoriosVisitaActual.mandatorios
-			) &&
-				!validarHayMasProductosNoMandatorios(
-					productosMandatoriosVisitaActual.noMandatorios
-				))
+			) ||
+			!validarHayMasProductosNoMandatorios(
+				productosMandatoriosVisitaActual.noMandatorios
+			)
 		) {
 			for (const producto of productos) {
 				dispatch(
@@ -82,8 +82,9 @@ export const useBorrarTodoLosProductos = (
 				tituloBotonAceptar: 'Si',
 				tituloBotonCancelar: 'No',
 				callbackAceptar: () => manejadorConfirmarEliminarPedidosNoMandatorios(),
+				iconoMensaje: <AvisoIcon />,
 			});
-			setAlerta((prevState: boolean) => (!prevState));
+			setAlerta((prevState: boolean) => !prevState);
 		}
 	}, [productos, pedidoNoMandatorio]);
 

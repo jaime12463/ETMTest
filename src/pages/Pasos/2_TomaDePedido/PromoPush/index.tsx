@@ -6,12 +6,13 @@ import {styled} from '@mui/material/styles';
 import TarjetaPromoPush from './TarjetaPromoPush';
 import {useObtenerPromoPushDelCliente} from 'hooks';
 import useEstilos from './useEstilos';
-import {BorrarIcon} from 'assests/iconos';
+import {AvisoIcon, BorrarIcon} from 'assests/iconos';
 import {useAgregarProductoAlPedidoActual} from './hooks/useAgregarProductoAlPedidoActual';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {useMostrarAdvertenciaEnDialogo, useBorrarTodoLosProductos} from 'hooks';
 import {TProductoPedido} from 'models';
 import {useTranslation} from 'react-i18next';
+import Modal from 'components/UI/Modal';
 
 interface BotonProps {
 	push: boolean;
@@ -21,6 +22,16 @@ interface BotonProps {
 const PromoPush: React.FC = () => {
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
+	const [alerta, setAlerta] = React.useState<boolean>(false);
+	const [configAlerta, setConfigAlerta] = React.useState({
+		titulo: '',
+		mensaje: '',
+		tituloBotonAceptar: '',
+		tituloBotonCancelar: '',
+		iconoMensaje: <></>,
+		callbackAceptar: () => {},
+	});
+
 	const {t} = useTranslation();
 	const [promoActiva, setPromoActiva] = React.useState<BotonProps>({
 		push: true,
@@ -36,17 +47,15 @@ const PromoPush: React.FC = () => {
 		mostrarAdvertenciaEnDialogo,
 		promociones
 	);
-	const manejadorConfirmarEliminarPromoPush = (
-		oprimioBotonAceptar: boolean
-	) => {
-		if (oprimioBotonAceptar) {
-			borrarTodosLosProductos();
-		}
-	};
 
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+			<Modal
+				setAlerta={setAlerta}
+				alerta={alerta}
+				contenidoMensaje={configAlerta}
+			/>
 			<Grid
 				container
 				justifyContent='space-evenly'
@@ -70,17 +79,17 @@ const PromoPush: React.FC = () => {
 			<Grid container>
 				<Box width='100%' display='flex' justifyContent='flex-end' mb={1}>
 					<Button
-						onClick={() =>
-							mostrarAdvertenciaEnDialogo(
-								t('advertencias.borrarPromosPush'),
-								'eliminar-promopush',
-								manejadorConfirmarEliminarPromoPush,
-								{
-									aceptar: t('general.si'),
-									cancelar: t('general.no'),
-								}
-							)
-						}
+						onClick={() => {
+							setConfigAlerta({
+								titulo: '¿Quieres Borrar Todos Los Promo Push?',
+								mensaje: t('advertencias.borrarPromosPush'),
+								tituloBotonAceptar: 'Borrar todo',
+								tituloBotonCancelar: 'Cancelar',
+								callbackAceptar: () => borrarTodosLosProductos(),
+								iconoMensaje: <AvisoIcon />,
+							});
+							setAlerta(true);
+						}}
 						className={classes.root}
 						style={{
 							backgroundColor: '#FFFFFF',
