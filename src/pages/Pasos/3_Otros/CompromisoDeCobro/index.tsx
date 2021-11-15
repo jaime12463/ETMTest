@@ -19,6 +19,7 @@ import InputConIcono from 'components/UI/InputConIcono';
 import {formatearNumero} from 'utils/methods';
 import {useAgregarCompromisoDeCobro} from './hooks';
 import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
+import theme from 'theme';
 interface Error {
 	error: boolean;
 	mensaje: string;
@@ -147,8 +148,9 @@ const CompromisoDeCobro: React.FC = () => {
 				<Grid
 					container
 					sx={{
-						background: '#F2F2F2',
+						background: `${theme.palette.secondary.main}`,
 						borderRadius: '4px 4px 0 0',
+						color: '#fff',
 						padding: '7px 0 3px 0',
 					}}
 				>
@@ -193,22 +195,22 @@ const CompromisoDeCobro: React.FC = () => {
 						);
 					})}
 			</Grid>
-			<Grid container marginBottom='20px' border='1px solid #E4E4E4'>
+			<Grid container marginBottom='20px'>
 				<Grid
 					container
 					height='24px'
 					justifyContent='end'
 					alignItems='center'
-					borderBottom='1px solid #E4E4E4'
 					gap='8px'
+					sx={{background: `${theme.palette.secondary.light}`}}
 				>
 					<Grid item>
-						<Typography variant='caption'>
+						<Typography variant='caption' color="#fff">
 							{t('general.totalDeudaPendiente')}:
 						</Typography>
 					</Grid>
 					<Grid item paddingRight='8px'>
-						<Typography variant='caption' fontWeight='500'>
+						<Typography variant='caption' fontWeight='500' color="#fff">
 							{formatearNumero(totalDocumentos, t)}
 						</Typography>
 					</Grid>
@@ -219,14 +221,15 @@ const CompromisoDeCobro: React.FC = () => {
 					justifyContent='end'
 					alignItems='center'
 					gap='8px'
+					sx={{background: `${theme.palette.secondary.contrastText}`, borderRadius: '0 0 4px 4px'}}
 				>
-					<Grid item>
-						<Typography variant='caption'>
+					<Grid item >
+						<Typography variant='caption' color="#1B1915">
 							{t('general.totalCompromisosRegistrados')}:
 						</Typography>
 					</Grid>
 					<Grid item paddingRight='8px'>
-						<Typography variant='caption' fontWeight='500'>
+						<Typography variant='caption' fontWeight='500' color="#1B1915">
 							{formatearNumero(compromisosDeCobro, t)}
 						</Typography>
 					</Grid>
