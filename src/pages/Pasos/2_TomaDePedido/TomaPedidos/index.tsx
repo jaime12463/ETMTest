@@ -126,7 +126,7 @@ const TomaPedido: React.FC = () => {
 	const classes = useEstilos();
 
 	const borrarTodosLosProductos = useBorrarTodoLosProductos(
-		mostrarAdvertenciaEnDialogo,
+		{setAlerta, setConfigAlerta},
 		venta.productos
 	);
 

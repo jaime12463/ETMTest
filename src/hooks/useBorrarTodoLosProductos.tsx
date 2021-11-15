@@ -29,7 +29,8 @@ import React from 'react';
 import Modal from 'components/UI/Modal';
 
 export const useBorrarTodoLosProductos = (
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	// mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	stateAlerta: any,
 	productos: TProductoPedido[]
 ) => {
 	const dispatch = useAppDispatch();
@@ -37,7 +38,7 @@ export const useBorrarTodoLosProductos = (
 	const configuracion = useObtenerConfiguracion();
 	const visitaActual = useObtenerVisitaActual();
 
-	//const {setAlerta, setConfigAlerta, alerta, configAlerta} = stateAlerta;
+	const {setAlerta, setConfigAlerta} = stateAlerta;
 
 	const productosMandatoriosVisitaActual =
 		useObtenerProductosMandatoriosVisitaActual();
@@ -73,7 +74,7 @@ export const useBorrarTodoLosProductos = (
 				);
 			}
 		} else {
-			/* 			setConfigAlerta({
+			setConfigAlerta({
 				titulo: 'Se borraran los pedidos de canje',
 				mensaje: t('advertencias.borrarPedidosNoMandatorios', {
 					tipoPedido: pedidoNoMandatorio?.descripcion,
@@ -82,32 +83,9 @@ export const useBorrarTodoLosProductos = (
 				tituloBotonCancelar: 'No',
 				callbackAceptar: () => manejadorConfirmarEliminarPedidosNoMandatorios(),
 			});
-			setAlerta(true); */
-			mostrarAdvertenciaEnDialogo(
-				t('advertencias.borrarPedidosNoMandatorios', {
-					tipoPedido: pedidoNoMandatorio?.descripcion,
-				}),
-				'eliminar-pedidosNoMandatorios',
-				manejadorConfirmarEliminarPedidosNoMandatorios,
-				{
-					aceptar: t('general.si'),
-					cancelar: t('general.no'),
-				}
-			);
+			setAlerta((prevState: boolean) => (!prevState));
 		}
-	}, [productos, pedidoNoMandatorio, mostrarAdvertenciaEnDialogo]);
+	}, [productos, pedidoNoMandatorio]);
 
 	return borrarTodoLosProductos;
 };
-
-/* mostrarAdvertenciaEnDialogo(
-				t('advertencias.borrarPedidosNoMandatorios', {
-					tipoPedido: pedidoNoMandatorio?.descripcion,
-				}),
-				'eliminar-pedidosNoMandatorios',
-				manejadorConfirmarEliminarPedidosNoMandatorios,
-				{
-					aceptar: t('general.si'),
-					cancelar: t('general.no'),
-				}
-			); */

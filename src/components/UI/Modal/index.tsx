@@ -61,7 +61,7 @@ const Modal: React.FC<Props> = ({
 									onClick={() => {
 										contenidoMensaje?.callbackCancelar &&
 											contenidoMensaje?.callbackCancelar();
-										setAlerta(false);
+										setAlerta((prevAlerta) => !prevAlerta);
 									}}
 								>
 									<Typography variant='subtitle3' fontFamily='Open Sans'>
@@ -74,7 +74,7 @@ const Modal: React.FC<Props> = ({
 								onClick={() => {
 									contenidoMensaje?.callbackAceptar();
 									setPasoActual?.((pasoActual) => pasoActual + 1);
-									setAlerta(false);
+									setAlerta((prevAlerta) => !prevAlerta);
 								}}
 							>
 								<Typography variant='subtitle3' fontFamily='Open Sans'>
