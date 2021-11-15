@@ -111,8 +111,6 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 
 				unidadesPermitidas = true;
 
-				console.log(codigoTipoPedidoActual);
-
 				agregarProductoAlPedidoActual(
 					productoEnvase,
 					Number(unidadesIngresadas),

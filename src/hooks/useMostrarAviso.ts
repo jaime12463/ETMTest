@@ -1,7 +1,5 @@
 import {OptionsObject, useSnackbar} from 'notistack';
 
-
-
 export const useMostrarAviso = () => {
 	const {enqueueSnackbar} = useSnackbar();
 
@@ -9,30 +7,28 @@ export const useMostrarAviso = () => {
 		tipo: 'default' | 'error' | 'success' | 'warning' | 'info',
 		titulo: string,
 		mensaje?: string,
-		opciones?:OptionsObject,
+		opciones?: OptionsObject,
 		dataCy?: string
 	) => {
-		const  opcionesDefault:OptionsObject={
+		const opcionesDefault: OptionsObject = {
 			preventDuplicate: true,
 			autoHideDuration: 3000,
-			anchorOrigin:{
+			anchorOrigin: {
 				vertical: 'top',
 				horizontal: 'center',
 			},
 			variant: tipo,
 		};
 
-		const opcionesAviso= {
-			...opcionesDefault, ...opciones
+		const opcionesAviso = {
+			...opcionesDefault,
+			...opciones,
 		};
 
-
-		console.log("Hook aviso", opcionesAviso);
 		return enqueueSnackbar(
-			JSON.stringify({titulo, mensaje, tipo,  dataCy}),
+			JSON.stringify({titulo, mensaje, tipo, dataCy}),
 			opcionesAviso
 		);
-		
 	};
 
 	return mostrarAviso;

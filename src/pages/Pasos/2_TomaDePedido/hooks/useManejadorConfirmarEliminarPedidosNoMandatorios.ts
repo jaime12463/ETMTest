@@ -13,34 +13,29 @@ export const useManejadorConfirmarEliminarPedidosNoMandatorios = (
 ) => {
 	const dispatch = useAppDispatch();
 
-	const manejadorConfirmarEliminarPedidosNoMandatorios = useCallback(
-		(oprimioBotonAceptar: boolean) => {
-			if (oprimioBotonAceptar) {
-				noMandatorios.forEach((pedido: TPedido) => {
-					dispatch(
-						borrarProductosDeVisitaActual({
-							tipoPedidoActual: pedido.tipoPedido,
-						})
-					);
-				});
-				if (codigoProductoActual !== undefined) {
-					dispatch(
-						borrarProductoDelPedidoActual({
-							codigoProducto: codigoProductoActual,
-						})
-					);
-				}
-				if (productos) {
-					for (const producto of productos) {
-						borrarProductoDelPedidoActual({
-							codigoProducto: producto.codigoProducto,
-						});
-					}
-				}
-			}
-		},
-		[noMandatorios, productos, codigoProductoActual]
-	);
+	const manejadorConfirmarEliminarPedidosNoMandatorios = useCallback(() => {
+		noMandatorios.forEach((pedido: TPedido) => {
+			dispatch(
+				borrarProductosDeVisitaActual({
+					tipoPedidoActual: pedido.tipoPedido,
+				})
+			);
+		});
+		if (codigoProductoActual !== undefined) {
+			dispatch(
+				borrarProductoDelPedidoActual({
+					codigoProducto: codigoProductoActual,
+				})
+			);
+		}
+		if (productos) {
+			dispatch(
+				borrarProductosDeVisitaActual({
+					tipoPedidoActual: 'venta',
+				})
+			);
+		}
+	}, [noMandatorios, productos, codigoProductoActual]);
 
 	return manejadorConfirmarEliminarPedidosNoMandatorios;
 };

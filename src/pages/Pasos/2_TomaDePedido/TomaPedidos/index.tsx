@@ -64,6 +64,7 @@ import {formatearNumero} from 'utils/methods';
 import {Button, Fade, Grow} from '@mui/material';
 import {useSnackbar} from 'notistack';
 import {AvisoDeshacer} from 'components/UI/AvisoContenido/AvisosPlantilla';
+import Modal from 'components/UI/Modal';
 
 const InputStyled = styled(Input)(({}) => ({
 	backgroundColor: 'white',
@@ -85,8 +86,16 @@ const TomaPedido: React.FC = () => {
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
 
-	const {t} = useTranslation();
+	const [configAlerta, setConfigAlerta] = useState({
+		titulo: '',
+		mensaje: '',
+		tituloBotonAceptar: '',
+		tituloBotonCancelar: '',
+		callbackAceptar: () => {},
+	});
 
+	const {t} = useTranslation();
+	const [alerta, setAlerta] = React.useState<boolean>(false);
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
@@ -151,12 +160,6 @@ const TomaPedido: React.FC = () => {
 			setProductoActual(null);
 		}
 	}, [productoActual?.codigoProducto]);
-
-	const manejadorConfirmarEliminarPedidos = (oprimioBotonAceptar: boolean) => {
-		if (oprimioBotonAceptar) {
-			borrarTodosLosProductos();
-		}
-	};
 
 	const avisoDeshacer = useMostrarAviso();
 	const {enqueueSnackbar, closeSnackbar} = useSnackbar();
@@ -237,6 +240,11 @@ const TomaPedido: React.FC = () => {
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+			<Modal
+				setAlerta={setAlerta}
+				alerta={alerta}
+				contenidoMensaje={configAlerta}
+			/>
 			<Stack spacing='10px'>
 				<AutocompleteSeleccionarProducto
 					hookForm={hookForm}
@@ -256,18 +264,18 @@ const TomaPedido: React.FC = () => {
 								size='small'
 								icon={<BorrarIcon width='7.5px' height='7.5px' />}
 								label={<TextStyled>Borrar todo</TextStyled>}
-								onClick={() =>
-									mostrarAdvertenciaEnDialogo(
-										t('advertencias.borrarTodosTomaPedido'),
-										'eliminar-todosTomaPedido',
-										manejadorConfirmarEliminarPedidos,
-										{
-											aceptar: t('general.si'),
-											cancelar: t('general.no'),
-										}
-									)
-								}
 								sx={{'&:hover': {background: 'none'}}}
+								onClick={() => {
+									setConfigAlerta({
+										titulo: '¿Quieres Borrar Todos Los Productos?',
+										mensaje:
+											'Todos los productos seleccionados se borraran de toma de pedido',
+										tituloBotonAceptar: 'Si',
+										tituloBotonCancelar: 'No',
+										callbackAceptar: () => borrarTodosLosProductos(),
+									});
+									setAlerta(true);
+								}}
 							/>
 						)}
 				</Grid>

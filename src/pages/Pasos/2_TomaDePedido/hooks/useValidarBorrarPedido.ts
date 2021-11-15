@@ -25,12 +25,6 @@ export const useValidarBorrarPedido = (
 	const productosMandatoriosVisitaActual =
 		useObtenerProductosMandatoriosVisitaActual();
 
-	console.log(
-		validarHayMasProductosMandatorios(
-			productosMandatoriosVisitaActual.mandatorios
-		)
-	);
-
 	const validarBorrarPedido = useCallback(
 		(aviso, cambiarEstadoProducto, producto) => {
 			if (
