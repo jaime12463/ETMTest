@@ -47,16 +47,5 @@ export const useFiltrarPreciosProductosDelClienteActual = () => {
 				)
 		);
 
-	if (
-		presupuestoPedidoActual?.tieneProductosHabilitados &&
-		datosTipoPedidoActual?.validaPresupuesto
-	) {
-		preciosProductosDelCliente = obtenerProductosHabilitados(
-			preciosProductosDelCliente,
-			datos.presupuestoTipoPedido,
-			datosTipoPedidoActual.codigo
-		);
-	}
-
 	return preciosProductosDelCliente;
 };

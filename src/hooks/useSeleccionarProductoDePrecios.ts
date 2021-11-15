@@ -48,7 +48,9 @@ export const useSeleccionarProductoDePrecios = (
 				// );
 				mostrarAviso(
 					'error',
-					t('advertencias.ProductoNoEstaEnPortafolioCliente')
+					t('advertencias.ProductoNoEstaEnPortafolioCliente', {
+						codigo: productoABuscar,
+					})
 				);
 				return;
 			}
@@ -63,18 +65,14 @@ export const useSeleccionarProductoDePrecios = (
 					productoEncontrado.tipoProducto
 				)
 			) {
-				// mostrarAdvertenciaEnDialogo(
-				// 	t('advertencias.ProductoNoEstaHabilitado', {
-				// 		descripcion: datosTipoPedidoActual?.descripcion,
-				// 	}),
-				// 	'producto-no-esta-habilitado'
-				// );
 				mostrarAviso(
 					'error',
 					t('advertencias.ProductoNoEstaHabilitado', {
+						codigo: productoABuscar,
 						descripcion: datosTipoPedidoActual?.descripcion,
 					})
 				);
+
 				return;
 			}
 
@@ -85,15 +83,10 @@ export const useSeleccionarProductoDePrecios = (
 					productoEncontrado.tipoProducto
 				)
 			) {
-				// mostrarAdvertenciaEnDialogo(
-				// 	t('advertencias.ProductoNoEstaHabilitado', {
-				// 		descripcion: datosTipoPedidoActual?.descripcion,
-				// 	}),
-				// 	'producto-no-esta-habilitado'
-				// );
 				mostrarAviso(
 					'error',
 					t('advertencias.ProductoNoEstaHabilitado', {
+						codigo: productoABuscar,
 						descripcion: datosTipoPedidoActual?.descripcion,
 					})
 				);
@@ -105,15 +98,10 @@ export const useSeleccionarProductoDePrecios = (
 				presupuestoTipoPedido?.tieneProductosHabilitados &&
 				!presupuestoTipoPedido.productosHabilitados.includes(codigoProducto)
 			) {
-				// mostrarAdvertenciaEnDialogo(
-				// 	t('advertencias.ProductoNoEstaHabilitado', {
-				// 		descripcion: datosTipoPedidoActual?.descripcion,
-				// 	}),
-				// 	'producto-no-esta-habilitado'
-				// );
 				mostrarAviso(
 					'error',
 					t('advertencias.ProductoNoEstaHabilitado', {
+						codigo: productoABuscar,
 						descripcion: datosTipoPedidoActual?.descripcion,
 					})
 				);

@@ -118,8 +118,9 @@ const en = {
 		cancelarTodosLosPedido:
 			'All orders with a delivery date {{fechaDeEntrega}} will be canceled Do you wish to continue?',
 		ProductoNoEstaEnPortafolioCliente:
-			'The code does not correspond to a current producto in the portfolio of the client',
-		ProductoNoEstaHabilitado: 'The product is not enabled for {{descripcion}}',
+			'The code {{codigo}} does not correspond to a current producto in the portfolio of the client',
+		ProductoNoEstaHabilitado:
+			'The product {{codigo}} is not enabled for {{descripcion}}',
 		excedeCreditoDsiponible: 'The order exceeds the available credit',
 		montoMayorDeuda: 'The amount cannot be greater than the registered debt',
 		excedeUnidadesDisponibles:
