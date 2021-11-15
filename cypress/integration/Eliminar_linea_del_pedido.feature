@@ -76,8 +76,7 @@ Escenario: N°7 - Eliminar producto de promocion
 
 Esquema del escenario: N°8 - Eliminar tarjeta con gesto
 	Dado que ingresé en un pedido cuyo _tipoPedido = <tipoPedido>
-	Y se deslizó la tarjeta para la izquierda
-	Cuando selecciono eliminar
+	Cuando se desliza la tarjeta para la izquierda
 	Entonces el sistema borrará el producto del pedido
 	Y la tarjeta
 	Y mostrará el aviso para deshacer el borrado
