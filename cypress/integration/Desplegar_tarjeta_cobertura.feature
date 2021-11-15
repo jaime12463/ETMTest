@@ -21,3 +21,17 @@ Escenario: N°1 - Desplegar cobertura
     Y mostrará la cantidad total de productos que tiene dicho grupo
     Y mostrará el control para ver el detalle de cada grupo
     Y colapsará otras tarjetas del paso 1 - planeación
+
+Escenario: N°2 - Desplegar cobertura con productos en el pedido
+    Dado que estoy en paso 1 - planeación
+    Y se agregaron productos de las cobertura al pedido
+    Cuando selecciono el control desplegar de la tarjeta cobertura
+    Entonces el sistema mostrará 
+    las coberturas asignadas al cliente
+    ordenadas por _secuenciaGrupoCobertura
+    Y mostrará _grupoCobertura
+    Y mostrará la cantidad total de productos que tiene dicho grupo
+    Y mostrará el control para ver el detalle de cada grupo
+    Y mostrará el control para reestablecer cantidades a cero
+    Y colapsará otras tarjetas del paso 1 - planeación
+    

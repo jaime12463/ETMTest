@@ -27,4 +27,4 @@ Escenario: N°2 - Desplegar detalle de cobertura con producto existente en pedid
     Y mostrará las cantidades ingresadas al pedido para ese producto
     Y habilitará el control + de las cantidades, cuando sean mayor a 0
     Y habilitará el control - de las cantidades, cuando sean mayor a 0
-    Y mostrará el control para reestablecer cantidades a cero
+    

@@ -20,11 +20,15 @@ Escenario: N°1 - Agregar producto al pedido
     Y establecerá al pedido la condición de pago definida para el cliente
     Y establecerá el borde en color verde
     Y aumentará en 1 el total de productos de cobertura
+    Y mostrará el control para reestablecer cantidades a cero
+    Y mostrará el icono verde de ingreso
 
 Escenario: N°2 - Quitar producto del pedido
     Cuando modifico ambas cantidades a un valor = 0
     Entonces el sistema eliminará el producto al pedido cuyo _tipoPedido = "Venta"
     Y disminuirá en 1 el total de productos de cobertura
+    Y no mostrará el icono verde de ingreso
+    Y si es el único producto de coberturas que estaba ingresado, ocultará el control de reestablecer cantidades a cero
 
 Escenario: N°3 - Aumentar unidades de producto de cobertura
     Dado que el producto que se seleccionó tiene _cantidadMáximaUnidades
