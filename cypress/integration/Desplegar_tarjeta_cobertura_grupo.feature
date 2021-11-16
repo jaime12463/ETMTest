@@ -27,4 +27,17 @@ Escenario: N°2 - Desplegar detalle de cobertura con producto existente en pedid
     Y mostrará las cantidades ingresadas al pedido para ese producto
     Y habilitará el control + de las cantidades, cuando sean mayor a 0
     Y habilitará el control - de las cantidades, cuando sean mayor a 0
+
+Escenario: N°3 - Desplegar detalle de cobertura sin edición
+    Dado que se avanzó al paso 2 - Toma de pedido
+    Y se regresó al paso 1 - planeación
+    Y se desplegó la tarjeta de coberturas
+    Cuando selecciono el control ver grupo
+    Entonces el sistema mostrará los productos asignados al grupo
+    ordenados por código de producto
+    Y mostrará el código de producto, el _nombre, el precio unidad, el precio subunidad
+    Y mostrará los valores cargados en la etapa 1 - planeación
+    Y no permitirá la edición de las tarjetas
     
+# similar a iniciativas, cuando volvemos de toma de pedido al paso 1, no se pueden editar las
+# coberturas. Se muestran con lo cargado en dicho paso.    
