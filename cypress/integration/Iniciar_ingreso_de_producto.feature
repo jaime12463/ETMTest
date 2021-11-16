@@ -104,3 +104,26 @@ Escenario: N°9 El prevendedor ingresa un producto que se encuentra ya en el ped
     Cuando ingresa un producto que se encuentra en el pedido
     Entonces el sistema hará visible la tarjeta del producto con foco en las unidades
     Y permitirá ingresar producto
+
+
+Escenario: N°10 - El producto tiene descuento escalonado aplicado
+    Dado que se ingresó un producto que se encuentra en el pedido
+    Y se encuentra informado el _descuentoEscalonado para el _codigoProducto en el _portafolio del cliente
+    Y tiene un descuento escalonado aplicado
+    Cuando se muestra la tarjeta del producto
+    Entonces el sistema mostrará el descuento aplicado según el rango
+    Y mostrará los nuevos precios aplicados
+    Y mostrará el ahorro para unidades
+    Y mostrará el ahorro para subunidades
+    Y mostrará el control para quitar el descuento
+
+
+Escenario: N°11 - El producto tiene descuento polarizado aplicado
+    Dado que se ingresó un producto que se encuentra en el pedido
+    Y se encuentra informado el _descuentoPolarizado para el _codigoProducto en el _portafolio del cliente
+    Y tiene un descuento polarizado aplicado
+    Cuando se muestra la tarjeta del producto
+    Entonces el sistema mostrará el descuento aplicado según el rango
+    Y mostrará el precio ingresado por el prevendedor
+    Y mostrará el ahorro para unidades
+    Y mostrará el ahorro para subunidades

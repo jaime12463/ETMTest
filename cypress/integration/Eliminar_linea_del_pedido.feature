@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Eliminar_producto @Sprint3 @Sprint10 @Sprint12 @Sprint13
+@Pedido @Eliminar_producto @Sprint3 @Sprint10 @Sprint12 @Sprint13 @Sprint16
 
 # Sprint12: se modifica mensaje de eliminar pedido no mandatorio.
 
@@ -73,3 +73,21 @@ Escenario: N°7 - Eliminar producto de promocion
 	Dado que estoy en una promocion
 	Cuando selecciono el icono de borrar dentro de la tarjeta del producto
 	Entonces el sistema inicializará en 0 la cantidad ingresada del producto seleccionado.
+
+Esquema del escenario: N°8 - Eliminar tarjeta con gesto
+	Dado que ingresé en un pedido cuyo _tipoPedido = <tipoPedido>
+	Cuando se desliza la tarjeta para la izquierda
+	Entonces el sistema borrará el producto del pedido
+	Y la tarjeta
+	Y mostrará el aviso para deshacer el borrado
+
+Ejemplos:
+|tipoPedido|
+|Venta     |
+|Canje     |
+
+
+Escenario: N°9 - Opción deshacer
+	Dado que se eliminó un producto del pedido
+	Cuando selecciono deshacer
+	Entonces el sistema restaurará la tarjeta eliminada del pedido
