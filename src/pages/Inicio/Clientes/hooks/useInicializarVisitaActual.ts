@@ -16,7 +16,11 @@ export const useInicializarVisitaActual = () => {
 	const iniciativasClienteActual = useObtenerIniciativasClienteActual();
 
 	const useInicializarPedidoActual = useCallback(
-		(fechaEntrega: string, codigoCliente: string) => {
+		(
+			fechaEntrega: string,
+			codigoCliente: string,
+			fechaVisitaPlanificada: string
+		) => {
 			const datosCliente = obtenerDatosCliente(codigoCliente);
 			const pedidos: TPedidos = inicializarPedidos(fechaEntrega, codigoCliente);
 
@@ -38,8 +42,13 @@ export const useInicializarVisitaActual = () => {
 						saldoPresupuestoTipoPedido: {},
 						bloquearPanelCarga,
 						ordenDeCompra: '',
-						iniciativas: iniciativasClienteActual(codigoCliente, fechaEntrega),
+						iniciativas: iniciativasClienteActual(
+							codigoCliente,
+							fechaEntrega,
+							fechaVisitaPlanificada
+						),
 						iniciativasBloqueadas: false,
+						fechaVisitaPlanificada,
 					},
 				})
 			);

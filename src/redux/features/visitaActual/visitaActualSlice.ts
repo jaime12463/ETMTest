@@ -18,6 +18,7 @@ const estadoInicial: TVisita = {
 	ordenDeCompra: '',
 	iniciativas: [],
 	iniciativasBloqueadas: false,
+	fechaVisitaPlanificada: '',
 };
 
 export const visitaActualSlice = createSlice({
@@ -133,6 +134,7 @@ export const visitaActualSlice = createSlice({
 				bloquearPanelCarga,
 				ordenDeCompra,
 				iniciativas,
+				fechaVisitaPlanificada,
 			} = action.payload.visitaActual;
 
 			state.pedidos = pedidos;
@@ -143,6 +145,7 @@ export const visitaActualSlice = createSlice({
 			state.ordenDeCompra = ordenDeCompra;
 			state.iniciativas = iniciativas;
 			state.iniciativasBloqueadas = false;
+			state.fechaVisitaPlanificada = fechaVisitaPlanificada;
 		},
 
 		resetearVisitaActual: (state) => {

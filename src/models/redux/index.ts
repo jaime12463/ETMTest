@@ -52,6 +52,7 @@ export type TVisita = {
 	ordenDeCompra: string;
 	iniciativas: TIniciativasCliente[];
 	iniciativasBloqueadas: boolean;
+	fechaVisitaPlanificada: string;
 };
 
 export type TIniciativasCliente = {

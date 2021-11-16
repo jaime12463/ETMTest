@@ -16,7 +16,11 @@ export const useObtenerIniciativasClienteActual = () => {
 	const datos: TDatosClientesProductos = useObtenerDatos();
 
 	const obtenerIniciativasClienteActual = useCallback(
-		(codigoCliente: string, fechaEntrega: string) => {
+		(
+			codigoCliente: string,
+			fechaEntrega: string,
+			fechaVisitaPlanificada: string
+		) => {
 			const datosCliente = obtenerDatosCliente(codigoCliente);
 			if (!datosCliente) return [];
 
@@ -40,7 +44,7 @@ export const useObtenerIniciativasClienteActual = () => {
 					(iniciativaHabilatada) =>
 						iniciativaHabilatada.codigoIniciativa ===
 							iniciativa.codigoIniciativa &&
-						iniciativa.vencimiento >= fechaEntrega
+						iniciativa.vencimiento >= fechaVisitaPlanificada
 				)
 			);
 
