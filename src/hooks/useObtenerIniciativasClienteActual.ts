@@ -39,7 +39,8 @@ export const useObtenerIniciativasClienteActual = () => {
 				iniciativasHabilitadas.find(
 					(iniciativaHabilatada) =>
 						iniciativaHabilatada.codigoIniciativa ===
-						iniciativa.codigoIniciativa
+							iniciativa.codigoIniciativa &&
+						iniciativa.vencimiento >= fechaEntrega
 				)
 			);
 
