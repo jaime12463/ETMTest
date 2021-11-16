@@ -114,21 +114,20 @@ export const TarjetaVistaPromoPush = (props: any) => {
 						? {
 								backgroundColor: '#8A4C5F',
 								borderTop: '0px',
-								padding: '12px 14px',
+								padding: '0 0 12px 0',
 						  }
-						: {backgroundColor: '#FFFFFF', padding: '0px 14px'}
+						: {backgroundColor: '#FFFFFF', padding: '0 0 12px 0',}
 				}
 			>
 				<Box
 					display='grid'
 					gridTemplateColumns='repeat(2, 1fr)'
-					marginBottom='8px'
 					sx={
 						expandidoPromoPush === id ? {color: '#FFFFFF'} : {color: '#000000'}
 					}
 				>
-					<Box display='flex' flexDirection='column'>
-						<Typography color='white' variant='subtitle3' marginBottom='2px'>
+					<Box display='flex' flexDirection='column' padding="12px 14px 0 14px">
+						<Typography variant='subtitle3' marginBottom='2px'>
 							{codigoProducto}
 						</Typography>
 						<Typography
@@ -172,18 +171,19 @@ export const TarjetaVistaPromoPush = (props: any) => {
 						justifyContent='center'
 						alignItems='center'
 						ml={5}
+						paddingRight="14px"
 					>
 						<Typography
 							variant='caption'
-							alignSelf='end'
 							marginBottom='5px'
 							fontFamily='Open Sans'
+							textAlign="right"
 							sx={{width: '100%'}}
 							color={expandidoPromoPush === id ? 'white' : 'black'}
 						>
 							Unidades máximas que puedes aplicar:
 						</Typography>
-						<Box alignSelf='start' display='flex' ml={0.5}>
+						<Box display='flex' justifyContent="end" width="100%">
 							<Typography variant={'subtitle3'} fontWeight={700}>
 								{unidadesDisponibles}
 							</Typography>
@@ -198,23 +198,41 @@ export const TarjetaVistaPromoPush = (props: any) => {
 						? {
 								border: '1.5px solid #D9D9D9',
 								borderTop: '0px',
-								padding: '12px 14px',
+								padding: '0 0 12px 0',
+								borderRadius: '0 0 8px 8px'
 						  }
-						: {border: '0px', padding: '0px 14px'}
+						: {border: '0px', padding: '0 0 12px 0'}
 				}
 			>
 				<Collapse in={expandidoPromoPush === id} timeout='auto' unmountOnExit>
 					<Stack>
-						<Divider />
-						<Typography variant={'subtitle3'} fontWeight={700} mt={1}>
-							Paquetes
-						</Typography>
+					<Box width='100%' display='flex' flexDirection='row'>
+								<GridStyled item xs={7}>
+									<Typography
+										sx={{padding: '12px 14px'}}
+										variant={'subtitle3'}
+										fontWeight={700}
+									>
+										Paquetes
+									</Typography>
+								</GridStyled>
+								<GridStyled item xs={5}>
+									<Box
+										sx={{
+											minWidth: '100%',
+											minHeight: '100%',
+											backgroundColor: '#F5F0EF',
+										}}
+										mb={3}
+									></Box>
+								</GridStyled>
+							</Box>
 						<Box>
-							{componentes &&
-								componentes.map((el: any, i: number) => (
-									<div key={`${el.codigoProducto}${i}`}>
-										<Grid container mt={1}>
-											<GridStyled item xs={8}>
+							{
+								componentes?.map((el: any, i: number) => (
+									<Box key={`${el.codigoProducto}${i}`}>
+										<Grid container>
+											<GridStyled item xs={7} padding="0 14px" mt={1}>
 												<Box display='flex' flexDirection='column'>
 													<Typography variant='subtitle3'>
 														{el.codigoProducto}
@@ -225,13 +243,15 @@ export const TarjetaVistaPromoPush = (props: any) => {
 													</Typography>
 												</Box>
 											</GridStyled>
-											<GridStyled item xs={4}>
+											<GridStyled item xs={5} justifyContent="end" sx={{background: '#F5F0EF'}}>
 												<Box
 													display='flex'
 													flexDirection='column'
 													marginBottom='8px'
+													mt={1}
+													paddingRight="14px"
 												>
-													<Box display='flex' textAlign='center'>
+													<Box display='flex' textAlign='center' justifyContent="end" >
 														<CajaIcon width={'19px'} height='14px' />
 														<Typography variant='caption' mt={0.3}>
 															{`x${promoPush.componentes[i].cantidad}
@@ -252,12 +272,12 @@ export const TarjetaVistaPromoPush = (props: any) => {
 											</GridStyled>
 										</Grid>
 										<Divider />
-									</div>
+									</Box>
 								))}
 						</Box>
 					</Stack>
 				</Collapse>
-				<Box marginTop='8px'>
+				<Box marginTop='8px' padding="0 14px">
 					<ButtonStyled
 						disableFocusRipple
 						fullWidth
@@ -271,7 +291,8 @@ export const TarjetaVistaPromoPush = (props: any) => {
 								<Typography variant='caption' color='secondary'>
 									Ver detalle
 								</Typography>
-								<IconButton
+								<Box
+								display='flex'
 									className={clsx(classes.expand, {
 										[classes.expandOpen]:
 											expandidoPromoPush === id ? true : false,
@@ -280,7 +301,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 									style={{padding: 0}}
 								>
 									<FlechaAbajoIcon width='10px' height='10px' />
-								</IconButton>
+								</Box>
 							</Box>
 						</CardActions>
 					</ButtonStyled>

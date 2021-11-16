@@ -32,7 +32,7 @@ const useEstilos = makeStyles(() =>
 			borderRadius: '4px',
 			position: 'absolute',
 			left: '0',
-			top: '25px',
+			top: '22px',
 			width: '100%',
 			zIndex: 1,
 		},
