@@ -26,15 +26,21 @@ import {
 import {useTranslation} from 'react-i18next';
 
 import React from 'react';
+import Modal from 'components/UI/Modal';
+import {AvisoIcon} from 'assests/iconos';
 
 export const useBorrarTodoLosProductos = (
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	// mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+	stateAlerta: any,
 	productos: TProductoPedido[]
 ) => {
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
 	const configuracion = useObtenerConfiguracion();
 	const visitaActual = useObtenerVisitaActual();
+
+	const {setAlerta, setConfigAlerta} = stateAlerta;
+
 	const productosMandatoriosVisitaActual =
 		useObtenerProductosMandatoriosVisitaActual();
 	const configuracionTipoDePedidoActual = configuracion.tipoPedidos.find(
@@ -53,7 +59,6 @@ export const useBorrarTodoLosProductos = (
 
 	const borrarTodoLosProductos = useCallback(() => {
 		if (
-			!configuracionTipoDePedidoActual?.esMandatorio ||
 			validarHayMasProductosMandatorios(
 				productosMandatoriosVisitaActual.mandatorios
 			) ||
@@ -69,19 +74,19 @@ export const useBorrarTodoLosProductos = (
 				);
 			}
 		} else {
-			mostrarAdvertenciaEnDialogo(
-				t('advertencias.borrarPedidosNoMandatorios', {
+			setConfigAlerta({
+				titulo: 'Se borraran los pedidos de canje',
+				mensaje: t('advertencias.borrarPedidosNoMandatorios', {
 					tipoPedido: pedidoNoMandatorio?.descripcion,
 				}),
-				'eliminar-pedidosNoMandatorios',
-				manejadorConfirmarEliminarPedidosNoMandatorios,
-				{
-					aceptar: t('general.si'),
-					cancelar: t('general.no'),
-				}
-			);
+				tituloBotonAceptar: 'Si',
+				tituloBotonCancelar: 'No',
+				callbackAceptar: () => manejadorConfirmarEliminarPedidosNoMandatorios(),
+				iconoMensaje: <AvisoIcon />,
+			});
+			setAlerta((prevState: boolean) => !prevState);
 		}
-	}, [mostrarAdvertenciaEnDialogo, productos, pedidoNoMandatorio]);
+	}, [productos, pedidoNoMandatorio]);
 
 	return borrarTodoLosProductos;
 };

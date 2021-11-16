@@ -50,6 +50,12 @@ export const Otros: React.FC = () => {
 
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 
+	const cantidadCanjes = canje.productos.filter(
+		(producto) =>
+			producto.catalogoMotivo !== '' &&
+			(producto.unidades > 0 || producto.subUnidades > 0)
+	);
+
 	React.useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'canje'}));
 		setSaldoPresupuestoTipoPedido(calcularPresupuestoTipoPedido('canje'));
@@ -144,6 +150,7 @@ export const Otros: React.FC = () => {
 						No hay disponibilidad de canje para este cliente en este momento
 					</Typography>
 				}
+				labelChip={`${cantidadCanjes.length} Items`}
 				valido={canjeValido}
 			>
 				<Canjes />

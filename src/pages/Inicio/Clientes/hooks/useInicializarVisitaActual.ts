@@ -1,4 +1,7 @@
-import {useObtenerDatosCliente} from 'hooks';
+import {
+	useObtenerDatosCliente,
+	useObtenerIniciativasClienteActual,
+} from 'hooks';
 import {TDatosClientesProductos, TPedidos} from 'models';
 import {useCallback} from 'react';
 import {inicializarVisitaActual} from 'redux/features/visitaActual/visitaActualSlice';
@@ -10,9 +13,14 @@ export const useInicializarVisitaActual = () => {
 	const inicializarPedidos = useInicializarPedidos();
 	const configuracion = useObtenerConfiguracion();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
+	const iniciativasClienteActual = useObtenerIniciativasClienteActual();
 
 	const useInicializarPedidoActual = useCallback(
-		(fechaEntrega: string, codigoCliente: string) => {
+		(
+			fechaEntrega: string,
+			codigoCliente: string,
+			fechaVisitaPlanificada: string
+		) => {
 			const datosCliente = obtenerDatosCliente(codigoCliente);
 			const pedidos: TPedidos = inicializarPedidos(fechaEntrega, codigoCliente);
 
@@ -34,6 +42,13 @@ export const useInicializarVisitaActual = () => {
 						saldoPresupuestoTipoPedido: {},
 						bloquearPanelCarga,
 						ordenDeCompra: '',
+						iniciativas: iniciativasClienteActual(
+							codigoCliente,
+							fechaEntrega,
+							fechaVisitaPlanificada
+						),
+						iniciativasBloqueadas: false,
+						fechaVisitaPlanificada,
 					},
 				})
 			);

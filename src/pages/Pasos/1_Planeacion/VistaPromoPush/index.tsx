@@ -1,8 +1,8 @@
 import React from 'react';
 import {useObtenerPromoPushDelCliente} from 'hooks';
 import {TarjetaVistaPromoPush} from './TarjetaVistaPromoPush';
-import {Modal, Card, Box, Typography, Stack, Button} from '@mui/material';
-import {CerrarIcon} from 'assests/iconos';
+import {Modal, Card, Box, Typography, Stack, Button, IconButton} from '@mui/material';
+import {CerrarIcon, PromocionesRellenoIcon} from 'assests/iconos';
 
 export const VistaPromoPush = ({stateOpen}: any) => {
 	const {openVistaPromoPush, setOpenVistaPromoPush} = stateOpen;
@@ -18,42 +18,50 @@ export const VistaPromoPush = ({stateOpen}: any) => {
 			onClose={handleCloseVistaPromoPush}
 			aria-labelledby='modal-modal-title'
 			aria-describedby='modal-modal-description'
+			sx={{overflow: 'auto'}}
 		>
 			<Box display='flex' width='100%' justifyContent='center'>
 				<Card
 					sx={{
 						background: 'white',
 						width: '332px',
-						p: 2,
-						mt: '50px',
+						// p: 2,
+						mt: '52px',
 					}}
 				>
-					<Box display='flex' justifyContent='flex-end' width='100%' ml={3.5}>
-						<Button
+					<Box display='flex' justifyContent='flex-end' width='100%' padding="18px 18px 26px 18px">
+						<IconButton
 							sx={{padding: 0, margin: 0}}
 							onClick={handleCloseVistaPromoPush}
 						>
 							<CerrarIcon fill='black' />
-						</Button>
+						</IconButton>
 					</Box>
 					<Box
-						width='304px'
+						width='100%'
 						height='47px'
 						display='flex'
 						justifyContent='center'
 						alignItems='center'
-						mt={'10px'}
-						mb={1}
 						sx={{
-							background: '#651C32',
+							background: '#FF0000',
 							borderRadius: ' 4px 4px 0px 0px',
 						}}
 					>
-						<Typography color='white' variant='subtitle3'>
+						<PromocionesRellenoIcon
+							style={{width: '11.69px', height: '11.69px', marginRight: '4px'}}
+							fill={'white'}
+						/>
+						<Typography
+							color='white'
+							sx={{width: '74px'}}
+							fontFamily='Poppins'
+							variant='subtitle3'
+						>
 							Promo Push
 						</Typography>
 					</Box>
-					<Stack spacing={1}>
+					<Stack spacing={1} padding="14px">
 						{promociones.length > 0 &&
 							promociones.map((promocion: any) => {
 								return (

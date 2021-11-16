@@ -12,11 +12,7 @@ const App = () => {
 		<Provider store={store}>
 			<ThemeProvider theme={theme}>
 				<SnackbarProvider
-				anchorOrigin={{
-					vertical: 'top',
-					horizontal: 'center',
-				}}
-				content={(key: string | number, message:string) => (  <AvisoContenido id={key} message={message} /> )}
+					content={(key: string | number, message:string | React.ReactNode) => (  <AvisoContenido id={key} mensaje={message} /> )}
 				>
 					<GlobalStyles />
 					<Rutas />

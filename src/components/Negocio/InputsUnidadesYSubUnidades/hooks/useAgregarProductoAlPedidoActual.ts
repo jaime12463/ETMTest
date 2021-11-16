@@ -107,6 +107,7 @@ export const useAgregarProductoAlPedidoActual = (
 								? productoBuscado.tipoPago
 								: clienteActual.tipoPagoActual,
 							catalogoMotivo,
+							estado: 'activo',
 						},
 					})
 				);

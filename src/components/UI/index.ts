@@ -17,6 +17,7 @@ export {Fecha} from './Fecha';
 export {BotonBarraInferior} from './BotonBarraInferior';
 export {TarjetaDoble} from './TarjetaDoble';
 export {Stepper} from './Stepper';
+export {SwipeBorrar} from './SwipeBorrar';
 
 export {
 	Estructura,

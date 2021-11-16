@@ -10,6 +10,7 @@ const es = {
 		precio: 'Precio',
 		buscar: 'Buscar',
 		verDetalle: 'Ver Detalle',
+		ocultarDetalle: 'Ocultar Detalle',
 		fechaEntrega: 'Fecha de entrega',
 		codigo: 'Código',
 		nombre: 'Nombre',
@@ -54,6 +55,19 @@ const es = {
 		agregarCompromisoDeCobro: 'Agregar compromiso de cobro',
 		totalDeudaPendiente: 'Total deuda pendiente',
 		totalCompromisosRegistrados: 'Total compromisos de cobro registrados',
+		estatus: 'Estatus',
+		pendiente: 'Pendiente',
+		ejecutada: 'Ejecutada',
+		cancelada: 'Cancelada',
+		motivo: 'Motivo',
+		sinMotivo: 'Sin motivo',
+		planDeActividades: 'Plan de actividades',
+		descripcion: 'Descripción',
+		vigencia: 'Vigencia',
+		avanzar: 'Avanzar',
+		editarCantidades: 'Editar cantidades',
+		continuar: 'Continuar',
+		editar: 'Editar',
 	},
 	simbolos: {
 		decimal: '.',
@@ -75,6 +89,11 @@ const es = {
 		tarjetaCanjes: 'Indica la cantidad de producto para cambio',
 		tarjetaCompromisoCobro: 'Generar un compromiso de cobro',
 		tarjetaOrdenDeCompra: 'Ingresa el número de orden de compra del cliente',
+		iniciativas: 'Iniciativas',
+		tarjetaIniciativas:
+			'Selecciona las iniciativas que tienes disponible para tu cliente.',
+		tituloProductosSinCargar: 'Productos sin modificar',
+		tituloIniciativasSinMotivo: 'Iniciativas canceladas sin motivos',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
@@ -99,9 +118,9 @@ const es = {
 		cancelarTodosLosPedido:
 			'Se cancelarán todos los pedidos con fecha de entrega {{fechaDeEntrega}} ¿Desea continuar?',
 		ProductoNoEstaEnPortafolioCliente:
-			'El código no corresponde a un producto vigente del portafolio del cliente',
+			'El código {{codigo}} no corresponde a un producto vigente del portafolio del cliente',
 		ProductoNoEstaHabilitado:
-			'El producto no está habilitado para {{descripcion}}',
+			'El producto {{codigo}} no está habilitado para {{descripcion}}',
 		excedeCreditoDsiponible: 'El pedido excede el crédito disponible',
 		montoMayorDeuda: 'El monto no puede ser mayor a la deuda registrada',
 		excedeUnidadesDisponibles:
@@ -116,7 +135,11 @@ const es = {
 		borrarTodosTomaPedido:
 			'¿Quieres Borrar todos los productos?. Todos los productos seleccionados se borraran de la toma de pedido',
 		borrarPromosPush:
-			'¿Quieres Borrar todos los productos?. Todos los productos seleccionados se borraran de Promociones',
+			'Todos los productos seleccionados se borraran de Promociones',
+		mensajeProductosSinCargar:
+			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido.',
+		mensajeIniciativasSinMotivo:
+			'Por favor, ingrese un motivo para cada iniciativa cancelada.',
 	},
 	pasos: {
 		planeacion: 'Planeación',

@@ -9,6 +9,7 @@ import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
 	useObtenerConfiguracion,
+	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {ETiposDePago, TClienteActual, TRetornoValidacion} from 'models';
 
@@ -19,50 +20,48 @@ import {
 	validarSiExcedeElMontoMinimo,
 	validarSiExcedeAlMaximoContado,
 	validarSiExcedeAlMaximoDeCredito,
+	validarProductosIniciativas,
 } from 'utils/validaciones/validacionesDePedidos';
 
 import {obtenerTotalesCompromisoDeCobroCliente} from 'utils/methods';
 
 export const useValidarCierreVisitaCliente = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
-	const {
-		obtenerCompromisosDeCobroMismaFechaEntrega,
-	} = useObtenerCompromisosDeCobroMismaFechaEntrega();
-	const compromisosDeCobroMismaFechaEntrega = obtenerCompromisosDeCobroMismaFechaEntrega(
-		clienteActual.codigoCliente
-	);
+	const {obtenerCompromisosDeCobroMismaFechaEntrega} =
+		useObtenerCompromisosDeCobroMismaFechaEntrega();
+	const compromisosDeCobroMismaFechaEntrega =
+		obtenerCompromisosDeCobroMismaFechaEntrega(clienteActual.codigoCliente);
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 	const montoTotalCompromisos = obtenerTotalesCompromisoDeCobroCliente(
 		compromisosDeCobroMismaFechaEntrega
 	);
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
-	const {
-		pedidosClienteMismaFechaEntrega,
-	} = useObtenerPedidosClienteMismaFechaEntrega();
+	const {pedidosClienteMismaFechaEntrega} =
+		useObtenerPedidosClienteMismaFechaEntrega();
 	const {creditoDisponible} = useObtenerCreditoDisponible();
 	const calcularTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const {tipoPedidos} = useObtenerConfiguracion();
+	const visitaActual = useObtenerVisitaActual();
 
 	const validarCierreVisitaCliente = (): TRetornoValidacion => {
 		const totalPedidosVisitaActual = calcularTotalPedidosVisitaActual(true);
-		const totalContadoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
-			{
+		const totalContadoPedidosClienteMismaFechaEntrega =
+			calcularTotalPedidosClienteValorizadosPorTipoPago({
 				pedidosClienteMismaFechaEntrega,
 				tipoPedidos,
 				tipoPago: ETiposDePago.Contado,
-			}
-		);
-		const totalCreditoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
-			{
+			});
+		const totalCreditoPedidosClienteMismaFechaEntrega =
+			calcularTotalPedidosClienteValorizadosPorTipoPago({
 				pedidosClienteMismaFechaEntrega,
 				tipoPedidos,
 				tipoPago: ETiposDePago.Credito,
-			}
-		);
+			});
 
 		let retornoValidacion: TRetornoValidacion = {
 			esValido: false,
 			propsAdvertencia: null,
+			iniciativasVerificadas: visitaActual.iniciativas,
 		};
 
 		retornoValidacion = validarDatosCliente(datosCliente);
@@ -85,6 +84,7 @@ export const useValidarCierreVisitaCliente = () => {
 				montoTotalCompromisos,
 			totalContadoPedidosClienteMismaFechaEntrega
 		);
+
 		if (!retornoValidacion.esValido) return retornoValidacion;
 
 		retornoValidacion = validarSiExcedeAlMaximoDeCredito(
@@ -92,7 +92,13 @@ export const useValidarCierreVisitaCliente = () => {
 			creditoDisponible,
 			totalPedidosVisitaActual.totalCredito.totalPrecio
 		);
+
 		if (!retornoValidacion.esValido) return retornoValidacion;
+
+		retornoValidacion = validarProductosIniciativas(
+			visitaActual.iniciativas,
+			visitaActual.pedidos
+		); // Dejar este de ultimo
 
 		return retornoValidacion;
 	};

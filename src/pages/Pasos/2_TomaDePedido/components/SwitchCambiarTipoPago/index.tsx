@@ -12,9 +12,12 @@ import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import {useObtenerDatosTipoPedido} from 'hooks';
 import useEstilos, {SwitchProps} from './useEstilos';
 import {styled} from '@mui/material/styles';
+import theme from 'theme';
 
 type Props = {
 	producto?: TProductoPedido;
+	setPromoPushTemporal?: React.Dispatch<React.SetStateAction<ETiposDePago>>;
+	promoPushTemporal?: ETiposDePago;
 };
 
 const CustomSwitch = styled(Switch)(() => ({
@@ -33,12 +36,12 @@ const CustomSwitch = styled(Switch)(() => ({
 		},
 	},
 	'& .MuiSwitch-track': {
-		background: '#FF0000',
+		background: `${theme.palette.secondary.dark}`,
 		color: '#fff',
 		opacity: '1',
 	},
 	'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-		backgroundColor: '#00CF91',
+		backgroundColor: `${theme.palette.success.dark}`,
 		opacity: '1',
 	},
 	'& .MuiSwitch-switchBase.Mui-disabled+.MuiSwitch-track': {
@@ -53,7 +56,7 @@ const CustomSwitch = styled(Switch)(() => ({
 }));
 
 export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
-	const {producto} = props;
+	const {producto, setPromoPushTemporal, promoPushTemporal} = props;
 
 	const {tipoPago} = {...producto};
 
@@ -70,9 +73,16 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
 
 	const [switchTipoPago, setSwitchTipoPago] = React.useState<SwitchProps>(
-		producto
-			? {content: Boolean(producto.tipoPago)}
-			: {content: Boolean(clienteActual.tipoPagoActual)}
+		() => {
+			if (producto) {
+				return {content: Boolean(tipoPago)};
+			}
+			if (promoPushTemporal) {
+				return {content: Boolean(promoPushTemporal)};
+			}
+
+			return {content: Boolean(clienteActual.tipoPagoActual)};
+		}
 	);
 
 	const classes = useEstilos(switchTipoPago);
@@ -85,24 +95,31 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 
 	React.useEffect(() => {
 		if (producto) {
-			setSwitchTipoPago({content: Boolean(clienteActual.tipoPagoActual)});
+			return setSwitchTipoPago({
+				content: Boolean(producto.tipoPago),
+			});
 		}
-	}, [clienteActual.tipoPagoActual]);
+		if (promoPushTemporal) {
+			return setSwitchTipoPago({content: Boolean(promoPushTemporal)});
+		}
+	}, [clienteActual.tipoPagoActual, promoPushTemporal, producto]);
 
 	return (
 		<Center>
 			{mostrarSwitch && (
 				<CustomSwitch
-					checked={
-						producto
-							? tipoPago === ETiposDePago.Credito
-							: clienteActual.tipoPagoActual === ETiposDePago.Credito
-					}
+					checked={switchTipoPago.content}
 					onChange={() => {
-						cambiarTipoPago(producto);
-						setSwitchTipoPago((prevTipoPago) => ({
-							content: producto ? !producto.tipoPago : !prevTipoPago.content,
-						}));
+						cambiarTipoPago(producto, setPromoPushTemporal);
+						setSwitchTipoPago((prevTipoPago) => {
+							if (producto) {
+								return {content: !producto.tipoPago};
+							}
+							if (promoPushTemporal) {
+								return {content: !promoPushTemporal};
+							}
+							return {content: !prevTipoPago.content};
+						});
 					}}
 					inputProps={{'aria-label': 'secondary checkbox'}}
 					size='small'

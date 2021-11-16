@@ -2,8 +2,8 @@ import {
 	TDatosClientesProductos,
 	TCondicicon,
 	TPromoPush,
-	TConfiguracion,
 	TDatosConfiguracion,
+	TIniciativas,
 } from 'models/server';
 
 //Cliente Actual
@@ -43,13 +43,33 @@ export enum EEstadosFetch {
 
 //Visita Actual
 export type TVisita = {
-	fechaEntrega: string; //TODO: Deberia ir la visita con el pedido actual?
+	fechaEntrega: string;
 	tipoPedidoActual: string;
 	saldoPresupuestoTipoPedido: TPresupuestoTipoPedidoTotal;
 	pedidos: TPedidos;
 	mostrarPromoPush: boolean;
 	bloquearPanelCarga: boolean;
 	ordenDeCompra: string;
+	iniciativas: TIniciativasCliente[];
+	iniciativasBloqueadas: boolean;
+	fechaVisitaPlanificada: string;
+};
+
+export type TIniciativasCliente = {
+	estado: 'pendiente' | 'ejecutada' | 'cancelada';
+	motivo: string;
+	secuencia: number;
+	fechaEntrega: string;
+	codigoIniciativa: number;
+	nombreActividad: string;
+	planActividad: string;
+	descripcion: string;
+	vencimiento: string;
+	codigoProducto: number;
+	unidades: number;
+	subUnidades: number;
+	unidadesEjecutadas: number;
+	subUnidadesEjecutadas: number;
 };
 
 export type TPresupuestoTipoPedidoTotal = {
@@ -99,6 +119,7 @@ export type TPedidoDelProducto = {
 	total: number;
 	tipoPago: ETiposDePago;
 	catalogoMotivo: string;
+	estado?: 'activo' | 'eliminado' | 'transito';
 };
 
 export enum ETiposDePago {
@@ -116,6 +137,7 @@ export type TPedidosClientes = {
 	[codigoCliente: string]: {
 		pedidos: TPedidoClienteParaEnviar[];
 		compromisosDeCobro: TCompromisoDeCobro[];
+		iniciativas: TIniciativasCliente[];
 	};
 };
 

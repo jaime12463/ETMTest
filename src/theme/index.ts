@@ -12,9 +12,9 @@ const theme = createTheme({
 			dark: '#C20000',
 		},
 		secondary: {
-			main: '#5B2135',
+			main: '#651C32',
 			light: '#8A4C5F',
-			lighter: '#CCA9B9',
+			contrastText: '#CCA9B9',
 			dark: '#2F000E',
 		},
 		success: {
@@ -93,7 +93,7 @@ const theme = createTheme({
 		caption: {
 			lineHeight: 1,
 			fontSize: pxToRem(10),
-			color:'#565657',
+			color: '#565657',
 		},
 		overline: {
 			color: '#FF5A36',

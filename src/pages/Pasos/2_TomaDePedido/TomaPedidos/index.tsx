@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {
 	InputsKeysFormTomaDePedido,
 	TClienteActual,
@@ -8,21 +8,28 @@ import {
 	TProductoPedido,
 	TStateInputFocus,
 	TVisita,
-	TCliente,
+	TPedido,
 } from 'models';
+
 import {
 	useAppDispatch,
 	useObtenerClienteActual,
 	useObtenerVisitaActual,
+	useObtenerConfiguracion,
 } from 'redux/hooks';
 import {useForm} from 'react-hook-form';
 import {
 	useInicializarPreciosProductosDelClienteActual,
 	useMostrarAviso,
 } from 'hooks';
-import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
+import {
+	agregarProductoDelPedidoActual,
+	editarProductoDelPedidoActual,
+	borrarProductoDelPedidoActual,
+	borrarProductosDeVisitaActual,
+} from 'redux/features/visitaActual/visitaActualSlice';
 
-import {TarjetaColapsable, TarjetaDoble, Dialogo} from 'components/UI';
+import {TarjetaDoble, Dialogo, SwipeBorrar} from 'components/UI';
 import {AutocompleteSeleccionarProducto} from 'components/Negocio';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -32,6 +39,7 @@ import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import {
 	AgregarRedondoIcon,
+	AvisoIcon,
 	BorrarIcon,
 	BotellaIcon,
 	CajaIcon,
@@ -40,7 +48,10 @@ import {
 } from 'assests/iconos';
 import {styled} from '@mui/material/styles';
 import Input from '@mui/material/Input';
-import {useAgregarProductoAlPedidoActual} from '../hooks';
+import {
+	useAgregarProductoAlPedidoActual,
+	useValidarBorrarPedido,
+} from '../hooks';
 import {
 	useMostrarAdvertenciaEnDialogo,
 	useBorrarTodoLosProductos,
@@ -50,6 +61,11 @@ import useEstilos from '../useEstilos';
 import {SwitchCambiarTipoPago} from '../components';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
+import {formatearNumero} from 'utils/methods';
+import {Button, Fade, Grow} from '@mui/material';
+import {useSnackbar} from 'notistack';
+import {AvisoDeshacer} from 'components/UI/AvisoContenido/AvisosPlantilla';
+import Modal from 'components/UI/Modal';
 
 const InputStyled = styled(Input)(({}) => ({
 	backgroundColor: 'white',
@@ -71,7 +87,17 @@ const TomaPedido: React.FC = () => {
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
 
+	const [configAlerta, setConfigAlerta] = useState({
+		titulo: '',
+		mensaje: '',
+		tituloBotonAceptar: '',
+		tituloBotonCancelar: '',
+		iconoMensaje: <></>,
+		callbackAceptar: () => {},
+	});
+
 	const {t} = useTranslation();
+	const [alerta, setAlerta] = React.useState<boolean>(false);
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
@@ -102,8 +128,12 @@ const TomaPedido: React.FC = () => {
 	const classes = useEstilos();
 
 	const borrarTodosLosProductos = useBorrarTodoLosProductos(
-		mostrarAdvertenciaEnDialogo,
+		{setAlerta, setConfigAlerta},
 		venta.productos
+	);
+
+	const validarBorrarPedido = useValidarBorrarPedido(
+		mostrarAdvertenciaEnDialogo
 	);
 
 	React.useEffect(() => {
@@ -111,7 +141,6 @@ const TomaPedido: React.FC = () => {
 			const productoEnPedido = venta.productos.find(
 				(producto) => producto.codigoProducto === productoActual.codigoProducto
 			);
-
 			if (!productoEnPedido) {
 				dispatch(
 					agregarProductoDelPedidoActual({
@@ -124,6 +153,7 @@ const TomaPedido: React.FC = () => {
 								productoActual.precioConImpuestoSubunidad * 0,
 							tipoPago: clienteActual.tipoPagoActual,
 							catalogoMotivo,
+							estado: 'activo',
 						},
 					})
 				);
@@ -133,15 +163,90 @@ const TomaPedido: React.FC = () => {
 		}
 	}, [productoActual?.codigoProducto]);
 
-	const manejadorConfirmarEliminarPedidos = (oprimioBotonAceptar: boolean) => {
-		if (oprimioBotonAceptar) {
-			borrarTodosLosProductos();
+	const avisoDeshacer = useMostrarAviso();
+	const {enqueueSnackbar, closeSnackbar} = useSnackbar();
+	const cambiarEstadoProducto = (
+		producto: TProductoPedido,
+		nuevoEstado: 'activo' | 'eliminado' | 'borrardo' | 'transito'
+	) => {
+		if (nuevoEstado === 'borrardo') {
+			//ToDo borrar
+		} else {
+			dispatch(
+				editarProductoDelPedidoActual({
+					productoPedido: {...producto, estado: nuevoEstado},
+				})
+			);
 		}
+	};
+
+	const manejadorDeshacerGestoBorrar = (producto: TProductoPedido) => {
+		cambiarEstadoProducto(producto, 'eliminado');
+
+		const aviso = ({
+			borrarProductosNoMandatorios,
+			productosNoMandatorios,
+		}: any) => {
+			enqueueSnackbar(
+				<AvisoDeshacer
+					titulo='Tarjeta Eliminada'
+					acciones={
+						<>
+							<Typography
+								variant='caption'
+								fontFamily='Poppins'
+								color='#fff'
+								sx={{cursor: 'pointer'}}
+								onClick={() => {
+									cambiarEstadoProducto(producto, 'activo');
+									closeSnackbar(producto.codigoProducto);
+								}}
+							>
+								Deshacer
+							</Typography>
+						</>
+					}
+				/>,
+				{
+					key: producto.codigoProducto,
+					anchorOrigin: {
+						vertical: 'bottom',
+						horizontal: 'center',
+					},
+					onClose: (event, reason, key) => {
+						if (reason === 'timeout') {
+							if (borrarProductosNoMandatorios) {
+								productosNoMandatorios.forEach((pedido: TPedido) => {
+									dispatch(
+										borrarProductosDeVisitaActual({
+											tipoPedidoActual: pedido.tipoPedido,
+										})
+									);
+								});
+							}
+							return dispatch(
+								borrarProductoDelPedidoActual({
+									codigoProducto: producto.codigoProducto,
+									codigoTipoPedidoActual: 'venta',
+								})
+							);
+						}
+					},
+				}
+			);
+		};
+
+		return validarBorrarPedido(aviso, cambiarEstadoProducto, producto);
 	};
 
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+			<Modal
+				setAlerta={setAlerta}
+				alerta={alerta}
+				contenidoMensaje={configAlerta}
+			/>
 			<Stack spacing='10px'>
 				<AutocompleteSeleccionarProducto
 					hookForm={hookForm}
@@ -161,51 +266,62 @@ const TomaPedido: React.FC = () => {
 								size='small'
 								icon={<BorrarIcon width='7.5px' height='7.5px' />}
 								label={<TextStyled>Borrar todo</TextStyled>}
-								onClick={() =>
-									mostrarAdvertenciaEnDialogo(
-										t('advertencias.borrarTodosTomaPedido'),
-										'eliminar-todosTomaPedido',
-										manejadorConfirmarEliminarPedidos,
-										{
-											aceptar: t('general.si'),
-											cancelar: t('general.no'),
-										}
-									)
-								}
 								sx={{'&:hover': {background: 'none'}}}
+								onClick={() => {
+									setConfigAlerta({
+										titulo: '¿Quieres Borrar Todos Los Productos?',
+										mensaje:
+											'Todos los productos seleccionados se borraran de toma de pedido',
+										tituloBotonAceptar: 'Borrar todo',
+										tituloBotonCancelar: 'Cancelar',
+										callbackAceptar: () => borrarTodosLosProductos(),
+										iconoMensaje: <AvisoIcon />,
+									});
+									setAlerta(true);
+								}}
 							/>
 						)}
 				</Grid>
 
 				{venta.productos.length > 0 &&
-					venta.productos.map((producto) => {
-						return (
-							<TarjetaDoble
-								key={producto.codigoProducto}
-								izquierda={
-									<Izquierda
-										producto={producto}
-										condicion={clienteActual.condicion}
+					venta.productos
+						.filter((producto) => producto.estado === 'activo')
+						.map((producto, i) => {
+							return (
+								<SwipeBorrar
+									key={producto.codigoProducto}
+									item={producto}
+									manejadorGesto={() => {
+										manejadorDeshacerGestoBorrar(producto);
+										return 0;
+									}}
+								>
+									<TarjetaDoble
+										izquierda={
+											<Izquierda
+												producto={producto}
+												condicion={clienteActual.condicion}
+											/>
+										}
+										derecha={
+											<Derecha
+												producto={producto}
+												stateInputFocus={stateInputFocus}
+												visitaActual={visitaActual}
+												statefocusId={{focusId, setFocusId}}
+											/>
+										}
+										widthIzquierda='179px'
+										widthDerecha='125px'
+										borderColor={
+											producto.unidades > 0 || producto.subUnidades > 0
+												? '#00CF91'
+												: '#D9D9D9'
+										}
 									/>
-								}
-								derecha={
-									<Derecha
-										producto={producto}
-										stateInputFocus={stateInputFocus}
-										visitaActual={visitaActual}
-										statefocusId={{focusId, setFocusId}}
-									/>
-								}
-								widthIzquierda='179px'
-								widthDerecha='125px'
-								borderColor={
-									producto.unidades > 0 || producto.subUnidades > 0
-										? '#00CF91'
-										: '#D9D9D9'
-								}
-							/>
-						);
-					})}
+								</SwipeBorrar>
+							);
+						})}
 			</Stack>
 		</>
 	);
@@ -217,6 +333,8 @@ interface IzquierdaProps {
 }
 
 const Izquierda: React.FC<IzquierdaProps> = ({producto, condicion}) => {
+	const {t} = useTranslation();
+
 	return (
 		<Box
 			sx={{
@@ -250,13 +368,13 @@ const Izquierda: React.FC<IzquierdaProps> = ({producto, condicion}) => {
 					marginRight='4px'
 				>{`x${producto.presentacion}`}</Typography>
 				<Typography variant='subtitle3' marginRight='8px'>
-					{`$${producto.precioConImpuestoUnidad}`}
+					{formatearNumero(producto.precioConImpuestoUnidad, t)}
 				</Typography>
 				{producto.esVentaSubunidades && (
 					<>
 						<BotellaIcon height='14px' width='14px' />
 						<Typography variant='subtitle3' marginLeft='4px'>
-							{`$${producto.precioConImpuestoSubunidad}`}
+							{formatearNumero(producto.precioConImpuestoSubunidad, t)}
 						</Typography>
 					</>
 				)}

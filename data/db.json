@@ -29,6 +29,17 @@
 					"fechaEntrega": "2021-06-12"
 				}
 			],
+			"iniciativasHabilitadas": [
+				{
+					"codigoIniciativa": 1,
+					"secuencia": 1
+				},
+				{
+					"codigoIniciativa": 2,
+					"secuencia": 2
+				}
+			],
+
 			"informacionCrediticia": {
 				"condicion": "creditoInformal",
 				"limite": 3000,
@@ -1223,6 +1234,16 @@
 					"fechaEntrega": "2021-06-12"
 				}
 			],
+			"iniciativasHabilitadas": [
+				{
+					"codigoIniciativa": 1,
+					"secuencia": 2
+				},
+				{
+					"codigoIniciativa": 2,
+					"secuencia": 1
+				}
+			],
 			"informacionCrediticia": {
 				"condicion": "creditoInformal",
 				"limite": 20000,
@@ -1931,7 +1952,7 @@
 		},
 		{
 			"codigoProducto": 171123,
-			"nombre": "ENVASE SIDRAL M 1\/2 24PACK",
+			"nombre": "ENVASE SIDRAL M 1/2 24PACK",
 			"presentacion": 24,
 			"subunidadesVentaMinima": 12,
 			"tipoProducto": 5
@@ -2010,30 +2031,33 @@
 						"cantidad": 1,
 						"unidadMedida": "CAJ"
 					}
-
 				]
 			}
-		}, {
-            "codigoProducto": 97317,
-            "nombre": "FRUTSI MANGO 250ML 6PK",
-            "presentacion": 6,
-            "subunidadesVentaMinima": 3
-        }, {
-            "codigoProducto": 97318,
-            "nombre": "FRUTSI MANZANA 250 ML 6PK",
-            "presentacion": 6,
-            "subunidadesVentaMinima": 3
-        }, {
-            "codigoProducto": 97319,
-            "nombre": "FRUTSI UVA 250 ML 6PK",
-            "presentacion": 6,
-            "subunidadesVentaMinima": 3
-        }, {
-            "codigoProducto": 97321,
-            "nombre": "FRUTSI PONCHE FRUTAS 250ML 6PK",
-            "presentacion": 6,
-            "subunidadesVentaMinima": 3
-        }
+		},
+		{
+			"codigoProducto": 97317,
+			"nombre": "FRUTSI MANGO 250ML 6PK",
+			"presentacion": 6,
+			"subunidadesVentaMinima": 3
+		},
+		{
+			"codigoProducto": 97318,
+			"nombre": "FRUTSI MANZANA 250 ML 6PK",
+			"presentacion": 6,
+			"subunidadesVentaMinima": 3
+		},
+		{
+			"codigoProducto": 97319,
+			"nombre": "FRUTSI UVA 250 ML 6PK",
+			"presentacion": 6,
+			"subunidadesVentaMinima": 3
+		},
+		{
+			"codigoProducto": 97321,
+			"nombre": "FRUTSI PONCHE FRUTAS 250ML 6PK",
+			"presentacion": 6,
+			"subunidadesVentaMinima": 3
+		}
 	],
 	"presupuestoTipoPedido": [
 		{
@@ -2042,10 +2066,29 @@
 			"vigenciaInicioPresupuesto": "2021-06-01",
 			"vigenciaFinPresupuesto": "9999-12-31",
 			"tieneProductosHabilitados": true,
-			"productosHabilitados": [
-				340,
-				365
-			]
+			"productosHabilitados": [340, 365]
+		}
+	],
+	"iniciativas": [
+		{
+			"codigoIniciativa": 1,
+			"nombreActividad": "Asegura la venta del nuevo PREDATOR 473ml SKU 99992",
+			"planActividad": "NCBs - Lanzamiento PREDATOR 47",
+			"descripcion": "Ejecuta los materiales de la PDE",
+			"vencimiento": "2021-06-10",
+			"codigoProducto": 360,
+			"unidades": 2,
+			"subUnidades": 0
+		},
+		{
+			"codigoIniciativa": 2,
+			"nombreActividad": "Los Efectivos PERSONALES Asegura Venta de Coca Cola 355 ML Pet NR",
+			"planActividad": "Super Single - Plan Personales",
+			"descripcion": "Ejecuta los materiales de la PDE",
+			"vencimiento": "2021-06-10",
+			"codigoProducto": 420,
+			"unidades": 2,
+			"subUnidades": 0
 		}
 	]
 }

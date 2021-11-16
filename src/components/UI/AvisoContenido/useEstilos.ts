@@ -3,7 +3,7 @@ import theme from 'theme';
 
 interface Props {
 	tipo: 'default' | 'error' | 'success' | 'warning' | 'info';
-	conBotones: boolean;
+	conBotones?: boolean;
 }
 
 const useEstilos = makeStyles(() =>
@@ -18,6 +18,8 @@ const useEstilos = makeStyles(() =>
 						return '#D6FBE0';
 					case 'warning':
 						return 'rgba(255, 251, 239, 0.95);';
+					case 'default':
+						return '#2F000E';
 					default:
 						throw new Error('Tipo de aviso no soportado');
 				}
@@ -30,6 +32,8 @@ const useEstilos = makeStyles(() =>
 						return `1.5px solid ${theme.palette.success.main}`;
 					case 'warning':
 						return `1.5px solid ${theme.palette.warning.main}`;
+					case 'default':
+						return `1.5px solid ${theme.palette.common.white}`;
 					default:
 						throw new Error('Tipo de aviso no soportado');
 				}
@@ -60,6 +64,16 @@ const useEstilos = makeStyles(() =>
 			display: 'flex',
 			justifyContent: 'space-evenly',
 			width: '100%',
+		},
+		containerDeshacer: {
+			alignItems: 'center',
+			background: theme.palette.secondary.dark,
+			borderRadius: '8px',
+			display: 'flex',
+			height: '30px',
+			justifyContent: 'space-between',
+			padding: '10px 18px',
+			width: '340px',
 		},
 	})
 );

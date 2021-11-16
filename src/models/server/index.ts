@@ -3,6 +3,18 @@ export type TDatosClientesProductos = {
 	clientes: TClientes;
 	productos: TProductos;
 	presupuestoTipoPedido: TpresupuestoTipoPedido[];
+	iniciativas: TIniciativas[];
+};
+
+export type TIniciativas = {
+	codigoIniciativa: number;
+	nombreActividad: string;
+	planActividad: string;
+	descripcion: string;
+	vencimiento: string;
+	codigoProducto: number;
+	unidades: number;
+	subUnidades: number;
 };
 
 export type TClientes = {
@@ -19,6 +31,7 @@ export type TCliente = {
 	fechasEntrega: TFechaEntrega[];
 	detalles: TDetalle;
 	informacionCrediticia: TInformacionCrediticia;
+	iniciativasHabilitadas: TIniciativasHabilitadas[];
 	configuracionPedido: TConfiguracionPedido;
 	portafolio: TPortafolio[];
 };
@@ -30,7 +43,7 @@ export type TProducto = {
 	subunidadesVentaMinima: number;
 	implicito1?: number;
 	implicito2?: number;
-	tipoProducto: number; //TODO: Mirar si esto debe ser un enum
+	tipoProducto: number;
 	promoPush?: TPromoPush;
 };
 
@@ -57,6 +70,11 @@ export type TFechaEntrega = {
 
 export type TDetalle = {
 	nombreComercial: string;
+};
+
+export type TIniciativasHabilitadas = {
+	codigoIniciativa: number;
+	secuencia: number;
 };
 
 export type TInformacionCrediticia = {
@@ -146,6 +164,12 @@ export type TConfiguracion = {
 	habilitaOrdenDeCompra: boolean;
 	tipoPedidoEnvasesHabilitados: string[];
 	tipoPedidos: TTipoPedido[];
+	motivosCancelacionIniciativas: TMotivosCancelacionIniciativas[];
+};
+
+export type TMotivosCancelacionIniciativas = {
+	codigo: number;
+	descripcion: string;
 };
 
 export type TTipoPedido = {

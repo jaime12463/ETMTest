@@ -47,8 +47,11 @@ export const useInicializarClienteActual = (
 
 			if (!datosCliente) return;
 
-			const {esValidoInicializarPedidoActual, fechaEntrega} =
-				validarInicializarPedidoActual(datosCliente);
+			const {
+				esValidoInicializarPedidoActual,
+				fechaEntrega,
+				fechaVisitaPlanificada,
+			} = validarInicializarPedidoActual(datosCliente);
 
 			if (!esValidoInicializarPedidoActual) return;
 
@@ -63,7 +66,11 @@ export const useInicializarClienteActual = (
 				})
 			);
 
-			inicializarVisitaActual(fechaEntrega, codigoCliente);
+			inicializarVisitaActual(
+				fechaEntrega,
+				codigoCliente,
+				fechaVisitaPlanificada
+			);
 
 			history.push(`${nombresRutas.pasos}`);
 		},

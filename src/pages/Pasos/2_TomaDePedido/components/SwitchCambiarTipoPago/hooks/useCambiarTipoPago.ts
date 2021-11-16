@@ -12,7 +12,10 @@ export const useCambiarTipoPago = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
 	const cambiarTipoPago = useCallback(
-		(producto?: TProductoPedido) => {
+		(
+			producto?: TProductoPedido,
+			setPromoPushTemporal?: React.Dispatch<React.SetStateAction<ETiposDePago>>
+		) => {
 			if (producto) {
 				const tipoPago =
 					producto.tipoPago === ETiposDePago.Contado
@@ -25,8 +28,14 @@ export const useCambiarTipoPago = () => {
 					cambiarTipoPagoPoductoDelPedidoActual({codigoProducto, tipoPago})
 				);
 				return;
+			} else if (setPromoPushTemporal && !producto) {
+				setPromoPushTemporal((prevPromo) =>
+					prevPromo === ETiposDePago.Contado
+						? ETiposDePago.Credito
+						: ETiposDePago.Contado
+				);
+				return;
 			}
-
 			const tipoPago =
 				clienteActual.tipoPagoActual === ETiposDePago.Contado
 					? ETiposDePago.Credito

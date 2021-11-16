@@ -46,6 +46,7 @@ import {
 	useObtenerTiposPedidoSegunConfiguracion,
 } from 'hooks';
 import {
+	bloquearIniciativas,
 	cambiarOrdenDeCompra,
 	cambiarTipoPedidoActual,
 	selectVisitaActual,
@@ -68,6 +69,9 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const productosConUnidades = venta.productos.filter((producto) => {
 		return producto.unidades > 0 || producto.subUnidades > 0;
 	});
+	const cantidadPromoPush = productosConUnidades.filter(
+		(producto) => producto.promoPush
+	);
 	const [ventaValida, setVentaValida] = React.useState<boolean>(false);
 	const [promocionesValida, setPromocionesValida] =
 		React.useState<boolean>(false);
@@ -76,6 +80,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 
 	React.useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'venta'}));
+		dispatch(bloquearIniciativas());
 	}, []);
 
 	React.useEffect(() => {
@@ -119,6 +124,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				cantidadItems={productosConUnidades.length}
+				labelChip={`${productosConUnidades.length} Items`}
 				valido={ventaValida}
 			>
 				<TomaPedido />
@@ -135,140 +141,13 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				valido={promocionesValida}
+				cantidadItems={cantidadPromoPush.length}
+				labelChip={`${cantidadPromoPush.length} Items`}
 			>
 				<PromoPush />
 			</TarjetaColapsable>
 		</Stack>
 	);
 };
-
-function BotonAgregarOrdenDeCompra() {
-	const {t} = useTranslation();
-	const dispatch = useAppDispatch();
-	const {ordenDeCompra} = useAppSelector(selectVisitaActual);
-	const {pedidos} = useObtenerVisitaActual();
-	const obtenerTiposPedidoSegunConfiguracion =
-		useObtenerTiposPedidoSegunConfiguracion;
-	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
-		useMostrarAdvertenciaEnDialogo();
-
-	let {path} = useRouteMatch();
-	let history = useHistory();
-
-	const tipoPedidosValorizados = obtenerTiposPedidoSegunConfiguracion(
-		'esValorizado',
-		true
-	)();
-	const tiposDePedidosValorizadosIngresadosConProductos = Object.keys(
-		pedidos
-	).filter(
-		(pedido) =>
-			tipoPedidosValorizados.includes(pedido) &&
-			pedidos[pedido]?.productos.length > 0
-	);
-
-	const manjadorClickDialog = (resultado: boolean, data: any) => {
-		if (resultado)
-			if (data.textoInput.trim() !== '')
-				dispatch(cambiarOrdenDeCompra({ordenDeCompra: data.textoInput}));
-			else {
-				//EMAHOY
-				/* 				console.log(
-					'DATA en blanco y acepto. Debe mostrar segunda advertencia'
-				); */
-			}
-	};
-
-	const manejadorClick = () => {
-		mostrarAdvertenciaEnDialogo(
-			t('general.deseaAgregarOrdenDeCompra'),
-			'dialog-agregarOrden',
-			manjadorClickDialog,
-			undefined,
-			ordenDeCompra,
-			t('titulos.ordenDeCompra')
-		);
-	};
-
-	return (
-		<>
-			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-			<Button
-				variant='contained'
-				color='primary'
-				data-cy='boton-agregarOrdenDeCompra'
-				onClick={manejadorClick}
-				fullWidth
-				disabled={tiposDePedidosValorizadosIngresadosConProductos.length <= 0}
-			>
-				{t('general.agregarOrdenDeCompra').toUpperCase()}
-			</Button>
-		</>
-	);
-}
-
-function BotonVerEnvases() {
-	const {t} = useTranslation();
-	const {mostrarPromoPush} = useObtenerVisitaActual();
-	let {path} = useRouteMatch();
-	let history = useHistory();
-	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
-	const datosTipoPedidoActual = obtenerDatosTipoPedido();
-
-	return !mostrarPromoPush ? (
-		<Button
-			variant='contained'
-			color='primary'
-			data-cy='boton-verEnvases'
-			onClick={() => history.push(`${path}${nombresRutas.envasesRetornables}`)}
-			fullWidth
-			disabled={!datosTipoPedidoActual?.generaEnvases}
-		>
-			{t('general.verEnvases').toUpperCase()}
-		</Button>
-	) : null;
-}
-
-function BotonVerPedidosDelClienteActual() {
-	let {path} = useRouteMatch();
-	const history = useHistory();
-	return (
-		<IconButton
-			size='small'
-			onClick={() => history.push(`${path}${nombresRutas.pedidosCliente}`)}
-
-			/* 	onClick={() => history.push(`${path}${nombresRutas.pedidosCliente}`)} */
-		>
-			<PromocionesRellenoIcon fill='#fff' />
-		</IconButton>
-	);
-}
-
-function TabsPedidoActual({value, setValue}: any) {
-	let {t} = useTranslation();
-
-	const tabs = [
-		{
-			label: t('general.ventas'),
-			component: <TabVentas />,
-			deshabilitar: false,
-		},
-		{
-			label: t('general.compromisoCobro'),
-			component: <CompromisoDeCobro />,
-			deshabilitar: validarDeshabilitarTabCompromisoDeCobro(),
-		},
-	];
-
-	return <Tabs tabs={tabs} value={value} setValue={setValue} />;
-}
-
-function PieDelTab({value}: {value: number}) {
-	return value === 0 ? (
-		<TotalesMetodoDeVentaDelPedidoActual />
-	) : (
-		<TotalesCompromisoDeCobroPedidoActual />
-	);
-}
 
 export default TomaPedidoDelClienteActual;

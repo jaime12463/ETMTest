@@ -10,6 +10,7 @@ const en = {
 		precio: 'Price',
 		buscar: 'Search',
 		verDetalle: 'View detail',
+		ocultarDetalle: 'Hide detail',
 		fechaEntrega: 'Delivery date',
 		codigo: 'Code',
 		nombre: 'Name',
@@ -54,6 +55,19 @@ const en = {
 		agregarCompromisoDeCobro: 'Add collection commitment',
 		totalDeudaPendiente: 'Total outstanding debt',
 		totalCompromisosRegistrados: 'Total collection commitments recorded',
+		estatus: 'Status',
+		pendiente: 'Pending',
+		ejecutada: 'Executed',
+		cancelada: 'Canceled',
+		motivo: 'Reason',
+		sinMotivo: 'Without reason',
+		planDeActividades: 'Activity Plan',
+		descripcion: 'Description',
+		vigencia: 'Validity',
+		avanzar: 'Next',
+		editarCantidades: 'Edit quantities',
+		continuar: 'Continue',
+		editar: 'Edit',
 	},
 	simbolos: {
 		decimal: ',',
@@ -75,6 +89,11 @@ const en = {
 		tarjetaCanjes: 'Indicate the quantity of product for exchange',
 		tarjetaCompromisoCobro: 'Generate a codro commitment',
 		tarjetaOrdenDeCompra: "Enter the customer's purchase order number",
+		iniciativas: 'Initiatives',
+		tarjetaIniciativas:
+			'Select the initiatives that you have available for your client.',
+		tituloProductosSinCargar: 'Unmodified products',
+		tituloIniciativasSinMotivo: 'Initiatives canceled without reason',
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',
@@ -99,8 +118,9 @@ const en = {
 		cancelarTodosLosPedido:
 			'All orders with a delivery date {{fechaDeEntrega}} will be canceled Do you wish to continue?',
 		ProductoNoEstaEnPortafolioCliente:
-			'The code does not correspond to a current producto in the portfolio of the client',
-		ProductoNoEstaHabilitado: 'The product is not enabled for {{descripcion}}',
+			'The code {{codigo}} does not correspond to a current producto in the portfolio of the client',
+		ProductoNoEstaHabilitado:
+			'The product {{codigo}} is not enabled for {{descripcion}}',
 		excedeCreditoDsiponible: 'The order exceeds the available credit',
 		montoMayorDeuda: 'The amount cannot be greater than the registered debt',
 		excedeUnidadesDisponibles:
@@ -111,6 +131,10 @@ const en = {
 			'The order of {{tipoPedido}} will be deleted. do you wish to continue?',
 		ordenDeCompraEnBlanco: 'You must enter a purchase orden',
 		cantidadSuperiorEnvases: 'The amount exceeds those available for return',
+		mensajeProductosSinCargar:
+			'If you advance to the next stage, the cards that do not have amounts entered will be removed from your order taking.',
+		mensajeIniciativasSinMotivo:
+			'Please enter a reason for each canceled initiative.',
 	},
 	pasos: {
 		planeacion: 'Planning',

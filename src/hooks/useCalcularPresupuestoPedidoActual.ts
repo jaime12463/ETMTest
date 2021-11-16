@@ -35,9 +35,6 @@ export const useCalcularPresupuestoPedidoActual = () => {
 			},
 			consumidoEnPedidoActual
 		);
-		//console.log(consumidoEnPedidoActual);
-
-		//console.log(codigoProducto);
 
 		//Unidades y subunidades que se estan ingresando.
 		consumidoEnPedidoActual +=

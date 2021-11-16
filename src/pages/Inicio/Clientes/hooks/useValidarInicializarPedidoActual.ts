@@ -37,10 +37,12 @@ export const useValidarInicializarPedidoActual = (
 		): {
 			esValidoInicializarPedidoActual: boolean;
 			fechaEntrega: string;
+			fechaVisitaPlanificada: string;
 		} => {
 			let estadoValidacion = {
 				esValidoInicializarPedidoActual: false,
 				fechaEntrega: '',
+				fechaVisitaPlanificada: '',
 			};
 
 			const {esFrecuenciaAbierta}: TConfiguracion = configuracion;
@@ -70,7 +72,8 @@ export const useValidarInicializarPedidoActual = (
 				);
 			}
 
-			const {esValidaVisitaPlanificada} = visitaPlanificada;
+			const {esValidaVisitaPlanificada, fechaVisitaPlanificada} =
+				visitaPlanificada;
 
 			if (!esValidaVisitaPlanificada && esFrecuenciaAbierta) {
 				// mostrarAdvertenciaEnDialogo(
@@ -139,6 +142,7 @@ export const useValidarInicializarPedidoActual = (
 			estadoValidacion = {
 				esValidoInicializarPedidoActual: true,
 				fechaEntrega,
+				fechaVisitaPlanificada,
 			};
 			return estadoValidacion;
 		},

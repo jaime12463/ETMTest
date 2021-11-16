@@ -26,3 +26,5 @@ export {useFiltrarPreciosProductosDelClienteActual} from './useFiltrarPreciosPro
 export {useObtenerPedidosValorizados} from './useObtenerPedidosValorizados';
 export {useBorrarTodoLosProductos} from './useBorrarTodoLosProductos';
 export {useMostrarAviso} from './useMostrarAviso';
+export {useObtenerIniciativasClienteActual} from './useObtenerIniciativasClienteActual';
+export {useValidarPasos} from './useValidarPasos';

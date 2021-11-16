@@ -5,6 +5,7 @@ import {
 	TProductoPedido,
 	TPresupuestoTipoPedidoTotal,
 } from 'models';
+import {stringify} from 'querystring';
 import {RootState} from 'redux/store';
 
 const estadoInicial: TVisita = {
@@ -15,6 +16,9 @@ const estadoInicial: TVisita = {
 	mostrarPromoPush: false,
 	bloquearPanelCarga: true,
 	ordenDeCompra: '',
+	iniciativas: [],
+	iniciativasBloqueadas: false,
+	fechaVisitaPlanificada: '',
 };
 
 export const visitaActualSlice = createSlice({
@@ -25,18 +29,6 @@ export const visitaActualSlice = createSlice({
 			state,
 			action: PayloadAction<{productoPedido: TProductoPedido}>
 		) => {
-			/* 			const productosPedidoClienteFiltrados = state.pedidos[
-				state.tipoPedidoActual
-			].productos.filter(
-				(precioProducto: TProductoPedido) =>
-					precioProducto.codigoProducto !==
-					action.payload.productoPedido.codigoProducto
-			);
-			state.pedidos[state.tipoPedidoActual].productos = [
-				...productosPedidoClienteFiltrados,
-				action.payload.productoPedido,
-			]; */
-
 			const productoPedidoCliente = state.pedidos[
 				state.tipoPedidoActual
 			].productos.filter(
@@ -66,6 +58,7 @@ export const visitaActualSlice = createSlice({
 				producto.total = action.payload.productoPedido.total;
 				producto.tipoPago = action.payload.productoPedido.tipoPago;
 				producto.catalogoMotivo = action.payload.productoPedido.catalogoMotivo;
+				producto.estado = action.payload.productoPedido.estado;
 			} else {
 				state.pedidos[state.tipoPedidoActual].productos = [
 					action.payload.productoPedido,
@@ -140,13 +133,19 @@ export const visitaActualSlice = createSlice({
 				mostrarPromoPush,
 				bloquearPanelCarga,
 				ordenDeCompra,
+				iniciativas,
+				fechaVisitaPlanificada,
 			} = action.payload.visitaActual;
+
 			state.pedidos = pedidos;
 			state.fechaEntrega = fechaEntrega;
 			state.tipoPedidoActual = tipoPedidoActual;
 			state.mostrarPromoPush = mostrarPromoPush;
 			state.bloquearPanelCarga = bloquearPanelCarga;
 			state.ordenDeCompra = ordenDeCompra;
+			state.iniciativas = iniciativas;
+			state.iniciativasBloqueadas = false;
+			state.fechaVisitaPlanificada = fechaVisitaPlanificada;
 		},
 
 		resetearVisitaActual: (state) => {
@@ -157,6 +156,8 @@ export const visitaActualSlice = createSlice({
 			state.bloquearPanelCarga = true;
 			state.ordenDeCompra = '';
 			state.saldoPresupuestoTipoPedido = {};
+			state.iniciativas = [];
+			state.iniciativasBloqueadas = false;
 		},
 
 		cambiarTipoPagoPoductoDelPedidoActual: (
@@ -219,6 +220,55 @@ export const visitaActualSlice = createSlice({
 		) => {
 			state.ordenDeCompra = action.payload.ordenDeCompra;
 		},
+
+		cambiarEstadoIniciativa: (
+			state,
+			action: PayloadAction<{
+				estado: 'pendiente' | 'ejecutada' | 'cancelada';
+				codigoIniciativa: number;
+			}>
+		) => {
+			state.iniciativas = state.iniciativas.map((iniciativa) => {
+				if (iniciativa.codigoIniciativa === action.payload.codigoIniciativa) {
+					iniciativa.estado = action.payload.estado;
+				}
+				return iniciativa;
+			});
+		},
+
+		cambiarMotivoCancelacionIniciativa: (
+			state,
+			action: PayloadAction<{motivo: string; codigoIniciativa: number}>
+		) => {
+			state.iniciativas = state.iniciativas.map((iniciativa) => {
+				if (iniciativa.codigoIniciativa === action.payload.codigoIniciativa) {
+					iniciativa.motivo = action.payload.motivo;
+				}
+				return iniciativa;
+			});
+		},
+
+		editarUnidadesOSubUnidadesEjecutadas: (
+			state,
+			action: PayloadAction<{
+				codigoIniciativa: number;
+				unidadesEjecutadas: number;
+				subUnidadesEjecutadas: number;
+			}>
+		) => {
+			state.iniciativas = state.iniciativas.map((iniciativa) => {
+				if (iniciativa.codigoIniciativa === action.payload.codigoIniciativa) {
+					iniciativa.unidadesEjecutadas = action.payload.unidadesEjecutadas;
+					iniciativa.subUnidadesEjecutadas =
+						action.payload.subUnidadesEjecutadas;
+				}
+				return iniciativa;
+			});
+		},
+
+		bloquearIniciativas: (state) => {
+			state.iniciativasBloqueadas = true;
+		},
 	},
 });
 
@@ -238,5 +288,9 @@ export const {
 	cambiarSaldoPresupuestoTipoPedido,
 	cambiarBloquearPanelCarga,
 	cambiarOrdenDeCompra,
+	cambiarEstadoIniciativa,
+	cambiarMotivoCancelacionIniciativa,
+	editarUnidadesOSubUnidadesEjecutadas,
+	bloquearIniciativas,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

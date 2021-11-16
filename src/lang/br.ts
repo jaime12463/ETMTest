@@ -10,6 +10,7 @@ const br = {
 		precio: 'Preço',
 		buscar: 'Buscar',
 		verDetalle: 'Ver Detalhe',
+		ocultarDetalle: 'Ocultar Detalhe',
 		fechaEntrega: 'Data de entrega',
 		codigo: 'Código',
 		nombre: 'Nome',
@@ -50,6 +51,19 @@ const br = {
 		agregarCompromisoDeCobro: 'Adicionar compromisso de coleção',
 		totalDeudaPendiente: 'Dívida total pendente',
 		totalCompromisosRegistrados: 'Compromissos de cobrança totais registrados',
+		estatus: 'Status',
+		pendiente: 'Pendente',
+		ejecutada: 'Executado',
+		cancelada: 'Cancelado',
+		motivo: 'Motivo',
+		sinMotivo: 'Sem motivo',
+		planDeActividades: 'Plano de atividades',
+		descripcion: 'Descrição',
+		vigencia: 'Vigência',
+		avanzar: 'Avançar',
+		editarCantidades: 'Editar quantidades',
+		continuar: 'Prosseguir',
+		editar: 'Editar',
 	},
 	simbolos: {
 		decimal: '.',
@@ -65,6 +79,11 @@ const br = {
 		visitaCliente: 'Visita do Cliente',
 		clientes: 'Clientes',
 		envases: 'Vasilhames Retornáveis',
+		iniciativas: 'Iniciativas',
+		tarjetaIniciativas:
+			'Selecione as iniciativas que você tem disponíveis para o seu cliente.',
+		tituloProductosSinCargar: 'Produtos não modificados',
+		tituloIniciativasSinMotivo: 'Iniciativas canceladas sem motivo',
 	},
 	advertencias: {
 		clienteNoExiste: 'O código digitado não corresponde a um cliente',
@@ -100,6 +119,10 @@ const br = {
 			'O valor inserido excede o orçamento alocado para {{descripcion}}',
 		ordenDeCompraEnBlanco: 'Você deve inserir um pedido de compra',
 		cantidadSuperiorEnvases: 'O valor excede os disponíveis para devolução',
+		mensajeProductosSinCargar:
+			'Se você avançar para a próxima fase, os cartões que não possuem valores inseridos serão removidos de seu pedido.',
+		mensajeIniciativasSinMotivo:
+			'Insira um motivo para cada iniciativa cancelada.',
 	},
 };
 export default br;

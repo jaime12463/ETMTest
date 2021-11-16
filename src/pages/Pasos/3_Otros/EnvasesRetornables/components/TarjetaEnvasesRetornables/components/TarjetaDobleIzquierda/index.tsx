@@ -57,7 +57,7 @@ const TarjetaDobleIzquierda: FunctionComponent<Props> = (props) => {
                                     {ETiposDePago[envase.tipoPago]}
                                 </Typography>
                             }
-                            color={envase.tipoPago === 1 ? 'success' : 'primary'}
+                            color={envase.tipoPago === 1 ? 'success' : 'secondary'}
                         />
                     )}
                 </Box>
