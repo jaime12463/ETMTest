@@ -23,7 +23,14 @@ export const Stepper: FunctionComponent<Props> = ({pasos, pasoActivo}) => {
 			>
 				{pasos.map((label) => (
 					<Step key={label}>
-						<StepLabel StepIconComponent={QontoStepIcon}>
+						<StepLabel
+							StepIconComponent={QontoStepIcon}
+							sx={{
+								'& .MuiStepLabel-label.MuiStepLabel-alternativeLabel': {
+									marginTop: '10px',
+								},
+							}}
+						>
 							<Typography variant='caption' sx={{fontFamily: 'Poppins'}}>
 								{label}
 							</Typography>
