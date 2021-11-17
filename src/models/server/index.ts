@@ -32,6 +32,7 @@ export type TCliente = {
 	detalles: TDetalle;
 	informacionCrediticia: TInformacionCrediticia;
 	iniciativasHabilitadas: TIniciativasHabilitadas[];
+	coberturas: TCoberturas[];
 	configuracionPedido: TConfiguracionPedido;
 	portafolio: TPortafolio[];
 };
@@ -70,6 +71,12 @@ export type TFechaEntrega = {
 
 export type TDetalle = {
 	nombreComercial: string;
+};
+
+export type TCoberturas = {
+	grupoCobertura: string;
+	secuenciaGrupoCobertura: number;
+	productosGrupoCobertura: number[];
 };
 
 export type TIniciativasHabilitadas = {
@@ -119,7 +126,22 @@ export type TPortafolio = {
 	codigoProducto: number;
 	esVentaSubunidades: boolean;
 	unidadesDisponibles?: number;
+	descuentoPolarizado?: TDescuentoPolarizado[];
+	descuentoEscalonado?: TDescuentoEscalonado[];
 	precios: TPrecio[];
+};
+
+export type TDescuentoEscalonado = {
+	unidadesDesde: number;
+	unidadesHasta: number;
+	porcentajeDescuentoEscalonado: number;
+};
+
+export type TDescuentoPolarizado = {
+	precioVentaAlPublicoDesde: number;
+	precioVentaAlPublicoHasta: number;
+	porcentajeDescuentoPolarizado: number;
+	claseCondicionPolarizado: string;
 };
 
 export type TPrecio = {
