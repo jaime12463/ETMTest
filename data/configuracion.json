@@ -36,7 +36,7 @@
 				"validaPresupuesto": true,
 				"requiereMotivo": true,
 				"catalogoMotivos": [
-					{"codigo": 1, "descripcion": " Producto en mal estado"},
+					{"codigo": 1, "descripcion": "Producto en mal estado"},
 					{"codigo": 2, "descripcion": "Envase deteriorado"}
 				]
 			},

@@ -64,7 +64,7 @@ const CustomSelect: React.FC<Props> = ({
 							className={classes.options}
 							key={opcion}
 							onClick={() => {
-								setOpcion(opcion.toLocaleLowerCase());
+								setOpcion(opcion.toLowerCase());
 							}}
 						>
 							<Typography
