@@ -39,6 +39,18 @@
 					"secuencia": 2
 				}
 			],
+			"coberturas": [
+				{
+					"grupoCobertura": "Grupo Colas",
+					"secuenciaGrupoCobertura": 1,
+					"productosGrupoCobertura": [350, 360, 389]
+				},
+				{
+					"grupoCobertura": "Grupo Aguas",
+					"secuenciaGrupoCobertura": 2,
+					"productosGrupoCobertura": [850]
+				}
+			],
 
 			"informacionCrediticia": {
 				"condicion": "creditoInformal",
@@ -334,6 +346,18 @@
 					"fechaEntrega": "2021-06-12"
 				}
 			],
+			"coberturas": [
+				{
+					"grupoCobertura": "Grupo Colas",
+					"secuenciaGrupoCobertura": 1,
+					"productosGrupoCobertura": [350, 360, 389]
+				},
+				{
+					"grupoCobertura": "Grupo Aguas",
+					"secuenciaGrupoCobertura": 2,
+					"productosGrupoCobertura": [850]
+				}
+			],
 			"informacionCrediticia": {
 				"condicion": "contado",
 				"limite": 3000,
@@ -460,6 +484,40 @@
 				{
 					"fechaVisita": "2021-06-11",
 					"fechaEntrega": "2021-06-12"
+				}
+			],
+			"iniciativasHabilitadas": [
+				{
+					"codigoIniciativa": 1,
+					"secuencia": 2
+				},
+				{
+					"codigoIniciativa": 2,
+					"secuencia": 1
+				}
+			],
+			"descuentoEscalonado": [
+				{
+					"unidadesDesde": 10,
+					"unidadesHasta": 20,
+					"porcentajeDescuentoEscalonado": 8
+				},
+				{
+					"unidadesDesde": 21,
+					"unidadesHasta": 999999,
+					"porcentajeDescuentoEscalonado": 12
+				}
+			],
+			"coberturas": [
+				{
+					"grupoCobertura": "Grupo Colas",
+					"secuenciaGrupoCobertura": 1,
+					"productosGrupoCobertura": [350, 360, 389]
+				},
+				{
+					"grupoCobertura": "Grupo Aguas",
+					"secuenciaGrupoCobertura": 2,
+					"productosGrupoCobertura": [850]
 				}
 			],
 			"informacionCrediticia": {
@@ -832,6 +890,18 @@
 				{
 					"fechaVisita": "2021-06-11",
 					"fechaEntrega": "2021-06-12"
+				}
+			],
+			"coberturas": [
+				{
+					"grupoCobertura": "Grupo Colas",
+					"secuenciaGrupoCobertura": 1,
+					"productosGrupoCobertura": [350, 360, 389]
+				},
+				{
+					"grupoCobertura": "Grupo Aguas",
+					"secuenciaGrupoCobertura": 2,
+					"productosGrupoCobertura": [850]
 				}
 			],
 			"informacionCrediticia": {
@@ -1244,6 +1314,18 @@
 					"secuencia": 1
 				}
 			],
+			"coberturas": [
+				{
+					"grupoCobertura": "Grupo Colas",
+					"secuenciaGrupoCobertura": 1,
+					"productosGrupoCobertura": [350, 360, 389]
+				},
+				{
+					"grupoCobertura": "Grupo Aguas",
+					"secuenciaGrupoCobertura": 2,
+					"productosGrupoCobertura": [850]
+				}
+			],
 			"informacionCrediticia": {
 				"condicion": "creditoInformal",
 				"limite": 20000,
@@ -1299,6 +1381,20 @@
 					"codigoProducto": 170456,
 					"esVentaSubunidades": true,
 					"unidadesDisponibles": 10,
+					"descuentoPolarizado": [
+						{
+							"precioVentaAlPublicoDesde": 100,
+							"precioVentaAlPublicoHasta": 199.99,
+							"porcentajeDescuentoPolarizado": 10,
+							"claseCondicionPolarizado": "ZBM1"
+						},
+						{
+							"precioVentaAlPublicoDesde": 200,
+							"precioVentaAlPublicoHasta": 399.99,
+							"porcentajeDescuentoPolarizado": 15,
+							"claseCondicionPolarizado": "ZBM2"
+						}
+					],
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,
