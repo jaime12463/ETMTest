@@ -122,9 +122,14 @@ export const Canjes = () => {
 							tipoPago: clienteActual.tipoPagoActual,
 							catalogoMotivo: '',
 							estado: 'activo',
-							precioLista:
-								productoActual.precioConImpuestoUnidad * 0 +
-								productoActual.precioConImpuestoSubunidad * 0,
+							preciosBase: {
+								unidad: productoActual.precioConImpuestoUnidad,
+								subUnidad: productoActual.precioConImpuestoSubunidad,
+							},
+							preciosNeto: {
+								unidad: productoActual.precioConImpuestoUnidad,
+								subUnidad: productoActual.precioConImpuestoSubunidad,
+							},
 							descuento: {tipo: 'ninguno'},
 						},
 					})

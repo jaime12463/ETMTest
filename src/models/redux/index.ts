@@ -117,11 +117,17 @@ export type TPedidoDelProducto = {
 	unidades: number;
 	subUnidades: number;
 	total: number;
-	precioLista: number;
+	preciosBase: TPreciosProductoUnidadYSubUnidad;
+	preciosNeto: TPreciosProductoUnidadYSubUnidad;
 	descuento: TDescuentoProducto;
 	tipoPago: ETiposDePago;
 	catalogoMotivo: string;
 	estado?: 'activo' | 'eliminado' | 'transito';
+};
+
+export type TPreciosProductoUnidadYSubUnidad = {
+	unidad: number;
+	subUnidad: number;
 };
 
 export type TDescuentoProducto = {
