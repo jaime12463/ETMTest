@@ -116,6 +116,14 @@ export const useAgregarProductoAlPedidoActual = (
 								: clienteActual.tipoPagoActual,
 							catalogoMotivo,
 							estado: 'activo',
+							preciosBase: {
+								unidad: productoActual.precioConImpuestoUnidad,
+								subUnidad: productoActual.precioConImpuestoSubunidad,
+							},
+							preciosNeto: {
+								unidad: productoActual.precioConImpuestoUnidad,
+								subUnidad: productoActual.precioConImpuestoSubunidad,
+							},
 						},
 					})
 				);

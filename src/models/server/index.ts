@@ -91,8 +91,7 @@ export type TInformacionCrediticia = {
 	esCreditoBloqueado: boolean;
 	documentos?: TDocumento[];
 };
-export type TCondicicon = 'contado' | 'creditoFormal' | 'creditoInformal'; //TODO: Esto debe ser un ENUM
-
+export type TCondicicon = 'contado' | 'creditoFormal' | 'creditoInformal';
 export type TConfiguracionPedido = {
 	canjeHabilitado: boolean;
 	ventaMinima?: TVentaMinima;
@@ -126,9 +125,9 @@ export type TPortafolio = {
 	codigoProducto: number;
 	esVentaSubunidades: boolean;
 	unidadesDisponibles?: number;
+	precios: TPrecio[];
 	descuentoPolarizado?: TDescuentoPolarizado[];
 	descuentoEscalonado?: TDescuentoEscalonado[];
-	precios: TPrecio[];
 };
 
 export type TDescuentoEscalonado = {

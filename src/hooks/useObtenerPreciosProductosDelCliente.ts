@@ -21,12 +21,11 @@ export const useObtenerPreciosProductosDelCliente = () => {
 		(clienteEncontrado: TCliente, fechaEntrega: string): TPrecioProducto[] => {
 			let preciosProductosDelCliente: TPrecioProducto[] = [];
 
-			const productosPortafolioVigentes: TPortafolio[] = clienteEncontrado.portafolio.filter(
-				(producto) => {
+			const productosPortafolioVigentes: TPortafolio[] =
+				clienteEncontrado.portafolio.filter((producto) => {
 					if (validarFechaVigenciaProducto(producto.precios, fechaEntrega))
 						return producto;
-				}
-			);
+				});
 
 			preciosProductosDelCliente = productosPortafolioVigentes.map(
 				(productoFiltrado: TPortafolio) => {
@@ -36,6 +35,8 @@ export const useObtenerPreciosProductosDelCliente = () => {
 						codigoProducto,
 						esVentaSubunidades,
 						unidadesDisponibles,
+						descuentoEscalonado,
+						descuentoPolarizado,
 					} = productoFiltrado;
 
 					const producto: TProducto = productos[codigoProducto];
@@ -57,12 +58,8 @@ export const useObtenerPreciosProductosDelCliente = () => {
 						? productos[codigoImplicito2].nombre
 						: undefined;
 
-					const precioVigenteDelProducto:
-						| TPrecio
-						| undefined = obtenerPrecioVigenteDelProducto(
-						precios,
-						fechaEntrega
-					);
+					const precioVigenteDelProducto: TPrecio | undefined =
+						obtenerPrecioVigenteDelProducto(precios, fechaEntrega);
 
 					const {
 						precioConImpuestoUnidad,
@@ -87,7 +84,12 @@ export const useObtenerPreciosProductosDelCliente = () => {
 						nombreImplicito2,
 						unidadesDisponibles,
 						promoPush,
-						descuento,
+						descuentoPromoPush: descuento,
+						descuento: descuentoEscalonado
+							? {tipo: 'escalonado'}
+							: descuentoPolarizado
+							? {tipo: 'polarizado'}
+							: undefined,
 						componentes,
 						tipoProducto,
 					};

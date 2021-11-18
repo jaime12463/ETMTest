@@ -119,6 +119,9 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		catalogoMotivo: '',
 		total: 0,
 		tipoPago: clienteActual.tipoPagoActual,
+		preciosBase: {unidad: 0, subUnidad: 0},
+		preciosNeto: {unidad: 0, subUnidad: 0},
+		descuento: {tipo: 'ninguno'},
 	};
 	const mostrarAviso = useMostrarAviso();
 	const [estadoSelect, setEstadoSelect] = React.useState<string>(estado);

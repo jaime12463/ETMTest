@@ -120,6 +120,8 @@ export const useSeleccionarProductoDePrecios = (
 
 			let catalogoMotivo: string = '';
 
+			console.log('aqui', productoEncontrado);
+
 			if (productoActualEncontrado) {
 				unidadesParseado =
 					productoActualEncontrado.unidades !== 0
