@@ -1,6 +1,11 @@
 # language: es
 
-@Pedido @Guardar_pedido @Iniciativas @Sprint7 @Sprint8 @Sprint9 @Sprint10 @Sprint11 @Sprint13 @Sprint15
+@Pedido @Guardar_pedido @Iniciativas @Bonificaciones @Sprint7 @Sprint8 @Sprint9 @Sprint10 @Sprint11 @Sprint13 @Sprint15 @Sprint17
+
+# Sprint17: 
+# Cabecera: idPedido, codigo cliente, idBonificación, fecha y hora, usuario, ruta, clase de condición??
+# Detalle: idPedido, codigo producto, unidades, subunidades ?? o solo unidades.
+
 
 # Sprint13: 
 # Registrar detalle: se deben registrar los subtotales de monto de unidades y subunidades por separado, los cuales serán necesarios para el comprobante del resumen del pedido 
@@ -128,3 +133,12 @@ Escenario: N°9 – Iniciativas no cumplidas
     Cuando guardo el pedido
     Entonces el sistema elimina la iniciativa registrada
    
+Escenario: N°10 – Bonificaciones ingresadas
+    Dado que se ingresaron bonificaciones para el pedido actual
+    Cuando guardo el pedido
+    Entonces el sistema registrara las bonificaciones, en la cabecera el número de pedido, codigo cliente, idBonificación, fecha y hora, código de usuario, ruta
+    Y en el detalle el número de pedido, codigo producto, unidades
+
+    #Pendiente si en la cabecera se registra la clas de condicion y 
+    # en el detalle se registran subunidades
+
