@@ -117,9 +117,16 @@ export type TPedidoDelProducto = {
 	unidades: number;
 	subUnidades: number;
 	total: number;
+	precioLista: number;
+	descuento: TDescuentoProducto;
 	tipoPago: ETiposDePago;
 	catalogoMotivo: string;
 	estado?: 'activo' | 'eliminado' | 'transito';
+};
+
+export type TDescuentoProducto = {
+	tipo: 'escalonado' | 'polarizado' | 'ninguno';
+	codigoDescuento?: string;
 };
 
 export enum ETiposDePago {

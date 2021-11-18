@@ -117,6 +117,10 @@ export const useAgregarProductoAlPedidoActual = (
 							tipoPago: productoBuscado ? productoBuscado.tipoPago : tipoDePago,
 							catalogoMotivo,
 							estado: 'activo',
+							precioLista:
+								productoActual.precioConImpuestoUnidad * unidadesParseado +
+								productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
+							descuento: {tipo: 'ninguno'},
 						},
 					})
 				);

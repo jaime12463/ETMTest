@@ -45,6 +45,10 @@ export const useAgregarProductoAlPedidoActual = () => {
 								productoActual.precioConImpuestoSubunidad * subUnidades,
 							tipoPago: tipoPago,
 							catalogoMotivo: '',
+							precioLista:
+								productoActual.precioConImpuestoUnidad * unidades +
+								productoActual.precioConImpuestoSubunidad * subUnidades,
+							descuento: {tipo: 'ninguno'},
 						},
 						codigoTipoPedidoActual,
 					})

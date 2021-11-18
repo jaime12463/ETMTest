@@ -44,6 +44,10 @@ export const useManejadorConfirmarAgregarPedido = (
 							tipoPago: clienteActual.tipoPagoActual,
 							catalogoMotivo,
 							estado: 'activo',
+							precioLista:
+								productoActual.precioConImpuestoUnidad * unidadesParseado +
+								productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
+							descuento: {tipo: 'ninguno'},
 						},
 					})
 				);

@@ -154,6 +154,10 @@ const TomaPedido: React.FC = () => {
 							tipoPago: clienteActual.tipoPagoActual,
 							catalogoMotivo,
 							estado: 'activo',
+							precioLista:
+								productoActual.precioConImpuestoUnidad * 0 +
+								productoActual.precioConImpuestoSubunidad * 0,
+							descuento: {tipo: 'ninguno'},
 						},
 					})
 				);
