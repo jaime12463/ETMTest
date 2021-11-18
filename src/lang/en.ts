@@ -11,6 +11,8 @@ const en = {
 		buscar: 'Search',
 		verDetalle: 'View detail',
 		ocultarDetalle: 'Hide detail',
+		verGrupo: 'View group',
+		ocultarGrupo: 'Hide group',
 		fechaEntrega: 'Delivery date',
 		codigo: 'Code',
 		nombre: 'Name',
@@ -94,6 +96,8 @@ const en = {
 			'Select the initiatives that you have available for your client.',
 		tituloProductosSinCargar: 'Unmodified products',
 		tituloIniciativasSinMotivo: 'Initiatives canceled without reason',
+		coberturas: 'Coverages',
+		tarjetaCoberturas: `Indicates the amount of product missing in the customer's refrigerator.`,
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',
