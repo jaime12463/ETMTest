@@ -4,6 +4,8 @@ import {
 	TPromoPush,
 	TDatosConfiguracion,
 	TIniciativas,
+	TDescuentoEscalonado,
+	TDescuentoPolarizado,
 } from 'models/server';
 
 //Cliente Actual
@@ -111,6 +113,8 @@ export type TPrecioProducto = {
 	unidadesDisponibles?: number;
 	promoPush?: TPromoPush;
 	tipoProducto: number;
+	descuentoPolarizado?: TDescuentoPolarizado[];
+	descuentoEscalonado?: TDescuentoEscalonado[];
 };
 
 export type TPedidoDelProducto = {
@@ -119,7 +123,7 @@ export type TPedidoDelProducto = {
 	total: number;
 	preciosBase: TPreciosProductoUnidadYSubUnidad;
 	preciosNeto: TPreciosProductoUnidadYSubUnidad;
-	descuento: TDescuentoProducto;
+	descuento?: TDescuentoProducto;
 	tipoPago: ETiposDePago;
 	catalogoMotivo: string;
 	estado?: 'activo' | 'eliminado' | 'transito';
@@ -131,7 +135,7 @@ export type TPreciosProductoUnidadYSubUnidad = {
 };
 
 export type TDescuentoProducto = {
-	tipo: 'escalonado' | 'polarizado' | 'ninguno';
+	tipo: 'escalonado' | 'polarizado' | 'ninguno' | 'eliminado';
 	codigoDescuento?: string;
 };
 

@@ -125,9 +125,9 @@ export type TPortafolio = {
 	codigoProducto: number;
 	esVentaSubunidades: boolean;
 	unidadesDisponibles?: number;
+	precios: TPrecio[];
 	descuentoPolarizado?: TDescuentoPolarizado[];
 	descuentoEscalonado?: TDescuentoEscalonado[];
-	precios: TPrecio[];
 };
 
 export type TDescuentoEscalonado = {

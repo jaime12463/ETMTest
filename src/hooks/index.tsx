@@ -28,3 +28,4 @@ export {useBorrarTodoLosProductos} from './useBorrarTodoLosProductos';
 export {useMostrarAviso} from './useMostrarAviso';
 export {useObtenerIniciativasClienteActual} from './useObtenerIniciativasClienteActual';
 export {useValidarPasos} from './useValidarPasos';
+export {useObtenerTipoDescuentoProducto} from './useObtenerTipoDescuentoProducto';

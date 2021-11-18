@@ -58,7 +58,7 @@ import {
 	useObtenerDatosCliente,
 } from 'hooks';
 import useEstilos from '../useEstilos';
-import {SwitchCambiarTipoPago} from '../components';
+import {Descuentos, SwitchCambiarTipoPago} from '../components';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {formatearNumero} from 'utils/methods';
@@ -136,6 +136,8 @@ const TomaPedido: React.FC = () => {
 		mostrarAdvertenciaEnDialogo
 	);
 
+	console.log(productoActual);
+
 	React.useEffect(() => {
 		if (productoActual !== null) {
 			const productoEnPedido = venta.productos.find(
@@ -162,7 +164,6 @@ const TomaPedido: React.FC = () => {
 								unidad: productoActual.precioConImpuestoUnidad,
 								subUnidad: productoActual.precioConImpuestoSubunidad,
 							},
-							descuento: {tipo: 'ninguno'},
 						},
 					})
 				);
@@ -328,6 +329,7 @@ const TomaPedido: React.FC = () => {
 												: '#D9D9D9'
 										}
 									/>
+									<Descuentos tipo='polarizado' />
 								</SwipeBorrar>
 							);
 						})}

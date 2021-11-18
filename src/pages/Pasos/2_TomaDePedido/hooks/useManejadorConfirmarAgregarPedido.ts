@@ -52,7 +52,6 @@ export const useManejadorConfirmarAgregarPedido = (
 								unidad: productoActual.precioConImpuestoUnidad,
 								subUnidad: productoActual.precioConImpuestoSubunidad,
 							},
-							descuento: {tipo: 'ninguno'},
 						},
 					})
 				);

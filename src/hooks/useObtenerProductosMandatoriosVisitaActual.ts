@@ -64,8 +64,6 @@ export const useObtenerProductosMandatoriosVisitaActual = () => {
 		),
 	}));
 
-	console.log(pedidosActivos);
-
 	return {
 		mandatorios: pedidosActivos,
 		noMandatorios: pedidos.noMandatorios,

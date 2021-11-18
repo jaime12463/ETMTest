@@ -1,22 +1,10 @@
-import {useCallback, useState} from 'react';
-import {
-	useAppDispatch,
-	useObtenerClienteActual,
-	useObtenerConfiguracion,
-	useObtenerPedidoActual,
-	useObtenerVisitaActual,
-} from 'redux/hooks';
+import {useCallback} from 'react';
+import {useAppDispatch} from 'redux/hooks';
 import {
 	agregarEnvaseDelPedidoActual,
 	borrarProductoDelPedidoActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {
-	TClienteActual,
-	TFormTomaDePedido,
-	TPedido,
-	TPrecioProducto,
-	ETiposDePago,
-} from 'models';
+import {TPrecioProducto, ETiposDePago} from 'models';
 
 export const useAgregarProductoAlPedidoActual = () => {
 	const dispatch = useAppDispatch();

@@ -130,7 +130,6 @@ export const Canjes = () => {
 								unidad: productoActual.precioConImpuestoUnidad,
 								subUnidad: productoActual.precioConImpuestoSubunidad,
 							},
-							descuento: {tipo: 'ninguno'},
 						},
 					})
 				);
