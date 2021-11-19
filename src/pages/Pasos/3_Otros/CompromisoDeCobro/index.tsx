@@ -147,6 +147,7 @@ const CompromisoDeCobro: React.FC = () => {
 				simboloMoneda
 				error={error.error}
 				mensajeError={error.mensaje}
+				focus
 			/>
 			<Grid
 				container

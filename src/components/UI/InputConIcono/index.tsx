@@ -11,14 +11,13 @@ import theme from 'theme';
 interface Props {
 	valid: boolean;
 	value: string;
-	onChange: (
-		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-	) => void;
+	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	margin?: string;
 	label: string;
 	simboloMoneda?: boolean;
 	error?: boolean;
 	mensajeError?: string;
+	focus?: boolean;
 }
 
 const InputConIcono: React.FC<Props> = ({
@@ -30,6 +29,7 @@ const InputConIcono: React.FC<Props> = ({
 	simboloMoneda = false,
 	error = false,
 	mensajeError,
+	focus = false,
 }) => {
 	const classes = useEstilos({valid, error});
 	const {t} = useTranslation();
@@ -41,10 +41,10 @@ const InputConIcono: React.FC<Props> = ({
 				variant='filled'
 				fullWidth
 				className={classes.root}
-				autoFocus
+				autoFocus={focus ? true : false}
+				focused
 				value={value}
 				onChange={onChange}
-				focused
 				sx={{borderBottom: error ? '1px solid red' : 'none'}}
 				InputProps={{
 					startAdornment: simboloMoneda && (

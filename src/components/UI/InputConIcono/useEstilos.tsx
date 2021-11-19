@@ -8,11 +8,14 @@ interface Props {
 const useEstilos = makeStyles(() =>
 	createStyles({
 		root: {
-			background: '#F5F0EF',
-			fontSize: '14px',
+			background: '#F5F0EF50',
+			fontSize: '12px',
 			borderRadius: (props: Props) => (props.valid ? '10px' : '0px'),
+			'& .MuiInputBase-root, .MuiFilledInput-root:hover': {
+				backgroundColor: '#F5F0EF50',
+			},
 			'& .MuiFilledInput-root.Mui-focused': {
-				backgroundColor: '#F5F0EF',
+				backgroundColor: '#F5F0EF50',
 			},
 			'& .MuiFilledInput-root': {
 				borderRadius: (props: Props) => (props.valid ? '10px' : '0px'),
@@ -20,17 +23,17 @@ const useEstilos = makeStyles(() =>
 			},
 			'& .MuiFilledInput-input': {
 				fontFamily: 'Open Sans',
-				fontSize: '14px',
+				fontSize: '12px',
 				borderRadius: (props: Props) => (props.valid ? '10px' : '0px'),
-				background: '#F5F0EF',
+				background: '#F5F0EF50',
 			},
 			'& .MuiFormLabel-root': {
 				color: '#8A4C5F',
-				fontSize: '14px',
+				fontSize: '10px',
+				fontFamily: 'Open Sans',
 			},
 			'& label.Mui-focused': {
 				color: '#8A4C5F',
-				left: '2px',
 			},
 			'& .MuiFilledInput-root::after': {
 				borderColor: '#8A4C5F',
@@ -39,6 +42,9 @@ const useEstilos = makeStyles(() =>
 			'& .MuiFilledInput-root:before': {
 				borderColor: '#8A4C5F',
 				content: (props: Props) => (props.valid || props.error ? 'none' : ''),
+			},
+			'& .MuiFilledInput-root:hover:not(.Mui-disabled):before': {
+				borderBottom: '1px solid #8A4C5F',
 			},
 		},
 	})

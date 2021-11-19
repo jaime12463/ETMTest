@@ -3,44 +3,17 @@ import {styled} from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
-import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import {
-	AgregarRedondoIcon,
-	BotellaIcon,
-	CajaIcon,
-	CerrarRedondoIcon,
-	CheckRedondoIcon,
-	FlechaAbajoIcon,
-	QuitarRellenoIcon,
-} from 'assests/iconos';
+import {FlechaAbajoIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
 import clsx from 'clsx';
 import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
-import {
-	useAppDispatch,
-	useObtenerClienteActual,
-	useObtenerConfiguracion,
-	useObtenerVisitaActual,
-} from 'redux/hooks';
-import {
-	borrarProductoDelPedidoActual,
-	cambiarEstadoIniciativa,
-	cambiarMotivoCancelacionIniciativa,
-	editarUnidadesOSubUnidadesEjecutadas,
-} from 'redux/features/visitaActual/visitaActualSlice';
-import {InputsKeysFormTomaDePedido, TProductoPedido} from 'models';
+import {useObtenerVisitaActual} from 'redux/hooks';
+import {InputsKeysFormTomaDePedido} from 'models';
 import theme from 'theme';
-import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
-import {useMostrarAdvertenciaEnDialogo, useMostrarAviso} from 'hooks';
-import {formatearNumero} from 'utils/methods';
-import CustomSelect from 'components/UI/CustomSelect';
 import TarjetaTomaPedido from 'components/UI/TarjetaTomaPedido';
 
 const ButtonStyled = styled(Button)(() => ({
@@ -72,9 +45,24 @@ const TarjetaCoberturas: React.FC<Props> = ({
 }) => {
 	const classes = useEstilos();
 	const {t} = useTranslation();
+	const visitaActual = useObtenerVisitaActual();
+	const {venta} = visitaActual.pedidos;
+
+	const coberturasAgregadas = venta.productos.filter((producto) => {
+		for (const codigo of codigosProductos) {
+			if (producto.codigoProducto === codigo) {
+				return producto;
+			}
+		}
+	});
+
 	const productos = codigosProductos.map((codigoPoducto) =>
 		useObtenerProductoPorCodigo(codigoPoducto)
 	);
+
+	const [inputFocus, setInputFocus] =
+		React.useState<InputsKeysFormTomaDePedido>('unidades');
+	const [focusId, setFocusId] = React.useState<number>(0);
 
 	const manejadorExpandido =
 		({id}: any) =>
@@ -106,7 +94,11 @@ const TarjetaCoberturas: React.FC<Props> = ({
 					}}
 				>
 					<Typography variant='subtitle3'>{grupo}</Typography>
-					<Typography variant='subtitle3'>{`${codigosProductos.length} items`}</Typography>
+					<Typography variant='subtitle3'>
+						{coberturasAgregadas.length > 0
+							? `${coberturasAgregadas.length} de ${codigosProductos.length} items`
+							: `${codigosProductos.length} items`}
+					</Typography>
 				</Box>
 				<Collapse in={expandido === id} timeout='auto' unmountOnExit>
 					<Box>
@@ -119,6 +111,8 @@ const TarjetaCoberturas: React.FC<Props> = ({
 								<TarjetaTomaPedido
 									key={producto.codigoProducto}
 									producto={producto}
+									stateFocusId={{focusId, setFocusId}}
+									stateInputFocus={{inputFocus, setInputFocus}}
 								/>
 							);
 						})}

@@ -35,6 +35,7 @@ const OrdenDeCompra: React.FC = () => {
 			onChange={handleChange}
 			valid={mostrarIcono}
 			label={t('general.numeroOrdenDeCompra')}
+			focus
 		/>
 	);
 };
