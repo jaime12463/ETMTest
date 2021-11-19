@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Eliminar_producto @Sprint3 @Sprint10 @Sprint12 @Sprint13 @Sprint16
+@Pedido @Eliminar_producto @Sprint3 @Sprint10 @Sprint12 @Sprint13 @Sprint16 @Sprint17
 
 # Sprint12: se modifica mensaje de eliminar pedido no mandatorio.
 
@@ -40,15 +40,19 @@ Esquema del escenario: N°5 – Eliminar producto del tipo de pedido mandatorio 
 	Dado que se seleccionó un producto de un pedido cuyo tipo de producto _esMandatorio = true
 	Y '<esUltimoProducto>'
 	Y '<hayProductosIngresadosPedidosNoMandatorios>' y no son pedidos de _tipoPedidoEnvasesHabilitados
+	Y <_bonificacionConMandatorio>
+	Y '<hayBonificacionesIngresadas>'
 	Cuando se ingresa cantidad 0 en unidades 
 	Y se ingresa cantidad 0 en subunidades
 	Entonces el sistema '<realizaraAccion>'.
 
 Ejemplos:
-|esUltimoProducto|hayProductosIngresadosPedidosNoMandatorios| realizaraAccion                                                                      |
-|     true		 |               true                       | Avisa que se borrarán los pedidos no obligatorios y pide confirmación de continuar   |
-|     true       |               false				        | Borrará el producto                                                                  |
-|     false      |                 -				        | Borrará el producto                                                                  |
+|esUltimoProducto|hayProductosIngresadosPedidosNoMandatorios| _bonificacionConMandatorio| hayBonificacionesIngresadas|realizaraAccion                                                                                                     |
+|     true		 |               true                       |              false        |             -              | Avisa que se borrarán los pedidos no obligatorios y pide confirmación de continuar y no borrará las bonificaciones |
+|     true       |               true                       |              true         |             true           | Avisa que se borrarán los pedidos no obligatorios y pide confirmación de continuar y borrará las bonificaciones    |
+|     true       |               false				        |              false        |              -             | Borrará el producto y no borrará las bonificaciones                                                                |
+|     true       |               false                      |              true         |             true           | Borrará el producto y borrará las bonificaciones                                                                   |
+|     false      |                 -				        |                -          |             -              | Borrará el producto                                                                                                |
 
 # Mensaje: Se borrará el pedido de tipoPedido.descripcion. ¿Desea continuar?
 # siendo tipoPedido.descripcion la descripcion del tipoPedido que tiene esMandatorio = false
@@ -59,14 +63,18 @@ Esquema del escenario: N°6 – Eliminar producto del tipo de pedido mandatorio 
 	Dado que estoy en un pedido cuyo tipo de producto _esMandatorio = true
 	Y '<esUltimoProducto>'
 	Y '<hayProductosIngresadosPedidosNoMandatorios>' y no son pedidos de _tipoPedidoEnvasesHabilitados
+	Y <_bonificacionConMandatorio>
+	Y '<hayBonificacionesIngresadas>'
 	Cuando se selecciono borrar en la tarjeta del producto
 	Entonces el sistema '<realizaraAccion>'.
 
 Ejemplos:
-|esUltimoProducto|hayProductosIngresadosPedidosNoMandatorios| realizaraAccion                                                                      |
-|     true		 |               true                       | Avisa que se eliminarán todos de los pedidos no obligatorios y pide confirmación de continuar   |
-|     true       |               false				        | borrará el producto y la tarjeta                                                                |
-|     false      |                 -				        | borrará el producto y la tarjeta                                                      |
+|esUltimoProducto|hayProductosIngresadosPedidosNoMandatorios| _bonificacionConMandatorio| hayBonificacionesIngresadas|realizaraAccion                                                                                                     |
+|     true		 |               true                       |              false        |             -              | Avisa que se borrarán los pedidos no obligatorios y pide confirmación de continuar y no borrará las bonificaciones |
+|     true       |               true                       |              true         |             true           | Avisa que se borrarán los pedidos no obligatorios y pide confirmación de continuar y borrará las bonificaciones    |
+|     true       |               false				        |              false        |              -             | Borrará el producto y no borrará las bonificaciones                                                                |
+|     true       |               false                      |              true         |             true           | Borrará el producto y borrará las bonificaciones                                                                   |
+|     false      |                 -				        |                -          |             -              | Borrará el producto                                                                                                |
 
 
 Escenario: N°7 - Eliminar producto de promocion
