@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Iniciativas @Sprint15
+@Pedido @Iniciativas @Sprint17
 
 
 Característica: Mostrar detalle iniciativa.
@@ -17,7 +17,7 @@ Esquema del escenario: N°1 – Desplegar detalle de iniciativa pendiente
     Y status sin valor, _nombreActividadPlan, _descripcionIniciativa, _finVigenciaIniciativa
     Y _idMaterialIniciativa, _nombre, _presentación de la unidades, precio por unidad, precio por subunidad
     Y los valores iniciales de cantidad de _unidadVentaIniciativa y _subunidadVentaIniciativa
-     Y <ingresoTomaDePedido> se ingreso a la toma de pedido <habilitaSeleccion> habilita la selección del status
+    Y <ingresoTomaDePedido> se ingreso a la toma de pedido <habilitaSeleccion> habilita la selección del status
 
   Ejemplos:
   |ingresoTomaDePedido|habilitaSeleccion|
@@ -35,7 +35,7 @@ Esquema del escenario: N°2 – Desplegar detalle de iniciativa ejecutada
     Y los valores registrados en la ejecución de cantidad de unidades y subunidades
     Y el borde de la iniciativa en color verde y el ícono de ejecutada 
     Y <ingresoTomaDePedido> se ingreso a la toma de pedido <habilitaSeleccion> habilita la selección del status, unidades y subunidades
-
+    Y si se descargó
   Ejemplos:
   |ingresoTomaDePedido|habilitaSeleccion|
   |si                 |no habilita      |
@@ -59,8 +59,19 @@ Esquema del escenario: N°3 – Desplegar detalle de iniciativa cancelada
  |ingresoTomaDePedido|habilitaSeleccion|
  |si                 |no habilita      |
  |no                 |habilita         |
-
-
  
 #El ejemplo de status vacío se refiere a status pendiente de la iniciativa.
 
+
+Esquema del escenario: N°4 – Archivo adjunto informado y descargado
+    Dado que estoy en la tarjeta de iniciativas
+    y quiero ver el detalle de una iniciativa ejecutada que tiene un archivo adjunto informado y descargado
+    Cuando se despliega la iniciativa 
+    Entonces el sistema mostrará el detalle de la iniciativa
+    Y mostrará el nombre del _archivoAdjunto
+    Y <ingresoTomaDePedido> se ingreso a la toma de pedido <habilitaSeleccion> el acceso al archivo adjunto
+    
+  Ejemplos:
+  |ingresoTomaDePedido|habilitaSeleccion|
+  |si                 |no habilita      |
+  |no                 |habilita         |
