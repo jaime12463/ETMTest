@@ -64,6 +64,12 @@ export type THeader = {
 	width: GridSize;
 };
 
+export interface TInfoDescuentos {
+	tipo: 'escalonado' | 'polarizado' | 'automatico' | 'eliminado' | undefined;
+	porcentajeDescuento: number | null;
+	inputPolarizado: number;
+}
+
 //Estados
 
 export type TStateProductoActual = {
@@ -85,6 +91,11 @@ export type TStateSubUnidadesEnvases = {
 	subUnidadesEnvases: number;
 	setSubUnidadesEnvases: Dispatch<SetStateAction<number>>;
 };
+
+export interface TStateInfoDescuentos {
+	infoDescuento: TInfoDescuentos;
+	setInfoDescuento: React.Dispatch<React.SetStateAction<TInfoDescuentos>>;
+}
 
 //Formularios
 

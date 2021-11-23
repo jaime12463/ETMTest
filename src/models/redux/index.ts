@@ -137,6 +137,7 @@ export type TPreciosProductoUnidadYSubUnidad = {
 export type TDescuentoProducto = {
 	tipo: 'escalonado' | 'polarizado' | 'eliminado';
 	codigoDescuento?: string;
+	inputPolarizado: number;
 };
 
 export enum ETiposDePago {
