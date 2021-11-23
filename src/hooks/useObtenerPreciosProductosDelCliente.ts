@@ -85,6 +85,8 @@ export const useObtenerPreciosProductosDelCliente = () => {
 						unidadesDisponibles,
 						promoPush,
 						descuentoPromoPush: descuento,
+						descuentoEscalonado,
+						descuentoPolarizado,
 						descuento: descuentoEscalonado
 							? {tipo: 'escalonado'}
 							: descuentoPolarizado

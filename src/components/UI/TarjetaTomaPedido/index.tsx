@@ -1,5 +1,10 @@
 import React from 'react';
-import {TPrecioProducto, TProductoPedido, TStateInputFocus} from 'models';
+import {
+	TInfoDescuentos,
+	TPrecioProducto,
+	TProductoPedido,
+	TStateInputFocus,
+} from 'models';
 import Box from '@mui/material/Box';
 import {CheckRedondoIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
@@ -10,6 +15,7 @@ import Informacion from './components/Informacion';
 import Descuentos from './components/Descuentos';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import SwitchYCheck from './components/SwitchYCheck';
+import {useObtenerCalculoDescuentoProducto} from 'hooks';
 
 export interface StateFocusID {
 	focusId: number;
@@ -19,7 +25,6 @@ interface Props {
 	producto: TProductoPedido | TPrecioProducto;
 	conSwitch?: boolean;
 	bordeRedondeado?: boolean;
-	descuento?: 'escalonado' | 'polarizado' | 'automatico';
 	stateInputFocus: TStateInputFocus;
 	stateFocusId: StateFocusID;
 }
@@ -28,7 +33,6 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	producto,
 	conSwitch = false,
 	bordeRedondeado = false,
-	descuento,
 	stateInputFocus,
 	stateFocusId,
 }) => {
@@ -40,7 +44,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 		(p) => producto.codigoProducto === p.codigoProducto
 	);
 
-	const prodcutoAMandar: TProductoPedido = {
+	const productoAMandar: TProductoPedido = {
 		unidades: 0,
 		subUnidades: 0,
 		total: 0,
@@ -58,6 +62,15 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 		...producto,
 	};
 
+	const [infoDescuento, setInfoDescuento] = React.useState<TInfoDescuentos>({
+		tipo: productoAMandar.descuento?.tipo,
+		porcentajeDescuento: null,
+		inputPolarizado: productoAMandar.descuento?.inputPolarizado ?? 0,
+	});
+
+	const obtenerCalculoDescuentoProducto =
+		useObtenerCalculoDescuentoProducto(producto);
+
 	return (
 		<Box
 			border={
@@ -70,7 +83,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 			overflow='hidden'
 		>
 			<SwitchYCheck
-				producto={productoEnVenta ?? prodcutoAMandar}
+				producto={productoEnVenta ?? productoAMandar}
 				conSwitch={conSwitch}
 			/>
 			<Box display='flex'>
@@ -83,12 +96,17 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 					conSwitch={conSwitch}
 				/>
 				<Controles
-					producto={productoEnVenta ?? prodcutoAMandar}
+					producto={productoEnVenta ?? productoAMandar}
 					stateInputFocus={stateInputFocus}
 					stateFocusId={stateFocusId}
+					infoDescuento={infoDescuento}
 				/>
 			</Box>
-			{descuento && <Descuentos descuento={descuento} />}
+			<Descuentos
+				stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+				obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
+				producto={productoEnVenta ?? productoAMandar}
+			/>
 		</Box>
 	);
 };

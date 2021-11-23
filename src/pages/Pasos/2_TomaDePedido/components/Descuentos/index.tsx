@@ -1,20 +1,23 @@
 import InputConIcono from 'components/UI/InputConIcono';
 import {useTranslation} from 'react-i18next';
+import {Box} from '@mui/material';
 
 type Props = {
-	tipo: 'polarizado' | 'escalonado';
+	tipo: 'polarizado' | 'escalonado' | 'eliminado' | undefined;
 };
 
 export const Descuentos = (props: Props) => {
 	const {tipo} = props;
 	const {t} = useTranslation();
 
+	console.log(tipo);
+
 	if (tipo === 'polarizado') {
 		return (
 			<>
 				<InputConIcono
-					value={''}
-					valid={true}
+					value={'fdfdf'}
+					valid={false}
 					onChange={() => {}}
 					label={t('general.agregarCompromisoDeCobro')}
 					margin='20px 0 0 0 '
@@ -26,6 +29,7 @@ export const Descuentos = (props: Props) => {
 		);
 	} else if (tipo === 'escalonado') {
 		return <></>;
+	} else {
+		return null;
 	}
-	return null;
 };

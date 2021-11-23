@@ -12,6 +12,7 @@ interface Props {
 	valid: boolean;
 	value: string;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	onKeyPress?: (e: React.KeyboardEvent<HTMLDivElement>) => void;
 	margin?: string;
 	label: string;
 	simboloMoneda?: boolean;
@@ -24,6 +25,7 @@ const InputConIcono: React.FC<Props> = ({
 	valid,
 	value,
 	onChange,
+	onKeyPress,
 	margin = '10px 0 0 0',
 	label,
 	simboloMoneda = false,
@@ -45,6 +47,7 @@ const InputConIcono: React.FC<Props> = ({
 				focused
 				value={value}
 				onChange={onChange}
+				onKeyPress={onKeyPress}
 				sx={{borderBottom: error ? '1px solid red' : 'none'}}
 				InputProps={{
 					startAdornment: simboloMoneda && (

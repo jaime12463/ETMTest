@@ -74,7 +74,7 @@ export const useAgregarProductoAlPedidoActual = (
 
 	const agregarProductoAlPedidoActual = useCallback(
 		(inputs: any) => {
-			const {unidades, subUnidades, catalogoMotivo} = inputs;
+			const {unidades, subUnidades, catalogoMotivo, infoDescuento} = inputs;
 
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
 
@@ -101,6 +101,17 @@ export const useAgregarProductoAlPedidoActual = (
 				return producto.codigoProducto === codigoProducto;
 			});
 
+			const preciosNeto = {
+				unidad:
+					(productoActual.preciosBase.unidad *
+						(100 - infoDescuento.porcentajeDescuento)) /
+					100,
+				subUnidad:
+					(productoActual.preciosBase.subUnidad *
+						(100 - infoDescuento.porcentajeDescuento)) /
+					100,
+			};
+
 			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
 				dispatch(
 					agregarProductoDelPedidoActual({
@@ -109,8 +120,8 @@ export const useAgregarProductoAlPedidoActual = (
 							unidades: unidadesParseado,
 							subUnidades: subUnidadesParseado,
 							total:
-								productoActual.precioConImpuestoUnidad * unidadesParseado +
-								productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
+								preciosNeto.unidad * unidadesParseado +
+								preciosNeto.subUnidad * subUnidadesParseado,
 							tipoPago: productoBuscado
 								? productoBuscado.tipoPago
 								: clienteActual.tipoPagoActual,
@@ -120,10 +131,8 @@ export const useAgregarProductoAlPedidoActual = (
 								unidad: productoActual.precioConImpuestoUnidad,
 								subUnidad: productoActual.precioConImpuestoSubunidad,
 							},
-							preciosNeto: {
-								unidad: productoActual.precioConImpuestoUnidad,
-								subUnidad: productoActual.precioConImpuestoSubunidad,
-							},
+							preciosNeto,
+							descuento: infoDescuento,
 						},
 					})
 				);

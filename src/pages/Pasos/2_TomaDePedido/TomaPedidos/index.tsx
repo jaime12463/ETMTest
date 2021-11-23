@@ -210,6 +210,8 @@ const TomaPedido: React.FC = () => {
 		return validarBorrarPedido(aviso, cambiarEstadoProducto, producto);
 	};
 
+
+
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}

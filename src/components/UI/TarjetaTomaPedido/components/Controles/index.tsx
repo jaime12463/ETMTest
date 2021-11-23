@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {styled} from '@mui/material/styles';
 import Input from '@mui/material/Input';
 import Box from '@mui/material/Box';
@@ -11,6 +11,7 @@ import {
 } from 'assests/iconos';
 import {
 	TClienteActual,
+	TInfoDescuentos,
 	TPrecioProducto,
 	TProductoPedido,
 	TStateInputFocus,
@@ -41,27 +42,29 @@ interface Props {
 	producto: TProductoPedido;
 	stateInputFocus: TStateInputFocus;
 	stateFocusId: StateFocusID;
+	infoDescuento: TInfoDescuentos;
 }
 
 const Controles: React.FC<Props> = ({
 	producto,
 	stateInputFocus,
 	stateFocusId,
+	infoDescuento,
 }) => {
 	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
 	const visitaActual = useObtenerVisitaActual();
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
-
-	const defaultValues = {
+	const defaultValue = {
 		unidades: producto.unidades,
 		subUnidades: producto.subUnidades,
 		productoABuscar: '',
 		tipoDePedido: visitaActual.tipoPedidoActual,
 		catalogoMotivo: '',
+		infoDescuento: infoDescuento,
 	};
-	const {focusId, setFocusId} = stateFocusId;
+	const [getValues, setGetValues] = React.useState(defaultValue);
 
-	const [getValues, setGetValues] = React.useState(defaultValues);
+	const {focusId, setFocusId} = stateFocusId;
 
 	const {inputFocus, setInputFocus} = stateInputFocus;
 
@@ -79,6 +82,15 @@ const Controles: React.FC<Props> = ({
 	);
 	const {t} = useTranslation();
 	const mostrarAviso = useMostrarAviso();
+
+	React.useEffect(() => {
+		if (infoDescuento.porcentajeDescuento !== null) {
+			if (getValues.unidades > 0 || getValues.subUnidades > 0) {
+				agregarProductoAlPedidoActual(defaultValue);
+			}
+		}
+		setGetValues(defaultValue);
+	}, [infoDescuento]);
 
 	React.useEffect(() => {
 		if (puedeAgregar) {
