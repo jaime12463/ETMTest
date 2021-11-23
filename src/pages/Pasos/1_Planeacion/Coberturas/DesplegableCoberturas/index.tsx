@@ -6,7 +6,7 @@ import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {FlechaAbajoIcon} from 'assests/iconos';
+import {CheckRedondoIcon, FlechaAbajoIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
 import clsx from 'clsx';
@@ -14,7 +14,7 @@ import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {InputsKeysFormTomaDePedido} from 'models';
 import theme from 'theme';
-import TarjetaTomaPedido from 'components/UI/TarjetaTomaPedido';
+import TarjetaCoberturas from 'components/UI/TarjetaCoberturas';
 
 const ButtonStyled = styled(Button)(() => ({
 	border: '1.5px solid #651C32',
@@ -34,14 +34,18 @@ interface Props {
 	setExpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
 	grupo: string;
 	codigosProductos: number[];
+	resetCoberturas: boolean;
+	setResetCoberturas: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TarjetaCoberturas: React.FC<Props> = ({
+const DesplegableCoberturas: React.FC<Props> = ({
 	id,
 	expandido,
 	setExpandido,
 	grupo,
 	codigosProductos,
+	resetCoberturas,
+	setResetCoberturas,
 }) => {
 	const classes = useEstilos();
 	const {t} = useTranslation();
@@ -88,16 +92,32 @@ const TarjetaCoberturas: React.FC<Props> = ({
 					sx={{
 						background:
 							expandido === id ? theme.palette.secondary.main : 'none',
-						border: '1px solid #D9D9D9',
+						border:
+							expandido !== id && coberturasAgregadas.length > 0
+								? `1px solid ${theme.palette.success.main}`
+								: '1px solid #D9D9D9',
 						borderBottom: 'none',
 						transition: 'all 0.3s ease-in-out',
 					}}
 				>
 					<Typography variant='subtitle3'>{grupo}</Typography>
 					<Typography variant='subtitle3'>
-						{coberturasAgregadas.length > 0
-							? `${coberturasAgregadas.length} de ${codigosProductos.length} items`
-							: `${codigosProductos.length} items`}
+						{coberturasAgregadas.length > 0 ? (
+							<Box display='flex' alignSelf='center' gap='7px'>
+								<Typography variant='subtitle3'>
+									{`${coberturasAgregadas.length} de ${codigosProductos.length} Items`}
+								</Typography>
+								{expandido !== id && (
+									<CheckRedondoIcon
+										height='12px'
+										width='12px'
+										fill={theme.palette.success.main}
+									/>
+								)}
+							</Box>
+						) : (
+							`${codigosProductos.length} Items`
+						)}
 					</Typography>
 				</Box>
 				<Collapse in={expandido === id} timeout='auto' unmountOnExit>
@@ -105,14 +125,16 @@ const TarjetaCoberturas: React.FC<Props> = ({
 						{productos.map((producto, i) => {
 							if (!producto)
 								throw new Error(
-									`El producto con el codigo} ${codigosProductos[i]} no existe`
+									`El producto con el codigo ${codigosProductos[i]} no existe`
 								);
 							return (
-								<TarjetaTomaPedido
+								<TarjetaCoberturas
 									key={producto.codigoProducto}
 									producto={producto}
 									stateFocusId={{focusId, setFocusId}}
 									stateInputFocus={{inputFocus, setInputFocus}}
+									resetCoberturas={resetCoberturas}
+									setResetCoberturas={setResetCoberturas}
 								/>
 							);
 						})}
@@ -121,7 +143,10 @@ const TarjetaCoberturas: React.FC<Props> = ({
 				<Box
 					padding={expandido === id ? '16px 14px' : '0 14px 12px 14px'}
 					sx={{
-						border: '1px solid #D9D9D9',
+						border:
+							expandido !== id && coberturasAgregadas.length > 0
+								? `1px solid ${theme.palette.success.main}`
+								: '1px solid #D9D9D9',
 						borderTop: 'none',
 						borderRadius: '0 0 4px 4px',
 					}}
@@ -159,4 +184,4 @@ const TarjetaCoberturas: React.FC<Props> = ({
 	);
 };
 
-export default TarjetaCoberturas;
+export default DesplegableCoberturas;
