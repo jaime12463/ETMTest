@@ -136,7 +136,7 @@ const TomaPedido: React.FC = () => {
 		mostrarAdvertenciaEnDialogo
 	);
 
-	console.log(productoActual);
+	//console.log(productoActual);
 
 	React.useEffect(() => {
 		if (productoActual !== null) {
@@ -329,7 +329,6 @@ const TomaPedido: React.FC = () => {
 												: '#D9D9D9'
 										}
 									/>
-									<Descuentos tipo='polarizado' />
 								</SwipeBorrar>
 							);
 						})}

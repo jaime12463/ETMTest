@@ -45,7 +45,9 @@ const InputConIcono: React.FC<Props> = ({
 				value={value}
 				onChange={onChange}
 				focused
-				sx={{borderBottom: error ? '1px solid red' : 'none'}}
+				sx={{
+					borderBottom: error ? '1px solid red' : 'none',
+				}}
 				InputProps={{
 					startAdornment: simboloMoneda && (
 						<InputAdornment

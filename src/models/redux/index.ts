@@ -135,7 +135,7 @@ export type TPreciosProductoUnidadYSubUnidad = {
 };
 
 export type TDescuentoProducto = {
-	tipo: 'escalonado' | 'polarizado' | 'ninguno' | 'eliminado';
+	tipo: 'escalonado' | 'polarizado' | 'eliminado';
 	codigoDescuento?: string;
 };
 
