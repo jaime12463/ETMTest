@@ -1,4 +1,3 @@
-import React from 'react';
 import {AvisoIcon} from 'assests/iconos';
 import {Configuracion} from 'components/UI/Modal';
 import {useTranslation} from 'react-i18next';

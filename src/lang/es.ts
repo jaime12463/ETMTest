@@ -11,6 +11,8 @@ const es = {
 		buscar: 'Buscar',
 		verDetalle: 'Ver Detalle',
 		ocultarDetalle: 'Ocultar Detalle',
+		verGrupo: 'Ver grupo',
+		ocultarGrupo: 'Ocultar grupo',
 		fechaEntrega: 'Fecha de entrega',
 		codigo: 'Código',
 		nombre: 'Nombre',
@@ -94,6 +96,9 @@ const es = {
 			'Selecciona las iniciativas que tienes disponible para tu cliente.',
 		tituloProductosSinCargar: 'Productos sin modificar',
 		tituloIniciativasSinMotivo: 'Iniciativas canceladas sin motivos',
+		coberturas: 'Coberturas',
+		tarjetaCoberturas:
+			'Indica la cantidad de producto faltante en el refrigerador del cliente.',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',

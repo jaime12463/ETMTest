@@ -11,6 +11,8 @@ const br = {
 		buscar: 'Buscar',
 		verDetalle: 'Ver Detalhe',
 		ocultarDetalle: 'Ocultar Detalhe',
+		verGrupo: 'Ver grupo',
+		ocultarGrupo: 'Esconder grupo',
 		fechaEntrega: 'Data de entrega',
 		codigo: 'Código',
 		nombre: 'Nome',
@@ -84,6 +86,9 @@ const br = {
 			'Selecione as iniciativas que você tem disponíveis para o seu cliente.',
 		tituloProductosSinCargar: 'Produtos não modificados',
 		tituloIniciativasSinMotivo: 'Iniciativas canceladas sem motivo',
+		coberturas: 'Coberturas',
+		tarjetaCoberturas:
+			'Indica a quantidade de produto faltando na geladeira do cliente.',
 	},
 	advertencias: {
 		clienteNoExiste: 'O código digitado não corresponde a um cliente',

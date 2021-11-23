@@ -102,8 +102,6 @@ export const useAgregarProductoAlPedidoActual = (
 					catalogoMotivo: catalogoMotivo,
 				});
 
-			// console.log(getValues.tipoPago);
-			// console.log(tipoPago);
 			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
 				dispatch(
 					agregarProductoDelPedidoActual({
