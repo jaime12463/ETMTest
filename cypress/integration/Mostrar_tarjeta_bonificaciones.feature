@@ -36,7 +36,7 @@ Escenario: N°4 - Mostrar tarjeta de bonificaciones cuando el cliente tiene boni
     Entonces el sistema mostrará la tarjeta de bonificaciones sin el control para desplegar
     Y mostrará un mensaje indicando que el cliente no posee bonificaciones para aplicar
 
-Escenario: N°5 - Mostrar tarjeta de bonificaciones cuando el cliente tiene bonificaccion pero no son vigentes
+Escenario: N°5 - Mostrar tarjeta de bonificaciones cuando el cliente tiene bonificaccion pero no son productos de portafolio
     Dado que estoy en paso 3 - otros
     Y el cliente tiene _bonificacionesHabilitadas
     Y ningún producto de _productosBeneficioGrupo forma parte del portafolio vigente del cliente
