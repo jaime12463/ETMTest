@@ -137,7 +137,7 @@ export const useAgregarProductoAlPedidoActual = (
 								subUnidad: productoActual.precioConImpuestoSubunidad,
 							},
 							preciosNeto,
-							descuento: infoDescuento,
+							descuento: infoDescuento ?? productoActual.descuento,
 						},
 					})
 				);

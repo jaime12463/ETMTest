@@ -49,6 +49,11 @@ const TarjetaCoberturas: React.FC<Props> = ({
 			unidad: producto.precioConImpuestoUnidad,
 			subUnidad: producto.precioConImpuestoSubunidad,
 		},
+		descuento: producto.descuentoEscalonado
+			? {tipo: 'escalonado', inputPolarizado: 0}
+			: producto.descuentoPolarizado
+			? {tipo: 'polarizado', inputPolarizado: 0}
+			: undefined,
 		...producto,
 	};
 
