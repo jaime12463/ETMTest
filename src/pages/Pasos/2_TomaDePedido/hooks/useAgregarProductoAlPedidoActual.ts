@@ -101,16 +101,21 @@ export const useAgregarProductoAlPedidoActual = (
 				return producto.codigoProducto === codigoProducto;
 			});
 
-			const preciosNeto = {
-				unidad:
-					(productoActual.preciosBase.unidad *
-						(100 - infoDescuento.porcentajeDescuento)) /
-					100,
-				subUnidad:
-					(productoActual.preciosBase.subUnidad *
-						(100 - infoDescuento.porcentajeDescuento)) /
-					100,
-			};
+			const preciosNeto = infoDescuento
+				? {
+						unidad:
+							(productoActual.preciosBase.unidad *
+								(100 - infoDescuento.porcentajeDescuento)) /
+							100,
+						subUnidad:
+							(productoActual.preciosBase.subUnidad *
+								(100 - infoDescuento.porcentajeDescuento)) /
+							100,
+				  }
+				: {
+						unidad: productoActual.precioConImpuestoUnidad,
+						subUnidad: productoActual.precioConImpuestoSubunidad,
+				  };
 
 			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
 				dispatch(
