@@ -6,11 +6,31 @@ import Iniciativas from './Iniciativas';
 import {useTranslation} from 'react-i18next';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import Coberturas from './Coberturas';
+import {useObtenerCoberturas} from 'hooks';
 
 export const Planeacion: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
 	const {t} = useTranslation();
 	const {iniciativas} = useObtenerVisitaActual();
+	const coberturas = useObtenerCoberturas();
+	const visitaActual = useObtenerVisitaActual();
+	const {venta} = visitaActual.pedidos;
+
+	const codigosCoberturas = coberturas.reduce(
+		(codigos: number[], cobertura) => {
+			return [
+				...codigos,
+				...cobertura.productosGrupoCobertura.map((cobertura) => cobertura),
+			];
+		},
+		[]
+	);
+
+	const coberturasAgregadas = venta.productos.filter((producto) => {
+		if (codigosCoberturas.includes(producto.codigoProducto)) {
+			return producto;
+		}
+	});
 
 	const iniciativasEjecutadas = iniciativas.filter(
 		(iniciativa) =>
@@ -70,6 +90,7 @@ export const Planeacion: React.FC = () => {
 						Este cliente no cuenta con iniciativas
 					</Typography>
 				}
+				valido={iniciativasEjecutadas.length > 0}
 			>
 				<Iniciativas />
 			</TarjetaColapsable>
@@ -87,8 +108,11 @@ export const Planeacion: React.FC = () => {
 				id='Coberturas'
 				expandido={expandido}
 				setExpandido={setExpandido}
+				cantidadItems={coberturasAgregadas.length}
+				labelChip={`${coberturasAgregadas.length} de ${codigosCoberturas.length} Items`}
+				valido={coberturasAgregadas.length > 0}
 			>
-				<Coberturas />
+				<Coberturas coberturasAgregadas={coberturasAgregadas} />
 			</TarjetaColapsable>
 		</Stack>
 	);
