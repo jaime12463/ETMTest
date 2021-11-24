@@ -40,14 +40,14 @@ Esquema del escenario: N°5 – Eliminar producto del tipo de pedido mandatorio 
 	Dado que se seleccionó un producto de un pedido cuyo tipo de producto _esMandatorio = true
 	Y '<esUltimoProducto>'
 	Y '<hayProductosIngresadosPedidosNoMandatorios>' y no son pedidos de _tipoPedidoEnvasesHabilitados
-	Y <_bonificacionConMandatorio>
+	Y <_bonificacionesConVenta_>
 	Y '<hayBonificacionesIngresadas>'
 	Cuando se ingresa cantidad 0 en unidades 
 	Y se ingresa cantidad 0 en subunidades
 	Entonces el sistema '<realizaraAccion>'.
 
 Ejemplos:
-|esUltimoProducto|hayProductosIngresadosPedidosNoMandatorios| _bonificacionConMandatorio| hayBonificacionesIngresadas|realizaraAccion                                                                                                     |
+|esUltimoProducto|hayProductosIngresadosPedidosNoMandatorios| _bonificacionesConVenta_  | hayBonificacionesIngresadas|realizaraAccion                                                                                                     |
 |     true		 |               true                       |              false        |             -              | Avisa que se borrarán los pedidos no obligatorios y pide confirmación de continuar y no borrará las bonificaciones |
 |     true       |               true                       |              true         |             true           | Avisa que se borrarán los pedidos no obligatorios y pide confirmación de continuar y borrará las bonificaciones    |
 |     true       |               false				        |              false        |              -             | Borrará el producto y no borrará las bonificaciones                                                                |
@@ -63,13 +63,13 @@ Esquema del escenario: N°6 – Eliminar producto del tipo de pedido mandatorio 
 	Dado que estoy en un pedido cuyo tipo de producto _esMandatorio = true
 	Y '<esUltimoProducto>'
 	Y '<hayProductosIngresadosPedidosNoMandatorios>' y no son pedidos de _tipoPedidoEnvasesHabilitados
-	Y <_bonificacionConMandatorio>
+	Y <_bonificacionesConVenta_>
 	Y '<hayBonificacionesIngresadas>'
 	Cuando se selecciono borrar en la tarjeta del producto
 	Entonces el sistema '<realizaraAccion>'.
 
 Ejemplos:
-|esUltimoProducto|hayProductosIngresadosPedidosNoMandatorios| _bonificacionConMandatorio| hayBonificacionesIngresadas|realizaraAccion                                                                                                     |
+|esUltimoProducto|hayProductosIngresadosPedidosNoMandatorios| _bonificacionesConVenta_  | hayBonificacionesIngresadas|realizaraAccion                                                                                                     |
 |     true		 |               true                       |              false        |             -              | Avisa que se borrarán los pedidos no obligatorios y pide confirmación de continuar y no borrará las bonificaciones |
 |     true       |               true                       |              true         |             true           | Avisa que se borrarán los pedidos no obligatorios y pide confirmación de continuar y borrará las bonificaciones    |
 |     true       |               false				        |              false        |              -             | Borrará el producto y no borrará las bonificaciones                                                                |
