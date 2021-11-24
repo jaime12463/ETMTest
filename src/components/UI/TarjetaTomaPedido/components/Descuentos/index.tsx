@@ -1,5 +1,10 @@
 import React from 'react';
-import {TPrecioProducto, TProductoPedido, TStateInfoDescuentos} from 'models';
+import {
+	TPrecioProducto,
+	TProductoPedido,
+	TStateInfoDescuentos,
+	TStateInputFocus,
+} from 'models';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
@@ -9,6 +14,7 @@ import {useTranslation} from 'react-i18next';
 import theme from 'theme';
 import {styled} from '@mui/material/styles';
 import InputConIcono from 'components/UI/InputConIcono';
+import {StateFocusID} from '../..';
 
 const ChipStyled = styled(Chip)(() => ({
 	'&.MuiChip-root': {
@@ -27,14 +33,20 @@ interface Props {
 	stateInfoDescuento: TStateInfoDescuentos;
 	obtenerCalculoDescuentoProducto: any;
 	producto: TProductoPedido;
+	stateInputFocus: TStateInputFocus;
+	stateFocusId: StateFocusID;
 }
 
 const Descuentos = ({
 	stateInfoDescuento,
 	obtenerCalculoDescuentoProducto,
+	stateInputFocus,
+	stateFocusId,
 	producto,
 }: Props) => {
 	const {infoDescuento, setInfoDescuento} = stateInfoDescuento;
+	const {focusId, setFocusId} = stateFocusId;
+	const {inputFocus, setInputFocus} = stateInputFocus;
 	const [mostrarInfo, setMostrarinfo] = React.useState<boolean>(false);
 	const [inputValue, setInputValue] = React.useState<string>(
 		infoDescuento.inputPolarizado.toString() ?? ''
@@ -89,6 +101,7 @@ const Descuentos = ({
 				},
 				stateInfoDescuento
 			);
+			setInputFocus('productoABuscar');
 		}
 	};
 
@@ -171,9 +184,21 @@ const Descuentos = ({
 						value={inputValue}
 						onChange={onChangeInput}
 						onKeyPress={handleKeyPress}
+						onClick={() => {
+							setInputFocus('descuento');
+							setFocusId(producto.codigoProducto);
+						}}
 						label='Ingresar precio de venta al consumidor'
 						margin='0'
 						simboloMoneda
+						inputRef={(input) => {
+							if (
+								inputFocus === 'descuento' &&
+								focusId === producto.codigoProducto
+							) {
+								input?.focus();
+							}
+						}}
 					/>
 				</Box>
 			)}

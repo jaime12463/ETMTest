@@ -107,6 +107,8 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 				stateInfoDescuento={{infoDescuento, setInfoDescuento}}
 				obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 				producto={productoEnVenta ?? productoAMandar}
+				stateInputFocus={stateInputFocus}
+				stateFocusId={stateFocusId}
 			/>
 		</Box>
 	);

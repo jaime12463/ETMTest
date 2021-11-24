@@ -145,8 +145,12 @@ const Controles: React.FC<Props> = ({
 
 		agregarProductoAlPedidoActual(getValues, obtenerCalculoDescuentoProducto);
 
-		setFocusId(0);
-		setInputFocus('productoABuscar');
+		if (producto.descuentoPolarizado) {
+			setInputFocus('descuento');
+		} else {
+			setFocusId(0);
+			setInputFocus('productoABuscar');
+		}
 	};
 
 	const handleOnChange = (

@@ -137,7 +137,8 @@ export type InputsKeysFormTomaDePedido =
 	| 'subUnidades'
 	| 'productoABuscar'
 	| 'catalogoMotivo'
-	| 'motivo';
+	| 'motivo'
+	| 'descuento';
 
 export type TOpcionSelect = {
 	value: string;
