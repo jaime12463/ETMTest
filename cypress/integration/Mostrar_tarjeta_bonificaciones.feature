@@ -9,12 +9,14 @@ Característica: Mostrar tarjeta de bonificiaciones
 
 Escenario: N°1 - Mostrar tarjeta de bonificaciones cuando no hay pedido de venta registrado
     Dado que estoy en paso 3 - otros
-    Y el cliente no tiene un tipoPedido = "Venta"
+    Y existe _bonificacionesConVenta_ = true
+    Y el cliente no tiene un tipoPedido = "Venta" para la fecha de entrega 
     Cuando se muestra la tarjeta de bonificaciones
     Entonces el sistema mostrará la tarjeta de bonificaciones deshabilitada
 
 Escenario: N°2 - Mostrar tarjeta de bonificaciones cuando el cliente no tiene bonificaccion asignada
     Dado que estoy en paso 3 - otros
+    Y el cliente tiene un tipoPedido = "Venta" para la fecha de entrega
     Y el cliente no tiene _bonificacionesHabilitadas
     Cuando se muestra la tarjeta de bonificaciones
     Entonces el sistema mostrará la tarjeta de bonificaciones sin el control para desplegar
@@ -22,6 +24,7 @@ Escenario: N°2 - Mostrar tarjeta de bonificaciones cuando el cliente no tiene b
 
 Escenario: N°3 - Mostrar tarjeta de bonificaciones cuando el cliente tiene bonificaccion pero no tiene disponible
     Dado que estoy en paso 3 - otros
+    Y el cliente tiene un tipoPedido = "Venta" para la fecha de entrega
     Y el cliente tiene _bonificacionesHabilitadas
     Y la bonificación tiene _bonificacionesDisponibles = 0
     Cuando se muestra la tarjeta de bonificaciones
@@ -30,6 +33,7 @@ Escenario: N°3 - Mostrar tarjeta de bonificaciones cuando el cliente tiene boni
 
 Escenario: N°4 - Mostrar tarjeta de bonificaciones cuando el cliente tiene bonificaccion pero no son vigentes
     Dado que estoy en paso 3 - otros
+    Y el cliente tiene un tipoPedido = "Venta" para la fecha de entrega
     Y el cliente tiene _bonificacionesHabilitadas
     Y la bonificación tiene _vigenciaFinBonificacion < fecha de entrega
     Cuando se muestra la tarjeta de bonificaciones
@@ -38,6 +42,7 @@ Escenario: N°4 - Mostrar tarjeta de bonificaciones cuando el cliente tiene boni
 
 Escenario: N°5 - Mostrar tarjeta de bonificaciones cuando el cliente tiene bonificaccion pero no son productos de portafolio
     Dado que estoy en paso 3 - otros
+    Y el cliente tiene un tipoPedido = "Venta" para la fecha de entrega
     Y el cliente tiene _bonificacionesHabilitadas
     Y ningún producto de _productosBeneficioGrupo forma parte del portafolio vigente del cliente
     Cuando se muestra la tarjeta de bonificaciones
@@ -46,7 +51,7 @@ Escenario: N°5 - Mostrar tarjeta de bonificaciones cuando el cliente tiene boni
 
 Escenario: N°6 - Mostrar tarjeta de bonificaciones
     Dado que estoy en paso 3 - otros
-    Y el cliente tiene al menos un tipoPedido = "Venta"
+    Y el cliente tiene al menos un tipoPedido = "Venta" para la fecha de entrega
     Y el cliente tiene _bonificacionesHabilitadas
     Y al menos un producto de _productosBeneficioGrupo forma parte del portafolio vigente del cliente
     Y la bonificiación tiene _vigenciaInicioBonificacion <= fecha de entrega <= _vigenciaFinBonificacion
