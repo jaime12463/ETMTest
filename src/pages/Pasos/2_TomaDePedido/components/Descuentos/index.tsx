@@ -10,8 +10,6 @@ export const Descuentos = (props: Props) => {
 	const {tipo} = props;
 	const {t} = useTranslation();
 
-	console.log(tipo);
-
 	if (tipo === 'polarizado') {
 		return (
 			<>

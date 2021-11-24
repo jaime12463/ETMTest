@@ -68,6 +68,7 @@ export interface TInfoDescuentos {
 	tipo: 'escalonado' | 'polarizado' | 'automatico' | 'eliminado' | undefined;
 	porcentajeDescuento: number | null;
 	inputPolarizado: number;
+	codigoDescuento?: string;
 }
 
 //Estados

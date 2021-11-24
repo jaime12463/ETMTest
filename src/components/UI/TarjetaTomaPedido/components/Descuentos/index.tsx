@@ -44,7 +44,10 @@ const Descuentos = ({
 
 	React.useEffect(() => {
 		if (infoDescuento.inputPolarizado > 0) {
-			obtenerCalculoDescuentoProducto(Number(inputValue), stateInfoDescuento);
+			obtenerCalculoDescuentoProducto(
+				{inputPolarizado: Number(inputValue), unidades: 0, subUnidades: 0},
+				stateInfoDescuento
+			);
 		}
 	}, []);
 
@@ -65,9 +68,27 @@ const Descuentos = ({
 		setInputValue(e.target.value.replace(/[^0-9]/g, ''));
 	};
 
+	const onBlurHandler = () => {
+		obtenerCalculoDescuentoProducto(
+			{
+				inputPolarizado: Number(inputValue),
+				unidades: 0,
+				subUnidades: 0,
+			},
+			stateInfoDescuento
+		);
+	};
+
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === 'Enter') {
-			obtenerCalculoDescuentoProducto(Number(inputValue), stateInfoDescuento);
+			obtenerCalculoDescuentoProducto(
+				{
+					inputPolarizado: Number(inputValue),
+					unidades: 0,
+					subUnidades: 0,
+				},
+				stateInfoDescuento
+			);
 		}
 	};
 
@@ -91,7 +112,7 @@ const Descuentos = ({
 						>
 							{infoDescuento.tipo === 'polarizado'
 								? `Descuento polarizado del -${infoDescuento.porcentajeDescuento}%`
-								: 'Descuento escalonado del -20% '}
+								: `Descuento escalonado del -${infoDescuento.porcentajeDescuento}%`}
 						</Typography>
 						<Box
 							display='flex'
@@ -145,6 +166,7 @@ const Descuentos = ({
 			{infoDescuento.tipo === 'polarizado' && (
 				<Box marginBottom='16px'>
 					<InputConIcono
+						onBlur={onBlurHandler}
 						valid={false}
 						value={inputValue}
 						onChange={onChangeInput}
