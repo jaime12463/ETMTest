@@ -1,20 +1,18 @@
 import React from 'react';
-import {
-	TPrecioProducto,
-	TProductoPedido,
-	TStateInfoDescuentos,
-	TStateInputFocus,
-} from 'models';
+import {TProductoPedido, TStateInfoDescuentos, TStateInputFocus} from 'models';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
-import {PromocionColor, QuitarRellenoIcon} from 'assests/iconos';
+import {AvisoIcon, PromocionColor, QuitarRellenoIcon} from 'assests/iconos';
 import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
 import theme from 'theme';
 import {styled} from '@mui/material/styles';
 import InputConIcono from 'components/UI/InputConIcono';
 import {StateFocusID} from '../..';
+import {useMostrarAviso} from 'hooks';
+import {useAppDispatch} from 'redux/hooks';
+import {borrarDescuentoDelProducto} from 'redux/features/visitaActual/visitaActualSlice';
 
 const ChipStyled = styled(Chip)(() => ({
 	'&.MuiChip-root': {
@@ -35,6 +33,7 @@ interface Props {
 	producto: TProductoPedido;
 	stateInputFocus: TStateInputFocus;
 	stateFocusId: StateFocusID;
+	stateAviso: any;
 }
 
 const Descuentos = ({
@@ -43,16 +42,20 @@ const Descuentos = ({
 	stateInputFocus,
 	stateFocusId,
 	producto,
+	stateAviso,
 }: Props) => {
 	const {infoDescuento, setInfoDescuento} = stateInfoDescuento;
 	const {focusId, setFocusId} = stateFocusId;
+	const {setAlerta, setConfigAlerta} = stateAviso;
 	const {inputFocus, setInputFocus} = stateInputFocus;
 	const [mostrarInfo, setMostrarinfo] = React.useState<boolean>(false);
 	const [inputValue, setInputValue] = React.useState<string>(
 		infoDescuento.inputPolarizado.toString() ?? ''
 	);
+	const dispatch = useAppDispatch();
 
 	const {t} = useTranslation();
+	const mostrarAviso = useMostrarAviso();
 
 	React.useEffect(() => {
 		if (infoDescuento.inputPolarizado > 0) {
@@ -105,104 +108,131 @@ const Descuentos = ({
 		}
 	};
 
+	const eliminarDescuento = () => {
+		setInfoDescuento({
+			tipo: 'eliminado',
+			porcentajeDescuento: null,
+			inputPolarizado: 0,
+			codigoDescuento: '',
+		});
+		dispatch(
+			borrarDescuentoDelProducto({
+				codigoProducto: producto.codigoProducto,
+			})
+		);
+	};
+
 	if (!infoDescuento.tipo) return null;
 
 	return (
-		<Box display='flex' flexDirection='column'>
-			{mostrarInfo && (
-				<Box display='flex'>
-					<Box
-						display='flex'
-						flexDirection='column'
-						width='179px'
-						padding='0 5px 0 14px'
-						gap='6px'
-					>
-						<Typography
-							variant='caption'
-							fontFamily='Open Sans'
-							color={theme.palette.primary.main}
-						>
-							{infoDescuento.tipo === 'polarizado'
-								? `Descuento polarizado del -${infoDescuento.porcentajeDescuento}%`
-								: `Descuento escalonado del -${infoDescuento.porcentajeDescuento}%`}
-						</Typography>
+		<>
+			<Box display='flex' flexDirection='column'>
+				{mostrarInfo && (
+					<Box display='flex'>
 						<Box
 							display='flex'
-							alignItems='center'
-							justifyContent='space-between'
-							width='145px'
-							marginBottom={infoDescuento.tipo === 'polarizado' ? '6px' : '0'}
+							flexDirection='column'
+							width='179px'
+							padding='0 5px 0 14px'
+							gap='6px'
 						>
-							<PromocionColor height='20px' width='20px' />
 							<Typography
-								variant='subtitle3'
+								variant='caption'
 								fontFamily='Open Sans'
 								color={theme.palette.primary.main}
 							>
-								{formatearNumero(producto.preciosNeto.unidad, t)}
+								{infoDescuento.tipo === 'polarizado'
+									? `Descuento polarizado del -${infoDescuento.porcentajeDescuento}%`
+									: `Descuento escalonado del -${infoDescuento.porcentajeDescuento}%`}
 							</Typography>
-							<Typography
-								variant='subtitle3'
-								fontFamily='Open Sans'
-								color={theme.palette.primary.main}
+							<Box
+								display='flex'
+								alignItems='center'
+								justifyContent='space-between'
+								width='145px'
+								marginBottom={infoDescuento.tipo === 'polarizado' ? '6px' : '0'}
 							>
-								{formatearNumero(producto.preciosNeto.subUnidad, t)}
-							</Typography>
-						</Box>
-						{(infoDescuento.tipo === 'escalonado' ||
-							infoDescuento.tipo === 'automatico') && (
-							<Box alignSelf='start'>
-								<ChipStyled
-									label={
-										<Typography
-											variant='caption'
-											color={theme.palette.primary.main}
-										>
-											Eliminar descuento
-										</Typography>
-									}
-									icon={
-										<QuitarRellenoIcon
-											height='9px'
-											width='9px'
-											fill={theme.palette.primary.main}
-										/>
-									}
-								/>
+								<PromocionColor height='20px' width='20px' />
+								<Typography
+									variant='subtitle3'
+									fontFamily='Open Sans'
+									color={theme.palette.primary.main}
+								>
+									{formatearNumero(producto.preciosNeto.unidad, t)}
+								</Typography>
+								<Typography
+									variant='subtitle3'
+									fontFamily='Open Sans'
+									color={theme.palette.primary.main}
+								>
+									{formatearNumero(producto.preciosNeto.subUnidad, t)}
+								</Typography>
 							</Box>
-						)}
+							{(infoDescuento.tipo === 'escalonado' ||
+								infoDescuento.tipo === 'automatico') && (
+								<Box alignSelf='start'>
+									<ChipStyled
+										onClick={() => {
+											setConfigAlerta({
+												titulo: t('advertencias.borrarDescuento'),
+												mensaje: t('mensajes.borrarDescuento'),
+												tituloBotonAceptar: 'Eliminar',
+												tituloBotonCancelar: 'Cancelar',
+												callbackAceptar: () => eliminarDescuento(),
+												iconoMensaje: <AvisoIcon />,
+											});
+											setAlerta(true);
+										}}
+										label={
+											<Typography
+												variant='caption'
+												color={theme.palette.primary.main}
+											>
+												Eliminar descuento
+											</Typography>
+										}
+										icon={
+											<QuitarRellenoIcon
+												height='9px'
+												width='9px'
+												fill={theme.palette.primary.main}
+											/>
+										}
+									/>
+								</Box>
+							)}
+						</Box>
+						<Box width='125px' sx={{background: '#F5F0EF'}} />
 					</Box>
-					<Box width='125px' sx={{background: '#F5F0EF'}} />
-				</Box>
-			)}
-			{infoDescuento.tipo === 'polarizado' && (
-				<Box marginBottom='16px'>
-					<InputConIcono
-						onBlur={onBlurHandler}
-						valid={false}
-						value={inputValue}
-						onChange={onChangeInput}
-						onKeyPress={handleKeyPress}
-						onClick={() => {
-							setInputFocus('descuento');
-							setFocusId(producto.codigoProducto);
-						}}
-						label='Ingresar precio de venta al consumidor'
-						margin='0'
-						simboloMoneda
-						inputRef={(input) => {
-							if (
-								inputFocus === 'descuento' &&
-								focusId === producto.codigoProducto
-							) {
-								input?.focus();
-							}
-						}}
-					/>
-				</Box>
-			)}
-		</Box>
+				)}
+				{infoDescuento.tipo === 'polarizado' && (
+					<Box marginBottom='16px'>
+						<InputConIcono
+							onBlur={onBlurHandler}
+							valid={false}
+							value={inputValue}
+							onChange={onChangeInput}
+							onKeyPress={handleKeyPress}
+							onClick={() => {
+								setInputFocus('descuento');
+								setFocusId(producto.codigoProducto);
+							}}
+							label='Ingresar precio de venta al consumidor'
+							margin='0'
+							simboloMoneda
+							inputRef={(input) => {
+								if (
+									inputFocus === 'descuento' &&
+									focusId === producto.codigoProducto
+								) {
+									input?.focus();
+								}
+							}}
+						/>
+					</Box>
+				)}
+			</Box>
+		</>
 	);
 };
 

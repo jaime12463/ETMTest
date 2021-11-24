@@ -210,8 +210,6 @@ const TomaPedido: React.FC = () => {
 		return validarBorrarPedido(aviso, cambiarEstadoProducto, producto);
 	};
 
-
-
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
@@ -275,6 +273,7 @@ const TomaPedido: React.FC = () => {
 										stateInputFocus={stateInputFocus}
 										bordeRedondeado
 										conSwitch
+										stateAviso={{setAlerta, setConfigAlerta}}
 									/>
 								</SwipeBorrar>
 							);

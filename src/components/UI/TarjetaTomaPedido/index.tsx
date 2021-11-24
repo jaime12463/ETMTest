@@ -16,6 +16,7 @@ import Descuentos from './components/Descuentos';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import SwitchYCheck from './components/SwitchYCheck';
 import {useObtenerCalculoDescuentoProducto} from 'hooks';
+import Modal from '../Modal';
 
 export interface StateFocusID {
 	focusId: number;
@@ -27,6 +28,7 @@ interface Props {
 	bordeRedondeado?: boolean;
 	stateInputFocus: TStateInputFocus;
 	stateFocusId: StateFocusID;
+	stateAviso: any;
 }
 
 const TarjetaTomaPedido: React.FC<Props> = ({
@@ -35,11 +37,12 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	bordeRedondeado = false,
 	stateInputFocus,
 	stateFocusId,
+	stateAviso,
 }) => {
 	const clienteActual = useObtenerClienteActual();
 	const visitaActual = useObtenerVisitaActual();
+	const {setAlerta, setConfigAlerta} = stateAviso;
 	const {venta} = visitaActual.pedidos;
-
 	const productoEnVenta = venta.productos.find(
 		(p) => producto.codigoProducto === p.codigoProducto
 	);
@@ -72,45 +75,48 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 		useObtenerCalculoDescuentoProducto(producto);
 
 	return (
-		<Box
-			border={
-				productoEnVenta &&
-				(productoEnVenta.unidades > 0 || productoEnVenta.subUnidades > 0)
-					? `1px solid ${theme.palette.success.main}`
-					: '1px solid #D9D9D9'
-			}
-			borderRadius={bordeRedondeado ? '8px' : '0'}
-			overflow='hidden'
-		>
-			<SwitchYCheck
-				producto={productoEnVenta ?? productoAMandar}
-				conSwitch={conSwitch}
-			/>
-			<Box display='flex'>
-				<Informacion
-					codigoProducto={producto.codigoProducto}
-					nombreProducto={producto.nombreProducto}
-					presentacion={producto.presentacion}
-					precioConImpuestoUnidad={producto.precioConImpuestoUnidad}
-					precioConImpuestoSubunidad={producto.precioConImpuestoSubunidad}
+		<>
+			<Box
+				border={
+					productoEnVenta &&
+					(productoEnVenta.unidades > 0 || productoEnVenta.subUnidades > 0)
+						? `1px solid ${theme.palette.success.main}`
+						: '1px solid #D9D9D9'
+				}
+				borderRadius={bordeRedondeado ? '8px' : '0'}
+				overflow='hidden'
+			>
+				<SwitchYCheck
+					producto={productoEnVenta ?? productoAMandar}
 					conSwitch={conSwitch}
 				/>
-				<Controles
+				<Box display='flex'>
+					<Informacion
+						codigoProducto={producto.codigoProducto}
+						nombreProducto={producto.nombreProducto}
+						presentacion={producto.presentacion}
+						precioConImpuestoUnidad={producto.precioConImpuestoUnidad}
+						precioConImpuestoSubunidad={producto.precioConImpuestoSubunidad}
+						conSwitch={conSwitch}
+					/>
+					<Controles
+						producto={productoEnVenta ?? productoAMandar}
+						stateInputFocus={stateInputFocus}
+						stateFocusId={stateFocusId}
+						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
+					/>
+				</Box>
+				<Descuentos
+					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 					producto={productoEnVenta ?? productoAMandar}
 					stateInputFocus={stateInputFocus}
 					stateFocusId={stateFocusId}
-					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
+					stateAviso={{setAlerta, setConfigAlerta}}
 				/>
 			</Box>
-			<Descuentos
-				stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-				obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
-				producto={productoEnVenta ?? productoAMandar}
-				stateInputFocus={stateInputFocus}
-				stateFocusId={stateFocusId}
-			/>
-		</Box>
+		</>
 	);
 };
 
