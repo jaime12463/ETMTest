@@ -53,9 +53,15 @@ export type TVisita = {
 	bloquearPanelCarga: boolean;
 	ordenDeCompra: string;
 	iniciativas: TIniciativasCliente[];
-	iniciativasBloqueadas: boolean;
+	coberturasEjecutadas: TCoberturasEjecutadas[];
+	pasoATomaPedido: boolean;
 	fechaVisitaPlanificada: string;
 };
+
+export type TCoberturasEjecutadas = Pick<
+	TProductoPedido,
+	'codigoProducto' | 'unidades' | 'subUnidades'
+>;
 
 export type TIniciativasCliente = {
 	estado: 'pendiente' | 'ejecutada' | 'cancelada';

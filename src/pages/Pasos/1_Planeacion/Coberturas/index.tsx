@@ -8,7 +8,7 @@ import useEstilos from './useEstilos';
 import {useObtenerCoberturas} from 'hooks';
 import {ReiniciarIcon} from 'assests/iconos';
 import {TProductoPedido} from 'models';
-import {useAppDispatch} from 'redux/hooks';
+import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {borrarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 
 interface Props {
@@ -17,6 +17,7 @@ interface Props {
 
 const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 	const coberturas = useObtenerCoberturas();
+	const visitaActual = useObtenerVisitaActual();
 	const classes = useEstilos();
 	const dispatch = useAppDispatch();
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
@@ -35,7 +36,7 @@ const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 
 	return (
 		<Stack marginTop='18px' spacing='10px'>
-			{coberturasAgregadas.length > 0 && (
+			{!visitaActual.pasoATomaPedido && coberturasAgregadas.length > 0 && (
 				<Box display='flex' justifyContent='end'>
 					<Chip
 						className={classes.chip}

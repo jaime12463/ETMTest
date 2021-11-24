@@ -30,8 +30,8 @@ const TarjetaCoberturas: React.FC<Props> = ({
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
 
-	const productoEnVenta = venta.productos.find(
-		(p) => producto.codigoProducto === p.codigoProducto
+	const productoEnPedido = venta.productos.find(
+		(p) => p.codigoProducto === producto.codigoProducto
 	);
 
 	const prodcutoAMandar: TProductoPedido = {
@@ -55,14 +55,14 @@ const TarjetaCoberturas: React.FC<Props> = ({
 	return (
 		<Box
 			border={
-				productoEnVenta &&
-				(productoEnVenta.unidades > 0 || productoEnVenta.subUnidades > 0)
+				productoEnPedido &&
+				(productoEnPedido.unidades > 0 || productoEnPedido.subUnidades > 0)
 					? `1px solid ${theme.palette.success.main}`
 					: '1px solid #D9D9D9'
 			}
 			overflow='hidden'
 		>
-			<Check producto={productoEnVenta ?? prodcutoAMandar} />
+			<Check producto={prodcutoAMandar} />
 			<Box display='flex'>
 				<Informacion
 					codigoProducto={producto.codigoProducto}
@@ -72,7 +72,7 @@ const TarjetaCoberturas: React.FC<Props> = ({
 					precioConImpuestoSubunidad={producto.precioConImpuestoSubunidad}
 				/>
 				<Controles
-					producto={productoEnVenta ?? prodcutoAMandar}
+					producto={prodcutoAMandar}
 					stateInputFocus={stateInputFocus}
 					stateFocusId={stateFocusId}
 					resetCoberturas={resetCoberturas}

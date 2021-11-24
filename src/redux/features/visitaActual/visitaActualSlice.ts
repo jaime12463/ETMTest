@@ -17,7 +17,8 @@ const estadoInicial: TVisita = {
 	bloquearPanelCarga: true,
 	ordenDeCompra: '',
 	iniciativas: [],
-	iniciativasBloqueadas: false,
+	coberturasEjecutadas: [],
+	pasoATomaPedido: false,
 	fechaVisitaPlanificada: '',
 };
 
@@ -147,7 +148,8 @@ export const visitaActualSlice = createSlice({
 			state.bloquearPanelCarga = bloquearPanelCarga;
 			state.ordenDeCompra = ordenDeCompra;
 			state.iniciativas = iniciativas;
-			state.iniciativasBloqueadas = false;
+			state.pasoATomaPedido = false;
+			state.coberturasEjecutadas = [];
 			state.fechaVisitaPlanificada = fechaVisitaPlanificada;
 		},
 
@@ -160,7 +162,8 @@ export const visitaActualSlice = createSlice({
 			state.ordenDeCompra = '';
 			state.saldoPresupuestoTipoPedido = {};
 			state.iniciativas = [];
-			state.iniciativasBloqueadas = false;
+			state.coberturasEjecutadas = [];
+			state.pasoATomaPedido = false;
 		},
 
 		cambiarTipoPagoPoductoDelPedidoActual: (
@@ -269,8 +272,43 @@ export const visitaActualSlice = createSlice({
 			});
 		},
 
-		bloquearIniciativas: (state) => {
-			state.iniciativasBloqueadas = true;
+		pasoATomaPedido: (state) => {
+			state.pasoATomaPedido = true;
+		},
+
+		agregarCoberturasEjecutadas: (
+			state,
+			action: PayloadAction<{
+				codigoProducto: number;
+				unidades: number;
+				subUnidades: number;
+			}>
+		) => {
+			const existeCobertura = state.coberturasEjecutadas.find(
+				(cobertura) =>
+					cobertura.codigoProducto === action.payload.codigoProducto
+			);
+
+			if (existeCobertura) {
+				state.coberturasEjecutadas = state.coberturasEjecutadas.map(
+					(cobertura) => {
+						if (cobertura.codigoProducto === action.payload.codigoProducto) {
+							cobertura.unidades = action.payload.unidades;
+							cobertura.subUnidades = action.payload.subUnidades;
+						}
+						return cobertura;
+					}
+				);
+			}
+
+			state.coberturasEjecutadas = [
+				...state.coberturasEjecutadas,
+				{
+					codigoProducto: action.payload.codigoProducto,
+					unidades: action.payload.unidades,
+					subUnidades: action.payload.subUnidades,
+				},
+			];
 		},
 	},
 });
@@ -294,6 +332,7 @@ export const {
 	cambiarEstadoIniciativa,
 	cambiarMotivoCancelacionIniciativa,
 	editarUnidadesOSubUnidadesEjecutadas,
-	bloquearIniciativas,
+	pasoATomaPedido,
+	agregarCoberturasEjecutadas,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

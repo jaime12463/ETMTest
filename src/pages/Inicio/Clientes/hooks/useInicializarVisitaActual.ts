@@ -47,7 +47,8 @@ export const useInicializarVisitaActual = () => {
 							fechaEntrega,
 							fechaVisitaPlanificada
 						),
-						iniciativasBloqueadas: false,
+						coberturasEjecutadas: [],
+						pasoATomaPedido: false,
 						fechaVisitaPlanificada,
 					},
 				})

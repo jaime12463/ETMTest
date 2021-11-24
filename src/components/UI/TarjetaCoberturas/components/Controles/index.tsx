@@ -15,23 +15,16 @@ import {
 	useMostrarAviso,
 	useObtenerDatosCliente,
 } from 'hooks';
-import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
+import {
+	useAppDispatch,
+	useObtenerClienteActual,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {useTranslation} from 'react-i18next';
 import {StateFocusID} from 'components/UI/TarjetaTomaPedido';
-
-const InputStyled = styled(Input)(({}) => ({
-	backgroundColor: 'white',
-	border: '1px solid #2F000E',
-	borderRadius: '10px',
-	fontSize: '12px',
-	fontWeight: 600,
-	height: '16px',
-	lineHeight: '16px',
-	padding: '0 2px',
-	width: '42px',
-}));
-
+import useEstilos from './useEstilos';
+import {agregarCoberturasEjecutadas} from 'redux/features/visitaActual/visitaActualSlice';
 interface Props {
 	producto: TProductoPedido;
 	stateInputFocus: TStateInputFocus;
@@ -49,11 +42,24 @@ const Controles: React.FC<Props> = ({
 }) => {
 	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
 	const visitaActual = useObtenerVisitaActual();
+	const {venta} = visitaActual.pedidos;
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 
+	const coberturaEjecutada = visitaActual.coberturasEjecutadas.find(
+		(p) => producto.codigoProducto === p.codigoProducto
+	);
+
+	const coberturaEnPedido = venta.productos.find(
+		(p) => p.codigoProducto === producto.codigoProducto
+	);
+
 	const defaultValues = {
-		unidades: producto.unidades,
-		subUnidades: producto.subUnidades,
+		unidades: coberturaEnPedido
+			? coberturaEjecutada?.unidades || producto.unidades
+			: 0,
+		subUnidades: coberturaEnPedido
+			? coberturaEjecutada?.subUnidades || producto.subUnidades
+			: 0,
 		productoABuscar: '',
 		tipoDePedido: visitaActual.tipoPedidoActual,
 		catalogoMotivo: '',
@@ -78,10 +84,19 @@ const Controles: React.FC<Props> = ({
 	);
 	const {t} = useTranslation();
 	const mostrarAviso = useMostrarAviso();
+	const dispatch = useAppDispatch();
+	const classes = useEstilos({inputsBloqueados: visitaActual.pasoATomaPedido});
 
 	React.useEffect(() => {
 		if (puedeAgregar) {
 			agregarProductoAlPedidoActual(getValues);
+			dispatch(
+				agregarCoberturasEjecutadas({
+					codigoProducto: producto.codigoProducto,
+					unidades: getValues.unidades,
+					subUnidades: getValues.subUnidades,
+				})
+			);
 			setPuedeAgregar(false);
 		}
 	}, [puedeAgregar]);
@@ -114,6 +129,13 @@ const Controles: React.FC<Props> = ({
 		}
 
 		agregarProductoAlPedidoActual(getValues);
+		dispatch(
+			agregarCoberturasEjecutadas({
+				codigoProducto: producto.codigoProducto,
+				unidades: getValues.unidades,
+				subUnidades: getValues.subUnidades,
+			})
+		);
 		setFocusId(0);
 		setInputFocus('productoABuscar');
 	};
@@ -137,6 +159,13 @@ const Controles: React.FC<Props> = ({
 			if (inputFocus === 'unidades') {
 				setInputFocus('subUnidades');
 				agregarProductoAlPedidoActual(getValues);
+				dispatch(
+					agregarCoberturasEjecutadas({
+						codigoProducto: producto.codigoProducto,
+						unidades: getValues.unidades,
+						subUnidades: getValues.subUnidades,
+					})
+				);
 			} else if (inputFocus === 'subUnidades') {
 				validacionSubUnidades();
 			}
@@ -176,7 +205,20 @@ const Controles: React.FC<Props> = ({
 
 	React.useEffect(() => {
 		if (resetCoberturas) {
-			setGetValues(defaultValues);
+			dispatch(
+				agregarCoberturasEjecutadas({
+					codigoProducto: producto.codigoProducto,
+					unidades: 0,
+					subUnidades: 0,
+				})
+			);
+			setGetValues((prevState) => {
+				return {
+					...prevState,
+					unidades: 0,
+					subUnidades: 0,
+				};
+			});
 			setResetCoberturas(false);
 		}
 	}, [resetCoberturas]);
@@ -194,21 +236,24 @@ const Controles: React.FC<Props> = ({
 		>
 			<Box display='flex' alignItems='center' justifyContent='center' gap='4px'>
 				<CajaIcon height='18px' width='18px' />
-				<IconButton
-					sx={{padding: '0'}}
-					size='small'
-					value='-'
-					name='unidades'
-					onClick={handleButtons}
-					disabled={producto.unidades > 0 ? false : true}
-				>
-					<QuitarRellenoIcon
-						width='18px'
-						height='18px'
-						fill={producto.unidades > 0 ? '#2F000E' : '#D9D9D9'}
-					/>
-				</IconButton>
-				<InputStyled
+				{!visitaActual.pasoATomaPedido && (
+					<IconButton
+						sx={{padding: '0'}}
+						size='small'
+						value='-'
+						name='unidades'
+						onClick={handleButtons}
+						disabled={producto.unidades > 0 ? false : true}
+					>
+						<QuitarRellenoIcon
+							width='18px'
+							height='18px'
+							fill={producto.unidades > 0 ? '#2F000E' : '#D9D9D9'}
+						/>
+					</IconButton>
+				)}
+				<Input
+					className={classes.input}
 					value={getValues.unidades}
 					onChange={handleOnChange}
 					onKeyPress={handleKeyPress}
@@ -232,38 +277,42 @@ const Controles: React.FC<Props> = ({
 							input?.focus();
 						}
 					}}
+					disabled={visitaActual.pasoATomaPedido}
 				/>
-				<IconButton
-					sx={{padding: '0'}}
-					size='small'
-					name='unidades'
-					value='+'
-					onClick={handleButtons}
-					disabled={
-						producto.unidadesDisponibles
-							? producto.unidades >= producto.unidadesDisponibles
-								? true
-								: false
-							: producto.unidades >= configuracionPedido?.cantidadMaximaUnidades
-							? true
-							: false
-					}
-				>
-					<AgregarRedondoIcon
-						width='18px'
-						height='18px'
-						fill={
+				{!visitaActual.pasoATomaPedido && (
+					<IconButton
+						sx={{padding: '0'}}
+						size='small'
+						name='unidades'
+						value='+'
+						onClick={handleButtons}
+						disabled={
 							producto.unidadesDisponibles
 								? producto.unidades >= producto.unidadesDisponibles
-									? '#D9D9D9'
-									: '#2F000E'
+									? true
+									: false
 								: producto.unidades >=
 								  configuracionPedido?.cantidadMaximaUnidades
-								? '#D9D9D9'
-								: '#2F000E'
+								? true
+								: false
 						}
-					/>
-				</IconButton>
+					>
+						<AgregarRedondoIcon
+							width='18px'
+							height='18px'
+							fill={
+								producto.unidadesDisponibles
+									? producto.unidades >= producto.unidadesDisponibles
+										? '#D9D9D9'
+										: '#2F000E'
+									: producto.unidades >=
+									  configuracionPedido?.cantidadMaximaUnidades
+									? '#D9D9D9'
+									: '#2F000E'
+							}
+						/>
+					</IconButton>
+				)}
 			</Box>
 			{producto.esVentaSubunidades && (
 				<Box width='100%'>
@@ -274,21 +323,24 @@ const Controles: React.FC<Props> = ({
 						gap='4px'
 					>
 						<BotellaIcon width='18px' height='18px' />
-						<IconButton
-							sx={{padding: '0'}}
-							size='small'
-							value='-'
-							name='subUnidades'
-							onClick={handleButtons}
-							disabled={getValues.subUnidades > 0 ? false : true}
-						>
-							<QuitarRellenoIcon
-								width='18px'
-								height='18px'
-								fill={getValues.subUnidades > 0 ? '#2F000E' : '#D9D9D9'}
-							/>
-						</IconButton>
-						<InputStyled
+						{!visitaActual.pasoATomaPedido && (
+							<IconButton
+								sx={{padding: '0'}}
+								size='small'
+								value='-'
+								name='subUnidades'
+								onClick={handleButtons}
+								disabled={getValues.subUnidades > 0 ? false : true}
+							>
+								<QuitarRellenoIcon
+									width='18px'
+									height='18px'
+									fill={getValues.subUnidades > 0 ? '#2F000E' : '#D9D9D9'}
+								/>
+							</IconButton>
+						)}
+						<Input
+							className={classes.input}
 							onKeyPress={handleKeyPress}
 							onChange={handleOnChange}
 							value={getValues.subUnidades}
@@ -313,29 +365,32 @@ const Controles: React.FC<Props> = ({
 									input?.focus();
 								}
 							}}
+							disabled={visitaActual.pasoATomaPedido}
 						/>
-						<IconButton
-							sx={{padding: '0'}}
-							size='small'
-							name='subUnidades'
-							value='+'
-							onClick={handleButtons}
-							disabled={
-								getValues.subUnidades >=
-								producto.presentacion - producto.subunidadesVentaMinima
-							}
-						>
-							<AgregarRedondoIcon
-								width='18px'
-								height='18px'
-								fill={
+						{!visitaActual.pasoATomaPedido && (
+							<IconButton
+								sx={{padding: '0'}}
+								size='small'
+								name='subUnidades'
+								value='+'
+								onClick={handleButtons}
+								disabled={
 									getValues.subUnidades >=
 									producto.presentacion - producto.subunidadesVentaMinima
-										? '#D9D9D9'
-										: '#2F000E'
 								}
-							/>
-						</IconButton>
+							>
+								<AgregarRedondoIcon
+									width='18px'
+									height='18px'
+									fill={
+										getValues.subUnidades >=
+										producto.presentacion - producto.subunidadesVentaMinima
+											? '#D9D9D9'
+											: '#2F000E'
+									}
+								/>
+							</IconButton>
+						)}
 					</Box>
 				</Box>
 			)}

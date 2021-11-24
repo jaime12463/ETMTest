@@ -1,63 +1,11 @@
 import React from 'react';
+import {TarjetaColapsable} from 'components/UI';
+import {Typography, Stack} from '@mui/material';
+import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {
-	TabVentas,
-	TotalesMetodoDeVentaDelPedidoActual,
-	BotonCerrarPedidoDelCliente,
-} from './components';
-import {TotalesCompromisoDeCobroPedidoActual} from 'pages/Pasos/3_Otros/CompromisoDeCobro/components/index';
-import {
-	Dialogo,
-	Estructura,
-	Tabs,
-	BotonBarraInferior,
-	Stepper,
-	TarjetaColapsable,
-	TarjetaDoble,
-} from 'components/UI';
-import {
-	Button,
-	Grid,
-	IconButton,
-	Box,
-	Typography,
-	Input,
-	Stack,
-} from '@mui/material';
-import {useTranslation} from 'react-i18next';
-import {useHistory, useRouteMatch} from 'react-router-dom';
-import nombresRutas from 'routes/nombresRutas';
-import {
-	AutocompleteSeleccionarProducto,
-	FechaEntregaDelPedidoActual,
-	InfoClienteDelPedidoActual,
-} from 'components/Negocio';
-import CompromisoDeCobro from 'pages/Pasos/3_Otros/CompromisoDeCobro';
-import {validarDeshabilitarTabCompromisoDeCobro} from 'utils/validaciones';
-import {
-	useAppDispatch,
-	useAppSelector,
-	useObtenerConfiguracion,
-	useObtenerVisitaActual,
-} from 'redux/hooks';
-import {
-	useInicializarPreciosProductosDelClienteActual,
-	useMostrarAdvertenciaEnDialogo,
-	useObtenerDatosTipoPedido,
-	useObtenerTiposPedidoSegunConfiguracion,
-} from 'hooks';
-import {
-	bloquearIniciativas,
-	cambiarOrdenDeCompra,
+	pasoATomaPedido,
 	cambiarTipoPedidoActual,
-	selectVisitaActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {
-	AgregarRedondoIcon,
-	BotellaIcon,
-	CajaIcon,
-	PromocionesRellenoIcon,
-	QuitarRellenoIcon,
-} from '../../../assests/iconos';
 
 import TomaPedido from './TomaPedidos';
 import PromoPush from './PromoPush';
@@ -80,7 +28,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 
 	React.useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'venta'}));
-		dispatch(bloquearIniciativas());
+		dispatch(pasoATomaPedido());
 	}, []);
 
 	React.useEffect(() => {
