@@ -89,6 +89,17 @@ const Controles: React.FC<Props> = ({
 	const mostrarAviso = useMostrarAviso();
 
 	React.useEffect(() => {
+		obtenerCalculoDescuentoProducto(
+			{
+				inputPolarizado: undefined,
+				unidades: producto.unidades,
+				subUnidades: producto.subUnidades,
+			},
+			stateInfoDescuento
+		);
+	}, []);
+
+	React.useEffect(() => {
 		if (infoDescuento.porcentajeDescuento !== null) {
 			if (getValues.unidades > 0 || getValues.subUnidades > 0) {
 				agregarProductoAlPedidoActual(defaultValue);
