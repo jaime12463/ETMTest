@@ -145,12 +145,17 @@ const es = {
 			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido.',
 		mensajeIniciativasSinMotivo:
 			'Por favor, ingrese un motivo para cada iniciativa cancelada.',
+		borrarDescuento: '¿Deseas eliminar el descuento escalonado? ',
 	},
 	pasos: {
 		planeacion: 'Planeación',
 		tomaDePedido: 'Toma de pedido',
 		otros: 'Otros',
 		finalizar: ' Finalizar pedido',
+	},
+	mensajes: {
+		borrarDescuento:
+			'Una vez eliminado el descuento escalonado, no podrás volverlo a aplicar en este producto.',
 	},
 };
 export default es;

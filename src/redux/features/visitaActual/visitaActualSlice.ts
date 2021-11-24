@@ -163,6 +163,31 @@ export const visitaActualSlice = createSlice({
 			state.iniciativasBloqueadas = false;
 		},
 
+		borrarDescuentoDelProducto: (
+			state,
+			action: PayloadAction<{codigoProducto: number}>
+		) => {
+			const indexProductoPedido = state.pedidos[
+				state.tipoPedidoActual
+			].productos.findIndex(
+				(precioProducto: TProductoPedido) =>
+					precioProducto.codigoProducto === action.payload.codigoProducto
+			);
+
+			const producto =
+				state.pedidos[state.tipoPedidoActual].productos[indexProductoPedido];
+
+			producto.descuento = {
+				tipo: 'eliminado',
+				porcentajeDescuento: 0,
+				inputPolarizado: 0,
+			};
+			producto.preciosNeto = producto.preciosBase;
+			producto.total =
+				producto.preciosBase.unidad * producto.unidades +
+				producto.preciosBase.subUnidad * producto.subUnidades;
+		},
+
 		cambiarTipoPagoPoductoDelPedidoActual: (
 			state,
 			action: PayloadAction<{codigoProducto: number; tipoPago: ETiposDePago}>
@@ -295,5 +320,6 @@ export const {
 	cambiarMotivoCancelacionIniciativa,
 	editarUnidadesOSubUnidadesEjecutadas,
 	bloquearIniciativas,
+	borrarDescuentoDelProducto,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

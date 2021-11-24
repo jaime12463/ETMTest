@@ -139,12 +139,17 @@ const en = {
 			'If you advance to the next stage, the cards that do not have amounts entered will be removed from your order taking.',
 		mensajeIniciativasSinMotivo:
 			'Please enter a reason for each canceled initiative.',
+		borrarDescuento: 'Do you want to eliminate the tiered discount?',
 	},
 	pasos: {
 		planeacion: 'Planning',
 		tomaDePedido: 'Order taking',
 		otros: 'Others',
 		finalizar: ' Finalize order',
+	},
+	mensajes: {
+		borrarDescuento:
+			'Once the tiered discount has been eliminated, you will not be able to reapply this product.',
 	},
 };
 export default en;

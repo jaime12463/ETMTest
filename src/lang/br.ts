@@ -128,6 +128,11 @@ const br = {
 			'Se você avançar para a próxima fase, os cartões que não possuem valores inseridos serão removidos de seu pedido.',
 		mensajeIniciativasSinMotivo:
 			'Insira um motivo para cada iniciativa cancelada.',
+		borrarDescuento: 'Quer eliminar o desconto escalonado?',
+	},
+	mensajes: {
+		borrarDescuento:
+			'Depois que o desconto escalonado for removido, você não poderá aplicá-lo novamente a este produto.',
 	},
 };
 export default br;

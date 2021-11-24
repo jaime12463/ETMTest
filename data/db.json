@@ -1539,6 +1539,18 @@
 				{
 					"codigoProducto": 360,
 					"esVentaSubunidades": true,
+					"descuentoEscalonado": [
+						{
+							"unidadesDesde": 10,
+							"unidadesHasta": 20,
+							"porcentajeDescuentoEscalonado": 8
+						},
+						{
+							"unidadesDesde": 21,
+							"unidadesHasta": 999999,
+							"porcentajeDescuentoEscalonado": 12
+						}
+					],
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,
