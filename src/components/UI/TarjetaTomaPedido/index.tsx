@@ -22,7 +22,7 @@ export interface StateFocusID {
 	setFocusId: React.Dispatch<React.SetStateAction<number>>;
 }
 interface Props {
-	producto: TProductoPedido | TPrecioProducto;
+	producto: TProductoPedido;
 	conSwitch?: boolean;
 	bordeRedondeado?: boolean;
 	stateInputFocus: TStateInputFocus;
@@ -45,6 +45,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	);
 
 	const productoAMandar: TProductoPedido = {
+		...producto,
 		unidades: 0,
 		subUnidades: 0,
 		total: 0,
@@ -59,7 +60,6 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 			unidad: producto.precioConImpuestoUnidad,
 			subUnidad: producto.precioConImpuestoSubunidad,
 		},
-		...producto,
 	};
 
 	const [infoDescuento, setInfoDescuento] = React.useState<TInfoDescuentos>({
@@ -99,13 +99,16 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 					producto={productoEnVenta ?? productoAMandar}
 					stateInputFocus={stateInputFocus}
 					stateFocusId={stateFocusId}
-					infoDescuento={infoDescuento}
+					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 				/>
 			</Box>
 			<Descuentos
 				stateInfoDescuento={{infoDescuento, setInfoDescuento}}
 				obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 				producto={productoEnVenta ?? productoAMandar}
+				stateInputFocus={stateInputFocus}
+				stateFocusId={stateFocusId}
 			/>
 		</Box>
 	);

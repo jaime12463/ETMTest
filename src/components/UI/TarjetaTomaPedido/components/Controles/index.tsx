@@ -14,6 +14,7 @@ import {
 	TInfoDescuentos,
 	TPrecioProducto,
 	TProductoPedido,
+	TStateInfoDescuentos,
 	TStateInputFocus,
 } from 'models';
 import {
@@ -42,17 +43,20 @@ interface Props {
 	producto: TProductoPedido;
 	stateInputFocus: TStateInputFocus;
 	stateFocusId: StateFocusID;
-	infoDescuento: TInfoDescuentos;
+	stateInfoDescuento: TStateInfoDescuentos;
+	obtenerCalculoDescuentoProducto: any;
 }
 
 const Controles: React.FC<Props> = ({
 	producto,
 	stateInputFocus,
 	stateFocusId,
-	infoDescuento,
+	stateInfoDescuento,
+	obtenerCalculoDescuentoProducto,
 }) => {
 	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
 	const visitaActual = useObtenerVisitaActual();
+	const {infoDescuento, setInfoDescuento} = stateInfoDescuento;
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 	const defaultValue = {
 		unidades: producto.unidades,
@@ -78,10 +82,22 @@ const Controles: React.FC<Props> = ({
 		producto,
 		mostrarAdvertenciaEnDialogo,
 		getValues,
-		setGetValues
+		setGetValues,
+		stateInfoDescuento
 	);
 	const {t} = useTranslation();
 	const mostrarAviso = useMostrarAviso();
+
+	React.useEffect(() => {
+		obtenerCalculoDescuentoProducto(
+			{
+				inputPolarizado: undefined,
+				unidades: producto.unidades,
+				subUnidades: producto.subUnidades,
+			},
+			stateInfoDescuento
+		);
+	}, []);
 
 	React.useEffect(() => {
 		if (infoDescuento.porcentajeDescuento !== null) {
@@ -94,7 +110,8 @@ const Controles: React.FC<Props> = ({
 
 	React.useEffect(() => {
 		if (puedeAgregar) {
-			agregarProductoAlPedidoActual(getValues);
+			agregarProductoAlPedidoActual(getValues, obtenerCalculoDescuentoProducto);
+
 			setPuedeAgregar(false);
 		}
 	}, [puedeAgregar]);
@@ -126,9 +143,14 @@ const Controles: React.FC<Props> = ({
 			);
 		}
 
-		agregarProductoAlPedidoActual(getValues);
-		setFocusId(0);
-		setInputFocus('productoABuscar');
+		agregarProductoAlPedidoActual(getValues, obtenerCalculoDescuentoProducto);
+
+		if (producto.descuentoPolarizado) {
+			setInputFocus('descuento');
+		} else {
+			setFocusId(0);
+			setInputFocus('productoABuscar');
+		}
 	};
 
 	const handleOnChange = (
@@ -149,7 +171,10 @@ const Controles: React.FC<Props> = ({
 		if (e.key === 'Enter') {
 			if (inputFocus === 'unidades') {
 				setInputFocus('subUnidades');
-				agregarProductoAlPedidoActual(getValues);
+				agregarProductoAlPedidoActual(
+					getValues,
+					obtenerCalculoDescuentoProducto
+				);
 			} else if (inputFocus === 'subUnidades') {
 				validacionSubUnidades();
 			}

@@ -1,3 +1,4 @@
+import {TInfoDescuentos} from 'models';
 import {
 	TDatosClientesProductos,
 	TCondicicon,
@@ -129,7 +130,7 @@ export type TPedidoDelProducto = {
 	total: number;
 	preciosBase: TPreciosProductoUnidadYSubUnidad;
 	preciosNeto: TPreciosProductoUnidadYSubUnidad;
-	descuento?: TDescuentoProducto;
+	descuento?: TInfoDescuentos;
 	tipoPago: ETiposDePago;
 	catalogoMotivo: string;
 	estado?: 'activo' | 'eliminado' | 'transito';
@@ -138,12 +139,6 @@ export type TPedidoDelProducto = {
 export type TPreciosProductoUnidadYSubUnidad = {
 	unidad: number;
 	subUnidad: number;
-};
-
-export type TDescuentoProducto = {
-	tipo: 'escalonado' | 'polarizado' | 'eliminado';
-	codigoDescuento?: string;
-	inputPolarizado: number;
 };
 
 export enum ETiposDePago {

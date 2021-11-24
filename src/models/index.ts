@@ -68,6 +68,7 @@ export interface TInfoDescuentos {
 	tipo: 'escalonado' | 'polarizado' | 'automatico' | 'eliminado' | undefined;
 	porcentajeDescuento: number | null;
 	inputPolarizado: number;
+	codigoDescuento?: string;
 }
 
 //Estados
@@ -136,7 +137,8 @@ export type InputsKeysFormTomaDePedido =
 	| 'subUnidades'
 	| 'productoABuscar'
 	| 'catalogoMotivo'
-	| 'motivo';
+	| 'motivo'
+	| 'descuento';
 
 export type TOpcionSelect = {
 	value: string;

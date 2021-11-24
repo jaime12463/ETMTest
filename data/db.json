@@ -496,18 +496,6 @@
 					"secuencia": 1
 				}
 			],
-			"descuentoEscalonado": [
-				{
-					"unidadesDesde": 10,
-					"unidadesHasta": 20,
-					"porcentajeDescuentoEscalonado": 8
-				},
-				{
-					"unidadesDesde": 21,
-					"unidadesHasta": 999999,
-					"porcentajeDescuentoEscalonado": 12
-				}
-			],
 			"coberturas": [
 				{
 					"grupoCobertura": "Grupo Colas",
@@ -1569,6 +1557,18 @@
 				{
 					"codigoProducto": 380,
 					"esVentaSubunidades": true,
+					"descuentoEscalonado": [
+						{
+							"unidadesDesde": 10,
+							"unidadesHasta": 20,
+							"porcentajeDescuentoEscalonado": 8
+						},
+						{
+							"unidadesDesde": 21,
+							"unidadesHasta": 999999,
+							"porcentajeDescuentoEscalonado": 12
+						}
+					],
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,
@@ -1587,6 +1587,18 @@
 				{
 					"codigoProducto": 390,
 					"esVentaSubunidades": true,
+					"descuentoEscalonado": [
+						{
+							"unidadesDesde": 10,
+							"unidadesHasta": 20,
+							"porcentajeDescuentoEscalonado": 8
+						},
+						{
+							"unidadesDesde": 21,
+							"unidadesHasta": 999999,
+							"porcentajeDescuentoEscalonado": 12
+						}
+					],
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,

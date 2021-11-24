@@ -19,6 +19,7 @@ import {
 	TPrecioProducto,
 	TStateInputFocus,
 	TProductoPedido,
+	TStateInfoDescuentos,
 } from 'models';
 import {
 	useValidarAgregarProductoAlPedidoCliente,
@@ -37,7 +38,8 @@ export const useAgregarProductoAlPedidoActual = (
 	productoActual: TProductoPedido | null,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
 	getValues: any,
-	setGetValues: any
+	setGetValues: any,
+	stateInfoDescuento?: TStateInfoDescuentos
 ) => {
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
@@ -73,7 +75,7 @@ export const useAgregarProductoAlPedidoActual = (
 	const {productos}: TPedido = useObtenerPedidoActual();
 
 	const agregarProductoAlPedidoActual = useCallback(
-		(inputs: any) => {
+		(inputs: any, obtenerCalculoDescuentoProducto?: any) => {
 			const {unidades, subUnidades, catalogoMotivo, infoDescuento} = inputs;
 
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
@@ -137,10 +139,20 @@ export const useAgregarProductoAlPedidoActual = (
 								subUnidad: productoActual.precioConImpuestoSubunidad,
 							},
 							preciosNeto,
-							descuento: infoDescuento,
+							descuento: infoDescuento ?? productoActual.descuento,
 						},
 					})
 				);
+				if (obtenerCalculoDescuentoProducto) {
+					obtenerCalculoDescuentoProducto(
+						{
+							inputPolarizado: undefined,
+							unidades: unidadesParseado,
+							subUnidades: subUnidadesParseado,
+						},
+						stateInfoDescuento
+					);
+				}
 			} else {
 				if (
 					!configuracionTipoDePedidoActual?.esMandatorio ||

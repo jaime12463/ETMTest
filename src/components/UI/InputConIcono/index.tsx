@@ -11,8 +11,11 @@ import theme from 'theme';
 interface Props {
 	valid: boolean;
 	value: string;
+	onBlur?: () => void;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	onKeyPress?: (e: React.KeyboardEvent<HTMLDivElement>) => void;
+	inputRef?: (input: any) => void;
+	onClick?: () => void;
 	margin?: string;
 	label: string;
 	simboloMoneda?: boolean;
@@ -25,7 +28,10 @@ const InputConIcono: React.FC<Props> = ({
 	valid,
 	value,
 	onChange,
+	inputRef,
 	onKeyPress,
+	onClick,
+	onBlur,
 	margin = '10px 0 0 0',
 	label,
 	simboloMoneda = false,
@@ -45,9 +51,12 @@ const InputConIcono: React.FC<Props> = ({
 				className={classes.root}
 				autoFocus={focus ? true : false}
 				focused
+				inputRef={inputRef}
+				onClick={onClick}
 				value={value}
 				onChange={onChange}
 				onKeyPress={onKeyPress}
+				onBlur={onBlur}
 				sx={{borderBottom: error ? '1px solid red' : 'none'}}
 				InputProps={{
 					startAdornment: simboloMoneda && (
