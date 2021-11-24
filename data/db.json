@@ -44,11 +44,6 @@
 					"grupoCobertura": "Grupo Colas",
 					"secuenciaGrupoCobertura": 1,
 					"productosGrupoCobertura": [360, 380, 420]
-				},
-				{
-					"grupoCobertura": "Grupo Aguas",
-					"secuenciaGrupoCobertura": 2,
-					"productosGrupoCobertura": [400]
 				}
 			],
 
@@ -350,12 +345,7 @@
 				{
 					"grupoCobertura": "Grupo Colas",
 					"secuenciaGrupoCobertura": 1,
-					"productosGrupoCobertura": [360, 380, 420]
-				},
-				{
-					"grupoCobertura": "Grupo Aguas",
-					"secuenciaGrupoCobertura": 2,
-					"productosGrupoCobertura": [400]
+					"productosGrupoCobertura": [1885, 229033]
 				}
 			],
 			"informacionCrediticia": {
@@ -500,7 +490,7 @@
 				{
 					"grupoCobertura": "Grupo Colas",
 					"secuenciaGrupoCobertura": 1,
-					"productosGrupoCobertura": [360, 380, 420]
+					"productosGrupoCobertura": [360, 380, 390]
 				},
 				{
 					"grupoCobertura": "Grupo Aguas",
@@ -884,7 +874,7 @@
 				{
 					"grupoCobertura": "Grupo Colas",
 					"secuenciaGrupoCobertura": 1,
-					"productosGrupoCobertura": [360, 380, 420]
+					"productosGrupoCobertura": [360, 380]
 				},
 				{
 					"grupoCobertura": "Grupo Aguas",
