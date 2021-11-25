@@ -75,6 +75,14 @@ Escenario: N°8 - Mostrar en el resumen las secciones
     Y si tiene _tipoPedido cuyo código = "Canje", mostrará la sección canjes
     Y si registró compromiso de cobro, mostrará la sección compromiso de cobro
     Y si registró orden de compra, mostrará la sección orden de compra
+    Y si registró bonificaciones, mostrará la sección bonificaciones
 
 #tipos de pedido valorizados ("Venta" y "VentaEnvase")
 #si alguna sección no posee productos o datos para mostrar, no se visualiza la sección.
+
+Escenario: N°9 - Sección bonificaciones
+    Dado que estoy en un cliente 
+    Y se registró bonificaciones
+    Cuando selecciono ver resumen del pedido
+    Entonces el sistema mostrará dentro de la sección bonificaciones 
+    el _idBonificacion, _nombreBonificacion, _nombre del producto, la cantidad ingresada y la _unidadMedida
