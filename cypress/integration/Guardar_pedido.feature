@@ -141,3 +141,8 @@ Escenario: N°10 – Bonificaciones ingresadas
 
  # Queda pendiente si se debe guardar la clase de condición de la bonificacion
 
+Escenario: N°11 - Coberturas ingresadas
+    Dado que se ingresaron productos en el _tipoPedido = "Venta"
+    Y existen coberturas con ese producto
+    Cuando guardo el pedido
+    Entonces el sistema registrará el _grupoCobertura, el _codigo producto y las cantidades ingresadas
