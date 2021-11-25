@@ -138,6 +138,7 @@ Escenario: N°10 – Bonificaciones ingresadas
     Cuando guardo el pedido
     Entonces el sistema registrara las bonificaciones, en la cabecera el número de pedido, codigo cliente, _idBonificación, fecha y hora, código de usuario, ruta
     Y en el detalle el número de pedido, codigo producto, cantidad, _unidadMedida
+    Y actualizará las _bonificacionesDisponibles
 
  # Queda pendiente si se debe guardar la clase de condición de la bonificacion
 
