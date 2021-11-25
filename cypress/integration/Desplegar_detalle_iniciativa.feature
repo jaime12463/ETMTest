@@ -35,7 +35,7 @@ Esquema del escenario: N°2 – Desplegar detalle de iniciativa ejecutada
     Y los valores registrados en la ejecución de cantidad de unidades y subunidades
     Y el borde de la iniciativa en color verde y el ícono de ejecutada 
     Y <ingresoTomaDePedido> se ingreso a la toma de pedido <habilitaSeleccion> habilita la selección del status, unidades y subunidades
-    Y si se descargó
+    
   Ejemplos:
   |ingresoTomaDePedido|habilitaSeleccion|
   |si                 |no habilita      |

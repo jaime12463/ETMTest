@@ -136,9 +136,8 @@ Escenario: N°9 – Iniciativas no cumplidas
 Escenario: N°10 – Bonificaciones ingresadas
     Dado que se ingresaron bonificaciones para el pedido actual
     Cuando guardo el pedido
-    Entonces el sistema registrara las bonificaciones, en la cabecera el número de pedido, codigo cliente, idBonificación, fecha y hora, código de usuario, ruta
-    Y en el detalle el número de pedido, codigo producto, unidades
+    Entonces el sistema registrara las bonificaciones, en la cabecera el número de pedido, codigo cliente, _idBonificación, fecha y hora, código de usuario, ruta
+    Y en el detalle el número de pedido, codigo producto, cantidad, _unidadMedida
 
-    #Pendiente si en la cabecera se registra la clas de condicion y 
-    # en el detalle se registran subunidades
+ # Queda pendiente si se debe guardar la clase de condición de la bonificacion
 
