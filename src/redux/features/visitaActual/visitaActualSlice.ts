@@ -324,16 +324,16 @@ export const visitaActualSlice = createSlice({
 						return cobertura;
 					}
 				);
+			} else {
+				state.coberturasEjecutadas = [
+					...state.coberturasEjecutadas,
+					{
+						codigoProducto: action.payload.codigoProducto,
+						unidades: action.payload.unidades,
+						subUnidades: action.payload.subUnidades,
+					},
+				];
 			}
-
-			state.coberturasEjecutadas = [
-				...state.coberturasEjecutadas,
-				{
-					codigoProducto: action.payload.codigoProducto,
-					unidades: action.payload.unidades,
-					subUnidades: action.payload.subUnidades,
-				},
-			];
 		},
 	},
 });

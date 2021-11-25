@@ -36,7 +36,7 @@ const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 
 	return (
 		<Stack marginTop='18px' spacing='10px'>
-			{!visitaActual.pasoATomaPedido && coberturasAgregadas.length > 0 && (
+			{!visitaActual.pasoATomaPedido && coberturasAgregadas?.length > 0 && (
 				<Box display='flex' justifyContent='end'>
 					<Chip
 						className={classes.chip}

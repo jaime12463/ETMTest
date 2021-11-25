@@ -12,12 +12,14 @@ import {
 	useMostrarAdvertenciaEnDialogo,
 	useResetVisitaActual,
 	useValidarPasos,
+	useReiniciarClienteActual,
 } from 'hooks';
 import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
 
 import {VistaPromoPush} from 'pages/Pasos/1_Planeacion/VistaPromoPush/index';
 
 import {
+	useAppDispatch,
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
 	useObtenerVisitaActual,
@@ -28,6 +30,7 @@ import {useTranslation} from 'react-i18next';
 import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
 import {PromocionesRellenoIcon} from 'assests/iconos';
 import Modal from 'components/UI/Modal';
+import {resetearClienteActual} from 'redux/features/clienteActual/clienteActualSlice';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -63,6 +66,7 @@ const Pasos: React.FC = () => {
 	const reiniciarVisita = useResetVisitaActual();
 	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
 	const handleOpenVistaPromoPush = () => setOpenVistaPromoPush(true);
+	const reiniciarClienteActual = useReiniciarClienteActual();
 
 	useEffect(() => {
 		if (pasoActual < controlador.length - 1) {
@@ -79,6 +83,7 @@ const Pasos: React.FC = () => {
 		if (pasoActual == 0) {
 			reiniciarVisita();
 			reiniciarCompromisoDeCobro();
+			reiniciarClienteActual();
 			history.goBack();
 		} else {
 			setPasoActual(pasoActual - 1);
