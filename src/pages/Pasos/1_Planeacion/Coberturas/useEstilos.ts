@@ -12,6 +12,9 @@ const useEstilos = makeStyles(() =>
 				height: ' 18px',
 				padding: '4px, 12px, 4px, 12px',
 				width: '178px',
+				'&:hover': {
+					background: 'transparent',
+				},
 			},
 		},
 	})

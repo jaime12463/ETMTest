@@ -126,6 +126,12 @@ export const Planeacion: React.FC = () => {
 				cantidadItems={coberturasEjecutadas?.length}
 				labelChip={`${coberturasEjecutadas?.length} de ${codigosCoberturas.length} Items`}
 				valido={coberturasEjecutadas?.length > 0}
+				disabled={coberturas.length === 0}
+				mensaje={
+					<Typography color='primary' variant='subtitle3'>
+						Este cliente no cuenta con coberturas
+					</Typography>
+				}
 			>
 				<Coberturas coberturasAgregadas={coberturasAgregadas} />
 			</TarjetaColapsable>

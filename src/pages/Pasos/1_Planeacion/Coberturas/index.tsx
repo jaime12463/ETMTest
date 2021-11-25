@@ -9,7 +9,10 @@ import {useObtenerCoberturas} from 'hooks';
 import {ReiniciarIcon} from 'assests/iconos';
 import {TProductoPedido} from 'models';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
-import {borrarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
+import {
+	agregarCoberturasEjecutadas,
+	borrarProductoDelPedidoActual,
+} from 'redux/features/visitaActual/visitaActualSlice';
 
 interface Props {
 	coberturasAgregadas: TProductoPedido[];
@@ -32,25 +35,37 @@ const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 				})
 			);
 		});
+		visitaActual.coberturasEjecutadas.map((coberutra) => {
+			dispatch(
+				agregarCoberturasEjecutadas({
+					codigoProducto: coberutra.codigoProducto,
+					unidades: 0,
+					subUnidades: 0,
+				})
+			);
+		});
 	};
 
 	return (
 		<Stack marginTop='18px' spacing='10px'>
-			{!visitaActual.pasoATomaPedido && coberturasAgregadas?.length > 0 && (
-				<Box display='flex' justifyContent='end'>
-					<Chip
-						className={classes.chip}
-						size='small'
-						icon={<ReiniciarIcon width='7.5px' height='7.5px' />}
-						label={
-							<Typography variant='caption' fontFamily='Open Sans'>
-								Restablecer cantidades a cero
-							</Typography>
-						}
-						onClick={() => restablecerCantidades()}
-					/>
-				</Box>
-			)}
+			{!visitaActual.pasoATomaPedido &&
+				visitaActual.coberturasEjecutadas.some(
+					(cobertura) => cobertura.unidades > 0 || cobertura.subUnidades > 0
+				) && (
+					<Box display='flex' justifyContent='end'>
+						<Chip
+							className={classes.chip}
+							size='small'
+							icon={<ReiniciarIcon width='7.5px' height='7.5px' />}
+							label={
+								<Typography variant='caption' fontFamily='Open Sans'>
+									Restablecer cantidades a cero
+								</Typography>
+							}
+							onClick={() => restablecerCantidades()}
+						/>
+					</Box>
+				)}
 			{coberturas?.map((cobertura) => {
 				return (
 					<DesplegableCoberturas
