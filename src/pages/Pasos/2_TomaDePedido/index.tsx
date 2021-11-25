@@ -5,6 +5,7 @@ import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {
 	pasoATomaPedido,
 	cambiarTipoPedidoActual,
+	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
 
 import TomaPedido from './TomaPedidos';
@@ -25,6 +26,13 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 		React.useState<boolean>(false);
 
 	const dispatch = useAppDispatch();
+
+	React.useEffect(() => {
+		if (visitaActual.seQuedaAEditar.seQueda) {
+			setExpandido('Toma de pedido');
+			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: true}));
+		}
+	}, [visitaActual.seQuedaAEditar.seQueda]);
 
 	React.useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'venta'}));

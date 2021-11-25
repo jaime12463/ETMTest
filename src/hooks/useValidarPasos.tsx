@@ -4,6 +4,7 @@ import {useTranslation} from 'react-i18next';
 import {
 	borrarProductoDelPedidoActual,
 	cambiarEstadoIniciativa,
+	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 
@@ -44,8 +45,14 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 										estado: 'pendiente',
 									})
 								);
+								dispatch(
+									cambiarSeQuedaAEditar({seQueda: false, bordeError: false})
+								);
 							}
 						});
+					},
+					callbackCancelar: () => {
+						dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
 					},
 					iconoMensaje: <AvisoIcon />,
 				},
@@ -76,6 +83,12 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 								);
 							}
 						});
+						dispatch(
+							cambiarSeQuedaAEditar({seQueda: false, bordeError: false})
+						);
+					},
+					callbackCancelar: () => {
+						dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
 					},
 					iconoMensaje: <AvisoIcon />,
 				},

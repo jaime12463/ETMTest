@@ -20,6 +20,10 @@ const estadoInicial: TVisita = {
 	coberturasEjecutadas: [],
 	pasoATomaPedido: false,
 	fechaVisitaPlanificada: '',
+	seQuedaAEditar: {
+		seQueda: false,
+		bordeError: false,
+	},
 };
 
 export const visitaActualSlice = createSlice({
@@ -150,6 +154,10 @@ export const visitaActualSlice = createSlice({
 			state.iniciativas = iniciativas;
 			state.pasoATomaPedido = false;
 			state.coberturasEjecutadas = [];
+			state.seQuedaAEditar = {
+				seQueda: false,
+				bordeError: false,
+			};
 			state.fechaVisitaPlanificada = fechaVisitaPlanificada;
 		},
 
@@ -164,6 +172,10 @@ export const visitaActualSlice = createSlice({
 			state.iniciativas = [];
 			state.coberturasEjecutadas = [];
 			state.pasoATomaPedido = false;
+			state.seQuedaAEditar = {
+				seQueda: false,
+				bordeError: false,
+			};
 		},
 
 		borrarDescuentoDelProducto: (
@@ -335,6 +347,14 @@ export const visitaActualSlice = createSlice({
 				];
 			}
 		},
+
+		cambiarSeQuedaAEditar: (
+			state,
+			action: PayloadAction<{seQueda: boolean; bordeError: boolean}>
+		) => {
+			state.seQuedaAEditar.seQueda = action.payload.seQueda;
+			state.seQuedaAEditar.bordeError = action.payload.bordeError;
+		},
 	},
 });
 
@@ -360,5 +380,6 @@ export const {
 	pasoATomaPedido,
 	agregarCoberturasEjecutadas,
 	borrarDescuentoDelProducto,
+	cambiarSeQuedaAEditar,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

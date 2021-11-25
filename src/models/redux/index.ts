@@ -56,7 +56,13 @@ export type TVisita = {
 	iniciativas: TIniciativasCliente[];
 	coberturasEjecutadas: TCoberturasEjecutadas[];
 	pasoATomaPedido: boolean;
+	seQuedaAEditar: SeQuedaAEditar;
 	fechaVisitaPlanificada: string;
+};
+
+export type SeQuedaAEditar = {
+	seQueda: boolean;
+	bordeError: boolean;
 };
 
 export type TCoberturasEjecutadas = Pick<

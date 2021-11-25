@@ -18,11 +18,12 @@ import {
 	useInicializarPreciosProductosDelClienteActual,
 	useMostrarAviso,
 } from 'hooks';
-import {
+import visitaActualSlice, {
 	agregarProductoDelPedidoActual,
 	editarProductoDelPedidoActual,
 	borrarProductoDelPedidoActual,
 	borrarProductosDeVisitaActual,
+	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
 
 import {Dialogo, SwipeBorrar} from 'components/UI';
@@ -101,6 +102,18 @@ const TomaPedido: React.FC = () => {
 	const validarBorrarPedido = useValidarBorrarPedido(
 		mostrarAdvertenciaEnDialogo
 	);
+
+	React.useEffect(() => {
+		if (
+			!visitaActual.seQuedaAEditar.seQueda &&
+			visitaActual.seQuedaAEditar.bordeError &&
+			venta.productos.every(
+				(producto) => producto.unidades > 0 || producto.subUnidades > 0
+			)
+		) {
+			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+		}
+	}, [visitaActual.seQuedaAEditar.seQueda, venta.productos]);
 
 	React.useEffect(() => {
 		if (productoActual !== null) {
