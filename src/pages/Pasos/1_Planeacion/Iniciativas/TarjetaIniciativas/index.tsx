@@ -33,6 +33,7 @@ import {
 	borrarProductoDelPedidoActual,
 	cambiarEstadoIniciativa,
 	cambiarMotivoCancelacionIniciativa,
+	cambiarSeQuedaAEditar,
 	editarUnidadesOSubUnidadesEjecutadas,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {InputsKeysFormTomaDePedido, TProductoPedido} from 'models';
@@ -141,7 +142,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
 	const classes = useEstilos({
 		estado: estadoSelect,
-		inputsBloqueados: visitaActual.iniciativasBloqueadas,
+		inputsBloqueados: visitaActual.pasoATomaPedido,
 	});
 
 	const dispatch = useAppDispatch();
@@ -157,6 +158,17 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		getValues,
 		setGetValues
 	);
+
+	React.useEffect(() => {
+		if (
+			visitaActual.seQuedaAEditar.bordeError &&
+			estado === 'cancelada' &&
+			motivo === ''
+		) {
+			setExpandido(id);
+			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+		}
+	}, [visitaActual.seQuedaAEditar.bordeError, estado, motivo, id]);
 
 	React.useEffect(() => {
 		if (puedeAgregar) {
@@ -184,7 +196,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	}, [estadoSelect, motivoSelect]);
 
 	React.useEffect(() => {
-		if (!visitaActual.iniciativasBloqueadas) {
+		if (!visitaActual.pasoATomaPedido) {
 			switch (estadoSelect) {
 				case 'pendiente':
 					setEstadoSelect('pendiente');
@@ -416,7 +428,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 									]}
 									opcionSeleccionada={estadoSelect}
 									setOpcion={setEstadoSelect}
-									bloqueado={visitaActual.iniciativasBloqueadas}
+									bloqueado={visitaActual.pasoATomaPedido}
 								/>
 							</Box>
 						</Box>
@@ -440,7 +452,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										]}
 										opcionSeleccionada={motivoSelect}
 										setOpcion={setMotivoSelect}
-										bloqueado={visitaActual.iniciativasBloqueadas}
+										bloqueado={visitaActual.pasoATomaPedido}
 										border
 									/>
 								</Box>
@@ -535,7 +547,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								>
 									<CajaIcon width='18px' height='18px' />
 									{estadoSelect === 'ejecutada' &&
-										!visitaActual.iniciativasBloqueadas && (
+										!visitaActual.pasoATomaPedido && (
 											<IconButton
 												size='small'
 												value='-'
@@ -564,7 +576,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										onChange={handleInputChange}
 										disabled={
 											estadoSelect !== 'ejecutada' ||
-											visitaActual.iniciativasBloqueadas
+											visitaActual.pasoATomaPedido
 										}
 										onKeyPress={handleKeyPress}
 										id='unidades_producto'
@@ -583,7 +595,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										}}
 									/>
 									{estadoSelect === 'ejecutada' &&
-										!visitaActual.iniciativasBloqueadas && (
+										!visitaActual.pasoATomaPedido && (
 											<IconButton
 												size='small'
 												name='unidades'
@@ -607,25 +619,24 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										gap='4px'
 									>
 										<BotellaIcon width='18px' height='18px' />
-										{estado === 'ejecutada' &&
-											!visitaActual.iniciativasBloqueadas && (
-												<IconButton
-													size='small'
-													value='-'
-													name='subUnidades'
-													sx={{padding: 0}}
-													disabled={getValues.subUnidades <= 0}
-													onClick={handleButtons}
-												>
-													<QuitarRellenoIcon
-														width='18px'
-														height='18px'
-														fill={
-															getValues.subUnidades <= 0 ? '#D9D9D9' : '#2F000E'
-														}
-													/>
-												</IconButton>
-											)}
+										{estado === 'ejecutada' && !visitaActual.pasoATomaPedido && (
+											<IconButton
+												size='small'
+												value='-'
+												name='subUnidades'
+												sx={{padding: 0}}
+												disabled={getValues.subUnidades <= 0}
+												onClick={handleButtons}
+											>
+												<QuitarRellenoIcon
+													width='18px'
+													height='18px'
+													fill={
+														getValues.subUnidades <= 0 ? '#D9D9D9' : '#2F000E'
+													}
+												/>
+											</IconButton>
+										)}
 										<Input
 											className={classes.input}
 											inputProps={{
@@ -639,7 +650,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 											onChange={handleInputChange}
 											disabled={
 												estadoSelect !== 'ejecutada' ||
-												visitaActual.iniciativasBloqueadas
+												visitaActual.pasoATomaPedido
 											}
 											id='subUnidades_producto'
 											onClick={() => {
@@ -659,7 +670,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 											}}
 										/>
 										{estadoSelect === 'ejecutada' &&
-											!visitaActual.iniciativasBloqueadas && (
+											!visitaActual.pasoATomaPedido && (
 												<IconButton
 													size='small'
 													name='subUnidades'

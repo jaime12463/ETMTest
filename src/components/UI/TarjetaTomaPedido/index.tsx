@@ -46,6 +46,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	const productoEnVenta = venta.productos.find(
 		(p) => producto.codigoProducto === p.codigoProducto
 	);
+	const [colorBorde, setColorBorde] = React.useState<string>('');
 
 	const productoAMandar: TProductoPedido = {
 		...producto,
@@ -74,49 +75,60 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	const obtenerCalculoDescuentoProducto =
 		useObtenerCalculoDescuentoProducto(producto);
 
+	React.useEffect(() => {
+		if (productoEnVenta) {
+			if (productoEnVenta?.unidades > 0 || productoEnVenta?.subUnidades > 0) {
+				return setColorBorde(theme.palette.success.main);
+			}
+
+			if (
+				productoEnVenta?.unidades === 0 &&
+				productoEnVenta?.subUnidades === 0 &&
+				visitaActual.seQuedaAEditar.bordeError
+			) {
+				return setColorBorde(theme.palette.primary.main);
+			}
+		}
+
+		setColorBorde('#D9D9D9');
+	}, [productoEnVenta, visitaActual.seQuedaAEditar.bordeError]);
+
 	return (
-		<>
-			<Box
-				border={
-					productoEnVenta &&
-					(productoEnVenta.unidades > 0 || productoEnVenta.subUnidades > 0)
-						? `1px solid ${theme.palette.success.main}`
-						: '1px solid #D9D9D9'
-				}
-				borderRadius={bordeRedondeado ? '8px' : '0'}
-				overflow='hidden'
-			>
-				<SwitchYCheck
-					producto={productoEnVenta ?? productoAMandar}
+		<Box
+			border={`1px solid ${colorBorde}`}
+			borderRadius={bordeRedondeado ? '8px' : '0'}
+			overflow='hidden'
+		>
+			<SwitchYCheck
+				producto={productoEnVenta ?? productoAMandar}
+				conSwitch={conSwitch}
+			/>
+			<Box display='flex'>
+				<Informacion
+					codigoProducto={producto.codigoProducto}
+					nombreProducto={producto.nombreProducto}
+					presentacion={producto.presentacion}
+					precioConImpuestoUnidad={producto.precioConImpuestoUnidad}
+					precioConImpuestoSubunidad={producto.precioConImpuestoSubunidad}
 					conSwitch={conSwitch}
 				/>
-				<Box display='flex'>
-					<Informacion
-						codigoProducto={producto.codigoProducto}
-						nombreProducto={producto.nombreProducto}
-						presentacion={producto.presentacion}
-						precioConImpuestoUnidad={producto.precioConImpuestoUnidad}
-						precioConImpuestoSubunidad={producto.precioConImpuestoSubunidad}
-						conSwitch={conSwitch}
-					/>
-					<Controles
-						producto={productoEnVenta ?? productoAMandar}
-						stateInputFocus={stateInputFocus}
-						stateFocusId={stateFocusId}
-						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
-					/>
-				</Box>
-				<Descuentos
-					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
+				<Controles
 					producto={productoEnVenta ?? productoAMandar}
 					stateInputFocus={stateInputFocus}
 					stateFocusId={stateFocusId}
-					stateAviso={{setAlerta, setConfigAlerta}}
+					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 				/>
 			</Box>
-		</>
+			<Descuentos
+				stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+				obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
+				producto={productoEnVenta ?? productoAMandar}
+				stateInputFocus={stateInputFocus}
+				stateFocusId={stateFocusId}
+				stateAviso={{setAlerta, setConfigAlerta}}
+			/>
+		</Box>
 	);
 };
 

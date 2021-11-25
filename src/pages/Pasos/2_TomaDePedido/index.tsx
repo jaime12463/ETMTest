@@ -2,10 +2,10 @@ import React from 'react';
 import {TarjetaColapsable} from 'components/UI';
 import {Typography, Stack} from '@mui/material';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
-
 import {
-	bloquearIniciativas,
+	pasoATomaPedido,
 	cambiarTipoPedidoActual,
+	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
 
 import TomaPedido from './TomaPedidos';
@@ -28,8 +28,15 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const dispatch = useAppDispatch();
 
 	React.useEffect(() => {
+		if (visitaActual.seQuedaAEditar.seQueda) {
+			setExpandido('Toma de pedido');
+			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: true}));
+		}
+	}, [visitaActual.seQuedaAEditar.seQueda]);
+
+	React.useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'venta'}));
-		dispatch(bloquearIniciativas());
+		dispatch(pasoATomaPedido());
 	}, []);
 
 	React.useEffect(() => {

@@ -30,3 +30,4 @@ export {useObtenerIniciativasClienteActual} from './useObtenerIniciativasCliente
 export {useValidarPasos} from './useValidarPasos';
 export {useObtenerCoberturas} from './useObtenerCoberturas';
 export {useObtenerCalculoDescuentoProducto} from './useObtenerCalculoDescuentoProducto';
+export {useReiniciarClienteActual} from './useReiniciarClienteActual';
