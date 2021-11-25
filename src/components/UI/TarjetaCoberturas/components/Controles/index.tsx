@@ -49,17 +49,9 @@ const Controles: React.FC<Props> = ({
 		(p) => producto.codigoProducto === p.codigoProducto
 	);
 
-	const coberturaEnPedido = venta.productos.find(
-		(p) => p.codigoProducto === producto.codigoProducto
-	);
-
 	const defaultValues = {
-		unidades: coberturaEnPedido
-			? coberturaEjecutada?.unidades || producto.unidades
-			: 0,
-		subUnidades: coberturaEnPedido
-			? coberturaEjecutada?.subUnidades || producto.subUnidades
-			: 0,
+		unidades: coberturaEjecutada?.unidades || producto.unidades,
+		subUnidades: coberturaEjecutada?.subUnidades || producto.subUnidades,
 		productoABuscar: '',
 		tipoDePedido: visitaActual.tipoPedidoActual,
 		catalogoMotivo: '',
@@ -243,12 +235,12 @@ const Controles: React.FC<Props> = ({
 						value='-'
 						name='unidades'
 						onClick={handleButtons}
-						disabled={producto.unidades > 0 ? false : true}
+						disabled={getValues.unidades === 0}
 					>
 						<QuitarRellenoIcon
 							width='18px'
 							height='18px'
-							fill={producto.unidades > 0 ? '#2F000E' : '#D9D9D9'}
+							fill={getValues.unidades > 0 ? '#2F000E' : '#D9D9D9'}
 						/>
 					</IconButton>
 				)}
@@ -330,7 +322,7 @@ const Controles: React.FC<Props> = ({
 								value='-'
 								name='subUnidades'
 								onClick={handleButtons}
-								disabled={getValues.subUnidades > 0 ? false : true}
+								disabled={getValues.subUnidades === 0}
 							>
 								<QuitarRellenoIcon
 									width='18px'

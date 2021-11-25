@@ -28,6 +28,14 @@ export const Planeacion: React.FC = () => {
 		[]
 	);
 
+	const coberturasEjecutadas = visitaActual?.coberturasEjecutadas.filter(
+		(cobertura) => {
+			if (cobertura.unidades > 0 || cobertura.subUnidades > 0) {
+				return cobertura;
+			}
+		}
+	);
+
 	const coberturasAgregadas = venta?.productos.filter((producto) => {
 		if (codigosCoberturas.includes(producto.codigoProducto)) {
 			return producto;
@@ -115,9 +123,9 @@ export const Planeacion: React.FC = () => {
 				id='Coberturas'
 				expandido={expandido}
 				setExpandido={setExpandido}
-				cantidadItems={coberturasAgregadas?.length}
-				labelChip={`${coberturasAgregadas?.length} de ${codigosCoberturas.length} Items`}
-				valido={coberturasAgregadas?.length > 0}
+				cantidadItems={coberturasEjecutadas?.length}
+				labelChip={`${coberturasEjecutadas?.length} de ${codigosCoberturas.length} Items`}
+				valido={coberturasEjecutadas?.length > 0}
 			>
 				<Coberturas coberturasAgregadas={coberturasAgregadas} />
 			</TarjetaColapsable>
