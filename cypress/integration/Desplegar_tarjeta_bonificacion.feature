@@ -10,9 +10,17 @@ Característica: Desplegar tarjeta de bonificacion
 Escenario: N°1 - Desplegar tarjeta bonificaciones
 	Dado que el cliente tiene bonificaciones habilitadas
 	Y están vigentes a la fecha del dispositivo
-	Y tiene bonificación disponible
+	Y tiene al menos una bonificacion con _bonificacionDisponible > 0
 	Y tiene en un grupo al menos un producto en portafolio
 	Cuando selecciono el control desplegar
 	Entonces el sistema desplegará la tarjeta de bonificiaciones 
 	Y mostrará el _nombreBonificacion_ ordenadas por _idBonificacion_
-	Y el control para ver detalle de la bonificación.
+	Y el control para ver detalle de la bonificación de aquellas que tienen _bonificacionDisponible > 0.
+
+Escenario: N°2 - Desplegar tarjeta bonificaciones sin disponible
+	Dado que el cliente tiene bonificaciones habilitadas
+	Y tiene bonificaciones con _bonificacionDisponible = 0
+	Cuando selecciono el control desplegar
+	Entonces el sistema desplegará la tarjeta de bonificiaciones 
+	Y mostrará el _nombreBonificacion_ ordenadas por _idBonificacion_
+	Y mostrará el mensaje "No hay bonificaciones disponibles" en aquellas que tienen _bonificacionDisponible = 0.
