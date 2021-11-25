@@ -1537,7 +1537,7 @@
 						},
 						{
 							"unidadesDesde": 21,
-							"unidadesHasta": 999999,
+							"unidadesHasta": 25,
 							"porcentajeDescuentoEscalonado": 12
 						}
 					],
