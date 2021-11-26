@@ -129,6 +129,7 @@ const br = {
 		mensajeIniciativasSinMotivo:
 			'Insira um motivo para cada iniciativa cancelada.',
 		borrarDescuento: 'Quer eliminar o desconto escalonado?',
+		descuentoEscalonadoEliminado: 'Desconto em camadas removido',
 	},
 	mensajes: {
 		borrarDescuento:

@@ -105,11 +105,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 			/>
 			<Box display='flex'>
 				<Informacion
-					codigoProducto={producto.codigoProducto}
-					nombreProducto={producto.nombreProducto}
-					presentacion={producto.presentacion}
-					precioConImpuestoUnidad={producto.precioConImpuestoUnidad}
-					precioConImpuestoSubunidad={producto.precioConImpuestoSubunidad}
+					producto={productoEnVenta ?? productoAMandar}
 					conSwitch={conSwitch}
 				/>
 				<Controles
