@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Resumen_pedido @Sprint15
+@Pedido @Resumen_pedido @Sprint15 @Sprint17
 
 Característica: Mostrar resumen del pedido 
     Como prevendedor 
@@ -10,43 +10,42 @@ Característica: Mostrar resumen del pedido
 Escenario: N°1 - Sección de condiciones de pago
     Dado que estoy en un cliente 
     Cuando selecciono ver resumen del pedido
-    Entonces el sistema mostrará dentro de la sección de condición de pago correspondiente
-    un listado de los productos ingresados separados por _tipoPedido que esValorizado = true
-    Y por condición de pago, indicando código de producto, nombre,
-    precio unidades, precio subunidad, subtotal del producto 
+    Entonces el sistema mostrará dentro de la sección de condición de pago correspondiente un listado de los productos ingresados 
+    Y separados por _tipoPedido que esValorizado = true
+    Y por condición de pago, indicando código de producto, nombre
+    Y precio unidades, precio subunidad, subtotal del producto 
     
 Escenario: N°2 - Promo push dentro de condiciones de pago
     Dado que estoy en un cliente 
     Y se ingresaron promo push al pedido
     Cuando selecciono ver resumen del pedido
     Entonces el sistema mostrará dentro de la sección de condición de pago a la promo push según su condición de pago, indicando el código de promoción,
-    nombre, precio unitario, descuento y subtotal de la promoción
+    Y nombre, precio unitario, descuento y subtotal de la promoción
     Y los componentes de la promoción, indicando el código de prodcuto del componente,
-    nombre del componente, precio unidad, descuento, subtotal del componente.
+    Y nombre del componente, precio unidad, descuento, subtotal del componente.
 
 Escenario: N°3 - Sección envases con productos para retorno y envases
     Dado que estoy en un cliente 
     Y se ingresaron productos para retorno 
     Y prestamo de envases
     Cuando selecciono ver resumen del pedido
-    Entonces el sistema mostrará dentro de la sección envases un listado de productos para retorno si tiene, consolidados por código de producto
-    indicando el código de producto, nombre, cantidad a retornar y tipo de operación
-    Y un listado de productos de _tipoPedido = "PrestamoEnvase", consolidados por código de producto
-    indicando el código de producto, nombre, cantidad a prestamo y tipo de operación
+    Entonces el sistema mostrará dentro de la sección envases un listado de productos para retorno si tiene
+    Y consolidados por código de producto indicando el código de producto, nombre, cantidad a retornar y tipo de operación
+    Y un listado de productos de _tipoPedido = "PrestamoEnvase"
+    Y consolidados por código de producto indicando el código de producto, nombre, cantidad a prestamo y tipo de operación
 
 Escenario: N°4 - Sección canje
     Dado que estoy en un cliente 
     Y se realizaron canjes
     Cuando selecciono ver resumen del pedido
     Entonces el sistema mostrará dentro de la sección canjes un listado de productos del _tipoPedido = "Canje" 
-    indicando el código de producto, nombre, motivo de canje, cantidad unidades y cantidad subunidades
+    Y mostrará el código de producto, nombre, motivo de canje, cantidad unidades y cantidad subunidades
 
 Escenario: N°5 - Sección compromiso de cobro
     Dado que estoy en un cliente 
     Y se realizó un compromiso de cobro
     Cuando selecciono ver resumen del pedido
-    Entonces el sistema mostrará dentro de la sección compromiso de cobro 
-    el límite de crédito 
+    Entonces el sistema mostrará dentro de la sección compromiso de cobro el límite de crédito 
     Y disponible informado para el cliente 
     Y el monto del compromiso de cobro registrado en la visita 
 
@@ -54,16 +53,15 @@ Escenario: N°6 - Sección orden de compra
     Dado que estoy en un cliente 
     Y se registró una orden de compra
     Cuando selecciono ver resumen del pedido
-    Entonces el sistema mostrará dentro de la sección orden de compra 
-    el número de la orden de compra registrada en la visita 
+    Entonces el sistema mostrará dentro de la sección orden de compra el número de la orden de compra registrada en la visita 
 
 Escenario: N°7 - Mostrar los totales al pié del resumen
     Dado que estoy en un cliente
     Cuando selecciono ver resumen del pedido
     Entonces el sistema mostrará al final del resumen los totales de contado, crédito y descuentos
-    siendo contado = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago contado más el compromiso de cobro,
-    crédito = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago crédito,
-    descuentos = a la suma de los descuentos de cada producto de los tipos de pedidos valorizados de ambas condiciones de pago.
+    Y siendo contado = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago contado más el compromiso de cobro,
+    Y crédito = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago crédito,
+    Y descuentos = a la suma de los descuentos de cada producto de los tipos de pedidos valorizados de ambas condiciones de pago.
     
 Escenario: N°8 - Mostrar en el resumen las secciones
     Dado que estoy en un cliente
@@ -84,5 +82,4 @@ Escenario: N°9 - Sección bonificaciones
     Dado que estoy en un cliente 
     Y se registró bonificaciones
     Cuando selecciono ver resumen del pedido
-    Entonces el sistema mostrará dentro de la sección bonificaciones 
-    el _idBonificacion, _nombreBonificacion, _nombre del producto, la cantidad ingresada y la _unidadMedida
+    Entonces el sistema mostrará dentro de la sección bonificaciones el _idBonificacion, _nombreBonificacion, _nombre del producto, la cantidad ingresada y la _unidadMedida
