@@ -13,9 +13,9 @@ Escenario: N°1 - Agregar productos beneficio con disponible
     Dado que se desplegó el detalle de una bonificación
     Y hay _disponible_ > 0
     Cuando se ingresan cantidades a un producto
-    Y _disponible_ >= 0
     Entonces el sistema agregará la cantidad ingresada
-    Y restará la cantidad ingresada al disponible
+    Y actualizará el _disponible_
+    Y mostrará el control para restablecer a cero las cantidades
 
 Escenario: N°2 - Agregar productos beneficio sin disponible
     Dado que se desplegó el detalle de una bonificación
@@ -49,3 +49,10 @@ Escenario: N°5 - Validar aplicación de bonificacion
     Cuando finalizamos bonificaciones
     Entonces el sistema avisará que faltan productos por ingresar
     Y permanecerá en bonificaciones para continuar con el ingreso 
+
+Escenario: N°6 - Reestablecer cantidades
+    Dado que se ingresaron productos de bonificación
+    Y se muestró el control para reestablecer cantidades
+    Cuando selecciono reestablecer las cantidades
+    Entonces el sistema eliminará las cantidades ingresadas dejandolas en 0
+    Y actualizará el _disponible_
