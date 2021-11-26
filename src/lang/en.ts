@@ -140,6 +140,7 @@ const en = {
 		mensajeIniciativasSinMotivo:
 			'Please enter a reason for each canceled initiative.',
 		borrarDescuento: 'Do you want to eliminate the tiered discount?',
+		descuentoEscalonadoEliminado: 'Tiered discount removed',
 	},
 	pasos: {
 		planeacion: 'Planning',

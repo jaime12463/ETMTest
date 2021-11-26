@@ -30,11 +30,11 @@ const TarjetaCoberturas: React.FC<Props> = ({
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
 
-	const productoEnPedido = venta.productos.find(
-		(p) => p.codigoProducto === producto.codigoProducto
+	const coberturaEjecutada = visitaActual.coberturasEjecutadas.find(
+		(cobertura) => cobertura.codigoProducto === producto.codigoProducto
 	);
 
-	const prodcutoAMandar: TProductoPedido = {
+	const productoAMandar: TProductoPedido = {
 		unidades: 0,
 		subUnidades: 0,
 		total: 0,
@@ -50,19 +50,20 @@ const TarjetaCoberturas: React.FC<Props> = ({
 			subUnidad: producto.precioConImpuestoSubunidad,
 		},
 		...producto,
+		...coberturaEjecutada,
 	};
 
 	return (
 		<Box
 			border={
-				productoEnPedido &&
-				(productoEnPedido.unidades > 0 || productoEnPedido.subUnidades > 0)
+				coberturaEjecutada &&
+				(coberturaEjecutada.unidades > 0 || coberturaEjecutada.subUnidades > 0)
 					? `1px solid ${theme.palette.success.main}`
 					: '1px solid #D9D9D9'
 			}
 			overflow='hidden'
 		>
-			<Check producto={prodcutoAMandar} />
+			<Check producto={productoAMandar} />
 			<Box display='flex'>
 				<Informacion
 					codigoProducto={producto.codigoProducto}
@@ -72,7 +73,7 @@ const TarjetaCoberturas: React.FC<Props> = ({
 					precioConImpuestoSubunidad={producto.precioConImpuestoSubunidad}
 				/>
 				<Controles
-					producto={prodcutoAMandar}
+					producto={productoAMandar}
 					stateInputFocus={stateInputFocus}
 					stateFocusId={stateFocusId}
 					resetCoberturas={resetCoberturas}

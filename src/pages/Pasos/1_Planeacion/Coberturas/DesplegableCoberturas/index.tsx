@@ -52,13 +52,15 @@ const DesplegableCoberturas: React.FC<Props> = ({
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
 
-	const coberturasAgregadas = venta.productos.filter((producto) => {
-		for (const codigo of codigosProductos) {
-			if (producto.codigoProducto === codigo) {
-				return producto;
+	const coberturasAgregadas = visitaActual.coberturasEjecutadas.filter(
+		(producto) => {
+			for (const codigo of codigosProductos) {
+				if (producto.codigoProducto === codigo) {
+					return producto;
+				}
 			}
 		}
-	});
+	);
 
 	const productos = codigosProductos.map((codigoPoducto) =>
 		useObtenerProductoPorCodigo(codigoPoducto)
@@ -93,7 +95,11 @@ const DesplegableCoberturas: React.FC<Props> = ({
 						background:
 							expandido === id ? theme.palette.secondary.main : 'none',
 						border:
-							expandido !== id && coberturasAgregadas.length > 0
+							expandido !== id &&
+							coberturasAgregadas.some(
+								(cobertura) =>
+									cobertura.unidades > 0 || cobertura.subUnidades > 0
+							)
 								? `1px solid ${theme.palette.success.main}`
 								: '1px solid #D9D9D9',
 						borderBottom: 'none',
@@ -102,10 +108,17 @@ const DesplegableCoberturas: React.FC<Props> = ({
 				>
 					<Typography variant='subtitle3'>{grupo}</Typography>
 					<Typography variant='subtitle3'>
-						{coberturasAgregadas.length > 0 ? (
+						{coberturasAgregadas.some(
+							(cobertura) => cobertura.unidades > 0 || cobertura.subUnidades > 0
+						) ? (
 							<Box display='flex' alignSelf='center' gap='7px'>
 								<Typography variant='subtitle3'>
-									{`${coberturasAgregadas.length} de ${codigosProductos.length} Items`}
+									{`${
+										coberturasAgregadas.filter(
+											(cobertura) =>
+												cobertura.unidades > 0 || cobertura.subUnidades > 0
+										).length
+									} de ${codigosProductos.length} Items`}
 								</Typography>
 								{expandido !== id && (
 									<CheckRedondoIcon
@@ -144,7 +157,11 @@ const DesplegableCoberturas: React.FC<Props> = ({
 					padding={expandido === id ? '16px 14px' : '0 14px 12px 14px'}
 					sx={{
 						border:
-							expandido !== id && coberturasAgregadas.length > 0
+							expandido !== id &&
+							coberturasAgregadas.some(
+								(cobertura) =>
+									cobertura.unidades > 0 || cobertura.subUnidades > 0
+							)
 								? `1px solid ${theme.palette.success.main}`
 								: '1px solid #D9D9D9',
 						borderTop: 'none',

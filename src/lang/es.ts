@@ -146,6 +146,7 @@ const es = {
 		mensajeIniciativasSinMotivo:
 			'Por favor, ingrese un motivo para cada iniciativa cancelada.',
 		borrarDescuento: '¿Deseas eliminar el descuento escalonado? ',
+		descuentoEscalonadoEliminado: 'Descuento escalonado eliminado',
 	},
 	pasos: {
 		planeacion: 'Planeación',

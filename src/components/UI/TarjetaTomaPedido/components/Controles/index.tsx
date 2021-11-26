@@ -26,6 +26,7 @@ import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {useTranslation} from 'react-i18next';
 import {StateFocusID} from '../..';
+import useEstilos from './useEstilos';
 
 const InputStyled = styled(Input)(({}) => ({
 	backgroundColor: 'white',
@@ -87,6 +88,11 @@ const Controles: React.FC<Props> = ({
 	);
 	const {t} = useTranslation();
 	const mostrarAviso = useMostrarAviso();
+	const classes = useEstilos({
+		bordeError: visitaActual.seQuedaAEditar.bordeError,
+		unidades: getValues.unidades,
+		subUnidades: getValues.subUnidades,
+	});
 
 	React.useEffect(() => {
 		obtenerCalculoDescuentoProducto(
@@ -239,7 +245,8 @@ const Controles: React.FC<Props> = ({
 						fill={producto.unidades > 0 ? '#2F000E' : '#D9D9D9'}
 					/>
 				</IconButton>
-				<InputStyled
+				<Input
+					className={classes.input}
 					value={getValues.unidades}
 					onChange={handleOnChange}
 					onKeyPress={handleKeyPress}
@@ -319,7 +326,8 @@ const Controles: React.FC<Props> = ({
 								fill={getValues.subUnidades > 0 ? '#2F000E' : '#D9D9D9'}
 							/>
 						</IconButton>
-						<InputStyled
+						<Input
+							className={classes.input}
 							onKeyPress={handleKeyPress}
 							onChange={handleOnChange}
 							value={getValues.subUnidades}

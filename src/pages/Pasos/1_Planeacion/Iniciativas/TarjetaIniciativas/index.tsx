@@ -33,6 +33,7 @@ import {
 	borrarProductoDelPedidoActual,
 	cambiarEstadoIniciativa,
 	cambiarMotivoCancelacionIniciativa,
+	cambiarSeQuedaAEditar,
 	editarUnidadesOSubUnidadesEjecutadas,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {InputsKeysFormTomaDePedido, TProductoPedido} from 'models';
@@ -157,6 +158,17 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		getValues,
 		setGetValues
 	);
+
+	React.useEffect(() => {
+		if (
+			visitaActual.seQuedaAEditar.bordeError &&
+			estado === 'cancelada' &&
+			motivo === ''
+		) {
+			setExpandido(id);
+			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+		}
+	}, [visitaActual.seQuedaAEditar.bordeError, estado, motivo, id]);
 
 	React.useEffect(() => {
 		if (puedeAgregar) {

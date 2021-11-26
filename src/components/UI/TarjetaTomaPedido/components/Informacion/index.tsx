@@ -7,23 +7,23 @@ import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
 
 interface Props {
-	codigoProducto: number;
-	nombreProducto: string;
-	presentacion: number;
-	precioConImpuestoUnidad: number;
-	precioConImpuestoSubunidad: number;
+	producto: TProductoPedido;
 	conSwitch?: boolean;
 }
 
-const Informacion: React.FC<Props> = ({
-	codigoProducto,
-	nombreProducto,
-	presentacion,
-	precioConImpuestoSubunidad,
-	precioConImpuestoUnidad,
-	conSwitch,
-}) => {
+const Informacion: React.FC<Props> = ({producto, conSwitch}) => {
 	const {t} = useTranslation();
+
+	const {
+		codigoProducto,
+		nombreProducto,
+		presentacion,
+		precioConImpuestoUnidad,
+		precioConImpuestoSubunidad,
+		preciosNeto,
+	} = producto;
+
+	const {unidad, subUnidad} = preciosNeto;
 
 	return (
 		<Box
@@ -45,13 +45,29 @@ const Informacion: React.FC<Props> = ({
 					<Typography variant='caption' fontFamily='Open Sans'>
 						x{presentacion}
 					</Typography>
-					<Typography variant='subtitle3' fontFamily='Open Sans'>
+					<Typography
+						variant='subtitle3'
+						fontFamily='Open Sans'
+						sx={
+							unidad !== precioConImpuestoUnidad
+								? {textDecoration: 'line-through'}
+								: null
+						}
+					>
 						{formatearNumero(precioConImpuestoUnidad, t)}
 					</Typography>
 				</Box>
 				<Box display='flex' alignItems='center' gap='4px'>
 					<BotellaIcon height='14px' width='14px' />
-					<Typography variant='subtitle3' fontFamily='Open Sans'>
+					<Typography
+						variant='subtitle3'
+						fontFamily='Open Sans'
+						sx={
+							subUnidad !== precioConImpuestoSubunidad
+								? {textDecoration: 'line-through'}
+								: null
+						}
+					>
 						{formatearNumero(precioConImpuestoSubunidad, t)}
 					</Typography>
 				</Box>

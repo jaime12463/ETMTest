@@ -45,6 +45,7 @@ const Descuentos = ({
 	stateAviso,
 }: Props) => {
 	const {infoDescuento, setInfoDescuento} = stateInfoDescuento;
+
 	const {focusId, setFocusId} = stateFocusId;
 	const {setAlerta, setConfigAlerta} = stateAviso;
 	const {inputFocus, setInputFocus} = stateInputFocus;
@@ -80,7 +81,9 @@ const Descuentos = ({
 	}, [producto, infoDescuento]);
 
 	const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setInputValue(e.target.value.replace(/[^0-9]/g, ''));
+		if (Number(e.target.value) >= 0) {
+			setInputValue(e.target.value.replace(/[^0-9,.]/g, ''));
+		}
 	};
 
 	const onBlurHandler = () => {
@@ -119,6 +122,13 @@ const Descuentos = ({
 			borrarDescuentoDelProducto({
 				codigoProducto: producto.codigoProducto,
 			})
+		);
+		mostrarAviso(
+			'success',
+			t('advertencias.descuentoEscalonadoEliminado'),
+			undefined,
+			undefined,
+			'descuentoEscalonadoEliminado'
 		);
 	};
 
