@@ -22,7 +22,7 @@ Escenario: N°2 - Agregar productos beneficio sin disponible
     Y hay _disponible_ > 0
     Cuando se ingresan cantidades a un producto
     Y supera el _disponible_
-    Entonces el sistema dará aviso que supera el _unidadBeneficioGrupo 
+    Entonces el sistema dará aviso que supera la _cantidadBeneficioGrupo 
     Y no agregará el producto beneficio
 
 Escenario: N°3 - Agregar productos beneficio teniendo producto agregado de otro grupo
