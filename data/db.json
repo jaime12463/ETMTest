@@ -870,18 +870,6 @@
 					"fechaEntrega": "2021-06-12"
 				}
 			],
-			"coberturas": [
-				{
-					"grupoCobertura": "Grupo Colas",
-					"secuenciaGrupoCobertura": 1,
-					"productosGrupoCobertura": [360, 380]
-				},
-				{
-					"grupoCobertura": "Grupo Aguas",
-					"secuenciaGrupoCobertura": 2,
-					"productosGrupoCobertura": [400]
-				}
-			],
 			"informacionCrediticia": {
 				"condicion": "creditoFormal",
 				"limite": 3000,

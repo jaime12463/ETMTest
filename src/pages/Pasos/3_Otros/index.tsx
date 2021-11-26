@@ -124,6 +124,7 @@ export const Otros: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				valido={envasesValido}
+				dataCy="Envases"
 			>
 				<EnvasesRetornables />
 			</TarjetaColapsable>
@@ -152,6 +153,7 @@ export const Otros: React.FC = () => {
 				}
 				labelChip={`${cantidadCanjes.length} Items`}
 				valido={canjeValido}
+				dataCy="Canjes"
 			>
 				<Canjes />
 			</TarjetaColapsable>
@@ -171,6 +173,7 @@ export const Otros: React.FC = () => {
 					expandido={expandido}
 					setExpandido={setExpandido}
 					valido={compromisoDeCobroValido}
+					dataCy="CompromisoCobro"
 				>
 					<CompromisoDeCobro />
 				</TarjetaColapsable>
@@ -191,6 +194,7 @@ export const Otros: React.FC = () => {
 					expandido={expandido}
 					setExpandido={setExpandido}
 					valido={ordenDeCompraValido}
+					dataCy="OrdenDeCompra"
 				>
 					<OrdenDeCompra />
 				</TarjetaColapsable>

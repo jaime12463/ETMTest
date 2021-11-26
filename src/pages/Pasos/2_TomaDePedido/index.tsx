@@ -74,6 +74,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				cantidadItems={productosConUnidades.length}
 				labelChip={`${productosConUnidades.length} Items`}
 				valido={ventaValida}
+				dataCy="TomaDePedido"
 			>
 				<TomaPedido />
 			</TarjetaColapsable>
@@ -91,6 +92,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				valido={promocionesValida}
 				cantidadItems={cantidadPromoPush.length}
 				labelChip={`${cantidadPromoPush.length} Items`}
+				dataCy="Promociones"
 			>
 				<PromoPush />
 			</TarjetaColapsable>

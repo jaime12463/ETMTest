@@ -49,6 +49,7 @@ export const Planeacion: React.FC = () => {
 				id='PedidosEnCurso'
 				expandido={expandido}
 				setExpandido={setExpandido}
+				dataCy="PedidosEnCurso"
 			>
 				<div> PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
@@ -63,6 +64,7 @@ export const Planeacion: React.FC = () => {
 				id='Sugeridos'
 				expandido={expandido}
 				setExpandido={setExpandido}
+				dataCy="Sugeridos"
 			>
 				<div>SUGERIDOS PARA TI PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
@@ -89,6 +91,7 @@ export const Planeacion: React.FC = () => {
 					</Typography>
 				}
 				valido={iniciativasEjecutadas.length > 0}
+				dataCy="Iniciativas"
 			>
 				<Iniciativas />
 			</TarjetaColapsable>
@@ -109,6 +112,7 @@ export const Planeacion: React.FC = () => {
 				cantidadItems={coberturasAgregadas?.length}
 				labelChip={`${coberturasAgregadas?.length} de ${codigosCoberturas.length} Items`}
 				valido={coberturasAgregadas?.length > 0}
+				dataCy="Coberturas"
 			>
 				<Coberturas coberturasAgregadas={coberturasAgregadas} />
 			</TarjetaColapsable>
