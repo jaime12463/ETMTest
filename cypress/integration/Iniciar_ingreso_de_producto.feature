@@ -57,7 +57,7 @@ Ejemplos:
 
 Esquema del escenario: N°5 El prevendedor ingresa un producto que aún no se encuentra en el pedido, con _validaPresupuesto = true y _tieneProductosHabilitados = false
     Dado '<permiteBotelleo>' permite botelleo, y requiere motivo = '<_requiereMotivo>'
-    y el tipo de pedido es valorizado = '<_esValorizado>'
+    Y el tipo de pedido es valorizado = '<_esValorizado>'
     Cuando ingresa un producto habilitado
     Entonces el sistema creará una nueva tarjeta 
     Y mostrará el _codigoProducto 
