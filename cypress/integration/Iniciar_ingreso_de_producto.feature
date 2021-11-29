@@ -127,3 +127,12 @@ Escenario: N°11 - El producto tiene descuento polarizado aplicado
     Y mostrará el precio ingresado por el prevendedor
     Y mostrará el ahorro para unidades
     Y mostrará el ahorro para subunidades
+
+Escenario: N°12 - El producto tiene descuento automático
+    Dado que se ingreso un producto al pedido
+    Y se encuentra informado _precioConDescuentoUnidad y _precioConDescuentoSubunidad
+    Cuando se muestra la tarjeta del producto
+    Entonces el sistema mostrará los precios con impuestos tachados
+    Y mostrará el precio con descuento en rojo
+
+# al guardar, se guardan todos los precios para luego calcular el ahorro.

@@ -3,8 +3,11 @@
 @Pedido @Guardar_pedido @Iniciativas @Bonificaciones @Sprint7 @Sprint8 @Sprint9 @Sprint10 @Sprint11 @Sprint13 @Sprint15 @Sprint17
 
 # Sprint17: 
-# Cabecera: idPedido, codigo cliente, idBonificación, fecha y hora, usuario, ruta, clase de condición??
-# Detalle: idPedido, codigo producto, unidades, subunidades ?? o solo unidades.
+# Cabecera: idPedido, codigo cliente, idBonificación, fecha y hora, usuario, ruta
+# Detalle: idPedido, codigo producto, cantidad, unidad de medida.
+
+# Guardar el precioConImpuestoUnidad, precioConImpuestoSubunidad y los precios con descuento
+# para luego calcular el ahorro (precio - precio_con_descuento) 
 
 
 # Sprint13: 

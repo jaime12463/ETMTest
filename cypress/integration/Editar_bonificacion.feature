@@ -2,7 +2,7 @@
 
 @Pedido @Bonificacion @Sprint17
 
-# _disponible_ = es _unidadesBeneficioGrupo - cantidades ingresadas de todos los productos del mismo grupo
+# _disponible_ = es _cantidadBeneficioGrupo - cantidades ingresadas de todos los productos del mismo grupo
 
 Característica: Editar bonificaciones
     Como prevendedor
