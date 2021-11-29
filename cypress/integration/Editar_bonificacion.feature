@@ -54,5 +54,7 @@ Escenario: N°6 - Reestablecer cantidades
     Dado que se ingresaron productos de bonificación
     Y se muestró el control para reestablecer cantidades
     Cuando selecciono reestablecer las cantidades
-    Entonces el sistema eliminará las cantidades ingresadas dejandolas en 0
+    Entonces el sistema avisará que se borrarán las bonificaciones ingresadas
+    Y preguntará si desea contiunar
+    Y si continúa, eliminará las cantidades ingresadas dejandolas en 0
     Y actualizará el _disponible_
