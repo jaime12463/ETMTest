@@ -1347,20 +1347,7 @@
 					"codigoProducto": 170456,
 					"esVentaSubunidades": true,
 					"unidadesDisponibles": 10,
-					"descuentoPolarizado": [
-						{
-							"precioVentaAlPublicoDesde": 100,
-							"precioVentaAlPublicoHasta": 199.99,
-							"porcentajeDescuentoPolarizado": 10,
-							"claseCondicionPolarizado": "ZBM1"
-						},
-						{
-							"precioVentaAlPublicoDesde": 200,
-							"precioVentaAlPublicoHasta": 399.99,
-							"porcentajeDescuentoPolarizado": 15,
-							"claseCondicionPolarizado": "ZBM2"
-						}
-					],
+
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,
@@ -1435,6 +1422,20 @@
 				{
 					"codigoProducto": 340,
 					"esVentaSubunidades": true,
+					"descuentoPolarizado": [
+						{
+							"precioVentaAlPublicoDesde": 100,
+							"precioVentaAlPublicoHasta": 199.99,
+							"porcentajeDescuentoPolarizado": 10,
+							"claseCondicionPolarizado": "ZBM1"
+						},
+						{
+							"precioVentaAlPublicoDesde": 200,
+							"precioVentaAlPublicoHasta": 399.99,
+							"porcentajeDescuentoPolarizado": 15,
+							"claseCondicionPolarizado": "ZBM2"
+						}
+					],
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,

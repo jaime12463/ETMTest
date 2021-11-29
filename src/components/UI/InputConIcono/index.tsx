@@ -16,6 +16,7 @@ interface Props {
 	onKeyPress?: (e: React.KeyboardEvent<HTMLDivElement>) => void;
 	inputRef?: (input: any) => void;
 	onClick?: () => void;
+	onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
 	margin?: string;
 	label: string;
 	simboloMoneda?: boolean;
@@ -38,6 +39,7 @@ const InputConIcono: React.FC<Props> = ({
 	error = false,
 	mensajeError,
 	focus = false,
+	onFocus,
 }) => {
 	const classes = useEstilos({valid, error});
 	const {t} = useTranslation();
@@ -55,6 +57,7 @@ const InputConIcono: React.FC<Props> = ({
 				onClick={onClick}
 				value={value}
 				onChange={onChange}
+				onFocus={onFocus}
 				onKeyPress={onKeyPress}
 				onBlur={onBlur}
 				sx={{borderBottom: error ? '1px solid red' : 'none'}}

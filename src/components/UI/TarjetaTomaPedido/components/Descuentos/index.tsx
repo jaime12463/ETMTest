@@ -51,7 +51,9 @@ const Descuentos = ({
 	const {inputFocus, setInputFocus} = stateInputFocus;
 	const [mostrarInfo, setMostrarinfo] = React.useState<boolean>(false);
 	const [inputValue, setInputValue] = React.useState<string>(
-		infoDescuento.inputPolarizado.toString() ?? ''
+		infoDescuento.inputPolarizado === 0
+			? ''
+			: infoDescuento.inputPolarizado.toString()
 	);
 	const dispatch = useAppDispatch();
 
@@ -74,6 +76,17 @@ const Descuentos = ({
 		) {
 			if (producto.unidades > 0 || producto.subUnidades > 0) {
 				setMostrarinfo(true);
+			} else {
+				setInputValue('');
+				obtenerCalculoDescuentoProducto(
+					{
+						inputPolarizado: 0,
+						unidades: 0,
+						subUnidades: 0,
+					},
+					stateInfoDescuento
+				);
+				setMostrarinfo(false);
 			}
 		} else {
 			setMostrarinfo(false);
@@ -131,6 +144,13 @@ const Descuentos = ({
 			'descuentoEscalonadoEliminado'
 		);
 	};
+
+	const mostrarInputPolarizado =
+		infoDescuento.tipo === 'polarizado'
+			? producto.unidades > 0 || producto.subUnidades > 0
+				? true
+				: false
+			: false;
 
 	if (!infoDescuento.tipo) return null;
 
@@ -215,14 +235,22 @@ const Descuentos = ({
 						<Box width='125px' sx={{background: '#F5F0EF'}} />
 					</Box>
 				)}
-				{infoDescuento.tipo === 'polarizado' && (
-					<Box marginBottom='16px'>
+
+				<Box
+					marginBottom={mostrarInputPolarizado ? '16px' : '0'}
+					sx={{
+						opacity: mostrarInputPolarizado ? 1 : 0,
+						transition: 'opacity 0.3s ease-in-out',
+					}}
+				>
+					{mostrarInputPolarizado && (
 						<InputConIcono
 							onBlur={onBlurHandler}
 							valid={false}
 							value={inputValue}
 							onChange={onChangeInput}
 							onKeyPress={handleKeyPress}
+							onFocus={(e) => e.target.select()}
 							onClick={() => {
 								setInputFocus('descuento');
 								setFocusId(producto.codigoProducto);
@@ -239,8 +267,8 @@ const Descuentos = ({
 								}
 							}}
 						/>
-					</Box>
-				)}
+					)}
+				</Box>
 			</Box>
 		</>
 	);

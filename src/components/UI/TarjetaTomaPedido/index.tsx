@@ -116,6 +116,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 				/>
 			</Box>
+
 			<Descuentos
 				stateInfoDescuento={{infoDescuento, setInfoDescuento}}
 				obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}

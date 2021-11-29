@@ -103,6 +103,17 @@ export const useAgregarProductoAlPedidoActual = (
 				return producto.codigoProducto === codigoProducto;
 			});
 
+			if (obtenerCalculoDescuentoProducto) {
+				obtenerCalculoDescuentoProducto(
+					{
+						inputPolarizado: undefined,
+						unidades: unidadesParseado,
+						subUnidades: subUnidadesParseado,
+					},
+					stateInfoDescuento
+				);
+			}
+
 			const preciosNeto = infoDescuento
 				? {
 						unidad:
@@ -118,66 +129,29 @@ export const useAgregarProductoAlPedidoActual = (
 						unidad: productoActual.precioConImpuestoUnidad,
 						subUnidad: productoActual.precioConImpuestoSubunidad,
 				  };
-
-			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
-				dispatch(
-					agregarProductoDelPedidoActual({
-						productoPedido: {
-							...productoActual,
-							unidades: unidadesParseado,
-							subUnidades: subUnidadesParseado,
-							total:
-								preciosNeto.unidad * unidadesParseado +
-								preciosNeto.subUnidad * subUnidadesParseado,
-							tipoPago: productoBuscado
-								? productoBuscado.tipoPago
-								: clienteActual.tipoPagoActual,
-							catalogoMotivo,
-							estado: 'activo',
-							preciosBase: {
-								unidad: productoActual.precioConImpuestoUnidad,
-								subUnidad: productoActual.precioConImpuestoSubunidad,
-							},
-							preciosNeto,
-							descuento: infoDescuento ?? productoActual.descuento,
+			dispatch(
+				agregarProductoDelPedidoActual({
+					productoPedido: {
+						...productoActual,
+						unidades: unidadesParseado,
+						subUnidades: subUnidadesParseado,
+						total:
+							preciosNeto.unidad * unidadesParseado +
+							preciosNeto.subUnidad * subUnidadesParseado,
+						tipoPago: productoBuscado
+							? productoBuscado.tipoPago
+							: clienteActual.tipoPagoActual,
+						catalogoMotivo,
+						estado: 'activo',
+						preciosBase: {
+							unidad: productoActual.precioConImpuestoUnidad,
+							subUnidad: productoActual.precioConImpuestoSubunidad,
 						},
-					})
-				);
-				if (obtenerCalculoDescuentoProducto) {
-					obtenerCalculoDescuentoProducto(
-						{
-							inputPolarizado: undefined,
-							unidades: unidadesParseado,
-							subUnidades: subUnidadesParseado,
-						},
-						stateInfoDescuento
-					);
-				}
-			} else {
-				if (
-					!configuracionTipoDePedidoActual?.esMandatorio ||
-					validarHayMasProductosMandatorios(
-						productosMandatoriosVisitaActual.mandatorios
-					) ||
-					!validarHayMasProductosNoMandatorios(
-						productosMandatoriosVisitaActual.noMandatorios
-					)
-				) {
-					dispatch(borrarProductoDelPedidoActual({codigoProducto}));
-				} else {
-					mostrarAdvertenciaEnDialogo(
-						t('advertencias.borrarPedidosNoMandatorios', {
-							tipoPedido: pedidoNoMandatorio?.descripcion,
-						}),
-						'eliminar-linea-pedido',
-						manejadorConfirmarEliminarPedidosNoMandatorios,
-						{
-							aceptar: t('general.si'),
-							cancelar: t('general.no'),
-						}
-					);
-				}
-			}
+						preciosNeto,
+						descuento: infoDescuento ?? productoActual.descuento,
+					},
+				})
+			);
 		},
 		[productoActual, validarAgregarProductoAlPedidoCliente, dispatch]
 	);
