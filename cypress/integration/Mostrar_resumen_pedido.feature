@@ -62,7 +62,9 @@ Escenario: N°7 - Mostrar los totales al pié del resumen
     Y siendo contado = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago contado más el compromiso de cobro,
     Y crédito = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago crédito,
     Y descuentos = a la suma de los descuentos de cada producto de los tipos de pedidos valorizados de ambas condiciones de pago.
-    
+
+ # Si el producto en el peddo guardado tiene informado precioConDescuentoUnidad y precioConDescuentoSubunidad, el descuento se calcula = precioConImpuestoUnidad - precioConDescuentoUnidad y precioConImpuestoSubunidad - precioConDescuentoSubunidad   
+
 Escenario: N°8 - Mostrar en el resumen las secciones
     Dado que estoy en un cliente
     Cuando selecciono ver resumen del pedido
