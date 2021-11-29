@@ -6,13 +6,14 @@ import Typography from '@mui/material/Typography';
 import DesplegableCoberturas from './DesplegableCoberturas';
 import useEstilos from './useEstilos';
 import {useObtenerCoberturas} from 'hooks';
-import {ReiniciarIcon} from 'assests/iconos';
+import {AvisoIcon, ReiniciarIcon} from 'assests/iconos';
 import {TProductoPedido} from 'models';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {
 	agregarCoberturasEjecutadas,
 	borrarProductoDelPedidoActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
+import Modal from 'components/UI/Modal';
 
 interface Props {
 	coberturasAgregadas: TProductoPedido[];
@@ -25,6 +26,7 @@ const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 	const dispatch = useAppDispatch();
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
 	const [resetCoberturas, setResetCoberturas] = React.useState<boolean>(false);
+	const [alerta, setAlerta] = React.useState<boolean>(false);
 
 	const restablecerCantidades = () => {
 		setResetCoberturas((prevState) => !prevState);
@@ -62,7 +64,7 @@ const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 									Restablecer cantidades a cero
 								</Typography>
 							}
-							onClick={() => restablecerCantidades()}
+							onClick={() => setAlerta(true)}
 						/>
 					</Box>
 				)}
@@ -80,6 +82,18 @@ const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 					/>
 				);
 			})}
+			<Modal
+				alerta={alerta}
+				setAlerta={setAlerta}
+				contenidoMensaje={{
+					titulo: '¿Restablecer cantidades a cero?',
+					mensaje: '¿Está seguro que desea restablecer las cantidades a cero?',
+					callbackAceptar: () => restablecerCantidades(),
+					tituloBotonAceptar: 'Restablecer',
+					tituloBotonCancelar: 'Cancelar',
+					iconoMensaje: <AvisoIcon />,
+				}}
+			/>
 		</Stack>
 	);
 };
