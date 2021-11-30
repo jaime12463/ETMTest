@@ -49,39 +49,7 @@ const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 	};
 
 	return (
-		<Stack marginTop='18px' spacing='10px'>
-			{!visitaActual.pasoATomaPedido &&
-				visitaActual.coberturasEjecutadas.some(
-					(cobertura) => cobertura.unidades > 0 || cobertura.subUnidades > 0
-				) && (
-					<Box display='flex' justifyContent='end'>
-						<Chip
-							className={classes.chip}
-							size='small'
-							icon={<ReiniciarIcon width='7.5px' height='7.5px' />}
-							label={
-								<Typography variant='caption' fontFamily='Open Sans'>
-									Restablecer cantidades a cero
-								</Typography>
-							}
-							onClick={() => setAlerta(true)}
-						/>
-					</Box>
-				)}
-			{coberturas?.map((cobertura) => {
-				return (
-					<DesplegableCoberturas
-						key={cobertura.secuenciaGrupoCobertura}
-						id={cobertura.secuenciaGrupoCobertura.toString()}
-						expandido={expandido}
-						setExpandido={setExpandido}
-						grupo={cobertura.grupoCobertura}
-						codigosProductos={cobertura.productosGrupoCobertura}
-						resetCoberturas={resetCoberturas}
-						setResetCoberturas={setResetCoberturas}
-					/>
-				);
-			})}
+		<>
 			<Modal
 				alerta={alerta}
 				setAlerta={setAlerta}
@@ -94,7 +62,41 @@ const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 					iconoMensaje: <AvisoIcon />,
 				}}
 			/>
-		</Stack>
+			<Stack marginTop='18px' spacing='10px'>
+				{!visitaActual.pasoATomaPedido &&
+					visitaActual.coberturasEjecutadas.some(
+						(cobertura) => cobertura.unidades > 0 || cobertura.subUnidades > 0
+					) && (
+						<Box display='flex' justifyContent='end'>
+							<Chip
+								className={classes.chip}
+								size='small'
+								icon={<ReiniciarIcon width='7.5px' height='7.5px' />}
+								label={
+									<Typography variant='caption' fontFamily='Open Sans'>
+										Restablecer cantidades a cero
+									</Typography>
+								}
+								onClick={() => setAlerta(true)}
+							/>
+						</Box>
+					)}
+				{coberturas?.map((cobertura) => {
+					return (
+						<DesplegableCoberturas
+							key={cobertura.secuenciaGrupoCobertura}
+							id={cobertura.secuenciaGrupoCobertura.toString()}
+							expandido={expandido}
+							setExpandido={setExpandido}
+							grupo={cobertura.grupoCobertura}
+							codigosProductos={cobertura.productosGrupoCobertura}
+							resetCoberturas={resetCoberturas}
+							setResetCoberturas={setResetCoberturas}
+						/>
+					);
+				})}
+			</Stack>
+		</>
 	);
 };
 

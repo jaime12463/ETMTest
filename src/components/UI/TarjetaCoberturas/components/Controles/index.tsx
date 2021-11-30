@@ -24,7 +24,10 @@ import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks
 import {useTranslation} from 'react-i18next';
 import {StateFocusID} from 'components/UI/TarjetaTomaPedido';
 import useEstilos from './useEstilos';
-import {agregarCoberturasEjecutadas} from 'redux/features/visitaActual/visitaActualSlice';
+import {
+	agregarCoberturasEjecutadas,
+	borrarProductoDelPedidoActual,
+} from 'redux/features/visitaActual/visitaActualSlice';
 interface Props {
 	producto: TProductoPedido;
 	stateInputFocus: TStateInputFocus;
@@ -62,8 +65,6 @@ const Controles: React.FC<Props> = ({
 
 	const {inputFocus, setInputFocus} = stateInputFocus;
 
-	const [mostrarAcciones, setMostrarAcciones] = React.useState<boolean>(false);
-
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {configuracionPedido}: any = datosCliente;
@@ -94,11 +95,15 @@ const Controles: React.FC<Props> = ({
 	}, [puedeAgregar]);
 
 	React.useEffect(() => {
-		if (getValues.unidades > 0 || getValues.subUnidades > 0) {
-			setMostrarAcciones(true);
-		}
-
-		return () => setMostrarAcciones(false);
+		return () => {
+			if (getValues.unidades === 0 && getValues.subUnidades === 0) {
+				dispatch(
+					borrarProductoDelPedidoActual({
+						codigoProducto: producto.codigoProducto,
+					})
+				);
+			}
+		};
 	}, [getValues.unidades, getValues.subUnidades]);
 
 	const validacionSubUnidades = () => {
@@ -245,6 +250,7 @@ const Controles: React.FC<Props> = ({
 					</IconButton>
 				)}
 				<Input
+					autoComplete='off'
 					className={classes.input}
 					value={getValues.unidades}
 					onChange={handleOnChange}
@@ -332,6 +338,7 @@ const Controles: React.FC<Props> = ({
 							</IconButton>
 						)}
 						<Input
+							autoComplete='off'
 							className={classes.input}
 							onKeyPress={handleKeyPress}
 							onChange={handleOnChange}
