@@ -250,6 +250,7 @@ const Controles: React.FC<Props> = ({
 					</IconButton>
 				)}
 				<Input
+					autoComplete='off'
 					className={classes.input}
 					value={getValues.unidades}
 					onChange={handleOnChange}
@@ -337,6 +338,7 @@ const Controles: React.FC<Props> = ({
 							</IconButton>
 						)}
 						<Input
+							autoComplete='off'
 							className={classes.input}
 							onKeyPress={handleKeyPress}
 							onChange={handleOnChange}
