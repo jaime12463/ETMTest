@@ -46,15 +46,7 @@ Escenario: N°5 - Validar aplicación de bonificacion
     Y _aplicacionBonificacion = "Total"
     Y se ingresó cantidad a un producto
     Y _disponible_ > 0
-    Cuando finalizamos bonificaciones
+    Cuando avanzamos a finalizar pedido
     Entonces el sistema avisará que faltan productos por ingresar
     Y permanecerá en bonificaciones para continuar con el ingreso 
 
-Escenario: N°6 - Reestablecer cantidades
-    Dado que se ingresaron productos de bonificación
-    Y se muestró el control para reestablecer cantidades
-    Cuando selecciono reestablecer las cantidades
-    Entonces el sistema avisará que se borrarán las bonificaciones ingresadas
-    Y preguntará si desea contiunar
-    Y si continúa, eliminará las cantidades ingresadas dejandolas en 0
-    Y actualizará el _disponible_
