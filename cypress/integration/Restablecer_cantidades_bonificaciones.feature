@@ -10,7 +10,7 @@ Característica: Restablecer las bonificaciones
     Para quitarlas del pedido al cliente
 
 
-Escenario: N°6 - Restablecer cantidades
+Escenario: N°1 - Restablecer cantidades
     Dado que se ingresaron productos de bonificación
     Y se muestró el control para reestablecer cantidades
     Cuando selecciono reestablecer las cantidades
