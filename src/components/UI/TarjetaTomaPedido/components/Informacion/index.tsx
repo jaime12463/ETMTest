@@ -67,7 +67,7 @@ const Informacion: React.FC<Props> = ({producto, conSwitch}) => {
 						variant='subtitle3'
 						fontFamily='Open Sans'
 						sx={
-							subUnidades > 0
+							unidades > 0
 								? subUnidad !== precioConImpuestoSubunidad
 									? {textDecoration: 'line-through'}
 									: null
