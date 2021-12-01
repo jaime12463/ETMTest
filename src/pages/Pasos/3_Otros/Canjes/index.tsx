@@ -267,6 +267,7 @@ const Izquierda: React.FC<IzquierdaProps> = ({
 					opciones={[...itemCatalogoMotivos.map((item) => item.label)]}
 					opcionSeleccionada={motivo}
 					setOpcion={setMotivo}
+					dataCy={`canje-motivo-value`}
 				/>
 			</Box>
 		</Box>

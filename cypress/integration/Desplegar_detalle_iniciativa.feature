@@ -10,14 +10,14 @@ Característica: Mostrar detalle iniciativa.
 
 Esquema del escenario: N°1 – Desplegar detalle de iniciativa pendiente
     Dado que estoy en la tarjeta de iniciativas
-    y quiero ver el detalle de una iniciativa pendiente 
+    Y quiero ver el detalle de una iniciativa pendiente 
     Cuando se despliega la iniciativa 
     Entonces el sistema mostrará el detalle de la iniciativa
     Y mostrará el _nombreIniciativa
     Y status sin valor, _nombreActividadPlan, _descripcionIniciativa, _finVigenciaIniciativa
     Y _idMaterialIniciativa, _nombre, _presentación de la unidades, precio por unidad, precio por subunidad
     Y los valores iniciales de cantidad de _unidadVentaIniciativa y _subunidadVentaIniciativa
-     Y <ingresoTomaDePedido> se ingreso a la toma de pedido <habilitaSeleccion> habilita la selección del status
+    Y '<ingresoTomaDePedido>' se ingreso a la toma de pedido '<habilitaSeleccion>' habilita la selección del status
 
   Ejemplos:
   |ingresoTomaDePedido|habilitaSeleccion|
@@ -26,7 +26,7 @@ Esquema del escenario: N°1 – Desplegar detalle de iniciativa pendiente
 
 Esquema del escenario: N°2 – Desplegar detalle de iniciativa ejecutada
     Dado que estoy en la tarjeta de iniciativas
-    y quiero ver el detalle de una iniciativa ejecutada 
+    Y quiero ver el detalle de una iniciativa ejecutada 
     Cuando se despliega la iniciativa 
     Entonces el sistema mostrará el detalle de la iniciativa
     Y mostrará el _nombreIniciativa
@@ -34,7 +34,7 @@ Esquema del escenario: N°2 – Desplegar detalle de iniciativa ejecutada
     Y _idMaterialIniciativa, _nombre, _presentación de la unidades, precio por unidad, precio por subunidad
     Y los valores registrados en la ejecución de cantidad de unidades y subunidades
     Y el borde de la iniciativa en color verde y el ícono de ejecutada 
-    Y <ingresoTomaDePedido> se ingreso a la toma de pedido <habilitaSeleccion> habilita la selección del status, unidades y subunidades
+    Y '<ingresoTomaDePedido>' se ingreso a la toma de pedido '<habilitaSeleccion>' habilita la selección del status, unidades y subunidades
 
   Ejemplos:
   |ingresoTomaDePedido|habilitaSeleccion|
@@ -43,7 +43,7 @@ Esquema del escenario: N°2 – Desplegar detalle de iniciativa ejecutada
 
 Esquema del escenario: N°3 – Desplegar detalle de iniciativa cancelada
     Dado que estoy en la tarjeta de iniciativas
-    y quiero ver el detalle de una iniciativa cancelada 
+    Y quiero ver el detalle de una iniciativa cancelada 
     Cuando se despliega la iniciativa 
     Entonces el sistema mostrará el detalle de la iniciativa
     Y mostrará el _nombreIniciativa
@@ -51,7 +51,7 @@ Esquema del escenario: N°3 – Desplegar detalle de iniciativa cancelada
     Y _idMaterialIniciativa, _nombre, _presentación de la unidades, precio por unidad, precio por subunidad
     Y los valores iniciales de cantidad de _unidadVentaIniciativa y _subunidadVentaIniciativa 
     Y el borde de la iniciativa en color rojo y el ícono de cancelada 
-    Y <ingresoTomaDePedido> se ingreso a la toma de pedido <habilitaSeleccion> habilita la selección del status 
+    Y '<ingresoTomaDePedido>' se ingreso a la toma de pedido '<habilitaSeleccion>' habilita la selección del status 
     Y la seleccion del motivo cargado con la _descripcioCancelacionIniciativa de _motivosCancelacionIniciativas ordenados alfabeticamente en forma ascendente
     
 

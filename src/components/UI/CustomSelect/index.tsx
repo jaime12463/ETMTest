@@ -10,6 +10,7 @@ interface Props {
 	setOpcion: React.Dispatch<React.SetStateAction<string>>;
 	bloqueado?: boolean;
 	border?: boolean;
+	dataCy: string;
 }
 
 const CustomSelect: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const CustomSelect: React.FC<Props> = ({
 	setOpcion,
 	bloqueado = false,
 	border,
+	dataCy,
 }) => {
 	const [open, setOpen] = React.useState<boolean>(false);
 	const selectRef = React.useRef<HTMLDivElement>(null);
@@ -58,7 +60,7 @@ const CustomSelect: React.FC<Props> = ({
 			</Box>
 			<FlechaAbajoIcon className={classes.arrow} height='10px' width='10px' />
 			{open && (
-				<Box className={classes.dropdown}>
+				<Box className={classes.dropdown} data-cy={dataCy}>
 					{opcionesAMostrar?.map((opcion) => (
 						<Box
 							className={classes.options}
@@ -66,6 +68,7 @@ const CustomSelect: React.FC<Props> = ({
 							onClick={() => {
 								setOpcion(opcion.toLowerCase());
 							}}
+							data-cy={`${dataCy}-opciones`}
 						>
 							<Typography
 								variant='caption'
