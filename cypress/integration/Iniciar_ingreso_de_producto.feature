@@ -57,7 +57,7 @@ Ejemplos:
 
 Esquema del escenario: N°5 El prevendedor ingresa un producto que aún no se encuentra en el pedido, con _validaPresupuesto = true y _tieneProductosHabilitados = false
     Dado '<permiteBotelleo>' permite botelleo, y requiere motivo = '<_requiereMotivo>'
-    y el tipo de pedido es valorizado = '<_esValorizado>'
+    Y el tipo de pedido es valorizado = '<_esValorizado>'
     Cuando ingresa un producto habilitado
     Entonces el sistema creará una nueva tarjeta 
     Y mostrará el _codigoProducto 
@@ -127,3 +127,12 @@ Escenario: N°11 - El producto tiene descuento polarizado aplicado
     Y mostrará el precio ingresado por el prevendedor
     Y mostrará el ahorro para unidades
     Y mostrará el ahorro para subunidades
+
+Escenario: N°12 - El producto tiene descuento automático
+    Dado que se ingreso un producto al pedido
+    Y se encuentra informado _precioConDescuentoUnidad y _precioConDescuentoSubunidad
+    Cuando se muestra la tarjeta del producto
+    Entonces el sistema mostrará los precios con impuestos tachados
+    Y mostrará el precio con descuento en rojo
+
+# al guardar, se guardan todos los precios para luego calcular el ahorro.
