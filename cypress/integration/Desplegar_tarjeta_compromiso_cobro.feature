@@ -13,8 +13,8 @@ Antecedentes:
 
 Escenario: N°1 – Desplegar tarjeta compromiso de cobro
     Cuando selecciono desplegar tarjeta
-    Entonces el sistema mostrará el control para ingresar el monto a saldar de compromiso de pago,
-    el límite de crédito, el disponible = límite crédito menos la suma de los saldos de los documentos pendientes, la lista de los documentos pendientes ordenados por vencimiento ascendente, la deuda pendiente = suma de los saldos de los documentos pendientes y compromiso de cobro = suma de los compromisos de cobro registrados en visitas anteriores.
+    Entonces el sistema mostrará el control para ingresar el monto a saldar de compromiso de pago
+    Y el límite de crédito, el disponible = límite crédito menos la suma de los saldos de los documentos pendientes, la lista de los documentos pendientes ordenados por vencimiento ascendente, la deuda pendiente = suma de los saldos de los documentos pendientes y compromiso de cobro = suma de los compromisos de cobro registrados en visitas anteriores.
 
 #En la lista mostrar número de documento, vencimiento y saldo 
 

@@ -1,6 +1,14 @@
 # language: es
 
-@Pedido @Guardar_pedido @Iniciativas @Sprint7 @Sprint8 @Sprint9 @Sprint10 @Sprint11 @Sprint13 @Sprint15
+@Pedido @Guardar_pedido @Iniciativas @Bonificaciones @Sprint7 @Sprint8 @Sprint9 @Sprint10 @Sprint11 @Sprint13 @Sprint15 @Sprint17
+
+# Sprint17: 
+# Cabecera: idPedido, codigo cliente, idBonificación, fecha y hora, usuario, ruta
+# Detalle: idPedido, codigo producto, cantidad, unidad de medida.
+
+# Guardar el precioConImpuestoUnidad, precioConImpuestoSubunidad y los precios con descuento
+# para luego calcular el ahorro (precio - precio_con_descuento) 
+
 
 # Sprint13: 
 # Registrar detalle: se deben registrar los subtotales de monto de unidades y subunidades por separado, los cuales serán necesarios para el comprobante del resumen del pedido 
@@ -117,14 +125,22 @@ Escenario: N°7 – El cliente es de crédito informal y el pedido a guardar a c
 
 Escenario: N°8 – Iniciativas cumplidas
     Dado que el cliente tiene iniciativas habilitadas para el pedido actual
-    y el producto de la iniciativa se encuentra en el pedido con una cantidad mayor o igual a la de la iniciativa
+    Y el producto de la iniciativa se encuentra en el pedido con una cantidad mayor o igual a la de la iniciativa
     Cuando guardo el pedido
-    Entonces el sistema registrara la iniciativa con status = "Ejecutada"
-    indicando usuario, fecha y hora, código de iniciativa, código de cliente, status, producto, unidades y subunidades.
+    Entonces el sistema registrara la iniciativa con status = "Ejecutada" indicando usuario, fecha y hora, código de iniciativa, código de cliente, status, producto, unidades y subunidades.
 
 Escenario: N°9 – Iniciativas no cumplidas
     Dado que el cliente tiene iniciativas con status = "Ejecutada" para el pedido actual
-    y el producto de la iniciativa se encuentra en el pedido con una cantidad menor a la de la iniciativa
+    Y el producto de la iniciativa se encuentra en el pedido con una cantidad menor a la de la iniciativa
     Cuando guardo el pedido
     Entonces el sistema elimina la iniciativa registrada
    
+Escenario: N°10 – Bonificaciones ingresadas
+    Dado que se ingresaron bonificaciones para el pedido actual
+    Cuando guardo el pedido
+    Entonces el sistema registrara las bonificaciones, en la cabecera el número de pedido, codigo cliente, _idBonificación, fecha y hora, código de usuario, ruta
+    Y en el detalle el número de pedido, codigo producto, cantidad, _unidadMedida
+    Y actualizará las _bonificacionesDisponibles
+
+ # Queda pendiente si se debe guardar la clase de condición de la bonificacion
+
