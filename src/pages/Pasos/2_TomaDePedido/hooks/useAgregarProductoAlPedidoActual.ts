@@ -19,6 +19,7 @@ import {
 	TPrecioProducto,
 	TStateInputFocus,
 	TProductoPedido,
+	TStateInfoDescuentos,
 } from 'models';
 import {
 	useValidarAgregarProductoAlPedidoCliente,
@@ -37,7 +38,8 @@ export const useAgregarProductoAlPedidoActual = (
 	productoActual: TProductoPedido | null,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
 	getValues: any,
-	setGetValues: any
+	setGetValues: any,
+	stateInfoDescuento?: TStateInfoDescuentos
 ) => {
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
@@ -73,8 +75,8 @@ export const useAgregarProductoAlPedidoActual = (
 	const {productos}: TPedido = useObtenerPedidoActual();
 
 	const agregarProductoAlPedidoActual = useCallback(
-		(inputs: any) => {
-			const {unidades, subUnidades, catalogoMotivo} = inputs;
+		(inputs: any, obtenerCalculoDescuentoProducto?: any) => {
+			const {unidades, subUnidades, catalogoMotivo, infoDescuento} = inputs;
 
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;
 
@@ -101,49 +103,55 @@ export const useAgregarProductoAlPedidoActual = (
 				return producto.codigoProducto === codigoProducto;
 			});
 
-			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
-				dispatch(
-					agregarProductoDelPedidoActual({
-						productoPedido: {
-							...productoActual,
-							unidades: unidadesParseado,
-							subUnidades: subUnidadesParseado,
-							total:
-								productoActual.precioConImpuestoUnidad * unidadesParseado +
-								productoActual.precioConImpuestoSubunidad * subUnidadesParseado,
-							tipoPago: productoBuscado
-								? productoBuscado.tipoPago
-								: clienteActual.tipoPagoActual,
-							catalogoMotivo,
-							estado: 'activo',
-						},
-					})
+			if (obtenerCalculoDescuentoProducto) {
+				obtenerCalculoDescuentoProducto(
+					{
+						inputPolarizado: undefined,
+						unidades: unidadesParseado,
+						subUnidades: subUnidadesParseado,
+					},
+					stateInfoDescuento
 				);
-			} else {
-				if (
-					!configuracionTipoDePedidoActual?.esMandatorio ||
-					validarHayMasProductosMandatorios(
-						productosMandatoriosVisitaActual.mandatorios
-					) ||
-					!validarHayMasProductosNoMandatorios(
-						productosMandatoriosVisitaActual.noMandatorios
-					)
-				) {
-					dispatch(borrarProductoDelPedidoActual({codigoProducto}));
-				} else {
-					mostrarAdvertenciaEnDialogo(
-						t('advertencias.borrarPedidosNoMandatorios', {
-							tipoPedido: pedidoNoMandatorio?.descripcion,
-						}),
-						'eliminar-linea-pedido',
-						manejadorConfirmarEliminarPedidosNoMandatorios,
-						{
-							aceptar: t('general.si'),
-							cancelar: t('general.no'),
-						}
-					);
-				}
 			}
+
+			const preciosNeto = infoDescuento
+				? {
+						unidad:
+							(productoActual.preciosBase.unidad *
+								(100 - infoDescuento.porcentajeDescuento)) /
+							100,
+						subUnidad:
+							(productoActual.preciosBase.subUnidad *
+								(100 - infoDescuento.porcentajeDescuento)) /
+							100,
+				  }
+				: {
+						unidad: productoActual.precioConImpuestoUnidad,
+						subUnidad: productoActual.precioConImpuestoSubunidad,
+				  };
+			dispatch(
+				agregarProductoDelPedidoActual({
+					productoPedido: {
+						...productoActual,
+						unidades: unidadesParseado,
+						subUnidades: subUnidadesParseado,
+						total:
+							preciosNeto.unidad * unidadesParseado +
+							preciosNeto.subUnidad * subUnidadesParseado,
+						tipoPago: productoBuscado
+							? productoBuscado.tipoPago
+							: clienteActual.tipoPagoActual,
+						catalogoMotivo,
+						estado: 'activo',
+						preciosBase: {
+							unidad: productoActual.precioConImpuestoUnidad,
+							subUnidad: productoActual.precioConImpuestoSubunidad,
+						},
+						preciosNeto,
+						descuento: infoDescuento ?? productoActual.descuento,
+					},
+				})
+			);
 		},
 		[productoActual, validarAgregarProductoAlPedidoCliente, dispatch]
 	);

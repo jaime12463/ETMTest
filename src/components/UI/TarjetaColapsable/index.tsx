@@ -37,6 +37,7 @@ type Props = {
 	mensaje?: React.ReactNode;
 	valido?: boolean;
 	labelChip?: string;
+	dataCy: string;
 };
 
 export const TarjetaColapsable: React.FC<Props> = ({
@@ -51,6 +52,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 	mensaje,
 	valido = false,
 	labelChip,
+	dataCy,
 }) => {
 	const manejadorExpandido =
 		({id}: any) =>
@@ -67,12 +69,18 @@ export const TarjetaColapsable: React.FC<Props> = ({
 					[classes.inactiva]: expandido !== id ? true : false,
 				})}
 				sx={{overflow: 'visible'}}
+				data-cy={'tarjeta-' + dataCy}
 			>
 				<CardHeader
 					style={{padding: 0}}
 					title={
 						<Box display='flex' justifyContent='space-between'>
-							<Box alignSelf='center'>{titulo}</Box>
+							<Box 
+								alignSelf='center' 
+								data-cy={'titulo-' + dataCy}
+							>
+								{titulo}
+							</Box>
 							<Box>
 								<CardActions disableSpacing style={{padding: 0}}>
 									{cantidadItems !== undefined && cantidadItems > 0 && (
@@ -91,6 +99,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 												id: expandido === id ? false : id,
 											})}
 											aria-expanded={expandido === id ? true : false}
+											data-cy={'expandir-' + dataCy}
 										>
 											<img src={flechaAbajo} alt='flecha abajo' />
 										</IconButton>
@@ -102,7 +111,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 					subheader={
 						<div>
 							<p style={{margin: '10px 0 0 0'}}>{subTitulo}</p>
-							{disabled ? <p>{mensaje}</p> : null}
+							{disabled ? <p data-cy={'mensaje-' + dataCy}>{mensaje}</p> : null}
 						</div>
 					}
 				></CardHeader>

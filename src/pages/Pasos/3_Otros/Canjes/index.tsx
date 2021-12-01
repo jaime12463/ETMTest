@@ -49,6 +49,7 @@ import {
 	useObtenerCatalogoMotivos,
 } from 'pages/Pasos/2_TomaDePedido/hooks/index';
 import theme from 'theme';
+import CustomSelect from 'components/UI/CustomSelect';
 
 const InputStyled = styled(Input)(({}) => ({
 	backgroundColor: 'white',
@@ -121,6 +122,14 @@ export const Canjes = () => {
 							tipoPago: clienteActual.tipoPagoActual,
 							catalogoMotivo: '',
 							estado: 'activo',
+							preciosBase: {
+								unidad: productoActual.precioConImpuestoUnidad,
+								subUnidad: productoActual.precioConImpuestoSubunidad,
+							},
+							preciosNeto: {
+								unidad: productoActual.precioConImpuestoUnidad,
+								subUnidad: productoActual.precioConImpuestoSubunidad,
+							},
 						},
 					})
 				);
@@ -211,15 +220,21 @@ const Izquierda: React.FC<IzquierdaProps> = ({
 	const {catalogoMotivo, setCatalogoMotivo} = stateCatalogo;
 	const [motivo, setMotivo] = useState('');
 
-	const handleOnChangeSelect = (e: any) => {
-		setMotivo(e.target.value);
-		setCatalogoMotivo({
-			...catalogoMotivo,
-			[producto.codigoProducto]: {codigoMotivo: e.target.value},
-		});
-		setFocusId(0);
-		setInputFocus('productoABuscar');
-	};
+	React.useEffect(() => {
+		const motivoFiltrado = itemCatalogoMotivos.find(
+			(item) =>
+				item.label === `${motivo.charAt(0).toUpperCase()}${motivo.slice(1)}`
+		);
+
+		if (motivoFiltrado) {
+			setCatalogoMotivo({
+				...catalogoMotivo,
+				[producto.codigoProducto]: {codigoMotivo: motivoFiltrado.value},
+			});
+			setFocusId(0);
+			setInputFocus('productoABuscar');
+		}
+	}, [motivo]);
 
 	return (
 		<Box
@@ -248,56 +263,12 @@ const Izquierda: React.FC<IzquierdaProps> = ({
 				>{`x${producto.presentacion}`}</Typography>
 			</Box>
 			<Box>
-				<FormControl fullWidth>
-					<Select
-						value={
-							producto.catalogoMotivo === ''
-								? motivo[producto.codigoProducto]
-								: producto.catalogoMotivo
-						}
-						id='motivos-canje'
-						onChange={(e) => handleOnChangeSelect(e)}
-						sx={{
-							width: '159px',
-							height: '24px',
-							borderRadius: '4px',
-							fontSize: '10px',
-						}}
-						renderValue={
-							producto.catalogoMotivo !== ''
-								? undefined
-								: motivo !== ''
-								? undefined
-								: () => 'Motivo del canje'
-						}
-						onClick={() => {
-							setInputFocus('motivo');
-							setFocusId(producto.codigoProducto);
-						}}
-						inputRef={(input) => {
-							if (
-								inputFocus === 'motivo' &&
-								focusId === producto.codigoProducto
-							) {
-								input?.focus();
-							}
-						}}
-					>
-						{itemCatalogoMotivos.map((motivo: TOpcionSelect) => (
-							<MenuItem
-								key={motivo.value}
-								sx={{
-									fontSize: '10px',
-									borderRadius: '4px',
-									paddingTop: '8px',
-								}}
-								value={motivo.value}
-							>
-								{motivo.label}
-							</MenuItem>
-						))}
-					</Select>
-				</FormControl>
+				<CustomSelect
+					opciones={[...itemCatalogoMotivos.map((item) => item.label)]}
+					opcionSeleccionada={motivo}
+					setOpcion={setMotivo}
+					dataCy={`canje-motivo-value`}
+				/>
 			</Box>
 		</Box>
 	);

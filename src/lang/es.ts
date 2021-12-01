@@ -11,6 +11,8 @@ const es = {
 		buscar: 'Buscar',
 		verDetalle: 'Ver Detalle',
 		ocultarDetalle: 'Ocultar Detalle',
+		verGrupo: 'Ver grupo',
+		ocultarGrupo: 'Ocultar grupo',
 		fechaEntrega: 'Fecha de entrega',
 		codigo: 'Código',
 		nombre: 'Nombre',
@@ -94,6 +96,9 @@ const es = {
 			'Selecciona las iniciativas que tienes disponible para tu cliente.',
 		tituloProductosSinCargar: 'Productos sin modificar',
 		tituloIniciativasSinMotivo: 'Iniciativas canceladas sin motivos',
+		coberturas: 'Coberturas',
+		tarjetaCoberturas:
+			'Indica la cantidad de producto faltante en el refrigerador del cliente.',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
@@ -140,12 +145,18 @@ const es = {
 			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido.',
 		mensajeIniciativasSinMotivo:
 			'Por favor, ingrese un motivo para cada iniciativa cancelada.',
+		borrarDescuento: '¿Deseas eliminar el descuento escalonado? ',
+		descuentoEscalonadoEliminado: 'Descuento escalonado eliminado',
 	},
 	pasos: {
 		planeacion: 'Planeación',
 		tomaDePedido: 'Toma de pedido',
 		otros: 'Otros',
 		finalizar: ' Finalizar pedido',
+	},
+	mensajes: {
+		borrarDescuento:
+			'Una vez eliminado el descuento escalonado, no podrás volverlo a aplicar en este producto.',
 	},
 };
 export default es;

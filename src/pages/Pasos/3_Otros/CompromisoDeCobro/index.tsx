@@ -44,11 +44,11 @@ const CompromisoDeCobro: React.FC = () => {
 		mostrarAdvertenciaEnDialogo
 	);
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
-	const defaultMonto =
+	const [importe, setImporte] = React.useState<string>(
 		compromisoDeCobroActual.monto === 0
 			? ''
-			: compromisoDeCobroActual.monto.toString();
-	const [importe, setImporte] = React.useState<string>(defaultMonto);
+			: compromisoDeCobroActual.monto.toString()
+	);
 	const [importeFormateado, setImporteFormateado] = React.useState<string>('');
 	const [importeValido, setImporteValido] = React.useState<boolean>(false);
 	const [error, setError] = React.useState<Error>({error: false, mensaje: ''});
@@ -62,6 +62,14 @@ const CompromisoDeCobro: React.FC = () => {
 		) ?? 0;
 
 	const formatoMiles = t('simbolos.miles') === ',' ? 'en-US' : 'es-ES';
+
+	React.useEffect(() => {
+		return () => {
+			if (Number(importe) > totalDocumentos) {
+				reiniciarCompromisoDeCobro();
+			}
+		};
+	}, [importe]);
 
 	React.useEffect(() => {
 		if (importe === '') {
@@ -139,6 +147,7 @@ const CompromisoDeCobro: React.FC = () => {
 				simboloMoneda
 				error={error.error}
 				mensajeError={error.mensaje}
+				focus
 			/>
 			<Grid
 				container
@@ -205,12 +214,12 @@ const CompromisoDeCobro: React.FC = () => {
 					sx={{background: `${theme.palette.secondary.light}`}}
 				>
 					<Grid item>
-						<Typography variant='caption' color="#fff">
+						<Typography variant='caption' color='#fff'>
 							{t('general.totalDeudaPendiente')}:
 						</Typography>
 					</Grid>
 					<Grid item paddingRight='8px'>
-						<Typography variant='caption' fontWeight='500' color="#fff">
+						<Typography variant='caption' fontWeight='500' color='#fff'>
 							{formatearNumero(totalDocumentos, t)}
 						</Typography>
 					</Grid>
@@ -221,15 +230,18 @@ const CompromisoDeCobro: React.FC = () => {
 					justifyContent='end'
 					alignItems='center'
 					gap='8px'
-					sx={{background: `${theme.palette.secondary.contrastText}`, borderRadius: '0 0 4px 4px'}}
+					sx={{
+						background: `${theme.palette.secondary.contrastText}`,
+						borderRadius: '0 0 4px 4px',
+					}}
 				>
-					<Grid item >
-						<Typography variant='caption' color="#1B1915">
+					<Grid item>
+						<Typography variant='caption' color='#1B1915'>
 							{t('general.totalCompromisosRegistrados')}:
 						</Typography>
 					</Grid>
 					<Grid item paddingRight='8px'>
-						<Typography variant='caption' fontWeight='500' color="#1B1915">
+						<Typography variant='caption' fontWeight='500' color='#1B1915'>
 							{formatearNumero(compromisosDeCobro, t)}
 						</Typography>
 					</Grid>

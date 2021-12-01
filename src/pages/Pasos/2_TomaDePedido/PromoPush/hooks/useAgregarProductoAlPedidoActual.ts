@@ -102,8 +102,6 @@ export const useAgregarProductoAlPedidoActual = (
 					catalogoMotivo: catalogoMotivo,
 				});
 
-			// console.log(getValues.tipoPago);
-			// console.log(tipoPago);
 			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
 				dispatch(
 					agregarProductoDelPedidoActual({
@@ -117,6 +115,14 @@ export const useAgregarProductoAlPedidoActual = (
 							tipoPago: productoBuscado ? productoBuscado.tipoPago : tipoDePago,
 							catalogoMotivo,
 							estado: 'activo',
+							preciosBase: {
+								unidad: productoActual.precioConImpuestoUnidad,
+								subUnidad: productoActual.precioConImpuestoSubunidad,
+							},
+							preciosNeto: {
+								unidad: productoActual.precioConImpuestoUnidad,
+								subUnidad: productoActual.precioConImpuestoSubunidad,
+							},
 						},
 					})
 				);

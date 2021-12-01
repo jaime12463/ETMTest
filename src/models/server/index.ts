@@ -32,6 +32,7 @@ export type TCliente = {
 	detalles: TDetalle;
 	informacionCrediticia: TInformacionCrediticia;
 	iniciativasHabilitadas: TIniciativasHabilitadas[];
+	coberturas: TCoberturas[];
 	configuracionPedido: TConfiguracionPedido;
 	portafolio: TPortafolio[];
 };
@@ -72,6 +73,12 @@ export type TDetalle = {
 	nombreComercial: string;
 };
 
+export type TCoberturas = {
+	grupoCobertura: string;
+	secuenciaGrupoCobertura: number;
+	productosGrupoCobertura: number[];
+};
+
 export type TIniciativasHabilitadas = {
 	codigoIniciativa: number;
 	secuencia: number;
@@ -84,8 +91,7 @@ export type TInformacionCrediticia = {
 	esCreditoBloqueado: boolean;
 	documentos?: TDocumento[];
 };
-export type TCondicicon = 'contado' | 'creditoFormal' | 'creditoInformal'; //TODO: Esto debe ser un ENUM
-
+export type TCondicicon = 'contado' | 'creditoFormal' | 'creditoInformal';
 export type TConfiguracionPedido = {
 	canjeHabilitado: boolean;
 	ventaMinima?: TVentaMinima;
@@ -120,6 +126,21 @@ export type TPortafolio = {
 	esVentaSubunidades: boolean;
 	unidadesDisponibles?: number;
 	precios: TPrecio[];
+	descuentoPolarizado?: TDescuentoPolarizado[];
+	descuentoEscalonado?: TDescuentoEscalonado[];
+};
+
+export type TDescuentoEscalonado = {
+	unidadesDesde: number;
+	unidadesHasta: number;
+	porcentajeDescuentoEscalonado: number;
+};
+
+export type TDescuentoPolarizado = {
+	precioVentaAlPublicoDesde: number;
+	precioVentaAlPublicoHasta: number;
+	porcentajeDescuentoPolarizado: number;
+	claseCondicionPolarizado: string;
 };
 
 export type TPrecio = {

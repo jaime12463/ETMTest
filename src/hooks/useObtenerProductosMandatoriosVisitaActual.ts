@@ -57,8 +57,15 @@ export const useObtenerProductosMandatoriosVisitaActual = () => {
 		}
 	});
 
+	const pedidosActivos = pedidos.mandatorios.map((pedido) => ({
+		...pedido,
+		productos: pedido.productos.filter(
+			(producto) => producto.estado !== 'eliminado'
+		),
+	}));
+
 	return {
-		mandatorios: pedidos.mandatorios,
+		mandatorios: pedidosActivos,
 		noMandatorios: pedidos.noMandatorios,
 	};
 };

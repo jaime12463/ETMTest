@@ -17,8 +17,13 @@ const estadoInicial: TVisita = {
 	bloquearPanelCarga: true,
 	ordenDeCompra: '',
 	iniciativas: [],
-	iniciativasBloqueadas: false,
+	coberturasEjecutadas: [],
+	pasoATomaPedido: false,
 	fechaVisitaPlanificada: '',
+	seQuedaAEditar: {
+		seQueda: false,
+		bordeError: false,
+	},
 };
 
 export const visitaActualSlice = createSlice({
@@ -59,6 +64,9 @@ export const visitaActualSlice = createSlice({
 				producto.tipoPago = action.payload.productoPedido.tipoPago;
 				producto.catalogoMotivo = action.payload.productoPedido.catalogoMotivo;
 				producto.estado = action.payload.productoPedido.estado;
+				producto.preciosBase = action.payload.productoPedido.preciosBase;
+				producto.preciosNeto = action.payload.productoPedido.preciosNeto;
+				producto.descuento = action.payload.productoPedido.descuento;
 			} else {
 				state.pedidos[state.tipoPedidoActual].productos = [
 					action.payload.productoPedido,
@@ -144,7 +152,12 @@ export const visitaActualSlice = createSlice({
 			state.bloquearPanelCarga = bloquearPanelCarga;
 			state.ordenDeCompra = ordenDeCompra;
 			state.iniciativas = iniciativas;
-			state.iniciativasBloqueadas = false;
+			state.pasoATomaPedido = false;
+			state.coberturasEjecutadas = [];
+			state.seQuedaAEditar = {
+				seQueda: false,
+				bordeError: false,
+			};
 			state.fechaVisitaPlanificada = fechaVisitaPlanificada;
 		},
 
@@ -157,7 +170,37 @@ export const visitaActualSlice = createSlice({
 			state.ordenDeCompra = '';
 			state.saldoPresupuestoTipoPedido = {};
 			state.iniciativas = [];
-			state.iniciativasBloqueadas = false;
+			state.coberturasEjecutadas = [];
+			state.pasoATomaPedido = false;
+			state.seQuedaAEditar = {
+				seQueda: false,
+				bordeError: false,
+			};
+		},
+
+		borrarDescuentoDelProducto: (
+			state,
+			action: PayloadAction<{codigoProducto: number}>
+		) => {
+			const indexProductoPedido = state.pedidos[
+				state.tipoPedidoActual
+			].productos.findIndex(
+				(precioProducto: TProductoPedido) =>
+					precioProducto.codigoProducto === action.payload.codigoProducto
+			);
+
+			const producto =
+				state.pedidos[state.tipoPedidoActual].productos[indexProductoPedido];
+
+			producto.descuento = {
+				tipo: 'eliminado',
+				porcentajeDescuento: 0,
+				inputPolarizado: 0,
+			};
+			producto.preciosNeto = producto.preciosBase;
+			producto.total =
+				producto.preciosBase.unidad * producto.unidades +
+				producto.preciosBase.subUnidad * producto.subUnidades;
 		},
 
 		cambiarTipoPagoPoductoDelPedidoActual: (
@@ -266,8 +309,51 @@ export const visitaActualSlice = createSlice({
 			});
 		},
 
-		bloquearIniciativas: (state) => {
-			state.iniciativasBloqueadas = true;
+		pasoATomaPedido: (state) => {
+			state.pasoATomaPedido = true;
+		},
+
+		agregarCoberturasEjecutadas: (
+			state,
+			action: PayloadAction<{
+				codigoProducto: number;
+				unidades: number;
+				subUnidades: number;
+			}>
+		) => {
+			const existeCobertura = state.coberturasEjecutadas.find(
+				(cobertura) =>
+					cobertura.codigoProducto === action.payload.codigoProducto
+			);
+
+			if (existeCobertura) {
+				state.coberturasEjecutadas = state.coberturasEjecutadas.map(
+					(cobertura) => {
+						if (cobertura.codigoProducto === action.payload.codigoProducto) {
+							cobertura.unidades = action.payload.unidades;
+							cobertura.subUnidades = action.payload.subUnidades;
+						}
+						return cobertura;
+					}
+				);
+			} else {
+				state.coberturasEjecutadas = [
+					...state.coberturasEjecutadas,
+					{
+						codigoProducto: action.payload.codigoProducto,
+						unidades: action.payload.unidades,
+						subUnidades: action.payload.subUnidades,
+					},
+				];
+			}
+		},
+
+		cambiarSeQuedaAEditar: (
+			state,
+			action: PayloadAction<{seQueda: boolean; bordeError: boolean}>
+		) => {
+			state.seQuedaAEditar.seQueda = action.payload.seQueda;
+			state.seQuedaAEditar.bordeError = action.payload.bordeError;
 		},
 	},
 });
@@ -291,6 +377,9 @@ export const {
 	cambiarEstadoIniciativa,
 	cambiarMotivoCancelacionIniciativa,
 	editarUnidadesOSubUnidadesEjecutadas,
-	bloquearIniciativas,
+	pasoATomaPedido,
+	agregarCoberturasEjecutadas,
+	borrarDescuentoDelProducto,
+	cambiarSeQuedaAEditar,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

@@ -21,6 +21,7 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 			fullWidth
 			style={{borderRadius: '24px', color: 'white', padding: '8px 12px'}}
 			onClick={props.onClick}
+			data-cy={`boton-inferior-avanzar`}
 		>
 			<Grid
 				container

@@ -33,6 +33,7 @@ import {
 	borrarProductoDelPedidoActual,
 	cambiarEstadoIniciativa,
 	cambiarMotivoCancelacionIniciativa,
+	cambiarSeQuedaAEditar,
 	editarUnidadesOSubUnidadesEjecutadas,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {InputsKeysFormTomaDePedido, TProductoPedido} from 'models';
@@ -119,6 +120,14 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		catalogoMotivo: '',
 		total: 0,
 		tipoPago: clienteActual.tipoPagoActual,
+		preciosBase: {
+			unidad: producto.precioConImpuestoUnidad,
+			subUnidad: producto.precioConImpuestoSubunidad,
+		},
+		preciosNeto: {
+			unidad: producto.precioConImpuestoUnidad,
+			subUnidad: producto.precioConImpuestoSubunidad,
+		},
 	};
 	const mostrarAviso = useMostrarAviso();
 	const [estadoSelect, setEstadoSelect] = React.useState<string>(estado);
@@ -133,7 +142,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
 	const classes = useEstilos({
 		estado: estadoSelect,
-		inputsBloqueados: visitaActual.iniciativasBloqueadas,
+		inputsBloqueados: visitaActual.pasoATomaPedido,
 	});
 
 	const dispatch = useAppDispatch();
@@ -149,6 +158,17 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		getValues,
 		setGetValues
 	);
+
+	React.useEffect(() => {
+		if (
+			visitaActual.seQuedaAEditar.bordeError &&
+			estado === 'cancelada' &&
+			motivo === ''
+		) {
+			setExpandido(id);
+			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+		}
+	}, [visitaActual.seQuedaAEditar.bordeError, estado, motivo, id]);
 
 	React.useEffect(() => {
 		if (puedeAgregar) {
@@ -176,7 +196,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	}, [estadoSelect, motivoSelect]);
 
 	React.useEffect(() => {
-		if (!visitaActual.iniciativasBloqueadas) {
+		if (!visitaActual.pasoATomaPedido) {
 			switch (estadoSelect) {
 				case 'pendiente':
 					setEstadoSelect('pendiente');
@@ -340,6 +360,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		<Card
 			className={classes.card}
 			style={{padding: '12px 14px', boxShadow: 'none', overflow: 'visible'}}
+			data-cy={'iniciativa-' + id}
 		>
 			<Box>
 				<Box
@@ -375,7 +396,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 							</Typography>
 						</Box>
 					)}
-					<Typography variant='subtitle2'>{nombreIniciativa}</Typography>
+					<Typography variant='subtitle2' data-cy={`iniciativa-titulo-${id}`}>{nombreIniciativa}</Typography>
 					{estadoSelect === 'ejecutada' && (
 						<Box>
 							<CheckRedondoIcon fill={theme.palette.success.main} />
@@ -387,10 +408,20 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						</Box>
 					)}
 				</Box>
-				<Collapse in={expandido === id} timeout='auto' unmountOnExit>
+				<Collapse 
+					in={expandido === id} 
+					timeout='auto' 
+					unmountOnExit
+					data-cy={'iniciativa-detalle-' + id}
+				>
 					<Divider />
 					<Stack spacing='12px' marginBottom='8px'>
-						<Box display='flex' alignItems='center' marginTop='8px'>
+						<Box 
+							display='flex' 
+							alignItems='center' 
+							marginTop='8px' 
+							data-cy={`iniciativa-estatus-${id}`}
+						>
 							<Typography
 								variant='body3'
 								fontFamily='Open Sans'
@@ -399,7 +430,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 							>
 								{t('general.estatus')}
 							</Typography>
-							<Box flex='3'>
+							<Box flex='3' data-cy={`iniciativa-estatus-value-${id}`}>
 								<CustomSelect
 									opciones={[
 										t('general.pendiente'),
@@ -408,7 +439,8 @@ const TarjetaIniciativas: React.FC<Props> = ({
 									]}
 									opcionSeleccionada={estadoSelect}
 									setOpcion={setEstadoSelect}
-									bloqueado={visitaActual.iniciativasBloqueadas}
+									bloqueado={visitaActual.pasoATomaPedido}
+									dataCy={`iniciativa-estatus-value-${id}`}
 								/>
 							</Box>
 						</Box>
@@ -432,13 +464,19 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										]}
 										opcionSeleccionada={motivoSelect}
 										setOpcion={setMotivoSelect}
-										bloqueado={visitaActual.iniciativasBloqueadas}
+										bloqueado={visitaActual.pasoATomaPedido}
 										border
+										dataCy={`iniciativa-motivo-value-${id}`}
 									/>
 								</Box>
 							</Box>
 						)}
-						<Box display='flex' gap='8px' alignItems='center'>
+						<Box 
+							display='flex' 
+							gap='8px' 
+							alignItems='center' 
+							data-cy={`iniciativa-planDeActividades-${id}`}
+						>
 							<Typography
 								variant='body3'
 								fontFamily='Open Sans'
@@ -451,7 +489,12 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								{planActividad}
 							</Typography>
 						</Box>
-						<Box display='flex' gap='8px' alignItems='center'>
+						<Box 
+							display='flex' 
+							gap='8px' 
+							alignItems='center' 
+							data-cy={`iniciativa-descripcion-${id}`}
+						>
 							<Typography
 								variant='body3'
 								fontFamily='Open Sans'
@@ -464,7 +507,12 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								{descripcion}
 							</Typography>
 						</Box>
-						<Box display='flex' gap='8px' alignItems='center'>
+						<Box 
+							display='flex' 
+							gap='8px' 
+							alignItems='center' 
+							data-cy={`iniciativa-vigencia-${id}`}
+						>
 							<Typography
 								variant='body3'
 								fontFamily='Open Sans'
@@ -486,10 +534,10 @@ const TarjetaIniciativas: React.FC<Props> = ({
 							justifyContent='space-between'
 						>
 							<Box display='flex' flexDirection='column'>
-								<Typography variant='subtitle3'>
+								<Typography variant='subtitle3' data-cy={`iniciativa-material-${id}`}>
 									{producto.codigoProducto}
 								</Typography>
-								<Typography variant='subtitle3' noWrap width='150px'>
+								<Typography variant='subtitle3' noWrap width='150px' data-cy={`iniciativa-nombreProducto-${id}`}>
 									{producto.nombreProducto}
 								</Typography>
 								<Box
@@ -499,14 +547,14 @@ const TarjetaIniciativas: React.FC<Props> = ({
 									gap='4px'
 								>
 									<CajaIcon height='18px' width='18px' />
-									<Typography variant='caption'>
+									<Typography variant='caption' data-cy={`iniciativa-presentacion-${id}`}>
 										x{producto.presentacion}
 									</Typography>
-									<Typography variant='subtitle3'>
+									<Typography variant='subtitle3' data-cy={`iniciativa-precioUnidad-${id}`}>
 										{formatearNumero(producto.precioConImpuestoUnidad, t)}
 									</Typography>
 									<BotellaIcon height='15px' width='15px' />
-									<Typography variant='subtitle3'>
+									<Typography variant='subtitle3' data-cy={`iniciativa-precioSubunidad-${id}`}>
 										{formatearNumero(producto.precioConImpuestoSubunidad, t)}
 									</Typography>
 								</Box>
@@ -527,7 +575,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								>
 									<CajaIcon width='18px' height='18px' />
 									{estadoSelect === 'ejecutada' &&
-										!visitaActual.iniciativasBloqueadas && (
+										!visitaActual.pasoATomaPedido && (
 											<IconButton
 												size='small'
 												value='-'
@@ -556,7 +604,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										onChange={handleInputChange}
 										disabled={
 											estadoSelect !== 'ejecutada' ||
-											visitaActual.iniciativasBloqueadas
+											visitaActual.pasoATomaPedido
 										}
 										onKeyPress={handleKeyPress}
 										id='unidades_producto'
@@ -573,9 +621,10 @@ const TarjetaIniciativas: React.FC<Props> = ({
 												input?.focus();
 											}
 										}}
+										data-cy={`iniciativa-unidad-venta`}
 									/>
 									{estadoSelect === 'ejecutada' &&
-										!visitaActual.iniciativasBloqueadas && (
+										!visitaActual.pasoATomaPedido && (
 											<IconButton
 												size='small'
 												name='unidades'
@@ -599,25 +648,24 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										gap='4px'
 									>
 										<BotellaIcon width='18px' height='18px' />
-										{estado === 'ejecutada' &&
-											!visitaActual.iniciativasBloqueadas && (
-												<IconButton
-													size='small'
-													value='-'
-													name='subUnidades'
-													sx={{padding: 0}}
-													disabled={getValues.subUnidades <= 0}
-													onClick={handleButtons}
-												>
-													<QuitarRellenoIcon
-														width='18px'
-														height='18px'
-														fill={
-															getValues.subUnidades <= 0 ? '#D9D9D9' : '#2F000E'
-														}
-													/>
-												</IconButton>
-											)}
+										{estado === 'ejecutada' && !visitaActual.pasoATomaPedido && (
+											<IconButton
+												size='small'
+												value='-'
+												name='subUnidades'
+												sx={{padding: 0}}
+												disabled={getValues.subUnidades <= 0}
+												onClick={handleButtons}
+											>
+												<QuitarRellenoIcon
+													width='18px'
+													height='18px'
+													fill={
+														getValues.subUnidades <= 0 ? '#D9D9D9' : '#2F000E'
+													}
+												/>
+											</IconButton>
+										)}
 										<Input
 											className={classes.input}
 											inputProps={{
@@ -631,7 +679,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 											onChange={handleInputChange}
 											disabled={
 												estadoSelect !== 'ejecutada' ||
-												visitaActual.iniciativasBloqueadas
+												visitaActual.pasoATomaPedido
 											}
 											id='subUnidades_producto'
 											onClick={() => {
@@ -649,9 +697,10 @@ const TarjetaIniciativas: React.FC<Props> = ({
 													input?.focus();
 												}
 											}}
+											data-cy={`iniciativa-subUnidad-venta`}
 										/>
 										{estadoSelect === 'ejecutada' &&
-											!visitaActual.iniciativasBloqueadas && (
+											!visitaActual.pasoATomaPedido && (
 												<IconButton
 													size='small'
 													name='subUnidades'
@@ -692,6 +741,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						onClick={manejadorExpandido({
 							id: expandido === id ? false : id,
 						})}
+						data-cy={'ver-detalle-iniciativa-' + id}
 					>
 						<CardActions disableSpacing style={{padding: 0}}>
 							<Box display='flex' gap='6px' alignItems='center'>

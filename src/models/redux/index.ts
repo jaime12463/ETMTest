@@ -1,9 +1,12 @@
+import {TInfoDescuentos} from 'models';
 import {
 	TDatosClientesProductos,
 	TCondicicon,
 	TPromoPush,
 	TDatosConfiguracion,
 	TIniciativas,
+	TDescuentoEscalonado,
+	TDescuentoPolarizado,
 } from 'models/server';
 
 //Cliente Actual
@@ -51,9 +54,21 @@ export type TVisita = {
 	bloquearPanelCarga: boolean;
 	ordenDeCompra: string;
 	iniciativas: TIniciativasCliente[];
-	iniciativasBloqueadas: boolean;
+	coberturasEjecutadas: TCoberturasEjecutadas[];
+	pasoATomaPedido: boolean;
+	seQuedaAEditar: SeQuedaAEditar;
 	fechaVisitaPlanificada: string;
 };
+
+export type SeQuedaAEditar = {
+	seQueda: boolean;
+	bordeError: boolean;
+};
+
+export type TCoberturasEjecutadas = Pick<
+	TProductoPedido,
+	'codigoProducto' | 'unidades' | 'subUnidades'
+>;
 
 export type TIniciativasCliente = {
 	estado: 'pendiente' | 'ejecutada' | 'cancelada';
@@ -111,15 +126,25 @@ export type TPrecioProducto = {
 	unidadesDisponibles?: number;
 	promoPush?: TPromoPush;
 	tipoProducto: number;
+	descuentoPolarizado?: TDescuentoPolarizado[];
+	descuentoEscalonado?: TDescuentoEscalonado[];
 };
 
 export type TPedidoDelProducto = {
 	unidades: number;
 	subUnidades: number;
 	total: number;
+	preciosBase: TPreciosProductoUnidadYSubUnidad;
+	preciosNeto: TPreciosProductoUnidadYSubUnidad;
+	descuento?: TInfoDescuentos;
 	tipoPago: ETiposDePago;
 	catalogoMotivo: string;
 	estado?: 'activo' | 'eliminado' | 'transito';
+};
+
+export type TPreciosProductoUnidadYSubUnidad = {
+	unidad: number;
+	subUnidad: number;
 };
 
 export enum ETiposDePago {

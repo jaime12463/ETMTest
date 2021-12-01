@@ -11,25 +11,35 @@ import theme from 'theme';
 interface Props {
 	valid: boolean;
 	value: string;
-	onChange: (
-		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-	) => void;
+	onBlur?: () => void;
+	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	onKeyPress?: (e: React.KeyboardEvent<HTMLDivElement>) => void;
+	inputRef?: (input: any) => void;
+	onClick?: () => void;
+	onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
 	margin?: string;
 	label: string;
 	simboloMoneda?: boolean;
 	error?: boolean;
 	mensajeError?: string;
+	focus?: boolean;
 }
 
 const InputConIcono: React.FC<Props> = ({
 	valid,
 	value,
 	onChange,
+	inputRef,
+	onKeyPress,
+	onClick,
+	onBlur,
 	margin = '10px 0 0 0',
 	label,
 	simboloMoneda = false,
 	error = false,
 	mensajeError,
+	focus = false,
+	onFocus,
 }) => {
 	const classes = useEstilos({valid, error});
 	const {t} = useTranslation();
@@ -41,10 +51,15 @@ const InputConIcono: React.FC<Props> = ({
 				variant='filled'
 				fullWidth
 				className={classes.root}
-				autoFocus
+				autoFocus={focus ? true : false}
+				focused
+				inputRef={inputRef}
+				onClick={onClick}
 				value={value}
 				onChange={onChange}
-				focused
+				onFocus={onFocus}
+				onKeyPress={onKeyPress}
+				onBlur={onBlur}
 				sx={{borderBottom: error ? '1px solid red' : 'none'}}
 				InputProps={{
 					startAdornment: simboloMoneda && (

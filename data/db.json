@@ -39,6 +39,13 @@
 					"secuencia": 2
 				}
 			],
+			"coberturas": [
+				{
+					"grupoCobertura": "Grupo Colas",
+					"secuenciaGrupoCobertura": 1,
+					"productosGrupoCobertura": [360, 380, 420]
+				}
+			],
 
 			"informacionCrediticia": {
 				"condicion": "creditoInformal",
@@ -334,6 +341,13 @@
 					"fechaEntrega": "2021-06-12"
 				}
 			],
+			"coberturas": [
+				{
+					"grupoCobertura": "Grupo Colas",
+					"secuenciaGrupoCobertura": 1,
+					"productosGrupoCobertura": [1885, 229033]
+				}
+			],
 			"informacionCrediticia": {
 				"condicion": "contado",
 				"limite": 3000,
@@ -460,6 +474,28 @@
 				{
 					"fechaVisita": "2021-06-11",
 					"fechaEntrega": "2021-06-12"
+				}
+			],
+			"iniciativasHabilitadas": [
+				{
+					"codigoIniciativa": 1,
+					"secuencia": 2
+				},
+				{
+					"codigoIniciativa": 2,
+					"secuencia": 1
+				}
+			],
+			"coberturas": [
+				{
+					"grupoCobertura": "Grupo Colas",
+					"secuenciaGrupoCobertura": 1,
+					"productosGrupoCobertura": [360, 380, 390]
+				},
+				{
+					"grupoCobertura": "Grupo Aguas",
+					"secuenciaGrupoCobertura": 2,
+					"productosGrupoCobertura": [400]
 				}
 			],
 			"informacionCrediticia": {
@@ -1244,6 +1280,18 @@
 					"secuencia": 1
 				}
 			],
+			"coberturas": [
+				{
+					"grupoCobertura": "Grupo Colas",
+					"secuenciaGrupoCobertura": 1,
+					"productosGrupoCobertura": [360, 380, 420]
+				},
+				{
+					"grupoCobertura": "Grupo Aguas",
+					"secuenciaGrupoCobertura": 2,
+					"productosGrupoCobertura": [400]
+				}
+			],
 			"informacionCrediticia": {
 				"condicion": "creditoInformal",
 				"limite": 20000,
@@ -1299,6 +1347,7 @@
 					"codigoProducto": 170456,
 					"esVentaSubunidades": true,
 					"unidadesDisponibles": 10,
+
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,
@@ -1373,6 +1422,20 @@
 				{
 					"codigoProducto": 340,
 					"esVentaSubunidades": true,
+					"descuentoPolarizado": [
+						{
+							"precioVentaAlPublicoDesde": 100,
+							"precioVentaAlPublicoHasta": 199.99,
+							"porcentajeDescuentoPolarizado": 10,
+							"claseCondicionPolarizado": "ZBM1"
+						},
+						{
+							"precioVentaAlPublicoDesde": 200,
+							"precioVentaAlPublicoHasta": 399.99,
+							"porcentajeDescuentoPolarizado": 15,
+							"claseCondicionPolarizado": "ZBM2"
+						}
+					],
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,
@@ -1455,6 +1518,18 @@
 				{
 					"codigoProducto": 360,
 					"esVentaSubunidades": true,
+					"descuentoEscalonado": [
+						{
+							"unidadesDesde": 10,
+							"unidadesHasta": 20,
+							"porcentajeDescuentoEscalonado": 8
+						},
+						{
+							"unidadesDesde": 21,
+							"unidadesHasta": 25,
+							"porcentajeDescuentoEscalonado": 12
+						}
+					],
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,
@@ -1473,6 +1548,18 @@
 				{
 					"codigoProducto": 380,
 					"esVentaSubunidades": true,
+					"descuentoEscalonado": [
+						{
+							"unidadesDesde": 10,
+							"unidadesHasta": 20,
+							"porcentajeDescuentoEscalonado": 8
+						},
+						{
+							"unidadesDesde": 21,
+							"unidadesHasta": 999999,
+							"porcentajeDescuentoEscalonado": 12
+						}
+					],
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,
@@ -1491,6 +1578,18 @@
 				{
 					"codigoProducto": 390,
 					"esVentaSubunidades": true,
+					"descuentoEscalonado": [
+						{
+							"unidadesDesde": 10,
+							"unidadesHasta": 20,
+							"porcentajeDescuentoEscalonado": 8
+						},
+						{
+							"unidadesDesde": 21,
+							"unidadesHasta": 999999,
+							"porcentajeDescuentoEscalonado": 12
+						}
+					],
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,
@@ -1509,6 +1608,20 @@
 				{
 					"codigoProducto": 400,
 					"esVentaSubunidades": true,
+					"descuentoPolarizado": [
+						{
+							"precioVentaAlPublicoDesde": 100,
+							"precioVentaAlPublicoHasta": 199.99,
+							"porcentajeDescuentoPolarizado": 10,
+							"claseCondicionPolarizado": "ZBM1"
+						},
+						{
+							"precioVentaAlPublicoDesde": 200,
+							"precioVentaAlPublicoHasta": 399.99,
+							"porcentajeDescuentoPolarizado": 15,
+							"claseCondicionPolarizado": "ZBM2"
+						}
+					],
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 106,
