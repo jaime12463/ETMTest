@@ -58,6 +58,25 @@ export type TVisita = {
 	pasoATomaPedido: boolean;
 	seQuedaAEditar: SeQuedaAEditar;
 	fechaVisitaPlanificada: string;
+	bonificaciones: TBonificacionesCliente;
+};
+
+export type TBonificacionesCliente = {
+	numeroPedido: string;
+	codigoCliente: string;
+	idBonificacion: number | null;
+	fechaCreacion: string;
+	codigoUsuario: string;
+	ruta: string;
+	detalle: TDetalleBonificacionesCliente[];
+};
+
+export type TDetalleBonificacionesCliente = {
+	numeroPedido: string;
+	idGrupo: number;
+	codigoProducto: number;
+	cantidad: number;
+	unidadMedida: string;
 };
 
 export type SeQuedaAEditar = {
