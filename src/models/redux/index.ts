@@ -85,6 +85,7 @@ export type TIniciativasCliente = {
 	subUnidades: number;
 	unidadesEjecutadas: number;
 	subUnidadesEjecutadas: number;
+	archivoAdjunto?: string;
 };
 
 export type TPresupuestoTipoPedidoTotal = {

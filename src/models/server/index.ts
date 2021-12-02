@@ -15,6 +15,24 @@ export type TIniciativas = {
 	codigoProducto: number;
 	unidades: number;
 	subUnidades: number;
+	archivoAdjunto?: string;
+};
+
+export type TBonificaciones = {
+	idBonificacion: number;
+	nombreBonificacion: string;
+	vigenciaInicioBonificacion: string;
+	vigenciaFinBonificacion: string;
+	aplicacionBonificacion: string;
+	gruposBonificacion: TGruposBonificacion[];
+};
+
+export type TGruposBonificacion = {
+	idGrupo: number;
+	nombreGrupo: string;
+	cantidadBeneficioGrupo: number;
+	unidadMedida: string;
+	productosBeneficioGrupo: number[];
 };
 
 export type TClientes = {
@@ -183,6 +201,7 @@ export type TDatosConfiguracion = {
 export type TConfiguracion = {
 	esFrecuenciaAbierta: boolean;
 	habilitaOrdenDeCompra: boolean;
+	bonificacionesConVenta: boolean;
 	tipoPedidoEnvasesHabilitados: string[];
 	tipoPedidos: TTipoPedido[];
 	motivosCancelacionIniciativas: TMotivosCancelacionIniciativas[];

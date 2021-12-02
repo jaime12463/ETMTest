@@ -2,6 +2,7 @@
 	"configuraciones": {
 		"esFrecuenciaAbierta": true,
 		"habilitaOrdenDeCompra": true,
+		"bonificacionesConVenta": true,
 		"tipoPedidoEnvasesHabilitados": ["VentaEnvase", "PrestamoEnvase"],
 		"tipoPedidos": [
 			{
