@@ -53,6 +53,7 @@ export type TCliente = {
 	coberturas: TCoberturas[];
 	configuracionPedido: TConfiguracionPedido;
 	portafolio: TPortafolio[];
+	bonificacionesHabilitadas?: TBonificacionesHabilitadas[];
 };
 
 export type TProducto = {
@@ -100,6 +101,11 @@ export type TCoberturas = {
 export type TIniciativasHabilitadas = {
 	codigoIniciativa: number;
 	secuencia: number;
+};
+
+export type TBonificacionesHabilitadas = {
+	idBonificacion: number;
+	bonificacionesDisponibles: number;
 };
 
 export type TInformacionCrediticia = {

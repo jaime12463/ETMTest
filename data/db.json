@@ -1280,6 +1280,16 @@
 					"secuencia": 1
 				}
 			],
+			"bonificacionesHabilitadas": [
+				{
+					"idBonificacion": 1,
+					"bonificacionesDisponibles": 1
+				},
+				{
+					"idBonificacion": 2,
+					"bonificacionesDisponibles": 5
+				}
+			],
 			"coberturas": [
 				{
 					"grupoCobertura": "Grupo Colas",
