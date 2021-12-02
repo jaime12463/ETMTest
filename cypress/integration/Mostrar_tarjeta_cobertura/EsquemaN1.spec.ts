@@ -8,5 +8,5 @@ Dado('que se ingresó un cliente que tiene coberturas asignadas', () => {
 });
 
 Y('el control para desplegar la tarjeta.', () => {
-	cy.get('[data-cy=expandir-Iniciativas]').should('be.visible');
+	cy.get('[data-cy=expandir-Coberturas]').should('be.visible');
 });
