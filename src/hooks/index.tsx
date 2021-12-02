@@ -31,3 +31,4 @@ export {useValidarPasos} from './useValidarPasos';
 export {useObtenerCoberturas} from './useObtenerCoberturas';
 export {useObtenerCalculoDescuentoProducto} from './useObtenerCalculoDescuentoProducto';
 export {useReiniciarClienteActual} from './useReiniciarClienteActual';
+export {useContador} from './useContador';

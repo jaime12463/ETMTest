@@ -98,6 +98,8 @@ const en = {
 		tituloIniciativasSinMotivo: 'Initiatives canceled without reason',
 		coberturas: 'Coverages',
 		tarjetaCoberturas: `Indicates the amount of product missing in the customer's refrigerator.`,
+		bonificaciones: 'Bonuses',
+		tarjetaBonificaciones: `Indicates the amount of product missing in the customer's refrigerator.`,
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',

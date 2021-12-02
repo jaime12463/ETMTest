@@ -89,6 +89,9 @@ const br = {
 		coberturas: 'Coberturas',
 		tarjetaCoberturas:
 			'Indica a quantidade de produto faltando na geladeira do cliente.',
+		bonificaciones: 'Bonificações',
+		tarjetaBonificaciones:
+			'Indica a quantidade de produto faltando na geladeira do cliente.',
 	},
 	advertencias: {
 		clienteNoExiste: 'O código digitado não corresponde a um cliente',

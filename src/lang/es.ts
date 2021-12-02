@@ -99,6 +99,9 @@ const es = {
 		coberturas: 'Coberturas',
 		tarjetaCoberturas:
 			'Indica la cantidad de producto faltante en el refrigerador del cliente.',
+		bonificaciones: 'Bonificaciones',
+		tarjetaBonificaciones:
+			'Indica la cantidad de producto faltante en el refrigerador del cliente.',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',

@@ -20,6 +20,7 @@ import OrdenDeCompra from './OrdenDeCompra';
 import {cambiarTipoPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 import {CompromisoDeCobro} from 'pages';
 import {useObtenerHabilitaCanje} from './hooks/useObtenerHabilitaCanje';
+import Bonificaciones from './Bonificaciones';
 
 export const Otros: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
@@ -124,7 +125,7 @@ export const Otros: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				valido={envasesValido}
-				dataCy="Envases"
+				dataCy='Envases'
 			>
 				<EnvasesRetornables />
 			</TarjetaColapsable>
@@ -153,9 +154,27 @@ export const Otros: React.FC = () => {
 				}
 				labelChip={`${cantidadCanjes.length} Items`}
 				valido={canjeValido}
-				dataCy="Canjes"
+				dataCy='Canjes'
 			>
 				<Canjes />
+			</TarjetaColapsable>
+			<TarjetaColapsable
+				titulo={
+					<Typography variant={'subtitle1'}>
+						{t('titulos.bonificaciones')}
+					</Typography>
+				}
+				subTitulo={
+					<Typography variant={'body3'}>
+						{t('titulos.tarjetaBonificaciones')}
+					</Typography>
+				}
+				id='tarjetaBonificaciones'
+				expandido={expandido}
+				setExpandido={setExpandido}
+				dataCy='Bonificaciones'
+			>
+				<Bonificaciones />
 			</TarjetaColapsable>
 			{tipoPagoActual ? (
 				<TarjetaColapsable
@@ -173,7 +192,7 @@ export const Otros: React.FC = () => {
 					expandido={expandido}
 					setExpandido={setExpandido}
 					valido={compromisoDeCobroValido}
-					dataCy="CompromisoCobro"
+					dataCy='CompromisoCobro'
 				>
 					<CompromisoDeCobro />
 				</TarjetaColapsable>
@@ -194,7 +213,7 @@ export const Otros: React.FC = () => {
 					expandido={expandido}
 					setExpandido={setExpandido}
 					valido={ordenDeCompraValido}
-					dataCy="OrdenDeCompra"
+					dataCy='OrdenDeCompra'
 				>
 					<OrdenDeCompra />
 				</TarjetaColapsable>
