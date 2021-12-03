@@ -61,7 +61,7 @@ export const useInicializarVisitaActual = () => {
 								ruta: '',
 								detalle: [],
 							})
-						), // Inicializar bonificaciones disponibles
+						),
 						coberturasEjecutadas: [],
 						pasoATomaPedido: false,
 						seQuedaAEditar: {
