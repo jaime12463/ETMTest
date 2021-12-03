@@ -3,22 +3,24 @@ import {useObtenerDatosCliente} from 'hooks';
 import {
 	TCliente,
 	TDatosClientesProductos,
-	TIniciativas,
-	TIniciativasCliente,
 	TPedidosClientes,
 	TBonificaciones,
+	TClienteActual,
 } from 'models';
-import {useObtenerPedidosClientes} from 'redux/hooks';
+import {useObtenerClienteActual, useObtenerPedidosClientes} from 'redux/hooks';
 import {useObtenerDatos} from 'redux/hooks';
 
 export const useObtenerBonificacionesHabilitadas = () => {
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	//const pedidosClientes: TPedidosClientes = useObtenerPedidosClientes();
 	const datos: TDatosClientesProductos = useObtenerDatos();
+	const clienteActual: TClienteActual = useObtenerClienteActual();
 
 	const obtenerBonificacionesHabilitadas = useCallback(
-		(codigoCliente: string) => {
-			const datosCliente = obtenerDatosCliente(codigoCliente);
+		(codigoCliente?: string) => {
+			const datosCliente = obtenerDatosCliente(
+				codigoCliente ?? clienteActual.codigoCliente
+			);
 			if (!datosCliente) return [];
 
 			const BonificacionesGenerales: TBonificaciones[] = datos.bonificaciones;
