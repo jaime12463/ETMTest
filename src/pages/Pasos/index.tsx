@@ -31,6 +31,7 @@ import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro
 import {PromocionesRellenoIcon} from 'assests/iconos';
 import Modal from 'components/UI/Modal';
 import {resetearClienteActual} from 'redux/features/clienteActual/clienteActualSlice';
+import BotonResumenPedido from 'components/UI/BotonResumenPedido';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -153,6 +154,7 @@ const Pasos: React.FC = () => {
 				/>
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
+				<BotonResumenPedido />
 				<BotonBarraInferior
 					descripcion={leyendaBoton}
 					numeroItems={formatearItems(itemsValorizados.length)}
