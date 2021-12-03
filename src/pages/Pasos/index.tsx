@@ -32,6 +32,7 @@ import {PromocionesRellenoIcon} from 'assests/iconos';
 import Modal from 'components/UI/Modal';
 import {resetearClienteActual} from 'redux/features/clienteActual/clienteActualSlice';
 import BotonResumenPedido from 'components/UI/BotonResumenPedido';
+import ResumenPedido from 'components/UI/ResumenPedido';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -92,7 +93,8 @@ const Pasos: React.FC = () => {
 	};
 
 	const valido = useValidarPasos(pasoActual);
-
+	const [openResumenPedido, setOpenResumenPedido] =
+		React.useState<boolean>(false);
 	const [alertaPasos, setAlertaPasos] = React.useState<boolean>(false);
 
 	const manejadorPasoAdelante = () => {
@@ -152,9 +154,13 @@ const Pasos: React.FC = () => {
 					setPasoActual={setPasoActual}
 					contenidoMensaje={valido?.contenidoMensaje}
 				/>
+				<ResumenPedido
+					open={openResumenPedido}
+					setOpen={setOpenResumenPedido}
+				/>
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
-				<BotonResumenPedido />
+				<BotonResumenPedido setOpen={setOpenResumenPedido} />
 				<BotonBarraInferior
 					descripcion={leyendaBoton}
 					numeroItems={formatearItems(itemsValorizados.length)}
