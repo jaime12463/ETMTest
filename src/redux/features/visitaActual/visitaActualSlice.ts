@@ -20,15 +20,7 @@ const estadoInicial: TVisita = {
 	coberturasEjecutadas: [],
 	pasoATomaPedido: false,
 	fechaVisitaPlanificada: '',
-	bonificaciones: {
-		numeroPedido: '',
-		codigoCliente: '',
-		idBonificacion: null,
-		fechaCreacion: '',
-		codigoUsuario: '',
-		ruta: '',
-		detalle: [],
-	},
+	bonificaciones: [],
 	seQuedaAEditar: {
 		seQueda: false,
 		bordeError: false,
@@ -187,15 +179,7 @@ export const visitaActualSlice = createSlice({
 				seQueda: false,
 				bordeError: false,
 			};
-			state.bonificaciones = {
-				numeroPedido: '',
-				codigoCliente: '',
-				idBonificacion: null,
-				fechaCreacion: '',
-				codigoUsuario: '',
-				ruta: '',
-				detalle: [],
-			};
+			state.bonificaciones = [];
 		},
 
 		borrarDescuentoDelProducto: (

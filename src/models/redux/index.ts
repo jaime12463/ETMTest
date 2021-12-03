@@ -58,7 +58,7 @@ export type TVisita = {
 	pasoATomaPedido: boolean;
 	seQuedaAEditar: SeQuedaAEditar;
 	fechaVisitaPlanificada: string;
-	bonificaciones: TBonificacionesCliente;
+	bonificaciones: TBonificacionesCliente[];
 };
 
 export type TBonificacionesCliente = {

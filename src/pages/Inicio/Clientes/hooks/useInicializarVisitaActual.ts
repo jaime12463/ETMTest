@@ -47,15 +47,7 @@ export const useInicializarVisitaActual = () => {
 							fechaEntrega,
 							fechaVisitaPlanificada
 						),
-						bonificaciones: {
-							numeroPedido: pedidos.venta.codigoPedido,
-							codigoCliente,
-							idBonificacion: null,
-							fechaCreacion: '',
-							codigoUsuario: '',
-							ruta: '',
-							detalle: [],
-						},
+						bonificaciones: [],
 						coberturasEjecutadas: [],
 						pasoATomaPedido: false,
 						seQuedaAEditar: {
