@@ -1,4 +1,5 @@
 import {
+	useObtenerBonificacionesHabilitadas,
 	useObtenerDatosCliente,
 	useObtenerIniciativasClienteActual,
 } from 'hooks';
@@ -7,6 +8,7 @@ import {useCallback} from 'react';
 import {inicializarVisitaActual} from 'redux/features/visitaActual/visitaActualSlice';
 import {useAppDispatch, useObtenerConfiguracion} from 'redux/hooks';
 import {useInicializarPedidos} from '.';
+import {v4 as uuidv4} from 'uuid';
 
 export const useInicializarVisitaActual = () => {
 	const dispatch = useAppDispatch();
@@ -14,6 +16,8 @@ export const useInicializarVisitaActual = () => {
 	const configuracion = useObtenerConfiguracion();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const iniciativasClienteActual = useObtenerIniciativasClienteActual();
+	const obtenerBonificacionesHabilitadas =
+		useObtenerBonificacionesHabilitadas();
 
 	const useInicializarPedidoActual = useCallback(
 		(
@@ -47,7 +51,17 @@ export const useInicializarVisitaActual = () => {
 							fechaEntrega,
 							fechaVisitaPlanificada
 						),
-						bonificaciones: [],
+						bonificaciones: obtenerBonificacionesHabilitadas(codigoCliente).map(
+							(bonificaciones) => ({
+								numeroPedido: uuidv4(),
+								codigoCliente,
+								idBonificacion: bonificaciones.idBonificacion,
+								fechaCreacion: '',
+								codigoUsuario: '',
+								ruta: '',
+								detalle: [],
+							})
+						), // Inicializar bonificaciones disponibles
 						coberturasEjecutadas: [],
 						pasoATomaPedido: false,
 						seQuedaAEditar: {

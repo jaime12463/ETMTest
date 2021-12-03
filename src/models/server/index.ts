@@ -4,6 +4,7 @@ export type TDatosClientesProductos = {
 	productos: TProductos;
 	presupuestoTipoPedido: TpresupuestoTipoPedido[];
 	iniciativas: TIniciativas[];
+	bonificaciones: TBonificaciones[];
 };
 
 export type TIniciativas = {

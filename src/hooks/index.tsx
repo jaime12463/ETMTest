@@ -32,3 +32,4 @@ export {useObtenerCoberturas} from './useObtenerCoberturas';
 export {useObtenerCalculoDescuentoProducto} from './useObtenerCalculoDescuentoProducto';
 export {useReiniciarClienteActual} from './useReiniciarClienteActual';
 export {useContador} from './useContador';
+export {useObtenerBonificacionesHabilitadas} from './useObtenerBonificacionesHabilitadas';

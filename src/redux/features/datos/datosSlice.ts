@@ -10,6 +10,7 @@ const estadoInicial: TDatosSlice = {
 		productos: {},
 		presupuestoTipoPedido: [],
 		iniciativas: [],
+		bonificaciones: [],
 	},
 };
 
