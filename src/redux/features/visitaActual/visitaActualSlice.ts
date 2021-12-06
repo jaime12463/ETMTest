@@ -277,7 +277,9 @@ export const visitaActualSlice = createSlice({
 			}>
 		) => {
 			state.iniciativas = state.iniciativas.map((iniciativa) => {
-				if (iniciativa.codigoIniciativa === action.payload.codigoIniciativa) {
+				if (
+					iniciativa.idActividadIniciativa === action.payload.codigoIniciativa
+				) {
 					iniciativa.estado = action.payload.estado;
 				}
 				return iniciativa;
@@ -289,7 +291,9 @@ export const visitaActualSlice = createSlice({
 			action: PayloadAction<{motivo: string; codigoIniciativa: number}>
 		) => {
 			state.iniciativas = state.iniciativas.map((iniciativa) => {
-				if (iniciativa.codigoIniciativa === action.payload.codigoIniciativa) {
+				if (
+					iniciativa.idActividadIniciativa === action.payload.codigoIniciativa
+				) {
 					iniciativa.motivo = action.payload.motivo;
 				}
 				return iniciativa;
@@ -305,7 +309,9 @@ export const visitaActualSlice = createSlice({
 			}>
 		) => {
 			state.iniciativas = state.iniciativas.map((iniciativa) => {
-				if (iniciativa.codigoIniciativa === action.payload.codigoIniciativa) {
+				if (
+					iniciativa.idActividadIniciativa === action.payload.codigoIniciativa
+				) {
 					iniciativa.unidadesEjecutadas = action.payload.unidadesEjecutadas;
 					iniciativa.subUnidadesEjecutadas =
 						action.payload.subUnidadesEjecutadas;

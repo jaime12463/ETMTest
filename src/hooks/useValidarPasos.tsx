@@ -41,7 +41,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 							) {
 								dispatch(
 									cambiarEstadoIniciativa({
-										codigoIniciativa: iniciativa.codigoIniciativa,
+										codigoIniciativa: iniciativa.idActividadIniciativa,
 										estado: 'pendiente',
 									})
 								);

@@ -42,9 +42,9 @@ export const useObtenerIniciativasClienteActual = () => {
 			const iniciativasFiltradas = iniciativasGenerales.filter((iniciativa) =>
 				iniciativasHabilitadas.find(
 					(iniciativaHabilatada) =>
-						iniciativaHabilatada.codigoIniciativa ===
-							iniciativa.codigoIniciativa &&
-						iniciativa.vencimiento >= fechaVisitaPlanificada
+						iniciativaHabilatada.idActividadIniciativa ===
+							iniciativa.idActividadIniciativa &&
+						iniciativa.finVigenciaIniciativa >= fechaVisitaPlanificada
 				)
 			);
 
@@ -53,15 +53,16 @@ export const useObtenerIniciativasClienteActual = () => {
 			iniciativasFiltradas.forEach((iniciativa) => {
 				const iniciativaEnPedido = iniciativasClientePedido.find(
 					(iniciativaPedido) =>
-						iniciativa.codigoIniciativa === iniciativaPedido.codigoIniciativa
+						iniciativa.idActividadIniciativa ===
+						iniciativaPedido.idActividadIniciativa
 				);
 
 				if (!iniciativaEnPedido) {
 					const secuenciaIniciativa = iniciativasHabilitadas?.find(
 						(iniciativaHabilatada) =>
-							iniciativaHabilatada.codigoIniciativa ===
-							iniciativa.codigoIniciativa
-					)?.secuencia;
+							iniciativaHabilatada.idActividadIniciativa ===
+							iniciativa.idActividadIniciativa
+					)?.secuenciaCliente;
 
 					iniciativasParaElCliente.push({
 						...iniciativa,
@@ -69,8 +70,8 @@ export const useObtenerIniciativasClienteActual = () => {
 						motivo: '',
 						secuencia: secuenciaIniciativa ?? 0,
 						fechaEntrega,
-						unidadesEjecutadas: iniciativa.unidades,
-						subUnidadesEjecutadas: iniciativa.subUnidades,
+						unidadesEjecutadas: iniciativa.unidadVentaIniciativa,
+						subUnidadesEjecutadas: iniciativa.subunidadVentaIniciativa,
 					});
 				}
 			});
