@@ -8,14 +8,14 @@ export type TDatosClientesProductos = {
 };
 
 export type TIniciativas = {
-	codigoIniciativa: number;
-	nombreActividad: string;
-	planActividad: string;
-	descripcion: string;
-	vencimiento: string;
-	codigoProducto: number;
-	unidades: number;
-	subUnidades: number;
+	idActividadIniciativa: number;
+	nombreIniciativa: string;
+	nombreActividadPlan: string;
+	descripcionIniciativa: string;
+	finVigenciaIniciativa: string;
+	idMaterialIniciativa: number;
+	unidadVentaIniciativa: number;
+	subunidadVentaIniciativa: number;
 	archivoAdjunto?: string;
 };
 
@@ -100,8 +100,8 @@ export type TCoberturas = {
 };
 
 export type TIniciativasHabilitadas = {
-	codigoIniciativa: number;
-	secuencia: number;
+	idActividadIniciativa: number;
+	secuenciaCliente: number;
 };
 
 export type TBonificacionesHabilitadas = {

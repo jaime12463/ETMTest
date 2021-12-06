@@ -94,14 +94,15 @@ export type TIniciativasCliente = {
 	motivo: string;
 	secuencia: number;
 	fechaEntrega: string;
-	codigoIniciativa: number;
-	nombreActividad: string;
-	planActividad: string;
-	descripcion: string;
-	vencimiento: string;
-	codigoProducto: number;
-	unidades: number;
-	subUnidades: number;
+	idActividadIniciativa: number;
+	nombreIniciativa: string;
+	nombreActividadPlan: string;
+	descripcionIniciativa: string;
+	finVigenciaIniciativa: string;
+	idMaterialIniciativa: number;
+	unidadVentaIniciativa: number;
+	subunidadVentaIniciativa: number;
+
 	unidadesEjecutadas: number;
 	subUnidadesEjecutadas: number;
 	archivoAdjunto?: string;

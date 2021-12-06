@@ -114,6 +114,8 @@ export const useAgregarProductoAlPedidoActual = (
 				);
 			}
 
+			console.log();
+
 			const preciosNeto = infoDescuento
 				? {
 						unidad:
