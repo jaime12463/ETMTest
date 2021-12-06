@@ -4,6 +4,7 @@ import {
 	TVisita,
 	TProductoPedido,
 	TPresupuestoTipoPedidoTotal,
+	TDetalleBonificacionesCliente,
 } from 'models';
 
 import {RootState} from 'redux/store';
@@ -359,6 +360,62 @@ export const visitaActualSlice = createSlice({
 			state.seQuedaAEditar.seQueda = action.payload.seQueda;
 			state.seQuedaAEditar.bordeError = action.payload.bordeError;
 		},
+
+		agregarBonificacion(
+			state,
+			action: PayloadAction<{
+				bonificacion: TDetalleBonificacionesCliente;
+				idBonificacion: number;
+			}>
+		) {
+			state.bonificaciones = state.bonificaciones.map((bonificacion) => {
+				// Se busca el grupo de bonificaciones
+				if (bonificacion.idBonificacion === action.payload.idBonificacion) {
+					// Se busca si existe la bonificacion
+					const bonificacionBuscada = bonificacion.detalle.find(
+						(detalle) =>
+							detalle.codigoProducto ===
+							action.payload.bonificacion.codigoProducto
+					);
+
+					if (bonificacionBuscada) {
+						//Si existe se actualiza la cantidad
+						bonificacionBuscada.cantidad = action.payload.bonificacion.cantidad;
+					} else {
+						// Si no existe se agrega la bonificacion
+						bonificacion.detalle = [
+							...bonificacion.detalle,
+							action.payload.bonificacion,
+						];
+					}
+				}
+
+				return bonificacion;
+			});
+		},
+
+		eliminarBonificacion(
+			state,
+			action: PayloadAction<{codigoProducto: number}>
+		) {
+			state.bonificaciones = state.bonificaciones.map((bonificacion) => {
+				// Se busca el grupo de bonificaciones
+				if (bonificacion.detalle) {
+					// Se busca si existe la bonificacion
+					const index = bonificacion.detalle.findIndex(
+						(detalle) =>
+							detalle.codigoProducto === action.payload.codigoProducto
+					);
+
+					if (index > -1) {
+						//Si existe se elimina
+						bonificacion.detalle.splice(index, 1);
+					}
+				}
+
+				return bonificacion;
+			});
+		},
 	},
 });
 
@@ -385,5 +442,7 @@ export const {
 	agregarCoberturasEjecutadas,
 	borrarDescuentoDelProducto,
 	cambiarSeQuedaAEditar,
+	agregarBonificacion,
+	eliminarBonificacion,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

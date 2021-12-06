@@ -2222,21 +2222,21 @@
 			"nombreBonificacion": "Bonificación COCA COLA 12 OZ VIDRIO R",
 			"vigenciaInicioBonificacion": "2021-09-01",
 			"vigenciaFinBonificacion": "2021-09-06",
-			"aplicacionBonificacion": "Total",
+			"aplicacionBonificacion": "Parcial",
 			"gruposBonificacion": [
 				{
 					"idGrupo": 1,
 					"nombreGrupo": "Grupo 1",
-					"cantidadBeneficioGrupo": 10,
+					"cantidadBeneficioGrupo": 20,
 					"unidadMedida": "Unidad",
 					"productosBeneficioGrupo": [340, 360, 420]
 				},
 				{
 					"idGrupo": 2,
 					"nombreGrupo": "Grupo 2",
-					"cantidadBeneficioGrupo": 5,
+					"cantidadBeneficioGrupo": 50,
 					"unidadMedida": "Unidad",
-					"productosBeneficio": [400, 390]
+					"productosBeneficioGrupo": [400, 390]
 				}
 			]
 		},
@@ -2259,7 +2259,7 @@
 					"nombreGrupo": "Grupo 2",
 					"cantidadBeneficioGrupo": 5,
 					"unidadMedida": "Unidad",
-					"productosBeneficio": [400, 390]
+					"productosBeneficioGrupo": [400, 390]
 				}
 			]
 		},
@@ -2282,7 +2282,7 @@
 					"nombreGrupo": "Grupo 2",
 					"cantidadBeneficioGrupo": 5,
 					"unidadMedida": "Unidad",
-					"productosBeneficio": [400, 390]
+					"productosBeneficioGrupo": [400, 390]
 				}
 			]
 		}
