@@ -151,5 +151,5 @@ Escenario: N°11 - Coberturas ingresadas
     Dado que se ingresaron productos en el _tipoPedido = "Venta"
     Y existen grupos de coberturas con los mismos productos
     Cuando guardo el pedido
-    Entonces el sistema registrará el _grupoCobertura, el _codigo producto y las cantidades ingresadas de los productos
+    Entonces el sistema registrará el cliente, _grupoCobertura, el _codigo producto y las cantidades ingresadas de los productos
 	
