@@ -140,6 +140,8 @@ export type TPrecioProducto = {
 	esVentaSubunidades: boolean;
 	precioConImpuestoUnidad: number;
 	precioConImpuestoSubunidad: number;
+	precioConDescuentoUnidad?: number;
+	precioConDescuentoSubunidad?: number;
 	codigoImplicito1?: number;
 	nombreImplicito1?: string;
 	codigoImplicito2?: number;

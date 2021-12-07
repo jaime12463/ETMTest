@@ -175,6 +175,8 @@ export type TPrecio = {
 	vigenciaFinPrecio: string;
 	descuento: number;
 	componentes: TComponente[];
+	precioConDescuentoUnidad?: number;
+	precioConDescuentoSubunidad?: number;
 };
 
 export type TComponente = {

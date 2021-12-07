@@ -71,10 +71,15 @@ const Descuentos = ({
 
 	React.useEffect(() => {
 		if (
-			infoDescuento.porcentajeDescuento !== null &&
-			infoDescuento.porcentajeDescuento > 0
+			(infoDescuento.porcentajeDescuento !== null &&
+				infoDescuento.porcentajeDescuento > 0) ||
+			infoDescuento.tipo === 'automatico'
 		) {
-			if (producto.unidades > 0 || producto.subUnidades > 0) {
+			if (
+				producto.unidades > 0 ||
+				producto.subUnidades > 0 ||
+				infoDescuento.tipo === 'automatico'
+			) {
 				setMostrarinfo(true);
 			} else {
 				setInputValue('');
@@ -171,16 +176,22 @@ const Descuentos = ({
 								fontFamily='Open Sans'
 								color={theme.palette.primary.main}
 							>
-								{infoDescuento.tipo === 'polarizado'
-									? `Descuento polarizado del -${infoDescuento.porcentajeDescuento}%`
-									: `Descuento escalonado del -${infoDescuento.porcentajeDescuento}%`}
+								{infoDescuento.tipo === 'polarizado' ||
+								infoDescuento.tipo === 'escalonado'
+									? `Descuento ${infoDescuento.tipo} del -${infoDescuento.porcentajeDescuento}%`
+									: null}
 							</Typography>
 							<Box
 								display='flex'
 								alignItems='center'
 								justifyContent='space-between'
 								width='145px'
-								marginBottom={infoDescuento.tipo === 'polarizado' ? '6px' : '0'}
+								marginBottom={
+									infoDescuento.tipo === 'polarizado' ||
+									infoDescuento.tipo === 'automatico'
+										? '6px'
+										: '0'
+								}
 							>
 								<PromocionColor height='20px' width='20px' />
 								<Typography
@@ -188,18 +199,25 @@ const Descuentos = ({
 									fontFamily='Open Sans'
 									color={theme.palette.primary.main}
 								>
-									{formatearNumero(producto.preciosNeto.unidad, t)}
+									{formatearNumero(
+										producto.precioConDescuentoUnidad ??
+											producto.preciosNeto.unidad,
+										t
+									)}
 								</Typography>
 								<Typography
 									variant='subtitle3'
 									fontFamily='Open Sans'
 									color={theme.palette.primary.main}
 								>
-									{formatearNumero(producto.preciosNeto.subUnidad, t)}
+									{formatearNumero(
+										producto.precioConDescuentoSubunidad ??
+											producto.preciosNeto.subUnidad,
+										t
+									)}
 								</Typography>
 							</Box>
-							{(infoDescuento.tipo === 'escalonado' ||
-								infoDescuento.tipo === 'automatico') && (
+							{infoDescuento.tipo === 'escalonado' && (
 								<Box alignSelf='start'>
 									<ChipStyled
 										onClick={() => {
