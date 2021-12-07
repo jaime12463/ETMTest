@@ -114,22 +114,26 @@ export const useAgregarProductoAlPedidoActual = (
 				);
 			}
 
-			console.log();
-
 			const preciosNeto = infoDescuento
 				? {
 						unidad:
-							(productoActual.preciosBase.unidad *
+							((productoActual.precioConDescuentoUnidad ??
+								productoActual.precioConImpuestoUnidad) *
 								(100 - infoDescuento.porcentajeDescuento)) /
 							100,
 						subUnidad:
-							(productoActual.preciosBase.subUnidad *
+							((productoActual.precioConDescuentoSubunidad ??
+								productoActual.precioConImpuestoSubunidad) *
 								(100 - infoDescuento.porcentajeDescuento)) /
 							100,
 				  }
 				: {
-						unidad: productoActual.precioConImpuestoUnidad,
-						subUnidad: productoActual.precioConImpuestoSubunidad,
+						unidad:
+							productoActual.precioConDescuentoUnidad ??
+							productoActual.precioConImpuestoUnidad,
+						subUnidad:
+							productoActual.precioConDescuentoSubunidad ??
+							productoActual.precioConImpuestoSubunidad,
 				  };
 			dispatch(
 				agregarProductoDelPedidoActual({
