@@ -48,6 +48,8 @@ export const Otros: React.FC = () => {
 		React.useState<boolean>(false);
 	const [ordenDeCompraValido, setOrdenDeCompraValido] =
 		React.useState<boolean>(false);
+	const [bonificacionValida, setBonificacionValida] =
+		React.useState<boolean>(false);
 
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 
@@ -55,6 +57,10 @@ export const Otros: React.FC = () => {
 		(producto) =>
 			producto.catalogoMotivo !== '' &&
 			(producto.unidades > 0 || producto.subUnidades > 0)
+	);
+
+	const cantidadBonificaciones = visitaActual.bonificaciones.filter(
+		(bonificacion) => bonificacion.detalle.length > 0
 	);
 
 	React.useEffect(() => {
@@ -96,11 +102,22 @@ export const Otros: React.FC = () => {
 			setOrdenDeCompraValido(false);
 		}
 
+		const hayBonificaciones = visitaActual.bonificaciones.some(
+			(bonificacion) => {
+				return bonificacion.detalle.length > 0;
+			}
+		);
+
+		if (hayBonificaciones) {
+			setBonificacionValida(true);
+		}
+
 		return () => {
 			setCanjeValido(false);
 			setEnvasesValido(false);
 			setCompromisoDeCobroValido(false);
 			setOrdenDeCompraValido(false);
+			setBonificacionValida(false);
 		};
 	}, [
 		ventaenvase.productos,
@@ -108,6 +125,7 @@ export const Otros: React.FC = () => {
 		prestamoenvase.productos,
 		compromisoDeCobroActual.monto,
 		visitaActual.ordenDeCompra,
+		visitaActual.bonificaciones,
 	]);
 
 	return (
@@ -173,8 +191,11 @@ export const Otros: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				dataCy='Bonificaciones'
+				valido={bonificacionValida}
+				cantidadItems={cantidadBonificaciones.length}
+				labelChip={`${cantidadBonificaciones.length} Items`}
 			>
-				<Bonificaciones />
+				<Bonificaciones bonificacionValida={bonificacionValida} />
 			</TarjetaColapsable>
 			{tipoPagoActual ? (
 				<TarjetaColapsable

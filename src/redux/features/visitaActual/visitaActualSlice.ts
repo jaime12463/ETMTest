@@ -422,6 +422,27 @@ export const visitaActualSlice = createSlice({
 				return bonificacion;
 			});
 		},
+
+		eliminarBonificacionesGrupo(
+			state,
+			action: PayloadAction<{idBonificacion: number}>
+		) {
+			const indexBonificacion = state.bonificaciones.findIndex(
+				(bonificacion) =>
+					bonificacion.idBonificacion === action.payload.idBonificacion
+			);
+
+			if (indexBonificacion > -1) {
+				state.bonificaciones[indexBonificacion].detalle = [];
+			}
+		},
+
+		restablecerBonificaciones: (state) => {
+			state.bonificaciones = state.bonificaciones.map((bonificacion) => ({
+				...bonificacion,
+				detalle: [],
+			}));
+		},
 	},
 });
 
@@ -450,5 +471,7 @@ export const {
 	cambiarSeQuedaAEditar,
 	agregarBonificacion,
 	eliminarBonificacion,
+	eliminarBonificacionesGrupo,
+	restablecerBonificaciones,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

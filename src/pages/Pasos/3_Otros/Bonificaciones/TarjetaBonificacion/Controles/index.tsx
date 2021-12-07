@@ -5,12 +5,12 @@ import IconButton from '@mui/material/IconButton';
 import {AgregarRedondoIcon, CajaIcon, QuitarRellenoIcon} from 'assests/iconos';
 import useEstilos from '../useEstilos';
 import theme from 'theme';
-import {useAppDispatch} from 'redux/hooks';
+import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {
 	agregarBonificacion,
 	eliminarBonificacion,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {TPrecioProducto} from 'models';
+import {TDetalleBonificacionesCliente, TPrecioProducto} from 'models';
 
 interface Props {
 	contador: number;
@@ -19,9 +19,11 @@ interface Props {
 	decrementar: (cantidad?: number) => void;
 	reiniciar: () => void;
 	idBonificacion: number;
-	producto: TPrecioProducto;
+	producto: TPrecioProducto | TDetalleBonificacionesCliente;
 	unidadMedida: string;
 	idGrupo: number;
+	resetBonificaciones: boolean;
+	actualizarContador: (cantidad: number) => void;
 }
 
 const Controles: React.FC<Props> = ({
@@ -34,11 +36,45 @@ const Controles: React.FC<Props> = ({
 	producto,
 	unidadMedida,
 	idGrupo,
+	resetBonificaciones,
+	actualizarContador,
 }) => {
 	const classes = useEstilos();
-	const [cantidad, setCantidad] = React.useState<number>(0);
+	const visitaActual = useObtenerVisitaActual();
+
+	const bonificacionEjecutada = visitaActual.bonificaciones.find(
+		(bonificacion) => {
+			if (bonificacion.idBonificacion === idBonificacion) {
+				return bonificacion;
+			}
+		}
+	);
+
+	const productoBonificacion = bonificacionEjecutada?.detalle.find(
+		(detalle) => {
+			if (detalle.codigoProducto === producto.codigoProducto) {
+				return detalle;
+			}
+		}
+	);
+
+	const indexBonificacion = visitaActual.bonificaciones.findIndex(
+		(bonificacion) => bonificacion.idBonificacion === idBonificacion
+	);
+
+	const totalCantidadBonificaciones = visitaActual.bonificaciones[
+		indexBonificacion
+	].detalle.reduce((total, detalle) => total + detalle.cantidad, 0);
+
+	const [cantidad, setCantidad] = React.useState<number>(
+		productoBonificacion?.cantidad ?? 0
+	);
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 	const dispatch = useAppDispatch();
+
+	React.useEffect(() => {
+		actualizarContador(totalCantidadBonificaciones);
+	}, [totalCantidadBonificaciones]);
 
 	React.useEffect(() => {
 		if (puedeAgregar) {
@@ -66,7 +102,24 @@ const Controles: React.FC<Props> = ({
 		}
 	}, [puedeAgregar]);
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
+	React.useEffect(() => {
+		if (resetBonificaciones) {
+			setCantidad(0);
+		}
+	}, [resetBonificaciones]);
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (
+			contador - Number(e.target.value.replace(/[^0-9]/g, '')) < 0 ||
+			contador === 0
+		) {
+			setCantidad(0);
+			return;
+		}
+
+		setCantidad(Number(e.target.value.replace(/[^0-9]/g, '')));
+		setPuedeAgregar(true);
+	};
 
 	const handleButtons = (e: React.MouseEvent<HTMLButtonElement>) => {
 		const {name} = e.currentTarget;

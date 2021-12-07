@@ -21,5 +21,18 @@ export const useContador = (estadoInicial = 0) => {
 
 	const reiniciar = () => setContador(estadoInicial);
 
-	return {contador, incrementar, decrementar, reiniciar, estadoInicial};
+	const actualizarContador = (valor: number) => {
+		if (estadoInicial - valor >= 0) {
+			setContador(estadoInicial - valor);
+		}
+	};
+
+	return {
+		contador,
+		incrementar,
+		decrementar,
+		reiniciar,
+		estadoInicial,
+		actualizarContador,
+	};
 };

@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Controles from './Controles';
 import Informacion from './Informacion';
 import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
+import {useObtenerVisitaActual} from 'redux/hooks';
 
 interface Props {
 	codigoProducto: number;
@@ -14,6 +15,8 @@ interface Props {
 	estadoInicial: number;
 	idBonificacion: number;
 	idGrupo: number;
+	resetBonificaciones: boolean;
+	actualizarContador: (cantidad: number) => void;
 }
 
 const TarjetaBonificacion: React.FC<Props> = ({
@@ -26,6 +29,8 @@ const TarjetaBonificacion: React.FC<Props> = ({
 	estadoInicial,
 	idBonificacion,
 	idGrupo,
+	resetBonificaciones,
+	actualizarContador,
 }) => {
 	const producto = useObtenerProductoPorCodigo(codigoProducto);
 	if (!producto) return null;
@@ -43,6 +48,8 @@ const TarjetaBonificacion: React.FC<Props> = ({
 				idBonificacion={idBonificacion}
 				unidadMedida={unidadMedida}
 				idGrupo={idGrupo}
+				resetBonificaciones={resetBonificaciones}
+				actualizarContador={actualizarContador}
 			/>
 		</Box>
 	);

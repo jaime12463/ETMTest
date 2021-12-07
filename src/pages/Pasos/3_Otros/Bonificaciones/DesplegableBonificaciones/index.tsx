@@ -17,6 +17,8 @@ import TarjetaBonificacion from '../TarjetaBonificacion';
 import {TGruposBonificacion} from 'models';
 import {useContador} from 'hooks';
 import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
+import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
+import {eliminarBonificacionesGrupo} from 'redux/features/visitaActual/visitaActualSlice';
 
 const ButtonStyled = styled(Button)(() => ({
 	border: '1.5px solid #651C32',
@@ -39,6 +41,7 @@ interface Props {
 	vigenciaInicioBonificacion: string;
 	vigenciaFinBonificacion: string;
 	aplicacionBonificacion: string;
+	resetBonificaciones: boolean;
 }
 
 const DesplegableBonificaciones: React.FC<Props> = ({
@@ -50,19 +53,44 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 	vigenciaInicioBonificacion,
 	vigenciaFinBonificacion,
 	aplicacionBonificacion,
+	resetBonificaciones,
 }) => {
 	const {t} = useTranslation();
 	const classes = useEstilos();
-	const [opciones, setOpciones] = React.useState<string>(
-		grupos[0].nombreGrupo.toLowerCase()
+	const visitaActual = useObtenerVisitaActual();
+
+	const grupoConBonificaiones = visitaActual.bonificaciones.find(
+		(bonificacion) => {
+			return bonificacion.detalle.length > 0;
+		}
 	);
 
+	const grupoBonificacionesActivas = grupos.find((grupo) => {
+		if (grupo.idGrupo === grupoConBonificaiones?.detalle[0]?.idGrupo) {
+			return grupo;
+		}
+	});
+
+	const [opciones, setOpciones] = React.useState<string>(
+		grupoBonificacionesActivas?.nombreGrupo.toLowerCase() ??
+			grupos[0].nombreGrupo.toLowerCase()
+	);
+	const dispatch = useAppDispatch();
 	const grupoSeleccionado = grupos.find(
 		(grupo) => grupo.nombreGrupo.toLowerCase() === opciones
 	);
 
-	const {contador, incrementar, decrementar, reiniciar, estadoInicial} =
-		useContador(grupoSeleccionado?.cantidadBeneficioGrupo);
+	const [hayBonificaciones, setHayBonificaciones] =
+		React.useState<boolean>(false);
+
+	const {
+		contador,
+		incrementar,
+		decrementar,
+		reiniciar,
+		estadoInicial,
+		actualizarContador,
+	} = useContador(grupoSeleccionado?.cantidadBeneficioGrupo);
 
 	const manejadorExpandido =
 		({id}: any) =>
@@ -70,9 +98,44 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 			setExpandido(id);
 		};
 
+	const indexBonificacion = visitaActual.bonificaciones.findIndex(
+		(bonificacion) => bonificacion.idBonificacion === Number(id)
+	);
+
 	React.useEffect(() => {
-		reiniciar();
+		if (indexBonificacion > -1) {
+			if (visitaActual.bonificaciones[indexBonificacion].detalle.length > 0) {
+				return setHayBonificaciones(true);
+			}
+		}
+
+		setHayBonificaciones(false);
+	}, [visitaActual.bonificaciones[indexBonificacion].detalle]);
+
+	const primerRender = React.useRef(true);
+
+	React.useLayoutEffect(() => {
+		if (primerRender.current) {
+			primerRender.current = false;
+			return;
+		}
+
+		if (grupoBonificacionesActivas?.nombreGrupo) {
+			if (grupoBonificacionesActivas?.nombreGrupo !== opciones) {
+				reiniciar();
+				dispatch(eliminarBonificacionesGrupo({idBonificacion: Number(id)}));
+			}
+
+			reiniciar();
+		}
 	}, [opciones]);
+
+	React.useEffect(() => {
+		if (resetBonificaciones) {
+			reiniciar();
+			setOpciones(grupos[0].nombreGrupo.toLowerCase());
+		}
+	}, [resetBonificaciones]);
 
 	return (
 		<Card
@@ -81,24 +144,32 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 				overflow: 'visible',
 			}}
 		>
-			<Box>
+			<Box
+				border={
+					hayBonificaciones
+						? `1px solid ${theme.palette.success.main}`
+						: '1px solid #D9D9D9'
+				}
+				borderRadius='4px'
+			>
 				<Box
 					align-items='center'
-					borderRadius='4px 4px 0 0'
 					color={expandido === id ? '#fff' : '#000'}
+					borderRadius='4px 4px 0 0 '
 					display='flex'
 					flexDirection='column'
 					justifyContent='space-between'
-					padding={expandido === id ? '12px 14px 18px 14px' : '12px 14px'}
+					padding={
+						expandido === id ? '12px 14px 12px 14px' : '12px 14px 8px 14px'
+					}
 					sx={{
 						background:
 							expandido === id ? theme.palette.secondary.light : 'none',
-						border: '1px solid #D9D9D9',
 						borderBottom: 'none',
 						transition: 'all 0.3s ease-in-out',
 					}}
 				>
-					{false && (
+					{hayBonificaciones && (
 						<Box display='flex' justifyContent='end'>
 							<CheckRedondoIcon
 								height='17px'
@@ -107,15 +178,15 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 							/>
 						</Box>
 					)}
-					<Typography variant='subtitle3'>{nombre}</Typography>
+					<Box display='flex' flexDirection='column' gap='2px'>
+						<Typography variant='subtitle3' fontFamily='Open Sans'>
+							{id}
+						</Typography>
+						<Typography variant='subtitle3'>{nombre}</Typography>
+					</Box>
 				</Box>
 				<Collapse in={expandido === id} timeout='auto' unmountOnExit>
-					<Box
-						border='1px solid #D9D9D9'
-						borderBottom='none'
-						borderTop='none'
-						padding='10px 0'
-					>
+					<Box borderBottom='none' borderTop='none' padding='10px 0'>
 						<Box
 							alignItems='center'
 							display='flex'
@@ -148,6 +219,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 							fontWeight='700'
 							padding='0 14px'
 							marginBottom='10px'
+							letterSpacing='-0.48px'
 						>
 							Beneficios
 						</Typography>
@@ -164,6 +236,8 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 									estadoInicial={estadoInicial}
 									idBonificacion={Number(id)}
 									idGrupo={grupoSeleccionado.idGrupo}
+									resetBonificaciones={resetBonificaciones}
+									actualizarContador={actualizarContador}
 								/>
 								<Divider />
 							</Box>
@@ -171,13 +245,9 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 					</Box>
 				</Collapse>
 				<Box
-					padding={
-						expandido === id ? '10px 14px 12px 14px' : '0 14px 12px 14px'
-					}
+					padding={expandido === id ? '0 14px 12px 14px' : '0 14px 12px 14px'}
 					sx={{
-						border: '1px solid #D9D9D9',
 						borderTop: 'none',
-						borderRadius: '0 0 4px 4px',
 					}}
 				>
 					<ButtonStyled
