@@ -2,6 +2,9 @@
 
 @Pedido @Guardar_pedido @Iniciativas @Bonificaciones @Sprint7 @Sprint8 @Sprint9 @Sprint10 @Sprint11 @Sprint13 @Sprint15 @Sprint17
 
+# Sprint18: Al guardar el pedido, si existen productos que también se informan en algún grupo de coberturas
+# se debe guardar la información de cobertura para luego no mostrar ese grupo en planeación
+
 # Sprint17: 
 # Cabecera: idPedido, codigo cliente, idBonificación, fecha y hora, usuario, ruta
 # Detalle: idPedido, codigo producto, cantidad, unidad de medida.
@@ -144,3 +147,9 @@ Escenario: N°10 – Bonificaciones ingresadas
 
  # Queda pendiente si se debe guardar la clase de condición de la bonificacion
 
+Escenario: N°11 - Coberturas ingresadas
+    Dado que se ingresaron productos en el _tipoPedido = "Venta"
+    Y existen grupos de coberturas con los mismos productos
+    Cuando guardo el pedido
+    Entonces el sistema registrará el _grupoCobertura, el _codigo producto y las cantidades ingresadas de los productos
+	
