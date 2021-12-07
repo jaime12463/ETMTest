@@ -14,6 +14,9 @@ import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
 import CustomSelect from 'components/UI/CustomSelect';
 import TarjetaBonificacion from '../TarjetaBonificacion';
+import {TGruposBonificacion} from 'models';
+import {useContador} from 'hooks';
+import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
 
 const ButtonStyled = styled(Button)(() => ({
 	border: '1.5px solid #651C32',
@@ -31,22 +34,45 @@ interface Props {
 	id: string;
 	expandido: string | boolean;
 	setExpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
+	nombre: string;
+	grupos: TGruposBonificacion[];
+	vigenciaInicioBonificacion: string;
+	vigenciaFinBonificacion: string;
+	aplicacionBonificacion: string;
 }
 
 const DesplegableBonificaciones: React.FC<Props> = ({
 	id,
 	expandido,
 	setExpandido,
+	nombre,
+	grupos,
+	vigenciaInicioBonificacion,
+	vigenciaFinBonificacion,
+	aplicacionBonificacion,
 }) => {
 	const {t} = useTranslation();
 	const classes = useEstilos();
-	const [opciones, setOpciones] = React.useState<string>('Seleccione un grupo');
+	const [opciones, setOpciones] = React.useState<string>(
+		grupos[0].nombreGrupo.toLowerCase()
+	);
+
+	const grupoSeleccionado = grupos.find(
+		(grupo) => grupo.nombreGrupo.toLowerCase() === opciones
+	);
+
+	const {contador, incrementar, decrementar, reiniciar, estadoInicial} =
+		useContador(grupoSeleccionado?.cantidadBeneficioGrupo);
 
 	const manejadorExpandido =
 		({id}: any) =>
 		(event: React.SyntheticEvent) => {
 			setExpandido(id);
 		};
+
+	React.useEffect(() => {
+		reiniciar();
+	}, [opciones]);
 
 	return (
 		<Card
@@ -81,7 +107,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 							/>
 						</Box>
 					)}
-					<Typography variant='subtitle3'>TODO TITULO</Typography>
+					<Typography variant='subtitle3'>{nombre}</Typography>
 				</Box>
 				<Collapse in={expandido === id} timeout='auto' unmountOnExit>
 					<Box
@@ -100,20 +126,18 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 							<Typography variant='subtitle3' fontFamily='Open Sans'>
 								Grupos
 							</Typography>
-							<Typography variant='subtitle3' fontFamily='Open Sans'>
-								Aplicación Máxima
+							<Typography
+								variant='subtitle3'
+								fontFamily='Open Sans'
+								color={theme.palette.primary.main}
+							>
+								Aplicación Máxima {contador}
 							</Typography>
 						</Box>
 						<Box marginBottom='10px' padding='0 14px'>
 							<CustomSelect
 								opcionSeleccionada={opciones}
-								opciones={[
-									'Grupo 1',
-									'Grupo 2',
-									'Grupo 3',
-									'Grupo 4',
-									'Grupo 5',
-								]}
+								opciones={[...grupos.map((grupo) => grupo.nombreGrupo)]}
 								setOpcion={setOpciones}
 								dataCy='select-bonificaciones'
 							/>
@@ -127,9 +151,23 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 						>
 							Beneficios
 						</Typography>
-						<Divider variant='fullWidth' />
-						{true && <TarjetaBonificacion />}
-						<Divider variant='fullWidth' />
+						<Divider />
+						{grupoSeleccionado?.productosBeneficioGrupo?.map((producto) => (
+							<Box key={producto}>
+								<TarjetaBonificacion
+									codigoProducto={producto}
+									unidadMedida={grupoSeleccionado.unidadMedida}
+									incrementar={incrementar}
+									decrementar={decrementar}
+									reiniciar={reiniciar}
+									contador={contador}
+									estadoInicial={estadoInicial}
+									idBonificacion={Number(id)}
+									idGrupo={grupoSeleccionado.idGrupo}
+								/>
+								<Divider />
+							</Box>
+						))}
 					</Box>
 				</Collapse>
 				<Box
