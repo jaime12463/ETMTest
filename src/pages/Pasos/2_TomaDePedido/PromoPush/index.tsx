@@ -94,7 +94,7 @@ const PromoPush: React.FC = () => {
 						style={{
 							backgroundColor: '#FFFFFF',
 							border: '1px solid #651C32',
-							width: '93px',
+							width: '178px',
 							height: '18px',
 						}}
 					>
@@ -105,8 +105,9 @@ const PromoPush: React.FC = () => {
 							flexDirection='row'
 							alignItems='center'
 						>
-							<BorrarIcon width='7.5px' height='7.5px' />
-							<Typography variant='caption'> {`Borrar Todo`}</Typography>
+							<Typography variant='caption'>
+								{`Restablecer cantidades a cero`}
+							</Typography>
 						</Stack>
 					</Button>
 				</Box>
