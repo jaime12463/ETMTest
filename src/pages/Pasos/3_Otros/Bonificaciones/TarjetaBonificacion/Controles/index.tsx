@@ -2,15 +2,22 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
 import IconButton from '@mui/material/IconButton';
-import {AgregarRedondoIcon, CajaIcon, QuitarRellenoIcon} from 'assests/iconos';
+import {
+	AgregarRedondoIcon,
+	AvisoIcon,
+	CajaIcon,
+	QuitarRellenoIcon,
+} from 'assests/iconos';
 import useEstilos from '../useEstilos';
 import theme from 'theme';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {
 	agregarBonificacion,
 	eliminarBonificacion,
+	eliminarBonificacionesGrupo,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {TDetalleBonificacionesCliente, TPrecioProducto} from 'models';
+import Modal from 'components/UI/Modal';
 
 interface Props {
 	contador: number;
@@ -41,6 +48,7 @@ const Controles: React.FC<Props> = ({
 }) => {
 	const classes = useEstilos();
 	const visitaActual = useObtenerVisitaActual();
+	const [alerta, setAlerta] = React.useState<boolean>(false);
 
 	const bonificacionEjecutada = visitaActual.bonificaciones.find(
 		(bonificacion) => {
@@ -57,6 +65,18 @@ const Controles: React.FC<Props> = ({
 			}
 		}
 	);
+
+	const hayBonificacionesDistintoGrupo = () => {
+		if (bonificacionEjecutada) {
+			if (bonificacionEjecutada.detalle.length > 0) {
+				if (bonificacionEjecutada.detalle[0].idGrupo !== idGrupo) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	};
 
 	const indexBonificacion = visitaActual.bonificaciones.findIndex(
 		(bonificacion) => bonificacion.idBonificacion === idBonificacion
@@ -109,6 +129,10 @@ const Controles: React.FC<Props> = ({
 	}, [resetBonificaciones]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (hayBonificacionesDistintoGrupo()) {
+			return setAlerta((prevAlerta) => !prevAlerta);
+		}
+
 		if (
 			contador - Number(e.target.value.replace(/[^0-9]/g, '')) < 0 ||
 			contador === 0
@@ -123,6 +147,10 @@ const Controles: React.FC<Props> = ({
 
 	const handleButtons = (e: React.MouseEvent<HTMLButtonElement>) => {
 		const {name} = e.currentTarget;
+
+		if (hayBonificacionesDistintoGrupo()) {
+			return setAlerta((prevAlerta) => !prevAlerta);
+		}
 
 		if (name === '-') {
 			incrementar();
@@ -145,56 +173,68 @@ const Controles: React.FC<Props> = ({
 	};
 
 	return (
-		<Box flex='1' padding='19px 14px 8px 0' sx={{background: '#F5F0EF'}}>
-			<Box alignItems='center' display='flex' justifyContent='end' gap='2px'>
-				<CajaIcon height='18px' width='18px' />
-				<IconButton
-					sx={{padding: 0}}
-					name='-'
-					onClick={handleButtons}
-					disabled={cantidad === 0}
-				>
-					<QuitarRellenoIcon
-						height='18px'
-						width='18px'
-						fill={cantidad === 0 ? '#D9D9D9' : theme.palette.secondary.dark}
+		<>
+			<Modal
+				alerta={alerta}
+				setAlerta={setAlerta}
+				contenidoMensaje={{
+					titulo: 'Ya tienes una bonificación activa',
+					mensaje:
+						'Si decides agregar una bonificacion, la del otro grupo se perderá',
+					callbackAceptar: () => {
+						reiniciar();
+						dispatch(eliminarBonificacionesGrupo({idBonificacion}));
+					},
+					tituloBotonAceptar: 'Reiniciar',
+					tituloBotonCancelar: 'Cancelar',
+					iconoMensaje: <AvisoIcon />,
+				}}
+			/>
+			<Box flex='1' padding='19px 14px 8px 0' sx={{background: '#F5F0EF'}}>
+				<Box alignItems='center' display='flex' justifyContent='end' gap='2px'>
+					<CajaIcon height='18px' width='18px' />
+					<IconButton
+						sx={{padding: 0}}
+						name='-'
+						onClick={handleButtons}
+						disabled={cantidad === 0}
+					>
+						<QuitarRellenoIcon
+							height='18px'
+							width='18px'
+							fill={cantidad === 0 ? '#D9D9D9' : theme.palette.secondary.dark}
+						/>
+					</IconButton>
+					<Input
+						autoComplete='off'
+						className={classes.input}
+						value={cantidad}
+						onChange={handleChange}
+						disableUnderline
+						name='unidades'
+						id='unidades_producto'
+						onFocus={(e) => e.target.select()}
+						inputProps={{
+							style: {textAlign: 'center'},
+							inputMode: 'numeric',
+						}}
 					/>
-				</IconButton>
-				<Input
-					autoComplete='off'
-					className={classes.input}
-					value={cantidad}
-					onChange={handleChange}
-					// onBlur={handleBlur}
-					// onKeyPress={handleKeyPress}
-					disableUnderline
-					name='unidades'
-					id='unidades_producto'
-					// onClick={() => {
-					// 	setInputFocus('unidades');
-					// 	setFocusId(producto.codigoProducto);
-					// }}
-					onFocus={(e) => e.target.select()}
-					inputProps={{
-						style: {textAlign: 'center'},
-						inputMode: 'numeric',
-					}}
-				/>
-				<IconButton
-					sx={{padding: '0'}}
-					size='small'
-					name='+'
-					onClick={handleButtons}
-					disabled={contador === 0}
-				>
-					<AgregarRedondoIcon
-						width='18px'
-						height='18px'
-						fill={contador === 0 ? '#D9D9D9' : theme.palette.secondary.dark}
-					/>
-				</IconButton>
+					<IconButton
+						sx={{padding: '0'}}
+						size='small'
+						name='+'
+						onClick={handleButtons}
+						disabled={contador === 0}
+					>
+						<AgregarRedondoIcon
+							width='18px'
+							height='18px'
+							fill={contador === 0 ? '#D9D9D9' : theme.palette.secondary.dark}
+						/>
+					</IconButton>
+				</Box>
 			</Box>
-		</Box>
+		</>
 	);
 };
 

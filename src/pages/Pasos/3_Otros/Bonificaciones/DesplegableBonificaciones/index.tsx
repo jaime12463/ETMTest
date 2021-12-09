@@ -112,23 +112,25 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 		setHayBonificaciones(false);
 	}, [visitaActual.bonificaciones[indexBonificacion].detalle]);
 
-	const primerRender = React.useRef(true);
+	console.log(contador);
 
-	React.useLayoutEffect(() => {
-		if (primerRender.current) {
-			primerRender.current = false;
-			return;
-		}
+	// const primerRender = React.useRef(true);
 
-		if (grupoBonificacionesActivas?.nombreGrupo) {
-			if (grupoBonificacionesActivas?.nombreGrupo !== opciones) {
-				reiniciar();
-				dispatch(eliminarBonificacionesGrupo({idBonificacion: Number(id)}));
-			}
+	// React.useLayoutEffect(() => {
+	// 	if (primerRender.current) {
+	// 		primerRender.current = false;
+	// 		return;
+	// 	}
 
-			reiniciar();
-		}
-	}, [opciones]);
+	// 	if (grupoBonificacionesActivas?.nombreGrupo) {
+	// 		if (grupoBonificacionesActivas?.nombreGrupo !== opciones) {
+	// 			reiniciar();
+	// 			dispatch(eliminarBonificacionesGrupo({idBonificacion: Number(id)}));
+	// 		}
+
+	// 		reiniciar();
+	// 	}
+	// }, [opciones]);
 
 	React.useEffect(() => {
 		if (resetBonificaciones) {

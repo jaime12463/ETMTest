@@ -4,6 +4,8 @@ import Controles from './Controles';
 import Informacion from './Informacion';
 import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
 import {useObtenerVisitaActual} from 'redux/hooks';
+import Modal from 'components/UI/Modal';
+import {AvisoIcon} from 'assests/iconos';
 
 interface Props {
 	codigoProducto: number;
@@ -36,22 +38,24 @@ const TarjetaBonificacion: React.FC<Props> = ({
 	if (!producto) return null;
 
 	return (
-		<Box display='flex'>
-			<Informacion producto={producto} unidadMedida={unidadMedida} />
-			<Controles
-				producto={producto}
-				contador={contador}
-				estadoInicial={estadoInicial}
-				incrementar={incrementar}
-				decrementar={decrementar}
-				reiniciar={reiniciar}
-				idBonificacion={idBonificacion}
-				unidadMedida={unidadMedida}
-				idGrupo={idGrupo}
-				resetBonificaciones={resetBonificaciones}
-				actualizarContador={actualizarContador}
-			/>
-		</Box>
+		<>
+			<Box display='flex'>
+				<Informacion producto={producto} unidadMedida={unidadMedida} />
+				<Controles
+					producto={producto}
+					contador={contador}
+					estadoInicial={estadoInicial}
+					incrementar={incrementar}
+					decrementar={decrementar}
+					reiniciar={reiniciar}
+					idBonificacion={idBonificacion}
+					unidadMedida={unidadMedida}
+					idGrupo={idGrupo}
+					resetBonificaciones={resetBonificaciones}
+					actualizarContador={actualizarContador}
+				/>
+			</Box>
+		</>
 	);
 };
 
