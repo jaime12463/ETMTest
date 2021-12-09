@@ -718,24 +718,25 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										gap='4px'
 									>
 										<BotellaIcon width='18px' height='18px' />
-										{estado === 'ejecutada' && !visitaActual.pasoATomaPedido && (
-											<IconButton
-												size='small'
-												value='-'
-												name='subUnidades'
-												sx={{padding: 0}}
-												disabled={getValues.subUnidades <= 0}
-												onClick={handleButtons}
-											>
-												<QuitarRellenoIcon
-													width='18px'
-													height='18px'
-													fill={
-														getValues.subUnidades <= 0 ? '#D9D9D9' : '#2F000E'
-													}
-												/>
-											</IconButton>
-										)}
+										{estadoSelect === 'ejecutada' &&
+											!visitaActual.pasoATomaPedido && (
+												<IconButton
+													size='small'
+													value='-'
+													name='subUnidades'
+													sx={{padding: 0}}
+													disabled={getValues.subUnidades <= 0}
+													onClick={handleButtons}
+												>
+													<QuitarRellenoIcon
+														width='18px'
+														height='18px'
+														fill={
+															getValues.subUnidades <= 0 ? '#D9D9D9' : '#2F000E'
+														}
+													/>
+												</IconButton>
+											)}
 										<Input
 											className={classes.input}
 											inputProps={{
