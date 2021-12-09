@@ -104,6 +104,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	idMaterialIniciativa,
 	finVigenciaIniciativa,
 	archivoAdjunto,
+	idActividadIniciativa,
 }) => {
 	const {t} = useTranslation();
 	const producto = useObtenerProductoPorCodigo(idMaterialIniciativa);
@@ -210,7 +211,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 			dispatch(
 				cambiarMotivoCancelacionIniciativa({
 					motivo: motivoSelect,
-					codigoIniciativa: Number(id),
+					codigoIniciativa: idActividadIniciativa,
 				})
 			);
 		}
@@ -237,7 +238,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						dispatch(
 							cambiarMotivoCancelacionIniciativa({
 								motivo: '',
-								codigoIniciativa: Number(id),
+								codigoIniciativa: idActividadIniciativa,
 							})
 						);
 						setMotivoSelect('');
@@ -256,7 +257,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						dispatch(
 							cambiarMotivoCancelacionIniciativa({
 								motivo: '',
-								codigoIniciativa: Number(id),
+								codigoIniciativa: idActividadIniciativa,
 							})
 						);
 						setMotivoSelect('');

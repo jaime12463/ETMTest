@@ -13,6 +13,7 @@ import {
 	useResetVisitaActual,
 	useValidarPasos,
 	useReiniciarClienteActual,
+	useMostrarAviso,
 } from 'hooks';
 import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
 
@@ -33,6 +34,7 @@ import Modal from 'components/UI/Modal';
 import {resetearClienteActual} from 'redux/features/clienteActual/clienteActualSlice';
 import BotonResumenPedido from 'components/UI/BotonResumenPedido';
 import ResumenPedido from 'components/UI/ResumenPedido';
+import {cambiarSeQuedaAEditar} from 'redux/features/visitaActual/visitaActualSlice';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -49,9 +51,10 @@ const Pasos: React.FC = () => {
 	const [leyendaBoton, setLeyendaBoton] = useState(
 		`${t('general.continuarA')} ${t(controlador[1].titulo)}`
 	);
+	const dispatch = useAppDispatch();
 	const history = useHistory();
 	const {razonSocial}: TClienteActual = useObtenerClienteActual();
-
+	const mostrarAviso = useMostrarAviso();
 	const ObtenerPedidosValorizados = useObtenerPedidosValorizados();
 	const itemsValorizados = ObtenerPedidosValorizados();
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
@@ -99,10 +102,24 @@ const Pasos: React.FC = () => {
 
 	const manejadorPasoAdelante = () => {
 		if (valido?.error) {
-			return setAlertaPasos(true);
+			if (valido?.contenidoMensajeModal) {
+				return setAlertaPasos(true);
+			} else if (valido?.contenidoMensajeAviso) {
+				const aviso = valido?.contenidoMensajeAviso;
+				mostrarAviso(
+					aviso.tipo,
+					aviso.titulo,
+					aviso.mensaje,
+					aviso.opciones,
+					aviso.dataCy
+				);
+				dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
+			}
 		}
 		if (pasoActual < controlador.length - 1) {
-			setPasoActual(pasoActual + 1);
+			if (!valido.contenidoMensajeAviso) {
+				setPasoActual(pasoActual + 1);
+			}
 		} else {
 			agregarPedidoActualAPedidosClientes();
 		}
@@ -152,7 +169,7 @@ const Pasos: React.FC = () => {
 					setAlerta={setAlertaPasos}
 					alerta={alertaPasos}
 					setPasoActual={setPasoActual}
-					contenidoMensaje={valido?.contenidoMensaje}
+					contenidoMensaje={valido?.contenidoMensajeModal}
 				/>
 				<ResumenPedido
 					open={openResumenPedido}
