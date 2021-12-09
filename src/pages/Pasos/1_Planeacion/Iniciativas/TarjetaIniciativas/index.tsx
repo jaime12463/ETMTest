@@ -36,12 +36,13 @@ import {
 	cambiarSeQuedaAEditar,
 	editarUnidadesOSubUnidadesEjecutadas,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {InputsKeysFormTomaDePedido, TProductoPedido} from 'models';
+import {InputsKeysFormTomaDePedido, TProductoPedido, TIniciativasCliente} from 'models';
 import theme from 'theme';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {useMostrarAdvertenciaEnDialogo, useMostrarAviso} from 'hooks';
-import {formatearNumero} from 'utils/methods';
+import {formatearNumero, formatearFecha} from 'utils/methods';
 import CustomSelect from 'components/UI/CustomSelect';
+import { Link } from '@mui/material';
 
 const ButtonStyled = styled(Button)(() => ({
 	border: '1.5px solid #651C32',
@@ -55,7 +56,7 @@ const ButtonStyled = styled(Button)(() => ({
 	},
 }));
 
-interface Props {
+/*interface Props {
 	expandido: boolean | string;
 	setExpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
 	id: string;
@@ -70,6 +71,11 @@ interface Props {
 	codigo: number;
 	estado: 'pendiente' | 'ejecutada' | 'cancelada';
 	motivo: string;
+}*/
+
+type Props = TIniciativasCliente & {
+	expandido: boolean | string;
+	setExpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
 }
 
 interface GetValuesProps {
@@ -83,25 +89,32 @@ interface GetValuesProps {
 const TarjetaIniciativas: React.FC<Props> = ({
 	expandido,
 	setExpandido,
-	id,
 	nombreIniciativa,
-	planActividad,
-	descripcion,
-	fechaVencimiento,
-	unidades,
+	nombreActividadPlan,
+	descripcionIniciativa,
 	unidadesEjecutadas,
-	subUnidades,
 	subUnidadesEjecutadas,
-	codigo,
 	estado,
 	motivo,
+	idMaterialIniciativa,
+	finVigenciaIniciativa,
+	archivoAdjunto,
 }) => {
 	const {t} = useTranslation();
-	const producto = useObtenerProductoPorCodigo(codigo);
+	const producto = useObtenerProductoPorCodigo(idMaterialIniciativa);
 	const visitaActual = useObtenerVisitaActual();
 	const {motivosCancelacionIniciativas} = useObtenerConfiguracion();
 	const clienteActual = useObtenerClienteActual();
 	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
+	// ToDo 
+	const unidades = unidadesEjecutadas;
+	const subUnidades= subUnidadesEjecutadas;
+	
+	const codigo=idMaterialIniciativa;
+	const id=idMaterialIniciativa.toString();
+	const planActividad=nombreActividadPlan;
+
+	const fechaVencimiento= formatearFecha(	finVigenciaIniciativa,t).replace(/-/g, '/');
 
 	if (!producto) return null;
 
@@ -486,7 +499,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								{t('general.planDeActividades')}
 							</Typography>
 							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
-								{planActividad}
+								{nombreActividadPlan}
 							</Typography>
 						</Box>
 						<Box 
@@ -504,7 +517,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								{t('general.descripcion')}
 							</Typography>
 							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
-								{descripcion}
+								{descripcionIniciativa}
 							</Typography>
 						</Box>
 						<Box 
@@ -525,6 +538,29 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								{fechaVencimiento}
 							</Typography>
 						</Box>
+						{ (archivoAdjunto) && (
+						
+							<Box 
+								display='flex' 
+								gap='8px' 
+								alignItems='center' 
+								data-cy={`iniciativa-vigencia-${id}`}
+							>
+								<Typography
+									variant='body3'
+									fontFamily='Open Sans'
+									flex='1'
+									sx={{opacity: 0.5}}
+								>
+									{t('general.archivosAdjuntos')}
+								</Typography>
+								<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
+									<Link href="./{archivoAdjunto}" component="button">
+										{archivoAdjunto}
+									</Link>
+								</Typography>
+							</Box>
+						) }	
 					</Stack>
 					<Divider />
 					<Box margin='8px 0'>

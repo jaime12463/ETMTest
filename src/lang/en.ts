@@ -1,5 +1,6 @@
 const en = {
 	general: {
+		archivosAdjuntos:'Attached files',
 		producto: 'Product',
 		unidades: 'Units',
 		subUnidades: 'SubUnits',

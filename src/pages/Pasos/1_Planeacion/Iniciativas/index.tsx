@@ -16,23 +16,9 @@ const Iniciativas: React.FC = () => {
 			{iniciativas?.map((iniciativa: TIniciativasCliente) => (
 				<TarjetaIniciativas
 					key={iniciativa.idActividadIniciativa}
-					id={iniciativa.idActividadIniciativa.toString()}
+					{...iniciativa}
 					expandido={expandido}
 					setExpandido={setExpandido}
-					nombreIniciativa={iniciativa.nombreIniciativa}
-					planActividad={iniciativa.nombreActividadPlan}
-					descripcion={iniciativa.descripcionIniciativa}
-					fechaVencimiento={formatearFecha(
-						iniciativa.finVigenciaIniciativa,
-						t
-					).replace(/-/g, '/')}
-					unidades={iniciativa.unidadVentaIniciativa}
-					unidadesEjecutadas={iniciativa.unidadesEjecutadas}
-					subUnidades={iniciativa.subunidadVentaIniciativa}
-					subUnidadesEjecutadas={iniciativa.subUnidadesEjecutadas}
-					codigo={iniciativa.idMaterialIniciativa}
-					estado={iniciativa.estado}
-					motivo={iniciativa.motivo}
 				/>
 			))}
 		</Stack>

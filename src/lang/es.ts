@@ -1,5 +1,6 @@
 const es = {
 	general: {
+		archivosAdjuntos:'Archivos adjuntos',
 		producto: 'Producto',
 		unidades: 'Unidades',
 		subUnidades: 'SubUnidades',
