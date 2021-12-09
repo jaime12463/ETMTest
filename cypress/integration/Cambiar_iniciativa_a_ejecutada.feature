@@ -42,7 +42,7 @@ Escenario: N°5 - Ingresar subunidades a la iniciativa
     Dado que se cambió el estado de la iniciativa a ejecutada
     Y el producto _validaSubunidadesMinimas = true
     Y tiene _subunidadesVentaMinima
-    Y existen grupos de cobertiras con los mismos productos de la iniciativa
+    Y existen grupos de coberturas con los mismos productos de la iniciativa
     Cuando aumento las subunidades
     Entonces el sistema aumentará las subunidades según _subunidadesVentaMinima 
     Y no podrá superar su _presentacion
@@ -53,7 +53,7 @@ Escenario: N°6 - Restar subunidades a la iniciativa
     Dado que se cambió el estado de la iniciativa a ejecutada
     Y el producto _validaSubunidadesMinimas = true
     Y tiene _subunidadesVentaMinima
-    Y existen grupos de cobertiras con los mismos productos de la iniciativa
+    Y existen grupos de coberturas con los mismos productos de la iniciativa
     Cuando resto las subunidades
     Entonces el sistema restará las subunidades según _subunidadesVentaMinima 
     Y cambiará las subunidades del producto en el pedido
