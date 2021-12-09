@@ -16,7 +16,7 @@ import {
 	useMostrarAviso,
 } from 'hooks';
 import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
-
+import {Configuracion} from 'components/UI/Modal';
 import {VistaPromoPush} from 'pages/Pasos/1_Planeacion/VistaPromoPush/index';
 
 import {
@@ -29,7 +29,7 @@ import {
 import {TClienteActual} from 'models';
 import {useTranslation} from 'react-i18next';
 import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
-import {PromocionesRellenoIcon} from 'assests/iconos';
+import {AvisoIcon, PromocionesRellenoIcon} from 'assests/iconos';
 import Modal from 'components/UI/Modal';
 import {resetearClienteActual} from 'redux/features/clienteActual/clienteActualSlice';
 import BotonResumenPedido from 'components/UI/BotonResumenPedido';
@@ -84,25 +84,48 @@ const Pasos: React.FC = () => {
 			setLeyendaBoton(t(controlador[pasoActual].titulo));
 		}
 	}, [pasoActual]);
-	const manejadorPasoAtras = () => {
-		if (pasoActual == 0) {
-			reiniciarVisita();
-			reiniciarCompromisoDeCobro();
-			reiniciarClienteActual();
-			history.goBack();
-		} else {
-			setPasoActual(pasoActual - 1);
-		}
-	};
 
 	const valido = useValidarPasos(pasoActual);
 	const [openResumenPedido, setOpenResumenPedido] =
 		React.useState<boolean>(false);
 	const [alertaPasos, setAlertaPasos] = React.useState<boolean>(false);
 
+	const [configAlerta, setConfigAlerta] = React.useState<Configuracion>({
+		titulo: '',
+		mensaje: '',
+		tituloBotonAceptar: '',
+		tituloBotonCancelar: '',
+		iconoMensaje: <></>,
+		callbackAceptar: () => {},
+	});
+
+	const manejadorPasoAtras = () => {
+		if (pasoActual == 0) {
+			setConfigAlerta({
+				titulo: '¿Quieres salir de toma de pedido?',
+				mensaje:
+					'Si sales de toma de pedido, toda la actividad registrada se perderá.',
+				tituloBotonAceptar: t('general.salir'),
+				tituloBotonCancelar: t('general.continuar'),
+				callbackAceptar: () => {
+					reiniciarVisita();
+					reiniciarCompromisoDeCobro();
+					reiniciarClienteActual();
+					history.goBack();
+				},
+				callbackCancelar: () => {},
+				iconoMensaje: <AvisoIcon />,
+			});
+			setAlertaPasos(true);
+		} else {
+			setPasoActual(pasoActual - 1);
+		}
+	};
+
 	const manejadorPasoAdelante = () => {
 		if (valido?.error) {
 			if (valido?.contenidoMensajeModal) {
+				setConfigAlerta(valido?.contenidoMensajeModal);
 				return setAlertaPasos(true);
 			} else if (valido?.contenidoMensajeAviso) {
 				const aviso = valido?.contenidoMensajeAviso;
@@ -140,7 +163,7 @@ const Pasos: React.FC = () => {
 			<Estructura.Encabezado
 				esConFechaHaciaAtras={true}
 				titulo={razonSocial}
-				onClick={manejadorPasoAtras}
+				onClick={() => manejadorPasoAtras()}
 				acciones={<AccionesEstructura />}
 			>
 				<InfoClienteDelPedidoActual />
@@ -169,7 +192,7 @@ const Pasos: React.FC = () => {
 					setAlerta={setAlertaPasos}
 					alerta={alertaPasos}
 					setPasoActual={setPasoActual}
-					contenidoMensaje={valido?.contenidoMensajeModal}
+					contenidoMensaje={configAlerta}
 				/>
 				<ResumenPedido
 					open={openResumenPedido}

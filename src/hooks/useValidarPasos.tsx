@@ -47,7 +47,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 	}
 
 	if (pasoActual === 1) {
-		const productosSinModificar = venta.productos.some(
+		const productosSinModificar = venta?.productos?.some(
 			(producto) => producto.unidades === 0 && producto.subUnidades === 0
 		);
 
