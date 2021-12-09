@@ -1,6 +1,6 @@
 # language: es
 
-@Iniciativa @Cancelar @Sprint15
+@Iniciativa @Cancelar @Sprint15 @Sprint18
 
 Característica: Cancelar iniciativa
     Como prevendedor
