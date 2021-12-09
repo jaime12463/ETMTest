@@ -22,6 +22,7 @@ import {ReactComponent as WarningTrianguloIcon} from './warning-triangle.svg';
 import {ReactComponent as CruzCerrar} from './cross.svg';
 import {ReactComponent as PromocionColor} from './promo-color.svg';
 import {ReactComponent as ReiniciarIcon} from './refresh.svg';
+import {ReactComponent as Clip} from './clip.svg';
 
 export {
 	AgregarIcon,
@@ -48,4 +49,5 @@ export {
 	CruzCerrar,
 	PromocionColor,
 	ReiniciarIcon,
+	Clip,
 };
