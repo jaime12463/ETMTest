@@ -89,6 +89,7 @@ const Controles: React.FC<Props> = ({
 	const [cantidad, setCantidad] = React.useState<number>(
 		productoBonificacion?.cantidad ?? 0
 	);
+	const [cantidadTemporal, setCantidadTemporal] = React.useState<number>(0);
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 	const dispatch = useAppDispatch();
 
@@ -130,14 +131,13 @@ const Controles: React.FC<Props> = ({
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (hayBonificacionesDistintoGrupo()) {
-			return setAlerta((prevAlerta) => !prevAlerta);
+			setAlerta((prevAlerta) => !prevAlerta);
+			setCantidadTemporal(Number(e.target.value.replace(/[^0-9]/g, '')));
+			return;
 		}
 
-		if (
-			contador - Number(e.target.value.replace(/[^0-9]/g, '')) < 0 ||
-			contador === 0
-		) {
-			setCantidad(0);
+		if (estadoInicial - Number(e.target.value.replace(/[^0-9]/g, '')) < 0) {
+			setCantidad(productoBonificacion?.cantidad ?? 0);
 			return;
 		}
 
@@ -149,7 +149,9 @@ const Controles: React.FC<Props> = ({
 		const {name} = e.currentTarget;
 
 		if (hayBonificacionesDistintoGrupo()) {
-			return setAlerta((prevAlerta) => !prevAlerta);
+			setAlerta((prevAlerta) => !prevAlerta);
+			setCantidadTemporal(1);
+			return;
 		}
 
 		if (name === '-') {
@@ -184,6 +186,8 @@ const Controles: React.FC<Props> = ({
 					callbackAceptar: () => {
 						reiniciar();
 						dispatch(eliminarBonificacionesGrupo({idBonificacion}));
+						setCantidad(cantidadTemporal);
+						setPuedeAgregar(true);
 					},
 					tituloBotonAceptar: 'Reiniciar',
 					tituloBotonCancelar: 'Cancelar',

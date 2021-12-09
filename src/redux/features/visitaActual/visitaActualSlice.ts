@@ -310,7 +310,7 @@ export const visitaActualSlice = createSlice({
 		) => {
 			state.iniciativas = state.iniciativas.map((iniciativa) => {
 				if (
-					iniciativa.idActividadIniciativa === action.payload.codigoIniciativa
+					iniciativa.idMaterialIniciativa === action.payload.codigoIniciativa
 				) {
 					iniciativa.unidadesEjecutadas = action.payload.unidadesEjecutadas;
 					iniciativa.subUnidadesEjecutadas =
