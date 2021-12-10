@@ -15,7 +15,7 @@ import useEstilos from './useEstilos';
 import CustomSelect from 'components/UI/CustomSelect';
 import TarjetaBonificacion from '../TarjetaBonificacion';
 import {TGruposBonificacion} from 'models';
-import {useContador} from 'hooks';
+import {useContador, useMostrarAviso} from 'hooks';
 import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {eliminarBonificacionesGrupo} from 'redux/features/visitaActual/visitaActualSlice';
@@ -80,7 +80,12 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 		(grupo) => grupo.nombreGrupo.toLowerCase() === opciones
 	);
 
+	const mostrarAviso = useMostrarAviso();
+
 	const [hayBonificaciones, setHayBonificaciones] =
+		React.useState<boolean>(false);
+
+	const [errorAplicacionTotal, setErrorAplicacionTotal] =
 		React.useState<boolean>(false);
 
 	const {
@@ -92,11 +97,35 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 		actualizarContador,
 	} = useContador(grupoSeleccionado?.cantidadBeneficioGrupo);
 
-	const manejadorExpandido =
-		({id}: any) =>
-		(event: React.SyntheticEvent) => {
-			setExpandido(id);
-		};
+	const manejadorExpandido = (id: string | boolean) => {
+		if (typeof id === 'boolean' && aplicacionBonificacion === 'Total') {
+			if (
+				contador !== 0 &&
+				contador !== grupoSeleccionado?.cantidadBeneficioGrupo
+			) {
+				setErrorAplicacionTotal(true);
+				return;
+			}
+		}
+		setErrorAplicacionTotal(false);
+		setExpandido(id);
+	};
+
+	let bordeColor = '#D9D9D9';
+
+	if (hayBonificaciones) {
+		if (aplicacionBonificacion !== 'Total') {
+			bordeColor = theme.palette.success.main;
+		} else if (contador === 0) {
+			bordeColor = theme.palette.success.main;
+		} else if (errorAplicacionTotal) {
+			bordeColor = theme.palette.primary.main;
+		}
+	}
+
+	const mostrarCheck =
+		(hayBonificaciones && aplicacionBonificacion !== 'Total') ||
+		(hayBonificaciones && contador === 0);
 
 	const indexBonificacion = visitaActual.bonificaciones.findIndex(
 		(bonificacion) => bonificacion.idBonificacion === Number(id)
@@ -108,7 +137,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 				return setHayBonificaciones(true);
 			}
 		}
-
+		setErrorAplicacionTotal(false);
 		setHayBonificaciones(false);
 	}, [visitaActual.bonificaciones[indexBonificacion].detalle]);
 
@@ -141,9 +170,26 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 	}, [opciones]);
 
 	React.useEffect(() => {
+		if (aplicacionBonificacion === 'Total' && contador === 0) {
+			setErrorAplicacionTotal(false);
+		}
+	}, [contador]);
+
+	React.useEffect(() => {
+		if (errorAplicacionTotal) {
+			mostrarAviso(
+				'error',
+				'Error en bonificación total',
+				'Esta bonificación tiene que ser de aplicación total. Favor de modificar cantidades.'
+			);
+		}
+	}, [errorAplicacionTotal]);
+
+	React.useEffect(() => {
 		if (resetBonificaciones) {
 			reiniciar();
 			setOpciones(grupos[0].nombreGrupo.toLowerCase());
+			setErrorAplicacionTotal(false);
 		}
 	}, [resetBonificaciones]);
 
@@ -154,14 +200,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 				overflow: 'visible',
 			}}
 		>
-			<Box
-				border={
-					hayBonificaciones
-						? `1px solid ${theme.palette.success.main}`
-						: '1px solid #D9D9D9'
-				}
-				borderRadius='4px'
-			>
+			<Box border={`1px solid ${bordeColor}`} borderRadius='4px'>
 				<Box
 					align-items='center'
 					color={expandido === id ? '#fff' : '#000'}
@@ -179,11 +218,11 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 						transition: 'all 0.3s ease-in-out',
 					}}
 				>
-					{hayBonificaciones && (
+					{mostrarCheck && (
 						<Box display='flex' justifyContent='end'>
 							<CheckRedondoIcon
-								height='17px'
-								width='17px'
+								height='20px'
+								width='20px'
 								fill={theme.palette.success.main}
 							/>
 						</Box>
@@ -248,6 +287,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 									idGrupo={grupoSeleccionado.idGrupo}
 									resetBonificaciones={resetBonificaciones}
 									actualizarContador={actualizarContador}
+									errorAplicacionTotal={errorAplicacionTotal}
 								/>
 								<Divider />
 							</Box>
@@ -264,9 +304,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 						disableFocusRipple
 						fullWidth
 						disableRipple
-						onClick={manejadorExpandido({
-							id: expandido === id ? false : id,
-						})}
+						onClick={() => manejadorExpandido(expandido === id ? false : id)}
 					>
 						<CardActions disableSpacing style={{padding: 0}}>
 							<Box display='flex' gap='6px' alignItems='center'>

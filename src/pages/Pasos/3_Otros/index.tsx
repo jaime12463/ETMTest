@@ -14,6 +14,7 @@ import {
 } from 'redux/hooks';
 import {
 	useCalcularPresupuestoTipoPedido,
+	useObtenerBonificacionesHabilitadas,
 	useObtenerProductosMandatoriosVisitaActual,
 } from 'hooks';
 import OrdenDeCompra from './OrdenDeCompra';
@@ -34,6 +35,8 @@ export const Otros: React.FC = () => {
 		useObtenerProductosMandatoriosVisitaActual();
 
 	const calcularPresupuestoTipoPedido = useCalcularPresupuestoTipoPedido();
+	const bonificaciones = useObtenerBonificacionesHabilitadas();
+	const bonificacionesHabilitadas = bonificaciones();
 
 	const productosEnCanjeConUnidades = canje.productos.filter((producto) => {
 		return producto.catalogoMotivo !== '';
@@ -132,7 +135,7 @@ export const Otros: React.FC = () => {
 		<Stack spacing={2}>
 			<TarjetaColapsable
 				titulo={
-					<Typography variant={'subtitle1'}>{t('general.envase')}</Typography>
+					<Typography variant={'subtitle1'}>{t('general.envases')}</Typography>
 				}
 				subTitulo={
 					<Typography variant={'body3'}>
@@ -194,6 +197,12 @@ export const Otros: React.FC = () => {
 				valido={bonificacionValida}
 				cantidadItems={cantidadBonificaciones.length}
 				labelChip={`${cantidadBonificaciones.length} Items`}
+				disabled={bonificacionesHabilitadas.length === 0}
+				mensaje={
+					<Typography color='primary' variant='subtitle3'>
+						{t('titulos.bonificacionesDeshabilitadas')}
+					</Typography>
+				}
 			>
 				<Bonificaciones bonificacionValida={bonificacionValida} />
 			</TarjetaColapsable>

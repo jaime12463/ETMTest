@@ -90,8 +90,8 @@ const br = {
 		tarjetaCoberturas:
 			'Indica a quantidade de produto faltando na geladeira do cliente.',
 		bonificaciones: 'Bonificações',
-		tarjetaBonificaciones:
-			'Indica a quantidade de produto faltando na geladeira do cliente.',
+		tarjetaBonificaciones: 'Adicione os bônus para este cliente.',
+		bonificacionesDeshabilitadas: 'Não há bônus para este cliente no momento.',
 	},
 	advertencias: {
 		clienteNoExiste: 'O código digitado não corresponde a um cliente',

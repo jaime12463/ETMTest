@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import {
 	AgregarRedondoIcon,
 	AvisoIcon,
+	BotellaIcon,
 	CajaIcon,
 	QuitarRellenoIcon,
 } from 'assests/iconos';
@@ -31,6 +32,7 @@ interface Props {
 	idGrupo: number;
 	resetBonificaciones: boolean;
 	actualizarContador: (cantidad: number) => void;
+	errorAplicacionTotal: boolean;
 }
 
 const Controles: React.FC<Props> = ({
@@ -45,8 +47,9 @@ const Controles: React.FC<Props> = ({
 	idGrupo,
 	resetBonificaciones,
 	actualizarContador,
+	errorAplicacionTotal,
 }) => {
-	const classes = useEstilos();
+	const classes = useEstilos({errorAplicacionTotal});
 	const visitaActual = useObtenerVisitaActual();
 	const [alerta, setAlerta] = React.useState<boolean>(false);
 
@@ -196,7 +199,11 @@ const Controles: React.FC<Props> = ({
 			/>
 			<Box flex='1' padding='19px 14px 8px 0' sx={{background: '#F5F0EF'}}>
 				<Box alignItems='center' display='flex' justifyContent='end' gap='2px'>
-					<CajaIcon height='18px' width='18px' />
+					{unidadMedida === 'Unidad' ? (
+						<CajaIcon height='18px' width='18px' />
+					) : (
+						<BotellaIcon height='18px' width='18px' />
+					)}
 					<IconButton
 						sx={{padding: 0}}
 						name='-'

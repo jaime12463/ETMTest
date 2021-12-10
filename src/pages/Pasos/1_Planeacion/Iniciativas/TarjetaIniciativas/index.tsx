@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState , useEffect} from 'react';
 import {styled} from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -10,6 +10,7 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import {VisualizadorPdfs} from 'components/UI';
 import {
 	AgregarRedondoIcon,
 	BotellaIcon,
@@ -152,16 +153,15 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		},
 	};
 	const mostrarAviso = useMostrarAviso();
-	const [estadoSelect, setEstadoSelect] = React.useState<string>(estado);
-	const [motivoSelect, setMotivoSelect] = React.useState<string>(motivo);
+	const [estadoSelect, setEstadoSelect] = useState<string>(estado);
+	const [motivoSelect, setMotivoSelect] = useState<string>(motivo);
 
-	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
-	const [getValues, setGetValues] =
-		React.useState<GetValuesProps>(defaultValues);
+	const [puedeAgregar, setPuedeAgregar] = useState<boolean>(false);
+	const [getValues, setGetValues] = useState<GetValuesProps>(defaultValues);
 
-	const [focusId, setFocusId] = React.useState<number>(0);
-	const [inputFocus, setInputFocus] =
-		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
+	const [focusId, setFocusId] =  useState<number>(0);
+	const [inputFocus, setInputFocus] = useState<InputsKeysFormTomaDePedido>('productoABuscar');
+	const [mostrarArchivosAdjuntos, setMostrarArchivosAdjuntos]=useState(false);
 	const classes = useEstilos({
 		estado: estadoSelect,
 		inputsBloqueados: visitaActual.pasoATomaPedido,
@@ -181,7 +181,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		setGetValues
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (
 			visitaActual.seQuedaAEditar.bordeError &&
 			estado === 'cancelada' &&
@@ -192,7 +192,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		}
 	}, [visitaActual.seQuedaAEditar.bordeError, estado, motivo, id]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (puedeAgregar) {
 			agregarProductoAlPedidoActual(getValues);
 			dispatch(
@@ -206,7 +206,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		}
 	}, [puedeAgregar]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (estadoSelect === 'cancelada' && motivoSelect !== '') {
 			dispatch(
 				cambiarMotivoCancelacionIniciativa({
@@ -217,7 +217,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		}
 	}, [estadoSelect, motivoSelect]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!visitaActual.pasoATomaPedido) {
 			switch (estadoSelect) {
 				case 'pendiente':
@@ -571,13 +571,17 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										color='#000'
 										sx={{textDecoration: 'none'}}
 										fontFamily='Open Sans'
-										href='./{archivoAdjunto}'
 										component='button'
+										onClick={ ()=>{
+											setMostrarArchivosAdjuntos(true);
+										}}
 									>
 										{archivoAdjunto}
 									</Link>
 								</Box>
+								<VisualizadorPdfs titulo={archivoAdjunto} archivo={archivoAdjunto} open={mostrarArchivosAdjuntos} setOpen={setMostrarArchivosAdjuntos}/>
 							</Box>
+							
 						)}
 					</Stack>
 					<Divider />

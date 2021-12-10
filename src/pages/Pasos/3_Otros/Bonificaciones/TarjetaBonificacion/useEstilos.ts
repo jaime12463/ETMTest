@@ -1,14 +1,22 @@
 import {makeStyles, createStyles} from '@material-ui/styles';
 import theme from 'theme';
 
+interface Props {
+	errorAplicacionTotal: boolean;
+}
+
 const useEstilos = makeStyles(() =>
 	createStyles({
 		input: {
 			backgroundColor: '#fff',
-			border: `1px solid ${theme.palette.secondary.main}`,
+			border: (props: Props) =>
+				props.errorAplicacionTotal
+					? `1px solid ${theme.palette.primary.main}`
+					: `1px solid ${theme.palette.secondary.main}`,
 			borderRadius: '10px',
 			'& .MuiInput-input': {
-				color: '#000',
+				color: (props: Props) =>
+					props.errorAplicacionTotal ? theme.palette.primary.main : '#000',
 				fontSize: '12px',
 				fontWeight: 600,
 			},

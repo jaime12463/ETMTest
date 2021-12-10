@@ -1,6 +1,6 @@
 const es = {
 	general: {
-		archivosAdjuntos:'Archivos adjuntos',
+		archivosAdjuntos: 'Archivos adjuntos',
 		producto: 'Producto',
 		unidades: 'Unidades',
 		subUnidades: 'SubUnidades',
@@ -32,7 +32,7 @@ const es = {
 		acciones: 'Acciones',
 		pedidosRealizados: 'Pedidos Realizados',
 		verEnvases: 'Ver envases',
-		envase: 'Envase',
+		envases: 'Envases',
 		pedidoMinimo: 'Pedido mínimo',
 		pedidoMaximo: 'Pedido máximo',
 		creditoDisponible: 'Crédito disponible',
@@ -71,6 +71,7 @@ const es = {
 		editarCantidades: 'Editar cantidades',
 		continuar: 'Continuar',
 		editar: 'Editar',
+		salir:'Salir'
 	},
 	simbolos: {
 		decimal: '.',
@@ -101,8 +102,9 @@ const es = {
 		tarjetaCoberturas:
 			'Indica la cantidad de producto faltante en el refrigerador del cliente.',
 		bonificaciones: 'Bonificaciones',
-		tarjetaBonificaciones:
-			'Indica la cantidad de producto faltante en el refrigerador del cliente.',
+		tarjetaBonificaciones: 'Agregar las bonificaciones para este cliente.',
+		bonificacionesDeshabilitadas:
+			'No hay bonificaciones para el cliente en este momento',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
