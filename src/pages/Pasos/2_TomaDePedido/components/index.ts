@@ -9,7 +9,6 @@ export {SwitchCambiarTipoPago} from './SwitchCambiarTipoPago';
 export {SelectTipoDePedido} from './SelectTipoDePedido';
 export {InfoProductoActual} from './InfoProductoActual';
 export {NotificacionBorrado} from './NotificacionBorrado';
-export {Descuentos} from './Descuentos';
 
 import TarjetaPromoPush from '../PromoPush/TarjetaPromoPush';
 import BuscadorProductosClienteActual from './BuscadorProductosClienteActual';
