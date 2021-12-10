@@ -12,6 +12,8 @@ import BarraDeProgreso from './BarraDeProgreso';
 import Numero from './Numero';
 import Cajon from './Cajon';
 import BuscadorenLista from './BuscadorenLista';
+import VisualizadorPdfs from './VisualizadorPdfs';
+
 export {TarjetaColapsable} from './TarjetaColapsable';
 export {Fecha} from './Fecha';
 export {BotonBarraInferior} from './BotonBarraInferior';
@@ -34,4 +36,5 @@ export {
 	Numero,
 	Cajon,
 	BuscadorenLista,
+	VisualizadorPdfs,
 };

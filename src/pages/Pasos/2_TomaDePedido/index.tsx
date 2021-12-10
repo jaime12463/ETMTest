@@ -15,10 +15,10 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<boolean | string>(false);
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
-	const productosConUnidades = venta.productos.filter((producto) => {
+	const productosConUnidades = venta?.productos?.filter((producto) => {
 		return producto.unidades > 0 || producto.subUnidades > 0;
 	});
-	const cantidadPromoPush = productosConUnidades.filter(
+	const cantidadPromoPush = productosConUnidades?.filter(
 		(producto) => producto.promoPush
 	);
 	const [ventaValida, setVentaValida] = React.useState<boolean>(false);
@@ -41,7 +41,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 
 	React.useEffect(() => {
 		if (
-			venta.productos.some(
+			venta?.productos?.some(
 				(producto) => producto.unidades > 0 || producto.subUnidades > 0
 			)
 		) {
@@ -51,7 +51,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 		}
 
 		if (
-			venta.productos.some(
+			venta?.productos?.some(
 				(producto) =>
 					(producto.unidades > 0 || producto.subUnidades > 0) &&
 					producto.promoPush
@@ -65,7 +65,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 			setVentaValida(false);
 			setPromocionesValida(false);
 		};
-	}, [venta.productos]);
+	}, [venta?.productos]);
 
 	return (
 		<Stack spacing={2}>
@@ -79,10 +79,10 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				}
 				expandido={expandido}
 				setExpandido={setExpandido}
-				cantidadItems={productosConUnidades.length}
-				labelChip={`${productosConUnidades.length} Items`}
+				cantidadItems={productosConUnidades?.length}
+				labelChip={`${productosConUnidades?.length} Items`}
 				valido={ventaValida}
-				dataCy="TomaDePedido"
+				dataCy='TomaDePedido'
 			>
 				<TomaPedido />
 			</TarjetaColapsable>
@@ -98,9 +98,9 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				valido={promocionesValida}
-				cantidadItems={cantidadPromoPush.length}
-				labelChip={`${cantidadPromoPush.length} Items`}
-				dataCy="Promociones"
+				cantidadItems={cantidadPromoPush?.length}
+				labelChip={`${cantidadPromoPush?.length} Items`}
+				dataCy='Promociones'
 			>
 				<PromoPush />
 			</TarjetaColapsable>

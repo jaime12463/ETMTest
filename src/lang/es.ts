@@ -71,6 +71,7 @@ const es = {
 		editarCantidades: 'Editar cantidades',
 		continuar: 'Continuar',
 		editar: 'Editar',
+		salir:'Salir'
 	},
 	simbolos: {
 		decimal: '.',
