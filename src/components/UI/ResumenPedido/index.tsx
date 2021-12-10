@@ -1,8 +1,17 @@
 import React from 'react';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 import {CerrarIcon} from 'assests/iconos';
 import useEstilos from './useEstilos';
+import {useObtenerVisitaActual} from 'redux/hooks';
+import {ETiposDePago} from 'models';
+import Resumen from './Resumen';
+import theme from 'theme';
+import {ProductoEnvases} from './Resumen/Envases';
+import {useTranslation} from 'react-i18next';
+import {formatearNumero} from 'utils/methods';
 
 interface Props {
 	open: boolean;
@@ -11,6 +20,53 @@ interface Props {
 
 const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 	const classes = useEstilos({open});
+	const visitaActual = useObtenerVisitaActual();
+	const {venta, canje, prestamoenvase, ventaenvase} = visitaActual.pedidos;
+
+	const bonificaciones = visitaActual.bonificaciones
+		.map((bonificacion) => bonificacion.detalle)
+		.flat();
+
+	const canjes = [...canje.productos];
+
+	const envases: ProductoEnvases[] = [
+		...prestamoenvase.productos.map((producto) => ({
+			...producto,
+			tipo: 'prestamo',
+		})),
+		...ventaenvase.productos.map((producto) => ({...producto, tipo: 'venta'})),
+	];
+
+	const ventaCredito = venta.productos?.filter(
+		(producto) =>
+			producto.tipoPago === ETiposDePago.Credito && !producto.promoPush
+	);
+
+	const promocionesCredito = venta.productos?.filter(
+		(producto) =>
+			producto.tipoPago === ETiposDePago.Credito && producto.promoPush
+	);
+
+	const ventaContado = venta.productos?.filter(
+		(producto) =>
+			producto.tipoPago === ETiposDePago.Contado && !producto.promoPush
+	);
+
+	const promocionesContado = venta.productos?.filter(
+		(producto) =>
+			producto.tipoPago === ETiposDePago.Contado && producto.promoPush
+	);
+
+	const totalContado =
+		ventaContado?.reduce((total, actual) => (total += actual.total), 0) +
+		promocionesContado?.reduce((total, actual) => (total += actual.total), 0);
+
+	const totalCredito =
+		ventaCredito?.reduce((total, actual) => (total += actual.total), 0) +
+		promocionesCredito?.reduce((total, actual) => (total += actual.total), 0);
+
+	const {t} = useTranslation();
+
 	return (
 		<>
 			{open && (
@@ -54,6 +110,149 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 							>
 								20 de Octubre de 2021
 							</Typography>
+						</Box>
+						<Stack spacing='24px' margin='40px 0'>
+							{ventaCredito.length > 0 && (
+								<Resumen.Container>
+									<Resumen.Titulo background={theme.palette.success.dark}>
+										{t('general.credito')}
+									</Resumen.Titulo>
+									{ventaCredito?.map((producto, index) => {
+										return (
+											<Box key={producto.codigoProducto}>
+												<Resumen.Tarjeta producto={producto} />
+												{index !== ventaCredito.length - 1 && <Divider />}
+											</Box>
+										);
+									})}
+									{promocionesCredito.length > 0 && (
+										<Resumen.PromoPush></Resumen.PromoPush>
+									)}
+								</Resumen.Container>
+							)}
+
+							{ventaContado.length > 0 && (
+								<Resumen.Container>
+									<Resumen.Titulo background={theme.palette.secondary.dark}>
+										{t('general.contado')}
+									</Resumen.Titulo>
+									{ventaContado?.map((producto, index) => {
+										return (
+											<Box key={producto.codigoProducto}>
+												<Resumen.Tarjeta producto={producto} />
+												{index !== ventaCredito.length - 1 && <Divider />}
+											</Box>
+										);
+									})}
+									{promocionesContado.length > 0 && (
+										<Resumen.PromoPush></Resumen.PromoPush>
+									)}
+								</Resumen.Container>
+							)}
+
+							{envases.length > 0 && (
+								<Resumen.Container>
+									<Resumen.Titulo background={theme.palette.secondary.main}>
+										{t('general.envases')}
+									</Resumen.Titulo>
+									{envases?.map((envase, index) => {
+										return (
+											<Box key={`${envase.codigoProducto} ${index}`}>
+												<Resumen.Envases producto={envase} />
+												{index !== envases.length - 1 && <Divider />}
+											</Box>
+										);
+									})}
+								</Resumen.Container>
+							)}
+
+							{canjes.length > 0 && (
+								<Resumen.Container>
+									<Resumen.Titulo background={theme.palette.secondary.main}>
+										Canjes
+									</Resumen.Titulo>
+									{canjes?.map((canje, index) => {
+										return (
+											<Box key={canje.codigoProducto}>
+												<Resumen.Canjes producto={canje} />
+												{index !== canjes.length - 1 && <Divider />}
+											</Box>
+										);
+									})}
+								</Resumen.Container>
+							)}
+
+							{bonificaciones.length > 0 && (
+								<Resumen.Container>
+									<Resumen.Titulo
+										background={theme.palette.secondary.main}
+										bonificacion
+									>
+										{t('titulos.bonificaciones')}
+									</Resumen.Titulo>
+								</Resumen.Container>
+							)}
+
+							<Resumen.Container>
+								<Resumen.Titulo background={theme.palette.secondary.main}>
+									{t('general.compromisoCobro')}
+								</Resumen.Titulo>
+								<Resumen.CompromisoDeCobro />
+							</Resumen.Container>
+						</Stack>
+						<Box>
+							<Box
+								display='flex'
+								justifyContent='space-between'
+								padding='12px 14px'
+								sx={{background: '#F5F0EF'}}
+							>
+								<Typography variant='subtitle3' color='#000'>
+									Total contado:
+								</Typography>
+								<Typography variant='subtitle3' color='#000'>
+									{formatearNumero(totalContado, t)}
+								</Typography>
+							</Box>
+							<Box
+								display='flex'
+								justifyContent='space-between'
+								padding='12px 14px'
+								sx={{background: '#F5F0EF50'}}
+							>
+								<Typography variant='subtitle3' color='#000'>
+									Total credito:
+								</Typography>
+								<Typography variant='subtitle3' color='#000'>
+									{formatearNumero(totalCredito, t)}
+								</Typography>
+							</Box>
+							<Box
+								display='flex'
+								justifyContent='space-between'
+								padding='12px 14px'
+								sx={{background: '#F5F0EF'}}
+							>
+								<Typography variant='subtitle3' color='#000'>
+									Total de ahorro:
+								</Typography>
+								<Typography variant='subtitle3' color='#000'>
+									{formatearNumero(0, t)}
+								</Typography>
+							</Box>
+							<Box
+								display='flex'
+								justifyContent='space-between'
+								padding='12px 14px'
+								sx={{background: '#F5F0EF50'}}
+							>
+								<Typography variant='subtitle3' color='#000'>
+									Total de cargos financieros:
+								</Typography>
+								<Typography variant='subtitle3' color='#000'>
+									{formatearNumero(0, t)}
+								</Typography>
+							</Box>
 						</Box>
 					</Box>
 				</Box>

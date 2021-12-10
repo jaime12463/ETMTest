@@ -53,7 +53,7 @@ const Bonificaciones: React.FC<Props> = ({bonificacionValida}) => {
 						<Chip
 							className={classes.chip}
 							size='small'
-							icon={<ReiniciarIcon width='7.5px' height='7.5px' />}
+							icon={<ReiniciarIcon width='10px' height='10px' />}
 							label={
 								<Typography variant='caption' fontFamily='Open Sans'>
 									Restablecer cantidades a cero

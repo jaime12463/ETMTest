@@ -24,7 +24,6 @@ const useEstilos = makeStyles(() =>
 			background: '#fff',
 			borderRadius: '8px',
 			padding: '12px 18px 22px 18px',
-			minHeight: '800px',
 			position: 'absolute',
 			top: '5vh',
 			transform: (props: Props) =>

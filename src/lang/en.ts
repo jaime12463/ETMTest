@@ -1,6 +1,6 @@
 const en = {
 	general: {
-		archivosAdjuntos:'Attached files',
+		archivosAdjuntos: 'Attached files',
 		producto: 'Product',
 		unidades: 'Units',
 		subUnidades: 'SubUnits',
@@ -100,7 +100,8 @@ const en = {
 		coberturas: 'Coverages',
 		tarjetaCoberturas: `Indicates the amount of product missing in the customer's refrigerator.`,
 		bonificaciones: 'Bonuses',
-		tarjetaBonificaciones: `Indicates the amount of product missing in the customer's refrigerator.`,
+		tarjetaBonificaciones: `Add the bonuses for this customer.`,
+		bonificacionesDeshabilitadas: `There are not bonuses for this customer at this time.`,
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',
