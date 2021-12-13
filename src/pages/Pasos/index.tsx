@@ -118,6 +118,15 @@ const Pasos: React.FC = () => {
 			});
 			setAlertaPasos(true);
 		} else {
+			if (pasoActual === 1) {
+				mostrarAviso(
+					'warning',
+					'No es posible editar las cantidades',
+					'Si necesitas editar las cantidad de coberturas e iniciativas, deberas hacerlo en toma de pedido',
+					undefined,
+					'advertenciaPaso1'
+				);
+			}
 			setPasoActual(pasoActual - 1);
 		}
 	};

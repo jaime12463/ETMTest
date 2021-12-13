@@ -2223,8 +2223,8 @@
 		{
 			"idBonificacion": 1,
 			"nombreBonificacion": "Bonificación COCA COLA 12 OZ VIDRIO R",
-			"vigenciaInicioBonificacion": "2021-09-01",
-			"vigenciaFinBonificacion": "2021-09-06",
+			"vigenciaInicioBonificacion": "2021-06-11",
+			"vigenciaFinBonificacion": "2021-06-21",
 			"aplicacionBonificacion": "Parcial",
 			"gruposBonificacion": [
 				{
@@ -2246,8 +2246,8 @@
 		{
 			"idBonificacion": 2,
 			"nombreBonificacion": "Bonificación COCA COLA 12 OZ VIDRIO R",
-			"vigenciaInicioBonificacion": "2021-09-01",
-			"vigenciaFinBonificacion": "2021-09-06",
+			"vigenciaInicioBonificacion": "2021-06-11",
+			"vigenciaFinBonificacion": "2021-06-21",
 			"aplicacionBonificacion": "Total",
 			"gruposBonificacion": [
 				{
@@ -2269,8 +2269,8 @@
 		{
 			"idBonificacion": 3,
 			"nombreBonificacion": "Bonificación COCA COLA 12 OZ VIDRIO R",
-			"vigenciaInicioBonificacion": "2021-09-01",
-			"vigenciaFinBonificacion": "2021-09-06",
+			"vigenciaInicioBonificacion": "2021-06-11",
+			"vigenciaFinBonificacion": "2021-06-21",
 			"aplicacionBonificacion": "Total",
 			"gruposBonificacion": [
 				{

@@ -71,6 +71,8 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 		}
 	});
 
+	const [focusId, setFocusId] = React.useState<string>('');
+
 	const [opciones, setOpciones] = React.useState<string>(
 		grupoBonificacionesActivas?.nombreGrupo.toLowerCase() ??
 			grupos[0].nombreGrupo.toLowerCase()
@@ -288,6 +290,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 									resetBonificaciones={resetBonificaciones}
 									actualizarContador={actualizarContador}
 									errorAplicacionTotal={errorAplicacionTotal}
+									statefocusId={{focusId, setFocusId}}
 								/>
 								<Divider />
 							</Box>

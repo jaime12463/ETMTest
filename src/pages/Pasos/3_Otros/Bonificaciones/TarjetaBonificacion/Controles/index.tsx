@@ -33,6 +33,7 @@ interface Props {
 	resetBonificaciones: boolean;
 	actualizarContador: (cantidad: number) => void;
 	errorAplicacionTotal: boolean;
+	statefocusId: any;
 }
 
 const Controles: React.FC<Props> = ({
@@ -48,10 +49,13 @@ const Controles: React.FC<Props> = ({
 	resetBonificaciones,
 	actualizarContador,
 	errorAplicacionTotal,
+	statefocusId,
 }) => {
 	const classes = useEstilos({errorAplicacionTotal});
 	const visitaActual = useObtenerVisitaActual();
 	const [alerta, setAlerta] = React.useState<boolean>(false);
+
+	const {focusId, setFocusId} = statefocusId;
 
 	const bonificacionEjecutada = visitaActual.bonificaciones.find(
 		(bonificacion) => {
@@ -132,20 +136,48 @@ const Controles: React.FC<Props> = ({
 		}
 	}, [resetBonificaciones]);
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (hayBonificacionesDistintoGrupo()) {
-			setAlerta((prevAlerta) => !prevAlerta);
-			setCantidadTemporal(Number(e.target.value.replace(/[^0-9]/g, '')));
-			return;
-		}
+	/* const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+		if (e.key === 'Enter') {
+			if (contador - cantidad < 0) {
+				setCantidad(productoBonificacion?.cantidad ?? 0);
 
-		if (estadoInicial - Number(e.target.value.replace(/[^0-9]/g, '')) < 0) {
+				return;
+			}
+
+			if (estadoInicial - cantidad < 0) {
+				setCantidad(productoBonificacion?.cantidad ?? 0);
+
+				return;
+			}
+
+			setPuedeAgregar(true);
+		}
+	};
+ */
+
+	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+		if (estadoInicial - cantidad < 0) {
 			setCantidad(productoBonificacion?.cantidad ?? 0);
 			return;
 		}
 
-		setCantidad(Number(e.target.value.replace(/[^0-9]/g, '')));
+		if (contador - cantidad < 0) {
+			setCantidad(productoBonificacion?.cantidad ?? 0);
+			return;
+		}
+
 		setPuedeAgregar(true);
+	};
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (hayBonificacionesDistintoGrupo()) {
+			setAlerta((prevAlerta) => !prevAlerta);
+
+			setCantidadTemporal(Number(e.target.value.replace(/[^0-9]/g, '')));
+			return;
+		}
+
+		setCantidad(Number(e.target.value.replace(/[^0-9]/g, '')));
 	};
 
 	const handleButtons = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -224,10 +256,18 @@ const Controles: React.FC<Props> = ({
 						disableUnderline
 						name='unidades'
 						id='unidades_producto'
-						onFocus={(e) => e.target.select()}
+						onBlur={handleBlur}
+						onFocus={(e) => {
+							e.target.select();
+						}}
 						inputProps={{
 							style: {textAlign: 'center'},
 							inputMode: 'numeric',
+						}}
+						inputRef={(input) => {
+							if (focusId === producto.codigoProducto) {
+								input?.focus();
+							}
 						}}
 					/>
 					<IconButton

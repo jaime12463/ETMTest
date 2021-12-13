@@ -9,6 +9,7 @@ import {
 	TCompromisoDeCobro,
 	TIniciativasCliente,
 	TIniciativas,
+	TBonificacionesCliente,
 } from 'models';
 import {RootState} from 'redux/store';
 
@@ -60,6 +61,7 @@ export const pedidosClientesSlice = createSlice({
 					pedidos: [],
 					compromisosDeCobro: [],
 					iniciativas: [],
+					bonificaciones: [],
 				};
 
 			state[codigoCliente].compromisosDeCobro.push(CompromisoDeCobro);
@@ -80,6 +82,7 @@ export const pedidosClientesSlice = createSlice({
 						pedidos: [],
 						compromisosDeCobro: [],
 						iniciativas: [],
+						bonificaciones: [],
 					};
 
 				const iniciativasFiltadoPendientes = action.payload.iniciativas.filter(
@@ -89,6 +92,31 @@ export const pedidosClientesSlice = createSlice({
 				state[codigoCliente].iniciativas = state[
 					codigoCliente
 				].iniciativas.concat(iniciativasFiltadoPendientes);
+			}
+		},
+		agregarBonificacionesAlCliente: (
+			state,
+			action: PayloadAction<{
+				bonificaciones: TBonificacionesCliente[] | undefined;
+				clienteActual: TClienteActual;
+			}>
+		) => {
+			if (action.payload.bonificaciones) {
+				const {codigoCliente}: TClienteActual = action.payload.clienteActual;
+				if (!state[codigoCliente])
+					state[codigoCliente] = {
+						pedidos: [],
+						compromisosDeCobro: [],
+						iniciativas: [],
+						bonificaciones: [],
+					};
+
+				const bonificaciones = action.payload.bonificaciones.filter(
+					(bonificacion) => bonificacion.detalle.length >= 1
+				);
+
+				state[codigoCliente].bonificaciones =
+					state[codigoCliente].bonificaciones.concat(bonificaciones);
 			}
 		},
 
@@ -109,6 +137,7 @@ export const pedidosClientesSlice = createSlice({
 					pedidos: [],
 					compromisosDeCobro: [],
 					iniciativas: [],
+					bonificaciones: [],
 				};
 
 			const pedidoCliente: TPedidoClienteParaEnviar = {
@@ -167,6 +196,7 @@ export const pedidosClientesSlice = createSlice({
 					pedidos: [],
 					compromisosDeCobro: [],
 					iniciativas: [],
+					bonificaciones: [],
 				};
 			state[codigoCliente].pedidos = [
 				...state[codigoCliente].pedidos,
@@ -185,5 +215,6 @@ export const {
 	guardarCompromisoDecobroCliente,
 	agregarPedidosCliente,
 	agregarIniciativasAlCliente,
+	agregarBonificacionesAlCliente,
 } = pedidosClientesSlice.actions;
 export default pedidosClientesSlice.reducer;

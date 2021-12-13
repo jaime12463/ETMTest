@@ -69,6 +69,7 @@ export type TBonificacionesCliente = {
 	fechaCreacion: string;
 	codigoUsuario: string;
 	ruta: string;
+	fechaEntrega: string;
 	detalle: TDetalleBonificacionesCliente[];
 };
 
@@ -189,6 +190,7 @@ export type TPedidosClientes = {
 		pedidos: TPedidoClienteParaEnviar[];
 		compromisosDeCobro: TCompromisoDeCobro[];
 		iniciativas: TIniciativasCliente[];
+		bonificaciones: TBonificacionesCliente[];
 	};
 };
 

@@ -71,7 +71,8 @@ const es = {
 		editarCantidades: 'Editar cantidades',
 		continuar: 'Continuar',
 		editar: 'Editar',
-		salir:'Salir'
+		salir: 'Salir',
+		restablecerCero: 'Restablecer cantidades a cero',
 	},
 	simbolos: {
 		decimal: '.',

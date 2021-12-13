@@ -20,6 +20,7 @@ interface Props {
 	resetBonificaciones: boolean;
 	actualizarContador: (cantidad: number) => void;
 	errorAplicacionTotal: boolean;
+	statefocusId: any;
 }
 
 const TarjetaBonificacion: React.FC<Props> = ({
@@ -35,6 +36,7 @@ const TarjetaBonificacion: React.FC<Props> = ({
 	resetBonificaciones,
 	actualizarContador,
 	errorAplicacionTotal,
+	statefocusId,
 }) => {
 	const producto = useObtenerProductoPorCodigo(codigoProducto);
 	if (!producto) return null;
@@ -56,6 +58,7 @@ const TarjetaBonificacion: React.FC<Props> = ({
 					resetBonificaciones={resetBonificaciones}
 					actualizarContador={actualizarContador}
 					errorAplicacionTotal={errorAplicacionTotal}
+					statefocusId={statefocusId}
 				/>
 			</Box>
 		</>

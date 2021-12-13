@@ -51,17 +51,19 @@ export const useInicializarVisitaActual = () => {
 							fechaEntrega,
 							fechaVisitaPlanificada
 						),
-						bonificaciones: obtenerBonificacionesHabilitadas(codigoCliente).map(
-							(bonificaciones) => ({
-								numeroPedido: uuidv4(),
-								codigoCliente,
-								idBonificacion: bonificaciones.idBonificacion,
-								fechaCreacion: '',
-								codigoUsuario: '',
-								ruta: '',
-								detalle: [],
-							})
-						),
+						bonificaciones: obtenerBonificacionesHabilitadas(
+							codigoCliente,
+							fechaVisitaPlanificada
+						).map((bonificaciones) => ({
+							numeroPedido: uuidv4(),
+							codigoCliente,
+							idBonificacion: bonificaciones.idBonificacion,
+							fechaCreacion: fechaVisitaPlanificada,
+							codigoUsuario: '',
+							ruta: '',
+							detalle: [],
+							fechaEntrega: fechaEntrega,
+						})),
 						coberturasEjecutadas: [],
 						pasoATomaPedido: false,
 						seQuedaAEditar: {

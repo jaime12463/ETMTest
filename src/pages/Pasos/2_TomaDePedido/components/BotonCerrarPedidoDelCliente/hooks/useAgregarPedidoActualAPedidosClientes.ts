@@ -15,6 +15,7 @@ import {
 	agregarPedidosCliente,
 	guardarCompromisoDecobroCliente,
 	agregarIniciativasAlCliente,
+	agregarBonificacionesAlCliente,
 } from 'redux/features/pedidosClientes/pedidosClientesSlice';
 
 import {limpiarCompromisoDeCobroActual} from 'redux/features/compromisoDeCobro/compromisoDeCobroSlice';
@@ -76,6 +77,13 @@ export const useAgregarPedidoActualAPedidosClientes = (
 				iniciativas: iniciativasVerificadas,
 				clienteActual,
 				fechaEntrega: visitaActual.fechaEntrega,
+			})
+		);
+
+		dispatch(
+			agregarBonificacionesAlCliente({
+				bonificaciones: visitaActual.bonificaciones,
+				clienteActual,
 			})
 		);
 
