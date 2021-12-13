@@ -107,12 +107,8 @@ const PromoPush: React.FC = () => {
 						>
 							<ReiniciarIcon width='10px' height='10px' />
 
-							<Typography
-								fontFamily='Open Sans'
-								variant='caption'
-								width={'140px'}
-							>
-								{`Restablecer cantidades a cero`}
+							<Typography fontFamily='Open Sans' variant='caption'>
+								{t('general.restablecerCero')}
 							</Typography>
 						</Stack>
 					</Button>

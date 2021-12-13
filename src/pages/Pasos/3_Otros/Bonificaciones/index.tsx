@@ -10,6 +10,7 @@ import {useObtenerBonificacionesHabilitadas} from 'hooks';
 import {AvisoIcon, ReiniciarIcon} from 'assests/iconos';
 import {useDispatch} from 'react-redux';
 import {restablecerBonificaciones} from 'redux/features/visitaActual/visitaActualSlice';
+import {useTranslation} from 'react-i18next';
 interface Props {
 	bonificacionValida: boolean;
 }
@@ -17,6 +18,7 @@ interface Props {
 const Bonificaciones: React.FC<Props> = ({bonificacionValida}) => {
 	const [expandido, setExpandido] = React.useState<boolean | string>(false);
 	const [alerta, setAlerta] = React.useState<boolean>(false);
+	const {t} = useTranslation();
 	const [resetBonificaciones, setResetBonificaciones] =
 		React.useState<boolean>(false);
 	const bonificaciones = useObtenerBonificacionesHabilitadas();
@@ -56,7 +58,7 @@ const Bonificaciones: React.FC<Props> = ({bonificacionValida}) => {
 							icon={<ReiniciarIcon width='10px' height='10px' />}
 							label={
 								<Typography variant='caption' fontFamily='Open Sans'>
-									Restablecer cantidades a cero
+									{t('general.restablecerCero')}
 								</Typography>
 							}
 							onClick={() => setAlerta(true)}

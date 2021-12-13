@@ -71,7 +71,8 @@ const en = {
 		editarCantidades: 'Edit quantities',
 		continuar: 'Continue',
 		editar: 'Edit',
-		salir:'Exit'
+		salir: 'Exit',
+		restablecerCero: 'Reset quantities to zero',
 	},
 	simbolos: {
 		decimal: ',',

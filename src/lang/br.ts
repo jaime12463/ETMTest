@@ -66,6 +66,7 @@ const br = {
 		editarCantidades: 'Editar quantidades',
 		continuar: 'Prosseguir',
 		editar: 'Editar',
+		restablecerCero: 'Redefinir as quantidades para zero',
 	},
 	simbolos: {
 		decimal: '.',
