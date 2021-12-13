@@ -29,7 +29,7 @@ Escenario: N°3 - Ingresar unidades a la iniciativa
     Y no podrá superar _cantidadMáximaUnidades
     Y cambiará las unidades del producto en el pedido
     Y cambiará las unidades del mismo producto en coberturas
-    Y actualizará el disponible de la iniciativa
+    Y actualizará el disponible de la iniciativa según la unidad de medida
 
 Escenario: N°4 - Restar unidades a la iniciativa
     Dado que se cambió el estado de la iniciativa a ejecutada
@@ -38,30 +38,37 @@ Escenario: N°4 - Restar unidades a la iniciativa
     Entonces el sistema restará las unidades en 1 
     Y cambiará las unidades del producto en el pedido
     Y cambiará las unidades del mismo producto en coberturas 
-    Y actualizará el disponible de la iniciativa
-
-#
-#Escenario: N°5 - Ingresar subunidades a la iniciativa
-#    Dado que se cambió el estado de la iniciativa a ejecutada
-#    Y el producto _validaSubunidadesMinimas = true
-#    Y tiene _subunidadesVentaMinima
-#    Y existen grupos de coberturas con los mismos productos de la iniciativa
-#    Cuando aumento las subunidades
-#    Entonces el sistema aumentará las subunidades según _subunidadesVentaMinima 
-#    Y no podrá superar su _presentacion
-#    Y cambiará las subunidades del producto en el pedido
-#    Y cambiará las subunidades del mismo producto en coberturas 
+    Y actualizará el disponible de la iniciativa según la unidad de medida
 
 
-#Escenario: N°6 - Restar subunidades a la iniciativa
-#    Dado que se cambió el estado de la iniciativa a ejecutada
-#    Y el producto _validaSubunidadesMinimas = true
-#    Y tiene _subunidadesVentaMinima
-#    Y existen grupos de coberturas con los mismos productos de la iniciativa
-#    Cuando resto las subunidades
-#    Entonces el sistema restará las subunidades según _subunidadesVentaMinima 
-#    Y cambiará las subunidades del producto en el pedido
-#    Y cambiará las subunidades del mismo producto en coberturas 
+Escenario: N°5 - Ingresar subunidades a la iniciativa
+    Dado que se cambió el estado de la iniciativa a ejecutada
+    Y el producto _validaSubunidadesMinimas = true
+    Y tiene _subunidadesVentaMinima
+    Y existen grupos de coberturas con los mismos productos de la iniciativa
+    Cuando aumento las subunidades
+    Entonces el sistema aumentará las subunidades según _subunidadesVentaMinima 
+    Y no podrá superar su _presentacion
+    Y cambiará las subunidades del producto en el pedido
+    Y cambiará las subunidades del mismo producto en coberturas
+    Y actualizará el disponible de la iniciativa según la unidad de medida 
+
+
+Escenario: N°6 - Restar subunidades a la iniciativa
+    Dado que se cambió el estado de la iniciativa a ejecutada
+    Y el producto _validaSubunidadesMinimas = true
+    Y tiene _subunidadesVentaMinima
+    Y existen grupos de coberturas con los mismos productos de la iniciativa
+    Cuando resto las subunidades
+    Entonces el sistema restará las subunidades según _subunidadesVentaMinima 
+    Y cambiará las subunidades del producto en el pedido
+    Y cambiará las subunidades del mismo producto en coberturas 
+    Y actualizará el disponible de la iniciativa según la unidad de medida
+
+
+# La conversión según la unidad de medida se debe realizar con la presentación. Ej, si la unidad de medida es subunidades
+# y se vende 1 unidad de un producto que tiene presentación 12, se convierten en 12 subunidades para el cálculo.
+
 
 # Como es un tipo de pedido de venta, se mantienen todas las mismas 
 # validaciones del pedido y mensajes 

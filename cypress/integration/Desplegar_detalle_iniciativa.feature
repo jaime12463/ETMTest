@@ -17,7 +17,7 @@
       Y mostrará el _nombreIniciativa
       Y status sin valor, _nombreActividadPlan, _descripcionIniciativa, _finVigenciaIniciativa
       Y los _idMaterialIniciativa, _nombre ordenados por código de producto
-      Y según la unidad de medida, mostrará _presentación de la unidades, precio por unidad, precio por subunidad
+      Y mostrará _presentación de la unidades, precio por unidad, precio por subunidad
       Y la _cantidadDisponible
       #Y _idMaterialIniciativa, _nombre, _presentación de la unidades, precio por unidad, precio por subunidad 
       #Y los valores iniciales de cantidad de _unidadVentaIniciativa y _subunidadVentaIniciativa
@@ -36,7 +36,7 @@
       Y mostrará el _nombreIniciativa
       Y status = "Ejecutado", _nombreActividadPlan, _descripcionIniciativa, _finVigenciaIniciativa
       Y los _idMaterialIniciativa, _nombre ordenados por código de producto
-      Y según la unidad de medida, _presentación de la unidades, precio por unidad, precio por subunidad
+      Y mostrará _presentación de la unidades, precio por unidad, precio por subunidad
       #Y _idMaterialIniciativa, _nombre, _presentación de la unidades, precio por unidad, precio por subunidad
       Y los valores registrados en la ejecución de cantidad de unidades y subunidades
       Y el borde de la iniciativa en color verde y el ícono de ejecutada
@@ -55,7 +55,7 @@
       Y mostrará el _nombreIniciativa
       Y status = "Cancelado", motivo = motivo registrado, _nombreActividadPlan, _descripcionIniciativa, _finVigenciaIniciativa
       Y los _idMaterialIniciativa, _nombre ordenados por código de producto
-      Y según la unidad de medida, mostrará _presentación de la unidades, precio por unidad, precio por subunidad
+      Y mostrará _presentación de la unidades, precio por unidad, precio por subunidad
       #Y _idMaterialIniciativa, _nombre, _presentación de la unidades, precio por unidad, precio por subunidad
       #Y los valores iniciales de cantidad de _unidadVentaIniciativa y _subunidadVentaIniciativa
       Y el borde de la iniciativa en color rojo y el ícono de cancelada
