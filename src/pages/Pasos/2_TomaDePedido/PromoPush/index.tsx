@@ -6,7 +6,7 @@ import {styled} from '@mui/material/styles';
 import TarjetaPromoPush from './TarjetaPromoPush';
 import {useObtenerPromoPushDelCliente} from 'hooks';
 import useEstilos from './useEstilos';
-import {AvisoIcon, BorrarIcon} from 'assests/iconos';
+import {AvisoIcon, BorrarIcon, ReiniciarIcon} from 'assests/iconos';
 import {useAgregarProductoAlPedidoActual} from './hooks/useAgregarProductoAlPedidoActual';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {useMostrarAdvertenciaEnDialogo, useBorrarTodoLosProductos} from 'hooks';
@@ -105,7 +105,13 @@ const PromoPush: React.FC = () => {
 							flexDirection='row'
 							alignItems='center'
 						>
-							<Typography variant='caption'>
+							<ReiniciarIcon width='10px' height='10px' />
+
+							<Typography
+								fontFamily='Open Sans'
+								variant='caption'
+								width={'140px'}
+							>
 								{`Restablecer cantidades a cero`}
 							</Typography>
 						</Stack>
