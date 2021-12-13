@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {TProductoPedido} from 'models';
 import {BotellaIcon, CajaIcon} from 'assests/iconos';
+import {useObtenerCatalogoMotivos} from 'pages/Pasos/2_TomaDePedido/hooks';
 
 export interface CanjesProps {
 	producto: TProductoPedido;
@@ -17,6 +18,8 @@ export const Canjes: React.FC<CanjesProps> = ({producto}) => {
 		esVentaSubunidades,
 		catalogoMotivo,
 	} = producto;
+
+	const itemCatalogoMotivos = useObtenerCatalogoMotivos(undefined, 'canje');
 
 	return (
 		<Box display='flex'>
@@ -58,7 +61,9 @@ export const Canjes: React.FC<CanjesProps> = ({producto}) => {
 					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
 						Tipo
 					</Typography>
-					<Typography variant='subtitle3'>{catalogoMotivo}</Typography>
+					<Typography variant='subtitle3'>
+						{itemCatalogoMotivos[Number(catalogoMotivo) - 1]?.label}
+					</Typography>
 				</Box>
 			</Box>
 		</Box>

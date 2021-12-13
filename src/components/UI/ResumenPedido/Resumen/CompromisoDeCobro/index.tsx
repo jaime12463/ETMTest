@@ -4,11 +4,28 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
+import {
+	useObtenerClienteActual,
+	useObtenerCompromisoDeCobroActual,
+} from 'redux/hooks';
+import {useObtenerDatosCliente} from 'hooks';
+import {TCliente} from 'models';
+import {useObtenerMontoTotalDocumentos} from 'pages/Pasos/3_Otros/CompromisoDeCobro/hooks';
 
 export interface CompromisoDeCobroProps {}
 
 export const CompromisoDeCobro: React.FC<CompromisoDeCobroProps> = () => {
 	const {t} = useTranslation();
+	const totalDocumentos = useObtenerMontoTotalDocumentos();
+	const clienteActual = useObtenerClienteActual();
+	const compromisoDeCobro = useObtenerCompromisoDeCobroActual();
+	const {obtenerDatosCliente} = useObtenerDatosCliente();
+	const datosCliente: TCliente | undefined = obtenerDatosCliente(
+		clienteActual.codigoCliente
+	);
+	const limiteDeCredito: number | undefined =
+		datosCliente?.informacionCrediticia.limite;
+
 	return (
 		<Box>
 			<Box display='flex'>
@@ -25,9 +42,6 @@ export const CompromisoDeCobro: React.FC<CompromisoDeCobroProps> = () => {
 					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
 						Disponible
 					</Typography>
-					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-						Fecha de alta
-					</Typography>
 				</Box>
 				<Box
 					display='flex'
@@ -38,13 +52,13 @@ export const CompromisoDeCobro: React.FC<CompromisoDeCobroProps> = () => {
 					sx={{background: '#F5F0EF'}}
 				>
 					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-						Limite de crédito
+						{formatearNumero(limiteDeCredito ? limiteDeCredito : 0, t)}
 					</Typography>
 					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-						Disponible
-					</Typography>
-					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-						Fecha de alta
+						{formatearNumero(
+							limiteDeCredito ? limiteDeCredito - totalDocumentos : 0,
+							t
+						)}
 					</Typography>
 				</Box>
 			</Box>
@@ -60,7 +74,7 @@ export const CompromisoDeCobro: React.FC<CompromisoDeCobroProps> = () => {
 					Compromiso de cobro:
 				</Typography>
 				<Typography variant='subtitle3' color='#000'>
-					{formatearNumero(2000, t)}
+					{formatearNumero(compromisoDeCobro.monto, t)}
 				</Typography>
 			</Box>
 		</Box>

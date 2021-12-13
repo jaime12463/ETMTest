@@ -2,12 +2,13 @@ import {TCatalogoMotivo, TOpcionSelect, TTipoPedido} from 'models';
 import {useObtenerDatosTipoPedido} from 'hooks';
 
 export const useObtenerCatalogoMotivos = (
-	codigoMotivo?: string
+	codigoMotivo?: string,
+	tipoPedido?: string
 ): TOpcionSelect[] /*| undefined*/ => {
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
 
 	const datosTipoPedidoActual: TTipoPedido | undefined =
-		obtenerDatosTipoPedido();
+		obtenerDatosTipoPedido(tipoPedido);
 
 	let todosCatalogosMotivos: TOpcionSelect[];
 

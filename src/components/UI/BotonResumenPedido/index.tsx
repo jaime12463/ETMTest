@@ -16,7 +16,10 @@ const BotonResumenPedido: React.FC<Props> = ({setOpen}) => {
 			justifyContent='center'
 			marginBottom='12px'
 			padding='4px 0'
-			sx={{background: theme.palette.secondary.main, cursor: 'pointer'}}
+			sx={{
+				background: theme.palette.secondary.main,
+				cursor: 'pointer',
+			}}
 			onClick={() => setOpen((prevState) => !prevState)}
 		>
 			<Typography variant='caption' fontFamily='Open Sans' color='#fff'>

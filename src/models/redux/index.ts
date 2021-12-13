@@ -7,6 +7,7 @@ import {
 	TIniciativas,
 	TDescuentoEscalonado,
 	TDescuentoPolarizado,
+	TComponente,
 } from 'models/server';
 
 //Cliente Actual
@@ -151,6 +152,8 @@ export type TPrecioProducto = {
 	tipoProducto: number;
 	descuentoPolarizado?: TDescuentoPolarizado[];
 	descuentoEscalonado?: TDescuentoEscalonado[];
+	descuentoPromoPush?: number;
+	componentes?: TComponente[];
 };
 
 export type TPedidoDelProducto = {

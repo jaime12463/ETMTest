@@ -5,14 +5,17 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import {CerrarIcon} from 'assests/iconos';
 import useEstilos from './useEstilos';
-import {useObtenerVisitaActual} from 'redux/hooks';
+import {
+	useObtenerCompromisoDeCobroActual,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
 import {ETiposDePago} from 'models';
 import Resumen from './Resumen';
 import theme from 'theme';
 import {ProductoEnvases} from './Resumen/Envases';
 import {useTranslation} from 'react-i18next';
-import {formatearNumero} from 'utils/methods';
-
+import {formatearFecha, formatearNumero} from 'utils/methods';
+import {useObtenerBonificacionesHabilitadas} from 'hooks';
 interface Props {
 	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,12 +23,24 @@ interface Props {
 
 const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 	const classes = useEstilos({open});
+	const compromisoDeCobro = useObtenerCompromisoDeCobroActual();
 	const visitaActual = useObtenerVisitaActual();
 	const {venta, canje, prestamoenvase, ventaenvase} = visitaActual.pedidos;
 
-	const bonificaciones = visitaActual.bonificaciones
+	const bonificacionesHabilitadas = useObtenerBonificacionesHabilitadas();
+	const bonificacionesCliente = bonificacionesHabilitadas();
+
+	const bonificaciones = visitaActual.bonificaciones.map(
+		(bonificacion, index) => ({
+			id: bonificacion.idBonificacion,
+			nombre: bonificacionesCliente[index].nombreBonificacion,
+			detalle: bonificacion.detalle,
+		})
+	);
+
+	const cantidadBonificaciones = visitaActual.bonificaciones
 		.map((bonificacion) => bonificacion.detalle)
-		.flat();
+		.flat().length;
 
 	const canjes = [...canje.productos];
 
@@ -36,6 +51,8 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 		})),
 		...ventaenvase.productos.map((producto) => ({...producto, tipo: 'venta'})),
 	];
+
+	console.log(ventaenvase.productos);
 
 	const ventaCredito = venta.productos?.filter(
 		(producto) =>
@@ -108,16 +125,16 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 								fontFamily='Open Sans'
 								color='#565657'
 							>
-								20 de Octubre de 2021
+								{formatearFecha(visitaActual.fechaEntrega, t)}
 							</Typography>
 						</Box>
 						<Stack spacing='24px' margin='40px 0'>
-							{ventaCredito.length > 0 && (
+							{(ventaCredito.length > 0 || promocionesCredito.length > 0) && (
 								<Resumen.Container>
 									<Resumen.Titulo background={theme.palette.success.dark}>
 										{t('general.credito')}
 									</Resumen.Titulo>
-									{ventaCredito?.map((producto, index) => {
+									{ventaCredito.map((producto, index) => {
 										return (
 											<Box key={producto.codigoProducto}>
 												<Resumen.Tarjeta producto={producto} />
@@ -126,17 +143,27 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 										);
 									})}
 									{promocionesCredito.length > 0 && (
-										<Resumen.PromoPush></Resumen.PromoPush>
+										<>
+											<Resumen.TituloPromo />
+											{promocionesCredito.map((promocion) => {
+												return (
+													<Resumen.PromoPush
+														key={promocion.codigoProducto}
+														promocion={promocion}
+													/>
+												);
+											})}
+										</>
 									)}
 								</Resumen.Container>
 							)}
 
-							{ventaContado.length > 0 && (
+							{(ventaContado.length > 0 || promocionesContado.length > 0) && (
 								<Resumen.Container>
 									<Resumen.Titulo background={theme.palette.secondary.dark}>
 										{t('general.contado')}
 									</Resumen.Titulo>
-									{ventaContado?.map((producto, index) => {
+									{ventaContado.map((producto, index) => {
 										return (
 											<Box key={producto.codigoProducto}>
 												<Resumen.Tarjeta producto={producto} />
@@ -145,7 +172,17 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 										);
 									})}
 									{promocionesContado.length > 0 && (
-										<Resumen.PromoPush></Resumen.PromoPush>
+										<>
+											<Resumen.TituloPromo />
+											{promocionesContado.map((promocion) => {
+												return (
+													<Resumen.PromoPush
+														key={promocion.codigoProducto}
+														promocion={promocion}
+													/>
+												);
+											})}
+										</>
 									)}
 								</Resumen.Container>
 							)}
@@ -155,7 +192,7 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 									<Resumen.Titulo background={theme.palette.secondary.main}>
 										{t('general.envases')}
 									</Resumen.Titulo>
-									{envases?.map((envase, index) => {
+									{envases.map((envase, index) => {
 										return (
 											<Box key={`${envase.codigoProducto} ${index}`}>
 												<Resumen.Envases producto={envase} />
@@ -171,7 +208,7 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 									<Resumen.Titulo background={theme.palette.secondary.main}>
 										Canjes
 									</Resumen.Titulo>
-									{canjes?.map((canje, index) => {
+									{canjes.map((canje, index) => {
 										return (
 											<Box key={canje.codigoProducto}>
 												<Resumen.Canjes producto={canje} />
@@ -182,7 +219,7 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 								</Resumen.Container>
 							)}
 
-							{bonificaciones.length > 0 && (
+							{cantidadBonificaciones > 0 && (
 								<Resumen.Container>
 									<Resumen.Titulo
 										background={theme.palette.secondary.main}
@@ -190,15 +227,29 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 									>
 										{t('titulos.bonificaciones')}
 									</Resumen.Titulo>
+									<Resumen.Bonificaciones bonificaciones={bonificaciones} />
 								</Resumen.Container>
 							)}
 
-							<Resumen.Container>
-								<Resumen.Titulo background={theme.palette.secondary.main}>
-									{t('general.compromisoCobro')}
-								</Resumen.Titulo>
-								<Resumen.CompromisoDeCobro />
-							</Resumen.Container>
+							{compromisoDeCobro.monto !== 0 && (
+								<Resumen.Container>
+									<Resumen.Titulo background={theme.palette.secondary.main}>
+										{t('general.compromisoCobro')}
+									</Resumen.Titulo>
+									<Resumen.CompromisoDeCobro />
+								</Resumen.Container>
+							)}
+
+							{visitaActual.ordenDeCompra !== '' && (
+								<Resumen.Container>
+									<Resumen.Titulo background={theme.palette.secondary.main}>
+										{t('titulos.ordenDeCompra')}
+									</Resumen.Titulo>
+									<Resumen.OrdenDeCompra
+										ordenDeCompra={visitaActual.ordenDeCompra}
+									/>
+								</Resumen.Container>
+							)}
 						</Stack>
 						<Box>
 							<Box

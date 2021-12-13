@@ -1,9 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 
-export interface ContainerProps {}
-
-export const Container: React.FC<ContainerProps> = ({children}) => {
+export const Container: React.FC = ({children}) => {
 	return (
 		<Box
 			border='1px solid #D9D9D9'
