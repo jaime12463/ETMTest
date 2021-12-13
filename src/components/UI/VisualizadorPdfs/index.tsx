@@ -38,9 +38,6 @@ export default function VisualizadorPdfs({
 			<div>
 				<Document
 					file={`${process.env.PUBLIC_URL}/archivos/${archivo}`}
-					onLoadSuccess={(pdf) =>
-						alert('Loaded a file with ' + pdf.numPages + ' pages!')
-					}
 					onLoadError={(error) => console.log(error)}
 					options={options}
 				>
