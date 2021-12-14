@@ -106,6 +106,8 @@ const es = {
 		tarjetaBonificaciones: 'Agregar las bonificaciones para este cliente.',
 		bonificacionesDeshabilitadas:
 			'No hay bonificaciones para el cliente en este momento',
+		canjesDeshabilitadas:
+			'No hay disponibilidad de canje para este cliente en este momento',	
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',

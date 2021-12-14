@@ -104,6 +104,8 @@ const en = {
 		bonificaciones: 'Bonuses',
 		tarjetaBonificaciones: `Add the bonuses for this customer.`,
 		bonificacionesDeshabilitadas: `There are not bonuses for this customer at this time.`,
+		canjesDeshabilitadas:
+		'There are not exchange for this customer at this time.',	
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',

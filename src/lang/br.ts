@@ -93,6 +93,8 @@ const br = {
 		bonificaciones: 'Bonificações',
 		tarjetaBonificaciones: 'Adicione os bônus para este cliente.',
 		bonificacionesDeshabilitadas: 'Não há bônus para este cliente no momento.',
+		canjesDeshabilitadas:
+		'Sem feno disponível de canje para este cliente neste momento',	
 	},
 	advertencias: {
 		clienteNoExiste: 'O código digitado não corresponde a um cliente',

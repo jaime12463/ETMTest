@@ -170,7 +170,7 @@ export const Otros: React.FC = () => {
 				}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
-						No hay disponibilidad de canje para este cliente en este momento
+						{t('titulos.canjesDeshabilitadas')}
 					</Typography>
 				}
 				labelChip={`${cantidadCanjes.length} Items`}
@@ -197,7 +197,11 @@ export const Otros: React.FC = () => {
 				valido={bonificacionValida}
 				cantidadItems={cantidadBonificaciones.length}
 				labelChip={`${cantidadBonificaciones.length} Items`}
-				disabled={bonificacionesHabilitadas.length === 0}
+				disabled={
+					bonificacionesHabilitadas.length === 0 ||
+					(saldoPresupuestoTipoPedido && saldoPresupuestoTipoPedido < 1) ||
+					productosMandatoriosVisitaActual.mandatorios.length < 1
+				}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
 						{t('titulos.bonificacionesDeshabilitadas')}
