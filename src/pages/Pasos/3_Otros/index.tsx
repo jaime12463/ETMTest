@@ -29,6 +29,7 @@ export const Otros: React.FC = () => {
 	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
 	const {tipoPagoActual} = useObtenerClienteActual();
 	const visitaActual = useObtenerVisitaActual();
+
 	const {canje, ventaenvase, prestamoenvase} = visitaActual.pedidos;
 
 	const productosMandatoriosVisitaActual =
@@ -199,13 +200,14 @@ export const Otros: React.FC = () => {
 				labelChip={`${cantidadBonificaciones.length} Items`}
 				disabled={
 					bonificacionesHabilitadas.length === 0 ||
-					(saldoPresupuestoTipoPedido && saldoPresupuestoTipoPedido < 1) ||
 					productosMandatoriosVisitaActual.mandatorios.length < 1
 				}
 				mensaje={
-					<Typography color='primary' variant='subtitle3'>
-						{t('titulos.bonificacionesDeshabilitadas')}
-					</Typography>
+					bonificacionesHabilitadas.length === 0 && (
+						<Typography color='primary' variant='subtitle3'>
+							{t('titulos.bonificacionesDeshabilitadas')}
+						</Typography>
+					)
 				}
 			>
 				<Bonificaciones bonificacionValida={bonificacionValida} />
