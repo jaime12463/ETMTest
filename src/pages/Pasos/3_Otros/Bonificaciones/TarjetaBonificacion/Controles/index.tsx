@@ -109,7 +109,10 @@ const Controles: React.FC<Props> = ({
 		if (puedeAgregar) {
 			if (cantidad === 0) {
 				dispatch(
-					eliminarBonificacion({codigoProducto: producto.codigoProducto})
+					eliminarBonificacion({
+						codigoProducto: producto.codigoProducto,
+						idBonificacion,
+					})
 				);
 				setPuedeAgregar(false);
 				return;
