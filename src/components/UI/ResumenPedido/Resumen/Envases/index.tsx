@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {TProductoPedido} from 'models';
 import {BotellaIcon, CajaIcon} from 'assests/iconos';
+import {useTranslation} from 'react-i18next';
 
 export interface ProductoEnvases extends TProductoPedido {
 	tipo: string;
@@ -21,6 +22,8 @@ export const Envases: React.FC<EnvasesProps> = ({producto}) => {
 		esVentaSubunidades,
 		tipo,
 	} = producto;
+
+	const {t} = useTranslation();
 
 	return (
 		<Box display='flex'>
@@ -60,7 +63,7 @@ export const Envases: React.FC<EnvasesProps> = ({producto}) => {
 			>
 				<Box display='flex' flexDirection='column' gap='4px'>
 					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-						Tipo
+						{t('general.tipo')}
 					</Typography>
 					<Typography variant='subtitle3'>
 						{tipo === 'prestamo' ? 'Prestamo' : 'Venta'}

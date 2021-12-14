@@ -402,11 +402,11 @@ export const visitaActualSlice = createSlice({
 
 		eliminarBonificacion(
 			state,
-			action: PayloadAction<{codigoProducto: number}>
+			action: PayloadAction<{codigoProducto: number; idBonificacion: number}>
 		) {
 			state.bonificaciones = state.bonificaciones.map((bonificacion) => {
 				// Se busca el grupo de bonificaciones
-				if (bonificacion.detalle) {
+				if (bonificacion.idBonificacion === action.payload.idBonificacion) {
 					// Se busca si existe la bonificacion
 					const index = bonificacion.detalle.findIndex(
 						(detalle) =>

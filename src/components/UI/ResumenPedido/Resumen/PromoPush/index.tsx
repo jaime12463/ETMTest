@@ -42,7 +42,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 						paddingLeft='8px'
 					>
 						<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
-							P. Unitario
+							{t('general.precioUnitario')}
 						</Typography>
 						<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
 							{formatearNumero(promocion.precioConImpuestoUnidad, t)}
@@ -66,7 +66,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 						justifyContent='space-between'
 					>
 						<Typography variant='subtitle3' color='#fff'>
-							Subtotal
+							{t('general.subTotal')}
 						</Typography>
 						<Typography variant='subtitle3' color='#fff'>
 							{formatearNumero(promocion.total, t)}
@@ -84,7 +84,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 						color='#000'
 						letterSpacing='-0.4px'
 					>
-						Paquetes
+						{t('general.paquetes')}
 					</Typography>
 				</Box>
 				<Box flex='1.5' sx={{background: '#F5F0EF'}} padding='8px 14px' />
@@ -152,7 +152,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 											variant='caption'
 											color={theme.palette.primary.main}
 										>
-											Ahorras:
+											{t('general.ahorras')}
 										</Typography>
 										<Typography
 											variant='caption'
@@ -163,7 +163,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 									</Box>
 									<Box display='flex' gap='4px' justifyContent='end'>
 										<Typography variant='subtitle3' color='#000'>
-											Total:
+											{t('general.total')}
 										</Typography>
 										<Typography variant='subtitle3' color='#000'>
 											{formatearNumero(componente.descuento, t)}

@@ -7,7 +7,7 @@ import {Tarjeta, TarjetaProps} from './Tarjeta';
 import {Envases, EnvasesProps} from './Envases';
 import {Canjes, CanjesProps} from './Canjes';
 import {Bonificaciones, BonificacionesProps} from './Bonificaciones';
-import {CompromisoDeCobro, CompromisoDeCobroProps} from './CompromisoDeCobro';
+import {CompromisoDeCobro} from './CompromisoDeCobro';
 import {OrdenDeCompra, OrdenDeCompraProps} from './OrdenDeCompra';
 
 interface Props {
@@ -19,7 +19,7 @@ interface Props {
 	Envases: React.FC<EnvasesProps>;
 	Canjes: React.FC<CanjesProps>;
 	Bonificaciones: React.FC<BonificacionesProps>;
-	CompromisoDeCobro: React.FC<CompromisoDeCobroProps>;
+	CompromisoDeCobro: React.FC;
 	OrdenDeCompra: React.FC<OrdenDeCompraProps>;
 }
 

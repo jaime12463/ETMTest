@@ -50,8 +50,6 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 	setExpandido,
 	nombre,
 	grupos,
-	vigenciaInicioBonificacion,
-	vigenciaFinBonificacion,
 	aplicacionBonificacion,
 	resetBonificaciones,
 }) => {
