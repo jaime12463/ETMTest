@@ -123,7 +123,7 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 							textAlign='center'
 							marginBottom='4px'
 						>
-							Resumen del pedido
+							{t('general.resumenDePedido')}
 						</Typography>
 						<Box
 							alignItems='center'
@@ -136,7 +136,7 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 								fontFamily='Open Sans'
 								color='#565657'
 							>
-								Fecha de entrega:
+								{t('general.fechaEntrega')}
 							</Typography>
 							<Typography
 								variant='body3'
@@ -294,7 +294,7 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 								sx={{background: '#F5F0EF'}}
 							>
 								<Typography variant='subtitle3' color='#000'>
-									Total contado:
+									{t('general.totalContado')}
 								</Typography>
 								<Typography variant='subtitle3' color='#000'>
 									{formatearNumero(totalContado, t)}
@@ -307,7 +307,7 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 								sx={{background: '#F5F0EF50'}}
 							>
 								<Typography variant='subtitle3' color='#000'>
-									Total credito:
+									{t('general.totalCredito')}
 								</Typography>
 								<Typography variant='subtitle3' color='#000'>
 									{formatearNumero(totalCredito, t)}
@@ -320,7 +320,7 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 								sx={{background: '#F5F0EF'}}
 							>
 								<Typography variant='subtitle3' color='#000'>
-									Total de ahorro:
+									{t('general.totalDeAhorro')}
 								</Typography>
 								<Typography variant='subtitle3' color='#000'>
 									{formatearNumero(totalDescuentos, t)}
@@ -333,7 +333,7 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 								sx={{background: '#F5F0EF50'}}
 							>
 								<Typography variant='subtitle3' color='#000'>
-									Total de cargos financieros:
+									{t('general.totalCargosFinancieros')}
 								</Typography>
 								<Typography variant='subtitle3' color='#000'>
 									{formatearNumero(0, t)}

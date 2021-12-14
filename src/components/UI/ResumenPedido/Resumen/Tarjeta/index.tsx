@@ -62,7 +62,7 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 					>
 						<Box alignItems='center' display='flex' gap='4px'>
 							<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-								P. Unitario
+								{t('general.precioUnitario')}
 							</Typography>
 							<CajaIcon height='12px' width='12px' />
 						</Box>
@@ -78,7 +78,7 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 					>
 						<Box alignItems='center' display='flex' gap='4px'>
 							<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-								P. Unitario
+								{t('general.precioUnitario')}
 							</Typography>
 							<BotellaIcon height='10px' width='10px' />
 						</Box>
@@ -92,7 +92,7 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 						justifyContent='space-between'
 					>
 						<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-							Subtotal
+							{t('general.subTotal')}
 						</Typography>
 						<Typography variant='subtitle3' color='#000'>
 							{formatearNumero(total, t)}

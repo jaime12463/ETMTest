@@ -73,6 +73,19 @@ const en = {
 		editar: 'Edit',
 		salir: 'Exit',
 		restablecerCero: 'Reset quantities to zero',
+		resumenDePedido: 'Order summary',
+		totalContado: 'Total cash',
+		totalCredito: 'Total credit',
+		totalDeAhorro: 'Total savings',
+		totalCargosFinancieros: 'Total financial charges',
+		productoGratis: 'Free product',
+		precioUnitario: 'U. price',
+		subTotal: 'Subtotal',
+		paquetes: 'Packages',
+		ahorras: 'Saves',
+		tipo: 'Type',
+		bonificacion: 'Bonus',
+		fechaDeAlta: 'Date of registration',
 	},
 	simbolos: {
 		decimal: ',',
@@ -104,6 +117,8 @@ const en = {
 		bonificaciones: 'Bonuses',
 		tarjetaBonificaciones: `Add the bonuses for this customer.`,
 		bonificacionesDeshabilitadas: `There are not bonuses for this customer at this time.`,
+		canjesDeshabilitadas:
+		'There are not exchange for this customer at this time.',	
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',

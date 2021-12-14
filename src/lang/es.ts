@@ -73,6 +73,19 @@ const es = {
 		editar: 'Editar',
 		salir: 'Salir',
 		restablecerCero: 'Restablecer cantidades a cero',
+		resumenDePedido: 'Resumen de pedido',
+		totalContado: 'Total contado',
+		totalCredito: 'Total crédito',
+		totalDeAhorro: 'Total de ahorro',
+		totalCargosFinancieros: 'Total de cargos financieros',
+		productoGratis: 'Producto gratis',
+		precioUnitario: 'P. Unitario',
+		subTotal: 'Subtotal',
+		paquetes: 'Paquetes',
+		ahorras: 'Ahorras',
+		tipo: 'Tipo',
+		bonificacion: 'Bonificación',
+		fechaDeAlta: 'Fecha de alta',
 	},
 	simbolos: {
 		decimal: '.',
@@ -106,6 +119,8 @@ const es = {
 		tarjetaBonificaciones: 'Agregar las bonificaciones para este cliente.',
 		bonificacionesDeshabilitadas:
 			'No hay bonificaciones para el cliente en este momento',
+		canjesDeshabilitadas:
+			'No hay disponibilidad de canje para este cliente en este momento',	
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',

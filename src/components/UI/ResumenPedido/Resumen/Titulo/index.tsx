@@ -2,6 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import theme from 'theme';
+import {useTranslation} from 'react-i18next';
 
 export interface TituloProps {
 	background: string;
@@ -13,6 +14,8 @@ export const Titulo: React.FC<TituloProps> = ({
 	background,
 	bonificacion,
 }) => {
+	const {t} = useTranslation();
+
 	return (
 		<Box
 			alignItems='center'
@@ -34,7 +37,7 @@ export const Titulo: React.FC<TituloProps> = ({
 					sx={{background: theme.palette.info.main}}
 					variant='caption'
 				>
-					Producto gratis
+					{t('general.productoGratis')}
 				</Typography>
 			)}
 		</Box>
