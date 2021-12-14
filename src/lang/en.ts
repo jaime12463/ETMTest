@@ -119,6 +119,12 @@ const en = {
 		bonificacionesDeshabilitadas: `There are not bonuses for this customer at this time.`,
 		canjesDeshabilitadas:
 		'There are not exchange for this customer at this time.',	
+		tomaDePedido: 'Order taking',	
+		tarjetaTomaDePedido:
+			'Modify your order with the best options for your customer.',	
+		promociones: 'Promotions',	
+		tarjetaPromociones:
+			'Select the promotions that you have available for your clients.',						
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',

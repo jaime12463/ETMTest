@@ -121,6 +121,12 @@ const es = {
 			'No hay bonificaciones para el cliente en este momento',
 		canjesDeshabilitadas:
 			'No hay disponibilidad de canje para este cliente en este momento',	
+		tomaDePedido: 'Toma de pedido',	
+		tarjetaTomaDePedido:
+			'Modifica tu pedido con las mejores opciones para tu cliente.',	
+		promociones: 'Toma de pedido',	
+		tarjetaPromociones:
+			'Selecciona las promociones que tienes disponible para tus clientes.',				
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
