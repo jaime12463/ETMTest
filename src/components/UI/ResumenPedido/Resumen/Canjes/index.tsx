@@ -62,7 +62,7 @@ export const Canjes: React.FC<CanjesProps> = ({producto}) => {
 			>
 				<Box display='flex' flexDirection='column' gap='4px'>
 					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-						{t('general.tipo')}
+						{t('general.motivo')}
 					</Typography>
 					<Typography variant='subtitle3'>
 						{itemCatalogoMotivos[Number(catalogoMotivo) - 1]?.label}

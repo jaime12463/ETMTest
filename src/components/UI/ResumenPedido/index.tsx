@@ -7,15 +7,16 @@ import {CerrarIcon} from 'assests/iconos';
 import useEstilos from './useEstilos';
 import {
 	useObtenerCompromisoDeCobroActual,
+	useObtenerConfiguracion,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {ETiposDePago} from 'models';
+import {ETiposDePago, TConsolidadoImplicitos, TProductoPedido} from 'models';
 import Resumen from './Resumen';
 import theme from 'theme';
-import {ProductoEnvases} from './Resumen/Envases';
 import {useTranslation} from 'react-i18next';
 import {formatearFecha, formatearNumero} from 'utils/methods';
 import {useObtenerBonificacionesHabilitadas} from 'hooks';
+import {useObtenerConsolidacionImplicitos} from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
 interface Props {
 	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -44,63 +45,142 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 
 	const canjes = canje?.productos?.map((producto) => producto);
 
-	const ventaCredito = venta?.productos?.filter(
-		(producto) =>
-			producto.tipoPago === ETiposDePago.Credito && !producto.promoPush
-	);
+	const ventaCredito = [
+		venta?.productos?.filter((producto) => {
+			if (producto.tipoPago === ETiposDePago.Credito && !producto.promoPush) {
+				return producto;
+			}
+		}),
+		ventaenvase?.productos?.filter((producto) => {
+			if (producto.tipoPago === ETiposDePago.Credito) {
+				return producto;
+			}
+		}),
+	].flat();
 
 	const promocionesCredito = venta?.productos?.filter(
 		(producto) =>
 			producto.tipoPago === ETiposDePago.Credito && producto.promoPush
 	);
 
-	const ventaContado = venta?.productos?.filter(
-		(producto) =>
-			producto.tipoPago === ETiposDePago.Contado && !producto.promoPush
-	);
+	const ventaContado = [
+		venta?.productos?.filter((producto) => {
+			if (producto.tipoPago === ETiposDePago.Contado && !producto.promoPush) {
+				return producto;
+			}
+		}),
+		ventaenvase?.productos?.filter((producto) => {
+			if (producto.tipoPago === ETiposDePago.Contado) {
+				return producto;
+			}
+		}),
+	].flat();
 
 	const promocionesContado = venta?.productos?.filter(
 		(producto) =>
 			producto.tipoPago === ETiposDePago.Contado && producto.promoPush
 	);
 
-	const totalContado =
-		ventaContado?.reduce((total, actual) => (total += actual.total), 0) +
-		promocionesContado?.reduce((total, actual) => (total += actual.total), 0);
-
-	const totalCredito =
-		ventaCredito?.reduce((total, actual) => (total += actual.total), 0) +
-		promocionesCredito?.reduce((total, actual) => (total += actual.total), 0);
-
 	let totalDescuentos = 0;
+	let totalContado = 0;
+	let totalCredito = 0;
 
-	venta?.productos
-		?.map((producto) => {
-			if (
-				producto.preciosBase.unidad !== producto.preciosNeto.unidad &&
-				producto.preciosBase.subUnidad !== producto.preciosNeto.subUnidad
-			) {
-				const descuentoUnidad =
-					(producto.preciosBase.unidad - producto.preciosNeto.unidad) *
-					producto.unidades;
-				const descuentoSubUnidad =
-					(producto.preciosBase.subUnidad - producto.preciosNeto.subUnidad) *
-					producto.subUnidades;
-
-				totalDescuentos += descuentoUnidad + descuentoSubUnidad;
-
-				return descuentoUnidad + descuentoSubUnidad;
-			}
-		})
-		.filter((producto) => producto !== undefined);
-
-	venta?.productos?.map((producto) => {
-		if (producto.descuentoPromoPush) {
-			totalDescuentos += producto.descuentoPromoPush * producto.unidades;
-			return producto.descuentoPromoPush * producto.unidades;
+	ventaContado?.forEach((producto) => {
+		if (producto) {
+			totalContado += producto?.total;
 		}
 	});
+
+	promocionesContado?.forEach((promocion) => {
+		if (promocion) {
+			totalContado += promocion?.total;
+		}
+	});
+
+	ventaCredito?.forEach((producto) => {
+		if (producto) {
+			totalCredito += producto?.total;
+		}
+	});
+
+	promocionesCredito?.forEach((promocion) => {
+		if (promocion) {
+			totalCredito += promocion?.total;
+		}
+	});
+
+	venta?.productos?.forEach((producto) => {
+		if (
+			producto.preciosBase.unidad !== producto.preciosNeto.unidad &&
+			producto.preciosBase.subUnidad !== producto.preciosNeto.subUnidad
+		) {
+			const descuentoUnidad =
+				(producto.preciosBase.unidad - producto.preciosNeto.unidad) *
+				producto.unidades;
+			const descuentoSubUnidad =
+				(producto.preciosBase.subUnidad - producto.preciosNeto.subUnidad) *
+				producto.subUnidades;
+
+			totalDescuentos += descuentoUnidad + descuentoSubUnidad;
+		}
+	});
+
+	venta?.productos?.forEach((producto) => {
+		if (producto.descuentoPromoPush) {
+			totalDescuentos += producto.descuentoPromoPush * producto.unidades;
+		}
+	});
+
 	const {t} = useTranslation();
+
+	const {tipoPedidos} = useObtenerConfiguracion();
+	const obtenerConsolidacionImplicitos = useObtenerConsolidacionImplicitos();
+
+	let pedidosArray: TProductoPedido[] = [];
+	let esGeneraEnvases = false;
+	let puedeVerEnvases = false;
+
+	Object.values(visitaActual.pedidos).forEach((pedido) => {
+		tipoPedidos.forEach((tipoPedido) => {
+			if (tipoPedido.codigo === pedido.tipoPedido)
+				esGeneraEnvases = tipoPedido.generaEnvases;
+			if (tipoPedido.generaEnvases && pedido.productos.length) {
+				puedeVerEnvases = true;
+			}
+		});
+
+		if (esGeneraEnvases) pedidosArray = pedidosArray.concat(pedido.productos);
+	});
+
+	const consolidacionImplicitos: TConsolidadoImplicitos[] =
+		obtenerConsolidacionImplicitos(pedidosArray).sort((a, b) =>
+			a.tipoPago !== undefined && b.tipoPago !== undefined
+				? a.codigoImplicito - b.codigoImplicito || a.tipoPago - b.tipoPago
+				: a.codigoImplicito - b.codigoImplicito
+		);
+
+	const envasesRetorno = consolidacionImplicitos?.map((envase) => {
+		const existeEnvaseVenta = ventaenvase?.productos?.find(
+			(producto) => envase.codigoImplicito === producto.codigoProducto
+		);
+		const existeEnvasePrestamo = prestamoenvase?.productos?.find(
+			(producto) => envase.codigoImplicito === producto.codigoProducto
+		);
+
+		let cantidadDeRetorno = envase;
+
+		if (existeEnvaseVenta) {
+			cantidadDeRetorno.unidades -= existeEnvaseVenta.unidades;
+			cantidadDeRetorno.subUnidades -= existeEnvaseVenta.subUnidades;
+		}
+
+		if (existeEnvasePrestamo) {
+			cantidadDeRetorno.unidades -= existeEnvasePrestamo.unidades;
+			cantidadDeRetorno.subUnidades -= existeEnvasePrestamo.subUnidades;
+		}
+
+		return cantidadDeRetorno;
+	});
 
 	return (
 		<>
@@ -153,6 +233,8 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 										{t('general.credito')}
 									</Resumen.Titulo>
 									{ventaCredito.map((producto, index) => {
+										if (!producto) return null;
+
 										return (
 											<Box key={producto.codigoProducto}>
 												<Resumen.Tarjeta producto={producto} />
@@ -182,6 +264,8 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 										{t('general.contado')}
 									</Resumen.Titulo>
 									{ventaContado.map((producto, index) => {
+										if (!producto) return null;
+
 										return (
 											<Box key={producto.codigoProducto}>
 												<Resumen.Tarjeta producto={producto} />
@@ -205,38 +289,37 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 								</Resumen.Container>
 							)}
 
-							{ventaenvase?.productos?.length > 0 ||
-								(prestamoenvase?.productos?.length > 0 && (
-									<Resumen.Container>
-										<Resumen.Titulo background={theme.palette.secondary.main}>
-											{t('general.envases')}
-										</Resumen.Titulo>
-										{ventaenvase?.productos?.map((envase, index) => {
-											return (
-												<Box key={`${envase.codigoProducto} ${index}`}>
-													<Resumen.Envases
-														producto={{...envase, tipo: 'venta'}}
-													/>
-													{index !== ventaenvase?.productos?.length - 1 && (
-														<Divider />
-													)}
-												</Box>
-											);
-										})}
-										{prestamoenvase?.productos?.map((envase, index) => {
-											return (
-												<Box key={`${envase.codigoProducto} ${index}`}>
-													<Resumen.Envases
-														producto={{...envase, tipo: 'prestamo'}}
-													/>
-													{index !== prestamoenvase?.productos?.length - 1 && (
-														<Divider />
-													)}
-												</Box>
-											);
-										})}
-									</Resumen.Container>
-								))}
+							{(prestamoenvase?.productos?.length > 0 ||
+								envasesRetorno?.length > 0) && (
+								<Resumen.Container>
+									<Resumen.Titulo background={theme.palette.secondary.main}>
+										{t('general.envases')}
+									</Resumen.Titulo>
+									{prestamoenvase?.productos?.map((envase, index) => {
+										return (
+											<Box key={`${envase.codigoProducto}${index}`}>
+												<Resumen.Envases
+													producto={{...envase, tipo: 'prestamo'}}
+													key={`${envase.codigoProducto}${index}`}
+												/>
+												{index !== prestamoenvase?.productos?.length - 1 && (
+													<Divider />
+												)}
+											</Box>
+										);
+									})}
+									{prestamoenvase?.productos?.length > 0 &&
+										envasesRetorno?.length > 0 && <Divider />}
+									{envasesRetorno?.map((envase, index) => {
+										return (
+											<Box key={`${envase.codigoImplicito} ${index}`}>
+												<Resumen.Envases retorno={envase} />
+												{index !== envasesRetorno?.length - 1 && <Divider />}
+											</Box>
+										);
+									})}
+								</Resumen.Container>
+							)}
 
 							{canjes.length > 0 && (
 								<Resumen.Container>

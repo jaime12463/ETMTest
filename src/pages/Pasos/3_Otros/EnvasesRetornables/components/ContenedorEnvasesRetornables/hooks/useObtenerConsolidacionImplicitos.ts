@@ -30,7 +30,7 @@ export const useObtenerConsolidacionImplicitos = () => {
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(
 		clienteActual.codigoCliente
 	);
-	const fechaEntrega: string = pedidoActual.fechaEntrega;
+	const fechaEntrega: string = pedidoActual?.fechaEntrega;
 
 	const obtenerPreciosProductosDelCliente =
 		useObtenerPreciosProductosDelCliente();

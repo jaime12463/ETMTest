@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {TProductoPedido} from 'models';
+import {TConsolidadoImplicitos, TProductoPedido} from 'models';
 import {BotellaIcon, CajaIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 
@@ -10,19 +10,11 @@ export interface ProductoEnvases extends TProductoPedido {
 }
 
 export interface EnvasesProps {
-	producto: ProductoEnvases;
+	producto?: ProductoEnvases;
+	retorno?: TConsolidadoImplicitos;
 }
 
-export const Envases: React.FC<EnvasesProps> = ({producto}) => {
-	const {
-		codigoProducto,
-		nombreProducto,
-		unidades,
-		subUnidades,
-		esVentaSubunidades,
-		tipo,
-	} = producto;
-
+export const Envases: React.FC<EnvasesProps> = ({producto, retorno}) => {
 	const {t} = useTranslation();
 
 	return (
@@ -33,23 +25,50 @@ export const Envases: React.FC<EnvasesProps> = ({producto}) => {
 				flex='2'
 				padding='8px 8px 8px 14px'
 			>
-				<Typography variant='subtitle3' fontFamily='Open Sans'>
-					{codigoProducto}
-				</Typography>
-				<Typography variant='subtitle3'>{nombreProducto}</Typography>
+				{producto ? (
+					<Typography variant='subtitle3' fontFamily='Open Sans'>
+						{producto?.codigoProducto}
+					</Typography>
+				) : (
+					<Typography variant='subtitle3' fontFamily='Open Sans'>
+						{retorno?.codigoImplicito}
+					</Typography>
+				)}
+				{producto ? (
+					<Typography variant='subtitle3'>
+						{producto?.nombreProducto}
+					</Typography>
+				) : (
+					<Typography variant='subtitle3'>
+						{retorno?.nombreImplicito}
+					</Typography>
+				)}
 				<Box alignItems='center' display='flex' gap='8px'>
 					<Box alignItems='center' display='flex' gap='4px' marginTop='8px'>
 						<CajaIcon height='14px' width='14px' />
-						<Typography variant='subtitle3' fontFamily='Open Sans'>
-							{unidades}
-						</Typography>
+						{producto ? (
+							<Typography variant='subtitle3' fontFamily='Open Sans'>
+								{producto?.unidades}
+							</Typography>
+						) : (
+							<Typography variant='subtitle3' fontFamily='Open Sans'>
+								{retorno?.unidades}
+							</Typography>
+						)}
 					</Box>
-					{esVentaSubunidades && (
+					{(producto?.esVentaSubunidades ||
+						(retorno && retorno.subUnidades > 0)) && (
 						<Box alignItems='center' display='flex' gap='4px' marginTop='8px'>
 							<BotellaIcon height='12px' width='12px' />
-							<Typography variant='subtitle3' fontFamily='Open Sans'>
-								{subUnidades}
-							</Typography>
+							{producto ? (
+								<Typography variant='subtitle3' fontFamily='Open Sans'>
+									{producto?.subUnidades}
+								</Typography>
+							) : (
+								<Typography variant='subtitle3' fontFamily='Open Sans'>
+									{retorno?.subUnidades}
+								</Typography>
+							)}
 						</Box>
 					)}
 				</Box>
@@ -66,7 +85,8 @@ export const Envases: React.FC<EnvasesProps> = ({producto}) => {
 						{t('general.tipo')}
 					</Typography>
 					<Typography variant='subtitle3'>
-						{tipo === 'prestamo' ? 'Prestamo' : 'Venta'}
+						{producto?.tipo === 'prestamo' && t('general.prestamo')}
+						{retorno && t('general.retorno')}
 					</Typography>
 				</Box>
 			</Box>
