@@ -44,14 +44,6 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 
 	const canjes = canje?.productos?.map((producto) => producto);
 
-	// const envases: ProductoEnvases[] = [
-	// 	...prestamoenvase.productos.map((producto) => ({
-	// 		...producto,
-	// 		tipo: 'prestamo',
-	// 	})),
-	// 	...ventaenvase.productos.map((producto) => ({...producto, tipo: 'venta'})),
-	// ];
-
 	const ventaCredito = venta?.productos?.filter(
 		(producto) =>
 			producto.tipoPago === ETiposDePago.Credito && !producto.promoPush
@@ -80,6 +72,34 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 		ventaCredito?.reduce((total, actual) => (total += actual.total), 0) +
 		promocionesCredito?.reduce((total, actual) => (total += actual.total), 0);
 
+	let totalDescuentos = 0;
+
+	venta?.productos
+		?.map((producto) => {
+			if (
+				producto.preciosBase.unidad !== producto.preciosNeto.unidad &&
+				producto.preciosBase.subUnidad !== producto.preciosNeto.subUnidad
+			) {
+				const descuentoUnidad =
+					(producto.preciosBase.unidad - producto.preciosNeto.unidad) *
+					producto.unidades;
+				const descuentoSubUnidad =
+					(producto.preciosBase.subUnidad - producto.preciosNeto.subUnidad) *
+					producto.subUnidades;
+
+				totalDescuentos += descuentoUnidad + descuentoSubUnidad;
+
+				return descuentoUnidad + descuentoSubUnidad;
+			}
+		})
+		.filter((producto) => producto !== undefined);
+
+	venta?.productos?.map((producto) => {
+		if (producto.descuentoPromoPush) {
+			totalDescuentos += producto.descuentoPromoPush * producto.unidades;
+			return producto.descuentoPromoPush * producto.unidades;
+		}
+	});
 	const {t} = useTranslation();
 
 	return (
@@ -303,7 +323,7 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 									Total de ahorro:
 								</Typography>
 								<Typography variant='subtitle3' color='#000'>
-									{formatearNumero(0, t)}
+									{formatearNumero(totalDescuentos, t)}
 								</Typography>
 							</Box>
 							<Box
