@@ -4,7 +4,10 @@ import {
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {useCallback, useEffect} from 'react';
-import {borrarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
+import {
+	borrarProductoDelPedidoActual,
+	restablecerBonificaciones,
+} from 'redux/features/visitaActual/visitaActualSlice';
 import {Dialogo} from 'components/UI';
 
 import {
@@ -66,6 +69,9 @@ export const useBorrarTodoLosProductos = (
 				productosMandatoriosVisitaActual.noMandatorios
 			)
 		) {
+			if (configuracion.bonificacionesConVenta) {
+				dispatch(restablecerBonificaciones());
+			}
 			for (const producto of productos) {
 				dispatch(
 					borrarProductoDelPedidoActual({
