@@ -19,6 +19,7 @@ import {
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {TDetalleBonificacionesCliente, TPrecioProducto} from 'models';
 import Modal from 'components/UI/Modal';
+import {useMostrarAviso} from 'hooks';
 
 interface Props {
 	contador: number;
@@ -54,7 +55,7 @@ const Controles: React.FC<Props> = ({
 	const classes = useEstilos({errorAplicacionTotal});
 	const visitaActual = useObtenerVisitaActual();
 	const [alerta, setAlerta] = React.useState<boolean>(false);
-
+	const mostrarAviso = useMostrarAviso();
 	const {focusId, setFocusId} = statefocusId;
 
 	const bonificacionEjecutada = visitaActual.bonificaciones.find(
@@ -157,12 +158,20 @@ const Controles: React.FC<Props> = ({
 
 	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
 		if (estadoInicial - cantidad < 0) {
-			setCantidad(productoBonificacion?.cantidad ?? 0);
+			mostrarAviso(
+				'error',
+				'La cantidad es mayor a la aplicacion maxima permitida'
+			), //ToDo validar mensaje con funcional
+				setCantidad(productoBonificacion?.cantidad ?? 0);
 			return;
 		}
 
 		if (contador - cantidad < 0) {
-			setCantidad(productoBonificacion?.cantidad ?? 0);
+			mostrarAviso(
+				'error',
+				'La cantidad es mayor a la aplicacion maxima permitida'
+			), //ToDo validar mensaje con funcional
+				setCantidad(productoBonificacion?.cantidad ?? 0);
 			return;
 		}
 
