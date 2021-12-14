@@ -58,7 +58,8 @@ export const visitaActualSlice = createSlice({
 					precioProducto.codigoProducto ===
 					action.payload.productoPedido.codigoProducto
 			);
-
+			state.pedidos.ventaenvase.productos = [];
+			state.pedidos.prestamoenvase.productos = [];
 			if (producto) {
 				producto.unidades = action.payload.productoPedido.unidades;
 				producto.subUnidades = action.payload.productoPedido.subUnidades;
@@ -121,6 +122,10 @@ export const visitaActualSlice = createSlice({
 			state.pedidos[pedidoActual].productos = [
 				...productosPedidoClienteFiltrados,
 			];
+		},
+		borrarEnvases: (state) => {
+			state.pedidos.ventaenvase.productos = [];
+			state.pedidos.prestamoenvase.productos = [];
 		},
 
 		borrarProductosDeVisitaActual: (
@@ -473,5 +478,6 @@ export const {
 	eliminarBonificacion,
 	eliminarBonificacionesGrupo,
 	restablecerBonificaciones,
+	borrarEnvases,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

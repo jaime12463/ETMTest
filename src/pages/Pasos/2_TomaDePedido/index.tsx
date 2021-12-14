@@ -10,6 +10,7 @@ import {
 
 import TomaPedido from './TomaPedidos';
 import PromoPush from './PromoPush';
+import {useTranslation} from 'react-i18next';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<boolean | string>(false);
@@ -26,6 +27,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 		React.useState<boolean>(false);
 
 	const dispatch = useAppDispatch();
+	const {t} = useTranslation();
 
 	React.useEffect(() => {
 		if (visitaActual.seQuedaAEditar.seQueda) {
@@ -71,10 +73,10 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 		<Stack spacing={2}>
 			<TarjetaColapsable
 				id='Toma de pedido'
-				titulo={<Typography variant={'subtitle1'}>Toma de pedido</Typography>}
+				titulo={<Typography variant={'subtitle1'}>{t('titulos.tomaDePedido')}</Typography>}
 				subTitulo={
 					<Typography variant={'body3'}>
-						Modifica tu pedido con las mejores opciones para tu cliente.
+						{t('titulos.tarjetaTomaDePedido')}
 					</Typography>
 				}
 				expandido={expandido}
@@ -89,10 +91,10 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 
 			<TarjetaColapsable
 				id='Promociones'
-				titulo={<Typography variant={'subtitle1'}>Promociones</Typography>}
+				titulo={<Typography variant={'subtitle1'}>{t('titulos.promociones')}</Typography>}
 				subTitulo={
 					<Typography variant={'body3'}>
-						Selecciona las promociones que tienes disponible para tus clientes.
+						{t('titulos.tarjetaPromociones')}
 					</Typography>
 				}
 				expandido={expandido}

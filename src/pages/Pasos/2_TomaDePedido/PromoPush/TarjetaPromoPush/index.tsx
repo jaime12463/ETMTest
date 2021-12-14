@@ -25,6 +25,7 @@ import {
 	FlechaAbajoIcon,
 	CajaIcon,
 	CheckRedondoIcon,
+	BotellaIcon,
 } from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import {useObtenerVisitaActual} from 'redux/hooks';
@@ -452,19 +453,30 @@ const TarjetaPromoPush = (props: any) => {
 														textAlign='center'
 														justifyContent='end'
 													>
-														<CajaIcon
-															fill={'#2F000E'}
-															width={'19px'}
-															height='14px'
-														/>
-														<Typography
-															variant='caption'
-															fontFamily='Open Sans'
-															mt={0.3}
-														>
-															{`x${promoPush.componentes[i].cantidad}
-																	${formatearNumero(el.precioBase, t)}`}
-														</Typography>
+														<Box mr={'2px'}>
+															{promoPush.componentes[i].unidadMedida ===
+															'CAJ' ? (
+																<CajaIcon height='18px' width='18px' />
+															) : (
+																<BotellaIcon height='15px' width='15px' />
+															)}
+														</Box>
+														<Box>
+															<Typography
+																variant='caption'
+																mt={0.3}
+																color={'#651C32'}
+															>
+																{` x${promoPush.componentes[i].cantidad} `}
+															</Typography>
+															<Typography
+																color={'#000000'}
+																variant='caption'
+																mt={0.3}
+															>
+																{`${formatearNumero(el.precioBase, t)}`}
+															</Typography>
+														</Box>
 													</Box>
 													<Box>
 														<Typography
