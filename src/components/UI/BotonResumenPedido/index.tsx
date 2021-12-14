@@ -1,25 +1,59 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import theme from 'theme';
+import useEstilos from './useEstilos';
+import {
+	useObtenerCompromisoDeCobroActual,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
+import {useObtenerBonificacionesHabilitadas} from 'hooks';
 
 interface Props {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const BotonResumenPedido: React.FC<Props> = ({setOpen}) => {
+	const [botonHabilitado, setBotonHabilitado] = React.useState<boolean>(false);
+	const visitaActual = useObtenerVisitaActual();
+	const compromisoDeCobro = useObtenerCompromisoDeCobroActual();
+	const {venta, prestamoenvase, ventaenvase, canje} = visitaActual.pedidos;
+	const bonificacionesEjecutadas = visitaActual.bonificaciones.filter(
+		(bonificacion) => {
+			if (bonificacion.detalle.length > 0) {
+				return bonificacion;
+			}
+		}
+	);
+
+	const ordenDeCompra = visitaActual.ordenDeCompra === '' ? false : true;
+
+	const classes = useEstilos({botonHabilitado});
+
+	React.useEffect(() => {
+		if (
+			venta?.productos?.length > 0 ||
+			prestamoenvase?.productos?.length > 0 ||
+			ventaenvase?.productos?.length > 0 ||
+			canje?.productos?.length > 0 ||
+			bonificacionesEjecutadas?.length > 0 ||
+			ordenDeCompra ||
+			compromisoDeCobro.monto > 0
+		) {
+			return setBotonHabilitado(true);
+		}
+
+		setBotonHabilitado(false);
+	}, [
+		venta?.productos,
+		prestamoenvase?.productos,
+		ventaenvase?.productos,
+		canje?.productos,
+		bonificacionesEjecutadas,
+	]);
+
 	return (
 		<Box
-			alignItems='center'
-			borderRadius='50px'
-			display='flex'
-			justifyContent='center'
-			marginBottom='12px'
-			padding='4px 0'
-			sx={{
-				background: theme.palette.secondary.main,
-				cursor: 'pointer',
-			}}
+			className={classes.container}
 			onClick={() => setOpen((prevState) => !prevState)}
 		>
 			<Typography variant='caption' fontFamily='Open Sans' color='#fff'>

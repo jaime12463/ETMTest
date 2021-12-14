@@ -42,34 +42,32 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 		.map((bonificacion) => bonificacion.detalle)
 		.flat().length;
 
-	const canjes = [...canje.productos];
+	const canjes = canje?.productos?.map((producto) => producto);
 
-	const envases: ProductoEnvases[] = [
-		...prestamoenvase.productos.map((producto) => ({
-			...producto,
-			tipo: 'prestamo',
-		})),
-		...ventaenvase.productos.map((producto) => ({...producto, tipo: 'venta'})),
-	];
+	// const envases: ProductoEnvases[] = [
+	// 	...prestamoenvase.productos.map((producto) => ({
+	// 		...producto,
+	// 		tipo: 'prestamo',
+	// 	})),
+	// 	...ventaenvase.productos.map((producto) => ({...producto, tipo: 'venta'})),
+	// ];
 
-	console.log(ventaenvase.productos);
-
-	const ventaCredito = venta.productos?.filter(
+	const ventaCredito = venta?.productos?.filter(
 		(producto) =>
 			producto.tipoPago === ETiposDePago.Credito && !producto.promoPush
 	);
 
-	const promocionesCredito = venta.productos?.filter(
+	const promocionesCredito = venta?.productos?.filter(
 		(producto) =>
 			producto.tipoPago === ETiposDePago.Credito && producto.promoPush
 	);
 
-	const ventaContado = venta.productos?.filter(
+	const ventaContado = venta?.productos?.filter(
 		(producto) =>
 			producto.tipoPago === ETiposDePago.Contado && !producto.promoPush
 	);
 
-	const promocionesContado = venta.productos?.filter(
+	const promocionesContado = venta?.productos?.filter(
 		(producto) =>
 			producto.tipoPago === ETiposDePago.Contado && producto.promoPush
 	);
@@ -187,21 +185,38 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 								</Resumen.Container>
 							)}
 
-							{envases.length > 0 && (
-								<Resumen.Container>
-									<Resumen.Titulo background={theme.palette.secondary.main}>
-										{t('general.envases')}
-									</Resumen.Titulo>
-									{envases.map((envase, index) => {
-										return (
-											<Box key={`${envase.codigoProducto} ${index}`}>
-												<Resumen.Envases producto={envase} />
-												{index !== envases.length - 1 && <Divider />}
-											</Box>
-										);
-									})}
-								</Resumen.Container>
-							)}
+							{ventaenvase?.productos?.length > 0 ||
+								(prestamoenvase?.productos?.length > 0 && (
+									<Resumen.Container>
+										<Resumen.Titulo background={theme.palette.secondary.main}>
+											{t('general.envases')}
+										</Resumen.Titulo>
+										{ventaenvase?.productos?.map((envase, index) => {
+											return (
+												<Box key={`${envase.codigoProducto} ${index}`}>
+													<Resumen.Envases
+														producto={{...envase, tipo: 'venta'}}
+													/>
+													{index !== ventaenvase?.productos?.length - 1 && (
+														<Divider />
+													)}
+												</Box>
+											);
+										})}
+										{prestamoenvase?.productos?.map((envase, index) => {
+											return (
+												<Box key={`${envase.codigoProducto} ${index}`}>
+													<Resumen.Envases
+														producto={{...envase, tipo: 'prestamo'}}
+													/>
+													{index !== prestamoenvase?.productos?.length - 1 && (
+														<Divider />
+													)}
+												</Box>
+											);
+										})}
+									</Resumen.Container>
+								))}
 
 							{canjes.length > 0 && (
 								<Resumen.Container>
