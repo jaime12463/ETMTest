@@ -200,7 +200,6 @@ export const Otros: React.FC = () => {
 				labelChip={`${cantidadBonificaciones.length} Items`}
 				disabled={
 					bonificacionesHabilitadas.length === 0 ||
-					(saldoPresupuestoTipoPedido && saldoPresupuestoTipoPedido < 1) ||
 					productosMandatoriosVisitaActual.mandatorios.length < 1
 				}
 				mensaje={
