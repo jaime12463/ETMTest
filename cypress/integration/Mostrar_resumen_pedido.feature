@@ -84,4 +84,4 @@ Escenario: N°9 - Sección bonificaciones
     Dado que estoy en un cliente 
     Y se registró bonificaciones
     Cuando selecciono ver resumen del pedido
-    Entonces el sistema mostrará dentro de la sección bonificaciones el _idBonificacion, _nombreBonificacion, _nombre del producto, la cantidad ingresada y la _unidadMedida
+    Entonces el sistema mostrará dentro de la sección bonificaciones el _nombre de los productos, las cantidades ingresadas y las _unidadMedida de cada producto
