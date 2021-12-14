@@ -12,9 +12,7 @@ import {useObtenerDatosCliente} from 'hooks';
 import {TCliente} from 'models';
 import {useObtenerMontoTotalDocumentos} from 'pages/Pasos/3_Otros/CompromisoDeCobro/hooks';
 
-export interface CompromisoDeCobroProps {}
-
-export const CompromisoDeCobro: React.FC<CompromisoDeCobroProps> = () => {
+export const CompromisoDeCobro: React.FC = () => {
 	const {t} = useTranslation();
 	const totalDocumentos = useObtenerMontoTotalDocumentos();
 	const clienteActual = useObtenerClienteActual();
@@ -42,13 +40,13 @@ export const CompromisoDeCobro: React.FC<CompromisoDeCobroProps> = () => {
 					padding='8px 8px 8px 14px'
 				>
 					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-						Limite de crédito
+						{t('general.limiteDeCredito')}
 					</Typography>
 					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-						Disponible
+						{t('general.disponible')}
 					</Typography>
 					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-						Fecha de alta
+						{t('general.fechaDeAlta')}
 					</Typography>
 				</Box>
 				<Box
@@ -82,7 +80,7 @@ export const CompromisoDeCobro: React.FC<CompromisoDeCobroProps> = () => {
 				padding='8px 12px'
 			>
 				<Typography variant='subtitle3' color='#000'>
-					Compromiso de cobro:
+					{t('general.compromisoCobro')}
 				</Typography>
 				<Typography variant='subtitle3' color='#000'>
 					{formatearNumero(compromisoDeCobro.monto, t)}
