@@ -34,24 +34,6 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 								flexDirection='column'
 								padding='8px 8px 8px 14px'
 							>
-								<Typography variant='subtitle3' fontFamily='Open Sans'>
-									{bonificacion.id}
-								</Typography>
-								<Typography variant='subtitle3'>
-									{bonificacion.nombre}
-								</Typography>
-								<Typography
-									fontSize='12px'
-									lineHeight='14px'
-									fontFamily='Open Sans'
-									fontWeight='700'
-									color='#000'
-									letterSpacing='-0.4px'
-									marginBottom='12px'
-									marginTop='8px'
-								>
-									Paquetes:
-								</Typography>
 								{bonificacion.detalle.map((detalle, index) => {
 									const producto = useObtenerProductoPorCodigo(
 										detalle.codigoProducto

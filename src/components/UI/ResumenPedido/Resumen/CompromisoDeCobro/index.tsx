@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import {formatearNumero} from 'utils/methods';
+import {formatearFecha, formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
 import {
 	useObtenerClienteActual,
@@ -26,6 +26,11 @@ export const CompromisoDeCobro: React.FC<CompromisoDeCobroProps> = () => {
 	const limiteDeCredito: number | undefined =
 		datosCliente?.informacionCrediticia.limite;
 
+	const fechaDeHoy = new Date();
+	const fechaFormateada = `${fechaDeHoy.getFullYear()}-${
+		fechaDeHoy.getMonth() + 1
+	}-${fechaDeHoy.getDate()}`;
+
 	return (
 		<Box>
 			<Box display='flex'>
@@ -41,6 +46,9 @@ export const CompromisoDeCobro: React.FC<CompromisoDeCobroProps> = () => {
 					</Typography>
 					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
 						Disponible
+					</Typography>
+					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
+						Fecha de alta
 					</Typography>
 				</Box>
 				<Box
@@ -59,6 +67,9 @@ export const CompromisoDeCobro: React.FC<CompromisoDeCobroProps> = () => {
 							limiteDeCredito ? limiteDeCredito - totalDocumentos : 0,
 							t
 						)}
+					</Typography>
+					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
+						{formatearFecha(fechaFormateada, t)}
 					</Typography>
 				</Box>
 			</Box>
