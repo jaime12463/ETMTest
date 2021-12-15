@@ -311,6 +311,10 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 									{prestamoenvase?.productos?.length > 0 &&
 										envasesRetorno?.length > 0 && <Divider />}
 									{envasesRetorno?.map((envase, index) => {
+										if (envase.unidades === 0) {
+											return;
+										}
+
 										return (
 											<Box key={`${envase.codigoImplicito} ${index}`}>
 												<Resumen.Envases retorno={envase} />
