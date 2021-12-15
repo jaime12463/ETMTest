@@ -25,6 +25,7 @@ const Informacion: React.FC<Props> = ({producto, conSwitch}) => {
 		subUnidades,
 		precioConDescuentoUnidad,
 		precioConDescuentoSubunidad,
+		esVentaSubunidades,
 	} = producto;
 
 	const {unidad, subUnidad} = preciosNeto;
@@ -65,24 +66,26 @@ const Informacion: React.FC<Props> = ({producto, conSwitch}) => {
 						{formatearNumero(precioConImpuestoUnidad, t)}
 					</Typography>
 				</Box>
-				<Box display='flex' alignItems='center' gap='4px'>
-					<BotellaIcon height='14px' width='14px' />
-					<Typography
-						variant='subtitle3'
-						fontFamily='Open Sans'
-						sx={
-							unidades > 0
-								? subUnidad !== precioConImpuestoSubunidad
+				{esVentaSubunidades && (
+					<Box display='flex' alignItems='center' gap='4px'>
+						<BotellaIcon height='14px' width='14px' />
+						<Typography
+							variant='subtitle3'
+							fontFamily='Open Sans'
+							sx={
+								unidades > 0
+									? subUnidad !== precioConImpuestoSubunidad
+										? {textDecoration: 'line-through'}
+										: null
+									: precioConDescuentoSubunidad
 									? {textDecoration: 'line-through'}
 									: null
-								: precioConDescuentoSubunidad
-								? {textDecoration: 'line-through'}
-								: null
-						}
-					>
-						{formatearNumero(precioConImpuestoSubunidad, t)}
-					</Typography>
-				</Box>
+							}
+						>
+							{formatearNumero(precioConImpuestoSubunidad, t)}
+						</Typography>
+					</Box>
+				)}
 			</Box>
 		</Box>
 	);
