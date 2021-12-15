@@ -109,13 +109,13 @@ const br = {
 		tarjetaBonificaciones: 'Adicione os bônus para este cliente.',
 		bonificacionesDeshabilitadas: 'Não há bônus para este cliente no momento.',
 		canjesDeshabilitadas:
-		'Sem feno disponível de canje para este cliente neste momento',	
-		tomaDePedido: 'Tomada de pedidos',	
+			'Sem feno disponível de canje para este cliente neste momento',
+		tomaDePedido: 'Tomada de pedidos',
 		tarjetaTomaDePedido:
 			'Modifique seu pedido com as melhores opções para seu cliente.',
-		promociones: 'Toma de pedido',	
+		promociones: 'Promoções',
 		tarjetaPromociones:
-			'Selecione as promoções que você tem disponíveis para seus clientes.',			
+			'Selecione as promoções que você tem disponíveis para seus clientes.',
 	},
 	advertencias: {
 		clienteNoExiste: 'O código digitado não corresponde a um cliente',

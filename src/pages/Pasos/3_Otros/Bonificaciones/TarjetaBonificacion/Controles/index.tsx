@@ -140,16 +140,46 @@ const Controles: React.FC<Props> = ({
 		}
 	}, [resetBonificaciones]);
 
-	/* const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+	const [cantidadBorrado, setCantidadBorrado] = React.useState<number | null>(
+		null
+	);
+	const [cantidadBackspace, setCantidadBackspace] = React.useState<number>(0);
+
+	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Backspace') {
+			setCantidadBackspace((prevBackspace) => prevBackspace + 1);
+			setCantidadBorrado((prevCantidad) => {
+				if (prevCantidad === null) {
+					return cantidad % 10;
+				}
+
+				return cantidad * (cantidadBackspace * 10) + prevCantidad;
+			});
+			return;
+		}
+
+		if (e.key !== 'Enter' && e.key !== 'Backspace') {
+			incrementar(cantidadBorrado ?? 0);
+			setCantidadBackspace(0);
+		}
+
 		if (e.key === 'Enter') {
 			if (contador - cantidad < 0) {
-				setCantidad(productoBonificacion?.cantidad ?? 0);
+				mostrarAviso(
+					'error',
+					'La cantidad es mayor a la aplicacion maxima permitida'
+				), //ToDo validar mensaje con funcional
+					setCantidad(productoBonificacion?.cantidad ?? 0);
 
 				return;
 			}
 
 			if (estadoInicial - cantidad < 0) {
-				setCantidad(productoBonificacion?.cantidad ?? 0);
+				mostrarAviso(
+					'error',
+					'La cantidad es mayor a la aplicacion maxima permitida'
+				), //ToDo validar mensaje con funcional
+					setCantidad(productoBonificacion?.cantidad ?? 0);
 
 				return;
 			}
@@ -157,19 +187,9 @@ const Controles: React.FC<Props> = ({
 			setPuedeAgregar(true);
 		}
 	};
- */
 
 	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
 		if (estadoInicial - cantidad < 0) {
-			mostrarAviso(
-				'error',
-				'La cantidad es mayor a la aplicacion maxima permitida'
-			), //ToDo validar mensaje con funcional
-				setCantidad(productoBonificacion?.cantidad ?? 0);
-			return;
-		}
-
-		if (contador - cantidad < 0) {
 			mostrarAviso(
 				'error',
 				'La cantidad es mayor a la aplicacion maxima permitida'
@@ -269,6 +289,7 @@ const Controles: React.FC<Props> = ({
 						name='unidades'
 						id='unidades_producto'
 						onBlur={handleBlur}
+						onKeyDown={handleKeyPress}
 						onFocus={(e) => {
 							e.target.select();
 						}}

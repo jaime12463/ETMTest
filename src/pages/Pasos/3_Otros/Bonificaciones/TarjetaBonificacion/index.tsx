@@ -3,9 +3,6 @@ import Box from '@mui/material/Box';
 import Controles from './Controles';
 import Informacion from './Informacion';
 import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
-import {useObtenerVisitaActual} from 'redux/hooks';
-import Modal from 'components/UI/Modal';
-import {AvisoIcon} from 'assests/iconos';
 
 interface Props {
 	codigoProducto: number;
