@@ -4,17 +4,36 @@ export type TDatosClientesProductos = {
 	productos: TProductos;
 	presupuestoTipoPedido: TpresupuestoTipoPedido[];
 	iniciativas: TIniciativas[];
+	bonificaciones: TBonificaciones[];
 };
 
 export type TIniciativas = {
-	codigoIniciativa: number;
-	nombreActividad: string;
-	planActividad: string;
-	descripcion: string;
-	vencimiento: string;
-	codigoProducto: number;
-	unidades: number;
-	subUnidades: number;
+	idActividadIniciativa: number;
+	nombreIniciativa: string;
+	nombreActividadPlan: string;
+	descripcionIniciativa: string;
+	finVigenciaIniciativa: string;
+	idMaterialIniciativa: number;
+	unidadVentaIniciativa: number;
+	subunidadVentaIniciativa: number;
+	archivoAdjunto?: string;
+};
+
+export type TBonificaciones = {
+	idBonificacion: number;
+	nombreBonificacion: string;
+	vigenciaInicioBonificacion: string;
+	vigenciaFinBonificacion: string;
+	aplicacionBonificacion: string;
+	gruposBonificacion: TGruposBonificacion[];
+};
+
+export type TGruposBonificacion = {
+	idGrupo: number;
+	nombreGrupo: string;
+	cantidadBeneficioGrupo: number;
+	unidadMedida: string;
+	productosBeneficioGrupo: number[];
 };
 
 export type TClientes = {
@@ -35,6 +54,7 @@ export type TCliente = {
 	coberturas: TCoberturas[];
 	configuracionPedido: TConfiguracionPedido;
 	portafolio: TPortafolio[];
+	bonificacionesHabilitadas?: TBonificacionesHabilitadas[];
 };
 
 export type TProducto = {
@@ -80,8 +100,13 @@ export type TCoberturas = {
 };
 
 export type TIniciativasHabilitadas = {
-	codigoIniciativa: number;
-	secuencia: number;
+	idActividadIniciativa: number;
+	secuenciaCliente: number;
+};
+
+export type TBonificacionesHabilitadas = {
+	idBonificacion: number;
+	bonificacionesDisponibles: number;
 };
 
 export type TInformacionCrediticia = {
@@ -150,6 +175,8 @@ export type TPrecio = {
 	vigenciaFinPrecio: string;
 	descuento: number;
 	componentes: TComponente[];
+	precioConDescuentoUnidad?: number;
+	precioConDescuentoSubunidad?: number;
 };
 
 export type TComponente = {
@@ -183,6 +210,7 @@ export type TDatosConfiguracion = {
 export type TConfiguracion = {
 	esFrecuenciaAbierta: boolean;
 	habilitaOrdenDeCompra: boolean;
+	bonificacionesConVenta: boolean;
 	tipoPedidoEnvasesHabilitados: string[];
 	tipoPedidos: TTipoPedido[];
 	motivosCancelacionIniciativas: TMotivosCancelacionIniciativas[];

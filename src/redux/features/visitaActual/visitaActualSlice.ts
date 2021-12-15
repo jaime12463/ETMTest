@@ -4,8 +4,9 @@ import {
 	TVisita,
 	TProductoPedido,
 	TPresupuestoTipoPedidoTotal,
+	TDetalleBonificacionesCliente,
 } from 'models';
-import {stringify} from 'querystring';
+
 import {RootState} from 'redux/store';
 
 const estadoInicial: TVisita = {
@@ -20,6 +21,7 @@ const estadoInicial: TVisita = {
 	coberturasEjecutadas: [],
 	pasoATomaPedido: false,
 	fechaVisitaPlanificada: '',
+	bonificaciones: [],
 	seQuedaAEditar: {
 		seQueda: false,
 		bordeError: false,
@@ -56,7 +58,8 @@ export const visitaActualSlice = createSlice({
 					precioProducto.codigoProducto ===
 					action.payload.productoPedido.codigoProducto
 			);
-
+			state.pedidos.ventaenvase.productos = [];
+			state.pedidos.prestamoenvase.productos = [];
 			if (producto) {
 				producto.unidades = action.payload.productoPedido.unidades;
 				producto.subUnidades = action.payload.productoPedido.subUnidades;
@@ -120,6 +123,10 @@ export const visitaActualSlice = createSlice({
 				...productosPedidoClienteFiltrados,
 			];
 		},
+		borrarEnvases: (state) => {
+			state.pedidos.ventaenvase.productos = [];
+			state.pedidos.prestamoenvase.productos = [];
+		},
 
 		borrarProductosDeVisitaActual: (
 			state,
@@ -143,6 +150,7 @@ export const visitaActualSlice = createSlice({
 				ordenDeCompra,
 				iniciativas,
 				fechaVisitaPlanificada,
+				bonificaciones,
 			} = action.payload.visitaActual;
 
 			state.pedidos = pedidos;
@@ -154,6 +162,7 @@ export const visitaActualSlice = createSlice({
 			state.iniciativas = iniciativas;
 			state.pasoATomaPedido = false;
 			state.coberturasEjecutadas = [];
+			state.bonificaciones = bonificaciones;
 			state.seQuedaAEditar = {
 				seQueda: false,
 				bordeError: false,
@@ -176,6 +185,7 @@ export const visitaActualSlice = createSlice({
 				seQueda: false,
 				bordeError: false,
 			};
+			state.bonificaciones = [];
 		},
 
 		borrarDescuentoDelProducto: (
@@ -272,7 +282,9 @@ export const visitaActualSlice = createSlice({
 			}>
 		) => {
 			state.iniciativas = state.iniciativas.map((iniciativa) => {
-				if (iniciativa.codigoIniciativa === action.payload.codigoIniciativa) {
+				if (
+					iniciativa.idMaterialIniciativa === action.payload.codigoIniciativa
+				) {
 					iniciativa.estado = action.payload.estado;
 				}
 				return iniciativa;
@@ -284,7 +296,9 @@ export const visitaActualSlice = createSlice({
 			action: PayloadAction<{motivo: string; codigoIniciativa: number}>
 		) => {
 			state.iniciativas = state.iniciativas.map((iniciativa) => {
-				if (iniciativa.codigoIniciativa === action.payload.codigoIniciativa) {
+				if (
+					iniciativa.idActividadIniciativa === action.payload.codigoIniciativa
+				) {
 					iniciativa.motivo = action.payload.motivo;
 				}
 				return iniciativa;
@@ -300,7 +314,9 @@ export const visitaActualSlice = createSlice({
 			}>
 		) => {
 			state.iniciativas = state.iniciativas.map((iniciativa) => {
-				if (iniciativa.codigoIniciativa === action.payload.codigoIniciativa) {
+				if (
+					iniciativa.idMaterialIniciativa === action.payload.codigoIniciativa
+				) {
 					iniciativa.unidadesEjecutadas = action.payload.unidadesEjecutadas;
 					iniciativa.subUnidadesEjecutadas =
 						action.payload.subUnidadesEjecutadas;
@@ -355,6 +371,83 @@ export const visitaActualSlice = createSlice({
 			state.seQuedaAEditar.seQueda = action.payload.seQueda;
 			state.seQuedaAEditar.bordeError = action.payload.bordeError;
 		},
+
+		agregarBonificacion(
+			state,
+			action: PayloadAction<{
+				bonificacion: TDetalleBonificacionesCliente;
+				idBonificacion: number;
+			}>
+		) {
+			state.bonificaciones = state.bonificaciones.map((bonificacion) => {
+				// Se busca el grupo de bonificaciones
+				if (bonificacion.idBonificacion === action.payload.idBonificacion) {
+					// Se busca si existe la bonificacion
+					const bonificacionBuscada = bonificacion.detalle.find(
+						(detalle) =>
+							detalle.codigoProducto ===
+							action.payload.bonificacion.codigoProducto
+					);
+
+					if (bonificacionBuscada) {
+						//Si existe se actualiza la cantidad
+						bonificacionBuscada.cantidad = action.payload.bonificacion.cantidad;
+					} else {
+						// Si no existe se agrega la bonificacion
+						bonificacion.detalle = [
+							...bonificacion.detalle,
+							action.payload.bonificacion,
+						];
+					}
+				}
+
+				return bonificacion;
+			});
+		},
+
+		eliminarBonificacion(
+			state,
+			action: PayloadAction<{codigoProducto: number; idBonificacion: number}>
+		) {
+			state.bonificaciones = state.bonificaciones.map((bonificacion) => {
+				// Se busca el grupo de bonificaciones
+				if (bonificacion.idBonificacion === action.payload.idBonificacion) {
+					// Se busca si existe la bonificacion
+					const index = bonificacion.detalle.findIndex(
+						(detalle) =>
+							detalle.codigoProducto === action.payload.codigoProducto
+					);
+
+					if (index > -1) {
+						//Si existe se elimina
+						bonificacion.detalle.splice(index, 1);
+					}
+				}
+
+				return bonificacion;
+			});
+		},
+
+		eliminarBonificacionesGrupo(
+			state,
+			action: PayloadAction<{idBonificacion: number}>
+		) {
+			const indexBonificacion = state.bonificaciones.findIndex(
+				(bonificacion) =>
+					bonificacion.idBonificacion === action.payload.idBonificacion
+			);
+
+			if (indexBonificacion > -1) {
+				state.bonificaciones[indexBonificacion].detalle = [];
+			}
+		},
+
+		restablecerBonificaciones: (state) => {
+			state.bonificaciones = state.bonificaciones.map((bonificacion) => ({
+				...bonificacion,
+				detalle: [],
+			}));
+		},
 	},
 });
 
@@ -381,5 +474,10 @@ export const {
 	agregarCoberturasEjecutadas,
 	borrarDescuentoDelProducto,
 	cambiarSeQuedaAEditar,
+	agregarBonificacion,
+	eliminarBonificacion,
+	eliminarBonificacionesGrupo,
+	restablecerBonificaciones,
+	borrarEnvases,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

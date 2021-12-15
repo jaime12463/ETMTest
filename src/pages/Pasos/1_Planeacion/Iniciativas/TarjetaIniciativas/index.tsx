@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState , useEffect} from 'react';
 import {styled} from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -10,12 +10,14 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import {VisualizadorPdfs} from 'components/UI';
 import {
 	AgregarRedondoIcon,
 	BotellaIcon,
 	CajaIcon,
 	CerrarRedondoIcon,
 	CheckRedondoIcon,
+	Clip,
 	FlechaAbajoIcon,
 	QuitarRellenoIcon,
 } from 'assests/iconos';
@@ -36,12 +38,17 @@ import {
 	cambiarSeQuedaAEditar,
 	editarUnidadesOSubUnidadesEjecutadas,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {InputsKeysFormTomaDePedido, TProductoPedido} from 'models';
+import {
+	InputsKeysFormTomaDePedido,
+	TProductoPedido,
+	TIniciativasCliente,
+} from 'models';
 import theme from 'theme';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {useMostrarAdvertenciaEnDialogo, useMostrarAviso} from 'hooks';
-import {formatearNumero} from 'utils/methods';
+import {formatearNumero, formatearFecha} from 'utils/methods';
 import CustomSelect from 'components/UI/CustomSelect';
+import {Link} from '@mui/material';
 
 const ButtonStyled = styled(Button)(() => ({
 	border: '1.5px solid #651C32',
@@ -55,7 +62,7 @@ const ButtonStyled = styled(Button)(() => ({
 	},
 }));
 
-interface Props {
+/*interface Props {
 	expandido: boolean | string;
 	setExpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
 	id: string;
@@ -70,7 +77,12 @@ interface Props {
 	codigo: number;
 	estado: 'pendiente' | 'ejecutada' | 'cancelada';
 	motivo: string;
-}
+}*/
+
+type Props = TIniciativasCliente & {
+	expandido: boolean | string;
+	setExpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
+};
 
 interface GetValuesProps {
 	unidades: number;
@@ -83,25 +95,36 @@ interface GetValuesProps {
 const TarjetaIniciativas: React.FC<Props> = ({
 	expandido,
 	setExpandido,
-	id,
 	nombreIniciativa,
-	planActividad,
-	descripcion,
-	fechaVencimiento,
-	unidades,
+	nombreActividadPlan,
+	descripcionIniciativa,
 	unidadesEjecutadas,
-	subUnidades,
 	subUnidadesEjecutadas,
-	codigo,
 	estado,
 	motivo,
+	idMaterialIniciativa,
+	finVigenciaIniciativa,
+	archivoAdjunto,
+	idActividadIniciativa,
 }) => {
 	const {t} = useTranslation();
-	const producto = useObtenerProductoPorCodigo(codigo);
+	const producto = useObtenerProductoPorCodigo(idMaterialIniciativa);
 	const visitaActual = useObtenerVisitaActual();
 	const {motivosCancelacionIniciativas} = useObtenerConfiguracion();
 	const clienteActual = useObtenerClienteActual();
 	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
+	// ToDo
+	const unidades = unidadesEjecutadas;
+	const subUnidades = subUnidadesEjecutadas;
+
+	const codigo = idMaterialIniciativa;
+	const id = idMaterialIniciativa.toString();
+	const planActividad = nombreActividadPlan;
+
+	const fechaVencimiento = formatearFecha(finVigenciaIniciativa, t).replace(
+		/-/g,
+		'/'
+	);
 
 	if (!producto) return null;
 
@@ -130,16 +153,15 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		},
 	};
 	const mostrarAviso = useMostrarAviso();
-	const [estadoSelect, setEstadoSelect] = React.useState<string>(estado);
-	const [motivoSelect, setMotivoSelect] = React.useState<string>(motivo);
+	const [estadoSelect, setEstadoSelect] = useState<string>(estado);
+	const [motivoSelect, setMotivoSelect] = useState<string>(motivo);
 
-	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
-	const [getValues, setGetValues] =
-		React.useState<GetValuesProps>(defaultValues);
+	const [puedeAgregar, setPuedeAgregar] = useState<boolean>(false);
+	const [getValues, setGetValues] = useState<GetValuesProps>(defaultValues);
 
-	const [focusId, setFocusId] = React.useState<number>(0);
-	const [inputFocus, setInputFocus] =
-		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
+	const [focusId, setFocusId] =  useState<number>(0);
+	const [inputFocus, setInputFocus] = useState<InputsKeysFormTomaDePedido>('productoABuscar');
+	const [mostrarArchivosAdjuntos, setMostrarArchivosAdjuntos]=useState(false);
 	const classes = useEstilos({
 		estado: estadoSelect,
 		inputsBloqueados: visitaActual.pasoATomaPedido,
@@ -159,7 +181,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		setGetValues
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (
 			visitaActual.seQuedaAEditar.bordeError &&
 			estado === 'cancelada' &&
@@ -170,7 +192,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		}
 	}, [visitaActual.seQuedaAEditar.bordeError, estado, motivo, id]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (puedeAgregar) {
 			agregarProductoAlPedidoActual(getValues);
 			dispatch(
@@ -184,18 +206,18 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		}
 	}, [puedeAgregar]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (estadoSelect === 'cancelada' && motivoSelect !== '') {
 			dispatch(
 				cambiarMotivoCancelacionIniciativa({
 					motivo: motivoSelect,
-					codigoIniciativa: Number(id),
+					codigoIniciativa: idActividadIniciativa,
 				})
 			);
 		}
 	}, [estadoSelect, motivoSelect]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!visitaActual.pasoATomaPedido) {
 			switch (estadoSelect) {
 				case 'pendiente':
@@ -216,7 +238,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						dispatch(
 							cambiarMotivoCancelacionIniciativa({
 								motivo: '',
-								codigoIniciativa: Number(id),
+								codigoIniciativa: idActividadIniciativa,
 							})
 						);
 						setMotivoSelect('');
@@ -235,7 +257,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						dispatch(
 							cambiarMotivoCancelacionIniciativa({
 								motivo: '',
-								codigoIniciativa: Number(id),
+								codigoIniciativa: idActividadIniciativa,
 							})
 						);
 						setMotivoSelect('');
@@ -396,7 +418,9 @@ const TarjetaIniciativas: React.FC<Props> = ({
 							</Typography>
 						</Box>
 					)}
-					<Typography variant='subtitle2' data-cy={`iniciativa-titulo-${id}`}>{nombreIniciativa}</Typography>
+					<Typography variant='subtitle2' data-cy={`iniciativa-titulo-${id}`}>
+						{nombreIniciativa}
+					</Typography>
 					{estadoSelect === 'ejecutada' && (
 						<Box>
 							<CheckRedondoIcon fill={theme.palette.success.main} />
@@ -408,18 +432,18 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						</Box>
 					)}
 				</Box>
-				<Collapse 
-					in={expandido === id} 
-					timeout='auto' 
+				<Collapse
+					in={expandido === id}
+					timeout='auto'
 					unmountOnExit
 					data-cy={'iniciativa-detalle-' + id}
 				>
 					<Divider />
 					<Stack spacing='12px' marginBottom='8px'>
-						<Box 
-							display='flex' 
-							alignItems='center' 
-							marginTop='8px' 
+						<Box
+							display='flex'
+							alignItems='center'
+							marginTop='8px'
 							data-cy={`iniciativa-estatus-${id}`}
 						>
 							<Typography
@@ -471,10 +495,10 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								</Box>
 							</Box>
 						)}
-						<Box 
-							display='flex' 
-							gap='8px' 
-							alignItems='center' 
+						<Box
+							display='flex'
+							gap='8px'
+							alignItems='center'
 							data-cy={`iniciativa-planDeActividades-${id}`}
 						>
 							<Typography
@@ -486,13 +510,13 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								{t('general.planDeActividades')}
 							</Typography>
 							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
-								{planActividad}
+								{nombreActividadPlan}
 							</Typography>
 						</Box>
-						<Box 
-							display='flex' 
-							gap='8px' 
-							alignItems='center' 
+						<Box
+							display='flex'
+							gap='8px'
+							alignItems='center'
 							data-cy={`iniciativa-descripcion-${id}`}
 						>
 							<Typography
@@ -504,13 +528,13 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								{t('general.descripcion')}
 							</Typography>
 							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
-								{descripcion}
+								{descripcionIniciativa}
 							</Typography>
 						</Box>
-						<Box 
-							display='flex' 
-							gap='8px' 
-							alignItems='center' 
+						<Box
+							display='flex'
+							gap='8px'
+							alignItems='center'
 							data-cy={`iniciativa-vigencia-${id}`}
 						>
 							<Typography
@@ -525,6 +549,40 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								{fechaVencimiento}
 							</Typography>
 						</Box>
+						{archivoAdjunto && (
+							<Box
+								display='flex'
+								gap='8px'
+								alignItems='center'
+								data-cy={`iniciativa-vigencia-${id}`}
+							>
+								<Typography
+									variant='body3'
+									fontFamily='Open Sans'
+									flex='1'
+									sx={{opacity: 0.5}}
+								>
+									{t('general.archivosAdjuntos')}
+								</Typography>
+								<Box alignItems='center' display='flex' flex='3' gap='10px'>
+									<Clip height='12px' width='12px' />
+									<Link
+										variant='subtitle3'
+										color='#000'
+										sx={{textDecoration: 'none'}}
+										fontFamily='Open Sans'
+										component='button'
+										onClick={ ()=>{
+											setMostrarArchivosAdjuntos(true);
+										}}
+									>
+										{archivoAdjunto}
+									</Link>
+								</Box>
+								<VisualizadorPdfs titulo={archivoAdjunto} archivo={archivoAdjunto} open={mostrarArchivosAdjuntos} setOpen={setMostrarArchivosAdjuntos}/>
+							</Box>
+							
+						)}
 					</Stack>
 					<Divider />
 					<Box margin='8px 0'>
@@ -534,10 +592,18 @@ const TarjetaIniciativas: React.FC<Props> = ({
 							justifyContent='space-between'
 						>
 							<Box display='flex' flexDirection='column'>
-								<Typography variant='subtitle3' data-cy={`iniciativa-material-${id}`}>
+								<Typography
+									variant='subtitle3'
+									data-cy={`iniciativa-material-${id}`}
+								>
 									{producto.codigoProducto}
 								</Typography>
-								<Typography variant='subtitle3' noWrap width='150px' data-cy={`iniciativa-nombreProducto-${id}`}>
+								<Typography
+									variant='subtitle3'
+									noWrap
+									width='150px'
+									data-cy={`iniciativa-nombreProducto-${id}`}
+								>
 									{producto.nombreProducto}
 								</Typography>
 								<Box
@@ -547,14 +613,23 @@ const TarjetaIniciativas: React.FC<Props> = ({
 									gap='4px'
 								>
 									<CajaIcon height='18px' width='18px' />
-									<Typography variant='caption' data-cy={`iniciativa-presentacion-${id}`}>
+									<Typography
+										variant='caption'
+										data-cy={`iniciativa-presentacion-${id}`}
+									>
 										x{producto.presentacion}
 									</Typography>
-									<Typography variant='subtitle3' data-cy={`iniciativa-precioUnidad-${id}`}>
+									<Typography
+										variant='subtitle3'
+										data-cy={`iniciativa-precioUnidad-${id}`}
+									>
 										{formatearNumero(producto.precioConImpuestoUnidad, t)}
 									</Typography>
 									<BotellaIcon height='15px' width='15px' />
-									<Typography variant='subtitle3' data-cy={`iniciativa-precioSubunidad-${id}`}>
+									<Typography
+										variant='subtitle3'
+										data-cy={`iniciativa-precioSubunidad-${id}`}
+									>
 										{formatearNumero(producto.precioConImpuestoSubunidad, t)}
 									</Typography>
 								</Box>
@@ -648,24 +723,25 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										gap='4px'
 									>
 										<BotellaIcon width='18px' height='18px' />
-										{estado === 'ejecutada' && !visitaActual.pasoATomaPedido && (
-											<IconButton
-												size='small'
-												value='-'
-												name='subUnidades'
-												sx={{padding: 0}}
-												disabled={getValues.subUnidades <= 0}
-												onClick={handleButtons}
-											>
-												<QuitarRellenoIcon
-													width='18px'
-													height='18px'
-													fill={
-														getValues.subUnidades <= 0 ? '#D9D9D9' : '#2F000E'
-													}
-												/>
-											</IconButton>
-										)}
+										{estadoSelect === 'ejecutada' &&
+											!visitaActual.pasoATomaPedido && (
+												<IconButton
+													size='small'
+													value='-'
+													name='subUnidades'
+													sx={{padding: 0}}
+													disabled={getValues.subUnidades <= 0}
+													onClick={handleButtons}
+												>
+													<QuitarRellenoIcon
+														width='18px'
+														height='18px'
+														fill={
+															getValues.subUnidades <= 0 ? '#D9D9D9' : '#2F000E'
+														}
+													/>
+												</IconButton>
+											)}
 										<Input
 											className={classes.input}
 											inputProps={{

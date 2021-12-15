@@ -23,6 +23,8 @@ const Informacion: React.FC<Props> = ({producto, conSwitch}) => {
 		preciosNeto,
 		unidades,
 		subUnidades,
+		precioConDescuentoUnidad,
+		precioConDescuentoSubunidad,
 	} = producto;
 
 	const {unidad, subUnidad} = preciosNeto;
@@ -55,6 +57,8 @@ const Informacion: React.FC<Props> = ({producto, conSwitch}) => {
 								? unidad !== precioConImpuestoUnidad
 									? {textDecoration: 'line-through'}
 									: null
+								: precioConDescuentoUnidad
+								? {textDecoration: 'line-through'}
 								: null
 						}
 					>
@@ -71,6 +75,8 @@ const Informacion: React.FC<Props> = ({producto, conSwitch}) => {
 								? subUnidad !== precioConImpuestoSubunidad
 									? {textDecoration: 'line-through'}
 									: null
+								: precioConDescuentoSubunidad
+								? {textDecoration: 'line-through'}
 								: null
 						}
 					>

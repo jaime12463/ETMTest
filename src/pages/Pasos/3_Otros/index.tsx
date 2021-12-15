@@ -14,12 +14,14 @@ import {
 } from 'redux/hooks';
 import {
 	useCalcularPresupuestoTipoPedido,
+	useObtenerBonificacionesHabilitadas,
 	useObtenerProductosMandatoriosVisitaActual,
 } from 'hooks';
 import OrdenDeCompra from './OrdenDeCompra';
 import {cambiarTipoPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 import {CompromisoDeCobro} from 'pages';
 import {useObtenerHabilitaCanje} from './hooks/useObtenerHabilitaCanje';
+import Bonificaciones from './Bonificaciones';
 
 export const Otros: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
@@ -27,12 +29,15 @@ export const Otros: React.FC = () => {
 	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
 	const {tipoPagoActual} = useObtenerClienteActual();
 	const visitaActual = useObtenerVisitaActual();
+
 	const {canje, ventaenvase, prestamoenvase} = visitaActual.pedidos;
 
 	const productosMandatoriosVisitaActual =
 		useObtenerProductosMandatoriosVisitaActual();
 
 	const calcularPresupuestoTipoPedido = useCalcularPresupuestoTipoPedido();
+	const bonificaciones = useObtenerBonificacionesHabilitadas();
+	const bonificacionesHabilitadas = bonificaciones();
 
 	const productosEnCanjeConUnidades = canje.productos.filter((producto) => {
 		return producto.catalogoMotivo !== '';
@@ -47,6 +52,8 @@ export const Otros: React.FC = () => {
 		React.useState<boolean>(false);
 	const [ordenDeCompraValido, setOrdenDeCompraValido] =
 		React.useState<boolean>(false);
+	const [bonificacionValida, setBonificacionValida] =
+		React.useState<boolean>(false);
 
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 
@@ -54,6 +61,10 @@ export const Otros: React.FC = () => {
 		(producto) =>
 			producto.catalogoMotivo !== '' &&
 			(producto.unidades > 0 || producto.subUnidades > 0)
+	);
+
+	const cantidadBonificaciones = visitaActual.bonificaciones.filter(
+		(bonificacion) => bonificacion.detalle.length > 0
 	);
 
 	React.useEffect(() => {
@@ -95,11 +106,22 @@ export const Otros: React.FC = () => {
 			setOrdenDeCompraValido(false);
 		}
 
+		const hayBonificaciones = visitaActual.bonificaciones.some(
+			(bonificacion) => {
+				return bonificacion.detalle.length > 0;
+			}
+		);
+
+		if (hayBonificaciones) {
+			setBonificacionValida(true);
+		}
+
 		return () => {
 			setCanjeValido(false);
 			setEnvasesValido(false);
 			setCompromisoDeCobroValido(false);
 			setOrdenDeCompraValido(false);
+			setBonificacionValida(false);
 		};
 	}, [
 		ventaenvase.productos,
@@ -107,13 +129,14 @@ export const Otros: React.FC = () => {
 		prestamoenvase.productos,
 		compromisoDeCobroActual.monto,
 		visitaActual.ordenDeCompra,
+		visitaActual.bonificaciones,
 	]);
 
 	return (
 		<Stack spacing={2}>
 			<TarjetaColapsable
 				titulo={
-					<Typography variant={'subtitle1'}>{t('general.envase')}</Typography>
+					<Typography variant={'subtitle1'}>{t('general.envases')}</Typography>
 				}
 				subTitulo={
 					<Typography variant={'body3'}>
@@ -124,7 +147,7 @@ export const Otros: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				valido={envasesValido}
-				dataCy="Envases"
+				dataCy='Envases'
 			>
 				<EnvasesRetornables />
 			</TarjetaColapsable>
@@ -148,14 +171,46 @@ export const Otros: React.FC = () => {
 				}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
-						No hay disponibilidad de canje para este cliente en este momento
+						{t('titulos.canjesDeshabilitadas')}
 					</Typography>
 				}
 				labelChip={`${cantidadCanjes.length} Items`}
 				valido={canjeValido}
-				dataCy="Canjes"
+				dataCy='Canjes'
 			>
 				<Canjes />
+			</TarjetaColapsable>
+			<TarjetaColapsable
+				titulo={
+					<Typography variant={'subtitle1'}>
+						{t('titulos.bonificaciones')}
+					</Typography>
+				}
+				subTitulo={
+					<Typography variant={'body3'}>
+						{t('titulos.tarjetaBonificaciones')}
+					</Typography>
+				}
+				id='tarjetaBonificaciones'
+				expandido={expandido}
+				setExpandido={setExpandido}
+				dataCy='Bonificaciones'
+				valido={bonificacionValida}
+				cantidadItems={cantidadBonificaciones.length}
+				labelChip={`${cantidadBonificaciones.length} Items`}
+				disabled={
+					bonificacionesHabilitadas.length === 0 ||
+					productosMandatoriosVisitaActual.mandatorios.length < 1
+				}
+				mensaje={
+					bonificacionesHabilitadas.length === 0 && (
+						<Typography color='primary' variant='subtitle3'>
+							{t('titulos.bonificacionesDeshabilitadas')}
+						</Typography>
+					)
+				}
+			>
+				<Bonificaciones bonificacionValida={bonificacionValida} />
 			</TarjetaColapsable>
 			{tipoPagoActual ? (
 				<TarjetaColapsable
@@ -173,7 +228,7 @@ export const Otros: React.FC = () => {
 					expandido={expandido}
 					setExpandido={setExpandido}
 					valido={compromisoDeCobroValido}
-					dataCy="CompromisoCobro"
+					dataCy='CompromisoCobro'
 				>
 					<CompromisoDeCobro />
 				</TarjetaColapsable>
@@ -194,7 +249,7 @@ export const Otros: React.FC = () => {
 					expandido={expandido}
 					setExpandido={setExpandido}
 					valido={ordenDeCompraValido}
-					dataCy="OrdenDeCompra"
+					dataCy='OrdenDeCompra'
 				>
 					<OrdenDeCompra />
 				</TarjetaColapsable>

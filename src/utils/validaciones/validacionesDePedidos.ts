@@ -27,9 +27,10 @@ export const validarProductosIniciativas = (
 
 	const productosDeIniciativaEnPedido = venta.productos.filter((producto) => {
 		const productoEnIniciativa = iniciativas.find(
-			(iniciativa) => iniciativa.codigoProducto === producto.codigoProducto
+			(iniciativa) =>
+				iniciativa.idMaterialIniciativa === producto.codigoProducto
 		);
-		if (productoEnIniciativa?.codigoProducto === producto.codigoProducto)
+		if (productoEnIniciativa?.idMaterialIniciativa === producto.codigoProducto)
 			return true;
 
 		return false;
@@ -38,12 +39,13 @@ export const validarProductosIniciativas = (
 	const iniciativasVerificadas: TIniciativasCliente[] = iniciativas.map(
 		(iniciativa: TIniciativasCliente) => {
 			const producto = productosDeIniciativaEnPedido.find(
-				(producto) => producto.codigoProducto === iniciativa.codigoProducto
+				(producto) =>
+					producto.codigoProducto === iniciativa.idMaterialIniciativa
 			);
 			if (!producto) return iniciativa;
 			if (
-				producto?.unidades >= iniciativa.unidades &&
-				producto?.subUnidades >= iniciativa.subUnidades
+				producto?.unidades >= iniciativa.unidadVentaIniciativa &&
+				producto?.subUnidades >= iniciativa.subunidadVentaIniciativa
 			) {
 				return {...iniciativa, estado: 'ejecutada'};
 			} else {

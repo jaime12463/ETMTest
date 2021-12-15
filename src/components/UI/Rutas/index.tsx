@@ -1,9 +1,13 @@
-import {BrowserRouter} from 'react-router-dom';
-import useRutaAnidada from './useRutaAnidada';
+import useObtenerRutas from './useObtenerRutas';
 
 const Rutas = () => {
-	const rutasAnidadas = useRutaAnidada();
-	return <BrowserRouter>{rutasAnidadas}</BrowserRouter>;
+	const obtenerRutas = useObtenerRutas();
+
+	return (
+		<>
+			{ obtenerRutas }
+		</>
+	);
 };
 
 export default Rutas;

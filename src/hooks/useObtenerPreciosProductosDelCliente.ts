@@ -66,6 +66,8 @@ export const useObtenerPreciosProductosDelCliente = () => {
 						precioConImpuestoSubunidad,
 						descuento,
 						componentes,
+						precioConDescuentoSubunidad,
+						precioConDescuentoUnidad,
 					} = {
 						...precioVigenteDelProducto,
 					};
@@ -74,6 +76,8 @@ export const useObtenerPreciosProductosDelCliente = () => {
 						nombreProducto,
 						codigoProducto,
 						esVentaSubunidades,
+						precioConDescuentoUnidad,
+						precioConDescuentoSubunidad,
 						precioConImpuestoUnidad: precioConImpuestoUnidad ?? 0, //Este caso nunca seria posible
 						precioConImpuestoSubunidad: precioConImpuestoSubunidad ?? 0, //Este caso nunca seria posible
 						presentacion,
@@ -91,6 +95,8 @@ export const useObtenerPreciosProductosDelCliente = () => {
 							? {tipo: 'escalonado'}
 							: descuentoPolarizado
 							? {tipo: 'polarizado'}
+							: precioConDescuentoUnidad
+							? {tipo: 'automatico'}
 							: undefined,
 						componentes,
 						tipoProducto,

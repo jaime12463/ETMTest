@@ -31,12 +31,12 @@
 			],
 			"iniciativasHabilitadas": [
 				{
-					"codigoIniciativa": 1,
-					"secuencia": 1
+					"idActividadIniciativa": 1,
+					"secuenciaCliente": 1
 				},
 				{
-					"codigoIniciativa": 2,
-					"secuencia": 2
+					"idActividadIniciativa": 2,
+					"secuenciaCliente": 2
 				}
 			],
 			"coberturas": [
@@ -478,12 +478,12 @@
 			],
 			"iniciativasHabilitadas": [
 				{
-					"codigoIniciativa": 1,
-					"secuencia": 2
+					"idActividadIniciativa": 1,
+					"secuenciaCliente": 1
 				},
 				{
-					"codigoIniciativa": 2,
-					"secuencia": 1
+					"idActividadIniciativa": 2,
+					"secuenciaCliente": 2
 				}
 			],
 			"coberturas": [
@@ -1272,12 +1272,22 @@
 			],
 			"iniciativasHabilitadas": [
 				{
-					"codigoIniciativa": 1,
-					"secuencia": 2
+					"idActividadIniciativa": 1,
+					"secuenciaCliente": 1
 				},
 				{
-					"codigoIniciativa": 2,
-					"secuencia": 1
+					"idActividadIniciativa": 2,
+					"secuenciaCliente": 2
+				}
+			],
+			"bonificacionesHabilitadas": [
+				{
+					"idBonificacion": 1,
+					"bonificacionesDisponibles": 1
+				},
+				{
+					"idBonificacion": 3,
+					"bonificacionesDisponibles": 5
 				}
 			],
 			"coberturas": [
@@ -1453,7 +1463,7 @@
 				},
 				{
 					"codigoProducto": 420,
-					"esVentaSubunidades": false,
+					"esVentaSubunidades": true,
 					"precios": [
 						{
 							"precioConImpuestoUnidad": 100,
@@ -1462,8 +1472,10 @@
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
-							"precioConImpuestoUnidad": 100,
-							"precioConImpuestoSubunidad": 8.75,
+							"precioConImpuestoUnidad": 150,
+							"precioConImpuestoSubunidad": 15,
+							"precioConDescuentoUnidad": 145,
+							"precioConDescuentoSubunidad": 14.5,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}
@@ -2182,26 +2194,100 @@
 			"productosHabilitados": [340, 365]
 		}
 	],
+
 	"iniciativas": [
 		{
-			"codigoIniciativa": 1,
-			"nombreActividad": "Asegura la venta del nuevo PREDATOR 473ml SKU 99992",
-			"planActividad": "NCBs - Lanzamiento PREDATOR 47",
-			"descripcion": "Ejecuta los materiales de la PDE",
-			"vencimiento": "2021-06-11",
-			"codigoProducto": 360,
-			"unidades": 2,
-			"subUnidades": 0
+			"idActividadIniciativa": 1,
+			"nombreIniciativa": "Asegura la venta del nuevo PREDATOR 473ml SKU 99992",
+			"nombreActividadPlan": "NCBs - Lanzamiento PREDATOR 47",
+			"descripcionIniciativa": "Ejecuta los materiales de la PDE",
+			"finVigenciaIniciativa": "2021-06-11",
+			"idMaterialIniciativa": 360,
+			"unidadVentaIniciativa": 2,
+			"subunidadVentaIniciativa": 0,
+			"archivoAdjunto": "68449_One Pager.pdf"
 		},
 		{
-			"codigoIniciativa": 2,
-			"nombreActividad": "Los Efectivos PERSONALES Asegura Venta de Coca Cola 355 ML Pet NR",
-			"planActividad": "Super Single - Plan Personales",
-			"descripcion": "Ejecuta los materiales de la PDE",
-			"vencimiento": "2021-06-11",
-			"codigoProducto": 420,
-			"unidades": 2,
-			"subUnidades": 0
+			"idActividadIniciativa": 2,
+			"nombreIniciativa": "Los Efectivos PERSONALES Asegura Venta de Coca Cola 355 ML Pet NR",
+			"nombreActividadPlan": "Super Single - Plan Personales",
+			"descripcionIniciativa": "Ejecuta los materiales de la PDE",
+			"finVigenciaIniciativa": "2021-06-11",
+			"idMaterialIniciativa": 420,
+			"unidadVentaIniciativa": 2,
+			"subunidadVentaIniciativa": 0
+		}
+	],
+
+	"bonificaciones": [
+		{
+			"idBonificacion": 1,
+			"nombreBonificacion": "Bonificación COCA COLA 12 OZ VIDRIO R",
+			"vigenciaInicioBonificacion": "2021-06-11",
+			"vigenciaFinBonificacion": "2021-06-21",
+			"aplicacionBonificacion": "Parcial",
+			"gruposBonificacion": [
+				{
+					"idGrupo": 1,
+					"nombreGrupo": "Grupo 1",
+					"cantidadBeneficioGrupo": 20,
+					"unidadMedida": "Unidad",
+					"productosBeneficioGrupo": [340, 360, 420]
+				},
+				{
+					"idGrupo": 2,
+					"nombreGrupo": "Grupo 2",
+					"cantidadBeneficioGrupo": 50,
+					"unidadMedida": "Unidad",
+					"productosBeneficioGrupo": [400, 390]
+				}
+			]
+		},
+		{
+			"idBonificacion": 2,
+			"nombreBonificacion": "Bonificación COCA COLA 12 OZ VIDRIO R",
+			"vigenciaInicioBonificacion": "2021-06-11",
+			"vigenciaFinBonificacion": "2021-06-21",
+			"aplicacionBonificacion": "Total",
+			"gruposBonificacion": [
+				{
+					"idGrupo": 1,
+					"nombreGrupo": "Grupo 1",
+					"cantidadBeneficioGrupo": 10,
+					"unidadMedida": "Unidad",
+					"productosBeneficioGrupo": [340, 360, 420]
+				},
+				{
+					"idGrupo": 2,
+					"nombreGrupo": "Grupo 2",
+					"cantidadBeneficioGrupo": 5,
+					"unidadMedida": "Unidad",
+					"productosBeneficioGrupo": [400, 390]
+				}
+			]
+		},
+		{
+			"idBonificacion": 3,
+			"nombreBonificacion": "Bonificación COCA COLA 12 OZ VIDRIO R",
+			"vigenciaInicioBonificacion": "2021-06-11",
+			"vigenciaFinBonificacion": "2021-06-21",
+			"aplicacionBonificacion": "Total",
+			"gruposBonificacion": [
+				{
+					"idGrupo": 1,
+					"nombreGrupo": "Grupo 1",
+					"cantidadBeneficioGrupo": 10,
+					"unidadMedida": "Unidad",
+					"productosBeneficioGrupo": [340, 360, 420]
+				},
+				{
+					"idGrupo": 2,
+					"nombreGrupo": "Grupo 2",
+					"cantidadBeneficioGrupo": 5,
+					"unidadMedida": "Unidad",
+					"productosBeneficioGrupo": [400, 390]
+				}
+			]
 		}
 	]
 }

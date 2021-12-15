@@ -14,6 +14,7 @@ import {
 	borrarProductoDelPedidoActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import Modal from 'components/UI/Modal';
+import {useTranslation} from 'react-i18next';
 
 interface Props {
 	coberturasAgregadas: TProductoPedido[];
@@ -23,6 +24,7 @@ const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 	const coberturas = useObtenerCoberturas();
 	const visitaActual = useObtenerVisitaActual();
 	const classes = useEstilos();
+	const {t} = useTranslation();
 	const dispatch = useAppDispatch();
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
 	const [resetCoberturas, setResetCoberturas] = React.useState<boolean>(false);
@@ -74,7 +76,7 @@ const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 								icon={<ReiniciarIcon width='7.5px' height='7.5px' />}
 								label={
 									<Typography variant='caption' fontFamily='Open Sans'>
-										Restablecer cantidades a cero
+										{t('general.restablecerCero')}
 									</Typography>
 								}
 								onClick={() => setAlerta(true)}

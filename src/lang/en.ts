@@ -1,5 +1,6 @@
 const en = {
 	general: {
+		archivosAdjuntos: 'Attached files',
 		producto: 'Product',
 		unidades: 'Units',
 		subUnidades: 'SubUnits',
@@ -70,6 +71,23 @@ const en = {
 		editarCantidades: 'Edit quantities',
 		continuar: 'Continue',
 		editar: 'Edit',
+		salir: 'Exit',
+		restablecerCero: 'Reset quantities to zero',
+		resumenDePedido: 'Order summary',
+		totalContado: 'Total cash:',
+		totalCredito: 'Total credit:',
+		totalDeAhorro: 'Total savings:',
+		totalCargosFinancieros: 'Total financial charges:',
+		productoGratis: 'Free product',
+		precioUnitario: 'U. price',
+		subTotal: 'Subtotal',
+		paquetes: 'Packages',
+		ahorras: 'Saves',
+		tipo: 'Type',
+		bonificacion: 'Bonus',
+		fechaDeAlta: 'Date of registration',
+		prestamo: 'Loan',
+		retorno: 'Return',
 	},
 	simbolos: {
 		decimal: ',',
@@ -98,6 +116,17 @@ const en = {
 		tituloIniciativasSinMotivo: 'Initiatives canceled without reason',
 		coberturas: 'Coverages',
 		tarjetaCoberturas: `Indicates the amount of product missing in the customer's refrigerator.`,
+		bonificaciones: 'Bonuses',
+		tarjetaBonificaciones: `Add the bonuses for this customer.`,
+		bonificacionesDeshabilitadas: `There are not bonuses for this customer at this time.`,
+		canjesDeshabilitadas:
+		'There are not exchange for this customer at this time.',	
+		tomaDePedido: 'Order taking',	
+		tarjetaTomaDePedido:
+			'Modify your order with the best options for your customer.',	
+		promociones: 'Promotions',	
+		tarjetaPromociones:
+			'Select the promotions that you have available for your clients.',						
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',

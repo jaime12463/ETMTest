@@ -13,9 +13,10 @@ import {
 	useResetVisitaActual,
 	useValidarPasos,
 	useReiniciarClienteActual,
+	useMostrarAviso,
 } from 'hooks';
 import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
-
+import {Configuracion} from 'components/UI/Modal';
 import {VistaPromoPush} from 'pages/Pasos/1_Planeacion/VistaPromoPush/index';
 
 import {
@@ -28,9 +29,12 @@ import {
 import {TClienteActual} from 'models';
 import {useTranslation} from 'react-i18next';
 import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
-import {PromocionesRellenoIcon} from 'assests/iconos';
+import {AvisoIcon, PromocionesRellenoIcon} from 'assests/iconos';
 import Modal from 'components/UI/Modal';
 import {resetearClienteActual} from 'redux/features/clienteActual/clienteActualSlice';
+import BotonResumenPedido from 'components/UI/BotonResumenPedido';
+import ResumenPedido from 'components/UI/ResumenPedido';
+import {cambiarSeQuedaAEditar} from 'redux/features/visitaActual/visitaActualSlice';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -47,9 +51,10 @@ const Pasos: React.FC = () => {
 	const [leyendaBoton, setLeyendaBoton] = useState(
 		`${t('general.continuarA')} ${t(controlador[1].titulo)}`
 	);
+	const dispatch = useAppDispatch();
 	const history = useHistory();
 	const {razonSocial}: TClienteActual = useObtenerClienteActual();
-
+	const mostrarAviso = useMostrarAviso();
 	const ObtenerPedidosValorizados = useObtenerPedidosValorizados();
 	const itemsValorizados = ObtenerPedidosValorizados();
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
@@ -79,27 +84,74 @@ const Pasos: React.FC = () => {
 			setLeyendaBoton(t(controlador[pasoActual].titulo));
 		}
 	}, [pasoActual]);
+
+	const valido = useValidarPasos(pasoActual);
+	const [openResumenPedido, setOpenResumenPedido] =
+		React.useState<boolean>(false);
+	const [alertaPasos, setAlertaPasos] = React.useState<boolean>(false);
+
+	const [configAlerta, setConfigAlerta] = React.useState<Configuracion>({
+		titulo: '',
+		mensaje: '',
+		tituloBotonAceptar: '',
+		tituloBotonCancelar: '',
+		iconoMensaje: <></>,
+		callbackAceptar: () => {},
+	});
+
 	const manejadorPasoAtras = () => {
 		if (pasoActual == 0) {
-			reiniciarVisita();
-			reiniciarCompromisoDeCobro();
-			reiniciarClienteActual();
-			history.goBack();
+			setConfigAlerta({
+				titulo: '¿Quieres salir de toma de pedido?',
+				mensaje:
+					'Si sales de toma de pedido, toda la actividad registrada se perderá.',
+				tituloBotonAceptar: t('general.salir'),
+				tituloBotonCancelar: t('general.continuar'),
+				callbackAceptar: () => {
+					reiniciarVisita();
+					reiniciarCompromisoDeCobro();
+					reiniciarClienteActual();
+					history.goBack();
+				},
+				callbackCancelar: () => {},
+				iconoMensaje: <AvisoIcon />,
+			});
+			setAlertaPasos(true);
 		} else {
+			if (pasoActual === 1) {
+				mostrarAviso(
+					'warning',
+					'No es posible editar las cantidades',
+					'Si necesitas editar las cantidad de coberturas e iniciativas, deberas hacerlo en toma de pedido',
+					undefined,
+					'advertenciaPaso1'
+				);
+			}
 			setPasoActual(pasoActual - 1);
 		}
 	};
 
-	const valido = useValidarPasos(pasoActual);
-
-	const [alertaPasos, setAlertaPasos] = React.useState<boolean>(false);
-
 	const manejadorPasoAdelante = () => {
 		if (valido?.error) {
-			return setAlertaPasos(true);
+			if (valido?.contenidoMensajeModal) {
+				setConfigAlerta(valido?.contenidoMensajeModal);
+				return setAlertaPasos(true);
+			} else if (valido?.contenidoMensajeAviso) {
+				const aviso = valido?.contenidoMensajeAviso;
+				mostrarAviso(
+					aviso.tipo,
+					aviso.titulo,
+					aviso.mensaje,
+					aviso.opciones,
+					aviso.dataCy
+				);
+				dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
+			}
 		}
 		if (pasoActual < controlador.length - 1) {
-			setPasoActual(pasoActual + 1);
+			if (!valido.contenidoMensajeAviso) {
+				setPasoActual(pasoActual + 1);
+			}
 		} else {
 			agregarPedidoActualAPedidosClientes();
 		}
@@ -120,7 +172,7 @@ const Pasos: React.FC = () => {
 			<Estructura.Encabezado
 				esConFechaHaciaAtras={true}
 				titulo={razonSocial}
-				onClick={manejadorPasoAtras}
+				onClick={() => manejadorPasoAtras()}
 				acciones={<AccionesEstructura />}
 			>
 				<InfoClienteDelPedidoActual />
@@ -149,10 +201,15 @@ const Pasos: React.FC = () => {
 					setAlerta={setAlertaPasos}
 					alerta={alertaPasos}
 					setPasoActual={setPasoActual}
-					contenidoMensaje={valido?.contenidoMensaje}
+					contenidoMensaje={configAlerta}
+				/>
+				<ResumenPedido
+					open={openResumenPedido}
+					setOpen={setOpenResumenPedido}
 				/>
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
+				<BotonResumenPedido setOpen={setOpenResumenPedido} />
 				<BotonBarraInferior
 					descripcion={leyendaBoton}
 					numeroItems={formatearItems(itemsValorizados.length)}

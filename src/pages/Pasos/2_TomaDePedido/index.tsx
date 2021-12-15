@@ -10,15 +10,16 @@ import {
 
 import TomaPedido from './TomaPedidos';
 import PromoPush from './PromoPush';
+import {useTranslation} from 'react-i18next';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<boolean | string>(false);
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
-	const productosConUnidades = venta.productos.filter((producto) => {
+	const productosConUnidades = venta?.productos?.filter((producto) => {
 		return producto.unidades > 0 || producto.subUnidades > 0;
 	});
-	const cantidadPromoPush = productosConUnidades.filter(
+	const cantidadPromoPush = productosConUnidades?.filter(
 		(producto) => producto.promoPush
 	);
 	const [ventaValida, setVentaValida] = React.useState<boolean>(false);
@@ -26,6 +27,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 		React.useState<boolean>(false);
 
 	const dispatch = useAppDispatch();
+	const {t} = useTranslation();
 
 	React.useEffect(() => {
 		if (visitaActual.seQuedaAEditar.seQueda) {
@@ -41,7 +43,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 
 	React.useEffect(() => {
 		if (
-			venta.productos.some(
+			venta?.productos?.some(
 				(producto) => producto.unidades > 0 || producto.subUnidades > 0
 			)
 		) {
@@ -51,7 +53,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 		}
 
 		if (
-			venta.productos.some(
+			venta?.productos?.some(
 				(producto) =>
 					(producto.unidades > 0 || producto.subUnidades > 0) &&
 					producto.promoPush
@@ -65,42 +67,42 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 			setVentaValida(false);
 			setPromocionesValida(false);
 		};
-	}, [venta.productos]);
+	}, [venta?.productos]);
 
 	return (
 		<Stack spacing={2}>
 			<TarjetaColapsable
 				id='Toma de pedido'
-				titulo={<Typography variant={'subtitle1'}>Toma de pedido</Typography>}
+				titulo={<Typography variant={'subtitle1'}>{t('titulos.tomaDePedido')}</Typography>}
 				subTitulo={
 					<Typography variant={'body3'}>
-						Modifica tu pedido con las mejores opciones para tu cliente.
+						{t('titulos.tarjetaTomaDePedido')}
 					</Typography>
 				}
 				expandido={expandido}
 				setExpandido={setExpandido}
-				cantidadItems={productosConUnidades.length}
-				labelChip={`${productosConUnidades.length} Items`}
+				cantidadItems={productosConUnidades?.length}
+				labelChip={`${productosConUnidades?.length} Items`}
 				valido={ventaValida}
-				dataCy="TomaDePedido"
+				dataCy='TomaDePedido'
 			>
 				<TomaPedido />
 			</TarjetaColapsable>
 
 			<TarjetaColapsable
 				id='Promociones'
-				titulo={<Typography variant={'subtitle1'}>Promociones</Typography>}
+				titulo={<Typography variant={'subtitle1'}>{t('titulos.promociones')}</Typography>}
 				subTitulo={
 					<Typography variant={'body3'}>
-						Selecciona las promociones que tienes disponible para tus clientes.
+						{t('titulos.tarjetaPromociones')}
 					</Typography>
 				}
 				expandido={expandido}
 				setExpandido={setExpandido}
 				valido={promocionesValida}
-				cantidadItems={cantidadPromoPush.length}
-				labelChip={`${cantidadPromoPush.length} Items`}
-				dataCy="Promociones"
+				cantidadItems={cantidadPromoPush?.length}
+				labelChip={`${cantidadPromoPush?.length} Items`}
+				dataCy='Promociones'
 			>
 				<PromoPush />
 			</TarjetaColapsable>

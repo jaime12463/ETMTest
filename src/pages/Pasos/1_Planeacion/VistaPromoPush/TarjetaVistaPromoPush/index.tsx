@@ -24,6 +24,7 @@ import {
 	FlechaAbajoIcon,
 	CajaIcon,
 	CheckRedondoIcon,
+	BotellaIcon,
 } from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import {useObtenerVisitaActual} from 'redux/hooks';
@@ -116,7 +117,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 								borderTop: '0px',
 								padding: '0 0 12px 0',
 						  }
-						: {backgroundColor: '#FFFFFF', padding: '0 0 12px 0',}
+						: {backgroundColor: '#FFFFFF', padding: '0 0 12px 0'}
 				}
 			>
 				<Box
@@ -126,7 +127,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 						expandidoPromoPush === id ? {color: '#FFFFFF'} : {color: '#000000'}
 					}
 				>
-					<Box display='flex' flexDirection='column' padding="12px 14px 0 14px">
+					<Box display='flex' flexDirection='column' padding='12px 14px 0 14px'>
 						<Typography variant='subtitle3' marginBottom='2px'>
 							{codigoProducto}
 						</Typography>
@@ -171,19 +172,19 @@ export const TarjetaVistaPromoPush = (props: any) => {
 						justifyContent='center'
 						alignItems='center'
 						ml={5}
-						paddingRight="14px"
+						paddingRight='14px'
 					>
 						<Typography
 							variant='caption'
 							marginBottom='5px'
 							fontFamily='Open Sans'
-							textAlign="right"
+							textAlign='right'
 							sx={{width: '100%'}}
 							color={expandidoPromoPush === id ? 'white' : 'black'}
 						>
 							Unidades máximas que puedes aplicar:
 						</Typography>
-						<Box display='flex' justifyContent="end" width="100%">
+						<Box display='flex' justifyContent='end' width='100%'>
 							<Typography variant={'subtitle3'} fontWeight={700}>
 								{unidadesDisponibles}
 							</Typography>
@@ -199,85 +200,111 @@ export const TarjetaVistaPromoPush = (props: any) => {
 								border: '1.5px solid #D9D9D9',
 								borderTop: '0px',
 								padding: '0 0 12px 0',
-								borderRadius: '0 0 8px 8px'
+								borderRadius: '0 0 8px 8px',
 						  }
 						: {border: '0px', padding: '0 0 12px 0'}
 				}
 			>
 				<Collapse in={expandidoPromoPush === id} timeout='auto' unmountOnExit>
 					<Stack>
-					<Box width='100%' display='flex' flexDirection='row'>
-								<GridStyled item xs={7}>
-									<Typography
-										sx={{padding: '12px 14px'}}
-										variant={'subtitle3'}
-										fontWeight={700}
-									>
-										Paquetes
-									</Typography>
-								</GridStyled>
-								<GridStyled item xs={5}>
-									<Box
-										sx={{
-											minWidth: '100%',
-											minHeight: '100%',
-											backgroundColor: '#F5F0EF',
-										}}
-										mb={3}
-									></Box>
-								</GridStyled>
-							</Box>
+						<Box width='100%' display='flex' flexDirection='row'>
+							<GridStyled item xs={7}>
+								<Typography
+									sx={{padding: '12px 14px'}}
+									variant={'subtitle3'}
+									fontWeight={700}
+								>
+									Paquetes
+								</Typography>
+							</GridStyled>
+							<GridStyled item xs={5}>
+								<Box
+									sx={{
+										minWidth: '100%',
+										minHeight: '100%',
+										backgroundColor: '#F5F0EF',
+									}}
+									mb={3}
+								></Box>
+							</GridStyled>
+						</Box>
 						<Box>
-							{
-								componentes?.map((el: any, i: number) => (
-									<Box key={`${el.codigoProducto}${i}`}>
-										<Grid container>
-											<GridStyled item xs={7} padding="0 14px" mt={1}>
-												<Box display='flex' flexDirection='column'>
-													<Typography variant='subtitle3'>
-														{el.codigoProducto}
-													</Typography>
+							{componentes?.map((el: any, i: number) => (
+								<Box key={`${el.codigoProducto}${i}`}>
+									<Grid container>
+										<GridStyled item xs={7} padding='0 14px' mt={1}>
+											<Box display='flex' flexDirection='column'>
+												<Typography variant='subtitle3'>
+													{el.codigoProducto}
+												</Typography>
 
-													<Typography variant='subtitle3'>
-														{productos[el.codigoProducto].nombre}
-													</Typography>
-												</Box>
-											</GridStyled>
-											<GridStyled item xs={5} justifyContent="end" sx={{background: '#F5F0EF'}}>
+												<Typography variant='subtitle3'>
+													{productos[el.codigoProducto].nombre}
+												</Typography>
+											</Box>
+										</GridStyled>
+										<GridStyled
+											item
+											xs={5}
+											justifyContent='end'
+											sx={{background: '#F5F0EF'}}
+										>
+											<Box
+												display='flex'
+												flexDirection='column'
+												marginBottom='8px'
+												mt={1}
+												paddingRight='14px'
+											>
 												<Box
 													display='flex'
-													flexDirection='column'
-													marginBottom='8px'
-													mt={1}
-													paddingRight="14px"
+													textAlign='center'
+													justifyContent='end'
 												>
-													<Box display='flex' textAlign='center' justifyContent="end" >
-														<CajaIcon width={'19px'} height='14px' />
-														<Typography variant='caption' mt={0.3}>
-															{`x${promoPush.componentes[i].cantidad}
-																	${formatearNumero(el.precioBase, t)}`}
-														</Typography>
+													<Box mr={'2px'}>
+														{promoPush.componentes[i].unidadMedida === 'CAJ' ? (
+															<CajaIcon height='18px' width='18px' />
+														) : (
+															<BotellaIcon height='15px' width='15px' />
+														)}
 													</Box>
 													<Box>
-														<Typography color='primary' variant='caption'>
-															Ahorras: {formatearNumero(el.descuento, t)}
+														<Typography
+															variant='caption'
+															mt={0.3}
+															color={'#651C32'}
+														>
+															{`x${promoPush.componentes[i].cantidad} `}
 														</Typography>
-													</Box>
-													<Box>
-														<Typography variant='subtitle3'>
-															Total: {formatearNumero(el.precioFinal, t)}
+														<Typography
+															color={'#000000'}
+															variant='caption'
+															mt={0.3}
+														>
+															{`${formatearNumero(el.precioBase, t)}`}
 														</Typography>
 													</Box>
 												</Box>
-											</GridStyled>
-										</Grid>
-										<Divider />
-									</Box>
-								))}
+												<Box>
+													<Typography color='primary' variant='caption'>
+														Ahorras: {formatearNumero(el.descuento, t)}
+													</Typography>
+												</Box>
+												<Box>
+													<Typography variant='subtitle3'>
+														Total: {formatearNumero(el.precioFinal, t)}
+													</Typography>
+												</Box>
+											</Box>
+										</GridStyled>
+									</Grid>
+									<Divider />
+								</Box>
+							))}
 						</Box>
 					</Stack>
 				</Collapse>
-				<Box marginTop='8px' padding="0 14px">
+				<Box marginTop='8px' padding='0 14px'>
 					<ButtonStyled
 						disableFocusRipple
 						fullWidth
@@ -292,7 +319,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 									Ver detalle
 								</Typography>
 								<Box
-								display='flex'
+									display='flex'
 									className={clsx(classes.expand, {
 										[classes.expandOpen]:
 											expandidoPromoPush === id ? true : false,

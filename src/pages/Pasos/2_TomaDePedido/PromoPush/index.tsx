@@ -6,7 +6,7 @@ import {styled} from '@mui/material/styles';
 import TarjetaPromoPush from './TarjetaPromoPush';
 import {useObtenerPromoPushDelCliente} from 'hooks';
 import useEstilos from './useEstilos';
-import {AvisoIcon, BorrarIcon} from 'assests/iconos';
+import {AvisoIcon, BorrarIcon, ReiniciarIcon} from 'assests/iconos';
 import {useAgregarProductoAlPedidoActual} from './hooks/useAgregarProductoAlPedidoActual';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {useMostrarAdvertenciaEnDialogo, useBorrarTodoLosProductos} from 'hooks';
@@ -94,7 +94,7 @@ const PromoPush: React.FC = () => {
 						style={{
 							backgroundColor: '#FFFFFF',
 							border: '1px solid #651C32',
-							width: '93px',
+							width: '178px',
 							height: '18px',
 						}}
 					>
@@ -105,8 +105,11 @@ const PromoPush: React.FC = () => {
 							flexDirection='row'
 							alignItems='center'
 						>
-							<BorrarIcon width='7.5px' height='7.5px' />
-							<Typography variant='caption'> {`Borrar Todo`}</Typography>
+							<ReiniciarIcon width='10px' height='10px' />
+
+							<Typography fontFamily='Open Sans' variant='caption'>
+								{t('general.restablecerCero')}
+							</Typography>
 						</Stack>
 					</Button>
 				</Box>

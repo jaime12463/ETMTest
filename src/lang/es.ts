@@ -1,5 +1,6 @@
 const es = {
 	general: {
+		archivosAdjuntos: 'Archivos adjuntos',
 		producto: 'Producto',
 		unidades: 'Unidades',
 		subUnidades: 'SubUnidades',
@@ -31,7 +32,7 @@ const es = {
 		acciones: 'Acciones',
 		pedidosRealizados: 'Pedidos Realizados',
 		verEnvases: 'Ver envases',
-		envase: 'Envase',
+		envases: 'Envases',
 		pedidoMinimo: 'Pedido mínimo',
 		pedidoMaximo: 'Pedido máximo',
 		creditoDisponible: 'Crédito disponible',
@@ -70,6 +71,23 @@ const es = {
 		editarCantidades: 'Editar cantidades',
 		continuar: 'Continuar',
 		editar: 'Editar',
+		salir: 'Salir',
+		restablecerCero: 'Restablecer cantidades a cero',
+		resumenDePedido: 'Resumen de pedido',
+		totalContado: 'Total contado:',
+		totalCredito: 'Total crédito:',
+		totalDeAhorro: 'Total de ahorro:',
+		totalCargosFinancieros: 'Total de cargos financieros:',
+		productoGratis: 'Producto gratis',
+		precioUnitario: 'P. Unitario',
+		subTotal: 'Subtotal',
+		paquetes: 'Paquetes',
+		ahorras: 'Ahorras',
+		tipo: 'Tipo',
+		bonificacion: 'Bonificación',
+		fechaDeAlta: 'Fecha de alta',
+		prestamo: 'Préstamo',
+		retorno: 'Retorno',
 	},
 	simbolos: {
 		decimal: '.',
@@ -99,6 +117,18 @@ const es = {
 		coberturas: 'Coberturas',
 		tarjetaCoberturas:
 			'Indica la cantidad de producto faltante en el refrigerador del cliente.',
+		bonificaciones: 'Bonificaciones',
+		tarjetaBonificaciones: 'Agregar las bonificaciones para este cliente.',
+		bonificacionesDeshabilitadas:
+			'No hay bonificaciones para el cliente en este momento',
+		canjesDeshabilitadas:
+			'No hay disponibilidad de canje para este cliente en este momento',
+		tomaDePedido: 'Toma de pedido',
+		tarjetaTomaDePedido:
+			'Modifica tu pedido con las mejores opciones para tu cliente.',
+		promociones: 'Promociones',
+		tarjetaPromociones:
+			'Selecciona las promociones que tienes disponible para tus clientes.',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',

@@ -10,7 +10,14 @@ import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 
 interface ValidarPasos {
 	error: boolean;
-	contenidoMensaje?: Configuracion;
+	contenidoMensajeModal?: Configuracion;
+	contenidoMensajeAviso?: {
+		tipo: 'default' | 'error' | 'success' | 'warning' | 'info';
+		titulo: string;
+		mensaje?: string;
+		opciones?: any;
+		dataCy?: string;
+	};
 }
 
 export const useValidarPasos = (pasoActual: number): ValidarPasos => {
@@ -28,47 +35,26 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 		if (iniciativasCanceladasSinMotivo) {
 			return {
 				error: iniciativasCanceladasSinMotivo,
-				contenidoMensaje: {
-					titulo: t('titulos.tituloIniciativasSinMotivo'),
-					mensaje: t('advertencias.mensajeIniciativasSinMotivo'),
-					tituloBotonAceptar: t('general.continuar'),
-					tituloBotonCancelar: t('general.editar'),
-					callbackAceptar: () => {
-						visitaActual.iniciativas.map((iniciativa) => {
-							if (
-								iniciativa.estado === 'cancelada' &&
-								iniciativa.motivo === ''
-							) {
-								dispatch(
-									cambiarEstadoIniciativa({
-										codigoIniciativa: iniciativa.codigoIniciativa,
-										estado: 'pendiente',
-									})
-								);
-								dispatch(
-									cambiarSeQuedaAEditar({seQueda: false, bordeError: false})
-								);
-							}
-						});
-					},
-					callbackCancelar: () => {
-						dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
-					},
-					iconoMensaje: <AvisoIcon />,
+				contenidoMensajeAviso: {
+					tipo: 'error',
+					titulo: 'Iniciativa cancelada sin motivo',
+					mensaje: 'ingrese un motivo para la iniciativa cancelada',
+					opciones: undefined,
+					dataCy: 'clienteNoPortafolio',
 				},
 			};
 		}
 	}
 
 	if (pasoActual === 1) {
-		const productosSinModificar = venta.productos.some(
+		const productosSinModificar = venta?.productos?.some(
 			(producto) => producto.unidades === 0 && producto.subUnidades === 0
 		);
 
 		if (productosSinModificar) {
 			return {
 				error: productosSinModificar,
-				contenidoMensaje: {
+				contenidoMensajeModal: {
 					titulo: t('titulos.tituloProductosSinCargar'),
 					mensaje: t('advertencias.mensajeProductosSinCargar'),
 					tituloBotonAceptar: t('general.avanzar'),

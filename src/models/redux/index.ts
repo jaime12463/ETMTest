@@ -7,6 +7,7 @@ import {
 	TIniciativas,
 	TDescuentoEscalonado,
 	TDescuentoPolarizado,
+	TComponente,
 } from 'models/server';
 
 //Cliente Actual
@@ -58,6 +59,26 @@ export type TVisita = {
 	pasoATomaPedido: boolean;
 	seQuedaAEditar: SeQuedaAEditar;
 	fechaVisitaPlanificada: string;
+	bonificaciones: TBonificacionesCliente[];
+};
+
+export type TBonificacionesCliente = {
+	numeroPedido: string;
+	codigoCliente: string;
+	idBonificacion: number | null;
+	fechaCreacion: string;
+	codigoUsuario: string;
+	ruta: string;
+	fechaEntrega: string;
+	detalle: TDetalleBonificacionesCliente[];
+};
+
+export type TDetalleBonificacionesCliente = {
+	numeroPedido: string;
+	idGrupo: number;
+	codigoProducto: number;
+	cantidad: number;
+	unidadMedida: string;
 };
 
 export type SeQuedaAEditar = {
@@ -75,16 +96,18 @@ export type TIniciativasCliente = {
 	motivo: string;
 	secuencia: number;
 	fechaEntrega: string;
-	codigoIniciativa: number;
-	nombreActividad: string;
-	planActividad: string;
-	descripcion: string;
-	vencimiento: string;
-	codigoProducto: number;
-	unidades: number;
-	subUnidades: number;
+	idActividadIniciativa: number;
+	nombreIniciativa: string;
+	nombreActividadPlan: string;
+	descripcionIniciativa: string;
+	finVigenciaIniciativa: string;
+	idMaterialIniciativa: number;
+	unidadVentaIniciativa: number;
+	subunidadVentaIniciativa: number;
+
 	unidadesEjecutadas: number;
 	subUnidadesEjecutadas: number;
+	archivoAdjunto?: string;
 };
 
 export type TPresupuestoTipoPedidoTotal = {
@@ -119,6 +142,8 @@ export type TPrecioProducto = {
 	esVentaSubunidades: boolean;
 	precioConImpuestoUnidad: number;
 	precioConImpuestoSubunidad: number;
+	precioConDescuentoUnidad?: number;
+	precioConDescuentoSubunidad?: number;
 	codigoImplicito1?: number;
 	nombreImplicito1?: string;
 	codigoImplicito2?: number;
@@ -128,6 +153,8 @@ export type TPrecioProducto = {
 	tipoProducto: number;
 	descuentoPolarizado?: TDescuentoPolarizado[];
 	descuentoEscalonado?: TDescuentoEscalonado[];
+	descuentoPromoPush?: number;
+	componentes?: TComponente[];
 };
 
 export type TPedidoDelProducto = {
@@ -163,6 +190,7 @@ export type TPedidosClientes = {
 		pedidos: TPedidoClienteParaEnviar[];
 		compromisosDeCobro: TCompromisoDeCobro[];
 		iniciativas: TIniciativasCliente[];
+		bonificaciones: TBonificacionesCliente[];
 	};
 };
 

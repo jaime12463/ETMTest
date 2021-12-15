@@ -9,11 +9,14 @@ import {
 	validarHayMasProductosNoMandatorios,
 } from 'utils/validaciones';
 import {useTranslation} from 'react-i18next';
+import {useDispatch} from 'react-redux';
+import {restablecerBonificaciones} from 'redux/features/visitaActual/visitaActualSlice';
 
 export const useValidarBorrarPedido = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const visitaActual = useObtenerVisitaActual();
+	const dispatch = useDispatch();
 	const {t} = useTranslation();
 	const configuracion = useObtenerConfiguracion();
 	const configuracionTipoDePedidoActual = configuracion.tipoPedidos.find(
@@ -36,8 +39,19 @@ export const useValidarBorrarPedido = (
 					productosMandatoriosVisitaActual.noMandatorios
 				)
 			) {
+				if (
+					!validarHayMasProductosMandatorios(
+						productosMandatoriosVisitaActual.mandatorios
+					) &&
+					configuracion.bonificacionesConVenta
+				) {
+					dispatch(restablecerBonificaciones());
+				}
 				aviso({borrarProductosNoMandatorios: false});
 			} else {
+				if (configuracion.bonificacionesConVenta) {
+					dispatch(restablecerBonificaciones());
+				}
 				mostrarAdvertenciaEnDialogo(
 					t('advertencias.borrarPedidosNoMandatorios', {
 						tipoPedido: pedidoNoMandatorio?.descripcion,

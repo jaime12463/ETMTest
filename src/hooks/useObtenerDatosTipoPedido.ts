@@ -6,9 +6,13 @@ export const useObtenerDatosTipoPedido = () => {
 	const {tipoPedidos} = useObtenerConfiguracion();
 	const visitaActual = useObtenerVisitaActual();
 
-	const obtenerDatosTipoPedido = () => {
+	const obtenerDatosTipoPedido = (tipoPedido?: string) => {
+		let tipoPedidoSeleccionado = visitaActual.tipoPedidoActual;
+		if (tipoPedido) {
+			tipoPedidoSeleccionado = tipoPedido;
+		}
 		const datosTipoPedidoActual: TTipoPedido | undefined = tipoPedidos.find(
-			(tipoPedido) => tipoPedido.codigo === visitaActual.tipoPedidoActual
+			(tipoPedido) => tipoPedido.codigo === tipoPedidoSeleccionado
 		);
 
 		return datosTipoPedidoActual;

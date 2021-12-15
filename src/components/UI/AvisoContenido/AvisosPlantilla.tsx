@@ -1,5 +1,9 @@
 import {Box, Typography} from '@mui/material';
-import {CheckRedondoIcon, WarningTrianguloIcon} from 'assests/iconos';
+import {
+	CheckRedondoIcon,
+	WarningTrianguloIcon,
+	CerrarRedondoIcon,
+} from 'assests/iconos';
 import useEstilos from './useEstilos';
 import theme from 'theme';
 import React from 'react';
@@ -23,7 +27,7 @@ export const AvisoPlantilla = ({tipo, titulo, mensaje, dataCy}: TAviso) => {
 	switch (tipo) {
 		case 'error':
 			icono = (
-				<CheckRedondoIcon
+				<CerrarRedondoIcon
 					height='21px'
 					fill={`${theme.palette.primary.main}`}
 					width='21px'
