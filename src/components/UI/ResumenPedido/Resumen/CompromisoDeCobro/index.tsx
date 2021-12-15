@@ -25,9 +25,9 @@ export const CompromisoDeCobro: React.FC = () => {
 		datosCliente?.informacionCrediticia.limite;
 
 	const fechaDeHoy = new Date();
-	const fechaFormateada = `${fechaDeHoy.getFullYear()}-${
+	const fechaFormateada = `${fechaDeHoy.getFullYear()}-${fechaDeHoy.getDate()}-${
 		fechaDeHoy.getMonth() + 1
-	}-${fechaDeHoy.getDate()}`;
+	}`;
 
 	return (
 		<Box>
