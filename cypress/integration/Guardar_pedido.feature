@@ -1,6 +1,10 @@
 # language: es
 
-@Pedido @Guardar_pedido @Iniciativas @Bonificaciones @Sprint7 @Sprint8 @Sprint9 @Sprint10 @Sprint11 @Sprint13 @Sprint15 @Sprint17
+@Pedido @Guardar_pedido @Iniciativas @Bonificaciones @Sprint7 @Sprint8 @Sprint9 @Sprint10 @Sprint11 @Sprint13 @Sprint15 @Sprint17 
+@Sprint18
+
+# Sprint18: Al guardar el pedido, si existen productos que también se informan en algún grupo de coberturas
+# se debe guardar la información de cobertura para luego no mostrar ese grupo en planeación
 
 # Sprint17: 
 # Cabecera: idPedido, codigo cliente, idBonificación, fecha y hora, usuario, ruta
@@ -61,9 +65,9 @@ Característica: Guardar actividad realizada
 Antecedentes:
     Dado un pedido ingresado y/o un compromiso de cobro registrado
     Y montoVentaMaximo = montoVentaContadoMaxima - consumido para la fecha de entrega - pedidos de contado registrados para la misma fecha de entrega - compromisos de cobro para la misma fecha de entrega
-    Y creditoDisponible = informacionCrediticia.disponible – pedidos a crédito ya registrados – productos a crédito del pedido actual
+    Y creditoDisponible = informacionCrediticia.disponible - pedidos a crédito ya registrados – productos a crédito del pedido actual
 
-Escenario: N°1 – El cliente de contado o crédito formal no tiene pedidos activos para la fecha de entrega y el pedido cumple el mínimo y no excede el máximo. No se valida crédito disponible.
+Escenario: N°1 - El cliente de contado o crédito formal no tiene pedidos activos para la fecha de entrega y el pedido cumple el mínimo y no excede el máximo. No se valida crédito disponible.
     Dado que el cliente no tiene pedidos en estado Activo para la misma fecha de entrega del pedido a guardar
     Y la suma del monto del pedido a guardar, cuyo tipo de pedido _contribuyeAMinimo = true, es mayor o igual a _montoVentaMinimo del cliente 
     Y la suma del monto de los productos de contado, cuyo tipo de pedido _esValorizado = true,  + compromiso de cobro es menor o igual a montoVentaMaximo
@@ -73,7 +77,7 @@ Escenario: N°1 – El cliente de contado o crédito formal no tiene pedidos act
     Y registrará la orden de compra en la cabecera de todos los pedidos cuyos tipos de pedido son _esValorizado = true
     Y volverá a la pantalla de cliente
 
-Escenario: N°2 – El cliente de crédito informal no tiene pedidos activos para la fecha de entrega y no excede el límite de crédito y el pedido cumple el mínimo y no excede el máximo
+Escenario: N°2 - El cliente de crédito informal no tiene pedidos activos para la fecha de entrega y no excede el límite de crédito y el pedido cumple el mínimo y no excede el máximo
     Dado que el cliente no tiene pedidos en estado Activo para la misma fecha de entrega del pedido a guardar
     Y la suma del monto del pedido a guardar, cuyo tipo de pedido _contribuyeAMinimo = true, es mayor o igual _montoVentaMinimo del cliente 
     Y la suma del monto de los productos de contado, cuyo tipo de pedido _esValorizado = true,  + compromiso de cobro es menor o igual a montoVentaMaximo
@@ -84,20 +88,20 @@ Escenario: N°2 – El cliente de crédito informal no tiene pedidos activos par
     Y registrará la orden de compra en la cabecera de todos los pedidos cuyos tipos de pedido son _esValorizado = true
 
 
-Escenario: N°3 – El total del pedido no cumple con el pedido mínimo 
+Escenario: N°3 - El total del pedido no cumple con el pedido mínimo 
     Dado que el cliente no tiene pedidos en estado Activo para la misma fecha de entrega del pedido a guardar
      Y la suma del monto del pedido a guardar, cuyo tipo de pedido _contribuyeAMinimo = true, es menor al _montoVentaMinimo del cliente 
     Cuando guardo el pedido
     Entonces el sistema Mostrará mensaje "El pedido no alcanza el monto de venta mínima montoVentaMinimo" y permanecerá en la pantalla  
     
 
-Escenario: N°4 – El pedido de contado excede con el pedido máximo 
+Escenario: N°4 - El pedido de contado excede con el pedido máximo 
     Dado que la suma del monto de los productos de contado, cuyo tipo de pedido _esValorizado = true,  + compromiso de cobro es mayor a montoVentaMaximo
     Y la _condición de crédito del cliente es igual crédito informal 
     Cuando guardo el pedido
     Entonces el sistema Mostrará mensaje "El pedido excede el monto de venta máxima montoVentaMaximo" y permanecerá en la pantalla  
     
-Escenario: N°5 – El pedido a guardar no necesita cumplir el pedido mínimo ya que hay otros pedidos para la fecha entrega, los productos de contado no superan el monto máximo y el cliente no es de crédito informal, por lo que no valida el crédito
+Escenario: N°5 - El pedido a guardar no necesita cumplir el pedido mínimo ya que hay otros pedidos para la fecha entrega, los productos de contado no superan el monto máximo y el cliente no es de crédito informal, por lo que no valida el crédito
     Dado que el cliente tiene otros pedidos activos para la fecha de entrega 
     Y la suma del monto de los productos de contado, cuyo tipo de pedido _esValorizado = true,  + compromiso de cobro es menor o igual a montoVentaMaximo 
     Y el cliente no tiene _condición de pago igual a crédito informal
@@ -106,7 +110,7 @@ Escenario: N°5 – El pedido a guardar no necesita cumplir el pedido mínimo ya
     Y registrará la orden de compra en la cabecera de todos los pedidos cuyos tipos de pedido son _esValorizado = true
     Y volverá a la pantalla de cliente
 
-Escenario: N°6 – El pedido a guardar no necesita cumplir el pedido mínimo ya que hay otros pedidos activos, los productos de contado no superan el monto máximo y el cliente de crédito informal no supero el crédito disponible
+Escenario: N°6 - El pedido a guardar no necesita cumplir el pedido mínimo ya que hay otros pedidos activos, los productos de contado no superan el monto máximo y el cliente de crédito informal no supero el crédito disponible
     Dado que el cliente tiene otros pedidos activos para la fecha de entrega 
     Y la suma del monto de los productos de contado, cuyo tipo de pedido _esValorizado = true,  + compromiso de cobro es menor o igual a montoVentaMaximo  
     Y el cliente tiene _condición de pago crédito informal  
@@ -116,26 +120,33 @@ Escenario: N°6 – El pedido a guardar no necesita cumplir el pedido mínimo ya
     Y registrará la orden de compra en la cabecera de todos los pedidos cuyos tipos de pedido son _esValorizado = true
     Y volverá a la pantalla de cliente
 
-Escenario: N°7 – El cliente es de crédito informal y el pedido a guardar a crédito excede el crédito disponible
+Escenario: N°7 - El cliente es de crédito informal y el pedido a guardar a crédito excede el crédito disponible
     Dado que el cliente tiene _condición de pago crédito informal 
     Y se ingresaron productos con _condición de pago crédito
     Y el créditoDisponible es menor a cero
     Cuando guardo el pedido
     Entonces el sistema Mostrará mensaje "El pedido excede el crédito disponible" y permanecerá en la pantalla  
 
-Escenario: N°8 – Iniciativas cumplidas
+Escenario: N°8 - Iniciativas cumplidas
     Dado que el cliente tiene iniciativas habilitadas para el pedido actual
-    Y el producto de la iniciativa se encuentra en el pedido con una cantidad mayor o igual a la de la iniciativa
+    Y al menos un producto de las iniciativas se encuentran en el pedido 
+    #Y la suma de las cantidades de dichos productos es mayor o igual a la indicada en la iniciativa
+    Y la suma de las cantidades de dichos productos, convertidos a la unidad de medida de la iniciativa, es mayor o igual al disponible indicado en la iniciativa
     Cuando guardo el pedido
     Entonces el sistema registrara la iniciativa con status = "Ejecutada" indicando usuario, fecha y hora, código de iniciativa, código de cliente, status, producto, unidades y subunidades.
 
-Escenario: N°9 – Iniciativas no cumplidas
+Escenario: N°9 - Iniciativas no cumplidas
     Dado que el cliente tiene iniciativas con status = "Ejecutada" para el pedido actual
-    Y el producto de la iniciativa se encuentra en el pedido con una cantidad menor a la de la iniciativa
+    Y al menos un producto de la iniciativa se encuentra en el pedido 
+    #Y la suma de las cantidades de dichos productos es menor a la indicada en la iniciativa
+    Y la suma de las cantidades de dichos productos, convertidos a la unidad de medida de la iniciativa, es menor al disponible indicado en la iniciativa
     Cuando guardo el pedido
     Entonces el sistema elimina la iniciativa registrada
-   
-Escenario: N°10 – Bonificaciones ingresadas
+
+# La conversión según la unidad de medida se debe realizar con la presentación. Ej, si la unidad de medida es subunidades
+# y se vende 1 unidad de un producto que tiene presentación 12, se convierten en 12 subunidades para el cálculo.
+
+Escenario: N°10 - Bonificaciones ingresadas
     Dado que se ingresaron bonificaciones para el pedido actual
     Cuando guardo el pedido
     Entonces el sistema registrara las bonificaciones, en la cabecera el número de pedido, codigo cliente, _idBonificación, fecha y hora, código de usuario, ruta
@@ -144,3 +155,9 @@ Escenario: N°10 – Bonificaciones ingresadas
 
  # Queda pendiente si se debe guardar la clase de condición de la bonificacion
 
+Escenario: N°11 - Coberturas ingresadas
+    Dado que se ingresaron productos en el _tipoPedido = "Venta"
+    Y existen grupos de coberturas con los mismos productos
+    Cuando guardo el pedido
+    Entonces el sistema registrará el cliente, _grupoCobertura, el _codigo producto y las cantidades ingresadas de los productos
+	

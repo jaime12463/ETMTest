@@ -15,17 +15,19 @@ Escenario: N°1 - Desplegar cobertura
     Dado que estoy en paso 1 - planeación 
     Y el cliente tiene coberturas asignadas
     Cuando selecciono el control desplegar de la tarjeta cobertura
-    Entonces el sistema mostrará las coberturas asignadas al cliente ordenadas por _secuenciaGrupoCobertura
+    Entonces el sistema mostrará los primeros _maximoGrupoCoberturaAMostrarcoberturas grupos no cumplidos que estén asignados al cliente ordenadas por _secuenciaGrupoCobertura
     Y mostrará _grupoCobertura
     Y mostrará la cantidad total de productos que tiene dicho grupo
     Y mostrará el control para ver el detalle de cada grupo
     Y colapsará otras tarjetas del paso 1 - planeación
 
+# Se debe validar contra los grupos de coberturas guardados (que se guardan al cerrar la visita) para saber si están cumplidas o no.    
+
 Escenario: N°2 - Desplegar cobertura con productos en el pedido
     Dado que estoy en paso 1 - planeación
     Y se agregaron productos de las cobertura al pedido
     Cuando selecciono el control desplegar de la tarjeta cobertura
-    Entonces el sistema mostrará las coberturas asignadas al cliente ordenadas por _secuenciaGrupoCobertura
+    Entonces el sistema mostrará los primeros _maximoGrupoCoberturaAMostrarcoberturas grupos no cumplidos que estén asignados al cliente ordenadas por _secuenciaGrupoCobertura
     Y mostrará _grupoCobertura
     Y mostrará la cantidad total de productos que tiene dicho grupo
     Y mostrará el control para ver el detalle de cada grupo
