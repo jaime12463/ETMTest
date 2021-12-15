@@ -1,10 +1,7 @@
 import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';
-import {Estructura, TarjetaColapsable, TarjetaDoble} from 'components/UI';
+import {Estructura} from 'components/UI';
 import {ListadoPedidosRealizados} from './components';
-import {useState} from 'react';
-import {Box, Card, Grid} from '@mui/material';
-import {textAlign} from '@mui/system';
 
 const PedidosDelClienteActual: React.FC = () => {
 	const {t} = useTranslation();

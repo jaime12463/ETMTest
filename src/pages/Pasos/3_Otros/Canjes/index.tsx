@@ -218,7 +218,7 @@ const Izquierda: React.FC<IzquierdaProps> = ({
 	const itemCatalogoMotivos = useObtenerCatalogoMotivos();
 	const {focusId, setFocusId} = statefocusId;
 	const {catalogoMotivo, setCatalogoMotivo} = stateCatalogo;
-	const [motivo, setMotivo] = useState('');
+	const [motivo, setMotivo] = useState('Motivo del canje');
 
 	React.useEffect(() => {
 		const motivoFiltrado = itemCatalogoMotivos.find(

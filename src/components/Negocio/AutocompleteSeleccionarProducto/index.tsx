@@ -34,7 +34,7 @@ const GridAutocomplete = styled(Grid)(() => ({
 	boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.15)',
 	height: '32px',
 	padding: '0 12px',
-	marginBottom: '28px',
+	marginBottom: '18px',
 }));
 
 const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
