@@ -55,7 +55,8 @@ const ButtonStyled = styled(Button)(() => ({
 	boxSizing: 'border-box',
 	borderRadius: '20px',
 	minHeight: '10px',
-	height: '16px',
+	height: '18px',
+	width: '276px',
 	textTransform: 'none',
 	'&:hover': {
 		background: 'none',

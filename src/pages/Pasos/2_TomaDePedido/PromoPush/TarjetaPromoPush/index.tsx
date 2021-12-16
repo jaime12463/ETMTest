@@ -307,7 +307,6 @@ const TarjetaPromoPush = (props: any) => {
 						>
 							<Typography
 								variant='caption'
-								alignSelf='end'
 								marginBottom='14px'
 								fontFamily='Open Sans'
 								sx={
@@ -316,6 +315,7 @@ const TarjetaPromoPush = (props: any) => {
 										: {color: '#000000'}
 								}
 							>
+							{/*ToDo: Cambiar a multilenguaje */}	
 								Aplicación maxima
 							</Typography>
 							<Box
@@ -478,20 +478,23 @@ const TarjetaPromoPush = (props: any) => {
 															</Typography>
 														</Box>
 													</Box>
-													<Box>
-														<Typography
-															color='primary'
-															fontFamily='Open Sans'
-															variant='caption'
-														>
-															Ahorras: {formatearNumero(el.descuento, t)}
-														</Typography>
-													</Box>
-													<Box>
-														<Typography variant='subtitle3'>
-															Total: {formatearNumero(el.precioFinal, t)}
-														</Typography>
-													</Box>
+													<Typography
+														color='primary'
+														fontFamily='Open Sans'
+														variant='caption'
+														marginBottom='12px'
+														alignSelf='end'
+													>
+													{/*ToDo: pasar a multilenguaje */}
+														Ahorras: {formatearNumero(el.descuento, t)}
+													</Typography>
+													<Typography 
+														variant='subtitle3'
+														alignSelf='end'
+													>
+													{/*ToDo: pasar a multilenguaje */}
+														Total: {formatearNumero(el.precioFinal, t)}
+													</Typography>
 												</Box>
 											</GridStyled>
 										</Grid>
@@ -513,7 +516,8 @@ const TarjetaPromoPush = (props: any) => {
 							<CardActions disableSpacing style={{padding: 0}}>
 								<Box display='flex' gap='6px' alignItems='center'>
 									<Typography variant='caption' color='secondary'>
-										Ver detalle
+									{/*ToDo: pasar a multilenguaje */}
+										{expandidoPromoPush !== id ? 'Ver detalle' : 'Ocultar detalle'}
 									</Typography>
 									<Box
 										className={clsx(classes.expand, {
