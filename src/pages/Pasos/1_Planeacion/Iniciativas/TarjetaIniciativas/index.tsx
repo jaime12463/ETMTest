@@ -418,7 +418,11 @@ const TarjetaIniciativas: React.FC<Props> = ({
 							</Typography>
 						</Box>
 					)}
-					<Typography variant='subtitle2' data-cy={`iniciativa-titulo-${id}`}>
+					<Typography 
+						variant='subtitle2' 
+						fontSize='12px' 
+						data-cy={`iniciativa-titulo-${id}`}
+					>
 						{nombreIniciativa}
 					</Typography>
 					{estadoSelect === 'ejecutada' && (
