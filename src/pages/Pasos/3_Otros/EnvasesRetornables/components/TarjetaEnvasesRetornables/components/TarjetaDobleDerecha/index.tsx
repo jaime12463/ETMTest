@@ -16,7 +16,7 @@ const InputStyled = styled(Input)(({theme}) => ({
 	border: 'none',
 	width: '28px',
 	height: '22px',
-	backgroundColor: 'white',
+	backgroundColor: `${theme.palette.greys.light}`,
 	fontWeight: 600,
 	lineHeight: '12px',
 	fontSize: '12px',
