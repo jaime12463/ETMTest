@@ -438,11 +438,7 @@ const Derecha: React.FC<DerechaProps> = ({
 					{mostrarAcciones && (
 						<>
 							<IconButton sx={{padding: '0 5px'}}>
-								<CheckRedondoIcon
-									height='17.5px'
-									width='17.5px'
-									fill={`${theme.palette.success.main}`}
-								/>
+								<CheckRedondoIcon height='17.5px' width='17.5px' />
 							</IconButton>
 						</>
 					)}
@@ -472,12 +468,12 @@ const Derecha: React.FC<DerechaProps> = ({
 							value='-'
 							name='unidades'
 							onClick={handleButtons}
-							disabled={producto.unidades > 0 ? false : true}
+							disabled={producto.unidades === 0}
 						>
 							<QuitarRellenoIcon
 								width='18px'
 								height='18px'
-								fill={producto.unidades > 0 ? '#2F000E' : '#D9D9D9'}
+								disabled={producto.unidades === 0}
 							/>
 						</IconButton>
 						<InputStyled
@@ -516,11 +512,11 @@ const Derecha: React.FC<DerechaProps> = ({
 							<AgregarRedondoIcon
 								width='18px'
 								height='18px'
-								fill={
+								disabled={
 									producto.unidades >=
 									configuracionPedido?.cantidadMaximaUnidades
-										? '#D9D9D9'
-										: '#2F000E'
+										? true
+										: false
 								}
 							/>
 						</IconButton>
@@ -532,12 +528,12 @@ const Derecha: React.FC<DerechaProps> = ({
 							value='-'
 							name='subUnidades'
 							onClick={handleButtons}
-							disabled={producto.subUnidades > 0 ? false : true}
+							disabled={producto.subUnidades === 0}
 						>
 							<QuitarRellenoIcon
 								width='18px'
 								height='18px'
-								fill={producto.subUnidades > 0 ? '#2F000E' : '#D9D9D9'}
+								disabled={producto.subUnidades === 0}
 							/>
 						</IconButton>
 						<InputStyled
@@ -575,11 +571,9 @@ const Derecha: React.FC<DerechaProps> = ({
 							<AgregarRedondoIcon
 								width='18px'
 								height='18px'
-								fill={
+								disabled={
 									getValue.subUnidades >=
 									producto.presentacion - producto.subunidadesVentaMinima
-										? '#D9D9D9'
-										: '#2F000E'
 								}
 							/>
 						</IconButton>

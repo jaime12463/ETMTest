@@ -269,7 +269,7 @@ const Controles: React.FC<Props> = ({
 						<BotellaIcon height='18px' width='18px' />
 					)}
 					<IconButton
-						sx={{padding: 0}}
+						sx={{marginLeft: '2px', padding: 0}}
 						name='-'
 						onClick={handleButtons}
 						disabled={cantidad === 0}
@@ -277,7 +277,7 @@ const Controles: React.FC<Props> = ({
 						<QuitarRellenoIcon
 							height='18px'
 							width='18px'
-							fill={cantidad === 0 ? '#D9D9D9' : theme.palette.secondary.dark}
+							disabled={cantidad === 0}
 						/>
 					</IconButton>
 					<Input
@@ -313,7 +313,7 @@ const Controles: React.FC<Props> = ({
 						<AgregarRedondoIcon
 							width='18px'
 							height='18px'
-							fill={contador === 0 ? '#D9D9D9' : theme.palette.secondary.dark}
+							disabled={contador === 0}
 						/>
 					</IconButton>
 				</Box>

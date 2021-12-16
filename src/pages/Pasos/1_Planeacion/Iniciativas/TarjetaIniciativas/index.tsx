@@ -1,4 +1,4 @@
-import { useState , useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {styled} from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -42,10 +42,15 @@ import {
 	InputsKeysFormTomaDePedido,
 	TProductoPedido,
 	TIniciativasCliente,
+	TConfiguracionPedido,
 } from 'models';
 import theme from 'theme';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
-import {useMostrarAdvertenciaEnDialogo, useMostrarAviso} from 'hooks';
+import {
+	useMostrarAdvertenciaEnDialogo,
+	useMostrarAviso,
+	useObtenerDatosCliente,
+} from 'hooks';
 import {formatearNumero, formatearFecha} from 'utils/methods';
 import CustomSelect from 'components/UI/CustomSelect';
 import {Link} from '@mui/material';
@@ -112,6 +117,8 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	const visitaActual = useObtenerVisitaActual();
 	const {motivosCancelacionIniciativas} = useObtenerConfiguracion();
 	const clienteActual = useObtenerClienteActual();
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+	const {configuracionPedido}: any = datosCliente;
 	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
 	// ToDo
 	const unidades = unidadesEjecutadas;
@@ -159,9 +166,10 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	const [puedeAgregar, setPuedeAgregar] = useState<boolean>(false);
 	const [getValues, setGetValues] = useState<GetValuesProps>(defaultValues);
 
-	const [focusId, setFocusId] =  useState<number>(0);
-	const [inputFocus, setInputFocus] = useState<InputsKeysFormTomaDePedido>('productoABuscar');
-	const [mostrarArchivosAdjuntos, setMostrarArchivosAdjuntos]=useState(false);
+	const [focusId, setFocusId] = useState<number>(0);
+	const [inputFocus, setInputFocus] =
+		useState<InputsKeysFormTomaDePedido>('productoABuscar');
+	const [mostrarArchivosAdjuntos, setMostrarArchivosAdjuntos] = useState(false);
 	const classes = useEstilos({
 		estado: estadoSelect,
 		inputsBloqueados: visitaActual.pasoATomaPedido,
@@ -423,7 +431,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 					</Typography>
 					{estadoSelect === 'ejecutada' && (
 						<Box>
-							<CheckRedondoIcon fill={theme.palette.success.main} />
+							<CheckRedondoIcon />
 						</Box>
 					)}
 					{estadoSelect === 'cancelada' && motivo !== '' && (
@@ -572,16 +580,20 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										sx={{textDecoration: 'none'}}
 										fontFamily='Open Sans'
 										component='button'
-										onClick={ ()=>{
+										onClick={() => {
 											setMostrarArchivosAdjuntos(true);
 										}}
 									>
 										{archivoAdjunto}
 									</Link>
 								</Box>
-								<VisualizadorPdfs titulo={archivoAdjunto} archivo={archivoAdjunto} open={mostrarArchivosAdjuntos} setOpen={setMostrarArchivosAdjuntos}/>
+								<VisualizadorPdfs
+									titulo={archivoAdjunto}
+									archivo={archivoAdjunto}
+									open={mostrarArchivosAdjuntos}
+									setOpen={setMostrarArchivosAdjuntos}
+								/>
 							</Box>
-							
 						)}
 					</Stack>
 					<Divider />
@@ -646,7 +658,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 									display='flex'
 									alignItems='center'
 									justifyContent='center'
-									gap='4px'
+									gap='2px'
 								>
 									<CajaIcon width='18px' height='18px' />
 									{estadoSelect === 'ejecutada' &&
@@ -655,14 +667,14 @@ const TarjetaIniciativas: React.FC<Props> = ({
 												size='small'
 												value='-'
 												name='unidades'
-												sx={{padding: 0}}
-												disabled={getValues.unidades <= 0}
+												sx={{marginLeft: '2px', padding: 0}}
+												disabled={getValues.unidades === 0}
 												onClick={handleButtons}
 											>
 												<QuitarRellenoIcon
 													width='18px'
 													height='18px'
-													fill={getValues.unidades <= 0 ? '#D9D9D9' : '#2F000E'}
+													disabled={getValues.unidades === 0}
 												/>
 											</IconButton>
 										)}
@@ -706,11 +718,31 @@ const TarjetaIniciativas: React.FC<Props> = ({
 												value='+'
 												sx={{padding: 0}}
 												onClick={handleButtons}
+												disabled={
+													producto.unidadesDisponibles
+														? getValues.unidades >= producto.unidadesDisponibles
+															? true
+															: false
+														: getValues.unidades >=
+														  configuracionPedido?.cantidadMaximaUnidades
+														? true
+														: false
+												}
 											>
 												<AgregarRedondoIcon
 													width='18px'
 													height='18px'
-													fill='#2F000E'
+													disabled={
+														producto.unidadesDisponibles
+															? getValues.unidades >=
+															  producto.unidadesDisponibles
+																? true
+																: false
+															: getValues.unidades >=
+															  configuracionPedido?.cantidadMaximaUnidades
+															? true
+															: false
+													}
 												/>
 											</IconButton>
 										)}
@@ -720,7 +752,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										display='flex'
 										alignItems='center'
 										justifyContent='center'
-										gap='4px'
+										gap='2px'
 									>
 										<BotellaIcon width='18px' height='18px' />
 										{estadoSelect === 'ejecutada' &&
@@ -729,16 +761,14 @@ const TarjetaIniciativas: React.FC<Props> = ({
 													size='small'
 													value='-'
 													name='subUnidades'
-													sx={{padding: 0}}
-													disabled={getValues.subUnidades <= 0}
+													sx={{marginLeft: '2px', padding: 0}}
+													disabled={getValues.subUnidades === 0}
 													onClick={handleButtons}
 												>
 													<QuitarRellenoIcon
 														width='18px'
 														height='18px'
-														fill={
-															getValues.subUnidades <= 0 ? '#D9D9D9' : '#2F000E'
-														}
+														disabled={getValues.subUnidades === 0}
 													/>
 												</IconButton>
 											)}
@@ -792,12 +822,10 @@ const TarjetaIniciativas: React.FC<Props> = ({
 													<AgregarRedondoIcon
 														width='18px'
 														height='18px'
-														fill={
+														disabled={
 															getValues.subUnidades >=
 															producto.presentacion -
 																producto.subunidadesVentaMinima
-																? '#D9D9D9'
-																: '#2F000E'
 														}
 													/>
 												</IconButton>

@@ -3,6 +3,7 @@ import theme from 'theme';
 
 interface Props {
 	valido: boolean;
+	open: boolean;
 }
 
 const useEstilos = makeStyles(() =>
@@ -17,15 +18,13 @@ const useEstilos = makeStyles(() =>
 				padding: '16px 18px',
 			},
 		},
-		expand: {
-			transform: 'rotate(0deg)',
-			padding: 0,
-		},
-		expandOpen: {
-			transform: 'rotate(180deg)',
-		},
 		inactiva: {
 			opacity: 0.5,
+		},
+		arrow: {
+			transform: (props: Props) =>
+				props.open ? 'rotateX(180deg)' : 'rotateX(0deg)',
+			transition: 'transform 0.3s ease-in-out',
 		},
 	})
 );

@@ -220,11 +220,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 				>
 					{mostrarCheck && (
 						<Box display='flex' justifyContent='end'>
-							<CheckRedondoIcon
-								height='20px'
-								width='20px'
-								fill={theme.palette.success.main}
-							/>
+							<CheckRedondoIcon height='20px' width='20px' />
 						</Box>
 					)}
 					<Box display='flex' flexDirection='column' gap='2px'>

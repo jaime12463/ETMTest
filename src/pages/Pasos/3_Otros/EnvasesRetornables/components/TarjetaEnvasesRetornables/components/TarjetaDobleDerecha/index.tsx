@@ -1,15 +1,13 @@
 import {Grid, Input, Typography} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {InputTipoPedido} from '../../..';
-import caja from 'assests/iconos/caja.svg';
-import botella from 'assests/iconos/botella.svg';
 import {FunctionComponent, useEffect, useState} from 'react';
 import {TConsolidadoImplicitos, TPrecioProducto, TTipoPedido} from 'models';
 import {useAgregarProductoAlPedidoActual} from '../../../../hooks/useAgregarProductoAlPedidoActual';
 import {useMostrarAdvertenciaEnDialogo, useMostrarAviso} from 'hooks';
 import {useTranslation} from 'react-i18next';
 import {Dialogo} from 'components/UI';
-import {useObtenerVisitaActual} from 'redux/hooks';
+import {BotellaIcon, CajaIcon} from 'assests/iconos';
 
 const InputStyled = styled(Input)(({theme}) => ({
 	borderRadius: '4px',
@@ -208,7 +206,7 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 						justifyContent='flex-start'
 						mr={-0.4}
 					>
-						<img style={{width: '19px'}} src={caja} alt='icono caja' />
+						<CajaIcon height='19px' width='19px' />
 					</Grid>
 					<Grid
 						item
@@ -217,7 +215,7 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 						alignItems='center'
 						justifyContent='center'
 					>
-						<img style={{width: '19px'}} src={botella} alt='icono botella' />
+						<BotellaIcon height='19px' width='19px' />
 					</Grid>
 				</Grid>
 				<Grid
