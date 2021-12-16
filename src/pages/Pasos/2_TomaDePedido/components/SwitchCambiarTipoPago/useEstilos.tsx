@@ -2,6 +2,7 @@ import {makeStyles} from '@material-ui/styles';
 
 export interface SwitchProps {
 	content: boolean;
+	texto: string;
 }
 
 const useEstilos = makeStyles(() => ({
@@ -15,8 +16,25 @@ const useEstilos = makeStyles(() => ({
 		},
 		'&:before': {
 			content: (props: SwitchProps) =>
-				props.content ? "'Crédito'" : "'Contado'",
-			right: (props: SwitchProps) => (props.content ? '22px' : '12px'),
+				props.content ? `"${props.texto}"` : `"${props.texto}"`,
+			right: (props: SwitchProps) => {
+				if (props.texto === 'Crédito') {
+					return '22px';
+				}
+				if (props.texto === 'Contado') {
+					return '12px';
+				}
+
+				if (props.texto === 'Credit') {
+					return '27px';
+				}
+				if (props.texto === 'Cash') {
+					return '22px';
+				}
+				if (props.texto === 'Dinheiro') {
+					return '10px';
+				}
+			},
 			top: '1px',
 		},
 	},

@@ -13,6 +13,7 @@ import {useObtenerDatosTipoPedido} from 'hooks';
 import useEstilos, {SwitchProps} from './useEstilos';
 import {styled} from '@mui/material/styles';
 import theme from 'theme';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
 	producto?: TProductoPedido;
@@ -71,17 +72,27 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 	const [mostrarSwitch, setMostrarSwitch] = React.useState<boolean>();
 
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
+	const {t} = useTranslation();
 
 	const [switchTipoPago, setSwitchTipoPago] = React.useState<SwitchProps>(
 		() => {
 			if (producto) {
-				return {content: Boolean(tipoPago)};
+				return {
+					content: Boolean(tipoPago),
+					texto: tipoPago ? t('general.contado') : t('general.credito'),
+				};
 			}
 			if (promoPushTemporal) {
-				return {content: Boolean(promoPushTemporal)};
+				return {
+					content: Boolean(promoPushTemporal),
+					texto: tipoPago ? t('general.contado') : t('general.credito'),
+				};
 			}
 
-			return {content: Boolean(clienteActual.tipoPagoActual)};
+			return {
+				content: Boolean(clienteActual.tipoPagoActual),
+				texto: tipoPago ? t('general.contado') : t('general.credito'),
+			};
 		}
 	);
 
@@ -97,10 +108,14 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 		if (producto) {
 			return setSwitchTipoPago({
 				content: Boolean(producto.tipoPago),
+				texto: producto.tipoPago ? t('general.contado') : t('general.credito'),
 			});
 		}
 		if (promoPushTemporal) {
-			return setSwitchTipoPago({content: Boolean(promoPushTemporal)});
+			return setSwitchTipoPago({
+				content: Boolean(promoPushTemporal),
+				texto: promoPushTemporal ? t('general.contado') : t('general.credito'),
+			});
 		}
 	}, [clienteActual.tipoPagoActual, promoPushTemporal, producto]);
 
@@ -113,12 +128,27 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 						cambiarTipoPago(producto, setPromoPushTemporal);
 						setSwitchTipoPago((prevTipoPago) => {
 							if (producto) {
-								return {content: !producto.tipoPago};
+								return {
+									content: !producto.tipoPago,
+									texto: producto.tipoPago
+										? t('general.contado')
+										: t('general.credito'),
+								};
 							}
 							if (promoPushTemporal) {
-								return {content: !promoPushTemporal};
+								return {
+									content: !promoPushTemporal,
+									texto: promoPushTemporal
+										? t('general.contado')
+										: t('general.credito'),
+								};
 							}
-							return {content: !prevTipoPago.content};
+							return {
+								content: !prevTipoPago.content,
+								texto: prevTipoPago.content
+									? t('general.contado')
+									: t('general.credito'),
+							};
 						});
 					}}
 					inputProps={{'aria-label': 'secondary checkbox'}}

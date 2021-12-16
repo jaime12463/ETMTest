@@ -40,7 +40,7 @@ const en = {
 		canje: 'Exchange',
 		devolucion: 'Refund',
 		credito: 'Credit',
-		contado: 'Counted',
+		contado: 'Cash',
 		venta: 'Sale',
 		compromisoCobro: 'Collection commitment',
 		saldo: 'Balance',
@@ -120,13 +120,13 @@ const en = {
 		tarjetaBonificaciones: `Add the bonuses for this customer.`,
 		bonificacionesDeshabilitadas: `There are not bonuses for this customer at this time.`,
 		canjesDeshabilitadas:
-		'There are not exchange for this customer at this time.',	
-		tomaDePedido: 'Order taking',	
+			'There are not exchange for this customer at this time.',
+		tomaDePedido: 'Order taking',
 		tarjetaTomaDePedido:
-			'Modify your order with the best options for your customer.',	
-		promociones: 'Promotions',	
+			'Modify your order with the best options for your customer.',
+		promociones: 'Promotions',
 		tarjetaPromociones:
-			'Select the promotions that you have available for your clients.',						
+			'Select the promotions that you have available for your clients.',
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',

@@ -11,6 +11,8 @@ import {AvisoIcon, ReiniciarIcon} from 'assests/iconos';
 import {useDispatch} from 'react-redux';
 import {restablecerBonificaciones} from 'redux/features/visitaActual/visitaActualSlice';
 import {useTranslation} from 'react-i18next';
+import theme from 'theme';
+
 interface Props {
 	bonificacionValida: boolean;
 }
@@ -57,7 +59,11 @@ const Bonificaciones: React.FC<Props> = ({bonificacionValida}) => {
 							size='small'
 							icon={<ReiniciarIcon width='10px' height='10px' />}
 							label={
-								<Typography variant='caption' fontFamily='Open Sans'>
+								<Typography
+									variant='caption'
+									fontFamily='Open Sans'
+									color={theme.palette.secondary.main}
+								>
 									{t('general.restablecerCero')}
 								</Typography>
 							}

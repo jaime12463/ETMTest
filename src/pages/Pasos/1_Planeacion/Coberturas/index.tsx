@@ -15,6 +15,7 @@ import {
 } from 'redux/features/visitaActual/visitaActualSlice';
 import Modal from 'components/UI/Modal';
 import {useTranslation} from 'react-i18next';
+import theme from 'theme';
 
 interface Props {
 	coberturasAgregadas: TProductoPedido[];
@@ -75,7 +76,11 @@ const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 								size='small'
 								icon={<ReiniciarIcon width='7.5px' height='7.5px' />}
 								label={
-									<Typography variant='caption' fontFamily='Open Sans'>
+									<Typography
+										variant='caption'
+										fontFamily='Open Sans'
+										color={theme.palette.secondary.main}
+									>
 										{t('general.restablecerCero')}
 									</Typography>
 								}
