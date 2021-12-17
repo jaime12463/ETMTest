@@ -1,5 +1,10 @@
 import {GridSize} from '@mui/material';
-import {ETiposDePago, TIniciativasCliente, TPrecioProducto} from 'models/redux';
+import {
+	ETiposDePago,
+	TCoberturasCliente,
+	TIniciativasCliente,
+	TPrecioProducto,
+} from 'models/redux';
 import React, {Dispatch, ReactElement, SetStateAction} from 'react';
 import {
 	Control,
@@ -163,4 +168,5 @@ export type TRetornoValidacion = {
 	propsAdvertencia: TPropsFunctionMostarAdvertencia | null;
 	esValido: boolean;
 	iniciativasVerificadas?: TIniciativasCliente[];
+	coberturasCumplidas?: TCoberturasCliente[];
 };

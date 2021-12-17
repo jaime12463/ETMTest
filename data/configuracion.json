@@ -1,5 +1,6 @@
 {
 	"configuraciones": {
+		"maximoGrupoCoberturaAMostrar": 5,
 		"esFrecuenciaAbierta": true,
 		"habilitaOrdenDeCompra": true,
 		"bonificacionesConVenta": true,

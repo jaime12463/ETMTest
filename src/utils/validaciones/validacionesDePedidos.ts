@@ -1,9 +1,13 @@
 import i18n from 'i18next';
+
 import {
 	TCliente,
 	TRetornoValidacion,
 	TIniciativasCliente,
 	TPedidos,
+	TCoberturas,
+	TCoberturasEjecutadas,
+	TCoberturasCliente,
 } from 'models';
 export const validarDatosCliente = (
 	cliente: TCliente | undefined
@@ -19,10 +23,36 @@ export const validarDatosCliente = (
 	return retornoValidacion;
 };
 
+export const validarCoberturas = (
+	coberturas: TCoberturas[],
+	pedidos: TPedidos
+) => {
+	const {venta} = pedidos;
+	const coberturasCumplidas: TCoberturasCliente[] = coberturas.map(
+		(cobertura) => {
+			let coberturaCumplida = false;
+			cobertura.productosGrupoCobertura.forEach((productoCobertura) => {
+				const productoExiste = venta.productos.find(
+					(producto) => producto.codigoProducto === productoCobertura
+				);
+				if (productoExiste) coberturaCumplida = true;
+			});
+
+			return {
+				idGrupoCobertura: cobertura.grupoCobertura,
+				cumplida: coberturaCumplida,
+			};
+		}
+	);
+	console.log(coberturasCumplidas);
+
+	return coberturasCumplidas;
+};
+
 export const validarProductosIniciativas = (
 	iniciativas: TIniciativasCliente[],
 	pedidos: TPedidos
-): TRetornoValidacion => {
+) => {
 	const {venta} = pedidos;
 
 	const productosDeIniciativaEnPedido = venta.productos.filter((producto) => {
@@ -58,7 +88,7 @@ export const validarProductosIniciativas = (
 		}
 	);
 
-	return {esValido: true, propsAdvertencia: null, iniciativasVerificadas};
+	return iniciativasVerificadas;
 };
 
 export const validarSiExcedeElMontoMinimo = (

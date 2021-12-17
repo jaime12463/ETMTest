@@ -8,7 +8,11 @@ import useEstilos from './useEstilos';
 import {useObtenerCoberturas} from 'hooks';
 import {AvisoIcon, ReiniciarIcon} from 'assests/iconos';
 import {TProductoPedido} from 'models';
-import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
+import {
+	useAppDispatch,
+	useObtenerConfiguracion,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
 import {
 	agregarCoberturasEjecutadas,
 	borrarProductoDelPedidoActual,
@@ -24,6 +28,7 @@ interface Props {
 const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 	const coberturas = useObtenerCoberturas();
 	const visitaActual = useObtenerVisitaActual();
+	const configuracion = useObtenerConfiguracion();
 	const classes = useEstilos();
 	const {t} = useTranslation();
 	const dispatch = useAppDispatch();
@@ -88,20 +93,22 @@ const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 							/>
 						</Box>
 					)}
-				{coberturas?.map((cobertura) => {
-					return (
-						<DesplegableCoberturas
-							key={cobertura.secuenciaGrupoCobertura}
-							id={cobertura.secuenciaGrupoCobertura.toString()}
-							expandido={expandido}
-							setExpandido={setExpandido}
-							grupo={cobertura.grupoCobertura}
-							codigosProductos={cobertura.productosGrupoCobertura}
-							resetCoberturas={resetCoberturas}
-							setResetCoberturas={setResetCoberturas}
-						/>
-					);
-				})}
+				{coberturas
+					?.slice(0, configuracion.maximoGrupoCoberturaAMostrar)
+					.map((cobertura) => {
+						return (
+							<DesplegableCoberturas
+								key={cobertura.secuenciaGrupoCobertura}
+								id={cobertura.secuenciaGrupoCobertura.toString()}
+								expandido={expandido}
+								setExpandido={setExpandido}
+								grupo={cobertura.grupoCobertura}
+								codigosProductos={cobertura.productosGrupoCobertura}
+								resetCoberturas={resetCoberturas}
+								setResetCoberturas={setResetCoberturas}
+							/>
+						);
+					})}
 			</Stack>
 		</>
 	);

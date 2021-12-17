@@ -1300,6 +1300,26 @@
 					"grupoCobertura": "Grupo Aguas",
 					"secuenciaGrupoCobertura": 2,
 					"productosGrupoCobertura": [400]
+				},
+				{
+					"grupoCobertura": "Grupo 3",
+					"secuenciaGrupoCobertura": 4,
+					"productosGrupoCobertura": [400]
+				},
+				{
+					"grupoCobertura": "Grupo 4",
+					"secuenciaGrupoCobertura": 3,
+					"productosGrupoCobertura": [400]
+				},
+				{
+					"grupoCobertura": "Grupo 5",
+					"secuenciaGrupoCobertura": 5,
+					"productosGrupoCobertura": [400]
+				},
+				{
+					"grupoCobertura": "Grupo 6",
+					"secuenciaGrupoCobertura": 3,
+					"productosGrupoCobertura": [400]
 				}
 			],
 			"informacionCrediticia": {
