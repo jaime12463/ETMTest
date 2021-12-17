@@ -88,6 +88,7 @@ const es = {
 		fechaDeAlta: 'Fecha de alta',
 		prestamo: 'Préstamo',
 		retorno: 'Retorno',
+		unidadesMaximasAplicar: 'Unidades máximas que puedes aplicar',
 	},
 	simbolos: {
 		decimal: '.',

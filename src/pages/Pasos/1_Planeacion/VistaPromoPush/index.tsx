@@ -19,14 +19,16 @@ export const VistaPromoPush = ({stateOpen}: any) => {
 			onClose={handleCloseVistaPromoPush}
 			aria-labelledby='modal-modal-title'
 			aria-describedby='modal-modal-description'
-			sx={{overflow: 'auto'}}
+			sx={{
+				overflow: 'auto',
+			}}
 		>
 			<Box display='flex' width='100%' justifyContent='center'>
 				<Card
 					sx={{
 						background: 'white',
+						borderRadius: '8px',
 						width: '332px',
-
 						mt: '52px',
 					}}
 				>
@@ -50,12 +52,14 @@ export const VistaPromoPush = ({stateOpen}: any) => {
 						justifyContent='center'
 						alignItems='center'
 						sx={{
-							background: theme.palette.primary.main,
+							background: theme.palette.secondary.main,
 							borderRadius: ' 4px 4px 0px 0px',
 						}}
 					>
 						<PromocionesRellenoIcon
-							style={{width: '11.69px', height: '11.69px', marginRight: '4px'}}
+							width='17px'
+							height='17px'
+							style={{marginRight: '4px'}}
 						/>
 						<Typography
 							color='white'
