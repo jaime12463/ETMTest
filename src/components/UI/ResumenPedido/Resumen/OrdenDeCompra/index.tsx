@@ -20,7 +20,12 @@ export const OrdenDeCompra: React.FC<OrdenDeCompraProps> = ({
 				</Typography>
 			</Box>
 			<Box flex='1.5' padding='8px 12px 8px 6px' sx={{background: '#F5F0EF'}}>
-				<Typography variant='caption' fontFamily='Open Sans' color='#000'>
+				<Typography
+					variant='caption'
+					fontFamily='Open Sans'
+					color='#000'
+					sx={{lineBreak: 'anywhere'}}
+				>
 					{ordenDeCompra}
 				</Typography>
 			</Box>

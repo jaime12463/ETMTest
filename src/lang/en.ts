@@ -88,6 +88,7 @@ const en = {
 		fechaDeAlta: 'Date of registration',
 		prestamo: 'Loan',
 		retorno: 'Return',
+		unidadesMaximasAplicar: 'Maximum units that you can apply',
 	},
 	simbolos: {
 		decimal: ',',
