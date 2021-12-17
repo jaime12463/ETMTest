@@ -4,6 +4,7 @@ import {
 	useObtenerPedidosClienteMismaFechaEntrega,
 	useObtenerCompromisosDeCobroMismaFechaEntrega,
 	useObtenerTotalPedidosVisitaActual,
+	useObtenerCoberturas,
 } from 'hooks';
 import {
 	useObtenerClienteActual,
@@ -21,6 +22,7 @@ import {
 	validarSiExcedeAlMaximoContado,
 	validarSiExcedeAlMaximoDeCredito,
 	validarProductosIniciativas,
+	validarCoberturas,
 } from 'utils/validaciones/validacionesDePedidos';
 
 import {obtenerTotalesCompromisoDeCobroCliente} from 'utils/methods';
@@ -42,6 +44,7 @@ export const useValidarCierreVisitaCliente = () => {
 	const calcularTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const {tipoPedidos} = useObtenerConfiguracion();
 	const visitaActual = useObtenerVisitaActual();
+	const coberturas = useObtenerCoberturas();
 
 	const validarCierreVisitaCliente = (): TRetornoValidacion => {
 		const totalPedidosVisitaActual = calcularTotalPedidosVisitaActual(true);
@@ -62,6 +65,7 @@ export const useValidarCierreVisitaCliente = () => {
 			esValido: false,
 			propsAdvertencia: null,
 			iniciativasVerificadas: visitaActual.iniciativas,
+			coberturasCumplidas: [],
 		};
 
 		retornoValidacion = validarDatosCliente(datosCliente);
@@ -95,12 +99,14 @@ export const useValidarCierreVisitaCliente = () => {
 
 		if (!retornoValidacion.esValido) return retornoValidacion;
 
-		retornoValidacion = validarProductosIniciativas(
-			visitaActual.iniciativas,
-			visitaActual.pedidos
-		); // Dejar este de ultimo
-
-		return retornoValidacion;
+		return {
+			...retornoValidacion,
+			iniciativasVerificadas: validarProductosIniciativas(
+				visitaActual.iniciativas,
+				visitaActual.pedidos
+			),
+			coberturasCumplidas: validarCoberturas(coberturas, visitaActual.pedidos),
+		};
 	};
 
 	return validarCierreVisitaCliente;
