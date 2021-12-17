@@ -26,7 +26,7 @@ const OrdenDeCompra: React.FC = () => {
 	const handleChange = (
 		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 	) => {
-		setOrdenDeCompra(e.target.value);
+		setOrdenDeCompra(e.target.value.trim());
 	};
 
 	return (

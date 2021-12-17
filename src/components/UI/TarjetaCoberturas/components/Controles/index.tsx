@@ -53,8 +53,8 @@ const Controles: React.FC<Props> = ({
 	);
 
 	const defaultValues = {
-		unidades: coberturaEjecutada?.unidades || producto.unidades,
-		subUnidades: coberturaEjecutada?.subUnidades || producto.subUnidades,
+		unidades: (coberturaEjecutada?.unidades || producto.unidades) ?? 0,
+		subUnidades: (coberturaEjecutada?.subUnidades || producto.subUnidades) ?? 0,
 		productoABuscar: '',
 		tipoDePedido: visitaActual.tipoPedidoActual,
 		catalogoMotivo: '',
@@ -231,11 +231,11 @@ const Controles: React.FC<Props> = ({
 			padding='12px 0 16px 0'
 			sx={{background: '#F5F0EF'}}
 		>
-			<Box display='flex' alignItems='center' justifyContent='center' gap='4px'>
+			<Box display='flex' alignItems='center' justifyContent='center' gap='2px'>
 				<CajaIcon height='18px' width='18px' />
 				{!visitaActual.pasoATomaPedido && (
 					<IconButton
-						sx={{padding: '0'}}
+						sx={{marginLeft: '2px', padding: '0'}}
 						size='small'
 						value='-'
 						name='unidades'
@@ -245,7 +245,7 @@ const Controles: React.FC<Props> = ({
 						<QuitarRellenoIcon
 							width='18px'
 							height='18px'
-							fill={getValues.unidades > 0 ? '#2F000E' : '#D9D9D9'}
+							disabled={getValues.unidades === 0}
 						/>
 					</IconButton>
 				)}
@@ -298,15 +298,15 @@ const Controles: React.FC<Props> = ({
 						<AgregarRedondoIcon
 							width='18px'
 							height='18px'
-							fill={
+							disabled={
 								producto.unidadesDisponibles
 									? producto.unidades >= producto.unidadesDisponibles
-										? '#D9D9D9'
-										: '#2F000E'
+										? true
+										: false
 									: producto.unidades >=
 									  configuracionPedido?.cantidadMaximaUnidades
-									? '#D9D9D9'
-									: '#2F000E'
+									? true
+									: false
 							}
 						/>
 					</IconButton>
@@ -318,12 +318,12 @@ const Controles: React.FC<Props> = ({
 						display='flex'
 						alignItems='center'
 						justifyContent='center'
-						gap='4px'
+						gap='2px'
 					>
 						<BotellaIcon width='18px' height='18px' />
 						{!visitaActual.pasoATomaPedido && (
 							<IconButton
-								sx={{padding: '0'}}
+								sx={{marginLeft: '2px', padding: '0'}}
 								size='small'
 								value='-'
 								name='subUnidades'
@@ -333,7 +333,7 @@ const Controles: React.FC<Props> = ({
 								<QuitarRellenoIcon
 									width='18px'
 									height='18px'
-									fill={getValues.subUnidades > 0 ? '#2F000E' : '#D9D9D9'}
+									disabled={getValues.subUnidades === 0}
 								/>
 							</IconButton>
 						)}
@@ -381,11 +381,9 @@ const Controles: React.FC<Props> = ({
 								<AgregarRedondoIcon
 									width='18px'
 									height='18px'
-									fill={
+									disabled={
 										getValues.subUnidades >=
 										producto.presentacion - producto.subunidadesVentaMinima
-											? '#D9D9D9'
-											: '#2F000E'
 									}
 								/>
 							</IconButton>

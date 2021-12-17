@@ -73,6 +73,11 @@ export type TBonificacionesCliente = {
 	detalle: TDetalleBonificacionesCliente[];
 };
 
+export type TCoberturasCliente = {
+	idGrupoCobertura: string;
+	cumplida: boolean;
+};
+
 export type TDetalleBonificacionesCliente = {
 	numeroPedido: string;
 	idGrupo: number;
@@ -191,6 +196,7 @@ export type TPedidosClientes = {
 		compromisosDeCobro: TCompromisoDeCobro[];
 		iniciativas: TIniciativasCliente[];
 		bonificaciones: TBonificacionesCliente[];
+		coberturas: TCoberturasCliente[];
 	};
 };
 

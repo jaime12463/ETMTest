@@ -3,6 +3,7 @@ import {useObtenerPromoPushDelCliente} from 'hooks';
 import {TarjetaVistaPromoPush} from './TarjetaVistaPromoPush';
 import {Modal, Card, Box, Typography, Stack, IconButton} from '@mui/material';
 import {CerrarIcon, PromocionesRellenoIcon} from 'assests/iconos';
+import theme from 'theme';
 
 export const VistaPromoPush = ({stateOpen}: any) => {
 	const {openVistaPromoPush, setOpenVistaPromoPush} = stateOpen;
@@ -18,14 +19,16 @@ export const VistaPromoPush = ({stateOpen}: any) => {
 			onClose={handleCloseVistaPromoPush}
 			aria-labelledby='modal-modal-title'
 			aria-describedby='modal-modal-description'
-			sx={{overflow: 'auto'}}
+			sx={{
+				overflow: 'auto',
+			}}
 		>
 			<Box display='flex' width='100%' justifyContent='center'>
 				<Card
 					sx={{
 						background: 'white',
+						borderRadius: '8px',
 						width: '332px',
-
 						mt: '52px',
 					}}
 				>
@@ -39,7 +42,7 @@ export const VistaPromoPush = ({stateOpen}: any) => {
 							sx={{padding: 0, margin: 0}}
 							onClick={handleCloseVistaPromoPush}
 						>
-							<CerrarIcon fill='black' />
+							<CerrarIcon />
 						</IconButton>
 					</Box>
 					<Box
@@ -49,13 +52,14 @@ export const VistaPromoPush = ({stateOpen}: any) => {
 						justifyContent='center'
 						alignItems='center'
 						sx={{
-							background: '#FF0000',
+							background: theme.palette.secondary.main,
 							borderRadius: ' 4px 4px 0px 0px',
 						}}
 					>
 						<PromocionesRellenoIcon
-							style={{width: '11.69px', height: '11.69px', marginRight: '4px'}}
-							fill={'white'}
+							width='17px'
+							height='17px'
+							style={{marginRight: '4px'}}
 						/>
 						<Typography
 							color='white'

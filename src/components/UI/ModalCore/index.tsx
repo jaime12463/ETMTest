@@ -5,13 +5,19 @@ import {CerrarIcon} from 'assests/iconos';
 import useEstilos from './useEstilos';
 
 interface Props {
-	titulo:string;
-	subtitulo:string;
+	titulo: string;
+	subtitulo: string;
 	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ModalCore: React.FC<Props> = ({titulo,subtitulo,open,setOpen, children}) => {
+const ModalCore: React.FC<Props> = ({
+	titulo,
+	subtitulo,
+	open,
+	setOpen,
+	children,
+}) => {
 	const classes = useEstilos({open});
 	return (
 		<>
@@ -49,12 +55,9 @@ const ModalCore: React.FC<Props> = ({titulo,subtitulo,open,setOpen, children}) =
 							>
 								{subtitulo}
 							</Typography>
-							
 						</Box>
 					</Box>
-					<Box>
-						{children}
-					</Box>
+					<Box>{children}</Box>
 				</Box>
 			)}
 		</>

@@ -26,22 +26,10 @@ export const AvisoPlantilla = ({tipo, titulo, mensaje, dataCy}: TAviso) => {
 	const classes = useEstilos({tipo});
 	switch (tipo) {
 		case 'error':
-			icono = (
-				<CerrarRedondoIcon
-					height='21px'
-					fill={`${theme.palette.primary.main}`}
-					width='21px'
-				/>
-			);
+			icono = <CerrarRedondoIcon height='21px' width='21px' />;
 			break;
 		case 'success':
-			icono = (
-				<CheckRedondoIcon
-					height='21px'
-					fill={`${theme.palette.success.main}`}
-					width='21px'
-				/>
-			);
+			icono = <CheckRedondoIcon height='21px' width='21px' />;
 			break;
 		case 'warning':
 			icono = (

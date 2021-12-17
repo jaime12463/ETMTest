@@ -121,11 +121,7 @@ const DesplegableCoberturas: React.FC<Props> = ({
 									} de ${codigosProductos.length} Items`}
 								</Typography>
 								{expandido !== id && (
-									<CheckRedondoIcon
-										height='12px'
-										width='12px'
-										fill={theme.palette.success.main}
-									/>
+									<CheckRedondoIcon height='12px' width='12px' />
 								)}
 							</Box>
 						) : (

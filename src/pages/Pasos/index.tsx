@@ -161,7 +161,7 @@ const Pasos: React.FC = () => {
 		<>
 			{pasoActual === 0 && (
 				<Button onClick={() => handleOpenVistaPromoPush()}>
-					<PromocionesRellenoIcon fill='white' />
+					<PromocionesRellenoIcon />
 				</Button>
 			)}
 		</>

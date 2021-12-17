@@ -4,8 +4,6 @@ import {
 	Typography,
 	Box,
 	Stack,
-	IconButton,
-	Input,
 	Button,
 	Collapse,
 	CardActions,
@@ -15,27 +13,19 @@ import {Theme} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {makeStyles, createStyles} from '@material-ui/styles';
 import clsx from 'clsx';
-import React, {useEffect, useState} from 'react';
 
 import {useObtenerDatos} from 'redux/hooks';
-import {
-	AgregarRedondoIcon,
-	QuitarRellenoIcon,
-	FlechaAbajoIcon,
-	CajaIcon,
-	CheckRedondoIcon,
-	BotellaIcon,
-} from 'assests/iconos';
+import {FlechaAbajoIcon, CajaIcon, BotellaIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
-import {useObtenerVisitaActual} from 'redux/hooks';
 import {formatearNumero} from 'utils/methods';
+import theme from 'theme';
 
 const GridStyled = styled(Grid)(({theme}) => ({
 	display: 'flex',
 }));
 
 const ButtonStyled = styled(Button)(({theme}) => ({
-	border: '1.5px solid #651C32',
+	border: `1.5px solid ${theme.palette.secondary.main}`,
 	boxSizing: 'border-box',
 	borderRadius: '20px',
 	minHeight: '10px',
@@ -48,7 +38,7 @@ const ButtonStyled = styled(Button)(({theme}) => ({
 
 const CardStyled = styled(Card)(({theme}) => ({
 	boxSizing: 'border-box',
-	borderRadius: ' 8px',
+	borderRadius: '4px',
 	minHeight: '124px',
 	minWidth: '304px',
 	boxShadow: 'none',
@@ -95,11 +85,9 @@ export const TarjetaVistaPromoPush = (props: any) => {
 		promoPush,
 	} = item;
 
-	const manejadorExpandido =
-		({id}: any) =>
-		(event: React.SyntheticEvent) => {
-			setExpandidoexpandidoPromoPush(id);
-		};
+	const manejadorExpandido = (id: string | boolean) => {
+		setExpandidoexpandidoPromoPush(id);
+	};
 
 	return (
 		<CardStyled
@@ -147,12 +135,12 @@ export const TarjetaVistaPromoPush = (props: any) => {
 						</Typography>
 						<Box
 							sx={{
-								backgroundColor: '#FF0000',
+								backgroundColor: theme.palette.primary.main,
 								width: '98px',
 								height: '14px',
 								borderRadius: '50px',
 								display: 'flex',
-								alignContent: 'center',
+								alignItems: 'center',
 							}}
 						>
 							<Typography
@@ -162,7 +150,8 @@ export const TarjetaVistaPromoPush = (props: any) => {
 								color={'white'}
 								m='auto'
 							>
-								Ahorras: {formatearNumero(precioConImpuestoUnidad, t)}
+								{`${t('general.ahorras')}:
+								${formatearNumero(precioConImpuestoUnidad, t)}`}
 							</Typography>
 						</Box>
 					</Box>
@@ -182,7 +171,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 							sx={{width: '100%'}}
 							color={expandidoPromoPush === id ? 'white' : 'black'}
 						>
-							Unidades máximas que puedes aplicar:
+							{`${t('general.unidadesMaximasAplicar')}:`}
 						</Typography>
 						<Box display='flex' justifyContent='end' width='100%'>
 							<Typography variant={'subtitle3'} fontWeight={700}>
@@ -210,11 +199,12 @@ export const TarjetaVistaPromoPush = (props: any) => {
 						<Box width='100%' display='flex' flexDirection='row'>
 							<GridStyled item xs={7}>
 								<Typography
-									sx={{padding: '12px 14px'}}
+									sx={{padding: '4px 14px 8px 14px'}}
 									variant={'subtitle3'}
 									fontWeight={700}
+									letterSpacing='-0.4px'
 								>
-									Paquetes
+									{t('general.paquetes')}
 								</Typography>
 							</GridStyled>
 							<GridStyled item xs={5}>
@@ -232,7 +222,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 							{componentes?.map((el: any, i: number) => (
 								<Box key={`${el.codigoProducto}${i}`}>
 									<Grid container>
-										<GridStyled item xs={7} padding='0 14px' mt={1}>
+										<GridStyled item xs={7} padding='4px 14px'>
 											<Box display='flex' flexDirection='column'>
 												<Typography variant='subtitle3'>
 													{el.codigoProducto}
@@ -252,49 +242,61 @@ export const TarjetaVistaPromoPush = (props: any) => {
 											<Box
 												display='flex'
 												flexDirection='column'
-												marginBottom='8px'
-												mt={1}
-												paddingRight='14px'
+												padding='4px 14px 4px 0'
 											>
 												<Box
 													display='flex'
-													textAlign='center'
-													justifyContent='end'
+													flexDirection='column'
+													gap='2px'
+													marginBottom='12px'
 												>
-													<Box mr={'2px'}>
-														{promoPush.componentes[i].unidadMedida === 'CAJ' ? (
-															<CajaIcon height='18px' width='18px' />
-														) : (
-															<BotellaIcon height='15px' width='15px' />
-														)}
-													</Box>
-													<Box>
-														<Typography
-															variant='caption'
-															mt={0.3}
-															color={'#651C32'}
-														>
-															{`x${promoPush.componentes[i].cantidad} `}
-														</Typography>
+													<Box
+														alignItems='center'
+														display='flex'
+														gap='4px'
+														justifyContent='end'
+													>
+														<Box alignItems='center' display='flex' gap='2px'>
+															{promoPush.componentes[i].unidadMedida ===
+															'CAJ' ? (
+																<CajaIcon height='18px' width='18px' />
+															) : (
+																<BotellaIcon height='15px' width='15px' />
+															)}
+															<Typography
+																color={theme.palette.secondary.main}
+																fontFamily='Open Sans'
+																variant='caption'
+															>
+																{`x${promoPush.componentes[i].cantidad} `}
+															</Typography>
+														</Box>
 														<Typography
 															color={'#000000'}
+															fontFamily='Open Sans'
 															variant='caption'
-															mt={0.3}
 														>
 															{`${formatearNumero(el.precioBase, t)}`}
 														</Typography>
 													</Box>
-												</Box>
-												<Box>
-													<Typography color='primary' variant='caption'>
-														Ahorras: {formatearNumero(el.descuento, t)}
+													<Typography
+														color='primary'
+														fontFamily='Open Sans'
+														variant='caption'
+														textAlign='right'
+													>
+														{`${t('general.ahorras')}: ${formatearNumero(
+															el.descuento,
+															t
+														)}`}
 													</Typography>
 												</Box>
-												<Box>
-													<Typography variant='subtitle3'>
-														Total: {formatearNumero(el.precioFinal, t)}
-													</Typography>
-												</Box>
+												<Typography variant='subtitle3'>
+													{`${t('general.total')}: ${formatearNumero(
+														el.precioFinal,
+														t
+													)}`}
+												</Typography>
 											</Box>
 										</GridStyled>
 									</Grid>
@@ -309,22 +311,23 @@ export const TarjetaVistaPromoPush = (props: any) => {
 						disableFocusRipple
 						fullWidth
 						disableRipple
-						onClick={manejadorExpandido({
-							id: expandidoPromoPush === id ? false : id,
-						})}
+						onClick={() =>
+							manejadorExpandido(expandidoPromoPush === id ? false : id)
+						}
 					>
 						<CardActions disableSpacing style={{padding: 0}}>
 							<Box display='flex' gap='6px'>
-								<Typography variant='caption' color='secondary'>
-									Ver detalle
+								<Typography variant='caption' color='secondary.dark'>
+									{expandidoPromoPush === id
+										? t('general.ocultarDetalle')
+										: t('general.verDetalle')}
 								</Typography>
 								<Box
 									display='flex'
 									className={clsx(classes.expand, {
-										[classes.expandOpen]:
-											expandidoPromoPush === id ? true : false,
+										[classes.expandOpen]: expandidoPromoPush === id,
 									})}
-									aria-expanded={expandidoPromoPush === id ? true : false}
+									aria-expanded={expandidoPromoPush === id}
 									style={{padding: 0}}
 								>
 									<FlechaAbajoIcon width='10px' height='10px' />

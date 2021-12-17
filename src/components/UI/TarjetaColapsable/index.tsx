@@ -13,6 +13,7 @@ import clsx from 'clsx';
 import flechaAbajo from '../../../assests/iconos/chevron--down.svg';
 import Chip from '@mui/material/Chip';
 import {styled} from '@mui/material/styles';
+import {FlechaAbajoIcon} from 'assests/iconos';
 
 const ChipStyled = styled(Chip)(() => ({
 	background: '#000',
@@ -54,13 +55,11 @@ export const TarjetaColapsable: React.FC<Props> = ({
 	labelChip,
 	dataCy,
 }) => {
-	const manejadorExpandido =
-		({id}: any) =>
-		(event: React.SyntheticEvent) => {
-			setExpandido(id);
-		};
+	const manejadorExpandido = (id: string | boolean) => {
+		setExpandido(id);
+	};
 
-	const classes = useEstilos({valido});
+	const classes = useEstilos({valido, open: expandido === id});
 
 	return (
 		<>
@@ -75,10 +74,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 					style={{padding: 0}}
 					title={
 						<Box display='flex' justifyContent='space-between'>
-							<Box 
-								alignSelf='center' 
-								data-cy={'titulo-' + dataCy}
-							>
+							<Box alignSelf='center' data-cy={'titulo-' + dataCy}>
 								{titulo}
 							</Box>
 							<Box>
@@ -92,16 +88,13 @@ export const TarjetaColapsable: React.FC<Props> = ({
 									)}
 									{!disabled ? (
 										<IconButton
-											className={clsx(classes.expand, {
-												[classes.expandOpen]: expandido === id ? true : false,
-											})}
-											onClick={manejadorExpandido({
-												id: expandido === id ? false : id,
-											})}
-											aria-expanded={expandido === id ? true : false}
+											onClick={() =>
+												manejadorExpandido(expandido === id ? false : id)
+											}
+											aria-expanded={expandido === id}
 											data-cy={'expandir-' + dataCy}
 										>
-											<img src={flechaAbajo} alt='flecha abajo' />
+											<FlechaAbajoIcon className={classes.arrow} />
 										</IconButton>
 									) : null}
 								</CardActions>

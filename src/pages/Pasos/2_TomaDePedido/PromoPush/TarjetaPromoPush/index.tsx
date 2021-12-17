@@ -243,11 +243,7 @@ const TarjetaPromoPush = (props: any) => {
 							promoPushTemporal={promoPushTemporal}
 						/>
 						{getValues.unidades > 0 && (
-							<CheckRedondoIcon
-								height='17.5px'
-								width='17.5px'
-								fill={`${theme.palette.success.main}`}
-							/>
+							<CheckRedondoIcon height='17.5px' width='17.5px' />
 						)}
 					</Box>
 					<Box
@@ -280,7 +276,7 @@ const TarjetaPromoPush = (props: any) => {
 							</Typography>
 							<Box
 								sx={{
-									backgroundColor: '#FF0000',
+									backgroundColor: theme.palette.primary.main,
 									width: '98px',
 									height: '14px',
 									borderRadius: '50px',
@@ -323,18 +319,20 @@ const TarjetaPromoPush = (props: any) => {
 								display='flex'
 								alignItems='center'
 								justifyContent='center'
+								gap='2px'
 							>
 								<IconButton
 									size='small'
 									name='unidades'
 									value='-'
 									onClick={handleButtons}
-									disabled={getValues.unidades > 0 ? false : true}
+									disabled={getValues.unidades === 0}
+									sx={{padding: '0'}}
 								>
 									<QuitarRellenoIcon
 										width='18px'
 										height='18px'
-										fill={getValues.unidades > 0 ? '#2F000E' : '#D9D9D9'}
+										disabled={getValues.unidades === 0}
 									/>
 								</IconButton>
 								<InputStyled
@@ -356,18 +354,13 @@ const TarjetaPromoPush = (props: any) => {
 									name='unidades'
 									value='+'
 									onClick={handleButtons}
-									disabled={
-										getValues.unidades >= unidadesDisponibles ? true : false
-									}
+									disabled={getValues.unidades >= unidadesDisponibles}
+									sx={{padding: '0'}}
 								>
 									<AgregarRedondoIcon
 										width='18px'
 										height='18px'
-										fill={
-											getValues.unidades >= unidadesDisponibles
-												? '#D9D9D9'
-												: '#2F000E'
-										}
+										disabled={getValues.unidades >= unidadesDisponibles}
 									/>
 								</IconButton>
 								<Typography variant={'subtitle3'} fontWeight={700}>
