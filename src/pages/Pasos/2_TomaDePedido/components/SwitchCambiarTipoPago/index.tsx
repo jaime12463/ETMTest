@@ -79,13 +79,13 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 			if (producto) {
 				return {
 					content: Boolean(tipoPago),
-					texto: tipoPago ? t('general.contado') : t('general.credito'),
+					texto: tipoPago ? t('general.credito') : t('general.contado'),
 				};
 			}
 			if (promoPushTemporal) {
 				return {
 					content: Boolean(promoPushTemporal),
-					texto: tipoPago ? t('general.contado') : t('general.credito'),
+					texto: tipoPago ? t('general.credito') : t('general.contado'),
 				};
 			}
 
@@ -108,13 +108,13 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 		if (producto) {
 			return setSwitchTipoPago({
 				content: Boolean(producto.tipoPago),
-				texto: producto.tipoPago ? t('general.contado') : t('general.credito'),
+				texto: producto.tipoPago ? t('general.credito') : t('general.contado'),
 			});
 		}
 		if (promoPushTemporal) {
 			return setSwitchTipoPago({
 				content: Boolean(promoPushTemporal),
-				texto: promoPushTemporal ? t('general.contado') : t('general.credito'),
+				texto: promoPushTemporal ? t('general.credito') : t('general.contado'),
 			});
 		}
 	}, [clienteActual.tipoPagoActual, promoPushTemporal, producto]);
