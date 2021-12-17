@@ -185,7 +185,7 @@ const Descuentos = ({
 								display='flex'
 								alignItems='center'
 								justifyContent='space-between'
-								width='145px'
+								width='125px'
 								marginBottom={
 									infoDescuento.tipo === 'polarizado' ||
 									infoDescuento.tipo === 'automatico'

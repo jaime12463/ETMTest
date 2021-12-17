@@ -44,13 +44,13 @@ export const formatearNumero = (
 };
 
 export const formatearFecha = (
-	fecha: string, //Formato fecha recibida: AAAA-DD-MMM
+	fecha: string, //Formato fecha recibida: AAAA-MM-DD
 	t: TFunction<'translation'>
 ): string => {
 	const arregloFecha: string[] = fecha.split('-');
 	if (t('simbolos.formatoFechaAmericano') === 'true')
-		return `${arregloFecha[2]}-${arregloFecha[1]}-${arregloFecha[0]}`;
-	else return `${arregloFecha[1]}-${arregloFecha[2]}-${arregloFecha[0]}`;
+		return `${arregloFecha[1]}-${arregloFecha[2]}-${arregloFecha[0]}`;
+	else return `${arregloFecha[2]}-${arregloFecha[1]}-${arregloFecha[0]}`;
 };
 
 export const fechaDispositivo = (): string => {

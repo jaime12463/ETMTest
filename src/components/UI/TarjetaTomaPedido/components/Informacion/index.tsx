@@ -44,8 +44,8 @@ const Informacion: React.FC<Props> = ({producto, conSwitch}) => {
 			<Typography variant='subtitle3' noWrap width='150px' marginBottom='4px'>
 				{nombreProducto}
 			</Typography>
-			<Box display='flex' gap='10px' alignItems='center'>
-				<Box display='flex' alignItems='center' flexDirection='row' gap='4px'>
+			<Box display='flex' gap='4px' alignItems='center'>
+				<Box display='flex' alignItems='center' flexDirection='row' gap='2px'>
 					<CajaIcon height='18px' width='18px' />
 					<Typography variant='caption' fontFamily='Open Sans'>
 						x{presentacion}
@@ -67,7 +67,7 @@ const Informacion: React.FC<Props> = ({producto, conSwitch}) => {
 					</Typography>
 				</Box>
 				{esVentaSubunidades && (
-					<Box display='flex' alignItems='center' gap='4px'>
+					<Box display='flex' alignItems='center' gap='2px'>
 						<BotellaIcon height='14px' width='14px' />
 						<Typography
 							variant='subtitle3'
