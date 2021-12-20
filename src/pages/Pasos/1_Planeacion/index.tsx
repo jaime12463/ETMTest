@@ -104,6 +104,7 @@ export const Planeacion: React.FC = () => {
 				disabled={iniciativas.length === 0}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
+						{/*ToDo: pasar a multilenguaje */}
 						Este cliente no cuenta con iniciativas
 					</Typography>
 				}
@@ -132,6 +133,7 @@ export const Planeacion: React.FC = () => {
 				disabled={coberturas.length === 0}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
+						{/*ToDo: pasar a multilenguaje */}
 						Este cliente no cuenta con coberturas
 					</Typography>
 				}
