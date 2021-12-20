@@ -89,6 +89,7 @@ const es = {
 		prestamo: 'Préstamo',
 		retorno: 'Retorno',
 		unidadesMaximasAplicar: 'Unidades máximas que puedes aplicar',
+		motivoDelCanje: 'Motivo del canje',
 	},
 	simbolos: {
 		decimal: '.',

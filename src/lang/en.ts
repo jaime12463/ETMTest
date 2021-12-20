@@ -89,6 +89,7 @@ const en = {
 		prestamo: 'Loan',
 		retorno: 'Return',
 		unidadesMaximasAplicar: 'Maximum units that you can apply',
+		motivoDelCanje: 'Exchange reason',
 	},
 	simbolos: {
 		decimal: ',',

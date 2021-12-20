@@ -226,7 +226,7 @@ const Controles: React.FC<Props> = ({
 			alignItems='center'
 			justifyContent='center'
 			width='125px'
-			gap='10px'
+			gap='12px'
 			padding='12px 0 16px 0'
 			sx={{background: '#F5F0EF'}}
 		>

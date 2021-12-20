@@ -13,7 +13,9 @@ const useEstilos = makeStyles(() =>
 		container: {
 			alignItems: 'center',
 			border: (props: Props) =>
-				props.border && props.opcion === ''
+				props.border &&
+				(props.opcion === '' ||
+					(props.opcion === 'Motivo del canje' && !props.bloqueado))
 					? `1px solid ${theme.palette.primary.main}`
 					: '1px solid #D9D9D9',
 			borderRadius: '4px',
@@ -47,6 +49,7 @@ const useEstilos = makeStyles(() =>
 			},
 		},
 		arrow: {
+			marginLeft: '8px',
 			transform: (props: Props) =>
 				props.open ? 'rotateX(180deg)' : 'rotateX(0deg)',
 			transition: 'transform 0.3s ease-in-out',

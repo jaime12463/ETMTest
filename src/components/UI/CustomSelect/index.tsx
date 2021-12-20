@@ -49,7 +49,12 @@ const CustomSelect: React.FC<Props> = ({
 			onClick={() => setOpen(!open)}
 			ref={selectRef}
 		>
-			<Box>
+			<Box
+				alignItems='center'
+				display='flex'
+				justifyContent='space-between'
+				width='100%'
+			>
 				<Typography
 					variant='caption'
 					sx={{color: '#000', textTransform: 'capitalize'}}
@@ -57,8 +62,8 @@ const CustomSelect: React.FC<Props> = ({
 				>
 					{opcionSeleccionada}
 				</Typography>
+				<FlechaAbajoIcon className={classes.arrow} height='10px' width='10px' />
 			</Box>
-			<FlechaAbajoIcon className={classes.arrow} height='10px' width='10px' />
 			{open && (
 				<Box className={classes.dropdown} data-cy={dataCy}>
 					{opcionesAMostrar?.map((opcion) => (
