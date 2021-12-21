@@ -56,7 +56,7 @@ export const Planeacion: React.FC = () => {
 	return (
 		<Stack spacing={2}>
 			<TarjetaColapsable
-				titulo={<Typography variant={'subtitle1'}>Pedidos en curso</Typography>}
+				titulo={<Typography variant={'subtitle2'}>Pedidos en curso</Typography>}
 				subTitulo={
 					<Typography variant={'body3'}>
 						Aquí se muestra un listado de pedidos que estan pendientes por
@@ -66,12 +66,12 @@ export const Planeacion: React.FC = () => {
 				id='PedidosEnCurso'
 				expandido={expandido}
 				setExpandido={setExpandido}
-				dataCy="PedidosEnCurso"
+				dataCy='PedidosEnCurso'
 			>
 				<div> PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
 			<TarjetaColapsable
-				titulo={<Typography variant={'subtitle1'}>Sugerido para ti</Typography>}
+				titulo={<Typography variant={'subtitle2'}>Sugerido para ti</Typography>}
 				subTitulo={
 					<Typography variant={'body3'}>
 						Aquí se muestra un listado de pedidos que estan pendientes por
@@ -81,13 +81,13 @@ export const Planeacion: React.FC = () => {
 				id='Sugeridos'
 				expandido={expandido}
 				setExpandido={setExpandido}
-				dataCy="Sugeridos"
+				dataCy='Sugeridos'
 			>
 				<div>SUGERIDOS PARA TI PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
 			<TarjetaColapsable
 				titulo={
-					<Typography variant={'subtitle1'}>
+					<Typography variant={'subtitle2'}>
 						{t('titulos.iniciativas')}
 					</Typography>
 				}
@@ -109,13 +109,13 @@ export const Planeacion: React.FC = () => {
 					</Typography>
 				}
 				valido={iniciativasEjecutadas.length > 0}
-				dataCy="Iniciativas"
+				dataCy='Iniciativas'
 			>
 				<Iniciativas />
 			</TarjetaColapsable>
 			<TarjetaColapsable
 				titulo={
-					<Typography variant={'subtitle1'}>
+					<Typography variant={'subtitle2'}>
 						{t('titulos.coberturas')}
 					</Typography>
 				}
@@ -137,7 +137,7 @@ export const Planeacion: React.FC = () => {
 						Este cliente no cuenta con coberturas
 					</Typography>
 				}
-				dataCy="Coberturas"
+				dataCy='Coberturas'
 			>
 				<Coberturas coberturasAgregadas={coberturasAgregadas} />
 			</TarjetaColapsable>

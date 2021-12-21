@@ -136,7 +136,7 @@ export const Otros: React.FC = () => {
 		<Stack spacing={2}>
 			<TarjetaColapsable
 				titulo={
-					<Typography variant={'subtitle1'}>{t('general.envases')}</Typography>
+					<Typography variant={'subtitle2'}>{t('general.envases')}</Typography>
 				}
 				subTitulo={
 					<Typography variant={'body3'}>
@@ -153,7 +153,7 @@ export const Otros: React.FC = () => {
 			</TarjetaColapsable>
 			<TarjetaColapsable
 				titulo={
-					<Typography variant={'subtitle1'}>{t('general.canje')}</Typography>
+					<Typography variant={'subtitle2'}>{t('general.canje')}</Typography>
 				}
 				subTitulo={
 					<Typography variant={'body3'}>
@@ -182,7 +182,7 @@ export const Otros: React.FC = () => {
 			</TarjetaColapsable>
 			<TarjetaColapsable
 				titulo={
-					<Typography variant={'subtitle1'}>
+					<Typography variant={'subtitle2'}>
 						{t('titulos.bonificaciones')}
 					</Typography>
 				}
@@ -215,7 +215,7 @@ export const Otros: React.FC = () => {
 			{tipoPagoActual ? (
 				<TarjetaColapsable
 					titulo={
-						<Typography variant={'subtitle1'}>
+						<Typography variant={'subtitle2'}>
 							{t('general.compromisoCobro')}
 						</Typography>
 					}
@@ -236,7 +236,7 @@ export const Otros: React.FC = () => {
 			{habilitaOrdenDeCompra ? (
 				<TarjetaColapsable
 					titulo={
-						<Typography variant={'subtitle1'}>
+						<Typography variant={'subtitle2'}>
 							{t('titulos.ordenDeCompra')}
 						</Typography>
 					}

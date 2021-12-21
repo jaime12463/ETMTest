@@ -240,30 +240,32 @@ const TomaPedido: React.FC = () => {
 				/>
 
 				<Grid container alignItems='center' justifyContent='space-between'>
-					<SwitchCambiarTipoPago />
 					{venta?.productos?.length > 0 &&
 						venta?.productos?.some(
 							(producto) => producto.unidades > 0 || producto.subUnidades > 0
 						) && (
-							<Chip
-								className={classes.root}
-								size='small'
-								icon={<BorrarIcon width='7.5px' height='7.5px' />}
-								label={<TextStyled>Borrar todo</TextStyled>}
-								sx={{'&:hover': {background: 'none'}}}
-								onClick={() => {
-									setConfigAlerta({
-										titulo: '¿Quieres Borrar Todos Los Productos?',
-										mensaje:
-											'Todos los productos seleccionados se borraran de toma de pedido',
-										tituloBotonAceptar: 'Borrar todo',
-										tituloBotonCancelar: 'Cancelar',
-										callbackAceptar: () => borrarTodosLosProductos(),
-										iconoMensaje: <AvisoIcon />,
-									});
-									setAlerta(true);
-								}}
-							/>
+							<>
+								<SwitchCambiarTipoPago />
+								<Chip
+									className={classes.root}
+									size='small'
+									icon={<BorrarIcon width='7.5px' height='7.5px' />}
+									label={<TextStyled>Borrar todo</TextStyled>}
+									sx={{'&:hover': {background: 'none'}}}
+									onClick={() => {
+										setConfigAlerta({
+											titulo: '¿Quieres Borrar Todos Los Productos?',
+											mensaje:
+												'Todos los productos seleccionados se borraran de toma de pedido',
+											tituloBotonAceptar: 'Borrar todo',
+											tituloBotonCancelar: 'Cancelar',
+											callbackAceptar: () => borrarTodosLosProductos(),
+											iconoMensaje: <AvisoIcon />,
+										});
+										setAlerta(true);
+									}}
+								/>
+							</>
 						)}
 				</Grid>
 

@@ -13,7 +13,9 @@ const useEstilos = makeStyles(() =>
 				background: '#FFFFFF',
 				boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.25)',
 				border: (props: Props) =>
-					props.valido ? `1px solid ${theme.palette.success.main}` : 'none',
+					props.valido && !props.open
+						? `1px solid ${theme.palette.success.main}`
+						: 'none',
 				borderRadius: '8px',
 				padding: '16px 18px',
 			},

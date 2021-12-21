@@ -7,6 +7,7 @@ import {
 	CardHeader,
 	CardContent,
 	IconButton,
+	Typography,
 } from '@mui/material';
 import useEstilos from './useEstilos';
 import clsx from 'clsx';
@@ -65,7 +66,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 		<>
 			<Card
 				className={clsx(classes.root, {
-					[classes.inactiva]: expandido !== id ? true : false,
+					[classes.inactiva]: expandido !== id,
 				})}
 				sx={{overflow: 'visible'}}
 				data-cy={'tarjeta-' + dataCy}
@@ -88,6 +89,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 									)}
 									{!disabled ? (
 										<IconButton
+											sx={{padding: 0}}
 											onClick={() =>
 												manejadorExpandido(expandido === id ? false : id)
 											}
@@ -102,10 +104,12 @@ export const TarjetaColapsable: React.FC<Props> = ({
 						</Box>
 					}
 					subheader={
-						<div>
-							<p style={{margin: '10px 0 0 0'}}>{subTitulo}</p>
+						<Box marginTop='10px'>
+							<Typography variant='body3' fontFamily='Open Sans'>
+								{subTitulo}
+							</Typography>
 							{disabled ? <p data-cy={'mensaje-' + dataCy}>{mensaje}</p> : null}
-						</div>
+						</Box>
 					}
 				></CardHeader>
 				<CardContent

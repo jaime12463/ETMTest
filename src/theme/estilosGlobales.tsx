@@ -6,6 +6,7 @@ const GlobalStyles = () => {
 			styles={{
 				'#root': {
 					background: '#E5E5E5',
+					overflow: 'hidden',
 				},
 			}}
 		/>
