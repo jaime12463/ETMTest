@@ -12,7 +12,10 @@ import {
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {useForm} from 'react-hook-form';
-import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
+import {
+	useInicializarPreciosProductosDelClienteActual,
+	useMostrarAviso,
+} from 'hooks';
 import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 import Stack from '@mui/material/Stack';
 import TarjetaCanjes from './TarjetaCanjes';
@@ -47,6 +50,7 @@ export const Canjes = () => {
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const stateInputFocus = {inputFocus, setInputFocus};
+	const mostrarAviso = useMostrarAviso();
 	const [catalogoMotivo, setCatalogoMotivo] = useState({});
 
 	React.useEffect(() => {
@@ -78,6 +82,13 @@ export const Canjes = () => {
 							},
 						},
 					})
+				);
+				mostrarAviso(
+					'success',
+					'Producto ingresado correctamente',
+					undefined,
+					undefined,
+					'productoIngresado'
 				);
 			}
 			setFocusId(productoActual.codigoProducto);

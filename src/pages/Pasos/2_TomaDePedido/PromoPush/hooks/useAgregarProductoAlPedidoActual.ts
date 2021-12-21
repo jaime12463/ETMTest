@@ -31,7 +31,10 @@ import {
 	validarHayMasProductosNoMandatorios,
 } from 'utils/validaciones';
 import {useTranslation} from 'react-i18next';
-import {useObtenerProductosMandatoriosVisitaActual} from 'hooks';
+import {
+	useMostrarAviso,
+	useObtenerProductosMandatoriosVisitaActual,
+} from 'hooks';
 
 export const useAgregarProductoAlPedidoActual = (
 	productoActual: TProductoPedido | null,
@@ -39,6 +42,7 @@ export const useAgregarProductoAlPedidoActual = (
 	getValues: any,
 	setGetValues: any
 ) => {
+	const mostrarAviso = useMostrarAviso();
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
 
@@ -103,6 +107,14 @@ export const useAgregarProductoAlPedidoActual = (
 				});
 
 			if (unidadesParseado > 0 || subUnidadesParseado > 0) {
+				mostrarAviso(
+					'success',
+					'Promocion agregada correctamente',
+					undefined,
+					undefined,
+					'promocionAgregada'
+				);
+
 				dispatch(
 					agregarProductoDelPedidoActual({
 						productoPedido: {

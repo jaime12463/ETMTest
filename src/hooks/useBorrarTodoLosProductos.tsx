@@ -13,6 +13,7 @@ import {Dialogo} from 'components/UI';
 import {
 	useObtenerProductosMandatoriosVisitaActual,
 	useMostrarAdvertenciaEnDialogo,
+	useMostrarAviso,
 } from 'hooks';
 import {
 	validarHayMasProductosMandatorios,
@@ -41,7 +42,7 @@ export const useBorrarTodoLosProductos = (
 	const {t} = useTranslation();
 	const configuracion = useObtenerConfiguracion();
 	const visitaActual = useObtenerVisitaActual();
-
+	const mostrarAviso = useMostrarAviso();
 	const {setAlerta, setConfigAlerta} = stateAlerta;
 
 	const productosMandatoriosVisitaActual =
@@ -69,6 +70,13 @@ export const useBorrarTodoLosProductos = (
 				productosMandatoriosVisitaActual.noMandatorios
 			)
 		) {
+			mostrarAviso(
+				'success',
+				'Productos Borrados',
+				undefined,
+				undefined,
+				'productoEliminado'
+			);
 			if (configuracion.bonificacionesConVenta) {
 				dispatch(restablecerBonificaciones());
 			}

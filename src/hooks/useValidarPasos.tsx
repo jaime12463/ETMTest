@@ -7,6 +7,7 @@ import {
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
+import {useMostrarAviso} from './useMostrarAviso';
 
 interface ValidarPasos {
 	error: boolean;
@@ -25,6 +26,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
 	const dispatch = useAppDispatch();
+	const mostrarAviso = useMostrarAviso();
 
 	if (pasoActual === 0) {
 		const iniciativasCanceladasSinMotivo = visitaActual.iniciativas.some(
@@ -71,6 +73,13 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 						});
 						dispatch(
 							cambiarSeQuedaAEditar({seQueda: false, bordeError: false})
+						);
+						mostrarAviso(
+							'success',
+							'Cambios guardados con exitosamente',
+							undefined,
+							undefined,
+							'successpaso2'
 						);
 					},
 					callbackCancelar: () => {

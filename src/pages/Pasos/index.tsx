@@ -148,8 +148,18 @@ const Pasos: React.FC = () => {
 				dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
 			}
 		}
+
 		if (pasoActual < controlador.length - 1) {
 			if (!valido.contenidoMensajeAviso) {
+				if (pasoActual === 0 || pasoActual === 1) {
+					mostrarAviso(
+						'success',
+						'Cambios guardados con exitosamente',
+						undefined,
+						undefined,
+						'successpaso2'
+					);
+				}
 				setPasoActual(pasoActual + 1);
 			}
 		} else {

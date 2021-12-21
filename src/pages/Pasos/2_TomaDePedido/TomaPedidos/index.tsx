@@ -93,6 +93,7 @@ const TomaPedido: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const catalogoMotivo = '';
 	const classes = useEstilos();
+	const mostrarAviso = useMostrarAviso();
 
 	const borrarTodosLosProductos = useBorrarTodoLosProductos(
 		{setAlerta, setConfigAlerta},
@@ -145,6 +146,13 @@ const TomaPedido: React.FC = () => {
 			}
 			setFocusId(productoActual.codigoProducto);
 			setProductoActual(null);
+			mostrarAviso(
+				'success',
+				'Se ha ingreso el producto exitosamente',
+				undefined,
+				undefined,
+				'productoIngresado'
+			);
 		}
 	}, [productoActual?.codigoProducto]);
 
@@ -208,6 +216,13 @@ const TomaPedido: React.FC = () => {
 									);
 								});
 							}
+							mostrarAviso(
+								'success',
+								'Producto Eliminado',
+								undefined,
+								undefined,
+								'productoEliminado'
+							);
 							return dispatch(
 								borrarProductoDelPedidoActual({
 									codigoProducto: producto.codigoProducto,
@@ -259,7 +274,9 @@ const TomaPedido: React.FC = () => {
 											'Todos los productos seleccionados se borraran de toma de pedido',
 										tituloBotonAceptar: 'Borrar todo',
 										tituloBotonCancelar: 'Cancelar',
-										callbackAceptar: () => borrarTodosLosProductos(),
+										callbackAceptar: () => {
+											borrarTodosLosProductos();
+										},
 										iconoMensaje: <AvisoIcon />,
 									});
 									setAlerta(true);
