@@ -94,20 +94,19 @@ export const Canjes = () => {
 				stateInputFocus={stateInputFocus}
 			/>
 
-			{canje.productos.length > 0 &&
-				canje.productos.map((producto) => {
-					return (
-						<TarjetaCanjes
-							key={producto.codigoProducto}
-							producto={producto}
-							condicion={clienteActual.condicion}
-							stateCatalogo={{catalogoMotivo, setCatalogoMotivo}}
-							stateInputFocus={stateInputFocus}
-							statefocusId={{focusId, setFocusId}}
-							visitaActual={visitaActual}
-						/>
-					);
-				})}
+			{canje.productos?.map((producto) => {
+				return (
+					<TarjetaCanjes
+						key={producto.codigoProducto}
+						producto={producto}
+						condicion={clienteActual.condicion}
+						stateCatalogo={{catalogoMotivo, setCatalogoMotivo}}
+						stateInputFocus={stateInputFocus}
+						statefocusId={{focusId, setFocusId}}
+						visitaActual={visitaActual}
+					/>
+				);
+			})}
 		</Stack>
 	);
 };

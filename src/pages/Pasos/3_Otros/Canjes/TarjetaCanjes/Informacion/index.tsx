@@ -39,6 +39,14 @@ const Informacion: React.FC<Props> = ({
 	const [selectBloqueado, setSelectBloqueado] = React.useState<boolean>(true);
 
 	React.useEffect(() => {
+		if (producto.unidades === 0 && producto.subUnidades === 0) {
+			setMotivo(t('general.motivoDelCanje'));
+			setSelectBloqueado(true);
+			return;
+		}
+	}, [producto.unidades, producto.subUnidades]);
+
+	React.useEffect(() => {
 		if (getValues.unidades > 0 || getValues.subUnidades > 0) {
 			return setSelectBloqueado(false);
 		}
@@ -91,6 +99,7 @@ const Informacion: React.FC<Props> = ({
 					dataCy={`canje-motivo-value`}
 					bloqueado={selectBloqueado}
 					border
+					sinFlecha
 				/>
 			</Box>
 		</Box>
