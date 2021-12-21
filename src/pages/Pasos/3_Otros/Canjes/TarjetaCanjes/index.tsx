@@ -47,29 +47,30 @@ const TarjetaCanjes: React.FC<Props> = ({
 
 	React.useEffect(() => {
 		if (
-			(producto.unidades > 0 && producto.catalogoMotivo !== '') ||
-			(producto.subUnidades > 0 && producto.catalogoMotivo !== '')
+			(getValues.unidades > 0 && getValues.catalogoMotivo !== '') ||
+			(getValues.subUnidades > 0 && getValues.catalogoMotivo !== '')
 		) {
-			setBordeColor(theme.palette.success.main);
-		} else if (
-			(producto.unidades === 0 && producto.catalogoMotivo !== '') ||
-			(producto.subUnidades === 0 && producto.catalogoMotivo !== '')
-		) {
-			setBordeColor(theme.palette.primary.main);
-		} else if (
-			(producto.unidades > 0 && producto.catalogoMotivo === '') ||
-			(producto.subUnidades > 0 && producto.catalogoMotivo === '')
-		) {
-			setBordeColor(theme.palette.primary.main);
-		} else {
-			setBordeColor('#D9D9D9');
+			return setBordeColor(theme.palette.success.main);
 		}
-	}, [
-		producto.unidades,
-		producto.subUnidades,
-		catalogoMotivo,
-		producto.catalogoMotivo,
-	]);
+
+		if (
+			(getValues.unidades === 0 && getValues.catalogoMotivo !== '') ||
+			(getValues.subUnidades === 0 && getValues.catalogoMotivo !== '')
+		) {
+			return setBordeColor(theme.palette.primary.main);
+		}
+
+		if (
+			(getValues.unidades > 0 && getValues.catalogoMotivo === '') ||
+			(getValues.subUnidades > 0 && getValues.catalogoMotivo === '')
+		) {
+			return setBordeColor(theme.palette.primary.main);
+		}
+
+		if (getValues.unidades === 0 && getValues.subUnidades === 0) {
+			return setBordeColor('#D9D9D9');
+		}
+	}, [getValues.unidades, getValues.subUnidades, getValues.catalogoMotivo]);
 
 	return (
 		<Box border={`1px solid ${bordeColor}`} borderRadius='8px'>

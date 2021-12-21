@@ -94,6 +94,12 @@ const Controles: React.FC<Props> = ({
 	}, [catalogoMotivo]);
 
 	React.useEffect(() => {
+		if (getValues.unidades === 0 && getValues.subUnidades === 0) {
+			setGetValues({...getValues, catalogoMotivo: ''});
+		}
+	}, [getValues.unidades, getValues.subUnidades]);
+
+	React.useEffect(() => {
 		if (puedeAgregar) {
 			agregarProductoAlPedidoActual(getValues);
 			setPuedeAgregar(false);
@@ -144,7 +150,8 @@ const Controles: React.FC<Props> = ({
 				borderRadius={
 					getValues.unidades > 0 ||
 					getValues.subUnidades > 0 ||
-					getValues.catalogoMotivo !== ''
+					getValues.catalogoMotivo !== '' ||
+					(getValues.unidades !== 0 && getValues.subUnidades !== 0)
 						? '0 0 8px 0'
 						: '0 8px 8px 0'
 				}

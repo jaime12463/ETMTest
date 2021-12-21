@@ -26,13 +26,18 @@ const CheckYPendiente: React.FC<Props> = ({
 			if (getValues.catalogoMotivo !== '') {
 				setMostrarAcciones(true);
 				setPendiente(false);
+				return;
 			} else {
 				setPendiente(true);
+				setMostrarAcciones(false);
+				return;
 			}
-		} else {
-			if (getValues.catalogoMotivo !== '') {
-				setPendiente(true);
-			}
+		}
+
+		if (getValues.unidades === 0 && getValues.subUnidades === 0) {
+			setMostrarAcciones(false);
+			setPendiente(false);
+			return;
 		}
 
 		return () => {

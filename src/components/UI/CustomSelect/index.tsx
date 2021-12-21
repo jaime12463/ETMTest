@@ -11,6 +11,7 @@ interface Props {
 	bloqueado?: boolean;
 	border?: boolean;
 	dataCy: string;
+	sinFlecha?: boolean;
 }
 
 const CustomSelect: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const CustomSelect: React.FC<Props> = ({
 	bloqueado = false,
 	border,
 	dataCy,
+	sinFlecha = false,
 }) => {
 	const [open, setOpen] = React.useState<boolean>(false);
 	const selectRef = React.useRef<HTMLDivElement>(null);
@@ -33,6 +35,7 @@ const CustomSelect: React.FC<Props> = ({
 		bloqueado,
 		border,
 		opcion: opcionSeleccionada,
+		sinFlecha,
 	});
 
 	const cerrarOpciones = (e: any) => {

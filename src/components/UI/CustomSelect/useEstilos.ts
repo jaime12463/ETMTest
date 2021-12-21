@@ -6,6 +6,7 @@ interface Props {
 	bloqueado: boolean;
 	border?: boolean;
 	opcion?: string;
+	sinFlecha?: boolean;
 }
 
 const useEstilos = makeStyles(() =>
@@ -50,6 +51,7 @@ const useEstilos = makeStyles(() =>
 		},
 		arrow: {
 			marginLeft: '8px',
+			opacity: (props: Props) => (props.bloqueado && props.sinFlecha ? 0 : 1),
 			transform: (props: Props) =>
 				props.open ? 'rotateX(180deg)' : 'rotateX(0deg)',
 			transition: 'transform 0.3s ease-in-out',
