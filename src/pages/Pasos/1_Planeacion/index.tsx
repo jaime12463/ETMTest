@@ -66,7 +66,7 @@ export const Planeacion: React.FC = () => {
 				id='PedidosEnCurso'
 				expandido={expandido}
 				setExpandido={setExpandido}
-				dataCy="PedidosEnCurso"
+				dataCy='PedidosEnCurso'
 			>
 				<div> PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
@@ -81,7 +81,7 @@ export const Planeacion: React.FC = () => {
 				id='Sugeridos'
 				expandido={expandido}
 				setExpandido={setExpandido}
-				dataCy="Sugeridos"
+				dataCy='Sugeridos'
 			>
 				<div>SUGERIDOS PARA TI PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
@@ -100,7 +100,15 @@ export const Planeacion: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				cantidadItems={iniciativasEjecutadas.length}
-				labelChip={`${iniciativasEjecutadas.length} de ${iniciativas.length} Iniciativas`}
+				labelChip={
+					<>
+						{iniciativasEjecutadas.length !== iniciativas.length &&
+							`${iniciativasEjecutadas.length} de ${iniciativas.length}
+						Iniciativas`}
+						{iniciativasEjecutadas.length === iniciativas.length &&
+							`${iniciativasEjecutadas.length} Iniciativas`}
+					</>
+				}
 				disabled={iniciativas.length === 0}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
@@ -109,7 +117,7 @@ export const Planeacion: React.FC = () => {
 					</Typography>
 				}
 				valido={iniciativasEjecutadas.length > 0}
-				dataCy="Iniciativas"
+				dataCy='Iniciativas'
 			>
 				<Iniciativas />
 			</TarjetaColapsable>
@@ -137,7 +145,7 @@ export const Planeacion: React.FC = () => {
 						Este cliente no cuenta con coberturas
 					</Typography>
 				}
-				dataCy="Coberturas"
+				dataCy='Coberturas'
 			>
 				<Coberturas coberturasAgregadas={coberturasAgregadas} />
 			</TarjetaColapsable>

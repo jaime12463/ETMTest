@@ -240,7 +240,8 @@ const TomaPedido: React.FC = () => {
 				/>
 
 				<Grid container alignItems='center' justifyContent='space-between'>
-					<SwitchCambiarTipoPago />
+					{venta?.productos.length > 0 && <SwitchCambiarTipoPago />}
+
 					{venta?.productos?.length > 0 &&
 						venta?.productos?.some(
 							(producto) => producto.unidades > 0 || producto.subUnidades > 0
