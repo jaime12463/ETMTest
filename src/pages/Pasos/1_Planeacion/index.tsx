@@ -100,7 +100,15 @@ export const Planeacion: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				cantidadItems={iniciativasEjecutadas.length}
-				labelChip={`${iniciativasEjecutadas.length} de ${iniciativas.length} Iniciativas`}
+				labelChip={
+					<>
+						{iniciativasEjecutadas.length !== iniciativas.length &&
+							`${iniciativasEjecutadas.length} de ${iniciativas.length}
+						Iniciativas`}
+						{iniciativasEjecutadas.length === iniciativas.length &&
+							`${iniciativasEjecutadas.length} Iniciativas`}
+					</>
+				}
 				disabled={iniciativas.length === 0}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>

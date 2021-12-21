@@ -38,7 +38,7 @@ type Props = {
 	disabled?: boolean;
 	mensaje?: React.ReactNode;
 	valido?: boolean;
-	labelChip?: string;
+	labelChip?: string | React.ReactNode;
 	dataCy: string;
 };
 

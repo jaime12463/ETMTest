@@ -89,6 +89,7 @@ const Controles: React.FC<Props> = ({
 	);
 	const {t} = useTranslation();
 	const mostrarAviso = useMostrarAviso();
+
 	const classes = useEstilos({
 		bordeError: visitaActual.seQuedaAEditar.bordeError,
 		unidades: getValues.unidades,
@@ -118,7 +119,6 @@ const Controles: React.FC<Props> = ({
 	React.useEffect(() => {
 		if (puedeAgregar) {
 			agregarProductoAlPedidoActual(getValues, obtenerCalculoDescuentoProducto);
-
 			setPuedeAgregar(false);
 		}
 	}, [puedeAgregar]);

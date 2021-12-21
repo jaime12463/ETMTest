@@ -311,7 +311,7 @@ const TarjetaPromoPush = (props: any) => {
 										: {color: '#000000'}
 								}
 							>
-							{/*ToDo: Cambiar a multilenguaje */}	
+								{/*ToDo: Cambiar a multilenguaje */}
 								Aplicación maxima
 							</Typography>
 							<Box
@@ -478,14 +478,11 @@ const TarjetaPromoPush = (props: any) => {
 														marginBottom='12px'
 														alignSelf='end'
 													>
-													{/*ToDo: pasar a multilenguaje */}
+														{/*ToDo: pasar a multilenguaje */}
 														Ahorras: {formatearNumero(el.descuento, t)}
 													</Typography>
-													<Typography 
-														variant='subtitle3'
-														alignSelf='end'
-													>
-													{/*ToDo: pasar a multilenguaje */}
+													<Typography variant='subtitle3' alignSelf='end'>
+														{/*ToDo: pasar a multilenguaje */}
 														Total: {formatearNumero(el.precioFinal, t)}
 													</Typography>
 												</Box>
@@ -509,8 +506,10 @@ const TarjetaPromoPush = (props: any) => {
 							<CardActions disableSpacing style={{padding: 0}}>
 								<Box display='flex' gap='6px' alignItems='center'>
 									<Typography variant='caption' color='secondary'>
-									{/*ToDo: pasar a multilenguaje */}
-										{expandidoPromoPush !== id ? 'Ver detalle' : 'Ocultar detalle'}
+										{/*ToDo: pasar a multilenguaje */}
+										{expandidoPromoPush !== id
+											? 'Ver detalle'
+											: 'Ocultar detalle'}
 									</Typography>
 									<Box
 										className={clsx(classes.expand, {

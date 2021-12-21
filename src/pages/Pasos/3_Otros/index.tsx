@@ -197,7 +197,17 @@ export const Otros: React.FC = () => {
 				dataCy='Bonificaciones'
 				valido={bonificacionValida}
 				cantidadItems={cantidadBonificaciones.length}
-				labelChip={`${cantidadBonificaciones.length} Items`}
+				labelChip={
+					<>
+						{bonificacionesHabilitadas.length !==
+							cantidadBonificaciones.length &&
+							`${cantidadBonificaciones.length} de ${bonificacionesHabilitadas.length}
+						Bonificaciones`}
+						{bonificacionesHabilitadas.length ===
+							cantidadBonificaciones.length &&
+							`${cantidadBonificaciones.length} Bonificaciones`}
+					</>
+				}
 				disabled={
 					bonificacionesHabilitadas.length === 0 ||
 					productosMandatoriosVisitaActual.mandatorios.length < 1

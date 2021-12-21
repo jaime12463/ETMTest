@@ -4,7 +4,11 @@ import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import {StateFocusID} from 'components/UI/TarjetaTomaPedido';
 import {TClienteActual, TProductoPedido, TStateInputFocus} from 'models';
-import {useMostrarAdvertenciaEnDialogo, useObtenerDatosCliente} from 'hooks';
+import {
+	useMostrarAdvertenciaEnDialogo,
+	useMostrarAviso,
+	useObtenerDatosCliente,
+} from 'hooks';
 import {useObtenerClienteActual} from 'redux/hooks';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {Dialogo} from 'components/UI';
@@ -42,12 +46,21 @@ const Controles: React.FC<Props> = ({
 	const {catalogoMotivo} = stateCatalogo;
 
 	const {focusId, setFocusId} = statefocusId;
-
+	const mostrarAviso = useMostrarAviso();
 	const {inputFocus, setInputFocus} = stateInputFocus;
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {configuracionPedido}: any = datosCliente;
+	const avisoCanjeAgregado = () =>
+		getValues.catalogoMotivo !== '' &&
+		mostrarAviso(
+			'success',
+			'Canje agregado correctamente',
+			undefined,
+			undefined,
+			'canjeAgreado'
+		);
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		producto,
@@ -67,7 +80,9 @@ const Controles: React.FC<Props> = ({
 
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === 'Enter') {
+			avisoCanjeAgregado();
 			agregarProductoAlPedidoActual(getValues);
+
 			if (inputFocus === 'unidades') {
 				setInputFocus('subUnidades');
 			} else if (inputFocus === 'subUnidades') {
@@ -85,6 +100,7 @@ const Controles: React.FC<Props> = ({
 		}
 		if (getValues.unidades > 0 || getValues.subUnidades > 0) {
 			if (catalogoMotivo[producto.codigoProducto]) {
+				avisoCanjeAgregado();
 				agregarProductoAlPedidoActual({
 					...getValues,
 					catalogoMotivo: catalogoMotivo[producto.codigoProducto].codigoMotivo,
@@ -101,6 +117,7 @@ const Controles: React.FC<Props> = ({
 
 	React.useEffect(() => {
 		if (puedeAgregar) {
+			avisoCanjeAgregado();
 			agregarProductoAlPedidoActual(getValues);
 			setPuedeAgregar(false);
 		}
@@ -131,6 +148,7 @@ const Controles: React.FC<Props> = ({
 					value === '+' ? ++getValues.subUnidades : --getValues.subUnidades,
 			});
 		}
+		avisoCanjeAgregado();
 		agregarProductoAlPedidoActual(getValues);
 	};
 
