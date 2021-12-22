@@ -1,7 +1,7 @@
 # language: es
 
 @Pedido @Guardar_pedido @Iniciativas @Bonificaciones @Sprint7 @Sprint8 @Sprint9 @Sprint10 @Sprint11 @Sprint13 @Sprint15 @Sprint17 
-@Sprint18
+@Sprint19
 
 # Sprint18: Al guardar el pedido, si existen productos que también se informan en algún grupo de coberturas
 # se debe guardar la información de cobertura para luego no mostrar ese grupo en planeación
@@ -131,7 +131,7 @@ Escenario: N°8 - Iniciativas cumplidas
     Dado que el cliente tiene iniciativas habilitadas para el pedido actual
     Y al menos un producto de las iniciativas se encuentran en el pedido 
     #Y la suma de las cantidades de dichos productos es mayor o igual a la indicada en la iniciativa
-    Y la suma de las cantidades de dichos productos, convertidos a la unidad de medida de la iniciativa, es mayor o igual al disponible indicado en la iniciativa
+    Y la suma de las cantidades de dichos productos, sean unidades o subunidades según la unidad de medida de la iniciativa, es mayor o igual al disponible indicado en la iniciativa
     Cuando guardo el pedido
     Entonces el sistema registrara la iniciativa con status = "Ejecutada" indicando usuario, fecha y hora, código de iniciativa, código de cliente, status, producto, unidades y subunidades.
 
@@ -139,7 +139,7 @@ Escenario: N°9 - Iniciativas no cumplidas
     Dado que el cliente tiene iniciativas con status = "Ejecutada" para el pedido actual
     Y al menos un producto de la iniciativa se encuentra en el pedido 
     #Y la suma de las cantidades de dichos productos es menor a la indicada en la iniciativa
-    Y la suma de las cantidades de dichos productos, convertidos a la unidad de medida de la iniciativa, es menor al disponible indicado en la iniciativa
+    Y la suma de las cantidades de dichos productos, sean unidades o subunidades según la unidad de medida de la iniciativa, es menor al disponible indicado en la iniciativa
     Cuando guardo el pedido
     Entonces el sistema elimina la iniciativa registrada
 
