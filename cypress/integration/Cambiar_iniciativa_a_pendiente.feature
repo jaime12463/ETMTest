@@ -1,6 +1,6 @@
 # language: es
 
-@Iniciativa @Pendiente @Sprint15 @Sprint18
+@Iniciativa @Pendiente @Sprint15 @Sprint19
 
 Característica: Poner pendiente la iniciativa
     Como prevendedor
