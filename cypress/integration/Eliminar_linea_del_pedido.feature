@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Eliminar_producto @Sprint3 @Sprint10 @Sprint12 @Sprint13 @Sprint16 @Sprint17 @Sprint18
+@Pedido @Eliminar_producto @Sprint3 @Sprint10 @Sprint12 @Sprint13 @Sprint16 @Sprint17 @Sprint18 @Sprint19
 
 # Sprint12: se modifica mensaje de eliminar pedido no mandatorio.
 
@@ -18,7 +18,7 @@ Característica: Eliminar línea del pedido
 #	Y se ingresa cantidad 0 en subunidades
 #	Entonces el sistema eliminará el producto seleccionado del pedido.
 
-Escenario: N°2 – Eliminar producto del tipo de pedido no mandatorio seleccionando eliminar
+Escenario: N°1 - Eliminar producto del tipo de pedido no mandatorio seleccionando eliminar
 	Dado que estoy en un pedido cuyo tipo de pedido _esMandatorio = false
 	Y tiene productos ingresados
 	Cuando se selecciono borrar en la tarjeta del producto
@@ -32,7 +32,7 @@ Escenario: N°2 – Eliminar producto del tipo de pedido no mandatorio seleccion
 #	Y se ingresa cantidad 0 en subunidades
 #	Entonces el sistema eliminará el producto seleccionado del pedido.
 
-Escenario: N°4 – El cliente tiene tipos de pedidos mandatorios registrados para la fecha de entrega y quiere eliminar producto del tipo de pedido mandatorio en curso. El prevendedor puede registrar un pedido del tipo no mandatorio
+Escenario: N°2 - El cliente tiene tipos de pedidos mandatorios registrados para la fecha de entrega y quiere eliminar producto del tipo de pedido mandatorio en curso. El prevendedor puede registrar un pedido del tipo no mandatorio
 	Dado que estoy en un pedido cuyo tipo de pedido _esMandatorio = true 
     Y hay al menos un pedido cuyo tipo de pedido _esMandatorio = true registrado para la fecha de entrega 
 	Cuando se selecciono borrar en la tarjeta del producto
@@ -62,9 +62,10 @@ Escenario: N°4 – El cliente tiene tipos de pedidos mandatorios registrados pa
 
 # Si el usuario confirma, el sistema borra todos los productos de los pedidos no mandatorios en curso.
 
-Esquema del escenario: N°6 – Eliminar producto del tipo de pedido mandatorio sin otro tipo de pedido mandatorio registrado
+Esquema del escenario: N°3 - Eliminar producto del tipo de pedido mandatorio sin otro tipo de pedido mandatorio registrado
 	Dado que estoy en un pedido cuyo tipo de producto _esMandatorio = true
 	Y '<esUltimoProducto>'
+	Y '<hayPedidoIngresadoMismaFechaEntrega>'
 	Y '<hayProductosIngresadosPedidosNoMandatorios>' y no son pedidos de _tipoPedidoEnvasesHabilitados
 	Y <_bonificacionesConVenta_>
 	Y '<hayBonificacionesIngresadas>'
@@ -72,20 +73,20 @@ Esquema del escenario: N°6 – Eliminar producto del tipo de pedido mandatorio 
 	Entonces el sistema '<realizaraAccion>'.
 
 Ejemplos:
-|esUltimoProducto|hayProductosIngresadosPedidosNoMandatorios| _bonificacionesConVenta_  | hayBonificacionesIngresadas|realizaraAccion                                                                                                     |
-|     true		 |               true                       |              false        |             -              | Avisa que se borrarán los pedidos no obligatorios y pide confirmación de continuar y no borrará las bonificaciones |
-|     true       |               true                       |              true         |             true           | Avisa que se borrarán los pedidos no obligatorios y pide confirmación de continuar y borrará las bonificaciones    |
-|     true       |               false				        |              false        |              -             | Borrará el producto y no borrará las bonificaciones                                                                |
-|     true       |               false                      |              true         |             true           | Borrará el producto y borrará las bonificaciones                                                                   |
-|     false      |                 -				        |                -          |             -              | Borrará el producto                                                                                                |
+|esUltimoProducto|hayPedidoIngresadoMismaFechaEntrega|hayProductosIngresadosPedidosNoMandatorios| _bonificacionesConVenta_  | hayBonificacionesIngresadas|realizaraAccion                                                                                                     |
+|     true		 |              false                |               true                       |              false        |             -              | Avisa que se borrará el canje y al confirmar se borra el producto y el canje ingresado                             |
+|     true       |              false                |               true                       |              true         |             true           | Avisa que también se borrará el canje y se restablecerán las bonificaciones a cero  y al confirmar se borra el producto, el canje ingresado y se reestablecen las bonificaciones  a cero    |
+|     true       |              false                |               false				        |              false        |              -             | Borrará el producto y no borrará las bonificaciones                                                                |
+|     true       |              false                |               false                      |              true         |             true           | Avisa que también reestablecerán las bonificaciones a cero y al confirmar se borra el producto y se reestablecen las bonificaciones a cero                                                                   |
+|     -          |              -                    |                 -				        |                -          |             -              | Borrará el producto                                                                                                |
 
 
-Escenario: N°7 - Eliminar producto de promocion
+Escenario: N°4 - Eliminar producto de promocion
 	Dado que estoy en una promocion
 	Cuando selecciono el icono de borrar dentro de la tarjeta del producto
 	Entonces el sistema inicializará en 0 la cantidad ingresada del producto seleccionado.
 
-Esquema del escenario: N°8 - Eliminar tarjeta con gesto
+Esquema del escenario: N°5 - Eliminar tarjeta con gesto
 	Dado que ingresé en un pedido cuyo _tipoPedido = <tipoPedido>
 	Cuando se desliza la tarjeta para la izquierda
 	Entonces el sistema borrará el producto del pedido
@@ -98,7 +99,8 @@ Ejemplos:
 |Canje     |
 
 
-Escenario: N°9 - Opción deshacer
-	Dado que se eliminó un producto del pedido
-	Cuando selecciono deshacer
-	Entonces el sistema restaurará la tarjeta eliminada del pedido
+#
+#Escenario: N°9 - Opción deshacer
+#	Dado que se eliminó un producto del pedido
+#	Cuando selecciono deshacer
+#	Entonces el sistema restaurará la tarjeta eliminada del pedido
