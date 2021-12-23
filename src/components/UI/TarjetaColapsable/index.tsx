@@ -89,7 +89,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 									)}
 									{!disabled ? (
 										<IconButton
-											sx={{padding: 0}}
+											sx={{padding: 0, marginLeft: '8px'}}
 											onClick={() =>
 												manejadorExpandido(expandido === id ? false : id)
 											}
