@@ -59,6 +59,7 @@ export const Planeacion: React.FC = () => {
 				titulo={<Typography variant={'subtitle2'}>Pedidos en curso</Typography>}
 				subTitulo={
 					<Typography variant={'body3'}>
+						{/*ToDo: pasar a multilenguaje */}
 						Aquí se muestra un listado de pedidos que estan pendientes por
 						entregar
 					</Typography>
@@ -74,6 +75,7 @@ export const Planeacion: React.FC = () => {
 				titulo={<Typography variant={'subtitle2'}>Sugerido para ti</Typography>}
 				subTitulo={
 					<Typography variant={'body3'}>
+						{/*ToDo: pasar a multilenguaje */}
 						Aquí se muestra un listado de pedidos que estan pendientes por
 						entregar
 					</Typography>

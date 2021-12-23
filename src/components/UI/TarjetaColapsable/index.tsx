@@ -104,7 +104,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 						</Box>
 					}
 					subheader={
-						<Box marginTop='10px'>
+						<Box marginTop='5px'>
 							<Typography variant='body3' fontFamily='Open Sans'>
 								{subTitulo}
 							</Typography>
