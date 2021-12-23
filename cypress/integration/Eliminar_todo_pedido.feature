@@ -34,11 +34,11 @@ Escenario: N°2 - Borrar todos los productos que no son promo push y bonificacio
     Y al aceptar se eliminarán todos los productos de todos los pedidos
     Y se borrarán las tarjetas de las pantallas
 
-Escenario: N°3 - Borrar todos los productos promo
-    Dado que estoy en promociones
-    Cuando selecciono borrar todo
-    Entonces el sistema pide confirmación para eliminar las cantidades ingresadas en los productos
-    Y al aceptar se inicializarán en 0 las cantidades de todos los productos de la promoción
+#Escenario: N°3 - Borrar todos los productos promo
+#    Dado que estoy en promociones
+#    Cuando selecciono restablecer cantidades a cero
+#    Entonces el sistema pide confirmación para eliminar las cantidades ingresadas en los productos
+#    Y al aceptar se inicializarán en 0 las cantidades de todos los productos de la promoción
 
 
    #Mensaje: Se inicializaráne en 0 todas las promociones, desea continuar? 
