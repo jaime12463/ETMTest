@@ -20,6 +20,7 @@ Escenario: N°2 - El pedido en curso solo tiene promo push y el cliente no tiene
     Dado que el cliente no tiene otro pedido para la misma fecha de entrega
     Y los únicos productos del pedido en curso son de promo push
     Y el cliente tiene _tipoPedido = "Canje" ingresado
+    Y que no forman parte de _tipoPedidoEnvasesHabilitados
     Y por configuración _bonificacionesConVenta = true 
     Y el cliente tiene bonificaciones ingresadas
     Cuando se selecciona restablecer cantidades a cero
@@ -34,6 +35,7 @@ Esquema del escenario: N°3 - El pedido en curso solo tiene promo push y el clie
     Dado que el cliente no tiene otro pedido para la misma fecha de entrega
     Y los únicos productos del pedido en curso son de promo push
     Y el cliente tiene _tipoPedido = "Canje" ingresado 
+    Y que no forman parte de _tipoPedidoEnvasesHabilitados
     Y <condicion>
     Cuando se selecciona restablecer cantidades a cero
     Entonces el sistema mostrará el mensaje de que también se borrará el canje 
