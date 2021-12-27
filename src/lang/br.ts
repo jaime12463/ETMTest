@@ -46,7 +46,7 @@ const br = {
 		vencimiento: 'expiração',
 		deudaPendiente: 'Dívida pendente',
 		compromisoRegistrado: 'Compromissos de cobrança registrados',
-		agregarProductoSKU: 'Adicionar produto por SKU...',
+		agregarProductoSKU: 'Entrar no produto',
 		numeroOrdenDeCompra: 'Número da ordem de compra ',
 		limiteDeCredito: 'Limite de crédito',
 		disponible: 'Disponível',

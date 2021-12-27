@@ -11,9 +11,9 @@ import theme from 'theme';
 interface Props {
 	valid: boolean;
 	value: string;
-	onBlur?: () => void;
+	onBlur?: any;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	onKeyPress?: (e: React.KeyboardEvent<HTMLDivElement>) => void;
+	onKeyPress?: any;
 	inputRef?: (input: any) => void;
 	onClick?: () => void;
 	onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;

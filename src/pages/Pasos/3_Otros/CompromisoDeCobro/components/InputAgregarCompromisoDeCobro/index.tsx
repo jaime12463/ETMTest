@@ -20,11 +20,8 @@ const InputAgregarCompromisoDeCobro = () => {
 		defaultValues,
 	});
 
-	const {
-		mostrarAdvertenciaEnDialogo,
-		mostarDialogo,
-		parametrosDialogo,
-	} = useMostrarAdvertenciaEnDialogo();
+	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
+		useMostrarAdvertenciaEnDialogo();
 
 	const agregarCompromisoDeCobro = useAgregarCompromisoDeCobro(
 		mostrarAdvertenciaEnDialogo
