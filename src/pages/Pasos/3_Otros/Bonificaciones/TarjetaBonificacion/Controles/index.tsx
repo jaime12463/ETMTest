@@ -117,7 +117,6 @@ const Controles: React.FC<Props> = ({
 				setPuedeAgregar(false);
 				return;
 			}
-
 			dispatch(
 				agregarBonificacion({
 					idBonificacion,

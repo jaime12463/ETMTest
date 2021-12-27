@@ -4,9 +4,11 @@ import {cambiarOrdenDeCompra} from 'redux/features/visitaActual/visitaActualSlic
 import {TVisita} from 'models';
 import InputConIcono from 'components/UI/InputConIcono';
 import {useTranslation} from 'react-i18next';
+import {useMostrarAviso} from 'hooks';
 
 const OrdenDeCompra: React.FC = () => {
 	const visitaActual: TVisita = useObtenerVisitaActual();
+	const mostrarAviso = useMostrarAviso();
 	const [ordenDeCompra, setOrdenDeCompra] = React.useState<string>(
 		visitaActual.ordenDeCompra
 	);
@@ -20,8 +22,31 @@ const OrdenDeCompra: React.FC = () => {
 		} else {
 			setMostrarIcono(false);
 		}
-		dispatch(cambiarOrdenDeCompra({ordenDeCompra}));
 	}, [ordenDeCompra]);
+
+	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter') {
+			mostrarAviso(
+				'success',
+				'Orden de compra agregado correctamente',
+				undefined,
+				undefined,
+				'bonificacionAgregada'
+			);
+			dispatch(cambiarOrdenDeCompra({ordenDeCompra}));
+		}
+	};
+
+	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+		mostrarAviso(
+			'success',
+			'Orden de compra agregado correctamente',
+			undefined,
+			undefined,
+			'bonificacionAgregada'
+		);
+		dispatch(cambiarOrdenDeCompra({ordenDeCompra}));
+	};
 
 	const handleChange = (
 		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -33,6 +58,8 @@ const OrdenDeCompra: React.FC = () => {
 		<InputConIcono
 			value={ordenDeCompra}
 			onChange={handleChange}
+			onKeyPress={handleKeyPress}
+			onBlur={handleBlur}
 			valid={mostrarIcono}
 			label={t('general.numeroOrdenDeCompra')}
 			focus

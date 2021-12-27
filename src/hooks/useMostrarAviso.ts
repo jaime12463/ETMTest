@@ -12,7 +12,7 @@ export const useMostrarAviso = () => {
 	) => {
 		const opcionesDefault: OptionsObject = {
 			preventDuplicate: true,
-			autoHideDuration: 3000,
+			autoHideDuration: 5000,
 			anchorOrigin: {
 				vertical: 'top',
 				horizontal: 'center',

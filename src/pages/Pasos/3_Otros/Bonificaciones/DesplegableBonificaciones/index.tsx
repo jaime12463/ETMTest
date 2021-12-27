@@ -70,7 +70,8 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 	});
 
 	const [focusId, setFocusId] = React.useState<string>('');
-
+	const [primerProductoAgregado, setPrimerProductoAgregado] =
+		React.useState<boolean>(false);
 	const [opciones, setOpciones] = React.useState<string>(
 		grupoBonificacionesActivas?.nombreGrupo.toLowerCase() ??
 			grupos[0].nombreGrupo.toLowerCase()
@@ -133,6 +134,25 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 
 	React.useEffect(() => {
 		if (indexBonificacion > -1) {
+			if (
+				visitaActual.bonificaciones[indexBonificacion].detalle.length === 1 &&
+				!primerProductoAgregado
+			) {
+				setPrimerProductoAgregado(true);
+				mostrarAviso(
+					'success',
+					'Bonificacion agregada correctamente',
+					undefined,
+					undefined,
+					'bonificacionAgregada'
+				);
+			}
+			if (
+				visitaActual.bonificaciones[indexBonificacion].detalle.length === 0 &&
+				primerProductoAgregado
+			) {
+				setPrimerProductoAgregado(false);
+			}
 			if (visitaActual.bonificaciones[indexBonificacion].detalle.length > 0) {
 				return setHayBonificaciones(true);
 			}
@@ -190,6 +210,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 			reiniciar();
 			setOpciones(grupos[0].nombreGrupo.toLowerCase());
 			setErrorAplicacionTotal(false);
+			setPrimerProductoAgregado(false);
 		}
 	}, [resetBonificaciones]);
 
