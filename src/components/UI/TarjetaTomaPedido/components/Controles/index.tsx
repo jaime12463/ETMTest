@@ -1,5 +1,4 @@
-import React, {useEffect} from 'react';
-import {styled} from '@mui/material/styles';
+import React from 'react';
 import Input from '@mui/material/Input';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -11,8 +10,6 @@ import {
 } from 'assests/iconos';
 import {
 	TClienteActual,
-	TInfoDescuentos,
-	TPrecioProducto,
 	TProductoPedido,
 	TStateInfoDescuentos,
 	TStateInputFocus,
@@ -27,19 +24,6 @@ import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks
 import {useTranslation} from 'react-i18next';
 import {StateFocusID} from '../..';
 import useEstilos from './useEstilos';
-import theme from 'theme';
-
-const InputStyled = styled(Input)(({}) => ({
-	backgroundColor: 'white',
-	border: '1px solid #2F000E',
-	borderRadius: '10px',
-	fontSize: '12px',
-	fontWeight: 600,
-	height: '16px',
-	lineHeight: '16px',
-	padding: '0 2px',
-	width: '42px',
-}));
 
 interface Props {
 	producto: TProductoPedido;
@@ -58,7 +42,7 @@ const Controles: React.FC<Props> = ({
 }) => {
 	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
 	const visitaActual = useObtenerVisitaActual();
-	const {infoDescuento, setInfoDescuento} = stateInfoDescuento;
+	const {infoDescuento} = stateInfoDescuento;
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 	const defaultValue = {
 		unidades: producto.unidades,
@@ -73,8 +57,6 @@ const Controles: React.FC<Props> = ({
 	const {focusId, setFocusId} = stateFocusId;
 
 	const {inputFocus, setInputFocus} = stateInputFocus;
-
-	const [mostrarAcciones, setMostrarAcciones] = React.useState<boolean>(false);
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
@@ -122,14 +104,6 @@ const Controles: React.FC<Props> = ({
 			setPuedeAgregar(false);
 		}
 	}, [puedeAgregar]);
-
-	React.useEffect(() => {
-		if (getValues.unidades > 0 || getValues.subUnidades > 0) {
-			setMostrarAcciones(true);
-		}
-
-		return () => setMostrarAcciones(false);
-	}, [getValues.unidades, getValues.subUnidades]);
 
 	const validacionSubUnidades = () => {
 		if (
@@ -224,7 +198,7 @@ const Controles: React.FC<Props> = ({
 			display='flex'
 			flexDirection='column'
 			alignItems='center'
-			justifyContent='center'
+			justifyContent='start'
 			width='125px'
 			gap='12px'
 			padding='12px 0 16px 0'

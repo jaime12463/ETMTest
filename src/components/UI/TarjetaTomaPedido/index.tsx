@@ -1,22 +1,13 @@
 import React from 'react';
-import {
-	TInfoDescuentos,
-	TPrecioProducto,
-	TProductoPedido,
-	TStateInputFocus,
-} from 'models';
+import {TInfoDescuentos, TProductoPedido, TStateInputFocus} from 'models';
 import Box from '@mui/material/Box';
-import {CheckRedondoIcon} from 'assests/iconos';
-import {useTranslation} from 'react-i18next';
 import theme from 'theme';
-import {SwitchCambiarTipoPago} from 'pages/Pasos/2_TomaDePedido/components';
 import Controles from './components/Controles';
 import Informacion from './components/Informacion';
 import Descuentos from './components/Descuentos';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import SwitchYCheck from './components/SwitchYCheck';
 import {useObtenerCalculoDescuentoProducto} from 'hooks';
-import Modal from '../Modal';
 
 export interface StateFocusID {
 	focusId: number;
@@ -107,6 +98,9 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 				<Informacion
 					producto={productoEnVenta ?? productoAMandar}
 					conSwitch={conSwitch}
+					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+					stateAviso={{setAlerta, setConfigAlerta}}
+					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 				/>
 				<Controles
 					producto={productoEnVenta ?? productoAMandar}
@@ -123,7 +117,6 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 				producto={productoEnVenta ?? productoAMandar}
 				stateInputFocus={stateInputFocus}
 				stateFocusId={stateFocusId}
-				stateAviso={{setAlerta, setConfigAlerta}}
 			/>
 		</Box>
 	);

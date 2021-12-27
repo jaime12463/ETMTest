@@ -1,31 +1,8 @@
 import React from 'react';
 import {TProductoPedido, TStateInfoDescuentos, TStateInputFocus} from 'models';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
-import {AvisoIcon, PromocionColor, QuitarRellenoIcon} from 'assests/iconos';
-import {formatearNumero} from 'utils/methods';
-import {useTranslation} from 'react-i18next';
-import theme from 'theme';
-import {styled} from '@mui/material/styles';
 import InputConIcono from 'components/UI/InputConIcono';
 import {StateFocusID} from '../..';
-import {useMostrarAviso} from 'hooks';
-import {useAppDispatch} from 'redux/hooks';
-import {borrarDescuentoDelProducto} from 'redux/features/visitaActual/visitaActualSlice';
-
-const ChipStyled = styled(Chip)(() => ({
-	'&.MuiChip-root': {
-		background: 'transparent',
-		border: `1px solid ${theme.palette.primary.main}`,
-		cursor: 'pointer',
-		borderRadius: '50px',
-		height: ' 18px',
-		marginBottom: '12px',
-		padding: '4px, 12px',
-		width: '133px',
-	},
-}));
 
 interface Props {
 	stateInfoDescuento: TStateInfoDescuentos;
@@ -33,32 +10,24 @@ interface Props {
 	producto: TProductoPedido;
 	stateInputFocus: TStateInputFocus;
 	stateFocusId: StateFocusID;
-	stateAviso: any;
 }
 
-const Descuentos = ({
+const Descuentos: React.FC<Props> = ({
 	stateInfoDescuento,
 	obtenerCalculoDescuentoProducto,
 	stateInputFocus,
 	stateFocusId,
 	producto,
-	stateAviso,
-}: Props) => {
-	const {infoDescuento, setInfoDescuento} = stateInfoDescuento;
+}) => {
+	const {infoDescuento} = stateInfoDescuento;
 
 	const {focusId, setFocusId} = stateFocusId;
-	const {setAlerta, setConfigAlerta} = stateAviso;
 	const {inputFocus, setInputFocus} = stateInputFocus;
-	const [mostrarInfo, setMostrarinfo] = React.useState<boolean>(false);
 	const [inputValue, setInputValue] = React.useState<string>(
 		infoDescuento.inputPolarizado === 0
 			? ''
 			: infoDescuento.inputPolarizado.toString()
 	);
-	const dispatch = useAppDispatch();
-
-	const {t} = useTranslation();
-	const mostrarAviso = useMostrarAviso();
 
 	React.useEffect(() => {
 		if (infoDescuento.inputPolarizado > 0) {
@@ -68,35 +37,6 @@ const Descuentos = ({
 			);
 		}
 	}, []);
-
-	React.useEffect(() => {
-		if (
-			(infoDescuento.porcentajeDescuento !== null &&
-				infoDescuento.porcentajeDescuento > 0) ||
-			infoDescuento.tipo === 'automatico'
-		) {
-			if (
-				producto.unidades > 0 ||
-				producto.subUnidades > 0 ||
-				infoDescuento.tipo === 'automatico'
-			) {
-				setMostrarinfo(true);
-			} else {
-				setInputValue('');
-				obtenerCalculoDescuentoProducto(
-					{
-						inputPolarizado: 0,
-						unidades: 0,
-						subUnidades: 0,
-					},
-					stateInfoDescuento
-				);
-				setMostrarinfo(false);
-			}
-		} else {
-			setMostrarinfo(false);
-		}
-	}, [producto, infoDescuento]);
 
 	const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (Number(e.target.value) >= 0) {
@@ -129,27 +69,6 @@ const Descuentos = ({
 		}
 	};
 
-	const eliminarDescuento = () => {
-		setInfoDescuento({
-			tipo: 'eliminado',
-			porcentajeDescuento: null,
-			inputPolarizado: 0,
-			codigoDescuento: '',
-		});
-		dispatch(
-			borrarDescuentoDelProducto({
-				codigoProducto: producto.codigoProducto,
-			})
-		);
-		mostrarAviso(
-			'success',
-			t('advertencias.descuentoEscalonadoEliminado'),
-			undefined,
-			undefined,
-			'descuentoEscalonadoEliminado'
-		);
-	};
-
 	const mostrarInputPolarizado =
 		infoDescuento.tipo === 'polarizado'
 			? producto.unidades > 0 || producto.subUnidades > 0
@@ -162,98 +81,6 @@ const Descuentos = ({
 	return (
 		<>
 			<Box display='flex' flexDirection='column'>
-				{mostrarInfo && (
-					<Box display='flex'>
-						<Box
-							display='flex'
-							flexDirection='column'
-							width='179px'
-							padding='0 5px 0 14px'
-							gap='6px'
-						>
-							<Typography
-								variant='caption'
-								fontFamily='Open Sans'
-								color={theme.palette.primary.main}
-							>
-								{infoDescuento.tipo === 'polarizado' ||
-								infoDescuento.tipo === 'escalonado'
-									? `Descuento ${infoDescuento.tipo} del -${infoDescuento.porcentajeDescuento}%`
-									: null}
-							</Typography>
-							<Box
-								display='flex'
-								alignItems='center'
-								justifyContent='space-between'
-								width='125px'
-								marginBottom={
-									infoDescuento.tipo === 'polarizado' ||
-									infoDescuento.tipo === 'automatico'
-										? '6px'
-										: '0'
-								}
-							>
-								<PromocionColor height='20px' width='20px' />
-								<Typography
-									variant='subtitle3'
-									fontFamily='Open Sans'
-									color={theme.palette.primary.main}
-								>
-									{formatearNumero(
-										producto.precioConDescuentoUnidad ??
-											producto.preciosNeto.unidad,
-										t
-									)}
-								</Typography>
-								<Typography
-									variant='subtitle3'
-									fontFamily='Open Sans'
-									color={theme.palette.primary.main}
-								>
-									{formatearNumero(
-										producto.precioConDescuentoSubunidad ??
-											producto.preciosNeto.subUnidad,
-										t
-									)}
-								</Typography>
-							</Box>
-							{infoDescuento.tipo === 'escalonado' && (
-								<Box alignSelf='start'>
-									<ChipStyled
-										onClick={() => {
-											setConfigAlerta({
-												titulo: t('advertencias.borrarDescuento'),
-												mensaje: t('mensajes.borrarDescuento'),
-												tituloBotonAceptar: 'Eliminar',
-												tituloBotonCancelar: 'Cancelar',
-												callbackAceptar: () => eliminarDescuento(),
-												iconoMensaje: <AvisoIcon />,
-											});
-											setAlerta(true);
-										}}
-										label={
-											<Typography
-												variant='caption'
-												color={theme.palette.primary.main}
-											>
-												Eliminar descuento
-											</Typography>
-										}
-										icon={
-											<QuitarRellenoIcon
-												height='9px'
-												width='9px'
-												fill={theme.palette.primary.main}
-											/>
-										}
-									/>
-								</Box>
-							)}
-						</Box>
-						<Box width='125px' sx={{background: '#F5F0EF'}} />
-					</Box>
-				)}
-
 				<Box
 					marginBottom={mostrarInputPolarizado ? '16px' : '0'}
 					sx={{

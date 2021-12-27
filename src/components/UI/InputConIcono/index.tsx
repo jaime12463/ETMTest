@@ -69,7 +69,7 @@ const InputConIcono: React.FC<Props> = ({
 						>
 							<Typography
 								variant='body2'
-								sx={{color: error ? '#FF0000' : 'inherit'}}
+								sx={{color: error ? theme.palette.primary.main : 'inherit'}}
 							>
 								{t('simbolos.moneda')}
 							</Typography>
