@@ -42,6 +42,11 @@ export const Planeacion: React.FC = () => {
 		}
 	});
 
+	const iniciativasCanceladasSinMotivo = iniciativas.some(
+		(iniciativa) =>
+			iniciativa.estado === 'cancelada' && iniciativa.motivo === ''
+	);
+
 	const iniciativasEjecutadas = iniciativas.filter(
 		(iniciativa) => iniciativa.estado === 'ejecutada'
 	);
@@ -120,6 +125,14 @@ export const Planeacion: React.FC = () => {
 				}
 				valido={iniciativasEjecutadas.length > 0}
 				dataCy='Iniciativas'
+				mostrarAvisoAlCerrar={iniciativasCanceladasSinMotivo}
+				contenidoMensajeAviso={{
+					tipo: 'error',
+					titulo: 'Iniciativa cancelada sin motivo',
+					mensaje: 'ingrese un motivo para la iniciativa cancelada',
+					opciones: undefined,
+					dataCy: 'clienteNoPortafolio',
+				}}
 			>
 				<Iniciativas />
 			</TarjetaColapsable>

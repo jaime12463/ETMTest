@@ -48,6 +48,26 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 		}
 	}
 
+	if (pasoActual === 2) {
+		const CanjeSinMotivo = visitaActual.pedidos.canje.productos.some(
+			(producto) => producto.catalogoMotivo === ''
+		);
+		//TODO IDIOMA
+
+		if (CanjeSinMotivo) {
+			return {
+				error: CanjeSinMotivo,
+				contenidoMensajeAviso: {
+					tipo: 'error',
+					titulo: 'Canje sin motivo',
+					mensaje: 'Es necesario agregar el motivo del canje',
+					opciones: undefined,
+					dataCy: 'canjeSinMotivo',
+				},
+			};
+		}
+	}
+
 	if (pasoActual === 1) {
 		const productosSinModificar = venta?.productos?.some(
 			(producto) => producto.unidades === 0 && producto.subUnidades === 0

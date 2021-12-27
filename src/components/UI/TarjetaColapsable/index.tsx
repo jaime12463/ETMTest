@@ -15,6 +15,7 @@ import flechaAbajo from '../../../assests/iconos/chevron--down.svg';
 import Chip from '@mui/material/Chip';
 import {styled} from '@mui/material/styles';
 import {FlechaAbajoIcon} from 'assests/iconos';
+import {useMostrarAviso} from 'hooks';
 
 const ChipStyled = styled(Chip)(() => ({
 	background: '#000',
@@ -40,6 +41,14 @@ type Props = {
 	valido?: boolean;
 	labelChip?: string | React.ReactNode;
 	dataCy: string;
+	mostrarAvisoAlCerrar?: boolean;
+	contenidoMensajeAviso?: {
+		tipo: 'default' | 'error' | 'success' | 'warning' | 'info';
+		titulo: string;
+		mensaje?: string;
+		opciones?: any;
+		dataCy?: string;
+	};
 };
 
 export const TarjetaColapsable: React.FC<Props> = ({
@@ -55,11 +64,26 @@ export const TarjetaColapsable: React.FC<Props> = ({
 	valido = false,
 	labelChip,
 	dataCy,
+	contenidoMensajeAviso,
+	mostrarAvisoAlCerrar,
 }) => {
 	const manejadorExpandido = (id: string | boolean) => {
-		setExpandido(id);
+		if (mostrarAvisoAlCerrar) {
+			const aviso = contenidoMensajeAviso;
+			if (aviso) {
+				return mostrarAviso(
+					aviso.tipo,
+					aviso.titulo,
+					aviso.mensaje,
+					aviso.opciones,
+					aviso.dataCy
+				);
+			}
+		} else {
+			setExpandido(id);
+		}
 	};
-
+	const mostrarAviso = useMostrarAviso();
 	const classes = useEstilos({valido, open: expandido === id});
 
 	return (
