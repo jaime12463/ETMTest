@@ -26,6 +26,7 @@ Esquema del escenario: N°1 - Buscar producto en portafolio vigente cuando el ti
     Y se muestra el teclado alfanumérico
     Y se ingresan al menos dos o más caracteres
     Entonces el sistema muestra solamente los productos cuyo _tipoProducto sea el _tipoProductosHabilitados para el tipo de pedido en curso 
+    Y que no sean productos promo push
     Y que contengan lo ingresado por el prevendedor en su código o en su descricpción
     Y que pertenezcan al portafolio del cliente
     Y cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
@@ -72,3 +73,8 @@ Ejemplos:
 |       01/06/2021     |  01/06/2021  |    02/06/2021      | 
 
 
+Escenario: N°4 - Selección de productos para agregar
+    Dado que se buscaron productos
+    Y se seleccionaron productos del listado
+    Cuando selecciono el control agregar
+    Entonces el sistema agregará los productos seleccionados del listado al _tipoPedido correspondiente
