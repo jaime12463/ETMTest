@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Buscar_productos @Buscar_por_atributos @Sprint2 @Sprint11
+@Pedido @Buscar_productos @Sprint2 @Sprint11 @Srptin19
 
 # Sprint11: se debe considerar si el pedido _validaPresupuesto, la vigencia del presupuesto, si tiene productos habilitados
 # para el tipo de pedido y si el presupuesto es mayor a 0.
@@ -11,15 +11,15 @@
 
 # El teclado, para la solución mobile, en el filtro deberá ser un teclado alfanumérico
 
-Característica: Búsqueda de productos por atributos
+Característica: Búsqueda de productos
     Como Prevendedor
-    Quiero realizar la búsqueda de un producto por atributos
+    Quiero realizar la búsqueda de un producto del portafolio
     Para agregarlo al pedido
 
 Antecedentes:
     Dado que el prevendedor seleccionó un pedido cuyo _tipoPedido es un _tipoPedidoHabilitados 
 
-Esquema del escenario: N°1 Filtrar producto en portafolio vigente cuando el tipo de pedido no valida presupuesto
+Esquema del escenario: N°1 - Buscar producto en portafolio vigente cuando el tipo de pedido no valida presupuesto
     Dado que el _tipoPedido tiene _validaPresupuesto = false
     Y tiene portafolio asignado con precio y vigencia inicial y final
     Cuando se selecciona el control de búsqueda 
@@ -38,7 +38,7 @@ Ejemplos:
 
 
 
-Esquema del escenario: N°2 Filtrar producto en portafolio vigente con presupuesto de canje cuando no tiene lista de productos habilitados
+Esquema del escenario: N°2 - Buscar producto en portafolio vigente con presupuesto de canje cuando no tiene lista de productos habilitados
     Dado que el _tipoPedido tiene _validaPresupuesto = true
     Y _tieneProductosHabilitados = false
     Cuando se selecciona el control de búsqueda 
@@ -55,7 +55,7 @@ Ejemplos:
 |       01/06/2021     |  01/06/2021  |    02/06/2021      | 
 
 
-Esquema del escenario: N°3 Filtrar producto en portafolio vigente con presupuesto de canje cuando existe lista de productos habilitados
+Esquema del escenario: N°3 - Buscar producto en portafolio vigente con presupuesto de canje cuando existe lista de productos habilitados
     Dado que el _tipoPedido tiene _validaPresupuesto = true
     Y _tieneProductosHabilitados = true
     Cuando se selecciona el control de búsqueda
