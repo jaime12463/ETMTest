@@ -78,3 +78,18 @@ Escenario: N°4 - Selección de productos para agregar
     Y se seleccionaron productos del listado
     Cuando selecciono el control agregar
     Entonces el sistema agregará los productos seleccionados del listado al _tipoPedido correspondiente
+
+Escenario: N°5 - Borrar búsqueda
+    Dado que se buscaron productos
+    Cuando selecciono el control Borrar
+    Entonces el sistema borrará lo ingresado en el control de búsqueda
+    Y borrará los resultados de la búsqueda
+    Y borrará los filtros, si se aplicaron
+    Y dejará la pantalla preparada para realizar una nueva búsqueda
+
+Escenario: N°6 - Buscar producto habiendo ingresado un filtro previamente
+    Dado que se ingresaron filtros de búsqueda de productos
+    Y se mostró un listado con los resultados de la búsqueda
+    Cuando se ingresan al menos dos o más caracteres
+    Entonces el sistema mostrará aquellos productos del listado de resultados que contengan lo ingresado por el prevendedor en su código o en su descricpción
+ 
