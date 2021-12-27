@@ -21,6 +21,7 @@ Escenario: N°2 - El cliente es de condición formal y no avanza a toma de pedid
     Cuando estamos en planeación 
     Y cerramos el mensaje de crédito bloqueado
     Entonces el sistema avanzará directamente al paso 3 - Otros
+    Y mostrará los pasos 3 y 4 únicamente
     Y mostrará habilitada únicamente la tarjeta de compromiso de cobro
     Y si la ruta posee _bonificacionesConVenta = false, mostrará habilitada la tarjeta de bonificaciones
 
@@ -30,6 +31,7 @@ Escenario: N°3 - El cliente es de condición informal y tiene venta bloqueada, 
     Cuando estamos en planeación 
     Y cerramos el mensaje de crédito bloqueado
     Entonces el sistema avanzará directamente al paso 3 - Otros
+    Y mostrará los pasos 3 y 4 únicamente
     Y mostrará habilitada únicamente la tarjeta de compromiso de cobro
     Y si la ruta posee _bonificacionesConVenta = false, mostrará habilitada la tarjeta de bonificaciones
 
