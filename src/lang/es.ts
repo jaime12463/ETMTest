@@ -50,7 +50,7 @@ const es = {
 		compromisoRegistrado: 'Compromisos de Cobro Registrados',
 		agregarOrdenDeCompra: '¿Agregar Orden Compra?',
 		deseaAgregarOrdenDeCompra: '¿Desea asociar una orden de compra?',
-		agregarProductoSKU: 'Agregar producto por SKU...',
+		agregarProductoSKU: 'Ingresar producto',
 		continuarA: 'Continuar a ',
 		numeroOrdenDeCompra: 'Número de orden de compra',
 		limiteDeCredito: 'Límite de crédito',

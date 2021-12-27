@@ -50,7 +50,7 @@ const en = {
 		compromisoRegistrado: 'Registered Collection Commitments',
 		agregarOrdenDeCompra: 'Add Purchase Order?',
 		deseaAgregarOrdenDeCompra: 'Do you want to associate a purchase order?',
-		agregarProductoSKU: 'add product by SKU...',
+		agregarProductoSKU: 'Enter product',
 		continuarA: 'Continue to  ',
 		numeroOrdenDeCompra: 'Purchase order number',
 		limiteDeCredito: 'Credit limit',
