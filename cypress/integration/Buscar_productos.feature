@@ -85,6 +85,7 @@ Escenario: N°5 - Borrar búsqueda
     Entonces el sistema borrará lo ingresado en el control de búsqueda
     Y borrará los resultados de la búsqueda
     Y borrará los filtros, si se aplicaron
+    Y borrará las selección de los productos, si se seleccionaron
     Y dejará la pantalla preparada para realizar una nueva búsqueda
 
 Escenario: N°6 - Buscar producto habiendo ingresado un filtro previamente
