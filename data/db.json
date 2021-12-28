@@ -52,6 +52,7 @@
 				"limite": 3000,
 				"disponible": 10000,
 				"esCreditoBloqueado": false,
+				"esBloqueadoVenta": false,
 				"documentos": [
 					{
 						"numero": "12123456789",
@@ -353,6 +354,7 @@
 				"limite": 3000,
 				"disponible": 10000,
 				"esCreditoBloqueado": false,
+				"esBloqueadoVenta": false,
 				"documentos": [
 					{
 						"numero": "12123456789",
@@ -503,6 +505,7 @@
 				"limite": 3000,
 				"disponible": 10000,
 				"esCreditoBloqueado": false,
+				"esBloqueadoVenta": false,
 				"documentos": [
 					{
 						"numero": "12123456789",
@@ -875,6 +878,7 @@
 				"limite": 3000,
 				"disponible": 10000,
 				"esCreditoBloqueado": false,
+				"esBloqueadoVenta": false,
 				"documentos": [
 					{
 						"numero": "12123456789",
@@ -1325,8 +1329,9 @@
 			"informacionCrediticia": {
 				"condicion": "creditoInformal",
 				"limite": 20000,
-				"disponible": 10000,
+				"disponible": 1050,
 				"esCreditoBloqueado": false,
+				"esBloqueadoVenta": false,
 				"documentos": [
 					{
 						"numero": "12123456789",

@@ -6,6 +6,7 @@ import {
 	TPrecioProducto,
 	TProductoPedido,
 	TPedido,
+	TCliente,
 } from 'models';
 
 import {
@@ -17,6 +18,9 @@ import {useForm} from 'react-hook-form';
 import {
 	useInicializarPreciosProductosDelClienteActual,
 	useMostrarAviso,
+	useObtenerCreditoDisponible,
+	useObtenerDatosCliente,
+	useObtenerTotalPedidosVisitaActual,
 } from 'hooks';
 import visitaActualSlice, {
 	agregarProductoDelPedidoActual,
@@ -65,6 +69,8 @@ const TomaPedido: React.FC = () => {
 
 	const {t} = useTranslation();
 	const [alerta, setAlerta] = React.useState<boolean>(false);
+	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
+	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
@@ -94,6 +100,10 @@ const TomaPedido: React.FC = () => {
 	const catalogoMotivo = '';
 	const classes = useEstilos();
 	const mostrarAviso = useMostrarAviso();
+	const {obtenerDatosCliente} = useObtenerDatosCliente();
+	const datosCliente: TCliente | undefined = obtenerDatosCliente(
+		clienteActual.codigoCliente
+	);
 
 	const borrarTodosLosProductos = useBorrarTodoLosProductos(
 		{setAlerta, setConfigAlerta},
@@ -115,6 +125,23 @@ const TomaPedido: React.FC = () => {
 			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
 		}
 	}, [visitaActual.seQuedaAEditar.seQueda, venta.productos]);
+
+	React.useEffect(() => {
+		if (
+			datosCliente?.informacionCrediticia.condicion !== 'contado' &&
+			creditoDisponible -
+				(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0) <
+				0
+		) {
+			mostrarAviso(
+				'warning',
+				'Limite de credito excedido',
+				'este cliente ha excedido su limite de crédito, por lo que no se podra levantar pedidos a crédito',
+				undefined,
+				'sinLimiteCredito'
+			);
+		}
+	}, [venta.productos]);
 
 	React.useEffect(() => {
 		if (productoActual !== null) {

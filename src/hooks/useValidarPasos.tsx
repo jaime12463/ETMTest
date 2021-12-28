@@ -1,12 +1,24 @@
 import {AvisoIcon} from 'assests/iconos';
 import {Configuracion} from 'components/UI/Modal';
+import {
+	useObtenerDatosCliente,
+	useObtenerPedidosClienteMismaFechaEntrega,
+	useObtenerTotalPedidosVisitaActual,
+} from 'hooks';
+import {TCliente, TClienteActual} from 'models';
 import {useTranslation} from 'react-i18next';
 import {
 	borrarProductoDelPedidoActual,
 	cambiarEstadoIniciativa,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
+import {
+	useAppDispatch,
+	useObtenerClienteActual,
+	useObtenerConfiguracion,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
+import {obtenerTotalesPedidosCliente} from 'utils/methods';
 import {useMostrarAviso} from './useMostrarAviso';
 
 interface ValidarPasos {
@@ -24,9 +36,24 @@ interface ValidarPasos {
 export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 	const {t} = useTranslation();
 	const visitaActual = useObtenerVisitaActual();
+	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const {venta} = visitaActual.pedidos;
 	const dispatch = useAppDispatch();
 	const mostrarAviso = useMostrarAviso();
+	const clienteActual: TClienteActual = useObtenerClienteActual();
+	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
+	const {obtenerPedidosClienteMismaFechaEntrega} =
+		useObtenerPedidosClienteMismaFechaEntrega();
+	const datosCliente: TCliente | undefined = obtenerDatosCliente(
+		clienteActual.codigoCliente
+	);
+	const {tipoPedidos} = useObtenerConfiguracion();
+	const pedidosClienteMismaFechaEntrega =
+		obtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
+	const totalesPedidoCliente = obtenerTotalesPedidosCliente({
+		pedidosClienteMismaFechaEntrega,
+		tipoPedidos,
+	});
 
 	if (pasoActual === 0) {
 		const iniciativasCanceladasSinMotivo = visitaActual.iniciativas.some(
@@ -47,32 +74,30 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 			};
 		}
 	}
-
-	if (pasoActual === 2) {
-		const CanjeSinMotivo = visitaActual.pedidos.canje.productos.some(
-			(producto) => producto.catalogoMotivo === ''
-		);
-		//TODO IDIOMA
-
-		if (CanjeSinMotivo) {
-			return {
-				error: CanjeSinMotivo,
-				contenidoMensajeAviso: {
-					tipo: 'error',
-					titulo: 'Canje sin motivo',
-					mensaje: 'Es necesario agregar el motivo del canje',
-					opciones: undefined,
-					dataCy: 'canjeSinMotivo',
-				},
-			};
-		}
-	}
-
 	if (pasoActual === 1) {
 		const productosSinModificar = venta?.productos?.some(
 			(producto) => producto.unidades === 0 && producto.subUnidades === 0
 		);
 
+		if (
+			!datosCliente?.informacionCrediticia.esBloqueadoVenta &&
+			datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima &&
+			totalesPedidoCliente +
+				(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0) <
+				datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
+		) {
+			return {
+				error: true,
+				contenidoMensajeAviso: {
+					tipo: 'warning',
+					titulo: 'Pedido minimo no alcanzado',
+					mensaje:
+						'No se ha alcanzado el pedido minimo, por favor completar el pedido.',
+					opciones: undefined,
+					dataCy: 'pedidoMinimoNoAlcanzado',
+				},
+			};
+		}
 		if (productosSinModificar) {
 			return {
 				error: productosSinModificar,
@@ -106,6 +131,25 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 						dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
 					},
 					iconoMensaje: <AvisoIcon />,
+				},
+			};
+		}
+	}
+	if (pasoActual === 2) {
+		const CanjeSinMotivo = visitaActual.pedidos.canje.productos.some(
+			(producto) => producto.catalogoMotivo === ''
+		);
+		//TODO IDIOMA
+
+		if (CanjeSinMotivo) {
+			return {
+				error: CanjeSinMotivo,
+				contenidoMensajeAviso: {
+					tipo: 'error',
+					titulo: 'Canje sin motivo',
+					mensaje: 'Es necesario agregar el motivo del canje',
+					opciones: undefined,
+					dataCy: 'canjeSinMotivo',
 				},
 			};
 		}
