@@ -66,6 +66,12 @@ export const Planeacion: React.FC = () => {
 		(iniciativa) => iniciativa.estado === 'ejecutada'
 	);
 
+	const totalesIniciativasCompletas = iniciativas.filter(
+		(iniciativa) =>
+			iniciativa.estado === 'ejecutada' ||
+			(iniciativa.estado === 'cancelada' && iniciativa.motivo !== '')
+	);
+
 	if (
 		datosCliente?.informacionCrediticia.condicion !== 'contado' &&
 		creditoDisponible <= 0
@@ -134,14 +140,14 @@ export const Planeacion: React.FC = () => {
 				id='Iniciativas'
 				expandido={expandido}
 				setExpandido={setExpandido}
-				cantidadItems={iniciativasEjecutadas.length}
+				cantidadItems={totalesIniciativasCompletas.length}
 				labelChip={
 					<>
-						{iniciativasEjecutadas.length !== iniciativas.length &&
-							`${iniciativasEjecutadas.length} de ${iniciativas.length}
+						{totalesIniciativasCompletas.length !== iniciativas.length &&
+							`${totalesIniciativasCompletas.length} de ${iniciativas.length}
 						Iniciativas`}
-						{iniciativasEjecutadas.length === iniciativas.length &&
-							`${iniciativasEjecutadas.length} Iniciativas`}
+						{totalesIniciativasCompletas.length === iniciativas.length &&
+							`${totalesIniciativasCompletas.length} Iniciativas`}
 					</>
 				}
 				disabled={iniciativas.length === 0}
