@@ -30,6 +30,7 @@ Esquema del escenario: N°1 - Buscar producto en portafolio vigente cuando el ti
     Y que contengan lo ingresado por el prevendedor en su código o en su descricpción
     Y que pertenezcan al portafolio del cliente
     Y cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
+    Y ordenados ascendente por código de producto
 
 Ejemplos:
 | fechaVigenciaInicial | fechaEntrega | fechaVigenciaFinal |
@@ -48,6 +49,7 @@ Esquema del escenario: N°2 - Buscar producto en portafolio vigente con presupue
     Entonces el sistema mostrará los productos del portafolio asignado al cliente cuyo _tipoProducto sea el _tipoProductosHabilitados para el tipo de pedido en curso
     Y que contengan lo ingresado por el prevendedor en su código o en su descricpción
     Y cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
+    Y ordenados ascendente por código de producto
 
 Ejemplos:
 | fechaVigenciaInicial | fechaEntrega | fechaVigenciaFinal |
@@ -65,6 +67,7 @@ Esquema del escenario: N°3 - Buscar producto en portafolio vigente con presupue
     Entonces el sistema mostrará los _productosHabilitados en el presupuesto con _vigenciaInicioPresupuesto <= fecha del dispositivo <= _vigenciaFinPresupuesto
     que estén en el portafolio del cliente cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
     Y que contengan lo ingresado por el prevendedor en su código o en su descricpción
+    Y ordenados ascendente por código de producto
 
 Ejemplos:
 | fechaVigenciaInicial | fechaEntrega | fechaVigenciaFinal |
@@ -93,4 +96,5 @@ Escenario: N°6 - Buscar producto habiendo ingresado un filtro previamente
     Y se mostró un listado con los resultados de la búsqueda
     Cuando se ingresan al menos dos o más caracteres
     Entonces el sistema mostrará aquellos productos del listado de resultados que contengan lo ingresado por el prevendedor en su código o en su descricpción
+    Y ordenados ascendente por código de producto
  

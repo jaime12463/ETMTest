@@ -12,7 +12,7 @@ Antecedentes:
 
 Escenario: N°1 - Abrir filtros de productos
     Cuando selecciono el control de filtros
-    Entonces el sistema mostrará el listado de atributos con las opciones para seleccionar
+    Entonces el sistema mostrará el listado de _atributos con las opciones ordenadas alfabéticamente ascendente para seleccionar
 
 Esquema del escenario: N°2 - Filtrar producto de portafolio vigente cuando el tipo de pedido no valida presupuesto
     Dado que el _tipoPedido tiene _validaPresupuesto = false
@@ -23,6 +23,7 @@ Esquema del escenario: N°2 - Filtrar producto de portafolio vigente cuando el t
     Y que tenga el atributo seleccionado
     Y que pertenezcan al portafolio del cliente
     Y cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
+    Y ordenados ascendente por código de producto
 
 Ejemplos:
 | fechaVigenciaInicial | fechaEntrega | fechaVigenciaFinal |
@@ -39,6 +40,7 @@ Esquema del escenario: N°3 - Filtrar producto en portafolio vigente con presupu
     Entonces el sistema mostrará los productos del portafolio asignado al cliente cuyo _tipoProducto sea el _tipoProductosHabilitados para el tipo de pedido en curso
     Y que tenga el atributo seleccionado
     Y cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
+    Y ordenados ascendente por código de producto
 
 Ejemplos:
 | fechaVigenciaInicial | fechaEntrega | fechaVigenciaFinal |
@@ -54,6 +56,7 @@ Esquema del escenario: N°4 - Buscar producto en portafolio vigente con presupue
     Entonces el sistema mostrará los _productosHabilitados en el presupuesto con _vigenciaInicioPresupuesto <= fecha del dispositivo <= _vigenciaFinPresupuesto
     que estén en el portafolio del cliente cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
     Y que tenga el atributo seleccionado
+    Y ordenados ascendente por código de producto
 
 Ejemplos:
 | fechaVigenciaInicial | fechaEntrega | fechaVigenciaFinal |
@@ -66,4 +69,5 @@ Escenario: N°5 - Filtrar productos habiendo ingresado una búsqueda de producto
     Y se mostró un listado con los resultados de la búsqueda
     Cuando se selecciona una opción del filtro
     Entonces el sistema mostrará aquellos productos del listado de resultados que tengan el atributo seleccionado
+    Y ordenados ascendente por código de producto
     
