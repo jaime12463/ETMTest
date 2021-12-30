@@ -103,10 +103,10 @@ const Producto: React.FC<Props> = ({
 
 	const mostrarAviso = useMostrarAviso();
 
-	const classes = useEstilos({
-		estado: estadoSelect,
-		inputsBloqueados: visitaActual.pasoATomaPedido,
-	});
+	// const classes = useEstilos({
+	// 	estado: estadoSelect,
+	// 	inputsBloqueados: visitaActual.pasoATomaPedido,
+	// });
 
 	const dispatch = useAppDispatch();
 
@@ -301,11 +301,11 @@ const Producto: React.FC<Props> = ({
 							</IconButton>
 						)}
 						<Input
-							className={classes.input}
+							// className={classes.input}
 							inputProps={{
 								style: {textAlign: 'center'},
 								inputMode: 'numeric',
-								className: classes.input,
+								// className: classes.input,
 							}}
 							disableUnderline
 							name='unidades'
@@ -391,11 +391,11 @@ const Producto: React.FC<Props> = ({
 								</IconButton>
 							)}
 							<Input
-								className={classes.input}
+								// className={classes.input}
 								inputProps={{
 									style: {textAlign: 'center'},
 									inputMode: 'numeric',
-									className: classes.input,
+									// className: classes.input,
 								}}
 								disableUnderline
 								name='subUnidades'

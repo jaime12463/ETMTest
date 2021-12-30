@@ -4,6 +4,7 @@ import theme from 'theme';
 interface Props {
 	estado: string;
 	inputsBloqueados: boolean;
+	editarInputs: boolean;
 }
 
 const useEstilos = makeStyles(() =>
@@ -12,9 +13,11 @@ const useEstilos = makeStyles(() =>
 			border: (props: Props) => {
 				switch (props.estado) {
 					case 'pendiente':
-						return '1.5px solid #D9D9D9';
+						return '1px solid #D9D9D9';
 					case 'ejecutada':
-						return `1px solid ${theme.palette.success.main}`;
+						return props.editarInputs
+							? '1px solid #D9D9D9'
+							: `1px solid ${theme.palette.success.main}`;
 					case 'cancelada':
 						return `1px solid ${theme.palette.primary.main}`;
 					default:
@@ -32,20 +35,38 @@ const useEstilos = makeStyles(() =>
 				props.inputsBloqueados
 					? '#D9D9D9'
 					: '#fff',
-			border: (props: Props) =>
-				props.estado === 'pendiente' ||
-				props.estado === 'cancelada' ||
-				props.inputsBloqueados
-					? 'none'
-					: '1px solid #2F000E',
-			borderRadius: '10px',
-			'& .MuiInput-input': {
-				color: (props: Props) =>
+			border: (props: Props) => {
+				if (
 					props.estado === 'pendiente' ||
 					props.estado === 'cancelada' ||
 					props.inputsBloqueados
-						? 'rgba(0, 0, 0, 0.5)'
-						: '#000',
+				) {
+					return 'none';
+				}
+
+				if (props.editarInputs) {
+					return `1px solid ${theme.palette.primary.main}`;
+				}
+
+				return `1px solid ${theme.palette.secondary.dark}`;
+			},
+			borderRadius: '10px',
+			'& .MuiInput-input': {
+				color: (props: Props) => {
+					if (
+						props.estado === 'pendiente' ||
+						props.estado === 'cancelada' ||
+						props.inputsBloqueados
+					) {
+						return '#00000050';
+					}
+
+					if (props.editarInputs) {
+						return theme.palette.primary.main;
+					}
+
+					return '#000';
+				},
 				fontSize: '12px',
 				fontWeight: 600,
 			},

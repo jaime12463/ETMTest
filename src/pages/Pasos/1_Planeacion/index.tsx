@@ -1,5 +1,5 @@
 import React from 'react';
-import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {TarjetaColapsable} from 'components/UI';
 import Iniciativas from './Iniciativas';
@@ -16,8 +16,13 @@ import {
 	useObtenerCreditoDisponible,
 	useObtenerDatosCliente,
 } from 'hooks';
-import {cambiarSeQuedaAEditar} from 'redux/features/visitaActual/visitaActualSlice';
+import {
+	cambiarEstadoIniciativa,
+	cambiarSeQuedaAEditar,
+} from 'redux/features/visitaActual/visitaActualSlice';
 import {TCliente, TClienteActual} from 'models';
+import Modal from 'components/UI/Modal';
+import {AvisoIcon} from 'assests/iconos';
 
 export const Planeacion: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
@@ -32,6 +37,8 @@ export const Planeacion: React.FC = () => {
 	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(codigoCliente);
 	const mostrarAviso = useMostrarAviso();
+
+	const [alerta, setAlerta] = React.useState<boolean>(false);
 
 	const codigosCoberturas = coberturas.reduce(
 		(codigos: number[], cobertura) => {
@@ -66,6 +73,13 @@ export const Planeacion: React.FC = () => {
 		(iniciativa) => iniciativa.estado === 'ejecutada'
 	);
 
+	const iniciativasEjecutadasSinCantidad = iniciativas.find(
+		(iniciativa) =>
+			iniciativa.estado === 'ejecutada' &&
+			iniciativa.unidadesEjecutadas === 0 &&
+			iniciativa.subUnidadesEjecutadas === 0
+	);
+
 	const totalesIniciativasCompletas = iniciativas.filter(
 		(iniciativa) =>
 			iniciativa.estado === 'ejecutada' ||
@@ -93,7 +107,7 @@ export const Planeacion: React.FC = () => {
 	}, [visitaActual.seQuedaAEditar.seQueda]);
 
 	return (
-		<Stack spacing={2}>
+		<Box display='flex' flexDirection='column' gap='18px'>
 			<TarjetaColapsable
 				titulo={<Typography variant={'subtitle2'}>Pedidos en curso</Typography>}
 				subTitulo={
@@ -107,6 +121,7 @@ export const Planeacion: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				dataCy='PedidosEnCurso'
+				iniciativasEjecutadasSinCantidad={iniciativasEjecutadasSinCantidad}
 			>
 				<div> PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
@@ -123,6 +138,7 @@ export const Planeacion: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				dataCy='Sugeridos'
+				iniciativasEjecutadasSinCantidad={iniciativasEjecutadasSinCantidad}
 			>
 				<div>SUGERIDOS PARA TI PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
@@ -167,6 +183,7 @@ export const Planeacion: React.FC = () => {
 					opciones: undefined,
 					dataCy: 'clienteNoPortafolio',
 				}}
+				iniciativasEjecutadasSinCantidad={iniciativasEjecutadasSinCantidad}
 			>
 				<Iniciativas />
 			</TarjetaColapsable>
@@ -195,9 +212,10 @@ export const Planeacion: React.FC = () => {
 					</Typography>
 				}
 				dataCy='Coberturas'
+				iniciativasEjecutadasSinCantidad={iniciativasEjecutadasSinCantidad}
 			>
 				<Coberturas coberturasAgregadas={coberturasAgregadas} />
 			</TarjetaColapsable>
-		</Stack>
+		</Box>
 	);
 };

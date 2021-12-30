@@ -61,6 +61,13 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 				iniciativa.estado === 'cancelada' && iniciativa.motivo === ''
 		);
 
+		const iniciativasEjecutadasSinCantidad = visitaActual.iniciativas.filter(
+			(iniciativa) =>
+				iniciativa.estado === 'ejecutada' &&
+				iniciativa.unidadesEjecutadas === 0 &&
+				iniciativa.subUnidadesEjecutadas === 0
+		);
+
 		if (iniciativasCanceladasSinMotivo) {
 			return {
 				error: iniciativasCanceladasSinMotivo,
@@ -70,6 +77,32 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 					mensaje: 'ingrese un motivo para la iniciativa cancelada',
 					opciones: undefined,
 					dataCy: 'clienteNoPortafolio',
+				},
+			};
+		}
+
+		if (iniciativasEjecutadasSinCantidad) {
+			return {
+				error: iniciativasEjecutadasSinCantidad.length > 0,
+				contenidoMensajeModal: {
+					titulo: 'Existen tarjtas vacias',
+					mensaje:
+						'Si avanzas, las tarjetas que no tienen cantidades se eliminaran.',
+					tituloBotonAceptar: 'Avanzar',
+					callbackAceptar: () => {
+						iniciativasEjecutadasSinCantidad.map((iniciativa) => {
+							dispatch(
+								cambiarEstadoIniciativa({
+									estado: 'pendiente',
+									codigoIniciativa: iniciativa.idMaterialIniciativa,
+								})
+							);
+						});
+					},
+					tituloBotonCancelar: 'Editar Cantidades',
+					callbackCancelar: () =>
+						dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: true})),
+					iconoMensaje: <AvisoIcon />,
 				},
 			};
 		}

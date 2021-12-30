@@ -14,8 +14,15 @@ import clsx from 'clsx';
 import flechaAbajo from '../../../assests/iconos/chevron--down.svg';
 import Chip from '@mui/material/Chip';
 import {styled} from '@mui/material/styles';
-import {FlechaAbajoIcon} from 'assests/iconos';
+import {AvisoIcon, FlechaAbajoIcon} from 'assests/iconos';
 import {useMostrarAviso} from 'hooks';
+import Modal from '../Modal';
+import {useAppDispatch} from 'redux/hooks';
+import {
+	cambiarEstadoIniciativa,
+	cambiarSeQuedaAEditar,
+} from 'redux/features/visitaActual/visitaActualSlice';
+import {TIniciativasCliente} from 'models';
 
 const ChipStyled = styled(Chip)(() => ({
 	background: '#000',
@@ -49,6 +56,7 @@ type Props = {
 		opciones?: any;
 		dataCy?: string;
 	};
+	iniciativasEjecutadasSinCantidad: TIniciativasCliente | undefined;
 };
 
 export const TarjetaColapsable: React.FC<Props> = ({
@@ -66,8 +74,21 @@ export const TarjetaColapsable: React.FC<Props> = ({
 	dataCy,
 	contenidoMensajeAviso,
 	mostrarAvisoAlCerrar,
+	iniciativasEjecutadasSinCantidad,
 }) => {
+	const mostrarAviso = useMostrarAviso();
+	const classes = useEstilos({valido, open: expandido === id});
+	const [alerta, setAlerta] = React.useState<boolean>(false);
+	const [cacheId, setCacheId] = React.useState<string | boolean>(expandido);
+	const dispatch = useAppDispatch();
+
 	const manejadorExpandido = (id: string | boolean) => {
+		if (iniciativasEjecutadasSinCantidad) {
+			setAlerta(true);
+			setCacheId(id);
+			return;
+		}
+
 		if (mostrarAvisoAlCerrar) {
 			const aviso = contenidoMensajeAviso;
 			if (aviso) {
@@ -83,11 +104,33 @@ export const TarjetaColapsable: React.FC<Props> = ({
 			setExpandido(id);
 		}
 	};
-	const mostrarAviso = useMostrarAviso();
-	const classes = useEstilos({valido, open: expandido === id});
 
 	return (
 		<>
+			<Modal
+				alerta={alerta}
+				setAlerta={setAlerta}
+				contenidoMensaje={{
+					titulo: 'Existen tarjtas vacias',
+					mensaje:
+						'Si avanzas, las tarjetas que no tienen cantidades se eliminaran.',
+					tituloBotonAceptar: 'Avanzar',
+					callbackAceptar: () => {
+						dispatch(
+							cambiarEstadoIniciativa({
+								estado: 'pendiente',
+								codigoIniciativa:
+									iniciativasEjecutadasSinCantidad?.idMaterialIniciativa ?? 0,
+							})
+						);
+						setExpandido(cacheId);
+					},
+					tituloBotonCancelar: 'Editar Cantidades',
+					callbackCancelar: () =>
+						dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true})),
+					iconoMensaje: <AvisoIcon />,
+				}}
+			/>
 			<Card
 				className={clsx(classes.root, {
 					[classes.inactiva]: expandido !== id,
