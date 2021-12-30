@@ -4,10 +4,20 @@ import Typography from '@mui/material/Typography';
 import {TarjetaColapsable} from 'components/UI';
 import Iniciativas from './Iniciativas';
 import {useTranslation} from 'react-i18next';
-import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
+import {
+	useAppDispatch,
+	useObtenerClienteActual,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
 import Coberturas from './Coberturas';
-import {useObtenerCoberturas} from 'hooks';
+import {
+	useMostrarAviso,
+	useObtenerCoberturas,
+	useObtenerCreditoDisponible,
+	useObtenerDatosCliente,
+} from 'hooks';
 import {cambiarSeQuedaAEditar} from 'redux/features/visitaActual/visitaActualSlice';
+import {TCliente, TClienteActual} from 'models';
 
 export const Planeacion: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
@@ -17,6 +27,11 @@ export const Planeacion: React.FC = () => {
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
 	const dispatch = useAppDispatch();
+	const {codigoCliente}: TClienteActual = useObtenerClienteActual();
+	const {obtenerDatosCliente} = useObtenerDatosCliente();
+	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
+	const datosCliente: TCliente | undefined = obtenerDatosCliente(codigoCliente);
+	const mostrarAviso = useMostrarAviso();
 
 	const codigosCoberturas = coberturas.reduce(
 		(codigos: number[], cobertura) => {
@@ -50,6 +65,25 @@ export const Planeacion: React.FC = () => {
 	const iniciativasEjecutadas = iniciativas.filter(
 		(iniciativa) => iniciativa.estado === 'ejecutada'
 	);
+
+	const totalesIniciativasCompletas = iniciativas.filter(
+		(iniciativa) =>
+			iniciativa.estado === 'ejecutada' ||
+			(iniciativa.estado === 'cancelada' && iniciativa.motivo !== '')
+	);
+
+	if (
+		datosCliente?.informacionCrediticia.condicion !== 'contado' &&
+		creditoDisponible <= 0
+	) {
+		mostrarAviso(
+			'warning',
+			'Limite de credito excedido',
+			'este cliente ha excedido su limite de crédito, por lo que no se podra levantar pedidos a crédito',
+			undefined,
+			'sinLimiteCredito'
+		);
+	}
 
 	React.useEffect(() => {
 		if (visitaActual.seQuedaAEditar.seQueda) {
@@ -106,14 +140,14 @@ export const Planeacion: React.FC = () => {
 				id='Iniciativas'
 				expandido={expandido}
 				setExpandido={setExpandido}
-				cantidadItems={iniciativasEjecutadas.length}
+				cantidadItems={totalesIniciativasCompletas.length}
 				labelChip={
 					<>
-						{iniciativasEjecutadas.length !== iniciativas.length &&
-							`${iniciativasEjecutadas.length} de ${iniciativas.length}
+						{totalesIniciativasCompletas.length !== iniciativas.length &&
+							`${totalesIniciativasCompletas.length} de ${iniciativas.length}
 						Iniciativas`}
-						{iniciativasEjecutadas.length === iniciativas.length &&
-							`${iniciativasEjecutadas.length} Iniciativas`}
+						{totalesIniciativasCompletas.length === iniciativas.length &&
+							`${totalesIniciativasCompletas.length} Iniciativas`}
 					</>
 				}
 				disabled={iniciativas.length === 0}

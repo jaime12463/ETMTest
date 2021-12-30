@@ -1,5 +1,5 @@
 import {FunctionComponent} from 'react';
-import {formatearNumero} from 'utils/methods';
+import {formatearNumero, formatoNumeroConDecimales} from 'utils/methods';
 import Button from '@mui/material/Button';
 import {Box, Grid, Stack} from '@mui/material';
 import {useTranslation} from 'react-i18next';
@@ -12,6 +12,8 @@ type Props = {
 };
 
 export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
+	console.log(props.total.toString().length);
+
 	const {t} = useTranslation();
 	return (
 		<Button
@@ -63,10 +65,17 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 					item
 					xs={5}
 					style={{
-						fontSize: '14px',
+						fontSize:
+							formatoNumeroConDecimales(props.total, t).length >= 7
+								? '11px'
+								: '12px',
 						fontWeight: 'normal',
+						fontFamily: 'Poppins',
 						lineHeight: '14px',
-						textAlign: 'center',
+						textAlign:
+							formatoNumeroConDecimales(props.total, t).length >= 9
+								? 'left'
+								: 'center',
 						textTransform: 'none',
 						paddingLeft: '8px',
 					}}
