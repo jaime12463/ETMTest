@@ -84,6 +84,7 @@ const br = {
 		retorno: 'Retorno',
 		unidadesMaximasAplicar: 'Unidades máximas que você pode aplicar',
 		motivoDelCanje: 'Motivo do canje',
+		motivoCancelacion: 'Motivo de cancelamento',
 	},
 	simbolos: {
 		decimal: '.',

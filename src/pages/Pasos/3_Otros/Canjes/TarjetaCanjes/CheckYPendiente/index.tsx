@@ -6,6 +6,7 @@ import {TProductoPedido} from 'models';
 import {GetValueProps} from '..';
 import theme from 'theme';
 import {CheckRedondoIcon} from 'assests/iconos';
+import {useTranslation} from 'react-i18next';
 
 interface Props {
 	catalogoMotivo: any;
@@ -20,6 +21,8 @@ const CheckYPendiente: React.FC<Props> = ({
 }) => {
 	const [mostrarAcciones, setMostrarAcciones] = React.useState<boolean>(false);
 	const [pendiente, setPendiente] = React.useState<boolean>(false);
+
+	const {t} = useTranslation();
 
 	React.useEffect(() => {
 		if (getValues.unidades > 0 || getValues.subUnidades > 0) {
@@ -80,7 +83,7 @@ const CheckYPendiente: React.FC<Props> = ({
 									sx={{background: theme.palette.primary.main}}
 									borderRadius='50px'
 								>
-									Sin Motivo
+									{t('general.sinMotivo')}
 								</Typography>
 							</Box>
 						)}

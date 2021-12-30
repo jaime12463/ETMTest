@@ -12,6 +12,7 @@ interface Props {
 	border?: boolean;
 	dataCy: string;
 	sinFlecha?: boolean;
+	placeholder?: string;
 }
 
 const CustomSelect: React.FC<Props> = ({
@@ -22,6 +23,7 @@ const CustomSelect: React.FC<Props> = ({
 	border,
 	dataCy,
 	sinFlecha = false,
+	placeholder = '',
 }) => {
 	const [open, setOpen] = React.useState<boolean>(false);
 	const selectRef = React.useRef<HTMLDivElement>(null);
@@ -36,6 +38,7 @@ const CustomSelect: React.FC<Props> = ({
 		border,
 		opcion: opcionSeleccionada,
 		sinFlecha,
+		placeholder,
 	});
 
 	const cerrarOpciones = (e: any) => {
@@ -60,10 +63,13 @@ const CustomSelect: React.FC<Props> = ({
 			>
 				<Typography
 					variant='caption'
-					sx={{color: '#000', textTransform: 'capitalize'}}
+					sx={{
+						color: opcionSeleccionada !== '' ? '#000' : 'greys.main',
+						textTransform: 'capitalize',
+					}}
 					fontFamily='Open Sans'
 				>
-					{opcionSeleccionada}
+					{opcionSeleccionada !== '' ? opcionSeleccionada : placeholder}
 				</Typography>
 				<FlechaAbajoIcon className={classes.arrow} height='10px' width='10px' />
 			</Box>

@@ -31,7 +31,7 @@ const useEstilos = makeStyles(() =>
 				props.estado === 'cancelada' ||
 				props.inputsBloqueados
 					? '#D9D9D9'
-					: 'transparent',
+					: '#fff',
 			border: (props: Props) =>
 				props.estado === 'pendiente' ||
 				props.estado === 'cancelada' ||

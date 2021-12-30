@@ -90,6 +90,7 @@ const es = {
 		retorno: 'Retorno',
 		unidadesMaximasAplicar: 'Unidades máximas que puedes aplicar',
 		motivoDelCanje: 'Motivo del canje',
+		motivoCancelacion: 'Motivo de cancelación',
 	},
 	simbolos: {
 		decimal: '.',

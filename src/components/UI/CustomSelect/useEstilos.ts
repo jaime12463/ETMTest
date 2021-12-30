@@ -4,6 +4,7 @@ import theme from 'theme';
 interface Props {
 	open: boolean;
 	bloqueado: boolean;
+	placeholder: string;
 	border?: boolean;
 	opcion?: string;
 	sinFlecha?: boolean;
@@ -15,8 +16,8 @@ const useEstilos = makeStyles(() =>
 			alignItems: 'center',
 			border: (props: Props) =>
 				props.border &&
-				(props.opcion === '' ||
-					(props.opcion === 'Motivo del canje' && !props.bloqueado))
+				(props.opcion === props.placeholder ||
+					(props.opcion === '' && props.placeholder && !props.bloqueado))
 					? `1px solid ${theme.palette.primary.main}`
 					: '1px solid #D9D9D9',
 			borderRadius: '4px',

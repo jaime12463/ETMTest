@@ -1,15 +1,14 @@
-import {useState, useEffect} from 'react';
+import React from 'react';
 import {styled} from '@mui/material/styles';
 import Card from '@mui/material/Card';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
-import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 import {VisualizadorPdfs} from 'components/UI';
 import {
 	AgregarRedondoIcon,
@@ -39,10 +38,9 @@ import {
 	editarUnidadesOSubUnidadesEjecutadas,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {
-	InputsKeysFormTomaDePedido,
 	TProductoPedido,
 	TIniciativasCliente,
-	TConfiguracionPedido,
+	InputsKeysFormTomaDePedido,
 } from 'models';
 import theme from 'theme';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
@@ -51,7 +49,7 @@ import {
 	useMostrarAviso,
 	useObtenerDatosCliente,
 } from 'hooks';
-import {formatearNumero, formatearFecha} from 'utils/methods';
+import {formatearFecha, formatearNumero} from 'utils/methods';
 import CustomSelect from 'components/UI/CustomSelect';
 import {Link} from '@mui/material';
 
@@ -68,27 +66,10 @@ const ButtonStyled = styled(Button)(() => ({
 	},
 }));
 
-/*interface Props {
+interface Props extends TIniciativasCliente {
 	expandido: boolean | string;
 	setExpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
-	id: string;
-	nombreIniciativa: string;
-	planActividad: string;
-	descripcion: string;
-	fechaVencimiento: string;
-	unidades: number;
-	unidadesEjecutadas: number;
-	subUnidades: number;
-	subUnidadesEjecutadas: number;
-	codigo: number;
-	estado: 'pendiente' | 'ejecutada' | 'cancelada';
-	motivo: string;
-}*/
-
-type Props = TIniciativasCliente & {
-	expandido: boolean | string;
-	setExpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
-};
+}
 
 interface GetValuesProps {
 	unidades: number;
@@ -118,16 +99,11 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	const visitaActual = useObtenerVisitaActual();
 	const {motivosCancelacionIniciativas} = useObtenerConfiguracion();
 	const clienteActual = useObtenerClienteActual();
-	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
-	const {configuracionPedido}: any = datosCliente;
 	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
 	// ToDo
 	const unidades = unidadesEjecutadas;
 	const subUnidades = subUnidadesEjecutadas;
-
-	const codigo = idMaterialIniciativa;
 	const id = idMaterialIniciativa.toString();
-	const planActividad = nombreActividadPlan;
 
 	const fechaVencimiento = formatearFecha(finVigenciaIniciativa, t).replace(
 		/-/g,
@@ -160,28 +136,31 @@ const TarjetaIniciativas: React.FC<Props> = ({
 			subUnidad: producto.precioConImpuestoSubunidad,
 		},
 	};
-	const mostrarAviso = useMostrarAviso();
-	const [estadoSelect, setEstadoSelect] = useState<string>(estado);
-	const [motivoSelect, setMotivoSelect] = useState<string>(motivo);
 
-	const [puedeAgregar, setPuedeAgregar] = useState<boolean>(false);
-	const [getValues, setGetValues] = useState<GetValuesProps>(defaultValues);
+	const [estadoSelect, setEstadoSelect] = React.useState<string>(estado);
+	const [motivoSelect, setMotivoSelect] = React.useState<string>('');
 
-	const [focusId, setFocusId] = useState<number>(0);
-	const [inputFocus, setInputFocus] =
-		useState<InputsKeysFormTomaDePedido>('productoABuscar');
-	const [mostrarArchivosAdjuntos, setMostrarArchivosAdjuntos] = useState(false);
+	const [getValues, setGetValues] =
+		React.useState<GetValuesProps>(defaultValues);
+
+	const [mostrarArchivosAdjuntos, setMostrarArchivosAdjuntos] =
+		React.useState(false);
 	const classes = useEstilos({
 		estado: estadoSelect,
 		inputsBloqueados: visitaActual.pasoATomaPedido,
 	});
 
 	const dispatch = useAppDispatch();
-	const manejadorExpandido =
-		({id}: any) =>
-		(event: React.SyntheticEvent) => {
-			setExpandido(id);
-		};
+
+	const manejadorExpandido = (id: string | boolean) => {
+		setExpandido((prevState) => {
+			if (getValues.unidades === 0 && getValues.subUnidades === 0) {
+				return prevState;
+			}
+
+			return id;
+		});
+	};
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		productoACargar,
@@ -190,23 +169,23 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		setGetValues
 	);
 
-	useEffect(() => {
-		if (
-			visitaActual.seQuedaAEditar.bordeError &&
-			estado === 'cancelada' &&
-			motivo === ''
-		) {
-			setExpandido(id);
-			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
-		}
-	}, [visitaActual.seQuedaAEditar.bordeError, estado, motivo, id]);
+	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 
-	useEffect(() => {
+	const [focusId, setFocusId] = React.useState<number>(0);
+	const [inputFocus, setInputFocus] =
+		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
+
+	const mostrarAviso = useMostrarAviso();
+
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+	const {configuracionPedido}: any = datosCliente;
+
+	React.useEffect(() => {
 		if (puedeAgregar) {
 			agregarProductoAlPedidoActual(getValues);
 			dispatch(
 				editarUnidadesOSubUnidadesEjecutadas({
-					codigoIniciativa: Number(id),
+					codigoIniciativa: Number(idMaterialIniciativa),
 					unidadesEjecutadas: getValues.unidades,
 					subUnidadesEjecutadas: getValues.subUnidades,
 				})
@@ -214,84 +193,6 @@ const TarjetaIniciativas: React.FC<Props> = ({
 			setPuedeAgregar(false);
 		}
 	}, [puedeAgregar]);
-
-	useEffect(() => {
-		if (estadoSelect === 'cancelada' && motivoSelect !== '') {
-			dispatch(
-				cambiarMotivoCancelacionIniciativa({
-					motivo: motivoSelect,
-					codigoIniciativa: idActividadIniciativa,
-				})
-			);
-		}
-	}, [estadoSelect, motivoSelect]);
-
-	useEffect(() => {
-		if (!visitaActual.pasoATomaPedido) {
-			switch (estadoSelect) {
-				case 'pendiente':
-					setEstadoSelect('pendiente');
-					setGetValues({...getValues, unidades, subUnidades});
-					dispatch(
-						cambiarEstadoIniciativa({
-							estado: 'pendiente',
-							codigoIniciativa: Number(id),
-						})
-					);
-					dispatch(
-						borrarProductoDelPedidoActual({
-							codigoProducto: producto.codigoProducto,
-						})
-					);
-					if (motivo !== '') {
-						dispatch(
-							cambiarMotivoCancelacionIniciativa({
-								motivo: '',
-								codigoIniciativa: idActividadIniciativa,
-							})
-						);
-						setMotivoSelect('');
-					}
-					break;
-				case 'ejecutada':
-					setEstadoSelect('ejecutada');
-					agregarProductoAlPedidoActual(getValues);
-					dispatch(
-						cambiarEstadoIniciativa({
-							estado: 'ejecutada',
-							codigoIniciativa: Number(id),
-						})
-					);
-					if (motivo !== '') {
-						dispatch(
-							cambiarMotivoCancelacionIniciativa({
-								motivo: '',
-								codigoIniciativa: idActividadIniciativa,
-							})
-						);
-						setMotivoSelect('');
-					}
-					break;
-				case 'cancelada':
-					setEstadoSelect('cancelada');
-					setGetValues({...getValues, unidades, subUnidades});
-					dispatch(
-						cambiarEstadoIniciativa({
-							estado: 'cancelada',
-							codigoIniciativa: Number(id),
-						})
-					);
-					dispatch(
-						borrarProductoDelPedidoActual({
-							codigoProducto: producto.codigoProducto,
-						})
-					);
-					break;
-				default:
-					break;
-			}
-		}
-	}, [estadoSelect]);
 
 	const handleButtons = (
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -346,7 +247,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		agregarProductoAlPedidoActual(getValues);
 		dispatch(
 			editarUnidadesOSubUnidadesEjecutadas({
-				codigoIniciativa: Number(id),
+				codigoIniciativa: Number(idMaterialIniciativa),
 				unidadesEjecutadas: getValues.unidades,
 				subUnidadesEjecutadas: getValues.subUnidades,
 			})
@@ -376,7 +277,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 				agregarProductoAlPedidoActual(getValues);
 				dispatch(
 					editarUnidadesOSubUnidadesEjecutadas({
-						codigoIniciativa: Number(id),
+						codigoIniciativa: Number(idMaterialIniciativa),
 						unidadesEjecutadas: getValues.unidades,
 						subUnidadesEjecutadas: getValues.subUnidades,
 					})
@@ -387,29 +288,115 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		}
 	};
 
+	React.useEffect(() => {
+		if (
+			visitaActual.seQuedaAEditar.bordeError &&
+			estado === 'cancelada' &&
+			motivo === ''
+		) {
+			setExpandido(id);
+			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+		}
+	}, [visitaActual.seQuedaAEditar.bordeError, estado, motivo, id]);
+
+	React.useEffect(() => {
+		if (estadoSelect === 'cancelada' && motivoSelect !== '') {
+			dispatch(
+				cambiarMotivoCancelacionIniciativa({
+					motivo: motivoSelect,
+					codigoIniciativa: idActividadIniciativa,
+				})
+			);
+		}
+	}, [estadoSelect, motivoSelect]);
+
+	React.useEffect(() => {
+		if (!visitaActual.pasoATomaPedido) {
+			switch (estadoSelect) {
+				case 'pendiente':
+					setEstadoSelect('pendiente');
+					setMotivoSelect('');
+					setGetValues({...getValues, unidades, subUnidades});
+					dispatch(
+						cambiarEstadoIniciativa({
+							estado: 'pendiente',
+							codigoIniciativa: Number(id),
+						})
+					);
+					dispatch(
+						borrarProductoDelPedidoActual({
+							codigoProducto: producto.codigoProducto,
+						})
+					);
+					if (motivo !== '') {
+						dispatch(
+							cambiarMotivoCancelacionIniciativa({
+								motivo: '',
+								codigoIniciativa: idActividadIniciativa,
+							})
+						);
+						setMotivoSelect(t(''));
+					}
+					break;
+				case 'ejecutada':
+					setEstadoSelect('ejecutada');
+					agregarProductoAlPedidoActual(getValues);
+					dispatch(
+						cambiarEstadoIniciativa({
+							estado: 'ejecutada',
+							codigoIniciativa: Number(id),
+						})
+					);
+					if (motivo !== '') {
+						dispatch(
+							cambiarMotivoCancelacionIniciativa({
+								motivo: '',
+								codigoIniciativa: idActividadIniciativa,
+							})
+						);
+						setMotivoSelect(t(''));
+					}
+					break;
+				case 'cancelada':
+					setEstadoSelect('cancelada');
+					setGetValues({...getValues, unidades, subUnidades});
+					dispatch(
+						cambiarEstadoIniciativa({
+							estado: 'cancelada',
+							codigoIniciativa: Number(id),
+						})
+					);
+					dispatch(
+						borrarProductoDelPedidoActual({
+							codigoProducto: producto.codigoProducto,
+						})
+					);
+					break;
+				default:
+					break;
+			}
+		}
+	}, [estadoSelect]);
+
 	return (
 		<Card
 			className={classes.card}
-			style={{padding: '12px 14px', boxShadow: 'none', overflow: 'visible'}}
+			style={{boxShadow: 'none', overflow: 'visible'}}
 			data-cy={'iniciativa-' + id}
 		>
 			<Box>
 				<Box
 					display='flex'
-					flexDirection={
-						estadoSelect === 'pendiente' ||
-						(estadoSelect === 'cancelada' && motivo === '')
-							? 'column'
-							: 'row'
-					}
+					flexDirection='column'
 					alignItems='start'
-					marginBottom='12px'
-					gap={
-						estadoSelect === 'pendiente' ||
-						(estadoSelect === 'cancelada' && motivo === '')
-							? '8px'
-							: '40px'
-					}
+					padding={expandido === id ? '12px 14px' : '12px 14px 0 14px'}
+					borderRadius='4px 4px 0 0'
+					gap='8px'
+					sx={{
+						background:
+							expandido === id ? theme.palette.secondary.light : 'none',
+						transition: 'background 0.3s ease-in-out',
+					}}
 				>
 					{estadoSelect === 'cancelada' && motivo === '' && (
 						<Box display='flex' justifyContent='flex-end' width='100%'>
@@ -418,7 +405,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								fontFamily='Open Sans'
 								padding='2px 12px'
 								sx={{
-									background: theme.palette.primary.main,
+									background: theme.palette.primary.light,
 									borderRadius: '50px',
 								}}
 								variant='caption'
@@ -427,23 +414,32 @@ const TarjetaIniciativas: React.FC<Props> = ({
 							</Typography>
 						</Box>
 					)}
-					<Typography 
-						variant='subtitle2' 
-						fontSize='12px' 
-						data-cy={`iniciativa-titulo-${id}`}
-					>
-						{nombreIniciativa}
-					</Typography>
 					{estadoSelect === 'ejecutada' && (
-						<Box>
-							<CheckRedondoIcon />
+						<Box display='flex' justifyContent='end' width='100%'>
+							<CheckRedondoIcon height='17.5px' width='17.5px' />
 						</Box>
 					)}
 					{estadoSelect === 'cancelada' && motivo !== '' && (
-						<Box>
-							<CerrarRedondoIcon />
+						<Box display='flex' justifyContent='end' width='100%'>
+							<CerrarRedondoIcon
+								height='20px'
+								width='20px'
+								fill={
+									expandido === id
+										? theme.palette.primary.light
+										: theme.palette.primary.main
+								}
+							/>
 						</Box>
 					)}
+					<Typography
+						variant='subtitle2'
+						fontSize='12px'
+						data-cy={`iniciativa-titulo-${id}`}
+						color={expandido === id ? '#fff' : '#000'}
+					>
+						{nombreIniciativa}
+					</Typography>
 				</Box>
 				<Collapse
 					in={expandido === id}
@@ -452,7 +448,14 @@ const TarjetaIniciativas: React.FC<Props> = ({
 					data-cy={'iniciativa-detalle-' + id}
 				>
 					<Divider />
-					<Stack spacing='12px' marginBottom='8px'>
+
+					<Box
+						display='flex'
+						flexDirection='column'
+						gap='12px'
+						marginBottom='8px'
+						padding='0 14px'
+					>
 						<Box
 							display='flex'
 							alignItems='center'
@@ -482,7 +485,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 							</Box>
 						</Box>
 						{estadoSelect === 'cancelada' && (
-							<Box display='flex' alignItems='center' marginTop='8px'>
+							<Box display='flex' alignItems='center'>
 								<Typography
 									variant='body3'
 									fontFamily='Open Sans'
@@ -494,7 +497,6 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								<Box flex='3'>
 									<CustomSelect
 										opciones={[
-											'',
 											...motivosCancelacionIniciativas.map(
 												(motivos) => motivos.descripcion
 											),
@@ -504,6 +506,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										bloqueado={visitaActual.pasoATomaPedido}
 										border
 										dataCy={`iniciativa-motivo-value-${id}`}
+										placeholder={t('general.motivoCancelacion')}
 									/>
 								</Box>
 							</Box>
@@ -600,18 +603,23 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								/>
 							</Box>
 						)}
-					</Stack>
+					</Box>
 					<Divider />
-					<Box margin='8px 0'>
+
+					<Box>
 						<Box
 							display='flex'
 							alignItems='center'
 							justifyContent='space-between'
 						>
-							<Box display='flex' flexDirection='column'>
+							<Box
+								display='flex'
+								flexDirection='column'
+								padding='12px 8px 12px 12px'
+							>
 								<Typography
 									variant='subtitle3'
-									data-cy={`iniciativa-material-${id}`}
+									data-cy={`iniciativa-material-${idMaterialIniciativa}`}
 								>
 									{producto.codigoProducto}
 								</Typography>
@@ -619,7 +627,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 									variant='subtitle3'
 									noWrap
 									width='150px'
-									data-cy={`iniciativa-nombreProducto-${id}`}
+									data-cy={`iniciativa-nombreProducto-${idMaterialIniciativa}`}
 								>
 									{producto.nombreProducto}
 								</Typography>
@@ -632,20 +640,24 @@ const TarjetaIniciativas: React.FC<Props> = ({
 									<CajaIcon height='18px' width='18px' />
 									<Typography
 										variant='caption'
-										data-cy={`iniciativa-presentacion-${id}`}
+										data-cy={`iniciativa-presentacion-${idMaterialIniciativa}`}
 									>
 										x{producto.presentacion}
 									</Typography>
 									<Typography
 										variant='subtitle3'
-										data-cy={`iniciativa-precioUnidad-${id}`}
+										data-cy={`iniciativa-precioUnidad-${idMaterialIniciativa}`}
 									>
 										{formatearNumero(producto.precioConImpuestoUnidad, t)}
 									</Typography>
-									<BotellaIcon height='15px' width='15px' />
+									<BotellaIcon
+										height='15px'
+										width='15px'
+										style={{marginLeft: '2px'}}
+									/>
 									<Typography
 										variant='subtitle3'
-										data-cy={`iniciativa-precioSubunidad-${id}`}
+										data-cy={`iniciativa-precioSubunidad-${idMaterialIniciativa}`}
 									>
 										{formatearNumero(producto.precioConImpuestoSubunidad, t)}
 									</Typography>
@@ -658,6 +670,9 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								justifyContent='center'
 								flexDirection='column'
 								gap='12px'
+								padding='12px 12px 12px 8px'
+								minWidth='125px'
+								sx={{background: '#F5F0EF'}}
 							>
 								<Box
 									display='flex'
@@ -840,16 +855,15 @@ const TarjetaIniciativas: React.FC<Props> = ({
 							</Box>
 						</Box>
 					</Box>
+
 					<Divider />
 				</Collapse>
-				<Box marginTop='8px'>
+				<Box padding={expandido === id ? '12px 14px' : '8px 14px 12px 14px'}>
 					<ButtonStyled
 						disableFocusRipple
 						fullWidth
 						disableRipple
-						onClick={manejadorExpandido({
-							id: expandido === id ? false : id,
-						})}
+						onClick={() => manejadorExpandido(expandido === id ? false : id)}
 						data-cy={'ver-detalle-iniciativa-' + id}
 					>
 						<CardActions disableSpacing style={{padding: 0}}>
@@ -861,9 +875,9 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								</Typography>
 								<Box
 									className={clsx(classes.expand, {
-										[classes.expandOpen]: expandido === id ? true : false,
+										[classes.expandOpen]: expandido === id,
 									})}
-									aria-expanded={expandido === id ? true : false}
+									aria-expanded={expandido === id}
 									style={{padding: 0}}
 								>
 									<FlechaAbajoIcon width='10px' height='10px' />

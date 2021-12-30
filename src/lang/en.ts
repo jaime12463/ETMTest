@@ -90,6 +90,7 @@ const en = {
 		retorno: 'Return',
 		unidadesMaximasAplicar: 'Maximum units that you can apply',
 		motivoDelCanje: 'Exchange reason',
+		motivoCancelacion: 'Cancellation reason',
 	},
 	simbolos: {
 		decimal: ',',

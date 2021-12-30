@@ -32,15 +32,13 @@ const Informacion: React.FC<Props> = ({
 	const itemCatalogoMotivos = useObtenerCatalogoMotivos();
 	const {focusId, setFocusId} = statefocusId;
 	const {catalogoMotivo, setCatalogoMotivo} = stateCatalogo;
-	const [motivo, setMotivo] = React.useState<string>(
-		t('general.motivoDelCanje')
-	);
+	const [motivo, setMotivo] = React.useState<string>('');
 
 	const [selectBloqueado, setSelectBloqueado] = React.useState<boolean>(true);
 
 	React.useEffect(() => {
 		if (producto.unidades === 0 && producto.subUnidades === 0) {
-			setMotivo(t('general.motivoDelCanje'));
+			setMotivo('');
 			setSelectBloqueado(true);
 			return;
 		}
@@ -100,6 +98,7 @@ const Informacion: React.FC<Props> = ({
 					bloqueado={selectBloqueado}
 					border
 					sinFlecha
+					placeholder={t('general.motivoDelCanje')}
 				/>
 			</Box>
 		</Box>
