@@ -7,7 +7,7 @@ import Informacion from './components/Informacion';
 import Descuentos from './components/Descuentos';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import SwitchYCheck from './components/SwitchYCheck';
-import {useObtenerCalculoDescuentoProducto} from 'hooks';
+import {useMostrarAviso, useObtenerCalculoDescuentoProducto} from 'hooks';
 
 export interface StateFocusID {
 	focusId: number;
@@ -31,7 +31,10 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	stateAviso,
 }) => {
 	const clienteActual = useObtenerClienteActual();
+	const [productoAgregado, setProductoAgregado] =
+		React.useState<boolean>(false);
 	const visitaActual = useObtenerVisitaActual();
+	const mostrarAviso = useMostrarAviso();
 	const {setAlerta, setConfigAlerta} = stateAviso;
 	const {venta} = visitaActual.pedidos;
 	const productoEnVenta = venta.productos.find(
@@ -69,6 +72,17 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	React.useEffect(() => {
 		if (productoEnVenta) {
 			if (productoEnVenta?.unidades > 0 || productoEnVenta?.subUnidades > 0) {
+				if (!productoAgregado) {
+					mostrarAviso(
+						'success',
+						'Producto agregado correctamente',
+						undefined,
+						undefined,
+						'ProductoAgreado'
+					);
+					setProductoAgregado(true);
+				}
+
 				return setColorBorde(theme.palette.success.main);
 			}
 
@@ -77,11 +91,13 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 				productoEnVenta?.subUnidades === 0 &&
 				visitaActual.seQuedaAEditar.bordeError
 			) {
+				setProductoAgregado(false);
 				return setColorBorde(theme.palette.primary.main);
 			}
 		}
 
 		setColorBorde('#D9D9D9');
+		setProductoAgregado(false);
 	}, [productoEnVenta, visitaActual.seQuedaAEditar.bordeError]);
 
 	return (
