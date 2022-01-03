@@ -56,7 +56,7 @@ type Props = {
 		opciones?: any;
 		dataCy?: string;
 	};
-	iniciativasEjecutadasSinCantidad: TIniciativasCliente | undefined;
+	iniciativasEjecutadasSinCantidad?: TIniciativasCliente;
 };
 
 export const TarjetaColapsable: React.FC<Props> = ({
