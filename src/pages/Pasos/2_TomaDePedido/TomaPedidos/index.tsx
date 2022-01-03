@@ -122,12 +122,12 @@ const TomaPedido: React.FC = () => {
 			visitaActual.seQuedaAEditar.bordeError &&
 			venta.productos.every((producto) => {
 				if (producto.unidadesDisponibles) {
-					return producto.unidadesDisponibles <= producto.unidades;
+					return producto.unidades <= producto.unidadesDisponibles;
 				}
 
 				return (
-					producto.unidades > 0 &&
-					producto.unidades <= configuracionPedido.cantidadMaximaUnidades &&
+					(producto.unidades > 0 &&
+						producto.unidades <= configuracionPedido.cantidadMaximaUnidades) ||
 					producto.subUnidades > 0
 				);
 			})
