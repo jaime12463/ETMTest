@@ -173,6 +173,9 @@ const en = {
 			'Please enter a reason for each canceled initiative.',
 		borrarDescuento: 'Do you want to eliminate the tiered discount?',
 		descuentoEscalonadoEliminado: 'Tiered discount removed',
+		excedeMayorPermitido: 'The amount entered exceeds the maximum allowed',
+		excedeMayorPermitidoSubtitulo:
+			'It is necessary to correct the value of the presentation.',
 	},
 	pasos: {
 		planeacion: 'Planning',

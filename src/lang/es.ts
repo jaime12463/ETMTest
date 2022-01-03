@@ -180,6 +180,9 @@ const es = {
 			'Por favor, ingrese un motivo para cada iniciativa cancelada.',
 		borrarDescuento: '¿Deseas eliminar el descuento escalonado? ',
 		descuentoEscalonadoEliminado: 'Descuento escalonado eliminado',
+		excedeMayorPermitido: 'Cantidad excede el valor permitido',
+		excedeMayorPermitidoSubtitulo:
+			'Es necesario corregir el valor de la presentación.',
 	},
 	pasos: {
 		planeacion: 'Planeación',

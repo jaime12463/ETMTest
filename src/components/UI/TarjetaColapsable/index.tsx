@@ -17,12 +17,13 @@ import {styled} from '@mui/material/styles';
 import {AvisoIcon, FlechaAbajoIcon} from 'assests/iconos';
 import {useMostrarAviso} from 'hooks';
 import Modal from '../Modal';
-import {useAppDispatch} from 'redux/hooks';
+import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {
 	cambiarEstadoIniciativa,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {TIniciativasCliente} from 'models';
+import {useTranslation} from 'react-i18next';
 
 const ChipStyled = styled(Chip)(() => ({
 	background: '#000',
@@ -81,11 +82,27 @@ export const TarjetaColapsable: React.FC<Props> = ({
 	const [alerta, setAlerta] = React.useState<boolean>(false);
 	const [cacheId, setCacheId] = React.useState<string | boolean>(expandido);
 	const dispatch = useAppDispatch();
+	const visitaActual = useObtenerVisitaActual();
+	const {t} = useTranslation();
 
 	const manejadorExpandido = (id: string | boolean) => {
 		if (iniciativasEjecutadasSinCantidad) {
 			setAlerta(true);
 			setCacheId(id);
+			return;
+		}
+
+		if (
+			expandido === 'Toma de pedido' &&
+			visitaActual.seQuedaAEditar.bordeError
+		) {
+			mostrarAviso(
+				'error',
+				t('advertencias.excedeMayorPermitido'),
+				t('advertencias.excedeMayorPermitidoSubtitulo'),
+				undefined,
+				'excede-disponible'
+			);
 			return;
 		}
 

@@ -160,6 +160,9 @@ const br = {
 			'Insira um motivo para cada iniciativa cancelada.',
 		borrarDescuento: 'Quer eliminar o desconto escalonado?',
 		descuentoEscalonadoEliminado: 'Desconto em camadas removido',
+		excedeMayorPermitido: 'O montante introduzido excede o máximo permitido',
+		excedeMayorPermitidoSubtitulo:
+			'O valor da apresentação precisa de ser corrigido.',
 	},
 	mensajes: {
 		borrarDescuento:
