@@ -76,6 +76,8 @@ const Controles: React.FC<Props> = ({
 		bordeError: visitaActual.seQuedaAEditar.bordeError,
 		unidades: getValues.unidades,
 		subUnidades: getValues.subUnidades,
+		producto,
+		cantidadMaximaConfig: configuracionPedido.cantidadMaximaUnidades,
 	});
 
 	React.useEffect(() => {

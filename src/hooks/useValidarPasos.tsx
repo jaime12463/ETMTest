@@ -130,6 +130,20 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 				},
 			};
 		}
+
+		if (visitaActual.seQuedaAEditar.bordeError) {
+			return {
+				error: true,
+				contenidoMensajeAviso: {
+					tipo: 'error',
+					titulo: t('advertencias.excedeMayorPermitido'),
+					mensaje: t('advertencias.excedeMayorPermitidoSubtitulo'),
+					opciones: undefined,
+					dataCy: 'excede-disponible',
+				},
+			};
+		}
+
 		if (productosSinModificar) {
 			return {
 				error: productosSinModificar,

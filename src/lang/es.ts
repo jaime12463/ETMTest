@@ -184,6 +184,9 @@ const es = {
 		cambiosGuardados: 'Cambios guardados con exitosamente',
 		iniciativaSinMotivo: 'Iniciativa cancelada sin motivo',
 		pedidoMinimoNoAlcanzado: 'Pedido minimo no alcanzado',
+		excedeMayorPermitido: 'Cantidad excede el valor permitido',
+		excedeMayorPermitidoSubtitulo:
+			'Es necesario corregir el valor de la presentación.',
 	},
 	pasos: {
 		planeacion: 'Planeación',

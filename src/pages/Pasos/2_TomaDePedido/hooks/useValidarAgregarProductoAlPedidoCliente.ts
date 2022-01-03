@@ -24,6 +24,7 @@ import {
 	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
 import {
+	useAppDispatch,
 	useObtenerClienteActual,
 	useObtenerDatos,
 	useObtenerPedidoActual,
@@ -35,6 +36,7 @@ import {
 	useManejadorConfirmarAgregarPedido,
 } from '.';
 import {UseFormGetValues} from 'react-hook-form';
+import {cambiarSeQuedaAEditar} from 'redux/features/visitaActual/visitaActualSlice';
 
 export const useValidarAgregarProductoAlPedidoCliente = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
@@ -72,6 +74,8 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 	);
 
 	const mostrarAviso = useMostrarAviso();
+
+	const dispatch = useAppDispatch();
 
 	const validarAgregarProductoAlPedidoCliente = useCallback(
 		(inputs: TFormTomaDePedido): boolean => {
@@ -207,7 +211,6 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					unidadesParseado,
 					productoActual
 				);
-
 				if (unidadesDisponibles >= 0) {
 					// mostrarAdvertenciaEnDialogo(
 					// 	t('advertencias.excedeUnidadesDisponibles', {
@@ -236,18 +239,17 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			);
 
 			if (!esUnidadesMenorAlMaximoUnidades) {
-				mostrarAdvertenciaEnDialogo(
-					t('advertencias.cantidadEsMayor', {
-						cantidad: configuracionPedido.cantidadMaximaUnidades,
-					}),
-					'cantidad-es-mayor',
-					manejadorConfirmarAgregarPedido,
-					{
-						aceptar: t('general.si'),
-						cancelar: t('general.no'),
-					}
+				mostrarAviso(
+					'error',
+					t('advertencias.excedeMayorPermitido'),
+					t('advertencias.excedeMayorPermitidoSubtitulo'),
+					undefined,
+					'excede-disponible'
 				);
-				return esValidacionCorrecta;
+
+				dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: true}));
+
+				// return esValidacionCorrecta;
 			}
 
 			esValidacionCorrecta = true;

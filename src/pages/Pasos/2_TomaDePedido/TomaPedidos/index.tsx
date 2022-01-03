@@ -114,13 +114,23 @@ const TomaPedido: React.FC = () => {
 		mostrarAdvertenciaEnDialogo
 	);
 
+	const {configuracionPedido}: any = datosCliente;
+
 	React.useEffect(() => {
 		if (
 			!visitaActual.seQuedaAEditar.seQueda &&
 			visitaActual.seQuedaAEditar.bordeError &&
-			venta.productos.every(
-				(producto) => producto.unidades > 0 || producto.subUnidades > 0
-			)
+			venta.productos.every((producto) => {
+				if (producto.unidadesDisponibles) {
+					return producto.unidadesDisponibles <= producto.unidades;
+				}
+
+				return (
+					producto.unidades > 0 &&
+					producto.unidades <= configuracionPedido.cantidadMaximaUnidades &&
+					producto.subUnidades > 0
+				);
+			})
 		) {
 			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
 		}

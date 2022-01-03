@@ -7,8 +7,16 @@ import Informacion from './components/Informacion';
 import Descuentos from './components/Descuentos';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import SwitchYCheck from './components/SwitchYCheck';
+<<<<<<< HEAD
 import {useMostrarAviso, useObtenerCalculoDescuentoProducto} from 'hooks';
 import {useTranslation} from 'react-i18next';
+=======
+import {
+	useObtenerCalculoDescuentoProducto,
+	useObtenerDatosCliente,
+	useMostrarAviso,
+} from 'hooks';
+>>>>>>> f5b71a4bfb560dae4bcc7342c9d2c78183c8dadb
 
 export interface StateFocusID {
 	focusId: number;
@@ -38,6 +46,8 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	const mostrarAviso = useMostrarAviso();
 	const {t} = useTranslation();
 	const {setAlerta, setConfigAlerta} = stateAviso;
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+	const {configuracionPedido}: any = datosCliente;
 	const {venta} = visitaActual.pedidos;
 	const productoEnVenta = venta.productos.find(
 		(p) => producto.codigoProducto === p.codigoProducto
@@ -73,6 +83,12 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 
 	React.useEffect(() => {
 		if (productoEnVenta) {
+			if (
+				productoEnVenta.unidades > configuracionPedido.cantidadMaximaUnidades
+			) {
+				return setColorBorde(theme.palette.primary.main);
+			}
+
 			if (productoEnVenta?.unidades > 0 || productoEnVenta?.subUnidades > 0) {
 				if (!productoAgregado) {
 					mostrarAviso(
