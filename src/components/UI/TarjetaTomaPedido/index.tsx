@@ -7,7 +7,6 @@ import Informacion from './components/Informacion';
 import Descuentos from './components/Descuentos';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import SwitchYCheck from './components/SwitchYCheck';
-
 import {useTranslation} from 'react-i18next';
 import {
 	useObtenerCalculoDescuentoProducto,
