@@ -185,7 +185,7 @@ const TomaPedido: React.FC = () => {
 			setProductoActual(null);
 			mostrarAviso(
 				'success',
-				'Se ha ingreso el producto exitosamente',
+				'Se ha ingresado el producto exitosamente',
 				undefined,
 				undefined,
 				'productoIngresado'

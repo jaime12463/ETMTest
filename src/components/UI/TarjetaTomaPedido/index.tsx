@@ -7,6 +7,7 @@ import Informacion from './components/Informacion';
 import Descuentos from './components/Descuentos';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import SwitchYCheck from './components/SwitchYCheck';
+import {useTranslation} from 'react-i18next';
 import {
 	useObtenerCalculoDescuentoProducto,
 	useObtenerDatosCliente,
@@ -39,6 +40,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 		React.useState<boolean>(false);
 	const visitaActual = useObtenerVisitaActual();
 	const mostrarAviso = useMostrarAviso();
+	const {t} = useTranslation();
 	const {setAlerta, setConfigAlerta} = stateAviso;
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {configuracionPedido}: any = datosCliente;
@@ -87,7 +89,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 				if (!productoAgregado) {
 					mostrarAviso(
 						'success',
-						'Producto agregado correctamente',
+						t('avisos.productoAgregado'),
 						undefined,
 						undefined,
 						'ProductoAgreado'

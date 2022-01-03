@@ -180,6 +180,10 @@ const es = {
 			'Por favor, ingrese un motivo para cada iniciativa cancelada.',
 		borrarDescuento: '¿Deseas eliminar el descuento escalonado? ',
 		descuentoEscalonadoEliminado: 'Descuento escalonado eliminado',
+		productoAgregado: 'Producto agregado correctamente',
+		cambiosGuardados: 'Cambios guardados con exitosamente',
+		iniciativaSinMotivo: 'Iniciativa cancelada sin motivo',
+		pedidoMinimoNoAlcanzado: 'Pedido minimo no alcanzado',
 		excedeMayorPermitido: 'Cantidad excede el valor permitido',
 		excedeMayorPermitidoSubtitulo:
 			'Es necesario corregir el valor de la presentación.',
@@ -193,6 +197,13 @@ const es = {
 	mensajes: {
 		borrarDescuento:
 			'Una vez eliminado el descuento escalonado, no podrás volverlo a aplicar en este producto.',
+		iniciativaSinMotivo: 'ingrese un motivo para la iniciativa cancelada',
+		pedidoMinimoNoAlcanzado:
+			'No se ha alcanzado el pedido minimo, por favor completar el pedido.',
+	},
+	avisos: {
+		productoAgregado: 'Producto agregado correctamente',
+		cambiosGuardados: 'Cambios guardados con exitosamente',
 	},
 };
 export default es;
