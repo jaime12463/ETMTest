@@ -14,7 +14,7 @@ interface Props {
 const useEstilos = makeStyles(() =>
 	createStyles({
 		input: {
-			backgroundColor: 'white',
+			backgroundColor: '#fff',
 			border: (props: Props) => {
 				if (props.bordeError) {
 					if (props.unidades === 0 && props.subUnidades === 0) {

@@ -126,8 +126,8 @@ const TomaPedido: React.FC = () => {
 				}
 
 				return (
-					(producto.unidades > 0 &&
-						producto.unidades <= configuracionPedido.cantidadMaximaUnidades) ||
+					producto.unidades > 0 &&
+					producto.unidades <= configuracionPedido.cantidadMaximaUnidades &&
 					producto.subUnidades > 0
 				);
 			})
