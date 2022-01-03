@@ -7,16 +7,13 @@ import Informacion from './components/Informacion';
 import Descuentos from './components/Descuentos';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import SwitchYCheck from './components/SwitchYCheck';
-<<<<<<< HEAD
-import {useMostrarAviso, useObtenerCalculoDescuentoProducto} from 'hooks';
+
 import {useTranslation} from 'react-i18next';
-=======
 import {
 	useObtenerCalculoDescuentoProducto,
 	useObtenerDatosCliente,
 	useMostrarAviso,
 } from 'hooks';
->>>>>>> f5b71a4bfb560dae4bcc7342c9d2c78183c8dadb
 
 export interface StateFocusID {
 	focusId: number;
