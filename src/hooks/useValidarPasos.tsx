@@ -73,8 +73,8 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 				error: iniciativasCanceladasSinMotivo,
 				contenidoMensajeAviso: {
 					tipo: 'error',
-					titulo: 'Iniciativa cancelada sin motivo',
-					mensaje: 'ingrese un motivo para la iniciativa cancelada',
+					titulo: t('advertencias.iniciativaSinMotivo'),
+					mensaje: t('mensajes.iniciativaSinMotivo'),
 					opciones: undefined,
 					dataCy: 'clienteNoPortafolio',
 				},
@@ -123,9 +123,8 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 				error: true,
 				contenidoMensajeAviso: {
 					tipo: 'warning',
-					titulo: 'Pedido minimo no alcanzado',
-					mensaje:
-						'No se ha alcanzado el pedido minimo, por favor completar el pedido.',
+					titulo: t('advertencias.pedidoMinimoNoAlcanzado'),
+					mensaje: t('mensajes.pedidoMinimoNoAlcanzado'),
 					opciones: undefined,
 					dataCy: 'pedidoMinimoNoAlcanzado',
 				},
@@ -154,7 +153,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 						);
 						mostrarAviso(
 							'success',
-							'Cambios guardados con exitosamente',
+							t('avisos.cambiosGuardados'),
 							undefined,
 							undefined,
 							'successpaso2'

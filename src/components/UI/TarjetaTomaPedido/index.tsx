@@ -8,6 +8,7 @@ import Descuentos from './components/Descuentos';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import SwitchYCheck from './components/SwitchYCheck';
 import {useMostrarAviso, useObtenerCalculoDescuentoProducto} from 'hooks';
+import {useTranslation} from 'react-i18next';
 
 export interface StateFocusID {
 	focusId: number;
@@ -35,6 +36,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 		React.useState<boolean>(false);
 	const visitaActual = useObtenerVisitaActual();
 	const mostrarAviso = useMostrarAviso();
+	const {t} = useTranslation();
 	const {setAlerta, setConfigAlerta} = stateAviso;
 	const {venta} = visitaActual.pedidos;
 	const productoEnVenta = venta.productos.find(
@@ -75,7 +77,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 				if (!productoAgregado) {
 					mostrarAviso(
 						'success',
-						'Producto agregado correctamente',
+						t('avisos.productoAgregado'),
 						undefined,
 						undefined,
 						'ProductoAgreado'
