@@ -135,8 +135,20 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 	React.useEffect(() => {
 		if (indexBonificacion > -1) {
 			if (
-				visitaActual.bonificaciones[indexBonificacion].detalle.length === 1 &&
+				visitaActual.bonificaciones[indexBonificacion].detalle.length >= 1 &&
 				!primerProductoAgregado
+			) {
+				setPrimerProductoAgregado(true);
+			}
+		}
+	}, []);
+
+	React.useEffect(() => {
+		if (indexBonificacion > -1) {
+			if (
+				visitaActual.bonificaciones[indexBonificacion].detalle.length === 1 &&
+				!primerProductoAgregado &&
+				focusId !== ''
 			) {
 				setPrimerProductoAgregado(true);
 				mostrarAviso(
@@ -306,6 +318,10 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 									actualizarContador={actualizarContador}
 									errorAplicacionTotal={errorAplicacionTotal}
 									statefocusId={{focusId, setFocusId}}
+									statePrimerProductoAgregado={{
+										primerProductoAgregado,
+										setPrimerProductoAgregado,
+									}}
 								/>
 								<Divider />
 							</Box>
