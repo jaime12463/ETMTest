@@ -47,12 +47,19 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 
 	const ventaCredito = [
 		venta?.productos?.filter((producto) => {
-			if (producto.tipoPago === ETiposDePago.Credito && !producto.promoPush) {
+			if (
+				producto.tipoPago === ETiposDePago.Credito &&
+				!producto.promoPush &&
+				(producto.unidades > 0 || producto.subUnidades > 0)
+			) {
 				return producto;
 			}
 		}),
 		ventaenvase?.productos?.filter((producto) => {
-			if (producto.tipoPago === ETiposDePago.Credito) {
+			if (
+				producto.tipoPago === ETiposDePago.Credito &&
+				(producto.unidades > 0 || producto.subUnidades > 0)
+			) {
 				return producto;
 			}
 		}),
@@ -60,17 +67,26 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 
 	const promocionesCredito = venta?.productos?.filter(
 		(producto) =>
-			producto.tipoPago === ETiposDePago.Credito && producto.promoPush
+			producto.tipoPago === ETiposDePago.Credito &&
+			producto.promoPush &&
+			(producto.unidades > 0 || producto.subUnidades > 0)
 	);
 
 	const ventaContado = [
 		venta?.productos?.filter((producto) => {
-			if (producto.tipoPago === ETiposDePago.Contado && !producto.promoPush) {
+			if (
+				producto.tipoPago === ETiposDePago.Contado &&
+				!producto.promoPush &&
+				(producto.unidades > 0 || producto.subUnidades > 0)
+			) {
 				return producto;
 			}
 		}),
 		ventaenvase?.productos?.filter((producto) => {
-			if (producto.tipoPago === ETiposDePago.Contado) {
+			if (
+				producto.tipoPago === ETiposDePago.Contado &&
+				(producto.unidades > 0 || producto.subUnidades > 0)
+			) {
 				return producto;
 			}
 		}),
