@@ -44,6 +44,7 @@ const Controles: React.FC<Props> = ({
 	const visitaActual = useObtenerVisitaActual();
 	const {infoDescuento} = stateInfoDescuento;
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
+
 	const defaultValue = {
 		unidades: producto.unidades,
 		subUnidades: producto.subUnidades,
