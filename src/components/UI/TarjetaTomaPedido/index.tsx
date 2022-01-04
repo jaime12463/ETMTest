@@ -96,7 +96,6 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 					);
 					setProductoAgregado(true);
 				}
-
 				return setColorBorde(theme.palette.success.main);
 			}
 
