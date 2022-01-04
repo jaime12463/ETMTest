@@ -28,11 +28,18 @@ const Informacion: React.FC<Props> = ({
 	getValues,
 }) => {
 	const {t} = useTranslation();
-	const {inputFocus, setInputFocus} = stateInputFocus;
+	const {setInputFocus} = stateInputFocus;
 	const itemCatalogoMotivos = useObtenerCatalogoMotivos();
-	const {focusId, setFocusId} = statefocusId;
+	const {setFocusId} = statefocusId;
 	const {catalogoMotivo, setCatalogoMotivo} = stateCatalogo;
-	const [motivo, setMotivo] = React.useState<string>('');
+
+	const motivoFiltrado = itemCatalogoMotivos.filter(
+		(item) => item.value === producto.catalogoMotivo
+	);
+
+	const [motivo, setMotivo] = React.useState<string>(
+		motivoFiltrado[0]?.label ?? ''
+	);
 
 	const [selectBloqueado, setSelectBloqueado] = React.useState<boolean>(true);
 
