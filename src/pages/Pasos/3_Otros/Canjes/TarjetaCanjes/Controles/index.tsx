@@ -52,8 +52,10 @@ const Controles: React.FC<Props> = ({
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {configuracionPedido}: any = datosCliente;
+
 	const avisoCanjeAgregado = () =>
 		getValues.catalogoMotivo !== '' &&
+		focusId === producto.codigoProducto &&
 		mostrarAviso(
 			'success',
 			'Canje agregado correctamente',
@@ -61,6 +63,10 @@ const Controles: React.FC<Props> = ({
 			undefined,
 			'canjeAgreado'
 		);
+
+	React.useEffect(() => {
+		avisoCanjeAgregado();
+	}, [producto]);
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		producto,
@@ -80,7 +86,7 @@ const Controles: React.FC<Props> = ({
 
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === 'Enter') {
-			avisoCanjeAgregado();
+			//avisoCanjeAgregado();
 			agregarProductoAlPedidoActual(getValues);
 
 			if (inputFocus === 'unidades') {
@@ -100,7 +106,7 @@ const Controles: React.FC<Props> = ({
 		}
 		if (getValues.unidades > 0 || getValues.subUnidades > 0) {
 			if (catalogoMotivo[producto.codigoProducto]) {
-				avisoCanjeAgregado();
+				//avisoCanjeAgregado();
 				agregarProductoAlPedidoActual({
 					...getValues,
 					catalogoMotivo: catalogoMotivo[producto.codigoProducto].codigoMotivo,
@@ -117,7 +123,7 @@ const Controles: React.FC<Props> = ({
 
 	React.useEffect(() => {
 		if (puedeAgregar) {
-			avisoCanjeAgregado();
+			//avisoCanjeAgregado();
 			agregarProductoAlPedidoActual(getValues);
 			setPuedeAgregar(false);
 		}
@@ -148,7 +154,7 @@ const Controles: React.FC<Props> = ({
 					value === '+' ? ++getValues.subUnidades : --getValues.subUnidades,
 			});
 		}
-		avisoCanjeAgregado();
+		//avisoCanjeAgregado();
 		agregarProductoAlPedidoActual(getValues);
 	};
 
@@ -208,7 +214,9 @@ const Controles: React.FC<Props> = ({
 							setInputFocus('unidades');
 							setFocusId(producto.codigoProducto);
 						}}
-						onFocus={(e) => e.target.select()}
+						onFocus={(e) => {
+							e.target.select();
+						}}
 						inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
 						inputRef={(input) => {
 							if (
