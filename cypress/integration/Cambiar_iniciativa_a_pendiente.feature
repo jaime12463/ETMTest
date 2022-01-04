@@ -1,6 +1,6 @@
 # language: es
 
-@Iniciativa @Pendiente @Sprint15 @Sprint18
+@Iniciativa @Pendiente @Sprint15 @Sprint19
 
 Característica: Poner pendiente la iniciativa
     Como prevendedor
@@ -16,7 +16,7 @@ Escenario: N°1 - Cambiar a pendiente una iniciativa ejecutada
     Cuando cambio el estado de la iniciativa a pendiente
     Entonces el sistema desmarcará la tarjeta de esa iniciativa dejandola en su color default
     Y ocultará el icono de ejecución
-    Y establecerá las unidades y subunidades en sus valores iniciales
+    Y establecerá las unidades y subunidades en cero
     Y eliminará el producto del pedido
     Y restablecerá los productos en común de las coberturas a cero
 
@@ -28,7 +28,7 @@ Escenario: N°2 - Cambiar a pendiente una iniciativa cancelada
     Cuando cambio el estado de la iniciativa a pendiente
     Entonces el sistema desmarcará la tarjeta de esa iniciativa dejandola en su color default
     Y ocultará el icono de cancelación
-    Y establecerá las unidades y subunidades en sus valores iniciales
+    Y establecerá las unidades y subunidades en cero
     Y ocultará el combo de motivos
 
 # Los indicadores se deberán actualizar ya que se está eliminando el producto del pedido de venta. 

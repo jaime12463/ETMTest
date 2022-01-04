@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Coberturas @Sprint16 @Sprint18
+@Pedido @Coberturas @Sprint16 @Sprint18 @Sprint19
 
 Característica: Restablecer las coberturas
     Como prevedendor
@@ -19,4 +19,5 @@ Escenario: N°1 - Restablecer coberturas
     Y borrará del pedido los productos de cobertura
     Y actualizará los indicadores y totales
     Y restablece a cero las cantidades del producto de iniciativas
+    Y actializará el disponible de la iniciativa según la unidad de medida si corresponde
     Y si es el único producto con cantidades ingresadas en iniciativas, le cambia el estado a pendiente

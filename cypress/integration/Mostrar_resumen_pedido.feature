@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Resumen_pedido @Sprint15 @Sprint17
+@Pedido @Resumen_pedido @Sprint15 @Sprint17 @Sprint19
 
 Característica: Mostrar resumen del pedido 
     Como prevendedor 
@@ -20,7 +20,7 @@ Escenario: N°2 - Promo push dentro de condiciones de pago
     Y se ingresaron promo push al pedido
     Cuando selecciono ver resumen del pedido
     Entonces el sistema mostrará dentro de la sección de condición de pago a la promo push según su condición de pago, indicando el código de promoción,
-    Y nombre, precio unitario, descuento y subtotal de la promoción ordenados por código de promoción
+    Y nombre, precio unitario, descuento, subtotal de la promoción como la cantidad de promoción multiplicado por precio unitario y la cantidad ordenados por código de promoción
     Y los componentes de la promoción, indicando el código de prodcuto del componente,
     Y nombre del componente, precio unidad, descuento, subtotal del componente ordenados por código de componente
 

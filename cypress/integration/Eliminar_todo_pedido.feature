@@ -1,44 +1,53 @@
 # language: es
 
-@Pedido @Eliminar_todo @Sprint13
+@Pedido @Eliminar_todo @Sprint13 @Sprint19
 
 Característica: Eliminar todo del pedido
     Como prevendedor 
     Quiero borrar todos los artículos ingresados en el pedido
     Para descartar el pedido
 
+Escenario: N°1 - El cliente tiene otro pedido para la misma fecha de entrega
+    Dado que el cliente tiene otro pedido registrado para la misma fecha de entrega que el pedido en curso
+    Cuando se selecciona borrar todo
+    Entonces el sistema mostrará el mensaje informando que todos los productos se borrarán
 
-Escenario: N°1 - Borrar todos los productos que no son promo push
+Escenario: N°2 - El cliente no tiene otro pedido para la misma fecha de entrega y tiene canje ingresado y tiene bonificaciones y _bonificacionesConVenta=true
     Dado que estoy en un pedido que _esMandatorio = true
-    Y que posee productos ingresados
-    Y existen productos cargados en otros pedidos que _esMandatorio = false 
-    Y que no forman parte de _tipoPedidoEnvasesHabilitados 
+    Y el cliente no tiene otro pedido para la misma fecha de entrega que el pedido en curso
+    Y existen productos cargados en otros pedidos que _esMandatorio = false
+    Y que no forman parte de _tipoPedidoEnvasesHabilitados
     Y existe _bonificacionesConVenta_ = true
 	Y se registraron bonificaciones
     Cuando selecciono borrar todo
-    Entonces el sistema pide confirmación para eliminar todos los productos
-    Y al aceptar se eliminarán todos los productos de todos los pedidos
-    Y se borrarán las tarjetas de las pantallas
-    Y eliminará las bonificaciones ingresadas
-
-   #Mensaje: Se borrarán todos los productos de todos los pedidos realizados, desea continuar? 
-
-Escenario: N°2 - Borrar todos los productos que no son promo push y bonificaciones no configuradas
-    Dado que estoy en un pedido que _esMandatorio = true
-    Y que posee productos ingresados
-    Y existen productos cargados en otros pedidos que _esMandatorio = false 
-    Y que no forman parte de _tipoPedidoEnvasesHabilitados 
-    Y existe _bonificacionesConVenta_ = false
-    Cuando selecciono borrar todo
-    Entonces el sistema pide confirmación para eliminar todos los productos
-    Y al aceptar se eliminarán todos los productos de todos los pedidos
-    Y se borrarán las tarjetas de las pantallas
-
-Escenario: N°3 - Borrar todos los productos promo
-    Dado que estoy en promociones
-    Cuando selecciono borrar todo
-    Entonces el sistema pide confirmación para eliminar las cantidades ingresadas en los productos
-    Y al aceptar se inicializarán en 0 las cantidades de todos los productos de la promoción
+    Entonces el sistema mostrará el mensaje de que también se borrará el canje y se restablecerán las bonificaciones a cero  
+    Y al confirmar se borrán los productos del _tipoPedido = "Venta"
+    Y se borrará el canje ingresado 
+    Y se reestablecerán las bonificaciones a cero.
 
 
-   #Mensaje: Se inicializaráne en 0 todas las promociones, desea continuar? 
+Esquema del escenario: N°3 - El cliente no tiene otro pedido para la misma fecha de entrega y hay canje y bonificaciones con venta = false
+    Dado que el cliente no tiene otro pedido para la misma fecha de entrega
+    Y el cliente tiene _tipoPedido = "Canje" ingresado 
+    Y que no forman parte de _tipoPedidoEnvasesHabilitados
+    Y <condicion>
+    Cuando se selecciona borrar todo
+    Entonces el sistema mostrará el mensaje de que también se borrará el canje 
+    Y al confirmar borrará los productos del _tipoPedido = "Venta"
+    Y borrará el canje ingresado
+
+Ejemplos:
+    |     condicion                                                      | 
+    | _bonificacionesConVenta = false                                    |
+    | _bonificacionesConVenta = true y no hay bonificaciones ingresadas  |
+
+
+Escenario: N°4 - El cliente no tiene otro pedido para la misma fecha de entrega y no hay canje y si hay bonificaciones ingresadas y _bonificacionesConVenta=true
+    Dado que el cliente no tiene otro pedido para la misma fecha de entrega
+    Y el cliente no tiene _tipoPedido = "Canje" ingresado 
+    Y por configuración _bonificacionesConVenta = true
+    Y el cliente tiene bonificaciones ingresadas
+    Cuando se selecciona borrar todo
+    Entonces el sistema mostrará el mensaje de que también se restablecerán las bonificaciones a cero 
+    Y al confirmar, se borrarán los productos del _tipoPedido = "Venta"
+    Y se restablecerán las bonificaciones a cero
