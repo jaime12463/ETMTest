@@ -9,9 +9,9 @@
 #          cantidad de iniciativas "Canceladas" en el pedido actual = 1
 #
 #  cantidadIniciativasHabilitadas = 20 + 4 + 1 = 25
-#  cantidadIniciativasProcesadas  = 4 + 1 = 5
+#  cantidadIniciativasProcesadas  = 4  = 4   (canceladas no cuenta como procesadas)
 #
-#  Se muestra en la tarjeta  "5 de 25 items" 
+#  Se muestra en la tarjeta  "4 de 25 items" 
 
 Característica: Mostrar iniciativas.
 	Como prevendedor
