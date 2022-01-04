@@ -11,9 +11,12 @@ type Props = {
 	onClick: (e: any) => void;
 };
 
-export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
-	console.log(props.total.toString().length);
-
+export const BotonBarraInferior: FunctionComponent<Props> = ({
+	numeroItems,
+	descripcion,
+	total,
+	onClick,
+}) => {
 	const {t} = useTranslation();
 	return (
 		<Button
@@ -22,7 +25,7 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 			color='success'
 			fullWidth
 			style={{borderRadius: '24px', color: 'white', padding: '8px 12px'}}
-			onClick={props.onClick}
+			onClick={onClick}
 			data-cy={`boton-inferior-avanzar`}
 		>
 			<Grid
@@ -48,7 +51,7 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 								marginRight: '4px',
 							}}
 						>
-							{props.numeroItems}
+							{numeroItems}
 						</span>
 						<span
 							style={{
@@ -66,28 +69,26 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 					xs={5}
 					style={{
 						fontSize:
-							formatoNumeroConDecimales(props.total, t).length >= 7
-								? '11px'
-								: '12px',
+							formatoNumeroConDecimales(total, t).length >= 7 ? '11px' : '12px',
 						fontWeight: 'normal',
 						fontFamily: 'Poppins',
 						lineHeight: '14px',
 						textAlign:
-							formatoNumeroConDecimales(props.total, t).length >= 9
+							formatoNumeroConDecimales(total, t).length >= 9
 								? 'left'
 								: 'center',
 						textTransform: 'none',
 						paddingLeft: '8px',
 					}}
 				>
-					{props.descripcion}
+					{descripcion}
 				</Grid>
 				<Grid
 					item
 					xs={4}
 					style={{fontSize: '20px', fontWeight: 600, lineHeight: '24px'}}
 				>
-					{formatearNumero(props.total, t)}
+					{formatearNumero(total, t)}
 				</Grid>
 			</Grid>
 		</Button>
