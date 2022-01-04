@@ -54,7 +54,6 @@ const Controles: React.FC<Props> = ({
 	const {configuracionPedido}: any = datosCliente;
 
 	const avisoCanjeAgregado = () =>
-		getValues.catalogoMotivo !== '' &&
 		focusId === producto.codigoProducto &&
 		mostrarAviso(
 			'success',
@@ -65,8 +64,10 @@ const Controles: React.FC<Props> = ({
 		);
 
 	React.useEffect(() => {
-		avisoCanjeAgregado();
-	}, [producto]);
+		if (catalogoMotivo[producto.codigoProducto]) {
+			avisoCanjeAgregado();
+		}
+	}, [producto, catalogoMotivo]);
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		producto,
