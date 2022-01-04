@@ -19,4 +19,4 @@ Escenario: N°2 - El tipo de pedido no requiere motivo
     Cuando se encuentra habilitado el ingreso del producto
     Entonces el sistema mostrará el producto, descripción, los atributos del producto, unidad, subunidad, el precio unidad y el precio subunidad vacíos.
 
-# los atributos a mostrar del producto son: tamaño, envase y marca 
+# los atributos a mostrar del producto son: tamaño y envase 
