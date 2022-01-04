@@ -17,15 +17,16 @@ Característica: Búsqueda de productos
     Para agregarlo al pedido
 
 Antecedentes:
-    Dado que el prevendedor seleccionó un pedido cuyo _tipoPedido es un _tipoPedidoHabilitados 
+    Dado que el prevendedor seleccionó _tipoPedido 
+    Y seleccionó el control para buscar buscar productos 
 
 Esquema del escenario: N°1 - Buscar producto en portafolio vigente cuando el tipo de pedido no valida presupuesto
     Dado que el _tipoPedido tiene _validaPresupuesto = false
-    Y tiene portafolio asignado con precio y vigencia inicial y final
+    Y tiene portafolio asignado con precio y vigencia inicial y vigencia final
     Cuando se selecciona el control de búsqueda 
     Y se muestra el teclado alfanumérico
     Y se ingresan al menos dos o más caracteres
-    Entonces el sistema muestra solamente los productos cuyo _tipoProducto sea el _tipoProductosHabilitados para el tipo de pedido en curso 
+    Entonces el sistema mostrará solamente los productos cuyo _tipoProducto sea el _tipoProductosHabilitados para el tipo de pedido en curso 
     Y que no sean productos promo push
     Y que contengan lo ingresado por el prevendedor en su código o en su descricpción
     Y que pertenezcan al portafolio del cliente
@@ -42,7 +43,7 @@ Ejemplos:
 
 Esquema del escenario: N°2 - Buscar producto en portafolio vigente con presupuesto de canje cuando no tiene lista de productos habilitados
     Dado que el _tipoPedido tiene _validaPresupuesto = true
-    Y _tieneProductosHabilitados = false
+    Y el _presupuestoTipoPedido tiene _tieneProductosHabilitados = false
     Cuando se selecciona el control de búsqueda 
     Y se muestra el teclado alfanumérico
     Y se ingresan al menos dos o más caracteres
@@ -60,7 +61,7 @@ Ejemplos:
 
 Esquema del escenario: N°3 - Buscar producto en portafolio vigente con presupuesto de canje cuando existe lista de productos habilitados
     Dado que el _tipoPedido tiene _validaPresupuesto = true
-    Y _tieneProductosHabilitados = true
+    Y el _presupuestoTipoPedido tiene _tieneProductosHabilitados = true
     Cuando se selecciona el control de búsqueda
     Y se muestra el teclado alfanumérico
     Y se ingresan al menos dos o más caracteres
