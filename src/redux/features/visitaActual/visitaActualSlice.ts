@@ -79,9 +79,11 @@ export const visitaActualSlice = createSlice({
 		},
 
 		limpiarProductosSinCantidad: (state) => {
-			state.pedidos.venta.productos = state.pedidos.venta.productos.filter(
-				(producto) => producto.unidades > 0 || producto.subUnidades > 0
-			);
+			if (state.pedidos.venta) {
+				state.pedidos.venta.productos = state.pedidos.venta.productos.filter(
+					(producto) => producto.unidades > 0 || producto.subUnidades > 0
+				);
+			}
 		},
 
 		agregarEnvaseDelPedidoActual: (
