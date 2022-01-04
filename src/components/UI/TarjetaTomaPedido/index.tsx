@@ -36,8 +36,8 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	stateAviso,
 }) => {
 	const clienteActual = useObtenerClienteActual();
-	const [productoAgregado, setProductoAgregado] =
-		React.useState<boolean>(false);
+	const [productoAgregado, setProductoAgregado] = React.useState<boolean>(true);
+	const {focusId, setFocusId} = stateFocusId;
 	const visitaActual = useObtenerVisitaActual();
 	const mostrarAviso = useMostrarAviso();
 	const {t} = useTranslation();
@@ -74,6 +74,18 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 		inputPolarizado: productoAMandar.descuento?.inputPolarizado ?? 0,
 	});
 
+	React.useEffect(() => {
+		if (
+			focusId === producto.codigoProducto &&
+			producto.unidades === 0 &&
+			producto.subUnidades === 0
+		) {
+			return setProductoAgregado(false);
+		} else {
+			return setProductoAgregado(true);
+		}
+	}, [focusId]);
+
 	const obtenerCalculoDescuentoProducto =
 		useObtenerCalculoDescuentoProducto(producto);
 
@@ -96,7 +108,6 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 					);
 					setProductoAgregado(true);
 				}
-
 				return setColorBorde(theme.palette.success.main);
 			}
 
