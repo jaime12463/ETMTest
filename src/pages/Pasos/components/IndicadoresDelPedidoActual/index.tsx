@@ -62,44 +62,45 @@ const IndicadoresDelPedidoActual = () => {
 	const color = useObtenerColor();
 
 	const indicadores = [];
-	if (datosCliente?.informacionCrediticia.condicion!=='contado')
-		indicadores.push(
-			{
-				titulo: t('general.creditoDisponible'),
-				valorMax: datosCliente?.informacionCrediticia.disponible,
-				valor:
-					creditoDisponible - //error
-					(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0),
-				color: color.creditoDisponible,
-				condicion: datosCliente?.informacionCrediticia.condicion,
-				dataCY: 'indicador-credito-maximo',
-			});
+	if (datosCliente?.informacionCrediticia.condicion !== 'contado')
+		indicadores.push({
+			titulo: t('general.creditoDisponible'),
+			valorMax: datosCliente?.informacionCrediticia.disponible,
+			valor:
+				creditoDisponible - //error
+				(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0),
+			color: color.creditoDisponible,
+			condicion: datosCliente?.informacionCrediticia.condicion,
+			dataCY: 'indicador-credito-maximo',
+		});
 
-	if ( datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima )
-		indicadores.push(
-			{
-				titulo: t('general.pedidoMinimo'),
-				valorMax: datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima,
-				valor:
-					totalesPedidoCliente +
-					(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0),
-				color: color.pedidoMinimo,
-				dataCY: 'indicador-pedido-minimo',
-			});
-	if ( datosCliente?.configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima)
-		indicadores.push(
-			{
-				titulo: t('general.pedidoMaximo'),
-				valorMax: datosCliente?.configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima,
-				valor:
-					totalContadoPedidosClienteMismaFechaEntrega +
-					(obtenerTotalPedidosVisitaActual().totalContado.totalPrecio ?? 0) +
-					montoTotalCompromisos +
-					compromisoDeCobroActual.monto,
-				color: color.pedidoMaximo,
-				dataCY: 'indicador-credito-minimo',
-			});
-	
+	if (datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima)
+		indicadores.push({
+			titulo: t('general.pedidoMinimo'),
+			valorMax: datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima,
+			valor:
+				totalesPedidoCliente +
+				(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0),
+			color: color.pedidoMinimo,
+			dataCY: 'indicador-pedido-minimo',
+		});
+	if (
+		datosCliente?.configuracionPedido.ventaContadoMaxima
+			?.montoVentaContadoMaxima
+	)
+		indicadores.push({
+			titulo: t('general.pedidoMaximo'),
+			valorMax:
+				datosCliente?.configuracionPedido.ventaContadoMaxima
+					?.montoVentaContadoMaxima,
+			valor:
+				totalContadoPedidosClienteMismaFechaEntrega +
+				(obtenerTotalPedidosVisitaActual().totalContado.totalPrecio ?? 0) +
+				montoTotalCompromisos +
+				compromisoDeCobroActual.monto,
+			color: color.pedidoMaximo,
+			dataCY: 'indicador-credito-minimo',
+		});
 
 	return (
 		<Grid container spacing={3} alignItems='end'>

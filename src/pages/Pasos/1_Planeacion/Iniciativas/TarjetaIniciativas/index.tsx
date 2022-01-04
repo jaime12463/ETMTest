@@ -1,18 +1,18 @@
-import { useState , useEffect} from 'react';
+import React from 'react';
 import {styled} from '@mui/material/styles';
 import Card from '@mui/material/Card';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
-import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 import {VisualizadorPdfs} from 'components/UI';
 import {
 	AgregarRedondoIcon,
+	AvisoIcon,
 	BotellaIcon,
 	CajaIcon,
 	CerrarRedondoIcon,
@@ -39,50 +39,47 @@ import {
 	editarUnidadesOSubUnidadesEjecutadas,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {
-	InputsKeysFormTomaDePedido,
 	TProductoPedido,
 	TIniciativasCliente,
+	InputsKeysFormTomaDePedido,
 } from 'models';
 import theme from 'theme';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
-import {useMostrarAdvertenciaEnDialogo, useMostrarAviso} from 'hooks';
-import {formatearNumero, formatearFecha} from 'utils/methods';
+import {
+	useMostrarAdvertenciaEnDialogo,
+	useMostrarAviso,
+	useObtenerDatosCliente,
+} from 'hooks';
+import {formatearFecha, formatearNumero} from 'utils/methods';
 import CustomSelect from 'components/UI/CustomSelect';
 import {Link} from '@mui/material';
+import Modal from 'components/UI/Modal';
 
 const ButtonStyled = styled(Button)(() => ({
 	border: '1.5px solid #651C32',
 	boxSizing: 'border-box',
 	borderRadius: '20px',
 	minHeight: '10px',
-	height: '16px',
+	height: '18px',
+	width: '276px',
 	textTransform: 'none',
 	'&:hover': {
 		background: 'none',
 	},
 }));
 
-/*interface Props {
+interface Props extends TIniciativasCliente {
 	expandido: boolean | string;
 	setExpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
-	id: string;
-	nombreIniciativa: string;
-	planActividad: string;
-	descripcion: string;
-	fechaVencimiento: string;
-	unidades: number;
-	unidadesEjecutadas: number;
-	subUnidades: number;
-	subUnidadesEjecutadas: number;
-	codigo: number;
-	estado: 'pendiente' | 'ejecutada' | 'cancelada';
-	motivo: string;
-}*/
-
-type Props = TIniciativasCliente & {
-	expandido: boolean | string;
-	setExpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
-};
+	iniciativaIncompleta: boolean;
+	setIniciativaIncompleta: React.Dispatch<React.SetStateAction<boolean>>;
+	idIniciativaIncompleta: number | null;
+	setIdIniciativaIncompleta: React.Dispatch<
+		React.SetStateAction<number | null>
+	>;
+	avanza: boolean;
+	setAvanza: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 interface GetValuesProps {
 	unidades: number;
@@ -106,6 +103,12 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	finVigenciaIniciativa,
 	archivoAdjunto,
 	idActividadIniciativa,
+	iniciativaIncompleta,
+	setIniciativaIncompleta,
+	idIniciativaIncompleta,
+	setIdIniciativaIncompleta,
+	avanza,
+	setAvanza,
 }) => {
 	const {t} = useTranslation();
 	const producto = useObtenerProductoPorCodigo(idMaterialIniciativa);
@@ -116,10 +119,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	// ToDo
 	const unidades = unidadesEjecutadas;
 	const subUnidades = subUnidadesEjecutadas;
-
-	const codigo = idMaterialIniciativa;
 	const id = idMaterialIniciativa.toString();
-	const planActividad = nombreActividadPlan;
 
 	const fechaVencimiento = formatearFecha(finVigenciaIniciativa, t).replace(
 		/-/g,
@@ -152,27 +152,49 @@ const TarjetaIniciativas: React.FC<Props> = ({
 			subUnidad: producto.precioConImpuestoSubunidad,
 		},
 	};
-	const mostrarAviso = useMostrarAviso();
-	const [estadoSelect, setEstadoSelect] = useState<string>(estado);
-	const [motivoSelect, setMotivoSelect] = useState<string>(motivo);
 
-	const [puedeAgregar, setPuedeAgregar] = useState<boolean>(false);
-	const [getValues, setGetValues] = useState<GetValuesProps>(defaultValues);
+	const [estadoSelect, setEstadoSelect] = React.useState<string>(estado);
+	const [motivoSelect, setMotivoSelect] = React.useState<string>('');
 
-	const [focusId, setFocusId] =  useState<number>(0);
-	const [inputFocus, setInputFocus] = useState<InputsKeysFormTomaDePedido>('productoABuscar');
-	const [mostrarArchivosAdjuntos, setMostrarArchivosAdjuntos]=useState(false);
+	const [getValues, setGetValues] =
+		React.useState<GetValuesProps>(defaultValues);
+
+	const [mostrarArchivosAdjuntos, setMostrarArchivosAdjuntos] =
+		React.useState(false);
 	const classes = useEstilos({
 		estado: estadoSelect,
 		inputsBloqueados: visitaActual.pasoATomaPedido,
+		editarInputs: visitaActual?.seQuedaAEditar?.bordeError,
 	});
 
+	const [alerta, setAlerta] = React.useState<boolean>(false);
+	const [cacheId, setCacheId] = React.useState<string | boolean>(false);
+
 	const dispatch = useAppDispatch();
-	const manejadorExpandido =
-		({id}: any) =>
-		(event: React.SyntheticEvent) => {
-			setExpandido(id);
-		};
+
+	React.useEffect(() => {
+		if (
+			unidadesEjecutadas === 0 &&
+			subUnidadesEjecutadas === 0 &&
+			estado === 'ejecutada'
+		) {
+			setIniciativaIncompleta(true);
+			setIdIniciativaIncompleta(idMaterialIniciativa);
+			return;
+		}
+
+		setIniciativaIncompleta(false);
+	}, [unidadesEjecutadas, subUnidadesEjecutadas, estado]);
+
+	const manejadorExpandido = (id: string | boolean) => {
+		if (iniciativaIncompleta) {
+			setAlerta(true);
+			setCacheId(id);
+			return;
+		}
+
+		setExpandido(id);
+	};
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		productoACargar,
@@ -181,23 +203,23 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		setGetValues
 	);
 
-	useEffect(() => {
-		if (
-			visitaActual.seQuedaAEditar.bordeError &&
-			estado === 'cancelada' &&
-			motivo === ''
-		) {
-			setExpandido(id);
-			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
-		}
-	}, [visitaActual.seQuedaAEditar.bordeError, estado, motivo, id]);
+	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 
-	useEffect(() => {
+	const [focusId, setFocusId] = React.useState<number>(0);
+	const [inputFocus, setInputFocus] =
+		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
+
+	const mostrarAviso = useMostrarAviso();
+
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+	const {configuracionPedido}: any = datosCliente;
+
+	React.useEffect(() => {
 		if (puedeAgregar) {
 			agregarProductoAlPedidoActual(getValues);
 			dispatch(
 				editarUnidadesOSubUnidadesEjecutadas({
-					codigoIniciativa: Number(id),
+					codigoIniciativa: Number(idMaterialIniciativa),
 					unidadesEjecutadas: getValues.unidades,
 					subUnidadesEjecutadas: getValues.subUnidades,
 				})
@@ -205,84 +227,6 @@ const TarjetaIniciativas: React.FC<Props> = ({
 			setPuedeAgregar(false);
 		}
 	}, [puedeAgregar]);
-
-	useEffect(() => {
-		if (estadoSelect === 'cancelada' && motivoSelect !== '') {
-			dispatch(
-				cambiarMotivoCancelacionIniciativa({
-					motivo: motivoSelect,
-					codigoIniciativa: idActividadIniciativa,
-				})
-			);
-		}
-	}, [estadoSelect, motivoSelect]);
-
-	useEffect(() => {
-		if (!visitaActual.pasoATomaPedido) {
-			switch (estadoSelect) {
-				case 'pendiente':
-					setEstadoSelect('pendiente');
-					setGetValues({...getValues, unidades, subUnidades});
-					dispatch(
-						cambiarEstadoIniciativa({
-							estado: 'pendiente',
-							codigoIniciativa: Number(id),
-						})
-					);
-					dispatch(
-						borrarProductoDelPedidoActual({
-							codigoProducto: producto.codigoProducto,
-						})
-					);
-					if (motivo !== '') {
-						dispatch(
-							cambiarMotivoCancelacionIniciativa({
-								motivo: '',
-								codigoIniciativa: idActividadIniciativa,
-							})
-						);
-						setMotivoSelect('');
-					}
-					break;
-				case 'ejecutada':
-					setEstadoSelect('ejecutada');
-					agregarProductoAlPedidoActual(getValues);
-					dispatch(
-						cambiarEstadoIniciativa({
-							estado: 'ejecutada',
-							codigoIniciativa: Number(id),
-						})
-					);
-					if (motivo !== '') {
-						dispatch(
-							cambiarMotivoCancelacionIniciativa({
-								motivo: '',
-								codigoIniciativa: idActividadIniciativa,
-							})
-						);
-						setMotivoSelect('');
-					}
-					break;
-				case 'cancelada':
-					setEstadoSelect('cancelada');
-					setGetValues({...getValues, unidades, subUnidades});
-					dispatch(
-						cambiarEstadoIniciativa({
-							estado: 'cancelada',
-							codigoIniciativa: Number(id),
-						})
-					);
-					dispatch(
-						borrarProductoDelPedidoActual({
-							codigoProducto: producto.codigoProducto,
-						})
-					);
-					break;
-				default:
-					break;
-			}
-		}
-	}, [estadoSelect]);
 
 	const handleButtons = (
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -337,7 +281,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		agregarProductoAlPedidoActual(getValues);
 		dispatch(
 			editarUnidadesOSubUnidadesEjecutadas({
-				codigoIniciativa: Number(id),
+				codigoIniciativa: Number(idMaterialIniciativa),
 				unidadesEjecutadas: getValues.unidades,
 				subUnidadesEjecutadas: getValues.subUnidades,
 			})
@@ -367,7 +311,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 				agregarProductoAlPedidoActual(getValues);
 				dispatch(
 					editarUnidadesOSubUnidadesEjecutadas({
-						codigoIniciativa: Number(id),
+						codigoIniciativa: Number(idMaterialIniciativa),
 						unidadesEjecutadas: getValues.unidades,
 						subUnidadesEjecutadas: getValues.subUnidades,
 					})
@@ -378,178 +322,317 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		}
 	};
 
+	React.useEffect(() => {
+		if (
+			visitaActual.seQuedaAEditar.bordeError &&
+			estado === 'cancelada' &&
+			motivo === ''
+		) {
+			setExpandido(id);
+			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+		}
+	}, [visitaActual.seQuedaAEditar.bordeError, estado, motivo, id]);
+
+	React.useEffect(() => {
+		if (estadoSelect === 'cancelada' && motivoSelect !== '') {
+			dispatch(
+				cambiarMotivoCancelacionIniciativa({
+					motivo: motivoSelect,
+					codigoIniciativa: idActividadIniciativa,
+				})
+			);
+		}
+	}, [estadoSelect, motivoSelect]);
+
+	React.useEffect(() => {
+		if (!visitaActual.pasoATomaPedido) {
+			switch (estadoSelect) {
+				case 'pendiente':
+					setEstadoSelect('pendiente');
+					setMotivoSelect('');
+					setGetValues({...getValues, unidades, subUnidades});
+					dispatch(
+						cambiarEstadoIniciativa({
+							estado: 'pendiente',
+							codigoIniciativa: idMaterialIniciativa,
+						})
+					);
+					dispatch(
+						borrarProductoDelPedidoActual({
+							codigoProducto: producto.codigoProducto,
+						})
+					);
+					if (motivo !== '') {
+						dispatch(
+							cambiarMotivoCancelacionIniciativa({
+								motivo: '',
+								codigoIniciativa: idActividadIniciativa,
+							})
+						);
+						setMotivoSelect(t(''));
+					}
+					break;
+				case 'ejecutada':
+					setEstadoSelect('ejecutada');
+					agregarProductoAlPedidoActual(getValues);
+					dispatch(
+						cambiarEstadoIniciativa({
+							estado: 'ejecutada',
+							codigoIniciativa: idMaterialIniciativa,
+						})
+					);
+					if (motivo !== '') {
+						dispatch(
+							cambiarMotivoCancelacionIniciativa({
+								motivo: '',
+								codigoIniciativa: idActividadIniciativa,
+							})
+						);
+						setMotivoSelect(t(''));
+					}
+					break;
+				case 'cancelada':
+					setEstadoSelect('cancelada');
+					setGetValues({...getValues, unidades, subUnidades});
+					dispatch(
+						cambiarEstadoIniciativa({
+							estado: 'cancelada',
+							codigoIniciativa: idMaterialIniciativa,
+						})
+					);
+					dispatch(
+						borrarProductoDelPedidoActual({
+							codigoProducto: producto.codigoProducto,
+						})
+					);
+					break;
+				default:
+					break;
+			}
+		}
+	}, [estadoSelect]);
+
+	React.useEffect(() => {
+		if (
+			visitaActual.seQuedaAEditar.bordeError &&
+			idIniciativaIncompleta === idMaterialIniciativa
+		) {
+			if (getValues.unidades > 0 || getValues.subUnidades) {
+				dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+			}
+		}
+
+		if (avanza) {
+			if (idIniciativaIncompleta === idMaterialIniciativa) {
+				setEstadoSelect('pendiente');
+				setMotivoSelect('');
+				setGetValues({...getValues, unidades, subUnidades});
+			}
+			setAvanza(false);
+		}
+	}, [
+		avanza,
+		visitaActual?.seQuedaAEditar?.bordeError,
+		getValues.unidades,
+		getValues.subUnidades,
+	]);
+
 	return (
-		<Card
-			className={classes.card}
-			style={{padding: '12px 14px', boxShadow: 'none', overflow: 'visible'}}
-			data-cy={'iniciativa-' + id}
-		>
-			<Box>
-				<Box
-					display='flex'
-					flexDirection={
-						estadoSelect === 'pendiente' ||
-						(estadoSelect === 'cancelada' && motivo === '')
-							? 'column'
-							: 'row'
-					}
-					alignItems='start'
-					marginBottom='12px'
-					gap={
-						estadoSelect === 'pendiente' ||
-						(estadoSelect === 'cancelada' && motivo === '')
-							? '8px'
-							: '40px'
-					}
-				>
-					{estadoSelect === 'cancelada' && motivo === '' && (
-						<Box display='flex' justifyContent='flex-end' width='100%'>
-							<Typography
-								color='#fff'
-								fontFamily='Open Sans'
-								padding='2px 12px'
-								sx={{
-									background: theme.palette.primary.main,
-									borderRadius: '50px',
-								}}
-								variant='caption'
-							>
-								{t('general.sinMotivo')}
-							</Typography>
-						</Box>
-					)}
-					<Typography variant='subtitle2' data-cy={`iniciativa-titulo-${id}`}>
-						{nombreIniciativa}
-					</Typography>
-					{estadoSelect === 'ejecutada' && (
-						<Box>
-							<CheckRedondoIcon fill={theme.palette.success.main} />
-						</Box>
-					)}
-					{estadoSelect === 'cancelada' && motivo !== '' && (
-						<Box>
-							<CerrarRedondoIcon />
-						</Box>
-					)}
-				</Box>
-				<Collapse
-					in={expandido === id}
-					timeout='auto'
-					unmountOnExit
-					data-cy={'iniciativa-detalle-' + id}
-				>
-					<Divider />
-					<Stack spacing='12px' marginBottom='8px'>
-						<Box
-							display='flex'
-							alignItems='center'
-							marginTop='8px'
-							data-cy={`iniciativa-estatus-${id}`}
-						>
-							<Typography
-								variant='body3'
-								fontFamily='Open Sans'
-								flex='1'
-								sx={{opacity: 0.5}}
-							>
-								{t('general.estatus')}
-							</Typography>
-							<Box flex='3' data-cy={`iniciativa-estatus-value-${id}`}>
-								<CustomSelect
-									opciones={[
-										t('general.pendiente'),
-										t('general.cancelada'),
-										t('general.ejecutada'),
-									]}
-									opcionSeleccionada={estadoSelect}
-									setOpcion={setEstadoSelect}
-									bloqueado={visitaActual.pasoATomaPedido}
-									dataCy={`iniciativa-estatus-value-${id}`}
+		<>
+			<Modal
+				alerta={alerta}
+				setAlerta={setAlerta}
+				contenidoMensaje={{
+					titulo: 'Existen tarjtas vacias',
+					mensaje:
+						'Si avanzas, las tarjetas que no tienen cantidades se eliminaran.',
+					tituloBotonAceptar: 'Avanzar',
+					callbackAceptar: () => {
+						dispatch(
+							cambiarEstadoIniciativa({
+								estado: 'pendiente',
+								codigoIniciativa: idIniciativaIncompleta ?? 0,
+							})
+						);
+
+						setIniciativaIncompleta(false);
+						setExpandido(cacheId);
+						setAvanza(true);
+					},
+					tituloBotonCancelar: 'Editar Cantidades',
+					callbackCancelar: () =>
+						dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: true})),
+					iconoMensaje: <AvisoIcon />,
+				}}
+			/>
+			<Card
+				className={classes.card}
+				style={{boxShadow: 'none', overflow: 'visible'}}
+				data-cy={'iniciativa-' + id}
+			>
+				<Box>
+					<Box
+						display='flex'
+						flexDirection='column'
+						alignItems='start'
+						padding={expandido === id ? '12px 14px' : '12px 14px 0 14px'}
+						borderRadius='4px 4px 0 0'
+						gap='8px'
+						sx={{
+							background:
+								expandido === id ? theme.palette.secondary.light : 'none',
+							transition: 'background 0.3s ease-in-out',
+						}}
+					>
+						{estadoSelect === 'cancelada' && motivo === '' && (
+							<Box display='flex' justifyContent='flex-end' width='100%'>
+								<Typography
+									color='#fff'
+									fontFamily='Open Sans'
+									padding='2px 12px'
+									sx={{
+										background: theme.palette.primary.light,
+										borderRadius: '50px',
+									}}
+									variant='caption'
+								>
+									{t('general.sinMotivo')}
+								</Typography>
+							</Box>
+						)}
+						{estadoSelect === 'ejecutada' && (
+							<Box display='flex' justifyContent='end' width='100%'>
+								<CheckRedondoIcon height='17.5px' width='17.5px' />
+							</Box>
+						)}
+						{estadoSelect === 'cancelada' && motivo !== '' && (
+							<Box display='flex' justifyContent='end' width='100%'>
+								<CerrarRedondoIcon
+									height='20px'
+									width='20px'
+									fill={
+										expandido === id
+											? theme.palette.primary.light
+											: theme.palette.primary.main
+									}
 								/>
 							</Box>
-						</Box>
-						{estadoSelect === 'cancelada' && (
-							<Box display='flex' alignItems='center' marginTop='8px'>
+						)}
+						<Typography
+							variant='subtitle2'
+							fontSize='12px'
+							data-cy={`iniciativa-titulo-${id}`}
+							color={expandido === id ? '#fff' : '#000'}
+						>
+							{nombreIniciativa}
+						</Typography>
+					</Box>
+					<Collapse
+						in={expandido === id}
+						timeout='auto'
+						unmountOnExit
+						data-cy={'iniciativa-detalle-' + id}
+					>
+						<Divider />
+
+						<Box
+							display='flex'
+							flexDirection='column'
+							gap='12px'
+							marginBottom='8px'
+							padding='0 14px'
+						>
+							<Box
+								display='flex'
+								alignItems='center'
+								marginTop='8px'
+								data-cy={`iniciativa-estatus-${id}`}
+							>
 								<Typography
 									variant='body3'
 									fontFamily='Open Sans'
 									flex='1'
 									sx={{opacity: 0.5}}
 								>
-									{t('general.motivo')}
+									{t('general.estatus')}
 								</Typography>
-								<Box flex='3'>
+								<Box flex='3' data-cy={`iniciativa-estatus-value-${id}`}>
 									<CustomSelect
 										opciones={[
-											'',
-											...motivosCancelacionIniciativas.map(
-												(motivos) => motivos.descripcion
-											),
+											t('general.pendiente'),
+											t('general.cancelada'),
+											t('general.ejecutada'),
 										]}
-										opcionSeleccionada={motivoSelect}
-										setOpcion={setMotivoSelect}
+										opcionSeleccionada={estadoSelect}
+										setOpcion={setEstadoSelect}
 										bloqueado={visitaActual.pasoATomaPedido}
-										border
-										dataCy={`iniciativa-motivo-value-${id}`}
+										dataCy={`iniciativa-estatus-value-${id}`}
 									/>
 								</Box>
 							</Box>
-						)}
-						<Box
-							display='flex'
-							gap='8px'
-							alignItems='center'
-							data-cy={`iniciativa-planDeActividades-${id}`}
-						>
-							<Typography
-								variant='body3'
-								fontFamily='Open Sans'
-								flex='1'
-								sx={{opacity: 0.5}}
+							{estadoSelect === 'cancelada' && (
+								<Box display='flex' alignItems='center'>
+									<Typography
+										variant='body3'
+										fontFamily='Open Sans'
+										flex='1'
+										sx={{opacity: 0.5}}
+									>
+										{t('general.motivo')}
+									</Typography>
+									<Box flex='3'>
+										<CustomSelect
+											opciones={[
+												...motivosCancelacionIniciativas.map(
+													(motivos) => motivos.descripcion
+												),
+											]}
+											opcionSeleccionada={motivoSelect}
+											setOpcion={setMotivoSelect}
+											bloqueado={visitaActual.pasoATomaPedido}
+											border
+											dataCy={`iniciativa-motivo-value-${id}`}
+											placeholder={t('general.motivoCancelacion')}
+										/>
+									</Box>
+								</Box>
+							)}
+							<Box
+								display='flex'
+								gap='8px'
+								alignItems='center'
+								data-cy={`iniciativa-planDeActividades-${id}`}
 							>
-								{t('general.planDeActividades')}
-							</Typography>
-							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
-								{nombreActividadPlan}
-							</Typography>
-						</Box>
-						<Box
-							display='flex'
-							gap='8px'
-							alignItems='center'
-							data-cy={`iniciativa-descripcion-${id}`}
-						>
-							<Typography
-								variant='body3'
-								fontFamily='Open Sans'
-								flex='1'
-								sx={{opacity: 0.5}}
+								<Typography
+									variant='body3'
+									fontFamily='Open Sans'
+									flex='1'
+									sx={{opacity: 0.5}}
+								>
+									{t('general.planDeActividades')}
+								</Typography>
+								<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
+									{nombreActividadPlan}
+								</Typography>
+							</Box>
+							<Box
+								display='flex'
+								gap='8px'
+								alignItems='center'
+								data-cy={`iniciativa-descripcion-${id}`}
 							>
-								{t('general.descripcion')}
-							</Typography>
-							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
-								{descripcionIniciativa}
-							</Typography>
-						</Box>
-						<Box
-							display='flex'
-							gap='8px'
-							alignItems='center'
-							data-cy={`iniciativa-vigencia-${id}`}
-						>
-							<Typography
-								variant='body3'
-								fontFamily='Open Sans'
-								flex='1'
-								sx={{opacity: 0.5}}
-							>
-								{t('general.vigencia')}
-							</Typography>
-							<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
-								{fechaVencimiento}
-							</Typography>
-						</Box>
-						{archivoAdjunto && (
+								<Typography
+									variant='body3'
+									fontFamily='Open Sans'
+									flex='1'
+									sx={{opacity: 0.5}}
+								>
+									{t('general.descripcion')}
+								</Typography>
+								<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
+									{descripcionIniciativa}
+								</Typography>
+							</Box>
 							<Box
 								display='flex'
 								gap='8px'
@@ -562,183 +645,150 @@ const TarjetaIniciativas: React.FC<Props> = ({
 									flex='1'
 									sx={{opacity: 0.5}}
 								>
-									{t('general.archivosAdjuntos')}
+									{t('general.vigencia')}
 								</Typography>
-								<Box alignItems='center' display='flex' flex='3' gap='10px'>
-									<Clip height='12px' width='12px' />
-									<Link
-										variant='subtitle3'
-										color='#000'
-										sx={{textDecoration: 'none'}}
-										fontFamily='Open Sans'
-										component='button'
-										onClick={ ()=>{
-											setMostrarArchivosAdjuntos(true);
-										}}
-									>
-										{archivoAdjunto}
-									</Link>
-								</Box>
-								<VisualizadorPdfs titulo={archivoAdjunto} archivo={archivoAdjunto} open={mostrarArchivosAdjuntos} setOpen={setMostrarArchivosAdjuntos}/>
+								<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
+									{fechaVencimiento}
+								</Typography>
 							</Box>
-							
-						)}
-					</Stack>
-					<Divider />
-					<Box margin='8px 0'>
-						<Box
-							display='flex'
-							alignItems='center'
-							justifyContent='space-between'
-						>
-							<Box display='flex' flexDirection='column'>
-								<Typography
-									variant='subtitle3'
-									data-cy={`iniciativa-material-${id}`}
-								>
-									{producto.codigoProducto}
-								</Typography>
-								<Typography
-									variant='subtitle3'
-									noWrap
-									width='150px'
-									data-cy={`iniciativa-nombreProducto-${id}`}
-								>
-									{producto.nombreProducto}
-								</Typography>
+							{archivoAdjunto && (
 								<Box
 									display='flex'
+									gap='8px'
 									alignItems='center'
-									marginTop='4px'
-									gap='4px'
+									data-cy={`iniciativa-vigencia-${id}`}
 								>
-									<CajaIcon height='18px' width='18px' />
 									<Typography
-										variant='caption'
-										data-cy={`iniciativa-presentacion-${id}`}
+										variant='body3'
+										fontFamily='Open Sans'
+										flex='1'
+										sx={{opacity: 0.5}}
 									>
-										x{producto.presentacion}
+										{t('general.archivosAdjuntos')}
 									</Typography>
-									<Typography
-										variant='subtitle3'
-										data-cy={`iniciativa-precioUnidad-${id}`}
-									>
-										{formatearNumero(producto.precioConImpuestoUnidad, t)}
-									</Typography>
-									<BotellaIcon height='15px' width='15px' />
-									<Typography
-										variant='subtitle3'
-										data-cy={`iniciativa-precioSubunidad-${id}`}
-									>
-										{formatearNumero(producto.precioConImpuestoSubunidad, t)}
-									</Typography>
+									<Box alignItems='center' display='flex' flex='3' gap='10px'>
+										<Clip height='12px' width='12px' />
+										<Link
+											variant='subtitle3'
+											color='#000'
+											sx={{textDecoration: 'none'}}
+											fontFamily='Open Sans'
+											component='button'
+											onClick={() => {
+												setMostrarArchivosAdjuntos(true);
+											}}
+										>
+											{archivoAdjunto}
+										</Link>
+									</Box>
+									<VisualizadorPdfs
+										titulo={archivoAdjunto}
+										archivo={archivoAdjunto}
+										open={mostrarArchivosAdjuntos}
+										setOpen={setMostrarArchivosAdjuntos}
+									/>
 								</Box>
-							</Box>
+							)}
+						</Box>
+						<Divider />
 
+						<Box
+							sx={{
+								outline:
+									visitaActual.seQuedaAEditar.bordeError &&
+									idIniciativaIncompleta === idMaterialIniciativa
+										? `1px solid ${theme.palette.primary.main}`
+										: 'none',
+							}}
+						>
 							<Box
 								display='flex'
 								alignItems='center'
-								justifyContent='center'
-								flexDirection='column'
-								gap='12px'
+								justifyContent='space-between'
 							>
+								<Box
+									display='flex'
+									flexDirection='column'
+									padding='12px 8px 12px 12px'
+								>
+									<Typography
+										variant='subtitle3'
+										data-cy={`iniciativa-material-${idMaterialIniciativa}`}
+									>
+										{producto.codigoProducto}
+									</Typography>
+									<Typography
+										variant='subtitle3'
+										noWrap
+										width='150px'
+										data-cy={`iniciativa-nombreProducto-${idMaterialIniciativa}`}
+									>
+										{producto.nombreProducto}
+									</Typography>
+									<Box
+										display='flex'
+										alignItems='center'
+										marginTop='4px'
+										gap='4px'
+									>
+										<CajaIcon height='18px' width='18px' />
+										<Typography
+											variant='caption'
+											data-cy={`iniciativa-presentacion-${idMaterialIniciativa}`}
+										>
+											x{producto.presentacion}
+										</Typography>
+										<Typography
+											variant='subtitle3'
+											data-cy={`iniciativa-precioUnidad-${idMaterialIniciativa}`}
+										>
+											{formatearNumero(producto.precioConImpuestoUnidad, t)}
+										</Typography>
+										<BotellaIcon
+											height='15px'
+											width='15px'
+											style={{marginLeft: '2px'}}
+										/>
+										<Typography
+											variant='subtitle3'
+											data-cy={`iniciativa-precioSubunidad-${idMaterialIniciativa}`}
+										>
+											{formatearNumero(producto.precioConImpuestoSubunidad, t)}
+										</Typography>
+									</Box>
+								</Box>
+
 								<Box
 									display='flex'
 									alignItems='center'
 									justifyContent='center'
-									gap='4px'
+									flexDirection='column'
+									gap='12px'
+									padding='12px 12px 12px 8px'
+									minWidth='125px'
+									sx={{background: '#F5F0EF'}}
 								>
-									<CajaIcon width='18px' height='18px' />
-									{estadoSelect === 'ejecutada' &&
-										!visitaActual.pasoATomaPedido && (
-											<IconButton
-												size='small'
-												value='-'
-												name='unidades'
-												sx={{padding: 0}}
-												disabled={getValues.unidades <= 0}
-												onClick={handleButtons}
-											>
-												<QuitarRellenoIcon
-													width='18px'
-													height='18px'
-													fill={getValues.unidades <= 0 ? '#D9D9D9' : '#2F000E'}
-												/>
-											</IconButton>
-										)}
-									<Input
-										className={classes.input}
-										inputProps={{
-											style: {textAlign: 'center'},
-											inputMode: 'numeric',
-											className: classes.input,
-										}}
-										disableUnderline
-										name='unidades'
-										value={getValues.unidades}
-										onChange={handleInputChange}
-										disabled={
-											estadoSelect !== 'ejecutada' ||
-											visitaActual.pasoATomaPedido
-										}
-										onKeyPress={handleKeyPress}
-										id='unidades_producto'
-										onClick={() => {
-											setInputFocus('unidades');
-											setFocusId(producto.codigoProducto);
-										}}
-										onFocus={(e) => e.target.select()}
-										inputRef={(input) => {
-											if (
-												inputFocus === 'unidades' &&
-												focusId === producto.codigoProducto
-											) {
-												input?.focus();
-											}
-										}}
-										data-cy={`iniciativa-unidad-venta`}
-									/>
-									{estadoSelect === 'ejecutada' &&
-										!visitaActual.pasoATomaPedido && (
-											<IconButton
-												size='small'
-												name='unidades'
-												value='+'
-												sx={{padding: 0}}
-												onClick={handleButtons}
-											>
-												<AgregarRedondoIcon
-													width='18px'
-													height='18px'
-													fill='#2F000E'
-												/>
-											</IconButton>
-										)}
-								</Box>
-								{producto.esVentaSubunidades && (
 									<Box
 										display='flex'
 										alignItems='center'
 										justifyContent='center'
-										gap='4px'
+										gap='2px'
 									>
-										<BotellaIcon width='18px' height='18px' />
+										<CajaIcon width='18px' height='18px' />
 										{estadoSelect === 'ejecutada' &&
 											!visitaActual.pasoATomaPedido && (
 												<IconButton
 													size='small'
 													value='-'
-													name='subUnidades'
-													sx={{padding: 0}}
-													disabled={getValues.subUnidades <= 0}
+													name='unidades'
+													sx={{marginLeft: '2px', padding: 0}}
+													disabled={getValues.unidades === 0}
 													onClick={handleButtons}
 												>
 													<QuitarRellenoIcon
 														width='18px'
 														height='18px'
-														fill={
-															getValues.subUnidades <= 0 ? '#D9D9D9' : '#2F000E'
-														}
+														disabled={getValues.unidades === 0}
 													/>
 												</IconButton>
 											)}
@@ -750,97 +800,190 @@ const TarjetaIniciativas: React.FC<Props> = ({
 												className: classes.input,
 											}}
 											disableUnderline
-											name='subUnidades'
-											value={getValues.subUnidades}
+											name='unidades'
+											value={getValues.unidades}
 											onChange={handleInputChange}
 											disabled={
 												estadoSelect !== 'ejecutada' ||
 												visitaActual.pasoATomaPedido
 											}
-											id='subUnidades_producto'
+											onKeyPress={handleKeyPress}
+											id='unidades_producto'
 											onClick={() => {
-												setInputFocus('subUnidades');
+												setInputFocus('unidades');
 												setFocusId(producto.codigoProducto);
 											}}
 											onFocus={(e) => e.target.select()}
-											onBlur={validacionSubUnidades}
-											onKeyPress={handleKeyPress}
 											inputRef={(input) => {
 												if (
-													inputFocus === 'subUnidades' &&
+													inputFocus === 'unidades' &&
 													focusId === producto.codigoProducto
 												) {
 													input?.focus();
 												}
 											}}
-											data-cy={`iniciativa-subUnidad-venta`}
+											data-cy={`iniciativa-unidad-venta`}
 										/>
 										{estadoSelect === 'ejecutada' &&
 											!visitaActual.pasoATomaPedido && (
 												<IconButton
 													size='small'
-													name='subUnidades'
+													name='unidades'
 													value='+'
 													sx={{padding: 0}}
 													onClick={handleButtons}
 													disabled={
-														getValues.subUnidades >=
-														producto.presentacion -
-															producto.subunidadesVentaMinima
+														producto.unidadesDisponibles
+															? getValues.unidades >=
+															  producto.unidadesDisponibles
+																? true
+																: false
+															: getValues.unidades >=
+															  configuracionPedido?.cantidadMaximaUnidades
+															? true
+															: false
 													}
 												>
 													<AgregarRedondoIcon
 														width='18px'
 														height='18px'
-														fill={
-															getValues.subUnidades >=
-															producto.presentacion -
-																producto.subunidadesVentaMinima
-																? '#D9D9D9'
-																: '#2F000E'
+														disabled={
+															producto.unidadesDisponibles
+																? getValues.unidades >=
+																  producto.unidadesDisponibles
+																	? true
+																	: false
+																: getValues.unidades >=
+																  configuracionPedido?.cantidadMaximaUnidades
+																? true
+																: false
 														}
 													/>
 												</IconButton>
 											)}
 									</Box>
-								)}
-							</Box>
-						</Box>
-					</Box>
-					<Divider />
-				</Collapse>
-				<Box marginTop='8px'>
-					<ButtonStyled
-						disableFocusRipple
-						fullWidth
-						disableRipple
-						onClick={manejadorExpandido({
-							id: expandido === id ? false : id,
-						})}
-						data-cy={'ver-detalle-iniciativa-' + id}
-					>
-						<CardActions disableSpacing style={{padding: 0}}>
-							<Box display='flex' gap='6px' alignItems='center'>
-								<Typography variant='caption' color='secondary'>
-									{expandido === id
-										? t('general.ocultarDetalle')
-										: t('general.verDetalle')}
-								</Typography>
-								<Box
-									className={clsx(classes.expand, {
-										[classes.expandOpen]: expandido === id ? true : false,
-									})}
-									aria-expanded={expandido === id ? true : false}
-									style={{padding: 0}}
-								>
-									<FlechaAbajoIcon width='10px' height='10px' />
+									{producto.esVentaSubunidades && (
+										<Box
+											display='flex'
+											alignItems='center'
+											justifyContent='center'
+											gap='2px'
+										>
+											<BotellaIcon width='18px' height='18px' />
+											{estadoSelect === 'ejecutada' &&
+												!visitaActual.pasoATomaPedido && (
+													<IconButton
+														size='small'
+														value='-'
+														name='subUnidades'
+														sx={{marginLeft: '2px', padding: 0}}
+														disabled={getValues.subUnidades === 0}
+														onClick={handleButtons}
+													>
+														<QuitarRellenoIcon
+															width='18px'
+															height='18px'
+															disabled={getValues.subUnidades === 0}
+														/>
+													</IconButton>
+												)}
+											<Input
+												className={classes.input}
+												inputProps={{
+													style: {textAlign: 'center'},
+													inputMode: 'numeric',
+													className: classes.input,
+												}}
+												disableUnderline
+												name='subUnidades'
+												value={getValues.subUnidades}
+												onChange={handleInputChange}
+												disabled={
+													estadoSelect !== 'ejecutada' ||
+													visitaActual.pasoATomaPedido
+												}
+												id='subUnidades_producto'
+												onClick={() => {
+													setInputFocus('subUnidades');
+													setFocusId(producto.codigoProducto);
+												}}
+												onFocus={(e) => e.target.select()}
+												onBlur={validacionSubUnidades}
+												onKeyPress={handleKeyPress}
+												inputRef={(input) => {
+													if (
+														inputFocus === 'subUnidades' &&
+														focusId === producto.codigoProducto
+													) {
+														input?.focus();
+													}
+												}}
+												data-cy={`iniciativa-subUnidad-venta`}
+											/>
+											{estadoSelect === 'ejecutada' &&
+												!visitaActual.pasoATomaPedido && (
+													<IconButton
+														size='small'
+														name='subUnidades'
+														value='+'
+														sx={{padding: 0}}
+														onClick={handleButtons}
+														disabled={
+															getValues.subUnidades >=
+															producto.presentacion -
+																producto.subunidadesVentaMinima
+														}
+													>
+														<AgregarRedondoIcon
+															width='18px'
+															height='18px'
+															disabled={
+																getValues.subUnidades >=
+																producto.presentacion -
+																	producto.subunidadesVentaMinima
+															}
+														/>
+													</IconButton>
+												)}
+										</Box>
+									)}
 								</Box>
 							</Box>
-						</CardActions>
-					</ButtonStyled>
+						</Box>
+
+						<Divider />
+					</Collapse>
+					<Box padding={expandido === id ? '12px 14px' : '8px 14px 12px 14px'}>
+						<ButtonStyled
+							disableFocusRipple
+							fullWidth
+							disableRipple
+							onClick={() => manejadorExpandido(expandido === id ? false : id)}
+							data-cy={'ver-detalle-iniciativa-' + id}
+						>
+							<CardActions disableSpacing style={{padding: 0}}>
+								<Box display='flex' gap='6px' alignItems='center'>
+									<Typography variant='caption' color='secondary'>
+										{expandido === id
+											? t('general.ocultarDetalle')
+											: t('general.verDetalle')}
+									</Typography>
+									<Box
+										className={clsx(classes.expand, {
+											[classes.expandOpen]: expandido === id,
+										})}
+										aria-expanded={expandido === id}
+										style={{padding: 0}}
+									>
+										<FlechaAbajoIcon width='10px' height='10px' />
+									</Box>
+								</Box>
+							</CardActions>
+						</ButtonStyled>
+					</Box>
 				</Box>
-			</Box>
-		</Card>
+			</Card>
+		</>
 	);
 };
 

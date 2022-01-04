@@ -52,6 +52,7 @@
 				"limite": 3000,
 				"disponible": 10000,
 				"esCreditoBloqueado": false,
+				"esBloqueadoVenta": false,
 				"documentos": [
 					{
 						"numero": "12123456789",
@@ -353,6 +354,7 @@
 				"limite": 3000,
 				"disponible": 10000,
 				"esCreditoBloqueado": false,
+				"esBloqueadoVenta": false,
 				"documentos": [
 					{
 						"numero": "12123456789",
@@ -503,6 +505,7 @@
 				"limite": 3000,
 				"disponible": 10000,
 				"esCreditoBloqueado": false,
+				"esBloqueadoVenta": false,
 				"documentos": [
 					{
 						"numero": "12123456789",
@@ -875,6 +878,7 @@
 				"limite": 3000,
 				"disponible": 10000,
 				"esCreditoBloqueado": false,
+				"esBloqueadoVenta": false,
 				"documentos": [
 					{
 						"numero": "12123456789",
@@ -1294,19 +1298,40 @@
 				{
 					"grupoCobertura": "Grupo Colas",
 					"secuenciaGrupoCobertura": 1,
-					"productosGrupoCobertura": [360, 380, 420]
+					"productosGrupoCobertura": [360]
 				},
 				{
 					"grupoCobertura": "Grupo Aguas",
 					"secuenciaGrupoCobertura": 2,
 					"productosGrupoCobertura": [400]
+				},
+				{
+					"grupoCobertura": "Grupo 3",
+					"secuenciaGrupoCobertura": 4,
+					"productosGrupoCobertura": [380]
+				},
+				{
+					"grupoCobertura": "Grupo 4",
+					"secuenciaGrupoCobertura": 6,
+					"productosGrupoCobertura": [420]
+				},
+				{
+					"grupoCobertura": "Grupo 5",
+					"secuenciaGrupoCobertura": 5,
+					"productosGrupoCobertura": [340]
+				},
+				{
+					"grupoCobertura": "Grupo 6",
+					"secuenciaGrupoCobertura": 3,
+					"productosGrupoCobertura": [390]
 				}
 			],
 			"informacionCrediticia": {
 				"condicion": "creditoInformal",
 				"limite": 20000,
-				"disponible": 10000,
+				"disponible": 1050,
 				"esCreditoBloqueado": false,
+				"esBloqueadoVenta": false,
 				"documentos": [
 					{
 						"numero": "12123456789",

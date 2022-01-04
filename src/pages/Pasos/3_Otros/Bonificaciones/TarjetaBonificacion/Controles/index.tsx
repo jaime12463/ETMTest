@@ -35,6 +35,7 @@ interface Props {
 	actualizarContador: (cantidad: number) => void;
 	errorAplicacionTotal: boolean;
 	statefocusId: any;
+	statePrimerProductoAgregado: any;
 }
 
 const Controles: React.FC<Props> = ({
@@ -51,6 +52,7 @@ const Controles: React.FC<Props> = ({
 	actualizarContador,
 	errorAplicacionTotal,
 	statefocusId,
+	statePrimerProductoAgregado,
 }) => {
 	const classes = useEstilos({errorAplicacionTotal});
 	const visitaActual = useObtenerVisitaActual();
@@ -58,6 +60,8 @@ const Controles: React.FC<Props> = ({
 	const mostrarAviso = useMostrarAviso();
 	const {focusId, setFocusId} = statefocusId;
 
+	const {primerProductoAgregado, setPrimerProductoAgregado} =
+		statePrimerProductoAgregado;
 	const bonificacionEjecutada = visitaActual.bonificaciones.find(
 		(bonificacion) => {
 			if (bonificacion.idBonificacion === idBonificacion) {
@@ -117,7 +121,6 @@ const Controles: React.FC<Props> = ({
 				setPuedeAgregar(false);
 				return;
 			}
-
 			dispatch(
 				agregarBonificacion({
 					idBonificacion,
@@ -227,6 +230,7 @@ const Controles: React.FC<Props> = ({
 				if (prevCantidad > 0) return prevCantidad - 1;
 				return 0;
 			});
+			setFocusId(producto.codigoProducto);
 			setPuedeAgregar(true);
 		}
 
@@ -237,6 +241,7 @@ const Controles: React.FC<Props> = ({
 					? estadoInicial
 					: prevCantidad + 1;
 			});
+			setFocusId(producto.codigoProducto);
 			setPuedeAgregar(true);
 		}
 	};
@@ -269,7 +274,7 @@ const Controles: React.FC<Props> = ({
 						<BotellaIcon height='18px' width='18px' />
 					)}
 					<IconButton
-						sx={{padding: 0}}
+						sx={{marginLeft: '2px', padding: 0}}
 						name='-'
 						onClick={handleButtons}
 						disabled={cantidad === 0}
@@ -277,7 +282,7 @@ const Controles: React.FC<Props> = ({
 						<QuitarRellenoIcon
 							height='18px'
 							width='18px'
-							fill={cantidad === 0 ? '#D9D9D9' : theme.palette.secondary.dark}
+							disabled={cantidad === 0}
 						/>
 					</IconButton>
 					<Input
@@ -292,15 +297,11 @@ const Controles: React.FC<Props> = ({
 						onKeyDown={handleKeyPress}
 						onFocus={(e) => {
 							e.target.select();
+							setFocusId(producto.codigoProducto);
 						}}
 						inputProps={{
 							style: {textAlign: 'center'},
 							inputMode: 'numeric',
-						}}
-						inputRef={(input) => {
-							if (focusId === producto.codigoProducto) {
-								input?.focus();
-							}
 						}}
 					/>
 					<IconButton
@@ -313,7 +314,7 @@ const Controles: React.FC<Props> = ({
 						<AgregarRedondoIcon
 							width='18px'
 							height='18px'
-							fill={contador === 0 ? '#D9D9D9' : theme.palette.secondary.dark}
+							disabled={contador === 0}
 						/>
 					</IconButton>
 				</Box>

@@ -31,10 +31,18 @@ const BotonResumenPedido: React.FC<Props> = ({setOpen}) => {
 
 	React.useEffect(() => {
 		if (
-			venta?.productos?.length > 0 ||
-			prestamoenvase?.productos?.length > 0 ||
-			ventaenvase?.productos?.length > 0 ||
-			canje?.productos?.length > 0 ||
+			venta?.productos?.some(
+				(producto) => producto.unidades > 0 || producto.subUnidades > 0
+			) ||
+			prestamoenvase?.productos?.some(
+				(producto) => producto.unidades > 0 || producto.subUnidades > 0
+			) ||
+			ventaenvase?.productos?.some(
+				(producto) => producto.unidades > 0 || producto.subUnidades > 0
+			) ||
+			canje?.productos?.some(
+				(producto) => producto.unidades > 0 || producto.subUnidades > 0
+			) ||
 			bonificacionesEjecutadas?.length > 0 ||
 			ordenDeCompra ||
 			compromisoDeCobro.monto > 0

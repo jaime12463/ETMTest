@@ -18,7 +18,7 @@ const useEstilos = makeStyles(() =>
 			position: 'fixed',
 			top: 0,
 			width: '100%',
-			zIndex: 1,
+			zIndex: 9999,
 		},
 		card: {
 			background: '#fff',

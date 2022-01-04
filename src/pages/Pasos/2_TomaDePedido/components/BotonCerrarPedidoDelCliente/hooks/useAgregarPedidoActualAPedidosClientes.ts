@@ -16,6 +16,7 @@ import {
 	guardarCompromisoDecobroCliente,
 	agregarIniciativasAlCliente,
 	agregarBonificacionesAlCliente,
+	agregarCoberturasCumplidasAlCliente,
 } from 'redux/features/pedidosClientes/pedidosClientesSlice';
 
 import {limpiarCompromisoDeCobroActual} from 'redux/features/compromisoDeCobro/compromisoDeCobroSlice';
@@ -48,6 +49,7 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			esValido,
 			propsAdvertencia,
 			iniciativasVerificadas,
+			coberturasCumplidas,
 		}: TRetornoValidacion = validarCierreDeVisita();
 
 		if (!esValido && propsAdvertencia) {
@@ -61,6 +63,8 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			);
 			return;
 		}
+
+		console.log(coberturasCumplidas);
 
 		const pedidosSeparadosCreditoContadoArray: TPedidoClienteParaEnviar[] =
 			separarPedidosCreditoContado(pedidosArray);
@@ -83,6 +87,13 @@ export const useAgregarPedidoActualAPedidosClientes = (
 		dispatch(
 			agregarBonificacionesAlCliente({
 				bonificaciones: visitaActual.bonificaciones,
+				clienteActual,
+			})
+		);
+
+		dispatch(
+			agregarCoberturasCumplidasAlCliente({
+				coberturasCumplidas,
 				clienteActual,
 			})
 		);

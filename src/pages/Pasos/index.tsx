@@ -14,6 +14,8 @@ import {
 	useValidarPasos,
 	useReiniciarClienteActual,
 	useMostrarAviso,
+	useObtenerCreditoDisponible,
+	useObtenerDatosCliente,
 } from 'hooks';
 import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
 import {Configuracion} from 'components/UI/Modal';
@@ -26,7 +28,7 @@ import {
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 
-import {TClienteActual} from 'models';
+import {TCliente, TClienteActual} from 'models';
 import {useTranslation} from 'react-i18next';
 import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
 import {AvisoIcon, PromocionesRellenoIcon} from 'assests/iconos';
@@ -53,12 +55,16 @@ const Pasos: React.FC = () => {
 	);
 	const dispatch = useAppDispatch();
 	const history = useHistory();
-	const {razonSocial}: TClienteActual = useObtenerClienteActual();
+	const {razonSocial, codigoCliente}: TClienteActual =
+		useObtenerClienteActual();
 	const mostrarAviso = useMostrarAviso();
+	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const ObtenerPedidosValorizados = useObtenerPedidosValorizados();
 	const itemsValorizados = ObtenerPedidosValorizados();
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
+
 	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
+	const datosCliente: TCliente | undefined = obtenerDatosCliente(codigoCliente);
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
 	const agregarPedidoActualAPedidosClientes =
@@ -127,6 +133,7 @@ const Pasos: React.FC = () => {
 					'advertenciaPaso1'
 				);
 			}
+
 			setPasoActual(pasoActual - 1);
 		}
 	};
@@ -148,8 +155,30 @@ const Pasos: React.FC = () => {
 				dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
 			}
 		}
+
 		if (pasoActual < controlador.length - 1) {
 			if (!valido.contenidoMensajeAviso) {
+				if (pasoActual === 0 || pasoActual === 1) {
+					mostrarAviso(
+						'success',
+						'Cambios guardados con exitosamente',
+						undefined,
+						undefined,
+						'successpaso2'
+					);
+				}
+				if (pasoActual === 1) {
+					if (datosCliente?.informacionCrediticia.esBloqueadoVenta) {
+						mostrarAviso(
+							'warning',
+							'Cliente bloqueado para venta',
+							'Unicamente puedes generar un compromiso de cobro para este cliente.',
+							undefined,
+							'bloqueadoParaVenta'
+						);
+					}
+				}
+
 				setPasoActual(pasoActual + 1);
 			}
 		} else {
@@ -161,7 +190,7 @@ const Pasos: React.FC = () => {
 		<>
 			{pasoActual === 0 && (
 				<Button onClick={() => handleOpenVistaPromoPush()}>
-					<PromocionesRellenoIcon fill='white' />
+					<PromocionesRellenoIcon />
 				</Button>
 			)}
 		</>

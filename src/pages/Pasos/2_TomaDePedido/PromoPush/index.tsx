@@ -13,6 +13,7 @@ import {useMostrarAdvertenciaEnDialogo, useBorrarTodoLosProductos} from 'hooks';
 import {TProductoPedido} from 'models';
 import {useTranslation} from 'react-i18next';
 import Modal from 'components/UI/Modal';
+import theme from 'theme';
 
 interface BotonProps {
 	push: boolean;
@@ -107,7 +108,11 @@ const PromoPush: React.FC = () => {
 						>
 							<ReiniciarIcon width='10px' height='10px' />
 
-							<Typography fontFamily='Open Sans' variant='caption'>
+							<Typography
+								fontFamily='Open Sans'
+								variant='caption'
+								color={theme.palette.secondary.main}
+							>
 								{t('general.restablecerCero')}
 							</Typography>
 						</Stack>

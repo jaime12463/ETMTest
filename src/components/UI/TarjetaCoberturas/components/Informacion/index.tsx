@@ -11,6 +11,7 @@ interface Props {
 	presentacion: number;
 	precioConImpuestoUnidad: number;
 	precioConImpuestoSubunidad: number;
+	esVentaSubunidades: boolean;
 }
 
 const Informacion: React.FC<Props> = ({
@@ -19,6 +20,7 @@ const Informacion: React.FC<Props> = ({
 	presentacion,
 	precioConImpuestoSubunidad,
 	precioConImpuestoUnidad,
+	esVentaSubunidades,
 }) => {
 	const {t} = useTranslation();
 
@@ -46,12 +48,14 @@ const Informacion: React.FC<Props> = ({
 						{formatearNumero(precioConImpuestoUnidad, t)}
 					</Typography>
 				</Box>
-				<Box display='flex' alignItems='center' gap='4px'>
-					<BotellaIcon height='14px' width='14px' />
-					<Typography variant='subtitle3' fontFamily='Open Sans'>
-						{formatearNumero(precioConImpuestoSubunidad, t)}
-					</Typography>
-				</Box>
+				{esVentaSubunidades && (
+					<Box display='flex' alignItems='center' gap='4px'>
+						<BotellaIcon height='14px' width='14px' />
+						<Typography variant='subtitle3' fontFamily='Open Sans'>
+							{formatearNumero(precioConImpuestoSubunidad, t)}
+						</Typography>
+					</Box>
+				)}
 			</Box>
 		</Box>
 	);

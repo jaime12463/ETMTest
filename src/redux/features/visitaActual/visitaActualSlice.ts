@@ -78,6 +78,14 @@ export const visitaActualSlice = createSlice({
 			}
 		},
 
+		limpiarProductosSinCantidad: (state) => {
+			if (state.pedidos.venta) {
+				state.pedidos.venta.productos = state.pedidos.venta.productos.filter(
+					(producto) => producto.unidades > 0 || producto.subUnidades > 0
+				);
+			}
+		},
+
 		agregarEnvaseDelPedidoActual: (
 			state,
 			action: PayloadAction<{
@@ -479,5 +487,6 @@ export const {
 	eliminarBonificacionesGrupo,
 	restablecerBonificaciones,
 	borrarEnvases,
+	limpiarProductosSinCantidad,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

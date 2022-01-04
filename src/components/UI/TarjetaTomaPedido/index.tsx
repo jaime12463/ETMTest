@@ -1,22 +1,18 @@
 import React from 'react';
-import {
-	TInfoDescuentos,
-	TPrecioProducto,
-	TProductoPedido,
-	TStateInputFocus,
-} from 'models';
+import {TInfoDescuentos, TProductoPedido, TStateInputFocus} from 'models';
 import Box from '@mui/material/Box';
-import {CheckRedondoIcon} from 'assests/iconos';
-import {useTranslation} from 'react-i18next';
 import theme from 'theme';
-import {SwitchCambiarTipoPago} from 'pages/Pasos/2_TomaDePedido/components';
 import Controles from './components/Controles';
 import Informacion from './components/Informacion';
 import Descuentos from './components/Descuentos';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import SwitchYCheck from './components/SwitchYCheck';
-import {useObtenerCalculoDescuentoProducto} from 'hooks';
-import Modal from '../Modal';
+import {useTranslation} from 'react-i18next';
+import {
+	useObtenerCalculoDescuentoProducto,
+	useObtenerDatosCliente,
+	useMostrarAviso,
+} from 'hooks';
 
 export interface StateFocusID {
 	focusId: number;
@@ -40,8 +36,14 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	stateAviso,
 }) => {
 	const clienteActual = useObtenerClienteActual();
+	const [productoAgregado, setProductoAgregado] = React.useState<boolean>(true);
+	const {focusId, setFocusId} = stateFocusId;
 	const visitaActual = useObtenerVisitaActual();
+	const mostrarAviso = useMostrarAviso();
+	const {t} = useTranslation();
 	const {setAlerta, setConfigAlerta} = stateAviso;
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+	const {configuracionPedido}: any = datosCliente;
 	const {venta} = visitaActual.pedidos;
 	const productoEnVenta = venta.productos.find(
 		(p) => producto.codigoProducto === p.codigoProducto
@@ -72,12 +74,40 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 		inputPolarizado: productoAMandar.descuento?.inputPolarizado ?? 0,
 	});
 
+	React.useEffect(() => {
+		if (
+			focusId === producto.codigoProducto &&
+			producto.unidades === 0 &&
+			producto.subUnidades === 0
+		) {
+			return setProductoAgregado(false);
+		} else {
+			return setProductoAgregado(true);
+		}
+	}, [focusId]);
+
 	const obtenerCalculoDescuentoProducto =
 		useObtenerCalculoDescuentoProducto(producto);
 
 	React.useEffect(() => {
 		if (productoEnVenta) {
+			if (
+				productoEnVenta.unidades > configuracionPedido.cantidadMaximaUnidades
+			) {
+				return setColorBorde(theme.palette.primary.main);
+			}
+
 			if (productoEnVenta?.unidades > 0 || productoEnVenta?.subUnidades > 0) {
+				if (!productoAgregado) {
+					mostrarAviso(
+						'success',
+						t('avisos.productoAgregado'),
+						undefined,
+						undefined,
+						'ProductoAgreado'
+					);
+					setProductoAgregado(true);
+				}
 				return setColorBorde(theme.palette.success.main);
 			}
 
@@ -86,11 +116,13 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 				productoEnVenta?.subUnidades === 0 &&
 				visitaActual.seQuedaAEditar.bordeError
 			) {
+				setProductoAgregado(false);
 				return setColorBorde(theme.palette.primary.main);
 			}
 		}
 
 		setColorBorde('#D9D9D9');
+		setProductoAgregado(false);
 	}, [productoEnVenta, visitaActual.seQuedaAEditar.bordeError]);
 
 	return (
@@ -107,6 +139,9 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 				<Informacion
 					producto={productoEnVenta ?? productoAMandar}
 					conSwitch={conSwitch}
+					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+					stateAviso={{setAlerta, setConfigAlerta}}
+					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 				/>
 				<Controles
 					producto={productoEnVenta ?? productoAMandar}
@@ -123,7 +158,6 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 				producto={productoEnVenta ?? productoAMandar}
 				stateInputFocus={stateInputFocus}
 				stateFocusId={stateFocusId}
-				stateAviso={{setAlerta, setConfigAlerta}}
 			/>
 		</Box>
 	);

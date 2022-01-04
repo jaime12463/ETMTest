@@ -8,11 +8,13 @@ import {
 import {agregarCompromisoDeCobro} from 'redux/features/compromisoDeCobro/compromisoDeCobroSlice';
 import {useValidarAgregarCompromisoDeCobro} from './index';
 import {v4 as uuidv4} from 'uuid';
+import {useMostrarAviso} from 'hooks';
 
 export const useAgregarCompromisoDeCobro = (
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
 ) => {
 	const dispatch = useAppDispatch();
+	const mostrarAviso = useMostrarAviso();
 	const pedidoActual = useObtenerPedidoActual();
 	const {fechaEntrega} = pedidoActual;
 
@@ -28,12 +30,18 @@ export const useAgregarCompromisoDeCobro = (
 	const agregandoCompromisoDeCobro = useCallback(
 		({monto}: TInputsCompromisoDeCobro) => {
 			const montoParseado: number = monto !== '' ? parseInt(monto) : 0;
-			const {
-				esValidoAgregarCompromisoDeCobro,
-			} = ValidarAgregarCompromisoDeCobro(montoParseado);
+			const {esValidoAgregarCompromisoDeCobro} =
+				ValidarAgregarCompromisoDeCobro(montoParseado);
 
 			if (!esValidoAgregarCompromisoDeCobro) return;
-
+			mostrarAviso(
+				//TODOO IDIOMA
+				'success',
+				'Compromiso de cobro agregado correctamente',
+				undefined,
+				undefined,
+				'bonificacionAgregada'
+			);
 			dispatch(
 				agregarCompromisoDeCobro({
 					id: uuidv4(),

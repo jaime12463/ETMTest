@@ -1,5 +1,4 @@
-import React, {useEffect} from 'react';
-import {styled} from '@mui/material/styles';
+import React from 'react';
 import Input from '@mui/material/Input';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -11,8 +10,6 @@ import {
 } from 'assests/iconos';
 import {
 	TClienteActual,
-	TInfoDescuentos,
-	TPrecioProducto,
 	TProductoPedido,
 	TStateInfoDescuentos,
 	TStateInputFocus,
@@ -27,18 +24,6 @@ import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks
 import {useTranslation} from 'react-i18next';
 import {StateFocusID} from '../..';
 import useEstilos from './useEstilos';
-
-const InputStyled = styled(Input)(({}) => ({
-	backgroundColor: 'white',
-	border: '1px solid #2F000E',
-	borderRadius: '10px',
-	fontSize: '12px',
-	fontWeight: 600,
-	height: '16px',
-	lineHeight: '16px',
-	padding: '0 2px',
-	width: '42px',
-}));
 
 interface Props {
 	producto: TProductoPedido;
@@ -57,8 +42,9 @@ const Controles: React.FC<Props> = ({
 }) => {
 	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
 	const visitaActual = useObtenerVisitaActual();
-	const {infoDescuento, setInfoDescuento} = stateInfoDescuento;
+	const {infoDescuento} = stateInfoDescuento;
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
+
 	const defaultValue = {
 		unidades: producto.unidades,
 		subUnidades: producto.subUnidades,
@@ -73,8 +59,6 @@ const Controles: React.FC<Props> = ({
 
 	const {inputFocus, setInputFocus} = stateInputFocus;
 
-	const [mostrarAcciones, setMostrarAcciones] = React.useState<boolean>(false);
-
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {configuracionPedido}: any = datosCliente;
@@ -88,10 +72,13 @@ const Controles: React.FC<Props> = ({
 	);
 	const {t} = useTranslation();
 	const mostrarAviso = useMostrarAviso();
+
 	const classes = useEstilos({
 		bordeError: visitaActual.seQuedaAEditar.bordeError,
 		unidades: getValues.unidades,
 		subUnidades: getValues.subUnidades,
+		producto,
+		cantidadMaximaConfig: configuracionPedido.cantidadMaximaUnidades,
 	});
 
 	React.useEffect(() => {
@@ -117,18 +104,9 @@ const Controles: React.FC<Props> = ({
 	React.useEffect(() => {
 		if (puedeAgregar) {
 			agregarProductoAlPedidoActual(getValues, obtenerCalculoDescuentoProducto);
-
 			setPuedeAgregar(false);
 		}
 	}, [puedeAgregar]);
-
-	React.useEffect(() => {
-		if (getValues.unidades > 0 || getValues.subUnidades > 0) {
-			setMostrarAcciones(true);
-		}
-
-		return () => setMostrarAcciones(false);
-	}, [getValues.unidades, getValues.subUnidades]);
 
 	const validacionSubUnidades = () => {
 		if (
@@ -223,26 +201,26 @@ const Controles: React.FC<Props> = ({
 			display='flex'
 			flexDirection='column'
 			alignItems='center'
-			justifyContent='center'
+			justifyContent='start'
 			width='125px'
-			gap='10px'
+			gap='12px'
 			padding='12px 0 16px 0'
 			sx={{background: '#F5F0EF'}}
 		>
-			<Box display='flex' alignItems='center' justifyContent='center' gap='4px'>
+			<Box display='flex' alignItems='center' justifyContent='center' gap='2px'>
 				<CajaIcon height='18px' width='18px' />
 				<IconButton
-					sx={{padding: '0'}}
+					sx={{marginLeft: '2px', padding: '0'}}
 					size='small'
 					value='-'
 					name='unidades'
 					onClick={handleButtons}
-					disabled={producto.unidades > 0 ? false : true}
+					disabled={producto.unidades === 0}
 				>
 					<QuitarRellenoIcon
 						width='18px'
 						height='18px'
-						fill={producto.unidades > 0 ? '#2F000E' : '#D9D9D9'}
+						disabled={producto.unidades === 0}
 					/>
 				</IconButton>
 				<Input
@@ -291,15 +269,15 @@ const Controles: React.FC<Props> = ({
 					<AgregarRedondoIcon
 						width='18px'
 						height='18px'
-						fill={
+						disabled={
 							producto.unidadesDisponibles
 								? producto.unidades >= producto.unidadesDisponibles
-									? '#D9D9D9'
-									: '#2F000E'
+									? true
+									: false
 								: producto.unidades >=
 								  configuracionPedido?.cantidadMaximaUnidades
-								? '#D9D9D9'
-								: '#2F000E'
+								? true
+								: false
 						}
 					/>
 				</IconButton>
@@ -310,21 +288,21 @@ const Controles: React.FC<Props> = ({
 						display='flex'
 						alignItems='center'
 						justifyContent='center'
-						gap='4px'
+						gap='2px'
 					>
 						<BotellaIcon width='18px' height='18px' />
 						<IconButton
-							sx={{padding: '0'}}
+							sx={{marginLeft: '2px', padding: '0'}}
 							size='small'
 							value='-'
 							name='subUnidades'
 							onClick={handleButtons}
-							disabled={getValues.subUnidades > 0 ? false : true}
+							disabled={getValues.subUnidades === 0}
 						>
 							<QuitarRellenoIcon
 								width='18px'
 								height='18px'
-								fill={getValues.subUnidades > 0 ? '#2F000E' : '#D9D9D9'}
+								disabled={getValues.subUnidades === 0}
 							/>
 						</IconButton>
 						<Input
@@ -369,11 +347,9 @@ const Controles: React.FC<Props> = ({
 							<AgregarRedondoIcon
 								width='18px'
 								height='18px'
-								fill={
+								disabled={
 									getValues.subUnidades >=
 									producto.presentacion - producto.subunidadesVentaMinima
-										? '#D9D9D9'
-										: '#2F000E'
 								}
 							/>
 						</IconButton>

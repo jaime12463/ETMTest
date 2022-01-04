@@ -1,15 +1,12 @@
-import {Fragment} from 'react';
 import {styled} from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import {useHistory} from 'react-router-dom';
-import Logo from 'assests/images/logo.svg';
+import {ReactComponent as Logo} from 'assests/images/logo.svg';
 import {Grid, Stack, Box} from '@mui/material';
 import {RetrocederIcon} from 'assests/iconos';
-import {useResetVisitaActual} from 'hooks';
-import LogoRecortado from 'assests/images/logo-recorte.svg';
+import theme from 'theme';
 
 const StyledToolbar = styled(Toolbar)(({theme}) => ({
 	alignItems: 'flex-start',
@@ -20,7 +17,6 @@ const StyledToolbar = styled(Toolbar)(({theme}) => ({
 interface Props {
 	acciones?: JSX.Element;
 	esConFechaHaciaAtras?: boolean;
-	resetearCliente?: boolean;
 	titulo?: string;
 	onClick?: Function;
 }
@@ -29,24 +25,11 @@ const Encabezado: React.FC<Props> = ({
 	children,
 	esConFechaHaciaAtras,
 	acciones,
-	resetearCliente,
 	titulo,
 	onClick,
 }) => {
-	const history = useHistory();
-
-	const resetCliente = useResetVisitaActual();
-
-	const irAtras = () => {
-		if (resetearCliente) {
-			resetCliente();
-		}
-
-		history.goBack();
-	};
-
 	return (
-		<AppBar position='static' elevation={0}>
+		<AppBar position='relative' elevation={0}>
 			<StyledToolbar>
 				<Grid container alignItems='flex-end' flexWrap='nowrap'>
 					<Grid item>
@@ -57,36 +40,20 @@ const Encabezado: React.FC<Props> = ({
 									onClick={() => (onClick ? onClick() : null)}
 									data-cy='boton-atras'
 								>
-									<RetrocederIcon style={{color: 'white'}} />
+									<RetrocederIcon />
 								</IconButton>
 							)}
 						</Stack>
 					</Grid>
-					<Grid item>
-						<Stack direction='row' spacing={2}>
-							<Box ml={1}>
-								{titulo ? (
-									titulo?.length > 20 ? (
-										<img src={Logo} alt='logo'></img>
-									) : (
-										<img src={LogoRecortado} alt='logo'></img>
-									)
-								) : (
-									<img src={Logo} alt='logo'></img>
-								)}
-							</Box>
-							<Stack
-								direction='column'
-								justifyContent='flex-end'
-								alignItems='flex-start'
-								spacing={1}
-							>
-								<Typography noWrap style={{fontWeight: 'bold'}}>
-									{titulo ?? children}
-								</Typography>
-							</Stack>
-						</Stack>
-					</Grid>
+					<Box alignItems='end' display='flex' gap='16px'>
+						<Box position='relative'>
+							<Logo />
+						</Box>
+
+						<Typography noWrap style={{fontWeight: 'bold'}}>
+							{titulo ?? children}
+						</Typography>
+					</Box>
 					<Grid
 						item
 						display='flex'
@@ -97,6 +64,13 @@ const Encabezado: React.FC<Props> = ({
 					</Grid>
 				</Grid>
 			</StyledToolbar>
+			<Box
+				position='absolute'
+				borderRadius='50%'
+				height='8px'
+				width='120%'
+				sx={{top: '72px', left: '-10%', background: theme.palette.primary.main}}
+			/>
 		</AppBar>
 	);
 };

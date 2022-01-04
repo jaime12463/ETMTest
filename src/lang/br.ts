@@ -46,7 +46,7 @@ const br = {
 		vencimiento: 'expiração',
 		deudaPendiente: 'Dívida pendente',
 		compromisoRegistrado: 'Compromissos de cobrança registrados',
-		agregarProductoSKU: 'Adicionar produto por SKU...',
+		agregarProductoSKU: 'Entrar no produto',
 		numeroOrdenDeCompra: 'Número da ordem de compra ',
 		limiteDeCredito: 'Limite de crédito',
 		disponible: 'Disponível',
@@ -82,6 +82,9 @@ const br = {
 		fechaDeAlta: 'Data de alta',
 		prestamo: 'Préstamo',
 		retorno: 'Retorno',
+		unidadesMaximasAplicar: 'Unidades máximas que você pode aplicar',
+		motivoDelCanje: 'Motivo do canje',
+		motivoCancelacion: 'Motivo de cancelamento',
 	},
 	simbolos: {
 		decimal: '.',
@@ -157,6 +160,9 @@ const br = {
 			'Insira um motivo para cada iniciativa cancelada.',
 		borrarDescuento: 'Quer eliminar o desconto escalonado?',
 		descuentoEscalonadoEliminado: 'Desconto em camadas removido',
+		excedeMayorPermitido: 'O montante introduzido excede o máximo permitido',
+		excedeMayorPermitidoSubtitulo:
+			'O valor da apresentação precisa de ser corrigido.',
 	},
 	mensajes: {
 		borrarDescuento:

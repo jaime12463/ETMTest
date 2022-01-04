@@ -71,6 +71,7 @@ const TarjetaCoberturas: React.FC<Props> = ({
 					presentacion={producto.presentacion}
 					precioConImpuestoUnidad={producto.precioConImpuestoUnidad}
 					precioConImpuestoSubunidad={producto.precioConImpuestoSubunidad}
+					esVentaSubunidades={producto.esVentaSubunidades}
 				/>
 				<Controles
 					producto={productoAMandar}

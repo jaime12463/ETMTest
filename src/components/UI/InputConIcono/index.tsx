@@ -11,9 +11,9 @@ import theme from 'theme';
 interface Props {
 	valid: boolean;
 	value: string;
-	onBlur?: () => void;
+	onBlur?: any;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	onKeyPress?: (e: React.KeyboardEvent<HTMLDivElement>) => void;
+	onKeyPress?: any;
 	inputRef?: (input: any) => void;
 	onClick?: () => void;
 	onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
@@ -69,7 +69,7 @@ const InputConIcono: React.FC<Props> = ({
 						>
 							<Typography
 								variant='body2'
-								sx={{color: error ? '#FF0000' : 'inherit'}}
+								sx={{color: error ? theme.palette.primary.main : 'inherit'}}
 							>
 								{t('simbolos.moneda')}
 							</Typography>

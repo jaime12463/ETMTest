@@ -1,17 +1,50 @@
 import React from 'react';
-import {TPrecioProducto, TProductoPedido} from 'models';
+import {TProductoPedido, TStateInfoDescuentos} from 'models';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {BotellaIcon, CajaIcon} from 'assests/iconos';
+import {styled} from '@mui/material/styles';
+import Chip from '@mui/material/Chip';
+import {
+	AvisoIcon,
+	BotellaIcon,
+	CajaIcon,
+	PromocionColor,
+	QuitarRellenoIcon,
+} from 'assests/iconos';
 import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
+import theme from 'theme';
+import {useAppDispatch} from 'redux/hooks';
+import {borrarDescuentoDelProducto} from 'redux/features/visitaActual/visitaActualSlice';
+import {useMostrarAviso} from 'hooks';
+
+const ChipStyled = styled(Chip)(() => ({
+	'&.MuiChip-root': {
+		background: 'transparent',
+		border: `1px solid ${theme.palette.primary.main}`,
+		cursor: 'pointer',
+		borderRadius: '50px',
+		height: ' 18px',
+		padding: '4px, 12px',
+		width: '133px',
+	},
+}));
 
 interface Props {
 	producto: TProductoPedido;
 	conSwitch?: boolean;
+	stateAviso: any;
+	stateInfoDescuento: TStateInfoDescuentos;
+	obtenerCalculoDescuentoProducto: any;
 }
 
-const Informacion: React.FC<Props> = ({producto, conSwitch}) => {
+const Informacion: React.FC<Props> = ({
+	producto,
+	conSwitch,
+	stateInfoDescuento,
+	stateAviso,
+	obtenerCalculoDescuentoProducto,
+}) => {
 	const {t} = useTranslation();
 
 	const {
@@ -25,9 +58,75 @@ const Informacion: React.FC<Props> = ({producto, conSwitch}) => {
 		subUnidades,
 		precioConDescuentoUnidad,
 		precioConDescuentoSubunidad,
+		esVentaSubunidades,
 	} = producto;
 
 	const {unidad, subUnidad} = preciosNeto;
+
+	const {setAlerta, setConfigAlerta} = stateAviso;
+
+	const {infoDescuento, setInfoDescuento} = stateInfoDescuento;
+
+	const dispatch = useAppDispatch();
+
+	const mostrarAviso = useMostrarAviso();
+
+	const [mostrarInfo, setMostrarinfo] = React.useState<boolean>(false);
+	const [inputValue, setInputValue] = React.useState<string>(
+		infoDescuento.inputPolarizado === 0
+			? ''
+			: infoDescuento.inputPolarizado.toString()
+	);
+
+	const eliminarDescuento = () => {
+		setInfoDescuento({
+			tipo: 'eliminado',
+			porcentajeDescuento: null,
+			inputPolarizado: 0,
+			codigoDescuento: '',
+		});
+		dispatch(
+			borrarDescuentoDelProducto({
+				codigoProducto: producto.codigoProducto,
+			})
+		);
+		mostrarAviso(
+			'success',
+			t('advertencias.descuentoEscalonadoEliminado'),
+			undefined,
+			undefined,
+			'descuentoEscalonadoEliminado'
+		);
+	};
+
+	React.useEffect(() => {
+		if (
+			(infoDescuento.porcentajeDescuento !== null &&
+				infoDescuento.porcentajeDescuento > 0) ||
+			infoDescuento.tipo === 'automatico'
+		) {
+			if (
+				producto.unidades > 0 ||
+				producto.subUnidades > 0 ||
+				infoDescuento.tipo === 'automatico'
+			) {
+				setMostrarinfo(true);
+			} else {
+				setInputValue('');
+				obtenerCalculoDescuentoProducto(
+					{
+						inputPolarizado: 0,
+						unidades: 0,
+						subUnidades: 0,
+					},
+					stateInfoDescuento
+				);
+				setMostrarinfo(false);
+			}
+		} else {
+			setMostrarinfo(false);
+		}
+	}, [producto, infoDescuento]);
 
 	return (
 		<Box
@@ -43,47 +142,172 @@ const Informacion: React.FC<Props> = ({producto, conSwitch}) => {
 			<Typography variant='subtitle3' noWrap width='150px' marginBottom='4px'>
 				{nombreProducto}
 			</Typography>
-			<Box display='flex' gap='10px' alignItems='center'>
-				<Box display='flex' alignItems='center' flexDirection='row' gap='4px'>
-					<CajaIcon height='18px' width='18px' />
-					<Typography variant='caption' fontFamily='Open Sans'>
-						x{presentacion}
-					</Typography>
-					<Typography
-						variant='subtitle3'
-						fontFamily='Open Sans'
-						sx={
+
+			<Box
+				alignItems='center'
+				display='grid'
+				gridTemplateColumns='20px min-content min-content 14px min-content'
+				gridTemplateRows={
+					infoDescuento.tipo === 'automatico' ? 'auto auto' : 'auto auto auto'
+				}
+				gridTemplateAreas={
+					infoDescuento.tipo === 'automatico'
+						? `"Caja Presentacion PrecioUnidad Botella PrecioSubUnidad"
+						"Promo Vacio DescuentoUnidad Vacio2 DescuentoSubUnidad"`
+						: `"Caja Presentacion PrecioUnidad Botella PrecioSubUnidad"
+						"Descuento Descuento Descuento Descuento Descuento"
+						"Promo Vacio DescuentoUnidad Vacio2 DescuentoSubUnidad"
+						`
+				}
+				justifyItems='start'
+				sx={{
+					whiteSpace: 'nowrap',
+					gridColumnGap: '2px',
+				}}
+			>
+				<CajaIcon
+					height='18px'
+					width='18px'
+					style={{gridArea: 'Caja', marginBottom: mostrarInfo ? '8px' : '0'}}
+				/>
+				<Typography
+					variant='caption'
+					fontFamily='Open Sans'
+					sx={{
+						gridArea: 'Presentacion',
+						marginBottom: mostrarInfo ? '8px' : '0',
+					}}
+				>
+					x{presentacion}
+				</Typography>
+				<Typography
+					variant='subtitle3'
+					fontFamily='Open Sans'
+					sx={{
+						gridArea: 'PrecioUnidad',
+						marginBottom: mostrarInfo ? '8px' : '0',
+						textDecoration:
 							unidades > 0
 								? unidad !== precioConImpuestoUnidad
-									? {textDecoration: 'line-through'}
-									: null
+									? 'line-through'
+									: 'none'
 								: precioConDescuentoUnidad
-								? {textDecoration: 'line-through'}
-								: null
-						}
-					>
-						{formatearNumero(precioConImpuestoUnidad, t)}
-					</Typography>
-				</Box>
-				<Box display='flex' alignItems='center' gap='4px'>
-					<BotellaIcon height='14px' width='14px' />
-					<Typography
-						variant='subtitle3'
-						fontFamily='Open Sans'
-						sx={
-							unidades > 0
-								? subUnidad !== precioConImpuestoSubunidad
-									? {textDecoration: 'line-through'}
-									: null
-								: precioConDescuentoSubunidad
-								? {textDecoration: 'line-through'}
-								: null
-						}
-					>
-						{formatearNumero(precioConImpuestoSubunidad, t)}
-					</Typography>
-				</Box>
+								? 'line-through'
+								: 'none',
+					}}
+				>
+					{formatearNumero(precioConImpuestoUnidad, t)}
+				</Typography>
+				{esVentaSubunidades && (
+					<>
+						<BotellaIcon
+							height='14px'
+							width='14px'
+							style={{
+								gridArea: 'Botella',
+								marginBottom: mostrarInfo ? '8px' : '0',
+							}}
+						/>
+						<Typography
+							variant='subtitle3'
+							fontFamily='Open Sans'
+							sx={{
+								gridArea: 'PrecioSubUnidad',
+								marginBottom: mostrarInfo ? '8px' : '0',
+								textDecoration:
+									unidades > 0
+										? subUnidad !== precioConImpuestoSubunidad
+											? 'line-through'
+											: 'none'
+										: precioConDescuentoSubunidad
+										? 'line-through'
+										: 'none',
+							}}
+						>
+							{formatearNumero(precioConImpuestoSubunidad, t)}
+						</Typography>
+						{mostrarInfo && (
+							<Typography
+								variant='subtitle3'
+								fontFamily='Open Sans'
+								color={theme.palette.primary.main}
+								sx={{gridArea: 'DescuentoSubUnidad'}}
+							>
+								{formatearNumero(
+									producto.precioConDescuentoSubunidad ??
+										producto.preciosNeto.subUnidad,
+									t
+								)}
+							</Typography>
+						)}
+					</>
+				)}
+				{mostrarInfo && (
+					<>
+						<Typography
+							variant='caption'
+							fontFamily='Open Sans'
+							color={theme.palette.primary.main}
+							sx={{
+								gridArea:
+									infoDescuento.tipo !== 'automatico' ? 'Descuento' : '',
+								marginBottom: '8px',
+							}}
+						>
+							{infoDescuento.tipo === 'polarizado' ||
+							infoDescuento.tipo === 'escalonado'
+								? `Descuento ${infoDescuento.tipo} del -${infoDescuento.porcentajeDescuento}%`
+								: null}
+						</Typography>
+						<PromocionColor
+							height='20px'
+							width='20px'
+							style={{gridArea: 'Promo'}}
+						/>
+						<Typography
+							variant='subtitle3'
+							fontFamily='Open Sans'
+							color={theme.palette.primary.main}
+							sx={{gridArea: 'DescuentoUnidad', justifySelf: 'start'}}
+						>
+							{formatearNumero(
+								producto.precioConDescuentoUnidad ??
+									producto.preciosNeto.unidad,
+								t
+							)}
+						</Typography>
+					</>
+				)}
 			</Box>
+			{mostrarInfo && infoDescuento.tipo === 'escalonado' && (
+				<Box marginTop='8px'>
+					<ChipStyled
+						onClick={() => {
+							setConfigAlerta({
+								titulo: t('advertencias.borrarDescuento'),
+								mensaje: t('mensajes.borrarDescuento'),
+								tituloBotonAceptar: 'Eliminar',
+								tituloBotonCancelar: 'Cancelar',
+								callbackAceptar: () => eliminarDescuento(),
+								iconoMensaje: <AvisoIcon />,
+							});
+							setAlerta(true);
+						}}
+						label={
+							<Typography variant='caption' color={theme.palette.primary.main}>
+								Eliminar descuento
+							</Typography>
+						}
+						icon={
+							<QuitarRellenoIcon
+								height='9px'
+								width='9px'
+								fill={theme.palette.primary.main}
+							/>
+						}
+					/>
+				</Box>
+			)}
 		</Box>
 	);
 };

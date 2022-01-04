@@ -1,9 +1,7 @@
-import {ReactNode, useState, useEffect} from 'react';
+import {ReactNode, useState} from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import {Box, Typography} from '@mui/material';
 import {TProductoPedido} from 'models';
-import {editarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
-import {useAppDispatch} from 'redux/hooks';
 
 type Props = {
 	children: ReactNode;
@@ -14,12 +12,16 @@ type Props = {
 export const SwipeBorrar = (props: Props) => {
 	const {children, item, manejadorGesto} = props;
 	const [index, setIndex] = useState<number>(0);
+	const [swipe, SetSwipe] = useState<number>(0);
+	const [swipeMargen, SetSwipeMargen] = useState<string>('');
 
 	const switchingHandler = (index: number, type: string) => {
 		if (index === 1 && type === 'end') {
 			manejadorGesto();
 			setIndex(0);
 		}
+		SetSwipe(index);
+		SetSwipeMargen( `${index*100}px` );
 	};
 
 	return (
@@ -27,7 +29,7 @@ export const SwipeBorrar = (props: Props) => {
 			<SwipeableViews
 				onSwitching={(index, type) => switchingHandler(index, type)}
 				enableMouseEvents
-				hysteresis={0.3}
+				hysteresis={0.9}
 				index={item.estado == 'activo' ? 0 : 1}
 			>
 				{children}
@@ -35,7 +37,6 @@ export const SwipeBorrar = (props: Props) => {
 				<Box
 					alignItems='center'
 					display='flex'
-					justifyContent='center'
 					sx={{
 						backgroundColor: 'red',
 						width: '100%',
@@ -43,7 +44,8 @@ export const SwipeBorrar = (props: Props) => {
 						position: 'relative',
 					}}
 				>
-					<Typography sx={{color: 'white'}}>Eliminar</Typography>
+					{/*ToDo: pasar a multilenguaje */}
+					<Typography  marginLeft={swipe >= 0.2 ? swipeMargen : '20px'} sx={{color: 'white' }}>Eliminar</Typography>
 				</Box>
 			</SwipeableViews>
 		</>

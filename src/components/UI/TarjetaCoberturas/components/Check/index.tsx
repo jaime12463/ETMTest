@@ -39,10 +39,7 @@ const Check: React.FC<Props> = ({conSwitch, producto}) => {
 						justifyContent='end'
 					>
 						{(producto.unidades > 0 || producto.subUnidades > 0) && (
-							<CheckRedondoIcon
-								width='17.5px'
-								fill={theme.palette.success.main}
-							/>
+							<CheckRedondoIcon width='17.5px' />
 						)}
 					</Box>
 				</>
@@ -67,10 +64,7 @@ const Check: React.FC<Props> = ({conSwitch, producto}) => {
 								alignItems='center'
 								justifyContent='end'
 							>
-								<CheckRedondoIcon
-									width='17.5px'
-									fill={theme.palette.success.main}
-								/>
+								<CheckRedondoIcon width='17.5px' />
 							</Box>
 						</>
 					)}

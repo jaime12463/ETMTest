@@ -99,16 +99,26 @@ const CompromisoDeCobro: React.FC = () => {
 			return;
 		}
 
-		if (!Number.isNaN(Number(importe)) && Number(importe) > 0) {
-			agregarCompromisoDeCobro({monto: importe});
-		}
-
 		if (Number(importe) === 0) {
 			setImporteValido(false);
 			reiniciarCompromisoDeCobro();
 			setError({error: false, mensaje: ''});
 		}
 	}, [importe, compromisoDeCobroActual.monto]);
+
+	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter') {
+			if (!Number.isNaN(Number(importe)) && Number(importe) > 0) {
+				agregarCompromisoDeCobro({monto: importe});
+			}
+		}
+	};
+
+	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+		if (!Number.isNaN(Number(importe)) && Number(importe) > 0) {
+			agregarCompromisoDeCobro({monto: importe});
+		}
+	};
 
 	const handleChange = (
 		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -141,6 +151,8 @@ const CompromisoDeCobro: React.FC = () => {
 			<InputConIcono
 				value={importeFormateado}
 				valid={importeValido}
+				onKeyPress={handleKeyPress}
+				onBlur={handleBlur}
 				onChange={handleChange}
 				label={t('general.agregarCompromisoDeCobro')}
 				margin='20px 0 0 0 '

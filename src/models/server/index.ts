@@ -114,6 +114,7 @@ export type TInformacionCrediticia = {
 	limite?: number;
 	disponible?: number;
 	esCreditoBloqueado: boolean;
+	esBloqueadoVenta: boolean;
 	documentos?: TDocumento[];
 };
 export type TCondicicon = 'contado' | 'creditoFormal' | 'creditoInformal';
@@ -208,6 +209,7 @@ export type TDatosConfiguracion = {
 };
 
 export type TConfiguracion = {
+	maximoGrupoCoberturaAMostrar: number;
 	esFrecuenciaAbierta: boolean;
 	habilitaOrdenDeCompra: boolean;
 	bonificacionesConVenta: boolean;

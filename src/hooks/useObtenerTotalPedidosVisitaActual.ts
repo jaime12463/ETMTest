@@ -1,10 +1,20 @@
-import {useObtenerConfiguracion, useObtenerVisitaActual} from 'redux/hooks';
-import {TPedido, TProductoPedido, TTotalPedido} from 'models';
-import {useCalcularTotalPedidos} from 'hooks';
+import {
+	useObtenerClienteActual,
+	useObtenerConfiguracion,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
+import {TCliente, TPedido, TProductoPedido, TTotalPedido} from 'models';
+import {useCalcularTotalPedidos, useObtenerDatosCliente} from 'hooks';
 
 export const useObtenerTotalPedidosVisitaActual = () => {
 	const visitaActual = useObtenerVisitaActual();
+	const clienteActual = useObtenerClienteActual();
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+
+	//const {configuracionPedido}: TCliente = datosCliente;
+
 	const configuracion = useObtenerConfiguracion();
+
 	const obtenerTotalPedidosVisitaActual = (
 		soloMontoMinimo?: boolean
 	): TTotalPedido => {
@@ -30,9 +40,19 @@ export const useObtenerTotalPedidosVisitaActual = () => {
 			productos = [...productos, ...pedido.productos];
 		});
 
+		const productosFinales = productos.filter((producto) => {
+			return (
+				(producto.unidadesDisponibles &&
+					producto.unidades <= producto.unidadesDisponibles) ||
+				(datosCliente?.configuracionPedido.cantidadMaximaUnidades &&
+					producto.unidades <=
+						datosCliente.configuracionPedido.cantidadMaximaUnidades)
+			);
+		});
+
 		const calcularTotalPedidos = useCalcularTotalPedidos();
 
-		return calcularTotalPedidos(productos);
+		return calcularTotalPedidos(productosFinales);
 	};
 
 	return obtenerTotalPedidosVisitaActual;

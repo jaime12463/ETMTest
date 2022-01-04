@@ -8,7 +8,14 @@ import {
 	TStatePreciosProductos,
 	TStateProductoActual,
 } from 'models';
-import {IconButton, Grid, TextField, Autocomplete, Paper} from '@mui/material';
+import {
+	IconButton,
+	Grid,
+	TextField,
+	Autocomplete,
+	Paper,
+	Box,
+} from '@mui/material';
 import {
 	useFiltrarPreciosProductosDelClienteActual,
 	useSeleccionarProductoDePrecios,
@@ -34,7 +41,8 @@ const GridAutocomplete = styled(Grid)(() => ({
 	boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.15)',
 	height: '32px',
 	padding: '0 12px',
-	marginBottom: '28px',
+	width: '164px',
+	marginBottom: '18px',
 }));
 
 const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
@@ -99,28 +107,13 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	};
 
 	return (
-		<>
+		<Box display='flex' marginTop='18px' justifyContent='space-between'>
 			<GridAutocomplete
 				container
 				direction='row'
 				flexWrap='nowrap'
 				alignItems='center'
-				marginTop='18px'
 			>
-				<Grid item>
-					<IconButton
-						aria-label='search'
-						size='small'
-						disabled={!validarEsPermitidoAgregarProductoAlPedido()}
-						onClick={() => {
-							seleccionarProductoDePrecios({
-								productoABuscar: textoIngresado,
-							});
-						}}
-					>
-						<BuscarIcon height='18px' width='18px' />
-					</IconButton>
-				</Grid>
 				<Grid item xs={12}>
 					<TextField
 						sx={{
@@ -172,7 +165,21 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 					</IconButton>
 				</Grid>
 			</GridAutocomplete>
-		</>
+			<Grid item>
+				<IconButton
+					aria-label='search'
+					size='small'
+					disabled={!validarEsPermitidoAgregarProductoAlPedido()}
+					onClick={() => {
+						seleccionarProductoDePrecios({
+							productoABuscar: textoIngresado,
+						});
+					}}
+				>
+					<BuscarIcon height='18px' width='18px' />
+				</IconButton>
+			</Grid>
+		</Box>
 	);
 };
 

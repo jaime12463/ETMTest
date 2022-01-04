@@ -40,7 +40,7 @@ const en = {
 		canje: 'Exchange',
 		devolucion: 'Refund',
 		credito: 'Credit',
-		contado: 'Counted',
+		contado: 'Cash',
 		venta: 'Sale',
 		compromisoCobro: 'Collection commitment',
 		saldo: 'Balance',
@@ -50,7 +50,7 @@ const en = {
 		compromisoRegistrado: 'Registered Collection Commitments',
 		agregarOrdenDeCompra: 'Add Purchase Order?',
 		deseaAgregarOrdenDeCompra: 'Do you want to associate a purchase order?',
-		agregarProductoSKU: 'add product by SKU...',
+		agregarProductoSKU: 'Enter product',
 		continuarA: 'Continue to  ',
 		numeroOrdenDeCompra: 'Purchase order number',
 		limiteDeCredito: 'Credit limit',
@@ -88,6 +88,9 @@ const en = {
 		fechaDeAlta: 'Date of registration',
 		prestamo: 'Loan',
 		retorno: 'Return',
+		unidadesMaximasAplicar: 'Maximum units that you can apply',
+		motivoDelCanje: 'Exchange reason',
+		motivoCancelacion: 'Cancellation reason',
 	},
 	simbolos: {
 		decimal: ',',
@@ -120,13 +123,13 @@ const en = {
 		tarjetaBonificaciones: `Add the bonuses for this customer.`,
 		bonificacionesDeshabilitadas: `There are not bonuses for this customer at this time.`,
 		canjesDeshabilitadas:
-		'There are not exchange for this customer at this time.',	
-		tomaDePedido: 'Order taking',	
+			'There are not exchange for this customer at this time.',
+		tomaDePedido: 'Order taking',
 		tarjetaTomaDePedido:
-			'Modify your order with the best options for your customer.',	
-		promociones: 'Promotions',	
+			'Modify your order with the best options for your customer.',
+		promociones: 'Promotions',
 		tarjetaPromociones:
-			'Select the promotions that you have available for your clients.',						
+			'Select the promotions that you have available for your clients.',
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',
@@ -170,6 +173,9 @@ const en = {
 			'Please enter a reason for each canceled initiative.',
 		borrarDescuento: 'Do you want to eliminate the tiered discount?',
 		descuentoEscalonadoEliminado: 'Tiered discount removed',
+		excedeMayorPermitido: 'The amount entered exceeds the maximum allowed',
+		excedeMayorPermitidoSubtitulo:
+			'It is necessary to correct the value of the presentation.',
 	},
 	pasos: {
 		planeacion: 'Planning',

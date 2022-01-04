@@ -6,6 +6,7 @@ import {
 	pasoATomaPedido,
 	cambiarTipoPedidoActual,
 	cambiarSeQuedaAEditar,
+	limpiarProductosSinCantidad,
 } from 'redux/features/visitaActual/visitaActualSlice';
 
 import TomaPedido from './TomaPedidos';
@@ -39,6 +40,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	React.useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'venta'}));
 		dispatch(pasoATomaPedido());
+		dispatch(limpiarProductosSinCantidad());
 	}, []);
 
 	React.useEffect(() => {
@@ -73,7 +75,11 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 		<Stack spacing={2}>
 			<TarjetaColapsable
 				id='Toma de pedido'
-				titulo={<Typography variant={'subtitle1'}>{t('titulos.tomaDePedido')}</Typography>}
+				titulo={
+					<Typography variant={'subtitle2'}>
+						{t('titulos.tomaDePedido')}
+					</Typography>
+				}
 				subTitulo={
 					<Typography variant={'body3'}>
 						{t('titulos.tarjetaTomaDePedido')}
@@ -91,7 +97,11 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 
 			<TarjetaColapsable
 				id='Promociones'
-				titulo={<Typography variant={'subtitle1'}>{t('titulos.promociones')}</Typography>}
+				titulo={
+					<Typography variant={'subtitle2'}>
+						{t('titulos.promociones')}
+					</Typography>
+				}
 				subTitulo={
 					<Typography variant={'body3'}>
 						{t('titulos.tarjetaPromociones')}

@@ -6,6 +6,7 @@ import {
 	TPrecioProducto,
 	TProductoPedido,
 	TPedido,
+	TCliente,
 } from 'models';
 
 import {
@@ -17,6 +18,9 @@ import {useForm} from 'react-hook-form';
 import {
 	useInicializarPreciosProductosDelClienteActual,
 	useMostrarAviso,
+	useObtenerCreditoDisponible,
+	useObtenerDatosCliente,
+	useObtenerTotalPedidosVisitaActual,
 } from 'hooks';
 import visitaActualSlice, {
 	agregarProductoDelPedidoActual,
@@ -65,6 +69,8 @@ const TomaPedido: React.FC = () => {
 
 	const {t} = useTranslation();
 	const [alerta, setAlerta] = React.useState<boolean>(false);
+	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
+	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
@@ -93,6 +99,11 @@ const TomaPedido: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const catalogoMotivo = '';
 	const classes = useEstilos();
+	const mostrarAviso = useMostrarAviso();
+	const {obtenerDatosCliente} = useObtenerDatosCliente();
+	const datosCliente: TCliente | undefined = obtenerDatosCliente(
+		clienteActual.codigoCliente
+	);
 
 	const borrarTodosLosProductos = useBorrarTodoLosProductos(
 		{setAlerta, setConfigAlerta},
@@ -103,17 +114,44 @@ const TomaPedido: React.FC = () => {
 		mostrarAdvertenciaEnDialogo
 	);
 
+	const {configuracionPedido}: any = datosCliente;
+
 	React.useEffect(() => {
 		if (
 			!visitaActual.seQuedaAEditar.seQueda &&
 			visitaActual.seQuedaAEditar.bordeError &&
-			venta.productos.every(
-				(producto) => producto.unidades > 0 || producto.subUnidades > 0
-			)
+			venta.productos.every((producto) => {
+				if (producto.unidadesDisponibles) {
+					return producto.unidades <= producto.unidadesDisponibles;
+				}
+
+				return (
+					(producto.unidades > 0 &&
+						producto.unidades <= configuracionPedido.cantidadMaximaUnidades) ||
+					producto.subUnidades > 0
+				);
+			})
 		) {
 			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
 		}
 	}, [visitaActual.seQuedaAEditar.seQueda, venta.productos]);
+
+	React.useEffect(() => {
+		if (
+			datosCliente?.informacionCrediticia.condicion !== 'contado' &&
+			creditoDisponible -
+				(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0) <
+				0
+		) {
+			mostrarAviso(
+				'warning',
+				'Limite de credito excedido',
+				'este cliente ha excedido su limite de crédito, por lo que no se podra levantar pedidos a crédito',
+				undefined,
+				'sinLimiteCredito'
+			);
+		}
+	}, [venta.productos]);
 
 	React.useEffect(() => {
 		if (productoActual !== null) {
@@ -145,6 +183,13 @@ const TomaPedido: React.FC = () => {
 			}
 			setFocusId(productoActual.codigoProducto);
 			setProductoActual(null);
+			mostrarAviso(
+				'success',
+				'Se ha ingresado el producto exitosamente',
+				undefined,
+				undefined,
+				'productoIngresado'
+			);
 		}
 	}, [productoActual?.codigoProducto]);
 
@@ -208,6 +253,13 @@ const TomaPedido: React.FC = () => {
 									);
 								});
 							}
+							mostrarAviso(
+								'success',
+								'Producto Eliminado',
+								undefined,
+								undefined,
+								'productoEliminado'
+							);
 							return dispatch(
 								borrarProductoDelPedidoActual({
 									codigoProducto: producto.codigoProducto,
@@ -240,30 +292,32 @@ const TomaPedido: React.FC = () => {
 				/>
 
 				<Grid container alignItems='center' justifyContent='space-between'>
-					<SwitchCambiarTipoPago />
 					{venta?.productos?.length > 0 &&
 						venta?.productos?.some(
 							(producto) => producto.unidades > 0 || producto.subUnidades > 0
 						) && (
-							<Chip
-								className={classes.root}
-								size='small'
-								icon={<BorrarIcon width='7.5px' height='7.5px' />}
-								label={<TextStyled>Borrar todo</TextStyled>}
-								sx={{'&:hover': {background: 'none'}}}
-								onClick={() => {
-									setConfigAlerta({
-										titulo: '¿Quieres Borrar Todos Los Productos?',
-										mensaje:
-											'Todos los productos seleccionados se borraran de toma de pedido',
-										tituloBotonAceptar: 'Borrar todo',
-										tituloBotonCancelar: 'Cancelar',
-										callbackAceptar: () => borrarTodosLosProductos(),
-										iconoMensaje: <AvisoIcon />,
-									});
-									setAlerta(true);
-								}}
-							/>
+							<>
+								<SwitchCambiarTipoPago />
+								<Chip
+									className={classes.root}
+									size='small'
+									icon={<BorrarIcon width='7.5px' height='7.5px' />}
+									label={<TextStyled>Borrar todo</TextStyled>}
+									sx={{'&:hover': {background: 'none'}}}
+									onClick={() => {
+										setConfigAlerta({
+											titulo: '¿Quieres Borrar Todos Los Productos?',
+											mensaje:
+												'Todos los productos seleccionados se borraran de toma de pedido',
+											tituloBotonAceptar: 'Borrar todo',
+											tituloBotonCancelar: 'Cancelar',
+											callbackAceptar: () => borrarTodosLosProductos(),
+											iconoMensaje: <AvisoIcon />,
+										});
+										setAlerta(true);
+									}}
+								/>
+							</>
 						)}
 				</Grid>
 

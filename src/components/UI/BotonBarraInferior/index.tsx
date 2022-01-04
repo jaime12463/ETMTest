@@ -1,5 +1,5 @@
 import {FunctionComponent} from 'react';
-import {formatearNumero} from 'utils/methods';
+import {formatearNumero, formatoNumeroConDecimales} from 'utils/methods';
 import Button from '@mui/material/Button';
 import {Box, Grid, Stack} from '@mui/material';
 import {useTranslation} from 'react-i18next';
@@ -11,7 +11,12 @@ type Props = {
 	onClick: (e: any) => void;
 };
 
-export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
+export const BotonBarraInferior: FunctionComponent<Props> = ({
+	numeroItems,
+	descripcion,
+	total,
+	onClick,
+}) => {
 	const {t} = useTranslation();
 	return (
 		<Button
@@ -20,7 +25,7 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 			color='success'
 			fullWidth
 			style={{borderRadius: '24px', color: 'white', padding: '8px 12px'}}
-			onClick={props.onClick}
+			onClick={onClick}
 			data-cy={`boton-inferior-avanzar`}
 		>
 			<Grid
@@ -46,7 +51,7 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 								marginRight: '4px',
 							}}
 						>
-							{props.numeroItems}
+							{numeroItems}
 						</span>
 						<span
 							style={{
@@ -63,22 +68,27 @@ export const BotonBarraInferior: FunctionComponent<Props> = (props) => {
 					item
 					xs={5}
 					style={{
-						fontSize: '14px',
+						fontSize:
+							formatoNumeroConDecimales(total, t).length >= 7 ? '11px' : '12px',
 						fontWeight: 'normal',
+						fontFamily: 'Poppins',
 						lineHeight: '14px',
-						textAlign: 'center',
+						textAlign:
+							formatoNumeroConDecimales(total, t).length >= 9
+								? 'left'
+								: 'center',
 						textTransform: 'none',
 						paddingLeft: '8px',
 					}}
 				>
-					{props.descripcion}
+					{descripcion}
 				</Grid>
 				<Grid
 					item
 					xs={4}
 					style={{fontSize: '20px', fontWeight: 600, lineHeight: '24px'}}
 				>
-					{formatearNumero(props.total, t)}
+					{formatearNumero(total, t)}
 				</Grid>
 			</Grid>
 		</Button>

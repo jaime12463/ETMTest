@@ -11,6 +11,8 @@ interface Props {
 	bloqueado?: boolean;
 	border?: boolean;
 	dataCy: string;
+	sinFlecha?: boolean;
+	placeholder?: string;
 }
 
 const CustomSelect: React.FC<Props> = ({
@@ -20,6 +22,8 @@ const CustomSelect: React.FC<Props> = ({
 	bloqueado = false,
 	border,
 	dataCy,
+	sinFlecha = false,
+	placeholder = '',
 }) => {
 	const [open, setOpen] = React.useState<boolean>(false);
 	const selectRef = React.useRef<HTMLDivElement>(null);
@@ -33,6 +37,8 @@ const CustomSelect: React.FC<Props> = ({
 		bloqueado,
 		border,
 		opcion: opcionSeleccionada,
+		sinFlecha,
+		placeholder,
 	});
 
 	const cerrarOpciones = (e: any) => {
@@ -49,16 +55,24 @@ const CustomSelect: React.FC<Props> = ({
 			onClick={() => setOpen(!open)}
 			ref={selectRef}
 		>
-			<Box>
+			<Box
+				alignItems='center'
+				display='flex'
+				justifyContent='space-between'
+				width='100%'
+			>
 				<Typography
 					variant='caption'
-					sx={{color: '#000', textTransform: 'capitalize'}}
+					sx={{
+						color: opcionSeleccionada !== '' ? '#000' : 'greys.main',
+						textTransform: 'capitalize',
+					}}
 					fontFamily='Open Sans'
 				>
-					{opcionSeleccionada}
+					{opcionSeleccionada !== '' ? opcionSeleccionada : placeholder}
 				</Typography>
+				<FlechaAbajoIcon className={classes.arrow} height='10px' width='10px' />
 			</Box>
-			<FlechaAbajoIcon className={classes.arrow} height='10px' width='10px' />
 			{open && (
 				<Box className={classes.dropdown} data-cy={dataCy}>
 					{opcionesAMostrar?.map((opcion) => (
