@@ -216,59 +216,29 @@ const TomaPedido: React.FC = () => {
 			borrarProductosNoMandatorios,
 			productosNoMandatorios,
 		}: any) => {
-			enqueueSnackbar(
-				<AvisoDeshacer
-					titulo='Tarjeta Eliminada'
-					acciones={
-						<>
-							<Typography
-								variant='caption'
-								fontFamily='Poppins'
-								color='#fff'
-								sx={{cursor: 'pointer'}}
-								onClick={() => {
-									cambiarEstadoProducto(producto, 'activo');
-									closeSnackbar(producto.codigoProducto);
-								}}
-							>
-								Deshacer
-							</Typography>
-						</>
-					}
-				/>,
-				{
-					key: producto.codigoProducto,
-					anchorOrigin: {
-						vertical: 'bottom',
-						horizontal: 'center',
-					},
-					onClose: (event, reason, key) => {
-						if (reason === 'timeout') {
-							if (borrarProductosNoMandatorios) {
-								productosNoMandatorios.forEach((pedido: TPedido) => {
-									dispatch(
-										borrarProductosDeVisitaActual({
-											tipoPedidoActual: pedido.tipoPedido,
-										})
-									);
-								});
-							}
-							mostrarAviso(
-								'success',
-								'Producto Eliminado',
-								undefined,
-								undefined,
-								'productoEliminado'
-							);
-							return dispatch(
-								borrarProductoDelPedidoActual({
-									codigoProducto: producto.codigoProducto,
-									codigoTipoPedidoActual: 'venta',
-								})
-							);
-						}
-					},
-				}
+			if (borrarProductosNoMandatorios) {
+				productosNoMandatorios.forEach((pedido: TPedido) => {
+					dispatch(
+						borrarProductosDeVisitaActual({
+							tipoPedidoActual: pedido.tipoPedido,
+						})
+					);
+				});
+			}
+
+			mostrarAviso(
+				'success',
+				'Producto Eliminado',
+				undefined,
+				undefined,
+				'productoEliminado'
+			);
+
+			return dispatch(
+				borrarProductoDelPedidoActual({
+					codigoProducto: producto.codigoProducto,
+					codigoTipoPedidoActual: 'venta',
+				})
 			);
 		};
 
