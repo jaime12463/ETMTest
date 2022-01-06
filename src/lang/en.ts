@@ -178,6 +178,12 @@ const en = {
 		excedeMayorPermitido: 'The amount entered exceeds the maximum allowed',
 		excedeMayorPermitidoSubtitulo:
 			'It is necessary to correct the value of the presentation.',
+		borrarPedidosTitulo:
+			'Do you want to remove all products?',		
+		borrarPedidos:
+			'All your products will be deleted from your Order taking',			
+		borrarPedidosGeneral:
+			'All products will be deleted from your current order along with the initiatives, covers, packaging, etc., that they contain.',										
 	},
 	pasos: {
 		planeacion: 'Planning',

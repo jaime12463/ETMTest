@@ -274,18 +274,7 @@ const TomaPedido: React.FC = () => {
 									icon={<BorrarIcon width='7.5px' height='7.5px' />}
 									label={<TextStyled>Borrar todo</TextStyled>}
 									sx={{'&:hover': {background: 'none'}}}
-									onClick={() => {
-										setConfigAlerta({
-											titulo: '¿Quieres Borrar Todos Los Productos?',
-											mensaje:
-												'Todos los productos seleccionados se borraran de toma de pedido',
-											tituloBotonAceptar: 'Borrar todo',
-											tituloBotonCancelar: 'Cancelar',
-											callbackAceptar: () => borrarTodosLosProductos(),
-											iconoMensaje: <AvisoIcon />,
-										});
-										setAlerta(true);
-									}}
+									onClick={() => borrarTodosLosProductos()}
 								/>
 							</>
 						)}

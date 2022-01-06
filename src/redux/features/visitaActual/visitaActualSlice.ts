@@ -456,6 +456,13 @@ export const visitaActualSlice = createSlice({
 				detalle: [],
 			}));
 		},
+
+		eliminarCanje: (state) => {
+			state.pedidos.canje = state.pedidos.canje = {
+				...state.pedidos.canje,
+				productos: []
+			}
+		},
 	},
 });
 
@@ -488,5 +495,6 @@ export const {
 	restablecerBonificaciones,
 	borrarEnvases,
 	limpiarProductosSinCantidad,
+	eliminarCanje,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

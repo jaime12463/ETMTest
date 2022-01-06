@@ -45,7 +45,7 @@ const PromoPush: React.FC = () => {
 	const classes = useEstilos();
 
 	const borrarTodosLosProductos = useBorrarTodoLosProductos(
-		mostrarAdvertenciaEnDialogo,
+		{setAlerta, setConfigAlerta},
 		promociones
 	);
 
@@ -80,17 +80,7 @@ const PromoPush: React.FC = () => {
 			<Grid container>
 				<Box width='100%' display='flex' justifyContent='flex-end' mb={1}>
 					<Button
-						onClick={() => {
-							setConfigAlerta({
-								titulo: '¿Quieres Borrar Todos Los Promo Push?',
-								mensaje: t('advertencias.borrarPromosPush'),
-								tituloBotonAceptar: 'Borrar todo',
-								tituloBotonCancelar: 'Cancelar',
-								callbackAceptar: () => borrarTodosLosProductos(),
-								iconoMensaje: <AvisoIcon />,
-							});
-							setAlerta(true);
-						}}
+						onClick={() => { borrarTodosLosProductos()}}
 						className={classes.root}
 						style={{
 							backgroundColor: '#FFFFFF',
