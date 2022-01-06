@@ -7,3 +7,4 @@ export {useValidarProductoPermiteSubUnidades} from './useValidarProductoPermiteS
 export {useValidarBorrarPedido} from './useValidarBorrarPedido';
 
 export {useObtenerCatalogoMotivos} from './useObtenerCatalogoMotivos';
+export {useValidarTieneBonificaciones} from './useValidarTieneBonificaciones';

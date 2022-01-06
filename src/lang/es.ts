@@ -189,6 +189,16 @@ const es = {
 		excedeMayorPermitido: 'Cantidad excede el valor permitido',
 		excedeMayorPermitidoSubtitulo:
 			'Es necesario corregir el valor de la presentación.',
+		borrarPedidosTitulo:
+			'¿Quieres eliminar todos los productos?',
+		borrarPedidos:
+			'Todos tus productos se borrarán de tu Toma de pedido',				
+		borrarPedidosGeneral:
+			'Todos los productos se borrarán de tu pedido actual junto con las inicitivas, coberturas, envases, etc., que contengan.',	
+		productoEliminadoTitulo:
+			'Productos eliminados correctamente',	
+		productoEliminadoMensaje:
+			'Se eliminarón todos los productos de la toma de pedido junto con las iniciativas, coberturas, canjes, envases,etc.',													
 	},
 	pasos: {
 		planeacion: 'Planeación',

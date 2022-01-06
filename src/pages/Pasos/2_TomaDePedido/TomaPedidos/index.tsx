@@ -48,6 +48,7 @@ import {useSnackbar} from 'notistack';
 import {AvisoDeshacer} from 'components/UI/AvisoContenido/AvisosPlantilla';
 import Modal from 'components/UI/Modal';
 import TarjetaTomaPedido from 'components/UI/TarjetaTomaPedido';
+import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoPush';
 
 const TextStyled = styled(Typography)(() => ({
 	color: '#651C32',
@@ -74,6 +75,9 @@ const TomaPedido: React.FC = () => {
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
+	const [expandidoPromoPush, setExpandidoexpandidoPromoPush] = React.useState<
+		string | boolean
+	>(false);
 	const [productoActual, setProductoActual] =
 		React.useState<TPrecioProducto | null>(null);
 
@@ -274,18 +278,7 @@ const TomaPedido: React.FC = () => {
 									icon={<BorrarIcon width='7.5px' height='7.5px' />}
 									label={<TextStyled>Borrar todo</TextStyled>}
 									sx={{'&:hover': {background: 'none'}}}
-									onClick={() => {
-										setConfigAlerta({
-											titulo: '¿Quieres Borrar Todos Los Productos?',
-											mensaje:
-												'Todos los productos seleccionados se borraran de toma de pedido',
-											tituloBotonAceptar: 'Borrar todo',
-											tituloBotonCancelar: 'Cancelar',
-											callbackAceptar: () => borrarTodosLosProductos(),
-											iconoMensaje: <AvisoIcon />,
-										});
-										setAlerta(true);
-									}}
+									onClick={() => borrarTodosLosProductos()}
 								/>
 							</>
 						)}
@@ -304,14 +297,29 @@ const TomaPedido: React.FC = () => {
 										return 0;
 									}}
 								>
-									<TarjetaTomaPedido
-										producto={producto}
-										stateFocusId={{focusId, setFocusId}}
-										stateInputFocus={stateInputFocus}
-										bordeRedondeado
-										conSwitch
-										stateAviso={{setAlerta, setConfigAlerta}}
-									/>
+									{producto.promoPush ? (
+										<TarjetaPromoPush
+											key={producto.codigoProducto}
+											item={producto}
+											id={producto.nombreProducto}
+											expandidoPromoPush={expandidoPromoPush}
+											setExpandidoexpandidoPromoPush={
+												setExpandidoexpandidoPromoPush
+											}
+											mostrarAdvertenciaEnDialogo={mostrarAdvertenciaEnDialogo}
+											stateFocusId={{focusId, setFocusId}}
+											stateInputFocus={stateInputFocus}
+										/>
+									) : (
+										<TarjetaTomaPedido
+											producto={producto}
+											stateFocusId={{focusId, setFocusId}}
+											stateInputFocus={stateInputFocus}
+											bordeRedondeado
+											conSwitch
+											stateAviso={{setAlerta, setConfigAlerta}}
+										/>
+									)}
 								</SwipeBorrar>
 							);
 						})}
