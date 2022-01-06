@@ -108,6 +108,8 @@ const TarjetaPromoPush = (props: any) => {
 		setExpandidoexpandidoPromoPush,
 		id,
 		mostrarAdvertenciaEnDialogo,
+		stateFocusId,
+		stateInputFocus,
 	} = props;
 	const {
 		codigoProducto,
@@ -119,6 +121,8 @@ const TarjetaPromoPush = (props: any) => {
 		promoPush,
 	} = item;
 
+	/* 	const {focusId, setFocusId} = stateFocusId;
+	const {inputFocus, setInputFocus} = stateInputFocus; */
 	const {venta} = visitaActual.pedidos;
 
 	const producto = venta.productos.find(
@@ -177,6 +181,8 @@ const TarjetaPromoPush = (props: any) => {
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === 'Enter') {
 			agregarProductoAlPedidoActual(getValues);
+			props?.stateFocusId?.setFocusId(0);
+			props?.stateInputFocus?.setInputFocus('productoABuscar');
 		}
 	};
 
@@ -207,6 +213,8 @@ const TarjetaPromoPush = (props: any) => {
 		({id}: any) =>
 		(event: React.SyntheticEvent) => {
 			setExpandidoexpandidoPromoPush(id);
+			props?.stateInputFocus?.setInputFocus('unidades');
+			props?.stateFocusId?.setFocusId(codigoProducto);
 		};
 
 	return (
@@ -335,16 +343,31 @@ const TarjetaPromoPush = (props: any) => {
 										disabled={getValues.unidades === 0}
 									/>
 								</IconButton>
+
+								{/* stateFocusId,
+		stateInputFocus, */}
 								<InputStyled
 									value={getValues.unidades}
 									disableUnderline
 									name='unidades'
 									id='unidades_producto'
 									onFocus={(e) => e.target.select()}
+									onClick={() => {
+										props?.stateInputFocus?.setInputFocus('unidades');
+										props?.stateFocusId?.setFocusId(codigoProducto);
+									}}
 									inputProps={{
 										style: {textAlign: 'center'},
 										inputMode: 'numeric',
 										pattern: '[0-9]*',
+									}}
+									inputRef={(input) => {
+										if (
+											props?.stateInputFocus?.inputFocus === 'unidades' &&
+											props?.stateFocusId?.focusId === codigoProducto
+										) {
+											input?.focus();
+										}
 									}}
 									onChange={handleOnChange}
 									onKeyPress={handleKeyPress}
