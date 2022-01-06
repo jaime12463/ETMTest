@@ -80,7 +80,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 		nombreProducto,
 		unidadesDisponibles,
 		precioConImpuestoUnidad,
-		descuento,
+		descuentoPromoPush,
 		componentes,
 		promoPush,
 	} = item;
@@ -101,7 +101,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 				sx={
 					expandidoPromoPush === id
 						? {
-								backgroundColor: '#8A4C5F',
+								backgroundColor: theme.palette.secondary.light,
 								borderTop: '0px',
 								padding: '0 0 12px 0',
 						  }
@@ -109,71 +109,81 @@ export const TarjetaVistaPromoPush = (props: any) => {
 				}
 			>
 				<Box
-					display='grid'
-					gridTemplateColumns='repeat(2, 1fr)'
+					display='flex'
+					flexWrap='wrap'
+					padding='12px 14px 0 14px'
 					sx={
 						expandidoPromoPush === id ? {color: '#FFFFFF'} : {color: '#000000'}
 					}
 				>
-					<Box display='flex' flexDirection='column' padding='12px 14px 0 14px'>
-						<Typography variant='subtitle3' marginBottom='2px'>
-							{codigoProducto}
+					<Box
+						display='flex'
+						flexDirection='column'
+						width='100%'
+						gap='2px'
+						marginBottom='8px'
+					>
+						<Typography variant='subtitle3'>{codigoProducto}</Typography>
+						<Typography variant='subtitle3'>{nombreProducto}</Typography>
+					</Box>
+					<Box display='flex' flexDirection='column' width='50%' gap='6px'>
+						<Typography
+							variant='body3'
+							fontFamily='Open Sans'
+							sx={{textDecoration: 'line-through'}}
+						>
+							{t('general.precioUnitario', {
+								precioUnitario: formatearNumero(
+									precioConImpuestoUnidad + descuentoPromoPush,
+									t
+								),
+							})}
 						</Typography>
 						<Typography
-							sx={{
-								maxWidth: '137px',
-								textOverflow: 'ellipsis',
-								overflow: 'hidden',
-							}}
+							variant='caption'
+							color={
+								expandidoPromoPush === id
+									? '#fff'
+									: theme.palette.secondary.main
+							}
+						>
+							{t('general.ahorras', {
+								ahorras: formatearNumero(descuentoPromoPush, t),
+							})}
+						</Typography>
+						<Typography
+							fontFamily='Open Sans'
 							variant='subtitle3'
-							marginBottom='6px'
-						>
-							{nombreProducto}
-						</Typography>
-						<Typography variant='subtitle3' marginBottom='6px'>
-							{formatearNumero(precioConImpuestoUnidad, t)}
-						</Typography>
-						<Box
+							textAlign='center'
+							color='#fff'
 							sx={{
-								backgroundColor: theme.palette.primary.main,
-								width: '98px',
-								height: '14px',
+								background: theme.palette.primary.main,
 								borderRadius: '50px',
-								display: 'flex',
-								alignItems: 'center',
+								padding: '2px 12px',
+								width: 'fit-content',
 							}}
 						>
-							<Typography
-								fontFamily='Open Sans'
-								variant='caption'
-								textAlign='center'
-								color={'white'}
-								m='auto'
-							>
-								{`${t('general.ahorras')}:
-								${formatearNumero(precioConImpuestoUnidad, t)}`}
-							</Typography>
-						</Box>
+							{`${t('general.total')}: ${formatearNumero(
+								precioConImpuestoUnidad,
+								t
+							)}`}
+						</Typography>
 					</Box>
 					<Box
 						display='flex'
 						flexDirection='column'
-						justifyContent='center'
-						alignItems='center'
-						ml={5}
-						paddingRight='14px'
+						gap='10px'
+						width='50%'
+						paddingLeft='40px'
 					>
 						<Typography
 							variant='caption'
-							marginBottom='5px'
 							fontFamily='Open Sans'
-							textAlign='right'
-							sx={{width: '100%'}}
 							color={expandidoPromoPush === id ? 'white' : 'black'}
 						>
 							{`${t('general.unidadesMaximasAplicar')}:`}
 						</Typography>
-						<Box display='flex' justifyContent='end' width='100%'>
+						<Box display='flex'>
 							<Typography variant={'subtitle3'} fontWeight={700}>
 								{unidadesDisponibles}
 							</Typography>
@@ -191,7 +201,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 								padding: '0 0 12px 0',
 								borderRadius: '0 0 8px 8px',
 						  }
-						: {border: '0px', padding: '0 0 12px 0'}
+						: {border: 'none', padding: '0 0 12px 0'}
 				}
 			>
 				<Collapse in={expandidoPromoPush === id} timeout='auto' unmountOnExit>
@@ -199,7 +209,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 						<Box width='100%' display='flex' flexDirection='row'>
 							<GridStyled item xs={7}>
 								<Typography
-									sx={{padding: '4px 14px 8px 14px'}}
+									sx={{padding: '8px 14px 8px 14px'}}
 									variant={'subtitle3'}
 									fontWeight={700}
 									letterSpacing='-0.4px'
@@ -242,7 +252,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 											<Box
 												display='flex'
 												flexDirection='column'
-												padding='4px 14px 4px 0'
+												padding='4px 14px 8px 0'
 											>
 												<Box
 													display='flex'
@@ -285,10 +295,9 @@ export const TarjetaVistaPromoPush = (props: any) => {
 														variant='caption'
 														textAlign='right'
 													>
-														{`${t('general.ahorras')}: ${formatearNumero(
-															el.descuento,
-															t
-														)}`}
+														{t('general.ahorras', {
+															ahorras: formatearNumero(el.descuento, t),
+														})}
 													</Typography>
 												</Box>
 												<Typography variant='subtitle3'>
@@ -306,7 +315,10 @@ export const TarjetaVistaPromoPush = (props: any) => {
 						</Box>
 					</Stack>
 				</Collapse>
-				<Box marginTop='8px' padding='0 14px'>
+				<Box
+					marginTop={expandidoPromoPush === id ? '8px' : '0'}
+					padding='0 14px'
+				>
 					<ButtonStyled
 						disableFocusRipple
 						fullWidth
