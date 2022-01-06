@@ -183,7 +183,11 @@ const en = {
 		borrarPedidos:
 			'All your products will be deleted from your Order taking',			
 		borrarPedidosGeneral:
-			'All products will be deleted from your current order along with the initiatives, covers, packaging, etc., that they contain.',										
+			'All products will be deleted from your current order along with the initiatives, covers, packaging, etc., that they contain.',
+		productoEliminadoTitulo:
+			'Products removed successfully',	
+		productoEliminadoMensaje:
+			'All the products of the order taking were eliminated along with the initiatives, coverage, exchanges, packaging, etc.',														
 	},
 	pasos: {
 		planeacion: 'Planning',

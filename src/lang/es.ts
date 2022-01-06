@@ -194,7 +194,11 @@ const es = {
 		borrarPedidos:
 			'Todos tus productos se borrarán de tu Toma de pedido',				
 		borrarPedidosGeneral:
-			'Todos los productos se borrarán de tu pedido actual junto con las inicitivas, coberturas, envases, etc., que contengan.',									
+			'Todos los productos se borrarán de tu pedido actual junto con las inicitivas, coberturas, envases, etc., que contengan.',	
+		productoEliminadoTitulo:
+			'Productos eliminados correctamente',	
+		productoEliminadoMensaje:
+			'Se eliminarón todos los productos de la toma de pedido junto con las iniciativas, coberturas, canjes, envases,etc.',													
 	},
 	pasos: {
 		planeacion: 'Planeación',

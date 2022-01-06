@@ -82,7 +82,7 @@ export const useBorrarTodoLosProductos = (
 			setConfigAlerta({
 				titulo: t('advertencias.borrarPedidosTitulo'),
 				mensaje: t('advertencias.borrarPedidosGeneral'),
-				tituloBotonAceptar: 'Eliminar',
+				tituloBotonAceptar: 'Eliminar todos',
 				tituloBotonCancelar: 'Cancelar',
 				callbackAceptar: () => {
 					for (const producto of productos) {
@@ -96,8 +96,8 @@ export const useBorrarTodoLosProductos = (
 					dispatch(restablecerBonificaciones());
 					mostrarAviso(
 						'success',
-						'Productos eliminados correctamente',
-						undefined,
+						t('advertencias.productoEliminadoTitulo'),
+						t('advertencias.productoEliminadoMensaje'),
 						undefined,
 						'productoEliminado'
 					);
@@ -114,7 +114,7 @@ export const useBorrarTodoLosProductos = (
 			setConfigAlerta({
 				titulo: t('advertencias.borrarPedidosTitulo'),
 				mensaje: t('advertencias.borrarPedidosGeneral'),
-				tituloBotonAceptar: 'Eliminar',
+				tituloBotonAceptar: 'Eliminar todos',
 				tituloBotonCancelar: 'Cancelar',
 				callbackAceptar: () => {
 					for (const producto of productos) {
@@ -127,8 +127,8 @@ export const useBorrarTodoLosProductos = (
 					dispatch(eliminarCanje());
 					mostrarAviso(
 						'success',
-						'Productos eliminados correctamente',
-						undefined,
+						t('advertencias.productoEliminadoTitulo'),
+						t('advertencias.productoEliminadoMensaje'),
 						undefined,
 						'productoEliminado'
 					);
@@ -145,7 +145,7 @@ export const useBorrarTodoLosProductos = (
 			setConfigAlerta({
 				titulo: t('advertencias.borrarPedidosTitulo'),
 				mensaje: t('advertencias.borrarPedidosGeneral'),
-				tituloBotonAceptar: 'Eliminar',
+				tituloBotonAceptar: 'Eliminar todos',
 				tituloBotonCancelar: 'Cancelar',
 				callbackAceptar: () => {
 					for (const producto of productos) {
@@ -158,8 +158,8 @@ export const useBorrarTodoLosProductos = (
 					dispatch(restablecerBonificaciones());
 					mostrarAviso(
 						'success',
-						'Productos eliminados correctamente',
-						undefined,
+						t('advertencias.productoEliminadoTitulo'),
+						t('advertencias.productoEliminadoMensaje'),
 						undefined,
 						'productoEliminado'
 					);
@@ -188,7 +188,7 @@ export const useBorrarTodoLosProductos = (
 					}
 					mostrarAviso(
 						'success',
-						'Productos eliminados correctamente',
+						t('advertencias.productoEliminadoTitulo'),
 						undefined,
 						undefined,
 						'productoEliminado'
