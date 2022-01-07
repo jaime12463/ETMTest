@@ -91,6 +91,7 @@ Esquema del escenario: N°5 - Eliminar tarjeta con gesto
 	Cuando se desliza la tarjeta para la izquierda
 	Entonces el sistema borrará el producto del pedido
 	Y la tarjeta
+	Y se actualizarán todos los indicadores que correspondan.
 
 Ejemplos:
 |tipoPedido|
