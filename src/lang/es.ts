@@ -198,7 +198,25 @@ const es = {
 		productoEliminadoTitulo:
 			'Productos eliminados correctamente',	
 		productoEliminadoMensaje:
-			'Se eliminarón todos los productos de la toma de pedido junto con las iniciativas, coberturas, canjes, envases,etc.',													
+			'Se eliminarón todos los productos de la toma de pedido junto con las iniciativas, coberturas, canjes, envases,etc.',
+		borrarPromocionMensajeCanjeBonificacion:
+			'Todas las cantidades de las promociones junto con las bonificaciones que contienen se restablecerán a cero. Los canjes se eliminarán.',
+		borrarPromocionMensajeCanje:
+			'Todas las cantidades de las promociones se restablecerán a cero y los canjes que contienen se eliminarán.',	
+		borrarPromocionMensajeBonificacion:
+			'Todas las cantidades de las promociones junto con las bonificaciones que contienen se restablecerán a cero.',	
+		borrarPromocionTitulo:
+			'Restablecer cantidades a cero',						
+		borrarPromocionMensaje:
+			'Todas las cantidades de las promociones ingresadas se restablecerán a cero.',
+		promocionEliminadoTitulo:
+			'Productos restablecidos a cero correctamente',
+		promocionEliminadoMensajeCanjeBonificacion:
+			'Las cantidades de las promociones y de las bonificaciones se han restablecido a cero. Los canjes que contenían fuerón eliminados.',
+		promocionEliminadoMensajeCanje:
+			'Las cantidades de las promociones se han restablecido a cero. Los canjes que contenían fuerón eliminados.',
+		promocionEliminadoMensajeBonificacion:
+			'Las cantidades de las promociones y de las bonificaciones se han restablecido a cero.',																										
 	},
 	pasos: {
 		planeacion: 'Planeación',

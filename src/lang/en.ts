@@ -187,7 +187,23 @@ const en = {
 		productoEliminadoTitulo:
 			'Products removed successfully',	
 		productoEliminadoMensaje:
-			'All the products of the order taking were eliminated along with the initiatives, coverage, exchanges, packaging, etc.',														
+			'All the products of the order taking were eliminated along with the initiatives, coverage, exchanges, packaging, etc.',
+		borrarPromocionMensajeCanjeBonificacion:
+			'All promotion amounts will be reset to zero and any redemptions they contain will be removed.',
+		borrarPromocionMensajeBonificacion:
+			'All promotion amounts along with the bonuses they contain will be reset to zero.',	
+		borrarPromocionTitulo:
+			'Reset quantities to zero',			
+		borrarPromocionMensaje:
+			'All the amounts of the entered promotions will be reset to zero.',			
+		promocionEliminadoTitulo:
+			'Products successfully zeroed',
+		promocionEliminadoMensajeCanjeBonificacion:
+			'The promotion and bonus amounts have been reset to zero. The exchanges they contained were eliminated.',
+		promocionEliminadoMensajeCanje:
+			'Promotion amounts have been reset to zero. The exchanges they contained were eliminated.',	
+		promocionEliminadoMensajeBonificacion:
+			'The promotion and bonus amounts have been reset to zero.',																						
 	},
 	pasos: {
 		planeacion: 'Planning',
