@@ -91,7 +91,6 @@ Esquema del escenario: N°5 - Eliminar tarjeta con gesto
 	Cuando se desliza la tarjeta para la izquierda
 	Entonces el sistema borrará el producto del pedido
 	Y la tarjeta
-	Y mostrará el aviso para deshacer el borrado
 
 Ejemplos:
 |tipoPedido|
