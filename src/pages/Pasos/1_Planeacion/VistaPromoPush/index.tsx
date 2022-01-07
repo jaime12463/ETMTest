@@ -52,7 +52,7 @@ export const VistaPromoPush = ({stateOpen}: any) => {
 						justifyContent='center'
 						alignItems='center'
 						sx={{
-							background: theme.palette.secondary.main,
+							background: theme.palette.primary.main,
 							borderRadius: ' 4px 4px 0px 0px',
 						}}
 					>
