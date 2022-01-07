@@ -28,8 +28,7 @@ import {
 import {useTranslation} from 'react-i18next';
 import {AvisoIcon} from 'assests/iconos';
 
-export const useBorrarTodoLosProductos = (
-	// mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+export const useBorrarTodoTomaPedido = (
 	stateAlerta: any,
 	productos: TProductoPedido[],
 ) => {
@@ -70,7 +69,7 @@ export const useBorrarTodoLosProductos = (
 
 	const {bonificacionesConVenta} = useObtenerConfiguracion();
 
-	const borrarTodoLosProductos = useCallback(() => {
+	const borrarTodoTomaPedido = useCallback(() => {
 		const clienteOtroPedidoMismaFecha = pedidosClienteMismaFechaEntrega.length > 0 ? true : false;
 
 		const clienteTieneCanje = visitaActual.pedidos.canje.productos.length > 0 ? true : false;
@@ -240,7 +239,7 @@ export const useBorrarTodoLosProductos = (
 			});
 			setAlerta((prevState: boolean) => !prevState);
 		}*/
-	}, [productos, pedidoNoMandatorio]);
+	}, [productos]);
 
-	return borrarTodoLosProductos;
+	return borrarTodoTomaPedido;
 };

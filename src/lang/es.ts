@@ -198,6 +198,38 @@ const es = {
 		productoEliminadoTitulo: 'Productos eliminados correctamente',
 		productoEliminadoMensaje:
 			'Se eliminarón todos los productos de la toma de pedido junto con las iniciativas, coberturas, canjes, envases,etc.',
+		borrarPromocionMensajeCanjeBonificacion:
+			'Todas las cantidades de las promociones junto con las bonificaciones que contienen se restablecerán a cero. Los canjes se eliminarán.',
+		borrarPromocionMensajeCanje:
+			'Todas las cantidades de las promociones se restablecerán a cero y los canjes que contienen se eliminarán.',
+		borrarPromocionMensajeBonificacion:
+			'Todas las cantidades de las promociones junto con las bonificaciones que contienen se restablecerán a cero.',
+		borrarPromocionTitulo: 'Restablecer cantidades a cero',
+		borrarPromocionMensaje:
+			'Todas las cantidades de las promociones ingresadas se restablecerán a cero.',
+		promocionEliminadoTitulo: 'Productos restablecidos a cero correctamente',
+		promocionEliminadoMensajeCanjeBonificacion:
+			'Las cantidades de las promociones y de las bonificaciones se han restablecido a cero. Los canjes que contenían fueron eliminados.',
+		promocionEliminadoMensajeCanje:
+			'Las cantidades de las promociones se han restablecido a cero. Los canjes que contenían fueron eliminados.',
+		promocionEliminadoMensajeBonificacion:
+			'Las cantidades de las promociones y de las bonificaciones se han restablecido a cero.',
+		borrarLineaPedidosTitulo: '¿Quieres eliminar este producto?',
+		borrarLineaPedidosMensajeBonificacion:
+			'Este producto se borrará de tu pedido actual junto con las bonificaciones que contiene.',
+		borrarLineaPedidosMensajeCanje:
+			'Este producto se borrará de tu pedido actual junto con los canjes que contiene.',
+		borrarLineaPedidosMensajeCanjeBonificacion:
+			'Este producto se borrará de tu pedido actual junto con los canjes y las bonificaciones que contiene.',
+		borrarLineaPedidosMensajeUnico:
+			'Este producto se borrará de tu Toma de pedido',
+		productoUnicoEliminadoTitulo: 'Producto eliminado correctamente',
+		lineaBorradaConBonificacion:
+			'Se eliminó el producto de la toma de pedido junto con los las bonificaciones que contenía.',
+		lineaBorradaConCanje:
+			'Se eliminó el producto de la toma de pedido junto con los los canjes que contenía.',
+		lineaBorradaConCanjeBonificacion:
+			'Se eliminó el producto de la toma de pedido junto con los canjes y las bonificaciones que contenía.',
 	},
 	pasos: {
 		planeacion: 'Planeación',

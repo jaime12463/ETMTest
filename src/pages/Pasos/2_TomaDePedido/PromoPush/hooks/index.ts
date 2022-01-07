@@ -4,3 +4,4 @@ export {useManejadorConfirmarAgregarPedido} from './useManejadorConfirmarAgregar
 export {useValidarAgregarProductoAlPedidoCliente} from './useValidarAgregarProductoAlPedidoCliente';
 export {useManejadorConfirmarEliminarPedidosNoMandatorios} from './useManejadorConfirmarEliminarPedidosNoMandatorios';
 export {useValidarProductoPermiteSubUnidades} from './useValidarProductoPermiteSubUnidades';
+export {useBorrarTodoPromociones} from './useBorrarTodoPromociones';
