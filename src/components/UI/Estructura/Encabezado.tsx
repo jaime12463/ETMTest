@@ -69,7 +69,12 @@ const Encabezado: React.FC<Props> = ({
 				borderRadius='50%'
 				height='8px'
 				width='120%'
-				sx={{top: '72px', left: '-10%', background: theme.palette.primary.main}}
+				sx={{
+					top: '72px',
+					left: '-10%',
+					background: theme.palette.primary.main,
+					zIndex: 99,
+				}}
 			/>
 		</AppBar>
 	);

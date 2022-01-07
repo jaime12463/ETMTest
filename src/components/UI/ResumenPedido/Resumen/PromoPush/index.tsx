@@ -42,12 +42,12 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 					</Box>
 					<Box display='flex' flexDirection='column' flex='2' gap='8px'>
 						<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
-							Promociones aplicacadas:
+							{`${t('general.promocionesAplicadas')}:`}
 						</Typography>
 						<Box alignItems='center' display='flex' gap='6px'>
 							<PromocionesRellenoIcon height='14px' width='13px' />
 							<Typography variant='subtitle3' color='#fff' fontWeight={700}>
-								3
+								{promocion.componentes?.length ?? 0}
 							</Typography>
 						</Box>
 					</Box>

@@ -83,7 +83,7 @@ const en = {
 		subTotal: 'Subtotal: {{subTotal}}',
 		cadaUno: 'Each',
 		paquetes: 'Packages',
-		ahorras: 'Saves: {{ahoras}}',
+		ahorras: 'Saves: {{ahorras}}',
 		ahorroTotal: 'Total savings: {{ahorroTotal}}',
 		tipo: 'Type',
 		bonificacion: 'Bonus',
@@ -93,6 +93,8 @@ const en = {
 		unidadesMaximasAplicar: 'Maximum units that you can apply',
 		motivoDelCanje: 'Exchange reason',
 		motivoCancelacion: 'Cancellation reason',
+		promocionesAplicadas: 'Applied promotions',
+		aplicacionMaxima: 'Maximum application',
 	},
 	simbolos: {
 		decimal: ',',
@@ -178,16 +180,13 @@ const en = {
 		excedeMayorPermitido: 'The amount entered exceeds the maximum allowed',
 		excedeMayorPermitidoSubtitulo:
 			'It is necessary to correct the value of the presentation.',
-		borrarPedidosTitulo:
-			'Do you want to remove all products?',		
-		borrarPedidos:
-			'All your products will be deleted from your Order taking',			
+		borrarPedidosTitulo: 'Do you want to remove all products?',
+		borrarPedidos: 'All your products will be deleted from your Order taking',
 		borrarPedidosGeneral:
 			'All products will be deleted from your current order along with the initiatives, covers, packaging, etc., that they contain.',
-		productoEliminadoTitulo:
-			'Products removed successfully',	
+		productoEliminadoTitulo: 'Products removed successfully',
 		productoEliminadoMensaje:
-			'All the products of the order taking were eliminated along with the initiatives, coverage, exchanges, packaging, etc.',														
+			'All the products of the order taking were eliminated along with the initiatives, coverage, exchanges, packaging, etc.',
 	},
 	pasos: {
 		planeacion: 'Planning',

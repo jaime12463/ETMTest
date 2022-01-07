@@ -87,6 +87,8 @@ const br = {
 		unidadesMaximasAplicar: 'Unidades máximas que você pode aplicar',
 		motivoDelCanje: 'Motivo do canje',
 		motivoCancelacion: 'Motivo de cancelamento',
+		promocionesAplicadas: 'Promoções aplicadas',
+		aplicacionMaxima: 'Aplicação máxima',
 	},
 	simbolos: {
 		decimal: '.',
