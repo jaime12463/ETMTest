@@ -203,7 +203,23 @@ const en = {
 		promocionEliminadoMensajeCanje:
 			'Promotion amounts have been reset to zero. The exchanges they contained were eliminated.',	
 		promocionEliminadoMensajeBonificacion:
-			'The promotion and bonus amounts have been reset to zero.',																						
+			'The promotion and bonus amounts have been reset to zero.',	
+		borrarLineaPedidosTitulo:
+			'Do you want to remove this product?',	
+		borrarLineaPedidosMensajeCanje:
+			'This product will be removed from your current order along with any exchanges it contains.',	
+		borrarLineaPedidosMensajeCanjeBonificacion:
+			'This product will be removed from your current order along with any redemptions and bonuses it contains.',									
+		borrarLineaPedidosMensajeBonificacion:
+			'This product will be removed from your current order along with the bonuses it contains.',	
+		borrarLineaPedidosMensajeUnico:
+			'This product will be deleted from your Order Take',						
+		lineaBorradaConBonificacion:
+			'The product was removed from the order taking along with the bonuses it contained.',
+		lineaBorradaConCanje:
+			'The product of the order taking was eliminated along with the exchanges it contained.',
+		lineaBorradaConCanjeBonificacion:
+			'The product was removed from the order taking along with the exchanges and bonuses it contained.',																																									
 	},
 	pasos: {
 		planeacion: 'Planning',

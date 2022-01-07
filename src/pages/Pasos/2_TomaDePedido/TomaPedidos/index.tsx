@@ -36,16 +36,14 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
-import {AvisoIcon, BorrarIcon} from 'assests/iconos';
+import {BorrarIcon} from 'assests/iconos';
 import {styled} from '@mui/material/styles';
-import Input from '@mui/material/Input';
-import {useValidarBorrarPedido} from '../hooks';
-import {useMostrarAdvertenciaEnDialogo, useBorrarTodoLosProductos} from 'hooks';
+import {useBorrarLinea, useBorrarTodoTomaPedido} from '../hooks';
+import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import useEstilos from '../useEstilos';
 import {SwitchCambiarTipoPago} from '../components';
 import {useTranslation} from 'react-i18next';
 import {useSnackbar} from 'notistack';
-import {AvisoDeshacer} from 'components/UI/AvisoContenido/AvisosPlantilla';
 import Modal from 'components/UI/Modal';
 import TarjetaTomaPedido from 'components/UI/TarjetaTomaPedido';
 import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoPush';
@@ -109,16 +107,16 @@ const TomaPedido: React.FC = () => {
 		clienteActual.codigoCliente
 	);
 
-	const borrarTodosLosProductos = useBorrarTodoLosProductos(
+	const borrarTodosLosProductos = useBorrarTodoTomaPedido(
 		{setAlerta, setConfigAlerta},
 		venta.productos
 	);
 
-	const validarBorrarPedido = useValidarBorrarPedido(
-		mostrarAdvertenciaEnDialogo
-	);
-
 	const {configuracionPedido}: any = datosCliente;
+
+	const borrarlinea = useBorrarLinea(
+		{setAlerta, setConfigAlerta}
+	);
 
 	React.useEffect(() => {
 		if (
@@ -197,58 +195,6 @@ const TomaPedido: React.FC = () => {
 		}
 	}, [productoActual?.codigoProducto]);
 
-	const {enqueueSnackbar, closeSnackbar} = useSnackbar();
-	const cambiarEstadoProducto = (
-		producto: TProductoPedido,
-		nuevoEstado: 'activo' | 'eliminado' | 'borrardo' | 'transito'
-	) => {
-		if (nuevoEstado === 'borrardo') {
-			//ToDo borrar
-		} else {
-			dispatch(
-				editarProductoDelPedidoActual({
-					productoPedido: {...producto, estado: nuevoEstado},
-				})
-			);
-		}
-	};
-
-	const manejadorDeshacerGestoBorrar = (producto: TProductoPedido) => {
-		cambiarEstadoProducto(producto, 'eliminado');
-
-		const aviso = ({
-			borrarProductosNoMandatorios,
-			productosNoMandatorios,
-		}: any) => {
-			if (borrarProductosNoMandatorios) {
-				productosNoMandatorios.forEach((pedido: TPedido) => {
-					dispatch(
-						borrarProductosDeVisitaActual({
-							tipoPedidoActual: pedido.tipoPedido,
-						})
-					);
-				});
-			}
-
-			mostrarAviso(
-				'success',
-				'Producto Eliminado',
-				undefined,
-				undefined,
-				'productoEliminado'
-			);
-
-			return dispatch(
-				borrarProductoDelPedidoActual({
-					codigoProducto: producto.codigoProducto,
-					codigoTipoPedidoActual: 'venta',
-				})
-			);
-		};
-
-		return validarBorrarPedido(aviso, cambiarEstadoProducto, producto);
-	};
-
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
@@ -292,10 +238,7 @@ const TomaPedido: React.FC = () => {
 								<SwipeBorrar
 									key={producto.codigoProducto}
 									item={producto}
-									manejadorGesto={() => {
-										manejadorDeshacerGestoBorrar(producto);
-										return 0;
-									}}
+									manejadorGesto={() => borrarlinea(producto)}
 								>
 									{producto.promoPush ? (
 										<TarjetaPromoPush

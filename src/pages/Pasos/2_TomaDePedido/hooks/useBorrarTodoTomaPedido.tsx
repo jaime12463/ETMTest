@@ -19,15 +19,16 @@ import {
 import {TProductoPedido} from 'models';
 
 import {
+	useValidarAgregarProductoAlPedidoCliente,
 	useManejadorConfirmarEliminarPedidosNoMandatorios,
+	useValidarProductoPermiteSubUnidades,
 	useValidarTieneBonificaciones,
 } from 'pages/Pasos/2_TomaDePedido/hooks';
 
 import {useTranslation} from 'react-i18next';
 import {AvisoIcon} from 'assests/iconos';
 
-export const useBorrarTodoLasPromociones = (
-	// mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
+export const useBorrarTodoTomaPedido = (
 	stateAlerta: any,
 	productos: TProductoPedido[],
 ) => {
@@ -41,6 +42,15 @@ export const useBorrarTodoLasPromociones = (
 
 	const productosMandatoriosVisitaActual =
 		useObtenerProductosMandatoriosVisitaActual();
+	const configuracionTipoDePedidoActual = configuracion.tipoPedidos.find(
+		(tipoPedido) => tipoPedido.codigo === visitaActual.tipoPedidoActual
+	);
+	const manejadorConfirmarEliminarPedidosNoMandatorios =
+		useManejadorConfirmarEliminarPedidosNoMandatorios(
+			productosMandatoriosVisitaActual.noMandatorios,
+			undefined,
+			productos
+		);
 
 	const pedidoNoMandatorio = configuracion.tipoPedidos.find(
 		(tipoPedido) => tipoPedido.esMandatorio === false
@@ -59,7 +69,7 @@ export const useBorrarTodoLasPromociones = (
 
 	const {bonificacionesConVenta} = useObtenerConfiguracion();
 
-	const borrarTodoLasPromociones = useCallback(() => {
+	const borrarTodoTomaPedido = useCallback(() => {
 		const clienteOtroPedidoMismaFecha = pedidosClienteMismaFechaEntrega.length > 0 ? true : false;
 
 		const clienteTieneCanje = visitaActual.pedidos.canje.productos.length > 0 ? true : false;
@@ -69,9 +79,9 @@ export const useBorrarTodoLasPromociones = (
 		//CA2:
 		if (!clienteOtroPedidoMismaFecha && clienteTieneCanje && (clienteTieneBoficaciones && bonificacionesConVenta)) {
 			setConfigAlerta({
-				titulo: t('advertencias.borrarPromocionTitulo'),
-				mensaje: t('advertencias.borrarPromocionMensajeCanjeBonificacion'),
-				tituloBotonAceptar: 'Aceptar',
+				titulo: t('advertencias.borrarPedidosTitulo'),
+				mensaje: t('advertencias.borrarPedidosGeneral'),
+				tituloBotonAceptar: 'Eliminar todos',
 				tituloBotonCancelar: 'Cancelar',
 				callbackAceptar: () => {
 					for (const producto of productos) {
@@ -85,8 +95,8 @@ export const useBorrarTodoLasPromociones = (
 					dispatch(restablecerBonificaciones());
 					mostrarAviso(
 						'success',
-						t('advertencias.promocionEliminadoTitulo'),
-						t('advertencias.promocionEliminadoMensajeCanjeBonificacion'),
+						t('advertencias.productoEliminadoTitulo'),
+						t('advertencias.productoEliminadoMensaje'),
 						undefined,
 						'productoEliminado'
 					);
@@ -101,9 +111,9 @@ export const useBorrarTodoLasPromociones = (
 		//CA3:
 		if (!clienteOtroPedidoMismaFecha && clienteTieneCanje && (!clienteTieneBoficaciones || !bonificacionesConVenta)) {
 			setConfigAlerta({
-				titulo: t('advertencias.borrarPromocionTitulo'),
-				mensaje: t('advertencias.borrarPromocionMensajeCanje'),
-				tituloBotonAceptar: 'Eliminar',
+				titulo: t('advertencias.borrarPedidosTitulo'),
+				mensaje: t('advertencias.borrarPedidosGeneral'),
+				tituloBotonAceptar: 'Eliminar todos',
 				tituloBotonCancelar: 'Cancelar',
 				callbackAceptar: () => {
 					for (const producto of productos) {
@@ -116,8 +126,8 @@ export const useBorrarTodoLasPromociones = (
 					dispatch(eliminarCanje());
 					mostrarAviso(
 						'success',
-						t('advertencias.promocionEliminadoTitulo'),
-						t('advertencias.promocionEliminadoMensajeCanje'),
+						t('advertencias.productoEliminadoTitulo'),
+						t('advertencias.productoEliminadoMensaje'),
 						undefined,
 						'productoEliminado'
 					);
@@ -132,9 +142,9 @@ export const useBorrarTodoLasPromociones = (
 		//CA4:
 		if (!clienteOtroPedidoMismaFecha && !clienteTieneCanje && (clienteTieneBoficaciones && bonificacionesConVenta)) {
 			setConfigAlerta({
-				titulo: t('advertencias.borrarPromocionTitulo'),
-				mensaje: t('advertencias.borrarPromocionMensajeBonificacion'),
-				tituloBotonAceptar: 'Eliminar',
+				titulo: t('advertencias.borrarPedidosTitulo'),
+				mensaje: t('advertencias.borrarPedidosGeneral'),
+				tituloBotonAceptar: 'Eliminar todos',
 				tituloBotonCancelar: 'Cancelar',
 				callbackAceptar: () => {
 					for (const producto of productos) {
@@ -147,8 +157,8 @@ export const useBorrarTodoLasPromociones = (
 					dispatch(restablecerBonificaciones());
 					mostrarAviso(
 						'success',
-						t('advertencias.promocionEliminadoTitulo'),
-						'Las cantidades de las promociones y de las bonificaciones se han restablecido a cero.',
+						t('advertencias.productoEliminadoTitulo'),
+						t('advertencias.productoEliminadoMensaje'),
 						undefined,
 						'productoEliminado'
 					);
@@ -163,9 +173,9 @@ export const useBorrarTodoLasPromociones = (
 		//CA1: o default
 		//if (clienteOtroPedidoMismaFecha) {
 			setConfigAlerta({
-				titulo: t('advertencias.borrarPromocionTitulo'),
-				mensaje: t('advertencias.borrarPromocionMensaje'),
-				tituloBotonAceptar: 'Aceptar',
+				titulo: t('advertencias.borrarPedidosTitulo'),
+				mensaje: t('advertencias.borrarPedidos'),
+				tituloBotonAceptar: 'Eliminar',
 				tituloBotonCancelar: 'Cancelar',
 				callbackAceptar: () => {
 					for (const producto of productos) {
@@ -177,7 +187,7 @@ export const useBorrarTodoLasPromociones = (
 					}
 					mostrarAviso(
 						'success',
-						t('advertencias.promocionEliminadoTitulo'),
+						t('advertencias.productoEliminadoTitulo'),
 						undefined,
 						undefined,
 						'productoEliminado'
@@ -229,7 +239,7 @@ export const useBorrarTodoLasPromociones = (
 			});
 			setAlerta((prevState: boolean) => !prevState);
 		}*/
-	}, [productos, pedidoNoMandatorio]);
+	}, [productos]);
 
-	return borrarTodoLasPromociones;
+	return borrarTodoTomaPedido;
 };

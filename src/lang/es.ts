@@ -212,11 +212,29 @@ const es = {
 		promocionEliminadoTitulo:
 			'Productos restablecidos a cero correctamente',
 		promocionEliminadoMensajeCanjeBonificacion:
-			'Las cantidades de las promociones y de las bonificaciones se han restablecido a cero. Los canjes que contenían fuerón eliminados.',
+			'Las cantidades de las promociones y de las bonificaciones se han restablecido a cero. Los canjes que contenían fueron eliminados.',
 		promocionEliminadoMensajeCanje:
-			'Las cantidades de las promociones se han restablecido a cero. Los canjes que contenían fuerón eliminados.',
+			'Las cantidades de las promociones se han restablecido a cero. Los canjes que contenían fueron eliminados.',
 		promocionEliminadoMensajeBonificacion:
-			'Las cantidades de las promociones y de las bonificaciones se han restablecido a cero.',																										
+			'Las cantidades de las promociones y de las bonificaciones se han restablecido a cero.',
+		borrarLineaPedidosTitulo:
+			'¿Quieres eliminar este producto?',
+		borrarLineaPedidosMensajeBonificacion:
+			'Este producto se borrará de tu pedido actual junto con las bonificaciones que contiene.',
+		borrarLineaPedidosMensajeCanje:
+			'Este producto se borrará de tu pedido actual junto con los canjes que contiene.',
+		borrarLineaPedidosMensajeCanjeBonificacion:
+			'Este producto se borrará de tu pedido actual junto con los canjes y las bonificaciones que contiene.',		
+		borrarLineaPedidosMensajeUnico:
+			'Este producto se borrará de tu Toma de pedido',								
+		productoUnicoEliminadoTitulo:
+			'Producto eliminado correctamente',
+		lineaBorradaConBonificacion:
+			'Se eliminó el producto de la toma de pedido junto con los las bonificaciones que contenía.',
+		lineaBorradaConCanje:
+			'Se eliminó el producto de la toma de pedido junto con los los canjes que contenía.',		
+		lineaBorradaConCanjeBonificacion:
+			'Se eliminó el producto de la toma de pedido junto con los canjes y las bonificaciones que contenía.',																																
 	},
 	pasos: {
 		planeacion: 'Planeación',

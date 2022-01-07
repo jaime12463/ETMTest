@@ -9,11 +9,12 @@ import useEstilos from './useEstilos';
 import {AvisoIcon, BorrarIcon, ReiniciarIcon} from 'assests/iconos';
 import {useAgregarProductoAlPedidoActual} from './hooks/useAgregarProductoAlPedidoActual';
 import {useObtenerVisitaActual} from 'redux/hooks';
-import {useMostrarAdvertenciaEnDialogo, useBorrarTodoLasPromociones} from 'hooks';
+import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import {TProductoPedido} from 'models';
 import {useTranslation} from 'react-i18next';
 import Modal from 'components/UI/Modal';
 import theme from 'theme';
+import { useBorrarTodoPromociones } from './hooks';
 
 interface BotonProps {
 	push: boolean;
@@ -44,7 +45,7 @@ const PromoPush: React.FC = () => {
 	>(false);
 	const classes = useEstilos();
 
-	const borrarTodosLasPromociones = useBorrarTodoLasPromociones(
+	const borrarTodosLasPromociones = useBorrarTodoPromociones(
 		{setAlerta, setConfigAlerta},
 		promociones
 	);
