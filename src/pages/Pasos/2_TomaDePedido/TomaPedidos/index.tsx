@@ -114,9 +114,7 @@ const TomaPedido: React.FC = () => {
 
 	const {configuracionPedido}: any = datosCliente;
 
-	const borrarlinea = useBorrarLinea(
-		{setAlerta, setConfigAlerta}
-	);
+	const borrarlinea = useBorrarLinea({setAlerta, setConfigAlerta});
 
 	React.useEffect(() => {
 		if (

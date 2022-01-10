@@ -14,7 +14,7 @@ import {TProductoPedido} from 'models';
 import {useTranslation} from 'react-i18next';
 import Modal from 'components/UI/Modal';
 import theme from 'theme';
-import { useBorrarTodoPromociones } from './hooks';
+import {useBorrarTodoPromociones} from './hooks';
 
 interface BotonProps {
 	push: boolean;
@@ -81,7 +81,9 @@ const PromoPush: React.FC = () => {
 			<Grid container>
 				<Box width='100%' display='flex' justifyContent='flex-end' mb={1}>
 					<Button
-						onClick={() => { borrarTodosLasPromociones()}}
+						onClick={() => {
+							borrarTodosLasPromociones();
+						}}
 						className={classes.root}
 						style={{
 							backgroundColor: '#FFFFFF',

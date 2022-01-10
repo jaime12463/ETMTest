@@ -107,7 +107,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 			};
 		}
 	}
-	if (pasoActual === 1) {
+	if (pasoActual === 2) {
 		const productosSinModificar = venta?.productos?.some(
 			(producto) => producto.unidades === 0 && producto.subUnidades === 0
 		);
@@ -122,7 +122,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 			return {
 				error: true,
 				contenidoMensajeAviso: {
-					tipo: 'warning',
+					tipo: 'error',
 					titulo: t('advertencias.pedidoMinimoNoAlcanzado'),
 					mensaje: t('mensajes.pedidoMinimoNoAlcanzado'),
 					opciones: undefined,

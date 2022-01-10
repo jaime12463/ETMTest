@@ -88,7 +88,7 @@ export const Planeacion: React.FC = () => {
 
 	if (
 		datosCliente?.informacionCrediticia.condicion !== 'contado' &&
-		creditoDisponible <= 0
+		creditoDisponible < 0
 	) {
 		mostrarAviso(
 			'warning',
