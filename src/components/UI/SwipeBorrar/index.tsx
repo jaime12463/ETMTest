@@ -1,4 +1,4 @@
-import {ReactNode, useState} from 'react';
+import {ReactNode, useEffect, useState} from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import {Box, Typography} from '@mui/material';
 import {TProductoPedido} from 'models';
@@ -11,18 +11,22 @@ type Props = {
 
 export const SwipeBorrar = (props: Props) => {
 	const {children, item, manejadorGesto} = props;
-	const [index, setIndex] = useState<number>(0);
+	const [index, setIndex] = useState<number>(item.estado == 'activo' ? 0 : 1);
 	const [swipe, SetSwipe] = useState<number>(0);
 	const [swipeMargen, SetSwipeMargen] = useState<string>('');
 
 	const switchingHandler = (index: number, type: string) => {
 		if (index === 1 && type === 'end') {
 			manejadorGesto();
-			setIndex(0);
+			setIndex(0.5);
 		}
 		SetSwipe(index);
 		SetSwipeMargen( `${index*100}px` );
 	};
+
+	useEffect (() => {
+		setIndex(0);
+	}, [index])
 
 	return (
 		<>
@@ -30,7 +34,7 @@ export const SwipeBorrar = (props: Props) => {
 				onSwitching={(index, type) => switchingHandler(index, type)}
 				enableMouseEvents
 				hysteresis={0.9}
-				index={item.estado == 'activo' ? 0 : 1}
+				index={index}
 			>
 				{children}
 
