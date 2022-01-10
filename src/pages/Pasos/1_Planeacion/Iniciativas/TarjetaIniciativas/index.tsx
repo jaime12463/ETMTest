@@ -54,6 +54,7 @@ import {formatearFecha, formatearNumero} from 'utils/methods';
 import CustomSelect from 'components/UI/CustomSelect';
 import {Link} from '@mui/material';
 import Modal from 'components/UI/Modal';
+import ModalCore from 'components/UI/ModalCore';
 
 const ButtonStyled = styled(Button)(() => ({
 	border: '1.5px solid #651C32',
@@ -652,42 +653,45 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								</Typography>
 							</Box>
 							{archivoAdjunto && (
-								<Box
-									display='flex'
-									gap='8px'
-									alignItems='center'
-									data-cy={`iniciativa-vigencia-${id}`}
-								>
-									<Typography
-										variant='body3'
-										fontFamily='Open Sans'
-										flex='1'
-										sx={{opacity: 0.5}}
+								<>
+									<ModalCore open={mostrarArchivosAdjuntos}>
+										<VisualizadorPdfs
+											titulo={archivoAdjunto}
+											archivo={archivoAdjunto}
+											setOpen={setMostrarArchivosAdjuntos}
+										/>
+									</ModalCore>
+									<Box
+										display='flex'
+										gap='8px'
+										alignItems='center'
+										data-cy={`iniciativa-vigencia-${id}`}
 									>
-										{t('general.archivosAdjuntos')}
-									</Typography>
-									<Box alignItems='center' display='flex' flex='3' gap='10px'>
-										<Clip height='12px' width='12px' />
-										<Link
-											variant='subtitle3'
-											color='#000'
-											sx={{textDecoration: 'none'}}
+										<Typography
+											variant='body3'
 											fontFamily='Open Sans'
-											component='button'
-											onClick={() => {
-												setMostrarArchivosAdjuntos(true);
-											}}
+											flex='1'
+											sx={{opacity: 0.5}}
 										>
-											{archivoAdjunto}
-										</Link>
+											{t('general.archivosAdjuntos')}
+										</Typography>
+										<Box alignItems='center' display='flex' flex='3' gap='10px'>
+											<Clip height='12px' width='12px' />
+											<Link
+												variant='subtitle3'
+												color='#000'
+												sx={{textDecoration: 'none'}}
+												fontFamily='Open Sans'
+												component='button'
+												onClick={() => {
+													setMostrarArchivosAdjuntos(true);
+												}}
+											>
+												{archivoAdjunto}
+											</Link>
+										</Box>
 									</Box>
-									<VisualizadorPdfs
-										titulo={archivoAdjunto}
-										archivo={archivoAdjunto}
-										open={mostrarArchivosAdjuntos}
-										setOpen={setMostrarArchivosAdjuntos}
-									/>
-								</Box>
+								</>
 							)}
 						</Box>
 						<Divider />
