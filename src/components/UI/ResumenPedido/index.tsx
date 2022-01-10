@@ -4,7 +4,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import {CerrarIcon} from 'assests/iconos';
-import useEstilos from './useEstilos';
 import {
 	useObtenerCompromisoDeCobroActual,
 	useObtenerConfiguracion,
@@ -18,12 +17,10 @@ import {formatearFecha, formatearNumero} from 'utils/methods';
 import {useObtenerBonificacionesHabilitadas} from 'hooks';
 import {useObtenerConsolidacionImplicitos} from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
 interface Props {
-	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
-	const classes = useEstilos({open});
+const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 	const compromisoDeCobro = useObtenerCompromisoDeCobroActual();
 	const visitaActual = useObtenerVisitaActual();
 	const {venta, canje, prestamoenvase, ventaenvase} = visitaActual.pedidos;
@@ -200,252 +197,232 @@ const ResumenPedido: React.FC<Props> = ({open, setOpen}) => {
 
 	return (
 		<>
-			{open && (
-				<Box className={classes.container}>
-					<Box className={classes.card}>
-						<Box
-							display='flex'
-							justifyContent='end'
-							marginBottom='10px'
-							onClick={() => setOpen((prevState) => !prevState)}
-							sx={{cursor: 'pointer'}}
-						>
-							<CerrarIcon fill='#565657' />
-						</Box>
-						<Typography
-							variant='subtitle2'
-							fontFamily='Open Sans'
-							color='#565657'
-							textAlign='center'
-							marginBottom='4px'
-						>
-							{t('general.resumenDePedido')}
-						</Typography>
-						<Box
-							alignItems='center'
-							display='flex'
-							justifyContent='center'
-							gap='2px'
-						>
-							<Typography
-								variant='subtitle3'
-								fontFamily='Open Sans'
-								color='#565657'
-							>
-								{t('general.fechaEntrega')}
-							</Typography>
-							<Typography
-								variant='body3'
-								fontFamily='Open Sans'
-								color='#565657'
-							>
-								{formatearFecha(visitaActual.fechaEntrega, t)}
-							</Typography>
-						</Box>
-						<Stack spacing='24px' margin='40px 0'>
-							{(ventaCredito.length > 0 || promocionesCredito.length > 0) && (
-								<Resumen.Container>
-									<Resumen.Titulo background={theme.palette.success.dark}>
-										{t('general.credito')}
-									</Resumen.Titulo>
-									{ventaCredito.map((producto, index) => {
-										if (!producto) return null;
+			<Box
+				display='flex'
+				justifyContent='end'
+				onClick={() => setOpen((prevState) => !prevState)}
+				padding='22px 24px 10px 24px'
+				sx={{cursor: 'pointer'}}
+				width='100%'
+			>
+				<CerrarIcon fill='#565657' />
+			</Box>
+			<Typography
+				variant='subtitle2'
+				fontFamily='Open Sans'
+				color='#565657'
+				textAlign='center'
+				marginBottom='4px'
+			>
+				{t('general.resumenDePedido')}
+			</Typography>
+			<Box alignItems='center' display='flex' justifyContent='center' gap='2px'>
+				<Typography variant='subtitle3' fontFamily='Open Sans' color='#565657'>
+					{t('general.fechaEntrega')}
+				</Typography>
+				<Typography variant='body3' fontFamily='Open Sans' color='#565657'>
+					{formatearFecha(visitaActual.fechaEntrega, t)}
+				</Typography>
+			</Box>
+			<Stack spacing='20px' padding='16px 18px 20px 18px' width='100%'>
+				{(ventaCredito.length > 0 || promocionesCredito.length > 0) && (
+					<Resumen.Container>
+						<Resumen.Titulo background={theme.palette.success.dark}>
+							{t('general.credito')}
+						</Resumen.Titulo>
+						{ventaCredito.map((producto, index) => {
+							if (!producto) return null;
 
-										return (
-											<Box key={producto.codigoProducto}>
-												<Resumen.Tarjeta producto={producto} />
-												{index !== ventaCredito.length - 1 && <Divider />}
-											</Box>
-										);
-									})}
-									{promocionesCredito.length > 0 && (
-										<>
-											<Resumen.TituloPromo />
-											{promocionesCredito.map((promocion) => {
-												return (
-													<Resumen.PromoPush
-														key={promocion.codigoProducto}
-														promocion={promocion}
-													/>
-												);
-											})}
-										</>
-									)}
-								</Resumen.Container>
-							)}
+							return (
+								<Box key={producto.codigoProducto}>
+									<Resumen.Tarjeta producto={producto} />
+									{index !== ventaCredito.length - 1 && <Divider />}
+								</Box>
+							);
+						})}
+						{promocionesCredito.length > 0 && (
+							<>
+								<Resumen.TituloPromo />
+								{promocionesCredito.map((promocion) => {
+									return (
+										<Resumen.PromoPush
+											key={promocion.codigoProducto}
+											promocion={promocion}
+										/>
+									);
+								})}
+							</>
+						)}
+					</Resumen.Container>
+				)}
 
-							{(ventaContado.length > 0 || promocionesContado.length > 0) && (
-								<Resumen.Container>
-									<Resumen.Titulo background={theme.palette.secondary.dark}>
-										{t('general.contado')}
-									</Resumen.Titulo>
-									{ventaContado.map((producto, index) => {
-										if (!producto) return null;
+				{(ventaContado.length > 0 || promocionesContado.length > 0) && (
+					<Resumen.Container>
+						<Resumen.Titulo background={theme.palette.secondary.dark}>
+							{t('general.contado')}
+						</Resumen.Titulo>
+						{ventaContado.map((producto, index) => {
+							if (!producto) return null;
 
-										return (
-											<Box key={producto.codigoProducto}>
-												<Resumen.Tarjeta producto={producto} />
-												{index !== ventaCredito.length - 1 && <Divider />}
-											</Box>
-										);
-									})}
-									{promocionesContado.length > 0 && (
-										<>
-											<Resumen.TituloPromo />
-											{promocionesContado.map((promocion) => {
-												return (
-													<Resumen.PromoPush
-														key={promocion.codigoProducto}
-														promocion={promocion}
-													/>
-												);
-											})}
-										</>
-									)}
-								</Resumen.Container>
-							)}
+							return (
+								<Box key={producto.codigoProducto}>
+									<Resumen.Tarjeta producto={producto} />
+									{index !== ventaCredito.length - 1 && <Divider />}
+								</Box>
+							);
+						})}
+						{promocionesContado.length > 0 && (
+							<>
+								<Resumen.TituloPromo />
+								{promocionesContado.map((promocion) => {
+									return (
+										<Resumen.PromoPush
+											key={promocion.codigoProducto}
+											promocion={promocion}
+										/>
+									);
+								})}
+							</>
+						)}
+					</Resumen.Container>
+				)}
 
-							{(prestamoenvase?.productos?.length > 0 ||
-								envasesRetorno?.length > 0) && (
-								<Resumen.Container>
-									<Resumen.Titulo background={theme.palette.secondary.main}>
-										{t('general.envases')}
-									</Resumen.Titulo>
-									{prestamoenvase?.productos?.map((envase, index) => {
-										return (
-											<Box key={`${envase.codigoProducto}${index}`}>
-												<Resumen.Envases
-													producto={{...envase, tipo: 'prestamo'}}
-													key={`${envase.codigoProducto}${index}`}
-												/>
-												{index !== prestamoenvase?.productos?.length - 1 && (
-													<Divider />
-												)}
-											</Box>
-										);
-									})}
-									{prestamoenvase?.productos?.length > 0 &&
-										envasesRetorno?.length > 0 && <Divider />}
-									{envasesRetorno?.map((envase, index) => {
-										if (envase.unidades === 0) {
-											return;
-										}
-
-										return (
-											<Box key={`${envase.codigoImplicito} ${index}`}>
-												<Resumen.Envases retorno={envase} />
-												{index !== envasesRetorno?.length - 1 && <Divider />}
-											</Box>
-										);
-									})}
-								</Resumen.Container>
-							)}
-
-							{canjes.length > 0 && (
-								<Resumen.Container>
-									<Resumen.Titulo background={theme.palette.secondary.main}>
-										Canjes
-									</Resumen.Titulo>
-									{canjes.map((canje, index) => {
-										return (
-											<Box key={canje.codigoProducto}>
-												<Resumen.Canjes producto={canje} />
-												{index !== canjes.length - 1 && <Divider />}
-											</Box>
-										);
-									})}
-								</Resumen.Container>
-							)}
-
-							{cantidadBonificaciones > 0 && (
-								<Resumen.Container>
-									<Resumen.Titulo
-										background={theme.palette.secondary.main}
-										bonificacion
-									>
-										{t('titulos.bonificaciones')}
-									</Resumen.Titulo>
-									<Resumen.Bonificaciones bonificaciones={bonificaciones} />
-								</Resumen.Container>
-							)}
-
-							{compromisoDeCobro.monto !== 0 && (
-								<Resumen.Container>
-									<Resumen.Titulo background={theme.palette.secondary.main}>
-										{t('general.compromisoCobro')}
-									</Resumen.Titulo>
-									<Resumen.CompromisoDeCobro />
-								</Resumen.Container>
-							)}
-
-							{visitaActual.ordenDeCompra !== '' && (
-								<Resumen.Container>
-									<Resumen.Titulo background={theme.palette.secondary.main}>
-										{t('titulos.ordenDeCompra')}
-									</Resumen.Titulo>
-									<Resumen.OrdenDeCompra
-										ordenDeCompra={visitaActual.ordenDeCompra}
+				{(prestamoenvase?.productos?.length > 0 ||
+					envasesRetorno?.length > 0) && (
+					<Resumen.Container>
+						<Resumen.Titulo background={theme.palette.secondary.main}>
+							{t('general.envases')}
+						</Resumen.Titulo>
+						{prestamoenvase?.productos?.map((envase, index) => {
+							return (
+								<Box key={`${envase.codigoProducto}${index}`}>
+									<Resumen.Envases
+										producto={{...envase, tipo: 'prestamo'}}
+										key={`${envase.codigoProducto}${index}`}
 									/>
-								</Resumen.Container>
-							)}
-						</Stack>
-						<Box>
-							<Box
-								display='flex'
-								justifyContent='space-between'
-								padding='12px 14px'
-								sx={{background: '#F5F0EF'}}
-							>
-								<Typography variant='subtitle3' color='#000'>
-									{t('general.totalContado')}
-								</Typography>
-								<Typography variant='subtitle3' color='#000'>
-									{formatearNumero(totalContado, t)}
-								</Typography>
-							</Box>
-							<Box
-								display='flex'
-								justifyContent='space-between'
-								padding='12px 14px'
-								sx={{background: '#F5F0EF50'}}
-							>
-								<Typography variant='subtitle3' color='#000'>
-									{t('general.totalCredito')}
-								</Typography>
-								<Typography variant='subtitle3' color='#000'>
-									{formatearNumero(totalCredito, t)}
-								</Typography>
-							</Box>
-							<Box
-								display='flex'
-								justifyContent='space-between'
-								padding='12px 14px'
-								sx={{background: '#F5F0EF'}}
-							>
-								<Typography variant='subtitle3' color='#000'>
-									{t('general.totalDeAhorro')}
-								</Typography>
-								<Typography variant='subtitle3' color='#000'>
-									{formatearNumero(totalDescuentos, t)}
-								</Typography>
-							</Box>
-							<Box
-								display='flex'
-								justifyContent='space-between'
-								padding='12px 14px'
-								sx={{background: '#F5F0EF50'}}
-							>
-								<Typography variant='subtitle3' color='#000'>
-									{t('general.totalCargosFinancieros')}
-								</Typography>
-								<Typography variant='subtitle3' color='#000'>
-									{formatearNumero(0, t)}
-								</Typography>
-							</Box>
-						</Box>
-					</Box>
+									{index !== prestamoenvase?.productos?.length - 1 && (
+										<Divider />
+									)}
+								</Box>
+							);
+						})}
+						{prestamoenvase?.productos?.length > 0 &&
+							envasesRetorno?.length > 0 && <Divider />}
+						{envasesRetorno?.map((envase, index) => {
+							if (envase.unidades === 0) {
+								return;
+							}
+
+							return (
+								<Box key={`${envase.codigoImplicito} ${index}`}>
+									<Resumen.Envases retorno={envase} />
+									{index !== envasesRetorno?.length - 1 && <Divider />}
+								</Box>
+							);
+						})}
+					</Resumen.Container>
+				)}
+
+				{canjes.length > 0 && (
+					<Resumen.Container>
+						<Resumen.Titulo background={theme.palette.secondary.main}>
+							Canjes
+						</Resumen.Titulo>
+						{canjes.map((canje, index) => {
+							return (
+								<Box key={canje.codigoProducto}>
+									<Resumen.Canjes producto={canje} />
+									{index !== canjes.length - 1 && <Divider />}
+								</Box>
+							);
+						})}
+					</Resumen.Container>
+				)}
+
+				{cantidadBonificaciones > 0 && (
+					<Resumen.Container>
+						<Resumen.Titulo
+							background={theme.palette.secondary.main}
+							bonificacion
+						>
+							{t('titulos.bonificaciones')}
+						</Resumen.Titulo>
+						<Resumen.Bonificaciones bonificaciones={bonificaciones} />
+					</Resumen.Container>
+				)}
+
+				{compromisoDeCobro.monto !== 0 && (
+					<Resumen.Container>
+						<Resumen.Titulo background={theme.palette.secondary.main}>
+							{t('general.compromisoCobro')}
+						</Resumen.Titulo>
+						<Resumen.CompromisoDeCobro />
+					</Resumen.Container>
+				)}
+
+				{visitaActual.ordenDeCompra !== '' && (
+					<Resumen.Container>
+						<Resumen.Titulo background={theme.palette.secondary.main}>
+							{t('titulos.ordenDeCompra')}
+						</Resumen.Titulo>
+						<Resumen.OrdenDeCompra ordenDeCompra={visitaActual.ordenDeCompra} />
+					</Resumen.Container>
+				)}
+			</Stack>
+			<Box padding='0 18px 16px 18px' width='100%'>
+				<Box
+					display='flex'
+					justifyContent='space-between'
+					padding='12px 14px'
+					sx={{background: '#F5F0EF'}}
+				>
+					<Typography variant='subtitle3' color='#000'>
+						{t('general.totalContado')}
+					</Typography>
+					<Typography variant='subtitle3' color='#000'>
+						{formatearNumero(totalContado, t)}
+					</Typography>
 				</Box>
-			)}
+				<Box
+					display='flex'
+					justifyContent='space-between'
+					padding='12px 14px'
+					sx={{background: '#F5F0EF50'}}
+				>
+					<Typography variant='subtitle3' color='#000'>
+						{t('general.totalCredito')}
+					</Typography>
+					<Typography variant='subtitle3' color='#000'>
+						{formatearNumero(totalCredito, t)}
+					</Typography>
+				</Box>
+				<Box
+					display='flex'
+					justifyContent='space-between'
+					padding='12px 14px'
+					sx={{background: '#F5F0EF'}}
+				>
+					<Typography variant='subtitle3' color='#000'>
+						{t('general.totalDeAhorro')}
+					</Typography>
+					<Typography variant='subtitle3' color='#000'>
+						{formatearNumero(totalDescuentos, t)}
+					</Typography>
+				</Box>
+				<Box
+					display='flex'
+					justifyContent='space-between'
+					padding='12px 14px'
+					sx={{background: '#F5F0EF50'}}
+				>
+					<Typography variant='subtitle3' color='#000'>
+						{t('general.totalCargosFinancieros')}
+					</Typography>
+					<Typography variant='subtitle3' color='#000'>
+						{formatearNumero(0, t)}
+					</Typography>
+				</Box>
+			</Box>
 		</>
 	);
 };
