@@ -209,41 +209,37 @@ const TarjetaPromoPush = (props: any) => {
 		}
 	}, [puedeAgregar]);
 
-	const manejadorExpandido =
-		({id}: any) =>
-		(event: React.SyntheticEvent) => {
-			setExpandidoexpandidoPromoPush(id);
-			props?.stateInputFocus?.setInputFocus('unidades');
-			props?.stateFocusId?.setFocusId(codigoProducto);
-		};
+	const manejadorExpandido = (id: string | boolean) => {
+		setExpandidoexpandidoPromoPush(id);
+		props?.stateInputFocus?.setInputFocus('unidades');
+		props?.stateFocusId?.setFocusId(codigoProducto);
+	};
 
 	return (
 		<>
 			<CardStyled
-				sx={
-					getValues.unidades > 0
-						? {border: '1.5px solid #00CF91'}
-						: expandidoPromoPush === id
-						? {border: '0px'}
-						: {border: '1.5px solid #D9D9D9'}
-				}
+				sx={{
+					border:
+						getValues.unidades > 0
+							? `1px solid ${theme.palette.success.main}`
+							: '1px solid #D9D9D9',
+				}}
 			>
 				<Box
-					sx={
-						expandidoPromoPush === id
-							? {
-									backgroundColor: '#8A4C5F',
-									borderTop: '0px',
-									padding: '12px 14px',
-							  }
-							: {backgroundColor: '#FFFFFF', padding: '5px 14px'}
-					}
+					padding='12px 14px 0 14px'
+					sx={{
+						background:
+							expandidoPromoPush === id
+								? theme.palette.secondary.light
+								: '#fff',
+						transition: 'all 0.3s ease-in-out',
+					}}
 				>
 					<Box
 						display='flex'
 						justifyContent='space-between'
 						alignItems='center'
-						marginBottom='8px'
+						marginBottom='10px'
 					>
 						<SwitchCambiarTipoPago
 							producto={producto}
@@ -255,168 +251,160 @@ const TarjetaPromoPush = (props: any) => {
 						)}
 					</Box>
 					<Box
-						display='grid'
-						gridTemplateColumns='repeat(2, 1fr)'
-						marginBottom='8px'
-						sx={
-							expandidoPromoPush === id
-								? {color: '#FFFFFF'}
-								: {color: '#000000'}
-						}
+						display='flex'
+						flexWrap='wrap'
+						paddingBottom='12px'
+						sx={{color: expandidoPromoPush === id ? '#fff' : '#000'}}
 					>
-						<Box display='flex' flexDirection='column'>
-							<Typography variant='subtitle3' marginBottom='2px'>
-								{codigoProducto}
-							</Typography>
-							<Typography
-								variant='subtitle3'
-								sx={{
-									maxWidth: '137px',
-									textOverflow: 'ellipsis',
-									overflow: 'hidden',
-								}}
-								marginBottom='6px'
-							>
-								{nombreProducto}
-							</Typography>
-							<Typography variant='subtitle3' marginBottom='6px'>
-								{formatearNumero(precioConImpuestoUnidad, t)}
-							</Typography>
-							<Box
-								sx={{
-									backgroundColor: theme.palette.primary.main,
-									width: '98px',
-									height: '14px',
-									borderRadius: '50px',
-									display: 'flex',
-									alignContent: 'center',
-								}}
-							>
-								<Typography
-									fontFamily='Open Sans'
-									variant='caption'
-									textAlign='center'
-									color={'white'}
-									m='auto'
-								>
-									Ahorras: {formatearNumero(descuentoPromoPush, t)}
-								</Typography>
-							</Box>
-						</Box>
 						<Box
 							display='flex'
 							flexDirection='column'
-							justifyContent='center'
-							alignItems='center'
+							width='100%'
+							gap='2px'
+							marginBottom='8px'
 						>
+							<Typography variant='subtitle3'>{codigoProducto}</Typography>
+							<Typography variant='subtitle3'>{nombreProducto}</Typography>
+						</Box>
+						<Box display='flex' flexDirection='column' width='50%' gap='6px'>
+							<Typography
+								variant='body3'
+								fontFamily='Open Sans'
+								sx={{textDecoration: 'line-through'}}
+							>
+								{t('general.precioUnitario', {
+									precioUnitario: formatearNumero(
+										precioConImpuestoUnidad + descuentoPromoPush,
+										t
+									),
+								})}
+							</Typography>
 							<Typography
 								variant='caption'
-								marginBottom='14px'
-								fontFamily='Open Sans'
-								sx={
+								color={
 									expandidoPromoPush === id
-										? {color: '#FFFFFF'}
-										: {color: '#000000'}
+										? '#fff'
+										: theme.palette.secondary.main
 								}
 							>
-								{/*ToDo: Cambiar a multilenguaje */}
-								Aplicación maxima
+								{t('general.ahorras', {
+									ahorras: formatearNumero(descuentoPromoPush, t),
+								})}
 							</Typography>
-							<Box
-								alignSelf='end'
-								display='flex'
-								alignItems='center'
-								justifyContent='center'
-								gap='2px'
+							<Typography
+								fontFamily='Open Sans'
+								variant='subtitle3'
+								textAlign='center'
+								color='#fff'
+								sx={{
+									background: theme.palette.primary.main,
+									borderRadius: '50px',
+									padding: '2px 12px',
+									width: 'fit-content',
+								}}
 							>
-								<IconButton
-									size='small'
-									name='unidades'
-									value='-'
-									onClick={handleButtons}
-									disabled={getValues.unidades === 0}
-									sx={{padding: '0'}}
+								{`${t('general.total')}: ${formatearNumero(
+									precioConImpuestoUnidad,
+									t
+								)}`}
+							</Typography>
+						</Box>
+						<Box display='flex' flexDirection='column' width='50%'>
+							<Box
+								display='flex'
+								flexDirection='column'
+								gap='14px'
+								alignSelf='end'
+							>
+								<Typography
+									variant='caption'
+									fontFamily='Open Sans'
+									sx={{color: expandidoPromoPush === id ? '#fff' : '#000'}}
 								>
-									<QuitarRellenoIcon
-										width='18px'
-										height='18px'
-										disabled={getValues.unidades === 0}
-									/>
-								</IconButton>
-
-								{/* stateFocusId,
-		stateInputFocus, */}
-								<InputStyled
-									value={getValues.unidades}
-									disableUnderline
-									name='unidades'
-									id='unidades_producto'
-									onFocus={(e) => e.target.select()}
-									onClick={() => {
-										props?.stateInputFocus?.setInputFocus('unidades');
-										props?.stateFocusId?.setFocusId(codigoProducto);
-									}}
-									inputProps={{
-										style: {textAlign: 'center'},
-										inputMode: 'numeric',
-										pattern: '[0-9]*',
-									}}
-									inputRef={(input) => {
-										if (
-											props?.stateInputFocus?.inputFocus === 'unidades' &&
-											props?.stateFocusId?.focusId === codigoProducto
-										) {
-											input?.focus();
-										}
-									}}
-									onChange={handleOnChange}
-									onKeyPress={handleKeyPress}
-								/>
-								<IconButton
-									size='small'
-									name='unidades'
-									value='+'
-									onClick={handleButtons}
-									disabled={getValues.unidades >= unidadesDisponibles}
-									sx={{padding: '0'}}
-								>
-									<AgregarRedondoIcon
-										width='18px'
-										height='18px'
-										disabled={getValues.unidades >= unidadesDisponibles}
-									/>
-								</IconButton>
-								<Typography variant={'subtitle3'} fontWeight={700}>
-									/ {unidadesDisponibles}
+									{`${t('general.aplicacionMaxima')}:`}
 								</Typography>
+								<Box
+									alignSelf='start'
+									display='flex'
+									alignItems='center'
+									justifyContent='center'
+									gap='2px'
+								>
+									<IconButton
+										size='small'
+										name='unidades'
+										value='-'
+										onClick={handleButtons}
+										disabled={getValues.unidades === 0}
+										sx={{padding: '0'}}
+									>
+										<QuitarRellenoIcon
+											width='18px'
+											height='18px'
+											disabled={getValues.unidades === 0}
+										/>
+									</IconButton>
+									<InputStyled
+										value={getValues.unidades}
+										disableUnderline
+										name='unidades'
+										id='unidades_producto'
+										onFocus={(e) => e.target.select()}
+										onClick={() => {
+											props?.stateInputFocus?.setInputFocus('unidades');
+											props?.stateFocusId?.setFocusId(codigoProducto);
+										}}
+										inputProps={{
+											style: {textAlign: 'center'},
+											inputMode: 'numeric',
+											pattern: '[0-9]*',
+										}}
+										inputRef={(input) => {
+											if (
+												props?.stateInputFocus?.inputFocus === 'unidades' &&
+												props?.stateFocusId?.focusId === codigoProducto
+											) {
+												input?.focus();
+											}
+										}}
+										onChange={handleOnChange}
+										onKeyPress={handleKeyPress}
+									/>
+									<IconButton
+										size='small'
+										name='unidades'
+										value='+'
+										onClick={handleButtons}
+										disabled={getValues.unidades >= unidadesDisponibles}
+										sx={{padding: '0'}}
+									>
+										<AgregarRedondoIcon
+											width='18px'
+											height='18px'
+											disabled={getValues.unidades >= unidadesDisponibles}
+											style={{marginRight: '8px'}}
+										/>
+									</IconButton>
+									<Typography variant={'subtitle3'} fontWeight={700}>
+										/ {unidadesDisponibles}
+									</Typography>
+								</Box>
 							</Box>
 						</Box>
 					</Box>
 				</Box>
 
-				<Box
-					sx={
-						expandidoPromoPush === id
-							? getValues.unidades > 0
-								? {
-										border: '0px',
-								  }
-								: {
-										border: '1.5px solid #D9D9D9',
-								  }
-							: {border: '0px', padding: '4px 14px'}
-					}
-				>
+				<Box>
 					<Collapse in={expandidoPromoPush === id} timeout='auto' unmountOnExit>
 						<Stack>
 							<Box width='100%' display='flex' flexDirection='row'>
 								<GridStyled item xs={6}>
 									<Typography
-										sx={{padding: '12px 14px'}}
+										sx={{padding: '6px 14px 14px 14px'}}
 										variant={'subtitle3'}
 										fontWeight={700}
 									>
-										Paquetes
+										{t('general.paquetes')}
 									</Typography>
 								</GridStyled>
 								<GridStyled item xs={6}>
@@ -480,16 +468,11 @@ const TarjetaPromoPush = (props: any) => {
 														<Box>
 															<Typography
 																variant='caption'
-																mt={0.3}
-																color={'#651C32'}
+																color={theme.palette.secondary.main}
 															>
-																{` x${promoPush.componentes[i].cantidad} `}
+																{` x${promoPush.componentes[i].cantidad} `}{' '}
 															</Typography>
-															<Typography
-																color={'#000000'}
-																variant='caption'
-																mt={0.3}
-															>
+															<Typography color={'#000000'} variant='caption'>
 																{`${formatearNumero(el.precioBase, t)}`}
 															</Typography>
 														</Box>
@@ -501,12 +484,15 @@ const TarjetaPromoPush = (props: any) => {
 														marginBottom='12px'
 														alignSelf='end'
 													>
-														{/*ToDo: pasar a multilenguaje */}
-														Ahorras: {formatearNumero(el.descuento, t)}
+														{t('general.ahorras', {
+															ahorras: formatearNumero(el.descuento, t),
+														})}
 													</Typography>
 													<Typography variant='subtitle3' alignSelf='end'>
-														{/*ToDo: pasar a multilenguaje */}
-														Total: {formatearNumero(el.precioFinal, t)}
+														{`${t('general.total')}: ${formatearNumero(
+															el.precioFinal,
+															t
+														)}`}
 													</Typography>
 												</Box>
 											</GridStyled>
@@ -517,22 +503,28 @@ const TarjetaPromoPush = (props: any) => {
 							</Box>
 						</Stack>
 					</Collapse>
-					<Box marginTop='8px' sx={{padding: '6px 14px'}}>
+					<Box
+						padding={
+							expandidoPromoPush === id
+								? '8px 14px 12px 14px'
+								: '0 14px 12px 14px'
+						}
+					>
 						<ButtonStyled
 							disableFocusRipple
 							fullWidth
 							disableRipple
-							onClick={manejadorExpandido({
-								id: expandidoPromoPush === id ? false : id,
-							})}
+							onClick={() =>
+								manejadorExpandido(expandidoPromoPush === id ? false : id)
+							}
 						>
 							<CardActions disableSpacing style={{padding: 0}}>
 								<Box display='flex' gap='6px' alignItems='center'>
 									<Typography variant='caption' color='secondary'>
 										{/*ToDo: pasar a multilenguaje */}
 										{expandidoPromoPush !== id
-											? 'Ver detalle'
-											: 'Ocultar detalle'}
+											? t('general.verDetalle')
+											: t('general.ocultarDetalle')}
 									</Typography>
 									<Box
 										className={clsx(classes.expand, {

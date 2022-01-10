@@ -83,7 +83,7 @@ const en = {
 		subTotal: 'Subtotal: {{subTotal}}',
 		cadaUno: 'Each',
 		paquetes: 'Packages',
-		ahorras: 'Saves: {{ahoras}}',
+		ahorras: 'Saves: {{ahorras}}',
 		ahorroTotal: 'Total savings: {{ahorroTotal}}',
 		tipo: 'Type',
 		bonificacion: 'Bonus',
@@ -93,6 +93,8 @@ const en = {
 		unidadesMaximasAplicar: 'Maximum units that you can apply',
 		motivoDelCanje: 'Exchange reason',
 		motivoCancelacion: 'Cancellation reason',
+		promocionesAplicadas: 'Applied promotions',
+		aplicacionMaxima: 'Maximum application',
 	},
 	simbolos: {
 		decimal: ',',
@@ -178,48 +180,42 @@ const en = {
 		excedeMayorPermitido: 'The amount entered exceeds the maximum allowed',
 		excedeMayorPermitidoSubtitulo:
 			'It is necessary to correct the value of the presentation.',
-		borrarPedidosTitulo:
-			'Do you want to remove all products?',		
-		borrarPedidos:
-			'All your products will be deleted from your Order taking',			
+		borrarPedidosTitulo: 'Do you want to remove all products?',
+		borrarPedidos: 'All your products will be deleted from your Order taking',
 		borrarPedidosGeneral:
 			'All products will be deleted from your current order along with the initiatives, covers, packaging, etc., that they contain.',
-		productoEliminadoTitulo:
-			'Products removed successfully',	
+		productoEliminadoTitulo: 'Products removed successfully',
 		productoEliminadoMensaje:
 			'All the products of the order taking were eliminated along with the initiatives, coverage, exchanges, packaging, etc.',
 		borrarPromocionMensajeCanjeBonificacion:
 			'All promotion amounts will be reset to zero and any redemptions they contain will be removed.',
 		borrarPromocionMensajeBonificacion:
-			'All promotion amounts along with the bonuses they contain will be reset to zero.',	
-		borrarPromocionTitulo:
-			'Reset quantities to zero',			
+			'All promotion amounts along with the bonuses they contain will be reset to zero.',
+		borrarPromocionTitulo: 'Reset quantities to zero',
 		borrarPromocionMensaje:
-			'All the amounts of the entered promotions will be reset to zero.',			
-		promocionEliminadoTitulo:
-			'Products successfully zeroed',
+			'All the amounts of the entered promotions will be reset to zero.',
+		promocionEliminadoTitulo: 'Products successfully zeroed',
 		promocionEliminadoMensajeCanjeBonificacion:
 			'The promotion and bonus amounts have been reset to zero. The exchanges they contained were eliminated.',
 		promocionEliminadoMensajeCanje:
-			'Promotion amounts have been reset to zero. The exchanges they contained were eliminated.',	
+			'Promotion amounts have been reset to zero. The exchanges they contained were eliminated.',
 		promocionEliminadoMensajeBonificacion:
-			'The promotion and bonus amounts have been reset to zero.',	
-		borrarLineaPedidosTitulo:
-			'Do you want to remove this product?',	
+			'The promotion and bonus amounts have been reset to zero.',
+		borrarLineaPedidosTitulo: 'Do you want to remove this product?',
 		borrarLineaPedidosMensajeCanje:
-			'This product will be removed from your current order along with any exchanges it contains.',	
+			'This product will be removed from your current order along with any exchanges it contains.',
 		borrarLineaPedidosMensajeCanjeBonificacion:
-			'This product will be removed from your current order along with any redemptions and bonuses it contains.',									
+			'This product will be removed from your current order along with any redemptions and bonuses it contains.',
 		borrarLineaPedidosMensajeBonificacion:
-			'This product will be removed from your current order along with the bonuses it contains.',	
+			'This product will be removed from your current order along with the bonuses it contains.',
 		borrarLineaPedidosMensajeUnico:
-			'This product will be deleted from your Order Take',						
+			'This product will be deleted from your Order Take',
 		lineaBorradaConBonificacion:
 			'The product was removed from the order taking along with the bonuses it contained.',
 		lineaBorradaConCanje:
 			'The product of the order taking was eliminated along with the exchanges it contained.',
 		lineaBorradaConCanjeBonificacion:
-			'The product was removed from the order taking along with the exchanges and bonuses it contained.',																																									
+			'The product was removed from the order taking along with the exchanges and bonuses it contained.',
 	},
 	pasos: {
 		planeacion: 'Planning',
