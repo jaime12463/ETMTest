@@ -87,8 +87,6 @@ export const useBorrarLinea = (
 					);
 				},
 				callbackCancelar: () => {
-					console.log("Cancelo");
-					//SetIndex(0);
 				},
 				iconoMensaje: <AvisoIcon />,
 			});
@@ -125,8 +123,6 @@ export const useBorrarLinea = (
 					);
 				},
 				callbackCancelar: () => {
-					console.log("Cancelo");
-					//SetIndex(0);
 				},
 				iconoMensaje: <AvisoIcon />,
 			});
@@ -163,8 +159,6 @@ export const useBorrarLinea = (
 					);
 				},
 				callbackCancelar: () => {
-					console.log("Cancelo");
-					//SetIndex(0);
 				},
 				iconoMensaje: <AvisoIcon />,
 			});
@@ -211,8 +205,6 @@ export const useBorrarLinea = (
 					);
 				},
 				callbackCancelar: () => {
-					console.log("Cancelo");
-					//SetIndex(0);
 				},
 				iconoMensaje: <AvisoIcon />,
 			});
