@@ -28,6 +28,7 @@ const TarjetaEnvasesRetornables = ({
 		(producto: TPrecioProducto) =>
 			producto.codigoProducto === envase.codigoImplicito
 	);
+
 	const visitaActual = useObtenerVisitaActual();
 
 	useEffect(() => {
@@ -35,7 +36,9 @@ const TarjetaEnvasesRetornables = ({
 		let subUnidadesContador = 0;
 		Object.values(visitaActual.pedidos).forEach((pedido) => {
 			const producto = pedido.productos.find(
-				(producto) => producto.codigoProducto === envase.codigoImplicito
+				(producto) =>
+					producto.codigoProducto === envase.codigoImplicito &&
+					producto.tipoPago === envase.tipoPago
 			);
 			if (producto) {
 				unidadesContador = unidadesContador + producto?.unidades;

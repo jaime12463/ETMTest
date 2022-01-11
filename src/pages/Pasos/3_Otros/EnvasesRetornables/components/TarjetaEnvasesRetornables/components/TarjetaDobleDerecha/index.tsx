@@ -117,11 +117,6 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 					codigoTipoPedidoActual
 				);
 			} else {
-				// mostrarAdvertenciaEnDialogo(
-				// 	t('advertencias.cantidadSuperiorEnvases'),
-				// 	'supera-cantidad-en-envases'
-				// );
-
 				mostrarAviso('error', t('advertencias.cantidadSuperiorEnvases'));
 			}
 
@@ -176,10 +171,6 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 					codigoTipoPedidoActual
 				);
 			} else {
-				// mostrarAdvertenciaEnDialogo(
-				// 	t('advertencias.cantidadSuperiorEnvases'),
-				// 	'supera-cantidad-en-envases'
-				// );
 				mostrarAviso('error', t('advertencias.cantidadSuperiorEnvases'));
 			}
 
@@ -260,6 +251,7 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 						cambioUnidadesPorTipoPedido={cambioUnidadesPorTipoPedido}
 						cambioSubUnidadesPorTipoPedido={cambioSubUnidadesPorTipoPedido}
 						stateDatosActual={{datosActual, setDatosActual}}
+						datosEnvase={envase}
 					/>
 				))}
 			</Grid>
