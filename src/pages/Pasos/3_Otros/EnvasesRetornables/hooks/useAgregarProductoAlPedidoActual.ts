@@ -17,43 +17,33 @@ export const useAgregarProductoAlPedidoActual = () => {
 			tipoPago: ETiposDePago | undefined,
 			codigoTipoPedidoActual: string | undefined
 		) => {
-			if (!productoActual || !tipoPago || !codigoTipoPedidoActual) return;
+			if (!productoActual || tipoPago === undefined || !codigoTipoPedidoActual)
+				return;
 
-			const {codigoProducto} = productoActual;
-
-			if (unidades > 0 || subUnidades > 0) {
-				dispatch(
-					agregarEnvaseDelPedidoActual({
-						productoPedido: {
-							...productoActual,
-							unidades: unidades,
-							subUnidades: subUnidades,
-							total:
-								productoActual.precioConImpuestoUnidad * unidades +
-								productoActual.precioConImpuestoSubunidad * subUnidades,
-							tipoPago: tipoPago,
-							catalogoMotivo: '',
-							preciosBase: {
-								unidad: productoActual.precioConImpuestoUnidad,
-								subUnidad: productoActual.precioConImpuestoSubunidad,
-							},
-							preciosNeto: {
-								unidad: productoActual.precioConImpuestoUnidad,
-								subUnidad: productoActual.precioConImpuestoSubunidad,
-							},
-							descuento: undefined,
+			dispatch(
+				agregarEnvaseDelPedidoActual({
+					productoPedido: {
+						...productoActual,
+						unidades: unidades,
+						subUnidades: subUnidades,
+						total:
+							productoActual.precioConImpuestoUnidad * unidades +
+							productoActual.precioConImpuestoSubunidad * subUnidades,
+						tipoPago: tipoPago,
+						catalogoMotivo: '',
+						preciosBase: {
+							unidad: productoActual.precioConImpuestoUnidad,
+							subUnidad: productoActual.precioConImpuestoSubunidad,
 						},
-						codigoTipoPedidoActual,
-					})
-				);
-			} else {
-				dispatch(
-					borrarProductoDelPedidoActual({
-						codigoProducto,
-						codigoTipoPedidoActual,
-					})
-				);
-			}
+						preciosNeto: {
+							unidad: productoActual.precioConImpuestoUnidad,
+							subUnidad: productoActual.precioConImpuestoSubunidad,
+						},
+						descuento: undefined,
+					},
+					codigoTipoPedidoActual,
+				})
+			);
 		},
 		[dispatch]
 	);

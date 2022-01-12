@@ -40,7 +40,8 @@ export const useAgregarProductoAlPedidoActual = (
 	productoActual: TProductoPedido | null,
 	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo,
 	getValues: any,
-	setGetValues: any
+	setGetValues: any,
+	esEnPromociones: boolean
 ) => {
 	const mostrarAviso = useMostrarAviso();
 	const dispatch = useAppDispatch();
@@ -139,28 +140,30 @@ export const useAgregarProductoAlPedidoActual = (
 					})
 				);
 			} else {
-				if (
-					!configuracionTipoDePedidoActual?.esMandatorio ||
-					validarHayMasProductosMandatorios(
-						productosMandatoriosVisitaActual.mandatorios
-					) ||
-					!validarHayMasProductosNoMandatorios(
-						productosMandatoriosVisitaActual.noMandatorios
-					)
-				) {
-					dispatch(borrarProductoDelPedidoActual({codigoProducto}));
-				} else {
-					mostrarAdvertenciaEnDialogo(
-						t('advertencias.borrarPedidosNoMandatorios', {
-							tipoPedido: pedidoNoMandatorio?.descripcion,
-						}),
-						'eliminar-linea-pedido',
-						manejadorConfirmarEliminarPedidosNoMandatorios,
-						{
-							aceptar: t('general.si'),
-							cancelar: t('general.no'),
-						}
-					);
+				if (esEnPromociones) {
+					if (
+						!configuracionTipoDePedidoActual?.esMandatorio ||
+						validarHayMasProductosMandatorios(
+							productosMandatoriosVisitaActual.mandatorios
+						) ||
+						!validarHayMasProductosNoMandatorios(
+							productosMandatoriosVisitaActual.noMandatorios
+						)
+					) {
+						dispatch(borrarProductoDelPedidoActual({codigoProducto}));
+					} else {
+						mostrarAdvertenciaEnDialogo(
+							t('advertencias.borrarPedidosNoMandatorios', {
+								tipoPedido: pedidoNoMandatorio?.descripcion,
+							}),
+							'eliminar-linea-pedido',
+							manejadorConfirmarEliminarPedidosNoMandatorios,
+							{
+								aceptar: t('general.si'),
+								cancelar: t('general.no'),
+							}
+						);
+					}
 				}
 			}
 		},

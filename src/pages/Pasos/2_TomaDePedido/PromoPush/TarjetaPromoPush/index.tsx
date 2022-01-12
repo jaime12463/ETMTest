@@ -123,6 +123,11 @@ const TarjetaPromoPush = (props: any) => {
 
 	/* 	const {focusId, setFocusId} = stateFocusId;
 	const {inputFocus, setInputFocus} = stateInputFocus; */
+	let esEnPromociones = false;
+	if (!stateFocusId && !stateInputFocus) {
+		esEnPromociones = true;
+	}
+
 	const {venta} = visitaActual.pedidos;
 
 	const producto = venta.productos.find(
@@ -164,7 +169,8 @@ const TarjetaPromoPush = (props: any) => {
 		item,
 		mostrarAdvertenciaEnDialogo,
 		getValues,
-		setGetValues
+		setGetValues,
+		esEnPromociones
 	);
 
 	const handleOnChange = (
