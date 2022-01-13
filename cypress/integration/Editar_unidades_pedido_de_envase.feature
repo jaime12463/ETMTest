@@ -65,13 +65,14 @@ Antecedentes:
 	Dado que estoy en la tarjeta de envases
 	Y se seleccionó la tarjeta de un producto envase de la lista de envases
 	
-Escenario: N°1 – La cantidad es mayor a la disponible para retorno
+Escenario: N°1 - La cantidad es mayor a la disponible para retorno
 	Cuando se modifican las unidades del producto envase para cualquier tipo de pedido de envase
 	Y la cantidad ingresada supera a la cantidad de unidades actual de retorno + las cantidad de unidades inicial del item que se está modificando 
-    Entonces el sistema mostrará el mensaje “La cantidad excede a las disponibles para retorno” 
+    Entonces el sistema mostrará el mensaje "La cantidad excede a las disponibles para retorno"
+	Y marcará las casillas con error en rojo 
     
 
-Esquema del escenario: N°2 – La cantidad es menor o igual a la disponible para retorno
+Esquema del escenario: N°2 - La cantidad es menor o igual a la disponible para retorno
 	Cuando se modifican las unidades para cualquier tipo de pedido de envase
 	Y la cantidad ingresada no supera a la cantidad de unidades actual de retorno + la cantidad de unidades inicial del item que se está modificando 
     Y el tipo de pedido de envase es valorizado = '<_esValorizado>'

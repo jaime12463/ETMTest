@@ -20,3 +20,11 @@ Escenario: N°2 - El tipo de pedido no requiere motivo
     Entonces el sistema mostrará el producto, descripción, los atributos del producto, unidad, subunidad, el precio unidad y el precio subunidad vacíos.
 
 # los atributos a mostrar del producto son: tamaño y envase 
+
+Escenario: N°3 - El tipo de pedido no requiere motivo y el tipo de producto es promo push
+    Dado que se ingresó a un pedido cuyo tipo de pedido _requiereMotivo = false
+    Y el producto ingresado es _promopush
+    Cuando se ingresa el producto al pedido
+    Entonces el sistema mostrará el producto como tarjeta de promoción
+
+    # ver desplegar_promociones_disponibles y deplegar_detalle_promo_push
