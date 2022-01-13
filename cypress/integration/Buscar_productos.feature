@@ -82,6 +82,7 @@ Escenario: N°4 - Selección de productos para agregar
     Y se seleccionaron productos del listado
     Cuando selecciono el control agregar
     Entonces el sistema agregará los productos seleccionados del listado al _tipoPedido correspondiente
+    Y mostrará el panel de ingreso de producto en la tarjeta del _tipoPedido seleccionado
 
 Escenario: N°5 - Borrar búsqueda
     Dado que se buscaron productos

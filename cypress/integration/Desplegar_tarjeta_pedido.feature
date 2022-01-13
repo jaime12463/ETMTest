@@ -13,7 +13,8 @@ Antecedentes:
 
 Escenario: N°1 - Desplegar tarjeta
     Cuando selecciono desplegar tarjeta
-    Entonces el sistema mostrará el panel de ingreso del producto
+    Entonces el sistema mostrará el control para ingresar producto
+    Y el control para buscar productos
     Y mostrará las tarjetas de productos en el caso que tenga ingresados productos
 
 #solo pedidos ya registrados
@@ -60,3 +61,14 @@ Escenario: N°5 - El cliente es de crédito informal con crédito bloqueado
     Cuando muestra la tarjeta desplegada
     Entonces mostrará el switch de condicion de pago en contado y deshabilitado 
     Y mostrará el switch en las tarjetas de producto
+
+
+Esquema del escenario: N°6 - Mostrar switch cuando hay productos
+    Dado que se desplegó la tarjeta de toma de pedido
+    Cuando '<hayProductosEnElPedido>'
+    Entonces el sistema '<mostrarSwitchCondicionPago>' el switch condición de pago
+
+Ejemplos:
+|hayProductosEnElPedido    | mostrarSwitchCondicionPago|
+|  hay productos en pedido |      mostrará             |
+|  no hay productos        |      ocultará             | 
