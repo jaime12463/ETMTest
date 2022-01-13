@@ -1,9 +1,6 @@
-import {forwardRef, useCallback} from 'react';
+import React, {forwardRef, useCallback} from 'react';
 import {useSnackbar, SnackbarContent, OptionsObject} from 'notistack';
 import {AvisoPlantilla} from './AvisosPlantilla';
-import React from 'react';
-
-
 
 interface Props {
 	id: string | number;
@@ -17,33 +14,25 @@ type TData = {
 	dataCy?: string;
 };
 
-
 const AvisoContenido = forwardRef<HTMLDivElement, Props>(
-	({id, mensaje }, ref) => {
+	({id, mensaje}, ref) => {
 		const {closeSnackbar} = useSnackbar();
-		
+
 		const handleDismiss = useCallback(() => {
 			closeSnackbar(id);
 		}, [id, closeSnackbar]);
 
-		const renderContent= (mensaje: string | React.ReactNode) => {
-
-			if ( typeof mensaje === 'string')
-			{
-				const attr= JSON.parse(mensaje);
-				return (
-					<AvisoPlantilla {...attr}/>
-				)
-			}else{
+		const renderContent = (mensaje: string | React.ReactNode) => {
+			if (typeof mensaje === 'string') {
+				const attr = JSON.parse(mensaje);
+				return <AvisoPlantilla id={id} {...attr} />;
+			} else {
 				return mensaje;
 			}
-			
 		};
 
 		return (
-			<SnackbarContent ref={ref}>
-				{   renderContent(mensaje) }
-			</SnackbarContent>
+			<SnackbarContent ref={ref}>{renderContent(mensaje)}</SnackbarContent>
 		);
 	}
 );

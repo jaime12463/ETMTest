@@ -3,29 +3,28 @@ import theme from 'theme';
 
 interface Props {
 	tipo: 'default' | 'error' | 'success' | 'warning' | 'info';
-	conBotones?: boolean;
 }
 
 const useEstilos = makeStyles(() =>
 	createStyles({
 		container: {
 			alignItems: 'start',
-			backgroundColor: (props: Props) => {
-				switch (props.tipo) {
+			backgroundColor: ({tipo}: Props) => {
+				switch (tipo) {
 					case 'error':
-						return '#FFB7B1';
+						return '#FFD5D1';
 					case 'success':
-						return '#D6FBE0';
+						return '#E9F9F3';
 					case 'warning':
-						return 'rgba(255, 251, 239, 0.95);';
+						return '#FFFBEF';
 					case 'default':
-						return '#2F000E';
+						return theme.palette.secondary.dark;
 					default:
 						throw new Error('Tipo de aviso no soportado');
 				}
 			},
-			border: (props: Props) => {
-				switch (props.tipo) {
+			border: ({tipo}: Props) => {
+				switch (tipo) {
 					case 'error':
 						return `1.5px solid ${theme.palette.primary.main}`;
 					case 'success':
@@ -40,40 +39,36 @@ const useEstilos = makeStyles(() =>
 			},
 			borderRadius: '10px',
 			display: 'flex',
-			flexDirection: (props: Props) => (props.conBotones ? 'column' : 'row'),
-			justifyContent: 'space-between',
-			padding: (props: Props) =>
-				props.conBotones ? '12px 8px 18px 8px' : '8px 8px 15px 8px',
-		},
-		content: {
-			alignItems: (props: Props) => (props.conBotones ? 'center' : 'start'),
-			display: 'flex',
-			flexDirection: (props: Props) => (props.conBotones ? 'column' : 'row'),
-			gap: (props: Props) => (props.conBotones ? '18px' : '8px'),
-			justifyContent: (props: Props) => (props.conBotones ? 'center' : 'start'),
-			marginBottom: (props: Props) => (props.conBotones ? '22px' : '0'),
-			width: '100%',
-		},
-		text: {
-			display: 'flex',
-			flexDirection: 'column',
-			gap: '6px',
-		},
-		btn: {
-			alignItems: 'center',
-			display: 'flex',
-			justifyContent: 'space-evenly',
-			width: '100%',
-		},
-		containerDeshacer: {
-			alignItems: 'center',
-			background: theme.palette.secondary.dark,
-			borderRadius: '8px',
-			display: 'flex',
-			height: '30px',
-			justifyContent: 'space-between',
-			padding: '10px 18px',
+			flexWrap: 'wrap',
+			padding: '8px',
 			width: '340px',
+		},
+		tituloContainer: {
+			alignItems: 'center',
+			display: 'flex',
+			justifyContent: 'space-between',
+			width: '100%',
+		},
+		tituloConIcono: {
+			alignItems: 'center',
+			display: 'flex',
+			gap: '10px',
+		},
+		mensaje: {
+			padding: '0 20px 0 32px',
+		},
+		icon: {
+			cursor: 'pointer',
+		},
+		containerAnchorOriginTopCenter: {
+			left: '50% !important',
+			position: 'fixed',
+			top: '90px !important',
+			transform: 'translateX(-50%)',
+			width: 'max-content',
+			'@media (max-width: 599.95px)': {
+				width: 'auto !important',
+			},
 		},
 	})
 );

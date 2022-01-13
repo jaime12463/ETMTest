@@ -7,8 +7,7 @@ import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
 import {TProductoPedido} from 'models';
 import {useObtenerDatos} from 'redux/hooks';
-import {BotellaIcon, CajaIcon} from 'assests/iconos';
-
+import {BotellaIcon, CajaIcon, PromocionesRellenoIcon} from 'assests/iconos';
 export interface PromoPushProps {
 	promocion: TProductoPedido;
 }
@@ -26,51 +25,73 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 				padding='12px 14px 8px 14px'
 				sx={{background: theme.palette.secondary.light}}
 			>
-				<Box display='flex' flexDirection='column' flex='2'>
-					<Typography variant='subtitle3' fontFamily='Open Sans' color='#fff'>
-						{promocion.codigoProducto}
-					</Typography>
-					<Typography variant='subtitle3' color='#fff'>
-						{promocion.nombreProducto}
-					</Typography>
-				</Box>
-				<Box display='flex' flexDirection='column' gap='8px' flex='1.5'>
+				<Box display='flex' flexWrap='wrap'>
 					<Box
-						alignItems='center'
 						display='flex'
-						justifyContent='space-between'
-						paddingLeft='8px'
+						flexDirection='column'
+						gap='2px'
+						marginBottom='8px'
+						width='100%'
 					>
-						<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
-							{t('general.precioUnitario')}
-						</Typography>
-						<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
-							{formatearNumero(promocion.precioConImpuestoUnidad, t)}
-						</Typography>
-					</Box>
-					<Box display='flex' justifyContent='end'>
-						<Typography
-							variant='caption'
-							sx={{background: theme.palette.primary.main}}
-							color='#fff'
-							padding='2px 12px'
-							borderRadius={9999}
-						>{`Ahorras ${formatearNumero(
-							promocion.descuentoPromoPush ?? 0,
-							t
-						)}`}</Typography>
-					</Box>
-					<Box
-						alignItems='center'
-						display='flex'
-						justifyContent='space-between'
-					>
-						<Typography variant='subtitle3' color='#fff'>
-							{t('general.subTotal')}
+						<Typography variant='subtitle3' fontFamily='Open Sans' color='#fff'>
+							{promocion.codigoProducto}
 						</Typography>
 						<Typography variant='subtitle3' color='#fff'>
-							{formatearNumero(promocion.total, t)}
+							{promocion.nombreProducto}
 						</Typography>
+					</Box>
+					<Box display='flex' flexDirection='column' flex='2' gap='8px'>
+						<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
+							{`${t('general.promocionesAplicadas')}:`}
+						</Typography>
+						<Box alignItems='center' display='flex' gap='6px'>
+							<PromocionesRellenoIcon height='14px' width='13px' />
+							<Typography variant='subtitle3' color='#fff' fontWeight={700}>
+								{promocion.componentes?.length ?? 0}
+							</Typography>
+						</Box>
+					</Box>
+					<Box display='flex' flexDirection='column' gap='6px' flex='1.5'>
+						<Box
+							alignItems='center'
+							display='flex'
+							justifyContent='end'
+							paddingLeft='8px'
+							marginTop='4px'
+						>
+							<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
+								{t('general.precioUnitario', {
+									precioUnitario: formatearNumero(
+										promocion.precioConImpuestoUnidad,
+										t
+									),
+								})}
+							</Typography>
+						</Box>
+						<Box display='flex' justifyContent='end'>
+							<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
+								{t('general.ahorroTotal', {
+									ahorroTotal: formatearNumero(
+										promocion.descuentoPromoPush ?? 0,
+										t
+									),
+								})}
+							</Typography>
+						</Box>
+						<Box alignItems='center' display='flex' justifyContent='end'>
+							<Typography
+								variant='subtitle3'
+								fontFamily='Open Sans'
+								sx={{background: theme.palette.primary.main}}
+								color='#fff'
+								padding='2px 12px'
+								borderRadius={9999}
+							>
+								{t('general.subTotal', {
+									subTotal: formatearNumero(promocion.total, t),
+								})}
+							</Typography>
+						</Box>
 					</Box>
 				</Box>
 			</Box>
@@ -84,7 +105,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 						color='#000'
 						letterSpacing='-0.4px'
 					>
-						{t('general.paquetes')}
+						{`${t('general.paquetes')} ${t('general.cadaUno')}`}
 					</Typography>
 				</Box>
 				<Box flex='1.5' sx={{background: '#F5F0EF'}} padding='8px 14px' />
@@ -152,13 +173,9 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 											variant='caption'
 											color={theme.palette.primary.main}
 										>
-											{t('general.ahorras')}
-										</Typography>
-										<Typography
-											variant='caption'
-											color={theme.palette.primary.main}
-										>
-											{formatearNumero(componente.descuento, t)}
+											{t('general.ahorras', {
+												ahorras: formatearNumero(componente.descuento, t),
+											})}
 										</Typography>
 									</Box>
 									<Box display='flex' gap='4px' justifyContent='end'>

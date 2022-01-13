@@ -1,18 +1,21 @@
-import {Box, Typography} from '@mui/material';
+import React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import {
 	CheckRedondoIcon,
-	WarningTrianguloIcon,
 	CerrarRedondoIcon,
+	AvisoIcon,
+	CerrarIcon,
 } from 'assests/iconos';
 import useEstilos from './useEstilos';
-import theme from 'theme';
-import React from 'react';
+import {useSnackbar} from 'notistack';
 
 type TAviso = {
 	tipo: 'default' | 'error' | 'success' | 'warning' | 'info';
 	titulo: string;
 	mensaje?: string;
 	dataCy?: string;
+	id: string | number;
 };
 
 type TAvisoTemplate = Omit<TAviso, 'tipo'>;
@@ -21,9 +24,11 @@ type TAvisoAcciones = {
 	acciones: React.ReactNode;
 };
 
-export const AvisoPlantilla = ({tipo, titulo, mensaje, dataCy}: TAviso) => {
+export const AvisoPlantilla = ({tipo, titulo, mensaje, id, dataCy}: TAviso) => {
 	let icono: any = null;
 	const classes = useEstilos({tipo});
+	const {closeSnackbar} = useSnackbar();
+
 	switch (tipo) {
 		case 'error':
 			icono = <CerrarRedondoIcon height='21px' width='21px' />;
@@ -32,49 +37,31 @@ export const AvisoPlantilla = ({tipo, titulo, mensaje, dataCy}: TAviso) => {
 			icono = <CheckRedondoIcon height='21px' width='21px' />;
 			break;
 		case 'warning':
-			icono = (
-				<WarningTrianguloIcon
-					height='19px' //{textoBotones ? '31px' : '19px'}
-					width='21px' //{textoBotones ? '34px' : '21px'}
-				/>
-			);
+			icono = <AvisoIcon height='23px' width='23px' />;
 			break;
 		case 'default':
-			icono = (
-				<WarningTrianguloIcon
-					height='19px' //{textoBotones ? '31px' : '19px'}
-					width='21px' //{textoBotones ? '34px' : '21px'}
-					fill={`${theme.palette.common.white}`}
-				/>
-			);
+			icono = <AvisoIcon height='23px' width='23px' />;
 			break;
 	}
 
 	return (
-		<Box width='350px' className={classes.container}>
-			<Box className={classes.content}>
-				{icono}
-				<Box className={classes.text}>
-					<Typography
-						variant='subtitle3'
-						sx={{
-							marginTop: '4px',
-							textAlign: 'left', // textoBotones ? 'center' : 'left',
-						}}
-					>
-						{titulo}
-					</Typography>
-					<Typography
-						variant='caption'
-						fontFamily='Open Sans'
-						sx={{
-							marginTop: '6px',
-							textAlign: 'left', //textoBotones ? 'center' : 'left',
-						}}
-					>
-						{mensaje}
-					</Typography>
+		<Box className={classes.container}>
+			<Box className={classes.tituloContainer}>
+				<Box className={classes.tituloConIcono}>
+					{icono}
+					<Typography variant='subtitle3'>{titulo}</Typography>
 				</Box>
+				<CerrarIcon
+					height={24}
+					width={24}
+					className={classes.icon}
+					onClick={() => closeSnackbar(id)}
+				/>
+			</Box>
+			<Box className={classes.mensaje}>
+				<Typography variant='caption' fontFamily='Open Sans' color='#000'>
+					{mensaje}
+				</Typography>
 			</Box>
 		</Box>
 	);
@@ -90,7 +77,7 @@ export const AvisoDeshacer: React.FC<TAvisoTemplate & TAvisoAcciones> = ({
 	dataCy,
 	acciones,
 }) => {
-	const classes = useEstilos({tipo: 'default', conBotones: false});
+	const classes = useEstilos({tipo: 'default'});
 	return (
 		<Box
 			display='flex'
@@ -101,7 +88,7 @@ export const AvisoDeshacer: React.FC<TAvisoTemplate & TAvisoAcciones> = ({
 			left='calc(50% - 170px)'
 			right='unset'
 		>
-			<Box className={classes.containerDeshacer}>
+			<Box>
 				<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
 					{titulo}
 				</Typography>

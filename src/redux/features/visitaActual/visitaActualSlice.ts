@@ -93,17 +93,29 @@ export const visitaActualSlice = createSlice({
 				codigoTipoPedidoActual: string;
 			}>
 		) => {
-			const productosPedidoClienteFiltrados = state.pedidos[
+			let index = state.pedidos[
 				action.payload.codigoTipoPedidoActual
-			].productos.filter(
+			].productos.findIndex(
 				(precioProducto: TProductoPedido) =>
-					precioProducto.codigoProducto !==
-					action.payload.productoPedido.codigoProducto
+					precioProducto.codigoProducto ===
+						action.payload.productoPedido.codigoProducto &&
+					precioProducto.tipoPago === action.payload.productoPedido.tipoPago
 			);
-			state.pedidos[action.payload.codigoTipoPedidoActual].productos = [
-				...productosPedidoClienteFiltrados,
-				action.payload.productoPedido,
-			];
+
+			if (index > -1) {
+				state.pedidos[action.payload.codigoTipoPedidoActual].productos.splice(
+					index,
+					1
+				);
+			}
+			if (
+				action.payload.productoPedido.unidades > 0 ||
+				action.payload.productoPedido.subUnidades > 0
+			) {
+				state.pedidos[action.payload.codigoTipoPedidoActual].productos.push(
+					action.payload.productoPedido
+				);
+			}
 		},
 
 		borrarProductoDelPedidoActual: (
@@ -231,6 +243,8 @@ export const visitaActualSlice = createSlice({
 				(precioProducto: TProductoPedido) =>
 					precioProducto.codigoProducto === action.payload.codigoProducto
 			);
+			state.pedidos.ventaenvase.productos = [];
+			state.pedidos.prestamoenvase.productos = [];
 			state.pedidos[state.tipoPedidoActual].productos[
 				indexProductoPedido
 			].tipoPago = action.payload.tipoPago;
@@ -240,6 +254,8 @@ export const visitaActualSlice = createSlice({
 			state,
 			action: PayloadAction<{tipoPago: ETiposDePago}>
 		) => {
+			state.pedidos.ventaenvase.productos = [];
+			state.pedidos.prestamoenvase.productos = [];
 			state.pedidos[state.tipoPedidoActual].productos.forEach(
 				(producto: TProductoPedido) => {
 					producto.tipoPago = action.payload.tipoPago;
@@ -456,6 +472,13 @@ export const visitaActualSlice = createSlice({
 				detalle: [],
 			}));
 		},
+
+		eliminarCanje: (state) => {
+			state.pedidos.canje = state.pedidos.canje = {
+				...state.pedidos.canje,
+				productos: [],
+			};
+		},
 	},
 });
 
@@ -488,5 +511,6 @@ export const {
 	restablecerBonificaciones,
 	borrarEnvases,
 	limpiarProductosSinCantidad,
+	eliminarCanje,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

@@ -1,12 +1,15 @@
 import React from 'react';
 import {useObtenerPromoPushDelCliente} from 'hooks';
 import {TarjetaVistaPromoPush} from './TarjetaVistaPromoPush';
-import {Modal, Card, Box, Typography, Stack, IconButton} from '@mui/material';
-import {CerrarIcon, PromocionesRellenoIcon} from 'assests/iconos';
+import {Card, Box, Typography, Stack, IconButton} from '@mui/material';
+import {CerrarIcon} from 'assests/iconos';
 import theme from 'theme';
 
-export const VistaPromoPush = ({stateOpen}: any) => {
-	const {openVistaPromoPush, setOpenVistaPromoPush} = stateOpen;
+interface Props {
+	setOpenVistaPromoPush: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const VistaPromoPush: React.FC<Props> = ({setOpenVistaPromoPush}) => {
 	const [expandidoPromoPush, setExpandidoexpandidoPromoPush] = React.useState<
 		string | boolean
 	>(false);
@@ -14,24 +17,9 @@ export const VistaPromoPush = ({stateOpen}: any) => {
 	const handleCloseVistaPromoPush = () => setOpenVistaPromoPush(false);
 
 	return (
-		<Modal
-			open={openVistaPromoPush}
-			onClose={handleCloseVistaPromoPush}
-			aria-labelledby='modal-modal-title'
-			aria-describedby='modal-modal-description'
-			sx={{
-				overflow: 'auto',
-			}}
-		>
+		<>
 			<Box display='flex' width='100%' justifyContent='center'>
-				<Card
-					sx={{
-						background: 'white',
-						borderRadius: '8px',
-						width: '332px',
-						mt: '52px',
-					}}
-				>
+				<Card sx={{borderRadius: '8px'}}>
 					<Box
 						display='flex'
 						justifyContent='flex-end'
@@ -52,25 +40,15 @@ export const VistaPromoPush = ({stateOpen}: any) => {
 						justifyContent='center'
 						alignItems='center'
 						sx={{
-							background: theme.palette.secondary.main,
+							background: theme.palette.primary.main,
 							borderRadius: ' 4px 4px 0px 0px',
 						}}
 					>
-						<PromocionesRellenoIcon
-							width='17px'
-							height='17px'
-							style={{marginRight: '4px'}}
-						/>
-						<Typography
-							color='white'
-							sx={{width: '74px'}}
-							fontFamily='Poppins'
-							variant='subtitle3'
-						>
+						<Typography color='white' fontFamily='Poppins' variant='subtitle3'>
 							Promo Push
 						</Typography>
 					</Box>
-					<Stack spacing={1} padding='14px'>
+					<Stack spacing='10px' padding='14px'>
 						{promociones.length > 0 &&
 							promociones.map((promocion: any) => {
 								return (
@@ -88,6 +66,6 @@ export const VistaPromoPush = ({stateOpen}: any) => {
 					</Stack>
 				</Card>
 			</Box>
-		</Modal>
+		</>
 	);
 };

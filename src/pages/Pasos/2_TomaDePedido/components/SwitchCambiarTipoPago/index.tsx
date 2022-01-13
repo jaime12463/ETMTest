@@ -91,7 +91,7 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 
 			return {
 				content: Boolean(clienteActual.tipoPagoActual),
-				texto: tipoPago ? t('general.contado') : t('general.credito'),
+				texto: Boolean(clienteActual.tipoPagoActual) ? t('general.credito') : t('general.contado'),
 			};
 		}
 	);
@@ -106,6 +106,8 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 
 	React.useEffect(() => {
 		if (producto) {
+			//console.log("Entre 1", producto)
+			//console.log("Entre", switchTipoPago);
 			return setSwitchTipoPago({
 				content: Boolean(producto.tipoPago),
 				texto: producto.tipoPago ? t('general.credito') : t('general.contado'),

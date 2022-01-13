@@ -14,7 +14,6 @@ import {
 	useValidarPasos,
 	useReiniciarClienteActual,
 	useMostrarAviso,
-	useObtenerCreditoDisponible,
 	useObtenerDatosCliente,
 } from 'hooks';
 import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
@@ -25,7 +24,6 @@ import {
 	useAppDispatch,
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
-	useObtenerVisitaActual,
 } from 'redux/hooks';
 
 import {TCliente, TClienteActual} from 'models';
@@ -33,10 +31,10 @@ import {useTranslation} from 'react-i18next';
 import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
 import {AvisoIcon, PromocionesRellenoIcon} from 'assests/iconos';
 import Modal from 'components/UI/Modal';
-import {resetearClienteActual} from 'redux/features/clienteActual/clienteActualSlice';
 import BotonResumenPedido from 'components/UI/BotonResumenPedido';
 import ResumenPedido from 'components/UI/ResumenPedido';
 import {cambiarSeQuedaAEditar} from 'redux/features/visitaActual/visitaActualSlice';
+import ModalCore from 'components/UI/ModalCore';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -208,11 +206,9 @@ const Pasos: React.FC = () => {
 			</Estructura.Encabezado>
 			<Estructura.Cuerpo>
 				{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-				{openVistaPromoPush && (
-					<VistaPromoPush
-						stateOpen={{openVistaPromoPush, setOpenVistaPromoPush}}
-					/>
-				)}
+				<ModalCore open={openVistaPromoPush} borderRadius>
+					<VistaPromoPush setOpenVistaPromoPush={setOpenVistaPromoPush} />
+				</ModalCore>
 				<Box my={3}>
 					<IndicadoresDelPedidoActual />
 				</Box>
@@ -232,10 +228,9 @@ const Pasos: React.FC = () => {
 					setPasoActual={setPasoActual}
 					contenidoMensaje={configAlerta}
 				/>
-				<ResumenPedido
-					open={openResumenPedido}
-					setOpen={setOpenResumenPedido}
-				/>
+				<ModalCore open={openResumenPedido} borderRadius>
+					<ResumenPedido setOpen={setOpenResumenPedido} />
+				</ModalCore>
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
 				<BotonResumenPedido setOpen={setOpenResumenPedido} />

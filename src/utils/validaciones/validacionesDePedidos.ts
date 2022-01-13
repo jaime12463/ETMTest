@@ -44,7 +44,6 @@ export const validarCoberturas = (
 			};
 		}
 	);
-	console.log(coberturasCumplidas);
 
 	return coberturasCumplidas;
 };

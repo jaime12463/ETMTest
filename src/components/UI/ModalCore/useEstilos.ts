@@ -3,32 +3,34 @@ import theme from 'theme';
 
 interface Props {
 	open: boolean;
+	borderRadius: boolean;
 }
 
 const useEstilos = makeStyles(() =>
 	createStyles({
 		container: {
 			alignItems: 'center',
-			background: 'rgba(0, 0, 0, 0.5)',
+			background: '#00000050',
 			display: 'flex',
 			height: '100%',
 			justifyContent: 'center',
-			left: '0',
+			left: 0,
 			overflowY: 'scroll',
 			position: 'fixed',
 			top: 0,
 			width: '100%',
-			zIndex: 1,
+			zIndex: 9999,
 		},
 		card: {
+			alignItems: 'center',
 			background: '#fff',
-			borderRadius: '8px',
-			padding: '12px 18px 22px 18px',
-			minHeight: '800px',
+			borderRadius: ({borderRadius}: Props) => (borderRadius ? '8px' : 0),
+			display: 'flex',
+			flexDirection: 'column',
 			position: 'absolute',
 			top: '5vh',
-			transform: (props: Props) =>
-				props.open ? 'translateY(0)' : 'translateY(150vh)',
+			transform: ({open}: Props) =>
+				open ? 'translateY(0)' : 'translateY(150vh)',
 			transition: 'all 0.5s cubic-bezier(0.35, 0.34, 0.46, 1.01)',
 			width: '340px',
 		},

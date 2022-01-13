@@ -8,7 +8,6 @@ export {BotonCerrarPedidoDelCliente} from './BotonCerrarPedidoDelCliente';
 export {SwitchCambiarTipoPago} from './SwitchCambiarTipoPago';
 export {SelectTipoDePedido} from './SelectTipoDePedido';
 export {InfoProductoActual} from './InfoProductoActual';
-export {NotificacionBorrado} from './NotificacionBorrado';
 
 import TarjetaPromoPush from '../PromoPush/TarjetaPromoPush';
 import BuscadorProductosClienteActual from './BuscadorProductosClienteActual';

@@ -25,6 +25,7 @@ type Props = {
 	productoEnvase: any;
 	stateRetorno: any;
 	stateDatosActual: any;
+	datosEnvase: TConsolidadoImplicitos;
 };
 
 type Envases = {
@@ -42,6 +43,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 		productoEnvase,
 		stateRetorno,
 		stateDatosActual,
+		datosEnvase,
 	} = props;
 	const {valoresEnvase, setValoresEnvase} = stateTipoEnvases;
 
@@ -59,7 +61,9 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 	const pedidoActual = visitaActual.pedidos[tipoPedido.codigo];
 
 	const productoActual = pedidoActual?.productos.find(
-		(producto) => producto?.codigoProducto === productoEnvase?.codigoProducto
+		(producto) =>
+			producto?.codigoProducto === productoEnvase?.codigoProducto &&
+			producto?.tipoPago === datosEnvase.tipoPago
 	);
 
 	const calcularUnidades = () => {
@@ -67,6 +71,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 			let envaseActual = valoresEnvase.find(
 				(envase: any) => tipoPedido.descripcionCorta === envase.tipoEnvase
 			);
+
 			if (productoActual) {
 				setEnvase({
 					...envaseActual,

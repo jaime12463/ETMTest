@@ -36,18 +36,17 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
-import {AvisoIcon, BorrarIcon} from 'assests/iconos';
+import {BorrarIcon} from 'assests/iconos';
 import {styled} from '@mui/material/styles';
-import Input from '@mui/material/Input';
-import {useValidarBorrarPedido} from '../hooks';
-import {useMostrarAdvertenciaEnDialogo, useBorrarTodoLosProductos} from 'hooks';
+import {useBorrarLinea, useBorrarTodoTomaPedido} from '../hooks';
+import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import useEstilos from '../useEstilos';
 import {SwitchCambiarTipoPago} from '../components';
 import {useTranslation} from 'react-i18next';
 import {useSnackbar} from 'notistack';
-import {AvisoDeshacer} from 'components/UI/AvisoContenido/AvisosPlantilla';
 import Modal from 'components/UI/Modal';
 import TarjetaTomaPedido from 'components/UI/TarjetaTomaPedido';
+import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoPush';
 
 const TextStyled = styled(Typography)(() => ({
 	color: '#651C32',
@@ -74,6 +73,9 @@ const TomaPedido: React.FC = () => {
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
+	const [expandidoPromoPush, setExpandidoexpandidoPromoPush] = React.useState<
+		string | boolean
+	>(false);
 	const [productoActual, setProductoActual] =
 		React.useState<TPrecioProducto | null>(null);
 
@@ -105,16 +107,14 @@ const TomaPedido: React.FC = () => {
 		clienteActual.codigoCliente
 	);
 
-	const borrarTodosLosProductos = useBorrarTodoLosProductos(
+	const borrarTodosLosProductos = useBorrarTodoTomaPedido(
 		{setAlerta, setConfigAlerta},
 		venta.productos
 	);
 
-	const validarBorrarPedido = useValidarBorrarPedido(
-		mostrarAdvertenciaEnDialogo
-	);
-
 	const {configuracionPedido}: any = datosCliente;
+
+	const borrarlinea = useBorrarLinea({setAlerta, setConfigAlerta});
 
 	React.useEffect(() => {
 		if (
@@ -193,88 +193,6 @@ const TomaPedido: React.FC = () => {
 		}
 	}, [productoActual?.codigoProducto]);
 
-	const {enqueueSnackbar, closeSnackbar} = useSnackbar();
-	const cambiarEstadoProducto = (
-		producto: TProductoPedido,
-		nuevoEstado: 'activo' | 'eliminado' | 'borrardo' | 'transito'
-	) => {
-		if (nuevoEstado === 'borrardo') {
-			//ToDo borrar
-		} else {
-			dispatch(
-				editarProductoDelPedidoActual({
-					productoPedido: {...producto, estado: nuevoEstado},
-				})
-			);
-		}
-	};
-
-	const manejadorDeshacerGestoBorrar = (producto: TProductoPedido) => {
-		cambiarEstadoProducto(producto, 'eliminado');
-
-		const aviso = ({
-			borrarProductosNoMandatorios,
-			productosNoMandatorios,
-		}: any) => {
-			enqueueSnackbar(
-				<AvisoDeshacer
-					titulo='Tarjeta Eliminada'
-					acciones={
-						<>
-							<Typography
-								variant='caption'
-								fontFamily='Poppins'
-								color='#fff'
-								sx={{cursor: 'pointer'}}
-								onClick={() => {
-									cambiarEstadoProducto(producto, 'activo');
-									closeSnackbar(producto.codigoProducto);
-								}}
-							>
-								Deshacer
-							</Typography>
-						</>
-					}
-				/>,
-				{
-					key: producto.codigoProducto,
-					anchorOrigin: {
-						vertical: 'bottom',
-						horizontal: 'center',
-					},
-					onClose: (event, reason, key) => {
-						if (reason === 'timeout') {
-							if (borrarProductosNoMandatorios) {
-								productosNoMandatorios.forEach((pedido: TPedido) => {
-									dispatch(
-										borrarProductosDeVisitaActual({
-											tipoPedidoActual: pedido.tipoPedido,
-										})
-									);
-								});
-							}
-							mostrarAviso(
-								'success',
-								'Producto Eliminado',
-								undefined,
-								undefined,
-								'productoEliminado'
-							);
-							return dispatch(
-								borrarProductoDelPedidoActual({
-									codigoProducto: producto.codigoProducto,
-									codigoTipoPedidoActual: 'venta',
-								})
-							);
-						}
-					},
-				}
-			);
-		};
-
-		return validarBorrarPedido(aviso, cambiarEstadoProducto, producto);
-	};
-
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
@@ -304,18 +222,7 @@ const TomaPedido: React.FC = () => {
 									icon={<BorrarIcon width='7.5px' height='7.5px' />}
 									label={<TextStyled>Borrar todo</TextStyled>}
 									sx={{'&:hover': {background: 'none'}}}
-									onClick={() => {
-										setConfigAlerta({
-											titulo: '¿Quieres Borrar Todos Los Productos?',
-											mensaje:
-												'Todos los productos seleccionados se borraran de toma de pedido',
-											tituloBotonAceptar: 'Borrar todo',
-											tituloBotonCancelar: 'Cancelar',
-											callbackAceptar: () => borrarTodosLosProductos(),
-											iconoMensaje: <AvisoIcon />,
-										});
-										setAlerta(true);
-									}}
+									onClick={() => borrarTodosLosProductos()}
 								/>
 							</>
 						)}
@@ -329,19 +236,31 @@ const TomaPedido: React.FC = () => {
 								<SwipeBorrar
 									key={producto.codigoProducto}
 									item={producto}
-									manejadorGesto={() => {
-										manejadorDeshacerGestoBorrar(producto);
-										return 0;
-									}}
+									manejadorGesto={() => borrarlinea(producto)}
 								>
-									<TarjetaTomaPedido
-										producto={producto}
-										stateFocusId={{focusId, setFocusId}}
-										stateInputFocus={stateInputFocus}
-										bordeRedondeado
-										conSwitch
-										stateAviso={{setAlerta, setConfigAlerta}}
-									/>
+									{producto.promoPush ? (
+										<TarjetaPromoPush
+											key={producto.codigoProducto}
+											item={producto}
+											id={producto.nombreProducto}
+											expandidoPromoPush={expandidoPromoPush}
+											setExpandidoexpandidoPromoPush={
+												setExpandidoexpandidoPromoPush
+											}
+											mostrarAdvertenciaEnDialogo={mostrarAdvertenciaEnDialogo}
+											stateFocusId={{focusId, setFocusId}}
+											stateInputFocus={stateInputFocus}
+										/>
+									) : (
+										<TarjetaTomaPedido
+											producto={producto}
+											stateFocusId={{focusId, setFocusId}}
+											stateInputFocus={stateInputFocus}
+											bordeRedondeado
+											conSwitch
+											stateAviso={{setAlerta, setConfigAlerta}}
+										/>
+									)}
 								</SwipeBorrar>
 							);
 						})}
