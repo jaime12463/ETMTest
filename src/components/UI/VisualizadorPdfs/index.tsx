@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {Box, Typography} from '@mui/material';
 import {Document, Page, pdfjs} from 'react-pdf';
 import {CerrarIcon} from 'assests/iconos';
+import {useMostrarAviso} from 'hooks';
+import {useTranslation} from 'react-i18next';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `pdf.worker.min.js`;
 
@@ -14,13 +16,14 @@ export type Props = {
 };
 
 export default function VisualizadorPdfs({titulo, archivo, setOpen}: Props) {
-	const [numPages, setNumPages] = useState(null);
 	const [pageNumber, setPageNumber] = useState(1);
 	const options = {
 		cMapUrl: 'cmaps/',
 		cMapPacked: true,
 		width: 300,
 	};
+	const mostrarAviso = useMostrarAviso();
+	const {t} = useTranslation();
 
 	return (
 		<>
@@ -41,7 +44,16 @@ export default function VisualizadorPdfs({titulo, archivo, setOpen}: Props) {
 			<Box>
 				<Document
 					file={`${process.env.PUBLIC_URL}/archivos/${archivo}`}
-					onLoadError={(error) => console.log(error)}
+					onLoadError={(error) => {
+						mostrarAviso(
+							'error',
+							t('advertencias.pdfErrorTitulo'),
+							t('advertencias.pdfErrorDescripcion'),
+							undefined,
+							'errorPDF'
+						);
+						setOpen(false);
+					}}
 					options={options}
 				>
 					<Page pageNumber={pageNumber} width={340} />

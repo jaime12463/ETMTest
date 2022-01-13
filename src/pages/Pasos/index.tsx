@@ -106,11 +106,11 @@ const Pasos: React.FC = () => {
 	const manejadorPasoAtras = () => {
 		if (pasoActual == 0) {
 			setConfigAlerta({
-				titulo: '¿Quieres salir de toma de pedido?',
+				titulo: '¿Quieres salir de Order taking?',
 				mensaje:
-					'Si sales de toma de pedido, toda la actividad registrada se perderá.',
+					'Si sales toda la actividad registrada se perderá.',
 				tituloBotonAceptar: t('general.salir'),
-				tituloBotonCancelar: t('general.continuar'),
+				tituloBotonCancelar: t('general.cancelar'),
 				callbackAceptar: () => {
 					reiniciarVisita();
 					reiniciarCompromisoDeCobro();
@@ -125,8 +125,8 @@ const Pasos: React.FC = () => {
 			if (pasoActual === 1) {
 				mostrarAviso(
 					'warning',
-					'No es posible editar las cantidades',
-					'Si necesitas editar las cantidad de coberturas e iniciativas, deberas hacerlo en toma de pedido',
+					t('advertencias.noEditarPlaneacionTitulo'),
+					t('advertencias.noEditarPlaneacionDescripcion'),
 					undefined,
 					'advertenciaPaso1'
 				);

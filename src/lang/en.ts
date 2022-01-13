@@ -158,13 +158,13 @@ const en = {
 		cancelarTodosLosPedido:
 			'All orders with a delivery date {{fechaDeEntrega}} will be canceled Do you wish to continue?',
 		ProductoNoEstaEnPortafolioCliente:
-			'The code {{codigo}} does not correspond to a current producto in the portfolio of the client',
+			'Wrong SKU',
 		ProductoNoEstaHabilitado:
 			'The product {{codigo}} is not enabled for {{descripcion}}',
 		excedeCreditoDsiponible: 'The order exceeds the available credit',
 		montoMayorDeuda: 'The amount cannot be greater than the registered debt',
 		excedeUnidadesDisponibles:
-			'The quantity is greater than available: {{disponible}}',
+			'Promotion amount exceeded',
 		excedePresupuesto:
 			'The amount entered exceeds the budget allocated for {{descripcion}}',
 		borrarPedidosNoMandatorios:
@@ -216,6 +216,20 @@ const en = {
 			'The product of the order taking was eliminated along with the exchanges it contained.',
 		lineaBorradaConCanjeBonificacion:
 			'The product was removed from the order taking along with the exchanges and bonuses it contained.',
+		pdfErrorTitulo:
+			'File not available',
+		pdfErrorDescripcion:
+			'At this time it is not possible to view the attached file.',
+		noEditarPlaneacionTitulo:
+			'Cannot edit quantities',
+		noEditarPlaneacionDescripcion:
+			'To re-edit the amounts of coverage and initiatives, you must do it when ordering.',
+		reestablecerCoberturasTitulo:
+			'Reset quantities to zero',
+		reestablecerCoberturasDescripcion:
+			'All the amounts of the coverages entered will be reset to zero',
+		errorSKUIncorrecto:
+			'The SKU does not correspond to any product, please validate.',																	
 	},
 	pasos: {
 		planeacion: 'Planning',
@@ -225,7 +239,9 @@ const en = {
 	},
 	mensajes: {
 		borrarDescuento:
-			'Once the tiered discount has been eliminated, you will not be able to reapply this product.',
+			'The tiered discount of the product {{codigo}} will be eliminated. To apply it again, you will have to add the product again. ',
+		excedeUnidadesDisponibles:
+			'You have exceeded the maximum amount of promotion allowed that you can apply per customer.',
 	},
 };
 export default en;

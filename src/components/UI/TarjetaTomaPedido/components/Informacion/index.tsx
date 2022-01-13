@@ -285,7 +285,9 @@ const Informacion: React.FC<Props> = ({
 						onClick={() => {
 							setConfigAlerta({
 								titulo: t('advertencias.borrarDescuento'),
-								mensaje: t('mensajes.borrarDescuento'),
+								mensaje: t('mensajes.borrarDescuento', {
+									codigo: codigoProducto
+								}),
 								tituloBotonAceptar: 'Eliminar',
 								tituloBotonCancelar: 'Cancelar',
 								callbackAceptar: () => eliminarDescuento(),
