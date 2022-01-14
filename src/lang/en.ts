@@ -227,5 +227,18 @@ const en = {
 		borrarDescuento:
 			'Once the tiered discount has been eliminated, you will not be able to reapply this product.',
 	},
+	modal: {
+		salirOrderTaking: 'Do you want to leave the order taking?',
+		salirOrderTakingMensaje: 'If you exit all recorded activity will be lost.',
+	},
+	toast: {
+		editarCantidadesTitulo: 'It is not possible to edit the quantities',
+		editarCantidadesMensaje:
+			'If you need to edit the number of coverages and initiatives, you will have to do it in order taking',
+		cambiosGuardados: 'Changes saved successfully',
+		ventaBloqueadaTitulo: 'Customer blocked for sale',
+		ventaBloqueadaMensaje:
+			'You can only generate a collection commitment for this customer.',
+	},
 };
 export default en;

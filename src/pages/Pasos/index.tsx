@@ -104,20 +104,18 @@ const Pasos: React.FC = () => {
 	});
 
 	const manejadorPasoAtras = () => {
-		if (pasoActual == 0) {
+		if (pasoActual === 0) {
 			setConfigAlerta({
-				titulo: '¿Quieres salir de toma de pedido?',
-				mensaje:
-					'Si sales de toma de pedido, toda la actividad registrada se perderá.',
+				titulo: t('modal.salirOrderTaking'),
+				mensaje: t('modal.salirOrderTakingMensaje'),
 				tituloBotonAceptar: t('general.salir'),
-				tituloBotonCancelar: t('general.continuar'),
+				tituloBotonCancelar: t('general.cancelar'),
 				callbackAceptar: () => {
 					reiniciarVisita();
 					reiniciarCompromisoDeCobro();
 					reiniciarClienteActual();
 					history.goBack();
 				},
-				callbackCancelar: () => {},
 				iconoMensaje: <AvisoIcon />,
 			});
 			setAlertaPasos(true);
@@ -125,8 +123,8 @@ const Pasos: React.FC = () => {
 			if (pasoActual === 1) {
 				mostrarAviso(
 					'warning',
-					'No es posible editar las cantidades',
-					'Si necesitas editar las cantidad de coberturas e iniciativas, deberas hacerlo en toma de pedido',
+					t('toast.editarCantidadesTitulo'),
+					t('toast.editarCantidadesMensaje'),
 					undefined,
 					'advertenciaPaso1'
 				);
@@ -159,7 +157,7 @@ const Pasos: React.FC = () => {
 				if (pasoActual === 0 || pasoActual === 1) {
 					mostrarAviso(
 						'success',
-						'Cambios guardados con exitosamente',
+						t('toast.cambiosGuardados'),
 						undefined,
 						undefined,
 						'successpaso2'
@@ -169,8 +167,8 @@ const Pasos: React.FC = () => {
 					if (datosCliente?.informacionCrediticia.esBloqueadoVenta) {
 						mostrarAviso(
 							'warning',
-							'Cliente bloqueado para venta',
-							'Unicamente puedes generar un compromiso de cobro para este cliente.',
+							t('toast.ventaBloqueadaTitulo'),
+							t('toast.ventaBloqueadaMensaje'),
 							undefined,
 							'bloqueadoParaVenta'
 						);

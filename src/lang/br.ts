@@ -172,5 +172,19 @@ const br = {
 		borrarDescuento:
 			'Depois que o desconto escalonado for removido, você não poderá aplicá-lo novamente a este produto.',
 	},
+	modal: {
+		salirOrderTaking: 'Deseja sair do Order Taking?',
+		salirOrderTakingMensaje:
+			'Se sair de toda a actividade registada será perdida.',
+	},
+	toast: {
+		editarCantidadesTitulo: 'Não é possível editar as quantidades',
+		editarCantidadesMensaje:
+			'Se você precisar editar o número de coberturas e iniciativas, você terá que fazê-lo para poder tomar.',
+		cambiosGuardados: 'Mudanças salvas com sucesso',
+		ventaBloqueadaTitulo: 'Cliente bloqueado para venda',
+		ventaBloqueadaMensaje:
+			'Você só pode gerar um compromisso de cobrança para este cliente.',
+	},
 };
 export default br;

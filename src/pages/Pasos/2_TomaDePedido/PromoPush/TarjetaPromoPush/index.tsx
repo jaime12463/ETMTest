@@ -406,7 +406,10 @@ const TarjetaPromoPush = (props: any) => {
 							<Box width='100%' display='flex' flexDirection='row'>
 								<GridStyled item xs={6}>
 									<Typography
-										sx={{padding: '6px 14px 14px 14px'}}
+										sx={{
+											padding: '6px 14px 14px 14px',
+											letterSpacing: '-0.4px',
+										}}
 										variant={'subtitle3'}
 										fontWeight={700}
 									>
@@ -432,7 +435,7 @@ const TarjetaPromoPush = (props: any) => {
 											<GridStyled
 												item
 												xs={6}
-												sx={{padding: '5px 14px 0px 14px'}}
+												sx={{padding: '6px 14px 0px 14px'}}
 											>
 												<Box display='flex' flexDirection='column' pb={2}>
 													<Typography variant='subtitle3'>

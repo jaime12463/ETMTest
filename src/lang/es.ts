@@ -248,5 +248,19 @@ const es = {
 		productoAgregado: 'Producto agregado correctamente',
 		cambiosGuardados: 'Cambios guardados con exitosamente',
 	},
+	modal: {
+		salirOrderTaking: '¿Quieres salir de Order taking?',
+		salirOrderTakingMensaje:
+			'Si sales toda la actividad registrada se perderá.',
+	},
+	toast: {
+		editarCantidadesTitulo: 'No es posible editar las cantidades',
+		editarCantidadesMensaje:
+			'Si necesitas editar las cantidad de coberturas e iniciativas, deberas hacerlo en toma de pedido',
+		cambiosGuardados: 'Cambios guardados con exitosamente',
+		ventaBloqueadaTitulo: 'Cliente bloqueado para venta',
+		ventaBloqueadaMensaje:
+			'Unicamente puedes generar un compromiso de cobro para este cliente.',
+	},
 };
 export default es;
