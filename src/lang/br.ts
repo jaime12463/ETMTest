@@ -178,9 +178,6 @@ const br = {
 			'Se sair de toda a actividade registada será perdida.',
 	},
 	toast: {
-		editarCantidadesTitulo: 'Não é possível editar as quantidades',
-		editarCantidadesMensaje:
-			'Se você precisar editar o número de coberturas e iniciativas, você terá que fazê-lo para poder tomar.',
 		cambiosGuardados: 'Mudanças salvas com sucesso',
 		ventaBloqueadaTitulo: 'Cliente bloqueado para venda',
 		ventaBloqueadaMensaje:

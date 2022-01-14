@@ -202,9 +202,8 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					// );
 					mostrarAviso(
 						'error',
-						t('advertencias.excedeUnidadesDisponibles', {
-							disponible: unidadesDisponibles,
-						})
+						t('advertencias.excedeUnidadesDisponibles'),
+						t('mensajes.excedeUnidadesDisponibles'),
 					);
 					return esValidacionCorrecta;
 				}

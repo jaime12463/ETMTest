@@ -159,14 +159,12 @@ const es = {
 		cancelarPedido: 'Desea cancelar el pedido?',
 		cancelarTodosLosPedido:
 			'Se cancelarán todos los pedidos con fecha de entrega {{fechaDeEntrega}} ¿Desea continuar?',
-		ProductoNoEstaEnPortafolioCliente:
-			'El código {{codigo}} no corresponde a un producto vigente del portafolio del cliente',
+		ProductoNoEstaEnPortafolioCliente: 'SKU incorrecto',
 		ProductoNoEstaHabilitado:
 			'El producto {{codigo}} no está habilitado para {{descripcion}}',
 		excedeCreditoDsiponible: 'El pedido excede el crédito disponible',
 		montoMayorDeuda: 'El monto no puede ser mayor a la deuda registrada',
-		excedeUnidadesDisponibles:
-			'La cantidad es mayor al disponible: {{disponible}}',
+		excedeUnidadesDisponibles: 'Cantidad de promoción superada',
 		excedePresupuesto:
 			'La cantidad ingresada excede el presupuesto asignado para {{descripcion}}',
 		borrarPedidosNoMandatorios:
@@ -230,6 +228,17 @@ const es = {
 			'Se eliminó el producto de la toma de pedido junto con los los canjes que contenía.',
 		lineaBorradaConCanjeBonificacion:
 			'Se eliminó el producto de la toma de pedido junto con los canjes y las bonificaciones que contenía.',
+		pdfErrorTitulo: 'Archivo no disponible',
+		pdfErrorDescripcion:
+			'En este momento no es posible visualizar el archivo adjunto.',
+		noEditarPlaneacionTitulo: 'No es posible editar las cantidades',
+		noEditarPlaneacionDescripcion:
+			'Para volver a editar las cantidades de coberturas e iniciativas , deberás hacerlo  en toma de pedido.',
+		reestablecerCoberturasTitulo: 'Restablecer cantidades a cero',
+		reestablecerCoberturasDescripcion:
+			'Todas las cantidades de las coberturas ingresadas se restablecerán a cero',
+		errorSKUIncorrecto:
+			'El SKU no corresponde a ningún producto, favor de validar.',
 	},
 	pasos: {
 		planeacion: 'Planeación',
@@ -239,10 +248,13 @@ const es = {
 	},
 	mensajes: {
 		borrarDescuento:
-			'Una vez eliminado el descuento escalonado, no podrás volverlo a aplicar en este producto.',
-		iniciativaSinMotivo: 'ingrese un motivo para la iniciativa cancelada',
+			'Se eliminará el descuento escalonado del producto {{codigo}}. Para aplicarlo de nuevo, tendrás que volver a agrega el producto.',
+		iniciativaSinMotivo:
+			'Debes ingresar un motivo para la iniciativa cancelada.',
 		pedidoMinimoNoAlcanzado:
 			'No se ha alcanzado el pedido minimo, por favor completar el pedido.',
+		excedeUnidadesDisponibles:
+			'Superaste la cantidad máxima de promoción permitida que puedes aplicar por cliente.',
 	},
 	avisos: {
 		productoAgregado: 'Producto agregado correctamente',
@@ -254,9 +266,6 @@ const es = {
 			'Si sales toda la actividad registrada se perderá.',
 	},
 	toast: {
-		editarCantidadesTitulo: 'No es posible editar las cantidades',
-		editarCantidadesMensaje:
-			'Si necesitas editar las cantidad de coberturas e iniciativas, deberas hacerlo en toma de pedido',
 		cambiosGuardados: 'Cambios guardados con exitosamente',
 		ventaBloqueadaTitulo: 'Cliente bloqueado para venta',
 		ventaBloqueadaMensaje:

@@ -48,9 +48,11 @@ export const useSeleccionarProductoDePrecios = (
 				// );
 				mostrarAviso(
 					'error',
-					t('advertencias.ProductoNoEstaEnPortafolioCliente', {
-						codigo: productoABuscar,
-					})
+					t('advertencias.ProductoNoEstaEnPortafolioCliente'),
+					t('advertencias.errorSKUIncorrecto'),
+					undefined,
+					'SKUincorrecto'
+
 				);
 				return;
 			}

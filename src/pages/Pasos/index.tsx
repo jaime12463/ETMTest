@@ -123,8 +123,8 @@ const Pasos: React.FC = () => {
 			if (pasoActual === 1) {
 				mostrarAviso(
 					'warning',
-					t('toast.editarCantidadesTitulo'),
-					t('toast.editarCantidadesMensaje'),
+					t('advertencias.noEditarPlaneacionTitulo'),
+					t('advertencias.noEditarPlaneacionDescripcion'),
 					undefined,
 					'advertenciaPaso1'
 				);

@@ -43,10 +43,10 @@ const Bonificaciones: React.FC<Props> = ({bonificacionValida}) => {
 				alerta={alerta}
 				setAlerta={setAlerta}
 				contenidoMensaje={{
-					titulo: '¿Restablecer cantidades a cero?',
-					mensaje: '¿Está seguro que desea restablecer las cantidades a cero?',
+					titulo: 'Restablecer cantidades a cero',
+					mensaje: 'Todas las cantidades de las bonificaciones se restablecerán a cero.',
 					callbackAceptar: () => restablecerCantidades(),
-					tituloBotonAceptar: 'Restablecer',
+					tituloBotonAceptar: 'Aceptar',
 					tituloBotonCancelar: 'Cancelar',
 					iconoMensaje: <AvisoIcon />,
 				}}

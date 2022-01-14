@@ -220,10 +220,8 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 					// );
 					mostrarAviso(
 						'error',
-						t('advertencias.excedeUnidadesDisponibles', {
-							disponible: unidadesDisponibles,
-						}),
-						undefined,
+						t('advertencias.excedeUnidadesDisponibles'),
+						t('mensajes.excedeUnidadesDisponibles'),
 						undefined,
 						'excede-disponible'
 					);
