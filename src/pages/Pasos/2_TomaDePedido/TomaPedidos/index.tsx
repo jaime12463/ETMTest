@@ -4,8 +4,6 @@ import {
 	TClienteActual,
 	TFormTomaDePedido,
 	TPrecioProducto,
-	TProductoPedido,
-	TPedido,
 	TCliente,
 } from 'models';
 
@@ -24,9 +22,6 @@ import {
 } from 'hooks';
 import visitaActualSlice, {
 	agregarProductoDelPedidoActual,
-	editarProductoDelPedidoActual,
-	borrarProductoDelPedidoActual,
-	borrarProductosDeVisitaActual,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
 
