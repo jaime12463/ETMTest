@@ -168,7 +168,7 @@ const en = {
 		borrarPedidosNoMandatorios:
 			'The order of {{tipoPedido}} will be deleted. do you wish to continue?',
 		ordenDeCompraEnBlanco: 'You must enter a purchase orden',
-		cantidadSuperiorEnvases: 'The amount exceeds those available for return',
+		cantidadSuperiorEnvases: 'Quantity of containers exceeded',
 		mensajeProductosSinCargar:
 			'If you advance to the next stage, the cards that do not have amounts entered will be removed from your order taking.',
 		mensajeIniciativasSinMotivo:
@@ -237,6 +237,8 @@ const en = {
 			'The tiered discount of the product {{codigo}} will be eliminated. To apply it again, you will have to add the product again. ',
 		excedeUnidadesDisponibles:
 			'You have exceeded the maximum amount of promotion allowed that you can apply per customer.',
+		cantidadSuperiorEnvases:
+			'The amount of sale cannot exceed the number of containers available for return.',			
 	},
 	modal: {
 		salirOrderTaking: 'Do you want to leave the order taking?',

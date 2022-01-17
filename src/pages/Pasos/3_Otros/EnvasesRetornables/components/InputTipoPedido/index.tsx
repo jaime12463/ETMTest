@@ -1,10 +1,8 @@
-import {TarjetaColapsable} from 'components/UI';
-import React, {FunctionComponent, useEffect, useState} from 'react';
-import {TProductoPedido, ETiposDePago, TTipoPedido} from 'models';
+import {FunctionComponent, useEffect, useState} from 'react';
+import {TTipoPedido} from 'models';
 import {Grid, Input, styled, Typography} from '@mui/material';
 import {TConsolidadoImplicitos} from 'models';
-import {useObtenerVisitaActual, useObtenerConfiguracion} from 'redux/hooks';
-import {Dispatch, SetStateAction} from 'react';
+import {useObtenerVisitaActual} from 'redux/hooks';
 
 const InputStyled = styled(Input)(({theme}) => ({
 	borderRadius: '4px',
