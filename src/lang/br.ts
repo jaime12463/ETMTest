@@ -157,7 +157,7 @@ const br = {
 		excedePresupuesto:
 			'O valor inserido excede o orçamento alocado para {{descripcion}}',
 		ordenDeCompraEnBlanco: 'Você deve inserir um pedido de compra',
-		cantidadSuperiorEnvases: 'O valor excede os disponíveis para devolução',
+		cantidadSuperiorEnvases: 'Número de contêineres excedido',
 		mensajeProductosSinCargar:
 			'Se você avançar para a próxima fase, os cartões que não possuem valores inseridos serão removidos de seu pedido.',
 		mensajeIniciativasSinMotivo:
@@ -171,6 +171,8 @@ const br = {
 	mensajes: {
 		borrarDescuento:
 			'Depois que o desconto escalonado for removido, você não poderá aplicá-lo novamente a este produto.',
+		cantidadSuperiorEnvases:
+			'O valor da venda não pode exceder o número de contêineres disponíveis para devolução.',			
 	},
 	modal: {
 		salirOrderTaking: 'Deseja sair do Order Taking?',

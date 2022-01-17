@@ -19,6 +19,8 @@ import {
 import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 import Stack from '@mui/material/Stack';
 import TarjetaCanjes from './TarjetaCanjes';
+import { SwipeBorrar } from 'components/UI';
+import { useBorrarLinea } from '../hooks/useBorrarLinea';
 
 export const Canjes = () => {
 	const [preciosProductos, setPreciosProductos] = React.useState<
@@ -52,6 +54,7 @@ export const Canjes = () => {
 	const stateInputFocus = {inputFocus, setInputFocus};
 	const mostrarAviso = useMostrarAviso();
 	const [catalogoMotivo, setCatalogoMotivo] = useState({});
+	const borrarLinea = useBorrarLinea();
 
 	React.useEffect(() => {
 		if (productoActual !== null) {
@@ -107,15 +110,21 @@ export const Canjes = () => {
 
 			{canje.productos?.map((producto) => {
 				return (
-					<TarjetaCanjes
+					<SwipeBorrar
 						key={producto.codigoProducto}
-						producto={producto}
-						condicion={clienteActual.condicion}
-						stateCatalogo={{catalogoMotivo, setCatalogoMotivo}}
-						stateInputFocus={stateInputFocus}
-						statefocusId={{focusId, setFocusId}}
-						visitaActual={visitaActual}
-					/>
+						item={producto}
+						manejadorGesto={() => borrarLinea(producto)}
+					>
+						<TarjetaCanjes
+							key={producto.codigoProducto}
+							producto={producto}
+							condicion={clienteActual.condicion}
+							stateCatalogo={{catalogoMotivo, setCatalogoMotivo}}
+							stateInputFocus={stateInputFocus}
+							statefocusId={{focusId, setFocusId}}
+							visitaActual={visitaActual}
+						/>
+					</SwipeBorrar>
 				);
 			})}
 		</Stack>

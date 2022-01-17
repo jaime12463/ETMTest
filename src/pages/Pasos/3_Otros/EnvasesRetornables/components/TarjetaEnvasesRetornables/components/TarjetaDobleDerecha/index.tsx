@@ -117,7 +117,13 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 					codigoTipoPedidoActual
 				);
 			} else {
-				mostrarAviso('error', t('advertencias.cantidadSuperiorEnvases'));
+				mostrarAviso(
+					'error', 
+					t('advertencias.cantidadSuperiorEnvases'),
+					t('mensajes.cantidadSuperiorEnvases'),
+					undefined,
+					'cantidad-superior-envases'
+				);
 			}
 
 		return unidadesPermitidas;
@@ -171,7 +177,13 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 					codigoTipoPedidoActual
 				);
 			} else {
-				mostrarAviso('error', t('advertencias.cantidadSuperiorEnvases'));
+				mostrarAviso(
+					'error', 
+					t('advertencias.cantidadSuperiorEnvases'),
+					t('mensajes.cantidadSuperiorEnvases'),
+					undefined,
+					'cantidad-superior-envases'
+				);
 			}
 
 		return unidadesPermitidas;
