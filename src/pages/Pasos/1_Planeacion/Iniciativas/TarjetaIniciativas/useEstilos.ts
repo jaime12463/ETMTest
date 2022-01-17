@@ -10,12 +10,12 @@ interface Props {
 const useEstilos = makeStyles(() =>
 	createStyles({
 		card: {
-			border: (props: Props) => {
-				switch (props.estado) {
+			border: ({estado, editarInputs}: Props) => {
+				switch (estado) {
 					case 'pendiente':
 						return '1px solid #D9D9D9';
 					case 'ejecutada':
-						return props.editarInputs
+						return editarInputs
 							? '1px solid #D9D9D9'
 							: `1px solid ${theme.palette.success.main}`;
 					case 'cancelada':
@@ -29,22 +29,20 @@ const useEstilos = makeStyles(() =>
 			minWidth: '304px',
 		},
 		input: {
-			backgroundColor: (props: Props) =>
-				props.estado === 'pendiente' ||
-				props.estado === 'cancelada' ||
-				props.inputsBloqueados
+			backgroundColor: ({estado, inputsBloqueados}: Props) =>
+				estado === 'pendiente' || estado === 'cancelada' || inputsBloqueados
 					? '#D9D9D9'
 					: '#fff',
-			border: (props: Props) => {
+			border: ({estado, inputsBloqueados, editarInputs}: Props) => {
 				if (
-					props.estado === 'pendiente' ||
-					props.estado === 'cancelada' ||
-					props.inputsBloqueados
+					estado === 'pendiente' ||
+					estado === 'cancelada' ||
+					inputsBloqueados
 				) {
 					return 'none';
 				}
 
-				if (props.editarInputs) {
+				if (editarInputs) {
 					return `1px solid ${theme.palette.primary.main}`;
 				}
 
@@ -52,16 +50,16 @@ const useEstilos = makeStyles(() =>
 			},
 			borderRadius: '10px',
 			'& .MuiInput-input': {
-				color: (props: Props) => {
+				color: ({estado, inputsBloqueados, editarInputs}: Props) => {
 					if (
-						props.estado === 'pendiente' ||
-						props.estado === 'cancelada' ||
-						props.inputsBloqueados
+						estado === 'pendiente' ||
+						estado === 'cancelada' ||
+						inputsBloqueados
 					) {
-						return '#00000050';
+						return 'rgba(0, 0, 0, 0.50)';
 					}
 
-					if (props.editarInputs) {
+					if (editarInputs) {
 						return theme.palette.primary.main;
 					}
 
@@ -73,10 +71,8 @@ const useEstilos = makeStyles(() =>
 			height: '16px',
 			lineHeight: '16px',
 			transition: 'all 0.3s ease-in-out',
-			width: (props: Props) =>
-				props.estado === 'pendiente' ||
-				props.estado === 'cancelada' ||
-				props.inputsBloqueados
+			width: ({estado, inputsBloqueados}: Props) =>
+				estado === 'pendiente' || estado === 'cancelada' || inputsBloqueados
 					? '82px'
 					: '42px',
 		},

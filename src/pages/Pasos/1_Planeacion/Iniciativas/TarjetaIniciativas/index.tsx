@@ -57,7 +57,7 @@ import Modal from 'components/UI/Modal';
 import ModalCore from 'components/UI/ModalCore';
 
 const ButtonStyled = styled(Button)(() => ({
-	border: '1.5px solid #651C32',
+	border: `1.5px solid ${theme.palette.secondary.main}`,
 	boxSizing: 'border-box',
 	borderRadius: '20px',
 	minHeight: '10px',
@@ -117,7 +117,6 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	const {motivosCancelacionIniciativas} = useObtenerConfiguracion();
 	const clienteActual = useObtenerClienteActual();
 	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
-	// ToDo
 	const unidades = unidadesEjecutadas;
 	const subUnidades = subUnidadesEjecutadas;
 	const id = idMaterialIniciativa.toString();
@@ -444,10 +443,9 @@ const TarjetaIniciativas: React.FC<Props> = ({
 				alerta={alerta}
 				setAlerta={setAlerta}
 				contenidoMensaje={{
-					titulo: 'Existen tarjtas vacias',
-					mensaje:
-						'Si avanzas, las tarjetas que no tienen cantidades se eliminaran.',
-					tituloBotonAceptar: 'Avanzar',
+					titulo: t('modal.tarjetasVaciasTitulo'),
+					mensaje: t('modal.tarjetasVaciasMensaje'),
+					tituloBotonAceptar: t('general.avanzar'),
 					callbackAceptar: () => {
 						dispatch(
 							cambiarEstadoIniciativa({
@@ -460,7 +458,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						setExpandido(cacheId);
 						setAvanza(true);
 					},
-					tituloBotonCancelar: 'Editar Cantidades',
+					tituloBotonCancelar: t('general.editarCantidades'),
 					callbackCancelar: () =>
 						dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: true})),
 					iconoMensaje: <AvisoIcon />,

@@ -24,6 +24,7 @@ import {
 	useAppDispatch,
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
+	useObtenerVisitaActual,
 } from 'redux/hooks';
 
 import {TCliente, TClienteActual} from 'models';
@@ -72,6 +73,8 @@ const Pasos: React.FC = () => {
 		obtenerTotalPedidosVisitaActual().totalPrecio +
 		compromisoDeCobroActual.monto;
 
+	const visitaActual = useObtenerVisitaActual();
+
 	const reiniciarVisita = useResetVisitaActual();
 	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
 	const handleOpenVistaPromoPush = () => setOpenVistaPromoPush(true);
@@ -119,19 +122,29 @@ const Pasos: React.FC = () => {
 				iconoMensaje: <AvisoIcon />,
 			});
 			setAlertaPasos(true);
-		} else {
-			if (pasoActual === 1) {
-				mostrarAviso(
-					'warning',
-					t('advertencias.noEditarPlaneacionTitulo'),
-					t('advertencias.noEditarPlaneacionDescripcion'),
-					undefined,
-					'advertenciaPaso1'
-				);
-			}
-
-			setPasoActual(pasoActual - 1);
 		}
+
+		if (pasoActual === 1) {
+			mostrarAviso(
+				'warning',
+				t('advertencias.noEditarPlaneacionTitulo'),
+				t('advertencias.noEditarPlaneacionDescripcion'),
+				undefined,
+				'advertenciaPaso1'
+			);
+		}
+
+		if (pasoActual === 2 && visitaActual.seQuedaAEditar.seQueda) {
+			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
+			mostrarAviso(
+				'error',
+				t('toast.errorBonificacionTotalTitulo'),
+				t('toast.errorBonificacionTotalMensaje')
+			);
+			return;
+		}
+
+		setPasoActual(pasoActual - 1);
 	};
 
 	const manejadorPasoAdelante = () => {

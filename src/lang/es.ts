@@ -264,12 +264,22 @@ const es = {
 		salirOrderTaking: '¿Quieres salir de Order taking?',
 		salirOrderTakingMensaje:
 			'Si sales toda la actividad registrada se perderá.',
+		restablecerBonificacionesTitulo: 'Restablecer cantidades a cero',
+		restablecerBonificacionesMensaje:
+			'Todas las cantidades de las bonificaciones se restablecerán a cero.',
+		tarjetasVaciasTitulo: 'Existen tarjetas vacias',
+		tarjetasVaciasMensaje:
+			'Si avanzas, las tarjetas que no tienen cantidades se eliminaran.',
 	},
 	toast: {
 		cambiosGuardados: 'Cambios guardados con exitosamente',
 		ventaBloqueadaTitulo: 'Cliente bloqueado para venta',
 		ventaBloqueadaMensaje:
 			'Unicamente puedes generar un compromiso de cobro para este cliente.',
+		bonificacionAgregada: 'Bonificacion agregada correctamente',
+		errorBonificacionTotalTitulo: 'Error en bonificación total',
+		errorBonificacionTotalMensaje:
+			'Esta bonificación tiene que ser de aplicación total. Favor de modificar cantidades.',
 	},
 };
 export default es;

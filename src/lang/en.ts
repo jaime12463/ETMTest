@@ -241,12 +241,22 @@ const en = {
 	modal: {
 		salirOrderTaking: 'Do you want to leave the order taking?',
 		salirOrderTakingMensaje: 'If you exit all recorded activity will be lost.',
+		restablecerBonificacionesTitulo: 'Reset quantities to zero',
+		restablecerBonificacionesMensaje:
+			'All bonus amounts will be reset to zero.',
+		tarjetasVaciasTitulo: 'There are empty cards',
+		tarjetasVaciasMensaje:
+			'If you advance, the cards that do not have quantities will be eliminated.',
 	},
 	toast: {
 		cambiosGuardados: 'Changes saved successfully',
 		ventaBloqueadaTitulo: 'Customer blocked for sale',
 		ventaBloqueadaMensaje:
 			'You can only generate a collection commitment for this customer.',
+		bonificacionAgregada: 'Bonus added successfully',
+		errorBonificacionTotalTitulo: 'Error in total bonus',
+		errorBonificacionTotalMensaje:
+			'This bonus must be applied in full. Please modify quantities.',
 	},
 };
 export default en;

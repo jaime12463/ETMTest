@@ -143,7 +143,7 @@ export const Otros: React.FC = () => {
 						{t('titulos.tarjetaEnvases')}
 					</Typography>
 				}
-				id='tarjetaEnvases'
+				id='Envases'
 				expandido={expandido}
 				setExpandido={setExpandido}
 				valido={envasesValido}
@@ -160,7 +160,7 @@ export const Otros: React.FC = () => {
 						{t('titulos.tarjetaCanjes')}
 					</Typography>
 				}
-				id='tarjetaCanjes'
+				id='Canjes'
 				expandido={expandido}
 				setExpandido={setExpandido}
 				cantidadItems={productosEnCanjeConUnidades.length}
@@ -191,7 +191,7 @@ export const Otros: React.FC = () => {
 						{t('titulos.tarjetaBonificaciones')}
 					</Typography>
 				}
-				id='tarjetaBonificaciones'
+				id='Bonificaciones'
 				expandido={expandido}
 				setExpandido={setExpandido}
 				dataCy='Bonificaciones'
@@ -234,7 +234,7 @@ export const Otros: React.FC = () => {
 							{t('titulos.tarjetaCompromisoCobro')}
 						</Typography>
 					}
-					id='compromisoCobro'
+					id='Compromiso de cobro'
 					expandido={expandido}
 					setExpandido={setExpandido}
 					valido={compromisoDeCobroValido}
@@ -255,7 +255,7 @@ export const Otros: React.FC = () => {
 							{t('titulos.tarjetaOrdenDeCompra')}
 						</Typography>
 					}
-					id='titulos.tarjetaEnvases'
+					id='Orden de compra'
 					expandido={expandido}
 					setExpandido={setExpandido}
 					valido={ordenDeCompraValido}

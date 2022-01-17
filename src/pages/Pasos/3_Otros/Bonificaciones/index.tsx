@@ -29,10 +29,10 @@ const Bonificaciones: React.FC<Props> = ({bonificacionValida}) => {
 	const dispatch = useDispatch();
 
 	const restablecerCantidades = () => {
-		setResetBonificaciones((prev) => !prev);
+		setResetBonificaciones((state) => !state);
 
 		setTimeout(() => {
-			setResetBonificaciones((prev) => !prev);
+			setResetBonificaciones((state) => !state);
 		}, 500);
 		dispatch(restablecerBonificaciones());
 	};
@@ -43,11 +43,11 @@ const Bonificaciones: React.FC<Props> = ({bonificacionValida}) => {
 				alerta={alerta}
 				setAlerta={setAlerta}
 				contenidoMensaje={{
-					titulo: 'Restablecer cantidades a cero',
-					mensaje: 'Todas las cantidades de las bonificaciones se restablecerán a cero.',
+					titulo: t('modal.restablecerBonificacionesTitulo'),
+					mensaje: t('modal.restablecerBonificacionesMensaje'),
 					callbackAceptar: () => restablecerCantidades(),
-					tituloBotonAceptar: 'Aceptar',
-					tituloBotonCancelar: 'Cancelar',
+					tituloBotonAceptar: t('general.aceptar'),
+					tituloBotonCancelar: t('general.cancelar'),
 					iconoMensaje: <AvisoIcon />,
 				}}
 			/>

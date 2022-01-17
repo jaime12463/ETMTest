@@ -176,12 +176,22 @@ const br = {
 		salirOrderTaking: 'Deseja sair do Order Taking?',
 		salirOrderTakingMensaje:
 			'Se sair de toda a actividade registada será perdida.',
+		restablecerBonificacionesTitulo: 'Redefinir quantidades para zero',
+		restablecerBonificacionesMensaje:
+			'Todos os valores de bônus devem ser zerados.',
+		tarjetasVaciasTitulo: 'Há cartões vazios',
+		tarjetasVaciasMensaje:
+			'Se você avançar, os cartões que não tiverem quantidades serão removidos.',
 	},
 	toast: {
 		cambiosGuardados: 'Mudanças salvas com sucesso',
 		ventaBloqueadaTitulo: 'Cliente bloqueado para venda',
 		ventaBloqueadaMensaje:
 			'Você só pode gerar um compromisso de cobrança para este cliente.',
+		bonificacionAgregada: 'Bônus adicionado com sucesso',
+		errorBonificacionTotalTitulo: 'Erro no bônus total',
+		errorBonificacionTotalMensaje:
+			'Este bônus tem que ser totalmente aplicável. Favor modificar as quantidades.',
 	},
 };
 export default br;

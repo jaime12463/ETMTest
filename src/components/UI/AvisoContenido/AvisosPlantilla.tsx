@@ -47,7 +47,11 @@ export const AvisoPlantilla = ({tipo, titulo, mensaje, id, dataCy}: TAviso) => {
 	return (
 		<Box className={classes.container}>
 			<Box className={classes.icon}>{icono}</Box>
-			<Typography variant='subtitle3' className={classes.titulo}>
+			<Typography
+				variant='subtitle3'
+				fontFamily='Open Sans'
+				className={classes.titulo}
+			>
 				{titulo}
 			</Typography>
 			<Typography

@@ -92,6 +92,16 @@ export const TarjetaColapsable: React.FC<Props> = ({
 			return;
 		}
 
+		if (expandido === 'Bonificaciones' && visitaActual.seQuedaAEditar.seQueda) {
+			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
+			mostrarAviso(
+				'error',
+				t('toast.errorBonificacionTotalTitulo'),
+				t('toast.errorBonificacionTotalMensaje')
+			);
+			return;
+		}
+
 		if (
 			expandido === 'Toma de pedido' &&
 			visitaActual.seQuedaAEditar.bordeError
