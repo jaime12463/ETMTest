@@ -126,39 +126,43 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	}, [productoEnVenta, visitaActual.seQuedaAEditar.bordeError]);
 
 	return (
-		<Box
-			border={`1px solid ${colorBorde}`}
-			borderRadius={bordeRedondeado ? '8px' : '0'}
-			overflow='hidden'
-		>
-			<SwitchYCheck
-				producto={productoEnVenta ?? productoAMandar}
-				conSwitch={conSwitch}
-			/>
-			<Box display='flex'>
-				<Informacion
+		<Box minWidth={'100%'} display={'flex'} justifyContent={'end'}>
+			<Box
+				border={`1px solid ${colorBorde}`}
+				borderRadius={bordeRedondeado ? '8px' : '0'}
+				overflow='hidden'
+				maxHeight={'110px'}
+				maxWidth={'304px'}
+			>
+				<SwitchYCheck
 					producto={productoEnVenta ?? productoAMandar}
 					conSwitch={conSwitch}
-					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-					stateAviso={{setAlerta, setConfigAlerta}}
-					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 				/>
-				<Controles
+				<Box display='flex'>
+					<Informacion
+						producto={productoEnVenta ?? productoAMandar}
+						conSwitch={conSwitch}
+						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+						stateAviso={{setAlerta, setConfigAlerta}}
+						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
+					/>
+					<Controles
+						producto={productoEnVenta ?? productoAMandar}
+						stateInputFocus={stateInputFocus}
+						stateFocusId={stateFocusId}
+						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
+					/>
+				</Box>
+
+				<Descuentos
+					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 					producto={productoEnVenta ?? productoAMandar}
 					stateInputFocus={stateInputFocus}
 					stateFocusId={stateFocusId}
-					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 				/>
 			</Box>
-
-			<Descuentos
-				stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-				obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
-				producto={productoEnVenta ?? productoAMandar}
-				stateInputFocus={stateInputFocus}
-				stateFocusId={stateFocusId}
-			/>
 		</Box>
 	);
 };

@@ -21,12 +21,12 @@ export const SwipeBorrar = (props: Props) => {
 			setIndex(0.5);
 		}
 		SetSwipe(index);
-		SetSwipeMargen( `${index*100}px` );
+		SetSwipeMargen(`${index * 100}px`);
 	};
 
-	useEffect (() => {
+	useEffect(() => {
 		setIndex(0);
-	}, [index])
+	}, [index]);
 
 	return (
 		<>
@@ -37,7 +37,6 @@ export const SwipeBorrar = (props: Props) => {
 				index={index}
 			>
 				{children}
-
 				<Box
 					alignItems='center'
 					display='flex'
@@ -49,7 +48,12 @@ export const SwipeBorrar = (props: Props) => {
 					}}
 				>
 					{/*ToDo: pasar a multilenguaje */}
-					<Typography  marginLeft={swipe >= 0.2 ? swipeMargen : '20px'} sx={{color: 'white' }}>Eliminar</Typography>
+					<Typography
+						marginLeft={swipe >= 0.2 ? swipeMargen : '20px'}
+						sx={{color: 'white'}}
+					>
+						Eliminar
+					</Typography>
 				</Box>
 			</SwipeableViews>
 		</>

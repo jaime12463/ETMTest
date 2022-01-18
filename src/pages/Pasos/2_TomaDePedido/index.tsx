@@ -91,6 +91,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				labelChip={`${productosConUnidades?.length} Items`}
 				valido={ventaValida}
 				dataCy='TomaDePedido'
+				disabledPadding
 			>
 				<TomaPedido />
 			</TarjetaColapsable>
