@@ -131,6 +131,20 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 			};
 		}
 
+		if (visitaActual.envasesConError > 0) {
+			return {
+				error: true,
+				contenidoMensajeAviso: {
+					tipo: 'error',
+					titulo: t('advertencias.cantidadSuperiorEnvases'),
+					mensaje: t('mensajes.cantidadSuperiorEnvases'),
+					opciones: undefined,
+					dataCy: 'cantidad-superior-envases',
+				},
+			};
+		} else
+			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+
 		if (visitaActual.seQuedaAEditar.bordeError) {
 			return {
 				error: true,

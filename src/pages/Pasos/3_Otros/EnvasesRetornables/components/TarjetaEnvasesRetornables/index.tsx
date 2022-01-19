@@ -65,9 +65,7 @@ const TarjetaEnvasesRetornables = ({
 		subUnidades: 0,
 	}));
 
-	const envasesDefault = tipoPedidosEnvases;
-
-	const [valoresEnvase, setValoresEnvase] = useState(envasesDefault);
+	const [valoresEnvase, setValoresEnvase] = useState(tipoPedidosEnvases);
 
 	const buscarPedidoValorizado = configuracion.tipoPedidoEnvasesHabilitados.map(
 		(tipoEnvases) =>
