@@ -172,7 +172,7 @@ const br = {
 		borrarDescuento:
 			'Depois que o desconto escalonado for removido, você não poderá aplicá-lo novamente a este produto.',
 		cantidadSuperiorEnvases:
-			'O valor da venda não pode exceder o número de contêineres disponíveis para devolução.',			
+			'O valor da venda e do empréstimo não pode exceder o número de contêineres disponíveis para devolução.',			
 	},
 	modal: {
 		salirOrderTaking: 'Deseja sair do Order Taking?',
