@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import useEstilos from './useEstilos';
 import {FlechaAbajoIcon} from 'assests/iconos';
+import {List, ListItem} from '@mui/material';
 
 interface Props {
 	opcionSeleccionada: string;
@@ -74,7 +75,11 @@ const CustomSelect: React.FC<Props> = ({
 				<FlechaAbajoIcon className={classes.arrow} height='10px' width='10px' />
 			</Box>
 			{open && (
-				<Box className={classes.dropdown} data-cy={dataCy}>
+				<Box
+					className={classes.dropdown}
+					data-cy={dataCy}
+					sx={{zIndex: 9999, position: 'absolute'}}
+				>
 					{opcionesAMostrar?.map((opcion) => (
 						<Box
 							className={classes.options}

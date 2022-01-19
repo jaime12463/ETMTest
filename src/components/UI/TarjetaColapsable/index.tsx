@@ -164,7 +164,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 				className={clsx(classes.root, {
 					[classes.inactiva]: expandido !== id,
 				})}
-				sx={{overflow: 'visible'}}
+				sx={{overflow: 'visible', position: 'relative'}}
 				data-cy={'tarjeta-' + dataCy}
 			>
 				<CardHeader
