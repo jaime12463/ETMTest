@@ -42,6 +42,7 @@ import {useSnackbar} from 'notistack';
 import Modal from 'components/UI/Modal';
 import TarjetaTomaPedido from 'components/UI/TarjetaTomaPedido';
 import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoPush';
+import {Box} from '@mui/system';
 
 const TextStyled = styled(Typography)(() => ({
 	color: '#651C32',
@@ -197,19 +198,27 @@ const TomaPedido: React.FC = () => {
 				contenidoMensaje={configAlerta}
 			/>
 			<Stack spacing='10px'>
-				<AutocompleteSeleccionarProducto
-					hookForm={hookForm}
-					stateProductoActual={{productoActual, setProductoActual}}
-					statePreciosProductos={{preciosProductos, setPreciosProductos}}
-					stateInputFocus={stateInputFocus}
-				/>
+				<Box padding={'0 18px'}>
+					<AutocompleteSeleccionarProducto
+						hookForm={hookForm}
+						stateProductoActual={{productoActual, setProductoActual}}
+						statePreciosProductos={{preciosProductos, setPreciosProductos}}
+						stateInputFocus={stateInputFocus}
+					/>
+				</Box>
 
 				<Grid container alignItems='center' justifyContent='space-between'>
 					{venta?.productos?.length > 0 &&
 						venta?.productos?.some(
 							(producto) => producto.unidades > 0 || producto.subUnidades > 0
 						) && (
-							<>
+							<Box
+								display={'flex'}
+								minWidth={'100%'}
+								justifyContent='space-between'
+								alignItems='center'
+								padding={'0 0 0 18px'}
+							>
 								<SwitchCambiarTipoPago />
 								<Chip
 									className={classes.root}
@@ -219,7 +228,7 @@ const TomaPedido: React.FC = () => {
 									sx={{'&:hover': {background: 'none'}}}
 									onClick={() => borrarTodosLosProductos()}
 								/>
-							</>
+							</Box>
 						)}
 				</Grid>
 
@@ -234,18 +243,26 @@ const TomaPedido: React.FC = () => {
 									manejadorGesto={() => borrarlinea(producto)}
 								>
 									{producto.promoPush ? (
-										<TarjetaPromoPush
-											key={producto.codigoProducto}
-											item={producto}
-											id={producto.nombreProducto}
-											expandidoPromoPush={expandidoPromoPush}
-											setExpandidoexpandidoPromoPush={
-												setExpandidoexpandidoPromoPush
-											}
-											mostrarAdvertenciaEnDialogo={mostrarAdvertenciaEnDialogo}
-											stateFocusId={{focusId, setFocusId}}
-											stateInputFocus={stateInputFocus}
-										/>
+										<Box
+											minWidth={'100%'}
+											display={'flex'}
+											justifyContent={'end'}
+										>
+											<TarjetaPromoPush
+												key={producto.codigoProducto}
+												item={producto}
+												id={producto.nombreProducto}
+												expandidoPromoPush={expandidoPromoPush}
+												setExpandidoexpandidoPromoPush={
+													setExpandidoexpandidoPromoPush
+												}
+												mostrarAdvertenciaEnDialogo={
+													mostrarAdvertenciaEnDialogo
+												}
+												stateFocusId={{focusId, setFocusId}}
+												stateInputFocus={stateInputFocus}
+											/>
+										</Box>
 									) : (
 										<TarjetaTomaPedido
 											producto={producto}

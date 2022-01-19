@@ -229,6 +229,8 @@ const TarjetaPromoPush = (props: any) => {
 						getValues.unidades > 0
 							? `1px solid ${theme.palette.success.main}`
 							: '1px solid #D9D9D9',
+					maxHeight: '304px',
+					maxWidth: '166px',
 				}}
 			>
 				<Box

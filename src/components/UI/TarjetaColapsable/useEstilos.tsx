@@ -15,7 +15,7 @@ const useEstilos = makeStyles(() =>
 				border: ({valido, open}: Props) =>
 					valido && !open ? `1px solid ${theme.palette.success.main}` : 'none',
 				borderRadius: '8px',
-				padding: '16px 18px',
+				padding: '16px 0',
 			},
 		},
 		inactiva: {
