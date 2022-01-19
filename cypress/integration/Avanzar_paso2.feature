@@ -37,3 +37,24 @@ Escenario: N°3 - La ruta tiene tipoPedidoEnvasesHabilitados que contribuyen al 
     Cuando avanzo al paso 3 de la visita
     Entonces el sistema avanzará al paso 3 
     Y mostrará un warning indicando que no aclanza el pedido mínimo
+
+Esquema del escenario: N°4 - Productos con cantidades en 0
+    Dado que estoy en toma de pedido
+    Y hay tarjetas de productos con cantidades en 0
+    Y '<sonLosUnicosProductos>' 
+	Y '<hayPedidoIngresadoMismaFechaEntrega>'
+	Y '<hayProductosIngresadosPedidosNoMandatorios>' y no son pedidos de _tipoPedidoEnvasesHabilitados
+	Y <_bonificacionesConVenta_>
+	Y '<hayBonificacionesIngresadas>'
+	Cuando se avanzo al paso 3 de la visita
+	Entonces el sistema '<realizaraAccion>'.
+
+
+Ejemplos:
+|sonLosUnicosProductos|hayPedidoIngresadoMismaFechaEntrega|hayProductosIngresadosPedidosNoMandatorios| _bonificacionesConVenta_  | hayBonificacionesIngresadas|realizaraAccion                                                                                                     |
+|     true		      |              false                |               true                       |              false        |             -              | Avisa que existen tarjetas vacias y que también se borrará el canje, con opcion a editar o avanzar. Si edita permanece en pantalla. Si avanza, borrará los productos y el canje ingresado                             |
+|     true            |              false                |               true                       |              true         |             true           | Avisa que existen tarjetas vacias y que también se borrará el canje y se restablecerán las bonificaciones a cero, con opcion a editar o avanzar. Si edita permanece en pantalla. Si avanza, borrará los productos, el canje ingresado y se reestablecerán las bonificaciones  a cero    |
+|     true            |              false                |               false				         |              false        |              -             | Avisa que existen tarjetas vacias, con opcion a editar o avanzar. Si edita permanece en pantalla. Si avanza, borrará los productos y no borrará las bonificaciones                                                                |
+|     true            |              false                |               false                      |              true         |             true           | Avisa que existen tarjetas vacias y que también reestablecerán las bonificaciones a cero, con opcion a editar o avanzar. Si edita permanece en pantalla. Si avanza, borrará los productos y se reestablecerán las bonificaciones a cero |
+|     -               |              -                    |                 -				         |                -          |             -              | Avisa que existen tarjetas vacias, con opcion a editar o avanzar. Si edita permanece en pantalla. Si avanza, borrará los productos                                                                                                    |
+
