@@ -131,7 +131,6 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 				border={`1px solid ${colorBorde}`}
 				borderRadius={bordeRedondeado ? '8px' : '0'}
 				overflow='hidden'
-				maxHeight={'110px'}
 				maxWidth={'304px'}
 			>
 				<SwitchYCheck
