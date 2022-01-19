@@ -71,6 +71,7 @@ export const useInicializarVisitaActual = () => {
 							bordeError: false,
 						},
 						fechaVisitaPlanificada,
+						envasesConError: 0,
 					},
 				})
 			);

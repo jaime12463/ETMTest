@@ -5,7 +5,38 @@ export type TDatosClientesProductos = {
 	presupuestoTipoPedido: TpresupuestoTipoPedido[];
 	iniciativas: TIniciativas[];
 	bonificaciones: TBonificaciones[];
+	sabores: TListaDataSecundaria;
+	familias: TListaDataSecundaria;
+	medidas: TListaDataSecundaria;
+	marcas: TListaDataSecundaria;
+	envases: TListaDataSecundaria;
+	promociones: TListaPromoOngoing;
 };
+
+/*
+	ESTRUCTURAS SECUNDARIAS
+*/
+
+export type TDataSecundaria = {
+	id: number;
+	descripcion: string;
+};
+
+export type TListaDataSecundaria = Record<number, TDataSecundaria>;
+
+/* */
+
+export type TPromoOngoing = {
+	promocionID: number;
+	descripcion: string;
+	tipo: number;
+	aplicacion: string;
+	asignacion: string;
+	inicioVigenciaPromocion: string;
+	finVigenciaPromocion: string;
+};
+
+export type TListaPromoOngoing = Record<number, TPromoOngoing>;
 
 export type TIniciativas = {
 	idActividadIniciativa: number;
@@ -66,6 +97,15 @@ export type TProducto = {
 	implicito2?: number;
 	tipoProducto: number;
 	promoPush?: TPromoPush;
+	atributos?: TAtributos;
+};
+
+export type TAtributos = {
+	sabores: number;
+	familias: number;
+	medidas: number;
+	marcas: number;
+	envases: number;
 };
 
 export type TPromoPush = {

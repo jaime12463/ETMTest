@@ -36,8 +36,9 @@ export default class EtmManager {
 				}),
 				{}
 			);
-			return JSON.stringify(objeto);
+			return objeto;
 		};
+
 		const clientesHash = transformacionJsonConHash(
 			json.clientes,
 			'codigoCliente'
@@ -48,6 +49,37 @@ export default class EtmManager {
 			'codigoProducto'
 		);
 
+		const saboresHash=   transformacionJsonConHash(
+			json.sabores,
+			'id'
+		);
+
+		const familiasHash=   transformacionJsonConHash(
+			json.familias,
+			'id'
+		);
+
+		const medidasHash=   transformacionJsonConHash(
+			json.medidas,
+			'id'
+		);
+
+		const marcasHash=   transformacionJsonConHash(
+			json.marcas,
+			'id'
+		);
+
+		const envasesHash=   transformacionJsonConHash(
+			json.envases,
+			'id'
+		);
+
+		const promocionesHash=   transformacionJsonConHash(
+			json.promociones,
+			'promocionID'
+		);
+
+	/*
 		let jsonFinal = JSON.parse(
 			`{"clientes":${clientesHash}, "productos":${productosHash}, "presupuestoTipoPedido":${JSON.stringify(
 				json.presupuestoTipoPedido
@@ -56,5 +88,22 @@ export default class EtmManager {
 			)}, "bonificaciones":${JSON.stringify(json.bonificaciones)}}`
 		);
 		return jsonFinal;
+	
+	*/
+		return {
+			"clientes":clientesHash,
+			"productos":productosHash, 
+			"presupuestoTipoPedido":json.presupuestoTipoPedido,
+			"iniciativas": json.iniciativas,
+			"bonificaciones":json.bonificaciones,
+			"sabores": saboresHash,
+			"familias":familiasHash,
+			"medidas": medidasHash,
+			"marcas" :marcasHash,
+			"envases" :envasesHash,
+			"promociones": promocionesHash 
+			
+		};
+
 	};
 }

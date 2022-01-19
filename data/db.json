@@ -98,6 +98,12 @@
 				},
 				"cantidadMaximaUnidades": 999
 			},
+			"promocionesHabilitadas": [
+				{
+					"idPromoción": 179567,
+					"promocionesDisponibles": 1
+				}
+			],
 			"portafolio": [
 				{
 					"codigoProducto": 340,
@@ -1915,14 +1921,28 @@
 			"nombre": "YOLI LIMON BOT 1.5L 12PK",
 			"presentacion": 12,
 			"subunidadesVentaMinima": 1,
-			"tipoProducto": 1
+			"tipoProducto": 1,
+			"atributos": {
+				"sabor": 1,
+				"familia": 8,
+				"marca": 4,
+				"envase": 2,
+				"medida": 2
+			}
 		},
 		{
 			"codigoProducto": 340,
 			"nombre": "AGUA",
 			"presentacion": 12,
 			"subunidadesVentaMinima": 1,
-			"tipoProducto": 1
+			"tipoProducto": 1,
+			"atributos": {
+				"sabor": 1,
+				"familia": 8,
+				"marca": 4,
+				"envase": 2,
+				"medida": 2
+			}
 		},
 		{
 			"codigoProducto": 229050,
@@ -2011,7 +2031,14 @@
 			"subunidadesVentaMinima": 7,
 			"implicito1": 1001,
 			"implicito2": 1020,
-			"tipoProducto": 1
+			"tipoProducto": 1,
+			"atributos": {
+				"sabor": 1,
+				"familia": 8,
+				"marca": 4,
+				"envase": 2,
+				"medida": 2
+			}
 		},
 		{
 			"codigoProducto": 380,
@@ -2020,7 +2047,14 @@
 			"subunidadesVentaMinima": 3,
 			"implicito1": 1001,
 			"implicito2": 1020,
-			"tipoProducto": 1
+			"tipoProducto": 1,
+			"atributos": {
+				"sabor": 1,
+				"familia": 8,
+				"marca": 4,
+				"envase": 2,
+				"medida": 2
+			}
 		},
 		{
 			"codigoProducto": 365,
@@ -2044,7 +2078,14 @@
 			"subunidadesVentaMinima": 3,
 			"implicito1": 1001,
 			"implicito2": 1020,
-			"tipoProducto": 1
+			"tipoProducto": 1,
+			"atributos": {
+				"sabor": 1,
+				"familia": 8,
+				"marca": 4,
+				"envase": 2,
+				"medida": 2
+			}
 		},
 		{
 			"codigoProducto": 10020,
@@ -2311,6 +2352,212 @@
 					"cantidadBeneficioGrupo": 5,
 					"unidadMedida": "Unidad",
 					"productosBeneficioGrupo": [400, 390]
+				}
+			]
+		}
+	],
+	"sabores": [
+		{
+			"id": 1,
+
+			"descripcion": "COLA"
+		},
+		{
+			"id": 2,
+
+			"descripcion": "NARANJA"
+		}
+	],
+
+	"familias": [
+		{
+			"id": 8,
+
+			"descripcion": "AGUAS"
+		}
+	],
+
+	"medidas": [
+		{
+			"id": 2,
+
+			"descripcion": "1.5 L"
+		},
+		{
+			"id": 6,
+
+			"descripcion": "2 L"
+		}
+	],
+
+	"marcas": [
+		{
+			"id": 3,
+
+			"descripcion": "SPRITE"
+		},
+		{
+			"id": 4,
+
+			"descripcion": "ADES"
+		}
+	],
+
+	"envases": [
+		{
+			"id": 2,
+
+			"descripcion": "PET"
+		},
+		{
+			"id": 5,
+
+			"descripcion": "ALUMINIO"
+		}
+	],
+
+	"promociones": [
+		{
+			"promocionID": 179567,
+
+			"descripcion": "BURN LT 260ML / PET 1L 15 % OFF H & S DME SPM",
+
+			"tipo": 1,
+
+			"aplicacion": "M",
+
+			"asignacion": "T",
+
+			"inicioVigenciaPromocion": "2021 - 09 - 01",
+
+			"finVigenciaPromocion": "2021 - 09 - 06",
+
+			"requisitos": [
+				{
+					"tipo": "condicion",
+
+					"data": [
+						{
+							"tipo": "material",
+
+							"data": {
+								"materiales": [18466, 118467, 118986],
+
+								"cantidad": 7,
+
+								"unidadMedida": "Unidad"
+							}
+						},
+						{
+							"tipo": "conector",
+
+							"data": "Y"
+						},
+						{
+							"tipo": "material",
+
+							"data": {
+								"materiales": [420],
+
+								"cantidad": 1,
+
+								"unidadMedida": "Unidad"
+							}
+						}
+					]
+				}
+			],
+
+			"beneficios": [
+				{
+					"gruposBeneficio": [
+						{
+							"grupoBeneficioID": 1,
+
+							"gripoBenedicioDescripcion": "Grupo 1",
+
+							"secuencias": [
+								{
+									"secuencia": 1,
+
+									"materialesBeneficio": [118466, 118467, 118986],
+
+									"cantidad": 10,
+
+									"unidadMedida": "Unidad",
+
+									"formaBenecio": "2",
+
+									"valorBeneficio": 15.0,
+
+									"claseCondicion": "ZPD %",
+
+									"tope": 50
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"promocionID": 179568,
+
+			"descripcion": "BURN LT 260ML / PET 1L 15 % OFF H & S DME SPM",
+
+			"tipo": 1,
+
+			"aplicacion": "M",
+
+			"asignacion": "T",
+
+			"inicioVigenciaPromocion": "2021 - 09 - 01",
+
+			"finVigenciaPromocion": "2021 - 09 - 06",
+
+			"requisitos": [
+				{
+					"tipo": "material",
+
+					"data": {
+						"materiales": [18466, 118467, 118986],
+
+						"cantidad": 7,
+
+						"unidadMedida": "Unidad"
+					}
+				}
+			],
+
+			"beneficios": [
+				{
+					"gruposBeneficio": [
+						{
+							"grupoBeneficioID": 1,
+
+							"gripoBenedicioDescripcion": "Grupo 1",
+
+							"secuencias": [
+								{
+									"secuencia": 1,
+
+									"materialesBeneficio": [118466, 118467, 118986],
+
+									"cantidad": 10,
+
+									"unidadMedida": "Unidad",
+
+									"formaBenecio": "2",
+
+									"valorBeneficio": 15.0,
+
+									"claseCondicion": "ZPD %",
+
+									"tope": 50
+								}
+							]
+						}
+					]
 				}
 			]
 		}
