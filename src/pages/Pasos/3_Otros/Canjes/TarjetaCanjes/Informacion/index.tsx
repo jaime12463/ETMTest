@@ -84,6 +84,13 @@ const Informacion: React.FC<Props> = ({
 				<Typography variant='subtitle3'>
 					{producto.nombreProducto.toUpperCase()}
 				</Typography>
+				<Typography
+					margin='4px 0 6px 0'
+					variant='caption'
+					color={theme.palette.secondary.main}
+				>
+					355 ml | Vidrio | Retornable {/* TODO REEMPLAZAR VALORES ACA */}
+				</Typography>
 			</Box>
 			<Box display='flex' alignItems='center' marginBottom='12px' gap='2px'>
 				<CajaIcon

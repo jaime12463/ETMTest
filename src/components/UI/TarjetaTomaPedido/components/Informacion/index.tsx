@@ -139,10 +139,16 @@ const Informacion: React.FC<Props> = ({
 			<Typography variant='subtitle3' fontFamily='Open Sans'>
 				{codigoProducto}
 			</Typography>
-			<Typography variant='subtitle3' noWrap width='150px' marginBottom='4px'>
+			<Typography variant='subtitle3' noWrap width='150px'>
 				{nombreProducto}
 			</Typography>
-
+			<Typography
+				margin='4px 0 6px 0'
+				variant='caption'
+				color={theme.palette.secondary.main}
+			>
+				355 ml | Vidrio | Retornable {/* TODO REEMPLAZAR VALORES ACA */}
+			</Typography>
 			<Box
 				alignItems='center'
 				display='grid'
@@ -286,7 +292,7 @@ const Informacion: React.FC<Props> = ({
 							setConfigAlerta({
 								titulo: t('advertencias.borrarDescuento'),
 								mensaje: t('mensajes.borrarDescuento', {
-									codigo: codigoProducto
+									codigo: codigoProducto,
 								}),
 								tituloBotonAceptar: 'Eliminar',
 								tituloBotonCancelar: 'Cancelar',

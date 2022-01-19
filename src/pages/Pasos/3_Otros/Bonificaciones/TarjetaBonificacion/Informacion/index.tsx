@@ -12,13 +12,20 @@ interface Props {
 
 const Informacion: React.FC<Props> = ({producto, unidadMedida}) => {
 	return (
-		<Box flex='1' padding='8px 0 8px 14px'>
+		<Box flex='1' padding='8px 4px 8px 14px'>
 			<Box display='flex' flexDirection='column' marginBottom='4px'>
 				<Typography variant='subtitle3' fontFamily='Open Sans'>
 					{producto.codigoProducto}
 				</Typography>
 				<Typography variant='subtitle3' noWrap width='130px'>
 					{producto.nombreProducto}
+				</Typography>
+				<Typography
+					margin='4px 0 6px 0'
+					variant='caption'
+					color={theme.palette.secondary.main}
+				>
+					355 ml | Vidrio | Retornable {/* TODO REEMPLAZAR VALORES ACA */}
 				</Typography>
 			</Box>
 			<Box alignItems='center' display='flex' gap='2px'>

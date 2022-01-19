@@ -241,6 +241,14 @@ export const TarjetaVistaPromoPush = (props: any) => {
 												<Typography variant='subtitle3'>
 													{productos[el.codigoProducto].nombre}
 												</Typography>
+												<Typography
+													marginTop='4px'
+													variant='caption'
+													color={theme.palette.secondary.main}
+												>
+													355 ml | Vidrio | Retornable{' '}
+													{/* TODO REEMPLAZAR VALORES ACA */}
+												</Typography>
 											</Box>
 										</GridStyled>
 										<GridStyled

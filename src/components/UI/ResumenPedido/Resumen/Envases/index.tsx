@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import {TConsolidadoImplicitos, TProductoPedido} from 'models';
 import {BotellaIcon, CajaIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
+import theme from 'theme';
 
 export interface ProductoEnvases extends TProductoPedido {
 	tipo: string;
@@ -43,8 +44,15 @@ export const Envases: React.FC<EnvasesProps> = ({producto, retorno}) => {
 						{retorno?.nombreImplicito}
 					</Typography>
 				)}
+				<Typography
+					margin='4px 0 6px 0'
+					variant='caption'
+					color={theme.palette.secondary.main}
+				>
+					355 ml | Vidrio | Retornable {/* TODO REEMPLAZAR VALORES ACA */}
+				</Typography>
 				<Box alignItems='center' display='flex' gap='8px'>
-					<Box alignItems='center' display='flex' gap='4px' marginTop='8px'>
+					<Box alignItems='center' display='flex' gap='4px'>
 						<CajaIcon height='14px' width='14px' />
 						{producto ? (
 							<Typography variant='subtitle3' fontFamily='Open Sans'>
@@ -58,7 +66,7 @@ export const Envases: React.FC<EnvasesProps> = ({producto, retorno}) => {
 					</Box>
 					{(producto?.esVentaSubunidades ||
 						(retorno && retorno.subUnidades > 0)) && (
-						<Box alignItems='center' display='flex' gap='4px' marginTop='8px'>
+						<Box alignItems='center' display='flex' gap='4px'>
 							<BotellaIcon height='12px' width='12px' />
 							{producto ? (
 								<Typography variant='subtitle3' fontFamily='Open Sans'>
