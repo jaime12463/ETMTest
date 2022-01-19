@@ -727,12 +727,17 @@ const TarjetaIniciativas: React.FC<Props> = ({
 									>
 										{producto.nombreProducto}
 									</Typography>
-									<Box
-										display='flex'
-										alignItems='center'
-										marginTop='4px'
-										gap='4px'
+
+									<Typography
+										margin='4px 0 6px 0'
+										variant='caption'
+										color={theme.palette.secondary.main}
 									>
+										355 ml | Vidrio | Retornable{' '}
+										{/* TODO REEMPLAZAR VALORES ACA */}
+									</Typography>
+
+									<Box display='flex' alignItems='center' gap='4px'>
 										<CajaIcon height='18px' width='18px' />
 										<Typography
 											variant='caption'
@@ -766,7 +771,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 									justifyContent='center'
 									flexDirection='column'
 									gap='12px'
-									padding='12px 12px 12px 8px'
+									padding='22px 12px 16px 8px'
 									minWidth='125px'
 									sx={{background: '#F5F0EF'}}
 								>

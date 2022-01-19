@@ -447,6 +447,14 @@ const TarjetaPromoPush = (props: any) => {
 													<Typography variant='subtitle3'>
 														{productos[el.codigoProducto].nombre}
 													</Typography>
+													<Typography
+														margin='4px 0 6px 0'
+														variant='caption'
+														color={theme.palette.secondary.main}
+													>
+														355 ml | Vidrio | Retornable{' '}
+														{/* TODO REEMPLAZAR VALORES ACA */}
+													</Typography>
 												</Box>
 											</GridStyled>
 											<GridStyled

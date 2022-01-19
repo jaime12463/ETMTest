@@ -238,7 +238,7 @@ const en = {
 		excedeUnidadesDisponibles:
 			'You have exceeded the maximum amount of promotion allowed that you can apply per customer.',
 		cantidadSuperiorEnvases:
-			'The amount of sale cannot exceed the number of containers available for return.',			
+			'The amount of sale and loan cannot exceed the number of containers available for return.',			
 	},
 	modal: {
 		salirOrderTaking: 'Do you want to leave the order taking?',

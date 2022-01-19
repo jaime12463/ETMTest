@@ -6,6 +6,7 @@ import {TDetalleBonificacionesCliente} from 'models';
 import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
 import {BotellaIcon, CajaIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
+import theme from 'theme';
 
 export interface BonificacionesProps {
 	bonificaciones: {
@@ -58,6 +59,14 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 													</Typography>
 													<Typography variant='subtitle3'>
 														{producto.nombreProducto}
+													</Typography>
+													<Typography
+														margin='4px 0 6px 0'
+														variant='caption'
+														color={theme.palette.secondary.main}
+													>
+														355 ml | Vidrio | Retornable{' '}
+														{/* TODO REEMPLAZAR VALORES ACA */}
 													</Typography>
 													<Box alignItems='center' display='flex' gap='4px'>
 														{detalle.unidadMedida === 'Unidad' ? (

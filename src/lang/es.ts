@@ -256,7 +256,7 @@ const es = {
 		excedeUnidadesDisponibles:
 			'Superaste la cantidad máxima de promoción permitida que puedes aplicar por cliente.',
 		cantidadSuperiorEnvases:
-			'La cantidad de venta no puede superar a la cantidad de envases disponibles de retorno.',
+			'La cantidad de venta y prestamo no puede superar a la cantidad de envases disponibles de retorno.',
 	},
 	avisos: {
 		productoAgregado: 'Producto agregado correctamente',

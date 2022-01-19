@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import {BotellaIcon, CajaIcon} from 'assests/iconos';
 import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
+import theme from 'theme';
 
 interface Props {
 	codigoProducto: number;
@@ -35,8 +36,15 @@ const Informacion: React.FC<Props> = ({
 			<Typography variant='subtitle3' fontFamily='Open Sans'>
 				{codigoProducto}
 			</Typography>
-			<Typography variant='subtitle3' noWrap width='150px' marginBottom='4px'>
+			<Typography variant='subtitle3' noWrap width='150px'>
 				{nombreProducto}
+			</Typography>
+			<Typography
+				margin='4px 0 6px 0'
+				variant='caption'
+				color={theme.palette.secondary.main}
+			>
+				355 ml | Vidrio | Retornable {/* TODO REEMPLAZAR VALORES ACA */}
 			</Typography>
 			<Box display='flex' gap='10px' alignItems='center'>
 				<Box display='flex' alignItems='center' flexDirection='row' gap='4px'>

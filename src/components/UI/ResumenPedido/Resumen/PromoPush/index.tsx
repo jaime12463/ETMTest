@@ -127,6 +127,14 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 									<Typography variant='subtitle3'>
 										{productos[componente.codigoProducto].nombre}
 									</Typography>
+									<Typography
+										marginTop='4px'
+										variant='caption'
+										color={theme.palette.secondary.main}
+									>
+										355 ml | Vidrio | Retornable{' '}
+										{/* TODO REEMPLAZAR VALORES ACA */}
+									</Typography>
 								</Box>
 								<Box
 									display='flex'
