@@ -29,3 +29,11 @@ Escenario: N°2 - El pedido no sufre cambios en los productos
     Entonces el sistema no recalculará los envases para retorno.
 
 #modificar un producto es cambiar su cantidad o condición de pago
+
+Escenario: N°3 - La ruta tiene tipoPedidoEnvasesHabilitados que contribuyen al pedido mínimo
+    Dado que la ruta tiene tipoPedidoEnvasesHabilitados 
+    Y que dichos tipoPedido tienen contribuyeAMinimo = true
+    Y el pedido en curso no alcanza el mínimo
+    Cuando avanzo al paso 3 de la visita
+    Entonces el sistema avanzará al paso 3 
+    Y mostrará un warning indicando que no aclanza el pedido mínimo
