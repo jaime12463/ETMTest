@@ -5,6 +5,7 @@ import {TCondicicon, TProductoPedido, TStateInputFocus} from 'models';
 import {StateFocusID} from 'components/UI/TarjetaTomaPedido';
 import {useObtenerCatalogoMotivos} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {CajaIcon} from 'assests/iconos';
+import Select from 'components/UI/Select';
 import CustomSelect from 'components/UI/CustomSelect';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';

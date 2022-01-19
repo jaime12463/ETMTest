@@ -19,8 +19,9 @@ import {
 import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 import Stack from '@mui/material/Stack';
 import TarjetaCanjes from './TarjetaCanjes';
-import { SwipeBorrar } from 'components/UI';
-import { useBorrarLinea } from '../hooks/useBorrarLinea';
+import {SwipeBorrar} from 'components/UI';
+import {useBorrarLinea} from '../hooks/useBorrarLinea';
+import {Box} from '@mui/material';
 
 export const Canjes = () => {
 	const [preciosProductos, setPreciosProductos] = React.useState<
@@ -101,12 +102,14 @@ export const Canjes = () => {
 
 	return (
 		<Stack spacing='10px'>
-			<AutocompleteSeleccionarProducto
-				hookForm={hookForm}
-				stateProductoActual={{productoActual, setProductoActual}}
-				statePreciosProductos={{preciosProductos, setPreciosProductos}}
-				stateInputFocus={stateInputFocus}
-			/>
+			<Box padding={'0 18px'}>
+				<AutocompleteSeleccionarProducto
+					hookForm={hookForm}
+					stateProductoActual={{productoActual, setProductoActual}}
+					statePreciosProductos={{preciosProductos, setPreciosProductos}}
+					stateInputFocus={stateInputFocus}
+				/>
+			</Box>
 
 			{canje.productos?.map((producto) => {
 				return (

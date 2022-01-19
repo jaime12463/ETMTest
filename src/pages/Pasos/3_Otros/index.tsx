@@ -177,6 +177,7 @@ export const Otros: React.FC = () => {
 				labelChip={`${cantidadCanjes.length} Items`}
 				valido={canjeValido}
 				dataCy='Canjes'
+				disabledPadding
 			>
 				<Canjes />
 			</TarjetaColapsable>
