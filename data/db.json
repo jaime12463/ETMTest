@@ -98,13 +98,12 @@
 				},
 				"cantidadMaximaUnidades": 999
 			},
-			"promocionesHabilitadas":
-            [
+			"promocionesHabilitadas": [
 				{
-                   "idPromoción": 179567,
-                   "promocionesDisponibles": 1
-                }
-            ],
+					"idPromoción": 179567,
+					"promocionesDisponibles": 1
+				}
+			],
 			"portafolio": [
 				{
 					"codigoProducto": 340,
@@ -1922,14 +1921,28 @@
 			"nombre": "YOLI LIMON BOT 1.5L 12PK",
 			"presentacion": 12,
 			"subunidadesVentaMinima": 1,
-			"tipoProducto": 1
+			"tipoProducto": 1,
+			"atributos": {
+				"sabor": 1,
+				"familia": 8,
+				"marca": 4,
+				"envase": 2,
+				"medida": 2
+			}
 		},
 		{
 			"codigoProducto": 340,
 			"nombre": "AGUA",
 			"presentacion": 12,
 			"subunidadesVentaMinima": 1,
-			"tipoProducto": 1
+			"tipoProducto": 1,
+			"atributos": {
+				"sabor": 1,
+				"familia": 8,
+				"marca": 4,
+				"envase": 2,
+				"medida": 2
+			}
 		},
 		{
 			"codigoProducto": 229050,
@@ -2018,7 +2031,14 @@
 			"subunidadesVentaMinima": 7,
 			"implicito1": 1001,
 			"implicito2": 1020,
-			"tipoProducto": 1
+			"tipoProducto": 1,
+			"atributos": {
+				"sabor": 1,
+				"familia": 8,
+				"marca": 4,
+				"envase": 2,
+				"medida": 2
+			}
 		},
 		{
 			"codigoProducto": 380,
@@ -2027,7 +2047,14 @@
 			"subunidadesVentaMinima": 3,
 			"implicito1": 1001,
 			"implicito2": 1020,
-			"tipoProducto": 1
+			"tipoProducto": 1,
+			"atributos": {
+				"sabor": 1,
+				"familia": 8,
+				"marca": 4,
+				"envase": 2,
+				"medida": 2
+			}
 		},
 		{
 			"codigoProducto": 365,
@@ -2051,7 +2078,14 @@
 			"subunidadesVentaMinima": 3,
 			"implicito1": 1001,
 			"implicito2": 1020,
-			"tipoProducto": 1
+			"tipoProducto": 1,
+			"atributos": {
+				"sabor": 1,
+				"familia": 8,
+				"marca": 4,
+				"envase": 2,
+				"medida": 2
+			}
 		},
 		{
 			"codigoProducto": 10020,
@@ -2322,262 +2356,210 @@
 			]
 		}
 	],
-	"sabores": [{
+	"sabores": [
+		{
+			"id": 1,
 
-		"id": 1,
+			"descripcion": "COLA"
+		},
+		{
+			"id": 2,
 
-		"descripcion":"COLA"
+			"descripcion": "NARANJA"
+		}
+	],
 
-	 }, {
+	"familias": [
+		{
+			"id": 8,
 
-		"id": 2,
+			"descripcion": "AGUAS"
+		}
+	],
 
-		"descripcion":"NARANJA"
+	"medidas": [
+		{
+			"id": 2,
 
-	 }
+			"descripcion": "1.5 L"
+		},
+		{
+			"id": 6,
 
- ],
+			"descripcion": "2 L"
+		}
+	],
 
-"familias": [{
+	"marcas": [
+		{
+			"id": 3,
 
-		"id": 8,
+			"descripcion": "SPRITE"
+		},
+		{
+			"id": 4,
 
-		"descripcion":"AGUAS"
+			"descripcion": "ADES"
+		}
+	],
 
-	 }
+	"envases": [
+		{
+			"id": 2,
 
- ],
+			"descripcion": "PET"
+		},
+		{
+			"id": 5,
 
-"medidas": [{
+			"descripcion": "ALUMINIO"
+		}
+	],
 
-		"id": 2,
+	"promociones": [
+		{
+			"promocionID": 179567,
 
-		"descripcion":"1.5 L"
+			"descripcion": "BURN LT 260ML / PET 1L 15 % OFF H & S DME SPM",
 
-	 }, {
+			"tipo": 1,
 
-		"id": 6,
+			"aplicacion": "M",
 
-		"descripcion":"2 L"
+			"asignacion": "T",
 
-	 }
+			"inicioVigenciaPromocion": "2021 - 09 - 01",
 
- ],
+			"finVigenciaPromocion": "2021 - 09 - 06",
 
-"marcas": [{
+			"requisitos": [
+				{
+					"tipo": "condicion",
 
-		"id": 3,
+					"data": [
+						{
+							"tipo": "material",
 
-		"descripcion":"SPRITE"
+							"data": {
+								"materiales": [18466, 118467, 118986],
 
-	 }, {
+								"cantidad": 7,
 
-		"id": 4,
+								"unidadMedida": "Unidad"
+							}
+						},
+						{
+							"tipo": "conector",
 
-		"descripcion":"ADES"
+							"data": "Y"
+						},
+						{
+							"tipo": "material",
 
-	 }
+							"data": {
+								"materiales": [420],
 
- ],
+								"cantidad": 1,
 
-"envases": [{
+								"unidadMedida": "Unidad"
+							}
+						}
+					]
+				}
+			],
 
-		"id": 2,
+			"beneficios": [
+				{
+					"gruposBeneficio": [
+						{
+							"grupoBeneficioID": 1,
 
-		"descripcion":"PET"
+							"gripoBenedicioDescripcion": "Grupo 1",
 
-	 }, {
+							"secuencias": [
+								{
+									"secuencia": 1,
 
-		"id": 5,
+									"materialesBeneficio": [118466, 118467, 118986],
 
-		"descripcion":"ALUMINIO"
+									"cantidad": 10,
 
-	 }
+									"unidadMedida": "Unidad",
 
- ],
+									"formaBenecio": "2",
 
-"promociones": [{
+									"valorBeneficio": 15.0,
 
-		"promocionID": 179567,
+									"claseCondicion": "ZPD %",
 
-		"descripcion":"BURN LT 260ML / PET 1L 15 % OFF H & S DME SPM",
+									"tope": 50
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"promocionID": 179568,
 
-		"tipo": 1,
+			"descripcion": "BURN LT 260ML / PET 1L 15 % OFF H & S DME SPM",
 
-		"aplicacion":"M",
+			"tipo": 1,
 
-		"asignacion":"T",
+			"aplicacion": "M",
 
-		"inicioVigenciaPromocion":"2021 - 09 - 01",
+			"asignacion": "T",
 
-		"finVigenciaPromocion":"2021 - 09 - 06",
+			"inicioVigenciaPromocion": "2021 - 09 - 01",
 
-		"requisitos":
+			"finVigenciaPromocion": "2021 - 09 - 06",
 
-		 [{
+			"requisitos": [
+				{
+					"tipo": "material",
 
-				"tipo":"condicion",
+					"data": {
+						"materiales": [18466, 118467, 118986],
 
-				"data":
+						"cantidad": 7,
 
-				 [{
+						"unidadMedida": "Unidad"
+					}
+				}
+			],
 
-						"tipo":"material",
+			"beneficios": [
+				{
+					"gruposBeneficio": [
+						{
+							"grupoBeneficioID": 1,
 
-						"data": {
+							"gripoBenedicioDescripcion": "Grupo 1",
 
-							"materiales": [18466, 118467, 118986],
+							"secuencias": [
+								{
+									"secuencia": 1,
 
-							"cantidad": 7,
+									"materialesBeneficio": [118466, 118467, 118986],
 
-							"unidadMedida":"Unidad"
+									"cantidad": 10,
 
-						 }
+									"unidadMedida": "Unidad",
 
-					 }, {
+									"formaBenecio": "2",
 
-						"tipo":"conector",
+									"valorBeneficio": 15.0,
 
-						"data":"Y"
+									"claseCondicion": "ZPD %",
 
-					 }, {
-
-						"tipo":"material",
-
-						"data": {
-
-							"materiales": [420],
-
-							"cantidad": 1,
-
-							"unidadMedida":"Unidad"
-
-						 }
-
-					 }
-
-				 ]
-
-			 }
-
-		 ],
-
-		"beneficios": [{
-
-				"gruposBeneficio": [{
-
-						"grupoBeneficioID": 1,
-
-						"gripoBenedicioDescripcion":"Grupo 1",
-
-						"secuencias": [{
-
-								"secuencia": 1,
-
-								"materialesBeneficio": [118466, 118467, 118986],
-
-								"cantidad": 10,
-
-								"unidadMedida":"Unidad",
-
-								"formaBenecio":"2",
-
-								"valorBeneficio": 15.00,
-
-								"claseCondicion":"ZPD %",
-
-								"tope": 50
-
-							 }
-
-						 ]
-
-					 }
-
-				 ]
-
-			 }
-
-		 ]
-
-	 }, {
-
-		"promocionID": 179568,
-
-		"descripcion":"BURN LT 260ML / PET 1L 15 % OFF H & S DME SPM",
-
-		"tipo": 1,
-
-		"aplicacion":"M",
-
-		"asignacion":"T",
-
-		"inicioVigenciaPromocion":"2021 - 09 - 01",
-
-		"finVigenciaPromocion":"2021 - 09 - 06",
-
-		"requisitos":
-
-		 [{
-
-				"tipo":"material",
-
-				"data": {
-
-					"materiales": [18466, 118467, 118986],
-
-					"cantidad": 7,
-
-					"unidadMedida":"Unidad"
-
-				 }
-
-			 }
-
-		 ],
-
-		"beneficios": [{
-
-				"gruposBeneficio": [{
-
-						"grupoBeneficioID": 1,
-
-						"gripoBenedicioDescripcion":"Grupo 1",
-
-						"secuencias": [{
-
-								"secuencia": 1,
-
-								"materialesBeneficio": [118466, 118467, 118986],
-
-								"cantidad": 10,
-
-								"unidadMedida":"Unidad",
-
-								"formaBenecio":"2",
-
-								"valorBeneficio": 15.00,
-
-								"claseCondicion":"ZPD %",
-
-								"tope": 50
-
-							 }
-
-						 ]
-
-					 }
-
-				 ]
-
-			 }
-
-		 ]
-
-	 }
-
-
-
- ]
-
+									"tope": 50
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
 }
