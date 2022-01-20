@@ -40,7 +40,10 @@ export const Otros: React.FC = () => {
 	const bonificacionesHabilitadas = bonificaciones();
 
 	const productosEnCanjeConUnidades = canje.productos.filter((producto) => {
-		return producto.catalogoMotivo !== '';
+		return (
+			(producto.catalogoMotivo !== '' && producto.unidades > 0) ||
+			(producto.catalogoMotivo !== '' && producto.subUnidades > 0)
+		);
 	});
 	const habilitaCanje = useObtenerHabilitaCanje();
 	const dispatch = useAppDispatch();
@@ -59,8 +62,8 @@ export const Otros: React.FC = () => {
 
 	const cantidadCanjes = canje.productos.filter(
 		(producto) =>
-			producto.catalogoMotivo !== '' &&
-			(producto.unidades > 0 || producto.subUnidades > 0)
+			(producto.catalogoMotivo !== '' && producto.unidades > 0) ||
+			(producto.catalogoMotivo !== '' && producto.subUnidades > 0)
 	);
 
 	const cantidadBonificaciones = visitaActual.bonificaciones.filter(
@@ -163,7 +166,11 @@ export const Otros: React.FC = () => {
 				id='Canjes'
 				expandido={expandido}
 				setExpandido={setExpandido}
-				cantidadItems={productosEnCanjeConUnidades.length}
+				cantidadItems={
+					productosEnCanjeConUnidades.length > 0
+						? productosEnCanjeConUnidades.length
+						: undefined
+				}
 				disabled={
 					!habilitaCanje ||
 					(saldoPresupuestoTipoPedido && saldoPresupuestoTipoPedido < 1) ||
