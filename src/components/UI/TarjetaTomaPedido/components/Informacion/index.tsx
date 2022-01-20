@@ -14,7 +14,7 @@ import {
 import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
 import theme from 'theme';
-import {useAppDispatch} from 'redux/hooks';
+import {useAppDispatch, useObtenerDatos} from 'redux/hooks';
 import {borrarDescuentoDelProducto} from 'redux/features/visitaActual/visitaActualSlice';
 import {useMostrarAviso} from 'hooks';
 
@@ -128,6 +128,8 @@ const Informacion: React.FC<Props> = ({
 		}
 	}, [producto, infoDescuento]);
 
+	const {envases, medidas} = useObtenerDatos();
+
 	return (
 		<Box
 			display='flex'
@@ -139,16 +141,25 @@ const Informacion: React.FC<Props> = ({
 			<Typography variant='subtitle3' fontFamily='Open Sans'>
 				{codigoProducto}
 			</Typography>
-			<Typography variant='subtitle3' noWrap width='150px'>
+			<Typography
+				variant='subtitle3'
+				noWrap
+				width='150px'
+				marginBottom={producto.atributos ? 0 : '6px'}
+			>
 				{nombreProducto}
 			</Typography>
-			<Typography
-				margin='4px 0 6px 0'
-				variant='caption'
-				color={theme.palette.secondary.main}
-			>
-				355 ml | Vidrio | Retornable {/* TODO REEMPLAZAR VALORES ACA */}
-			</Typography>
+			{producto.atributos && (
+				<Typography
+					margin='4px 0 6px 0'
+					variant='caption'
+					color={theme.palette.secondary.main}
+				>
+					{`${medidas[producto.atributos?.medida ?? 0].descripcion} | ${
+						envases[producto.atributos?.envase ?? 0].descripcion
+					}`}
+				</Typography>
+			)}
 			<Box
 				alignItems='center'
 				display='grid'

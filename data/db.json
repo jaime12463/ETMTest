@@ -2359,12 +2359,10 @@
 	"sabores": [
 		{
 			"id": 1,
-
 			"descripcion": "COLA"
 		},
 		{
 			"id": 2,
-
 			"descripcion": "NARANJA"
 		}
 	],
@@ -2372,7 +2370,6 @@
 	"familias": [
 		{
 			"id": 8,
-
 			"descripcion": "AGUAS"
 		}
 	],
@@ -2380,12 +2377,10 @@
 	"medidas": [
 		{
 			"id": 2,
-
 			"descripcion": "1.5 L"
 		},
 		{
 			"id": 6,
-
 			"descripcion": "2 L"
 		}
 	],
@@ -2393,12 +2388,10 @@
 	"marcas": [
 		{
 			"id": 3,
-
 			"descripcion": "SPRITE"
 		},
 		{
 			"id": 4,
-
 			"descripcion": "ADES"
 		}
 	],
@@ -2406,12 +2399,10 @@
 	"envases": [
 		{
 			"id": 2,
-
 			"descripcion": "PET"
 		},
 		{
 			"id": 5,
-
 			"descripcion": "ALUMINIO"
 		}
 	],

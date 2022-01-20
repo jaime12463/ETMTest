@@ -14,8 +14,7 @@ export interface PromoPushProps {
 
 export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 	const {t} = useTranslation();
-	const datos = useObtenerDatos();
-	const {productos} = datos;
+	const {productos, envases, medidas} = useObtenerDatos();
 
 	return (
 		<Box>
@@ -127,14 +126,25 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 									<Typography variant='subtitle3'>
 										{productos[componente.codigoProducto].nombre}
 									</Typography>
-									<Typography
-										marginTop='4px'
-										variant='caption'
-										color={theme.palette.secondary.main}
-									>
-										355 ml | Vidrio | Retornable{' '}
-										{/* TODO REEMPLAZAR VALORES ACA */}
-									</Typography>
+									{productos[componente.codigoProducto].atributos && (
+										<Typography
+											margin='4px 0 6px 0'
+											variant='caption'
+											color={theme.palette.secondary.main}
+										>
+											{`${
+												medidas[
+													productos[componente.codigoProducto].atributos
+														?.medida ?? 0
+												].descripcion
+											} | ${
+												envases[
+													productos[componente.codigoProducto].atributos
+														?.envase ?? 0
+												].descripcion
+											}`}
+										</Typography>
+									)}
 								</Box>
 								<Box
 									display='flex'

@@ -5,6 +5,7 @@ import {TConsolidadoImplicitos, TProductoPedido} from 'models';
 import {BotellaIcon, CajaIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import theme from 'theme';
+import {useObtenerDatos} from 'redux/hooks';
 
 export interface ProductoEnvases extends TProductoPedido {
 	tipo: string;
@@ -17,6 +18,7 @@ export interface EnvasesProps {
 
 export const Envases: React.FC<EnvasesProps> = ({producto, retorno}) => {
 	const {t} = useTranslation();
+	const {envases, medidas} = useObtenerDatos();
 
 	return (
 		<Box display='flex'>
@@ -36,21 +38,28 @@ export const Envases: React.FC<EnvasesProps> = ({producto, retorno}) => {
 					</Typography>
 				)}
 				{producto ? (
-					<Typography variant='subtitle3'>
+					<Typography
+						variant='subtitle3'
+						marginBottom={producto.atributos ? 0 : '6px'}
+					>
 						{producto?.nombreProducto}
 					</Typography>
 				) : (
-					<Typography variant='subtitle3'>
+					<Typography variant='subtitle3' marginBottom='6px'>
 						{retorno?.nombreImplicito}
 					</Typography>
 				)}
-				<Typography
-					margin='4px 0 6px 0'
-					variant='caption'
-					color={theme.palette.secondary.main}
-				>
-					355 ml | Vidrio | Retornable {/* TODO REEMPLAZAR VALORES ACA */}
-				</Typography>
+				{producto && producto.atributos && (
+					<Typography
+						margin='4px 0 6px 0'
+						variant='caption'
+						color={theme.palette.secondary.main}
+					>
+						{`${medidas[producto.atributos?.medida ?? 0].descripcion} | ${
+							envases[producto.atributos?.envase ?? 0].descripcion
+						}`}
+					</Typography>
+				)}
 				<Box alignItems='center' display='flex' gap='8px'>
 					<Box alignItems='center' display='flex' gap='4px'>
 						<CajaIcon height='14px' width='14px' />

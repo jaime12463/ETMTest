@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import {TPrecioProducto} from 'models';
 import theme from 'theme';
 import {BotellaIcon, CajaIcon} from 'assests/iconos';
+import {useObtenerDatos} from 'redux/hooks';
 
 interface Props {
 	producto: TPrecioProducto;
@@ -11,22 +12,28 @@ interface Props {
 }
 
 const Informacion: React.FC<Props> = ({producto, unidadMedida}) => {
+	const {envases, medidas} = useObtenerDatos();
+
 	return (
 		<Box flex='1' padding='8px 4px 8px 14px'>
-			<Box display='flex' flexDirection='column' marginBottom='4px'>
+			<Box display='flex' flexDirection='column'>
 				<Typography variant='subtitle3' fontFamily='Open Sans'>
 					{producto.codigoProducto}
 				</Typography>
 				<Typography variant='subtitle3' noWrap width='130px'>
 					{producto.nombreProducto}
 				</Typography>
-				<Typography
-					margin='4px 0 6px 0'
-					variant='caption'
-					color={theme.palette.secondary.main}
-				>
-					355 ml | Vidrio | Retornable {/* TODO REEMPLAZAR VALORES ACA */}
-				</Typography>
+				{producto.atributos && (
+					<Typography
+						margin='4px 0 6px 0'
+						variant='caption'
+						color={theme.palette.secondary.main}
+					>
+						{`${medidas[producto.atributos?.medida ?? 0].descripcion} | ${
+							envases[producto.atributos?.envase ?? 0].descripcion
+						}`}
+					</Typography>
+				)}
 			</Box>
 			<Box alignItems='center' display='flex' gap='2px'>
 				{unidadMedida === 'Unidad' ? (

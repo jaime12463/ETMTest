@@ -7,6 +7,7 @@ import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
 import {BotellaIcon, CajaIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import theme from 'theme';
+import {useObtenerDatos} from 'redux/hooks';
 
 export interface BonificacionesProps {
 	bonificaciones: {
@@ -20,6 +21,7 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 	bonificaciones,
 }) => {
 	const {t} = useTranslation();
+	const {envases, medidas} = useObtenerDatos();
 
 	return (
 		<>
@@ -30,12 +32,7 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 
 				return (
 					<Box key={bonificacion.id}>
-						<Box
-							display='flex'
-							flex='2'
-							flexDirection='column'
-							// padding='8px 8px 8px 14px'
-						>
+						<Box display='flex' flex='2' flexDirection='column'>
 							{bonificacion.detalle.map((detalle, index) => {
 								const producto = useObtenerProductoPorCodigo(
 									detalle.codigoProducto
@@ -43,8 +40,8 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 								if (!producto) return null;
 
 								return (
-									<>
-										<Box display='flex' key={`${detalle.idGrupo}${index}`}>
+									<Box key={`${detalle.idGrupo}${index}`}>
+										<Box display='flex'>
 											<Box display='flex' flexDirection='column' flex='2'>
 												<Box
 													display='flex'
@@ -57,17 +54,27 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 													>
 														{producto.codigoProducto}
 													</Typography>
-													<Typography variant='subtitle3'>
+													<Typography
+														variant='subtitle3'
+														marginBottom={producto.atributos ? 0 : '6px'}
+													>
 														{producto.nombreProducto}
 													</Typography>
-													<Typography
-														margin='4px 0 6px 0'
-														variant='caption'
-														color={theme.palette.secondary.main}
-													>
-														355 ml | Vidrio | Retornable{' '}
-														{/* TODO REEMPLAZAR VALORES ACA */}
-													</Typography>
+													{producto.atributos && (
+														<Typography
+															margin='4px 0 6px 0'
+															variant='caption'
+															color={theme.palette.secondary.main}
+														>
+															{`${
+																medidas[producto.atributos?.medida ?? 0]
+																	.descripcion
+															} | ${
+																envases[producto.atributos?.envase ?? 0]
+																	.descripcion
+															}`}
+														</Typography>
+													)}
 													<Box alignItems='center' display='flex' gap='4px'>
 														{detalle.unidadMedida === 'Unidad' ? (
 															<CajaIcon height='14px' width='14px' />
@@ -101,7 +108,7 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 											</Box>
 										</Box>
 										{index < bonificacion.detalle.length - 1 && <Divider />}
-									</>
+									</Box>
 								);
 							})}
 						</Box>

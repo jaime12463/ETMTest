@@ -122,6 +122,7 @@ const Pasos: React.FC = () => {
 				iconoMensaje: <AvisoIcon />,
 			});
 			setAlertaPasos(true);
+			return;
 		}
 
 		if (pasoActual === 1) {

@@ -29,6 +29,7 @@ import {
 	useAppDispatch,
 	useObtenerClienteActual,
 	useObtenerConfiguracion,
+	useObtenerDatos,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {
@@ -213,6 +214,8 @@ const TarjetaIniciativas: React.FC<Props> = ({
 
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {configuracionPedido}: any = datosCliente;
+
+	const {envases, medidas} = useObtenerDatos();
 
 	React.useEffect(() => {
 		if (puedeAgregar) {
@@ -724,18 +727,24 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										noWrap
 										width='150px'
 										data-cy={`iniciativa-nombreProducto-${idMaterialIniciativa}`}
+										marginBottom={producto.atributos ? 0 : '6px'}
 									>
 										{producto.nombreProducto}
 									</Typography>
 
-									<Typography
-										margin='4px 0 6px 0'
-										variant='caption'
-										color={theme.palette.secondary.main}
-									>
-										355 ml | Vidrio | Retornable{' '}
-										{/* TODO REEMPLAZAR VALORES ACA */}
-									</Typography>
+									{producto.atributos && (
+										<Typography
+											margin='4px 0 6px 0'
+											variant='caption'
+											color={theme.palette.secondary.main}
+										>
+											{`${
+												medidas[producto.atributos?.medida ?? 0].descripcion
+											} | ${
+												envases[producto.atributos?.envase ?? 0].descripcion
+											}`}
+										</Typography>
+									)}
 
 									<Box display='flex' alignItems='center' gap='4px'>
 										<CajaIcon height='18px' width='18px' />

@@ -101,11 +101,11 @@ export type TProducto = {
 };
 
 export type TAtributos = {
-	sabores: number;
-	familias: number;
-	medidas: number;
-	marcas: number;
-	envases: number;
+	sabore: number;
+	familia: number;
+	medida: number;
+	marca: number;
+	envase: number;
 };
 
 export type TPromoPush = {

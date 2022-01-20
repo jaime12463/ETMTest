@@ -10,6 +10,7 @@ import CustomSelect from 'components/UI/CustomSelect';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {GetValueProps} from '..';
+import {useObtenerDatos} from 'redux/hooks';
 
 interface Props {
 	producto: TProductoPedido;
@@ -33,6 +34,7 @@ const Informacion: React.FC<Props> = ({
 	const itemCatalogoMotivos = useObtenerCatalogoMotivos();
 	const {setFocusId} = statefocusId;
 	const {catalogoMotivo, setCatalogoMotivo} = stateCatalogo;
+	const {envases, medidas} = useObtenerDatos();
 
 	const motivoFiltrado = itemCatalogoMotivos.filter(
 		(item) => item.value === producto.catalogoMotivo
@@ -82,16 +84,23 @@ const Informacion: React.FC<Props> = ({
 				<Typography variant='subtitle3' fontFamily='Open Sans'>
 					{producto.codigoProducto}
 				</Typography>
-				<Typography variant='subtitle3'>
+				<Typography
+					variant='subtitle3'
+					marginBottom={producto.atributos ? 0 : '6px'}
+				>
 					{producto.nombreProducto.toUpperCase()}
 				</Typography>
-				<Typography
-					margin='4px 0 6px 0'
-					variant='caption'
-					color={theme.palette.secondary.main}
-				>
-					355 ml | Vidrio | Retornable {/* TODO REEMPLAZAR VALORES ACA */}
-				</Typography>
+				{producto.atributos && (
+					<Typography
+						margin='4px 0 6px 0'
+						variant='caption'
+						color={theme.palette.secondary.main}
+					>
+						{`${medidas[producto.atributos?.medida ?? 0].descripcion} | ${
+							envases[producto.atributos?.envase ?? 0].descripcion
+						}`}
+					</Typography>
+				)}
 			</Box>
 			<Box display='flex' alignItems='center' marginBottom='12px' gap='2px'>
 				<CajaIcon

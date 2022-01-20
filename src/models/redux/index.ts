@@ -8,6 +8,7 @@ import {
 	TDescuentoEscalonado,
 	TDescuentoPolarizado,
 	TComponente,
+	TAtributos,
 } from 'models/server';
 
 //Cliente Actual
@@ -160,6 +161,7 @@ export type TPrecioProducto = {
 	descuentoEscalonado?: TDescuentoEscalonado[];
 	descuentoPromoPush?: number;
 	componentes?: TComponente[];
+	atributos?: TAtributos;
 };
 
 export type TPedidoDelProducto = {
