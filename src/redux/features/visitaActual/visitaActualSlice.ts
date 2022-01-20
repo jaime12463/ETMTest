@@ -491,6 +491,11 @@ export const visitaActualSlice = createSlice({
 			else
 				state.envasesConError = state.envasesConError - 1;
 		},
+		restablecerEnvasesConError: (
+			state,
+		) => {
+				state.envasesConError = 0;
+		},
 	},
 });
 
@@ -525,5 +530,6 @@ export const {
 	limpiarProductosSinCantidad,
 	eliminarCanje,
 	modificarEnvasesConError,
+	restablecerEnvasesConError,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;
