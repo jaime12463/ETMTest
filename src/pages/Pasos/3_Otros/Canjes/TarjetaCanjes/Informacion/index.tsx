@@ -5,7 +5,6 @@ import {TCondicicon, TProductoPedido, TStateInputFocus} from 'models';
 import {StateFocusID} from 'components/UI/TarjetaTomaPedido';
 import {useObtenerCatalogoMotivos} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {CajaIcon} from 'assests/iconos';
-import Select from 'components/UI/Select';
 import CustomSelect from 'components/UI/CustomSelect';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
@@ -113,18 +112,16 @@ const Informacion: React.FC<Props> = ({
 					fontFamily='Open Sans'
 				>{`x${producto.presentacion}`}</Typography>
 			</Box>
-			<Box position={'relative'}>
-				<CustomSelect
-					opciones={[...itemCatalogoMotivos.map((item) => item.label)]}
-					opcionSeleccionada={motivo}
-					setOpcion={setMotivo}
-					dataCy={`canje-motivo-value`}
-					bloqueado={selectBloqueado}
-					border
-					sinFlecha
-					placeholder={t('general.motivoDelCanje')}
-				/>
-			</Box>
+			<CustomSelect
+				opciones={[...itemCatalogoMotivos.map((item) => item.label)]}
+				opcionSeleccionada={motivo}
+				setOpcion={setMotivo}
+				dataCy={`canje-motivo-value`}
+				bloqueado={selectBloqueado}
+				border
+				sinFlecha
+				placeholder={t('general.motivoDelCanje')}
+			/>
 		</Box>
 	);
 };

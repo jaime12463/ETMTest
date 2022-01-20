@@ -34,6 +34,8 @@ export const SwipeBorrar = (props: Props) => {
 			enableMouseEvents
 			hysteresis={0.9}
 			index={index}
+			slideStyle={{overflow: 'clip visible'}}
+			style={{overflow: 'clip visible'}}
 		>
 			{children}
 			<Box

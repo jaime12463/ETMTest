@@ -75,11 +75,7 @@ const CustomSelect: React.FC<Props> = ({
 				<FlechaAbajoIcon className={classes.arrow} height='10px' width='10px' />
 			</Box>
 			{open && (
-				<Box
-					className={classes.dropdown}
-					data-cy={dataCy}
-					sx={{zIndex: 9999, position: 'absolute'}}
-				>
+				<Box className={classes.dropdown} data-cy={dataCy}>
 					{opcionesAMostrar?.map((opcion) => (
 						<Box
 							className={classes.options}
