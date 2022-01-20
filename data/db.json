@@ -2419,44 +2419,24 @@
 
 			"asignacion": "T",
 
-			"inicioVigenciaPromocion": "2021 - 09 - 01",
+			"inicioVigenciaPromocion": "2021-09-01",
 
-			"finVigenciaPromocion": "2021 - 09 - 06",
+			"finVigenciaPromocion": "2021-09-06",
 
 			"requisitos": [
-				{
-					"tipo": "condicion",
-
-					"data": [
 						{
-							"tipo": "material",
-
-							"data": {
 								"materiales": [18466, 118467, 118986],
-
 								"cantidad": 7,
-
-								"unidadMedida": "Unidad"
-							}
+								"unidadMedida": "Unidad",
+								"conector": "Y"
 						},
 						{
-							"tipo": "conector",
-
-							"data": "Y"
-						},
-						{
-							"tipo": "material",
-
-							"data": {
 								"materiales": [420],
 
 								"cantidad": 1,
 
 								"unidadMedida": "Unidad"
-							}
 						}
-					]
-				}
 			],
 
 			"beneficios": [
@@ -2502,54 +2482,35 @@
 
 			"asignacion": "T",
 
-			"inicioVigenciaPromocion": "2021 - 09 - 01",
+			"inicioVigenciaPromocion": "2021-09-01",
 
-			"finVigenciaPromocion": "2021 - 09 - 06",
+			"finVigenciaPromocion": "2021-09-06",
 
 			"requisitos": [
-				{
-					"tipo": "material",
-
-					"data": {
+					{
 						"materiales": [18466, 118467, 118986],
-
 						"cantidad": 7,
-
 						"unidadMedida": "Unidad"
 					}
-				}
 			],
-
 			"beneficios": [
 				{
-					"gruposBeneficio": [
+					"grupoBeneficioID": 1,
+					"descripcion": "Grupo 1",
+					"secuencias": [
 						{
-							"grupoBeneficioID": 1,
-
-							"gripoBenedicioDescripcion": "Grupo 1",
-
-							"secuencias": [
-								{
-									"secuencia": 1,
-
-									"materialesBeneficio": [118466, 118467, 118986],
-
-									"cantidad": 10,
-
-									"unidadMedida": "Unidad",
-
-									"formaBenecio": "2",
-
-									"valorBeneficio": 15.0,
-
-									"claseCondicion": "ZPD %",
-
-									"tope": 50
-								}
-							]
+							"secuencia": 1,
+							"materialesBeneficio": [118466, 118467, 118986],
+							"cantidad": 10,
+							"unidadMedida": "Unidad",
+							"formaBenecio": "2",
+							"valorBeneficio": 15.0,
+							"claseCondicion": "ZPD %",
+							"tope": 50
 						}
 					]
 				}
+				
 			]
 		}
 	]

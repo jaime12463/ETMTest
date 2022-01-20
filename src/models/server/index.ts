@@ -25,6 +25,7 @@ export type TDataSecundaria = {
 export type TListaDataSecundaria = Record<number, TDataSecundaria>;
 
 /* */
+/* 	ESTRUCTURAS PROMOONGOING */
 
 export type TPromoOngoing = {
 	promocionID: number;
@@ -34,9 +35,38 @@ export type TPromoOngoing = {
 	asignacion: string;
 	inicioVigenciaPromocion: string;
 	finVigenciaPromocion: string;
+	requisitos: TPromoOngoingRequisitos[];
+	beneficio: TPromoOngoingBeneficios[];
 };
 
 export type TListaPromoOngoing = Record<number, TPromoOngoing>;
+
+export type TPromoOngoingRequisitos= {
+	materiales: number[];
+	cantidad: number;
+	unidadMedida: string;
+	conector?: string;
+}
+
+
+export type TPromoOngoingBeneficios={
+	grupoBeneficioID:number;
+	descripcion:string;
+	secuencias: TPromoOngoingBeneficiosSecuencia[];
+}
+
+export type TPromoOngoingBeneficiosSecuencia = {
+	secuencia: number;
+	materialesBeneficio: number[];
+	cantidad: number;
+	unidadMedida: string;
+	formaBeneficio:string;
+	valorBeneficio:number;
+	claseCondicion:string;
+	tope:number;
+}
+
+/* */
 
 export type TIniciativas = {
 	idActividadIniciativa: number;
