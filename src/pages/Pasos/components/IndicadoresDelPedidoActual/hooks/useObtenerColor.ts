@@ -31,15 +31,13 @@ export const useObtenerColor = () => {
 
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
-	const {
-		obtenerPedidosClienteMismaFechaEntrega,
-	} = useObtenerPedidosClienteMismaFechaEntrega();
+	const {obtenerPedidosClienteMismaFechaEntrega} =
+		useObtenerPedidosClienteMismaFechaEntrega();
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(
 		clienteActual.codigoCliente
 	);
-	const pedidosClienteMismaFechaEntrega = obtenerPedidosClienteMismaFechaEntrega(
-		clienteActual.codigoCliente
-	);
+	const pedidosClienteMismaFechaEntrega =
+		obtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
 	const {tipoPedidos} = useObtenerConfiguracion();
 	const totalesPedidoCliente = obtenerTotalesPedidosCliente({
 		pedidosClienteMismaFechaEntrega,
@@ -47,19 +45,16 @@ export const useObtenerColor = () => {
 	});
 	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
-	const totalContadoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
-		{
+	const totalContadoPedidosClienteMismaFechaEntrega =
+		calcularTotalPedidosClienteValorizadosPorTipoPago({
 			pedidosClienteMismaFechaEntrega,
 			tipoPedidos,
 			tipoPago: ETiposDePago.Contado,
-		}
-	);
-	const {
-		obtenerCompromisosDeCobroMismaFechaEntrega,
-	} = useObtenerCompromisosDeCobroMismaFechaEntrega();
-	const compromisosDeCobroMismaFechaEntrega = obtenerCompromisosDeCobroMismaFechaEntrega(
-		clienteActual.codigoCliente
-	);
+		});
+	const {obtenerCompromisosDeCobroMismaFechaEntrega} =
+		useObtenerCompromisosDeCobroMismaFechaEntrega();
+	const compromisosDeCobroMismaFechaEntrega =
+		obtenerCompromisosDeCobroMismaFechaEntrega(clienteActual.codigoCliente);
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 
 	const montoTotalCompromisos = obtenerTotalesCompromisoDeCobroCliente(
@@ -100,6 +95,8 @@ export const useObtenerColor = () => {
 		compromisoDeCobroActual,
 		obtenerporcentaje,
 		totalPedidoActual.totalPrecio,
+		totalPedidoActual.totalCredito.totalPrecio,
+		totalPedidoActual.totalContado.totalPrecio,
 	]);
 
 	return color;
