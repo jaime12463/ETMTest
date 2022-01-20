@@ -34,13 +34,14 @@ const useEstilos = makeStyles(() =>
 			background: '#fff',
 			border: '1px solid #D9D9D9',
 			borderRadius: '4px',
-			position: 'absolute',
+			position: 'relative',
+			zIndex: 999,
 			left: '0',
 			top: '22px',
 			width: '100%',
-			zIndex: 1,
 		},
 		options: {
+			zIndex: 999,
 			borderBottom: '1px solid #D9D9D9',
 			padding: '8px',
 			'&:last-child': {

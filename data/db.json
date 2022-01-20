@@ -2256,7 +2256,7 @@
 			"presupuesto": 48,
 			"vigenciaInicioPresupuesto": "2021-06-01",
 			"vigenciaFinPresupuesto": "9999-12-31",
-			"tieneProductosHabilitados": true,
+			"tieneProductosHabilitados": false,
 			"productosHabilitados": [340, 365]
 		}
 	],

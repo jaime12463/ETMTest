@@ -61,6 +61,7 @@ export type TVisita = {
 	seQuedaAEditar: SeQuedaAEditar;
 	fechaVisitaPlanificada: string;
 	bonificaciones: TBonificacionesCliente[];
+	envasesConError: number;
 };
 
 export type TBonificacionesCliente = {

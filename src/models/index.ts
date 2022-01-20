@@ -170,3 +170,11 @@ export type TRetornoValidacion = {
 	iniciativasVerificadas?: TIniciativasCliente[];
 	coberturasCumplidas?: TCoberturasCliente[];
 };
+
+export type TEnvasesPedidos = {
+	tipoEnvase?: string;
+	unidadesIngresadas: number;
+	estadoUnidades: boolean;
+	subUnidadesIngresadas: number;
+	estadoSubUnidades: boolean;
+};

@@ -40,10 +40,6 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 	const {valoresEnvase, setValoresEnvase} = stateTipoEnvases;
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual();
 
-	const [datosActual, setDatosActual] = useState({
-		venta: {unidades: 0, subUnidades: 0},
-		prestamo: {unidades: 0, subUnidades: 0},
-	});
 
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
@@ -71,123 +67,6 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 	}, [productoPedido]);
 
 	const mostrarAviso = useMostrarAviso();
-
-	const cambioUnidadesPorTipoPedido = (
-		unidadesIngresadas: number,
-		tipoEnvase: string,
-		totalUnidadesTiposEnvase: any,
-		codigoTipoPedidoActual: string | undefined
-	): boolean => {
-		let unidadesPermitidas = false;
-
-		let envaseActual = valoresEnvase.find(
-			(envase: any) => envase.tipoEnvase === tipoEnvase
-		);
-
-		if (!Number.isNaN(unidadesIngresadas) && envaseActual && tipoEnvase)
-			if (unidadesIngresadas <= retorno.unidades + envaseActual?.unidades) {
-				setRetorno({
-					...retorno,
-					unidades: Number(
-						retorno.unidades -
-							totalUnidadesTiposEnvase.unidades -
-							unidadesIngresadas
-					),
-				});
-
-				let newEnvases = valoresEnvase.filter(
-					(envase: any) => envase.tipoEnvase !== tipoEnvase
-				);
-
-				newEnvases.push({
-					tipoEnvase: tipoEnvase,
-					unidades: Number(unidadesIngresadas),
-					subUnidades: envaseActual.subUnidades,
-				});
-
-				setValoresEnvase(newEnvases);
-
-				unidadesPermitidas = true;
-
-				agregarProductoAlPedidoActual(
-					productoEnvase,
-					Number(unidadesIngresadas),
-					envaseActual.subUnidades,
-					envase.tipoPago,
-					codigoTipoPedidoActual
-				);
-			} else {
-				mostrarAviso(
-					'error', 
-					t('advertencias.cantidadSuperiorEnvases'),
-					t('mensajes.cantidadSuperiorEnvases'),
-					undefined,
-					'cantidad-superior-envases'
-				);
-			}
-
-		return unidadesPermitidas;
-	};
-
-	const cambioSubUnidadesPorTipoPedido = (
-		subUnidadesIngresadas: number,
-		tipoEnvase: string,
-		totalSubUnidadesTiposEnvase: any,
-		codigoTipoPedidoActual: string | undefined
-	): boolean => {
-		let unidadesPermitidas = false;
-
-		let envaseActual = valoresEnvase.find(
-			(envase: any) => envase.tipoEnvase === tipoEnvase
-		);
-
-		if (!Number.isNaN(subUnidadesIngresadas) && envaseActual && tipoEnvase)
-			if (
-				subUnidadesIngresadas <=
-				retorno.subUnidades + envaseActual?.subUnidades
-			) {
-				setRetorno({
-					...retorno,
-					subUnidades: Number(
-						retorno.subUnidades -
-							totalSubUnidadesTiposEnvase.subUnidades -
-							subUnidadesIngresadas
-					),
-				});
-
-				let newEnvases = valoresEnvase.filter(
-					(envase: any) => envase.tipoEnvase !== tipoEnvase
-				);
-
-				newEnvases.push({
-					tipoEnvase: tipoEnvase,
-					unidades: envaseActual.unidades,
-					subUnidades: Number(subUnidadesIngresadas),
-				});
-
-				setValoresEnvase(newEnvases);
-
-				unidadesPermitidas = true;
-
-				agregarProductoAlPedidoActual(
-					productoEnvase,
-					envaseActual.unidades,
-					Number(subUnidadesIngresadas),
-					envase.tipoPago,
-					codigoTipoPedidoActual
-				);
-			} else {
-				mostrarAviso(
-					'error', 
-					t('advertencias.cantidadSuperiorEnvases'),
-					t('mensajes.cantidadSuperiorEnvases'),
-					undefined,
-					'cantidad-superior-envases'
-				);
-			}
-
-		return unidadesPermitidas;
-	};
 
 	return (
 		<>
@@ -260,9 +139,6 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 						productoEnvase={productoEnvase}
 						stateTipoEnvases={{valoresEnvase, setValoresEnvase}}
 						stateRetorno={{retorno, setRetorno}}
-						cambioUnidadesPorTipoPedido={cambioUnidadesPorTipoPedido}
-						cambioSubUnidadesPorTipoPedido={cambioSubUnidadesPorTipoPedido}
-						stateDatosActual={{datosActual, setDatosActual}}
 						datosEnvase={envase}
 					/>
 				))}

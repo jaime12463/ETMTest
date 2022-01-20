@@ -113,7 +113,7 @@ const Informacion: React.FC<Props> = ({
 					fontFamily='Open Sans'
 				>{`x${producto.presentacion}`}</Typography>
 			</Box>
-			<Box>
+			<Box position={'relative'}>
 				<CustomSelect
 					opciones={[...itemCatalogoMotivos.map((item) => item.label)]}
 					opcionSeleccionada={motivo}

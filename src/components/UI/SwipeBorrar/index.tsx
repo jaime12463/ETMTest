@@ -29,33 +29,31 @@ export const SwipeBorrar = (props: Props) => {
 	}, [index]);
 
 	return (
-		<>
-			<SwipeableViews
-				onSwitching={(index, type) => switchingHandler(index, type)}
-				enableMouseEvents
-				hysteresis={0.9}
-				index={index}
+		<SwipeableViews
+			onSwitching={(index, type) => switchingHandler(index, type)}
+			enableMouseEvents
+			hysteresis={0.9}
+			index={index}
+		>
+			{children}
+			<Box
+				alignItems='center'
+				display='flex'
+				sx={{
+					backgroundColor: 'red',
+					width: '100%',
+					height: '100%',
+				}}
 			>
-				{children}
-				<Box
-					alignItems='center'
-					display='flex'
-					sx={{
-						backgroundColor: 'red',
-						width: '100%',
-						height: '100%',
-						position: 'relative',
-					}}
+				{/*ToDo: pasar a multilenguaje */}
+
+				<Typography
+					marginLeft={swipe >= 0.2 ? swipeMargen : '20px'}
+					sx={{color: 'white'}}
 				>
-					{/*ToDo: pasar a multilenguaje */}
-					<Typography
-						marginLeft={swipe >= 0.2 ? swipeMargen : '20px'}
-						sx={{color: 'white'}}
-					>
-						Eliminar
-					</Typography>
-				</Box>
-			</SwipeableViews>
-		</>
+					Eliminar
+				</Typography>
+			</Box>
+		</SwipeableViews>
 	);
 };

@@ -26,6 +26,7 @@ const estadoInicial: TVisita = {
 		seQueda: false,
 		bordeError: false,
 	},
+	envasesConError: 0,
 };
 
 export const visitaActualSlice = createSlice({
@@ -171,6 +172,7 @@ export const visitaActualSlice = createSlice({
 				iniciativas,
 				fechaVisitaPlanificada,
 				bonificaciones,
+				envasesConError,
 			} = action.payload.visitaActual;
 
 			state.pedidos = pedidos;
@@ -188,6 +190,7 @@ export const visitaActualSlice = createSlice({
 				bordeError: false,
 			};
 			state.fechaVisitaPlanificada = fechaVisitaPlanificada;
+			state.envasesConError= envasesConError;
 		},
 
 		resetearVisitaActual: (state) => {
@@ -479,6 +482,15 @@ export const visitaActualSlice = createSlice({
 				productos: [],
 			};
 		},
+		modificarEnvasesConError: (
+			state,
+			action: PayloadAction<{operacion: string}>
+		) => {
+			if(action.payload.operacion === '+')
+				state.envasesConError = state.envasesConError + 1;
+			else
+				state.envasesConError = state.envasesConError - 1;
+		},
 	},
 });
 
@@ -512,5 +524,6 @@ export const {
 	borrarEnvases,
 	limpiarProductosSinCantidad,
 	eliminarCanje,
+	modificarEnvasesConError,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;
