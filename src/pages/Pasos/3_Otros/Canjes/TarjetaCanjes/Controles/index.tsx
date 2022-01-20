@@ -64,10 +64,16 @@ const Controles: React.FC<Props> = ({
 		);
 
 	React.useEffect(() => {
-		if (catalogoMotivo[producto.codigoProducto]) {
-			avisoCanjeAgregado();
+		if (producto.catalogoMotivo !== '') {
+			if (producto.unidades > 0 || producto.subUnidades > 0)
+				avisoCanjeAgregado();
 		}
-	}, [producto, catalogoMotivo]);
+	}, [
+		producto.catalogoMotivo,
+		producto.unidades,
+		producto.subUnidades,
+		catalogoMotivo,
+	]);
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		producto,

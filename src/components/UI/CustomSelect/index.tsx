@@ -3,7 +3,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import useEstilos from './useEstilos';
 import {FlechaAbajoIcon} from 'assests/iconos';
-import {List, ListItem} from '@mui/material';
+import {TCondicicon, TProductoPedido, TStateInputFocus} from 'models';
+import {StateFocusID} from 'components/UI/TarjetaTomaPedido';
 
 interface Props {
 	opcionSeleccionada: string;
@@ -14,6 +15,9 @@ interface Props {
 	dataCy: string;
 	sinFlecha?: boolean;
 	placeholder?: string;
+	stateInputFocus?: TStateInputFocus;
+	statefocusId?: StateFocusID;
+	producto?: TProductoPedido;
 }
 
 const CustomSelect: React.FC<Props> = ({
@@ -25,6 +29,9 @@ const CustomSelect: React.FC<Props> = ({
 	dataCy,
 	sinFlecha = false,
 	placeholder = '',
+	stateInputFocus,
+	statefocusId,
+	producto,
 }) => {
 	const [open, setOpen] = React.useState<boolean>(false);
 	const selectRef = React.useRef<HTMLDivElement>(null);
@@ -33,6 +40,7 @@ const CustomSelect: React.FC<Props> = ({
 			opcion.toLocaleLowerCase() !== opcionSeleccionada.toLocaleLowerCase() &&
 			opcion !== ''
 	);
+
 	const classes = useEstilos({
 		open,
 		bloqueado,
@@ -47,6 +55,15 @@ const CustomSelect: React.FC<Props> = ({
 			setOpen(false);
 		}
 	};
+
+	React.useEffect(() => {
+		if (
+			statefocusId?.focusId === producto?.codigoProducto &&
+			stateInputFocus?.inputFocus === 'motivo'
+		) {
+			return setOpen(true);
+		}
+	}, [stateInputFocus?.inputFocus, statefocusId?.focusId]);
 
 	document.addEventListener('mousedown', cerrarOpciones);
 
