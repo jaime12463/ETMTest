@@ -40,6 +40,7 @@ const CustomSelect: React.FC<Props> = ({
 			opcion.toLocaleLowerCase() !== opcionSeleccionada.toLocaleLowerCase() &&
 			opcion !== ''
 	);
+
 	const classes = useEstilos({
 		open,
 		bloqueado,
