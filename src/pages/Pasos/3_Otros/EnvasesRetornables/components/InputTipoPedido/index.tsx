@@ -7,7 +7,7 @@ import {useMostrarAviso} from 'hooks';
 import { useAgregarProductoAlPedidoActual } from '../../hooks/useAgregarProductoAlPedidoActual';
 import { useTranslation } from 'react-i18next';
 import useEstilos from './useEstilos';
-import {modificarEnvasesConError} from 'redux/features/visitaActual/visitaActualSlice';
+import {modificarEnvasesConError, restablecerEnvasesConError} from 'redux/features/visitaActual/visitaActualSlice';
 
 const InputStyled = styled(Input)(({theme}) => ({
 	borderRadius: '4px',
@@ -90,7 +90,6 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 		calcularUnidades();
 	}, [visitaActual, valoresEnvase, tipoPedido, retorno]);
 
-
 	const obtenerEnvasesActual = (tipoPedido: any, productoEnvase: any, datosEnvase: any) => {
 		const pedidoActual = visitaActual.pedidos[tipoPedido.codigo];
 	
@@ -109,6 +108,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 	}
 
 	useEffect(() => {
+		dispatch(restablecerEnvasesConError());
 		obtenerEnvasesActual(tipoPedido, productoEnvase, datosEnvase);
 	}, []);
 
@@ -181,7 +181,16 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 					unidadesIngresadas: unidadesIngresadas,
 				});
 
-				dispatch(modificarEnvasesConError({operacion: '+'}));
+				if (datosIngresados.estadoUnidades)
+					dispatch(modificarEnvasesConError({operacion: '+'}));
+
+				agregarProductoAlPedidoActual(
+					productoEnvase,
+					0,
+					envaseActual.subUnidades,
+					datosEnvase.tipoPago, //
+					codigoTipoPedidoActual
+				);
 
 				mostrarAviso(
 					'error', 
@@ -260,7 +269,16 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 					subUnidadesIngresadas: subUnidadesIngresadas,
 				});
 
-				dispatch(modificarEnvasesConError({operacion: '+'}));
+				if (datosIngresados.estadoSubUnidades)
+					dispatch(modificarEnvasesConError({operacion: '+'}));
+
+				agregarProductoAlPedidoActual(
+					productoEnvase,
+					envaseActual.unidades,
+					0,
+					datosEnvase.tipoPago, //
+					codigoTipoPedidoActual
+				);
 
 				mostrarAviso(
 					'error', 
