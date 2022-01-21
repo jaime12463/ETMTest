@@ -40,7 +40,6 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 	const {valoresEnvase, setValoresEnvase} = stateTipoEnvases;
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual();
 
-
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
 
@@ -65,8 +64,6 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 			subUnidades: subUnidadesIniciales - productoPedido.subUnidades,
 		});
 	}, [productoPedido]);
-
-	const mostrarAviso = useMostrarAviso();
 
 	return (
 		<>

@@ -62,6 +62,12 @@ export type TVisita = {
 	fechaVisitaPlanificada: string;
 	bonificaciones: TBonificacionesCliente[];
 	envasesConError: number;
+	avisos: TAvisos;
+};
+
+export type TAvisos = {
+	limiteCredito: number;
+	cambiosPasoActual: boolean;
 };
 
 export type TBonificacionesCliente = {

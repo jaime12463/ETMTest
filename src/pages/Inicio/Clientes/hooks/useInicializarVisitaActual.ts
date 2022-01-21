@@ -72,6 +72,10 @@ export const useInicializarVisitaActual = () => {
 						},
 						fechaVisitaPlanificada,
 						envasesConError: 0,
+						avisos: {
+							limiteCredito: 0,
+							cambiosPasoActual: false,
+						},
 					},
 				})
 			);

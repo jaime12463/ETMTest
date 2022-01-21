@@ -34,7 +34,10 @@ import {AvisoIcon, PromocionesRellenoIcon} from 'assests/iconos';
 import Modal from 'components/UI/Modal';
 import BotonResumenPedido from 'components/UI/BotonResumenPedido';
 import ResumenPedido from 'components/UI/ResumenPedido';
-import {cambiarSeQuedaAEditar} from 'redux/features/visitaActual/visitaActualSlice';
+import {
+	cambiarAvisos,
+	cambiarSeQuedaAEditar,
+} from 'redux/features/visitaActual/visitaActualSlice';
 import ModalCore from 'components/UI/ModalCore';
 
 const formatearItems = (items: number) => {
@@ -168,7 +171,10 @@ const Pasos: React.FC = () => {
 
 		if (pasoActual < controlador.length - 1) {
 			if (!valido.contenidoMensajeAviso) {
-				if (pasoActual === 0 || pasoActual === 1) {
+				if (
+					visitaActual.avisos.cambiosPasoActual &&
+					(pasoActual === 0 || pasoActual === 1)
+				) {
 					mostrarAviso(
 						'success',
 						t('toast.cambiosGuardados'),
