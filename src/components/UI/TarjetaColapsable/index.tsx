@@ -17,7 +17,11 @@ import {styled} from '@mui/material/styles';
 import {AvisoIcon, FlechaAbajoIcon} from 'assests/iconos';
 import {useMostrarAviso} from 'hooks';
 import Modal from '../Modal';
-import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
+import {
+	useAppDispatch,
+	useObtenerVisitaActual,
+	useObtenerConfiguracion,
+} from 'redux/hooks';
 import {
 	cambiarEstadoIniciativa,
 	cambiarSeQuedaAEditar,
@@ -86,6 +90,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 	const dispatch = useAppDispatch();
 	const visitaActual = useObtenerVisitaActual();
 	const {t} = useTranslation();
+	const {bonificacionesConVenta} = useObtenerConfiguracion();
 
 	const manejadorExpandido = (id: string | boolean) => {
 		if (iniciativasEjecutadasSinCantidad) {
@@ -183,7 +188,8 @@ export const TarjetaColapsable: React.FC<Props> = ({
 											className={classes.root}
 										/>
 									)}
-									{!disabled ? (
+									{(id === 'Bonificaciones' && !bonificacionesConVenta) ||
+									!disabled ? (
 										<IconButton
 											sx={{padding: 0, marginLeft: '8px'}}
 											onClick={() =>
