@@ -8,9 +8,9 @@ import {
 import {TCliente, TClienteActual} from 'models';
 import {useTranslation} from 'react-i18next';
 import {
-	borrarProductoDelPedidoActual,
 	cambiarEstadoIniciativa,
 	cambiarSeQuedaAEditar,
+	limpiarProductosSinCantidad,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {
 	useAppDispatch,
@@ -73,8 +73,8 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 				error: iniciativasCanceladasSinMotivo,
 				contenidoMensajeAviso: {
 					tipo: 'error',
-					titulo: t('advertencias.iniciativaSinMotivo'),
-					mensaje: t('mensajes.iniciativaSinMotivo'),
+					titulo: t('toast.iniciativaSinMotivoTitulo'),
+					mensaje: t('toast.iniciativaSinMotivoMensaje'),
 					opciones: undefined,
 					dataCy: 'clienteNoPortafolio',
 				},
@@ -85,10 +85,9 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 			return {
 				error: iniciativasEjecutadasSinCantidad.length > 0,
 				contenidoMensajeModal: {
-					titulo: 'Existen tarjtas vacias',
-					mensaje:
-						'Si avanzas, las tarjetas que no tienen cantidades se eliminaran.',
-					tituloBotonAceptar: 'Avanzar',
+					titulo: t('modal.tarjetasVaciasTitulo'),
+					mensaje: t('modal.tarjetasVaciasMensaje'),
+					tituloBotonAceptar: t('general.avanzar'),
 					callbackAceptar: () => {
 						iniciativasEjecutadasSinCantidad.map((iniciativa) => {
 							dispatch(
@@ -99,7 +98,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 							);
 						});
 					},
-					tituloBotonCancelar: 'Editar Cantidades',
+					tituloBotonCancelar: t('general.editarCantidades'),
 					callbackCancelar: () =>
 						dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: true})),
 					iconoMensaje: <AvisoIcon />,
@@ -107,51 +106,18 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 			};
 		}
 	}
-	if (pasoActual === 2) {
+	if (pasoActual === 1) {
 		const productosSinModificar = venta?.productos?.some(
 			(producto) => producto.unidades === 0 && producto.subUnidades === 0
 		);
-
-		if (
-			!datosCliente?.informacionCrediticia.esBloqueadoVenta &&
-			datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima &&
-			totalesPedidoCliente +
-				(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0) <
-				datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
-		) {
-			return {
-				error: true,
-				contenidoMensajeAviso: {
-					tipo: 'error',
-					titulo: t('advertencias.pedidoMinimoNoAlcanzado'),
-					mensaje: t('mensajes.pedidoMinimoNoAlcanzado'),
-					opciones: undefined,
-					dataCy: 'pedidoMinimoNoAlcanzado',
-				},
-			};
-		}
-
-		if (visitaActual.envasesConError > 0) {
-			return {
-				error: true,
-				contenidoMensajeAviso: {
-					tipo: 'error',
-					titulo: t('advertencias.cantidadSuperiorEnvases'),
-					mensaje: t('mensajes.cantidadSuperiorEnvases'),
-					opciones: undefined,
-					dataCy: 'cantidad-superior-envases',
-				},
-			};
-		} else
-			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
 
 		if (visitaActual.seQuedaAEditar.bordeError) {
 			return {
 				error: true,
 				contenidoMensajeAviso: {
 					tipo: 'error',
-					titulo: t('advertencias.excedeMayorPermitido'),
-					mensaje: t('advertencias.excedeMayorPermitidoSubtitulo'),
+					titulo: t('toast.excedeMayorPermitidoTitulo'),
+					mensaje: t('toast.excedeMayorPermitidoMensaje'),
 					opciones: undefined,
 					dataCy: 'excede-disponible',
 				},
@@ -167,21 +133,13 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 					tituloBotonAceptar: t('general.avanzar'),
 					tituloBotonCancelar: t('general.editarCantidades'),
 					callbackAceptar: () => {
-						venta.productos.map((producto) => {
-							if (producto.unidades === 0 && producto.subUnidades === 0) {
-								dispatch(
-									borrarProductoDelPedidoActual({
-										codigoProducto: producto.codigoProducto,
-									})
-								);
-							}
-						});
+						dispatch(limpiarProductosSinCantidad());
 						dispatch(
 							cambiarSeQuedaAEditar({seQueda: false, bordeError: false})
 						);
 						mostrarAviso(
 							'success',
-							t('avisos.cambiosGuardados'),
+							t('toast.cambiosGuardados'),
 							undefined,
 							undefined,
 							'successpaso2'
@@ -196,18 +154,49 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 		}
 	}
 	if (pasoActual === 2) {
-		const CanjeSinMotivo = visitaActual.pedidos.canje.productos.some(
+		const canjeSinMotivo = visitaActual.pedidos.canje.productos.some(
 			(producto) => producto.catalogoMotivo === ''
 		);
-		//TODO IDIOMA
 
-		if (CanjeSinMotivo) {
+		if (
+			!datosCliente?.informacionCrediticia.esBloqueadoVenta &&
+			datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima &&
+			totalesPedidoCliente +
+				(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0) <
+				datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
+		) {
 			return {
-				error: CanjeSinMotivo,
+				error: true,
 				contenidoMensajeAviso: {
 					tipo: 'error',
-					titulo: 'Canje sin motivo',
-					mensaje: 'Es necesario agregar el motivo del canje',
+					titulo: t('toast.pedidoMinimoNoAlcanzadoTitulo'),
+					mensaje: t('toast.pedidoMinimoNoAlcanzadoMensaje'),
+					opciones: undefined,
+					dataCy: 'pedidoMinimoNoAlcanzado',
+				},
+			};
+		}
+
+		if (visitaActual.envasesConError > 0) {
+			return {
+				error: true,
+				contenidoMensajeAviso: {
+					tipo: 'error',
+					titulo: t('toast.cantidadSuperiorEnvasesTitulo'),
+					mensaje: t('toast.cantidadSuperiorEnvasesMensaje'),
+					opciones: undefined,
+					dataCy: 'cantidad-superior-envases',
+				},
+			};
+		} else dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+
+		if (canjeSinMotivo) {
+			return {
+				error: canjeSinMotivo,
+				contenidoMensajeAviso: {
+					tipo: 'error',
+					titulo: t('toast.canjeSinMotivoTitulo'),
+					mensaje: t('toast.canjeSinMotivoMensaje'),
 					opciones: undefined,
 					dataCy: 'canjeSinMotivo',
 				},

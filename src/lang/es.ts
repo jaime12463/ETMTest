@@ -170,8 +170,7 @@ const es = {
 		borrarPedidosNoMandatorios:
 			'Se borrará el pedido de {{tipoPedido}}. ¿Desea continuar?',
 		ordenDeCompraEnBlanco: 'Debe ingresar una orden de compra',
-		cantidadSuperiorEnvases:
-			'Cantidad de envases superada',
+
 		borrarTodosTomaPedido:
 			'¿Quieres Borrar todos los productos?. Todos los productos seleccionados se borraran de la toma de pedido',
 		borrarPromosPush:
@@ -183,12 +182,7 @@ const es = {
 		borrarDescuento: '¿Deseas eliminar el descuento escalonado? ',
 		descuentoEscalonadoEliminado: 'Descuento escalonado eliminado',
 		productoAgregado: 'Producto agregado correctamente',
-		cambiosGuardados: 'Cambios guardados con exitosamente',
-		iniciativaSinMotivo: 'Iniciativa cancelada sin motivo',
-		pedidoMinimoNoAlcanzado: 'Pedido minimo no alcanzado',
-		excedeMayorPermitido: 'Cantidad excede el valor permitido',
-		excedeMayorPermitidoSubtitulo:
-			'Es necesario corregir el valor de la presentación.',
+
 		borrarPedidosTitulo: '¿Quieres eliminar todos los productos?',
 		borrarPedidos: 'Todos tus productos se borrarán de tu Toma de pedido',
 		borrarPedidosGeneral:
@@ -249,18 +243,8 @@ const es = {
 	mensajes: {
 		borrarDescuento:
 			'Se eliminará el descuento escalonado del producto {{codigo}}. Para aplicarlo de nuevo, tendrás que volver a agrega el producto.',
-		iniciativaSinMotivo:
-			'Debes ingresar un motivo para la iniciativa cancelada.',
-		pedidoMinimoNoAlcanzado:
-			'No se ha alcanzado el pedido minimo, por favor completar el pedido.',
 		excedeUnidadesDisponibles:
 			'Superaste la cantidad máxima de promoción permitida que puedes aplicar por cliente.',
-		cantidadSuperiorEnvases:
-			'La cantidad de venta y prestamo no puede superar a la cantidad de envases disponibles de retorno.',
-	},
-	avisos: {
-		productoAgregado: 'Producto agregado correctamente',
-		cambiosGuardados: 'Cambios guardados con exitosamente',
 	},
 	modal: {
 		salirOrderTaking: '¿Quieres salir de Order taking?',
@@ -274,7 +258,7 @@ const es = {
 			'Si avanzas, las tarjetas que no tienen cantidades se eliminaran.',
 	},
 	toast: {
-		cambiosGuardados: 'Cambios guardados con exitosamente',
+		cambiosGuardados: 'Cambios guardados exitosamente',
 		ventaBloqueadaTitulo: 'Cliente bloqueado para venta',
 		ventaBloqueadaMensaje:
 			'Unicamente puedes generar un compromiso de cobro para este cliente.',
@@ -282,6 +266,21 @@ const es = {
 		errorBonificacionTotalTitulo: 'Error en bonificación total',
 		errorBonificacionTotalMensaje:
 			'Esta bonificación tiene que ser de aplicación total. Favor de modificar cantidades.',
+		excedeMayorPermitidoTitulo: 'Cantidad excede el valor permitido',
+		excedeMayorPermitidoMensaje:
+			'Es necesario corregir el valor de la presentación.',
+		iniciativaSinMotivoTitulo: 'Iniciativa cancelada sin motivo',
+		iniciativaSinMotivoMensaje:
+			'Debes ingresar un motivo para la iniciativa cancelada.',
+		pedidoMinimoNoAlcanzadoTitulo: 'Pedido mínimo no alcanzado',
+		pedidoMinimoNoAlcanzadoMensaje:
+			'No se ha alcanzado el pedido mínimo, por favor completar el pedido.',
+		cantidadSuperiorEnvasesTitulo: 'Cantidad de envases superada',
+		cantidadSuperiorEnvasesMensaje:
+			'La cantidad de venta y prestamo no puede superar a la cantidad de envases disponibles de retorno.',
+		canjeSinMotivoTitulo: 'Canje sin motivo',
+		canjeSinMotivoMensaje: 'Es necesario agregar el motivo del canje',
+		productoAgregado: 'Producto agregado correctamente',
 	},
 };
 export default es;

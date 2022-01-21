@@ -171,8 +171,6 @@ const br = {
 	mensajes: {
 		borrarDescuento:
 			'Depois que o desconto escalonado for removido, você não poderá aplicá-lo novamente a este produto.',
-		cantidadSuperiorEnvases:
-			'O valor da venda e do empréstimo não pode exceder o número de contêineres disponíveis para devolução.',			
 	},
 	modal: {
 		salirOrderTaking: 'Deseja sair do Order Taking?',
@@ -194,6 +192,22 @@ const br = {
 		errorBonificacionTotalTitulo: 'Erro no bônus total',
 		errorBonificacionTotalMensaje:
 			'Este bônus tem que ser totalmente aplicável. Favor modificar as quantidades.',
+		excedeMayorPermitidoTitulo:
+			'O montante introduzido excede o máximo permitido',
+		excedeMayorPermitidoMensaje:
+			'O valor da apresentação precisa de ser corrigido.',
+		iniciativaSinMotivoTitulo: 'Iniciativa cancelada sem razão',
+		iniciativaSinMotivoMensaje:
+			'Você deve inserir um motivo para a iniciativa cancelada.',
+		pedidoMinimoNoAlcanzadoTitulo: 'Pedido mínimo não alcançado',
+		pedidoMinimoNoAlcanzadoMensaje:
+			'O pedido mínimo não foi alcançado, por favor, complete o pedido.',
+		cantidadSuperiorEnvasesTitulo: 'Número de contêineres excedido',
+		cantidadSuperiorEnvasesMensaje:
+			'O valor da venda e do empréstimo não pode exceder o número de contêineres disponíveis para devolução.',
+		canjeSinMotivoTitulo: 'Troca sem motivo',
+		canjeSinMotivoMensaje: 'É necessário acrescentar o motivo da troca',
+		productoAgregado: 'Produto adicionado com sucesso',
 	},
 };
 export default br;

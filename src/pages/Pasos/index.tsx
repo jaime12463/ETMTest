@@ -162,7 +162,7 @@ const Pasos: React.FC = () => {
 					aviso.opciones,
 					aviso.dataCy
 				);
-				dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
+				// dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
 			}
 		}
 

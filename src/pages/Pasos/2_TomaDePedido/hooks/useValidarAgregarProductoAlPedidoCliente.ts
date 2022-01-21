@@ -239,8 +239,8 @@ export const useValidarAgregarProductoAlPedidoCliente = (
 			if (!esUnidadesMenorAlMaximoUnidades) {
 				mostrarAviso(
 					'error',
-					t('advertencias.excedeMayorPermitido'),
-					t('advertencias.excedeMayorPermitidoSubtitulo'),
+					t('toast.excedeMayorPermitidoTitulo'),
+					t('toast.excedeMayorPermitidoMensaje'),
 					undefined,
 					'excede-disponible'
 				);

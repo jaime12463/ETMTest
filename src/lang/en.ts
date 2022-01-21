@@ -168,7 +168,7 @@ const en = {
 		borrarPedidosNoMandatorios:
 			'The order of {{tipoPedido}} will be deleted. do you wish to continue?',
 		ordenDeCompraEnBlanco: 'You must enter a purchase orden',
-		cantidadSuperiorEnvases: 'Quantity of containers exceeded',
+
 		mensajeProductosSinCargar:
 			'If you advance to the next stage, the cards that do not have amounts entered will be removed from your order taking.',
 		mensajeIniciativasSinMotivo:
@@ -237,8 +237,6 @@ const en = {
 			'The tiered discount of the product {{codigo}} will be eliminated. To apply it again, you will have to add the product again. ',
 		excedeUnidadesDisponibles:
 			'You have exceeded the maximum amount of promotion allowed that you can apply per customer.',
-		cantidadSuperiorEnvases:
-			'The amount of sale and loan cannot exceed the number of containers available for return.',			
 	},
 	modal: {
 		salirOrderTaking: 'Do you want to leave the order taking?',
@@ -259,6 +257,22 @@ const en = {
 		errorBonificacionTotalTitulo: 'Error in total bonus',
 		errorBonificacionTotalMensaje:
 			'This bonus must be applied in full. Please modify quantities.',
+		excedeMayorPermitidoTitulo:
+			'The amount entered exceeds the maximum allowed',
+		excedeMayorPermitidoMensaje:
+			'It is necessary to correct the value of the presentation.',
+		iniciativaSinMotivoTitulo: 'Initiative canceled without reason',
+		iniciativaSinMotivoMensaje:
+			'You must enter a reason for the cancelled initiative.',
+		pedidoMinimoNoAlcanzadoTitulo: 'Minimum order not reached',
+		pedidoMinimoNoAlcanzadoMensaje:
+			'The minimum order has not been reached, please complete the order.',
+		cantidadSuperiorEnvasesTitulo: 'Quantity of containers exceeded',
+		cantidadSuperiorEnvasesMensaje:
+			'The amount of sale and loan cannot exceed the number of containers available for return.',
+		canjeSinMotivoTitulo: 'Exchange without reason',
+		canjeSinMotivoMensaje: 'It is necessary to add the reason for the exchange',
+		productoAgregado: 'Product added successfully',
 	},
 };
 export default en;

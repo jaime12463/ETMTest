@@ -7,6 +7,7 @@ import {useTranslation} from 'react-i18next';
 import {
 	useAppDispatch,
 	useObtenerClienteActual,
+	useObtenerConfiguracion,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import Coberturas from './Coberturas';
@@ -17,17 +18,16 @@ import {
 	useObtenerDatosCliente,
 } from 'hooks';
 import {
-	cambiarEstadoIniciativa,
 	cambiarSeQuedaAEditar,
+	limpiarProductosSinCantidad,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {TCliente, TClienteActual} from 'models';
-import Modal from 'components/UI/Modal';
-import {AvisoIcon} from 'assests/iconos';
 
 export const Planeacion: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
 	const {t} = useTranslation();
 	const {iniciativas} = useObtenerVisitaActual();
+	const configuracion = useObtenerConfiguracion();
 	const coberturas = useObtenerCoberturas();
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
@@ -38,8 +38,6 @@ export const Planeacion: React.FC = () => {
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(codigoCliente);
 	const mostrarAviso = useMostrarAviso();
 
-	const [alerta, setAlerta] = React.useState<boolean>(false);
-
 	const codigosCoberturas = coberturas.reduce(
 		(codigos: number[], cobertura) => {
 			return [
@@ -48,6 +46,11 @@ export const Planeacion: React.FC = () => {
 			];
 		},
 		[]
+	);
+
+	const cantidadCoberturas = coberturas.slice(
+		0,
+		configuracion.maximoGrupoCoberturaAMostrar
 	);
 
 	const coberturasEjecutadas = visitaActual?.coberturasEjecutadas.filter(
@@ -105,6 +108,12 @@ export const Planeacion: React.FC = () => {
 			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: true}));
 		}
 	}, [visitaActual.seQuedaAEditar.seQueda]);
+
+	React.useEffect(() => {
+		return () => {
+			dispatch(limpiarProductosSinCantidad());
+		};
+	}, []);
 
 	return (
 		<Box display='flex' flexDirection='column' gap='18px'>
@@ -202,7 +211,7 @@ export const Planeacion: React.FC = () => {
 				expandido={expandido}
 				setExpandido={setExpandido}
 				cantidadItems={coberturasEjecutadas?.length}
-				labelChip={`${coberturasEjecutadas?.length} de ${codigosCoberturas.length} Items`}
+				labelChip={`${coberturasEjecutadas?.length} de ${cantidadCoberturas.length} Items`}
 				valido={coberturasEjecutadas?.length > 0}
 				disabled={coberturas.length === 0}
 				mensaje={

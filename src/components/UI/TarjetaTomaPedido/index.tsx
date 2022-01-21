@@ -101,7 +101,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 				if (!productoAgregado) {
 					mostrarAviso(
 						'success',
-						t('avisos.productoAgregado'),
+						t('toast.productoAgregado'),
 						undefined,
 						undefined,
 						'ProductoAgreado'
