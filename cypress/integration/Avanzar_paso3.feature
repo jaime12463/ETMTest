@@ -1,6 +1,6 @@
 # language: es
 
-@Otros @Paso3 @Sprint20
+@Otros @Paso3 @Sprint20 @Sprint21
 
 
 Característica: Mostrar avance de visita
@@ -14,3 +14,5 @@ Escenario: N°1 - Pedido mínimo no alcanzado
     Cuando avanzo al paso 4 finalizar pedido
     Entonces el sistema mostrará un mensaje de error indicando que el pedido no alcanza el pedido mínimo
     Y permanece en el paso Otros
+
+
