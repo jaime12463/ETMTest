@@ -72,6 +72,8 @@ export const formatearNumero = (
 	return `${t('simbolos.moneda')}${numeroFormateado}`;
 };
 
+/*  FUNCIONES DE FECHA */
+
 export const formatearFecha = (
 	fecha: string, //Formato fecha recibida: AAAA-MM-DD
 	t: TFunction<'translation'>
@@ -93,6 +95,9 @@ export const fechaDispositivo = (): string => {
 	return fecha;
 };
 
+export const fechaDentroDelRango= (fecha:string, rangoInicial:string, rangoFinal:string ) :boolean =>  (new Date(rangoInicial)<= new Date(fecha) && new Date(rangoFinal) <= new Date(fecha));
+
+/*  FIN FUNCIONES DE FECHA */
 export const calcularTotalPedidosClienteValorizadosPorTipoPago = ({
 	pedidosClienteMismaFechaEntrega,
 	tipoPedidos,
