@@ -143,6 +143,8 @@ export const visitaActualSlice = createSlice({
 			state.pedidos[pedidoActual].productos = [
 				...productosPedidoClienteFiltrados,
 			];
+			state.pedidos.ventaenvase.productos = [];
+			state.pedidos.prestamoenvase.productos = [];
 		},
 		borrarEnvases: (state) => {
 			state.pedidos.ventaenvase.productos = [];
@@ -190,7 +192,7 @@ export const visitaActualSlice = createSlice({
 				bordeError: false,
 			};
 			state.fechaVisitaPlanificada = fechaVisitaPlanificada;
-			state.envasesConError= envasesConError;
+			state.envasesConError = envasesConError;
 		},
 
 		resetearVisitaActual: (state) => {
@@ -486,15 +488,12 @@ export const visitaActualSlice = createSlice({
 			state,
 			action: PayloadAction<{operacion: string}>
 		) => {
-			if(action.payload.operacion === '+')
+			if (action.payload.operacion === '+')
 				state.envasesConError = state.envasesConError + 1;
-			else
-				state.envasesConError = state.envasesConError - 1;
+			else state.envasesConError = state.envasesConError - 1;
 		},
-		restablecerEnvasesConError: (
-			state,
-		) => {
-				state.envasesConError = 0;
+		restablecerEnvasesConError: (state) => {
+			state.envasesConError = 0;
 		},
 	},
 });
