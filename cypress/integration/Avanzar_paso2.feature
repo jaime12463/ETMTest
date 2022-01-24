@@ -6,7 +6,7 @@
 
 Característica: Mostrar avance de visita
     Como prevendedor que se encuentra en visita al cliente, al avanzar al paso 3 del pedido
-    Quiero que se calculen los envases para retorno
+    Quiero que se calculen promociones, los envases para retorno
     Para informarle al cliente.
 
 Esquema del escenario: N°1 - Al pedido se agregan o eliminan o modifican productos y genera envases
