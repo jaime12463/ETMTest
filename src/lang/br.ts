@@ -208,6 +208,10 @@ const br = {
 		canjeSinMotivoTitulo: 'Troca sem motivo',
 		canjeSinMotivoMensaje: 'É necessário acrescentar o motivo da troca',
 		productoAgregado: 'Produto adicionado com sucesso',
+		limiteDeCreditoExcedidoTitulo: 'Limite de crédito excedido',
+		limiteDeCreditoExcedidoMensaje:
+			'Este cliente excedeu seu limite de crédito, portanto, não será possível fazer pedidos a crédito.',
+		productoIngresado: 'O produto foi introduzido com sucesso',
 	},
 };
 export default br;

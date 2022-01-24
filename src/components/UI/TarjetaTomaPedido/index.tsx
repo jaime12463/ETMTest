@@ -1,5 +1,10 @@
 import React from 'react';
-import {TInfoDescuentos, TProductoPedido, TStateInputFocus} from 'models';
+import {
+	ETiposDePago,
+	TInfoDescuentos,
+	TProductoPedido,
+	TStateInputFocus,
+} from 'models';
 import Box from '@mui/material/Box';
 import theme from 'theme';
 import Controles from './components/Controles';
@@ -12,6 +17,8 @@ import {
 	useObtenerCalculoDescuentoProducto,
 	useObtenerDatosCliente,
 	useMostrarAviso,
+	useObtenerCreditoDisponible,
+	useObtenerTotalPedidosVisitaActual,
 } from 'hooks';
 
 export interface StateFocusID {
@@ -89,6 +96,9 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	const obtenerCalculoDescuentoProducto =
 		useObtenerCalculoDescuentoProducto(producto);
 
+	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
+	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
+
 	React.useEffect(() => {
 		if (productoEnVenta) {
 			if (
@@ -123,7 +133,37 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 
 		setColorBorde('#D9D9D9');
 		setProductoAgregado(false);
-	}, [productoEnVenta, visitaActual.seQuedaAEditar.bordeError]);
+	}, [
+		productoEnVenta?.unidades,
+		productoEnVenta?.subUnidades,
+		visitaActual.seQuedaAEditar.bordeError,
+	]);
+
+	const firstRender = React.useRef(true);
+
+	React.useEffect(() => {
+		if (firstRender.current) {
+			firstRender.current = false;
+			return;
+		}
+
+		if (
+			(producto.unidades > 0 || producto.subUnidades > 0) &&
+			producto.tipoPago === ETiposDePago.Credito &&
+			datosCliente?.informacionCrediticia.condicion !== 'contado' &&
+			creditoDisponible -
+				(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0) <
+				0
+		) {
+			mostrarAviso(
+				'warning',
+				t('toast.limiteDeCreditoExcedidoTitulo'),
+				t('toast.limiteDeCreditoExcedidoMensaje'),
+				undefined,
+				'sinLimiteCredito'
+			);
+		}
+	}, [producto.unidades, producto.subUnidades, creditoDisponible]);
 
 	return (
 		<Box minWidth={'100%'} display={'flex'} justifyContent={'end'}>

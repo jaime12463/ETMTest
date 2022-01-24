@@ -39,7 +39,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 							{promocion.nombreProducto}
 						</Typography>
 					</Box>
-					<Box display='flex' flexDirection='column' flex='2' gap='8px'>
+					<Box display='flex' flexDirection='column' flex='1' gap='8px'>
 						<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
 							{`${t('general.promocionesAplicadas')}:`}
 						</Typography>
@@ -50,7 +50,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 							</Typography>
 						</Box>
 					</Box>
-					<Box display='flex' flexDirection='column' gap='6px' flex='1.5'>
+					<Box display='flex' flexDirection='column' gap='6px' flex='1'>
 						<Box
 							alignItems='center'
 							display='flex'

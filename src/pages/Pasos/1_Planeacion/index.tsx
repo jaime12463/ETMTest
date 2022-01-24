@@ -26,7 +26,6 @@ import {TCliente, TClienteActual} from 'models';
 
 export const Planeacion: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
-	//const [huboCambios, setHuboCambios] = React.useState<boolean>(false);
 	const {t} = useTranslation();
 	const {iniciativas} = useObtenerVisitaActual();
 	const configuracion = useObtenerConfiguracion();
@@ -97,8 +96,8 @@ export const Planeacion: React.FC = () => {
 	) {
 		mostrarAviso(
 			'warning',
-			'Limite de credito excedido',
-			'este cliente ha excedido su limite de crédito, por lo que no se podra levantar pedidos a crédito',
+			t('toast.limiteDeCreditoExcedidoTitulo'),
+			t('toast.limiteDeCreditoExcedidoMensaje'),
 			undefined,
 			'sinLimiteCredito'
 		);
