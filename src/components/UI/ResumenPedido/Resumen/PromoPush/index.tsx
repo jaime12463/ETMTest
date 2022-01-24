@@ -46,7 +46,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 						<Box alignItems='center' display='flex' gap='6px'>
 							<PromocionesRellenoIcon height='14px' width='13px' />
 							<Typography variant='subtitle3' color='#fff' fontWeight={700}>
-								{promocion.componentes?.length ?? 0}
+								{promocion.unidades}
 							</Typography>
 						</Box>
 					</Box>

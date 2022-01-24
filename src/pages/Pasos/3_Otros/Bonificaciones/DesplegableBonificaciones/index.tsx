@@ -105,9 +105,19 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 			);
 			return;
 		}
-		dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+
+		if (
+			visitaActual.seQuedaAEditar.bordeError &&
+			visitaActual.seQuedaAEditar.bordeError
+		) {
+			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+		}
 		setExpandido(id);
 	};
+
+	const indexBonificacion = visitaActual.bonificaciones.findIndex(
+		(bonificacion) => bonificacion.idBonificacion === Number(id)
+	);
 
 	React.useEffect(() => {
 		if (
@@ -118,32 +128,54 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: false}));
 			return;
 		}
-		dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+
+		if (visitaActual.seQuedaAEditar.seQueda) {
+			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+		}
 	}, [
 		aplicacionBonificacion,
 		contador,
 		grupoSeleccionado?.cantidadBeneficioGrupo,
 	]);
 
-	let bordeColor = '#D9D9D9';
+	const [bordeColor, setBordeColor] = React.useState<string>('#D9D9D9');
 
-	if (hayBonificaciones) {
-		if (aplicacionBonificacion !== 'Total') {
-			bordeColor = theme.palette.success.main;
-		} else if (contador === 0) {
-			bordeColor = theme.palette.success.main;
-		} else if (visitaActual.seQuedaAEditar.bordeError) {
-			bordeColor = theme.palette.primary.main;
-		}
-	}
+	const cantidadEjecutada = visitaActual.bonificaciones[
+		indexBonificacion
+	].detalle.reduce(
+		(cantidad, bonificacion) => (cantidad += bonificacion.cantidad),
+		0
+	);
 
 	const mostrarCheck =
 		(hayBonificaciones && aplicacionBonificacion !== 'Total') ||
-		(hayBonificaciones && contador === 0);
+		(hayBonificaciones &&
+			grupoSeleccionado?.cantidadBeneficioGrupo === cantidadEjecutada);
 
-	const indexBonificacion = visitaActual.bonificaciones.findIndex(
-		(bonificacion) => bonificacion.idBonificacion === Number(id)
-	);
+	React.useEffect(() => {
+		if (hayBonificaciones) {
+			if (
+				(aplicacionBonificacion !== 'Total' && cantidadEjecutada > 0) ||
+				(aplicacionBonificacion === 'Total' &&
+					cantidadEjecutada === grupoSeleccionado?.cantidadBeneficioGrupo)
+			) {
+				setBordeColor(theme.palette.success.main);
+				return;
+			}
+
+			if (visitaActual.seQuedaAEditar.bordeError) {
+				setBordeColor(theme.palette.primary.main);
+				return;
+			}
+
+			setBordeColor('#D9D9D9');
+		}
+	}, [
+		hayBonificaciones,
+		grupoSeleccionado?.cantidadBeneficioGrupo,
+		visitaActual.seQuedaAEditar.bordeError,
+		cantidadEjecutada,
+	]);
 
 	React.useEffect(() => {
 		if (indexBonificacion > -1) {
