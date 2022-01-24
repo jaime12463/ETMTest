@@ -6,7 +6,6 @@ import {
 	TPrecioProducto,
 	TCliente,
 } from 'models';
-
 import {
 	useAppDispatch,
 	useObtenerClienteActual,
@@ -16,15 +15,12 @@ import {useForm} from 'react-hook-form';
 import {
 	useInicializarPreciosProductosDelClienteActual,
 	useMostrarAviso,
-	useObtenerCreditoDisponible,
 	useObtenerDatosCliente,
-	useObtenerTotalPedidosVisitaActual,
 } from 'hooks';
-import visitaActualSlice, {
+import {
 	agregarProductoDelPedidoActual,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
-
 import {Dialogo, SwipeBorrar} from 'components/UI';
 import {AutocompleteSeleccionarProducto} from 'components/Negocio';
 import Typography from '@mui/material/Typography';
@@ -37,15 +33,15 @@ import {useBorrarLinea, useBorrarTodoTomaPedido} from '../hooks';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import useEstilos from '../useEstilos';
 import {SwitchCambiarTipoPago} from '../components';
-import {useTranslation} from 'react-i18next';
-import {useSnackbar} from 'notistack';
 import Modal from 'components/UI/Modal';
 import TarjetaTomaPedido from 'components/UI/TarjetaTomaPedido';
 import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoPush';
 import {Box} from '@mui/system';
+import theme from 'theme';
+import {useTranslation} from 'react-i18next';
 
 const TextStyled = styled(Typography)(() => ({
-	color: '#651C32',
+	color: theme.palette.secondary.main,
 	fontSize: '10px',
 }));
 
@@ -63,9 +59,8 @@ const TomaPedido: React.FC = () => {
 	});
 
 	const {t} = useTranslation();
+
 	const [alerta, setAlerta] = React.useState<boolean>(false);
-	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
-	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
@@ -133,23 +128,6 @@ const TomaPedido: React.FC = () => {
 	}, [visitaActual.seQuedaAEditar.seQueda, venta.productos]);
 
 	React.useEffect(() => {
-		if (
-			datosCliente?.informacionCrediticia.condicion !== 'contado' &&
-			creditoDisponible -
-				(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0) <
-				0
-		) {
-			mostrarAviso(
-				'warning',
-				'Limite de credito excedido',
-				'este cliente ha excedido su limite de crédito, por lo que no se podra levantar pedidos a crédito',
-				undefined,
-				'sinLimiteCredito'
-			);
-		}
-	}, [venta.productos]);
-
-	React.useEffect(() => {
 		if (productoActual !== null) {
 			const productoEnPedido = venta.productos.find(
 				(producto) => producto.codigoProducto === productoActual.codigoProducto
@@ -181,7 +159,7 @@ const TomaPedido: React.FC = () => {
 			setProductoActual(null);
 			mostrarAviso(
 				'success',
-				'Se ha ingresado el producto exitosamente',
+				t('toast.productoIngresado'),
 				undefined,
 				undefined,
 				'productoIngresado'
@@ -235,7 +213,7 @@ const TomaPedido: React.FC = () => {
 				{venta.productos.length > 0 &&
 					venta.productos
 						.filter((producto) => producto.estado === 'activo')
-						.map((producto, i) => {
+						.map((producto) => {
 							return (
 								<SwipeBorrar
 									key={producto.codigoProducto}

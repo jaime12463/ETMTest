@@ -273,6 +273,10 @@ const en = {
 		canjeSinMotivoTitulo: 'Exchange without reason',
 		canjeSinMotivoMensaje: 'It is necessary to add the reason for the exchange',
 		productoAgregado: 'Product added successfully',
+		limiteDeCreditoExcedidoTitulo: 'Credit limit exceeded',
+		limiteDeCreditoExcedidoMensaje:
+			'This customer has exceeded his credit limit, so no credit orders can be placed.',
+		productoIngresado: 'Product has been successfully entered',
 	},
 };
 export default en;

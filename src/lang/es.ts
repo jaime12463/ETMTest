@@ -281,6 +281,10 @@ const es = {
 		canjeSinMotivoTitulo: 'Canje sin motivo',
 		canjeSinMotivoMensaje: 'Es necesario agregar el motivo del canje',
 		productoAgregado: 'Producto agregado correctamente',
+		limiteDeCreditoExcedidoTitulo: 'Límite de crédito excedido',
+		limiteDeCreditoExcedidoMensaje:
+			'Este cliente ha excedido su límite de crédito, por lo que no se podra levantar pedidos a crédito',
+		productoIngresado: 'Se ha ingresado el producto exitosamente',
 	},
 };
 export default es;
