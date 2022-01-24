@@ -95,7 +95,13 @@ export const fechaDispositivo = (): string => {
 	return fecha;
 };
 
-export const fechaDentroDelRango= (fecha:string, rangoInicial:string, rangoFinal:string ) :boolean =>  (new Date(rangoInicial)<= new Date(fecha) && new Date(rangoFinal) <= new Date(fecha));
+export const fechaDentroDelRango = 
+	(
+		fecha:string, 
+		rangoInicial:string, 
+		rangoFinal:string
+	) :boolean => (new Date(rangoInicial)<= new Date(fecha) && new Date(rangoFinal) >= new Date(fecha));
+	
 
 /*  FIN FUNCIONES DE FECHA */
 export const calcularTotalPedidosClienteValorizadosPorTipoPago = ({

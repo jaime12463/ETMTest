@@ -9,6 +9,7 @@ import {
 	TValidacionFechaEntrega,
 	TPrecioProducto,
 	TPedido,
+	TPortafolio,
 } from 'models';
 import {fechaDispositivo,fechaDentroDelRango, obtenerUnidadesMismoProducto} from 'utils/methods';
 import {useObtenerDeudasDelClienteActual} from 'hooks';
@@ -214,3 +215,19 @@ export const validarHabilitarBotonCerrarPedido = (
 
 	return validarHabilitarBotonVisita;
 };
+
+
+/**
+ * Valida la existencia de un producto en el portafolio del cliente
+ * @constructor
+ * @param {number} codigoProducto  - código de producto 
+ * @param {	TPortafolio[] } portafolio - Portafolio o catálogo de productos asociados al cliente
+ * @returns {boolean} 
+ */
+
+export const validarProductoContraPortafolio = (
+	codigoProducto:number, 
+	portafolio:TPortafolio[]
+	) : boolean => {
+	return  (portafolio.findIndex( (p) => p.codigoProducto===codigoProducto)>-1);
+}
