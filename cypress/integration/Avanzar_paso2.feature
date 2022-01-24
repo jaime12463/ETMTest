@@ -89,3 +89,10 @@ Escenario: N°8 - No hubo cambios en el pedido
     Dado que no se efectuaron cambios en el paso 2 toma de pedido
     Cuando avanzo al paso 3 Otros
     Entonces el sistema muestra la pantalla del paso 3 - Otros
+
+Escenario: N°9 - Calcular envases de obsequios obtenidos por promocion
+    Dado que se obtuvieron beneficios/obsequios por promociones aplicadas
+    Y tienen implícitos
+    Cuando avanzo al paso 3 de la visita
+    Entonces el sistema eliminará los pedidos de _tiposPedidoEnvasesHabilitados que pudieran existir en la visita
+    Y recalculará los envases para retorno según calcular envases retornables.

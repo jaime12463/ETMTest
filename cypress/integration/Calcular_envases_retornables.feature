@@ -259,3 +259,18 @@ Escenario: N°9 - Consolidar los retornables del pedido con pedido de envases ha
 	|1020     |     28   |       0   | 
 
 
+Esquema del escenario: N°10 - Contabilizar envases de productos que son beneficio/obsequios de promociones ongoing 
+	Dado que se obtuvo '<producto>' como beneficio/obsequio por promociones ongoing
+	Y el producto beneficio/obsequio tiene implícitos 
+	Y la condición de pago de la promoción por la cual se obtuvo el obsequio es '<condicion>'
+	Y la cantidad obtenida es '<cantidad>'
+	Y la unidad de medida del beneficio/obsequio es '<unidadMedida>'
+	Cuando se calculan los envases retornables del pedido  
+	Entonces el sistema calculará
+	|envase| unidades |subunidades|condicion|
+    | 1001 |     3    |           | contado |
+    | 1020 |     3    |           | contado |
+
+Ejemplos:
+	|producto|cantidad |condicion|unidadMedida|
+	|  340   |      3  | contado |     unidad |
