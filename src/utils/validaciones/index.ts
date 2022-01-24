@@ -9,8 +9,13 @@ import {
 	TValidacionFechaEntrega,
 	TPrecioProducto,
 	TPedido,
+	TPortafolio,
 } from 'models';
-import {fechaDispositivo,fechaDentroDelRango, obtenerUnidadesMismoProducto} from 'utils/methods';
+import {
+	fechaDispositivo,
+	fechaDentroDelRango,
+	obtenerUnidadesMismoProducto,
+} from 'utils/methods';
 import {useObtenerDeudasDelClienteActual} from 'hooks';
 
 /*--------------------------------------------------------------------------------------------*/
@@ -33,7 +38,9 @@ export const validarFechaVigenciaProducto = (
 	fechaEntrega: string
 ): boolean => {
 	return preciosProductos.some(
-		(precio) =>	fechaDentroDelRango(fechaEntrega, precio['vigenciaInicioPrecio'], precio['vigenciaFinPrecio'])
+		(precio) =>
+			new Date(precio['vigenciaInicioPrecio']) <= new Date(fechaEntrega) &&
+			new Date(precio['vigenciaFinPrecio']) >= new Date(fechaEntrega)
 	);
 };
 
@@ -214,3 +221,19 @@ export const validarHabilitarBotonCerrarPedido = (
 
 	return validarHabilitarBotonVisita;
 };
+
+
+/**
+ * Valida la existencia de un producto en el portafolio del cliente
+ * @constructor
+ * @param {number} codigoProducto  - código de producto 
+ * @param {	TPortafolio[] } portafolio - Portafolio o catálogo de productos asociados al cliente
+ * @returns {boolean} 
+ */
+
+export const validarProductoContraPortafolio = (
+	codigoProducto:number, 
+	portafolio:TPortafolio[]
+	) : boolean => {
+	return  (portafolio.findIndex( (p) => p.codigoProducto===codigoProducto)>-1);
+}
