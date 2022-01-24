@@ -77,9 +77,6 @@ const TarjetaEnvasesRetornables = ({
 
 	const [valoresEnvase, setValoresEnvase] = useState(tipoPedidosEnvases);
 
-	//console.log({producto: envase.codigoImplicito, productoPedido}); //console
-	console.log({producto: envase.codigoImplicito, valoresEnvase});
-
 	const buscarPedidoValorizado = configuracion.tipoPedidoEnvasesHabilitados.map(
 		(tipoEnvases) =>
 			configuracion.tipoPedidos.find(

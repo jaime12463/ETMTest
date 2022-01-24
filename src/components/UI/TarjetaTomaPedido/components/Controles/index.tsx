@@ -93,7 +93,10 @@ const Controles: React.FC<Props> = ({
 	}, []);
 
 	React.useEffect(() => {
-		if (infoDescuento.porcentajeDescuento !== null) {
+		if (
+			infoDescuento.porcentajeDescuento !== null &&
+			focusId === producto.codigoProducto
+		) {
 			if (getValues.unidades > 0 || getValues.subUnidades > 0) {
 				agregarProductoAlPedidoActual(defaultValue);
 			}
@@ -155,6 +158,7 @@ const Controles: React.FC<Props> = ({
 		if (e.key === 'Enter') {
 			if (inputFocus === 'unidades') {
 				setInputFocus('subUnidades');
+
 				agregarProductoAlPedidoActual(
 					getValues,
 					obtenerCalculoDescuentoProducto
