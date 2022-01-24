@@ -14,6 +14,7 @@ const TarjetaEnvasesRetornables = ({
 	const [preciosProductos, setPreciosProductos] = useState<TPrecioProducto[]>(
 		[]
 	);
+	const visitaActual = useObtenerVisitaActual();
 
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 
@@ -22,14 +23,12 @@ const TarjetaEnvasesRetornables = ({
 	const [productoPedido, setProductoPedido] = useState({
 		unidades: 0,
 		subUnidades: 0,
-	});
+	}); //
 
 	const productoEnvase = preciosProductos.find(
 		(producto: TPrecioProducto) =>
 			producto.codigoProducto === envase.codigoImplicito
 	);
-
-	const visitaActual = useObtenerVisitaActual();
 
 	useEffect(() => {
 		let unidadesContador = 0;
@@ -59,13 +58,27 @@ const TarjetaEnvasesRetornables = ({
 			)
 		);
 
-	const tipoPedidosEnvases = pedidosEnvasesHabilitados.map((tipoEnvases) => ({
-		tipoEnvase: tipoEnvases?.descripcionCorta,
-		unidades: 0,
-		subUnidades: 0,
-	}));
+	const tipoPedidosEnvases = pedidosEnvasesHabilitados.map((tipoEnvases) => {
+		if (!tipoEnvases) return;
+		const pedidoActual = visitaActual.pedidos[tipoEnvases.codigo];
+
+		const productoActual = pedidoActual?.productos.find(
+			(producto) =>
+				producto?.codigoProducto === envase?.codigoImplicito &&
+				producto?.tipoPago === envase.tipoPago
+		);
+
+		return {
+			tipoEnvase: tipoEnvases?.descripcionCorta,
+			unidades: productoActual ? productoActual.unidades : 0,
+			subUnidades: productoActual ? productoActual.subUnidades : 0,
+		};
+	});
 
 	const [valoresEnvase, setValoresEnvase] = useState(tipoPedidosEnvases);
+
+	//console.log({producto: envase.codigoImplicito, productoPedido}); //console
+	console.log({producto: envase.codigoImplicito, valoresEnvase});
 
 	const buscarPedidoValorizado = configuracion.tipoPedidoEnvasesHabilitados.map(
 		(tipoEnvases) =>

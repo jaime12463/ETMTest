@@ -10,7 +10,11 @@ import {
 	TPrecioProducto,
 	TPedido,
 } from 'models';
-import {fechaDispositivo,fechaDentroDelRango, obtenerUnidadesMismoProducto} from 'utils/methods';
+import {
+	fechaDispositivo,
+	fechaDentroDelRango,
+	obtenerUnidadesMismoProducto,
+} from 'utils/methods';
 import {useObtenerDeudasDelClienteActual} from 'hooks';
 
 /*--------------------------------------------------------------------------------------------*/
@@ -33,7 +37,9 @@ export const validarFechaVigenciaProducto = (
 	fechaEntrega: string
 ): boolean => {
 	return preciosProductos.some(
-		(precio) =>	fechaDentroDelRango(fechaEntrega, precio['vigenciaInicioPrecio'], precio['vigenciaFinPrecio'])
+		(precio) =>
+			new Date(precio['vigenciaInicioPrecio']) <= new Date(fechaEntrega) &&
+			new Date(precio['vigenciaFinPrecio']) >= new Date(fechaEntrega)
 	);
 };
 

@@ -38,7 +38,6 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 	} = props;
 
 	const {valoresEnvase, setValoresEnvase} = stateTipoEnvases;
-	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual();
 
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
@@ -53,15 +52,21 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 	const [retorno, setRetorno] = useState<{
 		unidades: number;
 		subUnidades: number;
+		retornoUnidades: number;
+		retornorSubUnidades: number;
 	}>({
 		unidades: unidadesIniciales,
 		subUnidades: subUnidadesIniciales,
+		retornoUnidades: unidadesIniciales,
+		retornorSubUnidades: subUnidadesIniciales,
 	});
 
 	useEffect(() => {
 		setRetorno({
 			unidades: unidadesIniciales - productoPedido.unidades,
 			subUnidades: subUnidadesIniciales - productoPedido.subUnidades,
+			retornoUnidades: unidadesIniciales,
+			retornorSubUnidades: subUnidadesIniciales,
 		});
 	}, [productoPedido]);
 
