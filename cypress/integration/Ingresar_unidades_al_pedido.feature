@@ -145,4 +145,4 @@ Escenario: N°10 - Crédito excedido en pedido valorizado
 	Y el producto ingresado tiene condición de pago crédito
 	Cuando ingreso unidades al producto
 	Y supero el límite de crédito disponible
-	Entonces el sistema mostrará una sola vez el mensaje de límite de crédito excedido como warning
+	Entonces el sistema mostrará el mensaje de límite de crédito excedido como warning
