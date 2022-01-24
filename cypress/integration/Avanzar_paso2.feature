@@ -64,26 +64,26 @@ Escenario: N°5 - Se hacen cambios en el pedido
     Cuando avanzo al paso 3 Otros
     Entonces el sistema mostrará el mensaje "Cambios guardados exitosamente"
 
-#Modificar el pedido implica agregar, cambiar cantidades o borrar productos en toma de pedido
+#Modificar el pedido implica agregar, cambiar cantidades, borrar productos o cambiar la condición de pago en toma de pedido
 
 Escenario: N°6 - Calcular y aplicar promociones ongoing
     Dado que se modificaron productos que no son promo push en el pedido
     Y no se calcularon promociones
     Cuando avanzo al paso 3 Otros
-    Entonces el sistema reiniciará las promociones de la condición de pago afectada
+    Entonces el sistema reiniciará las promociones de la condición de pago que cambió
     Y aplicará las promociones automáticas que correspondan a la condición de pago
-    Y al obtener beneficios de alguna de las promociones mostrará el mensaje "Cambios guardados exitosamente. Se calcularon y aplicaron las promociones automáticas"
+    Y al obtener beneficios de alguna de las promociones mostrará en la pantalla del paso 3 otros el mensaje "Cambios guardados exitosamente. Se calcularon y aplicaron las promociones automáticas"
 
 #Modificar productos implica agregar, cambiar cantidades, borrar productos o cambiar condición de pago en toma de pedido de productos que no son promo push
-#No se calculan promociones por no entrar a ver las promociones
+#No se calcularon promociones por no acceder al control de las promociones
 
 Escenario: N°7 - Promociones ya calculadas y aplicadas
     Dado que se modificaron productos que no son promo push en el pedido
     Y se calcularon promociones
     Cuando avanzo al paso 3 Otros
-    Entonces el sistema mostrará el mensaje "Cambios guardados exitosamente"
+    Entonces el sistema mostrará en la pantalla del paso 3 otros el mensaje "Cambios guardados exitosamente"
 
-#Se calculan promociones por haber entrado y/o gestionado las promociones
+#Se calculan promociones por haber accedido al control de las promociones
 
 Escenario: N°8 - No hubo cambios en el pedido
     Dado que no se efectuaron cambios en el paso 2 toma de pedido

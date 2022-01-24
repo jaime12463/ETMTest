@@ -12,8 +12,8 @@ Antecedentes:
 
 Escenario: N°1 - Mostrar las promociones ongoing
     Cuando se muestra la pantalla de promociones
-    Entonces el sistema mostrará la sección de condición de pago crédito
-    Y mostrará la sección de condición de pago contado
+    Entonces el sistema mostrará la sección de condición de pago crédito con la lista de promociones a crédito
+    Y mostrará la sección de condición de pago contado con la lista de promociones a contado
     Y mostrará la sección de promociones que no cubren el requisito
 
 Escenario: N°2 - Calcular y aplicar promociones automáticas cuando se modifica el pedido
