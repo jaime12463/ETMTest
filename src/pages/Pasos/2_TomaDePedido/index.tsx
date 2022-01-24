@@ -6,6 +6,7 @@ import {
 	pasoATomaPedido,
 	cambiarTipoPedidoActual,
 	cambiarSeQuedaAEditar,
+	cambiarAvisos,
 } from 'redux/features/visitaActual/visitaActualSlice';
 
 import TomaPedido from './TomaPedidos';
@@ -39,6 +40,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	React.useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'venta'}));
 		dispatch(pasoATomaPedido());
+		dispatch(cambiarAvisos({cambiosPasoActual: false}));
 	}, []);
 
 	React.useEffect(() => {

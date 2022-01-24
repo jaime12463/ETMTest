@@ -20,11 +20,13 @@ import {
 import {
 	cambiarSeQuedaAEditar,
 	limpiarProductosSinCantidad,
+	cambiarAvisos,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {TCliente, TClienteActual} from 'models';
 
 export const Planeacion: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
+	//const [huboCambios, setHuboCambios] = React.useState<boolean>(false);
 	const {t} = useTranslation();
 	const {iniciativas} = useObtenerVisitaActual();
 	const configuracion = useObtenerConfiguracion();
@@ -102,6 +104,9 @@ export const Planeacion: React.FC = () => {
 		);
 	}
 
+	React.useEffect(() => {
+		dispatch(cambiarAvisos({cambiosPasoActual: false}));
+	}, []);
 	React.useEffect(() => {
 		if (visitaActual.seQuedaAEditar.seQueda) {
 			setExpandido('Iniciativas');

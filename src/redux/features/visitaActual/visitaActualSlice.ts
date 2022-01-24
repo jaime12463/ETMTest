@@ -5,6 +5,7 @@ import {
 	TProductoPedido,
 	TPresupuestoTipoPedidoTotal,
 	TDetalleBonificacionesCliente,
+	TAvisos,
 } from 'models';
 
 import {RootState} from 'redux/store';
@@ -27,6 +28,10 @@ const estadoInicial: TVisita = {
 		bordeError: false,
 	},
 	envasesConError: 0,
+	avisos: {
+		limiteCredito: 0,
+		cambiosPasoActual: false,
+	},
 };
 
 export const visitaActualSlice = createSlice({
@@ -61,6 +66,7 @@ export const visitaActualSlice = createSlice({
 			);
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
+			state.avisos.cambiosPasoActual = true;
 			if (producto) {
 				producto.unidades = action.payload.productoPedido.unidades;
 				producto.subUnidades = action.payload.productoPedido.subUnidades;
@@ -400,7 +406,11 @@ export const visitaActualSlice = createSlice({
 			state.seQuedaAEditar.seQueda = action.payload.seQueda;
 			state.seQuedaAEditar.bordeError = action.payload.bordeError;
 		},
-
+		cambiarAvisos: (state, action: PayloadAction<Partial<TAvisos>>) => {
+			if (action.payload) {
+				state.avisos = {...state.avisos, ...action.payload};
+			}
+		},
 		agregarBonificacion(
 			state,
 			action: PayloadAction<{
@@ -530,5 +540,6 @@ export const {
 	eliminarCanje,
 	modificarEnvasesConError,
 	restablecerEnvasesConError,
+	cambiarAvisos,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

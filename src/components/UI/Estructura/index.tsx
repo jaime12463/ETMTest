@@ -14,6 +14,7 @@ export type Props = {
 
 const Estructura = ({esConFechaHaciaAtras = true, titulo, children}: Props) => {
 	const estilos = useEstilos();
+
 	return (
 		<>
 			{useRouteMatch().isExact && (
