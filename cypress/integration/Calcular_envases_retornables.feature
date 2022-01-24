@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Calcular_envases @Sprint8 @Sprint11 @Sprint12
+@Pedido @Calcular_envases @Sprint8 @Sprint11 @Sprint12 @Sprint21
 
 # Sprint12: Calculo de envases por condicion de pago
 
@@ -29,7 +29,7 @@ Característica: Ver envases retornables
 	Quiero ver los envases retornables del pedido
 	Para informarle al cliente 
 
-Escenario: N°1 – El producto del pedido no tiene Implícito1 ni Implícito2 informado
+Escenario: N°1 - El producto del pedido no tiene Implícito1 ni Implícito2 informado
 	Dado que se realizó la venta de un producto 
 	Y que el producto no es promo push 
 	Y no tiene _Implícito1
@@ -37,7 +37,7 @@ Escenario: N°1 – El producto del pedido no tiene Implícito1 ni Implícito2 i
 	Cuando se calculan los envases retornables
 	Entonces el sistema no calculará envases para ese producto
 
-Esquema del escenario: N°2 – El producto del pedido tiene Implícito1 informado con tipo de pedido de envases habilitado valorizado
+Esquema del escenario: N°2 - El producto del pedido tiene Implícito1 informado con tipo de pedido de envases habilitado valorizado
 	Dado que se realizó la venta de '<cantidadUnidades>' y '<cantidadSubunidades>' de '<producto>' 
 	Y éste tiene '<implicito1>' informado
 	Y tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
@@ -52,7 +52,7 @@ Ejemplos:
 	|380	 |15	          |0	              | 1001	|credito   |
 	|400	 |0	              |3	              | 1001	|contado   |
 
-Esquema del escenario: N°3 – El producto del pedido tiene Implícito1 informado con tipo de pedido de envases habilitado no valorizado
+Esquema del escenario: N°3 - El producto del pedido tiene Implícito1 informado con tipo de pedido de envases habilitado no valorizado
 	Dado que se realizó la venta de '<cantidadUnidades>' y '<cantidadSubunidades>' de '<producto>' 
 	Y éste tiene '<implicito1>' informado
 	Y no tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
@@ -66,7 +66,7 @@ Ejemplos:
 	|380	 |15	          |0	              | 1001	|
 	|400	 |0	              |3	              | 1001	|
 
-Esquema del escenario: N°4 – El producto del pedido tiene Implícito2 informado con tipo de pedido de envases habilitado valorizado
+Esquema del escenario: N°4 - El producto del pedido tiene Implícito2 informado con tipo de pedido de envases habilitado valorizado
 	Dado que se realizó la venta de '<cantidadUnidades>' mayores a cero del '<producto>' 
 	Y éste tiene '<implicito2>' informado
 	Y tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
@@ -81,7 +81,7 @@ Ejemplos:
 	|380	 |15	          | 1020	|credito   |
 	|400	 |0	              | 1020	|contado   |
 
-Esquema del escenario: N°5 – El producto del pedido tiene Implícito2 informado con tipo de pedido de envases habilitado no valorizado
+Esquema del escenario: N°5 - El producto del pedido tiene Implícito2 informado con tipo de pedido de envases habilitado no valorizado
 	Dado que se realizó la venta de '<cantidadUnidades>' mayores a cero del '<producto>' 
 	Y éste tiene '<implicito2>' informado
 	Y no tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
@@ -259,7 +259,7 @@ Escenario: N°9 - Consolidar los retornables del pedido con pedido de envases ha
 	|1020     |     28   |       0   | 
 
 
-Esquema del escenario: N°10 - Contabilizar envases de productos que son beneficio/obsequios de promociones ongoing 
+Esquema del escenario: N°10 - Consolidar los retornables de productos que son beneficio/obsequios de promociones ongoing 
 	Dado que se obtuvo '<producto>' como beneficio/obsequio por promociones ongoing
 	Y el producto beneficio/obsequio tiene implícitos 
 	Y la condición de pago de la promoción por la cual se obtuvo el obsequio es '<condicion>'
