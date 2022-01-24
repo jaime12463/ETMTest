@@ -4,10 +4,13 @@ import {Grid, Input, styled, Typography} from '@mui/material';
 import {TConsolidadoImplicitos} from 'models';
 import {useObtenerVisitaActual, useAppDispatch} from 'redux/hooks';
 import {useMostrarAviso} from 'hooks';
-import { useAgregarProductoAlPedidoActual } from '../../hooks/useAgregarProductoAlPedidoActual';
-import { useTranslation } from 'react-i18next';
+import {useAgregarProductoAlPedidoActual} from '../../hooks/useAgregarProductoAlPedidoActual';
+import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
-import {modificarEnvasesConError, restablecerEnvasesConError} from 'redux/features/visitaActual/visitaActualSlice';
+import {
+	modificarEnvasesConError,
+	restablecerEnvasesConError,
+} from 'redux/features/visitaActual/visitaActualSlice';
 
 const InputStyled = styled(Input)(({theme}) => ({
 	borderRadius: '4px',
@@ -90,9 +93,13 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 		calcularUnidades();
 	}, [visitaActual, valoresEnvase, tipoPedido, retorno]);
 
-	const obtenerEnvasesActual = (tipoPedido: any, productoEnvase: any, datosEnvase: any) => {
+	const obtenerEnvasesActual = (
+		tipoPedido: any,
+		productoEnvase: any,
+		datosEnvase: any
+	) => {
 		const pedidoActual = visitaActual.pedidos[tipoPedido.codigo];
-	
+
 		const productoActual = pedidoActual?.productos.find(
 			(producto) =>
 				producto?.codigoProducto === datosEnvase?.codigoImplicito &&
@@ -105,7 +112,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 			subUnidadesIngresadas: productoActual ? productoActual.subUnidades : 0,
 			estadoSubUnidades: true,
 		});
-	}
+	};
 
 	useEffect(() => {
 		dispatch(restablecerEnvasesConError());
@@ -173,7 +180,6 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 					estadoUnidades: true,
 					unidadesIngresadas: unidadesIngresadas,
 				});
-
 			} else {
 				setDatosIngresados({
 					...datosIngresados,
@@ -193,7 +199,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 				);
 
 				mostrarAviso(
-					'error', 
+					'error',
 					t('advertencias.cantidadSuperiorEnvases'),
 					t('mensajes.cantidadSuperiorEnvases'),
 					undefined,
@@ -261,7 +267,6 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 					estadoSubUnidades: true,
 					subUnidadesIngresadas: subUnidadesIngresadas,
 				});
-
 			} else {
 				setDatosIngresados({
 					...datosIngresados,
@@ -281,7 +286,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 				);
 
 				mostrarAviso(
-					'error', 
+					'error',
 					t('advertencias.cantidadSuperiorEnvases'),
 					t('mensajes.cantidadSuperiorEnvases'),
 					undefined,
@@ -294,7 +299,9 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 
 	const classes = useEstilos({
 		estadoUnidad: datosIngresados.estadoUnidades ? 'celdaOk' : 'celdaError',
-		estadoSubUnidad: datosIngresados.estadoSubUnidades ? 'celdaOk' : 'celdaError',
+		estadoSubUnidad: datosIngresados.estadoSubUnidades
+			? 'celdaOk'
+			: 'celdaError',
 	});
 
 	return (
@@ -325,19 +332,21 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 							onChange={(e) => {
 								setDatosIngresados({
 									...datosIngresados,
-									unidadesIngresadas: Number(e.target.value)
+									unidadesIngresadas: isNaN(Number(e.target.value))
+										? 0
+										: Number(e.target.value),
 								});
 								cambioUnidadesPorTipoPedido(
-									Number(e.target.value),
+									isNaN(Number(e.target.value)) ? 0 : Number(e.target.value),
 									envase?.tipoEnvase,
 									otrosTiposEnvase,
 									tipoPedido.codigo
 								);
 							}}
 							onFocus={(e) => e.target.select()}
-							type="number"
+							type='tel'
 							className={classes.celdaUnidad}
-							id="inputUnidades"
+							id='inputUnidades'
 						/>
 					)}
 				</Grid>
@@ -350,19 +359,21 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 							onChange={(e) => {
 								setDatosIngresados({
 									...datosIngresados,
-									subUnidadesIngresadas: Number(e.target.value)
+									subUnidadesIngresadas: isNaN(Number(e.target.value))
+										? 0
+										: Number(e.target.value),
 								});
 								cambioSubUnidadesPorTipoPedido(
-									Number(e.target.value),
+									isNaN(Number(e.target.value)) ? 0 : Number(e.target.value),
 									envase?.tipoEnvase,
 									otrosTiposEnvase,
 									tipoPedido.codigo
 								);
 							}}
 							onFocus={(e) => e.target.select()}
-							type="number"
+							type='tel'
 							className={classes.celdaSubUnidad}
-							id="inputSubunidades"
+							id='inputSubunidades'
 						/>
 					)}
 				</Grid>
