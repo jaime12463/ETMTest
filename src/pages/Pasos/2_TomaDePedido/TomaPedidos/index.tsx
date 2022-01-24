@@ -191,7 +191,6 @@ const TomaPedido: React.FC = () => {
 
 	return (
 		<>
-			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 			<Modal
 				setAlerta={setAlerta}
 				alerta={alerta}

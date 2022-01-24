@@ -208,6 +208,8 @@ const en = {
 			'This product will be removed from your current order along with the bonuses it contains.',
 		borrarLineaPedidosMensajeUnico:
 			'This product will be deleted from your Order Take',
+		borrarLineaPedidosMensajeUnicoCanje:
+			'This product will be deleted from your exchange',
 		lineaBorradaConBonificacion:
 			'The product was removed from the order taking along with the bonuses it contained.',
 		lineaBorradaConCanje:
