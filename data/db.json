@@ -2069,7 +2069,14 @@
 			"nombre": "PRODUCTO 390",
 			"presentacion": 12,
 			"subunidadesVentaMinima": 5,
-			"tipoProducto": 1
+			"tipoProducto": 1,
+			"atributos": {
+				"sabor": 1,
+				"familia": 8,
+				"marca": 4,
+				"envase": 2,
+				"medida": 2
+			}
 		},
 		{
 			"codigoProducto": 400,
@@ -2083,8 +2090,8 @@
 				"sabor": 1,
 				"familia": 8,
 				"marca": 4,
-				"envase": 2,
-				"medida": 2
+				"envase": 5,
+				"medida": 6
 			}
 		},
 		{
@@ -2424,19 +2431,19 @@
 			"finVigenciaPromocion": "2021-09-06",
 
 			"requisitos": [
-						{
-								"materiales": [18466, 118467, 118986],
-								"cantidad": 7,
-								"unidadMedida": "Unidad",
-								"conector": "Y"
-						},
-						{
-								"materiales": [420],
+				{
+					"materiales": [18466, 118467, 118986],
+					"cantidad": 7,
+					"unidadMedida": "Unidad",
+					"conector": "Y"
+				},
+				{
+					"materiales": [420],
 
-								"cantidad": 1,
+					"cantidad": 1,
 
-								"unidadMedida": "Unidad"
-						}
+					"unidadMedida": "Unidad"
+				}
 			],
 
 			"beneficios": [
@@ -2487,11 +2494,11 @@
 			"finVigenciaPromocion": "2021-09-06",
 
 			"requisitos": [
-					{
-						"materiales": [18466, 118467, 118986],
-						"cantidad": 7,
-						"unidadMedida": "Unidad"
-					}
+				{
+					"materiales": [18466, 118467, 118986],
+					"cantidad": 7,
+					"unidadMedida": "Unidad"
+				}
 			],
 			"beneficios": [
 				{
@@ -2510,7 +2517,6 @@
 						}
 					]
 				}
-				
 			]
 		}
 	]
