@@ -1,6 +1,6 @@
 # language: es
 
-@Planeacion @Iniciativas @Sprint15
+@Planeacion @Iniciativas @Sprint15 @Sprint21
 
 Característica: concluir planeación
     Como prevendedor
@@ -30,3 +30,11 @@ Escenario: N°3 - Iniciativas canceladas no finalizadas
 # Iniciativa sin completar: ej. Tiene estado cancelada y no tiene motivo seleccionado.    
 # Editar: No avanzará al paso 2 - Toma de pedido y mostrará la primer iniciativa sin completar para continuar la carga
 # Continuar: Dejará con estado pendiente las iniciativas sin completar y continuará al paso 2 - Toma de pedido
+
+Escenario: N°4 - Limite de crédito excedido
+    Dado que se ingresaron productos al _tipoPedido que _esValorizada = true
+    Y la condición de pago de los productos es crédito
+    Y se excedió el límite de crédito
+    Cuando avanzamos al paso 2 toma de pedido
+    Entonces el sistema mostrará la pantalla de toma de pedido
+    Y mostrará el mensaje de límite de crédito excedido como warning

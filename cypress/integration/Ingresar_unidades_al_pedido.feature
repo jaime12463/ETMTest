@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Validar_unidades @Unidades_maximas_por_producto @Sprint3 @Sprint8 @Sprint9 @Sprint10 @Sprint11 @Sprint16
+@Pedido @Validar_unidades @Unidades_maximas_por_producto @Sprint3 @Sprint8 @Sprint9 @Sprint10 @Sprint11 @Sprint16 @Sprint21
 
 # Sprint11:
 # Validación de presupuesto y productos habilitados para el tipo de pedido
@@ -67,12 +67,12 @@ Antecedentes:
 	# Y que las unidades disponibles se establecieron en 1000 = unidades disponibles del producto para el cliente – unidades vendidas del producto en otros pedidos del cliente.
 
 @Test_dispositivo_1
-Escenario: N°1 – La cantidad es mayor a la permitida y menor a las unidades disponibles
+Escenario: N°1 - La cantidad es mayor a la permitida y menor a las unidades disponibles
 	Cuando se ingresan unidades mayores a _cantidadMáximaUnidades
 	Y es menor o igual a las _unidadesDisponibles del producto para el cliente menos la cantidad ya registrada en otros pedidos para el mismo producto 
 	Entonces el sistema mostrará el mensaje "La cantidad es mayor a 100 ¿Desea continuar?" SiNo
 
-Esquema del escenario: N°2 – La cantidad unidades ingresada es correcta y aplica descuento polarizado
+Esquema del escenario: N°2 - La cantidad unidades ingresada es correcta y aplica descuento polarizado
 	Cuando se ingresa una cantidad correcta
 	Y se encuentra informado el _descuentoPolarizado para el _codigoProducto en el _portafolio del cliente
 	Y '<precioPolarizadoIngresado>' se ingreso el precio polarizado
@@ -87,19 +87,19 @@ Esquema del escenario: N°2 – La cantidad unidades ingresada es correcta y apl
 
 #Se da como cantidad ingresada cuando acepta la cantidad manual ingresada o se pierde el foco del campo
 
-Escenario: N°3 – La cantidad de unidades ingresadas es correcta y aplica descuento escalonado
+Escenario: N°3 - La cantidad de unidades ingresadas es correcta y aplica descuento escalonado
 	Cuando se ingresa una cantidad correcta
 	Y se encuentra informado el _descuentoEscalonado para el _codigoProducto en el _portafolio del cliente
     Entonces el sistema aplicará el descuento escalonado
      
-Escenario: N°4 – La cantidad es menor o igual a la permitida y  menor a las unidades disponibles y las subunidades están habilitadas
+Escenario: N°4 - La cantidad es menor o igual a la permitida y  menor a las unidades disponibles y las subunidades están habilitadas
 	Cuando se ingresa una cantidad
 	Y es menor o igual a la _cantidadMáximaUnidades
 	Y es menor o igual a _unidadesDisponibles del producto para el cliente menos la cantidad ya registrada en otros pedidos para el mismo producto
 	Y permiteBotelleo = si
 	Entonces el sistema registrará las unidades y continuará con el ingreso de las subunidades
 
-Escenario: N°5 – La cantidad es menor o igual a la permitida y  menor a las unidades disponibles y las subunidades están deshabilitadas y no se requiere motivo y el tipo de pedido del pedido en curso no valida presupuesto
+Escenario: N°5 - La cantidad es menor o igual a la permitida y  menor a las unidades disponibles y las subunidades están deshabilitadas y no se requiere motivo y el tipo de pedido del pedido en curso no valida presupuesto
 	Cuando se ingresa una cantidad
 	Y es menor o igual a la _cantidadMáximaUnidades
 	Y es menor o igual a _unidadesDisponibles del producto para el cliente menos la cantidad ya registrada en otros pedidos para el mismo producto
@@ -108,7 +108,7 @@ Escenario: N°5 – La cantidad es menor o igual a la permitida y  menor a las u
 	Y tipo de pedido del pedido en curso tiene _validaPresupuesto = false
 	Entonces el sistema registrará las unidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
 
-Escenario: N°6 – La cantidad es menor o igual a la permitida y  menor a las unidades disponibles y las subunidades están deshabilitadas y no se requiere motivo y el tipo de pedido del pedido en curso valida presupuesto
+Escenario: N°6 - La cantidad es menor o igual a la permitida y  menor a las unidades disponibles y las subunidades están deshabilitadas y no se requiere motivo y el tipo de pedido del pedido en curso valida presupuesto
 	Cuando se ingresa una cantidad
 	Y es menor o igual a la _cantidadMáximaUnidades
 	Y es menor o igual a _unidadesDisponibles del producto para el cliente menos la cantidad ya registrada en otros pedidos para el mismo producto
@@ -118,13 +118,13 @@ Escenario: N°6 – La cantidad es menor o igual a la permitida y  menor a las u
 	Y presupuestoActual - cantidad de unidades ingresadas >= 0 
 	Entonces el sistema registrará las unidades y mostrará el producto actualizado en la lista y actualizará los totales e indicadores y permanecerá en la pantalla para el ingreso de un nuevo producto.
 
-Escenario: N°7 – La cantidad no cumple con el presupuesto cuando el tipo de pedido del pedido en curso valida presupuesto.
+Escenario: N°7 - La cantidad no cumple con el presupuesto cuando el tipo de pedido del pedido en curso valida presupuesto.
 	Cuando se ingresa una cantidad
 	Y tipo de pedido del pedido en curso tiene _validaPresupuesto = true
 	Y presupuestoActual - cantidad de unidades ingresadas < 0 
 	Entonces el sistema mostrará el mensaje  "La cantidad ingresada excede el presupuesto asignado para el " & _descripción del _tipoPedido y permanecerá en el ingreso de la cantidad.
 
-Escenario: N°8 – La cantidad es menor o igual a la permitida y las subunidades están deshabilitadas y requiere motivo y el tipo de pedido del pedido en curso valida presupuesto
+Escenario: N°8 - La cantidad es menor o igual a la permitida y las subunidades están deshabilitadas y requiere motivo y el tipo de pedido del pedido en curso valida presupuesto
 	Cuando se ingresa una cantidad
 	Y es menor o igual a la _cantidadMáximaUnidades
 	Y es menor o igual a _unidadesDisponibles del producto para el cliente menos la cantidad ya registrada en otros pedidos para el mismo producto
@@ -136,6 +136,7 @@ Escenario: N°8 – La cantidad es menor o igual a la permitida y las subunidade
 
 #Cuando se ingresa un producto nuevo, se asume como condición de pago del producto la condición de pago general del pedido. 
 
-Escenario: N°9 – La cantidad es mayor a las unidades disponibles del producto para el cliente.
+Escenario: N°9 - La cantidad es mayor a las unidades disponibles del producto para el cliente.
 	Cuando se ingresan unidades mayores a _unidadesDisponibles del producto para el cliente menos la cantidad ya registrada en otros pedidos para el mismo producto
 	Entonces el sistema mostrará el mensaje "La cantidad es mayor al disponible: 10" y permanece en el campo para que el prevendedor pueda corregir la cantidad
+
