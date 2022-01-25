@@ -73,7 +73,7 @@ const TarjetaCanjes: React.FC<Props> = ({
 	}, [getValues.unidades, getValues.subUnidades, getValues.catalogoMotivo]);
 
 	return (
-		<Box minWidth={'100%'} display={'flex'} justifyContent={'end'}>
+		<Box minWidth={'100%'} display={'flex'} justifyContent={'flex-end'}>
 			<Box border={`1px solid ${bordeColor}`} borderRadius='8px'>
 				<CheckYPendiente
 					producto={producto}

@@ -166,7 +166,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	}, [producto.unidades, producto.subUnidades, creditoDisponible]);
 
 	return (
-		<Box minWidth={'100%'} display={'flex'} justifyContent={'end'}>
+		<Box minWidth={'100%'} display={'flex'} justifyContent={'flex-end'}>
 			<Box
 				border={`1px solid ${colorBorde}`}
 				borderRadius={bordeRedondeado ? '8px' : '0'}

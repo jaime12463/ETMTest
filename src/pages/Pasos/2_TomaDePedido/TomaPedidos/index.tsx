@@ -223,7 +223,7 @@ const TomaPedido: React.FC = () => {
 										<Box
 											minWidth={'100%'}
 											display={'flex'}
-											justifyContent={'end'}
+											justifyContent={'flex-end'}
 										>
 											<TarjetaPromoPush
 												key={producto.codigoProducto}
