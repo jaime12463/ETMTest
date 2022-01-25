@@ -132,11 +132,3 @@ Escenario: N°7 - Ingreso de subunidad no cumple con el presupuesto para el tipo
     Cuando se ingresan subunidades
     Y presupuestoActual - cantidad de unidades ingresadas - cantidad de subunidades ingresadas < 0 
     Entonces el sistema mostrará el mensaje  "La cantidad ingresada excede el presupuesto asignado para el " & _descripción del _tipoPedido y permanecerá en el ingreso de la cantidad de subunidades.
-
-
-Escenario: N°8 - Crédito excedido en pedido valorizado
-	Dado que el _tipoPedido es _valorizado = true
-	Y el producto ingresado tiene condición de pago crédito
-	Cuando ingreso subunidades al producto
-	Y supero el límite de crédito disponible
-	Entonces el sistema mostrará el mensaje de límite de crédito excedido como warning

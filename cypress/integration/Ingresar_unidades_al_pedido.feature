@@ -140,9 +140,3 @@ Escenario: N°9 - La cantidad es mayor a las unidades disponibles del producto p
 	Cuando se ingresan unidades mayores a _unidadesDisponibles del producto para el cliente menos la cantidad ya registrada en otros pedidos para el mismo producto
 	Entonces el sistema mostrará el mensaje "La cantidad es mayor al disponible: 10" y permanece en el campo para que el prevendedor pueda corregir la cantidad
 
-Escenario: N°10 - Crédito excedido en pedido valorizado
-	Dado que el _tipoPedido es _valorizado = true
-	Y el producto ingresado tiene condición de pago crédito
-	Cuando ingreso unidades al producto
-	Y supero el límite de crédito disponible
-	Entonces el sistema mostrará el mensaje de límite de crédito excedido como warning

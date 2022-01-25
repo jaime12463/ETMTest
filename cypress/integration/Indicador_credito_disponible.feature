@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Inidicador_credito @Sprint8 
+@Pedido @Inidicador_credito @Sprint8 @Sprint21
 
 # sprint 8 UX: https://www.figma.com/proto/xPeVCpW4I9g39a9ZGsBoEV/SFA?node-id=329%3A3&scaling=scale-down&page-id=329%3A2&starting-point-node-id=329%3A3
 
@@ -14,7 +14,8 @@ Escenario: N°1 - Ver crédito disponible
     Cuando estoy en la pantalla de ingreso del pedido
     Entonces el sistema mostrará el total del indicador igual a crédito _disponible informado – pedidos a crédito registrado por el prevendor 
     Y el avance según la suma de los montos de los pedidos de crédito registrados para la misma fecha de entrega más monto de los productos de crédito del pedido en curso
-
+    Y mostrará el mensaje de límite de crédito excedido cuando el crédito pase por primera vez a negativo
+    
 # Ejemplo de avance de credito.
 #Crédito disponible productos crédito Avance 		Texto		Color
 #3000		0			100%		$3000.00	verde
