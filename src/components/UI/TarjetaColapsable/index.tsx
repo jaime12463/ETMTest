@@ -17,7 +17,11 @@ import {styled} from '@mui/material/styles';
 import {AvisoIcon, FlechaAbajoIcon} from 'assests/iconos';
 import {useMostrarAviso} from 'hooks';
 import Modal from '../Modal';
-import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
+import {
+	useAppDispatch,
+	useObtenerVisitaActual,
+	useObtenerConfiguracion,
+} from 'redux/hooks';
 import {
 	cambiarEstadoIniciativa,
 	cambiarSeQuedaAEditar,
@@ -49,6 +53,7 @@ type Props = {
 	valido?: boolean;
 	labelChip?: string | React.ReactNode;
 	dataCy: string;
+	disabledPadding?: boolean;
 	mostrarAvisoAlCerrar?: boolean;
 	contenidoMensajeAviso?: {
 		tipo: 'default' | 'error' | 'success' | 'warning' | 'info';
@@ -76,6 +81,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 	contenidoMensajeAviso,
 	mostrarAvisoAlCerrar,
 	iniciativasEjecutadasSinCantidad,
+	disabledPadding,
 }) => {
 	const mostrarAviso = useMostrarAviso();
 	const classes = useEstilos({valido, open: expandido === id});
@@ -84,11 +90,22 @@ export const TarjetaColapsable: React.FC<Props> = ({
 	const dispatch = useAppDispatch();
 	const visitaActual = useObtenerVisitaActual();
 	const {t} = useTranslation();
+	const {bonificacionesConVenta} = useObtenerConfiguracion();
 
 	const manejadorExpandido = (id: string | boolean) => {
 		if (iniciativasEjecutadasSinCantidad) {
 			setAlerta(true);
 			setCacheId(id);
+			return;
+		}
+
+		if (expandido === 'Bonificaciones' && visitaActual.seQuedaAEditar.seQueda) {
+			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
+			mostrarAviso(
+				'error',
+				t('toast.errorBonificacionTotalTitulo'),
+				t('toast.errorBonificacionTotalMensaje')
+			);
 			return;
 		}
 
@@ -98,8 +115,8 @@ export const TarjetaColapsable: React.FC<Props> = ({
 		) {
 			mostrarAviso(
 				'error',
-				t('advertencias.excedeMayorPermitido'),
-				t('advertencias.excedeMayorPermitidoSubtitulo'),
+				t('toast.excedeMayorPermitidoTitulo'),
+				t('toast.excedeMayorPermitidoMensaje'),
 				undefined,
 				'excede-disponible'
 			);
@@ -128,7 +145,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 				alerta={alerta}
 				setAlerta={setAlerta}
 				contenidoMensaje={{
-					titulo: 'Existen tarjtas vacias',
+					titulo: 'Existen tarjetas vacias',
 					mensaje:
 						'Si avanzas, las tarjetas que no tienen cantidades se eliminaran.',
 					tituloBotonAceptar: 'Avanzar',
@@ -156,7 +173,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 				data-cy={'tarjeta-' + dataCy}
 			>
 				<CardHeader
-					style={{padding: 0}}
+					style={{padding: '0 18px'}}
 					title={
 						<Box display='flex' justifyContent='space-between'>
 							<Box alignSelf='center' data-cy={'titulo-' + dataCy}>
@@ -171,7 +188,8 @@ export const TarjetaColapsable: React.FC<Props> = ({
 											className={classes.root}
 										/>
 									)}
-									{!disabled ? (
+									{(id === 'Bonificaciones' && !bonificacionesConVenta) ||
+									!disabled ? (
 										<IconButton
 											sx={{padding: 0, marginLeft: '8px'}}
 											onClick={() =>
@@ -198,7 +216,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 				></CardHeader>
 				<CardContent
 					className={expandido !== id ? classes.root : ''}
-					style={{padding: 0}}
+					style={{padding: disabledPadding ? '0 18px 0 0' : '0 18px'}}
 				>
 					<Collapse in={expandido === id} timeout='auto' unmountOnExit>
 						{children}

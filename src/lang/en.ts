@@ -157,20 +157,18 @@ const en = {
 		cancelarPedido: 'Do you want to cancel the order?',
 		cancelarTodosLosPedido:
 			'All orders with a delivery date {{fechaDeEntrega}} will be canceled Do you wish to continue?',
-		ProductoNoEstaEnPortafolioCliente:
-			'The code {{codigo}} does not correspond to a current producto in the portfolio of the client',
+		ProductoNoEstaEnPortafolioCliente: 'Wrong SKU',
 		ProductoNoEstaHabilitado:
 			'The product {{codigo}} is not enabled for {{descripcion}}',
 		excedeCreditoDsiponible: 'The order exceeds the available credit',
 		montoMayorDeuda: 'The amount cannot be greater than the registered debt',
-		excedeUnidadesDisponibles:
-			'The quantity is greater than available: {{disponible}}',
+		excedeUnidadesDisponibles: 'Promotion amount exceeded',
 		excedePresupuesto:
 			'The amount entered exceeds the budget allocated for {{descripcion}}',
 		borrarPedidosNoMandatorios:
 			'The order of {{tipoPedido}} will be deleted. do you wish to continue?',
 		ordenDeCompraEnBlanco: 'You must enter a purchase orden',
-		cantidadSuperiorEnvases: 'The amount exceeds those available for return',
+
 		mensajeProductosSinCargar:
 			'If you advance to the next stage, the cards that do not have amounts entered will be removed from your order taking.',
 		mensajeIniciativasSinMotivo:
@@ -210,12 +208,25 @@ const en = {
 			'This product will be removed from your current order along with the bonuses it contains.',
 		borrarLineaPedidosMensajeUnico:
 			'This product will be deleted from your Order Take',
+		borrarLineaPedidosMensajeUnicoCanje:
+			'This product will be deleted from your exchange',
 		lineaBorradaConBonificacion:
 			'The product was removed from the order taking along with the bonuses it contained.',
 		lineaBorradaConCanje:
 			'The product of the order taking was eliminated along with the exchanges it contained.',
 		lineaBorradaConCanjeBonificacion:
 			'The product was removed from the order taking along with the exchanges and bonuses it contained.',
+		pdfErrorTitulo: 'File not available',
+		pdfErrorDescripcion:
+			'At this time it is not possible to view the attached file.',
+		noEditarPlaneacionTitulo: 'Cannot edit quantities',
+		noEditarPlaneacionDescripcion:
+			'To re-edit the amounts of coverage and initiatives, you must do it when ordering.',
+		reestablecerCoberturasTitulo: 'Reset quantities to zero',
+		reestablecerCoberturasDescripcion:
+			'All the amounts of the coverages entered will be reset to zero',
+		errorSKUIncorrecto:
+			'The SKU does not correspond to any product, please validate.',
 	},
 	pasos: {
 		planeacion: 'Planning',
@@ -225,7 +236,49 @@ const en = {
 	},
 	mensajes: {
 		borrarDescuento:
-			'Once the tiered discount has been eliminated, you will not be able to reapply this product.',
+			'The tiered discount of the product {{codigo}} will be eliminated. To apply it again, you will have to add the product again. ',
+		excedeUnidadesDisponibles:
+			'You have exceeded the maximum amount of promotion allowed that you can apply per customer.',
+	},
+	modal: {
+		salirOrderTaking: 'Do you want to leave the order taking?',
+		salirOrderTakingMensaje: 'If you exit all recorded activity will be lost.',
+		restablecerBonificacionesTitulo: 'Reset quantities to zero',
+		restablecerBonificacionesMensaje:
+			'All bonus amounts will be reset to zero.',
+		tarjetasVaciasTitulo: 'There are empty cards',
+		tarjetasVaciasMensaje:
+			'If you advance, the cards that do not have quantities will be eliminated.',
+	},
+	toast: {
+		cambiosGuardados: 'Changes saved successfully',
+		ventaBloqueadaTitulo: 'Customer blocked for sale',
+		ventaBloqueadaMensaje:
+			'You can only generate a collection commitment for this customer.',
+		bonificacionAgregada: 'Bonus added successfully',
+		errorBonificacionTotalTitulo: 'Error in total bonus',
+		errorBonificacionTotalMensaje:
+			'This bonus must be applied in full. Please modify quantities.',
+		excedeMayorPermitidoTitulo:
+			'The amount entered exceeds the maximum allowed',
+		excedeMayorPermitidoMensaje:
+			'It is necessary to correct the value of the presentation.',
+		iniciativaSinMotivoTitulo: 'Initiative canceled without reason',
+		iniciativaSinMotivoMensaje:
+			'You must enter a reason for the cancelled initiative.',
+		pedidoMinimoNoAlcanzadoTitulo: 'Minimum order not reached',
+		pedidoMinimoNoAlcanzadoMensaje:
+			'The minimum order has not been reached, please complete the order.',
+		cantidadSuperiorEnvasesTitulo: 'Quantity of containers exceeded',
+		cantidadSuperiorEnvasesMensaje:
+			'The amount of sale and loan cannot exceed the number of containers available for return.',
+		canjeSinMotivoTitulo: 'Exchange without reason',
+		canjeSinMotivoMensaje: 'It is necessary to add the reason for the exchange',
+		productoAgregado: 'Product added successfully',
+		limiteDeCreditoExcedidoTitulo: 'Credit limit exceeded',
+		limiteDeCreditoExcedidoMensaje:
+			'This customer has exceeded his credit limit, so no credit orders can be placed.',
+		productoIngresado: 'Product has been successfully entered',
 	},
 };
 export default en;

@@ -5,6 +5,8 @@ import {BotellaIcon, CajaIcon} from 'assests/iconos';
 import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
 import {TProductoPedido} from 'models';
+import theme from 'theme';
+import {useObtenerDatos} from 'redux/hooks';
 
 export interface TarjetaProps {
 	producto: TProductoPedido;
@@ -21,7 +23,10 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 		precioConImpuestoUnidad,
 		precioConImpuestoSubunidad,
 		total,
+		atributos,
 	} = producto;
+
+	const {envases, medidas} = useObtenerDatos();
 
 	return (
 		<Box display='flex' flexDirection='row'>
@@ -34,16 +39,29 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 				<Typography variant='subtitle3' fontFamily='Open Sans'>
 					{codigoProducto}
 				</Typography>
-				<Typography variant='subtitle3'>{nombreProducto}</Typography>
+				<Typography variant='subtitle3' marginBottom={atributos ? 0 : '6px'}>
+					{nombreProducto}
+				</Typography>
+				{atributos && (
+					<Typography
+						margin='4px 0 6px 0'
+						variant='caption'
+						color={theme.palette.secondary.main}
+					>
+						{`${medidas[producto.atributos?.medida ?? 0].descripcion} | ${
+							envases[producto.atributos?.envase ?? 0].descripcion
+						}`}
+					</Typography>
+				)}
 				<Box alignItems='center' display='flex' gap='8px'>
-					<Box alignItems='center' display='flex' gap='4px' marginTop='8px'>
+					<Box alignItems='center' display='flex' gap='4px'>
 						<CajaIcon height='14px' width='14px' />
 						<Typography variant='subtitle3' fontFamily='Open Sans'>
 							{unidades}
 						</Typography>
 					</Box>
 					{esVentaSubunidades && (
-						<Box alignItems='center' display='flex' gap='4px' marginTop='8px'>
+						<Box alignItems='center' display='flex' gap='4px'>
 							<BotellaIcon height='12px' width='12px' />
 							<Typography variant='subtitle3' fontFamily='Open Sans'>
 								{subUnidades}

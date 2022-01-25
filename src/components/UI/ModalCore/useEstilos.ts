@@ -10,14 +10,13 @@ const useEstilos = makeStyles(() =>
 	createStyles({
 		container: {
 			alignItems: 'center',
-			background: '#00000050',
+			background: 'rgba(0, 0, 0, 0.5)',
 			display: 'flex',
 			height: '100%',
+			inset: 0,
 			justifyContent: 'center',
-			left: 0,
 			overflowY: 'scroll',
 			position: 'fixed',
-			top: 0,
 			width: '100%',
 			zIndex: 9999,
 		},

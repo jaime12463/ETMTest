@@ -40,7 +40,10 @@ export const Otros: React.FC = () => {
 	const bonificacionesHabilitadas = bonificaciones();
 
 	const productosEnCanjeConUnidades = canje.productos.filter((producto) => {
-		return producto.catalogoMotivo !== '';
+		return (
+			(producto.catalogoMotivo !== '' && producto.unidades > 0) ||
+			(producto.catalogoMotivo !== '' && producto.subUnidades > 0)
+		);
 	});
 	const habilitaCanje = useObtenerHabilitaCanje();
 	const dispatch = useAppDispatch();
@@ -59,8 +62,8 @@ export const Otros: React.FC = () => {
 
 	const cantidadCanjes = canje.productos.filter(
 		(producto) =>
-			producto.catalogoMotivo !== '' &&
-			(producto.unidades > 0 || producto.subUnidades > 0)
+			(producto.catalogoMotivo !== '' && producto.unidades > 0) ||
+			(producto.catalogoMotivo !== '' && producto.subUnidades > 0)
 	);
 
 	const cantidadBonificaciones = visitaActual.bonificaciones.filter(
@@ -143,7 +146,7 @@ export const Otros: React.FC = () => {
 						{t('titulos.tarjetaEnvases')}
 					</Typography>
 				}
-				id='tarjetaEnvases'
+				id='Envases'
 				expandido={expandido}
 				setExpandido={setExpandido}
 				valido={envasesValido}
@@ -160,10 +163,14 @@ export const Otros: React.FC = () => {
 						{t('titulos.tarjetaCanjes')}
 					</Typography>
 				}
-				id='tarjetaCanjes'
+				id='Canjes'
 				expandido={expandido}
 				setExpandido={setExpandido}
-				cantidadItems={productosEnCanjeConUnidades.length}
+				cantidadItems={
+					productosEnCanjeConUnidades.length > 0
+						? productosEnCanjeConUnidades.length
+						: undefined
+				}
 				disabled={
 					!habilitaCanje ||
 					(saldoPresupuestoTipoPedido && saldoPresupuestoTipoPedido < 1) ||
@@ -177,6 +184,7 @@ export const Otros: React.FC = () => {
 				labelChip={`${cantidadCanjes.length} Items`}
 				valido={canjeValido}
 				dataCy='Canjes'
+				disabledPadding
 			>
 				<Canjes />
 			</TarjetaColapsable>
@@ -191,7 +199,7 @@ export const Otros: React.FC = () => {
 						{t('titulos.tarjetaBonificaciones')}
 					</Typography>
 				}
-				id='tarjetaBonificaciones'
+				id='Bonificaciones'
 				expandido={expandido}
 				setExpandido={setExpandido}
 				dataCy='Bonificaciones'
@@ -234,7 +242,7 @@ export const Otros: React.FC = () => {
 							{t('titulos.tarjetaCompromisoCobro')}
 						</Typography>
 					}
-					id='compromisoCobro'
+					id='Compromiso de cobro'
 					expandido={expandido}
 					setExpandido={setExpandido}
 					valido={compromisoDeCobroValido}
@@ -255,7 +263,7 @@ export const Otros: React.FC = () => {
 							{t('titulos.tarjetaOrdenDeCompra')}
 						</Typography>
 					}
-					id='titulos.tarjetaEnvases'
+					id='Orden de compra'
 					expandido={expandido}
 					setExpandido={setExpandido}
 					valido={ordenDeCompraValido}

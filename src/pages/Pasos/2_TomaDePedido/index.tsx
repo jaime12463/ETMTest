@@ -6,7 +6,7 @@ import {
 	pasoATomaPedido,
 	cambiarTipoPedidoActual,
 	cambiarSeQuedaAEditar,
-	limpiarProductosSinCantidad,
+	cambiarAvisos,
 } from 'redux/features/visitaActual/visitaActualSlice';
 
 import TomaPedido from './TomaPedidos';
@@ -40,7 +40,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	React.useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'venta'}));
 		dispatch(pasoATomaPedido());
-		dispatch(limpiarProductosSinCantidad());
+		dispatch(cambiarAvisos({cambiosPasoActual: false}));
 	}, []);
 
 	React.useEffect(() => {
@@ -91,6 +91,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 				labelChip={`${productosConUnidades?.length} Items`}
 				valido={ventaValida}
 				dataCy='TomaDePedido'
+				disabledPadding
 			>
 				<TomaPedido />
 			</TarjetaColapsable>

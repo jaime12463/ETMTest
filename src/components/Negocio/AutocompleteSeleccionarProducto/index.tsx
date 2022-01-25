@@ -1,21 +1,13 @@
-import {FunctionComponent, useCallback, useState, useEffect} from 'react';
+import {FunctionComponent, useState} from 'react';
 import {
 	TFormTomaDePedido,
 	THookForm,
-	TInputFiltrarPreciosProductos,
 	TPrecioProducto,
 	TStateInputFocus,
 	TStatePreciosProductos,
 	TStateProductoActual,
 } from 'models';
-import {
-	IconButton,
-	Grid,
-	TextField,
-	Autocomplete,
-	Paper,
-	Box,
-} from '@mui/material';
+import {IconButton, Grid, TextField, Box} from '@mui/material';
 import {
 	useFiltrarPreciosProductosDelClienteActual,
 	useSeleccionarProductoDePrecios,
@@ -25,8 +17,6 @@ import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';
 import {BuscarIcon, AgregarIcon} from 'assests/iconos';
 import {useEsPermitidoAgregarProductoAlPedido} from './hooks';
-import {Dialogo} from 'components/UI';
-import {BuscadorProductosClienteActual} from 'pages/Pasos/2_TomaDePedido/components';
 import {styled} from '@mui/material/styles';
 
 export type Props = {

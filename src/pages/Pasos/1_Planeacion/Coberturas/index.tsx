@@ -62,11 +62,11 @@ const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 				alerta={alerta}
 				setAlerta={setAlerta}
 				contenidoMensaje={{
-					titulo: '¿Restablecer cantidades a cero?',
-					mensaje: '¿Está seguro que desea restablecer las cantidades a cero?',
+					titulo: t('advertencias.reestablecerCoberturasTitulo'),
+					mensaje: t('advertencias.reestablecerCoberturasDescripcion'),
 					callbackAceptar: () => restablecerCantidades(),
-					tituloBotonAceptar: 'Restablecer',
-					tituloBotonCancelar: 'Cancelar',
+					tituloBotonAceptar: t('general.aceptar'),
+					tituloBotonCancelar: t('general.cancelar'),
 					iconoMensaje: <AvisoIcon />,
 				}}
 			/>

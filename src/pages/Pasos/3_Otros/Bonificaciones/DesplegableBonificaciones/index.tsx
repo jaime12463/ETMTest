@@ -16,12 +16,11 @@ import CustomSelect from 'components/UI/CustomSelect';
 import TarjetaBonificacion from '../TarjetaBonificacion';
 import {TGruposBonificacion} from 'models';
 import {useContador, useMostrarAviso} from 'hooks';
-import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
-import {eliminarBonificacionesGrupo} from 'redux/features/visitaActual/visitaActualSlice';
+import {cambiarSeQuedaAEditar} from 'redux/features/visitaActual/visitaActualSlice';
 
 const ButtonStyled = styled(Button)(() => ({
-	border: '1.5px solid #651C32',
+	border: `1.5px solid ${theme.palette.secondary.main}`,
 	boxSizing: 'border-box',
 	borderRadius: '20px',
 	minHeight: '10px',
@@ -77,6 +76,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 			grupos[0].nombreGrupo.toLowerCase()
 	);
 	const dispatch = useAppDispatch();
+
 	const grupoSeleccionado = grupos.find(
 		(grupo) => grupo.nombreGrupo.toLowerCase() === opciones
 	);
@@ -84,9 +84,6 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 	const mostrarAviso = useMostrarAviso();
 
 	const [hayBonificaciones, setHayBonificaciones] =
-		React.useState<boolean>(false);
-
-	const [errorAplicacionTotal, setErrorAplicacionTotal] =
 		React.useState<boolean>(false);
 
 	const {
@@ -99,38 +96,83 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 	} = useContador(grupoSeleccionado?.cantidadBeneficioGrupo);
 
 	const manejadorExpandido = (id: string | boolean) => {
-		if (typeof id === 'boolean' && aplicacionBonificacion === 'Total') {
-			if (
-				contador !== 0 &&
-				contador !== grupoSeleccionado?.cantidadBeneficioGrupo
-			) {
-				setErrorAplicacionTotal(true);
-				return;
-			}
+		if (visitaActual.seQuedaAEditar.seQueda) {
+			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
+			mostrarAviso(
+				'error',
+				t('toast.errorBonificacionTotalTitulo'),
+				t('toast.errorBonificacionTotalMensaje')
+			);
+			return;
 		}
-		setErrorAplicacionTotal(false);
+
+		if (visitaActual.seQuedaAEditar.bordeError) {
+			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+		}
 		setExpandido(id);
 	};
-
-	let bordeColor = '#D9D9D9';
-
-	if (hayBonificaciones) {
-		if (aplicacionBonificacion !== 'Total') {
-			bordeColor = theme.palette.success.main;
-		} else if (contador === 0) {
-			bordeColor = theme.palette.success.main;
-		} else if (errorAplicacionTotal) {
-			bordeColor = theme.palette.primary.main;
-		}
-	}
-
-	const mostrarCheck =
-		(hayBonificaciones && aplicacionBonificacion !== 'Total') ||
-		(hayBonificaciones && contador === 0);
 
 	const indexBonificacion = visitaActual.bonificaciones.findIndex(
 		(bonificacion) => bonificacion.idBonificacion === Number(id)
 	);
+
+	React.useEffect(() => {
+		if (
+			aplicacionBonificacion === 'Total' &&
+			contador !== 0 &&
+			contador !== grupoSeleccionado?.cantidadBeneficioGrupo
+		) {
+			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: false}));
+			return;
+		}
+
+		if (visitaActual.seQuedaAEditar.seQueda) {
+			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+		}
+	}, [
+		aplicacionBonificacion,
+		contador,
+		grupoSeleccionado?.cantidadBeneficioGrupo,
+	]);
+
+	const [bordeColor, setBordeColor] = React.useState<string>('#D9D9D9');
+
+	const cantidadEjecutada = visitaActual.bonificaciones[
+		indexBonificacion
+	].detalle.reduce(
+		(cantidad, bonificacion) => (cantidad += bonificacion.cantidad),
+		0
+	);
+
+	const mostrarCheck =
+		(hayBonificaciones && aplicacionBonificacion !== 'Total') ||
+		(hayBonificaciones &&
+			grupoSeleccionado?.cantidadBeneficioGrupo === cantidadEjecutada);
+
+	React.useEffect(() => {
+		if (hayBonificaciones) {
+			if (
+				(aplicacionBonificacion !== 'Total' && cantidadEjecutada > 0) ||
+				(aplicacionBonificacion === 'Total' &&
+					cantidadEjecutada === grupoSeleccionado?.cantidadBeneficioGrupo)
+			) {
+				setBordeColor(theme.palette.success.main);
+				return;
+			}
+
+			if (visitaActual.seQuedaAEditar.bordeError) {
+				setBordeColor(theme.palette.primary.main);
+				return;
+			}
+
+			setBordeColor('#D9D9D9');
+		}
+	}, [
+		hayBonificaciones,
+		grupoSeleccionado?.cantidadBeneficioGrupo,
+		visitaActual.seQuedaAEditar.bordeError,
+		cantidadEjecutada,
+	]);
 
 	React.useEffect(() => {
 		if (indexBonificacion > -1) {
@@ -153,7 +195,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 				setPrimerProductoAgregado(true);
 				mostrarAviso(
 					'success',
-					'Bonificacion agregada correctamente',
+					t('toast.bonificacionAgregada'),
 					undefined,
 					undefined,
 					'bonificacionAgregada'
@@ -169,7 +211,6 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 				return setHayBonificaciones(true);
 			}
 		}
-		setErrorAplicacionTotal(false);
 		setHayBonificaciones(false);
 	}, [visitaActual.bonificaciones[indexBonificacion].detalle]);
 
@@ -202,26 +243,9 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 	}, [opciones]);
 
 	React.useEffect(() => {
-		if (aplicacionBonificacion === 'Total' && contador === 0) {
-			setErrorAplicacionTotal(false);
-		}
-	}, [contador]);
-
-	React.useEffect(() => {
-		if (errorAplicacionTotal) {
-			mostrarAviso(
-				'error',
-				'Error en bonificación total',
-				'Esta bonificación tiene que ser de aplicación total. Favor de modificar cantidades.'
-			);
-		}
-	}, [errorAplicacionTotal]);
-
-	React.useEffect(() => {
 		if (resetBonificaciones) {
 			reiniciar();
 			setOpciones(grupos[0].nombreGrupo.toLowerCase());
-			setErrorAplicacionTotal(false);
 			setPrimerProductoAgregado(false);
 		}
 	}, [resetBonificaciones]);
@@ -316,7 +340,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 									idGrupo={grupoSeleccionado.idGrupo}
 									resetBonificaciones={resetBonificaciones}
 									actualizarContador={actualizarContador}
-									errorAplicacionTotal={errorAplicacionTotal}
+									errorAplicacionTotal={visitaActual.seQuedaAEditar.bordeError}
 									statefocusId={{focusId, setFocusId}}
 									statePrimerProductoAgregado={{
 										primerProductoAgregado,

@@ -8,7 +8,6 @@ interface Props {
 const useEstilos = makeStyles(() =>
 	createStyles({
 		container: {
-			alignItems: 'start',
 			backgroundColor: ({tipo}: Props) => {
 				switch (tipo) {
 					case 'error':
@@ -38,27 +37,28 @@ const useEstilos = makeStyles(() =>
 				}
 			},
 			borderRadius: '10px',
-			display: 'flex',
-			flexWrap: 'wrap',
-			padding: '8px',
+			display: 'grid',
+			gridColumnGap: '10px',
+			gridTemplateAreas: `"Icon Titulo Cerrar"
+			"Vacio Mensaje Vacio2"`,
+			gridTemplateColumns: 'auto 1fr auto',
+			gridTemplateRows: 'auto auto',
+			padding: '6px 10px 8px 8px',
+			alignItems: 'center',
 			width: '340px',
 		},
-		tituloContainer: {
-			alignItems: 'center',
-			display: 'flex',
-			justifyContent: 'space-between',
-			width: '100%',
+		icon: {
+			gridArea: 'Icon',
 		},
-		tituloConIcono: {
-			alignItems: 'center',
-			display: 'flex',
-			gap: '10px',
+		cerrarIcon: {
+			cursor: 'pointer',
+			gridArea: 'Cerrar',
+		},
+		titulo: {
+			gridArea: 'Titulo',
 		},
 		mensaje: {
-			padding: '0 20px 0 32px',
-		},
-		icon: {
-			cursor: 'pointer',
+			gridArea: 'Mensaje',
 		},
 		containerAnchorOriginTopCenter: {
 			left: '50% !important',

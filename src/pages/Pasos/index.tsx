@@ -24,6 +24,7 @@ import {
 	useAppDispatch,
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
+	useObtenerVisitaActual,
 } from 'redux/hooks';
 
 import {TCliente, TClienteActual} from 'models';
@@ -33,7 +34,10 @@ import {AvisoIcon, PromocionesRellenoIcon} from 'assests/iconos';
 import Modal from 'components/UI/Modal';
 import BotonResumenPedido from 'components/UI/BotonResumenPedido';
 import ResumenPedido from 'components/UI/ResumenPedido';
-import {cambiarSeQuedaAEditar} from 'redux/features/visitaActual/visitaActualSlice';
+import {
+	cambiarAvisos,
+	cambiarSeQuedaAEditar,
+} from 'redux/features/visitaActual/visitaActualSlice';
 import ModalCore from 'components/UI/ModalCore';
 
 const formatearItems = (items: number) => {
@@ -72,6 +76,8 @@ const Pasos: React.FC = () => {
 		obtenerTotalPedidosVisitaActual().totalPrecio +
 		compromisoDeCobroActual.monto;
 
+	const visitaActual = useObtenerVisitaActual();
+
 	const reiniciarVisita = useResetVisitaActual();
 	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
 	const handleOpenVistaPromoPush = () => setOpenVistaPromoPush(true);
@@ -104,36 +110,45 @@ const Pasos: React.FC = () => {
 	});
 
 	const manejadorPasoAtras = () => {
-		if (pasoActual == 0) {
+		if (pasoActual === 0) {
 			setConfigAlerta({
-				titulo: '¿Quieres salir de toma de pedido?',
-				mensaje:
-					'Si sales de toma de pedido, toda la actividad registrada se perderá.',
+				titulo: t('modal.salirOrderTaking'),
+				mensaje: t('modal.salirOrderTakingMensaje'),
 				tituloBotonAceptar: t('general.salir'),
-				tituloBotonCancelar: t('general.continuar'),
+				tituloBotonCancelar: t('general.cancelar'),
 				callbackAceptar: () => {
 					reiniciarVisita();
 					reiniciarCompromisoDeCobro();
 					reiniciarClienteActual();
 					history.goBack();
 				},
-				callbackCancelar: () => {},
 				iconoMensaje: <AvisoIcon />,
 			});
 			setAlertaPasos(true);
-		} else {
-			if (pasoActual === 1) {
-				mostrarAviso(
-					'warning',
-					'No es posible editar las cantidades',
-					'Si necesitas editar las cantidad de coberturas e iniciativas, deberas hacerlo en toma de pedido',
-					undefined,
-					'advertenciaPaso1'
-				);
-			}
-
-			setPasoActual(pasoActual - 1);
+			return;
 		}
+
+		if (pasoActual === 1) {
+			mostrarAviso(
+				'warning',
+				t('advertencias.noEditarPlaneacionTitulo'),
+				t('advertencias.noEditarPlaneacionDescripcion'),
+				undefined,
+				'advertenciaPaso1'
+			);
+		}
+
+		if (pasoActual === 2 && visitaActual.seQuedaAEditar.seQueda) {
+			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
+			mostrarAviso(
+				'error',
+				t('toast.errorBonificacionTotalTitulo'),
+				t('toast.errorBonificacionTotalMensaje')
+			);
+			return;
+		}
+
+		setPasoActual(pasoActual - 1);
 	};
 
 	const manejadorPasoAdelante = () => {
@@ -150,16 +165,18 @@ const Pasos: React.FC = () => {
 					aviso.opciones,
 					aviso.dataCy
 				);
-				dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
 			}
 		}
 
 		if (pasoActual < controlador.length - 1) {
 			if (!valido.contenidoMensajeAviso) {
-				if (pasoActual === 0 || pasoActual === 1) {
+				if (
+					visitaActual.avisos.cambiosPasoActual &&
+					(pasoActual === 0 || pasoActual === 1)
+				) {
 					mostrarAviso(
 						'success',
-						'Cambios guardados con exitosamente',
+						t('toast.cambiosGuardados'),
 						undefined,
 						undefined,
 						'successpaso2'
@@ -169,8 +186,8 @@ const Pasos: React.FC = () => {
 					if (datosCliente?.informacionCrediticia.esBloqueadoVenta) {
 						mostrarAviso(
 							'warning',
-							'Cliente bloqueado para venta',
-							'Unicamente puedes generar un compromiso de cobro para este cliente.',
+							t('toast.ventaBloqueadaTitulo'),
+							t('toast.ventaBloqueadaMensaje'),
 							undefined,
 							'bloqueadoParaVenta'
 						);

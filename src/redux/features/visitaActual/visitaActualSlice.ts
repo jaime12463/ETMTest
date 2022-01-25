@@ -5,6 +5,7 @@ import {
 	TProductoPedido,
 	TPresupuestoTipoPedidoTotal,
 	TDetalleBonificacionesCliente,
+	TAvisos,
 } from 'models';
 
 import {RootState} from 'redux/store';
@@ -25,6 +26,11 @@ const estadoInicial: TVisita = {
 	seQuedaAEditar: {
 		seQueda: false,
 		bordeError: false,
+	},
+	envasesConError: 0,
+	avisos: {
+		limiteCredito: 0,
+		cambiosPasoActual: false,
 	},
 };
 
@@ -60,6 +66,7 @@ export const visitaActualSlice = createSlice({
 			);
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
+			state.avisos.cambiosPasoActual = true;
 			if (producto) {
 				producto.unidades = action.payload.productoPedido.unidades;
 				producto.subUnidades = action.payload.productoPedido.subUnidades;
@@ -142,6 +149,8 @@ export const visitaActualSlice = createSlice({
 			state.pedidos[pedidoActual].productos = [
 				...productosPedidoClienteFiltrados,
 			];
+			state.pedidos.ventaenvase.productos = [];
+			state.pedidos.prestamoenvase.productos = [];
 		},
 		borrarEnvases: (state) => {
 			state.pedidos.ventaenvase.productos = [];
@@ -171,6 +180,7 @@ export const visitaActualSlice = createSlice({
 				iniciativas,
 				fechaVisitaPlanificada,
 				bonificaciones,
+				envasesConError,
 			} = action.payload.visitaActual;
 
 			state.pedidos = pedidos;
@@ -188,6 +198,7 @@ export const visitaActualSlice = createSlice({
 				bordeError: false,
 			};
 			state.fechaVisitaPlanificada = fechaVisitaPlanificada;
+			state.envasesConError = envasesConError;
 		},
 
 		resetearVisitaActual: (state) => {
@@ -395,7 +406,11 @@ export const visitaActualSlice = createSlice({
 			state.seQuedaAEditar.seQueda = action.payload.seQueda;
 			state.seQuedaAEditar.bordeError = action.payload.bordeError;
 		},
-
+		cambiarAvisos: (state, action: PayloadAction<Partial<TAvisos>>) => {
+			if (action.payload) {
+				state.avisos = {...state.avisos, ...action.payload};
+			}
+		},
 		agregarBonificacion(
 			state,
 			action: PayloadAction<{
@@ -479,6 +494,17 @@ export const visitaActualSlice = createSlice({
 				productos: [],
 			};
 		},
+		modificarEnvasesConError: (
+			state,
+			action: PayloadAction<{operacion: string}>
+		) => {
+			if (action.payload.operacion === '+')
+				state.envasesConError = state.envasesConError + 1;
+			else state.envasesConError = state.envasesConError - 1;
+		},
+		restablecerEnvasesConError: (state) => {
+			state.envasesConError = 0;
+		},
 	},
 });
 
@@ -512,5 +538,8 @@ export const {
 	borrarEnvases,
 	limpiarProductosSinCantidad,
 	eliminarCanje,
+	modificarEnvasesConError,
+	restablecerEnvasesConError,
+	cambiarAvisos,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

@@ -29,6 +29,7 @@ import {
 	useAppDispatch,
 	useObtenerClienteActual,
 	useObtenerConfiguracion,
+	useObtenerDatos,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {
@@ -57,7 +58,7 @@ import Modal from 'components/UI/Modal';
 import ModalCore from 'components/UI/ModalCore';
 
 const ButtonStyled = styled(Button)(() => ({
-	border: '1.5px solid #651C32',
+	border: `1.5px solid ${theme.palette.secondary.main}`,
 	boxSizing: 'border-box',
 	borderRadius: '20px',
 	minHeight: '10px',
@@ -117,7 +118,6 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	const {motivosCancelacionIniciativas} = useObtenerConfiguracion();
 	const clienteActual = useObtenerClienteActual();
 	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
-	// ToDo
 	const unidades = unidadesEjecutadas;
 	const subUnidades = subUnidadesEjecutadas;
 	const id = idMaterialIniciativa.toString();
@@ -214,6 +214,8 @@ const TarjetaIniciativas: React.FC<Props> = ({
 
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {configuracionPedido}: any = datosCliente;
+
+	const {envases, medidas} = useObtenerDatos();
 
 	React.useEffect(() => {
 		if (puedeAgregar) {
@@ -444,10 +446,9 @@ const TarjetaIniciativas: React.FC<Props> = ({
 				alerta={alerta}
 				setAlerta={setAlerta}
 				contenidoMensaje={{
-					titulo: 'Existen tarjtas vacias',
-					mensaje:
-						'Si avanzas, las tarjetas que no tienen cantidades se eliminaran.',
-					tituloBotonAceptar: 'Avanzar',
+					titulo: t('modal.tarjetasVaciasTitulo'),
+					mensaje: t('modal.tarjetasVaciasMensaje'),
+					tituloBotonAceptar: t('general.avanzar'),
 					callbackAceptar: () => {
 						dispatch(
 							cambiarEstadoIniciativa({
@@ -460,7 +461,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						setExpandido(cacheId);
 						setAvanza(true);
 					},
-					tituloBotonCancelar: 'Editar Cantidades',
+					tituloBotonCancelar: t('general.editarCantidades'),
 					callbackCancelar: () =>
 						dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: true})),
 					iconoMensaje: <AvisoIcon />,
@@ -726,15 +727,26 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										noWrap
 										width='150px'
 										data-cy={`iniciativa-nombreProducto-${idMaterialIniciativa}`}
+										marginBottom={producto.atributos ? 0 : '6px'}
 									>
 										{producto.nombreProducto}
 									</Typography>
-									<Box
-										display='flex'
-										alignItems='center'
-										marginTop='4px'
-										gap='4px'
-									>
+
+									{producto.atributos && (
+										<Typography
+											margin='4px 0 6px 0'
+											variant='caption'
+											color={theme.palette.secondary.main}
+										>
+											{`${
+												medidas[producto.atributos?.medida ?? 0].descripcion
+											} | ${
+												envases[producto.atributos?.envase ?? 0].descripcion
+											}`}
+										</Typography>
+									)}
+
+									<Box display='flex' alignItems='center' gap='4px'>
 										<CajaIcon height='18px' width='18px' />
 										<Typography
 											variant='caption'
@@ -768,7 +780,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 									justifyContent='center'
 									flexDirection='column'
 									gap='12px'
-									padding='12px 12px 12px 8px'
+									padding='22px 12px 16px 8px'
 									minWidth='125px'
 									sx={{background: '#F5F0EF'}}
 								>

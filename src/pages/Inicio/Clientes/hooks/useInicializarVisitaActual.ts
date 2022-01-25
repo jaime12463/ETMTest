@@ -71,6 +71,11 @@ export const useInicializarVisitaActual = () => {
 							bordeError: false,
 						},
 						fechaVisitaPlanificada,
+						envasesConError: 0,
+						avisos: {
+							limiteCredito: 0,
+							cambiosPasoActual: false,
+						},
 					},
 				})
 			);

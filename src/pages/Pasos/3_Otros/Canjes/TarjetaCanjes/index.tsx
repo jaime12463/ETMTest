@@ -73,29 +73,31 @@ const TarjetaCanjes: React.FC<Props> = ({
 	}, [getValues.unidades, getValues.subUnidades, getValues.catalogoMotivo]);
 
 	return (
-		<Box border={`1px solid ${bordeColor}`} borderRadius='8px'>
-			<CheckYPendiente
-				producto={producto}
-				getValues={getValues}
-				catalogoMotivo={catalogoMotivo}
-			/>
-			<Box display='flex'>
-				<Informacion
+		<Box minWidth={'100%'} display={'flex'} justifyContent={'flex-end'}>
+			<Box border={`1px solid ${bordeColor}`} borderRadius='8px'>
+				<CheckYPendiente
 					producto={producto}
-					condicion={condicion}
-					stateCatalogo={stateCatalogo}
-					stateInputFocus={stateInputFocus}
-					statefocusId={statefocusId}
 					getValues={getValues}
+					catalogoMotivo={catalogoMotivo}
 				/>
-				<Controles
-					producto={producto}
-					stateInputFocus={stateInputFocus}
-					statefocusId={statefocusId}
-					stateCatalogo={stateCatalogo}
-					getValues={getValues}
-					setGetValues={setGetValues}
-				/>
+				<Box display='flex'>
+					<Informacion
+						producto={producto}
+						condicion={condicion}
+						stateCatalogo={stateCatalogo}
+						stateInputFocus={stateInputFocus}
+						statefocusId={statefocusId}
+						getValues={getValues}
+					/>
+					<Controles
+						producto={producto}
+						stateInputFocus={stateInputFocus}
+						statefocusId={statefocusId}
+						stateCatalogo={stateCatalogo}
+						getValues={getValues}
+						setGetValues={setGetValues}
+					/>
+				</Box>
 			</Box>
 		</Box>
 	);

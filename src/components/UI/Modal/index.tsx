@@ -39,18 +39,22 @@ const Modal: React.FC<Props> = ({
 								{contenidoMensaje?.iconoMensaje}
 							</Box>
 						)}
-						<Box className={classes.text} marginBottom='12px'>
+						<Box className={classes.text} marginBottom='10px'>
 							<Typography
 								fontFamily='Open Sans'
 								fontWeight='700'
 								fontSize='14px'
-								sx={{opacity: 0.7}}
+								color='rgba(0, 0, 0, 0.70)'
 							>
 								{contenidoMensaje?.titulo}
 							</Typography>
 						</Box>
-						<Box className={classes.text} marginBottom='24px'>
-							<Typography variant='body3'>
+						<Box className={classes.text} marginBottom='20px'>
+							<Typography
+								variant='body3'
+								fontFamily='Open Sans'
+								color='#565657'
+							>
 								{contenidoMensaje?.mensaje}
 							</Typography>
 						</Box>

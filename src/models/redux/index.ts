@@ -8,6 +8,7 @@ import {
 	TDescuentoEscalonado,
 	TDescuentoPolarizado,
 	TComponente,
+	TAtributos,
 } from 'models/server';
 
 //Cliente Actual
@@ -60,6 +61,13 @@ export type TVisita = {
 	seQuedaAEditar: SeQuedaAEditar;
 	fechaVisitaPlanificada: string;
 	bonificaciones: TBonificacionesCliente[];
+	envasesConError: number;
+	avisos: TAvisos;
+};
+
+export type TAvisos = {
+	limiteCredito: number;
+	cambiosPasoActual: boolean;
 };
 
 export type TBonificacionesCliente = {
@@ -160,6 +168,7 @@ export type TPrecioProducto = {
 	descuentoEscalonado?: TDescuentoEscalonado[];
 	descuentoPromoPush?: number;
 	componentes?: TComponente[];
+	atributos?: TAtributos;
 };
 
 export type TPedidoDelProducto = {

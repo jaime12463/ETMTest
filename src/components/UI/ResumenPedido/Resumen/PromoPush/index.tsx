@@ -14,8 +14,7 @@ export interface PromoPushProps {
 
 export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 	const {t} = useTranslation();
-	const datos = useObtenerDatos();
-	const {productos} = datos;
+	const {productos, envases, medidas} = useObtenerDatos();
 
 	return (
 		<Box>
@@ -40,18 +39,18 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 							{promocion.nombreProducto}
 						</Typography>
 					</Box>
-					<Box display='flex' flexDirection='column' flex='2' gap='8px'>
+					<Box display='flex' flexDirection='column' flex='1' gap='8px'>
 						<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
 							{`${t('general.promocionesAplicadas')}:`}
 						</Typography>
 						<Box alignItems='center' display='flex' gap='6px'>
 							<PromocionesRellenoIcon height='14px' width='13px' />
 							<Typography variant='subtitle3' color='#fff' fontWeight={700}>
-								{promocion.componentes?.length ?? 0}
+								{promocion.unidades}
 							</Typography>
 						</Box>
 					</Box>
-					<Box display='flex' flexDirection='column' gap='6px' flex='1.5'>
+					<Box display='flex' flexDirection='column' gap='6px' flex='1'>
 						<Box
 							alignItems='center'
 							display='flex'
@@ -127,6 +126,25 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 									<Typography variant='subtitle3'>
 										{productos[componente.codigoProducto].nombre}
 									</Typography>
+									{productos[componente.codigoProducto].atributos && (
+										<Typography
+											margin='4px 0 6px 0'
+											variant='caption'
+											color={theme.palette.secondary.main}
+										>
+											{`${
+												medidas[
+													productos[componente.codigoProducto].atributos
+														?.medida ?? 0
+												].descripcion
+											} | ${
+												envases[
+													productos[componente.codigoProducto].atributos
+														?.envase ?? 0
+												].descripcion
+											}`}
+										</Typography>
+									)}
 								</Box>
 								<Box
 									display='flex'

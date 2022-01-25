@@ -1,5 +1,10 @@
 import React from 'react';
-import {TInfoDescuentos, TProductoPedido, TStateInputFocus} from 'models';
+import {
+	ETiposDePago,
+	TInfoDescuentos,
+	TProductoPedido,
+	TStateInputFocus,
+} from 'models';
 import Box from '@mui/material/Box';
 import theme from 'theme';
 import Controles from './components/Controles';
@@ -12,6 +17,8 @@ import {
 	useObtenerCalculoDescuentoProducto,
 	useObtenerDatosCliente,
 	useMostrarAviso,
+	useObtenerCreditoDisponible,
+	useObtenerTotalPedidosVisitaActual,
 } from 'hooks';
 
 export interface StateFocusID {
@@ -89,6 +96,9 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	const obtenerCalculoDescuentoProducto =
 		useObtenerCalculoDescuentoProducto(producto);
 
+	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
+	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
+
 	React.useEffect(() => {
 		if (productoEnVenta) {
 			if (
@@ -101,7 +111,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 				if (!productoAgregado) {
 					mostrarAviso(
 						'success',
-						t('avisos.productoAgregado'),
+						t('toast.productoAgregado'),
 						undefined,
 						undefined,
 						'ProductoAgreado'
@@ -123,42 +133,49 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 
 		setColorBorde('#D9D9D9');
 		setProductoAgregado(false);
-	}, [productoEnVenta, visitaActual.seQuedaAEditar.bordeError]);
+	}, [
+		productoEnVenta?.unidades,
+		productoEnVenta?.subUnidades,
+		visitaActual.seQuedaAEditar.bordeError,
+	]);
 
 	return (
-		<Box
-			border={`1px solid ${colorBorde}`}
-			borderRadius={bordeRedondeado ? '8px' : '0'}
-			overflow='hidden'
-		>
-			<SwitchYCheck
-				producto={productoEnVenta ?? productoAMandar}
-				conSwitch={conSwitch}
-			/>
-			<Box display='flex'>
-				<Informacion
+		<Box minWidth={'100%'} display={'flex'} justifyContent={'flex-end'}>
+			<Box
+				border={`1px solid ${colorBorde}`}
+				borderRadius={bordeRedondeado ? '8px' : '0'}
+				overflow='hidden'
+				maxWidth={'304px'}
+			>
+				<SwitchYCheck
 					producto={productoEnVenta ?? productoAMandar}
 					conSwitch={conSwitch}
-					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-					stateAviso={{setAlerta, setConfigAlerta}}
-					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 				/>
-				<Controles
+				<Box display='flex'>
+					<Informacion
+						producto={productoEnVenta ?? productoAMandar}
+						conSwitch={conSwitch}
+						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+						stateAviso={{setAlerta, setConfigAlerta}}
+						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
+					/>
+					<Controles
+						producto={productoEnVenta ?? productoAMandar}
+						stateInputFocus={stateInputFocus}
+						stateFocusId={stateFocusId}
+						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
+					/>
+				</Box>
+
+				<Descuentos
+					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 					producto={productoEnVenta ?? productoAMandar}
 					stateInputFocus={stateInputFocus}
 					stateFocusId={stateFocusId}
-					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 				/>
 			</Box>
-
-			<Descuentos
-				stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-				obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
-				producto={productoEnVenta ?? productoAMandar}
-				stateInputFocus={stateInputFocus}
-				stateFocusId={stateFocusId}
-			/>
 		</Box>
 	);
 };

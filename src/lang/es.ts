@@ -159,21 +159,18 @@ const es = {
 		cancelarPedido: 'Desea cancelar el pedido?',
 		cancelarTodosLosPedido:
 			'Se cancelarán todos los pedidos con fecha de entrega {{fechaDeEntrega}} ¿Desea continuar?',
-		ProductoNoEstaEnPortafolioCliente:
-			'El código {{codigo}} no corresponde a un producto vigente del portafolio del cliente',
+		ProductoNoEstaEnPortafolioCliente: 'SKU incorrecto',
 		ProductoNoEstaHabilitado:
 			'El producto {{codigo}} no está habilitado para {{descripcion}}',
 		excedeCreditoDsiponible: 'El pedido excede el crédito disponible',
 		montoMayorDeuda: 'El monto no puede ser mayor a la deuda registrada',
-		excedeUnidadesDisponibles:
-			'La cantidad es mayor al disponible: {{disponible}}',
+		excedeUnidadesDisponibles: 'Cantidad de promoción superada',
 		excedePresupuesto:
 			'La cantidad ingresada excede el presupuesto asignado para {{descripcion}}',
 		borrarPedidosNoMandatorios:
 			'Se borrará el pedido de {{tipoPedido}}. ¿Desea continuar?',
 		ordenDeCompraEnBlanco: 'Debe ingresar una orden de compra',
-		cantidadSuperiorEnvases:
-			'La cantidad excede a las disponibles para retorno',
+
 		borrarTodosTomaPedido:
 			'¿Quieres Borrar todos los productos?. Todos los productos seleccionados se borraran de la toma de pedido',
 		borrarPromosPush:
@@ -185,12 +182,7 @@ const es = {
 		borrarDescuento: '¿Deseas eliminar el descuento escalonado? ',
 		descuentoEscalonadoEliminado: 'Descuento escalonado eliminado',
 		productoAgregado: 'Producto agregado correctamente',
-		cambiosGuardados: 'Cambios guardados con exitosamente',
-		iniciativaSinMotivo: 'Iniciativa cancelada sin motivo',
-		pedidoMinimoNoAlcanzado: 'Pedido minimo no alcanzado',
-		excedeMayorPermitido: 'Cantidad excede el valor permitido',
-		excedeMayorPermitidoSubtitulo:
-			'Es necesario corregir el valor de la presentación.',
+
 		borrarPedidosTitulo: '¿Quieres eliminar todos los productos?',
 		borrarPedidos: 'Todos tus productos se borrarán de tu Toma de pedido',
 		borrarPedidosGeneral:
@@ -223,13 +215,25 @@ const es = {
 			'Este producto se borrará de tu pedido actual junto con los canjes y las bonificaciones que contiene.',
 		borrarLineaPedidosMensajeUnico:
 			'Este producto se borrará de tu Toma de pedido',
+		borrarLineaPedidosMensajeUnicoCanje: 'Este producto se borrará de tu Canje',
 		productoUnicoEliminadoTitulo: 'Producto eliminado correctamente',
 		lineaBorradaConBonificacion:
 			'Se eliminó el producto de la toma de pedido junto con los las bonificaciones que contenía.',
 		lineaBorradaConCanje:
-			'Se eliminó el producto de la toma de pedido junto con los los canjes que contenía.',
+			'Se eliminó el producto de la toma de pedido junto con los canjes que contenía.',
 		lineaBorradaConCanjeBonificacion:
 			'Se eliminó el producto de la toma de pedido junto con los canjes y las bonificaciones que contenía.',
+		pdfErrorTitulo: 'Archivo no disponible',
+		pdfErrorDescripcion:
+			'En este momento no es posible visualizar el archivo adjunto.',
+		noEditarPlaneacionTitulo: 'No es posible editar las cantidades',
+		noEditarPlaneacionDescripcion:
+			'Para volver a editar las cantidades de coberturas e iniciativas , deberás hacerlo  en toma de pedido.',
+		reestablecerCoberturasTitulo: 'Restablecer cantidades a cero',
+		reestablecerCoberturasDescripcion:
+			'Todas las cantidades de las coberturas ingresadas se restablecerán a cero',
+		errorSKUIncorrecto:
+			'El SKU no corresponde a ningún producto, favor de validar.',
 	},
 	pasos: {
 		planeacion: 'Planeación',
@@ -239,14 +243,49 @@ const es = {
 	},
 	mensajes: {
 		borrarDescuento:
-			'Una vez eliminado el descuento escalonado, no podrás volverlo a aplicar en este producto.',
-		iniciativaSinMotivo: 'ingrese un motivo para la iniciativa cancelada',
-		pedidoMinimoNoAlcanzado:
-			'No se ha alcanzado el pedido minimo, por favor completar el pedido.',
+			'Se eliminará el descuento escalonado del producto {{codigo}}. Para aplicarlo de nuevo, tendrás que volver a agrega el producto.',
+		excedeUnidadesDisponibles:
+			'Superaste la cantidad máxima de promoción permitida que puedes aplicar por cliente.',
 	},
-	avisos: {
+	modal: {
+		salirOrderTaking: '¿Quieres salir de Order taking?',
+		salirOrderTakingMensaje:
+			'Si sales toda la actividad registrada se perderá.',
+		restablecerBonificacionesTitulo: 'Restablecer cantidades a cero',
+		restablecerBonificacionesMensaje:
+			'Todas las cantidades de las bonificaciones se restablecerán a cero.',
+		tarjetasVaciasTitulo: 'Existen tarjetas vacias',
+		tarjetasVaciasMensaje:
+			'Si avanzas, las tarjetas que no tienen cantidades se eliminaran.',
+	},
+	toast: {
+		cambiosGuardados: 'Cambios guardados exitosamente',
+		ventaBloqueadaTitulo: 'Cliente bloqueado para venta',
+		ventaBloqueadaMensaje:
+			'Unicamente puedes generar un compromiso de cobro para este cliente.',
+		bonificacionAgregada: 'Bonificacion agregada correctamente',
+		errorBonificacionTotalTitulo: 'Error en bonificación total',
+		errorBonificacionTotalMensaje:
+			'Esta bonificación tiene que ser de aplicación total. Favor de modificar cantidades.',
+		excedeMayorPermitidoTitulo: 'Cantidad excede el valor permitido',
+		excedeMayorPermitidoMensaje:
+			'Es necesario corregir el valor de la presentación.',
+		iniciativaSinMotivoTitulo: 'Iniciativa cancelada sin motivo',
+		iniciativaSinMotivoMensaje:
+			'Debes ingresar un motivo para la iniciativa cancelada.',
+		pedidoMinimoNoAlcanzadoTitulo: 'Pedido mínimo no alcanzado',
+		pedidoMinimoNoAlcanzadoMensaje:
+			'No se ha alcanzado el pedido mínimo, por favor completar el pedido.',
+		cantidadSuperiorEnvasesTitulo: 'Cantidad de envases superada',
+		cantidadSuperiorEnvasesMensaje:
+			'La cantidad de venta y prestamo no puede superar a la cantidad de envases disponibles de retorno.',
+		canjeSinMotivoTitulo: 'Canje sin motivo',
+		canjeSinMotivoMensaje: 'Es necesario agregar el motivo del canje',
 		productoAgregado: 'Producto agregado correctamente',
-		cambiosGuardados: 'Cambios guardados con exitosamente',
+		limiteDeCreditoExcedidoTitulo: 'Límite de crédito excedido',
+		limiteDeCreditoExcedidoMensaje:
+			'Este cliente ha excedido su límite de crédito, por lo que no se podra levantar pedidos a crédito',
+		productoIngresado: 'Se ha ingresado el producto exitosamente',
 	},
 };
 export default es;

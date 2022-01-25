@@ -62,12 +62,14 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 		}),
 	].flat();
 
-	const promocionesCredito = venta?.productos?.filter(
-		(producto) =>
-			producto.tipoPago === ETiposDePago.Credito &&
-			producto.promoPush &&
-			(producto.unidades > 0 || producto.subUnidades > 0)
-	);
+	const promocionesCredito = venta?.productos
+		?.filter(
+			(producto) =>
+				producto.tipoPago === ETiposDePago.Credito &&
+				producto.promoPush &&
+				(producto.unidades > 0 || producto.subUnidades > 0)
+		)
+		.sort((a, b) => (a.codigoProducto > b.codigoProducto ? 1 : -1));
 
 	const ventaContado = [
 		venta?.productos?.filter((producto) => {
@@ -89,10 +91,12 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 		}),
 	].flat();
 
-	const promocionesContado = venta?.productos?.filter(
-		(producto) =>
-			producto.tipoPago === ETiposDePago.Contado && producto.promoPush
-	);
+	const promocionesContado = venta?.productos
+		?.filter(
+			(producto) =>
+				producto.tipoPago === ETiposDePago.Contado && producto.promoPush
+		)
+		.sort((a, b) => (a.codigoProducto > b.codigoProducto ? 1 : -1));
 
 	let totalDescuentos = 0;
 	let totalContado = 0;

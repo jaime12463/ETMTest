@@ -21,37 +21,41 @@ export const SwipeBorrar = (props: Props) => {
 			setIndex(0.5);
 		}
 		SetSwipe(index);
-		SetSwipeMargen( `${index*100}px` );
+		SetSwipeMargen(`${index * 100}px`);
 	};
 
-	useEffect (() => {
+	useEffect(() => {
 		setIndex(0);
-	}, [index])
+	}, [index]);
 
 	return (
-		<>
-			<SwipeableViews
-				onSwitching={(index, type) => switchingHandler(index, type)}
-				enableMouseEvents
-				hysteresis={0.9}
-				index={index}
+		<SwipeableViews
+			onSwitching={(index, type) => switchingHandler(index, type)}
+			enableMouseEvents
+			hysteresis={0.9}
+			index={index}
+			slideStyle={{overflow: 'clip visible'}}
+			style={{overflow: 'clip visible'}}
+		>
+			{children}
+			<Box
+				alignItems='center'
+				display='flex'
+				sx={{
+					backgroundColor: 'red',
+					width: '100%',
+					height: '100%',
+				}}
 			>
-				{children}
+				{/*ToDo: pasar a multilenguaje */}
 
-				<Box
-					alignItems='center'
-					display='flex'
-					sx={{
-						backgroundColor: 'red',
-						width: '100%',
-						height: '100%',
-						position: 'relative',
-					}}
+				<Typography
+					marginLeft={swipe >= 0.2 ? swipeMargen : '20px'}
+					sx={{color: 'white'}}
 				>
-					{/*ToDo: pasar a multilenguaje */}
-					<Typography  marginLeft={swipe >= 0.2 ? swipeMargen : '20px'} sx={{color: 'white' }}>Eliminar</Typography>
-				</Box>
-			</SwipeableViews>
-		</>
+					Eliminar
+				</Typography>
+			</Box>
+		</SwipeableViews>
 	);
 };

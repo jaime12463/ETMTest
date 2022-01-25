@@ -6,6 +6,8 @@ import {useTranslation} from 'react-i18next';
 import {styled} from '@mui/material/styles';
 import {ETiposDePago} from 'models';
 import {BotellaIcon, CajaIcon} from 'assests/iconos';
+import theme from 'theme';
+import {useObtenerDatos} from 'redux/hooks';
 
 type Props = {
 	envase: TConsolidadoImplicitos;
@@ -24,6 +26,8 @@ const TarjetaDobleIzquierda: FunctionComponent<Props> = (props) => {
 	const {envase, tieneTipoPedidoValorizado} = props;
 
 	const {t} = useTranslation();
+
+	const {productos, envases, medidas} = useObtenerDatos();
 
 	return (
 		<>
@@ -57,8 +61,27 @@ const TarjetaDobleIzquierda: FunctionComponent<Props> = (props) => {
 				<Typography fontFamily='Open Sans' variant={'subtitle2'}>
 					{envase.codigoImplicito}
 				</Typography>
-				<Typography variant={'subtitle2'}>{envase.nombreImplicito}</Typography>
-				<br />
+				<Typography
+					variant={'subtitle2'}
+					marginBottom={productos[envase.codigoImplicito].atributos ? 0 : '6px'}
+				>
+					{envase.nombreImplicito}
+				</Typography>
+				{productos[envase.codigoImplicito].atributos && (
+					<Typography
+						margin='4px 0 6px 0'
+						variant='caption'
+						color={theme.palette.secondary.main}
+					>
+						{`${
+							medidas[productos[envase.codigoImplicito].atributos?.medida ?? 0]
+								.descripcion
+						} | ${
+							envases[productos[envase.codigoImplicito].atributos?.envase ?? 0]
+								.descripcion
+						}`}
+					</Typography>
+				)}
 				<Box display='flex' alignItems='center' gap='4px'>
 					{tieneTipoPedidoValorizado && (
 						<>

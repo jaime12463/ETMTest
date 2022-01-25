@@ -65,14 +65,7 @@ const TarjetaCoberturas: React.FC<Props> = ({
 		>
 			<Check producto={productoAMandar} />
 			<Box display='flex'>
-				<Informacion
-					codigoProducto={producto.codigoProducto}
-					nombreProducto={producto.nombreProducto}
-					presentacion={producto.presentacion}
-					precioConImpuestoUnidad={producto.precioConImpuestoUnidad}
-					precioConImpuestoSubunidad={producto.precioConImpuestoSubunidad}
-					esVentaSubunidades={producto.esVentaSubunidades}
-				/>
+				<Informacion producto={productoAMandar} />
 				<Controles
 					producto={productoAMandar}
 					stateInputFocus={stateInputFocus}

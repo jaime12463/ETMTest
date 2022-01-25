@@ -17,7 +17,7 @@ import theme from 'theme';
 import TarjetaCoberturas from 'components/UI/TarjetaCoberturas';
 
 const ButtonStyled = styled(Button)(() => ({
-	border: '1.5px solid #651C32',
+	border: `1.5px solid ${theme.palette.secondary.main}`,
 	boxSizing: 'border-box',
 	borderRadius: '20px',
 	minHeight: '10px',

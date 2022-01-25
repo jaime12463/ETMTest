@@ -4,25 +4,18 @@ import Typography from '@mui/material/Typography';
 import {BotellaIcon, CajaIcon} from 'assests/iconos';
 import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
+import theme from 'theme';
+import {useObtenerDatos} from 'redux/hooks';
+import {TPrecioProducto} from 'models';
 
 interface Props {
-	codigoProducto: number;
-	nombreProducto: string;
-	presentacion: number;
-	precioConImpuestoUnidad: number;
-	precioConImpuestoSubunidad: number;
-	esVentaSubunidades: boolean;
+	producto: TPrecioProducto;
 }
 
-const Informacion: React.FC<Props> = ({
-	codigoProducto,
-	nombreProducto,
-	presentacion,
-	precioConImpuestoSubunidad,
-	precioConImpuestoUnidad,
-	esVentaSubunidades,
-}) => {
+const Informacion: React.FC<Props> = ({producto}) => {
 	const {t} = useTranslation();
+
+	const {envases, medidas} = useObtenerDatos();
 
 	return (
 		<Box
@@ -33,26 +26,42 @@ const Informacion: React.FC<Props> = ({
 			width='179px'
 		>
 			<Typography variant='subtitle3' fontFamily='Open Sans'>
-				{codigoProducto}
+				{producto.codigoProducto}
 			</Typography>
-			<Typography variant='subtitle3' noWrap width='150px' marginBottom='4px'>
-				{nombreProducto}
+			<Typography
+				variant='subtitle3'
+				noWrap
+				width='150px'
+				marginBottom={producto.atributos ? 0 : '6px'}
+			>
+				{producto.nombreProducto}
 			</Typography>
+			{producto.atributos && (
+				<Typography
+					margin='4px 0 6px 0'
+					variant='caption'
+					color={theme.palette.secondary.main}
+				>
+					{`${medidas[producto.atributos?.medida ?? 0].descripcion} | ${
+						envases[producto.atributos?.envase ?? 0].descripcion
+					}`}
+				</Typography>
+			)}
 			<Box display='flex' gap='10px' alignItems='center'>
 				<Box display='flex' alignItems='center' flexDirection='row' gap='4px'>
 					<CajaIcon height='18px' width='18px' />
 					<Typography variant='caption' fontFamily='Open Sans'>
-						x{presentacion}
+						x{producto.presentacion}
 					</Typography>
 					<Typography variant='subtitle3' fontFamily='Open Sans'>
-						{formatearNumero(precioConImpuestoUnidad, t)}
+						{formatearNumero(producto.precioConImpuestoUnidad, t)}
 					</Typography>
 				</Box>
-				{esVentaSubunidades && (
+				{producto.esVentaSubunidades && (
 					<Box display='flex' alignItems='center' gap='4px'>
 						<BotellaIcon height='14px' width='14px' />
 						<Typography variant='subtitle3' fontFamily='Open Sans'>
-							{formatearNumero(precioConImpuestoSubunidad, t)}
+							{formatearNumero(producto.precioConImpuestoSubunidad, t)}
 						</Typography>
 					</Box>
 				)}

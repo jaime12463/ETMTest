@@ -9,6 +9,8 @@ import CustomSelect from 'components/UI/CustomSelect';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {GetValueProps} from '..';
+import {useObtenerDatos} from 'redux/hooks';
+import {useMostrarAviso} from 'hooks';
 
 interface Props {
 	producto: TProductoPedido;
@@ -32,7 +34,8 @@ const Informacion: React.FC<Props> = ({
 	const itemCatalogoMotivos = useObtenerCatalogoMotivos();
 	const {setFocusId} = statefocusId;
 	const {catalogoMotivo, setCatalogoMotivo} = stateCatalogo;
-
+	const {envases, medidas} = useObtenerDatos();
+	const mostrarAviso = useMostrarAviso();
 	const motivoFiltrado = itemCatalogoMotivos.filter(
 		(item) => item.value === producto.catalogoMotivo
 	);
@@ -40,6 +43,16 @@ const Informacion: React.FC<Props> = ({
 	const [motivo, setMotivo] = React.useState<string>(
 		motivoFiltrado[0]?.label ?? ''
 	);
+
+	const avisoCanjeAgregado = () =>
+		statefocusId.focusId === producto.codigoProducto &&
+		mostrarAviso(
+			'success',
+			'Canje agregado correctamente',
+			undefined,
+			undefined,
+			'canjeAgreado'
+		);
 
 	const [selectBloqueado, setSelectBloqueado] = React.useState<boolean>(true);
 
@@ -66,6 +79,7 @@ const Informacion: React.FC<Props> = ({
 		);
 
 		if (motivoFiltrado) {
+			avisoCanjeAgregado();
 			setCatalogoMotivo({
 				...catalogoMotivo,
 				[producto.codigoProducto]: {codigoMotivo: motivoFiltrado.value},
@@ -81,9 +95,23 @@ const Informacion: React.FC<Props> = ({
 				<Typography variant='subtitle3' fontFamily='Open Sans'>
 					{producto.codigoProducto}
 				</Typography>
-				<Typography variant='subtitle3'>
+				<Typography
+					variant='subtitle3'
+					marginBottom={producto.atributos ? 0 : '6px'}
+				>
 					{producto.nombreProducto.toUpperCase()}
 				</Typography>
+				{producto.atributos && (
+					<Typography
+						margin='4px 0 6px 0'
+						variant='caption'
+						color={theme.palette.secondary.main}
+					>
+						{`${medidas[producto.atributos?.medida ?? 0].descripcion} | ${
+							envases[producto.atributos?.envase ?? 0].descripcion
+						}`}
+					</Typography>
+				)}
 			</Box>
 			<Box display='flex' alignItems='center' marginBottom='12px' gap='2px'>
 				<CajaIcon
@@ -96,18 +124,19 @@ const Informacion: React.FC<Props> = ({
 					fontFamily='Open Sans'
 				>{`x${producto.presentacion}`}</Typography>
 			</Box>
-			<Box>
-				<CustomSelect
-					opciones={[...itemCatalogoMotivos.map((item) => item.label)]}
-					opcionSeleccionada={motivo}
-					setOpcion={setMotivo}
-					dataCy={`canje-motivo-value`}
-					bloqueado={selectBloqueado}
-					border
-					sinFlecha
-					placeholder={t('general.motivoDelCanje')}
-				/>
-			</Box>
+			<CustomSelect
+				opciones={[...itemCatalogoMotivos.map((item) => item.label)]}
+				opcionSeleccionada={motivo}
+				setOpcion={setMotivo}
+				dataCy={`canje-motivo-value`}
+				bloqueado={selectBloqueado}
+				border
+				sinFlecha
+				placeholder={t('general.motivoDelCanje')}
+				stateInputFocus={stateInputFocus}
+				statefocusId={statefocusId}
+				producto={producto}
+			/>
 		</Box>
 	);
 };

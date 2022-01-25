@@ -71,8 +71,7 @@ const useEstilos = makeStyles((theme: Theme) =>
 export const TarjetaVistaPromoPush = (props: any) => {
 	const {t} = useTranslation();
 	const classes = useEstilos();
-	const datos = useObtenerDatos();
-	const {productos} = datos;
+	const {productos, envases, medidas} = useObtenerDatos();
 	const {item, expandidoPromoPush, setExpandidoexpandidoPromoPush, id} = props;
 
 	const {
@@ -241,6 +240,25 @@ export const TarjetaVistaPromoPush = (props: any) => {
 												<Typography variant='subtitle3'>
 													{productos[el.codigoProducto].nombre}
 												</Typography>
+												{productos[el.codigoProducto].atributos && (
+													<Typography
+														margin='4px 0 6px 0'
+														variant='caption'
+														color={theme.palette.secondary.main}
+													>
+														{`${
+															medidas[
+																productos[el.codigoProducto].atributos
+																	?.medida ?? 0
+															].descripcion
+														} | ${
+															envases[
+																productos[el.codigoProducto].atributos
+																	?.envase ?? 0
+															].descripcion
+														}`}
+													</Typography>
+												)}
 											</Box>
 										</GridStyled>
 										<GridStyled

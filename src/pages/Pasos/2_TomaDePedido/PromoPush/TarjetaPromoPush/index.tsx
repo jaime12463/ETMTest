@@ -162,8 +162,7 @@ const TarjetaPromoPush = (props: any) => {
 		setGetValues(defaultValues);
 	}, [producto, promoPushTemporal]);
 
-	const datos = useObtenerDatos();
-	const {productos} = datos;
+	const {productos, envases, medidas} = useObtenerDatos();
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		item,
@@ -229,6 +228,8 @@ const TarjetaPromoPush = (props: any) => {
 						getValues.unidades > 0
 							? `1px solid ${theme.palette.success.main}`
 							: '1px solid #D9D9D9',
+
+					maxWidth: '166px',
 				}}
 			>
 				<Box
@@ -406,7 +407,10 @@ const TarjetaPromoPush = (props: any) => {
 							<Box width='100%' display='flex' flexDirection='row'>
 								<GridStyled item xs={6}>
 									<Typography
-										sx={{padding: '6px 14px 14px 14px'}}
+										sx={{
+											padding: '6px 14px 14px 14px',
+											letterSpacing: '-0.4px',
+										}}
 										variant={'subtitle3'}
 										fontWeight={700}
 									>
@@ -432,16 +436,40 @@ const TarjetaPromoPush = (props: any) => {
 											<GridStyled
 												item
 												xs={6}
-												sx={{padding: '5px 14px 0px 14px'}}
+												sx={{padding: '6px 14px 0px 14px'}}
 											>
 												<Box display='flex' flexDirection='column' pb={2}>
 													<Typography variant='subtitle3'>
 														{el.codigoProducto}
 													</Typography>
 
-													<Typography variant='subtitle3'>
+													<Typography
+														variant='subtitle3'
+														marginBottom={
+															productos[el.codigoProducto].atributos ? 0 : '6px'
+														}
+													>
 														{productos[el.codigoProducto].nombre}
 													</Typography>
+													{productos[el.codigoProducto].atributos && (
+														<Typography
+															margin='4px 0 6px 0'
+															variant='caption'
+															color={theme.palette.secondary.main}
+														>
+															{`${
+																medidas[
+																	productos[el.codigoProducto].atributos
+																		?.medida ?? 0
+																].descripcion
+															} | ${
+																envases[
+																	productos[el.codigoProducto].atributos
+																		?.envase ?? 0
+																].descripcion
+															}`}
+														</Typography>
+													)}
 												</Box>
 											</GridStyled>
 											<GridStyled

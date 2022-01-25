@@ -30,7 +30,7 @@ import {AvisoIcon} from 'assests/iconos';
 
 export const useBorrarTodoTomaPedido = (
 	stateAlerta: any,
-	productos: TProductoPedido[],
+	productos: TProductoPedido[]
 ) => {
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
@@ -56,28 +56,32 @@ export const useBorrarTodoTomaPedido = (
 		(tipoPedido) => tipoPedido.esMandatorio === false
 	);
 
-	const {
-		obtenerPedidosClienteMismaFechaEntrega,
-	} = useObtenerPedidosClienteMismaFechaEntrega();
+	const {obtenerPedidosClienteMismaFechaEntrega} =
+		useObtenerPedidosClienteMismaFechaEntrega();
 
-	const pedidosClienteMismaFechaEntrega = obtenerPedidosClienteMismaFechaEntrega(
-		clienteActual.codigoCliente
-	);
+	const pedidosClienteMismaFechaEntrega =
+		obtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
 
-	const validarTieneBonificaciones =
-		useValidarTieneBonificaciones();
+	const validarTieneBonificaciones = useValidarTieneBonificaciones();
 
 	const {bonificacionesConVenta} = useObtenerConfiguracion();
 
 	const borrarTodoTomaPedido = useCallback(() => {
-		const clienteOtroPedidoMismaFecha = pedidosClienteMismaFechaEntrega.length > 0 ? true : false;
+		const clienteOtroPedidoMismaFecha =
+			pedidosClienteMismaFechaEntrega.length > 0 ? true : false;
 
-		const clienteTieneCanje = visitaActual.pedidos.canje.productos.length > 0 ? true : false;
+		const clienteTieneCanje =
+			visitaActual.pedidos.canje.productos.length > 0 ? true : false;
 
 		const clienteTieneBoficaciones = validarTieneBonificaciones();
 
 		//CA2:
-		if (!clienteOtroPedidoMismaFecha && clienteTieneCanje && (clienteTieneBoficaciones && bonificacionesConVenta)) {
+		if (
+			!clienteOtroPedidoMismaFecha &&
+			clienteTieneCanje &&
+			clienteTieneBoficaciones &&
+			bonificacionesConVenta
+		) {
 			setConfigAlerta({
 				titulo: t('advertencias.borrarPedidosTitulo'),
 				mensaje: t('advertencias.borrarPedidosGeneral'),
@@ -109,7 +113,11 @@ export const useBorrarTodoTomaPedido = (
 		}
 
 		//CA3:
-		if (!clienteOtroPedidoMismaFecha && clienteTieneCanje && (!clienteTieneBoficaciones || !bonificacionesConVenta)) {
+		if (
+			!clienteOtroPedidoMismaFecha &&
+			clienteTieneCanje &&
+			(!clienteTieneBoficaciones || !bonificacionesConVenta)
+		) {
 			setConfigAlerta({
 				titulo: t('advertencias.borrarPedidosTitulo'),
 				mensaje: t('advertencias.borrarPedidosGeneral'),
@@ -140,7 +148,12 @@ export const useBorrarTodoTomaPedido = (
 		}
 
 		//CA4:
-		if (!clienteOtroPedidoMismaFecha && !clienteTieneCanje && (clienteTieneBoficaciones && bonificacionesConVenta)) {
+		if (
+			!clienteOtroPedidoMismaFecha &&
+			!clienteTieneCanje &&
+			clienteTieneBoficaciones &&
+			bonificacionesConVenta
+		) {
 			setConfigAlerta({
 				titulo: t('advertencias.borrarPedidosTitulo'),
 				mensaje: t('advertencias.borrarPedidosGeneral'),
@@ -172,32 +185,32 @@ export const useBorrarTodoTomaPedido = (
 
 		//CA1: o default
 		//if (clienteOtroPedidoMismaFecha) {
-			setConfigAlerta({
-				titulo: t('advertencias.borrarPedidosTitulo'),
-				mensaje: t('advertencias.borrarPedidos'),
-				tituloBotonAceptar: 'Eliminar',
-				tituloBotonCancelar: 'Cancelar',
-				callbackAceptar: () => {
-					for (const producto of productos) {
-						dispatch(
-							borrarProductoDelPedidoActual({
-								codigoProducto: producto.codigoProducto,
-							})
-						);
-					}
-					mostrarAviso(
-						'success',
-						t('advertencias.productoEliminadoTitulo'),
-						undefined,
-						undefined,
-						'productoEliminado'
+		setConfigAlerta({
+			titulo: t('advertencias.borrarPedidosTitulo'),
+			mensaje: t('advertencias.borrarPedidos'),
+			tituloBotonAceptar: 'Eliminar',
+			tituloBotonCancelar: 'Cancelar',
+			callbackAceptar: () => {
+				for (const producto of productos) {
+					dispatch(
+						borrarProductoDelPedidoActual({
+							codigoProducto: producto.codigoProducto,
+						})
 					);
-				},
-				iconoMensaje: <AvisoIcon />,
-			});
-			setAlerta(true);
+				}
+				mostrarAviso(
+					'success',
+					t('advertencias.productoEliminadoTitulo'),
+					undefined,
+					undefined,
+					'productoEliminado'
+				);
+			},
+			iconoMensaje: <AvisoIcon />,
+		});
+		setAlerta(true);
 
-			return;
+		return;
 		//}
 
 		//Logica anterior:

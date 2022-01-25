@@ -168,7 +168,8 @@ export const useBorrarLinea = (
 		}
 
 		//CA1:
-		if (!esUltimoProducto || clienteOtroPedidoMismaFecha ) {
+		/*if (!esUltimoProducto || clienteOtroPedidoMismaFecha) {
+			console.log("pase por ca1")
 			dispatch(
 				borrarProductoDelPedidoActual({
 					codigoProducto: productoaBorrar.codigoProducto,
@@ -182,9 +183,9 @@ export const useBorrarLinea = (
 				'productoEliminado'
 			);
 			return;
-		}
+		}*/
 
-		if(esUltimoProducto) {
+		if(esUltimoProducto || (!esUltimoProducto || clienteOtroPedidoMismaFecha)) {
 			setConfigAlerta({
 				titulo: t('advertencias.borrarLineaPedidosTitulo'),
 				mensaje: t('advertencias.borrarLineaPedidosMensajeUnico'),

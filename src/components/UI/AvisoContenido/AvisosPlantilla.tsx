@@ -46,23 +46,29 @@ export const AvisoPlantilla = ({tipo, titulo, mensaje, id, dataCy}: TAviso) => {
 
 	return (
 		<Box className={classes.container}>
-			<Box className={classes.tituloContainer}>
-				<Box className={classes.tituloConIcono}>
-					{icono}
-					<Typography variant='subtitle3'>{titulo}</Typography>
-				</Box>
-				<CerrarIcon
-					height={24}
-					width={24}
-					className={classes.icon}
-					onClick={() => closeSnackbar(id)}
-				/>
-			</Box>
-			<Box className={classes.mensaje}>
-				<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-					{mensaje}
-				</Typography>
-			</Box>
+			<Box className={classes.icon}>{icono}</Box>
+			<Typography
+				variant='subtitle3'
+				fontFamily='Open Sans'
+				className={classes.titulo}
+			>
+				{titulo}
+			</Typography>
+			<Typography
+				variant='caption'
+				fontFamily='Open Sans'
+				color='#000'
+				className={classes.mensaje}
+			>
+				{mensaje}
+			</Typography>
+
+			<CerrarIcon
+				height={24}
+				width={24}
+				className={classes.cerrarIcon}
+				onClick={() => closeSnackbar(id)}
+			/>
 		</Box>
 	);
 };

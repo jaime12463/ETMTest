@@ -157,7 +157,7 @@ const br = {
 		excedePresupuesto:
 			'O valor inserido excede o orçamento alocado para {{descripcion}}',
 		ordenDeCompraEnBlanco: 'Você deve inserir um pedido de compra',
-		cantidadSuperiorEnvases: 'O valor excede os disponíveis para devolução',
+		cantidadSuperiorEnvases: 'Número de contêineres excedido',
 		mensajeProductosSinCargar:
 			'Se você avançar para a próxima fase, os cartões que não possuem valores inseridos serão removidos de seu pedido.',
 		mensajeIniciativasSinMotivo:
@@ -171,6 +171,47 @@ const br = {
 	mensajes: {
 		borrarDescuento:
 			'Depois que o desconto escalonado for removido, você não poderá aplicá-lo novamente a este produto.',
+	},
+	modal: {
+		salirOrderTaking: 'Deseja sair do Order Taking?',
+		salirOrderTakingMensaje:
+			'Se sair de toda a actividade registada será perdida.',
+		restablecerBonificacionesTitulo: 'Redefinir quantidades para zero',
+		restablecerBonificacionesMensaje:
+			'Todos os valores de bônus devem ser zerados.',
+		tarjetasVaciasTitulo: 'Há cartões vazios',
+		tarjetasVaciasMensaje:
+			'Se você avançar, os cartões que não tiverem quantidades serão removidos.',
+	},
+	toast: {
+		cambiosGuardados: 'Mudanças salvas com sucesso',
+		ventaBloqueadaTitulo: 'Cliente bloqueado para venda',
+		ventaBloqueadaMensaje:
+			'Você só pode gerar um compromisso de cobrança para este cliente.',
+		bonificacionAgregada: 'Bônus adicionado com sucesso',
+		errorBonificacionTotalTitulo: 'Erro no bônus total',
+		errorBonificacionTotalMensaje:
+			'Este bônus tem que ser totalmente aplicável. Favor modificar as quantidades.',
+		excedeMayorPermitidoTitulo:
+			'O montante introduzido excede o máximo permitido',
+		excedeMayorPermitidoMensaje:
+			'O valor da apresentação precisa de ser corrigido.',
+		iniciativaSinMotivoTitulo: 'Iniciativa cancelada sem razão',
+		iniciativaSinMotivoMensaje:
+			'Você deve inserir um motivo para a iniciativa cancelada.',
+		pedidoMinimoNoAlcanzadoTitulo: 'Pedido mínimo não alcançado',
+		pedidoMinimoNoAlcanzadoMensaje:
+			'O pedido mínimo não foi alcançado, por favor, complete o pedido.',
+		cantidadSuperiorEnvasesTitulo: 'Número de contêineres excedido',
+		cantidadSuperiorEnvasesMensaje:
+			'O valor da venda e do empréstimo não pode exceder o número de contêineres disponíveis para devolução.',
+		canjeSinMotivoTitulo: 'Troca sem motivo',
+		canjeSinMotivoMensaje: 'É necessário acrescentar o motivo da troca',
+		productoAgregado: 'Produto adicionado com sucesso',
+		limiteDeCreditoExcedidoTitulo: 'Limite de crédito excedido',
+		limiteDeCreditoExcedidoMensaje:
+			'Este cliente excedeu seu limite de crédito, portanto, não será possível fazer pedidos a crédito.',
+		productoIngresado: 'O produto foi introduzido com sucesso',
 	},
 };
 export default br;
