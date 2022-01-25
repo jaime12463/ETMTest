@@ -139,32 +139,6 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 		visitaActual.seQuedaAEditar.bordeError,
 	]);
 
-	const firstRender = React.useRef(true);
-
-	React.useEffect(() => {
-		if (firstRender.current) {
-			firstRender.current = false;
-			return;
-		}
-
-		if (
-			(producto.unidades > 0 || producto.subUnidades > 0) &&
-			producto.tipoPago === ETiposDePago.Credito &&
-			datosCliente?.informacionCrediticia.condicion !== 'contado' &&
-			creditoDisponible -
-				(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0) <
-				0
-		) {
-			mostrarAviso(
-				'warning',
-				t('toast.limiteDeCreditoExcedidoTitulo'),
-				t('toast.limiteDeCreditoExcedidoMensaje'),
-				undefined,
-				'sinLimiteCredito'
-			);
-		}
-	}, [producto.unidades, producto.subUnidades, creditoDisponible]);
-
 	return (
 		<Box minWidth={'100%'} display={'flex'} justifyContent={'end'}>
 			<Box

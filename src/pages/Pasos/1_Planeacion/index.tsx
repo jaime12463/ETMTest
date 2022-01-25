@@ -90,19 +90,6 @@ export const Planeacion: React.FC = () => {
 			(iniciativa.estado === 'cancelada' && iniciativa.motivo !== '')
 	);
 
-	if (
-		datosCliente?.informacionCrediticia.condicion !== 'contado' &&
-		creditoDisponible < 0
-	) {
-		mostrarAviso(
-			'warning',
-			t('toast.limiteDeCreditoExcedidoTitulo'),
-			t('toast.limiteDeCreditoExcedidoMensaje'),
-			undefined,
-			'sinLimiteCredito'
-		);
-	}
-
 	React.useEffect(() => {
 		dispatch(cambiarAvisos({cambiosPasoActual: false}));
 	}, []);

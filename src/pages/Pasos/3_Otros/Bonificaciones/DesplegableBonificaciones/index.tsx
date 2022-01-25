@@ -106,10 +106,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 			return;
 		}
 
-		if (
-			visitaActual.seQuedaAEditar.bordeError &&
-			visitaActual.seQuedaAEditar.bordeError
-		) {
+		if (visitaActual.seQuedaAEditar.bordeError) {
 			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
 		}
 		setExpandido(id);

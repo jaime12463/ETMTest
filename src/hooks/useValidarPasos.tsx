@@ -188,7 +188,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 					dataCy: 'cantidad-superior-envases',
 				},
 			};
-		} else dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+		}
 
 		if (canjeSinMotivo) {
 			return {

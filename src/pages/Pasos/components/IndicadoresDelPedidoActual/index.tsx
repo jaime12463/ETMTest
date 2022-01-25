@@ -1,5 +1,6 @@
+import React from 'react';
 import {Grid} from '@mui/material';
-import {BarraDeProgreso, Center} from 'components/UI';
+import {BarraDeProgreso} from 'components/UI';
 import {ETiposDePago, TCliente, TClienteActual} from 'models';
 import {
 	useObtenerDatosCliente,
@@ -7,6 +8,7 @@ import {
 	useObtenerCreditoDisponible,
 	useObtenerCompromisosDeCobroMismaFechaEntrega,
 	useObtenerTotalPedidosVisitaActual,
+	useMostrarAviso,
 } from 'hooks';
 import {
 	useObtenerClienteActual,
@@ -60,6 +62,39 @@ const IndicadoresDelPedidoActual = () => {
 	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
 
 	const color = useObtenerColor();
+
+	const mostrarAviso = useMostrarAviso();
+
+	const [yaMostroAviso, setYaMostroAviso] = React.useState<boolean>(false);
+
+	console.log({yaMostroAviso, creditoDisponible});
+
+	React.useEffect(() => {
+		if (
+			!yaMostroAviso &&
+			datosCliente?.informacionCrediticia.condicion !== 'contado' &&
+			creditoDisponible -
+				(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0) <
+				0
+		) {
+			mostrarAviso(
+				'warning',
+				t('toast.limiteDeCreditoExcedidoTitulo'),
+				t('toast.limiteDeCreditoExcedidoMensaje'),
+				undefined,
+				'sinLimiteCredito'
+			);
+			setYaMostroAviso(true);
+		}
+
+		if (yaMostroAviso && creditoDisponible >= 0) {
+			setYaMostroAviso(false);
+		}
+	}, [
+		creditoDisponible -
+			(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0) <
+			0,
+	]);
 
 	const indicadores = [];
 	if (datosCliente?.informacionCrediticia.condicion !== 'contado')
