@@ -38,7 +38,8 @@ export type TPromoOngoingAplicables =  TPromoOngoing & {
 
 export type TListaPromoOngoingConIndices = {
     lista:TListaPromoOngoing,
-    indexPorTipoId:string[]
+    indexPorTipoId:string[],
+    existenPromociones:boolean
 }
 
 
@@ -71,7 +72,8 @@ export const obtenerlistaPromocionesVigentes = ( cliente:TCliente, listaPromocio
     })
     return {
         lista:listaPromos,
-        indexPorTipoId:indicePorTipoId.sort()
+        indexPorTipoId:indicePorTipoId.sort(),
+        existenPromociones:(indicePorTipoId.length>0)
     }
     
 }
@@ -88,7 +90,6 @@ export const obtenerPromocionesOngoingAplicables = (cliente:TCliente, productosP
 {
     let productosUsadosEnOtrasPromos:TProductosUsadosEnOtrasPromos={};
     let aplicables:TPromoOngoingAplicables[]=[];
-                           
     for ( let clave of listaPromocionesVigentes.indexPorTipoId )
     {
         const claveAplicacion = clave.substring(0,1);
@@ -105,13 +106,10 @@ export const obtenerPromocionesOngoingAplicables = (cliente:TCliente, productosP
             if (promo.requisitos[i].conector) conector= promo.requisitos[i].conector?.toUpperCase();
         }
         /** Analisis según conector                         ----------------AND----------------------    ----------------------OR-----------------*/
-        const sonValidosLosRequisitos = (conector=='Y') ? (multiplo.every((requisito) => requisito>1)) : (multiplo.some((requisito) => requisito>1))
-
+        const sonValidosLosRequisitos = (conector=='Y') ? (multiplo.every((requisito) => requisito>1)) : (multiplo.some((requisito) => requisito>1));
         if (sonValidosLosRequisitos)
         {
-           
              // verificar si el grupo de beneficios se puede aplicar
-             
              let grupoDeBeneficiosResultado =verificarBeneficios(cliente, promo.beneficios, productosPedidos);
              let grupoDeBeneficios:TPromoOngoingGrupoBeneficios[]=[];
              let cantidadDeVecesQueSePuedeAplicar:number=0;
@@ -140,7 +138,6 @@ export const obtenerPromocionesOngoingAplicables = (cliente:TCliente, productosP
                     });
                     cantidadDeVecesQueSePuedeAplicar=Math.min()
                 }
-
                 aplicables.push({ 
                     ...{
                         ...promo,
@@ -152,7 +149,6 @@ export const obtenerPromocionesOngoingAplicables = (cliente:TCliente, productosP
              }
         }
     }
-
     return aplicables;
 };
 
