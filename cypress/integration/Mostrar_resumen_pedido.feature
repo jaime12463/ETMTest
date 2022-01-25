@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Resumen_pedido @Sprint15 @Sprint17 @Sprint19
+@Pedido @Resumen_pedido @Sprint15 @Sprint17 @Sprint19 @Sprint21
 
 Característica: Mostrar resumen del pedido 
     Como prevendedor 
@@ -14,6 +14,7 @@ Escenario: N°1 - Sección de condiciones de pago
     Y separados por _tipoPedido que esValorizado = true
     Y por condición de pago, indicando código de producto, nombre
     Y precio unidades, precio subunidad, subtotal del producto ordenados por código de producto
+    Y mostrará al final del listado de productos, los obsequios obtenidos de promociones ongoing en la condición de pago que corresponda, según sección obsequios promo ongoing
     
 Escenario: N°2 - Promo push dentro de condiciones de pago
     Dado que estoy en un cliente 
@@ -95,3 +96,11 @@ Escenario: N°10 - Recalcular envases
     Entonces el sistema recalculará los envases para retorno según calcular envases retornables.
 
 
+Escenario: N°11 - Sección obsequios promo ongoing
+    Dado que se obtuvieron productos obsequios por promociones ongoing
+    Cuando selecciono ver resumen del pedido
+    Entonces el sistema mostrará dentro de la condición de pago de la promoción como cabecera el _promocionID
+    Y mostrará _descripcion de la promoción ordenados por _promocionID
+    Y mostrará el tag producto gratis
+    Y mostrará como detalle el _codigoProducto, _nombre, _atributos, _unidadMedida, cantidad obtenida y el precio de ahorro de cada _materialesBeneficio
+    Y mostrará el detalle ordenado por _codigoProducto
