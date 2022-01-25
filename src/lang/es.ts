@@ -215,11 +215,12 @@ const es = {
 			'Este producto se borrará de tu pedido actual junto con los canjes y las bonificaciones que contiene.',
 		borrarLineaPedidosMensajeUnico:
 			'Este producto se borrará de tu Toma de pedido',
+		borrarLineaPedidosMensajeUnicoCanje: 'Este producto se borrará de tu Canje',
 		productoUnicoEliminadoTitulo: 'Producto eliminado correctamente',
 		lineaBorradaConBonificacion:
 			'Se eliminó el producto de la toma de pedido junto con los las bonificaciones que contenía.',
 		lineaBorradaConCanje:
-			'Se eliminó el producto de la toma de pedido junto con los los canjes que contenía.',
+			'Se eliminó el producto de la toma de pedido junto con los canjes que contenía.',
 		lineaBorradaConCanjeBonificacion:
 			'Se eliminó el producto de la toma de pedido junto con los canjes y las bonificaciones que contenía.',
 		pdfErrorTitulo: 'Archivo no disponible',

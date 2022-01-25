@@ -22,6 +22,7 @@ import TarjetaCanjes from './TarjetaCanjes';
 import {SwipeBorrar} from 'components/UI';
 import {useBorrarLinea} from '../hooks/useBorrarLinea';
 import {Box} from '@mui/material';
+import Modal from 'components/UI/Modal';
 
 export const Canjes = () => {
 	const [preciosProductos, setPreciosProductos] = React.useState<
@@ -33,7 +34,15 @@ export const Canjes = () => {
 		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
 	const [focusId, setFocusId] = React.useState(0);
 	const visitaActual = useObtenerVisitaActual();
-
+	const [alerta, setAlerta] = React.useState<boolean>(false);
+	const [configAlerta, setConfigAlerta] = useState({
+		titulo: '',
+		mensaje: '',
+		tituloBotonAceptar: '',
+		tituloBotonCancelar: '',
+		iconoMensaje: <></>,
+		callbackAceptar: () => {},
+	});
 	const {canje} = visitaActual.pedidos;
 
 	const defaultValues: TFormTomaDePedido = {
@@ -55,7 +64,7 @@ export const Canjes = () => {
 	const stateInputFocus = {inputFocus, setInputFocus};
 	const mostrarAviso = useMostrarAviso();
 	const [catalogoMotivo, setCatalogoMotivo] = useState({});
-	const borrarLinea = useBorrarLinea();
+	const borrarLinea = useBorrarLinea({setAlerta, setConfigAlerta});
 
 	React.useEffect(() => {
 		if (productoActual !== null) {
@@ -101,35 +110,43 @@ export const Canjes = () => {
 	}, [productoActual?.codigoProducto]);
 
 	return (
-		<Stack spacing='10px'>
-			<Box padding={'0 18px'}>
-				<AutocompleteSeleccionarProducto
-					hookForm={hookForm}
-					stateProductoActual={{productoActual, setProductoActual}}
-					statePreciosProductos={{preciosProductos, setPreciosProductos}}
-					stateInputFocus={stateInputFocus}
-				/>
-			</Box>
+		<>
+			<Modal
+				setAlerta={setAlerta}
+				alerta={alerta}
+				contenidoMensaje={configAlerta}
+			/>
 
-			{canje.productos?.map((producto) => {
-				return (
-					<SwipeBorrar
-						key={producto.codigoProducto}
-						item={producto}
-						manejadorGesto={() => borrarLinea(producto)}
-					>
-						<TarjetaCanjes
+			<Stack spacing='10px'>
+				<Box padding={'0 18px'}>
+					<AutocompleteSeleccionarProducto
+						hookForm={hookForm}
+						stateProductoActual={{productoActual, setProductoActual}}
+						statePreciosProductos={{preciosProductos, setPreciosProductos}}
+						stateInputFocus={stateInputFocus}
+					/>
+				</Box>
+
+				{canje.productos?.map((producto) => {
+					return (
+						<SwipeBorrar
 							key={producto.codigoProducto}
-							producto={producto}
-							condicion={clienteActual.condicion}
-							stateCatalogo={{catalogoMotivo, setCatalogoMotivo}}
-							stateInputFocus={stateInputFocus}
-							statefocusId={{focusId, setFocusId}}
-							visitaActual={visitaActual}
-						/>
-					</SwipeBorrar>
-				);
-			})}
-		</Stack>
+							item={producto}
+							manejadorGesto={() => borrarLinea(producto)}
+						>
+							<TarjetaCanjes
+								key={producto.codigoProducto}
+								producto={producto}
+								condicion={clienteActual.condicion}
+								stateCatalogo={{catalogoMotivo, setCatalogoMotivo}}
+								stateInputFocus={stateInputFocus}
+								statefocusId={{focusId, setFocusId}}
+								visitaActual={visitaActual}
+							/>
+						</SwipeBorrar>
+					);
+				})}
+			</Stack>
+		</>
 	);
 };

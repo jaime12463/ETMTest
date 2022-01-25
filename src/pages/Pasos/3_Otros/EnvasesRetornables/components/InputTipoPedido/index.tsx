@@ -202,8 +202,8 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 
 				mostrarAviso(
 					'error',
-					t('advertencias.cantidadSuperiorEnvases'),
-					t('mensajes.cantidadSuperiorEnvases'),
+					t('toast.cantidadSuperiorEnvasesTitulo'),
+					t('toast.cantidadSuperiorEnvasesMensaje'),
 					undefined,
 					'cantidad-superior-envases'
 				);
@@ -289,7 +289,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 
 				mostrarAviso(
 					'error',
-					t('advertencias.cantidadSuperiorEnvases'),
+					t('toast.cantidadSuperiorEnvases'),
 					t('mensajes.cantidadSuperiorEnvases'),
 					undefined,
 					'cantidad-superior-envases'

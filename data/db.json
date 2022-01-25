@@ -2503,7 +2503,7 @@
 							"materialesBeneficio": [118466, 118467, 118986],
 							"cantidad": 10,
 							"unidadMedida": "Unidad",
-							"formaBenecio": "2",
+							"formaBeneficio": "2",
 							"valorBeneficio": 15.0,
 							"claseCondicion": "ZPD %",
 							"tope": 50
