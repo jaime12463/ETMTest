@@ -1,3 +1,5 @@
+import { getAutomaticTypeDirectiveNames } from "typescript";
+
 //db.json
 export type TDatosClientesProductos = {
 	clientes: TClientes;
@@ -27,16 +29,34 @@ export type TListaDataSecundaria = Record<number, TDataSecundaria>;
 /* */
 /* 	ESTRUCTURAS PROMOONGOING */
 
+export enum EFormaBeneficio {
+	Obsequio,
+	DescuentoPorcentaje,
+	DescuentoMonto,
+	Precio
+};
+
+export enum EFormaDeAplicacion {
+	Automatica = "A",
+	Manual="M"
+
+};
+
+export enum EFormaDeAsignacion {
+	Total="T",
+	Parcial="P"
+}
+
 export type TPromoOngoing = {
 	promocionID: number;
 	descripcion: string;
 	tipo: number;
-	aplicacion: string;
-	asignacion: string;
+	aplicacion: EFormaDeAplicacion;
+	asignacion: EFormaDeAsignacion;
 	inicioVigenciaPromocion: string;
 	finVigenciaPromocion: string;
 	requisitos: TPromoOngoingRequisitos[];
-	beneficio: TPromoOngoingBeneficios[];
+	beneficios: TPromoOngoingGrupoBeneficios[];
 };
 
 export type TListaPromoOngoing = Record<number, TPromoOngoing>;
@@ -49,7 +69,7 @@ export type TPromoOngoingRequisitos= {
 }
 
 
-export type TPromoOngoingBeneficios={
+export type TPromoOngoingGrupoBeneficios={
 	grupoBeneficioID:number;
 	descripcion:string;
 	secuencias: TPromoOngoingBeneficiosSecuencia[];
@@ -60,12 +80,16 @@ export type TPromoOngoingBeneficiosSecuencia = {
 	materialesBeneficio: number[];
 	cantidad: number;
 	unidadMedida: string;
-	formaBeneficio:string;
+	formaBeneficio:EFormaBeneficio;
 	valorBeneficio:number;
 	claseCondicion:string;
 	tope:number;
 }
 
+export type TPromoOngoingHabilitadas = {
+	idPromocion: number;
+	pomocionesDisponibles:number;
+}
 /* */
 
 export type TIniciativas = {
@@ -116,6 +140,7 @@ export type TCliente = {
 	configuracionPedido: TConfiguracionPedido;
 	portafolio: TPortafolio[];
 	bonificacionesHabilitadas?: TBonificacionesHabilitadas[];
+	promocionesHabilitadas?:TPromoOngoingHabilitadas[];
 };
 
 export type TProducto = {
