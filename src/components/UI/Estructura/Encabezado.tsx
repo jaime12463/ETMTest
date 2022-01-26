@@ -73,7 +73,7 @@ const Encabezado: React.FC<Props> = ({
 					top: '72px',
 					left: '-10%',
 					background: theme.palette.primary.main,
-					zIndex: 999,
+					zIndex: 98,
 				}}
 			/>
 		</AppBar>

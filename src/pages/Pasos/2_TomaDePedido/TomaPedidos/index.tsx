@@ -27,7 +27,13 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
-import {BorrarIcon} from 'assests/iconos';
+import IconButton from '@mui/material/IconButton';
+import {
+	BorrarIcon,
+	BuscarIcon,
+	PromocionColor,
+	PromocionesIcon,
+} from 'assests/iconos';
 import {styled} from '@mui/material/styles';
 import {useBorrarLinea, useBorrarTodoTomaPedido} from '../hooks';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
@@ -39,6 +45,8 @@ import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoP
 import {Box} from '@mui/system';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
+import Drawer from 'components/UI/Drawer';
+import PromoOngoing from 'components/UI/PromoOngoing';
 
 const TextStyled = styled(Typography)(() => ({
 	color: theme.palette.secondary.main,
@@ -167,6 +175,9 @@ const TomaPedido: React.FC = () => {
 		}
 	}, [productoActual?.codigoProducto]);
 
+	const [openDrawerPromociones, setOpenDrawerPromociones] =
+		React.useState<boolean>(false);
+
 	return (
 		<>
 			<Modal
@@ -175,20 +186,84 @@ const TomaPedido: React.FC = () => {
 				contenidoMensaje={configAlerta}
 			/>
 			<Stack spacing='10px'>
-				<Box padding={'0 18px'}>
+				<Box
+					alignItems='center'
+					display='flex'
+					justifyContent='space-between'
+					margin='18px 0'
+					paddingLeft='18px'
+				>
 					<AutocompleteSeleccionarProducto
 						hookForm={hookForm}
 						stateProductoActual={{productoActual, setProductoActual}}
 						statePreciosProductos={{preciosProductos, setPreciosProductos}}
 						stateInputFocus={stateInputFocus}
 					/>
+					<Box alignItems='center' display='flex' gap='16px'>
+						<IconButton
+							style={{padding: 0}}
+							onClick={() => setOpenDrawerPromociones(true)}
+						>
+							<PromocionColor height='24px' width='24px' />
+						</IconButton>
+						<IconButton sx={{padding: 0, marginRight: '9px'}}>
+							<BuscarIcon height='18px' width='18px' />
+						</IconButton>
+					</Box>
 				</Box>
 
-				<Grid container alignItems='center' justifyContent='space-between'>
-					{venta?.productos?.length > 0 &&
-						venta?.productos?.some(
-							(producto) => producto.unidades > 0 || producto.subUnidades > 0
-						) && (
+				<Drawer
+					open={openDrawerPromociones}
+					setOpen={setOpenDrawerPromociones}
+					titulo={
+						<Box
+							alignItems='center'
+							display='flex'
+							gap='4px'
+							padding='34px 0 22px 0'
+						>
+							<PromocionesIcon fill='#fff' height='24px' width='24px' />
+							<Typography
+								color='#fff'
+								variant='subtitle2'
+								fontFamily='Open Sans'
+								fontWeight={700}
+							>
+								{t('titulos.promociones')}
+							</Typography>
+						</Box>
+					}
+				>
+					<Box display='flex' flexDirection='column' gap='16px'>
+						<PromoOngoing.Container tipo='credito'>
+							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia
+							facere sequi repellat nostrum, consequuntur enim corrupti dolor
+							optio, deserunt, architecto alias. Ad dolore sequi, molestias sit
+							in dolorum, error doloribus delectus voluptatem qui, magni culpa!
+							Fugiat eveniet velit sapiente voluptas.
+						</PromoOngoing.Container>
+						<PromoOngoing.Container tipo='contado'>
+							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia
+							facere sequi repellat nostrum, consequuntur enim corrupti dolor
+							optio, deserunt, architecto alias. Ad dolore sequi, molestias sit
+							in dolorum, error doloribus delectus voluptatem qui, magni culpa!
+							Fugiat eveniet velit sapiente voluptas.
+						</PromoOngoing.Container>
+						<PromoOngoing.Container>
+							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia
+							facere sequi repellat nostrum, consequuntur enim corrupti dolor
+							optio, deserunt, architecto alias. Ad dolore sequi, molestias sit
+							in dolorum, error doloribus delectus voluptatem qui, magni culpa!
+							Fugiat eveniet velit sapiente voluptas.
+						</PromoOngoing.Container>
+					</Box>
+				</Drawer>
+
+				{venta?.productos?.length > 0 &&
+					venta?.productos?.some(
+						(producto) => producto.unidades > 0 || producto.subUnidades > 0
+					) && (
+						<Grid container alignItems='center' justifyContent='space-between'>
 							<Box
 								display={'flex'}
 								minWidth={'100%'}
@@ -206,8 +281,8 @@ const TomaPedido: React.FC = () => {
 									onClick={() => borrarTodosLosProductos()}
 								/>
 							</Box>
-						)}
-				</Grid>
+						</Grid>
+					)}
 
 				{venta.productos.length > 0 &&
 					venta.productos

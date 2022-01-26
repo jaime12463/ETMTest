@@ -15,7 +15,7 @@ import {
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';
-import {BuscarIcon, AgregarIcon} from 'assests/iconos';
+import {BuscarIcon, AgregarIcon, PromocionColor} from 'assests/iconos';
 import {useEsPermitidoAgregarProductoAlPedido} from './hooks';
 import {styled} from '@mui/material/styles';
 
@@ -32,7 +32,6 @@ const GridAutocomplete = styled(Grid)(() => ({
 	height: '32px',
 	padding: '0 12px',
 	width: '164px',
-	marginBottom: '18px',
 }));
 
 const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
@@ -97,7 +96,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	};
 
 	return (
-		<Box display='flex' marginTop='18px' justifyContent='space-between'>
+		<Box display='flex' justifyContent='space-between'>
 			<GridAutocomplete
 				container
 				direction='row'
@@ -155,7 +154,10 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 					</IconButton>
 				</Grid>
 			</GridAutocomplete>
-			<Grid item>
+			{/* <Grid item>
+				<IconButton>
+					<PromocionColor />
+				</IconButton>
 				<IconButton
 					aria-label='search'
 					size='small'
@@ -168,7 +170,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 				>
 					<BuscarIcon height='18px' width='18px' />
 				</IconButton>
-			</Grid>
+			</Grid> */}
 		</Box>
 	);
 };
