@@ -34,10 +34,7 @@ import {AvisoIcon, PromocionesRellenoIcon} from 'assests/iconos';
 import Modal from 'components/UI/Modal';
 import BotonResumenPedido from 'components/UI/BotonResumenPedido';
 import ResumenPedido from 'components/UI/ResumenPedido';
-import {
-	cambiarAvisos,
-	cambiarSeQuedaAEditar,
-} from 'redux/features/visitaActual/visitaActualSlice';
+import {cambiarSeQuedaAEditar} from 'redux/features/visitaActual/visitaActualSlice';
 import ModalCore from 'components/UI/ModalCore';
 
 const formatearItems = (items: number) => {
@@ -226,28 +223,39 @@ const Pasos: React.FC = () => {
 				<ModalCore open={openVistaPromoPush} borderRadius>
 					<VistaPromoPush setOpenVistaPromoPush={setOpenVistaPromoPush} />
 				</ModalCore>
-				<Box my={3}>
+				<Box
+					display='flex'
+					justifyContent='center'
+					marginTop='20px'
+					padding='10px'
+					marginBottom='10px'
+					position='sticky'
+					top='2px'
+					sx={{background: '#e5e5e5', zIndex: 99}}
+				>
 					<IndicadoresDelPedidoActual />
 				</Box>
-				<Box my={3}>
-					<Stepper
-						pasos={controlador.map(
-							(paso: TControlador, index) => `${index + 1}. ${t(paso.titulo)}`
-						)}
-						pasoActivo={pasoActual}
-					/>
-				</Box>
+				<Box padding='0 10px'>
+					<Box>
+						<Stepper
+							pasos={controlador.map(
+								(paso: TControlador, index) => `${index + 1}. ${t(paso.titulo)}`
+							)}
+							pasoActivo={pasoActual}
+						/>
+					</Box>
 
-				<Contenedor pasoActivo={pasoActual} />
-				<Modal
-					setAlerta={setAlertaPasos}
-					alerta={alertaPasos}
-					setPasoActual={setPasoActual}
-					contenidoMensaje={configAlerta}
-				/>
-				<ModalCore open={openResumenPedido} borderRadius>
-					<ResumenPedido setOpen={setOpenResumenPedido} />
-				</ModalCore>
+					<Contenedor pasoActivo={pasoActual} />
+					<Modal
+						setAlerta={setAlertaPasos}
+						alerta={alertaPasos}
+						setPasoActual={setPasoActual}
+						contenidoMensaje={configAlerta}
+					/>
+					<ModalCore open={openResumenPedido} borderRadius>
+						<ResumenPedido setOpen={setOpenResumenPedido} />
+					</ModalCore>
+				</Box>
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
 				<BotonResumenPedido setOpen={setOpenResumenPedido} />

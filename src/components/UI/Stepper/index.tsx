@@ -19,7 +19,7 @@ export const Stepper: FunctionComponent<Props> = ({pasos, pasoActivo}) => {
 				alternativeLabel
 				activeStep={pasoActivo}
 				connector={<QontoConnector />}
-				sx={{marginBottom: '22px'}}
+				sx={{marginBottom: '44px'}}
 			>
 				{pasos.map((label) => (
 					<Step key={label}>

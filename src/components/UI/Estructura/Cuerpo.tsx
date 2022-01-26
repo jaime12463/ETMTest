@@ -9,15 +9,14 @@ const Cuerpo: React.FC = ({children}) => {
 			display='flex'
 			justifyContent='center'
 			className={estilos.main}
-			style={{maxHeight: '100%', overflow: 'auto'}}
+			style={{overflow: 'auto'}}
 		>
 			<Container
 				maxWidth='xs'
 				component='main'
-				disableGutters={true}
+				disableGutters
 				className={estilos.main}
 				classes={{maxWidthXs: estilos.maxWidthXs}}
-				style={{padding: '0 10px'}}
 			>
 				{children}
 			</Container>

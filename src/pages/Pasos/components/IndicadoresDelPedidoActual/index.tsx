@@ -67,8 +67,6 @@ const IndicadoresDelPedidoActual = () => {
 
 	const [yaMostroAviso, setYaMostroAviso] = React.useState<boolean>(false);
 
-	console.log({yaMostroAviso, creditoDisponible});
-
 	React.useEffect(() => {
 		if (
 			!yaMostroAviso &&
@@ -138,7 +136,7 @@ const IndicadoresDelPedidoActual = () => {
 		});
 
 	return (
-		<Grid container spacing={3} alignItems='end'>
+		<Grid container spacing='20px' alignItems='end'>
 			{indicadores.map((el, i) => (
 				<Grid item xs key={i}>
 					<BarraDeProgreso
