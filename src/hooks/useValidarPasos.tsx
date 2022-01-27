@@ -148,10 +148,45 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 		}
 
 		if (productosSinModificar) {
-			return {
-				error: productosSinModificar,
-				contenidoMensajeModal: configAlerta,
-			};
+			const pedidoConUnidadesYSubUnidades = venta.productos.some(
+				(producto) => producto.unidades > 0 || producto.subUnidades > 0
+			);
+
+			if (!pedidoConUnidadesYSubUnidades) {
+				return {
+					error: productosSinModificar,
+					contenidoMensajeModal: configAlerta,
+				};
+			} else {
+				return {
+					error: productosSinModificar,
+					contenidoMensajeModal: {
+						titulo: t('titulos.tituloProductosSinCargar'),
+						mensaje: t('advertencias.mensajeProductosSinCargar'),
+						tituloBotonAceptar: t('general.avanzar'),
+						tituloBotonCancelar: t('general.editarCantidades'),
+						callbackAceptar: () => {
+							dispatch(limpiarProductosSinCantidad());
+							dispatch(
+								cambiarSeQuedaAEditar({seQueda: false, bordeError: false})
+							);
+							mostrarAviso(
+								'success',
+								t('toast.cambiosGuardados'),
+								undefined,
+								undefined,
+								'successpaso2'
+							);
+						},
+						callbackCancelar: () => {
+							dispatch(
+								cambiarSeQuedaAEditar({seQueda: true, bordeError: true})
+							);
+						},
+						iconoMensaje: <AvisoIcon />,
+					},
+				};
+			}
 		}
 	}
 	if (pasoActual === 2) {
