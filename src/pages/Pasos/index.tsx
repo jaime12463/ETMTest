@@ -15,6 +15,8 @@ import {
 	useReiniciarClienteActual,
 	useMostrarAviso,
 	useObtenerDatosCliente,
+	useObtenerTiposPedidoSegunConfiguracion,
+	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
 import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
 import {Configuracion} from 'components/UI/Modal';
@@ -25,6 +27,7 @@ import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
 	useObtenerVisitaActual,
+	useObtenerConfiguracion,
 } from 'redux/hooks';
 
 import {TCliente, TClienteActual} from 'models';
@@ -36,6 +39,7 @@ import BotonResumenPedido from 'components/UI/BotonResumenPedido';
 import ResumenPedido from 'components/UI/ResumenPedido';
 import {cambiarSeQuedaAEditar} from 'redux/features/visitaActual/visitaActualSlice';
 import ModalCore from 'components/UI/ModalCore';
+import {obtenerTotalesPedidosCliente} from 'utils/methods';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -48,7 +52,7 @@ const Pasos: React.FC = () => {
 	const {t} = useTranslation();
 	const [pasoActual, setPasoActual] = useState<number>(0);
 	const [openVistaPromoPush, setOpenVistaPromoPush] = React.useState(false);
-
+	const {tipoPedidoEnvasesHabilitados, tipoPedidos} = useObtenerConfiguracion();
 	const [leyendaBoton, setLeyendaBoton] = useState(
 		`${t('general.continuarA')} ${t(controlador[1].titulo)}`
 	);
@@ -61,6 +65,14 @@ const Pasos: React.FC = () => {
 	const ObtenerPedidosValorizados = useObtenerPedidosValorizados();
 	const itemsValorizados = ObtenerPedidosValorizados();
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
+	const obtenerTiposPedidoSegunConfiguracion =
+		useObtenerTiposPedidoSegunConfiguracion('contribuyeAMinimo', true);
+
+	const pedidosContribuyeAlMinimo = obtenerTiposPedidoSegunConfiguracion();
+	const pedidoEnvaseContribuyeAlMinimo = tipoPedidoEnvasesHabilitados.some(
+		(pedidosEnvases) =>
+			pedidosContribuyeAlMinimo.find((pedido) => pedido === pedidosEnvases)
+	);
 
 	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(codigoCliente);
@@ -77,8 +89,16 @@ const Pasos: React.FC = () => {
 
 	const reiniciarVisita = useResetVisitaActual();
 	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
+	const {obtenerPedidosClienteMismaFechaEntrega} =
+		useObtenerPedidosClienteMismaFechaEntrega();
 	const handleOpenVistaPromoPush = () => setOpenVistaPromoPush(true);
+	const pedidosClienteMismaFechaEntrega =
+		obtenerPedidosClienteMismaFechaEntrega(datosCliente?.codigoCliente ?? '');
 	const reiniciarClienteActual = useReiniciarClienteActual();
+	const totalesPedidoCliente = obtenerTotalesPedidosCliente({
+		pedidosClienteMismaFechaEntrega,
+		tipoPedidos,
+	});
 
 	useEffect(() => {
 		if (pasoActual < controlador.length - 1) {
@@ -187,6 +207,22 @@ const Pasos: React.FC = () => {
 							t('toast.ventaBloqueadaMensaje'),
 							undefined,
 							'bloqueadoParaVenta'
+						);
+					}
+					if (
+						pedidoEnvaseContribuyeAlMinimo &&
+						!datosCliente?.informacionCrediticia.esBloqueadoVenta &&
+						datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima &&
+						totalesPedidoCliente +
+							(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0) <
+							datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
+					) {
+						mostrarAviso(
+							'warning',
+							t('toast.pedidoMinimoNoAlcanzadoTitulo'),
+							t('toast.pedidoMinimoNoAlcanzadoMensaje'),
+							undefined,
+							'pedidoMinimoNoAlcanzadoWarning'
 						);
 					}
 				}
