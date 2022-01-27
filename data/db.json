@@ -100,7 +100,7 @@
 			},
 			"promocionesHabilitadas": [
 				{
-					"idPromoción": 179567,
+					"idPromocion": 179567,
 					"promocionesDisponibles": 1
 				}
 			],
@@ -1383,6 +1383,12 @@
 				},
 				"cantidadMaximaUnidades": 999
 			},
+			"promocionesHabilitadas": [
+				{
+					"idPromocion": 179567,
+					"promocionesDisponibles": 1
+				}
+			],
 			"portafolio": [
 				{
 					"codigoProducto": 170456,

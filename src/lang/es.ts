@@ -178,8 +178,6 @@ const es = {
 			'¿Quieres Borrar todos los productos?. Todos los productos seleccionados se borraran de la toma de pedido',
 		borrarPromosPush:
 			'Todos los productos seleccionados se borraran de Promociones',
-		mensajeProductosSinCargar:
-			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido.',
 		mensajeIniciativasSinMotivo:
 			'Por favor, ingrese un motivo para cada iniciativa cancelada.',
 		borrarDescuento: '¿Deseas eliminar el descuento escalonado? ',
@@ -219,6 +217,14 @@ const es = {
 		borrarLineaPedidosMensajeUnico:
 			'Este producto se borrará de tu Toma de pedido',
 		borrarLineaPedidosMensajeUnicoCanje: 'Este producto se borrará de tu Canje',
+		mensajeProductosSinCargar:
+			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido.',
+		mensajeProductosSinCargarCanje:
+			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido junto con los canjes que contiene.',
+		mensajeProductosSinCargarBonificacion:
+			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido junto con las bonificaciones que contiene.',
+		mensajeProductosSinCargarCanjeYBonificacion:
+			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido y los canjes y las bonificaciones que contiene.',
 		productoUnicoEliminadoTitulo: 'Producto eliminado correctamente',
 		lineaBorradaConBonificacion:
 			'Se eliminó el producto de la toma de pedido junto con los las bonificaciones que contenía.',
