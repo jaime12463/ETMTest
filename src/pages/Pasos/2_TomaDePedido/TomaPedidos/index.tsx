@@ -236,25 +236,23 @@ const TomaPedido: React.FC = () => {
 				>
 					<Box display='flex' flexDirection='column' gap='16px'>
 						<PromoOngoing.Container tipo='credito'>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia
-							facere sequi repellat nostrum, consequuntur enim corrupti dolor
-							optio, deserunt, architecto alias. Ad dolore sequi, molestias sit
-							in dolorum, error doloribus delectus voluptatem qui, magni culpa!
-							Fugiat eveniet velit sapiente voluptas.
+							<PromoOngoing.CardsContainer>
+								<PromoOngoing.Card promocionAutomatica />
+								<PromoOngoing.Card />
+							</PromoOngoing.CardsContainer>
 						</PromoOngoing.Container>
 						<PromoOngoing.Container tipo='contado'>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia
-							facere sequi repellat nostrum, consequuntur enim corrupti dolor
-							optio, deserunt, architecto alias. Ad dolore sequi, molestias sit
-							in dolorum, error doloribus delectus voluptatem qui, magni culpa!
-							Fugiat eveniet velit sapiente voluptas.
+							<PromoOngoing.CardsContainer>
+								<PromoOngoing.Card promocionAutomatica />
+								<PromoOngoing.Card />
+							</PromoOngoing.CardsContainer>
 						</PromoOngoing.Container>
 						<PromoOngoing.Container>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia
-							facere sequi repellat nostrum, consequuntur enim corrupti dolor
-							optio, deserunt, architecto alias. Ad dolore sequi, molestias sit
-							in dolorum, error doloribus delectus voluptatem qui, magni culpa!
-							Fugiat eveniet velit sapiente voluptas.
+							<PromoOngoing.CardsContainer>
+								<PromoOngoing.Card soloLectura />
+								<PromoOngoing.Card soloLectura />
+								<PromoOngoing.Card soloLectura />
+							</PromoOngoing.CardsContainer>
 						</PromoOngoing.Container>
 					</Box>
 				</Drawer>

@@ -67,6 +67,7 @@ const br = {
 		continuar: 'Prosseguir',
 		editar: 'Editar',
 		restablecerCero: 'Redefinir as quantidades para zero',
+		restablecerPromociones: 'Redefinir promoções',
 		resumenDePedido: 'Resumo do pedido',
 		totalContado: 'Total contado:',
 		totalCredito: 'Total crédito:',
@@ -89,6 +90,8 @@ const br = {
 		motivoCancelacion: 'Motivo de cancelamento',
 		promocionesAplicadas: 'Promoções aplicadas',
 		aplicacionMaxima: 'Aplicação máxima',
+		aplicar: 'Aplicar',
+		promocionAutomatica: 'Promoção automática',
 	},
 	simbolos: {
 		decimal: '.',

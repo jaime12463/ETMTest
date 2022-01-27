@@ -73,6 +73,7 @@ const en = {
 		editar: 'Edit',
 		salir: 'Exit',
 		restablecerCero: 'Reset quantities to zero',
+		restablecerPromociones: 'Reset promotions',
 		resumenDePedido: 'Order summary',
 		totalContado: 'Total cash:',
 		totalCredito: 'Total credit:',
@@ -95,6 +96,8 @@ const en = {
 		motivoCancelacion: 'Cancellation reason',
 		promocionesAplicadas: 'Applied promotions',
 		aplicacionMaxima: 'Maximum application',
+		aplicar: 'Apply',
+		promocionAutomatica: 'Automatic promotion',
 	},
 	simbolos: {
 		decimal: ',',

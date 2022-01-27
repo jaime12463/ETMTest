@@ -73,6 +73,7 @@ const es = {
 		editar: 'Editar',
 		salir: 'Salir',
 		restablecerCero: 'Restablecer cantidades a cero',
+		restablecerPromociones: 'Restablecer promociones',
 		resumenDePedido: 'Resumen de pedido',
 		totalContado: 'Total contado:',
 		totalCredito: 'Total crédito:',
@@ -95,6 +96,8 @@ const es = {
 		motivoCancelacion: 'Motivo de cancelación',
 		promocionesAplicadas: 'Promociones aplicadas',
 		aplicacionMaxima: 'Aplicación máxima',
+		aplicar: 'Aplicar',
+		promocionAutomatica: 'Promoción automática',
 	},
 	simbolos: {
 		decimal: '.',

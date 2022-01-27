@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import theme from 'theme';
 import {ReiniciarIcon} from 'assests/iconos';
+import {useTranslation} from 'react-i18next';
 
 export interface ContainerProps {
 	tipo?: 'credito' | 'contado' | 'default';
@@ -12,9 +13,11 @@ export interface ContainerProps {
 
 const Container: React.FC<ContainerProps> = ({
 	tipo = 'default',
-	onClick,
+	onClick = () => {},
 	children,
 }) => {
+	const {t} = useTranslation();
+
 	let titulo =
 		'Promociones que no cubren el requisito dentro de la toma del pedido';
 
@@ -66,7 +69,7 @@ const Container: React.FC<ContainerProps> = ({
 							</Typography>
 						</Box>
 						<IconButton
-							onClick={onClick ?? undefined}
+							onClick={onClick}
 							sx={{
 								border: `1px solid ${theme.palette.secondary.main}`,
 								borderRadius: '50px',
@@ -85,7 +88,7 @@ const Container: React.FC<ContainerProps> = ({
 								fontFamily='Open Sans'
 								color={theme.palette.secondary.main}
 							>
-								Restablecer promociones
+								{t('general.restablecerPromociones')}
 							</Typography>
 						</IconButton>
 					</>
