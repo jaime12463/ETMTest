@@ -47,6 +47,8 @@ import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import Drawer from 'components/UI/Drawer';
 import PromoOngoing from 'components/UI/PromoOngoing';
+import {obtenerlistaPromocionesVigentes} from 'utils/procesos/promociones';
+import {useObtenerDatos} from 'redux/hooks';
 
 const TextStyled = styled(Typography)(() => ({
 	color: theme.palette.secondary.main,
@@ -83,6 +85,7 @@ const TomaPedido: React.FC = () => {
 
 	const [focusId, setFocusId] = React.useState(0);
 	const visitaActual = useObtenerVisitaActual();
+	const datos = useObtenerDatos();
 	const {venta} = visitaActual.pedidos;
 	const defaultValues: TFormTomaDePedido = {
 		unidades: '',
@@ -111,9 +114,15 @@ const TomaPedido: React.FC = () => {
 		venta.productos
 	);
 
+	if (!datosCliente) return <></>;
 	const {configuracionPedido}: any = datosCliente;
 
 	const borrarlinea = useBorrarLinea({setAlerta, setConfigAlerta});
+
+	const promocionesVigentesCliente = obtenerlistaPromocionesVigentes(
+		datosCliente,
+		datos.promociones
+	);
 
 	React.useEffect(() => {
 		if (
@@ -199,17 +208,19 @@ const TomaPedido: React.FC = () => {
 						statePreciosProductos={{preciosProductos, setPreciosProductos}}
 						stateInputFocus={stateInputFocus}
 					/>
-					<Box alignItems='center' display='flex' gap='16px'>
-						<IconButton
-							style={{padding: 0}}
-							onClick={() => setOpenDrawerPromociones(true)}
-						>
-							<PromocionColor height='24px' width='24px' />
-						</IconButton>
-						<IconButton sx={{padding: 0, marginRight: '9px'}}>
-							<BuscarIcon height='18px' width='18px' />
-						</IconButton>
-					</Box>
+					{promocionesVigentesCliente?.existenPromociones && (
+						<Box alignItems='center' display='flex' gap='16px'>
+							<IconButton
+								style={{padding: 0}}
+								onClick={() => setOpenDrawerPromociones(true)}
+							>
+								<PromocionColor height='24px' width='24px' />
+							</IconButton>
+							<IconButton sx={{padding: 0, marginRight: '9px'}}>
+								<BuscarIcon height='18px' width='18px' />
+							</IconButton>
+						</Box>
+					)}
 				</Box>
 
 				<Drawer

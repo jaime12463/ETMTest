@@ -100,7 +100,7 @@
 			},
 			"promocionesHabilitadas": [
 				{
-					"idPromoción": 179567,
+					"idPromocion": 179567,
 					"promocionesDisponibles": 1
 				}
 			],
@@ -1383,6 +1383,12 @@
 				},
 				"cantidadMaximaUnidades": 999
 			},
+			"promocionesHabilitadas": [
+				{
+					"idPromocion": 179567,
+					"promocionesDisponibles": 1
+				}
+			],
 			"portafolio": [
 				{
 					"codigoProducto": 170456,
@@ -2424,19 +2430,19 @@
 			"finVigenciaPromocion": "2021-09-06",
 
 			"requisitos": [
-						{
-								"materiales": [18466, 118467, 118986],
-								"cantidad": 7,
-								"unidadMedida": "Unidad",
-								"conector": "Y"
-						},
-						{
-								"materiales": [420],
+				{
+					"materiales": [18466, 118467, 118986, 400],
+					"cantidad": 7,
+					"unidadMedida": "Unidad",
+					"conector": "Y"
+				},
+				{
+					"materiales": [420],
 
-								"cantidad": 1,
+					"cantidad": 1,
 
-								"unidadMedida": "Unidad"
-						}
+					"unidadMedida": "Unidad"
+				}
 			],
 
 			"beneficios": [
@@ -2487,11 +2493,11 @@
 			"finVigenciaPromocion": "2021-09-06",
 
 			"requisitos": [
-					{
-						"materiales": [18466, 118467, 118986],
-						"cantidad": 7,
-						"unidadMedida": "Unidad"
-					}
+				{
+					"materiales": [18466, 118467, 118986],
+					"cantidad": 7,
+					"unidadMedida": "Unidad"
+				}
 			],
 			"beneficios": [
 				{
@@ -2510,7 +2516,6 @@
 						}
 					]
 				}
-				
 			]
 		}
 	]

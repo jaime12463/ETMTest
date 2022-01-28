@@ -16,15 +16,11 @@ import {
 	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
 import {TProductoPedido} from 'models';
-import {
-	useValidarTieneBonificaciones,
-} from '../hooks';
+import {useValidarTieneBonificaciones} from '../hooks';
 import {useTranslation} from 'react-i18next';
 import {AvisoIcon} from 'assests/iconos';
 
-export const useBorrarLinea = (
-	stateAlerta: any
-) => {
+export const useBorrarLinea = (stateAlerta: any) => {
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
 	const configuracion = useObtenerConfiguracion();
@@ -36,139 +32,139 @@ export const useBorrarLinea = (
 	const productosMandatoriosVisitaActual =
 		useObtenerProductosMandatoriosVisitaActual();
 
-	const {
-		obtenerPedidosClienteMismaFechaEntrega,
-	} = useObtenerPedidosClienteMismaFechaEntrega();
+	const {obtenerPedidosClienteMismaFechaEntrega} =
+		useObtenerPedidosClienteMismaFechaEntrega();
 
-	const pedidosClienteMismaFechaEntrega = obtenerPedidosClienteMismaFechaEntrega(
-		clienteActual.codigoCliente
-	);
+	const pedidosClienteMismaFechaEntrega =
+		obtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
 
-	const validarTieneBonificaciones =
-		useValidarTieneBonificaciones();
+	const validarTieneBonificaciones = useValidarTieneBonificaciones();
 
 	const {bonificacionesConVenta} = useObtenerConfiguracion();
 
-	const borrarLinea = useCallback((productoaBorrar: TProductoPedido) => {
-		const clienteOtroPedidoMismaFecha = pedidosClienteMismaFechaEntrega.length > 0 ? true : false;
+	const borrarLinea = useCallback(
+		(productoaBorrar: TProductoPedido) => {
+			const clienteOtroPedidoMismaFecha =
+				pedidosClienteMismaFechaEntrega.length > 0 ? true : false;
 
-		const clienteTieneCanje = visitaActual.pedidos.canje.productos.length > 0 ? true : false;
+			const clienteTieneCanje =
+				visitaActual.pedidos.canje.productos.length > 0 ? true : false;
 
-		const clienteTieneBoficaciones = validarTieneBonificaciones();
+			const clienteTieneBoficaciones = validarTieneBonificaciones();
 
-		const esUltimoProducto = visitaActual.pedidos.venta.productos.length === 1 ? true : false;
+			const esUltimoProducto =
+				visitaActual.pedidos.venta.productos.length === 1 ? true : false;
 
-		//CA2:
-		if (
-			esUltimoProducto &&
-			!clienteOtroPedidoMismaFecha && 
-			clienteTieneCanje && 
-			(clienteTieneBoficaciones && bonificacionesConVenta)
-		) {
-			setConfigAlerta({
-				titulo: t('advertencias.borrarLineaPedidosTitulo'),
-				mensaje: t('advertencias.borrarLineaPedidosMensajeCanjeBonificacion'),
-				tituloBotonAceptar: 'Aceptar',
-				tituloBotonCancelar: 'Cancelar',
-				callbackAceptar: () => {
-					dispatch(
-						borrarProductoDelPedidoActual({
-							codigoProducto: productoaBorrar.codigoProducto,
-						})
-					);
-					dispatch(eliminarCanje());
-					dispatch(restablecerBonificaciones());
-					mostrarAviso(
-						'success',
-						t('advertencias.productoUnicoEliminadoTitulo'),
-						t('advertencias.lineaBorradaConCanjeBonificacion'),
-						undefined,
-						'productoEliminado'
-					);
-				},
-				callbackCancelar: () => {
-				},
-				iconoMensaje: <AvisoIcon />,
-			});
-			setAlerta(true);
+			//CA2:
+			if (
+				esUltimoProducto &&
+				!clienteOtroPedidoMismaFecha &&
+				clienteTieneCanje &&
+				clienteTieneBoficaciones &&
+				bonificacionesConVenta
+			) {
+				setConfigAlerta({
+					titulo: t('advertencias.borrarLineaPedidosTitulo'),
+					mensaje: t('advertencias.borrarLineaPedidosMensajeCanjeBonificacion'),
+					tituloBotonAceptar: 'Aceptar',
+					tituloBotonCancelar: 'Cancelar',
+					callbackAceptar: () => {
+						dispatch(
+							borrarProductoDelPedidoActual({
+								codigoProducto: productoaBorrar.codigoProducto,
+							})
+						);
+						dispatch(eliminarCanje());
+						dispatch(restablecerBonificaciones());
+						mostrarAviso(
+							'success',
+							t('advertencias.productoUnicoEliminadoTitulo'),
+							t('advertencias.lineaBorradaConCanjeBonificacion'),
+							undefined,
+							'productoEliminado'
+						);
+					},
+					callbackCancelar: () => {},
+					iconoMensaje: <AvisoIcon />,
+				});
+				setAlerta(true);
 
-			return;
-		}
+				return;
+			}
 
-		//CA3:
-		if ( 
-			esUltimoProducto && 
-			!clienteOtroPedidoMismaFecha && 
-			clienteTieneCanje && 
-			(!clienteTieneBoficaciones || !bonificacionesConVenta)
-		) {
-			setConfigAlerta({
-				titulo: t('advertencias.borrarLineaPedidosTitulo'),
-				mensaje: t('advertencias.borrarLineaPedidosMensajeCanje'),
-				tituloBotonAceptar: 'Eliminar',
-				tituloBotonCancelar: 'Cancelar',
-				callbackAceptar: () => {
-					dispatch(
-						borrarProductoDelPedidoActual({
-							codigoProducto: productoaBorrar.codigoProducto,
-						})
-					);
-					dispatch(eliminarCanje());
-					mostrarAviso(
-						'success',
-						t('advertencias.productoUnicoEliminadoTitulo'),
-						t('advertencias.lineaBorradaConCanje'),
-						undefined,
-						'productoEliminado'
-					);
-				},
-				callbackCancelar: () => {
-				},
-				iconoMensaje: <AvisoIcon />,
-			});
-			setAlerta(true);
+			//CA3:
+			if (
+				esUltimoProducto &&
+				!clienteOtroPedidoMismaFecha &&
+				clienteTieneCanje &&
+				(!clienteTieneBoficaciones || !bonificacionesConVenta)
+			) {
+				setConfigAlerta({
+					titulo: t('advertencias.borrarLineaPedidosTitulo'),
+					mensaje: t('advertencias.borrarLineaPedidosMensajeCanje'),
+					tituloBotonAceptar: 'Eliminar',
+					tituloBotonCancelar: 'Cancelar',
+					callbackAceptar: () => {
+						dispatch(
+							borrarProductoDelPedidoActual({
+								codigoProducto: productoaBorrar.codigoProducto,
+							})
+						);
+						dispatch(eliminarCanje());
+						mostrarAviso(
+							'success',
+							t('advertencias.productoUnicoEliminadoTitulo'),
+							t('advertencias.lineaBorradaConCanje'),
+							undefined,
+							'productoEliminado'
+						);
+					},
+					callbackCancelar: () => {},
+					iconoMensaje: <AvisoIcon />,
+				});
+				setAlerta(true);
 
-			return;
-		}
+				return;
+			}
 
-		//CA4:
-		if (
-			esUltimoProducto && 
-			!clienteOtroPedidoMismaFecha && 
-			!clienteTieneCanje && 
-			(clienteTieneBoficaciones && bonificacionesConVenta)
-		) {
-			setConfigAlerta({
-				titulo: t('advertencias.borrarLineaPedidosTitulo'),
-				mensaje: t('advertencias.borrarLineaPedidosMensajeBonificacion'),
-				tituloBotonAceptar: 'Eliminar',
-				tituloBotonCancelar: 'Cancelar',
-				callbackAceptar: () => {
-					dispatch(
-						borrarProductoDelPedidoActual({
-							codigoProducto: productoaBorrar.codigoProducto,
-						})
-					);
-					dispatch(restablecerBonificaciones());
-					mostrarAviso(
-						'success',
-						t('advertencias.productoUnicoEliminadoTitulo'),
-						t('advertencias.lineaBorradaConBonificacion'),
-						undefined,
-						'productoEliminado'
-					);
-				},
-				callbackCancelar: () => {
-				},
-				iconoMensaje: <AvisoIcon />,
-			});
-			setAlerta(true);
+			//CA4:
+			if (
+				esUltimoProducto &&
+				!clienteOtroPedidoMismaFecha &&
+				!clienteTieneCanje &&
+				clienteTieneBoficaciones &&
+				bonificacionesConVenta
+			) {
+				setConfigAlerta({
+					titulo: t('advertencias.borrarLineaPedidosTitulo'),
+					mensaje: t('advertencias.borrarLineaPedidosMensajeBonificacion'),
+					tituloBotonAceptar: 'Eliminar',
+					tituloBotonCancelar: 'Cancelar',
+					callbackAceptar: () => {
+						dispatch(
+							borrarProductoDelPedidoActual({
+								codigoProducto: productoaBorrar.codigoProducto,
+							})
+						);
+						dispatch(restablecerBonificaciones());
+						mostrarAviso(
+							'success',
+							t('advertencias.productoUnicoEliminadoTitulo'),
+							t('advertencias.lineaBorradaConBonificacion'),
+							undefined,
+							'productoEliminado'
+						);
+					},
+					callbackCancelar: () => {},
+					iconoMensaje: <AvisoIcon />,
+				});
+				setAlerta(true);
 
-			return;
-		}
+				return;
+			}
 
-		//CA1:
-		/*if (!esUltimoProducto || clienteOtroPedidoMismaFecha) {
+			//CA1:
+			/*if (!esUltimoProducto || clienteOtroPedidoMismaFecha) {
 			console.log("pase por ca1")
 			dispatch(
 				borrarProductoDelPedidoActual({
@@ -185,34 +181,38 @@ export const useBorrarLinea = (
 			return;
 		}*/
 
-		if(esUltimoProducto || (!esUltimoProducto || clienteOtroPedidoMismaFecha)) {
-			setConfigAlerta({
-				titulo: t('advertencias.borrarLineaPedidosTitulo'),
-				mensaje: t('advertencias.borrarLineaPedidosMensajeUnico'),
-				tituloBotonAceptar: 'Aceptar',
-				tituloBotonCancelar: 'Cancelar',
-				callbackAceptar: () => {
-					dispatch(
-						borrarProductoDelPedidoActual({
-							codigoProducto: productoaBorrar.codigoProducto,
-						})
-					);
-					mostrarAviso(
-						'success',
-						t('advertencias.productoUnicoEliminadoTitulo'),
-						undefined,
-						undefined,
-						'productoEliminado'
-					);
-				},
-				callbackCancelar: () => {
-				},
-				iconoMensaje: <AvisoIcon />,
-			});
-			setAlerta(true);
-		}
-
-	}, [visitaActual.pedidos]);
+			if (
+				esUltimoProducto ||
+				!esUltimoProducto ||
+				clienteOtroPedidoMismaFecha
+			) {
+				setConfigAlerta({
+					titulo: t('advertencias.borrarLineaPedidosTitulo'),
+					mensaje: t('advertencias.borrarLineaPedidosMensajeUnico'),
+					tituloBotonAceptar: 'Aceptar',
+					tituloBotonCancelar: 'Cancelar',
+					callbackAceptar: () => {
+						dispatch(
+							borrarProductoDelPedidoActual({
+								codigoProducto: productoaBorrar.codigoProducto,
+							})
+						);
+						mostrarAviso(
+							'success',
+							t('advertencias.productoUnicoEliminadoTitulo'),
+							undefined,
+							undefined,
+							'productoEliminado'
+						);
+					},
+					callbackCancelar: () => {},
+					iconoMensaje: <AvisoIcon />,
+				});
+				setAlerta(true);
+			}
+		},
+		[visitaActual.pedidos]
+	);
 
 	return borrarLinea;
 };
