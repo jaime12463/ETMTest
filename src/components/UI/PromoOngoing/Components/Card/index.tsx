@@ -5,19 +5,23 @@ import Typography from '@mui/material/Typography';
 import {CheckRedondoIcon} from 'assests/iconos';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
+import {TPromoOngoing} from 'models';
 
 export interface CardProps {
 	promocionAutomatica?: boolean;
 	soloLectura?: boolean;
+	promocion: TPromoOngoing;
 }
 
 export const Card: React.VFC<CardProps> = ({
 	promocionAutomatica = false,
 	soloLectura = false,
+	promocion,
 }) => {
 	const [mostrarCheck, setMostrarCheck] = React.useState<boolean>(false);
 	const [bordeColor, setBordeColor] = React.useState<string>('#D9D9D9');
 	const {t} = useTranslation();
+	const {descripcion, promocionID} = promocion;
 
 	const onClick = () => {
 		setMostrarCheck(true);
@@ -40,11 +44,9 @@ export const Card: React.VFC<CardProps> = ({
 			<Box display='flex' justifyContent='space-between'>
 				<Box display='flex' flexDirection='column'>
 					<Typography variant='subtitle3' fontFamily='Open Sans'>
-						677553 {/* AGREGAR CODIGO PROMOCION */}
+						{promocionID}
 					</Typography>
-					<Typography variant='subtitle3'>
-						Combo 4 CF NCBS 20% Desc {/* AGREGAR NOMBRE PROMOCION */}
-					</Typography>
+					<Typography variant='subtitle3'>{descripcion}</Typography>
 				</Box>
 				{mostrarCheck && <CheckRedondoIcon height='20px' width='20px' />}
 			</Box>

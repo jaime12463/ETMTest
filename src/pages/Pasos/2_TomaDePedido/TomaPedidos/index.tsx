@@ -5,6 +5,7 @@ import {
 	TFormTomaDePedido,
 	TPrecioProducto,
 	TCliente,
+	ETiposDePago,
 } from 'models';
 import {
 	useAppDispatch,
@@ -47,7 +48,11 @@ import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import Drawer from 'components/UI/Drawer';
 import PromoOngoing from 'components/UI/PromoOngoing';
-import {obtenerlistaPromocionesVigentes} from 'utils/procesos/promociones';
+import {
+	obtenerlistaPromocionesVigentes,
+	obtenerProductosDelPedidoIndex,
+	obtenerPromocionesOngoingAplicables,
+} from 'utils/procesos/promociones';
 import {useObtenerDatos} from 'redux/hooks';
 
 const TextStyled = styled(Typography)(() => ({
@@ -123,6 +128,16 @@ const TomaPedido: React.FC = () => {
 		() => obtenerlistaPromocionesVigentes(datosCliente, datos.promociones),
 		[datosCliente, datos.promociones]
 	);
+
+	/* const prueba = obtenerPromocionesOngoingAplicables(
+		datosCliente,
+		obtenerProductosDelPedidoIndex(venta.productos, ETiposDePago.Contado),
+		promocionesVigentesCliente
+	); */
+
+	/* console.log(
+		obtenerProductosDelPedidoIndex(venta.productos, ETiposDePago.Contado)
+	); */
 
 	React.useEffect(() => {
 		if (
@@ -248,21 +263,41 @@ const TomaPedido: React.FC = () => {
 					<Box display='flex' flexDirection='column' gap='16px'>
 						<PromoOngoing.Container tipo='credito'>
 							<PromoOngoing.CardsContainer>
-								<PromoOngoing.Card promocionAutomatica />
-								<PromoOngoing.Card />
+								{Object.values(promocionesVigentesCliente.lista).map(
+									(promocion) => (
+										<PromoOngoing.Card
+											key={promocion.promocionID}
+											promocion={promocion}
+											promocionAutomatica={promocion.aplicacion === 'A'}
+										/>
+									)
+								)}
 							</PromoOngoing.CardsContainer>
 						</PromoOngoing.Container>
 						<PromoOngoing.Container tipo='contado'>
 							<PromoOngoing.CardsContainer>
-								<PromoOngoing.Card promocionAutomatica />
-								<PromoOngoing.Card />
+								{Object.values(promocionesVigentesCliente.lista).map(
+									(promocion) => (
+										<PromoOngoing.Card
+											key={promocion.promocionID}
+											promocion={promocion}
+											promocionAutomatica={promocion.aplicacion === 'A'}
+										/>
+									)
+								)}
 							</PromoOngoing.CardsContainer>
 						</PromoOngoing.Container>
 						<PromoOngoing.Container>
 							<PromoOngoing.CardsContainer>
-								<PromoOngoing.Card soloLectura />
-								<PromoOngoing.Card soloLectura />
-								<PromoOngoing.Card soloLectura />
+								{Object.values(promocionesVigentesCliente.lista).map(
+									(promocion) => (
+										<PromoOngoing.Card
+											key={promocion.promocionID}
+											promocion={promocion}
+											soloLectura
+										/>
+									)
+								)}
 							</PromoOngoing.CardsContainer>
 						</PromoOngoing.Container>
 					</Box>
