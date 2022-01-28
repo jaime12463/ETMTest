@@ -88,7 +88,7 @@ export type TPromoOngoingBeneficiosSecuencia = {
 
 export type TPromoOngoingHabilitadas = {
 	idPromocion: number;
-	pomocionesDisponibles:number;
+	promocionesDisponibles:number;
 }
 /* */
 
