@@ -69,7 +69,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 	});
 	const borrarTodoTomaPedido = useBorrarTodoTomaPedido(
 		{setAlerta, setConfigAlerta},
-		venta.productos,
+		venta?.productos,
 		true
 	);
 

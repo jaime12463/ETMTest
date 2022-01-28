@@ -74,7 +74,7 @@ export const useBorrarTodoTomaPedido = (
 			pedidosClienteMismaFechaEntrega.length > 0 ? true : false;
 
 		const clienteTieneCanje =
-			visitaActual.pedidos.canje.productos.length > 0 ? true : false;
+			visitaActual?.pedidos?.canje?.productos?.length > 0 ? true : false;
 
 		const clienteTieneBoficaciones = validarTieneBonificaciones();
 

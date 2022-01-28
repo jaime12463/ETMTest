@@ -119,9 +119,9 @@ const TomaPedido: React.FC = () => {
 
 	const borrarlinea = useBorrarLinea({setAlerta, setConfigAlerta});
 
-	const promocionesVigentesCliente = obtenerlistaPromocionesVigentes(
-		datosCliente,
-		datos.promociones
+	const promocionesVigentesCliente = React.useMemo(
+		() => obtenerlistaPromocionesVigentes(datosCliente, datos.promociones),
+		[datosCliente, datos.promociones]
 	);
 
 	React.useEffect(() => {
