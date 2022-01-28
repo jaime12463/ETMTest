@@ -11,7 +11,7 @@ export interface ContainerProps {
 	onClick?: () => void;
 }
 
-const Container: React.FC<ContainerProps> = ({
+export const Container: React.FC<ContainerProps> = ({
 	tipo = 'default',
 	onClick = () => {},
 	children,
@@ -98,5 +98,3 @@ const Container: React.FC<ContainerProps> = ({
 		</Box>
 	);
 };
-
-export default Container;

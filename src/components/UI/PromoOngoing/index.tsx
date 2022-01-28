@@ -1,7 +1,7 @@
 import React from 'react';
-import Container, {ContainerProps} from './Components/Container';
-import CardsContainer from './Components/CardsContainer';
-import Card, {CardProps} from './Components/Card';
+import {Container, ContainerProps} from './Components/Container';
+import {CardsContainer} from './Components/CardsContainer';
+import {Card, CardProps} from './Components/Card';
 
 interface Props {
 	Container: React.FC<ContainerProps>;

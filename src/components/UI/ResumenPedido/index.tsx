@@ -230,65 +230,71 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 			</Box>
 			<Stack spacing='20px' padding='16px 18px 20px 18px' width='100%'>
 				{(ventaCredito.length > 0 || promocionesCredito.length > 0) && (
-					<Resumen.Container>
-						<Resumen.Titulo background={theme.palette.success.dark}>
-							{t('general.credito')}
-						</Resumen.Titulo>
-						{ventaCredito.map((producto, index) => {
-							if (!producto) return null;
+					<Box>
+						<Resumen.Container>
+							<Resumen.Titulo background={theme.palette.success.dark}>
+								{t('general.credito')}
+							</Resumen.Titulo>
+							{ventaCredito.map((producto, index) => {
+								if (!producto) return null;
 
-							return (
-								<Box key={producto.codigoProducto}>
-									<Resumen.Tarjeta producto={producto} />
-									{index !== ventaCredito.length - 1 && <Divider />}
-								</Box>
-							);
-						})}
-						{promocionesCredito.length > 0 && (
-							<>
-								<Resumen.TituloPromo />
-								{promocionesCredito.map((promocion) => {
-									return (
-										<Resumen.PromoPush
-											key={promocion.codigoProducto}
-											promocion={promocion}
-										/>
-									);
-								})}
-							</>
-						)}
-					</Resumen.Container>
+								return (
+									<Box key={producto.codigoProducto}>
+										<Resumen.Tarjeta producto={producto} />
+										{index !== ventaCredito.length - 1 && <Divider />}
+									</Box>
+								);
+							})}
+							{promocionesCredito.length > 0 && (
+								<>
+									<Resumen.TituloPromo />
+									{promocionesCredito.map((promocion) => {
+										return (
+											<Resumen.PromoPush
+												key={promocion.codigoProducto}
+												promocion={promocion}
+											/>
+										);
+									})}
+								</>
+							)}
+						</Resumen.Container>
+						<Resumen.PromoOngoing />
+					</Box>
 				)}
 
 				{(ventaContado.length > 0 || promocionesContado.length > 0) && (
-					<Resumen.Container>
-						<Resumen.Titulo background={theme.palette.secondary.dark}>
-							{t('general.contado')}
-						</Resumen.Titulo>
-						{ventaContado.map((producto, index) => {
-							if (!producto) return null;
+					<Box>
+						<Resumen.Container>
+							<Resumen.Titulo background={theme.palette.secondary.dark}>
+								{t('general.contado')}
+							</Resumen.Titulo>
+							{ventaContado.map((producto, index) => {
+								if (!producto) return null;
 
-							return (
-								<Box key={producto.codigoProducto}>
-									<Resumen.Tarjeta producto={producto} />
-									{index !== ventaCredito.length - 1 && <Divider />}
-								</Box>
-							);
-						})}
-						{promocionesContado.length > 0 && (
-							<>
-								<Resumen.TituloPromo />
-								{promocionesContado.map((promocion) => {
-									return (
-										<Resumen.PromoPush
-											key={promocion.codigoProducto}
-											promocion={promocion}
-										/>
-									);
-								})}
-							</>
-						)}
-					</Resumen.Container>
+								return (
+									<Box key={producto.codigoProducto}>
+										<Resumen.Tarjeta producto={producto} />
+										{index !== ventaCredito.length - 1 && <Divider />}
+									</Box>
+								);
+							})}
+							{promocionesContado.length > 0 && (
+								<>
+									<Resumen.TituloPromo />
+									{promocionesContado.map((promocion) => {
+										return (
+											<Resumen.PromoPush
+												key={promocion.codigoProducto}
+												promocion={promocion}
+											/>
+										);
+									})}
+								</>
+							)}
+						</Resumen.Container>
+						<Resumen.PromoOngoing />
+					</Box>
 				)}
 
 				{(prestamoenvase?.productos?.length > 0 ||
@@ -381,7 +387,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					sx={{background: '#F5F0EF'}}
 				>
 					<Typography variant='subtitle3' color='#000'>
-						{t('general.totalContado')}
+						{t('general.totalContado')}:
 					</Typography>
 					<Typography variant='subtitle3' color='#000'>
 						{formatearNumero(totalContado, t)}
@@ -394,7 +400,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					sx={{background: '#F5F0EF50'}}
 				>
 					<Typography variant='subtitle3' color='#000'>
-						{t('general.totalCredito')}
+						{t('general.totalCredito')}:
 					</Typography>
 					<Typography variant='subtitle3' color='#000'>
 						{formatearNumero(totalCredito, t)}
@@ -407,7 +413,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					sx={{background: '#F5F0EF'}}
 				>
 					<Typography variant='subtitle3' color='#000'>
-						{t('general.totalDeAhorro')}
+						{t('general.totalDeAhorro')}:
 					</Typography>
 					<Typography variant='subtitle3' color='#000'>
 						{formatearNumero(totalDescuentos, t)}
@@ -420,7 +426,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					sx={{background: '#F5F0EF50'}}
 				>
 					<Typography variant='subtitle3' color='#000'>
-						{t('general.totalCargosFinancieros')}
+						{t('general.totalCargosFinancieros')}:
 					</Typography>
 					<Typography variant='subtitle3' color='#000'>
 						{formatearNumero(0, t)}

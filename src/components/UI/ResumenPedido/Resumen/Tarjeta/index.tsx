@@ -29,11 +29,11 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 	const {envases, medidas} = useObtenerDatos();
 
 	return (
-		<Box display='flex' flexDirection='row'>
+		<Box display='flex'>
 			<Box
 				display='flex'
 				flexDirection='column'
-				flex='2'
+				flex='1'
 				padding='8px 8px 8px 14px'
 			>
 				<Typography variant='subtitle3' fontFamily='Open Sans'>
@@ -70,7 +70,11 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 					)}
 				</Box>
 			</Box>
-			<Box flex='1.5' padding='8px 14px 8px 8px' sx={{background: '#F5F0EF'}}>
+			<Box
+				flexBasis='143px'
+				padding='8px 14px 16px 8px'
+				sx={{background: '#F5F0EF'}}
+			>
 				<Box display='flex' flexDirection='column'>
 					<Box
 						alignItems='center'

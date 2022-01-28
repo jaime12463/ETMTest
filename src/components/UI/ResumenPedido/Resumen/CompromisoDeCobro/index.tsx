@@ -34,7 +34,7 @@ export const CompromisoDeCobro: React.FC = () => {
 			<Box display='flex'>
 				<Box
 					display='flex'
-					flex='2'
+					flex='1'
 					flexDirection='column'
 					gap='10px'
 					padding='8px 8px 8px 14px'
@@ -51,7 +51,7 @@ export const CompromisoDeCobro: React.FC = () => {
 				</Box>
 				<Box
 					display='flex'
-					flex='1.5'
+					flexBasis='143px'
 					flexDirection='column'
 					gap='10px'
 					padding='8px 14px 8px 8px'

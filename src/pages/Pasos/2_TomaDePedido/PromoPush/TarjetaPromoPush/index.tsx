@@ -279,12 +279,10 @@ const TarjetaPromoPush = (props: any) => {
 								fontFamily='Open Sans'
 								sx={{textDecoration: 'line-through'}}
 							>
-								{t('general.precioUnitario', {
-									precioUnitario: formatearNumero(
-										precioConImpuestoUnidad + descuentoPromoPush,
-										t
-									),
-								})}
+								{`${t('general.precioUnitario')}: ${formatearNumero(
+									precioConImpuestoUnidad + descuentoPromoPush,
+									t
+								)}`}
 							</Typography>
 							<Typography
 								variant='caption'
@@ -294,9 +292,10 @@ const TarjetaPromoPush = (props: any) => {
 										: theme.palette.secondary.main
 								}
 							>
-								{t('general.ahorras', {
-									ahorras: formatearNumero(descuentoPromoPush, t),
-								})}
+								{`${t('general.ahorras')}: ${formatearNumero(
+									descuentoPromoPush,
+									t
+								)}`}
 							</Typography>
 							<Typography
 								fontFamily='Open Sans'
@@ -518,9 +517,10 @@ const TarjetaPromoPush = (props: any) => {
 														marginBottom='12px'
 														alignSelf='end'
 													>
-														{t('general.ahorras', {
-															ahorras: formatearNumero(el.descuento, t),
-														})}
+														{`${t('general.ahorras')}: ${formatearNumero(
+															el.descuento,
+															t
+														)}`}
 													</Typography>
 													<Typography variant='subtitle3' alignSelf='end'>
 														{`${t('general.total')}: ${formatearNumero(
@@ -555,7 +555,6 @@ const TarjetaPromoPush = (props: any) => {
 							<CardActions disableSpacing style={{padding: 0}}>
 								<Box display='flex' gap='6px' alignItems='center'>
 									<Typography variant='caption' color='secondary'>
-										{/*ToDo: pasar a multilenguaje */}
 										{expandidoPromoPush !== id
 											? t('general.verDetalle')
 											: t('general.ocultarDetalle')}

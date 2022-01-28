@@ -11,7 +11,7 @@ export interface CardProps {
 	soloLectura?: boolean;
 }
 
-const Card: React.VFC<CardProps> = ({
+export const Card: React.VFC<CardProps> = ({
 	promocionAutomatica = false,
 	soloLectura = false,
 }) => {
@@ -116,5 +116,3 @@ const Card: React.VFC<CardProps> = ({
 		</Box>
 	);
 };
-
-export default Card;

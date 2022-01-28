@@ -1,8 +1,6 @@
 import {makeStyles, createStyles} from '@material-ui/styles';
-import theme from 'theme';
 
 interface Props {
-	open: boolean;
 	borderRadius: boolean;
 }
 
@@ -20,7 +18,16 @@ const useEstilos = makeStyles(() =>
 			width: '100%',
 			zIndex: 9999,
 		},
+		'@keyframes animationStart': {
+			'0%': {
+				transform: 'translateY(150vh)',
+			},
+			'100%': {
+				transform: 'translateY(0)',
+			},
+		},
 		card: {
+			animation: `$animationStart 0.5s cubic-bezier(0.35, 0.34, 0.46, 1.01)`,
 			alignItems: 'center',
 			background: '#fff',
 			borderRadius: ({borderRadius}: Props) => (borderRadius ? '8px' : 0),
@@ -28,9 +35,6 @@ const useEstilos = makeStyles(() =>
 			flexDirection: 'column',
 			position: 'absolute',
 			top: '5vh',
-			transform: ({open}: Props) =>
-				open ? 'translateY(0)' : 'translateY(150vh)',
-			transition: 'all 0.5s cubic-bezier(0.35, 0.34, 0.46, 1.01)',
 			width: '340px',
 		},
 	})

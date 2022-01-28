@@ -9,6 +9,7 @@ import {Canjes, CanjesProps} from './Canjes';
 import {Bonificaciones, BonificacionesProps} from './Bonificaciones';
 import {CompromisoDeCobro} from './CompromisoDeCobro';
 import {OrdenDeCompra, OrdenDeCompraProps} from './OrdenDeCompra';
+import {PromoOngoing} from './PromoOngoing';
 
 interface Props {
 	Container: React.FC;
@@ -21,6 +22,7 @@ interface Props {
 	Bonificaciones: React.FC<BonificacionesProps>;
 	CompromisoDeCobro: React.FC;
 	OrdenDeCompra: React.FC<OrdenDeCompraProps>;
+	PromoOngoing: React.FC;
 }
 
 const Resumen: React.FC & Props = ({children}) => {
@@ -37,5 +39,6 @@ Resumen.Canjes = Canjes;
 Resumen.Bonificaciones = Bonificaciones;
 Resumen.CompromisoDeCobro = CompromisoDeCobro;
 Resumen.OrdenDeCompra = OrdenDeCompra;
+Resumen.PromoOngoing = PromoOngoing;
 
 export default Resumen;

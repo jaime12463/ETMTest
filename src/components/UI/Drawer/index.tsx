@@ -24,6 +24,7 @@ const Drawer: React.FC<Props> = ({open, setOpen, titulo, children}) => {
 			disableSwipeToOpen
 			anchor='bottom'
 			transitionDuration={{enter: 450, exit: 450}}
+			PaperProps={{style: {minHeight: '100%'}}}
 		>
 			<Box className={classes.title}>
 				<Box className={classes.puller} />

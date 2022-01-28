@@ -1,10 +1,6 @@
 import {makeStyles, createStyles} from '@material-ui/styles';
 import theme from 'theme';
 
-interface Props {
-	alerta: boolean;
-}
-
 const useEstilos = makeStyles(() =>
 	createStyles({
 		container: {
@@ -23,12 +19,19 @@ const useEstilos = makeStyles(() =>
 			justifyContent: 'center',
 			marginBottom: '14px',
 		},
+		'@keyframes animationStart': {
+			'0%': {
+				transform: 'scale(0)',
+			},
+			'100%': {
+				transform: 'scale(1)',
+			},
+		},
 		card: {
+			animation: `$animationStart 0.3s ease-in-out`,
 			background: 'white',
 			borderRadius: '8px',
 			padding: '28px 16px',
-			transform: (props: Props) => (props.alerta ? 'scale(1)' : 'scale(0)'),
-			transition: 'all 0.3s ease-in-out',
 			width: '340px',
 		},
 		text: {
