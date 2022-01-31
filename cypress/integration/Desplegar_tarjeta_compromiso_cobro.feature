@@ -1,5 +1,5 @@
 # language: es
-@Compromiso_Cobro @Sprint14
+@Compromiso_Cobro @Sprint14 @Sprint22
 
 Característica: Ver deuda del cliente
     Como prevendedor 
@@ -37,3 +37,9 @@ Escenario: N°3 – Compromiso de cobro no válido
     Dado que el cliente tiene una deuda igual a $2000
     Cuando registro un compromiso de cobro por $2001 
     Entonces el sistema mostrará el mensaje "El monto no puede ser mayor a la deuda registrada"
+
+Escenario: N°4 - Compromiso de cobro deshabilitado
+    Dado que la ruta tiene _habilitaCompromisoDeCobro = false
+    Cuando se despliega la tarjeta de compromiso de cobro
+    Entonces el sistema no mostrará el control para ingresar el monto 
+    Y mostrará el límite de crédito, el disponible = límite crédito menos la suma de los saldos de los documentos pendientes, la lista de los documentos pendientes ordenados por vencimiento ascendente, la deuda pendiente = suma de los saldos de los documentos pendientes
