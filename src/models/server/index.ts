@@ -30,10 +30,10 @@ export type TListaDataSecundaria = Record<number, TDataSecundaria>;
 /* 	ESTRUCTURAS PROMOONGOING */
 
 export enum EFormaBeneficio {
-	Obsequio,
-	DescuentoPorcentaje,
-	DescuentoMonto,
-	Precio
+	Obsequio="1",
+	DescuentoPorcentaje="2",
+	DescuentoMonto="3",
+	Precio="4"
 };
 
 export enum EFormaDeAplicacion {

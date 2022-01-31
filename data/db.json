@@ -1228,7 +1228,7 @@
                     "idPromocion": 682200,
                     "promocionesDisponibles": 1
                 }, {
-                    "idPromocion": 685128,
+                    "idPromocion": 685218,
                     "promocionesDisponibles": 1
                 }, {
                     "idPromocion": 685232,
@@ -2169,7 +2169,7 @@
                             "materialesBeneficio": [99345, 99362, 99550, 99552, 99558, 99853, 100166, 100168],
                             "cantidad": 1,
                             "unidadMedida": "Unidad",
-                            "formaBenecio": "1",
+                            "formaBeneficio": "1",
                             "valorBeneficio": 100,
                             "tope": 999
                         }
@@ -2198,7 +2198,7 @@
                             "materialesBeneficio": [97270, 97271, 97273],
                             "cantidad": 1,
                             "unidadMedida": "Unidad",
-                            "formaBenecio": "1",
+                            "formaBeneficio": "1",
                             "valorBeneficio": 100,
                             "tope": 999
                         }
@@ -2227,7 +2227,7 @@
                             "materialesBeneficio": [84216, 84487, 84488, 84725],
                             "cantidad": 1,
                             "unidadMedida": "Unidad",
-                            "formaBenecio": "1",
+                            "formaBeneficio": "1",
                             "valorBeneficio": 100,
                             "tope": 999
                         }
@@ -2256,7 +2256,7 @@
                             "materialesBeneficio": [84216, 84217, 84485, 84486, 84487, 84488, 84725],
                             "cantidad": 1,
                             "unidadMedida": "Unidad",
-                            "formaBenecio": "1",
+                            "formaBeneficio": "1",
                             "valorBeneficio": 100,
                             "tope": 999
                         }
@@ -2285,7 +2285,7 @@
                             "materialesBeneficio": [603653],
                             "cantidad": 1,
                             "unidadMedida": "Unidad",
-                            "formaBenecio": "1",
+                            "formaBeneficio": "1",
                             "valorBeneficio": 100,
                             "tope": 3
                         }
@@ -2314,7 +2314,7 @@
                             "materialesBeneficio": [400, 17640],
                             "cantidad": 4,
                             "unidadMedida": "Unidad",
-                            "formaBenecio": "1",
+                            "formaBeneficio": "1",
                             "valorBeneficio": 100,
                             "tope": 8
                         }
@@ -2343,7 +2343,7 @@
                             "materialesBeneficio": [360, 440],
                             "cantidad": 1,
                             "unidadMedida": "Unidad",
-                            "formaBenecio": "1",
+                            "formaBeneficio": "1",
                             "valorBeneficio": 100,
                             "tope": 2
                         }
@@ -2372,7 +2372,7 @@
                             "materialesBeneficio": [97151],
                             "cantidad": 1,
                             "unidadMedida": "Unidad",
-                            "formaBenecio": "1",
+                            "formaBeneficio": "1",
                             "valorBeneficio": 100,
                             "tope": 2
                         }

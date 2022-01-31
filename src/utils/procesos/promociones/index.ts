@@ -93,7 +93,7 @@ export const obtenerlistaPromocionesVigentes = (
 /**
  * Retorna una lista de promociones ongoing aplicables según sean de creditos o contado
  * @constructor
- * @param {TProductoPedido[]} productosPedidos - item's del pedido, se deben enviar filtrados por forma de pago.(creditos o contado)
+ * @param {TProductosPedidoIndex} productosPedidos - item's del pedido, se deben enviar filtrados por forma de pago.(creditos o contado)
  * @param {TListaPromoOngoing} listaPromocionesVigentes -promociones vigentes y con disponibilidad para el cliente
  * @returns {TListaPromoOngoing}
  */
@@ -104,9 +104,12 @@ export const obtenerPromocionesOngoingAplicables = (
 ) => {
 	let productosUsadosEnOtrasPromos: TProductosUsadosEnOtrasPromos = {};
 	let aplicables: TPromoOngoingAplicables[] = [];
+	
+	if ( !listaPromocionesVigentes.existenPromociones || !productosPedidos ) return aplicables;
+
 	for (let clave of listaPromocionesVigentes.indexPorTipoId) {
 		const claveAplicacion = clave.substring(0, 1);
-		const promocionID = claveAplicacion.replace(claveAplicacion, '');
+		const promocionID = clave.replace(claveAplicacion, '');
 		const promo: TPromoOngoing =
 			listaPromocionesVigentes.lista[Number(promocionID)];
 		let materialesRequisitosVerificados: TPromoOngoingMaterialesRequisitosVerificados[] =
@@ -166,12 +169,12 @@ export const obtenerPromocionesOngoingAplicables = (
 					);
 					//ToDo: para las automáticas ver el beneficio por default
 					grupoDeBeneficios.push({
-						...grupoDeBeneficios[0],
+						...grupoDeBeneficiosResultado[0],
 						secuencias: [
 							{
-								...grupoDeBeneficios[0].secuencias[0],
+								...grupoDeBeneficiosResultado[0].secuencias[0],
 								materialesBeneficio: [
-									grupoDeBeneficios[0].secuencias[0].materialesBeneficio[0],
+									grupoDeBeneficiosResultado[0].secuencias[0].materialesBeneficio[0],
 								],
 							},
 						],
@@ -292,7 +295,7 @@ const verificarBeneficios = (
 		let grupoValido: boolean = true;
 		// si una de las secuencia al validar materiales no queda al menos uno, el grupo se descarta
 		for (let secuencia of grupo.secuencias) {
-			if (secuencia.formaBeneficio === EFormaBeneficio.Obsequio) {
+			if (secuencia.formaBeneficio == EFormaBeneficio.Obsequio) {
 				materiales = secuencia.materialesBeneficio.filter((producto: number) =>
 					validarProductoContraPortafolio(producto, cliente.portafolio)
 				);
