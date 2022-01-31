@@ -6,6 +6,7 @@ import {
 	TPrecioProducto,
 	TCliente,
 	ETiposDePago,
+	TPromoOngoing,
 } from 'models';
 import {
 	useAppDispatch,
@@ -50,8 +51,6 @@ import Drawer from 'components/UI/Drawer';
 import PromoOngoing from 'components/UI/PromoOngoing';
 import {
 	obtenerlistaPromocionesVigentes,
-	obtenerProductosDelPedidoIndex,
-	obtenerPromocionesOngoingAplicables,
 	obtenerPromocionesOngoingTotal,
 } from 'utils/procesos/promociones';
 import {useObtenerDatos} from 'redux/hooks';
@@ -88,6 +87,8 @@ const TomaPedido: React.FC = () => {
 
 	const [inputFocus, setInputFocus] =
 		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
+
+	const [promocionesOingoing, setPromocionesOingoing] = React.useState<any>();
 
 	const [focusId, setFocusId] = React.useState(0);
 	const visitaActual = useObtenerVisitaActual();
@@ -134,14 +135,6 @@ const TomaPedido: React.FC = () => {
 		venta.productos.some(
 			(producto) => producto.unidades > 0 || producto.subUnidades > 0
 		) && promocionesVigentesCliente?.existenPromociones;
-
-	console.log(
-		obtenerPromocionesOngoingTotal(
-			datosCliente,
-			venta.productos,
-			promocionesVigentesCliente
-		)
-	);
 
 	React.useEffect(() => {
 		if (
@@ -232,15 +225,13 @@ const TomaPedido: React.FC = () => {
 							<IconButton
 								style={{padding: 0}}
 								onClick={() => {
-									setOpenDrawerPromociones(true),
-										obtenerPromocionesOngoingAplicables(
-											datosCliente,
-											obtenerProductosDelPedidoIndex(
-												venta.productos,
-												ETiposDePago.Contado
-											),
-											promocionesVigentesCliente
-										);
+									setOpenDrawerPromociones(true);
+									let promociones = obtenerPromocionesOngoingTotal(
+										datosCliente,
+										venta.productos,
+										promocionesVigentesCliente
+									);
+									setPromocionesOingoing(promociones);
 								}}
 							>
 								<PromocionColor height='24px' width='24px' />
@@ -275,45 +266,51 @@ const TomaPedido: React.FC = () => {
 					}
 				>
 					<Box display='flex' flexDirection='column' gap='16px'>
-						<PromoOngoing.Container tipo='credito'>
-							<PromoOngoing.CardsContainer>
-								{Object.values(promocionesVigentesCliente.lista).map(
-									(promocion) => (
-										<PromoOngoing.Card
-											key={promocion.promocionID}
-											promocion={promocion}
-											promocionAutomatica={promocion.aplicacion === 'A'}
-										/>
-									)
-								)}
-							</PromoOngoing.CardsContainer>
-						</PromoOngoing.Container>
-						<PromoOngoing.Container tipo='contado'>
-							<PromoOngoing.CardsContainer>
-								{Object.values(promocionesVigentesCliente.lista).map(
-									(promocion) => (
-										<PromoOngoing.Card
-											key={promocion.promocionID}
-											promocion={promocion}
-											promocionAutomatica={promocion.aplicacion === 'A'}
-										/>
-									)
-								)}
-							</PromoOngoing.CardsContainer>
-						</PromoOngoing.Container>
-						<PromoOngoing.Container>
-							<PromoOngoing.CardsContainer>
-								{Object.values(promocionesVigentesCliente.lista).map(
-									(promocion) => (
-										<PromoOngoing.Card
-											key={promocion.promocionID}
-											promocion={promocion}
-											soloLectura
-										/>
-									)
-								)}
-							</PromoOngoing.CardsContainer>
-						</PromoOngoing.Container>
+						{promocionesOingoing?.credito?.length > 0 && (
+							<PromoOngoing.Container tipo='credito'>
+								<PromoOngoing.CardsContainer>
+									{promocionesOingoing?.credito?.map(
+										(promocion: TPromoOngoing) => (
+											<PromoOngoing.Card
+												key={promocion.promocionID}
+												promocion={promocion}
+												promocionAutomatica={promocion.aplicacion === 'A'}
+											/>
+										)
+									)}
+								</PromoOngoing.CardsContainer>
+							</PromoOngoing.Container>
+						)}
+						{promocionesOingoing?.contado?.length > 0 && (
+							<PromoOngoing.Container tipo='contado'>
+								<PromoOngoing.CardsContainer>
+									{promocionesOingoing?.contado?.map(
+										(promocion: TPromoOngoing) => (
+											<PromoOngoing.Card
+												key={promocion.promocionID}
+												promocion={promocion}
+												promocionAutomatica={promocion.aplicacion === 'A'}
+											/>
+										)
+									)}
+								</PromoOngoing.CardsContainer>
+							</PromoOngoing.Container>
+						)}
+						{promocionesOingoing?.noAplicable?.length > 0 && (
+							<PromoOngoing.Container>
+								<PromoOngoing.CardsContainer>
+									{promocionesOingoing?.noAplicable?.map(
+										(promocion: TPromoOngoing) => (
+											<PromoOngoing.Card
+												key={promocion.promocionID}
+												promocion={promocion}
+												soloLectura
+											/>
+										)
+									)}
+								</PromoOngoing.CardsContainer>
+							</PromoOngoing.Container>
+						)}
 					</Box>
 				</Drawer>
 

@@ -339,6 +339,14 @@ const verificarBeneficios = (
 	);
 };
 
+/**
+ * Retorna las promociones aplicadas en Contado y Credito, ademas retona las promociones que no cumplen requisitos
+ * @constructor
+ * @param {TCliente} cliente
+ * @param {TProductoPedido[]} productos  - array de productos
+ * @param {TListaPromoOngoingConIndices} promocionesVigentesCliente - promociones vigentes y con disponibilidad para el cliente
+ */
+
 export const obtenerPromocionesOngoingTotal = (
 	cliente: TCliente,
 	productos: TProductoPedido[],
@@ -348,29 +356,32 @@ export const obtenerPromocionesOngoingTotal = (
 		cliente,
 		obtenerProductosDelPedidoIndex(productos, ETiposDePago.Contado),
 		promocionesVigentesCliente
-	);
+	).sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1));
 
 	const promocionesCredito = obtenerPromocionesOngoingAplicables(
 		cliente,
 		obtenerProductosDelPedidoIndex(productos, ETiposDePago.Credito),
 		promocionesVigentesCliente
-	);
+	).sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1));
 
 	const promocionesVigentesNoAplicables = Object.values(
 		promocionesVigentesCliente.lista
-	).filter(
-		(promocion: TPromoOngoing) =>
-			promocionesContado.find(
-				(promoContado) => promoContado.promocionID !== promocion.promocionID
+	)
+		.filter((promocion) =>
+			promocionesContado.some(
+				(promoContado) => promoContado.promocionID === promocion.promocionID
 			) ||
-			promocionesCredito.find(
-				(promoContado) => promoContado.promocionID !== promocion.promocionID
+			promocionesCredito.some(
+				(promoCredito) => promoCredito.promocionID === promocion.promocionID
 			)
-	);
+				? false
+				: true
+		)
+		.sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1));
 
 	return {
-		promocionesContado,
-		promocionesCredito,
-		promocionesVigentesNoAplicables,
+		contado: promocionesContado,
+		credito: promocionesCredito,
+		noAplicable: promocionesVigentesNoAplicables,
 	};
 };
