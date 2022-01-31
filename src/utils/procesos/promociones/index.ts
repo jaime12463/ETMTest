@@ -104,8 +104,9 @@ export const obtenerPromocionesOngoingAplicables = (
 ) => {
 	let productosUsadosEnOtrasPromos: TProductosUsadosEnOtrasPromos = {};
 	let aplicables: TPromoOngoingAplicables[] = [];
-	
-	if ( !listaPromocionesVigentes.existenPromociones || !productosPedidos ) return aplicables;
+
+	if (!listaPromocionesVigentes.existenPromociones || !productosPedidos)
+		return aplicables;
 
 	for (let clave of listaPromocionesVigentes.indexPorTipoId) {
 		const claveAplicacion = clave.substring(0, 1);
@@ -174,7 +175,8 @@ export const obtenerPromocionesOngoingAplicables = (
 							{
 								...grupoDeBeneficiosResultado[0].secuencias[0],
 								materialesBeneficio: [
-									grupoDeBeneficiosResultado[0].secuencias[0].materialesBeneficio[0],
+									grupoDeBeneficiosResultado[0].secuencias[0]
+										.materialesBeneficio[0],
 								],
 							},
 						],
@@ -334,4 +336,40 @@ const verificarBeneficios = (
 			return 0;
 		}
 	);
+};
+
+export const obtenerPromocionesOngoingTotal = (
+	cliente: TCliente,
+	productos: TProductoPedido[],
+	promocionesVigentesCliente: TListaPromoOngoingConIndices
+) => {
+	const promocionesContado = obtenerPromocionesOngoingAplicables(
+		cliente,
+		obtenerProductosDelPedidoIndex(productos, ETiposDePago.Contado),
+		promocionesVigentesCliente
+	);
+
+	const promocionesCredito = obtenerPromocionesOngoingAplicables(
+		cliente,
+		obtenerProductosDelPedidoIndex(productos, ETiposDePago.Credito),
+		promocionesVigentesCliente
+	);
+
+	const promocionesVigentesNoAplicables = Object.values(
+		promocionesVigentesCliente.lista
+	).filter(
+		(promocion: TPromoOngoing) =>
+			promocionesContado.find(
+				(promoContado) => promoContado.promocionID !== promocion.promocionID
+			) ||
+			promocionesCredito.find(
+				(promoContado) => promoContado.promocionID !== promocion.promocionID
+			)
+	);
+
+	return {
+		promocionesContado,
+		promocionesCredito,
+		promocionesVigentesNoAplicables,
+	};
 };

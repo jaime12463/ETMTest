@@ -52,6 +52,7 @@ import {
 	obtenerlistaPromocionesVigentes,
 	obtenerProductosDelPedidoIndex,
 	obtenerPromocionesOngoingAplicables,
+	obtenerPromocionesOngoingTotal,
 } from 'utils/procesos/promociones';
 import {useObtenerDatos} from 'redux/hooks';
 
@@ -129,8 +130,17 @@ const TomaPedido: React.FC = () => {
 		[datosCliente, datos.promociones]
 	);
 
+	const puedeBotonPromocionesOngoing =
+		venta.productos.some(
+			(producto) => producto.unidades > 0 || producto.subUnidades > 0
+		) && promocionesVigentesCliente?.existenPromociones;
+
 	console.log(
-		obtenerProductosDelPedidoIndex(venta.productos, ETiposDePago.Contado)
+		obtenerPromocionesOngoingTotal(
+			datosCliente,
+			venta.productos,
+			promocionesVigentesCliente
+		)
 	);
 
 	React.useEffect(() => {
@@ -217,7 +227,7 @@ const TomaPedido: React.FC = () => {
 						statePreciosProductos={{preciosProductos, setPreciosProductos}}
 						stateInputFocus={stateInputFocus}
 					/>
-					{promocionesVigentesCliente?.existenPromociones && (
+					{puedeBotonPromocionesOngoing && (
 						<Box alignItems='center' display='flex' gap='16px'>
 							<IconButton
 								style={{padding: 0}}
