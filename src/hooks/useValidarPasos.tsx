@@ -148,7 +148,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 		}
 
 		if (productosSinModificar) {
-			const pedidoConUnidadesYSubUnidades = venta.productos.some(
+			const pedidoConUnidadesYSubUnidades = venta?.productos?.some(
 				(producto) => producto.unidades > 0 || producto.subUnidades > 0
 			);
 
@@ -190,7 +190,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 		}
 	}
 	if (pasoActual === 2) {
-		const canjeSinMotivo = visitaActual.pedidos.canje.productos.some(
+		const canjeSinMotivo = visitaActual?.pedidos?.canje?.productos?.some(
 			(producto) => producto.catalogoMotivo === ''
 		);
 

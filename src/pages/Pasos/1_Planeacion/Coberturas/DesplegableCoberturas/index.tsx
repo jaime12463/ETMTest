@@ -132,20 +132,17 @@ const DesplegableCoberturas: React.FC<Props> = ({
 				<Collapse in={expandido === id} timeout='auto' unmountOnExit>
 					<Box>
 						{productos.map((producto, i) => {
-							if (!producto)
-								throw new Error(
-									`El producto con el codigo ${codigosProductos[i]} no existe`
+							if (producto)
+								return (
+									<TarjetaCoberturas
+										key={producto.codigoProducto}
+										producto={producto}
+										stateFocusId={{focusId, setFocusId}}
+										stateInputFocus={{inputFocus, setInputFocus}}
+										resetCoberturas={resetCoberturas}
+										setResetCoberturas={setResetCoberturas}
+									/>
 								);
-							return (
-								<TarjetaCoberturas
-									key={producto.codigoProducto}
-									producto={producto}
-									stateFocusId={{focusId, setFocusId}}
-									stateInputFocus={{inputFocus, setInputFocus}}
-									resetCoberturas={resetCoberturas}
-									setResetCoberturas={setResetCoberturas}
-								/>
-							);
 						})}
 					</Box>
 				</Collapse>
