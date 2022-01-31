@@ -129,14 +129,6 @@ const TomaPedido: React.FC = () => {
 		[datosCliente, datos.promociones]
 	);
 
-	const prueba = obtenerPromocionesOngoingAplicables(
-		datosCliente,
-		obtenerProductosDelPedidoIndex(venta.productos, ETiposDePago.Contado),
-		promocionesVigentesCliente
-	);
-
-	console.log({obtenerPromocionesOngoingAplicables: prueba});
-
 	console.log(
 		obtenerProductosDelPedidoIndex(venta.productos, ETiposDePago.Contado)
 	);
@@ -229,7 +221,17 @@ const TomaPedido: React.FC = () => {
 						<Box alignItems='center' display='flex' gap='16px'>
 							<IconButton
 								style={{padding: 0}}
-								onClick={() => setOpenDrawerPromociones(true)}
+								onClick={() => {
+									setOpenDrawerPromociones(true),
+										obtenerPromocionesOngoingAplicables(
+											datosCliente,
+											obtenerProductosDelPedidoIndex(
+												venta.productos,
+												ETiposDePago.Contado
+											),
+											promocionesVigentesCliente
+										);
+								}}
 							>
 								<PromocionColor height='24px' width='24px' />
 							</IconButton>
