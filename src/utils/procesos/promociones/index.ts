@@ -141,8 +141,8 @@ export const obtenerPromocionesOngoingAplicables = (
 		/** Analisis según conector                         ----------------AND----------------------    ----------------------OR-----------------*/
 		const sonValidosLosRequisitos =
 			conector == 'Y'
-				? multiplo.every((requisito) => requisito > 1)
-				: multiplo.some((requisito) => requisito > 1);
+				? multiplo.every((requisito) => requisito > 0)
+				: multiplo.some((requisito) => requisito > 0);
 		if (sonValidosLosRequisitos) {
 			// verificar si el grupo de beneficios se puede aplicar
 			let grupoDeBeneficiosResultado = verificarBeneficios(
@@ -153,35 +153,36 @@ export const obtenerPromocionesOngoingAplicables = (
 			let grupoDeBeneficios: TPromoOngoingGrupoBeneficios[] = [];
 			let cantidadDeVecesQueSePuedeAplicar: number = 0;
 			if (grupoDeBeneficiosResultado.length > 0) {
+				materialesRequisitosVerificados.forEach(
+					(
+						requisitoVerificado: TPromoOngoingMaterialesRequisitosVerificados
+					) => {
+						productosUsadosEnOtrasPromos = {
+							...productosUsadosEnOtrasPromos,
+							...requisitoVerificado.lista,
+						};
+					}
+				);
+				//ToDo: para las automáticas ver el beneficio por default
+				grupoDeBeneficios.push({
+					...grupoDeBeneficiosResultado[0],
+					secuencias: [
+						{
+							...grupoDeBeneficiosResultado[0].secuencias[0],
+							materialesBeneficio: [
+								grupoDeBeneficiosResultado[0].secuencias[0]
+									.materialesBeneficio[0],
+							],
+						},
+					],
+				});
+				cantidadDeVecesQueSePuedeAplicar = Math.min();
+
 				if (promo.aplicacion == EFormaDeAplicacion.Automatica) {
 					//realizar asignación automática
 					/**
 					 * Las promociones automáticas son de asignación Total y otorgan el beneficio del grupo con id más chico
 					 */
-					materialesRequisitosVerificados.forEach(
-						(
-							requisitoVerificado: TPromoOngoingMaterialesRequisitosVerificados
-						) => {
-							productosUsadosEnOtrasPromos = {
-								...productosUsadosEnOtrasPromos,
-								...requisitoVerificado.lista,
-							};
-						}
-					);
-					//ToDo: para las automáticas ver el beneficio por default
-					grupoDeBeneficios.push({
-						...grupoDeBeneficiosResultado[0],
-						secuencias: [
-							{
-								...grupoDeBeneficiosResultado[0].secuencias[0],
-								materialesBeneficio: [
-									grupoDeBeneficiosResultado[0].secuencias[0]
-										.materialesBeneficio[0],
-								],
-							},
-						],
-					});
-					cantidadDeVecesQueSePuedeAplicar = Math.min();
 				}
 				aplicables.push({
 					...{
