@@ -129,15 +129,17 @@ const TomaPedido: React.FC = () => {
 		[datosCliente, datos.promociones]
 	);
 
-	/* const prueba = obtenerPromocionesOngoingAplicables(
+	const prueba = obtenerPromocionesOngoingAplicables(
 		datosCliente,
 		obtenerProductosDelPedidoIndex(venta.productos, ETiposDePago.Contado),
 		promocionesVigentesCliente
-	); */
+	);
 
-	/* console.log(
+	console.log({obtenerPromocionesOngoingAplicables: prueba});
+
+	console.log(
 		obtenerProductosDelPedidoIndex(venta.productos, ETiposDePago.Contado)
-	); */
+	);
 
 	React.useEffect(() => {
 		if (
