@@ -5,6 +5,7 @@ import {Center, Estructura} from 'components/UI';
 import {useInicializarDatosYConfiguracion} from 'hooks';
 import Footers from 'assests/images/hdpi_logo_soft_hasar.png';
 import {useTranslation} from 'react-i18next';
+import configuracionSlice from 'redux/features/configuracion/configuracionSlice';
 
 export default function Splash() {
 	const history = useHistory();
@@ -12,6 +13,7 @@ export default function Splash() {
 	const {t, i18n} = useTranslation();
 	const query: string[] = querys.search.split('&');
 
+	console.log(configuracionSlice);
 	useInicializarDatosYConfiguracion();
 	window.localStorage.removeItem('fechaDipostivo');
 	querys.search &&

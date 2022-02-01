@@ -29,7 +29,7 @@ export default class EtmManager {
 
 	public static transformarAHash = async (json: any) => {
 		const transformacionJsonConHash = (array: any, elementoHash: string) => {
-			const objeto = array.reduce(
+			const objeto = array?.reduce(
 				(acumulado: any, elemento: any) => ({
 					...acumulado,
 					[elemento[elementoHash]]: elemento,
@@ -49,37 +49,22 @@ export default class EtmManager {
 			'codigoProducto'
 		);
 
-		const saboresHash=   transformacionJsonConHash(
-			json.sabores,
-			'id'
-		);
+		const saboresHash = transformacionJsonConHash(json.sabores, 'id');
 
-		const familiasHash=   transformacionJsonConHash(
-			json.familias,
-			'id'
-		);
+		const familiasHash = transformacionJsonConHash(json.familias, 'id');
 
-		const medidasHash=   transformacionJsonConHash(
-			json.medidas,
-			'id'
-		);
+		const medidasHash = transformacionJsonConHash(json.medidas, 'id');
 
-		const marcasHash=   transformacionJsonConHash(
-			json.marcas,
-			'id'
-		);
+		const marcasHash = transformacionJsonConHash(json.marcas, 'id');
 
-		const envasesHash=   transformacionJsonConHash(
-			json.envases,
-			'id'
-		);
+		const envasesHash = transformacionJsonConHash(json.envases, 'id');
 
-		const promocionesHash=   transformacionJsonConHash(
+		const promocionesHash = transformacionJsonConHash(
 			json.promociones,
 			'promocionID'
 		);
 
-	/*
+		/*
 		let jsonFinal = JSON.parse(
 			`{"clientes":${clientesHash}, "productos":${productosHash}, "presupuestoTipoPedido":${JSON.stringify(
 				json.presupuestoTipoPedido
@@ -91,19 +76,17 @@ export default class EtmManager {
 	
 	*/
 		return {
-			"clientes":clientesHash,
-			"productos":productosHash, 
-			"presupuestoTipoPedido":json.presupuestoTipoPedido,
-			"iniciativas": json.iniciativas,
-			"bonificaciones":json.bonificaciones,
-			"sabores": saboresHash,
-			"familias":familiasHash,
-			"medidas": medidasHash,
-			"marcas" :marcasHash,
-			"envases" :envasesHash,
-			"promociones": promocionesHash 
-			
+			clientes: clientesHash,
+			productos: productosHash,
+			presupuestoTipoPedido: json.presupuestoTipoPedido,
+			iniciativas: json.iniciativas,
+			bonificaciones: json.bonificaciones,
+			sabores: saboresHash,
+			familias: familiasHash,
+			medidas: medidasHash,
+			marcas: marcasHash,
+			envases: envasesHash,
+			promociones: promocionesHash,
 		};
-
 	};
 }

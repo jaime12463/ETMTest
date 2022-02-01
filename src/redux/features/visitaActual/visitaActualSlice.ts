@@ -31,6 +31,7 @@ const estadoInicial: TVisita = {
 	avisos: {
 		limiteCredito: 0,
 		cambiosPasoActual: false,
+		calculoPromociones: false,
 	},
 	clienteBloqueado: false,
 };
@@ -510,7 +511,7 @@ export const visitaActualSlice = createSlice({
 		},
 		activarClienteBloqueado: (state) => {
 			state.clienteBloqueado = true;
-		}
+		},
 	},
 });
 

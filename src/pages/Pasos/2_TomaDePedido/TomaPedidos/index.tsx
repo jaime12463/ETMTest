@@ -5,8 +5,6 @@ import {
 	TFormTomaDePedido,
 	TPrecioProducto,
 	TCliente,
-	ETiposDePago,
-	TPromoOngoing,
 } from 'models';
 import {
 	useAppDispatch,
@@ -24,7 +22,10 @@ import {
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {Dialogo, SwipeBorrar} from 'components/UI';
-import {AutocompleteSeleccionarProducto} from 'components/Negocio';
+import {
+	AutocompleteSeleccionarProducto,
+	DrawerPromociones,
+} from 'components/Negocio';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -47,8 +48,7 @@ import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoP
 import {Box} from '@mui/system';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
-import Drawer from 'components/UI/Drawer';
-import PromoOngoing from 'components/UI/PromoOngoing';
+
 import {
 	obtenerlistaPromocionesVigentes,
 	obtenerPromocionesOngoingTotal,
@@ -89,6 +89,8 @@ const TomaPedido: React.FC = () => {
 		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
 
 	const [promocionesOingoing, setPromocionesOingoing] = React.useState<any>();
+	const [openDrawerPromociones, setOpenDrawerPromociones] =
+		React.useState<boolean>(false);
 
 	const [focusId, setFocusId] = React.useState(0);
 	const visitaActual = useObtenerVisitaActual();
@@ -196,9 +198,6 @@ const TomaPedido: React.FC = () => {
 		}
 	}, [productoActual?.codigoProducto]);
 
-	const [openDrawerPromociones, setOpenDrawerPromociones] =
-		React.useState<boolean>(false);
-
 	return (
 		<>
 			<Modal
@@ -242,78 +241,11 @@ const TomaPedido: React.FC = () => {
 						</Box>
 					)}
 				</Box>
-
-				<Drawer
-					open={openDrawerPromociones}
-					setOpen={setOpenDrawerPromociones}
-					titulo={
-						<Box
-							alignItems='center'
-							display='flex'
-							gap='4px'
-							padding='34px 0 22px 0'
-						>
-							<PromocionesIcon fill='#fff' height='24px' width='24px' />
-							<Typography
-								color='#fff'
-								variant='subtitle2'
-								fontFamily='Open Sans'
-								fontWeight={700}
-							>
-								{t('titulos.promociones')}
-							</Typography>
-						</Box>
-					}
-				>
-					<Box display='flex' flexDirection='column' gap='16px'>
-						{promocionesOingoing?.credito?.length > 0 && (
-							<PromoOngoing.Container tipo='credito'>
-								<PromoOngoing.CardsContainer>
-									{promocionesOingoing?.credito?.map(
-										(promocion: TPromoOngoing) => (
-											<PromoOngoing.Card
-												key={promocion.promocionID}
-												promocion={promocion}
-												promocionAutomatica={promocion.aplicacion === 'A'}
-											/>
-										)
-									)}
-								</PromoOngoing.CardsContainer>
-							</PromoOngoing.Container>
-						)}
-						{promocionesOingoing?.contado?.length > 0 && (
-							<PromoOngoing.Container tipo='contado'>
-								<PromoOngoing.CardsContainer>
-									{promocionesOingoing?.contado?.map(
-										(promocion: TPromoOngoing) => (
-											<PromoOngoing.Card
-												key={promocion.promocionID}
-												promocion={promocion}
-												promocionAutomatica={promocion.aplicacion === 'A'}
-											/>
-										)
-									)}
-								</PromoOngoing.CardsContainer>
-							</PromoOngoing.Container>
-						)}
-						{promocionesOingoing?.noAplicable?.length > 0 && (
-							<PromoOngoing.Container>
-								<PromoOngoing.CardsContainer>
-									{promocionesOingoing?.noAplicable?.map(
-										(promocion: TPromoOngoing) => (
-											<PromoOngoing.Card
-												key={promocion.promocionID}
-												promocion={promocion}
-												soloLectura
-											/>
-										)
-									)}
-								</PromoOngoing.CardsContainer>
-							</PromoOngoing.Container>
-						)}
-					</Box>
-				</Drawer>
-
+				<DrawerPromociones
+					openDrawerPromociones={openDrawerPromociones}
+					setOpenDrawerPromociones={setOpenDrawerPromociones}
+					promocionesOingoing={promocionesOingoing}
+				/>
 				{venta?.productos?.length > 0 &&
 					venta?.productos?.some(
 						(producto) => producto.unidades > 0 || producto.subUnidades > 0

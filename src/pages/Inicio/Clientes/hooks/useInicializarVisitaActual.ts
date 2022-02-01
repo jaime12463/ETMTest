@@ -75,6 +75,7 @@ export const useInicializarVisitaActual = () => {
 						avisos: {
 							limiteCredito: 0,
 							cambiosPasoActual: false,
+							calculoPromociones: false,
 						},
 						clienteBloqueado: false,
 					},
