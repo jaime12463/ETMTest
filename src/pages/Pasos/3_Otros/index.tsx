@@ -152,6 +152,12 @@ export const Otros: React.FC = () => {
 				valido={envasesValido}
 				dataCy='Envases'
 				disabled={visitaActual.clienteBloqueado}
+				mensaje={
+					<Typography color='primary' variant='subtitle3'>
+						{/*ToDo: pasar a multilenguaje */}
+						El pedido no cuenta con envases
+					</Typography>
+				}
 			>
 				<EnvasesRetornables />
 			</TarjetaColapsable>
@@ -173,13 +179,16 @@ export const Otros: React.FC = () => {
 						: undefined
 				}
 				disabled={
+					visitaActual.clienteBloqueado ||
 					!habilitaCanje ||
 					(saldoPresupuestoTipoPedido && saldoPresupuestoTipoPedido < 1) ||
 					productosMandatoriosVisitaActual.mandatorios.length < 1
 				}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
-						{t('titulos.canjesDeshabilitadas')}
+						{visitaActual.clienteBloqueado
+							? 'Sin disponibilidad de canje'
+							: t('titulos.canjesDeshabilitadas')}
 					</Typography>
 				}
 				labelChip={`${cantidadCanjes.length} Items`}

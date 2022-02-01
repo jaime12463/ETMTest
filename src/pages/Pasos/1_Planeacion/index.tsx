@@ -27,8 +27,8 @@ import {
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {TCliente, TClienteActual} from 'models';
 import {AvisoIcon} from 'assests/iconos';
-import Modal, { Configuracion } from 'components/UI/Modal';
-import { useReiniciarCompromisoDeCobro } from 'hooks/useReiniciarCompromisoDeCobro';
+import Modal, {Configuracion} from 'components/UI/Modal';
+import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
 import {useHistory} from 'react-router-dom';
 
 export const Planeacion: React.FC = () => {
@@ -197,8 +197,7 @@ export const Planeacion: React.FC = () => {
 			console.log('Escenario 4');
 			setConfigAlerta({
 				titulo: t('toast.clienteBloqueadoTitulo'),
-				mensaje:
-					t('toast.clienteBloqueadoMensaje'),
+				mensaje: t('toast.clienteBloqueadoMensaje'),
 				tituloBotonAceptar: t('general.finalizarVisita'),
 				callbackAceptar: () => {
 					reiniciarVisita();
@@ -221,8 +220,7 @@ export const Planeacion: React.FC = () => {
 			console.log('Escenario 5');
 			setConfigAlerta({
 				titulo: t('toast.clienteBloqueadoTitulo'),
-				mensaje:
-					t('toast.clienteBloqueadoMensaje'),
+				mensaje: t('toast.clienteBloqueadoMensaje'),
 				tituloBotonAceptar: t('general.finalizarVisita'),
 				callbackAceptar: () => {
 					reiniciarVisita();
@@ -235,7 +233,7 @@ export const Planeacion: React.FC = () => {
 			setAlertaPasos(true);
 			dispatch(activarClienteBloqueado());
 		}
-	}
+	};
 
 	useEffect(() => {
 		validacionClienteBloqueado();
@@ -263,6 +261,12 @@ export const Planeacion: React.FC = () => {
 				setExpandido={setExpandido}
 				dataCy='PedidosEnCurso'
 				iniciativasEjecutadasSinCantidad={iniciativasEjecutadasSinCantidad}
+				mensaje={
+					<Typography color='primary' variant='subtitle3'>
+						{t('titulos.pedidosEnCursoDeshabilitado')}
+					</Typography>
+				}
+				disabled={visitaActual.clienteBloqueado}
 			>
 				<div> PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
@@ -280,6 +284,12 @@ export const Planeacion: React.FC = () => {
 				setExpandido={setExpandido}
 				dataCy='Sugeridos'
 				iniciativasEjecutadasSinCantidad={iniciativasEjecutadasSinCantidad}
+				mensaje={
+					<Typography color='primary' variant='subtitle3'>
+						{t('titulos.sugeridosDeshabilitado')}
+					</Typography>
+				}
+				disabled={visitaActual.clienteBloqueado}
 			>
 				<div>SUGERIDOS PARA TI PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
@@ -307,7 +317,7 @@ export const Planeacion: React.FC = () => {
 							`${totalesIniciativasCompletas.length} Iniciativas`}
 					</>
 				}
-				disabled={iniciativas.length === 0}
+				disabled={iniciativas.length === 0 || visitaActual.clienteBloqueado}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
 						{/*ToDo: pasar a multilenguaje */}
@@ -345,7 +355,7 @@ export const Planeacion: React.FC = () => {
 				cantidadItems={coberturasEjecutadas?.length}
 				labelChip={`${coberturasEjecutadas?.length} de ${cantidadCoberturas.length} Items`}
 				valido={coberturasEjecutadas?.length > 0}
-				disabled={coberturas.length === 0}
+				disabled={coberturas.length === 0 || visitaActual.clienteBloqueado}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
 						{/*ToDo: pasar a multilenguaje */}

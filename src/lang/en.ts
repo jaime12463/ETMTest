@@ -139,6 +139,8 @@ const en = {
 		promociones: 'Promotions',
 		tarjetaPromociones:
 			'Select the promotions that you have available for your clients.',
+		pedidosEnCursoDeshabilitado:'There are no orders to display',
+		sugeridosDeshabilitado: 'There are no suggestions to show',
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',

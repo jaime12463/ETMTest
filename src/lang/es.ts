@@ -141,6 +141,8 @@ const es = {
 		promociones: 'Promociones',
 		tarjetaPromociones:
 			'Selecciona las promociones que tienes disponible para tus clientes.',
+		pedidosEnCursoDeshabilitado: 'No hay pedidos para mostrar',
+		sugeridosDeshabilitado: 'No hay sugerencias para mostrar',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',

@@ -1147,10 +1147,10 @@
                 }
             ],
             "informacionCrediticia": {
-                "condicion": "creditoInformal",
+                "condicion": "creditoFormal",
                 "limite": 20000,
                 "disponible": 1050,
-                "esCreditoBloqueado": false,
+                "esCreditoBloqueado": true,
                 "esBloqueadoVenta": false,
                 "documentos": [{
                         "numero": "12123456789",
