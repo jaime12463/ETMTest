@@ -63,6 +63,7 @@ export type TVisita = {
 	bonificaciones: TBonificacionesCliente[];
 	envasesConError: number;
 	avisos: TAvisos;
+	clienteBloqueado: boolean;
 };
 
 export type TAvisos = {

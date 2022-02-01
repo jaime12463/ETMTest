@@ -151,6 +151,7 @@ export const Otros: React.FC = () => {
 				setExpandido={setExpandido}
 				valido={envasesValido}
 				dataCy='Envases'
+				disabled={visitaActual.clienteBloqueado}
 			>
 				<EnvasesRetornables />
 			</TarjetaColapsable>

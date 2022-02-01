@@ -308,6 +308,7 @@ export type TConfiguracion = {
 	esFrecuenciaAbierta: boolean;
 	habilitaOrdenDeCompra: boolean;
 	bonificacionesConVenta: boolean;
+	habilitaCompromisoDeCobro: boolean;
 	tipoPedidoEnvasesHabilitados: string[];
 	tipoPedidos: TTipoPedido[];
 	motivosCancelacionIniciativas: TMotivosCancelacionIniciativas[];

@@ -99,6 +99,7 @@ const es = {
 		aplicar: 'Aplicar',
 		promocionAutomatica: 'Promoción automática',
 		obsequio: 'Obsequio',
+		finalizarVisita: 'Finalizar visita',
 	},
 	simbolos: {
 		decimal: '.',
@@ -296,6 +297,10 @@ const es = {
 		limiteDeCreditoExcedidoMensaje:
 			'Este cliente ha excedido su límite de crédito, por lo que no se podra levantar pedidos a crédito',
 		productoIngresado: 'Se ha ingresado el producto exitosamente',
+		clienteCreditoBloqueadoTitulo: 'Cliente con crédito bloqueado',
+		clienteCreditoBloqueadoMensaje: 'Solo puedes levantar el pedido a contado para este cliente.',
+		clienteBloqueadoTitulo: 'Cliente bloqueado',
+		clienteBloqueadoMensaje: 'No puedes generar un pedido para este cliente',
 	},
 };
 export default es;

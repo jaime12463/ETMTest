@@ -32,6 +32,7 @@ const estadoInicial: TVisita = {
 		limiteCredito: 0,
 		cambiosPasoActual: false,
 	},
+	clienteBloqueado: false,
 };
 
 export const visitaActualSlice = createSlice({
@@ -199,6 +200,7 @@ export const visitaActualSlice = createSlice({
 			};
 			state.fechaVisitaPlanificada = fechaVisitaPlanificada;
 			state.envasesConError = envasesConError;
+			state.clienteBloqueado = false;
 		},
 
 		resetearVisitaActual: (state) => {
@@ -217,6 +219,7 @@ export const visitaActualSlice = createSlice({
 				bordeError: false,
 			};
 			state.bonificaciones = [];
+			state.clienteBloqueado = false;
 		},
 
 		borrarDescuentoDelProducto: (
@@ -505,6 +508,9 @@ export const visitaActualSlice = createSlice({
 		restablecerEnvasesConError: (state) => {
 			state.envasesConError = 0;
 		},
+		activarClienteBloqueado: (state) => {
+			state.clienteBloqueado = true;
+		}
 	},
 });
 
@@ -541,5 +547,6 @@ export const {
 	modificarEnvasesConError,
 	restablecerEnvasesConError,
 	cambiarAvisos,
+	activarClienteBloqueado,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

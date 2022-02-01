@@ -126,8 +126,10 @@ const Pasos: React.FC = () => {
 		callbackAceptar: () => {},
 	});
 
+	const [pasos, setPasos] = useState(controlador);
+
 	const manejadorPasoAtras = () => {
-		if (pasoActual === 0) {
+		if (pasoActual === 0 || (pasoActual === 2 && visitaActual.clienteBloqueado)) {
 			setConfigAlerta({
 				titulo: t('modal.salirOrderTaking'),
 				mensaje: t('modal.salirOrderTakingMensaje'),
@@ -187,6 +189,33 @@ const Pasos: React.FC = () => {
 
 		if (pasoActual < controlador.length - 1) {
 			if (!valido.contenidoMensajeAviso) {
+				if (pasoActual === 0 && visitaActual.clienteBloqueado) {
+					setConfigAlerta({
+						titulo: t('toast.ventaBloqueadaTitulo'),
+						mensaje:
+							'No puedes generar un pedido para este cliente ¿Quieres generar un compromiso de pago?',
+						tituloBotonAceptar: t('general.continuar'),
+						tituloBotonCancelar: t('general.finalizarVisita'),
+						callbackAceptar: () => {
+							setPasoActual(pasoActual + 1);
+							setPasos(
+								controlador.filter(
+									(paso) =>
+										paso.id !== 'planeacion' && paso.id !== 'tomaDePedido'
+								)
+							);
+						},
+						callbackCancelar: () => {
+							reiniciarVisita();
+							reiniciarCompromisoDeCobro();
+							reiniciarClienteActual();
+							history.goBack();
+						},
+						iconoMensaje: <AvisoIcon />,
+					});
+					return setAlertaPasos(true);
+				}
+
 				if (
 					visitaActual.avisos.cambiosPasoActual &&
 					(pasoActual === 0 || pasoActual === 1)
@@ -274,7 +303,7 @@ const Pasos: React.FC = () => {
 				<Box padding='0 10px'>
 					<Box>
 						<Stepper
-							pasos={controlador.map(
+							pasos={pasos.map(
 								(paso: TControlador, index) => `${index + 1}. ${t(paso.titulo)}`
 							)}
 							pasoActivo={pasoActual}

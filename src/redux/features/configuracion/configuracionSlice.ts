@@ -16,6 +16,7 @@ const estadoInicial: TDatosConfiguracionesSlice = {
 			esFrecuenciaAbierta: false,
 			habilitaOrdenDeCompra: false,
 			bonificacionesConVenta: true,
+			habilitaCompromisoDeCobro: true,
 			tipoPedidoEnvasesHabilitados: [],
 			tipoPedidos: [],
 			motivosCancelacionIniciativas: [],
