@@ -5,6 +5,10 @@ import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
 import {useObtenerConfiguracion, useObtenerVisitaActual} from 'redux/hooks';
 import TarjetaDobleDerecha from './components/TarjetaDobleDerecha';
 import TarjetaDobleIzquierda from './components/TarjetaDobleIzquierda';
+import {
+	restablecerEnvasesConError,
+} from 'redux/features/visitaActual/visitaActualSlice';
+import {useAppDispatch} from 'redux/hooks';
 
 const TarjetaEnvasesRetornables = ({
 	envase,
@@ -19,6 +23,7 @@ const TarjetaEnvasesRetornables = ({
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 
 	const configuracion = useObtenerConfiguracion();
+	const dispatch = useAppDispatch();
 
 	const [productoPedido, setProductoPedido] = useState({
 		unidades: 0,
@@ -50,6 +55,10 @@ const TarjetaEnvasesRetornables = ({
 			subUnidades: subUnidadesContador,
 		});
 	}, [envase]);
+
+	useEffect(() => {
+		dispatch(restablecerEnvasesConError());
+	}, []);
 
 	const pedidosEnvasesHabilitados =
 		configuracion.tipoPedidoEnvasesHabilitados.map((tipoEnvases) =>

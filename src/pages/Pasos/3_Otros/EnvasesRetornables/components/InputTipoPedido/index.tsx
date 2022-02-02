@@ -115,7 +115,6 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 	};
 
 	useEffect(() => {
-		dispatch(restablecerEnvasesConError());
 		obtenerEnvasesActual(tipoPedido, productoEnvase, datosEnvase);
 	}, []);
 
