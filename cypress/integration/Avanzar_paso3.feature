@@ -8,11 +8,27 @@ Característica: Mostrar avance de visita
     Quiero que el sistema me indique si no cumplo con los indicadores
     Para corregir el pedido
 
-Escenario: N°1 - Pedido mínimo no alcanzado
+Escenario: N°1 - Pedido mínimo no alcanzado teniendo un tipo de pedido que contribuye al mínimo
     Dado que estoy en paso otros
+    Y existe un _tipoPedido cargado que _contribuyeAMinimo = true 
     Y el pedido mínimo no está alcanzado
     Cuando avanzo al paso 4 finalizar pedido
     Entonces el sistema mostrará un mensaje de error indicando que el pedido no alcanza el pedido mínimo
     Y permanece en el paso Otros
 
+Esquema del escenario: N°2 - No hay un tipo de pedido que contribuye a mínimo y existe compromiso de cobro cargadado o bonificaciones
+    Dado que estoy en paso otros
+    Y no exsite un _tipoPedido cargado que _contribuyeAMinimo = true
+    Y tiene _bonificacionesConVenta = false
+    Y '<hayCompromisoCobro>' compromiso de cobro
+    Y '<hayBonificacion>' bonificaciones
+    Cuando avanzo al paso 4 finalizar pedido
+    Entonces el sistema avanzará al paso 4 finalizar pedido
+
+Ejemplos:
+|hayCompromisoCobro | hayBonificacion|
+|    No registra    |   No registra  |
+|    No registra    |   Si registra  |
+|    Si registra    |   No registra  |
+|    Si registra    |   Si registra  |
 
