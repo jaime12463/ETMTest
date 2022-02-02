@@ -145,8 +145,8 @@ export const Planeacion: React.FC = () => {
 			console.log('Escenario 1');
 			mostrarAviso(
 				'warning',
-				t('toast.clienteBloqueadoTitulo'),
-				t('toast.clienteBloqueadoMensaje'),
+				t('toast.clienteCreditoBloqueadoTitulo'),
+				t('toast.clienteCreditoBloqueadoMensaje'),
 				undefined,
 				'cliente-bloqueado'
 			);
