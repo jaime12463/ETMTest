@@ -15,7 +15,7 @@ Escenario: N°1 - Mostrar las promociones ongoing
     Entonces el sistema mostrará la sección de condición de pago crédito con la lista de promociones que cumplen requisito a crédito
     Y mostrará la sección de condición de pago contado con la lista de promociones que cumplen requisito a contado
     Y mostrará la sección de promociones que no cubren el requisito
-    Y mostrará el control para restabelcer promociones en cada sección de condición de pago
+    Y mostrará el control para restabelcer promociones para cada sección de condición de pago
 
 Escenario: N°2 - Calcular promociones y aplicar promociones automáticas cuando se modifica el pedido
     Dado que se modificaron productos que no son promo push en el pedido
@@ -29,7 +29,7 @@ Escenario: N°2 - Calcular promociones y aplicar promociones automáticas cuando
 #Modificar un producto que no es promo push: agregar, borrar, modificar cantidades o condición de pago 
 
 Escenario: N°3 - El pedido no se modifica
-    Dado se calcularon anteriormente las promociones 
+    Dado que se calcularon anteriormente las promociones 
     Y no se modificaron productos que no son promo push en el pedido
     Cuando se muestra la pantalla de promociones
     Entonces el sistema mostrará en cada sección las promociones ya calculadas anteriormente
@@ -42,5 +42,12 @@ Escenario: N°4 - Mostrar promociones manuales en las secciones correspondientes
     Entonces el sistema mostrará luego de las promociones automáticas aplicadas el _promocionID, _descripcion de las promociones manuales
     Y el control para aplicar la promoción
     Y el control para editar la promoción
-    Y mostrará ordenados por _promocionID
-    Y mostrará las promociones manuales que ya no se pueden aplicar, sin los controles para aplicar y editar
+    Y mostrará las promociones ordenadas por _promocionID
+    Y mostrará las promociones manuales aplicadas con el borde de tarjeta en verde y el icono verde y sin los controles aplicar y editar
+    Y mostrará las promociones manuales que no se pueden aplicar, sin los controles aplicar y editar
+
+Escenario: N°5 - Mostrar promociones que no cumplen requisito
+    Dado que se calcularon promociones que no cumplen con el requisito
+    Cuando se muestran las promociones que no cumplen requisito
+    Entonces el sistema mostrará el _promocionID, _descripcion de las promociones que no cumplen requisito
+    Y mostrará ordenado por _promocionID
