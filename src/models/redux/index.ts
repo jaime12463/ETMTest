@@ -9,6 +9,7 @@ import {
 	TDescuentoPolarizado,
 	TComponente,
 	TAtributos,
+	EFormaDeAplicacion,
 } from 'models/server';
 
 //Cliente Actual
@@ -61,6 +62,7 @@ export type TVisita = {
 	seQuedaAEditar: SeQuedaAEditar;
 	fechaVisitaPlanificada: string;
 	bonificaciones: TBonificacionesCliente[];
+	promosOngoing:TPromoOngoingAplicadas[];
 	envasesConError: number;
 	avisos: TAvisos;
 	clienteBloqueado: boolean;
@@ -73,6 +75,18 @@ export type TAvisos = {
 	cambioElPedidoSinPromociones: boolean;
 };
 
+export type TPromoOngoingAplicadas = {
+	promocionID: number;
+	aplicacion: EFormaDeAplicacion;
+	productos: TProductosPromoOngoingAplicadas[]
+}
+
+export type TProductosPromoOngoingAplicadas ={
+	tipoPago: ETiposDePago;
+	codigoProducto: number;
+	unidadMedida: string;
+	cantidad: number;
+}
 export type TBonificacionesCliente = {
 	numeroPedido: string;
 	codigoCliente: string;
