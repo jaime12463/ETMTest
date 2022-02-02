@@ -43,3 +43,4 @@ Escenario: N°4 - Mostrar promociones manuales en las secciones correspondientes
     Y el control para aplicar la promoción
     Y el control para editar la promoción
     Y mostrará ordenados por _promocionID
+    Y mostrará las promociones manuales que ya no se pueden aplicar, sin los controles para aplicar y editar
