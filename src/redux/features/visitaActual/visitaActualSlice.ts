@@ -32,6 +32,7 @@ const estadoInicial: TVisita = {
 		limiteCredito: 0,
 		cambiosPasoActual: false,
 		calculoPromociones: false,
+		cambioElPedidoSinPromociones: false,
 	},
 	clienteBloqueado: false,
 };
@@ -69,6 +70,9 @@ export const visitaActualSlice = createSlice({
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
 			state.avisos.cambiosPasoActual = true;
+			if (!action.payload.productoPedido.promoPush) {
+				state.avisos.cambioElPedidoSinPromociones = true;
+			}
 			if (producto) {
 				producto.unidades = action.payload.productoPedido.unidades;
 				producto.subUnidades = action.payload.productoPedido.subUnidades;

@@ -19,9 +19,10 @@ import {
 } from 'hooks';
 import {
 	agregarProductoDelPedidoActual,
+	cambiarAvisos,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {Dialogo, SwipeBorrar} from 'components/UI';
+import {SwipeBorrar} from 'components/UI';
 import {
 	AutocompleteSeleccionarProducto,
 	DrawerPromociones,
@@ -31,12 +32,7 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
-import {
-	BorrarIcon,
-	BuscarIcon,
-	PromocionColor,
-	PromocionesIcon,
-} from 'assests/iconos';
+import {BorrarIcon, BuscarIcon, PromocionColor} from 'assests/iconos';
 import {styled} from '@mui/material/styles';
 import {useBorrarLinea, useBorrarTodoTomaPedido} from '../hooks';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
@@ -54,11 +50,30 @@ import {
 	obtenerPromocionesOngoingTotal,
 } from 'utils/procesos/promociones';
 import {useObtenerDatos} from 'redux/hooks';
+import Tooltip, {TooltipProps, tooltipClasses} from '@mui/material/Tooltip';
 
 const TextStyled = styled(Typography)(() => ({
 	color: theme.palette.secondary.main,
 	fontSize: '10px',
 }));
+
+const TooltipStyled = styled(({className, ...props}: TooltipProps) => (
+	<Tooltip {...props} classes={{popper: className}} />
+))({
+	[`& .${tooltipClasses.tooltip}`]: {
+		maxWidth: 'none',
+		backgroundColor: '#FFFBEF',
+		color: '#000000',
+		border: '1.5px solid #F7B500',
+		borderRadius: '10px',
+		bottom: '6px',
+	},
+	[`& .${tooltipClasses.arrow}`]: {
+		'&:before': {
+			backgroundColor: '#F7B500',
+		},
+	},
+});
 
 const TomaPedido: React.FC = () => {
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
@@ -76,6 +91,7 @@ const TomaPedido: React.FC = () => {
 	const {t} = useTranslation();
 
 	const [alerta, setAlerta] = React.useState<boolean>(false);
+	const [openTooltip, setOpenTooltip] = React.useState<boolean>(false);
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
@@ -137,6 +153,15 @@ const TomaPedido: React.FC = () => {
 		venta.productos.some(
 			(producto) => producto.unidades > 0 || producto.subUnidades > 0
 		) && promocionesVigentesCliente?.existenPromociones;
+
+	React.useEffect(() => {
+		const {cambioElPedidoSinPromociones, calculoPromociones} =
+			visitaActual.avisos;
+
+		if (cambioElPedidoSinPromociones && calculoPromociones) {
+			setOpenTooltip(true);
+		}
+	}, [visitaActual.avisos.cambioElPedidoSinPromociones]);
 
 	React.useEffect(() => {
 		if (
@@ -221,20 +246,45 @@ const TomaPedido: React.FC = () => {
 					/>
 					{puedeBotonPromocionesOngoing && (
 						<Box alignItems='center' display='flex' gap='16px'>
-							<IconButton
-								style={{padding: 0}}
-								onClick={() => {
-									setOpenDrawerPromociones(true);
-									let promociones = obtenerPromocionesOngoingTotal(
-										datosCliente,
-										venta.productos,
-										promocionesVigentesCliente
-									);
-									setPromocionesOingoing(promociones);
-								}}
+							<TooltipStyled
+								open={openTooltip}
+								onClose={() => {}}
+								onOpen={() => {}}
+								title={
+									<Typography
+										fontSize={'10px'}
+										fontStyle={'caption'}
+										lineHeight={'10px'}
+										fontFamily={'Open Sans'}
+									>
+										Las promociones disponibles podrían haber cambiado.
+									</Typography>
+								}
+								arrow
 							>
-								<PromocionColor height='24px' width='24px' />
-							</IconButton>
+								<IconButton
+									style={{padding: 0}}
+									onClick={() => {
+										setOpenDrawerPromociones(true);
+										let promociones = obtenerPromocionesOngoingTotal(
+											datosCliente,
+											venta.productos,
+											promocionesVigentesCliente
+										);
+										setPromocionesOingoing(promociones);
+										dispatch(
+											cambiarAvisos({
+												calculoPromociones: true,
+												cambioElPedidoSinPromociones: false,
+											})
+										);
+										setOpenTooltip(false);
+									}}
+								>
+									<PromocionColor height='24px' width='24px' />
+								</IconButton>
+							</TooltipStyled>
+
 							<IconButton sx={{padding: 0, marginRight: '9px'}}>
 								<BuscarIcon height='18px' width='18px' />
 							</IconButton>

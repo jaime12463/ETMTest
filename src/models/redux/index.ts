@@ -70,6 +70,7 @@ export type TAvisos = {
 	limiteCredito: number;
 	cambiosPasoActual: boolean;
 	calculoPromociones: boolean;
+	cambioElPedidoSinPromociones: boolean;
 };
 
 export type TBonificacionesCliente = {
