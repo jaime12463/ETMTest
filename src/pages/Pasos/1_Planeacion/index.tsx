@@ -131,7 +131,6 @@ export const Planeacion: React.FC = () => {
 	});
 
 	const validacionClienteBloqueado = () => {
-		console.log('Estoy en paso planeacion');
 		const esCreditoBloqueado =
 			datosCliente?.informacionCrediticia.esCreditoBloqueado;
 		const esVentaBloqueado =
@@ -142,9 +141,6 @@ export const Planeacion: React.FC = () => {
 			clienteActual.condicion === 'creditoFormal';
 		const {habilitaCompromisoDeCobro} = configuracion;
 
-		/*console.log("esCreditoBloqueado", esCreditoBloqueado);
-		console.log("esCondicionCreditoInformal", esCondicionCreditoInformal);
-		console.log("!esVentaBloqueado", !esVentaBloqueado);*/
 		if (esCreditoBloqueado && esCondicionCreditoInformal && !esVentaBloqueado) {
 			console.log('Escenario 1');
 			mostrarAviso(

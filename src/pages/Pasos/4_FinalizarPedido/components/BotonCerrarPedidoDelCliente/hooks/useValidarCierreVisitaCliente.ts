@@ -22,6 +22,7 @@ import {
 } from 'utils/validaciones/validacionesDePedidos';
 
 import {obtenerTotalesCompromisoDeCobroCliente} from 'utils/methods';
+import { useValidarPedidoMinimoVisitaActual } from 'pages/Pasos/3_Otros/hooks/useValidarPedidoMinimoVisitaActual';
 
 export const useValidarCierreVisitaCliente = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
@@ -42,6 +43,7 @@ export const useValidarCierreVisitaCliente = () => {
 	const {creditoDisponible} = useObtenerCreditoDisponible();
 	const calcularTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const {tipoPedidos} = useObtenerConfiguracion();
+	const validarPedidoMinimoVisitaActual = useValidarPedidoMinimoVisitaActual();
 
 	const validarCierreVisitaCliente = (): TRetornoValidacion => {
 		const totalPedidosVisitaActual = calcularTotalPedidosVisitaActual(true);
@@ -68,6 +70,7 @@ export const useValidarCierreVisitaCliente = () => {
 		retornoValidacion = validarDatosCliente(datosCliente);
 		if (!retornoValidacion.esValido) return retornoValidacion;
 
+		/*
 		retornoValidacion = validarSiExcedeElMontoMinimo(
 			datosCliente,
 			totalPedidosVisitaActual.totalPrecio +
@@ -76,6 +79,7 @@ export const useValidarCierreVisitaCliente = () => {
 		);
 
 		if (!retornoValidacion.esValido) return retornoValidacion;
+		*/
 
 		retornoValidacion = validarSiExcedeAlMaximoContado(
 			datosCliente?.configuracionPedido.ventaContadoMaxima

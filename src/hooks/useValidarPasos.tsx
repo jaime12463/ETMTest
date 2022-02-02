@@ -23,6 +23,7 @@ import {
 import {obtenerTotalesPedidosCliente} from 'utils/methods';
 import {useMostrarAviso} from './useMostrarAviso';
 import {useBorrarTodoTomaPedido} from 'pages/Pasos/2_TomaDePedido/hooks';
+import {useValidarPedidoMinimoVisitaActual} from 'pages/Pasos/3_Otros/hooks/useValidarPedidoMinimoVisitaActual';
 
 interface ValidarPasos {
 	error: boolean;
@@ -72,6 +73,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 		venta?.productos,
 		true
 	);
+	const validarPedidoMinimoVisitaActual = useValidarPedidoMinimoVisitaActual();
 
 	React.useEffect(() => {
 		borrarTodoTomaPedido();
@@ -194,12 +196,14 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 			(producto) => producto.catalogoMotivo === ''
 		);
 
-		if (
-			!datosCliente?.informacionCrediticia.esBloqueadoVenta &&
+		const pedidoMinimoNoAlcanzado =
 			datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima &&
 			totalesPedidoCliente +
 				(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0) <
-				datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
+				datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima;
+
+		if (/*!datosCliente?.informacionCrediticia.esBloqueadoVenta &&*/
+			pedidoMinimoNoAlcanzado && validarPedidoMinimoVisitaActual()
 		) {
 			return {
 				error: true,
