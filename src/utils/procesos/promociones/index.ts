@@ -31,11 +31,12 @@ export type TProductosUsadosEnOtrasPromos = {
 
 export type TPromoOngoingListaProductosAplicados = {
 	codigoProducto: number;
+	unidadMedida: string;
 	cantidad: number;
 };
 
 export type TPromoOngoingAplicables = TPromoOngoing & {
-	productosAplicados: TPromoOngoingListaProductosAplicados[];
+	listaProductosAplicados: TPromoOngoingListaProductosAplicados[];
 	aplicada: boolean;
 	topeTotal: number;
 };
@@ -99,7 +100,7 @@ export const obtenerlistaPromocionesVigentes = (
  * @param {TListaPromoOngoing} listaPromocionesVigentes -promociones vigentes y con disponibilidad para el cliente
  * @returns {TListaPromoOngoing}
  */
-export const obtenerPromocionesOngoingAplicables = (
+ export const obtenerPromocionesOngoingAplicables = (
 	cliente: TCliente,
 	productosPedidos: TProductosPedidoIndex,
 	listaPromocionesVigentes: TListaPromoOngoingConIndices
@@ -141,10 +142,7 @@ export const obtenerPromocionesOngoingAplicables = (
 				conector = promo.requisitos[i].conector?.toUpperCase();
 		}
 		/** Analisis según conector                         ----------------AND----------------------    ----------------------OR-----------------*/
-		const sonValidosLosRequisitos =
-			conector == 'Y'
-				? multiplo.every((requisito) => requisito > 0)
-				: multiplo.some((requisito) => requisito > 0);
+		const sonValidosLosRequisitos =	conector == 'Y'	? multiplo.every((requisito) => requisito > 0) : multiplo.some((requisito) => requisito > 0);
 		if (sonValidosLosRequisitos) {
 			// verificar si el grupo de beneficios se puede aplicar
 			let grupoDeBeneficiosResultado = verificarBeneficios(
@@ -152,54 +150,73 @@ export const obtenerPromocionesOngoingAplicables = (
 				promo.beneficios,
 				productosPedidos
 			);
+			let listaProductosAplicados:TPromoOngoingListaProductosAplicados[]=[];
 			let grupoDeBeneficios: TPromoOngoingGrupoBeneficios[] = [];
-			let cantidadDeVecesQueSePuedeAplicar: number = 0;
+			let topeTotal: number = 0;
 			if (grupoDeBeneficiosResultado.length > 0) {
-				materialesRequisitosVerificados.forEach(
-					(
-						requisitoVerificado: TPromoOngoingMaterialesRequisitosVerificados
-					) => {
-						productosUsadosEnOtrasPromos = {
-							...productosUsadosEnOtrasPromos,
-							...requisitoVerificado.lista,
-						};
-					}
-				);
-				//ToDo: para las automáticas ver el beneficio por default
-				grupoDeBeneficios.push({
-					...grupoDeBeneficiosResultado[0],
-					secuencias: [
-						{
-							...grupoDeBeneficiosResultado[0].secuencias[0],
-							materialesBeneficio: [
-								grupoDeBeneficiosResultado[0].secuencias[0]
-									.materialesBeneficio[0],
-							],
-						},
-					],
-				});
-				cantidadDeVecesQueSePuedeAplicar = Math.min();
-
 				if (promo.aplicacion == EFormaDeAplicacion.Automatica) {
 					//realizar asignación automática
 					/**
 					 * Las promociones automáticas son de asignación Total y otorgan el beneficio del grupo con id más chico
 					 */
+
+					productosUsadosEnOtrasPromos= comprometerProductosUsadosEnPromos(materialesRequisitosVerificados,productosUsadosEnOtrasPromos );
+				
+					
+					grupoDeBeneficios.push({
+						...grupoDeBeneficiosResultado[0],
+						secuencias: [
+							{
+								...grupoDeBeneficiosResultado[0].secuencias[0],
+								materialesBeneficio: [
+									grupoDeBeneficiosResultado[0].secuencias[0].materialesBeneficio[0],
+								],
+							},
+						],
+					});
+					topeTotal=Math.min( 
+						grupoDeBeneficiosResultado[0].secuencias[0].cantidad * Math.min(...multiplo),
+						grupoDeBeneficiosResultado[0].secuencias[0].tope
+					);
+
+					listaProductosAplicados.push({
+						codigoProducto: grupoDeBeneficiosResultado[0].secuencias[0].materialesBeneficio[0],
+						unidadMedida: grupoDeBeneficiosResultado[0].secuencias[0].unidadMedida,
+						cantidad: topeTotal
+					});
+					
 				}
+
 				aplicables.push({
 					...{
 						...promo,
 						beneficios: grupoDeBeneficios,
 					},
-					productosAplicados: [], //ToDo
+					listaProductosAplicados:listaProductosAplicados, 
 					aplicada: promo.aplicacion == EFormaDeAplicacion.Automatica,
-					topeTotal: 0,
+					topeTotal: topeTotal,
 				});
 			}
 		}
 	}
 	return aplicables;
 };
+
+const comprometerProductosUsadosEnPromos = ( materialesRequisitosVerificados: TPromoOngoingMaterialesRequisitosVerificados[], productosUsadosEnOtrasPromos: TProductosUsadosEnOtrasPromos ):TProductosUsadosEnOtrasPromos =>
+{
+	let  nuevaListaDeProductosUsadosEnOtrasPromos: TProductosUsadosEnOtrasPromos ={...productosUsadosEnOtrasPromos};
+	materialesRequisitosVerificados.forEach(
+		(
+			requisitoVerificado: TPromoOngoingMaterialesRequisitosVerificados
+		) => {
+			nuevaListaDeProductosUsadosEnOtrasPromos = {
+				...nuevaListaDeProductosUsadosEnOtrasPromos,
+				...requisitoVerificado.lista,
+			};
+		}
+	);
+	return nuevaListaDeProductosUsadosEnOtrasPromos;
+}
 
 export const aplicarAutomaticamenteProductos = (
 	listaMateriales: number[],
