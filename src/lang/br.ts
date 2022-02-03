@@ -216,6 +216,8 @@ const br = {
 		limiteDeCreditoExcedidoMensaje:
 			'Este cliente excedeu seu limite de crédito, portanto, não será possível fazer pedidos a crédito.',
 		productoIngresado: 'O produto foi introduzido com sucesso',
+		cambiosGuardadosConPromo:
+			'As promoções automáticas foram calculadas e aplicadas',
 	},
 };
 export default br;

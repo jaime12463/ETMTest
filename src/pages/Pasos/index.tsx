@@ -28,18 +28,33 @@ import {
 	useObtenerCompromisoDeCobroActual,
 	useObtenerVisitaActual,
 	useObtenerConfiguracion,
+	useObtenerDatos,
 } from 'redux/hooks';
 
-import {TCliente, TClienteActual} from 'models';
+import {
+	TCliente,
+	TClienteActual,
+	TPromoOngoing,
+	TPromoOngoingAplicadas,
+} from 'models';
 import {useTranslation} from 'react-i18next';
 import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
 import {AvisoIcon, PromocionesRellenoIcon} from 'assests/iconos';
 import Modal from 'components/UI/Modal';
 import BotonResumenPedido from 'components/UI/BotonResumenPedido';
 import ResumenPedido from 'components/UI/ResumenPedido';
-import {cambiarSeQuedaAEditar} from 'redux/features/visitaActual/visitaActualSlice';
+import {
+	agregarBeneficiosPromoOngoing,
+	cambiarAvisos,
+	cambiarSeQuedaAEditar,
+} from 'redux/features/visitaActual/visitaActualSlice';
 import ModalCore from 'components/UI/ModalCore';
 import {obtenerTotalesPedidosCliente} from 'utils/methods';
+import {
+	obtenerlistaPromocionesVigentes,
+	obtenerPromocionesOngoingTotal,
+	TPromoOngoingAplicables,
+} from 'utils/procesos/promociones';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -76,6 +91,7 @@ const Pasos: React.FC = () => {
 
 	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(codigoCliente);
+	if (!datosCliente) return <></>;
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
 	const agregarPedidoActualAPedidosClientes =
@@ -86,7 +102,7 @@ const Pasos: React.FC = () => {
 		compromisoDeCobroActual.monto;
 
 	const visitaActual = useObtenerVisitaActual();
-
+	const datos = useObtenerDatos();
 	const reiniciarVisita = useResetVisitaActual();
 	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
 	const {obtenerPedidosClienteMismaFechaEntrega} =
@@ -99,6 +115,10 @@ const Pasos: React.FC = () => {
 		pedidosClienteMismaFechaEntrega,
 		tipoPedidos,
 	});
+	const promocionesVigentesCliente = React.useMemo(
+		() => obtenerlistaPromocionesVigentes(datosCliente, datos.promociones),
+		[datosCliente, datos.promociones]
+	);
 
 	useEffect(() => {
 		if (pasoActual < controlador.length - 1) {
@@ -129,7 +149,10 @@ const Pasos: React.FC = () => {
 	const [pasos, setPasos] = useState(controlador);
 
 	const manejadorPasoAtras = () => {
-		if (pasoActual === 0 || (pasoActual === 2 && visitaActual.clienteBloqueado)) {
+		if (
+			pasoActual === 0 ||
+			(pasoActual === 2 && visitaActual.clienteBloqueado)
+		) {
 			setConfigAlerta({
 				titulo: t('modal.salirOrderTaking'),
 				mensaje: t('modal.salirOrderTakingMensaje'),
@@ -216,10 +239,7 @@ const Pasos: React.FC = () => {
 					return setAlertaPasos(true);
 				}
 
-				if (
-					visitaActual.avisos.cambiosPasoActual &&
-					(pasoActual === 0 || pasoActual === 1)
-				) {
+				if (visitaActual.avisos.cambiosPasoActual && pasoActual === 0) {
 					mostrarAviso(
 						'success',
 						t('toast.cambiosGuardados'),
@@ -229,6 +249,60 @@ const Pasos: React.FC = () => {
 					);
 				}
 				if (pasoActual === 1) {
+					let promociones: {
+						contado: TPromoOngoingAplicables[];
+						credito: TPromoOngoingAplicables[];
+						noAplicable: TPromoOngoing[];
+						benficiosParaAgregar: TPromoOngoingAplicadas[];
+					} = {
+						contado: [],
+						credito: [],
+						noAplicable: [],
+						benficiosParaAgregar: [],
+					};
+
+					if (visitaActual.avisos.cambioElPedidoSinPromociones) {
+						console.log('entrooo');
+						promociones = obtenerPromocionesOngoingTotal(
+							datosCliente,
+							visitaActual.pedidos.venta.productos,
+							promocionesVigentesCliente
+						);
+
+						dispatch(cambiarAvisos({cambioElPedidoSinPromociones: false}));
+						dispatch(
+							agregarBeneficiosPromoOngoing({
+								beneficios: promociones.benficiosParaAgregar,
+							})
+						);
+					}
+
+					if (
+						visitaActual.avisos.cambiosPasoActual &&
+						promociones.benficiosParaAgregar.length <= 0
+					) {
+						mostrarAviso(
+							'success',
+							t('toast.cambiosGuardados'),
+							undefined,
+							undefined,
+							'successpaso2'
+						);
+					}
+
+					if (
+						visitaActual.avisos.cambioElPedidoSinPromociones &&
+						promociones.benficiosParaAgregar.length > 0
+					) {
+						mostrarAviso(
+							'success',
+							t('toast.cambiosGuardados'),
+							t('toast.cambiosGuardadosConPromo'),
+							undefined,
+							'successpaso2'
+						);
+					}
+
 					if (datosCliente?.informacionCrediticia.esBloqueadoVenta) {
 						mostrarAviso(
 							'warning',

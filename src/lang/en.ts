@@ -139,7 +139,7 @@ const en = {
 		promociones: 'Promotions',
 		tarjetaPromociones:
 			'Select the promotions that you have available for your clients.',
-		pedidosEnCursoDeshabilitado:'There are no orders to display',
+		pedidosEnCursoDeshabilitado: 'There are no orders to display',
 		sugeridosDeshabilitado: 'There are no suggestions to show',
 	},
 	advertencias: {
@@ -287,9 +287,12 @@ const en = {
 			'This customer has exceeded his credit limit, so no credit orders can be placed.',
 		productoIngresado: 'Product has been successfully entered',
 		clienteCreditoBloqueadoTitulo: 'Client with blocked credit',
-		clienteCreditoBloqueadoMensaje: 'You can only pick up the cash order for this customer.',
+		clienteCreditoBloqueadoMensaje:
+			'You can only pick up the cash order for this customer.',
 		clienteBloqueadoTitulo: 'blocked client',
 		clienteBloqueadoMensaje: 'You cannot generate an order for this customer',
+		cambiosGuardadosConPromo:
+			'Automatic promotions were calculated and applied',
 	},
 };
 export default en;

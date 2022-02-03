@@ -300,9 +300,12 @@ const es = {
 			'Este cliente ha excedido su límite de crédito, por lo que no se podra levantar pedidos a crédito',
 		productoIngresado: 'Se ha ingresado el producto exitosamente',
 		clienteCreditoBloqueadoTitulo: 'Cliente con crédito bloqueado',
-		clienteCreditoBloqueadoMensaje: 'Solo puedes levantar el pedido a contado para este cliente.',
+		clienteCreditoBloqueadoMensaje:
+			'Solo puedes levantar el pedido a contado para este cliente.',
 		clienteBloqueadoTitulo: 'Cliente bloqueado',
 		clienteBloqueadoMensaje: 'No puedes generar un pedido para este cliente',
+		cambiosGuardadosConPromo:
+			'Se calcularón y aplicarón las promociones automáticas',
 	},
 };
 export default es;

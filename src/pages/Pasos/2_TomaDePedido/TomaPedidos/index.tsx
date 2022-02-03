@@ -169,6 +169,7 @@ const TomaPedido: React.FC = () => {
 				cambioElPedidoSinPromociones: false,
 			})
 		);
+
 		dispatch(
 			agregarBeneficiosPromoOngoing({
 				beneficios: promociones.benficiosParaAgregar,
