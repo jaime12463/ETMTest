@@ -84,9 +84,9 @@ const Pasos: React.FC = () => {
 		useObtenerTiposPedidoSegunConfiguracion('contribuyeAMinimo', true);
 
 	const pedidosContribuyeAlMinimo = obtenerTiposPedidoSegunConfiguracion();
-	const pedidoEnvaseContribuyeAlMinimo = tipoPedidoEnvasesHabilitados.some(
+	const pedidoEnvaseContribuyeAlMinimo = tipoPedidoEnvasesHabilitados?.some(
 		(pedidosEnvases) =>
-			pedidosContribuyeAlMinimo.find((pedido) => pedido === pedidosEnvases)
+			pedidosContribuyeAlMinimo?.find((pedido) => pedido === pedidosEnvases)
 	);
 
 	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
@@ -116,8 +116,8 @@ const Pasos: React.FC = () => {
 		tipoPedidos,
 	});
 	const promocionesVigentesCliente = React.useMemo(
-		() => obtenerlistaPromocionesVigentes(datosCliente, datos.promociones),
-		[datosCliente, datos.promociones]
+		() => obtenerlistaPromocionesVigentes(datosCliente, datos?.promociones),
+		[datosCliente, datos?.promociones]
 	);
 
 	useEffect(() => {
@@ -162,7 +162,7 @@ const Pasos: React.FC = () => {
 					reiniciarVisita();
 					reiniciarCompromisoDeCobro();
 					reiniciarClienteActual();
-					history.goBack();
+					history.push('/clientes');
 				},
 				iconoMensaje: <AvisoIcon />,
 			});
@@ -191,6 +191,7 @@ const Pasos: React.FC = () => {
 		}
 
 		setPasoActual(pasoActual - 1);
+		console.log('entro23');
 	};
 
 	const manejadorPasoAdelante = () => {
@@ -239,7 +240,7 @@ const Pasos: React.FC = () => {
 					return setAlertaPasos(true);
 				}
 
-				if (visitaActual.avisos.cambiosPasoActual && pasoActual === 0) {
+				if (visitaActual?.avisos?.cambiosPasoActual && pasoActual === 0) {
 					mostrarAviso(
 						'success',
 						t('toast.cambiosGuardados'),
@@ -261,25 +262,24 @@ const Pasos: React.FC = () => {
 						benficiosParaAgregar: [],
 					};
 
-					if (visitaActual.avisos.cambioElPedidoSinPromociones) {
-						console.log('entrooo');
+					if (visitaActual?.avisos?.cambioElPedidoSinPromociones) {
 						promociones = obtenerPromocionesOngoingTotal(
 							datosCliente,
-							visitaActual.pedidos.venta.productos,
+							visitaActual?.pedidos?.venta?.productos,
 							promocionesVigentesCliente
 						);
 
 						dispatch(cambiarAvisos({cambioElPedidoSinPromociones: false}));
 						dispatch(
 							agregarBeneficiosPromoOngoing({
-								beneficios: promociones.benficiosParaAgregar,
+								beneficios: promociones?.benficiosParaAgregar,
 							})
 						);
 					}
 
 					if (
-						visitaActual.avisos.cambiosPasoActual &&
-						promociones.benficiosParaAgregar.length <= 0
+						visitaActual?.avisos?.cambiosPasoActual &&
+						promociones?.benficiosParaAgregar?.length <= 0
 					) {
 						mostrarAviso(
 							'success',
@@ -291,8 +291,8 @@ const Pasos: React.FC = () => {
 					}
 
 					if (
-						visitaActual.avisos.cambioElPedidoSinPromociones &&
-						promociones.benficiosParaAgregar.length > 0
+						visitaActual?.avisos?.cambioElPedidoSinPromociones &&
+						promociones?.benficiosParaAgregar?.length > 0
 					) {
 						mostrarAviso(
 							'success',
@@ -303,7 +303,7 @@ const Pasos: React.FC = () => {
 						);
 					}
 
-					if (datosCliente?.informacionCrediticia.esBloqueadoVenta) {
+					if (datosCliente?.informacionCrediticia?.esBloqueadoVenta) {
 						mostrarAviso(
 							'warning',
 							t('toast.ventaBloqueadaTitulo'),
