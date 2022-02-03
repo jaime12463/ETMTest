@@ -64,6 +64,7 @@ export const useInicializarVisitaActual = () => {
 							detalle: [],
 							fechaEntrega: fechaEntrega,
 						})),
+						promosOngoing: [],
 						coberturasEjecutadas: [],
 						pasoATomaPedido: false,
 						seQuedaAEditar: {

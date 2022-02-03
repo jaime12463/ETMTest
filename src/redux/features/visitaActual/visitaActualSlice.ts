@@ -23,6 +23,7 @@ const estadoInicial: TVisita = {
 	pasoATomaPedido: false,
 	fechaVisitaPlanificada: '',
 	bonificaciones: [],
+	promosOngoing: [],
 	seQuedaAEditar: {
 		seQueda: false,
 		bordeError: false,
