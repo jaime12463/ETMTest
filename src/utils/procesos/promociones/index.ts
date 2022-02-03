@@ -341,6 +341,13 @@ const verificarBeneficios = (
 	);
 };
 
+/**
+ * Retorna las promociones que se aplicaron al cliente en formato TPromoOngoingAplicadas[] para ser despachas al redux
+ * @constructor
+ * @param {TPromoOngoingAplicables[]} promoContado - Array de promociones de contado
+ * @param {	promoCredito: TPromoOngoingAplicables[]} promoCredito  - array de promociones de credito
+ */
+
 export const formatearBeneficiosPromoOngoing = (
 	promoContado: TPromoOngoingAplicables[],
 	promoCredito: TPromoOngoingAplicables[]

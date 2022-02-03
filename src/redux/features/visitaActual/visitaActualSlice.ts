@@ -273,6 +273,12 @@ export const visitaActualSlice = createSlice({
 				(precioProducto: TProductoPedido) =>
 					precioProducto.codigoProducto === action.payload.codigoProducto
 			);
+			if (
+				!state.pedidos[state.tipoPedidoActual].productos[indexProductoPedido]
+					.promoPush
+			) {
+				state.avisos.cambioElPedidoSinPromociones = true;
+			}
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
 			state.pedidos[state.tipoPedidoActual].productos[
@@ -288,6 +294,9 @@ export const visitaActualSlice = createSlice({
 			state.pedidos.prestamoenvase.productos = [];
 			state.pedidos[state.tipoPedidoActual].productos.forEach(
 				(producto: TProductoPedido) => {
+					if (!producto.promoPush) {
+						state.avisos.cambioElPedidoSinPromociones = true;
+					}
 					producto.tipoPago = action.payload.tipoPago;
 				}
 			);
