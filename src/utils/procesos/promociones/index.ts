@@ -13,7 +13,9 @@ import {
 	EFormaDeAplicacion,
 	EFormaDeAsignacion,
 	TPromoOngoingHabilitadas,
+	TPromoOngoingAplicadas,
 } from 'models';
+import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
 
 import {fechaDispositivo, fechaDentroDelRango} from 'utils/methods';
 import {validarProductoContraPortafolio} from 'utils/validaciones';
@@ -339,6 +341,52 @@ const verificarBeneficios = (
 	);
 };
 
+export const formatearBeneficiosPromoOngoing = (
+	promoContado: TPromoOngoingAplicables[],
+	promoCredito: TPromoOngoingAplicables[]
+): TPromoOngoingAplicadas[] => {
+	const beneficiosPromoContado: TPromoOngoingAplicadas[] = promoContado
+		.filter((promo) => promo.aplicada)
+		.map((promo) => ({
+			promocionID: promo.promocionID,
+			aplicacion:
+				promo.aplicacion === 'A'
+					? EFormaDeAplicacion.Automatica
+					: EFormaDeAplicacion.Manual,
+			productos: promo.beneficios[0].secuencias
+				.map((secuencia) =>
+					secuencia.materialesBeneficio.map((material) => ({
+						tipoPago: ETiposDePago.Contado,
+						codigoProducto: material,
+						unidadMedida: secuencia.unidadMedida,
+						cantidad: secuencia.cantidad,
+					}))
+				)
+				.flat(),
+		}));
+
+	const beneficiosPromoCredito: TPromoOngoingAplicadas[] = promoCredito
+		.filter((promo) => promo.aplicada)
+		.map((promo) => ({
+			promocionID: promo.promocionID,
+			aplicacion:
+				promo.aplicacion === 'A'
+					? EFormaDeAplicacion.Automatica
+					: EFormaDeAplicacion.Manual,
+			productos: promo.beneficios[0].secuencias
+				.map((secuencia) =>
+					secuencia.materialesBeneficio.map((material) => ({
+						tipoPago: ETiposDePago.Credito,
+						codigoProducto: material,
+						unidadMedida: secuencia.unidadMedida,
+						cantidad: secuencia.cantidad,
+					}))
+				)
+				.flat(),
+		}));
+	return [...beneficiosPromoCredito, ...beneficiosPromoContado];
+};
+
 /**
  * Retorna las promociones aplicadas en Contado y Credito, ademas retona las promociones que no cumplen requisitos
  * @constructor
@@ -364,6 +412,11 @@ export const obtenerPromocionesOngoingTotal = (
 		promocionesVigentesCliente
 	).sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1));
 
+	const benficiosParaAgregar = formatearBeneficiosPromoOngoing(
+		promocionesContado,
+		promocionesCredito
+	);
+
 	const promocionesVigentesNoAplicables = Object.values(
 		promocionesVigentesCliente.lista
 	)
@@ -383,5 +436,6 @@ export const obtenerPromocionesOngoingTotal = (
 		contado: promocionesContado,
 		credito: promocionesCredito,
 		noAplicable: promocionesVigentesNoAplicables,
+		benficiosParaAgregar,
 	};
 };

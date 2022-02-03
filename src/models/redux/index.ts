@@ -62,7 +62,7 @@ export type TVisita = {
 	seQuedaAEditar: SeQuedaAEditar;
 	fechaVisitaPlanificada: string;
 	bonificaciones: TBonificacionesCliente[];
-	promosOngoing:TPromoOngoingAplicadas[];
+	promosOngoing: TPromoOngoingAplicadas[];
 	envasesConError: number;
 	avisos: TAvisos;
 	clienteBloqueado: boolean;
@@ -78,15 +78,15 @@ export type TAvisos = {
 export type TPromoOngoingAplicadas = {
 	promocionID: number;
 	aplicacion: EFormaDeAplicacion;
-	productos: TProductosPromoOngoingAplicadas[]
-}
+	productos: TProductosPromoOngoingAplicadas[];
+};
 
-export type TProductosPromoOngoingAplicadas ={
+export type TProductosPromoOngoingAplicadas = {
 	tipoPago: ETiposDePago;
 	codigoProducto: number;
 	unidadMedida: string;
 	cantidad: number;
-}
+};
 export type TBonificacionesCliente = {
 	numeroPedido: string;
 	codigoCliente: string;

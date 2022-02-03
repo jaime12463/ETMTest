@@ -6,6 +6,8 @@ import {
 	TPresupuestoTipoPedidoTotal,
 	TDetalleBonificacionesCliente,
 	TAvisos,
+	TPromoOngoingGrupoBeneficios,
+	TPromoOngoingAplicadas,
 } from 'models';
 
 import {RootState} from 'redux/store';
@@ -130,6 +132,14 @@ export const visitaActualSlice = createSlice({
 					action.payload.productoPedido
 				);
 			}
+		},
+		agregarBeneficiosPromoOngoing: (
+			state,
+			action: PayloadAction<{
+				beneficios: TPromoOngoingAplicadas[];
+			}>
+		) => {
+			state.promosOngoing = action.payload.beneficios;
 		},
 
 		borrarProductoDelPedidoActual: (
@@ -554,5 +564,6 @@ export const {
 	restablecerEnvasesConError,
 	cambiarAvisos,
 	activarClienteBloqueado,
+	agregarBeneficiosPromoOngoing,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

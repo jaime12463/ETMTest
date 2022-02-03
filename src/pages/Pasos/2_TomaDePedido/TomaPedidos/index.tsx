@@ -18,6 +18,7 @@ import {
 	useObtenerDatosCliente,
 } from 'hooks';
 import {
+	agregarBeneficiosPromoOngoing,
 	agregarProductoDelPedidoActual,
 	cambiarAvisos,
 	cambiarSeQuedaAEditar,
@@ -154,6 +155,28 @@ const TomaPedido: React.FC = () => {
 			(producto) => producto.unidades > 0 || producto.subUnidades > 0
 		) && promocionesVigentesCliente?.existenPromociones;
 
+	const manejadorBotonPromosOngoing = () => {
+		setOpenDrawerPromociones(true);
+		let promociones = obtenerPromocionesOngoingTotal(
+			datosCliente,
+			venta.productos,
+			promocionesVigentesCliente
+		);
+		setPromocionesOingoing(promociones);
+		dispatch(
+			cambiarAvisos({
+				calculoPromociones: true,
+				cambioElPedidoSinPromociones: false,
+			})
+		);
+		dispatch(
+			agregarBeneficiosPromoOngoing({
+				beneficios: promociones.benficiosParaAgregar,
+			})
+		);
+		setOpenTooltip(false);
+	};
+
 	React.useEffect(() => {
 		const {cambioElPedidoSinPromociones, calculoPromociones} =
 			visitaActual.avisos;
@@ -248,8 +271,6 @@ const TomaPedido: React.FC = () => {
 						<Box alignItems='center' display='flex' gap='16px'>
 							<TooltipStyled
 								open={openTooltip}
-								onClose={() => {}}
-								onOpen={() => {}}
 								title={
 									<Typography
 										fontSize={'10px'}
@@ -264,22 +285,7 @@ const TomaPedido: React.FC = () => {
 							>
 								<IconButton
 									style={{padding: 0}}
-									onClick={() => {
-										setOpenDrawerPromociones(true);
-										let promociones = obtenerPromocionesOngoingTotal(
-											datosCliente,
-											venta.productos,
-											promocionesVigentesCliente
-										);
-										setPromocionesOingoing(promociones);
-										dispatch(
-											cambiarAvisos({
-												calculoPromociones: true,
-												cambioElPedidoSinPromociones: false,
-											})
-										);
-										setOpenTooltip(false);
-									}}
+									onClick={() => manejadorBotonPromosOngoing()}
 								>
 									<PromocionColor height='24px' width='24px' />
 								</IconButton>
