@@ -17,9 +17,9 @@ Escenario: N°1 - El cliente es de condición informal y no tiene venta bloquead
     Y tiene _esVentaBloqueado = false
     Cuando estamos en planeación 
     Y cerramos el mensaje de crédito bloqueado
-    Entonces el sistema estalecerá como condición de pago default contado
+    Entonces el sistema estalecerá como condición de pago default contado para el switch en toma de pedido
     Y permancerá en etapa 1 - planeación 
-    Y podrá realizar pedido a contado
+    Y podrá realizar pedido a únicamente a contado
 
 # podrá realizar acciones de forma normal (iniciativas, coberturas) pero todo lo ingresado
 # se registrará con condición de pago contado
