@@ -352,10 +352,14 @@ export const formatearBeneficiosPromoOngoing = (
 	promoContado: TPromoOngoingAplicables[],
 	promoCredito: TPromoOngoingAplicables[]
 ): TPromoOngoingAplicadas[] => {
+	console.log({promoContado});
+
 	const beneficiosPromoContado: TPromoOngoingAplicadas[] = promoContado
 		.filter((promo) => promo.aplicada)
 		.map((promo) => ({
 			promocionID: promo.promocionID,
+			tipoPago: ETiposDePago.Contado,
+			descripcion: promo.descripcion,
 			aplicacion:
 				promo.aplicacion === 'A'
 					? EFormaDeAplicacion.Automatica
@@ -367,6 +371,7 @@ export const formatearBeneficiosPromoOngoing = (
 						codigoProducto: material,
 						unidadMedida: secuencia.unidadMedida,
 						cantidad: secuencia.cantidad,
+						descripcion: '',
 					}))
 				)
 				.flat(),
@@ -376,6 +381,8 @@ export const formatearBeneficiosPromoOngoing = (
 		.filter((promo) => promo.aplicada)
 		.map((promo) => ({
 			promocionID: promo.promocionID,
+			tipoPago: ETiposDePago.Credito,
+			descripcion: promo.descripcion,
 			aplicacion:
 				promo.aplicacion === 'A'
 					? EFormaDeAplicacion.Automatica
@@ -387,6 +394,7 @@ export const formatearBeneficiosPromoOngoing = (
 						codigoProducto: material,
 						unidadMedida: secuencia.unidadMedida,
 						cantidad: secuencia.cantidad,
+						descripcion: '',
 					}))
 				)
 				.flat(),

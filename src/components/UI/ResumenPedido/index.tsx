@@ -7,9 +7,16 @@ import {CerrarIcon} from 'assests/iconos';
 import {
 	useObtenerCompromisoDeCobroActual,
 	useObtenerConfiguracion,
+	useObtenerDatos,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {ETiposDePago, TConsolidadoImplicitos, TProductoPedido} from 'models';
+import {
+	ETiposDePago,
+	TConsolidadoImplicitos,
+	TDatosClientesProductos,
+	TProductoPedido,
+	TPromoOngoingAplicadas,
+} from 'models';
 import Resumen from './Resumen';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
@@ -23,7 +30,9 @@ interface Props {
 const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 	const compromisoDeCobro = useObtenerCompromisoDeCobroActual();
 	const visitaActual = useObtenerVisitaActual();
+	const datos: TDatosClientesProductos = useObtenerDatos();
 	const {venta, canje, prestamoenvase, ventaenvase} = visitaActual.pedidos;
+	const {promosOngoing} = visitaActual;
 
 	const bonificacionesHabilitadas = useObtenerBonificacionesHabilitadas();
 	const bonificacionesCliente = bonificacionesHabilitadas();
@@ -35,6 +44,15 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 			detalle: bonificacion.detalle,
 		})
 	);
+
+	const promoOngoinFormateado = promosOngoing.map((promo) => ({
+		...promo,
+		productos: promo.productos.map((producto) => ({
+			...producto,
+			descripcion:
+				datos?.productos[producto.codigoProducto].nombre ?? 'No encontrado',
+		})),
+	}));
 
 	const cantidadBonificaciones = visitaActual.bonificaciones
 		.map((bonificacion) => bonificacion.detalle)
@@ -157,6 +175,8 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 	let esGeneraEnvases = false;
 	let puedeVerEnvases = false;
 
+	console.log(promosOngoing);
+
 	Object.values(visitaActual.pedidos).forEach((pedido) => {
 		tipoPedidos.forEach((tipoPedido) => {
 			if (tipoPedido.codigo === pedido.tipoPedido)
@@ -259,7 +279,15 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 								</>
 							)}
 						</Resumen.Container>
-						<Resumen.PromoOngoing />
+						{promoOngoinFormateado?.map(
+							(promo) =>
+								promo.tipoPago === ETiposDePago.Credito && (
+									<Resumen.PromoOngoing
+										promocion={promo}
+										key={promo.promocionID}
+									/>
+								)
+						)}
 					</Box>
 				)}
 
@@ -293,7 +321,15 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 								</>
 							)}
 						</Resumen.Container>
-						<Resumen.PromoOngoing />
+						{promoOngoinFormateado?.map(
+							(promo) =>
+								promo.tipoPago === ETiposDePago.Contado && (
+									<Resumen.PromoOngoing
+										promocion={promo}
+										key={promo.promocionID}
+									/>
+								)
+						)}
 					</Box>
 				)}
 

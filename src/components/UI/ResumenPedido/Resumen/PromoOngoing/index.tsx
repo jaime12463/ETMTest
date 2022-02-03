@@ -4,11 +4,16 @@ import Typography from '@mui/material/Typography';
 import {PromocionesIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import theme from 'theme';
+import {TPromoOngoingAplicadas} from 'models';
 
-interface Props {}
+export interface PromoOngoingProps {
+	promocion: TPromoOngoingAplicadas;
+}
 
-export const PromoOngoing: React.FC<Props> = () => {
+export const PromoOngoing: React.FC<PromoOngoingProps> = ({promocion}) => {
 	const {t} = useTranslation();
+	const {promocionID, aplicacion, productos, descripcion} = promocion;
+
 	return (
 		<Box border={`1px solid ${theme.palette.secondary.light}`}>
 			<Box
@@ -20,10 +25,10 @@ export const PromoOngoing: React.FC<Props> = () => {
 			>
 				<Box display='flex' flexDirection='column' gap='2px'>
 					<Typography variant='subtitle3' fontFamily='Open Sans' color='#fff'>
-						519714 {/* AGREGAR CODIGO */}
+						{promocionID}
 					</Typography>
 					<Typography variant='subtitle3' color='#fff'>
-						CIEL MINERAL 12 OZ VID {/* AGREGAR NOMBRE */}
+						{descripcion}
 					</Typography>
 				</Box>
 				<Box
@@ -37,45 +42,47 @@ export const PromoOngoing: React.FC<Props> = () => {
 					</Typography>
 				</Box>
 			</Box>
-			<Box display='flex'>
-				<Box
-					display='flex'
-					flexDirection='column'
-					gap='4px'
-					flex='1'
-					padding='16px 6px 16px 14px'
-				>
-					<Box display='flex' flexDirection='column'>
-						<Typography variant='subtitle3' fontFamily='Open Sans'>
-							603653 {/* AGREGAR CODIGO */}
-						</Typography>
-						<Typography variant='subtitle3'>
-							VASO NAVIDEÑO {/* AGREGAR NOMBRE */}
-						</Typography>
+			{productos.map((producto) => (
+				<Box display='flex' key={producto.codigoProducto}>
+					<Box
+						display='flex'
+						flexDirection='column'
+						gap='4px'
+						flex='1'
+						padding='16px 6px 16px 14px'
+					>
+						<Box display='flex' flexDirection='column'>
+							<Typography variant='subtitle3' fontFamily='Open Sans'>
+								{producto.codigoProducto}
+							</Typography>
+							<Typography variant='subtitle3'>
+								{producto.descripcion}
+							</Typography>
+						</Box>
+						<Box alignItems='center' display='flex' gap='4px'>
+							<PromocionesIcon height='14px' width='14px' />
+							<Typography variant='subtitle3' fontFamily='Open Sans'>
+								{producto.cantidad}
+							</Typography>
+						</Box>
 					</Box>
-					<Box alignItems='center' display='flex' gap='4px'>
-						<PromocionesIcon height='14px' width='14px' />
-						<Typography variant='subtitle3' fontFamily='Open Sans'>
-							2 {/* AGREGAR CANTIDAD */}
+					<Box
+						display='flex'
+						flexBasis='143px'
+						flexDirection='column'
+						gap='4px'
+						justifyContent='center'
+						minHeight='100%'
+						padding='8px 14px 8px 8px'
+						sx={{background: '#F5F0EF'}}
+					>
+						<Typography variant='caption' color='#000'>
+							{`${t('general.tipo')}:`}
 						</Typography>
+						<Typography variant='subtitle3'>{t('general.obsequio')}</Typography>
 					</Box>
 				</Box>
-				<Box
-					display='flex'
-					flexBasis='143px'
-					flexDirection='column'
-					gap='4px'
-					justifyContent='center'
-					minHeight='100%'
-					padding='8px 14px 8px 8px'
-					sx={{background: '#F5F0EF'}}
-				>
-					<Typography variant='caption' color='#000'>
-						{`${t('general.tipo')}:`}
-					</Typography>
-					<Typography variant='subtitle3'>{t('general.obsequio')}</Typography>
-				</Box>
-			</Box>
+			))}
 		</Box>
 	);
 };

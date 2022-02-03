@@ -79,6 +79,8 @@ export type TPromoOngoingAplicadas = {
 	promocionID: number;
 	aplicacion: EFormaDeAplicacion;
 	productos: TProductosPromoOngoingAplicadas[];
+	tipoPago: ETiposDePago;
+	descripcion: string;
 };
 
 export type TProductosPromoOngoingAplicadas = {
@@ -86,6 +88,7 @@ export type TProductosPromoOngoingAplicadas = {
 	codigoProducto: number;
 	unidadMedida: string;
 	cantidad: number;
+	descripcion: string;
 };
 export type TBonificacionesCliente = {
 	numeroPedido: string;
