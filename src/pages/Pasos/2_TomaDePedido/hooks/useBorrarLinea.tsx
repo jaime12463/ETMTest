@@ -72,6 +72,7 @@ export const useBorrarLinea = (stateAlerta: any) => {
 						dispatch(
 							borrarProductoDelPedidoActual({
 								codigoProducto: productoaBorrar.codigoProducto,
+								esPromoPush: productoaBorrar.promoPush ? true : false,
 							})
 						);
 						dispatch(eliminarCanje());
@@ -108,6 +109,7 @@ export const useBorrarLinea = (stateAlerta: any) => {
 						dispatch(
 							borrarProductoDelPedidoActual({
 								codigoProducto: productoaBorrar.codigoProducto,
+								esPromoPush: productoaBorrar.promoPush ? true : false,
 							})
 						);
 						dispatch(eliminarCanje());
@@ -144,6 +146,7 @@ export const useBorrarLinea = (stateAlerta: any) => {
 						dispatch(
 							borrarProductoDelPedidoActual({
 								codigoProducto: productoaBorrar.codigoProducto,
+								esPromoPush: productoaBorrar.promoPush ? true : false,
 							})
 						);
 						dispatch(restablecerBonificaciones());
@@ -195,6 +198,7 @@ export const useBorrarLinea = (stateAlerta: any) => {
 						dispatch(
 							borrarProductoDelPedidoActual({
 								codigoProducto: productoaBorrar.codigoProducto,
+								esPromoPush: productoaBorrar.promoPush ? true : false,
 							})
 						);
 						mostrarAviso(

@@ -73,9 +73,7 @@ export const visitaActualSlice = createSlice({
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
 			state.avisos.cambiosPasoActual = true;
-			if (!action.payload.productoPedido.promoPush) {
-				state.avisos.cambioElPedidoSinPromociones = true;
-			}
+
 			if (producto) {
 				producto.unidades = action.payload.productoPedido.unidades;
 				producto.subUnidades = action.payload.productoPedido.subUnidades;
@@ -86,6 +84,9 @@ export const visitaActualSlice = createSlice({
 				producto.preciosBase = action.payload.productoPedido.preciosBase;
 				producto.preciosNeto = action.payload.productoPedido.preciosNeto;
 				producto.descuento = action.payload.productoPedido.descuento;
+				if (!producto.promoPush) {
+					state.avisos.cambioElPedidoSinPromociones = true;
+				}
 			} else {
 				state.pedidos[state.tipoPedidoActual].productos = [
 					action.payload.productoPedido,
@@ -147,9 +148,11 @@ export const visitaActualSlice = createSlice({
 			action: PayloadAction<{
 				codigoProducto: number;
 				codigoTipoPedidoActual?: string;
+				esPromoPush?: boolean;
 			}>
 		) => {
 			let pedidoActual = '';
+			let esPromoPush = action.payload.esPromoPush ?? false;
 			if (action.payload.codigoTipoPedidoActual) {
 				pedidoActual = action.payload.codigoTipoPedidoActual;
 			} else {
@@ -166,6 +169,10 @@ export const visitaActualSlice = createSlice({
 			state.pedidos[pedidoActual].productos = [
 				...productosPedidoClienteFiltrados,
 			];
+
+			if (!esPromoPush) {
+				state.avisos.cambioElPedidoSinPromociones = true;
+			}
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
 		},

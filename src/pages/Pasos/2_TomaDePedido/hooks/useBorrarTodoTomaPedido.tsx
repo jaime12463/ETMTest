@@ -103,6 +103,7 @@ export const useBorrarTodoTomaPedido = (
 						dispatch(
 							borrarProductoDelPedidoActual({
 								codigoProducto: producto.codigoProducto,
+								esPromoPush: producto.promoPush ? true : false,
 							})
 						);
 					}
@@ -157,6 +158,7 @@ export const useBorrarTodoTomaPedido = (
 						dispatch(
 							borrarProductoDelPedidoActual({
 								codigoProducto: producto.codigoProducto,
+								esPromoPush: producto.promoPush ? true : false,
 							})
 						);
 					}
@@ -210,6 +212,7 @@ export const useBorrarTodoTomaPedido = (
 						dispatch(
 							borrarProductoDelPedidoActual({
 								codigoProducto: producto.codigoProducto,
+								esPromoPush: producto.promoPush ? true : false,
 							})
 						);
 					}
@@ -266,6 +269,7 @@ export const useBorrarTodoTomaPedido = (
 						dispatch(
 							borrarProductoDelPedidoActual({
 								codigoProducto: producto.codigoProducto,
+								esPromoPush: producto.promoPush ? true : false,
 							})
 						);
 					}
