@@ -269,7 +269,12 @@ const Pasos: React.FC = () => {
 							promocionesVigentesCliente
 						);
 
-						dispatch(cambiarAvisos({cambioElPedidoSinPromociones: false}));
+						dispatch(
+							cambiarAvisos({
+								calculoPromociones: true,
+								cambioElPedidoSinPromociones: false,
+							})
+						);
 						dispatch(
 							agregarBeneficiosPromoOngoing({
 								beneficios: promociones?.benficiosParaAgregar,
