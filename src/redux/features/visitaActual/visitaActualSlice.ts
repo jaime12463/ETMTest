@@ -170,7 +170,7 @@ export const visitaActualSlice = createSlice({
 				...productosPedidoClienteFiltrados,
 			];
 
-			if (!esPromoPush && action.payload.codigoTipoPedidoActual === 'venta') {
+			if (!esPromoPush && state.tipoPedidoActual === 'venta') {
 				state.avisos.cambioElPedidoSinPromociones = true;
 			}
 			state.pedidos.ventaenvase.productos = [];
