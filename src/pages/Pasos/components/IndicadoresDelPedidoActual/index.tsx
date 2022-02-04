@@ -113,10 +113,11 @@ const IndicadoresDelPedidoActual = () => {
 			valorMax: datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima,
 			valor:
 				totalesPedidoCliente +
-				(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0),
+				(obtenerTotalPedidosVisitaActual(true).totalPrecio ?? 0),
 			color: color.pedidoMinimo,
 			dataCY: 'indicador-pedido-minimo',
 		});
+
 	if (
 		datosCliente?.configuracionPedido.ventaContadoMaxima
 			?.montoVentaContadoMaxima
