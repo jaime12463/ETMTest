@@ -148,17 +148,20 @@ export const visitaActualSlice = createSlice({
 			action: PayloadAction<{
 				codigoProducto: number;
 				codigoTipoPedidoActual?: string;
-				esPromoPush?: boolean;
 			}>
 		) => {
 			let pedidoActual = '';
-			let esPromoPush = action.payload.esPromoPush ?? false;
+
 			if (action.payload.codigoTipoPedidoActual) {
 				pedidoActual = action.payload.codigoTipoPedidoActual;
 			} else {
 				pedidoActual = state.tipoPedidoActual;
 			}
 			if (!pedidoActual) return;
+			const producto = state.pedidos[pedidoActual].productos.find(
+				(producto) => action.payload.codigoProducto === producto.codigoProducto
+			);
+
 			const productosPedidoClienteFiltrados = state.pedidos[
 				pedidoActual
 			].productos.filter(
@@ -170,9 +173,16 @@ export const visitaActualSlice = createSlice({
 				...productosPedidoClienteFiltrados,
 			];
 
-			if (!esPromoPush && state.tipoPedidoActual === 'venta') {
-				state.avisos.cambioElPedidoSinPromociones = true;
+			if (!producto?.promoPush && pedidoActual == 'venta') {
+				// Esto es para mostrar tooltip de cambios, si se borro un producto de venta con unidades/subunidades mayores a 0
+				if (
+					(producto && producto?.unidades > 0) ||
+					(producto && producto?.subUnidades > 0)
+				) {
+					state.avisos.cambioElPedidoSinPromociones = true;
+				}
 			}
+
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
 		},
