@@ -44,7 +44,7 @@ Escenario: N°4 - Mostrar promociones manuales en las secciones correspondientes
     Y el control para editar la promoción
     Y mostrará las promociones ordenadas por _promocionID
     Y mostrará las promociones manuales aplicadas con el borde de tarjeta en verde y el icono verde y sin los controles aplicar y editar
-    Y mostrará las promociones manuales que no se pueden aplicar, sin los controles aplicar y editar
+    Y mostrará las promociones manuales que que cumplen requisito pero no se pueden aplicar, sin los controles aplicar y editar
 
 Escenario: N°5 - Mostrar promociones que no cumplen requisito
     Dado que se calcularon promociones que no cumplen con el requisito
