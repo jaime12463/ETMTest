@@ -305,7 +305,7 @@ const es = {
 		clienteBloqueadoTitulo: 'Cliente bloqueado',
 		clienteBloqueadoMensaje: 'No puedes generar un pedido para este cliente',
 		cambiosGuardadosConPromo:
-			'Se calcularón y aplicarón las promociones automáticas',
+			'Se calcularon y aplicaron las promociones automáticas',
 	},
 };
 export default es;

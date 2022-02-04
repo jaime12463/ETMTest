@@ -84,7 +84,7 @@ export const visitaActualSlice = createSlice({
 				producto.preciosBase = action.payload.productoPedido.preciosBase;
 				producto.preciosNeto = action.payload.productoPedido.preciosNeto;
 				producto.descuento = action.payload.productoPedido.descuento;
-				if (!producto.promoPush) {
+				if (!producto.promoPush && state.tipoPedidoActual === 'venta') {
 					state.avisos.cambioElPedidoSinPromociones = true;
 				}
 			} else {
@@ -170,7 +170,7 @@ export const visitaActualSlice = createSlice({
 				...productosPedidoClienteFiltrados,
 			];
 
-			if (!esPromoPush) {
+			if (!esPromoPush && action.payload.codigoTipoPedidoActual === 'venta') {
 				state.avisos.cambioElPedidoSinPromociones = true;
 			}
 			state.pedidos.ventaenvase.productos = [];
