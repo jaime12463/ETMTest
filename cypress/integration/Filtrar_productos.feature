@@ -15,7 +15,8 @@ Antecedentes:
 
 Escenario: N°1 - Abrir filtros de productos
     Cuando selecciono el control de filtros
-    Entonces el sistema mostrará el listado de _atributos_ con las opciones ordenadas alfabéticamente ascendente para seleccionar
+    Entonces el sistema mostrará el listado de _atributos_ correspondientes a los productos que tiene el cliente en portafolio vigente
+    Y ordenadas alfabéticamente ascendente para seleccionar
 
 Esquema del escenario: N°2 - Filtrar producto de portafolio vigente cuando el tipo de pedido no valida presupuesto
     Dado que el _tipoPedido tiene _validaPresupuesto = false
