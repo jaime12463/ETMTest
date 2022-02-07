@@ -48,10 +48,6 @@ export const useValidarInicializarPedidoActual = (
 			const {esFrecuenciaAbierta}: TConfiguracion = configuracion;
 
 			if (!datosCliente) {
-				// mostrarAdvertenciaEnDialogo(
-				// 	t('advertencias.no-datos-cliente'),
-				// 	'no-datos-cliente'
-				// );
 				mostrarAviso(
 					'error',
 					t('advertencias.no-datos-cliente'),
@@ -76,10 +72,6 @@ export const useValidarInicializarPedidoActual = (
 				visitaPlanificada;
 
 			if (!esValidaVisitaPlanificada && esFrecuenciaAbierta) {
-				// mostrarAdvertenciaEnDialogo(
-				// 	t('advertencias.noVisitaPlanificada'),
-				// 	'fuera-frecuencia'
-				// );
 				mostrarAviso(
 					'error',
 					t('advertencias.noVisitaPlanificada'),
@@ -88,10 +80,6 @@ export const useValidarInicializarPedidoActual = (
 				return estadoValidacion;
 			}
 			if (!esValidaVisitaPlanificada) {
-				// mostrarAdvertenciaEnDialogo(
-				// 	t('advertencias.fueraDeFrecuencia'),
-				// 	'fuera-frecuencia'
-				// );
 				mostrarAviso(
 					'error',
 					t('advertencias.fueraDeFrecuencia'),
@@ -104,10 +92,6 @@ export const useValidarInicializarPedidoActual = (
 				validarObtenerFechaEntrega(datosCliente.fechasEntrega);
 
 			if (!esValidaFechaEntrega) {
-				// mostrarAdvertenciaEnDialogo(
-				// 	t('advertencias.noFechaEntregaInformada'),
-				// 	'no-fecha-informada'
-				// );
 				mostrarAviso(
 					'error',
 					t('advertencias.noFechaEntregaInformada'),
@@ -125,10 +109,6 @@ export const useValidarInicializarPedidoActual = (
 				preciosProductosDelCliente.length > 0;
 
 			if (!esPortafolioPreciosProductosMayorCero) {
-				// mostrarAdvertenciaEnDialogo(
-				// 	t('advertencias.noPortafolioPrecios'),
-				// 	'no-portafolio-precios'
-				// );
 				mostrarAviso(
 					'error',
 					t('advertencias.noPortafolioPrecios'),
