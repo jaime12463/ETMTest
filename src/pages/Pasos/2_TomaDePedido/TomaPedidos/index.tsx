@@ -23,7 +23,7 @@ import {
 	cambiarAvisos,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {SwipeBorrar} from 'components/UI';
+import {SwipeBorrar, Tooltip} from 'components/UI';
 import {
 	AutocompleteSeleccionarProducto,
 	DrawerPromociones,
@@ -51,35 +51,34 @@ import {
 	obtenerPromocionesOngoingTotal,
 } from 'utils/procesos/promociones';
 import {useObtenerDatos} from 'redux/hooks';
-import Tooltip, {TooltipProps, tooltipClasses} from '@mui/material/Tooltip';
 
 const TextStyled = styled(Typography)(() => ({
 	color: theme.palette.secondary.main,
 	fontSize: '10px',
 }));
 
-const TooltipStyled = styled(({className, ...props}: TooltipProps) => (
-	<Tooltip {...props} classes={{popper: className}} />
-))({
-	[`& .${tooltipClasses.tooltip}`]: {
-		backgroundColor: '#FFFBEF',
-		border: '1.5px solid #F7B500',
-		borderRadius: '10px',
-		bottom: '4px',
-		color: '#000000',
-		left: '-100px',
-		maxWidth: 'none',
-		padding: '8px 20px',
-		span: {
-			left: '102px !important',
-		},
-	},
-	[`& .${tooltipClasses.arrow}`]: {
-		'&:before': {
-			backgroundColor: '#F7B500',
-		},
-	},
-});
+// const TooltipStyled = styled(({className, ...props}: TooltipProps) => (
+// 	<Tooltip {...props} classes={{popper: className}} />
+// ))({
+// 	[`& .${tooltipClasses.tooltip}`]: {
+// 		backgroundColor: '#FFFBEF',
+// 		border: '1.5px solid #F7B500',
+// 		borderRadius: '10px',
+// 		bottom: '4px',
+// 		color: '#000000',
+// 		left: 'calc(-18%)',
+// 		minWidth: '304px',
+// 		padding: '8px 20px',
+// 		span: {
+// 			left: '27px !important',
+// 		},
+// 	},
+// 	[`& .${tooltipClasses.arrow}`]: {
+// 		'&:before': {
+// 			backgroundColor: '#F7B500',
+// 		},
+// 	},
+// });
 
 const TomaPedido: React.FC = () => {
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
@@ -275,7 +274,7 @@ const TomaPedido: React.FC = () => {
 					/>
 					{puedeBotonPromocionesOngoing && (
 						<Box alignItems='center' display='flex' gap='16px'>
-							<TooltipStyled
+							{/* <TooltipStyled
 								open={openTooltip}
 								title={
 									<Typography
@@ -288,14 +287,17 @@ const TomaPedido: React.FC = () => {
 									</Typography>
 								}
 								arrow
-							>
+							> */}
+							<Box position='relative'>
 								<IconButton
 									style={{padding: 0}}
 									onClick={() => manejadorBotonPromosOngoing()}
 								>
 									<PromocionColor height='24px' width='24px' />
 								</IconButton>
-							</TooltipStyled>
+								<Tooltip open={openTooltip} />
+							</Box>
+							{/* </TooltipStyled> */}
 
 							<IconButton sx={{padding: 0, marginRight: '9px'}}>
 								<BuscarIcon height='18px' width='18px' />

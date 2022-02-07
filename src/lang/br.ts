@@ -219,5 +219,8 @@ const br = {
 		cambiosGuardadosConPromo:
 			'As promoções automáticas foram calculadas e aplicadas',
 	},
+	tooltip: {
+		cambioPromocion: 'As promoções disponíveis podem ter mudado.',
+	},
 };
 export default br;
