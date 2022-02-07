@@ -22,7 +22,7 @@ import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {formatearFecha, formatearNumero} from 'utils/methods';
 import {useObtenerBonificacionesHabilitadas} from 'hooks';
-import {useObtenerConsolidacionImplicitos} from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
+import {useCalcularEnvasesDeObsequios, useObtenerConsolidacionImplicitos} from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
 interface Props {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -36,6 +36,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 
 	const bonificacionesHabilitadas = useObtenerBonificacionesHabilitadas();
 	const bonificacionesCliente = bonificacionesHabilitadas();
+	const calcularEnvasesDeObsequios = useCalcularEnvasesDeObsequios();
 
 	const bonificaciones = visitaActual.bonificaciones.map(
 		(bonificacion, index) => ({
@@ -188,6 +189,8 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 
 		if (esGeneraEnvases) pedidosArray = pedidosArray.concat(pedido.productos);
 	});
+
+	pedidosArray = pedidosArray.concat(calcularEnvasesDeObsequios());
 
 	const consolidacionImplicitos: TConsolidadoImplicitos[] =
 		obtenerConsolidacionImplicitos(pedidosArray).sort((a, b) =>
