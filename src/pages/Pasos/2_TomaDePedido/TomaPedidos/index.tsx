@@ -62,12 +62,17 @@ const TooltipStyled = styled(({className, ...props}: TooltipProps) => (
 	<Tooltip {...props} classes={{popper: className}} />
 ))({
 	[`& .${tooltipClasses.tooltip}`]: {
-		maxWidth: 'none',
 		backgroundColor: '#FFFBEF',
-		color: '#000000',
 		border: '1.5px solid #F7B500',
 		borderRadius: '10px',
-		bottom: '6px',
+		bottom: '4px',
+		color: '#000000',
+		left: '-100px',
+		maxWidth: 'none',
+		padding: '8px 20px',
+		span: {
+			left: '102px !important',
+		},
 	},
 	[`& .${tooltipClasses.arrow}`]: {
 		'&:before': {
@@ -259,7 +264,7 @@ const TomaPedido: React.FC = () => {
 					alignItems='center'
 					display='flex'
 					justifyContent='space-between'
-					margin='18px 0'
+					margin={openTooltip ? '18px 0 45px 0' : '18px 0'}
 					paddingLeft='18px'
 				>
 					<AutocompleteSeleccionarProducto
