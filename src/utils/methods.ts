@@ -87,21 +87,20 @@ export const formatearFecha = (
 export const fechaDispositivo = (): string => {
 	let fechaDispositivo: string | null =
 		window.localStorage.getItem('fechaDipostivo');
+	let fecha = fechaDispositivo ? new Date(fechaDispositivo) : new Date();
+	const offset = fecha.getTimezoneOffset();
+	fecha = new Date(fecha.getTime() - offset * 60 * 1000);
 
-	const fecha: string = fechaDispositivo
-		? new Date(fechaDispositivo).toISOString().split('T')[0]
-		: new Date().toISOString().split('T')[0];
-
-	return fecha;
+	return fecha.toISOString().split('T')[0];
 };
 
-export const fechaDentroDelRango = 
-	(
-		fecha:string, 
-		rangoInicial:string, 
-		rangoFinal:string
-	) :boolean => (new Date(rangoInicial)<= new Date(fecha) && new Date(rangoFinal) >= new Date(fecha));
-	
+export const fechaDentroDelRango = (
+	fecha: string,
+	rangoInicial: string,
+	rangoFinal: string
+): boolean =>
+	new Date(rangoInicial) <= new Date(fecha) &&
+	new Date(rangoFinal) >= new Date(fecha);
 
 /*  FIN FUNCIONES DE FECHA */
 export const calcularTotalPedidosClienteValorizadosPorTipoPago = ({
