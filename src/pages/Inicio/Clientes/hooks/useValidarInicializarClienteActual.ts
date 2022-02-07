@@ -25,10 +25,6 @@ export const useValidarInicializarClienteActual = (
 			const datosCliente: TCliente | undefined =
 				obtenerDatosCliente(codigoCliente);
 			if (!datosCliente) {
-				/*(mostrarAdvertenciaEnDialogo(
-					t('advertencias.clienteNoExiste'),
-					'clienteNoPortafolio'
-				);*/
 				mostrarAviso(
 					'error',
 					t('advertencias.clienteNoExiste'),
