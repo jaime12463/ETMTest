@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Resumen_pedido @Sprint15 @Sprint17 @Sprint19 @Sprint21
+@Pedido @Resumen_pedido @Sprint15 @Sprint17 @Sprint19 @Sprint21 @Sprint22
 
 Característica: Mostrar resumen del pedido 
     Como prevendedor 
@@ -86,7 +86,12 @@ Escenario: N°9 - Sección bonificaciones
     Dado que estoy en un cliente 
     Y se registró bonificaciones
     Cuando selecciono ver resumen del pedido
-    Entonces el sistema mostrará dentro de la sección bonificaciones el _nombre de los productos, las cantidades ingresadas y las _unidadMedida de cada producto ordenados por código de producto
+    Entonces el sistema mostrará dentro de la sección bonificaciones el tag producto gratis
+    Y como cabecera de la bonificación el _idBonificiacion, el _nombreBonificacion
+    Y como detalle el _codigoProducto, _nombre de los productos, los _atributos, las cantidades ingresadas y las _unidadMedida de cada producto ordenados por código de producto
+    Y el tipo bonificación
+
+# los atributos a mostrar son envase y medida
 
 
 Escenario: N°10 - Recalcular envases
@@ -102,5 +107,5 @@ Escenario: N°11 - Sección obsequios promo ongoing
     Entonces el sistema mostrará dentro de la condición de pago de la promoción como cabecera el _promocionID
     Y mostrará _descripcion de la promoción ordenados por _promocionID
     Y mostrará el tag producto gratis
-    Y mostrará como detalle el _codigoProducto, _nombre, _atributos, _unidadMedida, cantidad obtenida y el precio de ahorro de cada _materialesBeneficio
+    Y mostrará como detalle el _codigoProducto, _nombre, _atributos, _unidadMedida, cantidad obtenida
     Y mostrará el detalle ordenado por _codigoProducto

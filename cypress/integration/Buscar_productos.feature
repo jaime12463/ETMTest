@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Buscar_productos @Sprint2 @Sprint11 @Srptin19
+@Pedido @Buscar_productos @Sprint2 @Sprint11 @Srptin19 @Sprint22
 
 # Sprint11: se debe considerar si el pedido _validaPresupuesto, la vigencia del presupuesto, si tiene productos habilitados
 # para el tipo de pedido y si el presupuesto es mayor a 0.
@@ -66,7 +66,7 @@ Esquema del escenario: N°3 - Buscar producto en portafolio vigente con presupue
     Y se muestra el teclado alfanumérico
     Y se ingresan al menos dos o más caracteres
     Entonces el sistema mostrará los _productosHabilitados en el presupuesto con _vigenciaInicioPresupuesto <= fecha del dispositivo <= _vigenciaFinPresupuesto
-    que estén en el portafolio del cliente cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
+    Y que estén en el portafolio del cliente cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
     Y que contengan lo ingresado por el prevendedor en su código o en su descricpción
     Y ordenados ascendente por código de producto
 
