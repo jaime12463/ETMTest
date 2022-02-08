@@ -14,6 +14,7 @@ import Cajon from './Cajon';
 import BuscadorenLista from './BuscadorenLista';
 import VisualizadorPdfs from './VisualizadorPdfs';
 
+export {Tooltip} from './Tooltip';
 export {TarjetaColapsable} from './TarjetaColapsable';
 export {Fecha} from './Fecha';
 export {BotonBarraInferior} from './BotonBarraInferior';

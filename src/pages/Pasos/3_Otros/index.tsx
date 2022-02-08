@@ -27,7 +27,7 @@ export const Otros: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
 	const {t} = useTranslation();
 	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
-	const {tipoPagoActual} = useObtenerClienteActual();
+	const {condicion} = useObtenerClienteActual();
 	const visitaActual = useObtenerVisitaActual();
 
 	const {canje, ventaenvase, prestamoenvase} = visitaActual.pedidos;
@@ -240,7 +240,7 @@ export const Otros: React.FC = () => {
 			>
 				<Bonificaciones bonificacionValida={bonificacionValida} />
 			</TarjetaColapsable>
-			{tipoPagoActual ? (
+			{condicion !== 'contado' ? (
 				<TarjetaColapsable
 					titulo={
 						<Typography variant={'subtitle2'}>

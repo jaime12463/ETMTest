@@ -294,5 +294,8 @@ const en = {
 		cambiosGuardadosConPromo:
 			'Automatic promotions were calculated and applied',
 	},
+	tooltip: {
+		cambioPromocion: 'Available promotions may have changed.',
+	},
 };
 export default en;
