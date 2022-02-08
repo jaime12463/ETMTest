@@ -57,29 +57,6 @@ const TextStyled = styled(Typography)(() => ({
 	fontSize: '10px',
 }));
 
-// const TooltipStyled = styled(({className, ...props}: TooltipProps) => (
-// 	<Tooltip {...props} classes={{popper: className}} />
-// ))({
-// 	[`& .${tooltipClasses.tooltip}`]: {
-// 		backgroundColor: '#FFFBEF',
-// 		border: '1.5px solid #F7B500',
-// 		borderRadius: '10px',
-// 		bottom: '4px',
-// 		color: '#000000',
-// 		left: 'calc(-18%)',
-// 		minWidth: '304px',
-// 		padding: '8px 20px',
-// 		span: {
-// 			left: '27px !important',
-// 		},
-// 	},
-// 	[`& .${tooltipClasses.arrow}`]: {
-// 		'&:before': {
-// 			backgroundColor: '#F7B500',
-// 		},
-// 	},
-// });
-
 const TomaPedido: React.FC = () => {
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
@@ -274,20 +251,6 @@ const TomaPedido: React.FC = () => {
 					/>
 					{puedeBotonPromocionesOngoing && (
 						<Box alignItems='center' display='flex' gap='16px'>
-							{/* <TooltipStyled
-								open={openTooltip}
-								title={
-									<Typography
-										fontSize={'10px'}
-										fontStyle={'caption'}
-										lineHeight={'10px'}
-										fontFamily={'Open Sans'}
-									>
-										Las promociones disponibles podrían haber cambiado.
-									</Typography>
-								}
-								arrow
-							> */}
 							<Box position='relative'>
 								<IconButton
 									style={{padding: 0}}
@@ -297,8 +260,6 @@ const TomaPedido: React.FC = () => {
 								</IconButton>
 								<Tooltip open={openTooltip} />
 							</Box>
-							{/* </TooltipStyled> */}
-
 							<IconButton sx={{padding: 0, marginRight: '9px'}}>
 								<BuscarIcon height='18px' width='18px' />
 							</IconButton>

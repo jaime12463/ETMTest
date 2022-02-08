@@ -53,6 +53,7 @@ const Descuentos: React.FC<Props> = ({
 			},
 			stateInfoDescuento
 		);
+		setInputFocus('productoABuscar');
 	};
 
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {

@@ -111,7 +111,7 @@ const Controles: React.FC<Props> = ({
 		}
 	}, [puedeAgregar]);
 
-	const validacionSubUnidades = () => {
+	const validacionSubUnidades = React.useCallback(() => {
 		if (
 			getValues.subUnidades % producto.subunidadesVentaMinima !== 0 &&
 			getValues.subUnidades < producto.presentacion
@@ -138,7 +138,7 @@ const Controles: React.FC<Props> = ({
 			setFocusId(0);
 			setInputFocus('productoABuscar');
 		}
-	};
+	}, [getValues.subUnidades]);
 
 	const handleOnChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -323,7 +323,7 @@ const Controles: React.FC<Props> = ({
 								setFocusId(producto.codigoProducto);
 							}}
 							onFocus={(e) => e.target.select()}
-							onBlur={validacionSubUnidades}
+							// onBlur={validacionSubUnidades}
 							inputProps={{
 								style: {textAlign: 'center'},
 								inputMode: 'numeric',
