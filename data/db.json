@@ -1364,8 +1364,8 @@
 				"condicion": "creditoInformal",
 				"limite": 20000,
 				"disponible": 1050,
-				"esCreditoBloqueado": true,
-				"esBloqueadoVenta": true,
+				"esCreditoBloqueado": false,
+				"esBloqueadoVenta": false,
 				"documentos": [
 					{
 						"numero": "12123456789",
