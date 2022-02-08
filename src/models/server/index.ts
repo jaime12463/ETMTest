@@ -30,10 +30,10 @@ export type TListaDataSecundaria = Record<number, TDataSecundaria>;
 /* 	ESTRUCTURAS PROMOONGOING */
 
 export enum EFormaBeneficio {
-	Obsequio,
-	DescuentoPorcentaje,
-	DescuentoMonto,
-	Precio
+	Obsequio="1",
+	DescuentoPorcentaje="2",
+	DescuentoMonto="3",
+	Precio="4"
 };
 
 export enum EFormaDeAplicacion {
@@ -88,7 +88,7 @@ export type TPromoOngoingBeneficiosSecuencia = {
 
 export type TPromoOngoingHabilitadas = {
 	idPromocion: number;
-	pomocionesDisponibles:number;
+	promocionesDisponibles:number;
 }
 /* */
 
@@ -308,6 +308,7 @@ export type TConfiguracion = {
 	esFrecuenciaAbierta: boolean;
 	habilitaOrdenDeCompra: boolean;
 	bonificacionesConVenta: boolean;
+	habilitaCompromisoDeCobro: boolean;
 	tipoPedidoEnvasesHabilitados: string[];
 	tipoPedidos: TTipoPedido[];
 	motivosCancelacionIniciativas: TMotivosCancelacionIniciativas[];

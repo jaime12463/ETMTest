@@ -67,8 +67,6 @@ const IndicadoresDelPedidoActual = () => {
 
 	const [yaMostroAviso, setYaMostroAviso] = React.useState<boolean>(false);
 
-	console.log({yaMostroAviso, creditoDisponible});
-
 	React.useEffect(() => {
 		if (
 			!yaMostroAviso &&
@@ -115,10 +113,11 @@ const IndicadoresDelPedidoActual = () => {
 			valorMax: datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima,
 			valor:
 				totalesPedidoCliente +
-				(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0),
+				(obtenerTotalPedidosVisitaActual(true).totalPrecio ?? 0),
 			color: color.pedidoMinimo,
 			dataCY: 'indicador-pedido-minimo',
 		});
+
 	if (
 		datosCliente?.configuracionPedido.ventaContadoMaxima
 			?.montoVentaContadoMaxima
@@ -138,7 +137,7 @@ const IndicadoresDelPedidoActual = () => {
 		});
 
 	return (
-		<Grid container spacing={3} alignItems='end'>
+		<Grid container spacing='20px' alignItems='end'>
 			{indicadores.map((el, i) => (
 				<Grid item xs key={i}>
 					<BarraDeProgreso

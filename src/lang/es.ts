@@ -73,18 +73,19 @@ const es = {
 		editar: 'Editar',
 		salir: 'Salir',
 		restablecerCero: 'Restablecer cantidades a cero',
+		restablecerPromociones: 'Restablecer promociones',
 		resumenDePedido: 'Resumen de pedido',
-		totalContado: 'Total contado:',
-		totalCredito: 'Total crédito:',
-		totalDeAhorro: 'Total de ahorro:',
-		totalCargosFinancieros: 'Total de cargos financieros:',
+		totalContado: 'Total contado',
+		totalCredito: 'Total crédito',
+		totalDeAhorro: 'Total de ahorro',
+		totalCargosFinancieros: 'Total de cargos financieros',
 		productoGratis: 'Producto gratis',
-		precioUnitario: 'P. Unitario: {{precioUnitario}}',
-		subTotal: 'Subtotal: {{subTotal}}',
+		precioUnitario: 'P. Unitario',
+		subTotal: 'Subtotal',
 		cadaUno: 'c/u',
 		paquetes: 'Paquetes',
-		ahorras: 'Ahorras: {{ahorras}}',
-		ahorroTotal: 'Ahorro total: {{ahorroTotal}}',
+		ahorras: 'Ahorras',
+		ahorroTotal: 'Ahorro total',
 		tipo: 'Tipo',
 		bonificacion: 'Bonificación',
 		fechaDeAlta: 'Fecha de alta',
@@ -95,6 +96,10 @@ const es = {
 		motivoCancelacion: 'Motivo de cancelación',
 		promocionesAplicadas: 'Promociones aplicadas',
 		aplicacionMaxima: 'Aplicación máxima',
+		aplicar: 'Aplicar',
+		promocionAutomatica: 'Promoción automática',
+		obsequio: 'Obsequio',
+		finalizarVisita: 'Finalizar visita',
 	},
 	simbolos: {
 		decimal: '.',
@@ -136,6 +141,8 @@ const es = {
 		promociones: 'Promociones',
 		tarjetaPromociones:
 			'Selecciona las promociones que tienes disponible para tus clientes.',
+		pedidosEnCursoDeshabilitado: 'No hay pedidos para mostrar',
+		sugeridosDeshabilitado: 'No hay sugerencias para mostrar',
 	},
 	advertencias: {
 		clienteNoExiste: 'El código ingresado no corresponde a un cliente',
@@ -175,8 +182,6 @@ const es = {
 			'¿Quieres Borrar todos los productos?. Todos los productos seleccionados se borraran de la toma de pedido',
 		borrarPromosPush:
 			'Todos los productos seleccionados se borraran de Promociones',
-		mensajeProductosSinCargar:
-			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido.',
 		mensajeIniciativasSinMotivo:
 			'Por favor, ingrese un motivo para cada iniciativa cancelada.',
 		borrarDescuento: '¿Deseas eliminar el descuento escalonado? ',
@@ -216,6 +221,14 @@ const es = {
 		borrarLineaPedidosMensajeUnico:
 			'Este producto se borrará de tu Toma de pedido',
 		borrarLineaPedidosMensajeUnicoCanje: 'Este producto se borrará de tu Canje',
+		mensajeProductosSinCargar:
+			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido.',
+		mensajeProductosSinCargarCanje:
+			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido junto con los canjes que contiene.',
+		mensajeProductosSinCargarBonificacion:
+			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido junto con las bonificaciones que contiene.',
+		mensajeProductosSinCargarCanjeYBonificacion:
+			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido y los canjes y las bonificaciones que contiene.',
 		productoUnicoEliminadoTitulo: 'Producto eliminado correctamente',
 		lineaBorradaConBonificacion:
 			'Se eliminó el producto de la toma de pedido junto con los las bonificaciones que contenía.',
@@ -286,6 +299,16 @@ const es = {
 		limiteDeCreditoExcedidoMensaje:
 			'Este cliente ha excedido su límite de crédito, por lo que no se podra levantar pedidos a crédito',
 		productoIngresado: 'Se ha ingresado el producto exitosamente',
+		clienteCreditoBloqueadoTitulo: 'Cliente con crédito bloqueado',
+		clienteCreditoBloqueadoMensaje:
+			'Solo puedes levantar el pedido a contado para este cliente.',
+		clienteBloqueadoTitulo: 'Cliente bloqueado',
+		clienteBloqueadoMensaje: 'No puedes generar un pedido para este cliente',
+		cambiosGuardadosConPromo:
+			'Se calcularon y aplicaron las promociones automáticas',
+	},
+	tooltip: {
+		cambioPromocion: 'Las promociones disponibles podrían haber cambiado.',
 	},
 };
 export default es;

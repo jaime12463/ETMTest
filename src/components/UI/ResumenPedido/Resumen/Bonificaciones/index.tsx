@@ -32,7 +32,7 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 
 				return (
 					<Box key={bonificacion.id}>
-						<Box display='flex' flex='2' flexDirection='column'>
+						<Box display='flex' flex='1' flexDirection='column'>
 							{bonificacion.detalle.map((detalle, index) => {
 								const producto = useObtenerProductoPorCodigo(
 									detalle.codigoProducto
@@ -42,7 +42,7 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 								return (
 									<Box key={`${detalle.idGrupo}${index}`}>
 										<Box display='flex'>
-											<Box display='flex' flexDirection='column' flex='2'>
+											<Box display='flex' flexDirection='column' flex='1'>
 												<Box
 													display='flex'
 													flexDirection='column'
@@ -92,15 +92,19 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 											</Box>
 											<Box
 												display='flex'
-												flex='1.5'
+												flexBasis='143px'
 												flexDirection='column'
 												gap='4px'
 												justifyContent='center'
-												padding='8px'
+												padding='8px '
 												sx={{background: '#F5F0EF'}}
 											>
-												<Typography variant='caption' fontFamily='Open Sans'>
-													{t('general.tipo')}
+												<Typography
+													variant='caption'
+													fontFamily='Open Sans'
+													color='#000'
+												>
+													{`${t('general.tipo')}:`}
 												</Typography>
 												<Typography variant='subtitle3'>
 													{t('general.bonificacion')}

@@ -7,6 +7,7 @@ import TotalesMetodoDeVenta from './TotalesMetodoDeVenta';
 import TotalesCompromisoDeCobro from './TotalesCompromisoDeCobro';
 import MenuPromoPush from './MenuPromoPush';
 import AutocompleteSeleccionarProducto from './AutocompleteSeleccionarProducto';
+import {DrawerPromociones} from './DrawerPromociones';
 
 export {
 	InfoClienteDelPedidoActual,
@@ -18,4 +19,5 @@ export {
 	TotalesMetodoDeVenta,
 	MenuPromoPush,
 	AutocompleteSeleccionarProducto,
+	DrawerPromociones,
 };

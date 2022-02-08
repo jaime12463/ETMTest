@@ -7,15 +7,22 @@ import {CerrarIcon} from 'assests/iconos';
 import {
 	useObtenerCompromisoDeCobroActual,
 	useObtenerConfiguracion,
+	useObtenerDatos,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {ETiposDePago, TConsolidadoImplicitos, TProductoPedido} from 'models';
+import {
+	ETiposDePago,
+	TConsolidadoImplicitos,
+	TDatosClientesProductos,
+	TProductoPedido,
+	TPromoOngoingAplicadas,
+} from 'models';
 import Resumen from './Resumen';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {formatearFecha, formatearNumero} from 'utils/methods';
 import {useObtenerBonificacionesHabilitadas} from 'hooks';
-import {useObtenerConsolidacionImplicitos} from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
+import {useCalcularEnvasesDeObsequios, useObtenerConsolidacionImplicitos} from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
 interface Props {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -23,10 +30,13 @@ interface Props {
 const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 	const compromisoDeCobro = useObtenerCompromisoDeCobroActual();
 	const visitaActual = useObtenerVisitaActual();
+	const datos: TDatosClientesProductos = useObtenerDatos();
 	const {venta, canje, prestamoenvase, ventaenvase} = visitaActual.pedidos;
+	const {promosOngoing} = visitaActual;
 
 	const bonificacionesHabilitadas = useObtenerBonificacionesHabilitadas();
 	const bonificacionesCliente = bonificacionesHabilitadas();
+	const calcularEnvasesDeObsequios = useCalcularEnvasesDeObsequios();
 
 	const bonificaciones = visitaActual.bonificaciones.map(
 		(bonificacion, index) => ({
@@ -35,6 +45,15 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 			detalle: bonificacion.detalle,
 		})
 	);
+
+	const promoOngoinFormateado = promosOngoing.map((promo) => ({
+		...promo,
+		productos: promo.productos.map((producto) => ({
+			...producto,
+			descripcion:
+				datos?.productos[producto.codigoProducto].nombre ?? 'No encontrado',
+		})),
+	}));
 
 	const cantidadBonificaciones = visitaActual.bonificaciones
 		.map((bonificacion) => bonificacion.detalle)
@@ -157,6 +176,8 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 	let esGeneraEnvases = false;
 	let puedeVerEnvases = false;
 
+	console.log(promosOngoing);
+
 	Object.values(visitaActual.pedidos).forEach((pedido) => {
 		tipoPedidos.forEach((tipoPedido) => {
 			if (tipoPedido.codigo === pedido.tipoPedido)
@@ -168,6 +189,8 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 
 		if (esGeneraEnvases) pedidosArray = pedidosArray.concat(pedido.productos);
 	});
+
+	pedidosArray = pedidosArray.concat(calcularEnvasesDeObsequios());
 
 	const consolidacionImplicitos: TConsolidadoImplicitos[] =
 		obtenerConsolidacionImplicitos(pedidosArray).sort((a, b) =>
@@ -230,65 +253,87 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 			</Box>
 			<Stack spacing='20px' padding='16px 18px 20px 18px' width='100%'>
 				{(ventaCredito.length > 0 || promocionesCredito.length > 0) && (
-					<Resumen.Container>
-						<Resumen.Titulo background={theme.palette.success.dark}>
-							{t('general.credito')}
-						</Resumen.Titulo>
-						{ventaCredito.map((producto, index) => {
-							if (!producto) return null;
+					<Box>
+						<Resumen.Container>
+							<Resumen.Titulo background={theme.palette.success.dark}>
+								{t('general.credito')}
+							</Resumen.Titulo>
+							{ventaCredito.map((producto, index) => {
+								if (!producto) return null;
 
-							return (
-								<Box key={producto.codigoProducto}>
-									<Resumen.Tarjeta producto={producto} />
-									{index !== ventaCredito.length - 1 && <Divider />}
-								</Box>
-							);
-						})}
-						{promocionesCredito.length > 0 && (
-							<>
-								<Resumen.TituloPromo />
-								{promocionesCredito.map((promocion) => {
-									return (
-										<Resumen.PromoPush
-											key={promocion.codigoProducto}
-											promocion={promocion}
-										/>
-									);
-								})}
-							</>
+								return (
+									<Box key={producto.codigoProducto}>
+										<Resumen.Tarjeta producto={producto} />
+										{index !== ventaCredito.length - 1 && <Divider />}
+									</Box>
+								);
+							})}
+							{promocionesCredito.length > 0 && (
+								<>
+									<Resumen.TituloPromo />
+									{promocionesCredito.map((promocion) => {
+										return (
+											<Resumen.PromoPush
+												key={promocion.codigoProducto}
+												promocion={promocion}
+											/>
+										);
+									})}
+								</>
+							)}
+						</Resumen.Container>
+						{promoOngoinFormateado?.map(
+							(promo) =>
+								promo.tipoPago === ETiposDePago.Credito && (
+									<Resumen.PromoOngoing
+										promocion={promo}
+										key={promo.promocionID}
+									/>
+								)
 						)}
-					</Resumen.Container>
+					</Box>
 				)}
 
 				{(ventaContado.length > 0 || promocionesContado.length > 0) && (
-					<Resumen.Container>
-						<Resumen.Titulo background={theme.palette.secondary.dark}>
-							{t('general.contado')}
-						</Resumen.Titulo>
-						{ventaContado.map((producto, index) => {
-							if (!producto) return null;
+					<Box>
+						<Resumen.Container>
+							<Resumen.Titulo background={theme.palette.secondary.dark}>
+								{t('general.contado')}
+							</Resumen.Titulo>
+							{ventaContado.map((producto, index) => {
+								if (!producto) return null;
 
-							return (
-								<Box key={producto.codigoProducto}>
-									<Resumen.Tarjeta producto={producto} />
-									{index !== ventaCredito.length - 1 && <Divider />}
-								</Box>
-							);
-						})}
-						{promocionesContado.length > 0 && (
-							<>
-								<Resumen.TituloPromo />
-								{promocionesContado.map((promocion) => {
-									return (
-										<Resumen.PromoPush
-											key={promocion.codigoProducto}
-											promocion={promocion}
-										/>
-									);
-								})}
-							</>
+								return (
+									<Box key={producto.codigoProducto}>
+										<Resumen.Tarjeta producto={producto} />
+										{index !== ventaCredito.length - 1 && <Divider />}
+									</Box>
+								);
+							})}
+							{promocionesContado.length > 0 && (
+								<>
+									<Resumen.TituloPromo />
+									{promocionesContado.map((promocion) => {
+										return (
+											<Resumen.PromoPush
+												key={promocion.codigoProducto}
+												promocion={promocion}
+											/>
+										);
+									})}
+								</>
+							)}
+						</Resumen.Container>
+						{promoOngoinFormateado?.map(
+							(promo) =>
+								promo.tipoPago === ETiposDePago.Contado && (
+									<Resumen.PromoOngoing
+										promocion={promo}
+										key={promo.promocionID}
+									/>
+								)
 						)}
-					</Resumen.Container>
+					</Box>
 				)}
 
 				{(prestamoenvase?.productos?.length > 0 ||
@@ -381,7 +426,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					sx={{background: '#F5F0EF'}}
 				>
 					<Typography variant='subtitle3' color='#000'>
-						{t('general.totalContado')}
+						{t('general.totalContado')}:
 					</Typography>
 					<Typography variant='subtitle3' color='#000'>
 						{formatearNumero(totalContado, t)}
@@ -394,7 +439,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					sx={{background: '#F5F0EF50'}}
 				>
 					<Typography variant='subtitle3' color='#000'>
-						{t('general.totalCredito')}
+						{t('general.totalCredito')}:
 					</Typography>
 					<Typography variant='subtitle3' color='#000'>
 						{formatearNumero(totalCredito, t)}
@@ -407,7 +452,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					sx={{background: '#F5F0EF'}}
 				>
 					<Typography variant='subtitle3' color='#000'>
-						{t('general.totalDeAhorro')}
+						{t('general.totalDeAhorro')}:
 					</Typography>
 					<Typography variant='subtitle3' color='#000'>
 						{formatearNumero(totalDescuentos, t)}
@@ -420,7 +465,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					sx={{background: '#F5F0EF50'}}
 				>
 					<Typography variant='subtitle3' color='#000'>
-						{t('general.totalCargosFinancieros')}
+						{t('general.totalCargosFinancieros')}:
 					</Typography>
 					<Typography variant='subtitle3' color='#000'>
 						{formatearNumero(0, t)}

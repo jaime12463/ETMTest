@@ -25,7 +25,7 @@ export const Envases: React.FC<EnvasesProps> = ({producto, retorno}) => {
 			<Box
 				display='flex'
 				flexDirection='column'
-				flex='2'
+				flex='1'
 				padding='8px 8px 8px 14px'
 			>
 				{producto ? (
@@ -93,13 +93,13 @@ export const Envases: React.FC<EnvasesProps> = ({producto, retorno}) => {
 			<Box
 				alignItems='center'
 				display='flex'
-				flex='1.5'
+				flexBasis='143px'
 				padding='8px 14px 8px 8px'
 				sx={{background: '#F5F0EF'}}
 			>
 				<Box display='flex' flexDirection='column' gap='4px'>
 					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-						{t('general.tipo')}
+						{`${t('general.tipo')}:`}
 					</Typography>
 					<Typography variant='subtitle3'>
 						{producto?.tipo === 'prestamo' && t('general.prestamo')}

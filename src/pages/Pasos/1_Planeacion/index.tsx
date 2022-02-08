@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {TarjetaColapsable} from 'components/UI';
@@ -16,13 +16,20 @@ import {
 	useObtenerCoberturas,
 	useObtenerCreditoDisponible,
 	useObtenerDatosCliente,
+	useReiniciarClienteActual,
+	useResetVisitaActual,
 } from 'hooks';
 import {
 	cambiarSeQuedaAEditar,
 	limpiarProductosSinCantidad,
 	cambiarAvisos,
+	activarClienteBloqueado,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {TCliente, TClienteActual} from 'models';
+import {AvisoIcon} from 'assests/iconos';
+import Modal, {Configuracion} from 'components/UI/Modal';
+import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
+import {useHistory} from 'react-router-dom';
 
 export const Planeacion: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
@@ -38,6 +45,13 @@ export const Planeacion: React.FC = () => {
 	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(codigoCliente);
 	const mostrarAviso = useMostrarAviso();
+	const clienteActual: TClienteActual = useObtenerClienteActual();
+	const [alertaPasos, setAlertaPasos] = useState<boolean>(false);
+	const [pasoActual, setPasoActual] = useState<number>(0);
+	const reiniciarVisita = useResetVisitaActual();
+	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
+	const reiniciarClienteActual = useReiniciarClienteActual();
+	const history = useHistory();
 
 	const codigosCoberturas = coberturas.reduce(
 		(codigos: number[], cobertura) => {
@@ -93,6 +107,7 @@ export const Planeacion: React.FC = () => {
 	React.useEffect(() => {
 		dispatch(cambiarAvisos({cambiosPasoActual: false}));
 	}, []);
+
 	React.useEffect(() => {
 		if (visitaActual.seQuedaAEditar.seQueda) {
 			setExpandido('Iniciativas');
@@ -106,8 +121,123 @@ export const Planeacion: React.FC = () => {
 		};
 	}, []);
 
+	const [configAlerta, setConfigAlerta] = React.useState<Configuracion>({
+		titulo: '',
+		mensaje: '',
+		tituloBotonAceptar: '',
+		tituloBotonCancelar: '',
+		iconoMensaje: <></>,
+		callbackAceptar: () => {},
+	});
+
+	const validacionClienteBloqueado = () => {
+		const esCreditoBloqueado =
+			datosCliente?.informacionCrediticia.esCreditoBloqueado;
+		const esVentaBloqueado =
+			datosCliente?.informacionCrediticia.esBloqueadoVenta;
+		const esCondicionCreditoInformal =
+			clienteActual.condicion === 'creditoInformal';
+		const esCondicionCreditoFormal =
+			clienteActual.condicion === 'creditoFormal';
+		const {habilitaCompromisoDeCobro} = configuracion;
+
+		if (esCreditoBloqueado && esCondicionCreditoInformal && !esVentaBloqueado) {
+			mostrarAviso(
+				'warning',
+				t('toast.clienteCreditoBloqueadoTitulo'),
+				t('toast.clienteCreditoBloqueadoMensaje'),
+				undefined,
+				'cliente-bloqueado'
+			);
+		}
+
+		if (
+			esCreditoBloqueado &&
+			esCondicionCreditoFormal &&
+			habilitaCompromisoDeCobro
+		) {
+			mostrarAviso(
+				'error',
+				t('toast.ventaBloqueadaTitulo'),
+				t('toast.ventaBloqueadaMensaje'),
+				undefined,
+				'cliente-bloqueado'
+			);
+			dispatch(activarClienteBloqueado());
+		}
+
+		if (
+			esCreditoBloqueado &&
+			esCondicionCreditoInformal &&
+			esVentaBloqueado &&
+			habilitaCompromisoDeCobro
+		) {
+			mostrarAviso(
+				'error',
+				t('toast.ventaBloqueadaTitulo'),
+				t('toast.ventaBloqueadaMensaje'),
+				undefined,
+				'cliente-bloqueado'
+			);
+			dispatch(activarClienteBloqueado());
+		}
+
+		if (
+			esCreditoBloqueado &&
+			esCondicionCreditoFormal &&
+			!habilitaCompromisoDeCobro
+		) {
+			setConfigAlerta({
+				titulo: t('toast.clienteBloqueadoTitulo'),
+				mensaje: t('toast.clienteBloqueadoMensaje'),
+				tituloBotonAceptar: t('general.finalizarVisita'),
+				callbackAceptar: () => {
+					reiniciarVisita();
+					reiniciarCompromisoDeCobro();
+					reiniciarClienteActual();
+					history.push('/clientes');
+				},
+				iconoMensaje: <AvisoIcon />,
+			});
+			setAlertaPasos(true);
+			dispatch(activarClienteBloqueado());
+		}
+
+		if (
+			esCreditoBloqueado &&
+			esCondicionCreditoInformal &&
+			esVentaBloqueado &&
+			!habilitaCompromisoDeCobro
+		) {
+			setConfigAlerta({
+				titulo: t('toast.clienteBloqueadoTitulo'),
+				mensaje: t('toast.clienteBloqueadoMensaje'),
+				tituloBotonAceptar: t('general.finalizarVisita'),
+				callbackAceptar: () => {
+					reiniciarVisita();
+					reiniciarCompromisoDeCobro();
+					reiniciarClienteActual();
+					history.push('/clientes');
+				},
+				iconoMensaje: <AvisoIcon />,
+			});
+			setAlertaPasos(true);
+			dispatch(activarClienteBloqueado());
+		}
+	};
+
+	useEffect(() => {
+		validacionClienteBloqueado();
+	}, []);
+
 	return (
 		<Box display='flex' flexDirection='column' gap='18px'>
+			<Modal
+				setAlerta={setAlertaPasos}
+				alerta={alertaPasos}
+				setPasoActual={setPasoActual}
+				contenidoMensaje={configAlerta}
+			/>
 			<TarjetaColapsable
 				titulo={<Typography variant={'subtitle2'}>Pedidos en curso</Typography>}
 				subTitulo={
@@ -122,6 +252,12 @@ export const Planeacion: React.FC = () => {
 				setExpandido={setExpandido}
 				dataCy='PedidosEnCurso'
 				iniciativasEjecutadasSinCantidad={iniciativasEjecutadasSinCantidad}
+				mensaje={
+					<Typography color='primary' variant='subtitle3'>
+						{t('titulos.pedidosEnCursoDeshabilitado')}
+					</Typography>
+				}
+				disabled={visitaActual.clienteBloqueado}
 			>
 				<div> PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
@@ -139,6 +275,12 @@ export const Planeacion: React.FC = () => {
 				setExpandido={setExpandido}
 				dataCy='Sugeridos'
 				iniciativasEjecutadasSinCantidad={iniciativasEjecutadasSinCantidad}
+				mensaje={
+					<Typography color='primary' variant='subtitle3'>
+						{t('titulos.sugeridosDeshabilitado')}
+					</Typography>
+				}
+				disabled={visitaActual.clienteBloqueado}
 			>
 				<div>SUGERIDOS PARA TI PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
@@ -166,7 +308,7 @@ export const Planeacion: React.FC = () => {
 							`${totalesIniciativasCompletas.length} Iniciativas`}
 					</>
 				}
-				disabled={iniciativas.length === 0}
+				disabled={iniciativas.length === 0 || visitaActual.clienteBloqueado}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
 						{/*ToDo: pasar a multilenguaje */}
@@ -204,7 +346,7 @@ export const Planeacion: React.FC = () => {
 				cantidadItems={coberturasEjecutadas?.length}
 				labelChip={`${coberturasEjecutadas?.length} de ${cantidadCoberturas.length} Items`}
 				valido={coberturasEjecutadas?.length > 0}
-				disabled={coberturas.length === 0}
+				disabled={coberturas.length === 0 || visitaActual.clienteBloqueado}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
 						{/*ToDo: pasar a multilenguaje */}

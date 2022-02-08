@@ -64,6 +64,7 @@ export const useInicializarVisitaActual = () => {
 							detalle: [],
 							fechaEntrega: fechaEntrega,
 						})),
+						promosOngoing: [],
 						coberturasEjecutadas: [],
 						pasoATomaPedido: false,
 						seQuedaAEditar: {
@@ -75,7 +76,10 @@ export const useInicializarVisitaActual = () => {
 						avisos: {
 							limiteCredito: 0,
 							cambiosPasoActual: false,
+							calculoPromociones: false,
+							cambioElPedidoSinPromociones: false,
 						},
+						clienteBloqueado: false,
 					},
 				})
 			);

@@ -18,16 +18,22 @@ import {
 	useObtenerDatosCliente,
 } from 'hooks';
 import {
+	agregarBeneficiosPromoOngoing,
 	agregarProductoDelPedidoActual,
+	cambiarAvisos,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {Dialogo, SwipeBorrar} from 'components/UI';
-import {AutocompleteSeleccionarProducto} from 'components/Negocio';
+import {SwipeBorrar, Tooltip} from 'components/UI';
+import {
+	AutocompleteSeleccionarProducto,
+	DrawerPromociones,
+} from 'components/Negocio';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
-import {BorrarIcon} from 'assests/iconos';
+import IconButton from '@mui/material/IconButton';
+import {BorrarIcon, BuscarIcon, PromocionColor} from 'assests/iconos';
 import {styled} from '@mui/material/styles';
 import {useBorrarLinea, useBorrarTodoTomaPedido} from '../hooks';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
@@ -39,6 +45,12 @@ import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoP
 import {Box} from '@mui/system';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
+
+import {
+	obtenerlistaPromocionesVigentes,
+	obtenerPromocionesOngoingTotal,
+} from 'utils/procesos/promociones';
+import {useObtenerDatos} from 'redux/hooks';
 
 const TextStyled = styled(Typography)(() => ({
 	color: theme.palette.secondary.main,
@@ -61,6 +73,7 @@ const TomaPedido: React.FC = () => {
 	const {t} = useTranslation();
 
 	const [alerta, setAlerta] = React.useState<boolean>(false);
+	const [openTooltip, setOpenTooltip] = React.useState<boolean>(false);
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
@@ -73,8 +86,13 @@ const TomaPedido: React.FC = () => {
 	const [inputFocus, setInputFocus] =
 		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
 
+	const [promocionesOingoing, setPromocionesOingoing] = React.useState<any>();
+	const [openDrawerPromociones, setOpenDrawerPromociones] =
+		React.useState<boolean>(false);
+
 	const [focusId, setFocusId] = React.useState(0);
 	const visitaActual = useObtenerVisitaActual();
+	const datos = useObtenerDatos();
 	const {venta} = visitaActual.pedidos;
 	const defaultValues: TFormTomaDePedido = {
 		unidades: '',
@@ -103,9 +121,52 @@ const TomaPedido: React.FC = () => {
 		venta.productos
 	);
 
+	if (!datosCliente) return <></>;
 	const {configuracionPedido}: any = datosCliente;
 
 	const borrarlinea = useBorrarLinea({setAlerta, setConfigAlerta});
+
+	const promocionesVigentesCliente = React.useMemo(
+		() => obtenerlistaPromocionesVigentes(datosCliente, datos.promociones),
+		[datosCliente, datos.promociones]
+	);
+
+	const puedeBotonPromocionesOngoing =
+		venta.productos.some(
+			(producto) => producto.unidades > 0 || producto.subUnidades > 0
+		) && promocionesVigentesCliente?.existenPromociones;
+
+	const manejadorBotonPromosOngoing = () => {
+		setOpenDrawerPromociones(true);
+		let promociones = obtenerPromocionesOngoingTotal(
+			datosCliente,
+			venta.productos,
+			promocionesVigentesCliente
+		);
+		setPromocionesOingoing(promociones);
+		dispatch(
+			cambiarAvisos({
+				calculoPromociones: true,
+				cambioElPedidoSinPromociones: false,
+			})
+		);
+
+		dispatch(
+			agregarBeneficiosPromoOngoing({
+				beneficios: promociones.benficiosParaAgregar,
+			})
+		);
+		setOpenTooltip(false);
+	};
+
+	React.useEffect(() => {
+		const {cambioElPedidoSinPromociones, calculoPromociones} =
+			visitaActual.avisos;
+
+		if (cambioElPedidoSinPromociones && calculoPromociones) {
+			setOpenTooltip(true);
+		}
+	}, [visitaActual.avisos.cambioElPedidoSinPromociones]);
 
 	React.useEffect(() => {
 		if (
@@ -175,20 +236,46 @@ const TomaPedido: React.FC = () => {
 				contenidoMensaje={configAlerta}
 			/>
 			<Stack spacing='10px'>
-				<Box padding={'0 18px'}>
+				<Box
+					alignItems='center'
+					display='flex'
+					justifyContent='space-between'
+					margin={openTooltip ? '18px 0 45px 0' : '18px 0'}
+					paddingLeft='18px'
+				>
 					<AutocompleteSeleccionarProducto
 						hookForm={hookForm}
 						stateProductoActual={{productoActual, setProductoActual}}
 						statePreciosProductos={{preciosProductos, setPreciosProductos}}
 						stateInputFocus={stateInputFocus}
 					/>
+					{puedeBotonPromocionesOngoing && (
+						<Box alignItems='center' display='flex' gap='16px'>
+							<Box position='relative'>
+								<IconButton
+									style={{padding: 0}}
+									onClick={() => manejadorBotonPromosOngoing()}
+								>
+									<PromocionColor height='24px' width='24px' />
+								</IconButton>
+								<Tooltip open={openTooltip} />
+							</Box>
+							<IconButton sx={{padding: 0, marginRight: '9px'}}>
+								<BuscarIcon height='18px' width='18px' />
+							</IconButton>
+						</Box>
+					)}
 				</Box>
-
-				<Grid container alignItems='center' justifyContent='space-between'>
-					{venta?.productos?.length > 0 &&
-						venta?.productos?.some(
-							(producto) => producto.unidades > 0 || producto.subUnidades > 0
-						) && (
+				<DrawerPromociones
+					openDrawerPromociones={openDrawerPromociones}
+					setOpenDrawerPromociones={setOpenDrawerPromociones}
+					promocionesOingoing={promocionesOingoing}
+				/>
+				{venta?.productos?.length > 0 &&
+					venta?.productos?.some(
+						(producto) => producto.unidades > 0 || producto.subUnidades > 0
+					) && (
+						<Grid container alignItems='center' justifyContent='space-between'>
 							<Box
 								display={'flex'}
 								minWidth={'100%'}
@@ -206,8 +293,8 @@ const TomaPedido: React.FC = () => {
 									onClick={() => borrarTodosLosProductos()}
 								/>
 							</Box>
-						)}
-				</Grid>
+						</Grid>
+					)}
 
 				{venta.productos.length > 0 &&
 					venta.productos

@@ -62,12 +62,13 @@ export const useObtenerColor = () => {
 	);
 
 	const totalPedidoActual = obtenerTotalPedidosVisitaActual();
+	const totalPedidoActualContribuyeMinimo = obtenerTotalPedidosVisitaActual(true);
 
 	useEffect(() => {
 		setColor({
 			pedidoMinimo:
 				obtenerporcentaje(
-					totalesPedidoCliente + totalPedidoActual.totalPrecio,
+					totalesPedidoCliente + totalPedidoActualContribuyeMinimo.totalPrecio,
 					datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
 				) >= 100
 					? 'success'

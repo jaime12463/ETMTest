@@ -27,7 +27,7 @@ const Modal: React.FC<Props> = ({
 	setAlerta,
 	contenidoMensaje,
 }) => {
-	const classes = useEstilos({alerta});
+	const classes = useEstilos();
 
 	return (
 		<>

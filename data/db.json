@@ -100,7 +100,7 @@
 			},
 			"promocionesHabilitadas": [
 				{
-					"idPromoción": 179567,
+					"idPromocion": 179567,
 					"promocionesDisponibles": 1
 				}
 			],
@@ -1258,26 +1258,54 @@
 			},
 			"visitasPlanificadas": [
 				{
-					"dia": "2021-06-08",
+					"dia": "2022-01-28",
 					"secuencia": 3
 				},
 				{
-					"dia": "2021-06-11",
+					"dia": "2022-01-31",
 					"secuencia": 5
+				},
+				{
+					"dia": "2022-02-01",
+					"secuencia": 6
+				},
+				{
+					"dia": "2022-02-02",
+					"secuencia": 7
+				},
+				{
+					"dia": "2022-02-03",
+					"secuencia": 8
+				},
+				{
+					"dia": "2022-02-04",
+					"secuencia": 9
 				}
 			],
 			"fechasEntrega": [
 				{
-					"fechaVisita": "2021-06-09",
-					"fechaEntrega": "2021-06-10"
+					"fechaVisita": "2022-01-28",
+					"fechaEntrega": "2022-01-31"
 				},
 				{
-					"fechaVisita": "2021-06-10",
-					"fechaEntrega": "2021-06-11"
+					"fechaVisita": "2022-01-31",
+					"fechaEntrega": "2022-02-01"
 				},
 				{
-					"fechaVisita": "2021-06-11",
-					"fechaEntrega": "2021-06-12"
+					"fechaVisita": "2022-02-01",
+					"fechaEntrega": "2022-02-02"
+				},
+				{
+					"fechaVisita": "2022-02-02",
+					"fechaEntrega": "2022-02-03"
+				},
+				{
+					"fechaVisita": "2022-02-03",
+					"fechaEntrega": "2022-02-04"
+				},
+				{
+					"fechaVisita": "2022-02-04",
+					"fechaEntrega": "2022-02-05"
 				}
 			],
 			"iniciativasHabilitadas": [
@@ -1341,14 +1369,14 @@
 				"documentos": [
 					{
 						"numero": "12123456789",
-						"fecha": "2021-06-11",
-						"vencimiento": "2021-09-11",
+						"fecha": "2022-01-28",
+						"vencimiento": "2022-02-04",
 						"monto": 5000
 					},
 					{
 						"numero": "22123459999",
-						"fecha": "2021-07-11",
-						"vencimiento": "2021-10-11",
+						"fecha": "2022-01-31",
+						"vencimiento": "2022-02-04",
 						"monto": 5400
 					}
 				]
@@ -1363,7 +1391,27 @@
 							"cumplido": true
 						},
 						{
-							"fechaEntrega": "2021-06-11",
+							"fechaEntrega": "2022-01-28",
+							"cumplido": false
+						},
+						{
+							"fechaEntrega": "2022-01-31",
+							"cumplido": false
+						},
+						{
+							"fechaEntrega": "2022-02-01",
+							"cumplido": false
+						},
+						{
+							"fechaEntrega": "2022-02-02",
+							"cumplido": false
+						},
+						{
+							"fechaEntrega": "2022-02-03",
+							"cumplido": false
+						},
+						{
+							"fechaEntrega": "2022-02-04",
 							"cumplido": false
 						}
 					]
@@ -1376,34 +1424,60 @@
 							"consumido": 2000
 						},
 						{
-							"fechaEntrega": "2021-06-11",
+							"fechaEntrega": "2022-01-28",
+							"consumido": 0
+						},
+						{
+							"fechaEntrega": "2022-01-31",
+							"consumido": 0
+						},
+						{
+							"fechaEntrega": "2022-02-01",
+							"consumido": 0
+						},
+						{
+							"fechaEntrega": "2022-02-02",
+							"consumido": 0
+						},
+						{
+							"fechaEntrega": "2022-02-03",
+							"consumido": 0
+						},
+						{
+							"fechaEntrega": "2022-02-04",
 							"consumido": 0
 						}
 					]
 				},
 				"cantidadMaximaUnidades": 999
 			},
-			"portafolio": [
+			"promocionesHabilitadas": [
 				{
-					"codigoProducto": 170456,
-					"esVentaSubunidades": true,
-					"unidadesDisponibles": 10,
-
-					"precios": [
-						{
-							"precioConImpuestoUnidad": 106,
-							"precioConImpuestoSubunidad": 8.84,
-							"vigenciaInicioPrecio": "2017-09-07",
-							"vigenciaFinPrecio": "2017-09-31"
-						},
-						{
-							"precioConImpuestoUnidad": 105,
-							"precioConImpuestoSubunidad": 8.75,
-							"vigenciaInicioPrecio": "2017-10-01",
-							"vigenciaFinPrecio": "9999-12-31"
-						}
-					]
+					"idPromocion": 682199,
+					"promocionesDisponibles": 1
 				},
+				{
+					"idPromocion": 682200,
+					"promocionesDisponibles": 1
+				},
+				{
+					"idPromocion": 685218,
+					"promocionesDisponibles": 1
+				},
+				{
+					"idPromocion": 685232,
+					"promocionesDisponibles": 1
+				},
+				{
+					"idPromocion": 685233,
+					"promocionesDisponibles": 1
+				},
+				{
+					"idPromocion": 685234,
+					"promocionesDisponibles": 1
+				}
+			],
+			"portafolio": [
 				{
 					"codigoProducto": 170445,
 					"esVentaSubunidades": true,
@@ -1507,6 +1581,24 @@
 							"precioConImpuestoSubunidad": 15,
 							"precioConDescuentoUnidad": 145,
 							"precioConDescuentoSubunidad": 14.5,
+							"vigenciaInicioPrecio": "2017-10-01",
+							"vigenciaFinPrecio": "9999-12-31"
+						}
+					]
+				},
+				{
+					"codigoProducto": 440,
+					"esVentaSubunidades": true,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 100,
+							"precioConImpuestoSubunidad": 8.84,
+							"vigenciaInicioPrecio": "2017-09-07",
+							"vigenciaFinPrecio": "2017-09-31"
+						},
+						{
+							"precioConImpuestoUnidad": 170,
+							"precioConImpuestoSubunidad": 20,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}
@@ -1717,6 +1809,18 @@
 					]
 				},
 				{
+					"codigoProducto": 603653,
+					"esVentaSubunidades": true,
+					"precios": [
+						{
+							"precioConImpuestoUnidad": 10,
+							"precioConImpuestoSubunidad": 5,
+							"vigenciaInicioPrecio": "2021-01-01",
+							"vigenciaFinPrecio": "2022-12-31"
+						}
+					]
+				},
+				{
 					"codigoProducto": 10020,
 					"esVentaSubunidades": false,
 					"unidadesDisponibles": 10,
@@ -1829,6 +1933,13 @@
 	],
 	"productos": [
 		{
+			"codigoProducto": 603653,
+			"nombre": "VASO NAVIDAD",
+			"presentacion": 24,
+			"subunidadesVentaMinima": 3,
+			"tipoProducto": 2
+		},
+		{
 			"codigoProducto": 17640,
 			"nombre": "coca 2L",
 			"presentacion": 24,
@@ -1919,6 +2030,20 @@
 		{
 			"codigoProducto": 420,
 			"nombre": "YOLI LIMON BOT 1.5L 12PK",
+			"presentacion": 12,
+			"subunidadesVentaMinima": 1,
+			"tipoProducto": 1,
+			"atributos": {
+				"sabor": 1,
+				"familia": 8,
+				"marca": 4,
+				"envase": 2,
+				"medida": 2
+			}
+		},
+		{
+			"codigoProducto": 440,
+			"nombre": "YOLI LIMON BOT 2.5L 12PK",
 			"presentacion": 12,
 			"subunidadesVentaMinima": 1,
 			"tipoProducto": 1,
@@ -2267,7 +2392,7 @@
 			"nombreIniciativa": "Asegura la venta del nuevo PREDATOR 473ml SKU 99992",
 			"nombreActividadPlan": "NCBs - Lanzamiento PREDATOR 47",
 			"descripcionIniciativa": "Ejecuta los materiales de la PDE",
-			"finVigenciaIniciativa": "2021-06-11",
+			"finVigenciaIniciativa": "2022-12-31",
 			"idMaterialIniciativa": 360,
 			"unidadVentaIniciativa": 2,
 			"subunidadVentaIniciativa": 0,
@@ -2278,7 +2403,7 @@
 			"nombreIniciativa": "Los Efectivos PERSONALES Asegura Venta de Coca Cola 355 ML Pet NR",
 			"nombreActividadPlan": "Super Single - Plan Personales",
 			"descripcionIniciativa": "Ejecuta los materiales de la PDE",
-			"finVigenciaIniciativa": "2021-06-11",
+			"finVigenciaIniciativa": "2022-12-31",
 			"idMaterialIniciativa": 420,
 			"unidadVentaIniciativa": 2,
 			"subunidadVentaIniciativa": 0
@@ -2290,7 +2415,7 @@
 			"idBonificacion": 1,
 			"nombreBonificacion": "Bonificación COCA COLA 12 OZ VIDRIO R",
 			"vigenciaInicioBonificacion": "2021-06-11",
-			"vigenciaFinBonificacion": "2021-06-21",
+			"vigenciaFinBonificacion": "2022-12-31",
 			"aplicacionBonificacion": "Parcial",
 			"gruposBonificacion": [
 				{
@@ -2313,7 +2438,7 @@
 			"idBonificacion": 2,
 			"nombreBonificacion": "Bonificación COCA COLA 12 OZ VIDRIO R",
 			"vigenciaInicioBonificacion": "2021-06-11",
-			"vigenciaFinBonificacion": "2021-06-21",
+			"vigenciaFinBonificacion": "2022-12-31",
 			"aplicacionBonificacion": "Total",
 			"gruposBonificacion": [
 				{
@@ -2336,7 +2461,7 @@
 			"idBonificacion": 3,
 			"nombreBonificacion": "Bonificación COCA COLA 12 OZ VIDRIO R",
 			"vigenciaInicioBonificacion": "2021-06-11",
-			"vigenciaFinBonificacion": "2021-06-21",
+			"vigenciaFinBonificacion": "2022-12-31",
 			"aplicacionBonificacion": "Total",
 			"gruposBonificacion": [
 				{
@@ -2409,89 +2534,23 @@
 
 	"promociones": [
 		{
-			"promocionID": 179567,
-
-			"descripcion": "BURN LT 260ML / PET 1L 15 % OFF H & S DME SPM",
-
-			"tipo": 1,
-
-			"aplicacion": "M",
-
+			"promocionID": "682199",
+			"descripcion": "607-PJ Política Lonchera 1en5 VP ESP",
+			"tipo": "1",
+			"aplicacion": "A",
 			"asignacion": "T",
-
-			"inicioVigenciaPromocion": "2021-09-01",
-
-			"finVigenciaPromocion": "2021-09-06",
-
+			"inicioVigenciaPromocion": "2021-01-08",
+			"finVigenciaPromocion": "2022-12-31",
 			"requisitos": [
-						{
-								"materiales": [18466, 118467, 118986],
-								"cantidad": 7,
-								"unidadMedida": "Unidad",
-								"conector": "Y"
-						},
-						{
-								"materiales": [420],
-
-								"cantidad": 1,
-
-								"unidadMedida": "Unidad"
-						}
-			],
-
-			"beneficios": [
 				{
-					"gruposBeneficio": [
-						{
-							"grupoBeneficioID": 1,
-
-							"gripoBenedicioDescripcion": "Grupo 1",
-
-							"secuencias": [
-								{
-									"secuencia": 1,
-
-									"materialesBeneficio": [118466, 118467, 118986],
-
-									"cantidad": 10,
-
-									"unidadMedida": "Unidad",
-
-									"formaBenecio": "2",
-
-									"valorBeneficio": 15.0,
-
-									"claseCondicion": "ZPD %",
-
-									"tope": 50
-								}
-							]
-						}
-					]
+					"materiales": [
+						99345, 99853, 99558, 99552, 99550, 99362, 99886, 100174, 99454,
+						99455, 99456, 99678, 99473, 97373, 97372, 100124, 99458, 99457,
+						100165, 100173, 100176
+					],
+					"cantidad": 5,
+					"unidadMedida": "Unidad"
 				}
-			]
-		},
-		{
-			"promocionID": 179568,
-
-			"descripcion": "BURN LT 260ML / PET 1L 15 % OFF H & S DME SPM",
-
-			"tipo": 1,
-
-			"aplicacion": "M",
-
-			"asignacion": "T",
-
-			"inicioVigenciaPromocion": "2021-09-01",
-
-			"finVigenciaPromocion": "2021-09-06",
-
-			"requisitos": [
-					{
-						"materiales": [18466, 118467, 118986],
-						"cantidad": 7,
-						"unidadMedida": "Unidad"
-					}
 			],
 			"beneficios": [
 				{
@@ -2500,17 +2559,256 @@
 					"secuencias": [
 						{
 							"secuencia": 1,
-							"materialesBeneficio": [118466, 118467, 118986],
-							"cantidad": 10,
+							"materialesBeneficio": [
+								99345, 99362, 99550, 99552, 99558, 99853, 100166, 100168
+							],
+							"cantidad": 1,
 							"unidadMedida": "Unidad",
-							"formaBeneficio": "2",
-							"valorBeneficio": 15.0,
-							"claseCondicion": "ZPD %",
-							"tope": 50
+							"formaBeneficio": "1",
+							"valorBeneficio": 100,
+							"tope": 999
 						}
 					]
 				}
-				
+			]
+		},
+		{
+			"promocionID": "682200",
+			"descripcion": "607-PJ Política PWD 1en5 VP ESP",
+			"tipo": "1",
+			"aplicacion": "A",
+			"asignacion": "T",
+			"inicioVigenciaPromocion": "2021-01-08",
+			"finVigenciaPromocion": "2022-01-01",
+			"requisitos": [
+				{
+					"materiales": [97270, 97289, 97290, 97292, 97271, 97273, 97275],
+					"cantidad": 5,
+					"unidadMedida": "Unidad"
+				}
+			],
+			"beneficios": [
+				{
+					"grupoBeneficioID": 1,
+					"descripcion": "Grupo 1",
+					"secuencias": [
+						{
+							"secuencia": 1,
+							"materialesBeneficio": [97270, 97271, 97273],
+							"cantidad": 1,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "1",
+							"valorBeneficio": 100,
+							"tope": 999
+						}
+					]
+				}
+			]
+		},
+		{
+			"promocionID": "683709",
+			"descripcion": "503-MCMY  Política 1 en 5 Pte",
+			"tipo": "1",
+			"aplicacion": "M",
+			"asignacion": "T",
+			"inicioVigenciaPromocion": "2022-01-18",
+			"finVigenciaPromocion": "2022-01-31",
+			"requisitos": [
+				{
+					"materiales": [84100, 84725, 84487, 84488],
+					"cantidad": 5,
+					"unidadMedida": "Unidad"
+				}
+			],
+			"beneficios": [
+				{
+					"grupoBeneficioID": 1,
+					"descripcion": "Grupo 1",
+					"secuencias": [
+						{
+							"secuencia": 1,
+							"materialesBeneficio": [84216, 84487, 84488, 84725],
+							"cantidad": 1,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "1",
+							"valorBeneficio": 100,
+							"tope": 999
+						}
+					]
+				}
+			]
+		},
+		{
+			"promocionID": "685183",
+			"descripcion": "503-CIEL 1 EN 3 OP Pte",
+			"tipo": "1",
+			"aplicacion": "M",
+			"asignacion": "T",
+			"inicioVigenciaPromocion": "2022-01-14",
+			"finVigenciaPromocion": "2022-01-01",
+			"requisitos": [
+				{
+					"materiales": [84100, 84216, 84725, 84485, 84486, 84487, 84488],
+					"cantidad": 3,
+					"unidadMedida": "Unidad"
+				}
+			],
+			"beneficios": [
+				{
+					"grupoBeneficioID": 1,
+					"descripcion": "Grupo 1",
+					"secuencias": [
+						{
+							"secuencia": 1,
+							"materialesBeneficio": [
+								84216, 84217, 84485, 84486, 84487, 84488, 84725
+							],
+							"cantidad": 1,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "1",
+							"valorBeneficio": 100,
+							"tope": 999
+						}
+					]
+				}
+			]
+		},
+		{
+			"promocionID": "685218",
+			"descripcion": "558-POLÍTICA HORECAS 1 en 6 Pte",
+			"tipo": "1",
+			"aplicacion": "A",
+			"asignacion": "T",
+			"inicioVigenciaPromocion": "2022-01-15",
+			"finVigenciaPromocion": "2022-12-31",
+			"requisitos": [
+				{
+					"materiales": [
+						98746, 98748, 394, 84649, 392, 84684, 570, 99785, 386, 420, 99781,
+						440, 99783, 1860, 350, 84725, 389, 2625, 2566
+					],
+					"cantidad": 6,
+					"unidadMedida": "Unidad"
+				}
+			],
+			"beneficios": [
+				{
+					"grupoBeneficioID": 1,
+					"descripcion": "Grupo 1",
+					"secuencias": [
+						{
+							"secuencia": 1,
+							"materialesBeneficio": [603653],
+							"cantidad": 1,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "1",
+							"valorBeneficio": 100,
+							"tope": 3
+						}
+					]
+				}
+			]
+		},
+		{
+			"promocionID": "685232",
+			"descripcion": "554- MC Política Lata 1 en 5 Pte",
+			"tipo": "1",
+			"aplicacion": "A",
+			"asignacion": "T",
+			"inicioVigenciaPromocion": "2022-01-15",
+			"finVigenciaPromocion": "2022-12-31",
+			"requisitos": [
+				{
+					"materiales": [
+						2838, 2839, 2840, 84649, 99781, 99783, 99784, 99785, 99840, 400,
+						1885, 17640
+					],
+					"cantidad": 10,
+					"unidadMedida": "Unidad"
+				}
+			],
+			"beneficios": [
+				{
+					"grupoBeneficioID": 1,
+					"descripcion": "Grupo 1",
+					"secuencias": [
+						{
+							"secuencia": 1,
+							"materialesBeneficio": [400, 17640],
+							"cantidad": 4,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "1",
+							"valorBeneficio": 100,
+							"tope": 8
+						}
+					]
+				}
+			]
+		},
+		{
+			"promocionID": "685233",
+			"descripcion": "554- MC Política Pet 1 en 5 Pte",
+			"tipo": "1",
+			"aplicacion": "M",
+			"asignacion": "T",
+			"inicioVigenciaPromocion": "2022-01-15",
+			"finVigenciaPromocion": "2022-12-31",
+			"requisitos": [
+				{
+					"materiales": [353, 354, 360, 386, 389, 440, 513, 97151],
+					"cantidad": 5,
+					"unidadMedida": "Unidad"
+				}
+			],
+			"beneficios": [
+				{
+					"grupoBeneficioID": 1,
+					"descripcion": "Grupo 1",
+					"secuencias": [
+						{
+							"secuencia": 1,
+							"materialesBeneficio": [360, 440],
+							"cantidad": 1,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "1",
+							"valorBeneficio": 100,
+							"tope": 2
+						}
+					]
+				}
+			]
+		},
+		{
+			"promocionID": "685234",
+			"descripcion": "554- MC Gran oferta",
+			"tipo": "1",
+			"aplicacion": "M",
+			"asignacion": "T",
+			"inicioVigenciaPromocion": "2022-01-15",
+			"finVigenciaPromocion": "2022-12-31",
+			"requisitos": [
+				{
+					"materiales": [353, 354, 360, 386, 389, 440, 513, 97151],
+					"cantidad": 5,
+					"unidadMedida": "Unidad"
+				}
+			],
+			"beneficios": [
+				{
+					"grupoBeneficioID": 1,
+					"descripcion": "Grupo 1",
+					"secuencias": [
+						{
+							"secuencia": 1,
+							"materialesBeneficio": [97151],
+							"cantidad": 1,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "1",
+							"valorBeneficio": 100,
+							"tope": 2
+						}
+					]
+				}
 			]
 		}
 	]

@@ -1,4 +1,6 @@
+import React, {useEffect} from 'react';
 import {AvisoIcon} from 'assests/iconos';
+
 import {Configuracion} from 'components/UI/Modal';
 import {
 	useObtenerDatosCliente,
@@ -20,6 +22,8 @@ import {
 } from 'redux/hooks';
 import {obtenerTotalesPedidosCliente} from 'utils/methods';
 import {useMostrarAviso} from './useMostrarAviso';
+import {useBorrarTodoTomaPedido} from 'pages/Pasos/2_TomaDePedido/hooks';
+import {useValidarPedidoMinimoVisitaActual} from 'pages/Pasos/3_Otros/hooks/useValidarPedidoMinimoVisitaActual';
 
 interface ValidarPasos {
 	error: boolean;
@@ -36,6 +40,16 @@ interface ValidarPasos {
 export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 	const {t} = useTranslation();
 	const visitaActual = useObtenerVisitaActual();
+	const [configAlerta, setConfigAlerta] = React.useState({
+		titulo: '',
+		mensaje: '',
+		tituloBotonAceptar: '',
+		tituloBotonCancelar: '',
+		iconoMensaje: <></>,
+		callbackAceptar: () => {},
+	});
+
+	const [alerta, setAlerta] = React.useState<boolean>(false);
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const {venta} = visitaActual.pedidos;
 	const dispatch = useAppDispatch();
@@ -54,6 +68,17 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 		pedidosClienteMismaFechaEntrega,
 		tipoPedidos,
 	});
+	const borrarTodoTomaPedido = useBorrarTodoTomaPedido(
+		{setAlerta, setConfigAlerta},
+		venta?.productos,
+		true
+	);
+	const validarPedidoMinimoVisitaActual = useValidarPedidoMinimoVisitaActual();
+
+	React.useEffect(() => {
+		borrarTodoTomaPedido();
+	}, [visitaActual.pedidos, venta]);
+	//const borrado = borrarTodoTomaPedido();
 
 	if (pasoActual === 0) {
 		const iniciativasCanceladasSinMotivo = visitaActual.iniciativas.some(
@@ -125,45 +150,65 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 		}
 
 		if (productosSinModificar) {
-			return {
-				error: productosSinModificar,
-				contenidoMensajeModal: {
-					titulo: t('titulos.tituloProductosSinCargar'),
-					mensaje: t('advertencias.mensajeProductosSinCargar'),
-					tituloBotonAceptar: t('general.avanzar'),
-					tituloBotonCancelar: t('general.editarCantidades'),
-					callbackAceptar: () => {
-						dispatch(limpiarProductosSinCantidad());
-						dispatch(
-							cambiarSeQuedaAEditar({seQueda: false, bordeError: false})
-						);
-						mostrarAviso(
-							'success',
-							t('toast.cambiosGuardados'),
-							undefined,
-							undefined,
-							'successpaso2'
-						);
+			const pedidoConUnidadesYSubUnidades = venta?.productos?.some(
+				(producto) => producto.unidades > 0 || producto.subUnidades > 0
+			);
+
+			if (!pedidoConUnidadesYSubUnidades) {
+				return {
+					error: productosSinModificar,
+					contenidoMensajeModal: configAlerta,
+				};
+			} else {
+				return {
+					error: productosSinModificar,
+					contenidoMensajeModal: {
+						titulo: t('titulos.tituloProductosSinCargar'),
+						mensaje: t('advertencias.mensajeProductosSinCargar'),
+						tituloBotonAceptar: t('general.avanzar'),
+						tituloBotonCancelar: t('general.editarCantidades'),
+						callbackAceptar: () => {
+							dispatch(limpiarProductosSinCantidad());
+							dispatch(
+								cambiarSeQuedaAEditar({seQueda: false, bordeError: false})
+							);
+							mostrarAviso(
+								'success',
+								t('toast.cambiosGuardados'),
+								undefined,
+								undefined,
+								'successpaso2'
+							);
+						},
+						callbackCancelar: () => {
+							dispatch(
+								cambiarSeQuedaAEditar({seQueda: true, bordeError: true})
+							);
+						},
+						iconoMensaje: <AvisoIcon />,
 					},
-					callbackCancelar: () => {
-						dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
-					},
-					iconoMensaje: <AvisoIcon />,
-				},
-			};
+				};
+			}
 		}
 	}
 	if (pasoActual === 2) {
-		const canjeSinMotivo = visitaActual.pedidos.canje.productos.some(
+		const canjeSinMotivo = visitaActual?.pedidos?.canje?.productos?.some(
 			(producto) => producto.catalogoMotivo === ''
 		);
 
-		if (
-			!datosCliente?.informacionCrediticia.esBloqueadoVenta &&
+		const pedidoMinimoNoAlcanzado =
 			datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima &&
 			totalesPedidoCliente +
 				(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0) <
-				datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
+				datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima;
+
+		console.log(validarPedidoMinimoVisitaActual());
+
+		if (
+			/*!datosCliente?.informacionCrediticia.esBloqueadoVenta &&*/
+
+			pedidoMinimoNoAlcanzado &&
+			validarPedidoMinimoVisitaActual()
 		) {
 			return {
 				error: true,

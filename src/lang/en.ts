@@ -73,18 +73,19 @@ const en = {
 		editar: 'Edit',
 		salir: 'Exit',
 		restablecerCero: 'Reset quantities to zero',
+		restablecerPromociones: 'Reset promotions',
 		resumenDePedido: 'Order summary',
-		totalContado: 'Total cash:',
-		totalCredito: 'Total credit:',
-		totalDeAhorro: 'Total savings:',
-		totalCargosFinancieros: 'Total financial charges:',
+		totalContado: 'Total cash',
+		totalCredito: 'Total credit',
+		totalDeAhorro: 'Total savings',
+		totalCargosFinancieros: 'Total financial charges',
 		productoGratis: 'Free product',
-		precioUnitario: 'U. price: {{precioUnitario}}',
-		subTotal: 'Subtotal: {{subTotal}}',
+		precioUnitario: 'U. price',
+		subTotal: 'Subtotal',
 		cadaUno: 'Each',
 		paquetes: 'Packages',
-		ahorras: 'Saves: {{ahorras}}',
-		ahorroTotal: 'Total savings: {{ahorroTotal}}',
+		ahorras: 'Saves',
+		ahorroTotal: 'Total savings',
 		tipo: 'Type',
 		bonificacion: 'Bonus',
 		fechaDeAlta: 'Date of registration',
@@ -95,6 +96,10 @@ const en = {
 		motivoCancelacion: 'Cancellation reason',
 		promocionesAplicadas: 'Applied promotions',
 		aplicacionMaxima: 'Maximum application',
+		aplicar: 'Apply',
+		promocionAutomatica: 'Automatic promotion',
+		obsequio: 'Gift',
+		finalizarVisita: 'End visit',
 	},
 	simbolos: {
 		decimal: ',',
@@ -134,6 +139,8 @@ const en = {
 		promociones: 'Promotions',
 		tarjetaPromociones:
 			'Select the promotions that you have available for your clients.',
+		pedidosEnCursoDeshabilitado: 'There are no orders to display',
+		sugeridosDeshabilitado: 'There are no suggestions to show',
 	},
 	advertencias: {
 		clienteNoExiste: 'The code entered does not correspond to a customer',
@@ -279,6 +286,16 @@ const en = {
 		limiteDeCreditoExcedidoMensaje:
 			'This customer has exceeded his credit limit, so no credit orders can be placed.',
 		productoIngresado: 'Product has been successfully entered',
+		clienteCreditoBloqueadoTitulo: 'Client with blocked credit',
+		clienteCreditoBloqueadoMensaje:
+			'You can only pick up the cash order for this customer.',
+		clienteBloqueadoTitulo: 'blocked client',
+		clienteBloqueadoMensaje: 'You cannot generate an order for this customer',
+		cambiosGuardadosConPromo:
+			'Automatic promotions were calculated and applied',
+	},
+	tooltip: {
+		cambioPromocion: 'Available promotions may have changed.',
 	},
 };
 export default en;

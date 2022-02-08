@@ -15,6 +15,8 @@ import {
 	useReiniciarClienteActual,
 	useMostrarAviso,
 	useObtenerDatosCliente,
+	useObtenerTiposPedidoSegunConfiguracion,
+	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
 import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
 import {Configuracion} from 'components/UI/Modal';
@@ -25,9 +27,16 @@ import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
 	useObtenerVisitaActual,
+	useObtenerConfiguracion,
+	useObtenerDatos,
 } from 'redux/hooks';
 
-import {TCliente, TClienteActual} from 'models';
+import {
+	TCliente,
+	TClienteActual,
+	TPromoOngoing,
+	TPromoOngoingAplicadas,
+} from 'models';
 import {useTranslation} from 'react-i18next';
 import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
 import {AvisoIcon, PromocionesRellenoIcon} from 'assests/iconos';
@@ -35,10 +44,17 @@ import Modal from 'components/UI/Modal';
 import BotonResumenPedido from 'components/UI/BotonResumenPedido';
 import ResumenPedido from 'components/UI/ResumenPedido';
 import {
+	agregarBeneficiosPromoOngoing,
 	cambiarAvisos,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import ModalCore from 'components/UI/ModalCore';
+import {obtenerTotalesPedidosCliente} from 'utils/methods';
+import {
+	obtenerlistaPromocionesVigentes,
+	obtenerPromocionesOngoingTotal,
+	TPromoOngoingAplicables,
+} from 'utils/procesos/promociones';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -51,7 +67,7 @@ const Pasos: React.FC = () => {
 	const {t} = useTranslation();
 	const [pasoActual, setPasoActual] = useState<number>(0);
 	const [openVistaPromoPush, setOpenVistaPromoPush] = React.useState(false);
-
+	const {tipoPedidoEnvasesHabilitados, tipoPedidos} = useObtenerConfiguracion();
 	const [leyendaBoton, setLeyendaBoton] = useState(
 		`${t('general.continuarA')} ${t(controlador[1].titulo)}`
 	);
@@ -64,9 +80,18 @@ const Pasos: React.FC = () => {
 	const ObtenerPedidosValorizados = useObtenerPedidosValorizados();
 	const itemsValorizados = ObtenerPedidosValorizados();
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
+	const obtenerTiposPedidoSegunConfiguracion =
+		useObtenerTiposPedidoSegunConfiguracion('contribuyeAMinimo', true);
+
+	const pedidosContribuyeAlMinimo = obtenerTiposPedidoSegunConfiguracion();
+	const pedidoEnvaseContribuyeAlMinimo = tipoPedidoEnvasesHabilitados?.some(
+		(pedidosEnvases) =>
+			pedidosContribuyeAlMinimo?.find((pedido) => pedido === pedidosEnvases)
+	);
 
 	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(codigoCliente);
+	if (!datosCliente) return <></>;
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
 	const agregarPedidoActualAPedidosClientes =
@@ -77,11 +102,23 @@ const Pasos: React.FC = () => {
 		compromisoDeCobroActual.monto;
 
 	const visitaActual = useObtenerVisitaActual();
-
+	const datos = useObtenerDatos();
 	const reiniciarVisita = useResetVisitaActual();
 	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
+	const {obtenerPedidosClienteMismaFechaEntrega} =
+		useObtenerPedidosClienteMismaFechaEntrega();
 	const handleOpenVistaPromoPush = () => setOpenVistaPromoPush(true);
+	const pedidosClienteMismaFechaEntrega =
+		obtenerPedidosClienteMismaFechaEntrega(datosCliente?.codigoCliente ?? '');
 	const reiniciarClienteActual = useReiniciarClienteActual();
+	const totalesPedidoCliente = obtenerTotalesPedidosCliente({
+		pedidosClienteMismaFechaEntrega,
+		tipoPedidos,
+	});
+	const promocionesVigentesCliente = React.useMemo(
+		() => obtenerlistaPromocionesVigentes(datosCliente, datos?.promociones),
+		[datosCliente, datos?.promociones]
+	);
 
 	useEffect(() => {
 		if (pasoActual < controlador.length - 1) {
@@ -109,8 +146,13 @@ const Pasos: React.FC = () => {
 		callbackAceptar: () => {},
 	});
 
+	const [pasos, setPasos] = useState(controlador);
+
 	const manejadorPasoAtras = () => {
-		if (pasoActual === 0) {
+		if (
+			pasoActual === 0 ||
+			(pasoActual === 2 && visitaActual.clienteBloqueado)
+		) {
 			setConfigAlerta({
 				titulo: t('modal.salirOrderTaking'),
 				mensaje: t('modal.salirOrderTakingMensaje'),
@@ -120,7 +162,7 @@ const Pasos: React.FC = () => {
 					reiniciarVisita();
 					reiniciarCompromisoDeCobro();
 					reiniciarClienteActual();
-					history.goBack();
+					history.push('/clientes');
 				},
 				iconoMensaje: <AvisoIcon />,
 			});
@@ -149,6 +191,7 @@ const Pasos: React.FC = () => {
 		}
 
 		setPasoActual(pasoActual - 1);
+		console.log('entro23');
 	};
 
 	const manejadorPasoAdelante = () => {
@@ -170,10 +213,34 @@ const Pasos: React.FC = () => {
 
 		if (pasoActual < controlador.length - 1) {
 			if (!valido.contenidoMensajeAviso) {
-				if (
-					visitaActual.avisos.cambiosPasoActual &&
-					(pasoActual === 0 || pasoActual === 1)
-				) {
+				if (pasoActual === 0 && visitaActual.clienteBloqueado) {
+					setConfigAlerta({
+						titulo: t('toast.ventaBloqueadaTitulo'),
+						mensaje:
+							'No puedes generar un pedido para este cliente ¿Quieres generar un compromiso de pago?',
+						tituloBotonAceptar: t('general.continuar'),
+						tituloBotonCancelar: t('general.finalizarVisita'),
+						callbackAceptar: () => {
+							setPasoActual(pasoActual + 1);
+							setPasos(
+								controlador.filter(
+									(paso) =>
+										paso.id !== 'planeacion' && paso.id !== 'tomaDePedido'
+								)
+							);
+						},
+						callbackCancelar: () => {
+							reiniciarVisita();
+							reiniciarCompromisoDeCobro();
+							reiniciarClienteActual();
+							history.push('/clientes');
+						},
+						iconoMensaje: <AvisoIcon />,
+					});
+					return setAlertaPasos(true);
+				}
+
+				if (visitaActual?.avisos?.cambiosPasoActual && pasoActual === 0) {
 					mostrarAviso(
 						'success',
 						t('toast.cambiosGuardados'),
@@ -183,13 +250,87 @@ const Pasos: React.FC = () => {
 					);
 				}
 				if (pasoActual === 1) {
-					if (datosCliente?.informacionCrediticia.esBloqueadoVenta) {
+					let promociones: {
+						contado: TPromoOngoingAplicables[];
+						credito: TPromoOngoingAplicables[];
+						noAplicable: TPromoOngoing[];
+						benficiosParaAgregar: TPromoOngoingAplicadas[];
+					} = {
+						contado: [],
+						credito: [],
+						noAplicable: [],
+						benficiosParaAgregar: [],
+					};
+
+					if (visitaActual?.avisos?.cambioElPedidoSinPromociones) {
+						promociones = obtenerPromocionesOngoingTotal(
+							datosCliente,
+							visitaActual?.pedidos?.venta?.productos,
+							promocionesVigentesCliente
+						);
+
+						dispatch(
+							cambiarAvisos({
+								calculoPromociones: true,
+								cambioElPedidoSinPromociones: false,
+							})
+						);
+						dispatch(
+							agregarBeneficiosPromoOngoing({
+								beneficios: promociones?.benficiosParaAgregar,
+							})
+						);
+					}
+
+					if (
+						visitaActual?.avisos?.cambiosPasoActual &&
+						promociones?.benficiosParaAgregar?.length <= 0
+					) {
+						mostrarAviso(
+							'success',
+							t('toast.cambiosGuardados'),
+							undefined,
+							undefined,
+							'successpaso2'
+						);
+					}
+
+					if (
+						visitaActual?.avisos?.cambioElPedidoSinPromociones &&
+						promociones?.benficiosParaAgregar?.length > 0
+					) {
+						mostrarAviso(
+							'success',
+							t('toast.cambiosGuardados'),
+							t('toast.cambiosGuardadosConPromo'),
+							undefined,
+							'successpaso2'
+						);
+					}
+
+					if (datosCliente?.informacionCrediticia?.esBloqueadoVenta) {
 						mostrarAviso(
 							'warning',
 							t('toast.ventaBloqueadaTitulo'),
 							t('toast.ventaBloqueadaMensaje'),
 							undefined,
 							'bloqueadoParaVenta'
+						);
+					}
+					if (
+						pedidoEnvaseContribuyeAlMinimo &&
+						!datosCliente?.informacionCrediticia.esBloqueadoVenta &&
+						datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima &&
+						totalesPedidoCliente +
+							(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0) <
+							datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
+					) {
+						mostrarAviso(
+							'warning',
+							t('toast.pedidoMinimoNoAlcanzadoTitulo'),
+							t('toast.pedidoMinimoNoAlcanzadoMensaje'),
+							undefined,
+							'pedidoMinimoNoAlcanzadoWarning'
 						);
 					}
 				}
@@ -226,28 +367,39 @@ const Pasos: React.FC = () => {
 				<ModalCore open={openVistaPromoPush} borderRadius>
 					<VistaPromoPush setOpenVistaPromoPush={setOpenVistaPromoPush} />
 				</ModalCore>
-				<Box my={3}>
+				<Box
+					display='flex'
+					justifyContent='center'
+					marginTop='20px'
+					padding='10px'
+					marginBottom='10px'
+					position='sticky'
+					top='2px'
+					sx={{background: '#e5e5e5', zIndex: 99}}
+				>
 					<IndicadoresDelPedidoActual />
 				</Box>
-				<Box my={3}>
-					<Stepper
-						pasos={controlador.map(
-							(paso: TControlador, index) => `${index + 1}. ${t(paso.titulo)}`
-						)}
-						pasoActivo={pasoActual}
-					/>
-				</Box>
+				<Box padding='0 10px'>
+					<Box>
+						<Stepper
+							pasos={pasos.map(
+								(paso: TControlador, index) => `${index + 1}. ${t(paso.titulo)}`
+							)}
+							pasoActivo={pasoActual}
+						/>
+					</Box>
 
-				<Contenedor pasoActivo={pasoActual} />
-				<Modal
-					setAlerta={setAlertaPasos}
-					alerta={alertaPasos}
-					setPasoActual={setPasoActual}
-					contenidoMensaje={configAlerta}
-				/>
-				<ModalCore open={openResumenPedido} borderRadius>
-					<ResumenPedido setOpen={setOpenResumenPedido} />
-				</ModalCore>
+					<Contenedor pasoActivo={pasoActual} />
+					<Modal
+						setAlerta={setAlertaPasos}
+						alerta={alertaPasos}
+						setPasoActual={setPasoActual}
+						contenidoMensaje={configAlerta}
+					/>
+					<ModalCore open={openResumenPedido} borderRadius>
+						<ResumenPedido setOpen={setOpenResumenPedido} />
+					</ModalCore>
+				</Box>
 			</Estructura.Cuerpo>
 			<Estructura.PieDePagina>
 				<BotonResumenPedido setOpen={setOpenResumenPedido} />

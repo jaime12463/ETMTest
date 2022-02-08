@@ -14,12 +14,16 @@ export const OrdenDeCompra: React.FC<OrdenDeCompraProps> = ({
 
 	return (
 		<Box display='flex'>
-			<Box flex='2' padding='8px 12px'>
+			<Box flex='1' padding='8px 8px 8px 12px'>
 				<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-					{t('general.numeroOrdenDeCompra')}
+					{`${t('general.numeroOrdenDeCompra')}:`}
 				</Typography>
 			</Box>
-			<Box flex='1.5' padding='8px 12px 8px 6px' sx={{background: '#F5F0EF'}}>
+			<Box
+				flexBasis='143px'
+				padding='8px 12px 8px 6px'
+				sx={{background: '#F5F0EF'}}
+			>
 				<Typography
 					variant='caption'
 					fontFamily='Open Sans'

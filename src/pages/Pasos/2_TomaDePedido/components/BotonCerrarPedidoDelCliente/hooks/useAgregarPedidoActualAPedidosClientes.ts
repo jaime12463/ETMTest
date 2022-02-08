@@ -64,8 +64,6 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			return;
 		}
 
-		console.log(coberturasCumplidas);
-
 		const pedidosSeparadosCreditoContadoArray: TPedidoClienteParaEnviar[] =
 			separarPedidosCreditoContado(pedidosArray);
 

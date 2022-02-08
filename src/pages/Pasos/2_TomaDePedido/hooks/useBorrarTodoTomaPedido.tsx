@@ -9,6 +9,8 @@ import {
 	borrarProductoDelPedidoActual,
 	restablecerBonificaciones,
 	eliminarCanje,
+	cambiarSeQuedaAEditar,
+	limpiarProductosSinCantidad,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {
 	useObtenerProductosMandatoriosVisitaActual,
@@ -30,7 +32,8 @@ import {AvisoIcon} from 'assests/iconos';
 
 export const useBorrarTodoTomaPedido = (
 	stateAlerta: any,
-	productos: TProductoPedido[]
+	productos: TProductoPedido[],
+	esEnValidarPasos: boolean = false
 ) => {
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
@@ -71,7 +74,7 @@ export const useBorrarTodoTomaPedido = (
 			pedidosClienteMismaFechaEntrega.length > 0 ? true : false;
 
 		const clienteTieneCanje =
-			visitaActual.pedidos.canje.productos.length > 0 ? true : false;
+			visitaActual?.pedidos?.canje?.productos?.length > 0 ? true : false;
 
 		const clienteTieneBoficaciones = validarTieneBonificaciones();
 
@@ -83,10 +86,18 @@ export const useBorrarTodoTomaPedido = (
 			bonificacionesConVenta
 		) {
 			setConfigAlerta({
-				titulo: t('advertencias.borrarPedidosTitulo'),
-				mensaje: t('advertencias.borrarPedidosGeneral'),
-				tituloBotonAceptar: 'Eliminar todos',
-				tituloBotonCancelar: 'Cancelar',
+				titulo: esEnValidarPasos
+					? t('titulos.tituloProductosSinCargar')
+					: t('advertencias.borrarPedidosTitulo'),
+				mensaje: esEnValidarPasos
+					? t('advertencias.mensajeProductosSinCargarCanjeYBonificacion')
+					: t('advertencias.borrarPedidosGeneral'),
+				tituloBotonAceptar: esEnValidarPasos
+					? t('general.avanzar')
+					: 'Eliminar Todos',
+				tituloBotonCancelar: esEnValidarPasos
+					? t('general.editarCantidades')
+					: 'Cancelar',
 				callbackAceptar: () => {
 					for (const producto of productos) {
 						dispatch(
@@ -97,16 +108,26 @@ export const useBorrarTodoTomaPedido = (
 					}
 					dispatch(eliminarCanje());
 					dispatch(restablecerBonificaciones());
+					dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
 					mostrarAviso(
 						'success',
-						t('advertencias.productoEliminadoTitulo'),
-						t('advertencias.productoEliminadoMensaje'),
+						esEnValidarPasos
+							? t('toast.cambiosGuardados')
+							: t('advertencias.productoEliminadoTitulo'),
+						esEnValidarPasos
+							? undefined
+							: t('advertencias.productoEliminadoMensaje'),
 						undefined,
-						'productoEliminado'
+						esEnValidarPasos ? 'successpaso2' : 'productoEliminado'
 					);
+				},
+				callbackCancelar: () => {
+					if (esEnValidarPasos)
+						dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
 				},
 				iconoMensaje: <AvisoIcon />,
 			});
+
 			setAlerta(true);
 
 			return;
@@ -119,10 +140,18 @@ export const useBorrarTodoTomaPedido = (
 			(!clienteTieneBoficaciones || !bonificacionesConVenta)
 		) {
 			setConfigAlerta({
-				titulo: t('advertencias.borrarPedidosTitulo'),
-				mensaje: t('advertencias.borrarPedidosGeneral'),
-				tituloBotonAceptar: 'Eliminar todos',
-				tituloBotonCancelar: 'Cancelar',
+				titulo: esEnValidarPasos
+					? t('titulos.tituloProductosSinCargar')
+					: t('advertencias.borrarPedidosTitulo'),
+				mensaje: esEnValidarPasos
+					? t('advertencias.mensajeProductosSinCargarCanje')
+					: t('advertencias.borrarPedidosGeneral'),
+				tituloBotonAceptar: esEnValidarPasos
+					? t('general.avanzar')
+					: 'Eliminar Todos',
+				tituloBotonCancelar: esEnValidarPasos
+					? t('general.editarCantidades')
+					: 'Cancelar',
 				callbackAceptar: () => {
 					for (const producto of productos) {
 						dispatch(
@@ -132,13 +161,22 @@ export const useBorrarTodoTomaPedido = (
 						);
 					}
 					dispatch(eliminarCanje());
+					dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
 					mostrarAviso(
 						'success',
-						t('advertencias.productoEliminadoTitulo'),
-						t('advertencias.productoEliminadoMensaje'),
+						esEnValidarPasos
+							? t('toast.cambiosGuardados')
+							: t('advertencias.productoEliminadoTitulo'),
+						esEnValidarPasos
+							? undefined
+							: t('advertencias.productoEliminadoMensaje'),
 						undefined,
-						'productoEliminado'
+						esEnValidarPasos ? 'successpaso2' : 'productoEliminado'
 					);
+				},
+				callbackCancelar: () => {
+					if (esEnValidarPasos)
+						dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
 				},
 				iconoMensaje: <AvisoIcon />,
 			});
@@ -155,10 +193,18 @@ export const useBorrarTodoTomaPedido = (
 			bonificacionesConVenta
 		) {
 			setConfigAlerta({
-				titulo: t('advertencias.borrarPedidosTitulo'),
-				mensaje: t('advertencias.borrarPedidosGeneral'),
-				tituloBotonAceptar: 'Eliminar todos',
-				tituloBotonCancelar: 'Cancelar',
+				titulo: esEnValidarPasos
+					? t('titulos.tituloProductosSinCargar')
+					: t('advertencias.borrarPedidosTitulo'),
+				mensaje: esEnValidarPasos
+					? t('advertencias.mensajeProductosSinCargarBonificacion')
+					: t('advertencias.borrarPedidosGeneral'),
+				tituloBotonAceptar: esEnValidarPasos
+					? t('general.avanzar')
+					: 'Eliminar Todos',
+				tituloBotonCancelar: esEnValidarPasos
+					? t('general.editarCantidades')
+					: 'Cancelar',
 				callbackAceptar: () => {
 					for (const producto of productos) {
 						dispatch(
@@ -168,13 +214,22 @@ export const useBorrarTodoTomaPedido = (
 						);
 					}
 					dispatch(restablecerBonificaciones());
+					dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
 					mostrarAviso(
 						'success',
-						t('advertencias.productoEliminadoTitulo'),
-						t('advertencias.productoEliminadoMensaje'),
+						esEnValidarPasos
+							? t('toast.cambiosGuardados')
+							: t('advertencias.productoEliminadoTitulo'),
+						esEnValidarPasos
+							? undefined
+							: t('advertencias.productoEliminadoMensaje'),
 						undefined,
-						'productoEliminado'
+						esEnValidarPasos ? 'successpaso2' : 'productoEliminado'
 					);
+				},
+				callbackCancelar: () => {
+					if (esEnValidarPasos)
+						dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
 				},
 				iconoMensaje: <AvisoIcon />,
 			});
@@ -184,74 +239,54 @@ export const useBorrarTodoTomaPedido = (
 		}
 
 		//CA1: o default
-		//if (clienteOtroPedidoMismaFecha) {
+
 		setConfigAlerta({
-			titulo: t('advertencias.borrarPedidosTitulo'),
-			mensaje: t('advertencias.borrarPedidos'),
-			tituloBotonAceptar: 'Eliminar',
-			tituloBotonCancelar: 'Cancelar',
+			titulo: esEnValidarPasos
+				? t('titulos.tituloProductosSinCargar')
+				: t('advertencias.borrarPedidosTitulo'),
+			mensaje: esEnValidarPasos
+				? t('advertencias.mensajeProductosSinCargar')
+				: t('advertencias.borrarPedidos'),
+			tituloBotonAceptar: esEnValidarPasos ? t('general.avanzar') : 'Eliminar',
+			tituloBotonCancelar: esEnValidarPasos
+				? t('general.editarCantidades')
+				: 'Cancelar',
 			callbackAceptar: () => {
-				for (const producto of productos) {
-					dispatch(
-						borrarProductoDelPedidoActual({
-							codigoProducto: producto.codigoProducto,
-						})
+				if (esEnValidarPasos) {
+					dispatch(limpiarProductosSinCantidad());
+					mostrarAviso(
+						'success',
+						t('toast.cambiosGuardados'),
+						undefined,
+						undefined,
+						'successpaso2'
+					);
+				} else {
+					for (const producto of productos) {
+						dispatch(
+							borrarProductoDelPedidoActual({
+								codigoProducto: producto.codigoProducto,
+							})
+						);
+					}
+					mostrarAviso(
+						'success',
+						t('advertencias.productoEliminadoTitulo'),
+						undefined,
+						undefined,
+						'productoEliminado'
 					);
 				}
-				mostrarAviso(
-					'success',
-					t('advertencias.productoEliminadoTitulo'),
-					undefined,
-					undefined,
-					'productoEliminado'
-				);
+			},
+			callbackCancelar: () => {
+				if (esEnValidarPasos)
+					dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
 			},
 			iconoMensaje: <AvisoIcon />,
 		});
 		setAlerta(true);
 
 		return;
-		//}
-
-		//Logica anterior:
-		/*if (
-			validarHayMasProductosMandatorios(
-				productosMandatoriosVisitaActual.mandatorios
-			) ||
-			!validarHayMasProductosNoMandatorios(
-				productosMandatoriosVisitaActual.noMandatorios
-			)
-		) {
-			mostrarAviso(
-				'success',
-				'Productos Borrados',
-				undefined,
-				undefined,
-				'productoEliminado'
-			);
-			if (configuracion.bonificacionesConVenta) {
-				dispatch(restablecerBonificaciones());
-			}
-			for (const producto of productos) {
-				dispatch(
-					borrarProductoDelPedidoActual({
-						codigoProducto: producto.codigoProducto,
-					})
-				);
-			}
-		} else {
-			setConfigAlerta({
-				titulo: 'Se borraran los pedidos de canje',
-				mensaje: t('advertencias.borrarPedidosNoMandatorios', {
-					tipoPedido: pedidoNoMandatorio?.descripcion,
-				}),
-				tituloBotonAceptar: 'Si',
-				tituloBotonCancelar: 'No',
-				callbackAceptar: () => manejadorConfirmarEliminarPedidosNoMandatorios(),
-				iconoMensaje: <AvisoIcon />,
-			});
-			setAlerta((prevState: boolean) => !prevState);
-		}*/
 	}, [productos]);
 
 	return borrarTodoTomaPedido;

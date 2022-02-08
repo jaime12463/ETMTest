@@ -8,7 +8,7 @@ interface Props {
 }
 
 const ModalCore: React.FC<Props> = ({open, borderRadius = false, children}) => {
-	const classes = useEstilos({open, borderRadius});
+	const classes = useEstilos({borderRadius});
 	return (
 		<>
 			{open && (

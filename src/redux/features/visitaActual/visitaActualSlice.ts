@@ -6,6 +6,8 @@ import {
 	TPresupuestoTipoPedidoTotal,
 	TDetalleBonificacionesCliente,
 	TAvisos,
+	TPromoOngoingGrupoBeneficios,
+	TPromoOngoingAplicadas,
 } from 'models';
 
 import {RootState} from 'redux/store';
@@ -23,6 +25,7 @@ const estadoInicial: TVisita = {
 	pasoATomaPedido: false,
 	fechaVisitaPlanificada: '',
 	bonificaciones: [],
+	promosOngoing: [],
 	seQuedaAEditar: {
 		seQueda: false,
 		bordeError: false,
@@ -31,7 +34,10 @@ const estadoInicial: TVisita = {
 	avisos: {
 		limiteCredito: 0,
 		cambiosPasoActual: false,
+		calculoPromociones: false,
+		cambioElPedidoSinPromociones: false,
 	},
+	clienteBloqueado: false,
 };
 
 export const visitaActualSlice = createSlice({
@@ -67,6 +73,7 @@ export const visitaActualSlice = createSlice({
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
 			state.avisos.cambiosPasoActual = true;
+
 			if (producto) {
 				producto.unidades = action.payload.productoPedido.unidades;
 				producto.subUnidades = action.payload.productoPedido.subUnidades;
@@ -77,6 +84,9 @@ export const visitaActualSlice = createSlice({
 				producto.preciosBase = action.payload.productoPedido.preciosBase;
 				producto.preciosNeto = action.payload.productoPedido.preciosNeto;
 				producto.descuento = action.payload.productoPedido.descuento;
+				if (!producto.promoPush && state.tipoPedidoActual === 'venta') {
+					state.avisos.cambioElPedidoSinPromociones = true;
+				}
 			} else {
 				state.pedidos[state.tipoPedidoActual].productos = [
 					action.payload.productoPedido,
@@ -124,6 +134,14 @@ export const visitaActualSlice = createSlice({
 				);
 			}
 		},
+		agregarBeneficiosPromoOngoing: (
+			state,
+			action: PayloadAction<{
+				beneficios: TPromoOngoingAplicadas[];
+			}>
+		) => {
+			state.promosOngoing = action.payload.beneficios;
+		},
 
 		borrarProductoDelPedidoActual: (
 			state,
@@ -133,12 +151,17 @@ export const visitaActualSlice = createSlice({
 			}>
 		) => {
 			let pedidoActual = '';
+
 			if (action.payload.codigoTipoPedidoActual) {
 				pedidoActual = action.payload.codigoTipoPedidoActual;
 			} else {
 				pedidoActual = state.tipoPedidoActual;
 			}
 			if (!pedidoActual) return;
+			const producto = state.pedidos[pedidoActual].productos.find(
+				(producto) => action.payload.codigoProducto === producto.codigoProducto
+			);
+
 			const productosPedidoClienteFiltrados = state.pedidos[
 				pedidoActual
 			].productos.filter(
@@ -149,6 +172,17 @@ export const visitaActualSlice = createSlice({
 			state.pedidos[pedidoActual].productos = [
 				...productosPedidoClienteFiltrados,
 			];
+
+			if (!producto?.promoPush && pedidoActual == 'venta') {
+				// Esto es para mostrar tooltip de cambios, si se borro un producto de venta con unidades/subunidades mayores a 0
+				if (
+					(producto && producto?.unidades > 0) ||
+					(producto && producto?.subUnidades > 0)
+				) {
+					state.avisos.cambioElPedidoSinPromociones = true;
+				}
+			}
+
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
 		},
@@ -199,6 +233,7 @@ export const visitaActualSlice = createSlice({
 			};
 			state.fechaVisitaPlanificada = fechaVisitaPlanificada;
 			state.envasesConError = envasesConError;
+			state.clienteBloqueado = false;
 		},
 
 		resetearVisitaActual: (state) => {
@@ -217,6 +252,7 @@ export const visitaActualSlice = createSlice({
 				bordeError: false,
 			};
 			state.bonificaciones = [];
+			state.clienteBloqueado = false;
 		},
 
 		borrarDescuentoDelProducto: (
@@ -254,6 +290,12 @@ export const visitaActualSlice = createSlice({
 				(precioProducto: TProductoPedido) =>
 					precioProducto.codigoProducto === action.payload.codigoProducto
 			);
+			if (
+				!state.pedidos[state.tipoPedidoActual].productos[indexProductoPedido]
+					.promoPush
+			) {
+				state.avisos.cambioElPedidoSinPromociones = true;
+			}
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
 			state.pedidos[state.tipoPedidoActual].productos[
@@ -269,6 +311,9 @@ export const visitaActualSlice = createSlice({
 			state.pedidos.prestamoenvase.productos = [];
 			state.pedidos[state.tipoPedidoActual].productos.forEach(
 				(producto: TProductoPedido) => {
+					if (!producto.promoPush) {
+						state.avisos.cambioElPedidoSinPromociones = true;
+					}
 					producto.tipoPago = action.payload.tipoPago;
 				}
 			);
@@ -505,6 +550,9 @@ export const visitaActualSlice = createSlice({
 		restablecerEnvasesConError: (state) => {
 			state.envasesConError = 0;
 		},
+		activarClienteBloqueado: (state) => {
+			state.clienteBloqueado = true;
+		},
 	},
 });
 
@@ -541,5 +589,7 @@ export const {
 	modificarEnvasesConError,
 	restablecerEnvasesConError,
 	cambiarAvisos,
+	activarClienteBloqueado,
+	agregarBeneficiosPromoOngoing,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

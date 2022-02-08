@@ -71,14 +71,14 @@ export const useValidarCierreVisitaCliente = () => {
 		retornoValidacion = validarDatosCliente(datosCliente);
 		if (!retornoValidacion.esValido) return retornoValidacion;
 
-		retornoValidacion = validarSiExcedeElMontoMinimo(
+		/*retornoValidacion = validarSiExcedeElMontoMinimo(
 			datosCliente,
 			totalPedidosVisitaActual.totalPrecio +
 				totalContadoPedidosClienteMismaFechaEntrega +
 				totalCreditoPedidosClienteMismaFechaEntrega
 		);
 
-		if (!retornoValidacion.esValido) return retornoValidacion;
+		if (!retornoValidacion.esValido) return retornoValidacion;*/
 
 		retornoValidacion = validarSiExcedeAlMaximoContado(
 			datosCliente?.configuracionPedido.ventaContadoMaxima

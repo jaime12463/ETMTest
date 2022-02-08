@@ -27,7 +27,7 @@ export const Otros: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
 	const {t} = useTranslation();
 	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
-	const {tipoPagoActual} = useObtenerClienteActual();
+	const {condicion} = useObtenerClienteActual();
 	const visitaActual = useObtenerVisitaActual();
 
 	const {canje, ventaenvase, prestamoenvase} = visitaActual.pedidos;
@@ -151,6 +151,13 @@ export const Otros: React.FC = () => {
 				setExpandido={setExpandido}
 				valido={envasesValido}
 				dataCy='Envases'
+				disabled={visitaActual.clienteBloqueado}
+				mensaje={
+					<Typography color='primary' variant='subtitle3'>
+						{/*ToDo: pasar a multilenguaje */}
+						El pedido no cuenta con envases
+					</Typography>
+				}
 			>
 				<EnvasesRetornables />
 			</TarjetaColapsable>
@@ -172,13 +179,16 @@ export const Otros: React.FC = () => {
 						: undefined
 				}
 				disabled={
+					visitaActual.clienteBloqueado ||
 					!habilitaCanje ||
 					(saldoPresupuestoTipoPedido && saldoPresupuestoTipoPedido < 1) ||
 					productosMandatoriosVisitaActual.mandatorios.length < 1
 				}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
-						{t('titulos.canjesDeshabilitadas')}
+						{visitaActual.clienteBloqueado
+							? 'Sin disponibilidad de canje'
+							: t('titulos.canjesDeshabilitadas')}
 					</Typography>
 				}
 				labelChip={`${cantidadCanjes.length} Items`}
@@ -230,7 +240,7 @@ export const Otros: React.FC = () => {
 			>
 				<Bonificaciones bonificacionValida={bonificacionValida} />
 			</TarjetaColapsable>
-			{tipoPagoActual ? (
+			{condicion !== 'contado' ? (
 				<TarjetaColapsable
 					titulo={
 						<Typography variant={'subtitle2'}>

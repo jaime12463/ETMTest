@@ -1,23 +1,20 @@
-import {TarjetaColapsable} from 'components/UI';
-import {FunctionComponent, useState} from 'react';
-import {TProductoPedido, ETiposDePago} from 'models';
-import {Stack, Typography} from '@mui/material';
+import {FunctionComponent} from 'react';
+import {TProductoPedido} from 'models';
+import {Stack} from '@mui/material';
 import {TConsolidadoImplicitos} from 'models';
-import {useObtenerConsolidacionImplicitos} from './hooks';
+import {
+	useCalcularEnvasesDeObsequios,
+	useObtenerConsolidacionImplicitos,
+} from './hooks';
 import {useObtenerVisitaActual, useObtenerConfiguracion} from 'redux/hooks';
 import TarjetaEnvasesRetornables from '../TarjetaEnvasesRetornables';
-import {borrarProductosDeVisitaActual} from 'redux/features/visitaActual/visitaActualSlice';
 import Box from '@mui/material/Box';
 
-type Props = {};
-
-const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
-	const [expandido, setExpandido] = useState<string | boolean>(false);
-
+const ContenedorEnvasesRetornables: FunctionComponent = () => {
 	const visitaActual = useObtenerVisitaActual();
-
 	const {tipoPedidos} = useObtenerConfiguracion();
 	const obtenerConsolidacionImplicitos = useObtenerConsolidacionImplicitos();
+	const calcularEnvasesDeObsequios = useCalcularEnvasesDeObsequios();
 
 	let pedidosArray: TProductoPedido[] = [];
 	let esGeneraEnvases = false;
@@ -34,6 +31,8 @@ const ContenedorEnvasesRetornables: FunctionComponent<Props> = (props) => {
 
 		if (esGeneraEnvases) pedidosArray = pedidosArray.concat(pedido.productos);
 	});
+
+	pedidosArray = pedidosArray.concat(calcularEnvasesDeObsequios());
 
 	const consolidacionImplicitos: TConsolidadoImplicitos[] =
 		obtenerConsolidacionImplicitos(pedidosArray).sort((a, b) =>

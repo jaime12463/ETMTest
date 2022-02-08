@@ -131,12 +131,10 @@ export const TarjetaVistaPromoPush = (props: any) => {
 							fontFamily='Open Sans'
 							sx={{textDecoration: 'line-through'}}
 						>
-							{t('general.precioUnitario', {
-								precioUnitario: formatearNumero(
-									precioConImpuestoUnidad + descuentoPromoPush,
-									t
-								),
-							})}
+							{`${t('general.precioUnitario')}: ${formatearNumero(
+								precioConImpuestoUnidad + descuentoPromoPush,
+								t
+							)}`}
 						</Typography>
 						<Typography
 							variant='caption'
@@ -146,9 +144,10 @@ export const TarjetaVistaPromoPush = (props: any) => {
 									: theme.palette.secondary.main
 							}
 						>
-							{t('general.ahorras', {
-								ahorras: formatearNumero(descuentoPromoPush, t),
-							})}
+							{`${t('general.ahorras')}: ${formatearNumero(
+								descuentoPromoPush,
+								t
+							)}`}
 						</Typography>
 						<Typography
 							fontFamily='Open Sans'
@@ -313,9 +312,10 @@ export const TarjetaVistaPromoPush = (props: any) => {
 														variant='caption'
 														textAlign='right'
 													>
-														{t('general.ahorras', {
-															ahorras: formatearNumero(el.descuento, t),
-														})}
+														{`${t('general.ahorras')}: ${formatearNumero(
+															el.descuento,
+															t
+														)}`}
 													</Typography>
 												</Box>
 												<Typography variant='subtitle3'>

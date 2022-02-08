@@ -34,7 +34,7 @@ export const Canjes: React.FC<CanjesProps> = ({producto}) => {
 			<Box
 				display='flex'
 				flexDirection='column'
-				flex='2'
+				flex='1'
 				padding='8px 8px 8px 14px'
 			>
 				<Typography variant='subtitle3' fontFamily='Open Sans'>
@@ -74,13 +74,13 @@ export const Canjes: React.FC<CanjesProps> = ({producto}) => {
 			<Box
 				alignItems='center'
 				display='flex'
-				flex='1.5'
+				flexBasis='143px'
 				padding='8px 14px 8px 8px'
 				sx={{background: '#F5F0EF'}}
 			>
 				<Box display='flex' flexDirection='column' gap='4px'>
 					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-						{t('general.motivo')}
+						{`${t('general.motivo')}:`}
 					</Typography>
 					<Typography variant='subtitle3'>
 						{itemCatalogoMotivos[Number(catalogoMotivo) - 1]?.label}

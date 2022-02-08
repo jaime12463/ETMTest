@@ -26,7 +26,7 @@ export const useObtenerTotalPedidosVisitaActual = () => {
 		);
 
 		if (soloMontoMinimo) {
-			pedidosValorizados.filter(
+			pedidosValorizados = pedidosValorizados.filter(
 				(pedido) =>
 					configuracion.tipoPedidos.find(
 						(tipoPedido) => tipoPedido.codigo == pedido.tipoPedido

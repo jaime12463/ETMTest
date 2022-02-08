@@ -67,14 +67,15 @@ const br = {
 		continuar: 'Prosseguir',
 		editar: 'Editar',
 		restablecerCero: 'Redefinir as quantidades para zero',
+		restablecerPromociones: 'Redefinir promoções',
 		resumenDePedido: 'Resumo do pedido',
-		totalContado: 'Total contado:',
-		totalCredito: 'Total crédito:',
-		totalDeAhorro: 'Poupança Total:',
-		totalCargosFinancieros: 'Total de encargos financeiros:',
+		totalContado: 'Total contado',
+		totalCredito: 'Total crédito',
+		totalDeAhorro: 'Poupança Total',
+		totalCargosFinancieros: 'Total de encargos financeiros',
 		productoGratis: 'Produto grátis',
-		precioUnitario: 'P. unitário: {{precioUnitario}}',
-		subTotal: 'Subtotal: {{subTotal}}',
+		precioUnitario: 'P. unitário',
+		subTotal: 'Subtotal',
 		cadaUno: 'Cada um',
 		paquetes: 'Pacotes',
 		ahorras: 'Poupança: {{ahorras}}',
@@ -89,6 +90,9 @@ const br = {
 		motivoCancelacion: 'Motivo de cancelamento',
 		promocionesAplicadas: 'Promoções aplicadas',
 		aplicacionMaxima: 'Aplicação máxima',
+		aplicar: 'Aplicar',
+		promocionAutomatica: 'Promoção automática',
+		obsequio: 'Presente',
 	},
 	simbolos: {
 		decimal: '.',
@@ -212,6 +216,11 @@ const br = {
 		limiteDeCreditoExcedidoMensaje:
 			'Este cliente excedeu seu limite de crédito, portanto, não será possível fazer pedidos a crédito.',
 		productoIngresado: 'O produto foi introduzido com sucesso',
+		cambiosGuardadosConPromo:
+			'As promoções automáticas foram calculadas e aplicadas',
+	},
+	tooltip: {
+		cambioPromocion: 'As promoções disponíveis podem ter mudado.',
 	},
 };
 export default br;

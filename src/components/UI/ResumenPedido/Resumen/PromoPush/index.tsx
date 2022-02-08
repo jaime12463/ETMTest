@@ -59,22 +59,18 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 							marginTop='4px'
 						>
 							<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
-								{t('general.precioUnitario', {
-									precioUnitario: formatearNumero(
-										promocion.precioConImpuestoUnidad,
-										t
-									),
-								})}
+								{`${t('general.precioUnitario')}: ${formatearNumero(
+									promocion.precioConImpuestoUnidad,
+									t
+								)}`}
 							</Typography>
 						</Box>
 						<Box display='flex' justifyContent='end'>
 							<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
-								{t('general.ahorroTotal', {
-									ahorroTotal: formatearNumero(
-										promocion.descuentoPromoPush ?? 0,
-										t
-									),
-								})}
+								{`${t('general.ahorroTotal')}: ${formatearNumero(
+									promocion.descuentoPromoPush ?? 0,
+									t
+								)}`}
 							</Typography>
 						</Box>
 						<Box alignItems='center' display='flex' justifyContent='end'>
@@ -84,18 +80,19 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 								sx={{background: theme.palette.primary.main}}
 								color='#fff'
 								padding='2px 12px'
-								borderRadius={9999}
+								borderRadius='50px'
 							>
-								{t('general.subTotal', {
-									subTotal: formatearNumero(promocion.total, t),
-								})}
+								{`${t('general.subTotal')}: ${formatearNumero(
+									promocion.total,
+									t
+								)}`}
 							</Typography>
 						</Box>
 					</Box>
 				</Box>
 			</Box>
 			<Box display='flex' flexDirection='row'>
-				<Box flex='2' padding='8px 14px 12px 14px'>
+				<Box flex='1' padding='8px 14px 12px 14px'>
 					<Typography
 						fontSize='12px'
 						lineHeight='14px'
@@ -107,7 +104,11 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 						{`${t('general.paquetes')} ${t('general.cadaUno')}`}
 					</Typography>
 				</Box>
-				<Box flex='1.5' sx={{background: '#F5F0EF'}} padding='8px 14px' />
+				<Box
+					flexBasis='143px'
+					sx={{background: '#F5F0EF'}}
+					padding='8px 14px'
+				/>
 			</Box>
 			<Box>
 				{promocion.componentes?.map((componente, index) => {
@@ -117,7 +118,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 								<Box
 									display='flex'
 									flexDirection='column'
-									flex='2'
+									flex='1'
 									padding='6px 14px'
 								>
 									<Typography variant='subtitle3' fontFamily='Open Sans'>
@@ -149,7 +150,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 								<Box
 									display='flex'
 									flexDirection='column'
-									flex='1.5'
+									flexBasis='143px'
 									padding='6px 14px'
 									sx={{background: '#F5F0EF'}}
 								>
@@ -181,27 +182,23 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 											{formatearNumero(componente.precioBase, t)}
 										</Typography>
 									</Box>
-									<Box
-										display='flex'
-										gap='4px'
-										justifyContent='end'
-										marginBottom='12px'
-									>
+									<Box display='flex' justifyContent='end' marginBottom='12px'>
 										<Typography
 											variant='caption'
 											color={theme.palette.primary.main}
 										>
-											{t('general.ahorras', {
-												ahorras: formatearNumero(componente.descuento, t),
-											})}
+											{`${t('general.ahorras')}: ${formatearNumero(
+												componente.descuento,
+												t
+											)}`}
 										</Typography>
 									</Box>
-									<Box display='flex' gap='4px' justifyContent='end'>
+									<Box display='flex' justifyContent='end'>
 										<Typography variant='subtitle3' color='#000'>
-											{t('general.total')}
-										</Typography>
-										<Typography variant='subtitle3' color='#000'>
-											{formatearNumero(componente.descuento, t)}
+											{`${t('general.total')}: ${formatearNumero(
+												componente.descuento,
+												t
+											)}`}
 										</Typography>
 									</Box>
 								</Box>
