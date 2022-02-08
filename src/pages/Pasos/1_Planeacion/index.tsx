@@ -142,7 +142,6 @@ export const Planeacion: React.FC = () => {
 		const {habilitaCompromisoDeCobro} = configuracion;
 
 		if (esCreditoBloqueado && esCondicionCreditoInformal && !esVentaBloqueado) {
-			console.log('Escenario 1');
 			mostrarAviso(
 				'warning',
 				t('toast.clienteCreditoBloqueadoTitulo'),
@@ -157,7 +156,6 @@ export const Planeacion: React.FC = () => {
 			esCondicionCreditoFormal &&
 			habilitaCompromisoDeCobro
 		) {
-			console.log('Escenario 2');
 			mostrarAviso(
 				'error',
 				t('toast.ventaBloqueadaTitulo'),
@@ -174,7 +172,6 @@ export const Planeacion: React.FC = () => {
 			esVentaBloqueado &&
 			habilitaCompromisoDeCobro
 		) {
-			console.log('Escenario 3');
 			mostrarAviso(
 				'error',
 				t('toast.ventaBloqueadaTitulo'),
@@ -190,7 +187,6 @@ export const Planeacion: React.FC = () => {
 			esCondicionCreditoFormal &&
 			!habilitaCompromisoDeCobro
 		) {
-			console.log('Escenario 4');
 			setConfigAlerta({
 				titulo: t('toast.clienteBloqueadoTitulo'),
 				mensaje: t('toast.clienteBloqueadoMensaje'),
@@ -199,7 +195,7 @@ export const Planeacion: React.FC = () => {
 					reiniciarVisita();
 					reiniciarCompromisoDeCobro();
 					reiniciarClienteActual();
-					history.goBack();
+					history.push('/clientes');
 				},
 				iconoMensaje: <AvisoIcon />,
 			});
@@ -213,7 +209,6 @@ export const Planeacion: React.FC = () => {
 			esVentaBloqueado &&
 			!habilitaCompromisoDeCobro
 		) {
-			console.log('Escenario 5');
 			setConfigAlerta({
 				titulo: t('toast.clienteBloqueadoTitulo'),
 				mensaje: t('toast.clienteBloqueadoMensaje'),
@@ -222,7 +217,7 @@ export const Planeacion: React.FC = () => {
 					reiniciarVisita();
 					reiniciarCompromisoDeCobro();
 					reiniciarClienteActual();
-					history.goBack();
+					history.push('/clientes');
 				},
 				iconoMensaje: <AvisoIcon />,
 			});

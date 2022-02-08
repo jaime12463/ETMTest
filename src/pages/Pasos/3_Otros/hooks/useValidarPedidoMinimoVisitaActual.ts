@@ -10,12 +10,16 @@ export const useValidarPedidoMinimoVisitaActual = () => {
 	const pedidosContribuyeAlMinimo = obtenerTiposPedidoSegunConfiguracion();
 	const visitaActual = useObtenerVisitaActual();
 
-	const validarPedidoMinimoVisitaActual = useCallback((): boolean => {
+	let pedidoContribuye = false;
+
+	const validarPedidoMinimoVisitaActual = useCallback(() => {
 		pedidosContribuyeAlMinimo.forEach((tipoPedido) => {
-			if (visitaActual.pedidos[tipoPedido].productos.length > 0) return true;
+			if (visitaActual.pedidos[tipoPedido].productos.length > 0)
+				pedidoContribuye = true;
 		});
 
-		return false;
+		return pedidoContribuye;
 	}, [visitaActual.pedidos]);
+
 	return validarPedidoMinimoVisitaActual;
 };

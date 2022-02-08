@@ -233,7 +233,7 @@ const Pasos: React.FC = () => {
 							reiniciarVisita();
 							reiniciarCompromisoDeCobro();
 							reiniciarClienteActual();
-							history.goBack();
+							history.push('/clientes');
 						},
 						iconoMensaje: <AvisoIcon />,
 					});
