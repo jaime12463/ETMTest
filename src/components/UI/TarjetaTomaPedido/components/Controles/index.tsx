@@ -323,7 +323,7 @@ const Controles: React.FC<Props> = ({
 								setFocusId(producto.codigoProducto);
 							}}
 							onFocus={(e) => e.target.select()}
-							// onBlur={validacionSubUnidades}
+							onBlur={validacionSubUnidades}
 							inputProps={{
 								style: {textAlign: 'center'},
 								inputMode: 'numeric',
