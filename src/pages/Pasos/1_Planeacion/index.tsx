@@ -199,7 +199,7 @@ export const Planeacion: React.FC = () => {
 					reiniciarVisita();
 					reiniciarCompromisoDeCobro();
 					reiniciarClienteActual();
-					history.goBack();
+					history.push('/clientes');
 				},
 				iconoMensaje: <AvisoIcon />,
 			});
@@ -222,7 +222,7 @@ export const Planeacion: React.FC = () => {
 					reiniciarVisita();
 					reiniciarCompromisoDeCobro();
 					reiniciarClienteActual();
-					history.goBack();
+					history.push('/clientes');
 				},
 				iconoMensaje: <AvisoIcon />,
 			});

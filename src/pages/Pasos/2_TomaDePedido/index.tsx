@@ -65,10 +65,10 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 		} else {
 			setPromocionesValida(false);
 		}
-		return () => {
+		/* 		return () => {
 			setVentaValida(false);
 			setPromocionesValida(false);
-		};
+		}; */
 	}, [venta?.productos]);
 
 	return (
