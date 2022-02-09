@@ -385,7 +385,7 @@ const Pasos: React.FC = () => {
 							pasos={pasos.map(
 								(paso: TControlador, index) => `${index + 1}. ${t(paso.titulo)}`
 							)}
-							pasoActivo={pasoActual}
+							pasoActivo={ (pasoActual === 2 && visitaActual.clienteBloqueado) ? 0 : pasoActual}
 						/>
 					</Box>
 
