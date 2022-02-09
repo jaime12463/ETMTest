@@ -30,7 +30,6 @@ Escenario: N°2 - El cliente es de condición formal y con credito bloqueado
     | _habilitaCompromisoDeCobro|_esVentaBloqueado|_bonificacionesConVenta|
     |       true                |     false       |         false         |
     |       true                |     false       |         true          |
-    |       false               |     false       |         true          |
      
     Y estamos en planeación con las tarjetas que no se pueden desplegar
     Y se muestran con los subtitulos en rojo
@@ -43,7 +42,6 @@ Escenario: N°2 - El cliente es de condición formal y con credito bloqueado
     |habilitadoIngresoCompromisoCobro|habilitadoTarjetaBonificaciones  |
     |     habilitado el ingreso      |  habilitada las bonificaciones  |
     |     habilitado el ingreso      | no habilitada las bonificaciones|
-    |   no habilitado el ingreso     |  habilitada las bonificaciones  |  
 
 
 Escenario: N°3 - El cliente es de condición informal y con credito bloqueado y con venta bloqueada
@@ -52,7 +50,6 @@ Escenario: N°3 - El cliente es de condición informal y con credito bloqueado y
     | _habilitaCompromisoDeCobro|_esVentaBloqueado|_bonificacionesConVenta|
     |       true                |     true        |         false         |
     |       true                |     true        |         true          |
-    |       false               |     true        |         true          |
     
     Y estamos en planeación con las tarjetas que no se puede desplegar
     Y se muestran con los subtitulos en rojo
@@ -65,7 +62,6 @@ Escenario: N°3 - El cliente es de condición informal y con credito bloqueado y
     |habilitadoIngresoCompromisoCobro|habilitadoTarjetaBonificaciones  |
     |     habilitado el ingreso      |  habilitada las bonificaciones  |
     |     habilitado el ingreso      | no habilitada las bonificaciones|
-    |   no habilitado el ingreso     |  habilitada las bonificaciones  | 
 
 Escenario: N°4 - El cliente es de condicion formal y con credito bloqueado y deshabilitado compromiso de cobro
     Dado que el cliente que se ingresó tiene _condicion = "creditoFormal"
