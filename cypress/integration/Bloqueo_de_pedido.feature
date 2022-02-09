@@ -25,8 +25,13 @@ Escenario: N°1 - El cliente es de condición informal y no tiene venta bloquead
 # se registrará con condición de pago contado
 
 Escenario: N°2 - El cliente es de condición formal y con credito bloqueado
-    Dado que el cliente que se ingresó tiene _condicion = "creditoFormal"
-    Y la ruta posee _habilitaCompromisoDeCobro = true
+    Dado que el cliente tiene _condicion = "creditoFormal"
+    Y tiene
+    | _habilitaCompromisoDeCobro|_esVentaBloqueado|_bonificacionesConVenta|
+    |       true                |     false       |         false         |
+    |       true                |     false       |         true          |
+    |       false               |     false       |         true          |
+     
     Y estamos en planeación con las tarjetas que no se pueden desplegar
     Y se muestran con los subtitulos en rojo
     Cuando cerramos el mensaje de crédito bloqueado
@@ -34,13 +39,21 @@ Escenario: N°2 - El cliente es de condición formal y con credito bloqueado
     Entonces el sistema mostrará el aviso para continuar o para salir
     Y si avanza avanzará al paso 3 - Otros
     Y mostrará los pasos 3 y 4 únicamente
-    Y mostrará habilitada únicamente la tarjeta de compromiso de cobro
-    Y si la ruta posee _bonificacionesConVenta = false, mostrará habilitada la tarjeta de bonificaciones
+    Y mostrará 
+    |habilitadoIngresoCompromisoCobro|habilitadoTarjetaBonificaciones  |
+    |     habilitado el ingreso      |  habilitada las bonificaciones  |
+    |     habilitado el ingreso      | no habilitada las bonificaciones|
+    |   no habilitado el ingreso     |  habilitada las bonificaciones  |  
+
 
 Escenario: N°3 - El cliente es de condición informal y con credito bloqueado y con venta bloqueada
     Dado que el cliente que se ingresó tiene _condicion = "creditoInformal"
-    Y tiene _esVentaBloqueado = true
-    Y la ruta posee _habilitaCompromisoDeCobro = true
+    Y tiene
+    | _habilitaCompromisoDeCobro|_esVentaBloqueado|_bonificacionesConVenta|
+    |       true                |     true        |         false         |
+    |       true                |     true        |         true          |
+    |       false               |     true        |         true          |
+    
     Y estamos en planeación con las tarjetas que no se puede desplegar
     Y se muestran con los subtitulos en rojo
     Cuando cerramos el mensaje de crédito bloqueado
@@ -48,8 +61,11 @@ Escenario: N°3 - El cliente es de condición informal y con credito bloqueado y
     Entonces el sistema mostrará el aviso para continuar o para salir
     Y si avanza avanzará al paso 3 - Otros
     Y mostrará los pasos 3 y 4 únicamente
-    Y mostrará habilitada únicamente la tarjeta de compromiso de cobro
-    Y si la ruta posee _bonificacionesConVenta = false, mostrará habilitada la tarjeta de bonificaciones
+    Y mostrará 
+    |habilitadoIngresoCompromisoCobro|habilitadoTarjetaBonificaciones  |
+    |     habilitado el ingreso      |  habilitada las bonificaciones  |
+    |     habilitado el ingreso      | no habilitada las bonificaciones|
+    |   no habilitado el ingreso     |  habilitada las bonificaciones  | 
 
 Escenario: N°4 - El cliente es de condicion formal y con credito bloqueado y deshabilitado compromiso de cobro
     Dado que el cliente que se ingresó tiene _condicion = "creditoFormal"

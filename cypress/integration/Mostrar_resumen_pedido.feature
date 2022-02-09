@@ -109,3 +109,14 @@ Escenario: N°11 - Sección obsequios promo ongoing
     Y mostrará el tag producto gratis
     Y mostrará como detalle el _codigoProducto, _nombre, _atributos, _unidadMedida, cantidad obtenida
     Y mostrará el detalle ordenado por _codigoProducto
+
+Escenario: N°12 - Sección obsequios promo ongoing
+    Dado que se obtuvieron productos obsequios por promociones ongoing
+    Cuando selecciono ver resumen del pedido
+    Entonces el sistema mostrará dentro de la condición de pago de la promoción como cabecera el _promocionID
+    Y mostrará _descripcion de la promoción ordenados por _promocionID
+    Y mostrará el tag producto gratis
+    Y mostrará como detalle el _codigoProducto, _nombre, _atributos, icono de promocion, cantidad obtenida
+    Y mostrará el detalle ordenado por _codigoProducto
+
+# icono de promocion cambiaría por _unidadMedida 
