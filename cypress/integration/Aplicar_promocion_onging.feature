@@ -15,3 +15,6 @@ Escenario: N°1 - Aplicar promociones ongoing con beneficio default
     Y otorgará el beneficio default calculado para la promoción seleccionada
     Y recalculará las promociones manuales para la condición de pago que corresponda
     Y mostrará la pantalla de promociones según mostrar promociones ongoing
+
+    #el calculo de promociones ya marca las promociones manuales que cumplen requisito pero 
+    # no se pueden aplicar por haber otorgado otra promocion.
