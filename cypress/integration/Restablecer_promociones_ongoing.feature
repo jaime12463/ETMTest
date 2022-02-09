@@ -15,6 +15,7 @@ Esquema del escenario: N°1 - Restablecer promociones de condición de pago
     Y restablecerá los productos del pedido afectados por las promociónes manuales
     Y recalculará las promociones manuales para la condición de pago '<condicionDePago>'
     Y actualizará la pantalla de promociones ongoing según mostrar promociones ongoing
+    Y recalculará los envases para retorno según calcular envases retornables.
 
 Ejemplos:
 |condicionDePago|
