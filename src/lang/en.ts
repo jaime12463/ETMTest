@@ -51,6 +51,9 @@ const en = {
 		agregarOrdenDeCompra: 'Add Purchase Order?',
 		deseaAgregarOrdenDeCompra: 'Do you want to associate a purchase order?',
 		agregarProductoSKU: 'Enter product',
+		buscarProducto: 'Search for a product',
+		busquedaVacia: 'Type to search for a SKU or filter by category',
+		catalogoDeProductos: 'Product Catalog',
 		continuarA: 'Continue to  ',
 		numeroOrdenDeCompra: 'Purchase order number',
 		limiteDeCredito: 'Credit limit',
@@ -100,6 +103,8 @@ const en = {
 		promocionAutomatica: 'Automatic promotion',
 		obsequio: 'Gift',
 		finalizarVisita: 'End visit',
+		agregar: 'Add',
+		borrarTodo: 'Delete all',
 	},
 	simbolos: {
 		decimal: ',',

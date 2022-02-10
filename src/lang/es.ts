@@ -51,6 +51,9 @@ const es = {
 		agregarOrdenDeCompra: '¿Agregar Orden Compra?',
 		deseaAgregarOrdenDeCompra: '¿Desea asociar una orden de compra?',
 		agregarProductoSKU: 'Ingresar producto',
+		buscarProducto: 'Buscar un producto',
+		busquedaVacia: 'Escribe para buscar un SKU o filtra por categoría',
+		catalogoDeProductos: 'Catálogo de productos',
 		continuarA: 'Continuar a ',
 		numeroOrdenDeCompra: 'Número de orden de compra',
 		limiteDeCredito: 'Límite de crédito',
@@ -100,6 +103,8 @@ const es = {
 		promocionAutomatica: 'Promoción automática',
 		obsequio: 'Obsequio',
 		finalizarVisita: 'Finalizar visita',
+		agregar: 'Agregar',
+		borrarTodo: 'Borrar todo',
 	},
 	simbolos: {
 		decimal: '.',
