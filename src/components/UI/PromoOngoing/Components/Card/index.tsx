@@ -8,6 +8,7 @@ import {useTranslation} from 'react-i18next';
 import {TPromoOngoing, TPromoOngoingAplicadas} from 'models';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
+import {TProductosUsadosEnOtrasPromos} from 'utils/procesos/promociones';
 
 export interface CardProps {
 	promocionAutomatica?: boolean;
@@ -15,6 +16,7 @@ export interface CardProps {
 	soloLectura?: boolean;
 	beneficiosPararAgregar?: TPromoOngoingAplicadas;
 	promocion: TPromoOngoing;
+	promosSimilares?: TProductosUsadosEnOtrasPromos;
 	borroPromociones?: {
 		credito: boolean;
 		contado: boolean;
@@ -35,13 +37,24 @@ export const Card: React.VFC<CardProps> = ({
 	borroPromociones,
 	tipo,
 	setBorroPromociones,
+	promosSimilares,
 }) => {
 	const [mostrarCheck, setMostrarCheck] = React.useState<boolean>(false);
 	const [bordeColor, setBordeColor] = React.useState<string>('#D9D9D9');
+	const [esPromoSimilar, setEsPromoSimilar] = React.useState<boolean>(false);
 	const {t} = useTranslation();
 	const {descripcion, promocionID} = promocion;
 	const dispatch = useAppDispatch();
 	const visitaActual = useObtenerVisitaActual();
+
+	React.useEffect(() => {
+		if (promosSimilares) {
+			console.log(promosSimilares);
+			let hayPromosSimilar = visitaActual.promosOngoing.find((promo) => {
+				let promoSimilar = Object.values(promosSimilares);
+			});
+		}
+	}, [visitaActual.promosOngoing]);
 
 	React.useEffect(() => {
 		if (!promocionAutomatica) {

@@ -54,6 +54,7 @@ import {
 	obtenerlistaPromocionesVigentes,
 	obtenerPromocionesOngoingTotal,
 	TPromoOngoingAplicables,
+	TPromoOngoingAplicablesResultado,
 } from 'utils/procesos/promociones';
 
 const formatearItems = (items: number) => {
@@ -251,13 +252,13 @@ const Pasos: React.FC = () => {
 				}
 				if (pasoActual === 1) {
 					let promociones: {
-						contado: TPromoOngoingAplicables[];
-						credito: TPromoOngoingAplicables[];
+						contado: TPromoOngoingAplicablesResultado;
+						credito: TPromoOngoingAplicablesResultado;
 						noAplicable: TPromoOngoing[];
 						benficiosParaAgregar: TPromoOngoingAplicadas[];
 					} = {
-						contado: [],
-						credito: [],
+						contado: {promosAplicables: [], indiceProductosxPromosManuales: []},
+						credito: {promosAplicables: [], indiceProductosxPromosManuales: []},
 						noAplicable: [],
 						benficiosParaAgregar: [],
 					};

@@ -8,11 +8,17 @@ import {useTranslation} from 'react-i18next';
 import {useAppDispatch} from 'redux/hooks';
 import {borrarPromocionesOngoing} from 'redux/features/visitaActual/visitaActualSlice';
 import React from 'react';
+import {TPromoOngoingAplicablesResultado} from 'utils/procesos/promociones';
 
 export interface Props {
 	openDrawerPromociones: boolean;
 	setOpenDrawerPromociones: React.Dispatch<React.SetStateAction<boolean>>;
-	promocionesOingoing: any;
+	promocionesOingoing: {
+		contado: TPromoOngoingAplicablesResultado;
+		credito: TPromoOngoingAplicablesResultado;
+		noAplicable: TPromoOngoing[];
+		benficiosParaAgregar: TPromoOngoingAplicadas[];
+	};
 }
 
 export const DrawerPromociones: React.FC<Props> = ({
@@ -64,49 +70,59 @@ export const DrawerPromociones: React.FC<Props> = ({
 			}
 		>
 			<Box display='flex' flexDirection='column' gap='16px'>
-				{promocionesOingoing?.credito?.length > 0 && (
+				{promocionesOingoing?.credito?.promosAplicables.length > 0 && (
 					<PromoOngoing.Container
 						tipo='credito'
 						onClick={() => restablecerPromociones('Credito')}
 					>
 						<PromoOngoing.CardsContainer>
-							{promocionesOingoing?.credito?.map((promocion: TPromoOngoing) => (
-								<PromoOngoing.Card
-									key={promocion.promocionID}
-									tipo='credito'
-									promocion={promocion}
-									promocionAutomatica={promocion.aplicacion === 'A'}
-									borroPromociones={borroPromociones}
-									setBorroPromociones={setBorroPromociones}
-									beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
-										(promo: TPromoOngoingAplicadas) =>
-											promo.promocionID === promocion.promocionID
-									)}
-								/>
-							))}
+							{promocionesOingoing?.credito?.promosAplicables.map(
+								(promocion: TPromoOngoing) => (
+									<PromoOngoing.Card
+										key={promocion.promocionID}
+										promosSimilares={
+											promocionesOingoing.credito.indiceProductosxPromosManuales
+										}
+										tipo='credito'
+										promocion={promocion}
+										promocionAutomatica={promocion.aplicacion === 'A'}
+										borroPromociones={borroPromociones}
+										setBorroPromociones={setBorroPromociones}
+										beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
+											(promo: TPromoOngoingAplicadas) =>
+												promo.promocionID === promocion.promocionID
+										)}
+									/>
+								)
+							)}
 						</PromoOngoing.CardsContainer>
 					</PromoOngoing.Container>
 				)}
-				{promocionesOingoing?.contado?.length > 0 && (
+				{promocionesOingoing?.contado?.promosAplicables.length > 0 && (
 					<PromoOngoing.Container
 						tipo='contado'
 						onClick={() => restablecerPromociones('Contado')}
 					>
 						<PromoOngoing.CardsContainer>
-							{promocionesOingoing?.contado?.map((promocion: TPromoOngoing) => (
-								<PromoOngoing.Card
-									key={promocion.promocionID}
-									tipo='contado'
-									promocion={promocion}
-									promocionAutomatica={promocion.aplicacion === 'A'}
-									borroPromociones={borroPromociones}
-									setBorroPromociones={setBorroPromociones}
-									beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
-										(promo: TPromoOngoingAplicadas) =>
-											promo.promocionID === promocion.promocionID
-									)}
-								/>
-							))}
+							{promocionesOingoing?.contado?.promosAplicables.map(
+								(promocion: TPromoOngoing) => (
+									<PromoOngoing.Card
+										key={promocion.promocionID}
+										promosSimilares={
+											promocionesOingoing.contado.indiceProductosxPromosManuales
+										}
+										tipo='contado'
+										promocion={promocion}
+										promocionAutomatica={promocion.aplicacion === 'A'}
+										borroPromociones={borroPromociones}
+										setBorroPromociones={setBorroPromociones}
+										beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
+											(promo: TPromoOngoingAplicadas) =>
+												promo.promocionID === promocion.promocionID
+										)}
+									/>
+								)
+							)}
 						</PromoOngoing.CardsContainer>
 					</PromoOngoing.Container>
 				)}

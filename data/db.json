@@ -462,26 +462,54 @@
 			},
 			"visitasPlanificadas": [
 				{
-					"dia": "2021-06-08",
+					"dia": "2022-01-28",
 					"secuencia": 3
 				},
 				{
-					"dia": "2021-06-11",
+					"dia": "2022-01-31",
 					"secuencia": 5
+				},
+				{
+					"dia": "2022-02-01",
+					"secuencia": 6
+				},
+				{
+					"dia": "2022-02-02",
+					"secuencia": 7
+				},
+				{
+					"dia": "2022-02-03",
+					"secuencia": 8
+				},
+				{
+					"dia": "2022-02-04",
+					"secuencia": 9
 				}
 			],
 			"fechasEntrega": [
 				{
-					"fechaVisita": "2021-06-09",
-					"fechaEntrega": "2021-06-10"
+					"fechaVisita": "2022-01-28",
+					"fechaEntrega": "2022-01-31"
 				},
 				{
-					"fechaVisita": "2021-06-10",
-					"fechaEntrega": "2021-06-11"
+					"fechaVisita": "2022-01-31",
+					"fechaEntrega": "2022-02-01"
 				},
 				{
-					"fechaVisita": "2021-06-11",
-					"fechaEntrega": "2021-06-12"
+					"fechaVisita": "2022-02-01",
+					"fechaEntrega": "2022-02-02"
+				},
+				{
+					"fechaVisita": "2022-02-02",
+					"fechaEntrega": "2022-02-03"
+				},
+				{
+					"fechaVisita": "2022-02-03",
+					"fechaEntrega": "2022-02-04"
+				},
+				{
+					"fechaVisita": "2022-02-04",
+					"fechaEntrega": "2022-02-05"
 				}
 			],
 			"iniciativasHabilitadas": [
@@ -507,10 +535,10 @@
 				}
 			],
 			"informacionCrediticia": {
-				"condicion": "contado",
+				"condicion": "creditoInformal",
 				"limite": 3000,
 				"disponible": 10000,
-				"esCreditoBloqueado": false,
+				"esCreditoBloqueado": true,
 				"esBloqueadoVenta": false,
 				"documentos": [
 					{
@@ -857,34 +885,62 @@
 			},
 			"visitasPlanificadas": [
 				{
-					"dia": "2021-06-08",
+					"dia": "2022-01-28",
 					"secuencia": 3
 				},
 				{
-					"dia": "2021-06-11",
+					"dia": "2022-01-31",
 					"secuencia": 5
+				},
+				{
+					"dia": "2022-02-01",
+					"secuencia": 6
+				},
+				{
+					"dia": "2022-02-02",
+					"secuencia": 7
+				},
+				{
+					"dia": "2022-02-03",
+					"secuencia": 8
+				},
+				{
+					"dia": "2022-02-04",
+					"secuencia": 9
 				}
 			],
 			"fechasEntrega": [
 				{
-					"fechaVisita": "2021-06-09",
-					"fechaEntrega": "2021-06-10"
+					"fechaVisita": "2022-01-28",
+					"fechaEntrega": "2022-01-31"
 				},
 				{
-					"fechaVisita": "2021-06-10",
-					"fechaEntrega": "2021-06-11"
+					"fechaVisita": "2022-01-31",
+					"fechaEntrega": "2022-02-01"
 				},
 				{
-					"fechaVisita": "2021-06-11",
-					"fechaEntrega": "2021-06-12"
+					"fechaVisita": "2022-02-01",
+					"fechaEntrega": "2022-02-02"
+				},
+				{
+					"fechaVisita": "2022-02-02",
+					"fechaEntrega": "2022-02-03"
+				},
+				{
+					"fechaVisita": "2022-02-03",
+					"fechaEntrega": "2022-02-04"
+				},
+				{
+					"fechaVisita": "2022-02-04",
+					"fechaEntrega": "2022-02-05"
 				}
 			],
 			"informacionCrediticia": {
 				"condicion": "creditoFormal",
 				"limite": 3000,
 				"disponible": 10000,
-				"esCreditoBloqueado": false,
-				"esBloqueadoVenta": false,
+				"esCreditoBloqueado": true,
+				"esBloqueadoVenta": true,
 				"documentos": [
 					{
 						"numero": "12123456789",
@@ -2677,7 +2733,7 @@
 			"promocionID": "685218",
 			"descripcion": "558-POLÍTICA HORECAS 1 en 6 Pte",
 			"tipo": "1",
-			"aplicacion": "A",
+			"aplicacion": "M",
 			"asignacion": "T",
 			"inicioVigenciaPromocion": "2022-01-15",
 			"finVigenciaPromocion": "2022-12-31",
@@ -2755,7 +2811,7 @@
 			"finVigenciaPromocion": "2022-12-31",
 			"requisitos": [
 				{
-					"materiales": [353, 354, 360, 386, 389, 440, 513, 97151],
+					"materiales": [353, 354, 360, 386, 389, 440, 513, 97151, 420],
 					"cantidad": 5,
 					"unidadMedida": "Unidad"
 				}
