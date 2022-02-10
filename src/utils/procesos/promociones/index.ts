@@ -235,14 +235,19 @@ const comprometerProductosUsadosEnPromos = (
 	materialesRequisitosVerificados: TPromoOngoingMaterialesRequisitosVerificados[],
 	productosUsadosEnOtrasPromos: TProductosUsadosEnOtrasPromos
 ): TProductosUsadosEnOtrasPromos => {
-	let nuevaListaDeProductosUsadosEnOtrasPromos: TProductosUsadosEnOtrasPromos =
-		{...productosUsadosEnOtrasPromos};
-	materialesRequisitosVerificados.forEach(
-		(requisitoVerificado: TPromoOngoingMaterialesRequisitosVerificados) => {
-			nuevaListaDeProductosUsadosEnOtrasPromos = {
-				...nuevaListaDeProductosUsadosEnOtrasPromos,
-				...requisitoVerificado.lista,
-			};
+	let nuevaListaDeProductosUsadosEnOtrasPromos: TProductosUsadosEnOtrasPromos ={...productosUsadosEnOtrasPromos};
+	materialesRequisitosVerificados.forEach((requisitoVerificado: TPromoOngoingMaterialesRequisitosVerificados) => 
+		{
+			for ( const p in requisitoVerificado.lista)
+			{
+				if (nuevaListaDeProductosUsadosEnOtrasPromos[p])
+				{
+					nuevaListaDeProductosUsadosEnOtrasPromos[p]=[...nuevaListaDeProductosUsadosEnOtrasPromos[p],...requisitoVerificado.lista[p]];
+				}else{
+					nuevaListaDeProductosUsadosEnOtrasPromos[p]=[...requisitoVerificado.lista[p]];
+				}
+			}
+			
 		}
 	);
 	return nuevaListaDeProductosUsadosEnOtrasPromos;
