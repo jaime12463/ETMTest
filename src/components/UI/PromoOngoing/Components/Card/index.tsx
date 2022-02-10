@@ -47,12 +47,22 @@ export const Card: React.VFC<CardProps> = ({
 	const dispatch = useAppDispatch();
 	const visitaActual = useObtenerVisitaActual();
 
+	console.log(promosSimilares);
+
 	React.useEffect(() => {
-		if (promosSimilares) {
-			console.log(promosSimilares);
-			let hayPromosSimilar = visitaActual.promosOngoing.find((promo) => {
-				let promoSimilar = Object.values(promosSimilares);
+		if (promosSimilares && !promocionAutomatica) {
+			let promosSimilatresLista = Object.values(promosSimilares).flat();
+			let PromoSimilar = visitaActual.promosOngoing.find((promo) => {
+				let hayPromoSimilar = promosSimilatresLista.find(
+					(similar) => similar === promo.promocionID
+				);
+				if (hayPromoSimilar) {
+					return promo;
+				}
 			});
+			if (PromoSimilar?.promocionID !== promocionID) {
+				setEsPromoSimilar(true);
+			}
 		}
 	}, [visitaActual.promosOngoing]);
 
@@ -89,7 +99,6 @@ export const Card: React.VFC<CardProps> = ({
 			borroPromociones[tipo] &&
 			setBorroPromociones
 		) {
-			console.log('entro');
 			setMostrarCheck(false);
 			setBordeColor('#D9D9D9');
 			setBorroPromociones({...borroPromociones, [tipo]: false});
@@ -134,7 +143,7 @@ export const Card: React.VFC<CardProps> = ({
 							</Typography>
 						</Box>
 					)}
-					{!promocionAutomatica && !mostrarCheck && (
+					{!promocionAutomatica && !mostrarCheck && esPromoSimilar && (
 						<Box display='flex' gap='10px' marginTop='8px'>
 							<IconButton
 								onClick={onClick}
