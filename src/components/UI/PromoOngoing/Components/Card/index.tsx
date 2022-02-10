@@ -41,13 +41,22 @@ export const Card: React.VFC<CardProps> = ({
 }) => {
 	const [mostrarCheck, setMostrarCheck] = React.useState<boolean>(false);
 	const [bordeColor, setBordeColor] = React.useState<string>('#D9D9D9');
+	const [puedeVerBotonera, setPuedeVerBotonera] = React.useState<boolean>(true);
 	const [esPromoSimilar, setEsPromoSimilar] = React.useState<boolean>(false);
 	const {t} = useTranslation();
 	const {descripcion, promocionID} = promocion;
 	const dispatch = useAppDispatch();
 	const visitaActual = useObtenerVisitaActual();
 
-	console.log(promosSimilares);
+	React.useEffect(() => {
+		promocionAutomatica
+			? setPuedeVerBotonera(false)
+			: mostrarCheck
+			? setPuedeVerBotonera(false)
+			: esPromoSimilar
+			? setPuedeVerBotonera(false)
+			: setPuedeVerBotonera(true);
+	}, [promocionAutomatica, mostrarCheck, esPromoSimilar]);
 
 	React.useEffect(() => {
 		if (promosSimilares && !promocionAutomatica) {
@@ -60,7 +69,8 @@ export const Card: React.VFC<CardProps> = ({
 					return promo;
 				}
 			});
-			if (PromoSimilar?.promocionID !== promocionID) {
+
+			if (PromoSimilar && PromoSimilar?.promocionID !== promocionID) {
 				setEsPromoSimilar(true);
 			}
 		}
@@ -102,6 +112,7 @@ export const Card: React.VFC<CardProps> = ({
 			setMostrarCheck(false);
 			setBordeColor('#D9D9D9');
 			setBorroPromociones({...borroPromociones, [tipo]: false});
+			setEsPromoSimilar(false);
 		}
 	}, [borroPromociones]);
 
@@ -143,7 +154,7 @@ export const Card: React.VFC<CardProps> = ({
 							</Typography>
 						</Box>
 					)}
-					{!promocionAutomatica && !mostrarCheck && esPromoSimilar && (
+					{puedeVerBotonera && (
 						<Box display='flex' gap='10px' marginTop='8px'>
 							<IconButton
 								onClick={onClick}
