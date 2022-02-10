@@ -5,28 +5,83 @@ import Typography from '@mui/material/Typography';
 import {CheckRedondoIcon} from 'assests/iconos';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
-import {TPromoOngoing} from 'models';
+import {TPromoOngoing, TPromoOngoingAplicadas} from 'models';
+import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
+import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
 
 export interface CardProps {
 	promocionAutomatica?: boolean;
+	tipo?: 'contado' | 'credito';
 	soloLectura?: boolean;
+	beneficiosPararAgregar?: TPromoOngoingAplicadas;
 	promocion: TPromoOngoing;
+	borroPromociones?: {
+		credito: boolean;
+		contado: boolean;
+	};
+	setBorroPromociones?: React.Dispatch<
+		React.SetStateAction<{
+			credito: boolean;
+			contado: boolean;
+		}>
+	>;
 }
 
 export const Card: React.VFC<CardProps> = ({
 	promocionAutomatica = false,
 	soloLectura = false,
+	beneficiosPararAgregar,
 	promocion,
+	borroPromociones,
+	tipo,
+	setBorroPromociones,
 }) => {
 	const [mostrarCheck, setMostrarCheck] = React.useState<boolean>(false);
 	const [bordeColor, setBordeColor] = React.useState<string>('#D9D9D9');
 	const {t} = useTranslation();
 	const {descripcion, promocionID} = promocion;
+	const dispatch = useAppDispatch();
+	const visitaActual = useObtenerVisitaActual();
+
+	React.useEffect(() => {
+		if (!promocionAutomatica) {
+			const promocionAplicada = visitaActual.promosOngoing.some(
+				(promo) => beneficiosPararAgregar?.promocionID === promo.promocionID
+			);
+
+			if (promocionAplicada) {
+				setMostrarCheck(true);
+				setBordeColor(theme.palette.success.main);
+			}
+		}
+	}, []);
 
 	const onClick = () => {
 		setMostrarCheck(true);
 		setBordeColor(theme.palette.success.main);
+		if (beneficiosPararAgregar) {
+			dispatch(
+				agregarBeneficiosPromoOngoing({
+					beneficios: [beneficiosPararAgregar],
+				})
+			);
+		}
 	};
+
+	React.useEffect(() => {
+		if (
+			!promocionAutomatica &&
+			borroPromociones &&
+			tipo &&
+			borroPromociones[tipo] &&
+			setBorroPromociones
+		) {
+			console.log('entro');
+			setMostrarCheck(false);
+			setBordeColor('#D9D9D9');
+			setBorroPromociones({...borroPromociones, [tipo]: false});
+		}
+	}, [borroPromociones]);
 
 	React.useEffect(() => {
 		if (promocionAutomatica) {

@@ -277,7 +277,9 @@ const Pasos: React.FC = () => {
 						);
 						dispatch(
 							agregarBeneficiosPromoOngoing({
-								beneficios: promociones?.benficiosParaAgregar,
+								beneficios: promociones?.benficiosParaAgregar.filter(
+									(promo) => promo.aplicacion === 'A'
+								),
 							})
 						);
 					}
@@ -385,7 +387,11 @@ const Pasos: React.FC = () => {
 							pasos={pasos.map(
 								(paso: TControlador, index) => `${index + 1}. ${t(paso.titulo)}`
 							)}
-							pasoActivo={ (pasoActual === 2 && visitaActual.clienteBloqueado) ? 0 : pasoActual}
+							pasoActivo={
+								pasoActual === 2 && visitaActual.clienteBloqueado
+									? 0
+									: pasoActual
+							}
 						/>
 					</Box>
 

@@ -379,9 +379,8 @@ export const formatearBeneficiosPromoOngoing = (
 	promoContado: TPromoOngoingAplicables[],
 	promoCredito: TPromoOngoingAplicables[]
 ): TPromoOngoingAplicadas[] => {
-	const beneficiosPromoContado: TPromoOngoingAplicadas[] = promoContado
-		.filter((promo) => promo.aplicada)
-		.map((promo) => ({
+	const beneficiosPromoContado: TPromoOngoingAplicadas[] = promoContado.map(
+		(promo) => ({
 			promocionID: promo.promocionID,
 			tipoPago: ETiposDePago.Contado,
 			descripcion: promo.descripcion,
@@ -391,11 +390,11 @@ export const formatearBeneficiosPromoOngoing = (
 				tipoPago: ETiposDePago.Contado,
 				descripcion: '',
 			})),
-		}));
+		})
+	);
 
-	const beneficiosPromoCredito: TPromoOngoingAplicadas[] = promoCredito
-		.filter((promo) => promo.aplicada)
-		.map((promo) => ({
+	const beneficiosPromoCredito: TPromoOngoingAplicadas[] = promoCredito.map(
+		(promo) => ({
 			promocionID: promo.promocionID,
 			tipoPago: ETiposDePago.Credito,
 			descripcion: promo.descripcion,
@@ -405,7 +404,8 @@ export const formatearBeneficiosPromoOngoing = (
 				tipoPago: ETiposDePago.Credito,
 				descripcion: '',
 			})),
-		}));
+		})
+	);
 	return [...beneficiosPromoCredito, ...beneficiosPromoContado];
 };
 
