@@ -42,7 +42,7 @@ import {SwitchCambiarTipoPago} from '../components';
 import Modal from 'components/UI/Modal';
 import TarjetaTomaPedido from 'components/UI/TarjetaTomaPedido';
 import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoPush';
-import {Box} from '@mui/system';
+import Box from '@mui/material/Box';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 
@@ -51,6 +51,7 @@ import {
 	obtenerPromocionesOngoingTotal,
 } from 'utils/procesos/promociones';
 import {useObtenerDatos} from 'redux/hooks';
+import DrawerBuscador from 'components/Negocio/DrawerBuscador';
 
 const TextStyled = styled(Typography)(() => ({
 	color: theme.palette.secondary.main,
@@ -73,6 +74,7 @@ const TomaPedido: React.FC = () => {
 	const {t} = useTranslation();
 
 	const [alerta, setAlerta] = React.useState<boolean>(false);
+	const [openBuscador, setOpenBuscador] = React.useState<boolean>(false);
 	const [openTooltip, setOpenTooltip] = React.useState<boolean>(false);
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
@@ -168,7 +170,11 @@ const TomaPedido: React.FC = () => {
 		const {cambioElPedidoSinPromociones, calculoPromociones} =
 			visitaActual.avisos;
 
-		if (cambioElPedidoSinPromociones && calculoPromociones) {
+		if (
+			cambioElPedidoSinPromociones &&
+			calculoPromociones &&
+			venta.productos.length > 0
+		) {
 			setOpenTooltip(true);
 		}
 	}, [visitaActual.avisos.cambioElPedidoSinPromociones]);
@@ -254,8 +260,8 @@ const TomaPedido: React.FC = () => {
 						statePreciosProductos={{preciosProductos, setPreciosProductos}}
 						stateInputFocus={stateInputFocus}
 					/>
-					{puedeBotonPromocionesOngoing && (
-						<Box alignItems='center' display='flex' gap='16px'>
+					<Box alignItems='center' display='flex' gap='16px'>
+						{puedeBotonPromocionesOngoing && (
 							<Box position='relative'>
 								<IconButton
 									style={{padding: 0}}
@@ -265,12 +271,19 @@ const TomaPedido: React.FC = () => {
 								</IconButton>
 								<Tooltip open={openTooltip} />
 							</Box>
-							<IconButton sx={{padding: 0, marginRight: '9px'}}>
-								<BuscarIcon height='18px' width='18px' />
-							</IconButton>
-						</Box>
-					)}
+						)}
+						<IconButton
+							sx={{padding: 0, marginRight: '9px'}}
+							onClick={() => setOpenBuscador(true)}
+						>
+							<BuscarIcon height='18px' width='18px' />
+						</IconButton>
+					</Box>
 				</Box>
+				<DrawerBuscador
+					openBuscador={openBuscador}
+					setOpenBuscador={setOpenBuscador}
+				/>
 				<DrawerPromociones
 					openDrawerPromociones={openDrawerPromociones}
 					setOpenDrawerPromociones={setOpenDrawerPromociones}
@@ -293,7 +306,7 @@ const TomaPedido: React.FC = () => {
 									className={classes.root}
 									size='small'
 									icon={<BorrarIcon width='7.5px' height='7.5px' />}
-									label={<TextStyled>Borrar todo</TextStyled>}
+									label={<TextStyled>{t('general.borrarTodo')}</TextStyled>}
 									sx={{'&:hover': {background: 'none'}}}
 									onClick={() => borrarTodosLosProductos()}
 								/>

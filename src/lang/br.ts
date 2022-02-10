@@ -47,6 +47,9 @@ const br = {
 		deudaPendiente: 'Dívida pendente',
 		compromisoRegistrado: 'Compromissos de cobrança registrados',
 		agregarProductoSKU: 'Entrar no produto',
+		buscarProducto: 'Busca de um produto',
+		busquedaVacia: 'Tipo para procurar uma SKU ou filtro por categoria',
+		catalogoDeProductos: 'Catálogo de produtos',
 		numeroOrdenDeCompra: 'Número da ordem de compra ',
 		limiteDeCredito: 'Limite de crédito',
 		disponible: 'Disponível',
@@ -93,6 +96,8 @@ const br = {
 		aplicar: 'Aplicar',
 		promocionAutomatica: 'Promoção automática',
 		obsequio: 'Presente',
+		agregar: 'Adicionar',
+		borrarTodo: 'Apagar todos',
 	},
 	simbolos: {
 		decimal: '.',
