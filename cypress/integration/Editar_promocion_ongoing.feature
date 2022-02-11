@@ -57,12 +57,24 @@ Escenario: N°3 - Cambiar secuencia
 	Y mostrará las cantidades ingresadas en los productos de la secuencia
 	Y mostrará el disponible como la cantidad obtenida por el calculo de la promoción - la suma de las cantidades establecidas en el listado de productos de la secuencia seleccionada
 	
-Escenario: N°4 - Ocultar o contraer promocion
-	Dado que estamos editando una promocion ongoing
+Esquema del escenario: N°4 - Ocultar o contraer promocion aplicada y modificada
+	Dado que estamos editando una promocion ongoing que fue aplicada
 	Cuando seleccionamos el control para contraer la promoción
-	Entonces el sistema contraerá la promoción
+	Entonces el sistema mostrará el mensaje de cambios sin aplicar, con opción a no aplicar y aplicar beneficio
+	Y si '<accionMensaje>', el sistema '<realizaraAccion>' 
 
-Esquema del escenario: N°5 - Ingresar cantidades
+Ejemplos:
+	|accionMensaje        |realizaraAccion                                                                                                                         |
+	| aplica beneficio    | aplicará el beneficio según aplicar beneficio Y cerrará la pantalla Y mostrará las promociones ongoing según mostrar promocion ongoing |
+	| no aplica beneficio | cerrará la pantalla Y no aplicará la promoción                                                                                         |
+	
+Escenario: N°5 - Ocultar o contraer promocion 
+	Dado que estamos editando una promocion ongoing 
+	Y no fue aplicada
+	Cuando seleccionamos el control para contraer la promoción
+	Entonces el sistema contraerá la promoción. 
+
+Esquema del escenario: N°6 - Ingresar cantidades
 	Dado que estamos editando una promocion ongoing con forma beneficio '<beneficio>'
 	Cuando ingresamos cantidad a un producto
 	Entonces el sistema '<realizaraAccion>'
@@ -77,7 +89,7 @@ Ejemplos:
 
 #repartir cantidades como lo hace envases: retorno con venta y con prestamo
 
-Esquema del escenario: N°6 - Control aplicar beneficio
+Esquema del escenario: N°7 - Control aplicar beneficio
 	Dado que estamos editando una promocion ongoing de asignación <asignacion>
 	Y el disponible '<condicion>'
 	Cuando seleccionamos el control aplicar beneficio
@@ -88,3 +100,11 @@ Ejemplos:
     | Total    | es igual a 0 en todas las secuencias         | aplicará los beneficios con los productos que tienen cantidades ingresadas en todas las secuencias del grupo seleccionado según aplicar promocion ongoing   |
     | Total    | mayor a cero en al menos una secunecia       | mostrará el toast de error indicando que se debe asignar el total del beneficio                                                                             |
     | Parcial  | es mayor o igual a 0 en todas las seucnecias | aplicará los beneficios con los productos que tienen cantidades ingresadas en todas las secuencias del grupo seleccionado según aplicar promocion ongoing   |   
+
+Escenario: N°8 - Editar promoción ya aplicada
+	Dado que estamos en la edición de una promocion ongoing
+	Y ya fue aplicada
+	Cuando modificamos las cantidades
+	Entonces el sistema habilitará el botón aplicar beneficio
+	Y sacará el color verde 
+	Y sacará el icono verde 

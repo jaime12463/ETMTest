@@ -26,6 +26,7 @@ Escenario: N°2 - Aplicar promociones ongoing con edicion de beneficio
     Entonces el sistema marcará como aplicada la promoción
     Y otorgará todos los beneficios ingresados de las secuencias de la promoción seleccionada, para el grupo seleccionado
     Y recalculará las promociones manuales para la condición de pago que corresponda
-    #op1 Y mostrará la pantalla de promociones según mostrar promociones ongoing
 	Y recalculará el retorno de evnases según el calculo de envases
-    #op2 Y permanecerá en la promoción para editar
+    Y marcará en verde la promoción
+    Y deshabilitará el botón aplicar beneficio
+    Y permanecerá en la promoción para editar

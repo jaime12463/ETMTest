@@ -100,3 +100,16 @@ Escenario: N°6 - Buscar producto habiendo ingresado un filtro previamente
     Entonces el sistema mostrará aquellos productos del listado de resultados que contengan lo ingresado por el prevendedor en su código o en su descricpción
     Y ordenados ascendente por código de producto
  
+ Escenario: N°7 - Buscar producto teniendo resultados marcados 
+    Dado que se buscaron productos
+    Y se seleccionaron productos del listado
+    Cuando ingreso una nueva búsqueda de producto
+    Entonces el sistema desmarcará los productos seleccionados del listado
+    Y realizará la búsqueda del nuevo producto
+
+Escenario: N°8 - Busqueda de productos sin resultados
+    Dado que se ingresaron al menos dos o más caracteres
+    Y no hay resultados para la búsqueda ingresada
+    Cuando se muestran los resultados de la búsqueda
+    Entonces el sistema mostrará la imagen
+    Y mostrará el mensaje informando que no hay resultados para la búsqueda

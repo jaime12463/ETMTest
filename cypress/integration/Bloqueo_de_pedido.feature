@@ -28,9 +28,9 @@ Escenario: N°2 - El cliente es de condición formal y con credito bloqueado
     Dado que el cliente tiene _condicion = "creditoFormal"
     Y tiene
     | _habilitaCompromisoDeCobro|_esVentaBloqueado|_bonificacionesConVenta|
-    |       true                |     false       |         false         |
-    |       true                |     false       |         true          |
-     
+    |       true                |     false       |       true            |
+    |       true                |     false       |       false           |
+
     Y estamos en planeación con las tarjetas que no se pueden desplegar
     Y se muestran con los subtitulos en rojo
     Cuando cerramos el mensaje de crédito bloqueado
@@ -38,10 +38,12 @@ Escenario: N°2 - El cliente es de condición formal y con credito bloqueado
     Entonces el sistema mostrará el aviso para continuar o para salir
     Y si avanza avanzará al paso 3 - Otros
     Y mostrará los pasos 3 y 4 únicamente
+    Y no habilitará el ingreso de bonificaciones
     Y mostrará 
-    |habilitadoIngresoCompromisoCobro|habilitadoTarjetaBonificaciones  |
-    |     habilitado el ingreso      |  habilitada las bonificaciones  |
-    |     habilitado el ingreso      | no habilitada las bonificaciones|
+    |habilitadoIngresoCompromisoCobro                      |
+    |     habilitado el ingreso de compromiso de cobro     |
+    
+ 
 
 
 Escenario: N°3 - El cliente es de condición informal y con credito bloqueado y con venta bloqueada
@@ -58,10 +60,11 @@ Escenario: N°3 - El cliente es de condición informal y con credito bloqueado y
     Entonces el sistema mostrará el aviso para continuar o para salir
     Y si avanza avanzará al paso 3 - Otros
     Y mostrará los pasos 3 y 4 únicamente
+    Y no habilitará el ingreso de bonificaciones
     Y mostrará 
-    |habilitadoIngresoCompromisoCobro|habilitadoTarjetaBonificaciones  |
-    |     habilitado el ingreso      |  habilitada las bonificaciones  |
-    |     habilitado el ingreso      | no habilitada las bonificaciones|
+    |habilitadoIngresoCompromisoCobro                      |
+    |     habilitado el ingreso de compromiso de cobro     |
+
 
 Escenario: N°4 - El cliente es de condicion formal y con credito bloqueado y deshabilitado compromiso de cobro
     Dado que el cliente que se ingresó tiene _condicion = "creditoFormal"
