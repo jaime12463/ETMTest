@@ -54,6 +54,7 @@ import {
 	obtenerlistaPromocionesVigentes,
 	obtenerPromocionesOngoingTotal,
 	TPromoOngoingAplicables,
+	TPromoOngoingAplicablesResultado,
 } from 'utils/procesos/promociones';
 
 const formatearItems = (items: number) => {
@@ -251,13 +252,13 @@ const Pasos: React.FC = () => {
 				}
 				if (pasoActual === 1) {
 					let promociones: {
-						contado: TPromoOngoingAplicables[];
-						credito: TPromoOngoingAplicables[];
+						contado: TPromoOngoingAplicablesResultado;
+						credito: TPromoOngoingAplicablesResultado;
 						noAplicable: TPromoOngoing[];
 						benficiosParaAgregar: TPromoOngoingAplicadas[];
 					} = {
-						contado: [],
-						credito: [],
+						contado: {promosAplicables: [], indiceProductosxPromosManuales: []},
+						credito: {promosAplicables: [], indiceProductosxPromosManuales: []},
 						noAplicable: [],
 						benficiosParaAgregar: [],
 					};
@@ -277,7 +278,9 @@ const Pasos: React.FC = () => {
 						);
 						dispatch(
 							agregarBeneficiosPromoOngoing({
-								beneficios: promociones?.benficiosParaAgregar,
+								beneficios: promociones?.benficiosParaAgregar.filter(
+									(promo) => promo.aplicacion === 'A'
+								),
 							})
 						);
 					}
@@ -385,7 +388,11 @@ const Pasos: React.FC = () => {
 							pasos={pasos.map(
 								(paso: TControlador, index) => `${index + 1}. ${t(paso.titulo)}`
 							)}
-							pasoActivo={ (pasoActual === 2 && visitaActual.clienteBloqueado) ? 0 : pasoActual}
+							pasoActivo={
+								pasoActual === 2 && visitaActual.clienteBloqueado
+									? 0
+									: pasoActual
+							}
 						/>
 					</Box>
 

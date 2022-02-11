@@ -146,6 +146,16 @@ const TomaPedido: React.FC = () => {
 			promocionesVigentesCliente
 		);
 		setPromocionesOingoing(promociones);
+		if (visitaActual.avisos.cambioElPedidoSinPromociones) {
+			dispatch(
+				agregarBeneficiosPromoOngoing({
+					beneficios: promociones?.benficiosParaAgregar.filter(
+						(promo) => promo.aplicacion === 'A'
+					),
+				})
+			);
+		}
+
 		dispatch(
 			cambiarAvisos({
 				calculoPromociones: true,
@@ -153,11 +163,6 @@ const TomaPedido: React.FC = () => {
 			})
 		);
 
-		dispatch(
-			agregarBeneficiosPromoOngoing({
-				beneficios: promociones.benficiosParaAgregar,
-			})
-		);
 		setOpenTooltip(false);
 	};
 

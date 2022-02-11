@@ -140,7 +140,36 @@ export const visitaActualSlice = createSlice({
 				beneficios: TPromoOngoingAplicadas[];
 			}>
 		) => {
-			state.promosOngoing = action.payload.beneficios;
+			if (action.payload.beneficios.some((promo) => promo.aplicacion === 'M')) {
+				state.promosOngoing = [
+					...state.promosOngoing,
+					...action.payload.beneficios,
+				];
+			} else {
+				state.promosOngoing = action.payload.beneficios;
+			}
+			state.pedidos.ventaenvase.productos = [];
+			state.pedidos.prestamoenvase.productos = [];
+		},
+		borrarPromocionesOngoing: (
+			state,
+			action: PayloadAction<{
+				tipoPago: 'Contado' | 'Credito';
+			}>
+		) => {
+			let promoFiltradas = state.promosOngoing.filter(
+				(promo) =>
+					(promo.tipoPago !== ETiposDePago[action.payload.tipoPago] &&
+						promo.aplicacion === 'A') ||
+					(promo.tipoPago === ETiposDePago[action.payload.tipoPago] &&
+						promo.aplicacion === 'A') ||
+					(promo.tipoPago !== ETiposDePago[action.payload.tipoPago] &&
+						promo.aplicacion === 'M')
+			);
+
+			state.promosOngoing = promoFiltradas;
+			state.pedidos.ventaenvase.productos = [];
+			state.pedidos.prestamoenvase.productos = [];
 		},
 
 		borrarProductoDelPedidoActual: (
@@ -569,6 +598,7 @@ export const {
 	cambiarTipoPagoPoductosDelPedidoActual,
 	cambiarTipoPedidoActual,
 	cambiarMostrarPromoPush,
+	borrarPromocionesOngoing,
 	cambiarSaldoPresupuestoTipoPedido,
 	cambiarBloquearPanelCarga,
 	cambiarOrdenDeCompra,
