@@ -25,6 +25,7 @@ import {useBorrarLinea} from '../hooks/useBorrarLinea';
 import {Box} from '@mui/material';
 import Modal from 'components/UI/Modal';
 import {BuscarIcon} from 'assests/iconos';
+import DrawerBuscador from 'components/Negocio/DrawerBuscador';
 
 export const Canjes = () => {
 	const [preciosProductos, setPreciosProductos] = React.useState<
@@ -67,6 +68,8 @@ export const Canjes = () => {
 	const mostrarAviso = useMostrarAviso();
 	const [catalogoMotivo, setCatalogoMotivo] = useState({});
 	const borrarLinea = useBorrarLinea({setAlerta, setConfigAlerta});
+
+	const [openBuscador, setOpenBuscador] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
 		if (productoActual !== null) {
@@ -134,10 +137,18 @@ export const Canjes = () => {
 						stateInputFocus={stateInputFocus}
 					/>
 
-					<IconButton sx={{padding: 0, marginRight: '9px'}}>
+					<IconButton
+						sx={{padding: 0, marginRight: '9px'}}
+						onClick={() => setOpenBuscador(true)}
+					>
 						<BuscarIcon height='18px' width='18px' />
 					</IconButton>
 				</Box>
+
+				<DrawerBuscador
+					openBuscador={openBuscador}
+					setOpenBuscador={setOpenBuscador}
+				/>
 
 				{canje.productos?.map((producto) => {
 					return (

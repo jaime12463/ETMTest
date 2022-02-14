@@ -9,7 +9,12 @@ import Drawer from 'components/UI/Drawer';
 import {useTranslation} from 'react-i18next';
 import DrawerFiltros from 'components/UI/DrawerFiltros';
 import useEstilos from './useEstilos';
-import {useDebounce, useFiltrarPreciosProductosDelClienteActual} from 'hooks';
+import {
+	useDebounce,
+	useFiltrarPreciosProductosDelClienteActual,
+	useObtenerDatosTipoPedido,
+	useObtenerPresupuestosTipoPedidoActual,
+} from 'hooks';
 import {TPrecioProducto, TProductoPedido} from 'models';
 import {
 	useAppDispatch,
@@ -17,10 +22,15 @@ import {
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
+import {BusquedaSinResultados} from 'assests/iconos/BusquedaSinResultados';
 
 interface Props {
 	openBuscador: boolean;
 	setOpenBuscador: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface ResultadoBusqueda extends TPrecioProducto {
+	checked: boolean;
 }
 
 const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
@@ -33,16 +43,14 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 	const debouncedInput = useDebounce(inputBusqueda);
 
 	const [resultadosBusqueda, setResultadosBusqueda] = React.useState<
-		TPrecioProducto[]
-	>([]);
-
-	const [productosAgregados, setProductosAgregados] = React.useState<
-		TPrecioProducto[]
+		ResultadoBusqueda[]
 	>([]);
 
 	const clienteActual = useObtenerClienteActual();
 
-	const {venta} = useObtenerVisitaActual().pedidos;
+	const visitaActual = useObtenerVisitaActual();
+
+	const {venta, canje} = visitaActual.pedidos;
 
 	const dispatch = useAppDispatch();
 
@@ -50,38 +58,48 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 		setInputBusqueda(e.target.value);
 	};
 
+	const preciosProductosDelClienteActual =
+		useFiltrarPreciosProductosDelClienteActual();
+
 	const onChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const {checked, value} = e.target;
+		const {value} = e.target;
 
-		if (checked) {
-			//Si el checkbox está chequeado, agregamos el producto al array de productos agregados
-			const producto = resultadosBusqueda.filter(
-				(producto) => producto.codigoProducto === Number(value)
-			);
+		setResultadosBusqueda(
+			resultadosBusqueda.map((producto) => {
+				// Se mapea el array de busqueda y se cambia el checked del producto seleccionado
+				if (producto.codigoProducto === Number(value)) {
+					return {...producto, checked: !producto.checked};
+				}
 
-			setProductosAgregados([...productosAgregados, ...producto]);
-			return;
-		}
-
-		//Si el checkbox está deschequeado, lo eliminamos del array de productos agregados
-		setProductosAgregados(
-			productosAgregados.filter(
-				(producto) => producto.codigoProducto !== Number(value)
-			)
+				return producto;
+			})
 		);
 	};
 
 	const borrarTodo = () => {
-		setProductosAgregados([]);
 		setInputBusqueda('');
 	};
 
 	const agregarProductosAlPedido = () => {
-		for (const producto of productosAgregados) {
-			// Verificamos si el producto ya está en el pedido
-			const existeEnPedido = venta.productos.find(
-				(p) => p.codigoProducto === producto.codigoProducto
-			);
+		// Filtramos los productos seleccionados
+		const productosParaAgregar = resultadosBusqueda.filter((producto) => {
+			if (producto.checked) {
+				const {checked, ...productoSinCheck} = producto;
+
+				return productoSinCheck;
+			}
+		});
+
+		for (const producto of productosParaAgregar) {
+			// Verificamos el tipo de pedido para saber si el producto ya está en el pedido
+			const existeEnPedido =
+				visitaActual.tipoPedidoActual === 'venta'
+					? venta.productos.find(
+							(p) => p.codigoProducto === producto.codigoProducto
+					  )
+					: canje.productos.find(
+							(p) => p.codigoProducto === producto.codigoProducto
+					  );
 
 			// Si el producto ya está en el pedido, ignoramos el agregado
 			if (existeEnPedido) continue;
@@ -111,14 +129,20 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 		setOpenBuscador(false);
 	};
 
-	const preciosProductosDelClienteActual =
-		useFiltrarPreciosProductosDelClienteActual();
+	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
+	const obtenerPresupuestosTipoPedidoActual =
+		useObtenerPresupuestosTipoPedidoActual();
+
+	const datosTipoPedidoActual = obtenerDatosTipoPedido();
+	const presupuestoTipoPedido = obtenerPresupuestosTipoPedidoActual();
 
 	React.useEffect(() => {
+		setResultadosBusqueda([]);
+
 		if (debouncedInput && preciosProductosDelClienteActual) {
 			const resultados = preciosProductosDelClienteActual.filter(
 				(producto: TPrecioProducto) => {
-					//Si el nombre o codigo del producto contiene el texto de búsqueda, lo agregamos al array de resultados
+					//Si el nombre o codigo del producto contiene el texto de búsqueda y no es PromoPush, lo agregamos al array de resultados
 					return (
 						(producto.nombreProducto.toLowerCase().includes(debouncedInput) ||
 							producto.codigoProducto.toString().includes(debouncedInput)) &&
@@ -128,19 +152,46 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 			);
 
 			if (resultados.length) {
-				//Si hay resultados, los mostramos
-				setResultadosBusqueda(resultados);
+				for (const producto of resultados) {
+					// Se valida que se pueda mostrar el producto para ser agregado al pedido
+					if (
+						(!datosTipoPedidoActual?.validaPresupuesto &&
+							!datosTipoPedidoActual?.tipoProductosHabilitados.includes(
+								producto.tipoProducto
+							)) ||
+						(datosTipoPedidoActual?.validaPresupuesto &&
+							!presupuestoTipoPedido?.tieneProductosHabilitados &&
+							!datosTipoPedidoActual?.tipoProductosHabilitados.includes(
+								producto.tipoProducto
+							)) ||
+						(datosTipoPedidoActual?.validaPresupuesto &&
+							presupuestoTipoPedido?.tieneProductosHabilitados &&
+							!presupuestoTipoPedido.productosHabilitados.includes(
+								producto.codigoProducto
+							))
+					) {
+						// En caso de que se cumpla alguna de estas tres condiciones el producto se descarta de las opciones para agregar
+						continue;
+					}
+
+					// Se agregan a los resultados de búsqueda
+					setResultadosBusqueda((state) => [
+						...state,
+						{...producto, checked: false},
+					]);
+				}
 				return;
 			}
-			//Si no hay resultados, vaciamos el array de resultados
-			setResultadosBusqueda([]);
 		}
+
+		//Si no hay resultados o se borra la búsqueda vaciamos el array de resultados
+		setResultadosBusqueda([]);
 	}, [debouncedInput]);
 
 	React.useEffect(() => {
 		return () => {
+			// Limpieza del estado al cerrar el drawer
 			setInputBusqueda('');
-			setProductosAgregados([]);
 		};
 	}, [openBuscador]);
 
@@ -200,8 +251,13 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 		>
 			{resultadosBusqueda.length > 0 ? (
 				<>
-					<Box display='flex' flexDirection='column' gap='14px' padding='0 4px'>
-						{resultadosBusqueda.map((producto: TPrecioProducto) => {
+					<Box
+						display='flex'
+						flexDirection='column'
+						gap='14px'
+						padding='20px 14px'
+					>
+						{resultadosBusqueda.map((producto: ResultadoBusqueda) => {
 							return (
 								<Box
 									alignItems='center'
@@ -216,6 +272,7 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 										className={classes.inputCheckbox}
 										value={producto.codigoProducto}
 										onChange={onChangeCheckbox}
+										checked={producto.checked}
 									/>
 									<label htmlFor={producto.nombreProducto}>
 										<Typography
@@ -249,9 +306,11 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 							onClick={agregarProductosAlPedido}
 							sx={{
 								padding: 0,
-								opacity: productosAgregados.length > 0 ? 1 : 0.5,
+								opacity: resultadosBusqueda.some((producto) => producto.checked)
+									? 1
+									: 0.5,
 							}}
-							disabled={productosAgregados.length === 0}
+							disabled={resultadosBusqueda.length === 0}
 						>
 							<Box className={classes.button}>
 								<Typography
@@ -265,17 +324,54 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 						</IconButton>
 					</Box>
 				</>
+			) : debouncedInput === '' ? (
+				<Box display='flex' justifyContent='center' padding='103px 0 0 0'>
+					<Typography
+						variant='subtitle2'
+						fontFamily='Open Sans'
+						fontWeight={700}
+						color='#B2B2B2'
+						textAlign='center'
+						width='24ch'
+					>
+						{t('general.busquedaVacia')}
+					</Typography>
+				</Box>
 			) : (
-				<Typography
-					variant='subtitle2'
-					fontFamily='Open Sans'
-					fontWeight={700}
-					color='#B2B2B2'
-					padding='103px 54px 0 54px'
-					textAlign='center'
+				<Box
+					display='flex'
+					flexDirection='column'
+					justifyContent='center'
+					gap='16px'
+					paddingTop='63px'
 				>
-					{t('general.busquedaVacia')}
-				</Typography>
+					<Box display='flex' justifyContent='end'>
+						<BusquedaSinResultados />
+					</Box>
+					<Box
+						alignSelf='center'
+						alignItems='center'
+						display='flex'
+						flexDirection='column'
+						justifyContent='center'
+					>
+						<Typography variant='h3' color='primary' marginBottom='4px'>
+							¡Lo sentimos!
+						</Typography>
+						<Typography
+							variant='body3'
+							fontFamily='Open Sans'
+							marginBottom='18px'
+							textAlign='center'
+							width='18ch'
+						>
+							No existen resultados para tu búsqueda
+						</Typography>
+						<Typography variant='subtitle3' fontFamily='Open Sans'>
+							Intenta con otro producto
+						</Typography>
+					</Box>
+				</Box>
 			)}
 
 			<DrawerFiltros open={abrirFiltros} setOpen={setAbrirFiltros}>
