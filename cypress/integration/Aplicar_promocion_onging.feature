@@ -16,6 +16,8 @@ Escenario: N°1 - Aplicar promociones ongoing con beneficio default
     Y recalculará las promociones manuales para la condición de pago que corresponda
     Y recalculará los envases para retorno según calcular envases retornables
     Y mostrará la pantalla de promociones según mostrar promociones ongoing
+    Y marcará en verde la promoción
+    Y actualizará el disponible de la promoción
 
     #el calculo de promociones ya marca las promociones manuales que cumplen requisito pero 
     # no se pueden aplicar por haber otorgado otra promocion.
@@ -26,7 +28,8 @@ Escenario: N°2 - Aplicar promociones ongoing con edicion de beneficio
     Entonces el sistema marcará como aplicada la promoción
     Y otorgará todos los beneficios ingresados de las secuencias de la promoción seleccionada, para el grupo seleccionado
     Y recalculará las promociones manuales para la condición de pago que corresponda
-	Y recalculará el retorno de evnases según el calculo de envases
+	Y recalculará los envases para retorno según el calculo de envases
     Y marcará en verde la promoción
-    Y deshabilitará el botón aplicar beneficio
-    Y permanecerá en la promoción para editar
+    Y actualizará el disponible de la promoción
+    Y ocultará la promoción
+    Y mostrará la pantalla de promociones según mostrar promociones ongoing
