@@ -138,7 +138,7 @@ const Controles: React.FC<Props> = ({
 			setFocusId(0);
 			setInputFocus('productoABuscar');
 		}
-	}, [getValues.subUnidades]);
+	}, [getValues]);
 
 	const handleOnChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -158,7 +158,6 @@ const Controles: React.FC<Props> = ({
 		if (e.key === 'Enter') {
 			if (inputFocus === 'unidades') {
 				setInputFocus('subUnidades');
-
 				agregarProductoAlPedidoActual(
 					getValues,
 					obtenerCalculoDescuentoProducto
