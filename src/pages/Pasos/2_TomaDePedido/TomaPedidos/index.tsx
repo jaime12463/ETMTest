@@ -266,6 +266,7 @@ const TomaPedido: React.FC = () => {
 								<IconButton
 									style={{padding: 0}}
 									onClick={() => manejadorBotonPromosOngoing()}
+									data-cy={'botonPromocionesOnGoing'}
 								>
 									<PromocionColor height='24px' width='24px' />
 								</IconButton>

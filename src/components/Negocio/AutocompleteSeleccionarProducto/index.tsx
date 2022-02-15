@@ -136,6 +136,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 								input?.focus();
 							}
 						}}
+						data-cy={'codigo-producto-a-buscar'}
 					/>
 				</Grid>
 				<Grid item>
