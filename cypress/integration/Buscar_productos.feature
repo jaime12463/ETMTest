@@ -25,7 +25,7 @@ Esquema del escenario: N°1 - Buscar producto en portafolio vigente cuando el ti
     Y tiene portafolio asignado con precio y vigencia inicial y vigencia final
     Cuando se selecciona el control de búsqueda 
     Y se muestra el teclado alfanumérico
-    Y se ingresan al menos dos o más caracteres
+    Y se ingresan al menos tres o más caracteres
     Entonces el sistema mostrará solamente los productos cuyo _tipoProducto sea el _tipoProductosHabilitados para el tipo de pedido en curso 
     Y que no sean productos promo push
     Y que contengan lo ingresado por el prevendedor en su código o en su descricpción
@@ -46,7 +46,7 @@ Esquema del escenario: N°2 - Buscar producto en portafolio vigente con presupue
     Y el _presupuestoTipoPedido tiene _tieneProductosHabilitados = false
     Cuando se selecciona el control de búsqueda 
     Y se muestra el teclado alfanumérico
-    Y se ingresan al menos dos o más caracteres
+    Y se ingresan al menos tres o más caracteres
     Entonces el sistema mostrará los productos del portafolio asignado al cliente cuyo _tipoProducto sea el _tipoProductosHabilitados para el tipo de pedido en curso
     Y que contengan lo ingresado por el prevendedor en su código o en su descricpción
     Y cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
@@ -64,7 +64,7 @@ Esquema del escenario: N°3 - Buscar producto en portafolio vigente con presupue
     Y el _presupuestoTipoPedido tiene _tieneProductosHabilitados = true
     Cuando se selecciona el control de búsqueda
     Y se muestra el teclado alfanumérico
-    Y se ingresan al menos dos o más caracteres
+    Y se ingresan al menos tres o más caracteres
     Entonces el sistema mostrará los _productosHabilitados en el presupuesto con _vigenciaInicioPresupuesto <= fecha del dispositivo <= _vigenciaFinPresupuesto
     Y que estén en el portafolio del cliente cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
     Y que contengan lo ingresado por el prevendedor en su código o en su descricpción
@@ -96,7 +96,7 @@ Escenario: N°5 - Borrar búsqueda
 Escenario: N°6 - Buscar producto habiendo ingresado un filtro previamente
     Dado que se ingresaron filtros de búsqueda de productos
     Y se mostró un listado con los resultados de la búsqueda
-    Cuando se ingresan al menos dos o más caracteres
+    Cuando se ingresan al menos tres o más caracteres
     Entonces el sistema mostrará aquellos productos del listado de resultados que contengan lo ingresado por el prevendedor en su código o en su descricpción
     Y ordenados ascendente por código de producto
  
