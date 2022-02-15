@@ -16,6 +16,7 @@ Antecedentes:
 Escenario: N°1 - Abrir filtros de productos
     Cuando selecciono el control de filtros
     Entonces el sistema mostrará el listado de _atributos_ correspondientes a los productos que tiene el cliente en portafolio vigente
+    Y que no sean productos promo push
     Y ordenadas alfabéticamente ascendente para seleccionar
 
 Esquema del escenario: N°2 - Filtrar producto de portafolio vigente cuando el tipo de pedido no valida presupuesto
@@ -43,6 +44,7 @@ Esquema del escenario: N°3 - Filtrar producto en portafolio vigente con presupu
     Cuando se selecciona una opción del filtro
     Entonces el sistema mostrará los productos del portafolio asignado al cliente cuyo _tipoProducto sea el _tipoProductosHabilitados para el tipo de pedido en curso
     Y que tenga el atributo seleccionado
+    Y que no sean productos promo push
     Y cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
     Y ordenados ascendente por código de producto
 
@@ -60,6 +62,7 @@ Esquema del escenario: N°4 - Buscar producto en portafolio vigente con presupue
     Entonces el sistema mostrará los _productosHabilitados en el presupuesto con _vigenciaInicioPresupuesto <= fecha del dispositivo <= _vigenciaFinPresupuesto
     que estén en el portafolio del cliente cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
     Y que tenga el atributo seleccionado
+    Y que no sean productos promo push
     Y ordenados ascendente por código de producto
 
 Ejemplos:
@@ -74,6 +77,7 @@ Escenario: N°5 - Filtrar productos habiendo ingresado una búsqueda de producto
     Cuando se selecciona una opción del filtro
     Entonces el sistema mostrará aquellos productos del listado de resultados que tengan el atributo seleccionado
     Y ordenados ascendente por código de producto
+    Y que no sean productos promo push
     
 
 Escenario: N°6 - Borrar selección de filtros
