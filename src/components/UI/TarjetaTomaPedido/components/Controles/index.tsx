@@ -252,6 +252,7 @@ const Controles: React.FC<Props> = ({
 							input?.focus();
 						}
 					}}
+					data-cy={'cantidad-producto-unidades'}
 				/>
 				<IconButton
 					sx={{padding: '0'}}
@@ -335,6 +336,7 @@ const Controles: React.FC<Props> = ({
 									input?.focus();
 								}
 							}}
+							data-cy='cantidad-producto-subUnidades'
 						/>
 						<IconButton
 							sx={{padding: '0'}}

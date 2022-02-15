@@ -63,6 +63,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 						variant='subtitle2'
 						fontFamily='Open Sans'
 						fontWeight={700}
+						data-cy='pantalla-promociones'
 					>
 						{t('titulos.promociones')}
 					</Typography>
@@ -74,6 +75,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 					<PromoOngoing.Container
 						tipo='credito'
 						onClick={() => restablecerPromociones('Credito')}
+						dataCy='Promociones-Credito'
 					>
 						<PromoOngoing.CardsContainer>
 							{promocionesOingoing?.credito?.promosAplicables.map(
@@ -102,6 +104,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 					<PromoOngoing.Container
 						tipo='contado'
 						onClick={() => restablecerPromociones('Contado')}
+						dataCy='Promociones-Contado'
 					>
 						<PromoOngoing.CardsContainer>
 							{promocionesOingoing?.contado?.promosAplicables.map(
@@ -127,7 +130,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 					</PromoOngoing.Container>
 				)}
 				{promocionesOingoing?.noAplicable?.length > 0 && (
-					<PromoOngoing.Container>
+					<PromoOngoing.Container dataCy='No-aplicables'>
 						<PromoOngoing.CardsContainer>
 							{promocionesOingoing?.noAplicable?.map(
 								(promocion: TPromoOngoing) => (
