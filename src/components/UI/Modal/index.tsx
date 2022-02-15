@@ -1,7 +1,7 @@
 import React, {ReactNode} from 'react';
+import ReactDOM from 'react-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import useEstilos from './useEstilos';
 
 export interface Configuracion {
@@ -29,7 +29,11 @@ const Modal: React.FC<Props> = ({
 }) => {
 	const classes = useEstilos();
 
-	return (
+	const modalPortal = document.getElementById('modal');
+
+	if (!modalPortal) return null;
+
+	return ReactDOM.createPortal(
 		<>
 			{alerta && (
 				<Box className={classes.container}>
@@ -89,7 +93,8 @@ const Modal: React.FC<Props> = ({
 					</Box>
 				</Box>
 			)}
-		</>
+		</>,
+		modalPortal
 	);
 };
 

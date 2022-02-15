@@ -70,7 +70,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 				</Box>
 			}
 		>
-			<Box display='flex' flexDirection='column' gap='16px'>
+			<Box display='flex' flexDirection='column' gap='16px' padding='22px 10px'>
 				{promocionesOingoing?.credito?.promosAplicables.length > 0 && (
 					<PromoOngoing.Container
 						tipo='credito'

@@ -202,8 +202,6 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 				(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0) <
 				datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima;
 
-		console.log(validarPedidoMinimoVisitaActual());
-
 		if (
 			/*!datosCliente?.informacionCrediticia.esBloqueadoVenta &&*/
 
