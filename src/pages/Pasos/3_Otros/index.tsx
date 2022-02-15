@@ -15,6 +15,7 @@ import {
 import {
 	useCalcularPresupuestoTipoPedido,
 	useObtenerBonificacionesHabilitadas,
+	useObtenerDatosCliente,
 	useObtenerProductosMandatoriosVisitaActual,
 } from 'hooks';
 import OrdenDeCompra from './OrdenDeCompra';
@@ -29,6 +30,15 @@ export const Otros: React.FC = () => {
 	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
 	const {condicion} = useObtenerClienteActual();
 	const visitaActual = useObtenerVisitaActual();
+
+	const clienteActual = useObtenerClienteActual();
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+	const configuracion = useObtenerConfiguracion();
+
+	const mostrarTarjetaBonificaciones = !(
+		configuracion.habilitaCompromisoDeCobro &&
+		datosCliente?.informacionCrediticia.esBloqueadoVenta
+	);
 
 	const {canje, ventaenvase, prestamoenvase} = visitaActual.pedidos;
 
@@ -198,48 +208,50 @@ export const Otros: React.FC = () => {
 			>
 				<Canjes />
 			</TarjetaColapsable>
-			<TarjetaColapsable
-				titulo={
-					<Typography variant={'subtitle2'}>
-						{t('titulos.bonificaciones')}
-					</Typography>
-				}
-				subTitulo={
-					<Typography variant={'body3'}>
-						{t('titulos.tarjetaBonificaciones')}
-					</Typography>
-				}
-				id='Bonificaciones'
-				expandido={expandido}
-				setExpandido={setExpandido}
-				dataCy='Bonificaciones'
-				valido={bonificacionValida}
-				cantidadItems={cantidadBonificaciones.length}
-				labelChip={
-					<>
-						{bonificacionesHabilitadas.length !==
-							cantidadBonificaciones.length &&
-							`${cantidadBonificaciones.length} de ${bonificacionesHabilitadas.length}
-						Bonificaciones`}
-						{bonificacionesHabilitadas.length ===
-							cantidadBonificaciones.length &&
-							`${cantidadBonificaciones.length} Bonificaciones`}
-					</>
-				}
-				disabled={
-					bonificacionesHabilitadas.length === 0 ||
-					productosMandatoriosVisitaActual.mandatorios.length < 1
-				}
-				mensaje={
-					bonificacionesHabilitadas.length === 0 && (
-						<Typography color='primary' variant='subtitle3'>
-							{t('titulos.bonificacionesDeshabilitadas')}
+			{mostrarTarjetaBonificaciones ? (
+				<TarjetaColapsable
+					titulo={
+						<Typography variant={'subtitle2'}>
+							{t('titulos.bonificaciones')}
 						</Typography>
-					)
-				}
-			>
-				<Bonificaciones bonificacionValida={bonificacionValida} />
-			</TarjetaColapsable>
+					}
+					subTitulo={
+						<Typography variant={'body3'}>
+							{t('titulos.tarjetaBonificaciones')}
+						</Typography>
+					}
+					id='Bonificaciones'
+					expandido={expandido}
+					setExpandido={setExpandido}
+					dataCy='Bonificaciones'
+					valido={bonificacionValida}
+					cantidadItems={cantidadBonificaciones.length}
+					labelChip={
+						<>
+							{bonificacionesHabilitadas.length !==
+								cantidadBonificaciones.length &&
+								`${cantidadBonificaciones.length} de ${bonificacionesHabilitadas.length}
+						Bonificaciones`}
+							{bonificacionesHabilitadas.length ===
+								cantidadBonificaciones.length &&
+								`${cantidadBonificaciones.length} Bonificaciones`}
+						</>
+					}
+					disabled={
+						bonificacionesHabilitadas.length === 0 ||
+						productosMandatoriosVisitaActual.mandatorios.length < 1
+					}
+					mensaje={
+						bonificacionesHabilitadas.length === 0 && (
+							<Typography color='primary' variant='subtitle3'>
+								{t('titulos.bonificacionesDeshabilitadas')}
+							</Typography>
+						)
+					}
+				>
+					<Bonificaciones bonificacionValida={bonificacionValida} />
+				</TarjetaColapsable>
+			) : null}
 			{condicion !== 'contado' ? (
 				<TarjetaColapsable
 					titulo={
