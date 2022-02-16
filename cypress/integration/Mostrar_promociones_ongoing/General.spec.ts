@@ -7,10 +7,15 @@ Dado('que se seleccionó el control de promociones ongoing', () => {
 	cy.oprimirBotonSplash();
 	cy.ingresarCodigoCliente('HS003');
     cy.avanzarPasoSiguiente();
-    cy.agregarProducto({
-		codigoProducto: 1885,
-		unidades: 10,
-		subUnidades: 2
+	cy.expandirTomaPedido();
+	//cy.get('#switch-cambiar-tipoPago-400').click();
+	cy.agregarProducto({
+		codigoProducto: 420,
+		unidades: 7,
 	});
-    //cy.get('[data-cy=botonPromocionesOnGoing]').click();
+	cy.agregarProducto({
+		codigoProducto: 400,
+		unidades: 10,
+	});
+    cy.get('[data-cy=botonPromocionesOnGoing]').click();
 });

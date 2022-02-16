@@ -252,7 +252,7 @@ const Controles: React.FC<Props> = ({
 							input?.focus();
 						}
 					}}
-					data-cy={'cantidad-producto-unidades'}
+					data-cy={`cantidad-producto-unidades-${producto}`}
 				/>
 				<IconButton
 					sx={{padding: '0'}}

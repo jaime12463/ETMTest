@@ -29,6 +29,7 @@ declare global {
 			oprimirBotonCerrarPedido(): void;
 			oprimirBotonVerEnvases(): void;
 			avanzarPasoSiguiente(): void;
+			expandirTomaPedido(): void;
 		}
 	}
 }
@@ -48,7 +49,6 @@ Cypress.Commands.add(
 		unidades,
 		subUnidades,
 	}: Cypress.TPropsFunctionAgregarProducto) => {
-		cy.get('[data-cy=expandir-TomaDePedido] > .makeStyles-arrow-24').click();
 		cy.ingresarCodigoProducto(codigoProducto);
 		cy.ingresarUnidades(unidades);
 		if (subUnidades) cy.ingresarSubUnidades(subUnidades);
@@ -128,4 +128,8 @@ Cypress.Commands.add('oprimirBotonVerEnvases', () => {
 
 Cypress.Commands.add('avanzarPasoSiguiente', () => {
 	cy.get('[data-cy=boton-inferior-avanzar]').click();
+});
+
+Cypress.Commands.add('expandirTomaPedido', () => {
+	cy.get('[data-cy=expandir-TomaDePedido] > .makeStyles-arrow-24').click();
 });

@@ -66,6 +66,7 @@ export const Container: React.FC<ContainerProps> = ({
 										: theme.palette.secondary.dark,
 							}}
 							width='66px'
+							data-cy={`restablecer-${dataCy}`}
 						>
 							<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
 								{tipo === 'credito' ? 'Crédito' : 'Contado'}
