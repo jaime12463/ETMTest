@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import {CheckRedondoIcon} from 'assests/iconos';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
-import {TPromoOngoing, TPromoOngoingAplicadas} from 'models';
+import {ETiposDePago, TPromoOngoing, TPromoOngoingAplicadas} from 'models';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
 import {TProductosUsadosEnOtrasPromos} from 'utils/procesos/promociones';
@@ -48,6 +48,9 @@ export const Card: React.VFC<CardProps> = ({
 	const dispatch = useAppDispatch();
 	const visitaActual = useObtenerVisitaActual();
 
+	const tipoPago =
+		tipo === 'contado' ? ETiposDePago.Contado : ETiposDePago.Credito;
+
 	React.useEffect(() => {
 		promocionAutomatica
 			? setPuedeVerBotonera(false)
@@ -63,7 +66,8 @@ export const Card: React.VFC<CardProps> = ({
 			let promosSimilatresLista = Object.values(promosSimilares).flat();
 			let PromoSimilar = visitaActual.promosOngoing.find((promo) => {
 				let hayPromoSimilar = promosSimilatresLista.find(
-					(similar) => similar === promo.promocionID
+					(similar) =>
+						similar === promo.promocionID && promo.tipoPago === tipoPago
 				);
 				if (hayPromoSimilar) {
 					return promo;
@@ -79,7 +83,9 @@ export const Card: React.VFC<CardProps> = ({
 	React.useEffect(() => {
 		if (!promocionAutomatica) {
 			const promocionAplicada = visitaActual.promosOngoing.some(
-				(promo) => beneficiosPararAgregar?.promocionID === promo.promocionID
+				(promo) =>
+					beneficiosPararAgregar?.promocionID === promo.promocionID &&
+					promo.tipoPago === tipoPago
 			);
 
 			if (promocionAplicada) {
@@ -87,6 +93,7 @@ export const Card: React.VFC<CardProps> = ({
 				setBordeColor(theme.palette.success.main);
 			}
 		}
+		console.log(beneficiosPararAgregar);
 	}, []);
 
 	const onClick = () => {

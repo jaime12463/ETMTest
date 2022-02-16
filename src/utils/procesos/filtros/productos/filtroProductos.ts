@@ -53,7 +53,7 @@ export class FiltroProductos {
 	listaProductos: TPrecioProducto[] | undefined;
 
 	constructor(listaProductos?: TPrecioProducto[]) {
-		console.table(listaProductos);
+		//console.table(listaProductos);
 		this.listaProductos = listaProductos;
 	}
 

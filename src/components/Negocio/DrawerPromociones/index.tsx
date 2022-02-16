@@ -2,7 +2,7 @@ import {Box, Typography} from '@mui/material';
 import {PromocionesIcon} from 'assests/iconos';
 import Drawer from 'components/UI/Drawer';
 import PromoOngoing from 'components/UI/PromoOngoing';
-import {TPromoOngoingAplicadas} from 'models';
+import {ETiposDePago, TPromoOngoingAplicadas} from 'models';
 import {TPromoOngoing} from 'models/server';
 import {useTranslation} from 'react-i18next';
 import {useAppDispatch} from 'redux/hooks';
@@ -92,7 +92,8 @@ export const DrawerPromociones: React.FC<Props> = ({
 										setBorroPromociones={setBorroPromociones}
 										beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
 											(promo: TPromoOngoingAplicadas) =>
-												promo.promocionID === promocion.promocionID
+												promo.promocionID === promocion.promocionID &&
+												promo.tipoPago === ETiposDePago.Credito
 										)}
 									/>
 								)
@@ -121,7 +122,8 @@ export const DrawerPromociones: React.FC<Props> = ({
 										setBorroPromociones={setBorroPromociones}
 										beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
 											(promo: TPromoOngoingAplicadas) =>
-												promo.promocionID === promocion.promocionID
+												promo.promocionID === promocion.promocionID &&
+												promo.tipoPago === ETiposDePago.Contado
 										)}
 									/>
 								)
