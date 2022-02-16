@@ -7,32 +7,7 @@ Característica: Editar promocion ongoing
     Quiero editar una promocion ongoing
     Para otorgar manualmente el beneficio
 
-Esquema del escenario: N°1 - Editar promociones ongoing manuales
-	Dado que tenemos promociones ongoing manuales disponibles para aplicar 
-	Cuando seleccionamos el control editar
-	Entonces el sistema contraerá las otras promociones que estén abiertas
-	Y desplegará la promoción seleccionada
-	Y mostrará el control combo grupos, que contiene los grupos del beneficio ordenados por _grupoBeneficioId con el primer grupo seleccionado
-	Y visualizando la _descripción
-	Y mostrará el control combo secuencia, que contiene las secuencias del beneficio ordenadas por _secuencia con la primer secuencia seleccionada
-	Y visualizando la _secuencia
-	Y mostrará el beneficio como '<beneficio>' cuando la secuencia tenga _formaBeneficio <_formaBeneficio>
-	Y mostrará el control para aplicar el beneficio
-	Y mostrará el listado de productos que tiene la secuencia seleccionada
-	Y mostrará para cada producto, el _codigoProducto, _nombre, _atributos, _unidadMedida y presentación
-	Y los controles para ingresar cantidades
-	Y establecerá las cantidades según el beneficio default calculado en promociones
-	Y mostrará el disponible, como la cantidad obtenida por el calculo de la promoción - la suma de las cantidades establecidas en el listado de productos de la secuencia seleccionada
-	Y mostrará el control para contraer la promoción
-	
-Ejemplos:
-    |     beneficio              |_formaBeneficio|
-    | Beneficio: obsequio        |       1       |
-    | Beneficio: 10,30%          |       2       |
-    | Beneficio: $-54,12         |       3       |
-    | Precio recuperacion: $34,12|       4       |
-
-Escenario: N°2 - Cambiar grupo beneficio
+Escenario: N°1 - Cambiar grupo beneficio
 	Dado que estamos editando una promocion ongoing
 	Cuando seleccionamos el control combo grupos
 	Y cambiamos el grupo
@@ -47,7 +22,7 @@ Escenario: N°2 - Cambiar grupo beneficio
 # si forma beneficio es % descuento: "Beneficio: 10,50%"
 # si forma beneficio es precio recupero: "Precio recuperación: $30,00"
 
-Escenario: N°3 - Cambiar secuencia
+Escenario: N°2 - Cambiar secuencia
 	Dado que estamos editando una promocion ongoing
 	Cuando seleccionamos el control combo secuencia
 	Y cambiamos una secuencia
@@ -58,12 +33,7 @@ Escenario: N°3 - Cambiar secuencia
 	Y mostrará el disponible como la cantidad obtenida por el calculo de la promoción - la suma de las cantidades establecidas en el listado de productos de la secuencia seleccionada
 	
 
-Escenario: N°4 - Ocultar o contraer promocion 
-	Dado que estamos editando una promocion ongoing 
-	Cuando seleccionamos el control para contraer la promoción
-	Entonces el sistema contraerá la promoción. 
-
-Esquema del escenario: N°5 - Ingresar cantidades
+Esquema del escenario: N°3 - Ingresar cantidades
 	Dado que estamos editando una promocion ongoing con forma beneficio '<beneficio>'
 	Cuando ingresamos cantidad a un producto
 	Entonces el sistema '<realizaraAccion>'
@@ -78,7 +48,7 @@ Ejemplos:
 
 #repartir cantidades como lo hace envases: retorno con venta y con prestamo
 
-Esquema del escenario: N°6 - Control aplicar beneficio
+Esquema del escenario: N°4 - Control aplicar beneficio
 	Dado que estamos editando una promocion ongoing de asignación <asignacion>
 	Y el disponible '<condicion>'
 	Cuando seleccionamos el control aplicar beneficio
