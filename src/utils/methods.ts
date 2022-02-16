@@ -222,11 +222,11 @@ export const obtenerPresupuestoConfiguradoSegunVigencia = (
 	presupuestoTipoPedido: TpresupuestoTipoPedido[]
 ) => {
 	const fechaDipostivo = fechaDispositivo();
-	return presupuestoTipoPedido.find(
+	return presupuestoTipoPedido?.find(
 		(presupuesto: TpresupuestoTipoPedido) =>
-			presupuesto.tipoPedido.toLowerCase() === tipoPedido &&
-			presupuesto.vigenciaInicioPresupuesto <= fechaDipostivo &&
-			fechaDipostivo <= presupuesto.vigenciaFinPresupuesto
+			presupuesto?.tipoPedido?.toLowerCase() === tipoPedido &&
+			presupuesto?.vigenciaInicioPresupuesto <= fechaDipostivo &&
+			fechaDipostivo <= presupuesto?.vigenciaFinPresupuesto
 	);
 };
 
