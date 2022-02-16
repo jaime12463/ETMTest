@@ -31,7 +31,7 @@ Escenario: N°3 - El cliente es de crédito formal y sin credito bloqueado
     Dado que el cliente tiene condición de pago crédito formal
     Y _esCreditoBloqueado = false
     Cuando muestra la tarjeta desplegada
-    Entonces el sistema mostrará el switch de condicion de pago en credito y habilitado 
+    Entonces el sistema mostrará el switch de condicion de pago en credito y deshabilitado 
     Y no mostrará el switch en las tarjetas de producto
 
 #solos los pedidos registrados. No considerar el pedido en curso
