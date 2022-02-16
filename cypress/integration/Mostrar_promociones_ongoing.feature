@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @PromocionesOngoing @Sprint21 @Sprint22
+@Pedido @PromocionesOngoing @Sprint21 @Sprint22 @Sprint23
 
 Característica: Mostrar promociones ongoing
     Como prevendedor
