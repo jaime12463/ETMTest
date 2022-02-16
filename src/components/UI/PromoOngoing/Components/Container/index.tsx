@@ -85,6 +85,7 @@ export const Container: React.FC<ContainerProps> = ({
 									backgroundColor: 'none',
 								},
 							}}
+							data-cy={`boton-restablecer-${tipo}`}
 						>
 							<ReiniciarIcon height='10px' width='10px' />
 							<Typography
