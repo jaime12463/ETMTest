@@ -60,7 +60,7 @@ Escenario: N°5 - El cliente es de crédito informal con crédito bloqueado
     Y el cliente no tiene Pedido máximo cumplido, sin contar el pedido en curso y sin los compromisos de pago realizados en la visita actual
     Cuando muestra la tarjeta desplegada
     Entonces mostrará el switch de condicion de pago en contado y deshabilitado 
-    Y mostrará el switch en las tarjetas de producto
+    Y no mostrará el switch en las tarjetas de producto
 
 
 Esquema del escenario: N°6 - Mostrar switch cuando hay productos
