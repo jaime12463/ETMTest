@@ -9,11 +9,13 @@ import {useTranslation} from 'react-i18next';
 export interface ContainerProps {
 	tipo?: 'credito' | 'contado' | 'default';
 	onClick?: () => void;
+	dataCy?: string;
 }
 
 export const Container: React.FC<ContainerProps> = ({
 	tipo = 'default',
 	onClick = () => {},
+	dataCy,
 	children,
 }) => {
 	const {t} = useTranslation();
@@ -45,6 +47,7 @@ export const Container: React.FC<ContainerProps> = ({
 					variant='subtitle2'
 					color='#000'
 					marginBottom={tipo !== 'default' ? '8px' : 0}
+					data-cy={dataCy}
 				>
 					{titulo}
 				</Typography>

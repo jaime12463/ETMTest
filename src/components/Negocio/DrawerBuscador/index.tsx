@@ -139,7 +139,7 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 	React.useEffect(() => {
 		setResultadosBusqueda([]);
 
-		if (debouncedInput && preciosProductosDelClienteActual) {
+		if (debouncedInput.length >= 3 && preciosProductosDelClienteActual) {
 			const resultados = preciosProductosDelClienteActual.filter(
 				(producto: TPrecioProducto) => {
 					//Si el nombre o codigo del producto contiene el texto de búsqueda y no es PromoPush, lo agregamos al array de resultados
@@ -324,7 +324,7 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 						</IconButton>
 					</Box>
 				</>
-			) : debouncedInput === '' ? (
+			) : debouncedInput.length < 3 ? (
 				<Box display='flex' justifyContent='center' padding='103px 0 0 0'>
 					<Typography
 						variant='subtitle2'
