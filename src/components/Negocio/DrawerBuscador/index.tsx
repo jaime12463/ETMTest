@@ -23,6 +23,7 @@ import {
 } from 'redux/hooks';
 import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 import {BusquedaSinResultados} from 'assests/iconos/BusquedaSinResultados';
+import {ETiposDeFiltro, FiltroProductos} from 'utils/procesos/filtros/productos/filtroProductos';
 
 interface Props {
 	openBuscador: boolean;
@@ -135,11 +136,15 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 
 	const datosTipoPedidoActual = obtenerDatosTipoPedido();
 	const presupuestoTipoPedido = obtenerPresupuestosTipoPedidoActual();
+	const filtroProductos= new FiltroProductos(preciosProductosDelClienteActual);
 
 	React.useEffect(() => {
 		setResultadosBusqueda([]);
 
 		if (debouncedInput.length >= 3 && preciosProductosDelClienteActual) {
+			filtroProductos.agregarFiltro(ETiposDeFiltro.Pedido);
+			const resultados= filtroProductos.ejecutar(debouncedInput);
+			/*
 			const resultados = preciosProductosDelClienteActual.filter(
 				(producto: TPrecioProducto) => {
 					//Si el nombre o codigo del producto contiene el texto de búsqueda y no es PromoPush, lo agregamos al array de resultados
@@ -150,8 +155,8 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 					);
 				}
 			);
-
-			if (resultados.length) {
+*/
+			if (resultados?.length) {
 				for (const producto of resultados) {
 					// Se valida que se pueda mostrar el producto para ser agregado al pedido
 					if (
