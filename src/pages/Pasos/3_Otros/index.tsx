@@ -36,9 +36,13 @@ export const Otros: React.FC = () => {
 	const configuracion = useObtenerConfiguracion();
 
 	const mostrarTarjetaBonificaciones = !(
-		configuracion.habilitaCompromisoDeCobro &&
-		datosCliente?.informacionCrediticia.esBloqueadoVenta &&
-		clienteActual.condicion === 'creditoFormal'
+		(configuracion.habilitaCompromisoDeCobro &&
+			datosCliente?.informacionCrediticia.esCreditoBloqueado &&
+			clienteActual.condicion === 'creditoFormal') ||
+		(configuracion.habilitaCompromisoDeCobro &&
+			datosCliente?.informacionCrediticia.esCreditoBloqueado &&
+			datosCliente?.informacionCrediticia.esBloqueadoVenta &&
+			clienteActual.condicion === 'creditoInformal')
 	);
 
 	const {canje, ventaenvase, prestamoenvase} = visitaActual.pedidos;
