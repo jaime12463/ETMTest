@@ -33,3 +33,6 @@ Escenario: N°2 - Aplicar promociones ongoing con edicion de beneficio
     Y actualizará el disponible de la promoción
     Y ocultará la promoción
     Y mostrará la pantalla de promociones según mostrar promociones ongoing
+
+# Los descuentos en monto y %, se aplican sobre precioSinImpuestoUnidad y precioSinImpuestoSubunidad
+# cuando es en monto, el precio corresponde a unidades.
