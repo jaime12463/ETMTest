@@ -138,12 +138,22 @@ export const Card: React.VFC<CardProps> = ({
 		>
 			<Box display='flex' justifyContent='space-between'>
 				<Box display='flex' flexDirection='column'>
-					<Typography variant='subtitle3' fontFamily='Open Sans'>
+					<Typography
+						variant='subtitle3'
+						fontFamily='Open Sans'
+						data-cy={`promoOnGoing-ID-${promocionID}-${tipo}`}
+					>
 						{promocionID}
 					</Typography>
 					<Typography variant='subtitle3'>{descripcion}</Typography>
 				</Box>
-				{mostrarCheck && <CheckRedondoIcon height='20px' width='20px' />}
+				{mostrarCheck && (
+					<CheckRedondoIcon
+						height='20px'
+						width='20px'
+						data-cy={`promoOnGoing-Check-${promocionID}-${tipo}`}
+					/>
+				)}
 			</Box>
 			{!soloLectura && (
 				<>
@@ -176,6 +186,7 @@ export const Card: React.VFC<CardProps> = ({
 										backgroundColor: 'none',
 									},
 								}}
+								data-cy={`promoOnGoing-Aplicar-${promocionID}-${tipo}`}
 							>
 								<Typography
 									variant='caption'
