@@ -20,8 +20,8 @@ declare global {
 			agregarPedido(propsAgregarPedido: TPropsFunctionAgregarPedido): void;
 			ingresarCodigoCliente(codigoCliente: string): void;
 			ingresarCodigoProducto(codigoProducto: number): void;
-			ingresarUnidades(unidades: number): void;
-			ingresarSubUnidades(subUnidades: number): void;
+			ingresarUnidades(unidades: number, codigoProducto: number): void;
+			ingresarSubUnidades(subUnidades: number, codigoProducto: number): void;
 			esperarDatosServidor(): void;
 			esperarDatos(): void;
 			esperarConfiguracion(): void;
@@ -50,8 +50,8 @@ Cypress.Commands.add(
 		subUnidades,
 	}: Cypress.TPropsFunctionAgregarProducto) => {
 		cy.ingresarCodigoProducto(codigoProducto);
-		cy.ingresarUnidades(unidades);
-		if (subUnidades) cy.ingresarSubUnidades(subUnidades);
+		cy.ingresarUnidades(unidades, codigoProducto);
+		if (subUnidades) cy.ingresarSubUnidades(subUnidades, codigoProducto);
 		//nTODO: fix
 	}
 );
@@ -83,12 +83,12 @@ Cypress.Commands.add('ingresarCodigoProducto', (codigoProducto: number) => {
 	cy.get('[data-cy=codigo-producto-a-buscar]').type(`${codigoProducto}{enter}`);
 });
 
-Cypress.Commands.add('ingresarUnidades', (unidades: number) => {
-	cy.get(`[data-cy=cantidad-producto-unidades]`).type(`${unidades}{enter}`);
+Cypress.Commands.add('ingresarUnidades', (unidades: number, codigoProducto: number) => {
+	cy.get(`[data-cy=cantidad-producto-unidades-${codigoProducto}]`).type(`${unidades}{enter}`);
 });
 
-Cypress.Commands.add('ingresarSubUnidades', (subUnidades: number) => {
-	cy.get(`[data-cy=cantidad-producto-subUnidades]`).type(
+Cypress.Commands.add('ingresarSubUnidades', (subUnidades: number, codigoProducto: number) => {
+	cy.get(`[data-cy=cantidad-producto-subUnidades-${codigoProducto}]`).type(
 		`${subUnidades}{enter}`
 	);
 });
