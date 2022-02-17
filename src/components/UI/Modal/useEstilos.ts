@@ -12,7 +12,7 @@ const useEstilos = makeStyles(() =>
 			justifyContent: 'center',
 			position: 'fixed',
 			width: '100%',
-			zIndex: 100,
+			zIndex: 9999,
 		},
 		icon: {
 			display: 'flex',
