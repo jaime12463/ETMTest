@@ -1420,7 +1420,7 @@
 				"condicion": "creditoInformal",
 				"limite": 20000,
 				"disponible": 1050,
-				"esCreditoBloqueado": false,
+				"esCreditoBloqueado": true,
 				"esBloqueadoVenta": false,
 				"documentos": [
 					{
