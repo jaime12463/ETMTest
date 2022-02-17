@@ -415,6 +415,7 @@ const Pasos: React.FC = () => {
 					numeroItems={formatearItems(itemsValorizados.length)}
 					total={totalVisitaActual}
 					onClick={() => manejadorPasoAdelante()}
+					pasoActual={pasoActual}
 				/>
 			</Estructura.PieDePagina>
 		</Estructura>

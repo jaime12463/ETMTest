@@ -1,32 +1,66 @@
-import {FunctionComponent} from 'react';
+import React from 'react';
 import {formatearNumero, formatoNumeroConDecimales} from 'utils/methods';
 import Button from '@mui/material/Button';
-import {Box, Grid, Stack} from '@mui/material';
+import {Grid} from '@mui/material';
 import {useTranslation} from 'react-i18next';
+import {
+	useObtenerClienteActual,
+	useObtenerCompromisoDeCobroActual,
+	useObtenerConfiguracion,
+} from 'redux/hooks';
+import {useObtenerDatosCliente} from 'hooks';
 
 type Props = {
 	numeroItems: string;
 	descripcion: string;
 	total: number;
 	onClick: (e: any) => void;
+	pasoActual: number;
 };
 
-export const BotonBarraInferior: FunctionComponent<Props> = ({
+export const BotonBarraInferior: React.FC<Props> = ({
 	numeroItems,
 	descripcion,
 	total,
 	onClick,
+	pasoActual,
 }) => {
 	const {t} = useTranslation();
+	const compromisoDeCobro = useObtenerCompromisoDeCobroActual();
+	const clienteActual = useObtenerClienteActual();
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+	const configuracion = useObtenerConfiguracion();
+
+	const [botonHabilitado, setbotonHabilitado] = React.useState<boolean>(true);
+
+	const condicionesBloqueo =
+		(configuracion.habilitaCompromisoDeCobro &&
+			datosCliente?.informacionCrediticia.esCreditoBloqueado &&
+			clienteActual.condicion === 'creditoFormal') ||
+		(configuracion.habilitaCompromisoDeCobro &&
+			datosCliente?.informacionCrediticia.esCreditoBloqueado &&
+			datosCliente?.informacionCrediticia.esBloqueadoVenta &&
+			clienteActual.condicion === 'creditoInformal');
+
+	React.useEffect(() => {
+		if (condicionesBloqueo && pasoActual === 2 && compromisoDeCobro.id === '') {
+			setbotonHabilitado(false);
+			return;
+		}
+
+		setbotonHabilitado(true);
+	}, [condicionesBloqueo, pasoActual, compromisoDeCobro.id]);
+
 	return (
 		<Button
 			variant='contained'
 			size='large'
-			color='success'
 			fullWidth
 			style={{borderRadius: '24px', color: 'white', padding: '8px 12px'}}
 			onClick={onClick}
 			data-cy={`boton-inferior-avanzar`}
+			color={botonHabilitado ? 'success' : 'greys'}
+			sx={{pointerEvents: botonHabilitado ? 'all' : 'none'}}
 		>
 			<Grid
 				container
@@ -37,7 +71,7 @@ export const BotonBarraInferior: FunctionComponent<Props> = ({
 				<Grid item xs={3}>
 					<div
 						style={{
-							background: 'rgba(0, 0, 0, 0.35)',
+							background: 'rgba(0, 0, 0, 0.5)',
 							borderRadius: '14px',
 							padding: '4px',
 							width: '80px',
