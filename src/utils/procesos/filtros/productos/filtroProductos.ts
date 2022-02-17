@@ -4,6 +4,7 @@ import {exit} from 'process';
 export enum ETiposDeFiltro {
 	Venta = 'venta',
 	// Canje = 'canje',
+    NoPromoPush='noPromoPush'
 }
 
 export type TFuncionDeFiltro = {
@@ -16,6 +17,7 @@ export type TFuncionDeFiltro = {
 };
 
 export type TFiltro = {
+	orden:number;
 	activo: boolean;
 	func: TFuncionDeFiltro;
 	param?: number[] | string[];
@@ -26,6 +28,7 @@ type TListaDeFiltros = Record<ETiposDeFiltro, TFiltro>;
 export class FiltroProductos {
 	filtros: TListaDeFiltros = {
 		venta: {
+			orden:20,
 			activo: false,
 			func: (
 				producto: TPrecioProducto,
@@ -41,6 +44,17 @@ export class FiltroProductos {
 				);
 			},
 		},
+        noPromoPush: {
+			orden:10,
+			activo: true,
+			func: (
+				producto: TPrecioProducto,
+				codigo: number | string,
+				param?: number[] | string[]
+			) => {
+				return (!producto.promoPush);
+			},
+		}
 		//ToDo
 		// canje: {
 		// 	activo: false,
@@ -67,14 +81,15 @@ export class FiltroProductos {
 	}
 
 	ejecutar(codigo: number | string) {
+		const  filtros=Object.values(this.filtros).filter((filtro: TFiltro) => filtro.activo).sort((e1,e2)=> e1.orden>e2.orden ? -1 : 1);
 		return this.listaProductos?.filter((producto) => {
 			let ret = true;
-			Object.values(this.filtros)
-				.filter((filtro: TFiltro) => filtro.activo)
-				.forEach((filtro: TFiltro) => {
-					ret = filtro.func.apply(this, [producto, codigo, filtro.param]);
-					if (!ret) exit;
-				});
+			for( let filtro of filtros)
+			{
+				ret = filtro.func.apply(this, [producto, codigo, filtro.param]);
+				if (!ret) break;
+			}
+			
 			return ret;
 		});
 	}
