@@ -15,7 +15,7 @@ Escenario: N°1 - Mostrar las promociones ongoing
     Entonces el sistema mostrará la sección de condición de pago crédito con la lista de promociones que cumplen requisito a crédito
     Y mostrará la sección de condición de pago contado con la lista de promociones que cumplen requisito a contado
     Y mostrará la sección de promociones que no cubren el requisito
-    Y mostrará el control para restabelcer promociones para cada sección de condición de pago
+    Y mostrará el control para restablecer promociones para cada sección de condición de pago
 
 Escenario: N°2 - Calcular promociones y aplicar promociones automáticas cuando se modifica el pedido
     Dado que se modificaron productos que no son promo push en el pedido

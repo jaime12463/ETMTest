@@ -1,5 +1,5 @@
 # language: es
-@Compromiso_Cobro @Sprint14 @Sprint22
+@Compromiso_Cobro @Sprint14 @Sprint23
 
 Característica: Ver deuda del cliente
     Como prevendedor 

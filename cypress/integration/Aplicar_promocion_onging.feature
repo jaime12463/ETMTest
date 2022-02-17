@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @PromocionesOngoing @Sprint22
+@Pedido @PromocionesOngoing @Sprint22 @Sprint23
 
 Característica: Aplicar promociones ongoing
     Como prevendedor

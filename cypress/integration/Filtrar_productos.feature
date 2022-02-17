@@ -29,6 +29,7 @@ Esquema del escenario: N°2 - Filtrar producto de portafolio vigente cuando el t
     Y que pertenezcan al portafolio del cliente
     Y cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
     Y ordenados ascendente por código de producto
+    Y llevará la suma de filtros aplicados en el control de filtro
 
 Ejemplos:
 | fechaVigenciaInicial | fechaEntrega | fechaVigenciaFinal |
@@ -47,6 +48,7 @@ Esquema del escenario: N°3 - Filtrar producto en portafolio vigente con presupu
     Y que no sean productos promo push
     Y cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
     Y ordenados ascendente por código de producto
+    Y llevará la suma de filtros aplicados en el control de filtro
 
 Ejemplos:
 | fechaVigenciaInicial | fechaEntrega | fechaVigenciaFinal |
@@ -64,6 +66,7 @@ Esquema del escenario: N°4 - Buscar producto en portafolio vigente con presupue
     Y que tenga el atributo seleccionado
     Y que no sean productos promo push
     Y ordenados ascendente por código de producto
+    Y llevará la suma de filtros aplicados en el control de filtro
 
 Ejemplos:
 | fechaVigenciaInicial | fechaEntrega | fechaVigenciaFinal |
@@ -78,6 +81,7 @@ Escenario: N°5 - Filtrar productos habiendo ingresado una búsqueda de producto
     Entonces el sistema mostrará aquellos productos del listado de resultados que tengan el atributo seleccionado
     Y ordenados ascendente por código de producto
     Y que no sean productos promo push
+    Y llevará la suma de filtros aplicados en el control de filtro
     
 
 Escenario: N°6 - Borrar selección de filtros
@@ -85,3 +89,4 @@ Escenario: N°6 - Borrar selección de filtros
     Cuando se selecciona el control borrar selección
     Entonces el sistema restablecerá los filtros a su estado inicial
     Y descartará los filtros aplicados a los resultados obtenidos en la búsqueda de productos
+    Y borrará la indicación de la suma de filtros aplicados en el control de filtro
