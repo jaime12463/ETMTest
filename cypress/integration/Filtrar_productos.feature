@@ -2,7 +2,7 @@
 
 @Pedido @Filtrar_productos @Srptin19
 
-# _atributos_ son aquellos definidos como Marca, Envase, Familia, Sabores, Tamaños
+# _atributos_ son aquellos definidos como Marca, Envase, Familia, Sabores, Medida
 
 Característica: Filtrar productos
     Como prevendedor 
