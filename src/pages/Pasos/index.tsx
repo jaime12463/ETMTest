@@ -50,12 +50,19 @@ import {
 } from 'redux/features/visitaActual/visitaActualSlice';
 import ModalCore from 'components/UI/ModalCore';
 import {obtenerTotalesPedidosCliente} from 'utils/methods';
+/*
 import {
 	obtenerlistaPromocionesVigentes,
 	obtenerPromocionesOngoingTotal,
 	TPromoOngoingAplicables,
 	TPromoOngoingAplicablesResultado,
 } from 'utils/procesos/promociones';
+*/
+
+import {
+	PromocionesOngoing,
+	TPromoOngoingAplicablesResultado,
+} from 'utils/procesos/promociones/PromocionesOngoing';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -116,9 +123,15 @@ const Pasos: React.FC = () => {
 		pedidosClienteMismaFechaEntrega,
 		tipoPedidos,
 	});
+	/*
 	const promocionesVigentesCliente = React.useMemo(
 		() => obtenerlistaPromocionesVigentes(datosCliente, datos?.promociones),
 		[datosCliente, datos?.promociones]
+	);
+*/
+	const promocionesOngoing = PromocionesOngoing.getInstance(
+		datosCliente,
+		datos?.promociones
 	);
 
 	useEffect(() => {
@@ -267,10 +280,8 @@ const Pasos: React.FC = () => {
 						visitaActual?.avisos?.cambioElPedidoSinPromociones.contado ||
 						visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
 					) {
-						promociones = obtenerPromocionesOngoingTotal(
-							datosCliente,
-							visitaActual?.pedidos?.venta?.productos,
-							promocionesVigentesCliente
+						promociones = promocionesOngoing.calcular(
+							visitaActual?.pedidos?.venta?.productos
 						);
 
 						dispatch(

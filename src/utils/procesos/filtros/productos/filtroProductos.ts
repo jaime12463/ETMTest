@@ -25,6 +25,12 @@ export type TFiltro = {
 
 type TListaDeFiltros = Record<ETiposDeFiltro, TFiltro>;
 
+/**
+ * Retorna las promociones que se aplicaron al cliente en formato TPromoOngoingAplicadas[] para ser despachas al redux
+ * @class
+ * @param {TPromoOngoingAplicables[]} promoContado - Array de promociones de contado
+ * @param {	promoCredito: TPromoOngoingAplicables[]} promoCredito  - array de promociones de credito
+ */
 export class FiltroProductos {
 	filtros: TListaDeFiltros = {
 		venta: {
@@ -65,21 +71,41 @@ export class FiltroProductos {
 	};
 
 	listaProductos: TPrecioProducto[] | undefined;
-
-	constructor(listaProductos?: TPrecioProducto[]) {
-		//console.table(listaProductos);
+	/**
+	 * Crea una instancia de filtro de productos
+	 * @constructor
+	 * @param {TPrecioProducto[]} listaProductos - Portafolio dle cliente
+	 */
+	constructor(listaProductos?: TPrecioProducto[], filtrosDefault?:ETiposDeFiltro[] ) {
 		this.listaProductos = listaProductos;
+		filtrosDefault?.forEach((filtroActivar)=> this.agregarFiltro(filtroActivar));
 	}
 
+	/**
+     * Activa un filtro para la ejecución
+     * @param {ETiposDeFiltro} tipo - tipo de filtro
+	 * @param {number[] | string[]} param - Opcional lista de valores donde debe encontrarse alguna de las propiedades del producto
+     * @return void.
+     */
 	agregarFiltro(tipo: ETiposDeFiltro, param?: number[] | string[]): void {
 		this.filtros[tipo].activo = true;
 		this.filtros[tipo].param = this.filtros[tipo].param;
 	}
 
+	/**
+     * Desactiva un filtro para la ejecución
+     * @param {ETiposDeFiltro} tipo - tipo de filtro
+     * @return void.
+     */
 	quitarFiltro(tipo: ETiposDeFiltro): void {
 		this.filtros[tipo].activo = false;
 	}
 
+	/**
+     * Ejecuta la lista de fltros activos
+     * @param { number | string} codigo - Parcial o Total de caracteres intervinientes en el código de producto
+     * @return void.
+     */
 	ejecutar(codigo: number | string) {
 		const  filtros=Object.values(this.filtros).filter((filtro: TFiltro) => filtro.activo).sort((e1,e2)=> e1.orden>e2.orden ? -1 : 1);
 		return this.listaProductos?.filter((producto) => {
