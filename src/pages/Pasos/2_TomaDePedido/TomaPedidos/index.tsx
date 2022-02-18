@@ -45,11 +45,14 @@ import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoP
 import Box from '@mui/material/Box';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
-
+/*
 import {
 	obtenerlistaPromocionesVigentes,
 	obtenerPromocionesOngoingTotal,
 } from 'utils/procesos/promociones';
+*/
+import { PromocionesOngoing} from 'utils/procesos/promociones/PromocionesOngoing';
+
 import {useObtenerDatos} from 'redux/hooks';
 import DrawerBuscador from 'components/Negocio/DrawerBuscador';
 
@@ -128,11 +131,14 @@ const TomaPedido: React.FC = () => {
 
 	const borrarlinea = useBorrarLinea({setAlerta, setConfigAlerta});
 
+	const promocionesOngoing = PromocionesOngoing.getInstance(datosCliente, datos?.promociones);
+	const promocionesVigentesCliente = promocionesOngoing.obtenerListaVigentes();
+	/*
 	const promocionesVigentesCliente = React.useMemo(
-		() => obtenerlistaPromocionesVigentes(datosCliente, datos.promociones),
+		() =>promocionesOngoing.obtenerListaVigentes obtenerlistaPromocionesVigentes(datosCliente, datos.promociones),
 		[datosCliente, datos.promociones]
-	);
-
+	)
+	*/
 	const puedeBotonPromocionesOngoing =
 		venta.productos.some(
 			(producto) => producto.unidades > 0 || producto.subUnidades > 0
@@ -140,11 +146,8 @@ const TomaPedido: React.FC = () => {
 
 	const manejadorBotonPromosOngoing = () => {
 		setOpenDrawerPromociones(true);
-		let promociones = obtenerPromocionesOngoingTotal(
-			datosCliente,
-			venta.productos,
-			promocionesVigentesCliente
-		);
+		let promociones = promocionesOngoing.calcular(venta.productos)
+		
 		setPromocionesOingoing(promociones);
 		if (visitaActual.avisos.cambioElPedidoSinPromociones) {
 			dispatch(
