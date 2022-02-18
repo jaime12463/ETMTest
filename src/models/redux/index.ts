@@ -72,7 +72,12 @@ export type TAvisos = {
 	limiteCredito: number;
 	cambiosPasoActual: boolean;
 	calculoPromociones: boolean;
-	cambioElPedidoSinPromociones: boolean;
+	cambioElPedidoSinPromociones: TCambioPedidoSinPromociones;
+};
+
+export type TCambioPedidoSinPromociones = {
+	contado: boolean;
+	credito: boolean;
 };
 
 export type TPromoOngoingAplicadas = {

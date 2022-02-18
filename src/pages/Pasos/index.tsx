@@ -263,7 +263,10 @@ const Pasos: React.FC = () => {
 						benficiosParaAgregar: [],
 					};
 
-					if (visitaActual?.avisos?.cambioElPedidoSinPromociones) {
+					if (
+						visitaActual?.avisos?.cambioElPedidoSinPromociones.contado ||
+						visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
+					) {
 						promociones = obtenerPromocionesOngoingTotal(
 							datosCliente,
 							visitaActual?.pedidos?.venta?.productos,
@@ -273,7 +276,7 @@ const Pasos: React.FC = () => {
 						dispatch(
 							cambiarAvisos({
 								calculoPromociones: true,
-								cambioElPedidoSinPromociones: false,
+								cambioElPedidoSinPromociones: {contado: false, credito: false},
 							})
 						);
 						dispatch(
@@ -299,8 +302,10 @@ const Pasos: React.FC = () => {
 					}
 
 					if (
-						visitaActual?.avisos?.cambioElPedidoSinPromociones &&
-						promociones?.benficiosParaAgregar?.length > 0
+						(visitaActual?.avisos?.cambioElPedidoSinPromociones.contado &&
+							promociones?.benficiosParaAgregar?.length > 0) ||
+						(visitaActual?.avisos?.cambioElPedidoSinPromociones.credito &&
+							promociones?.benficiosParaAgregar?.length > 0)
 					) {
 						mostrarAviso(
 							'success',
