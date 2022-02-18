@@ -297,11 +297,7 @@ export class PromocionesOngoing {
                                     },
                                 ],
                             });
-                            topeTotal = Math.min(
-                                grupoDeBeneficiosResultado[0].secuencias[0].cantidad *
-                                    Math.min(...multiplo),
-                                grupoDeBeneficiosResultado[0].secuencias[0].tope
-                            );
+                           
         
                            
 
@@ -316,6 +312,11 @@ export class PromocionesOngoing {
                         }
                         
                         //Beneficio por default
+                        topeTotal = Math.min(
+                            grupoDeBeneficiosResultado[0].secuencias[0].cantidad *
+                                Math.min(...multiplo),
+                            grupoDeBeneficiosResultado[0].secuencias[0].tope
+                        );
                         listaProductosAplicados.push({
                             codigoProducto:
                                 grupoDeBeneficiosResultado[0].secuencias[0]
