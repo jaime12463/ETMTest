@@ -35,7 +35,7 @@ const estadoInicial: TVisita = {
 		limiteCredito: 0,
 		cambiosPasoActual: false,
 		calculoPromociones: false,
-		cambioElPedidoSinPromociones: false,
+		cambioElPedidoSinPromociones: {contado: true, credito: false},
 	},
 	clienteBloqueado: false,
 };
@@ -85,7 +85,11 @@ export const visitaActualSlice = createSlice({
 				producto.preciosNeto = action.payload.productoPedido.preciosNeto;
 				producto.descuento = action.payload.productoPedido.descuento;
 				if (!producto.promoPush && state.tipoPedidoActual === 'venta') {
-					state.avisos.cambioElPedidoSinPromociones = true;
+					if (producto.tipoPago === ETiposDePago.Contado) {
+						state.avisos.cambioElPedidoSinPromociones.contado = true;
+					} else if (producto.tipoPago === ETiposDePago.Credito) {
+						state.avisos.cambioElPedidoSinPromociones.credito = true;
+					}
 				}
 			} else {
 				state.pedidos[state.tipoPedidoActual].productos = [
@@ -140,13 +144,43 @@ export const visitaActualSlice = createSlice({
 				beneficios: TPromoOngoingAplicadas[];
 			}>
 		) => {
+			const {cambioElPedidoSinPromociones} = state.avisos;
+
 			if (action.payload.beneficios.some((promo) => promo.aplicacion === 'M')) {
 				state.promosOngoing = [
 					...state.promosOngoing,
 					...action.payload.beneficios,
 				];
 			} else {
-				state.promosOngoing = action.payload.beneficios;
+				if (state.promosOngoing.length > 0) {
+					if (
+						cambioElPedidoSinPromociones.contado &&
+						!cambioElPedidoSinPromociones.credito
+					) {
+						let promosCredito = state.promosOngoing.filter(
+							(promo) => promo.tipoPago === ETiposDePago.Credito
+						);
+						state.promosOngoing = [
+							...promosCredito,
+							...action.payload.beneficios,
+						];
+					} else if (
+						cambioElPedidoSinPromociones.credito &&
+						!cambioElPedidoSinPromociones.contado
+					) {
+						let promosContadas = state.promosOngoing.filter(
+							(promo) => promo.tipoPago === ETiposDePago.Contado
+						);
+						state.promosOngoing = [
+							...promosContadas,
+							...action.payload.beneficios,
+						];
+					} else {
+						state.promosOngoing = action.payload.beneficios;
+					}
+				} else {
+					state.promosOngoing = action.payload.beneficios;
+				}
 			}
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
@@ -208,7 +242,11 @@ export const visitaActualSlice = createSlice({
 					(producto && producto?.unidades > 0) ||
 					(producto && producto?.subUnidades > 0)
 				) {
-					state.avisos.cambioElPedidoSinPromociones = true;
+					if (producto.tipoPago === ETiposDePago.Contado) {
+						state.avisos.cambioElPedidoSinPromociones.contado = true;
+					} else if (producto.tipoPago === ETiposDePago.Credito) {
+						state.avisos.cambioElPedidoSinPromociones.credito = true;
+					}
 				}
 			}
 
@@ -323,7 +361,10 @@ export const visitaActualSlice = createSlice({
 				!state.pedidos[state.tipoPedidoActual].productos[indexProductoPedido]
 					.promoPush
 			) {
-				state.avisos.cambioElPedidoSinPromociones = true;
+				state.avisos.cambioElPedidoSinPromociones = {
+					contado: true,
+					credito: true,
+				};
 			}
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
@@ -341,7 +382,10 @@ export const visitaActualSlice = createSlice({
 			state.pedidos[state.tipoPedidoActual].productos.forEach(
 				(producto: TProductoPedido) => {
 					if (!producto.promoPush) {
-						state.avisos.cambioElPedidoSinPromociones = true;
+						state.avisos.cambioElPedidoSinPromociones = {
+							contado: true,
+							credito: true,
+						};
 					}
 					producto.tipoPago = action.payload.tipoPago;
 				}

@@ -59,7 +59,10 @@ import {
 } from 'utils/procesos/promociones';
 */
 
-import { PromocionesOngoing, TPromoOngoingAplicablesResultado } from 'utils/procesos/promociones/PromocionesOngoing';
+import {
+	PromocionesOngoing,
+	TPromoOngoingAplicablesResultado,
+} from 'utils/procesos/promociones/PromocionesOngoing';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -120,15 +123,16 @@ const Pasos: React.FC = () => {
 		pedidosClienteMismaFechaEntrega,
 		tipoPedidos,
 	});
-/*
+	/*
 	const promocionesVigentesCliente = React.useMemo(
 		() => obtenerlistaPromocionesVigentes(datosCliente, datos?.promociones),
 		[datosCliente, datos?.promociones]
 	);
 */
-	const promocionesOngoing = PromocionesOngoing.getInstance(datosCliente, datos?.promociones);
-
-
+	const promocionesOngoing = PromocionesOngoing.getInstance(
+		datosCliente,
+		datos?.promociones
+	);
 
 	useEffect(() => {
 		if (pasoActual < controlador.length - 1) {
@@ -272,15 +276,18 @@ const Pasos: React.FC = () => {
 						benficiosParaAgregar: [],
 					};
 
-					if (visitaActual?.avisos?.cambioElPedidoSinPromociones) {
-						
-						promociones = promocionesOngoing.calcular(visitaActual?.pedidos?.venta?.productos)
-						
+					if (
+						visitaActual?.avisos?.cambioElPedidoSinPromociones.contado ||
+						visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
+					) {
+						promociones = promocionesOngoing.calcular(
+							visitaActual?.pedidos?.venta?.productos
+						);
 
 						dispatch(
 							cambiarAvisos({
 								calculoPromociones: true,
-								cambioElPedidoSinPromociones: false,
+								cambioElPedidoSinPromociones: {contado: false, credito: false},
 							})
 						);
 						dispatch(
@@ -306,8 +313,10 @@ const Pasos: React.FC = () => {
 					}
 
 					if (
-						visitaActual?.avisos?.cambioElPedidoSinPromociones &&
-						promociones?.benficiosParaAgregar?.length > 0
+						(visitaActual?.avisos?.cambioElPedidoSinPromociones.contado &&
+							promociones?.benficiosParaAgregar?.length > 0) ||
+						(visitaActual?.avisos?.cambioElPedidoSinPromociones.credito &&
+							promociones?.benficiosParaAgregar?.length > 0)
 					) {
 						mostrarAviso(
 							'success',

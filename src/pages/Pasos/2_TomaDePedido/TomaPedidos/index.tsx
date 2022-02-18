@@ -149,7 +149,10 @@ const TomaPedido: React.FC = () => {
 		let promociones = promocionesOngoing.calcular(venta.productos)
 		
 		setPromocionesOingoing(promociones);
-		if (visitaActual.avisos.cambioElPedidoSinPromociones) {
+		if (
+			visitaActual.avisos.cambioElPedidoSinPromociones.contado ||
+			visitaActual.avisos.cambioElPedidoSinPromociones.credito
+		) {
 			dispatch(
 				agregarBeneficiosPromoOngoing({
 					beneficios: promociones?.benficiosParaAgregar.filter(
@@ -162,7 +165,7 @@ const TomaPedido: React.FC = () => {
 		dispatch(
 			cambiarAvisos({
 				calculoPromociones: true,
-				cambioElPedidoSinPromociones: false,
+				cambioElPedidoSinPromociones: {contado: false, credito: false},
 			})
 		);
 
@@ -174,7 +177,8 @@ const TomaPedido: React.FC = () => {
 			visitaActual.avisos;
 
 		if (
-			cambioElPedidoSinPromociones &&
+			(cambioElPedidoSinPromociones.contado ||
+				cambioElPedidoSinPromociones.credito) &&
 			calculoPromociones &&
 			venta.productos.length > 0
 		) {
