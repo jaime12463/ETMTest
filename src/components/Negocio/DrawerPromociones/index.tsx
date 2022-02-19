@@ -5,10 +5,15 @@ import PromoOngoing from 'components/UI/PromoOngoing';
 import {ETiposDePago, TPromoOngoingAplicadas} from 'models';
 import {TPromoOngoing} from 'models/server';
 import {useTranslation} from 'react-i18next';
-import {useAppDispatch} from 'redux/hooks';
+import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {borrarPromocionesOngoing} from 'redux/features/visitaActual/visitaActualSlice';
-import React from 'react';
-import {TPromoOngoingAplicablesResultado} from 'utils/procesos/promociones';
+import React, {useReducer} from 'react';
+import {
+	TPromoOngoingAplicables,
+	TPromoOngoingAplicablesResultado,
+} from 'utils/procesos/promociones';
+
+import {TPromoOngoingDisponibilidad} from 'utils/procesos/promociones/PromocionesOngoing';
 import Modal from 'components/UI/Modal';
 
 export interface Props {
@@ -19,6 +24,7 @@ export interface Props {
 		credito: TPromoOngoingAplicablesResultado;
 		noAplicable: TPromoOngoing[];
 		benficiosParaAgregar: TPromoOngoingAplicadas[];
+		disponibles: TPromoOngoingDisponibilidad;
 	};
 }
 
@@ -36,15 +42,53 @@ export const DrawerPromociones: React.FC<Props> = ({
 		iconoMensaje: <></>,
 		callbackAceptar: () => {},
 	});
-
+	const visitaActual = useObtenerVisitaActual();
 	const [alerta, setAlerta] = React.useState<boolean>(false);
 	const [borroPromociones, setBorroPromociones] = React.useState<{
 		credito: boolean;
 		contado: boolean;
 	}>({credito: false, contado: false});
+	const [promocionesActuales, setPromocionesActuales] = React.useState<{
+		contado: TPromoOngoingAplicables[];
+		credito: TPromoOngoingAplicables[];
+	}>({
+		contado: [],
+		credito: [],
+	});
+	const [promosDisponibles, setpromosDisponibles] = React.useState<
+		{
+			disponible: number;
+			promocionID: number;
+			contado: boolean;
+			credito: boolean;
+		}[]
+	>([]);
+
 	const dispatch = useAppDispatch();
 
 	const restablecerPromociones = (tipo: 'Credito' | 'Contado') => {
+		console.log('entro');
+		let promosDisponiblesFiltradas = [];
+		if (tipo === 'Contado') {
+			promosDisponiblesFiltradas = promosDisponibles.filter((promo) => {
+				if (promo.credito && promo.contado) {
+					promo.contado = false;
+					return promo;
+				} else if (promo.credito) {
+					return promo;
+				}
+			});
+		} else {
+			promosDisponiblesFiltradas = promosDisponibles.filter((promo) => {
+				if (promo.credito && promo.contado) {
+					promo.credito = false;
+					return promo;
+				} else if (promo.contado) {
+					return promo;
+				}
+			});
+		}
+		setpromosDisponibles(promosDisponiblesFiltradas);
 		setBorroPromociones(
 			tipo === 'Credito'
 				? {...borroPromociones, credito: true}
@@ -55,7 +99,61 @@ export const DrawerPromociones: React.FC<Props> = ({
 				tipoPago: tipo,
 			})
 		);
+		if (promocionesOingoing) {
+			setPromocionesActuales({
+				contado: promocionesOingoing.contado.promosAplicables,
+				credito: promocionesOingoing.credito.promosAplicables,
+			});
+		}
 	};
+
+	console.log(promosDisponibles);
+
+	React.useEffect(() => {
+		if (promocionesOingoing) {
+			let promocionesCreditoFiltradas =
+				promocionesOingoing.credito.promosAplicables.filter((promo) => {
+					let promoEnDisponibles = promosDisponibles.find(
+						(promoDisponible) =>
+							Number(promoDisponible.promocionID) === Number(promo.promocionID)
+					);
+
+					if (
+						!promoEnDisponibles ||
+						promoEnDisponibles.disponible > 0 ||
+						(promoEnDisponibles.disponible <= 0 && promoEnDisponibles.credito)
+					) {
+						return promo;
+					}
+				});
+
+			let promocionesContadoFiltradas =
+				promocionesOingoing.contado.promosAplicables.filter((promo) => {
+					let promoEnDisponibles = promosDisponibles.find(
+						(promoDisponible) =>
+							Number(promoDisponible.promocionID) === Number(promo.promocionID)
+					);
+					if (
+						!promoEnDisponibles ||
+						promoEnDisponibles.disponible > 0 ||
+						(promoEnDisponibles.disponible <= 0 && promoEnDisponibles.contado)
+					) {
+						return promo;
+					}
+				});
+
+			setPromocionesActuales({
+				credito: promocionesCreditoFiltradas,
+				contado: promocionesContadoFiltradas,
+			});
+		}
+	}, [promosDisponibles, promocionesOingoing]);
+
+	React.useEffect(() => {
+		if (!openDrawerPromociones) {
+			setpromosDisponibles([]);
+		}
+	}, [openDrawerPromociones]);
 
 	return (
 		<>
@@ -93,7 +191,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 					gap='16px'
 					padding='22px 10px'
 				>
-					{promocionesOingoing?.credito?.promosAplicables.length > 0 && (
+					{promocionesActuales.credito.length > 0 && (
 						<PromoOngoing.Container
 							tipo='credito'
 							onClick={() => {
@@ -111,31 +209,31 @@ export const DrawerPromociones: React.FC<Props> = ({
 							dataCy='Promociones-Credito'
 						>
 							<PromoOngoing.CardsContainer>
-								{promocionesOingoing?.credito?.promosAplicables.map(
-									(promocion: TPromoOngoing) => (
-										<PromoOngoing.Card
-											key={promocion.promocionID}
-											promosSimilares={
-												promocionesOingoing.credito
-													.indiceProductosxPromosManuales
-											}
-											tipo='credito'
-											promocion={promocion}
-											promocionAutomatica={promocion.aplicacion === 'A'}
-											borroPromociones={borroPromociones}
-											setBorroPromociones={setBorroPromociones}
-											beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
-												(promo: TPromoOngoingAplicadas) =>
-													promo.promocionID === promocion.promocionID &&
-													promo.tipoPago === ETiposDePago.Credito
-											)}
-										/>
-									)
-								)}
+								{promocionesActuales.credito.map((promocion: TPromoOngoing) => (
+									<PromoOngoing.Card
+										key={promocion.promocionID}
+										promosSimilares={
+											promocionesOingoing.credito.indiceProductosxPromosManuales
+										}
+										tipo='credito'
+										promocion={promocion}
+										disponible={promocionesOingoing.disponibles}
+										promocionAutomatica={promocion.aplicacion === 'A'}
+										borroPromociones={borroPromociones}
+										setBorroPromociones={setBorroPromociones}
+										setpromosDisponibles={setpromosDisponibles}
+										promosDisponibles={promosDisponibles}
+										beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
+											(promo: TPromoOngoingAplicadas) =>
+												promo.promocionID === promocion.promocionID &&
+												promo.tipoPago === ETiposDePago.Credito
+										)}
+									/>
+								))}
 							</PromoOngoing.CardsContainer>
 						</PromoOngoing.Container>
 					)}
-					{promocionesOingoing?.contado?.promosAplicables.length > 0 && (
+					{promocionesActuales.contado.length > 0 && (
 						<PromoOngoing.Container
 							tipo='contado'
 							onClick={() => {
@@ -153,27 +251,27 @@ export const DrawerPromociones: React.FC<Props> = ({
 							dataCy='Promociones-Contado'
 						>
 							<PromoOngoing.CardsContainer>
-								{promocionesOingoing?.contado?.promosAplicables.map(
-									(promocion: TPromoOngoing) => (
-										<PromoOngoing.Card
-											key={promocion.promocionID}
-											promosSimilares={
-												promocionesOingoing.contado
-													.indiceProductosxPromosManuales
-											}
-											tipo='contado'
-											promocion={promocion}
-											promocionAutomatica={promocion.aplicacion === 'A'}
-											borroPromociones={borroPromociones}
-											setBorroPromociones={setBorroPromociones}
-											beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
-												(promo: TPromoOngoingAplicadas) =>
-													promo.promocionID === promocion.promocionID &&
-													promo.tipoPago === ETiposDePago.Contado
-											)}
-										/>
-									)
-								)}
+								{promocionesActuales.contado.map((promocion: TPromoOngoing) => (
+									<PromoOngoing.Card
+										key={promocion.promocionID}
+										promosSimilares={
+											promocionesOingoing.contado.indiceProductosxPromosManuales
+										}
+										tipo='contado'
+										promocion={promocion}
+										disponible={promocionesOingoing.disponibles}
+										promocionAutomatica={promocion.aplicacion === 'A'}
+										borroPromociones={borroPromociones}
+										setpromosDisponibles={setpromosDisponibles}
+										setBorroPromociones={setBorroPromociones}
+										promosDisponibles={promosDisponibles}
+										beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
+											(promo: TPromoOngoingAplicadas) =>
+												promo.promocionID === promocion.promocionID &&
+												promo.tipoPago === ETiposDePago.Contado
+										)}
+									/>
+								))}
 							</PromoOngoing.CardsContainer>
 						</PromoOngoing.Container>
 					)}

@@ -137,8 +137,6 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 			(envase: any) => envase.tipoEnvase === tipoEnvase
 		);
 
-		console.log({envaseActual});
-
 		if (!Number.isNaN(unidadesIngresadas) && envaseActual && tipoEnvase)
 			if (unidadesIngresadas <= retorno.unidades + envaseActual?.unidades) {
 				setRetorno({

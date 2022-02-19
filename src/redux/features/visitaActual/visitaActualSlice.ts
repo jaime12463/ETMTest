@@ -153,7 +153,8 @@ export const visitaActualSlice = createSlice({
 				];
 			} else {
 				if (state.promosOngoing.length > 0) {
-					if (
+					state.promosOngoing = action.payload.beneficios;
+					/* if (
 						cambioElPedidoSinPromociones.contado &&
 						!cambioElPedidoSinPromociones.credito
 					) {
@@ -174,10 +175,10 @@ export const visitaActualSlice = createSlice({
 						state.promosOngoing = [
 							...promosContadas,
 							...action.payload.beneficios,
-						];
-					} else {
+						]; */
+					/* 		} else {
 						state.promosOngoing = action.payload.beneficios;
-					}
+					} */
 				} else {
 					state.promosOngoing = action.payload.beneficios;
 				}

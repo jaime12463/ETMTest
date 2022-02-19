@@ -9,6 +9,7 @@ import {ETiposDePago, TPromoOngoing, TPromoOngoingAplicadas} from 'models';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
 import {TProductosUsadosEnOtrasPromos} from 'utils/procesos/promociones';
+import {TPromoOngoingDisponibilidad} from 'utils/procesos/promociones/PromocionesOngoing';
 
 export interface CardProps {
 	promocionAutomatica?: boolean;
@@ -21,6 +22,23 @@ export interface CardProps {
 		credito: boolean;
 		contado: boolean;
 	};
+	promosDisponibles?: {
+		disponible: number;
+		promocionID: number;
+		contado: boolean;
+		credito: boolean;
+	}[];
+	disponible?: TPromoOngoingDisponibilidad;
+	setpromosDisponibles?: React.Dispatch<
+		React.SetStateAction<
+			{
+				disponible: number;
+				promocionID: number;
+				contado: boolean;
+				credito: boolean;
+			}[]
+		>
+	>;
 	setBorroPromociones?: React.Dispatch<
 		React.SetStateAction<{
 			credito: boolean;
@@ -38,6 +56,9 @@ export const Card: React.VFC<CardProps> = ({
 	tipo,
 	setBorroPromociones,
 	promosSimilares,
+	setpromosDisponibles,
+	promosDisponibles,
+	disponible,
 }) => {
 	const [mostrarCheck, setMostrarCheck] = React.useState<boolean>(false);
 	const [bordeColor, setBordeColor] = React.useState<string>('#D9D9D9');
@@ -47,6 +68,8 @@ export const Card: React.VFC<CardProps> = ({
 	const {descripcion, promocionID} = promocion;
 	const dispatch = useAppDispatch();
 	const visitaActual = useObtenerVisitaActual();
+	const [promocionAplicada, setPromocionAplicada] =
+		React.useState<boolean>(false);
 
 	const tipoPago =
 		tipo === 'contado' ? ETiposDePago.Contado : ETiposDePago.Credito;
@@ -81,30 +104,86 @@ export const Card: React.VFC<CardProps> = ({
 	}, [visitaActual.promosOngoing]);
 
 	React.useEffect(() => {
-		if (!promocionAutomatica) {
-			const promocionAplicada = visitaActual.promosOngoing.some(
-				(promo) =>
-					beneficiosPararAgregar?.promocionID === promo.promocionID &&
-					promo.tipoPago === tipoPago
-			);
+		let promoAplicada = visitaActual.promosOngoing.some(
+			(promo) =>
+				beneficiosPararAgregar?.promocionID === promo.promocionID &&
+				promo.tipoPago === tipoPago
+		);
 
-			if (promocionAplicada) {
+		setPromocionAplicada(promoAplicada);
+
+		if (!promocionAutomatica) {
+			if (promoAplicada) {
 				setMostrarCheck(true);
 				setBordeColor(theme.palette.success.main);
+				if (promosDisponibles && setpromosDisponibles && disponible) {
+					let promoBuscar = promosDisponibles?.find(
+						(promo) => Number(promo?.promocionID) === Number(promocionID)
+					);
+					let promosFiltrado = promosDisponibles.filter(
+						(promo) => Number(promo?.promocionID) !== Number(promocionID)
+					);
+
+					setpromosDisponibles([
+						...promosFiltrado,
+						{
+							...promoBuscar,
+							disponible: promoBuscar
+								? promoBuscar.disponible - 1
+								: disponible[promocionID].disponibles - 1,
+							promocionID: Number(promocionID),
+							contado:
+								tipoPago === ETiposDePago.Contado
+									? true
+									: promoBuscar?.contado ?? false,
+							credito:
+								tipoPago === ETiposDePago.Credito
+									? true
+									: promoBuscar?.credito ?? false,
+						},
+					]);
+				}
 			}
 		}
-		console.log(beneficiosPararAgregar);
 	}, []);
 
 	const onClick = () => {
 		setMostrarCheck(true);
 		setBordeColor(theme.palette.success.main);
+		setPromocionAplicada(true);
 		if (beneficiosPararAgregar) {
 			dispatch(
 				agregarBeneficiosPromoOngoing({
 					beneficios: [beneficiosPararAgregar],
 				})
 			);
+		}
+
+		if (promosDisponibles && setpromosDisponibles && disponible) {
+			let promoBuscar = promosDisponibles?.find(
+				(promo) => Number(promo?.promocionID) === Number(promocionID)
+			);
+			let promosFiltrado = promosDisponibles.filter(
+				(promo) => Number(promo?.promocionID) !== Number(promocionID)
+			);
+			setpromosDisponibles([
+				...promosFiltrado,
+				{
+					...promoBuscar,
+					disponible: promoBuscar
+						? promoBuscar.disponible - 1
+						: disponible[promocionID].disponibles - 1,
+					promocionID: Number(promocionID),
+					contado:
+						tipoPago === ETiposDePago.Contado
+							? true
+							: promoBuscar?.contado ?? false,
+					credito:
+						tipoPago === ETiposDePago.Credito
+							? true
+							: promoBuscar?.credito ?? false,
+				},
+			]);
 		}
 	};
 
@@ -120,6 +199,7 @@ export const Card: React.VFC<CardProps> = ({
 			setBordeColor('#D9D9D9');
 			setBorroPromociones({...borroPromociones, [tipo]: false});
 			setEsPromoSimilar(false);
+			setPromocionAplicada(false);
 		}
 	}, [borroPromociones]);
 
@@ -129,6 +209,21 @@ export const Card: React.VFC<CardProps> = ({
 			setBordeColor(theme.palette.success.main);
 		}
 	}, [promocionAutomatica]);
+
+	/* 	React.useEffect(() => {
+		let promoBuscar = promosDisponibles?.find(
+			(promo) => promo?.promocionID == promocionID
+		);
+		if (!promocionAplicada) {
+			if (promoBuscar !== undefined && promoBuscar?.disponible <= 0) {
+				setMostrarPromocion(false);
+			} else {
+				setMostrarPromocion(true);
+			}
+		} else {
+			setMostrarPromocion(true);
+		}
+	}, [visitaActual.promosOngoing, promocionAplicada, promosDisponibles]); */
 
 	return (
 		<Box
