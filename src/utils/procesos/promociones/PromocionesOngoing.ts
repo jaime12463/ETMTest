@@ -173,20 +173,27 @@ export class PromocionesOngoing {
         promosAplicadas:TPromoOngoingAplicadasOrigen,
         tipos:ETiposDePago[],
     )  {
-
+        //contadores a cero
         Object.keys(this.disponibilidadDeLaPromo).forEach( promoId => { this.disponibilidadDeLaPromo[Number(promoId)].aplicadas=0;} )
 
+        //sumamos grabadas
         promosAplicadas[ETipoOrigenDeDatos.Grabadas].forEach((promo:TPromoOngoingAplicadas)=>
         {
             this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++
         });
 
-        tipos.forEach( ( tipo) =>{
-            promosAplicadas[ETipoOrigenDeDatos.VisitaActual].filter(promo => promo.tipoPago==tipo).forEach((promo:TPromoOngoingAplicadas)=>
+        //sumamos las aplicadas solo cuando se pide recalculo de credito o contado, si se pide de los 2 quedarí en cero
+
+        if (tipos.length===1)
+        {
+            promosAplicadas[ETipoOrigenDeDatos.VisitaActual].filter(promo => promo.tipoPago!=tipos[0]).forEach((promo:TPromoOngoingAplicadas)=>
             {
                 this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++
             });
-        });
+        }
+        
+        
+        
 
         let promocionesContado:TPromoOngoingAplicablesResultado | undefined;
         let promocionesCredito:TPromoOngoingAplicablesResultado | undefined;
