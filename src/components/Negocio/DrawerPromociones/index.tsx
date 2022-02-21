@@ -72,13 +72,6 @@ export const DrawerPromociones: React.FC<Props> = ({
 		credito: boolean;
 		contado: boolean;
 	}>({credito: false, contado: false});
-	const [promocionesActuales, setPromocionesActuales] = React.useState<{
-		contado: TPromoOngoingAplicables[];
-		credito: TPromoOngoingAplicables[];
-	}>({
-		contado: [],
-		credito: [],
-	});
 
 	const promocionesOngoing = PromocionesOngoing.getInstance(
 		datosCliente,
@@ -96,8 +89,19 @@ export const DrawerPromociones: React.FC<Props> = ({
 			{Grabadas: [], VisitaActual: visitaActual.promosOngoing},
 			tipo === 'Credito' ? [ETiposDePago.Credito] : [ETiposDePago.Contado]
 		);
-		setPromocionesOingoing(promociones);
-		setpromosDisponibles(promocionesOingoing.disponibles);
+
+		if (tipo === 'Contado') {
+			setPromocionesOingoing({
+				...promociones,
+				credito: promocionesOingoing.credito,
+			});
+		} else {
+			setPromocionesOingoing({
+				...promociones,
+				contado: promocionesOingoing.contado,
+			});
+		}
+		setpromosDisponibles(promociones.disponibles);
 		setBorroPromociones(
 			tipo === 'Credito'
 				? {...borroPromociones, credito: true}
@@ -110,18 +114,13 @@ export const DrawerPromociones: React.FC<Props> = ({
 		);
 	};
 
-	console.log(promocionesActuales);
-
 	React.useEffect(() => {
 		if (promocionesOingoing) {
-			setPromocionesActuales({
-				credito: promocionesOingoing?.credito?.promosAplicables ?? [],
-				contado: promocionesOingoing?.contado?.promosAplicables ?? [],
-			});
-
 			setpromosDisponibles(promocionesOingoing.disponibles);
 		}
 	}, [promocionesOingoing]);
+
+	console.log({promocionesOingoing});
 
 	return (
 		<>
@@ -159,90 +158,96 @@ export const DrawerPromociones: React.FC<Props> = ({
 					gap='16px'
 					padding='22px 10px'
 				>
-					{promocionesActuales.credito.length > 0 && (
-						<PromoOngoing.Container
-							tipo='credito'
-							onClick={() => {
-								setConfigAlerta({
-									titulo: 'Restablecer promociones a crédito',
-									mensaje:
-										'Las promociones a crédito que ya tienes aplicadas se reiniciarán para volver a calcular. ',
-									tituloBotonAceptar: 'Aceptar',
-									callbackAceptar: () => restablecerPromociones('Credito'),
-									tituloBotonCancelar: 'Cancelar',
-									iconoMensaje: <AvisoIcon />,
-								});
-								setAlerta(true);
-							}}
-							dataCy='Promociones-Credito'
-						>
-							<PromoOngoing.CardsContainer>
-								{promocionesActuales.credito.map((promocion: TPromoOngoing) => (
-									<PromoOngoing.Card
-										key={promocion.promocionID}
-										promosSimilares={
-											promocionesOingoing?.credito
-												?.indiceProductosxPromosManuales
-										}
-										tipo='credito'
-										promocion={promocion}
-										promocionAutomatica={promocion.aplicacion === 'A'}
-										borroPromociones={borroPromociones}
-										setBorroPromociones={setBorroPromociones}
-										setpromosDisponibles={setpromosDisponibles}
-										promosDisponibles={promosDisponibles}
-										beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
-											(promo: TPromoOngoingAplicadas) =>
-												promo.promocionID === promocion.promocionID &&
-												promo.tipoPago === ETiposDePago.Credito
-										)}
-									/>
-								))}
-							</PromoOngoing.CardsContainer>
-						</PromoOngoing.Container>
-					)}
-					{promocionesActuales.contado.length > 0 && (
-						<PromoOngoing.Container
-							tipo='contado'
-							onClick={() => {
-								setConfigAlerta({
-									titulo: 'Restablecer promociones a contado',
-									mensaje:
-										'Las promociones a contado que ya tienes aplicadas se reiniciarán para volver a calcular.',
-									tituloBotonAceptar: 'Aceptar',
-									callbackAceptar: () => restablecerPromociones('Contado'),
-									tituloBotonCancelar: 'Cancelar',
-									iconoMensaje: <AvisoIcon />,
-								});
-								setAlerta(true);
-							}}
-							dataCy='Promociones-Contado'
-						>
-							<PromoOngoing.CardsContainer>
-								{promocionesActuales.contado.map((promocion: TPromoOngoing) => (
-									<PromoOngoing.Card
-										key={promocion.promocionID}
-										promosSimilares={
-											promocionesOingoing?.contado
-												?.indiceProductosxPromosManuales
-										}
-										tipo='contado'
-										promocion={promocion}
-										promocionAutomatica={promocion.aplicacion === 'A'}
-										borroPromociones={borroPromociones}
-										setpromosDisponibles={setpromosDisponibles}
-										setBorroPromociones={setBorroPromociones}
-										promosDisponibles={promosDisponibles}
-										beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
-											(promo: TPromoOngoingAplicadas) =>
-												promo.promocionID === promocion.promocionID &&
-												promo.tipoPago === ETiposDePago.Contado
-										)}
-									/>
-								))}
-							</PromoOngoing.CardsContainer>
-						</PromoOngoing.Container>
-					)}
+					{promocionesOingoing?.credito &&
+						promocionesOingoing?.credito?.promosAplicables.length > 0 && (
+							<PromoOngoing.Container
+								tipo='credito'
+								onClick={() => {
+									setConfigAlerta({
+										titulo: 'Restablecer promociones a crédito',
+										mensaje:
+											'Las promociones a crédito que ya tienes aplicadas se reiniciarán para volver a calcular. ',
+										tituloBotonAceptar: 'Aceptar',
+										callbackAceptar: () => restablecerPromociones('Credito'),
+										tituloBotonCancelar: 'Cancelar',
+										iconoMensaje: <AvisoIcon />,
+									});
+									setAlerta(true);
+								}}
+								dataCy='Promociones-Credito'
+							>
+								<PromoOngoing.CardsContainer>
+									{promocionesOingoing?.credito?.promosAplicables.map(
+										(promocion: TPromoOngoing) => (
+											<PromoOngoing.Card
+												key={promocion.promocionID}
+												promosSimilares={
+													promocionesOingoing?.credito
+														?.indiceProductosxPromosManuales
+												}
+												tipo='credito'
+												promocion={promocion}
+												promocionAutomatica={promocion.aplicacion === 'A'}
+												borroPromociones={borroPromociones}
+												setBorroPromociones={setBorroPromociones}
+												setpromosDisponibles={setpromosDisponibles}
+												promosDisponibles={promosDisponibles}
+												beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
+													(promo: TPromoOngoingAplicadas) =>
+														promo.promocionID === promocion.promocionID &&
+														promo.tipoPago === ETiposDePago.Credito
+												)}
+											/>
+										)
+									)}
+								</PromoOngoing.CardsContainer>
+							</PromoOngoing.Container>
+						)}
+					{promocionesOingoing?.contado &&
+						promocionesOingoing?.contado?.promosAplicables.length > 0 && (
+							<PromoOngoing.Container
+								tipo='contado'
+								onClick={() => {
+									setConfigAlerta({
+										titulo: 'Restablecer promociones a contado',
+										mensaje:
+											'Las promociones a contado que ya tienes aplicadas se reiniciarán para volver a calcular.',
+										tituloBotonAceptar: 'Aceptar',
+										callbackAceptar: () => restablecerPromociones('Contado'),
+										tituloBotonCancelar: 'Cancelar',
+										iconoMensaje: <AvisoIcon />,
+									});
+									setAlerta(true);
+								}}
+								dataCy='Promociones-Contado'
+							>
+								<PromoOngoing.CardsContainer>
+									{promocionesOingoing?.contado?.promosAplicables.map(
+										(promocion: TPromoOngoing) => (
+											<PromoOngoing.Card
+												key={promocion.promocionID}
+												promosSimilares={
+													promocionesOingoing?.contado
+														?.indiceProductosxPromosManuales
+												}
+												tipo='contado'
+												promocion={promocion}
+												promocionAutomatica={promocion.aplicacion === 'A'}
+												borroPromociones={borroPromociones}
+												setpromosDisponibles={setpromosDisponibles}
+												setBorroPromociones={setBorroPromociones}
+												promosDisponibles={promosDisponibles}
+												beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
+													(promo: TPromoOngoingAplicadas) =>
+														promo.promocionID === promocion.promocionID &&
+														promo.tipoPago === ETiposDePago.Contado
+												)}
+											/>
+										)
+									)}
+								</PromoOngoing.CardsContainer>
+							</PromoOngoing.Container>
+						)}
 					{promocionesOingoing?.noAplicable?.length > 0 && (
 						<PromoOngoing.Container dataCy='No-aplicables'>
 							<PromoOngoing.CardsContainer>

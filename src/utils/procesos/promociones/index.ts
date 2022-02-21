@@ -15,7 +15,6 @@ import {
 	TPromoOngoingHabilitadas,
 	TPromoOngoingAplicadas,
 } from 'models';
-import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
 
 import {fechaDispositivo, fechaDentroDelRango} from 'utils/methods';
 import {validarProductoContraPortafolio} from 'utils/validaciones';
@@ -235,19 +234,22 @@ const comprometerProductosUsadosEnPromos = (
 	materialesRequisitosVerificados: TPromoOngoingMaterialesRequisitosVerificados[],
 	productosUsadosEnOtrasPromos: TProductosUsadosEnOtrasPromos
 ): TProductosUsadosEnOtrasPromos => {
-	let nuevaListaDeProductosUsadosEnOtrasPromos: TProductosUsadosEnOtrasPromos ={...productosUsadosEnOtrasPromos};
-	materialesRequisitosVerificados.forEach((requisitoVerificado: TPromoOngoingMaterialesRequisitosVerificados) => 
-		{
-			for ( const p in requisitoVerificado.lista)
-			{
-				if (nuevaListaDeProductosUsadosEnOtrasPromos[p])
-				{
-					nuevaListaDeProductosUsadosEnOtrasPromos[p]=[...nuevaListaDeProductosUsadosEnOtrasPromos[p],...requisitoVerificado.lista[p]];
-				}else{
-					nuevaListaDeProductosUsadosEnOtrasPromos[p]=[...requisitoVerificado.lista[p]];
+	let nuevaListaDeProductosUsadosEnOtrasPromos: TProductosUsadosEnOtrasPromos =
+		{...productosUsadosEnOtrasPromos};
+	materialesRequisitosVerificados.forEach(
+		(requisitoVerificado: TPromoOngoingMaterialesRequisitosVerificados) => {
+			for (const p in requisitoVerificado.lista) {
+				if (nuevaListaDeProductosUsadosEnOtrasPromos[p]) {
+					nuevaListaDeProductosUsadosEnOtrasPromos[p] = [
+						...nuevaListaDeProductosUsadosEnOtrasPromos[p],
+						...requisitoVerificado.lista[p],
+					];
+				} else {
+					nuevaListaDeProductosUsadosEnOtrasPromos[p] = [
+						...requisitoVerificado.lista[p],
+					];
 				}
 			}
-			
 		}
 	);
 	return nuevaListaDeProductosUsadosEnOtrasPromos;

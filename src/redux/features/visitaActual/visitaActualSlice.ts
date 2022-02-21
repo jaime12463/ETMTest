@@ -146,43 +146,8 @@ export const visitaActualSlice = createSlice({
 		) => {
 			const {cambioElPedidoSinPromociones} = state.avisos;
 
-			if (action.payload.beneficios.some((promo) => promo.aplicacion === 'M')) {
-				state.promosOngoing = [
-					...state.promosOngoing,
-					...action.payload.beneficios,
-				];
-			} else {
-				if (state.promosOngoing.length > 0) {
-					state.promosOngoing = action.payload.beneficios;
-					/* if (
-						cambioElPedidoSinPromociones.contado &&
-						!cambioElPedidoSinPromociones.credito
-					) {
-						let promosCredito = state.promosOngoing.filter(
-							(promo) => promo.tipoPago === ETiposDePago.Credito
-						);
-						state.promosOngoing = [
-							...promosCredito,
-							...action.payload.beneficios,
-						];
-					} else if (
-						cambioElPedidoSinPromociones.credito &&
-						!cambioElPedidoSinPromociones.contado
-					) {
-						let promosContadas = state.promosOngoing.filter(
-							(promo) => promo.tipoPago === ETiposDePago.Contado
-						);
-						state.promosOngoing = [
-							...promosContadas,
-							...action.payload.beneficios,
-						]; */
-					/* 		} else {
-						state.promosOngoing = action.payload.beneficios;
-					} */
-				} else {
-					state.promosOngoing = action.payload.beneficios;
-				}
-			}
+			state.promosOngoing = action.payload.beneficios;
+
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
 		},

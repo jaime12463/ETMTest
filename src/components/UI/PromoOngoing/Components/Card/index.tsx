@@ -177,7 +177,7 @@ export const Card: React.VFC<CardProps> = ({
 		if (beneficiosPararAgregar) {
 			dispatch(
 				agregarBeneficiosPromoOngoing({
-					beneficios: [beneficiosPararAgregar],
+					beneficios: visitaActual.promosOngoing.concat(beneficiosPararAgregar),
 				})
 			);
 		}

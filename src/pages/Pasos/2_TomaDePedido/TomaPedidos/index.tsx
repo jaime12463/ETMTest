@@ -154,23 +154,68 @@ const TomaPedido: React.FC = () => {
 
 	const manejadorBotonPromosOngoing = () => {
 		setOpenDrawerPromociones(true);
+		const {cambioElPedidoSinPromociones} = visitaActual.avisos;
+		let tipos: ETiposDePago[] =
+			cambioElPedidoSinPromociones.contado &&
+			cambioElPedidoSinPromociones.credito
+				? [ETiposDePago.Contado, ETiposDePago.Credito]
+				: cambioElPedidoSinPromociones.contado &&
+				  !cambioElPedidoSinPromociones.credito
+				? [ETiposDePago.Contado]
+				: cambioElPedidoSinPromociones.credito &&
+				  !cambioElPedidoSinPromociones.contado
+				? [ETiposDePago.Credito]
+				: [ETiposDePago.Contado, ETiposDePago.Credito];
 
 		let promociones = promocionesOngoing.calcular(
 			venta.productos,
-			{Grabadas: [], VisitaActual: []},
-			[ETiposDePago.Contado, ETiposDePago.Credito]
+			{Grabadas: [], VisitaActual: visitaActual.promosOngoing},
+			tipos
 		);
 
-		setPromocionesOingoing(promociones);
+		tipos.length === 1 && tipos[0] === ETiposDePago.Contado
+			? setPromocionesOingoing({
+					...promociones,
+					credito: promocionesOingoing?.credito ?? promociones.credito,
+			  })
+			: tipos.length === 1 && tipos[0] === ETiposDePago.Credito
+			? setPromocionesOingoing({
+					...promociones,
+					contado: promocionesOingoing?.contado ?? promociones.contado,
+			  })
+			: setPromocionesOingoing(promociones);
+
+		console.log({tipos});
+		console.log({promociones});
+
 		if (
 			visitaActual.avisos.cambioElPedidoSinPromociones.contado ||
 			visitaActual.avisos.cambioElPedidoSinPromociones.credito
 		) {
+			let beneficioParaAgregar = [];
+
+			tipos.length === 1 && tipos[0] === ETiposDePago.Contado
+				? (beneficioParaAgregar = visitaActual.promosOngoing.filter(
+						(promo) =>
+							promo.aplicacion === 'A' ||
+							promo.tipoPago === ETiposDePago.Credito
+				  ))
+				: tipos.length === 1 && tipos[0] === ETiposDePago.Credito
+				? (beneficioParaAgregar = visitaActual.promosOngoing.filter(
+						(promo) =>
+							promo.aplicacion === 'A' ||
+							promo.tipoPago === ETiposDePago.Contado
+				  ))
+				: (beneficioParaAgregar = promociones?.benficiosParaAgregar.filter(
+						(promo) => promo.aplicacion === 'A'
+				  ));
+
+			//console.log(tipos);
+			//console.log({beneficioParaAgregar});
+
 			dispatch(
 				agregarBeneficiosPromoOngoing({
-					beneficios: promociones?.benficiosParaAgregar.filter(
-						(promo) => promo.aplicacion === 'A'
-					),
+					beneficios: beneficioParaAgregar,
 				})
 			);
 		}
