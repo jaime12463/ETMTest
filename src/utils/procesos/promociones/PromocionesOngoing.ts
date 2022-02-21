@@ -63,9 +63,19 @@ export type TPromoOngoingDisponibilidad ={
     [idPromocion:number]:
     { 
         disponibles :number;
-        aplicadas: number;
+        //aplicadasCredito: number;
+        //aplicadasContado:number;
+        aplicadas:number;
     }
 }
+
+export enum ETipoOrigenDeDatos {
+    'Grabadas'='Grabadas',
+    'VisitaActual'='VisitaActual'
+}
+
+export type TPromoOngoingAplicadasOrigen= Record<ETipoOrigenDeDatos, TPromoOngoingAplicadas[]>;
+
 
 export class PromocionesOngoing {
 
@@ -159,43 +169,69 @@ export class PromocionesOngoing {
 
 
     calcular(
-        productos: TProductoPedido[]
+        productos: TProductoPedido[],
+        promosAplicadas:TPromoOngoingAplicadasOrigen,
+        tipos:ETiposDePago[],
     )  {
+        //contadores a cero
+        Object.keys(this.disponibilidadDeLaPromo).forEach( promoId => { this.disponibilidadDeLaPromo[Number(promoId)].aplicadas=0;} )
 
-        for ( let promo in this.disponibilidadDeLaPromo)
+        //sumamos grabadas
+        promosAplicadas[ETipoOrigenDeDatos.Grabadas].forEach((promo:TPromoOngoingAplicadas)=>
         {
-            this.disponibilidadDeLaPromo[promo].aplicadas=0;
+            this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++
+        });
+
+        //sumamos las aplicadas solo cuando se pide recalculo de credito o contado, si se pide de los 2 quedarí en cero
+
+        if (tipos.length===1)
+        {
+            promosAplicadas[ETipoOrigenDeDatos.VisitaActual].filter(promo => promo.tipoPago!=tipos[0]).forEach((promo:TPromoOngoingAplicadas)=>
+            {
+                this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++
+            });
         }
+        
+        
+        
 
-        const promocionesContado = this.obtenerAplicablesPorTipoDePago(
-            this.obtenerProductosDelPedidoIndex(productos, ETiposDePago.Contado)
+        let promocionesContado:TPromoOngoingAplicablesResultado | undefined;
+        let promocionesCredito:TPromoOngoingAplicablesResultado | undefined;
+        tipos.forEach( (tipo)=> {
+
+            if (tipo==ETiposDePago.Contado)
+                promocionesContado=this.obtenerAplicablesPorTipoDePago(
+                    productos, tipo
+                );
+            if (tipo==ETiposDePago.Credito)
+                promocionesCredito=this.obtenerAplicablesPorTipoDePago(
+                    productos, tipo
+                );
+        }
         );
 
-        const promocionesCredito = this.obtenerAplicablesPorTipoDePago(
-            this.obtenerProductosDelPedidoIndex(productos, ETiposDePago.Credito)
-        );
 
         /* .promosAplicables.sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1)); */
 
         const benficiosParaAgregar = this.formatearBeneficios(
-            promocionesContado.promosAplicables,
-            promocionesCredito.promosAplicables
+            promocionesContado?.promosAplicables ?? [],
+            promocionesCredito?.promosAplicables ?? []
         );
 
         const promocionesVigentesNoAplicables = Object.values(
             this.listaPromocionesVigentes?.lista ?? {}
         )
-            .filter((promocion) =>
-                promocionesContado.promosAplicables.some(
-                    (promoContado) => promoContado.promocionID === promocion.promocionID
-                ) ||
-                promocionesCredito.promosAplicables.some(
-                    (promoCredito) => promoCredito.promocionID === promocion.promocionID
-                )
-                    ? false
-                    : true
+        .filter((promocion) =>
+            promocionesContado?.promosAplicables.some(
+                (promoContado) => promoContado.promocionID === promocion.promocionID
+            ) ||
+            promocionesCredito?.promosAplicables.some(
+                (promoCredito) => promoCredito.promocionID === promocion.promocionID
             )
-            .sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1));
+                ? false
+                : true
+        )
+        .sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1));
 
         return {
             contado: promocionesContado,
@@ -214,9 +250,11 @@ export class PromocionesOngoing {
  * @returns {TListaPromoOngoing}
  */
     obtenerAplicablesPorTipoDePago  (
-        productosPedidos: TProductosPedidoIndex,
+        productos: TProductoPedido[],
+        tipoDePago:ETiposDePago
     ): TPromoOngoingAplicablesResultado
     {
+        let productosPedidos: TProductosPedidoIndex=this.obtenerProductosDelPedidoIndex(productos, tipoDePago)
         let productosUsadosEnOtrasPromosAutomaticas: TProductosUsadosEnOtrasPromos ={};
 	    let productosUsadosEnOtrasPromosManuales: TProductosUsadosEnOtrasPromos = {};
 	    let aplicables: TPromoOngoingAplicables[] = [];
