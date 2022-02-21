@@ -55,39 +55,16 @@ export const DrawerPromociones: React.FC<Props> = ({
 		contado: [],
 		credito: [],
 	});
-	const [promosDisponibles, setpromosDisponibles] = React.useState<
-		{
-			disponible: number;
-			promocionID: number;
-			contado: boolean;
-			credito: boolean;
-		}[]
-	>([]);
+
+	const [promosDisponibles, setpromosDisponibles] =
+		React.useState<TPromoOngoingDisponibilidad>({});
 
 	const dispatch = useAppDispatch();
 
+	console.log(promosDisponibles);
+
 	const restablecerPromociones = (tipo: 'Credito' | 'Contado') => {
-		let promosDisponiblesFiltradas = [];
-		if (tipo === 'Contado') {
-			promosDisponiblesFiltradas = promosDisponibles.filter((promo) => {
-				if (promo.credito && promo.contado) {
-					promo.contado = false;
-					return promo;
-				} else if (promo.credito) {
-					return promo;
-				}
-			});
-		} else {
-			promosDisponiblesFiltradas = promosDisponibles.filter((promo) => {
-				if (promo.credito && promo.contado) {
-					promo.credito = false;
-					return promo;
-				} else if (promo.contado) {
-					return promo;
-				}
-			});
-		}
-		setpromosDisponibles(promosDisponiblesFiltradas);
+		setpromosDisponibles(promocionesOingoing.disponibles);
 		setBorroPromociones(
 			tipo === 'Credito'
 				? {...borroPromociones, credito: true}
@@ -106,14 +83,10 @@ export const DrawerPromociones: React.FC<Props> = ({
 				credito: promocionesOingoing.credito.promosAplicables,
 				contado: promocionesOingoing.contado.promosAplicables,
 			});
-		}
-	}, [promosDisponibles, promocionesOingoing]);
 
-	React.useEffect(() => {
-		if (!openDrawerPromociones) {
-			setpromosDisponibles([]);
+			setpromosDisponibles(promocionesOingoing.disponibles);
 		}
-	}, [openDrawerPromociones]);
+	}, [promocionesOingoing]);
 
 	return (
 		<>
@@ -177,7 +150,6 @@ export const DrawerPromociones: React.FC<Props> = ({
 										}
 										tipo='credito'
 										promocion={promocion}
-										disponible={promocionesOingoing.disponibles}
 										promocionAutomatica={promocion.aplicacion === 'A'}
 										borroPromociones={borroPromociones}
 										setBorroPromociones={setBorroPromociones}
@@ -219,7 +191,6 @@ export const DrawerPromociones: React.FC<Props> = ({
 										}
 										tipo='contado'
 										promocion={promocion}
-										disponible={promocionesOingoing.disponibles}
 										promocionAutomatica={promocion.aplicacion === 'A'}
 										borroPromociones={borroPromociones}
 										setpromosDisponibles={setpromosDisponibles}

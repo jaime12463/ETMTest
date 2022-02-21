@@ -22,22 +22,9 @@ export interface CardProps {
 		credito: boolean;
 		contado: boolean;
 	};
-	promosDisponibles?: {
-		disponible: number;
-		promocionID: number;
-		contado: boolean;
-		credito: boolean;
-	}[];
-	disponible?: TPromoOngoingDisponibilidad;
+	promosDisponibles?: TPromoOngoingDisponibilidad;
 	setpromosDisponibles?: React.Dispatch<
-		React.SetStateAction<
-			{
-				disponible: number;
-				promocionID: number;
-				contado: boolean;
-				credito: boolean;
-			}[]
-		>
+		React.SetStateAction<TPromoOngoingDisponibilidad>
 	>;
 	setBorroPromociones?: React.Dispatch<
 		React.SetStateAction<{
@@ -58,12 +45,12 @@ export const Card: React.VFC<CardProps> = ({
 	promosSimilares,
 	setpromosDisponibles,
 	promosDisponibles,
-	disponible,
 }) => {
 	const [mostrarCheck, setMostrarCheck] = React.useState<boolean>(false);
 	const [bordeColor, setBordeColor] = React.useState<string>('#D9D9D9');
 	const [puedeVerBotonera, setPuedeVerBotonera] = React.useState<boolean>(true);
 	const [esPromoSimilar, setEsPromoSimilar] = React.useState<boolean>(false);
+	const [borroPromocion, setBorroPromocion] = React.useState<boolean>(false);
 	const [promocionSinDisponibile, setPromocionSinDisponibile] =
 		React.useState<boolean>(false);
 	const {t} = useTranslation();
@@ -90,9 +77,11 @@ export const Card: React.VFC<CardProps> = ({
 		promocionAutomatica,
 		mostrarCheck,
 		esPromoSimilar,
-		promosDisponibles,
 		visitaActual.promosOngoing,
 		promocionSinDisponibile,
+		promosDisponibles,
+		borroPromociones,
+		borroPromocion,
 	]);
 
 	React.useEffect(() => {
@@ -114,23 +103,23 @@ export const Card: React.VFC<CardProps> = ({
 		}
 	}, [visitaActual.promosOngoing]);
 
+	console.log(promocionID, tipo, promocionSinDisponibile);
+
 	React.useEffect(() => {
 		if (!promocionAutomatica) {
-			if (!promocionAplicada) {
-				let promoSinDisponibilidad = promosDisponibles?.some(
-					(promo) =>
-						Number(promo.promocionID) == Number(promocionID) &&
-						promo.disponible <= 0
-				);
-
-				if (promoSinDisponibilidad) {
+			if (!promocionAplicada && promosDisponibles) {
+				if (
+					promosDisponibles[Number(promocionID)].disponibles -
+						promosDisponibles[Number(promocionID)].aplicadas <=
+					0
+				) {
 					setPromocionSinDisponibile(true);
 				} else {
 					setPromocionSinDisponibile(false);
 				}
 			}
 		}
-	}, [promosDisponibles, borroPromociones]);
+	}, [promosDisponibles, borroPromociones, borroPromocion]);
 
 	React.useEffect(() => {
 		let promoAplicada = visitaActual.promosOngoing.some(
@@ -145,36 +134,41 @@ export const Card: React.VFC<CardProps> = ({
 			if (promoAplicada) {
 				setMostrarCheck(true);
 				setBordeColor(theme.palette.success.main);
-				if (promosDisponibles && setpromosDisponibles && disponible) {
-					let promoBuscar = promosDisponibles?.find(
-						(promo) => Number(promo?.promocionID) === Number(promocionID)
-					);
-					let promosFiltrado = promosDisponibles.filter(
-						(promo) => Number(promo?.promocionID) !== Number(promocionID)
-					);
-
-					setpromosDisponibles([
-						...promosFiltrado,
-						{
-							...promoBuscar,
-							disponible: promoBuscar
-								? promoBuscar.disponible - 1
-								: disponible[promocionID].disponibles - 1,
-							promocionID: Number(promocionID),
-							contado:
-								tipoPago === ETiposDePago.Contado
-									? true
-									: promoBuscar?.contado ?? false,
-							credito:
-								tipoPago === ETiposDePago.Credito
-									? true
-									: promoBuscar?.credito ?? false,
+				if (promosDisponibles && setpromosDisponibles) {
+					setpromosDisponibles({
+						...promosDisponibles,
+						[Number(promocionID)]: {
+							disponibles: promosDisponibles[Number(promocionID)].disponibles,
+							aplicadas: promosDisponibles[Number(promocionID)].aplicadas + 1,
 						},
-					]);
+					});
 				}
+			} else {
+				setPromocionAplicada(false);
 			}
 		}
-	}, []);
+	}, [borroPromociones]);
+
+	/* React.useEffect(() => {
+		setBorroPromocion(true);
+		if (!promocionAutomatica && borroPromocion) {
+			if (promocionAplicada) {
+				if (promosDisponibles && setpromosDisponibles) {
+					setpromosDisponibles({
+						...promosDisponibles,
+						[Number(promocionID)]: {
+							disponibles: promosDisponibles[Number(promocionID)].disponibles,
+							aplicadas: promosDisponibles[Number(promocionID)].aplicadas + 1,
+						},
+					});
+
+					setBorroPromocion(false);
+				}
+			} else {
+				setPromocionAplicada(false);
+			}
+		}
+	}, [borroPromociones]); */
 
 	const onClick = () => {
 		setMostrarCheck(true);
@@ -188,31 +182,14 @@ export const Card: React.VFC<CardProps> = ({
 			);
 		}
 
-		if (promosDisponibles && setpromosDisponibles && disponible) {
-			let promoBuscar = promosDisponibles?.find(
-				(promo) => Number(promo?.promocionID) === Number(promocionID)
-			);
-			let promosFiltrado = promosDisponibles.filter(
-				(promo) => Number(promo?.promocionID) !== Number(promocionID)
-			);
-			setpromosDisponibles([
-				...promosFiltrado,
-				{
-					...promoBuscar,
-					disponible: promoBuscar
-						? promoBuscar.disponible - 1
-						: disponible[promocionID].disponibles - 1,
-					promocionID: Number(promocionID),
-					contado:
-						tipoPago === ETiposDePago.Contado
-							? true
-							: promoBuscar?.contado ?? false,
-					credito:
-						tipoPago === ETiposDePago.Credito
-							? true
-							: promoBuscar?.credito ?? false,
+		if (promosDisponibles && setpromosDisponibles) {
+			setpromosDisponibles({
+				...promosDisponibles,
+				[Number(promocionID)]: {
+					disponibles: promosDisponibles[Number(promocionID)].disponibles,
+					aplicadas: promosDisponibles[Number(promocionID)].aplicadas + 1,
 				},
-			]);
+			});
 		}
 	};
 
