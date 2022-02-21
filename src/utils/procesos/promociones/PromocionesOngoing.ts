@@ -174,13 +174,19 @@ export class PromocionesOngoing {
         tipos:ETiposDePago[],
     )  {
 
+        Object.keys(this.disponibilidadDeLaPromo).forEach( promoId => { this.disponibilidadDeLaPromo[Number(promoId)].aplicadas=0;} )
 
         promosAplicadas[ETipoOrigenDeDatos.Grabadas].forEach((promo:TPromoOngoingAplicadas)=>
         {
             this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++
         });
 
-
+        tipos.forEach( ( tipo) =>{
+            promosAplicadas[ETipoOrigenDeDatos.VisitaActual].filter(promo => promo.tipoPago==tipo).forEach((promo:TPromoOngoingAplicadas)=>
+            {
+                this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++
+            });
+        });
 
         let promocionesContado:TPromoOngoingAplicablesResultado | undefined;
         let promocionesCredito:TPromoOngoingAplicablesResultado | undefined;
@@ -191,9 +197,9 @@ export class PromocionesOngoing {
                     productos, tipo
                 );
             if (tipo==ETiposDePago.Credito)
-            promocionesContado=this.obtenerAplicablesPorTipoDePago(
-                productos, tipo
-            );
+                promocionesCredito=this.obtenerAplicablesPorTipoDePago(
+                    productos, tipo
+                );
         }
         );
 
