@@ -2,13 +2,19 @@ import {Box, Typography} from '@mui/material';
 import {AvisoIcon, PromocionesIcon} from 'assests/iconos';
 import Drawer from 'components/UI/Drawer';
 import PromoOngoing from 'components/UI/PromoOngoing';
-import {ETiposDePago, TClienteActual, TPromoOngoingAplicadas} from 'models';
+import {
+	ETiposDePago,
+	TClienteActual,
+	TPedidosClientes,
+	TPromoOngoingAplicadas,
+} from 'models';
 import {TCliente, TPromoOngoing} from 'models/server';
 import {useTranslation} from 'react-i18next';
 import {
 	useAppDispatch,
 	useObtenerClienteActual,
 	useObtenerDatos,
+	useObtenerPedidosClientes,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {borrarPromocionesOngoing} from 'redux/features/visitaActual/visitaActualSlice';
@@ -72,7 +78,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 		credito: boolean;
 		contado: boolean;
 	}>({credito: false, contado: false});
-
+	const pedidosCliente: TPedidosClientes = useObtenerPedidosClientes();
 	const promocionesOngoing = PromocionesOngoing.getInstance(
 		datosCliente,
 		datos?.promociones
@@ -86,7 +92,11 @@ export const DrawerPromociones: React.FC<Props> = ({
 	const restablecerPromociones = (tipo: 'Credito' | 'Contado') => {
 		let promociones = promocionesOngoing.calcular(
 			visitaActual.pedidos.venta.productos,
-			{Grabadas: [], VisitaActual: visitaActual.promosOngoing},
+			{
+				Grabadas:
+					pedidosCliente[clienteActual.codigoCliente].promocionesOngoing,
+				VisitaActual: visitaActual.promosOngoing,
+			},
 			tipo === 'Credito' ? [ETiposDePago.Credito] : [ETiposDePago.Contado]
 		);
 

@@ -29,12 +29,14 @@ import {
 	useObtenerVisitaActual,
 	useObtenerConfiguracion,
 	useObtenerDatos,
+	useObtenerPedidosClientes,
 } from 'redux/hooks';
 
 import {
 	ETiposDePago,
 	TCliente,
 	TClienteActual,
+	TPedidosClientes,
 	TPromoOngoing,
 	TPromoOngoingAplicadas,
 } from 'models';
@@ -115,6 +117,7 @@ const Pasos: React.FC = () => {
 	const datos = useObtenerDatos();
 	const reiniciarVisita = useResetVisitaActual();
 	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
+	const pedidosCliente: TPedidosClientes = useObtenerPedidosClientes();
 	const {obtenerPedidosClienteMismaFechaEntrega} =
 		useObtenerPedidosClienteMismaFechaEntrega();
 	const handleOpenVistaPromoPush = () => setOpenVistaPromoPush(true);
@@ -298,7 +301,10 @@ const Pasos: React.FC = () => {
 
 						promociones = promocionesOngoing.calcular(
 							visitaActual?.pedidos?.venta?.productos,
-							{Grabadas: [], VisitaActual: visitaActual.promosOngoing},
+							{
+								Grabadas: pedidosCliente[codigoCliente].promocionesOngoing,
+								VisitaActual: visitaActual.promosOngoing,
+							},
 							tipos
 						);
 

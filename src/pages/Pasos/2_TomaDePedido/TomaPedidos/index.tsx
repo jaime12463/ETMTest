@@ -6,10 +6,12 @@ import {
 	TPrecioProducto,
 	TCliente,
 	ETiposDePago,
+	TPedidosClientes,
 } from 'models';
 import {
 	useAppDispatch,
 	useObtenerClienteActual,
+	useObtenerPedidosClientes,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {useForm} from 'react-hook-form';
@@ -141,12 +143,8 @@ const TomaPedido: React.FC = () => {
 		datos?.promociones
 	);
 	const promocionesVigentesCliente = promocionesOngoing.obtenerListaVigentes();
-	/*
-	const promocionesVigentesCliente = React.useMemo(
-		() =>promocionesOngoing.obtenerListaVigentes obtenerlistaPromocionesVigentes(datosCliente, datos.promociones),
-		[datosCliente, datos.promociones]
-	)
-	*/
+	const pedidosCliente: TPedidosClientes = useObtenerPedidosClientes();
+
 	const puedeBotonPromocionesOngoing =
 		venta.productos.some(
 			(producto) => producto.unidades > 0 || producto.subUnidades > 0
@@ -154,44 +152,49 @@ const TomaPedido: React.FC = () => {
 
 	const manejadorBotonPromosOngoing = () => {
 		setOpenDrawerPromociones(true);
-		const {cambioElPedidoSinPromociones} = visitaActual.avisos;
-		let tipos: ETiposDePago[] =
-			cambioElPedidoSinPromociones.contado &&
-			cambioElPedidoSinPromociones.credito
-				? [ETiposDePago.Contado, ETiposDePago.Credito]
-				: cambioElPedidoSinPromociones.contado &&
-				  !cambioElPedidoSinPromociones.credito
-				? [ETiposDePago.Contado]
-				: cambioElPedidoSinPromociones.credito &&
-				  !cambioElPedidoSinPromociones.contado
-				? [ETiposDePago.Credito]
-				: [ETiposDePago.Contado, ETiposDePago.Credito];
-
-		let promociones = promocionesOngoing.calcular(
-			venta.productos,
-			{Grabadas: [], VisitaActual: visitaActual.promosOngoing},
-			tipos
-		);
-
-		tipos.length === 1 && tipos[0] === ETiposDePago.Contado
-			? setPromocionesOingoing({
-					...promociones,
-					credito: promocionesOingoing?.credito ?? promociones.credito,
-			  })
-			: tipos.length === 1 && tipos[0] === ETiposDePago.Credito
-			? setPromocionesOingoing({
-					...promociones,
-					contado: promocionesOingoing?.contado ?? promociones.contado,
-			  })
-			: setPromocionesOingoing(promociones);
-
-		console.log({tipos});
-		console.log({promociones});
 
 		if (
 			visitaActual.avisos.cambioElPedidoSinPromociones.contado ||
 			visitaActual.avisos.cambioElPedidoSinPromociones.credito
 		) {
+			const {cambioElPedidoSinPromociones} = visitaActual.avisos;
+			let tipos: ETiposDePago[] =
+				cambioElPedidoSinPromociones.contado &&
+				cambioElPedidoSinPromociones.credito
+					? [ETiposDePago.Contado, ETiposDePago.Credito]
+					: cambioElPedidoSinPromociones.contado &&
+					  !cambioElPedidoSinPromociones.credito
+					? [ETiposDePago.Contado]
+					: cambioElPedidoSinPromociones.credito &&
+					  !cambioElPedidoSinPromociones.contado
+					? [ETiposDePago.Credito]
+					: [ETiposDePago.Contado, ETiposDePago.Credito];
+
+			let promociones = promocionesOngoing.calcular(
+				venta.productos,
+				{
+					Grabadas:
+						pedidosCliente[clienteActual.codigoCliente].promocionesOngoing,
+					VisitaActual: visitaActual.promosOngoing,
+				},
+				tipos
+			);
+
+			tipos.length === 1 && tipos[0] === ETiposDePago.Contado
+				? setPromocionesOingoing({
+						...promociones,
+						credito: promocionesOingoing?.credito ?? promociones.credito,
+				  })
+				: tipos.length === 1 && tipos[0] === ETiposDePago.Credito
+				? setPromocionesOingoing({
+						...promociones,
+						contado: promocionesOingoing?.contado ?? promociones.contado,
+				  })
+				: setPromocionesOingoing(promociones);
+
+			console.log({tipos});
+			console.log({promociones});
+
 			let beneficioParaAgregar = [];
 
 			tipos.length === 1 && tipos[0] === ETiposDePago.Contado
@@ -210,14 +213,18 @@ const TomaPedido: React.FC = () => {
 						(promo) => promo.aplicacion === 'A'
 				  ));
 
-			//console.log(tipos);
-			//console.log({beneficioParaAgregar});
-
 			dispatch(
 				agregarBeneficiosPromoOngoing({
 					beneficios: beneficioParaAgregar,
 				})
 			);
+		} else {
+			/* 			let promociones = promocionesOngoing.calcular(
+				venta.productos,
+				{Grabadas: [], VisitaActual: visitaActual.promosOngoing},
+				[]
+			);
+			setPromocionesOingoing(promociones); */
 		}
 
 		dispatch(

@@ -122,15 +122,13 @@ export const Card: React.VFC<CardProps> = ({
 	}, [promosDisponibles, borroPromociones, borroPromocion]);
 
 	React.useEffect(() => {
-		let promoAplicada = visitaActual.promosOngoing.some(
-			(promo) =>
-				beneficiosPararAgregar?.promocionID === promo.promocionID &&
-				promo.tipoPago === tipoPago
-		);
+		if (!promocionAutomatica && !soloLectura) {
+			let promoAplicada = visitaActual.promosOngoing.some(
+				(promo) =>
+					promocionID == promo.promocionID && promo.tipoPago === tipoPago
+			);
 
-		setPromocionAplicada(promoAplicada);
-
-		if (!promocionAutomatica) {
+			setPromocionAplicada(promoAplicada);
 			if (promoAplicada) {
 				setMostrarCheck(true);
 				setBordeColor(theme.palette.success.main);
