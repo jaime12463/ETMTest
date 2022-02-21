@@ -302,7 +302,8 @@ const Pasos: React.FC = () => {
 						promociones = promocionesOngoing.calcular(
 							visitaActual?.pedidos?.venta?.productos,
 							{
-								Grabadas: pedidosCliente[codigoCliente].promocionesOngoing,
+								Grabadas:
+									pedidosCliente[codigoCliente]?.promocionesOngoing ?? [],
 								VisitaActual: visitaActual.promosOngoing,
 							},
 							tipos

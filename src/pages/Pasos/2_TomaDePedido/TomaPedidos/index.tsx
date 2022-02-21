@@ -174,7 +174,8 @@ const TomaPedido: React.FC = () => {
 				venta.productos,
 				{
 					Grabadas:
-						pedidosCliente[clienteActual.codigoCliente].promocionesOngoing,
+						pedidosCliente[clienteActual.codigoCliente]?.promocionesOngoing ??
+						[],
 					VisitaActual: visitaActual.promosOngoing,
 				},
 				tipos
