@@ -17,6 +17,7 @@ import {
 	useObtenerBonificacionesHabilitadas,
 	useObtenerDatosCliente,
 	useObtenerProductosMandatoriosVisitaActual,
+	useValidarTipoPedidosRealizadosSegunConfiguracion,
 } from 'hooks';
 import OrdenDeCompra from './OrdenDeCompra';
 import {cambiarTipoPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
@@ -84,6 +85,9 @@ export const Otros: React.FC = () => {
 	const cantidadBonificaciones = visitaActual.bonificaciones.filter(
 		(bonificacion) => bonificacion.detalle.length > 0
 	);
+
+	const validarTipoPedidosRealizadosSegunConfiguracion = useValidarTipoPedidosRealizadosSegunConfiguracion('esValorizado');
+	const enableOrdenDeCompra = validarTipoPedidosRealizadosSegunConfiguracion();
 
 	React.useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'canje'}));
@@ -295,6 +299,7 @@ export const Otros: React.FC = () => {
 					setExpandido={setExpandido}
 					valido={ordenDeCompraValido}
 					dataCy='OrdenDeCompra'
+					disabled={!enableOrdenDeCompra}
 				>
 					<OrdenDeCompra />
 				</TarjetaColapsable>

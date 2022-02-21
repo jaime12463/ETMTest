@@ -33,3 +33,4 @@ export {useReiniciarClienteActual} from './useReiniciarClienteActual';
 export {useContador} from './useContador';
 export {useObtenerBonificacionesHabilitadas} from './useObtenerBonificacionesHabilitadas';
 export {useDebounce} from './useDebounce';
+export {useValidarTipoPedidosRealizadosSegunConfiguracion} from './useValidarTipoPedidosRealizadosSegunConfiguracion';
