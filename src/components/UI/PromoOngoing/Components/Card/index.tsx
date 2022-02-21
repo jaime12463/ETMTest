@@ -64,6 +64,8 @@ export const Card: React.VFC<CardProps> = ({
 	const [bordeColor, setBordeColor] = React.useState<string>('#D9D9D9');
 	const [puedeVerBotonera, setPuedeVerBotonera] = React.useState<boolean>(true);
 	const [esPromoSimilar, setEsPromoSimilar] = React.useState<boolean>(false);
+	const [promocionSinDisponibile, setPromocionSinDisponibile] =
+		React.useState<boolean>(false);
 	const {t} = useTranslation();
 	const {descripcion, promocionID} = promocion;
 	const dispatch = useAppDispatch();
@@ -81,8 +83,17 @@ export const Card: React.VFC<CardProps> = ({
 			? setPuedeVerBotonera(false)
 			: esPromoSimilar
 			? setPuedeVerBotonera(false)
+			: promocionSinDisponibile
+			? setPuedeVerBotonera(false)
 			: setPuedeVerBotonera(true);
-	}, [promocionAutomatica, mostrarCheck, esPromoSimilar]);
+	}, [
+		promocionAutomatica,
+		mostrarCheck,
+		esPromoSimilar,
+		promosDisponibles,
+		visitaActual.promosOngoing,
+		promocionSinDisponibile,
+	]);
 
 	React.useEffect(() => {
 		if (promosSimilares && !promocionAutomatica) {
@@ -102,6 +113,24 @@ export const Card: React.VFC<CardProps> = ({
 			}
 		}
 	}, [visitaActual.promosOngoing]);
+
+	React.useEffect(() => {
+		if (!promocionAutomatica) {
+			if (!promocionAplicada) {
+				let promoSinDisponibilidad = promosDisponibles?.some(
+					(promo) =>
+						Number(promo.promocionID) == Number(promocionID) &&
+						promo.disponible <= 0
+				);
+
+				if (promoSinDisponibilidad) {
+					setPromocionSinDisponibile(true);
+				} else {
+					setPromocionSinDisponibile(false);
+				}
+			}
+		}
+	}, [promosDisponibles, borroPromociones]);
 
 	React.useEffect(() => {
 		let promoAplicada = visitaActual.promosOngoing.some(
@@ -209,21 +238,6 @@ export const Card: React.VFC<CardProps> = ({
 			setBordeColor(theme.palette.success.main);
 		}
 	}, [promocionAutomatica]);
-
-	/* 	React.useEffect(() => {
-		let promoBuscar = promosDisponibles?.find(
-			(promo) => promo?.promocionID == promocionID
-		);
-		if (!promocionAplicada) {
-			if (promoBuscar !== undefined && promoBuscar?.disponible <= 0) {
-				setMostrarPromocion(false);
-			} else {
-				setMostrarPromocion(true);
-			}
-		} else {
-			setMostrarPromocion(true);
-		}
-	}, [visitaActual.promosOngoing, promocionAplicada, promosDisponibles]); */
 
 	return (
 		<Box
