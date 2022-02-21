@@ -96,6 +96,10 @@ const TomaPedido: React.FC = () => {
 	const [openDrawerPromociones, setOpenDrawerPromociones] =
 		React.useState<boolean>(false);
 
+	const [tiposPagoParaCalculo, setTiposPagoParaCalculo] = React.useState<
+		ETiposDePago[]
+	>([ETiposDePago.Contado, ETiposDePago.Credito]);
+
 	const [focusId, setFocusId] = React.useState(0);
 	const visitaActual = useObtenerVisitaActual();
 	const datos = useObtenerDatos();
@@ -150,10 +154,11 @@ const TomaPedido: React.FC = () => {
 
 	const manejadorBotonPromosOngoing = () => {
 		setOpenDrawerPromociones(true);
+
 		let promociones = promocionesOngoing.calcular(
 			venta.productos,
 			{Grabadas: [], VisitaActual: []},
-			[ETiposDePago.Credito, ETiposDePago.Contado]
+			[ETiposDePago.Contado, ETiposDePago.Credito]
 		);
 
 		setPromocionesOingoing(promociones);
@@ -304,6 +309,7 @@ const TomaPedido: React.FC = () => {
 					openDrawerPromociones={openDrawerPromociones}
 					setOpenDrawerPromociones={setOpenDrawerPromociones}
 					promocionesOingoing={promocionesOingoing}
+					setPromocionesOingoing={setPromocionesOingoing}
 				/>
 				{venta?.productos?.length > 0 &&
 					venta?.productos?.some(

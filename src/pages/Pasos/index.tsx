@@ -284,10 +284,22 @@ const Pasos: React.FC = () => {
 						visitaActual?.avisos?.cambioElPedidoSinPromociones.contado ||
 						visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
 					) {
+						let tipos: ETiposDePago[] =
+							visitaActual?.avisos?.cambioElPedidoSinPromociones.contado &&
+							visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
+								? [ETiposDePago.Contado, ETiposDePago.Credito]
+								: visitaActual?.avisos?.cambioElPedidoSinPromociones.contado &&
+								  !visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
+								? [ETiposDePago.Contado]
+								: visitaActual?.avisos?.cambioElPedidoSinPromociones.contado &&
+								  !visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
+								? [ETiposDePago.Credito]
+								: [];
+
 						promociones = promocionesOngoing.calcular(
 							visitaActual?.pedidos?.venta?.productos,
-							{Grabadas: [], VisitaActual: []},
-							[ETiposDePago.Contado, ETiposDePago.Credito]
+							{Grabadas: [], VisitaActual: visitaActual.promosOngoing},
+							tipos
 						);
 
 						dispatch(

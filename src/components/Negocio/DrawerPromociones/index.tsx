@@ -2,10 +2,15 @@ import {Box, Typography} from '@mui/material';
 import {AvisoIcon, PromocionesIcon} from 'assests/iconos';
 import Drawer from 'components/UI/Drawer';
 import PromoOngoing from 'components/UI/PromoOngoing';
-import {ETiposDePago, TPromoOngoingAplicadas} from 'models';
-import {TPromoOngoing} from 'models/server';
+import {ETiposDePago, TClienteActual, TPromoOngoingAplicadas} from 'models';
+import {TCliente, TPromoOngoing} from 'models/server';
 import {useTranslation} from 'react-i18next';
-import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
+import {
+	useAppDispatch,
+	useObtenerClienteActual,
+	useObtenerDatos,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
 import {borrarPromocionesOngoing} from 'redux/features/visitaActual/visitaActualSlice';
 import React, {useReducer} from 'react';
 import {
@@ -13,15 +18,26 @@ import {
 	TPromoOngoingAplicablesResultado,
 } from 'utils/procesos/promociones';
 
-import {TPromoOngoingDisponibilidad} from 'utils/procesos/promociones/PromocionesOngoing';
+import {
+	TPromoOngoingDisponibilidad,
+	PromocionesOngoing,
+} from 'utils/procesos/promociones/PromocionesOngoing';
 import Modal from 'components/UI/Modal';
+import {useObtenerDatosCliente} from 'hooks';
 
 export interface Props {
 	openDrawerPromociones: boolean;
 	setOpenDrawerPromociones: React.Dispatch<React.SetStateAction<boolean>>;
+	setPromocionesOingoing: React.Dispatch<{
+		contado: TPromoOngoingAplicablesResultado | undefined;
+		credito: TPromoOngoingAplicablesResultado | undefined;
+		noAplicable: TPromoOngoing[];
+		benficiosParaAgregar: TPromoOngoingAplicadas[];
+		disponibles: TPromoOngoingDisponibilidad;
+	}>;
 	promocionesOingoing: {
-		contado: TPromoOngoingAplicablesResultado;
-		credito: TPromoOngoingAplicablesResultado;
+		contado: TPromoOngoingAplicablesResultado | undefined;
+		credito: TPromoOngoingAplicablesResultado | undefined;
 		noAplicable: TPromoOngoing[];
 		benficiosParaAgregar: TPromoOngoingAplicadas[];
 		disponibles: TPromoOngoingDisponibilidad;
@@ -32,6 +48,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 	openDrawerPromociones,
 	setOpenDrawerPromociones,
 	promocionesOingoing,
+	setPromocionesOingoing,
 }) => {
 	const {t} = useTranslation();
 	const [configAlerta, setConfigAlerta] = React.useState({
@@ -42,6 +59,13 @@ export const DrawerPromociones: React.FC<Props> = ({
 		iconoMensaje: <></>,
 		callbackAceptar: () => {},
 	});
+	const datos = useObtenerDatos();
+	const clienteActual: TClienteActual = useObtenerClienteActual();
+	const {obtenerDatosCliente} = useObtenerDatosCliente();
+	const datosCliente: TCliente | undefined = obtenerDatosCliente(
+		clienteActual.codigoCliente
+	);
+	if (!datosCliente) return <></>;
 	const visitaActual = useObtenerVisitaActual();
 	const [alerta, setAlerta] = React.useState<boolean>(false);
 	const [borroPromociones, setBorroPromociones] = React.useState<{
@@ -56,14 +80,23 @@ export const DrawerPromociones: React.FC<Props> = ({
 		credito: [],
 	});
 
+	const promocionesOngoing = PromocionesOngoing.getInstance(
+		datosCliente,
+		datos?.promociones
+	);
+
 	const [promosDisponibles, setpromosDisponibles] =
 		React.useState<TPromoOngoingDisponibilidad>({});
 
 	const dispatch = useAppDispatch();
 
-	console.log(promocionesOingoing);
-
 	const restablecerPromociones = (tipo: 'Credito' | 'Contado') => {
+		let promociones = promocionesOngoing.calcular(
+			visitaActual.pedidos.venta.productos,
+			{Grabadas: [], VisitaActual: visitaActual.promosOngoing},
+			tipo === 'Credito' ? [ETiposDePago.Credito] : [ETiposDePago.Contado]
+		);
+		setPromocionesOingoing(promociones);
 		setpromosDisponibles(promocionesOingoing.disponibles);
 		setBorroPromociones(
 			tipo === 'Credito'
@@ -77,11 +110,13 @@ export const DrawerPromociones: React.FC<Props> = ({
 		);
 	};
 
+	console.log(promocionesActuales);
+
 	React.useEffect(() => {
 		if (promocionesOingoing) {
 			setPromocionesActuales({
-				credito: promocionesOingoing.credito.promosAplicables ?? [],
-				contado: promocionesOingoing.contado.promosAplicables ?? [],
+				credito: promocionesOingoing?.credito?.promosAplicables ?? [],
+				contado: promocionesOingoing?.contado?.promosAplicables ?? [],
 			});
 
 			setpromosDisponibles(promocionesOingoing.disponibles);
@@ -146,7 +181,8 @@ export const DrawerPromociones: React.FC<Props> = ({
 									<PromoOngoing.Card
 										key={promocion.promocionID}
 										promosSimilares={
-											promocionesOingoing.credito.indiceProductosxPromosManuales
+											promocionesOingoing?.credito
+												?.indiceProductosxPromosManuales
 										}
 										tipo='credito'
 										promocion={promocion}
@@ -187,7 +223,8 @@ export const DrawerPromociones: React.FC<Props> = ({
 									<PromoOngoing.Card
 										key={promocion.promocionID}
 										promosSimilares={
-											promocionesOingoing.contado.indiceProductosxPromosManuales
+											promocionesOingoing?.contado
+												?.indiceProductosxPromosManuales
 										}
 										tipo='contado'
 										promocion={promocion}

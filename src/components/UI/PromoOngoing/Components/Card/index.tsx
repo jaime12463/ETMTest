@@ -103,7 +103,7 @@ export const Card: React.VFC<CardProps> = ({
 		}
 	}, [visitaActual.promosOngoing]);
 
-	console.log(promocionID, tipo, promocionSinDisponibile);
+	//console.log(promocionID, tipo, promocionSinDisponibile);
 
 	React.useEffect(() => {
 		if (!promocionAutomatica) {
