@@ -32,6 +32,7 @@ import {
 } from 'redux/hooks';
 
 import {
+	ETiposDePago,
 	TCliente,
 	TClienteActual,
 	TPromoOngoing,
@@ -62,6 +63,7 @@ import {
 import {
 	PromocionesOngoing,
 	TPromoOngoingAplicablesResultado,
+	TPromoOngoingDisponibilidad,
 } from 'utils/procesos/promociones/PromocionesOngoing';
 
 const formatearItems = (items: number) => {
@@ -265,15 +267,17 @@ const Pasos: React.FC = () => {
 				}
 				if (pasoActual === 1) {
 					let promociones: {
-						contado: TPromoOngoingAplicablesResultado;
-						credito: TPromoOngoingAplicablesResultado;
+						contado: TPromoOngoingAplicablesResultado | undefined;
+						credito: TPromoOngoingAplicablesResultado | undefined;
 						noAplicable: TPromoOngoing[];
 						benficiosParaAgregar: TPromoOngoingAplicadas[];
+						disponibles: TPromoOngoingDisponibilidad;
 					} = {
 						contado: {promosAplicables: [], indiceProductosxPromosManuales: []},
 						credito: {promosAplicables: [], indiceProductosxPromosManuales: []},
 						noAplicable: [],
 						benficiosParaAgregar: [],
+						disponibles: {},
 					};
 
 					if (
@@ -281,7 +285,9 @@ const Pasos: React.FC = () => {
 						visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
 					) {
 						promociones = promocionesOngoing.calcular(
-							visitaActual?.pedidos?.venta?.productos
+							visitaActual?.pedidos?.venta?.productos,
+							{Grabadas: [], VisitaActual: []},
+							[ETiposDePago.Contado, ETiposDePago.Credito]
 						);
 
 						dispatch(

@@ -5,6 +5,7 @@ import {
 	TFormTomaDePedido,
 	TPrecioProducto,
 	TCliente,
+	ETiposDePago,
 } from 'models';
 import {
 	useAppDispatch,
@@ -51,7 +52,7 @@ import {
 	obtenerPromocionesOngoingTotal,
 } from 'utils/procesos/promociones';
 */
-import { PromocionesOngoing} from 'utils/procesos/promociones/PromocionesOngoing';
+import {PromocionesOngoing} from 'utils/procesos/promociones/PromocionesOngoing';
 
 import {useObtenerDatos} from 'redux/hooks';
 import DrawerBuscador from 'components/Negocio/DrawerBuscador';
@@ -131,7 +132,10 @@ const TomaPedido: React.FC = () => {
 
 	const borrarlinea = useBorrarLinea({setAlerta, setConfigAlerta});
 
-	const promocionesOngoing = PromocionesOngoing.getInstance(datosCliente, datos?.promociones);
+	const promocionesOngoing = PromocionesOngoing.getInstance(
+		datosCliente,
+		datos?.promociones
+	);
 	const promocionesVigentesCliente = promocionesOngoing.obtenerListaVigentes();
 	/*
 	const promocionesVigentesCliente = React.useMemo(
@@ -146,8 +150,12 @@ const TomaPedido: React.FC = () => {
 
 	const manejadorBotonPromosOngoing = () => {
 		setOpenDrawerPromociones(true);
-		let promociones = promocionesOngoing.calcular(venta.productos)
-		
+		let promociones = promocionesOngoing.calcular(
+			venta.productos,
+			{Grabadas: [], VisitaActual: []},
+			[ETiposDePago.Credito, ETiposDePago.Contado]
+		);
+
 		setPromocionesOingoing(promociones);
 		if (
 			visitaActual.avisos.cambioElPedidoSinPromociones.contado ||

@@ -61,7 +61,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 
 	const dispatch = useAppDispatch();
 
-	console.log(promosDisponibles);
+	console.log(promocionesOingoing);
 
 	const restablecerPromociones = (tipo: 'Credito' | 'Contado') => {
 		setpromosDisponibles(promocionesOingoing.disponibles);
@@ -80,8 +80,8 @@ export const DrawerPromociones: React.FC<Props> = ({
 	React.useEffect(() => {
 		if (promocionesOingoing) {
 			setPromocionesActuales({
-				credito: promocionesOingoing.credito.promosAplicables,
-				contado: promocionesOingoing.contado.promosAplicables,
+				credito: promocionesOingoing.credito.promosAplicables ?? [],
+				contado: promocionesOingoing.contado.promosAplicables ?? [],
 			});
 
 			setpromosDisponibles(promocionesOingoing.disponibles);
