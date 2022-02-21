@@ -231,6 +231,7 @@ export type TPedidosClientes = {
 		iniciativas: TIniciativasCliente[];
 		bonificaciones: TBonificacionesCliente[];
 		coberturas: TCoberturasCliente[];
+		promocionesOngoing: TPromoOngoingAplicadas[];
 	};
 };
 

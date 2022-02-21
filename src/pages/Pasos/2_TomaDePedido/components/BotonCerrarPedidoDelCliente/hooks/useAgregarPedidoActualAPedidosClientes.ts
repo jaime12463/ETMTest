@@ -17,6 +17,7 @@ import {
 	agregarIniciativasAlCliente,
 	agregarBonificacionesAlCliente,
 	agregarCoberturasCumplidasAlCliente,
+	guardarPromosOngoing,
 } from 'redux/features/pedidosClientes/pedidosClientesSlice';
 
 import {limpiarCompromisoDeCobroActual} from 'redux/features/compromisoDeCobro/compromisoDeCobroSlice';
@@ -106,6 +107,8 @@ export const useAgregarPedidoActualAPedidosClientes = (
 
 			dispatch(limpiarCompromisoDeCobroActual());
 		}
+
+		dispatch(guardarPromosOngoing({clienteActual, promocionesOngoing: visitaActual.promosOngoing}))
 
 		history.push('/clientes');
 	}, [clienteActual, compromisoDeCobroActual, visitaActual]);
