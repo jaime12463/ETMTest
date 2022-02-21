@@ -90,6 +90,8 @@ export const DrawerPromociones: React.FC<Props> = ({
 	const dispatch = useAppDispatch();
 
 	const restablecerPromociones = (tipo: 'Credito' | 'Contado') => {
+		let promocionesAnterioresContado = promocionesOingoing.contado;
+		let promocionesAnterioresCredito = promocionesOingoing.credito;
 		let promociones = promocionesOngoing.calcular(
 			visitaActual.pedidos.venta.productos,
 			{
@@ -104,11 +106,17 @@ export const DrawerPromociones: React.FC<Props> = ({
 			setPromocionesOingoing({
 				...promociones,
 				credito: promocionesOingoing.credito,
+				benficiosParaAgregar: promociones.benficiosParaAgregar.concat(
+					promocionesOingoing.benficiosParaAgregar
+				),
 			});
 		} else {
 			setPromocionesOingoing({
 				...promociones,
 				contado: promocionesOingoing.contado,
+				benficiosParaAgregar: promociones.benficiosParaAgregar.concat(
+					promocionesOingoing.benficiosParaAgregar
+				),
 			});
 		}
 		setpromosDisponibles(promociones.disponibles);
