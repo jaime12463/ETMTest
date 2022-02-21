@@ -67,7 +67,6 @@ export const DrawerPromociones: React.FC<Props> = ({
 	const dispatch = useAppDispatch();
 
 	const restablecerPromociones = (tipo: 'Credito' | 'Contado') => {
-		console.log('entro');
 		let promosDisponiblesFiltradas = [];
 		if (tipo === 'Contado') {
 			promosDisponiblesFiltradas = promosDisponibles.filter((promo) => {
@@ -99,52 +98,13 @@ export const DrawerPromociones: React.FC<Props> = ({
 				tipoPago: tipo,
 			})
 		);
-		if (promocionesOingoing) {
-			setPromocionesActuales({
-				contado: promocionesOingoing.contado.promosAplicables,
-				credito: promocionesOingoing.credito.promosAplicables,
-			});
-		}
 	};
-
-	console.log(promosDisponibles);
 
 	React.useEffect(() => {
 		if (promocionesOingoing) {
-			let promocionesCreditoFiltradas =
-				promocionesOingoing.credito.promosAplicables.filter((promo) => {
-					let promoEnDisponibles = promosDisponibles.find(
-						(promoDisponible) =>
-							Number(promoDisponible.promocionID) === Number(promo.promocionID)
-					);
-
-					if (
-						!promoEnDisponibles ||
-						promoEnDisponibles.disponible > 0 ||
-						(promoEnDisponibles.disponible <= 0 && promoEnDisponibles.credito)
-					) {
-						return promo;
-					}
-				});
-
-			let promocionesContadoFiltradas =
-				promocionesOingoing.contado.promosAplicables.filter((promo) => {
-					let promoEnDisponibles = promosDisponibles.find(
-						(promoDisponible) =>
-							Number(promoDisponible.promocionID) === Number(promo.promocionID)
-					);
-					if (
-						!promoEnDisponibles ||
-						promoEnDisponibles.disponible > 0 ||
-						(promoEnDisponibles.disponible <= 0 && promoEnDisponibles.contado)
-					) {
-						return promo;
-					}
-				});
-
 			setPromocionesActuales({
-				credito: promocionesCreditoFiltradas,
-				contado: promocionesContadoFiltradas,
+				credito: promocionesOingoing.credito.promosAplicables,
+				contado: promocionesOingoing.contado.promosAplicables,
 			});
 		}
 	}, [promosDisponibles, promocionesOingoing]);
