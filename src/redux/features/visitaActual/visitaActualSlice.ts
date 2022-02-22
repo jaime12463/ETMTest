@@ -8,9 +8,14 @@ import {
 	TAvisos,
 	TPromoOngoingGrupoBeneficios,
 	TPromoOngoingAplicadas,
+	TPromoOngoing,
 } from 'models';
 
 import {RootState} from 'redux/store';
+import {
+	TPromoOngoingAplicablesResultado,
+	TPromoOngoingDisponibilidad,
+} from 'utils/procesos/promociones/PromocionesOngoing';
 
 const estadoInicial: TVisita = {
 	fechaEntrega: '',
@@ -35,9 +40,16 @@ const estadoInicial: TVisita = {
 		limiteCredito: 0,
 		cambiosPasoActual: false,
 		calculoPromociones: false,
-		cambioElPedidoSinPromociones: false,
+		cambioElPedidoSinPromociones: {contado: true, credito: false},
 	},
 	clienteBloqueado: false,
+	promocionesNegociadas: {
+		contado: {promosAplicables: [], indiceProductosxPromosManuales: {}},
+		credito: {promosAplicables: [], indiceProductosxPromosManuales: {}},
+		noAplicable: [],
+		benficiosParaAgregar: [],
+		disponibles: {},
+	},
 };
 
 export const visitaActualSlice = createSlice({
@@ -85,7 +97,11 @@ export const visitaActualSlice = createSlice({
 				producto.preciosNeto = action.payload.productoPedido.preciosNeto;
 				producto.descuento = action.payload.productoPedido.descuento;
 				if (!producto.promoPush && state.tipoPedidoActual === 'venta') {
-					state.avisos.cambioElPedidoSinPromociones = true;
+					if (producto.tipoPago === ETiposDePago.Contado) {
+						state.avisos.cambioElPedidoSinPromociones.contado = true;
+					} else if (producto.tipoPago === ETiposDePago.Credito) {
+						state.avisos.cambioElPedidoSinPromociones.credito = true;
+					}
 				}
 			} else {
 				state.pedidos[state.tipoPedidoActual].productos = [
@@ -101,6 +117,29 @@ export const visitaActualSlice = createSlice({
 					(producto) => producto.unidades > 0 || producto.subUnidades > 0
 				);
 			}
+		},
+
+		agregarPromocionesNegociadas: (
+			state,
+			action: PayloadAction<{
+				promocionesNegociadas: {
+					contado: TPromoOngoingAplicablesResultado;
+					credito: TPromoOngoingAplicablesResultado;
+					noAplicable: TPromoOngoing[];
+					benficiosParaAgregar: TPromoOngoingAplicadas[];
+					disponibles: TPromoOngoingDisponibilidad;
+				};
+			}>
+		) => {
+			let promo = {...action.payload.promocionesNegociadas};
+
+			state.promocionesNegociadas = {
+				contado: promo.contado,
+				credito: promo.credito,
+				noAplicable: promo.noAplicable,
+				benficiosParaAgregar: promo.benficiosParaAgregar,
+				disponibles: promo.disponibles,
+			};
 		},
 
 		agregarEnvaseDelPedidoActual: (
@@ -140,7 +179,32 @@ export const visitaActualSlice = createSlice({
 				beneficios: TPromoOngoingAplicadas[];
 			}>
 		) => {
+			const {cambioElPedidoSinPromociones} = state.avisos;
+
 			state.promosOngoing = action.payload.beneficios;
+
+			state.pedidos.ventaenvase.productos = [];
+			state.pedidos.prestamoenvase.productos = [];
+		},
+		borrarPromocionesOngoing: (
+			state,
+			action: PayloadAction<{
+				tipoPago: 'Contado' | 'Credito';
+			}>
+		) => {
+			let promoFiltradas = state.promosOngoing.filter(
+				(promo) =>
+					(promo.tipoPago !== ETiposDePago[action.payload.tipoPago] &&
+						promo.aplicacion === 'A') ||
+					(promo.tipoPago === ETiposDePago[action.payload.tipoPago] &&
+						promo.aplicacion === 'A') ||
+					(promo.tipoPago !== ETiposDePago[action.payload.tipoPago] &&
+						promo.aplicacion === 'M')
+			);
+
+			state.promosOngoing = promoFiltradas;
+			state.pedidos.ventaenvase.productos = [];
+			state.pedidos.prestamoenvase.productos = [];
 		},
 
 		borrarProductoDelPedidoActual: (
@@ -179,7 +243,11 @@ export const visitaActualSlice = createSlice({
 					(producto && producto?.unidades > 0) ||
 					(producto && producto?.subUnidades > 0)
 				) {
-					state.avisos.cambioElPedidoSinPromociones = true;
+					if (producto.tipoPago === ETiposDePago.Contado) {
+						state.avisos.cambioElPedidoSinPromociones.contado = true;
+					} else if (producto.tipoPago === ETiposDePago.Credito) {
+						state.avisos.cambioElPedidoSinPromociones.credito = true;
+					}
 				}
 			}
 
@@ -294,7 +362,10 @@ export const visitaActualSlice = createSlice({
 				!state.pedidos[state.tipoPedidoActual].productos[indexProductoPedido]
 					.promoPush
 			) {
-				state.avisos.cambioElPedidoSinPromociones = true;
+				state.avisos.cambioElPedidoSinPromociones = {
+					contado: true,
+					credito: true,
+				};
 			}
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
@@ -312,7 +383,10 @@ export const visitaActualSlice = createSlice({
 			state.pedidos[state.tipoPedidoActual].productos.forEach(
 				(producto: TProductoPedido) => {
 					if (!producto.promoPush) {
-						state.avisos.cambioElPedidoSinPromociones = true;
+						state.avisos.cambioElPedidoSinPromociones = {
+							contado: true,
+							credito: true,
+						};
 					}
 					producto.tipoPago = action.payload.tipoPago;
 				}
@@ -569,6 +643,7 @@ export const {
 	cambiarTipoPagoPoductosDelPedidoActual,
 	cambiarTipoPedidoActual,
 	cambiarMostrarPromoPush,
+	borrarPromocionesOngoing,
 	cambiarSaldoPresupuestoTipoPedido,
 	cambiarBloquearPanelCarga,
 	cambiarOrdenDeCompra,
@@ -591,5 +666,6 @@ export const {
 	cambiarAvisos,
 	activarClienteBloqueado,
 	agregarBeneficiosPromoOngoing,
+	agregarPromocionesNegociadas,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

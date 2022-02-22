@@ -29,11 +29,14 @@ import {
 	useObtenerVisitaActual,
 	useObtenerConfiguracion,
 	useObtenerDatos,
+	useObtenerPedidosClientes,
 } from 'redux/hooks';
 
 import {
+	ETiposDePago,
 	TCliente,
 	TClienteActual,
+	TPedidosClientes,
 	TPromoOngoing,
 	TPromoOngoingAplicadas,
 } from 'models';
@@ -50,11 +53,20 @@ import {
 } from 'redux/features/visitaActual/visitaActualSlice';
 import ModalCore from 'components/UI/ModalCore';
 import {obtenerTotalesPedidosCliente} from 'utils/methods';
+/*
 import {
 	obtenerlistaPromocionesVigentes,
 	obtenerPromocionesOngoingTotal,
 	TPromoOngoingAplicables,
+	TPromoOngoingAplicablesResultado,
 } from 'utils/procesos/promociones';
+*/
+
+import {
+	PromocionesOngoing,
+	TPromoOngoingAplicablesResultado,
+	TPromoOngoingDisponibilidad,
+} from 'utils/procesos/promociones/PromocionesOngoing';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -105,6 +117,7 @@ const Pasos: React.FC = () => {
 	const datos = useObtenerDatos();
 	const reiniciarVisita = useResetVisitaActual();
 	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
+	const pedidosCliente: TPedidosClientes = useObtenerPedidosClientes();
 	const {obtenerPedidosClienteMismaFechaEntrega} =
 		useObtenerPedidosClienteMismaFechaEntrega();
 	const handleOpenVistaPromoPush = () => setOpenVistaPromoPush(true);
@@ -115,9 +128,15 @@ const Pasos: React.FC = () => {
 		pedidosClienteMismaFechaEntrega,
 		tipoPedidos,
 	});
+	/*
 	const promocionesVigentesCliente = React.useMemo(
 		() => obtenerlistaPromocionesVigentes(datosCliente, datos?.promociones),
 		[datosCliente, datos?.promociones]
+	);
+*/
+	const promocionesOngoing = PromocionesOngoing.getInstance(
+		datosCliente,
+		datos?.promociones
 	);
 
 	useEffect(() => {
@@ -251,33 +270,56 @@ const Pasos: React.FC = () => {
 				}
 				if (pasoActual === 1) {
 					let promociones: {
-						contado: TPromoOngoingAplicables[];
-						credito: TPromoOngoingAplicables[];
+						contado: TPromoOngoingAplicablesResultado | undefined;
+						credito: TPromoOngoingAplicablesResultado | undefined;
 						noAplicable: TPromoOngoing[];
 						benficiosParaAgregar: TPromoOngoingAplicadas[];
+						disponibles: TPromoOngoingDisponibilidad;
 					} = {
-						contado: [],
-						credito: [],
+						contado: {promosAplicables: [], indiceProductosxPromosManuales: []},
+						credito: {promosAplicables: [], indiceProductosxPromosManuales: []},
 						noAplicable: [],
 						benficiosParaAgregar: [],
+						disponibles: {},
 					};
 
-					if (visitaActual?.avisos?.cambioElPedidoSinPromociones) {
-						promociones = obtenerPromocionesOngoingTotal(
-							datosCliente,
+					if (
+						visitaActual?.avisos?.cambioElPedidoSinPromociones.contado ||
+						visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
+					) {
+						let tipos: ETiposDePago[] =
+							visitaActual?.avisos?.cambioElPedidoSinPromociones.contado &&
+							visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
+								? [ETiposDePago.Contado, ETiposDePago.Credito]
+								: visitaActual?.avisos?.cambioElPedidoSinPromociones.contado &&
+								  !visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
+								? [ETiposDePago.Contado]
+								: visitaActual?.avisos?.cambioElPedidoSinPromociones.contado &&
+								  !visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
+								? [ETiposDePago.Credito]
+								: [];
+
+						promociones = promocionesOngoing.calcular(
 							visitaActual?.pedidos?.venta?.productos,
-							promocionesVigentesCliente
+							{
+								Grabadas:
+									pedidosCliente[codigoCliente]?.promocionesOngoing ?? [],
+								VisitaActual: visitaActual.promosOngoing,
+							},
+							tipos
 						);
 
 						dispatch(
 							cambiarAvisos({
 								calculoPromociones: true,
-								cambioElPedidoSinPromociones: false,
+								cambioElPedidoSinPromociones: {contado: false, credito: false},
 							})
 						);
 						dispatch(
 							agregarBeneficiosPromoOngoing({
-								beneficios: promociones?.benficiosParaAgregar,
+								beneficios: promociones?.benficiosParaAgregar.filter(
+									(promo) => promo.aplicacion === 'A'
+								),
 							})
 						);
 					}
@@ -296,8 +338,10 @@ const Pasos: React.FC = () => {
 					}
 
 					if (
-						visitaActual?.avisos?.cambioElPedidoSinPromociones &&
-						promociones?.benficiosParaAgregar?.length > 0
+						(visitaActual?.avisos?.cambioElPedidoSinPromociones.contado &&
+							promociones?.benficiosParaAgregar?.length > 0) ||
+						(visitaActual?.avisos?.cambioElPedidoSinPromociones.credito &&
+							promociones?.benficiosParaAgregar?.length > 0)
 					) {
 						mostrarAviso(
 							'success',
@@ -385,7 +429,11 @@ const Pasos: React.FC = () => {
 							pasos={pasos.map(
 								(paso: TControlador, index) => `${index + 1}. ${t(paso.titulo)}`
 							)}
-							pasoActivo={pasoActual}
+							pasoActivo={
+								pasoActual === 2 && visitaActual.clienteBloqueado
+									? 0
+									: pasoActual
+							}
 						/>
 					</Box>
 
@@ -408,6 +456,7 @@ const Pasos: React.FC = () => {
 					numeroItems={formatearItems(itemsValorizados.length)}
 					total={totalVisitaActual}
 					onClick={() => manejadorPasoAdelante()}
+					pasoActual={pasoActual}
 				/>
 			</Estructura.PieDePagina>
 		</Estructura>

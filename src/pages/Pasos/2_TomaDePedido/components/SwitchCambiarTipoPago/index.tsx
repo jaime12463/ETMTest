@@ -5,11 +5,11 @@ import {
 	TProductoPedido,
 	TTipoPedido,
 } from 'models';
-import {Switch} from '@mui/material';
+import {Chip, Switch, Typography} from '@mui/material';
 import {useCambiarTipoPago, usePermiteCambiarTipoPago} from './hooks';
 import {Center} from 'components/UI';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
-import {useObtenerDatosTipoPedido} from 'hooks';
+import {useObtenerDatosCliente, useObtenerDatosTipoPedido} from 'hooks';
 import useEstilos, {SwitchProps} from './useEstilos';
 import {styled} from '@mui/material/styles';
 import theme from 'theme';
@@ -66,13 +66,26 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 	const permiteCambiarTipoPago: boolean = usePermiteCambiarTipoPago();
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
-
+	const {obtenerDatosCliente} = useObtenerDatosCliente();
+	const datosCliente = obtenerDatosCliente(clienteActual.codigoCliente);
+	if (!datosCliente) return <></>;
 	const visitaActual = useObtenerVisitaActual();
 
 	const [mostrarSwitch, setMostrarSwitch] = React.useState<boolean>();
 
+	const [mostrarTag, setMostrarTag] = React.useState<boolean>(false);
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
 	const {t} = useTranslation();
+
+	const ChipStyled = styled(Chip)(() => ({
+		background: clienteActual.tipoPagoActual ? '#009D63' : '#2F000E',
+		color: '#fff',
+		width: '66px',
+		height: '18px',
+		'&.MuiChip-sizeSmall': {},
+	}));
+
+	const {esCreditoBloqueado} = datosCliente?.informacionCrediticia;
 
 	const [switchTipoPago, setSwitchTipoPago] = React.useState<SwitchProps>(
 		() => {
@@ -91,7 +104,9 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 
 			return {
 				content: Boolean(clienteActual.tipoPagoActual),
-				texto: Boolean(clienteActual.tipoPagoActual) ? t('general.credito') : t('general.contado'),
+				texto: Boolean(clienteActual.tipoPagoActual)
+					? t('general.credito')
+					: t('general.contado'),
 			};
 		}
 	);
@@ -101,13 +116,33 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 	React.useEffect(() => {
 		const datosTipoPedidoActual: TTipoPedido | undefined =
 			obtenerDatosTipoPedido();
-		setMostrarSwitch(datosTipoPedidoActual?.esValorizado);
+		let puedeMostrarSwitch = datosTipoPedidoActual?.esValorizado
+			? clienteActual.condicion === 'contado'
+				? () => {
+						setMostrarTag(true);
+						return false;
+				  }
+				: clienteActual.condicion === 'creditoFormal'
+				? () => {
+						setMostrarTag(true);
+						return false;
+				  }
+				: esCreditoBloqueado
+				? () => {
+						setMostrarTag(true);
+						return false;
+				  }
+				: true
+			: () => {
+					setMostrarTag(true);
+					return false;
+			  };
+
+		setMostrarSwitch(puedeMostrarSwitch);
 	}, [visitaActual.tipoPedidoActual, obtenerDatosTipoPedido]);
 
 	React.useEffect(() => {
 		if (producto) {
-			//console.log("Entre 1", producto)
-			//console.log("Entre", switchTipoPago);
 			return setSwitchTipoPago({
 				content: Boolean(producto.tipoPago),
 				texto: producto.tipoPago ? t('general.credito') : t('general.contado'),
@@ -161,6 +196,22 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 					id={`switch-cambiar-tipoPago-` + (producto?.codigoProducto ?? ``)}
 					disabled={!permiteCambiarTipoPago}
 					classes={{track: classes.track}}
+				/>
+			)}
+			{mostrarTag && !producto && (
+				<ChipStyled
+					size='small'
+					label={
+						<Typography
+							fontSize={'10px'}
+							fontFamily='Open Sans'
+							fontWeight={'400'}
+						>
+							{clienteActual.tipoPagoActual
+								? t('general.credito')
+								: t('general.contado')}
+						</Typography>
+					}
 				/>
 			)}
 		</Center>

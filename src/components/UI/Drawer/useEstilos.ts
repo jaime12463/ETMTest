@@ -23,7 +23,6 @@ const useEstilos = makeStyles(() =>
 			width: '153px',
 		},
 		content: {
-			padding: '20px 10px',
 			maxWidth: '360px',
 			width: '100%',
 		},

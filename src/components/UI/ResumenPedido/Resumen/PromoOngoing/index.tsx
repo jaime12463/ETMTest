@@ -19,11 +19,15 @@ export const PromoOngoing: React.FC<PromoOngoingProps> = ({promocion}) => {
 			<Box
 				alignItems='center'
 				display='flex'
-				justifyContent='space-between'
-				padding='10px 14px'
 				sx={{background: theme.palette.secondary.light}}
 			>
-				<Box display='flex' flexDirection='column' gap='2px'>
+				<Box
+					flex='1'
+					display='flex'
+					flexDirection='column'
+					gap='2px'
+					padding='10px 8px 10px 14px'
+				>
 					<Typography variant='subtitle3' fontFamily='Open Sans' color='#fff'>
 						{promocionID}
 					</Typography>
@@ -32,14 +36,22 @@ export const PromoOngoing: React.FC<PromoOngoingProps> = ({promocion}) => {
 					</Typography>
 				</Box>
 				<Box
-					borderRadius='50px'
+					alignItems='center'
 					display='flex'
-					padding='2px 12px'
-					sx={{background: theme.palette.info.main}}
+					justifyContent='end'
+					flexBasis='143px'
+					padding='10px 16px 10px 8px'
 				>
-					<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
-						{t('general.productoGratis')}
-					</Typography>
+					<Box
+						borderRadius='50px'
+						display='flex'
+						padding='2px 12px'
+						sx={{background: theme.palette.info.main}}
+					>
+						<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
+							{t('general.productoGratis')}
+						</Typography>
+					</Box>
 				</Box>
 			</Box>
 			{productos.map((producto) => (

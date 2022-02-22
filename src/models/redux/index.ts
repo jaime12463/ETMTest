@@ -10,7 +10,12 @@ import {
 	TComponente,
 	TAtributos,
 	EFormaDeAplicacion,
+	TPromoOngoing,
 } from 'models/server';
+import {
+	TPromoOngoingAplicablesResultado,
+	TPromoOngoingDisponibilidad,
+} from 'utils/procesos/promociones/PromocionesOngoing';
 
 //Cliente Actual
 export type TClienteActual = {
@@ -66,13 +71,25 @@ export type TVisita = {
 	envasesConError: number;
 	avisos: TAvisos;
 	clienteBloqueado: boolean;
+	promocionesNegociadas: {
+		contado: TPromoOngoingAplicablesResultado;
+		credito: TPromoOngoingAplicablesResultado;
+		noAplicable: TPromoOngoing[];
+		benficiosParaAgregar: TPromoOngoingAplicadas[];
+		disponibles: TPromoOngoingDisponibilidad;
+	};
 };
 
 export type TAvisos = {
 	limiteCredito: number;
 	cambiosPasoActual: boolean;
 	calculoPromociones: boolean;
-	cambioElPedidoSinPromociones: boolean;
+	cambioElPedidoSinPromociones: TCambioPedidoSinPromociones;
+};
+
+export type TCambioPedidoSinPromociones = {
+	contado: boolean;
+	credito: boolean;
 };
 
 export type TPromoOngoingAplicadas = {
@@ -226,6 +243,7 @@ export type TPedidosClientes = {
 		iniciativas: TIniciativasCliente[];
 		bonificaciones: TBonificacionesCliente[];
 		coberturas: TCoberturasCliente[];
+		promocionesOngoing: TPromoOngoingAplicadas[];
 	};
 };
 

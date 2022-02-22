@@ -15,7 +15,9 @@ import {
 import {
 	useCalcularPresupuestoTipoPedido,
 	useObtenerBonificacionesHabilitadas,
+	useObtenerDatosCliente,
 	useObtenerProductosMandatoriosVisitaActual,
+	useValidarTipoPedidosRealizadosSegunConfiguracion,
 } from 'hooks';
 import OrdenDeCompra from './OrdenDeCompra';
 import {cambiarTipoPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
@@ -29,6 +31,20 @@ export const Otros: React.FC = () => {
 	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
 	const {condicion} = useObtenerClienteActual();
 	const visitaActual = useObtenerVisitaActual();
+
+	const clienteActual = useObtenerClienteActual();
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+	const configuracion = useObtenerConfiguracion();
+
+	const mostrarTarjetaBonificaciones = !(
+		(configuracion.habilitaCompromisoDeCobro &&
+			datosCliente?.informacionCrediticia.esCreditoBloqueado &&
+			clienteActual.condicion === 'creditoFormal') ||
+		(configuracion.habilitaCompromisoDeCobro &&
+			datosCliente?.informacionCrediticia.esCreditoBloqueado &&
+			datosCliente?.informacionCrediticia.esBloqueadoVenta &&
+			clienteActual.condicion === 'creditoInformal')
+	);
 
 	const {canje, ventaenvase, prestamoenvase} = visitaActual.pedidos;
 
@@ -69,6 +85,9 @@ export const Otros: React.FC = () => {
 	const cantidadBonificaciones = visitaActual.bonificaciones.filter(
 		(bonificacion) => bonificacion.detalle.length > 0
 	);
+
+	const validarTipoPedidosRealizadosSegunConfiguracion = useValidarTipoPedidosRealizadosSegunConfiguracion('esValorizado');
+	const enableOrdenDeCompra = validarTipoPedidosRealizadosSegunConfiguracion();
 
 	React.useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'canje'}));
@@ -198,48 +217,50 @@ export const Otros: React.FC = () => {
 			>
 				<Canjes />
 			</TarjetaColapsable>
-			<TarjetaColapsable
-				titulo={
-					<Typography variant={'subtitle2'}>
-						{t('titulos.bonificaciones')}
-					</Typography>
-				}
-				subTitulo={
-					<Typography variant={'body3'}>
-						{t('titulos.tarjetaBonificaciones')}
-					</Typography>
-				}
-				id='Bonificaciones'
-				expandido={expandido}
-				setExpandido={setExpandido}
-				dataCy='Bonificaciones'
-				valido={bonificacionValida}
-				cantidadItems={cantidadBonificaciones.length}
-				labelChip={
-					<>
-						{bonificacionesHabilitadas.length !==
-							cantidadBonificaciones.length &&
-							`${cantidadBonificaciones.length} de ${bonificacionesHabilitadas.length}
-						Bonificaciones`}
-						{bonificacionesHabilitadas.length ===
-							cantidadBonificaciones.length &&
-							`${cantidadBonificaciones.length} Bonificaciones`}
-					</>
-				}
-				disabled={
-					bonificacionesHabilitadas.length === 0 ||
-					productosMandatoriosVisitaActual.mandatorios.length < 1
-				}
-				mensaje={
-					bonificacionesHabilitadas.length === 0 && (
-						<Typography color='primary' variant='subtitle3'>
-							{t('titulos.bonificacionesDeshabilitadas')}
+			{mostrarTarjetaBonificaciones ? (
+				<TarjetaColapsable
+					titulo={
+						<Typography variant={'subtitle2'}>
+							{t('titulos.bonificaciones')}
 						</Typography>
-					)
-				}
-			>
-				<Bonificaciones bonificacionValida={bonificacionValida} />
-			</TarjetaColapsable>
+					}
+					subTitulo={
+						<Typography variant={'body3'}>
+							{t('titulos.tarjetaBonificaciones')}
+						</Typography>
+					}
+					id='Bonificaciones'
+					expandido={expandido}
+					setExpandido={setExpandido}
+					dataCy='Bonificaciones'
+					valido={bonificacionValida}
+					cantidadItems={cantidadBonificaciones.length}
+					labelChip={
+						<>
+							{bonificacionesHabilitadas.length !==
+								cantidadBonificaciones.length &&
+								`${cantidadBonificaciones.length} de ${bonificacionesHabilitadas.length}
+						Bonificaciones`}
+							{bonificacionesHabilitadas.length ===
+								cantidadBonificaciones.length &&
+								`${cantidadBonificaciones.length} Bonificaciones`}
+						</>
+					}
+					disabled={
+						bonificacionesHabilitadas.length === 0 ||
+						productosMandatoriosVisitaActual.mandatorios.length < 1
+					}
+					mensaje={
+						bonificacionesHabilitadas.length === 0 && (
+							<Typography color='primary' variant='subtitle3'>
+								{t('titulos.bonificacionesDeshabilitadas')}
+							</Typography>
+						)
+					}
+				>
+					<Bonificaciones bonificacionValida={bonificacionValida} />
+				</TarjetaColapsable>
+			) : null}
 			{condicion !== 'contado' ? (
 				<TarjetaColapsable
 					titulo={
@@ -278,6 +299,7 @@ export const Otros: React.FC = () => {
 					setExpandido={setExpandido}
 					valido={ordenDeCompraValido}
 					dataCy='OrdenDeCompra'
+					disabled={!enableOrdenDeCompra}
 				>
 					<OrdenDeCompra />
 				</TarjetaColapsable>

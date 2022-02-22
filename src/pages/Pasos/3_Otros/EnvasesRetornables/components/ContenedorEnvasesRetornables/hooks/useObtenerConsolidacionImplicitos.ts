@@ -11,7 +11,6 @@ import {
 import {
 	useObtenerImplicitosPromoPush,
 	useObtenerDatosProducto,
-	useDeterminarDividirPorPago,
 } from '.';
 import {
 	useObtenerPreciosProductosDelCliente,
@@ -50,8 +49,7 @@ export const useObtenerConsolidacionImplicitos = () => {
 				consolidadoImplicitos.forEach((consolidado) => {
 					if (
 						codigoImplicito === consolidado.codigoImplicito &&
-						((esDivisionPorPago && consolidado.tipoPago === tipoPago) ||
-							!esDivisionPorPago)
+							consolidado.tipoPago === tipoPago
 					) {
 						consolidado.unidades = consolidado.unidades + unidades;
 						consolidado.subUnidades = consolidado.subUnidades + subUnidades;
@@ -65,14 +63,12 @@ export const useObtenerConsolidacionImplicitos = () => {
 						nombreImplicito: nombreImplicito || '',
 						unidades: unidades,
 						subUnidades: subUnidades,
-						tipoPago: esDivisionPorPago ? tipoPago : undefined,
+						tipoPago: tipoPago,
 					});
 			};
 
 			const consolidadoImplicitos: TConsolidadoImplicitos[] = [];
 			let consolidado: TConsolidadoImplicitos[] = [];
-			const determinarDividirPorPago = useDeterminarDividirPorPago();
-			const esDivisionPorPago = determinarDividirPorPago();
 
 			productosPedido.forEach((pedido) => {
 				const {unidades, subUnidades, promoPush, tipoPago} = pedido;

@@ -15,7 +15,6 @@ import {
 	TPromoOngoingHabilitadas,
 	TPromoOngoingAplicadas,
 } from 'models';
-import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
 
 import {fechaDispositivo, fechaDentroDelRango} from 'utils/methods';
 import {validarProductoContraPortafolio} from 'utils/validaciones';
@@ -26,7 +25,7 @@ export type TProductosPedidoIndex = Record<
 >;
 
 export type TProductosUsadosEnOtrasPromos = {
-	[codidoProducto: number]: boolean;
+	[codigoProducto: number]: number[];
 };
 
 export type TPromoOngoingListaProductosAplicados = {
@@ -39,6 +38,11 @@ export type TPromoOngoingAplicables = TPromoOngoing & {
 	listaProductosAplicados: TPromoOngoingListaProductosAplicados[];
 	aplicada: boolean;
 	topeTotal: number;
+};
+
+export type TPromoOngoingAplicablesResultado = {
+	promosAplicables: TPromoOngoingAplicables[];
+	indiceProductosxPromosManuales: TProductosUsadosEnOtrasPromos;
 };
 
 export type TListaPromoOngoingConIndices = {
@@ -104,12 +108,17 @@ export const obtenerPromocionesOngoingAplicables = (
 	cliente: TCliente,
 	productosPedidos: TProductosPedidoIndex,
 	listaPromocionesVigentes: TListaPromoOngoingConIndices
-) => {
-	let productosUsadosEnOtrasPromos: TProductosUsadosEnOtrasPromos = {};
+): TPromoOngoingAplicablesResultado => {
+	let productosUsadosEnOtrasPromosAutomaticas: TProductosUsadosEnOtrasPromos =
+		{};
+	let productosUsadosEnOtrasPromosManuales: TProductosUsadosEnOtrasPromos = {};
 	let aplicables: TPromoOngoingAplicables[] = [];
 
 	if (!listaPromocionesVigentes.existenPromociones || !productosPedidos)
-		return aplicables;
+		return {
+			promosAplicables: [],
+			indiceProductosxPromosManuales: {},
+		};
 
 	for (let clave of listaPromocionesVigentes.indexPorTipoId) {
 		const claveAplicacion = clave.substring(0, 1);
@@ -126,18 +135,18 @@ export const obtenerPromocionesOngoingAplicables = (
 			i < promo.requisitos.length;
 			i++ // verificación de requisistos de la promo
 		) {
-			materialesRequisitosVerificados.push(
+			const materialesVerificados: TPromoOngoingMaterialesRequisitosVerificados =
 				verificarRequisito(
+					promo.promocionID,
 					promo.requisitos[i],
 					productosPedidos,
-					productosUsadosEnOtrasPromos
-				)
-			);
-			multiplo.push(
-				materialesRequisitosVerificados[
-					materialesRequisitosVerificados.length - 1
-				].multiplo
-			);
+					productosUsadosEnOtrasPromosAutomaticas
+				);
+
+			materialesRequisitosVerificados.push(materialesVerificados);
+
+			multiplo.push(materialesVerificados.multiplo);
+
 			if (promo.requisitos[i].conector)
 				conector = promo.requisitos[i].conector?.toUpperCase();
 		}
@@ -163,10 +172,11 @@ export const obtenerPromocionesOngoingAplicables = (
 					 * Las promociones automáticas son de asignación Total y otorgan el beneficio del grupo con id más chico
 					 */
 
-					productosUsadosEnOtrasPromos = comprometerProductosUsadosEnPromos(
-						materialesRequisitosVerificados,
-						productosUsadosEnOtrasPromos
-					);
+					productosUsadosEnOtrasPromosAutomaticas =
+						comprometerProductosUsadosEnPromos(
+							materialesRequisitosVerificados,
+							productosUsadosEnOtrasPromosAutomaticas
+						);
 
 					grupoDeBeneficios.push({
 						...grupoDeBeneficiosResultado[0],
@@ -194,6 +204,12 @@ export const obtenerPromocionesOngoingAplicables = (
 							grupoDeBeneficiosResultado[0].secuencias[0].unidadMedida,
 						cantidad: topeTotal,
 					});
+				} else {
+					productosUsadosEnOtrasPromosManuales =
+						comprometerProductosUsadosEnPromos(
+							materialesRequisitosVerificados,
+							productosUsadosEnOtrasPromosManuales
+						);
 				}
 
 				aplicables.push({
@@ -208,7 +224,10 @@ export const obtenerPromocionesOngoingAplicables = (
 			}
 		}
 	}
-	return aplicables;
+	return {
+		promosAplicables: aplicables,
+		indiceProductosxPromosManuales: productosUsadosEnOtrasPromosManuales,
+	};
 };
 
 const comprometerProductosUsadosEnPromos = (
@@ -219,10 +238,18 @@ const comprometerProductosUsadosEnPromos = (
 		{...productosUsadosEnOtrasPromos};
 	materialesRequisitosVerificados.forEach(
 		(requisitoVerificado: TPromoOngoingMaterialesRequisitosVerificados) => {
-			nuevaListaDeProductosUsadosEnOtrasPromos = {
-				...nuevaListaDeProductosUsadosEnOtrasPromos,
-				...requisitoVerificado.lista,
-			};
+			for (const p in requisitoVerificado.lista) {
+				if (nuevaListaDeProductosUsadosEnOtrasPromos[p]) {
+					nuevaListaDeProductosUsadosEnOtrasPromos[p] = [
+						...nuevaListaDeProductosUsadosEnOtrasPromos[p],
+						...requisitoVerificado.lista[p],
+					];
+				} else {
+					nuevaListaDeProductosUsadosEnOtrasPromos[p] = [
+						...requisitoVerificado.lista[p],
+					];
+				}
+			}
 		}
 	);
 	return nuevaListaDeProductosUsadosEnOtrasPromos;
@@ -275,6 +302,7 @@ export const obtenerProductosDelPedidoIndex = (
  * @param {TProductosPedidoIndex} productosIndex - lista d productos distintos de promoPush y que sean de una forma de pago
  */
 const verificarRequisito = (
+	promocionID: number,
 	requisito: TPromoOngoingRequisitos,
 	productosIndex: TProductosPedidoIndex,
 	productosUsadosEnOtrasPromos: TProductosUsadosEnOtrasPromos
@@ -293,7 +321,7 @@ const verificarRequisito = (
 				productosIndex[material].aplicado;
 			lista = {
 				...lista,
-				[material]: true,
+				[material]: [promocionID],
 			};
 		}
 	});
@@ -379,9 +407,8 @@ export const formatearBeneficiosPromoOngoing = (
 	promoContado: TPromoOngoingAplicables[],
 	promoCredito: TPromoOngoingAplicables[]
 ): TPromoOngoingAplicadas[] => {
-	const beneficiosPromoContado: TPromoOngoingAplicadas[] = promoContado
-		.filter((promo) => promo.aplicada)
-		.map((promo) => ({
+	const beneficiosPromoContado: TPromoOngoingAplicadas[] = promoContado.map(
+		(promo) => ({
 			promocionID: promo.promocionID,
 			tipoPago: ETiposDePago.Contado,
 			descripcion: promo.descripcion,
@@ -391,11 +418,11 @@ export const formatearBeneficiosPromoOngoing = (
 				tipoPago: ETiposDePago.Contado,
 				descripcion: '',
 			})),
-		}));
+		})
+	);
 
-	const beneficiosPromoCredito: TPromoOngoingAplicadas[] = promoCredito
-		.filter((promo) => promo.aplicada)
-		.map((promo) => ({
+	const beneficiosPromoCredito: TPromoOngoingAplicadas[] = promoCredito.map(
+		(promo) => ({
 			promocionID: promo.promocionID,
 			tipoPago: ETiposDePago.Credito,
 			descripcion: promo.descripcion,
@@ -405,7 +432,9 @@ export const formatearBeneficiosPromoOngoing = (
 				tipoPago: ETiposDePago.Credito,
 				descripcion: '',
 			})),
-		}));
+		})
+	);
+
 	return [...beneficiosPromoCredito, ...beneficiosPromoContado];
 };
 
@@ -426,27 +455,29 @@ export const obtenerPromocionesOngoingTotal = (
 		cliente,
 		obtenerProductosDelPedidoIndex(productos, ETiposDePago.Contado),
 		promocionesVigentesCliente
-	).sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1));
+	);
 
 	const promocionesCredito = obtenerPromocionesOngoingAplicables(
 		cliente,
 		obtenerProductosDelPedidoIndex(productos, ETiposDePago.Credito),
 		promocionesVigentesCliente
-	).sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1));
+	);
+
+	/* .promosAplicables.sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1)); */
 
 	const benficiosParaAgregar = formatearBeneficiosPromoOngoing(
-		promocionesContado,
-		promocionesCredito
+		promocionesContado.promosAplicables,
+		promocionesCredito.promosAplicables
 	);
 
 	const promocionesVigentesNoAplicables = Object.values(
 		promocionesVigentesCliente.lista
 	)
 		.filter((promocion) =>
-			promocionesContado.some(
+			promocionesContado.promosAplicables.some(
 				(promoContado) => promoContado.promocionID === promocion.promocionID
 			) ||
-			promocionesCredito.some(
+			promocionesCredito.promosAplicables.some(
 				(promoCredito) => promoCredito.promocionID === promocion.promocionID
 			)
 				? false

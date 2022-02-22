@@ -155,7 +155,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	};
 
 	const [estadoSelect, setEstadoSelect] = React.useState<string>(estado);
-	const [motivoSelect, setMotivoSelect] = React.useState<string>('');
+	const [motivoSelect, setMotivoSelect] = React.useState<string>(motivo);
 
 	const [getValues, setGetValues] =
 		React.useState<GetValuesProps>(defaultValues);

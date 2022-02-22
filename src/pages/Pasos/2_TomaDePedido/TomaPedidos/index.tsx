@@ -5,10 +5,15 @@ import {
 	TFormTomaDePedido,
 	TPrecioProducto,
 	TCliente,
+	ETiposDePago,
+	TPedidosClientes,
+	TPromoOngoing,
+	TPromoOngoingAplicadas,
 } from 'models';
 import {
 	useAppDispatch,
 	useObtenerClienteActual,
+	useObtenerPedidosClientes,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {useForm} from 'react-hook-form';
@@ -20,6 +25,7 @@ import {
 import {
 	agregarBeneficiosPromoOngoing,
 	agregarProductoDelPedidoActual,
+	agregarPromocionesNegociadas,
 	cambiarAvisos,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
@@ -42,15 +48,17 @@ import {SwitchCambiarTipoPago} from '../components';
 import Modal from 'components/UI/Modal';
 import TarjetaTomaPedido from 'components/UI/TarjetaTomaPedido';
 import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoPush';
-import {Box} from '@mui/system';
+import Box from '@mui/material/Box';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
-
 import {
-	obtenerlistaPromocionesVigentes,
-	obtenerPromocionesOngoingTotal,
-} from 'utils/procesos/promociones';
+	PromocionesOngoing,
+	TPromoOngoingAplicablesResultado,
+	TPromoOngoingDisponibilidad,
+} from 'utils/procesos/promociones/PromocionesOngoing';
+
 import {useObtenerDatos} from 'redux/hooks';
+import DrawerBuscador from 'components/Negocio/DrawerBuscador';
 
 const TextStyled = styled(Typography)(() => ({
 	color: theme.palette.secondary.main,
@@ -73,6 +81,7 @@ const TomaPedido: React.FC = () => {
 	const {t} = useTranslation();
 
 	const [alerta, setAlerta] = React.useState<boolean>(false);
+	const [openBuscador, setOpenBuscador] = React.useState<boolean>(false);
 	const [openTooltip, setOpenTooltip] = React.useState<boolean>(false);
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
@@ -89,6 +98,10 @@ const TomaPedido: React.FC = () => {
 	const [promocionesOingoing, setPromocionesOingoing] = React.useState<any>();
 	const [openDrawerPromociones, setOpenDrawerPromociones] =
 		React.useState<boolean>(false);
+
+	const [tiposPagoParaCalculo, setTiposPagoParaCalculo] = React.useState<
+		ETiposDePago[]
+	>([ETiposDePago.Contado, ETiposDePago.Credito]);
 
 	const [focusId, setFocusId] = React.useState(0);
 	const visitaActual = useObtenerVisitaActual();
@@ -126,36 +139,126 @@ const TomaPedido: React.FC = () => {
 
 	const borrarlinea = useBorrarLinea({setAlerta, setConfigAlerta});
 
-	const promocionesVigentesCliente = React.useMemo(
-		() => obtenerlistaPromocionesVigentes(datosCliente, datos.promociones),
-		[datosCliente, datos.promociones]
+	const promocionesOngoing = PromocionesOngoing.getInstance(
+		datosCliente,
+		datos?.promociones
 	);
+	const promocionesVigentesCliente = promocionesOngoing.obtenerListaVigentes();
+	const pedidosCliente: TPedidosClientes = useObtenerPedidosClientes();
 
 	const puedeBotonPromocionesOngoing =
 		venta.productos.some(
 			(producto) => producto.unidades > 0 || producto.subUnidades > 0
 		) && promocionesVigentesCliente?.existenPromociones;
 
+	/* 	React.useEffect(() => {
+		dispatch(
+			agregarPromocionesNegociadas({promocionesNegociadas: promocionesOingoing})
+		);
+	}, [promocionesOingoing]); */
+
 	const manejadorBotonPromosOngoing = () => {
 		setOpenDrawerPromociones(true);
-		let promociones = obtenerPromocionesOngoingTotal(
-			datosCliente,
-			venta.productos,
-			promocionesVigentesCliente
-		);
-		setPromocionesOingoing(promociones);
+
+		if (
+			visitaActual.avisos.cambioElPedidoSinPromociones.contado ||
+			visitaActual.avisos.cambioElPedidoSinPromociones.credito
+		) {
+			const {cambioElPedidoSinPromociones} = visitaActual.avisos;
+			let tipos: ETiposDePago[] =
+				cambioElPedidoSinPromociones.contado &&
+				cambioElPedidoSinPromociones.credito
+					? [ETiposDePago.Contado, ETiposDePago.Credito]
+					: cambioElPedidoSinPromociones.contado &&
+					  !cambioElPedidoSinPromociones.credito
+					? [ETiposDePago.Contado]
+					: cambioElPedidoSinPromociones.credito &&
+					  !cambioElPedidoSinPromociones.contado
+					? [ETiposDePago.Credito]
+					: [ETiposDePago.Contado, ETiposDePago.Credito];
+
+			const promociones = promocionesOngoing.calcular(
+				venta.productos,
+				{
+					Grabadas:
+						pedidosCliente[clienteActual.codigoCliente]?.promocionesOngoing ??
+						[],
+					VisitaActual: visitaActual.promosOngoing,
+				},
+				tipos
+			);
+
+			tipos.length === 1 && tipos[0] === ETiposDePago.Contado
+				? setPromocionesOingoing({
+						...promociones,
+						credito: promocionesOingoing?.credito ?? promociones.credito,
+				  })
+				: tipos.length === 1 && tipos[0] === ETiposDePago.Credito
+				? setPromocionesOingoing({
+						...promociones,
+						contado: promocionesOingoing?.contado ?? promociones.contado,
+				  })
+				: setPromocionesOingoing({...promociones});
+
+			let beneficioParaAgregar = [];
+
+			tipos.length === 1 && tipos[0] === ETiposDePago.Contado
+				? (beneficioParaAgregar = visitaActual.promosOngoing.filter(
+						(promo) =>
+							promo.aplicacion === 'A' ||
+							promo.tipoPago === ETiposDePago.Credito
+				  ))
+				: tipos.length === 1 && tipos[0] === ETiposDePago.Credito
+				? (beneficioParaAgregar = visitaActual.promosOngoing.filter(
+						(promo) =>
+							promo.aplicacion === 'A' ||
+							promo.tipoPago === ETiposDePago.Contado
+				  ))
+				: (beneficioParaAgregar = promociones?.benficiosParaAgregar.filter(
+						(promo) => promo.aplicacion === 'A'
+				  ));
+
+			dispatch(
+				agregarBeneficiosPromoOngoing({
+					beneficios: beneficioParaAgregar,
+				})
+			);
+		} else {
+			const promociones = promocionesOngoing.calcular(
+				venta.productos,
+				{
+					Grabadas:
+						pedidosCliente[clienteActual.codigoCliente]?.promocionesOngoing ??
+						[],
+					VisitaActual: visitaActual.promosOngoing,
+				},
+				[ETiposDePago.Contado, ETiposDePago.Credito]
+			);
+			setPromocionesOingoing(promociones);
+			/* 			if (visitaActual.promocionesNegociadas) {
+				setPromocionesOingoing({...visitaActual.promocionesNegociadas});
+			} else {
+				const promociones = promocionesOngoing.calcular(
+					venta.productos,
+					{
+						Grabadas:
+							pedidosCliente[clienteActual.codigoCliente]?.promocionesOngoing ??
+							[],
+						VisitaActual: visitaActual.promosOngoing,
+					},
+					[ETiposDePago.Contado, ETiposDePago.Credito]
+				);
+				setPromocionesOingoing(promociones);
+			} */
+		}
+
 		dispatch(
 			cambiarAvisos({
 				calculoPromociones: true,
-				cambioElPedidoSinPromociones: false,
+				cambioElPedidoSinPromociones: {contado: false, credito: false},
 			})
 		);
 
-		dispatch(
-			agregarBeneficiosPromoOngoing({
-				beneficios: promociones.benficiosParaAgregar,
-			})
-		);
 		setOpenTooltip(false);
 	};
 
@@ -163,7 +266,12 @@ const TomaPedido: React.FC = () => {
 		const {cambioElPedidoSinPromociones, calculoPromociones} =
 			visitaActual.avisos;
 
-		if (cambioElPedidoSinPromociones && calculoPromociones) {
+		if (
+			(cambioElPedidoSinPromociones.contado ||
+				cambioElPedidoSinPromociones.credito) &&
+			calculoPromociones &&
+			venta.productos.length > 0
+		) {
 			setOpenTooltip(true);
 		}
 	}, [visitaActual.avisos.cambioElPedidoSinPromociones]);
@@ -249,27 +357,36 @@ const TomaPedido: React.FC = () => {
 						statePreciosProductos={{preciosProductos, setPreciosProductos}}
 						stateInputFocus={stateInputFocus}
 					/>
-					{puedeBotonPromocionesOngoing && (
-						<Box alignItems='center' display='flex' gap='16px'>
+					<Box alignItems='center' display='flex' gap='16px'>
+						{puedeBotonPromocionesOngoing && (
 							<Box position='relative'>
 								<IconButton
 									style={{padding: 0}}
 									onClick={() => manejadorBotonPromosOngoing()}
+									data-cy={'botonPromocionesOnGoing'}
 								>
 									<PromocionColor height='24px' width='24px' />
 								</IconButton>
 								<Tooltip open={openTooltip} />
 							</Box>
-							<IconButton sx={{padding: 0, marginRight: '9px'}}>
-								<BuscarIcon height='18px' width='18px' />
-							</IconButton>
-						</Box>
-					)}
+						)}
+						<IconButton
+							sx={{padding: 0, marginRight: '9px'}}
+							onClick={() => setOpenBuscador(true)}
+						>
+							<BuscarIcon height='18px' width='18px' />
+						</IconButton>
+					</Box>
 				</Box>
+				<DrawerBuscador
+					openBuscador={openBuscador}
+					setOpenBuscador={setOpenBuscador}
+				/>
 				<DrawerPromociones
 					openDrawerPromociones={openDrawerPromociones}
 					setOpenDrawerPromociones={setOpenDrawerPromociones}
 					promocionesOingoing={promocionesOingoing}
+					setPromocionesOingoing={setPromocionesOingoing}
 				/>
 				{venta?.productos?.length > 0 &&
 					venta?.productos?.some(
@@ -288,7 +405,7 @@ const TomaPedido: React.FC = () => {
 									className={classes.root}
 									size='small'
 									icon={<BorrarIcon width='7.5px' height='7.5px' />}
-									label={<TextStyled>Borrar todo</TextStyled>}
+									label={<TextStyled>{t('general.borrarTodo')}</TextStyled>}
 									sx={{'&:hover': {background: 'none'}}}
 									onClick={() => borrarTodosLosProductos()}
 								/>

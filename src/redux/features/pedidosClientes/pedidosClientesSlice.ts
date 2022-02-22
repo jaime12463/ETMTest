@@ -11,6 +11,7 @@ import {
 	TIniciativas,
 	TBonificacionesCliente,
 	TCoberturasCliente,
+	TPromoOngoingAplicadas,
 } from 'models';
 import {RootState} from 'redux/store';
 
@@ -64,6 +65,7 @@ export const pedidosClientesSlice = createSlice({
 					iniciativas: [],
 					bonificaciones: [],
 					coberturas: [],
+					promocionesOngoing: [],
 				};
 
 			state[codigoCliente].compromisosDeCobro.push(CompromisoDeCobro);
@@ -86,6 +88,7 @@ export const pedidosClientesSlice = createSlice({
 						iniciativas: [],
 						bonificaciones: [],
 						coberturas: [],
+						promocionesOngoing: [],
 					};
 
 				const iniciativasFiltadoPendientes = action.payload.iniciativas.filter(
@@ -113,6 +116,7 @@ export const pedidosClientesSlice = createSlice({
 						iniciativas: [],
 						bonificaciones: [],
 						coberturas: [],
+						promocionesOngoing: [],
 					};
 
 				const bonificaciones = action.payload.bonificaciones.filter(
@@ -139,6 +143,7 @@ export const pedidosClientesSlice = createSlice({
 						iniciativas: [],
 						bonificaciones: [],
 						coberturas: [],
+						promocionesOngoing: [],
 					};
 
 				const coberturasCumplidas = action.payload.coberturasCumplidas.filter(
@@ -169,6 +174,7 @@ export const pedidosClientesSlice = createSlice({
 					iniciativas: [],
 					bonificaciones: [],
 					coberturas: [],
+					promocionesOngoing: [],
 				};
 
 			const pedidoCliente: TPedidoClienteParaEnviar = {
@@ -229,12 +235,37 @@ export const pedidosClientesSlice = createSlice({
 					iniciativas: [],
 					bonificaciones: [],
 					coberturas: [],
+					promocionesOngoing: [],
 				};
 			state[codigoCliente].pedidos = [
 				...state[codigoCliente].pedidos,
 				...pedidos,
 			];
 		},
+
+		guardarPromosOngoing: (
+			state,
+			action: PayloadAction<{
+				promocionesOngoing: TPromoOngoingAplicadas[];
+				clienteActual: TClienteActual;
+			}>
+		) => {
+			const {codigoCliente}: TClienteActual = action.payload.clienteActual;
+
+			if (!state[codigoCliente]){
+				state[codigoCliente] = {
+					pedidos: [],
+					compromisosDeCobro: [],
+					iniciativas: [],
+					bonificaciones: [],
+					coberturas: [],
+					promocionesOngoing: [],
+				};
+			}
+
+			state[codigoCliente].promocionesOngoing = action.payload.promocionesOngoing;
+
+		}
 	},
 });
 
@@ -249,5 +280,6 @@ export const {
 	agregarIniciativasAlCliente,
 	agregarBonificacionesAlCliente,
 	agregarCoberturasCumplidasAlCliente,
+	guardarPromosOngoing,
 } = pedidosClientesSlice.actions;
 export default pedidosClientesSlice.reducer;

@@ -15,11 +15,10 @@ type Props = {
 };
 
 const ChipStyled = styled(Chip)(({theme}) => ({
-	textAlign: 'center',
-	fontFamily: 'Open Sans',
-	width: '70px',
 	height: '18px',
 	padding: 0,
+	textAlign: 'center',
+	width: '70px',
 }));
 
 const TarjetaDobleIzquierda: FunctionComponent<Props> = (props) => {
@@ -49,12 +48,17 @@ const TarjetaDobleIzquierda: FunctionComponent<Props> = (props) => {
 									variant={'caption'}
 									color='white'
 									textAlign='center'
-									p={0}
+									fontFamily='Open Sans'
 								>
 									{ETiposDePago[envase.tipoPago]}
 								</Typography>
 							}
-							color={envase.tipoPago === 1 ? 'success' : 'secondary'}
+							sx={{
+								background:
+									envase.tipoPago === 1
+										? theme.palette.success.dark
+										: theme.palette.secondary.dark,
+							}}
 						/>
 					)}
 				</Box>

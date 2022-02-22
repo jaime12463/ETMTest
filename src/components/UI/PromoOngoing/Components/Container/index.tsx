@@ -9,11 +9,13 @@ import {useTranslation} from 'react-i18next';
 export interface ContainerProps {
 	tipo?: 'credito' | 'contado' | 'default';
 	onClick?: () => void;
+	dataCy?: string;
 }
 
 export const Container: React.FC<ContainerProps> = ({
 	tipo = 'default',
 	onClick = () => {},
+	dataCy,
 	children,
 }) => {
 	const {t} = useTranslation();
@@ -45,6 +47,7 @@ export const Container: React.FC<ContainerProps> = ({
 					variant='subtitle2'
 					color='#000'
 					marginBottom={tipo !== 'default' ? '8px' : 0}
+					data-cy={dataCy}
 				>
 					{titulo}
 				</Typography>
@@ -63,6 +66,7 @@ export const Container: React.FC<ContainerProps> = ({
 										: theme.palette.secondary.dark,
 							}}
 							width='66px'
+							data-cy={`restablecer-${dataCy}`}
 						>
 							<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
 								{tipo === 'credito' ? 'Crédito' : 'Contado'}
@@ -81,6 +85,7 @@ export const Container: React.FC<ContainerProps> = ({
 									backgroundColor: 'none',
 								},
 							}}
+							data-cy={`boton-restablecer-${tipo}`}
 						>
 							<ReiniciarIcon height='10px' width='10px' />
 							<Typography
