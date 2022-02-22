@@ -107,5 +107,16 @@ Escenario: N°11 - Sección obsequios promo ongoing
     Entonces el sistema mostrará dentro de la condición de pago de la promoción como cabecera el _promocionID
     Y mostrará _descripcion de la promoción ordenados por _promocionID
     Y mostrará el tag producto gratis
-    Y mostrará como detalle el _codigoProducto, _nombre, _atributos, _unidadMedida, cantidad obtenida
+    Y mostrará como detalle el _codigoProducto, _nombre, _atributos, icono de promocion, cantidad obtenida
     Y mostrará el detalle ordenado por _codigoProducto
+
+# icono de promocion cambiaría por _unidadMedida 
+
+Escenario: N°12 - No mostrar promociones ni obsequios al cambiar el pedido
+    Dado que se modificó el pedido
+    Y no se recalcularon promociones
+    Cuando selecciono ver resumen del pedido
+    Entonces el sistema no mostrará las promociones ongoing que pudiera tener aplicadas
+    Y no mostrará los beneficios obtenidos por las promociones ongoing
+# Según definición enviada por Enrique Cardenas por mail el 21/02/2022 
+# RE: Duda en caso promociones ongoing y ver resumen del pedido
