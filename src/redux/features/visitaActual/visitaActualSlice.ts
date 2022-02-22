@@ -8,9 +8,14 @@ import {
 	TAvisos,
 	TPromoOngoingGrupoBeneficios,
 	TPromoOngoingAplicadas,
+	TPromoOngoing,
 } from 'models';
 
 import {RootState} from 'redux/store';
+import {
+	TPromoOngoingAplicablesResultado,
+	TPromoOngoingDisponibilidad,
+} from 'utils/procesos/promociones/PromocionesOngoing';
 
 const estadoInicial: TVisita = {
 	fechaEntrega: '',
@@ -38,6 +43,13 @@ const estadoInicial: TVisita = {
 		cambioElPedidoSinPromociones: {contado: true, credito: false},
 	},
 	clienteBloqueado: false,
+	promocionesNegociadas: {
+		contado: {promosAplicables: [], indiceProductosxPromosManuales: {}},
+		credito: {promosAplicables: [], indiceProductosxPromosManuales: {}},
+		noAplicable: [],
+		benficiosParaAgregar: [],
+		disponibles: {},
+	},
 };
 
 export const visitaActualSlice = createSlice({
@@ -105,6 +117,29 @@ export const visitaActualSlice = createSlice({
 					(producto) => producto.unidades > 0 || producto.subUnidades > 0
 				);
 			}
+		},
+
+		agregarPromocionesNegociadas: (
+			state,
+			action: PayloadAction<{
+				promocionesNegociadas: {
+					contado: TPromoOngoingAplicablesResultado;
+					credito: TPromoOngoingAplicablesResultado;
+					noAplicable: TPromoOngoing[];
+					benficiosParaAgregar: TPromoOngoingAplicadas[];
+					disponibles: TPromoOngoingDisponibilidad;
+				};
+			}>
+		) => {
+			let promo = {...action.payload.promocionesNegociadas};
+
+			state.promocionesNegociadas = {
+				contado: promo.contado,
+				credito: promo.credito,
+				noAplicable: promo.noAplicable,
+				benficiosParaAgregar: promo.benficiosParaAgregar,
+				disponibles: promo.disponibles,
+			};
 		},
 
 		agregarEnvaseDelPedidoActual: (
@@ -631,5 +666,6 @@ export const {
 	cambiarAvisos,
 	activarClienteBloqueado,
 	agregarBeneficiosPromoOngoing,
+	agregarPromocionesNegociadas,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

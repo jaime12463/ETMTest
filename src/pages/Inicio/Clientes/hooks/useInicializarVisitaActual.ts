@@ -80,6 +80,19 @@ export const useInicializarVisitaActual = () => {
 							cambioElPedidoSinPromociones: {contado: false, credito: false},
 						},
 						clienteBloqueado: false,
+						promocionesNegociadas: {
+							contado: {
+								promosAplicables: [],
+								indiceProductosxPromosManuales: {},
+							},
+							credito: {
+								promosAplicables: [],
+								indiceProductosxPromosManuales: {},
+							},
+							noAplicable: [],
+							benficiosParaAgregar: [],
+							disponibles: {},
+						},
 					},
 				})
 			);

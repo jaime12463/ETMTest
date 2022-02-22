@@ -90,8 +90,6 @@ export const DrawerPromociones: React.FC<Props> = ({
 	const dispatch = useAppDispatch();
 
 	const restablecerPromociones = (tipo: 'Credito' | 'Contado') => {
-		let promocionesAnterioresContado = promocionesOingoing.contado;
-		let promocionesAnterioresCredito = promocionesOingoing.credito;
 		let promociones = promocionesOngoing.calcular(
 			visitaActual.pedidos.venta.productos,
 			{

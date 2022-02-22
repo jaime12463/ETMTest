@@ -7,6 +7,8 @@ import {
 	TCliente,
 	ETiposDePago,
 	TPedidosClientes,
+	TPromoOngoing,
+	TPromoOngoingAplicadas,
 } from 'models';
 import {
 	useAppDispatch,
@@ -23,6 +25,7 @@ import {
 import {
 	agregarBeneficiosPromoOngoing,
 	agregarProductoDelPedidoActual,
+	agregarPromocionesNegociadas,
 	cambiarAvisos,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
@@ -48,13 +51,11 @@ import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoP
 import Box from '@mui/material/Box';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
-/*
 import {
-	obtenerlistaPromocionesVigentes,
-	obtenerPromocionesOngoingTotal,
-} from 'utils/procesos/promociones';
-*/
-import {PromocionesOngoing} from 'utils/procesos/promociones/PromocionesOngoing';
+	PromocionesOngoing,
+	TPromoOngoingAplicablesResultado,
+	TPromoOngoingDisponibilidad,
+} from 'utils/procesos/promociones/PromocionesOngoing';
 
 import {useObtenerDatos} from 'redux/hooks';
 import DrawerBuscador from 'components/Negocio/DrawerBuscador';
@@ -150,6 +151,12 @@ const TomaPedido: React.FC = () => {
 			(producto) => producto.unidades > 0 || producto.subUnidades > 0
 		) && promocionesVigentesCliente?.existenPromociones;
 
+	/* 	React.useEffect(() => {
+		dispatch(
+			agregarPromocionesNegociadas({promocionesNegociadas: promocionesOingoing})
+		);
+	}, [promocionesOingoing]); */
+
 	const manejadorBotonPromosOngoing = () => {
 		setOpenDrawerPromociones(true);
 
@@ -170,7 +177,7 @@ const TomaPedido: React.FC = () => {
 					? [ETiposDePago.Credito]
 					: [ETiposDePago.Contado, ETiposDePago.Credito];
 
-			let promociones = promocionesOngoing.calcular(
+			const promociones = promocionesOngoing.calcular(
 				venta.productos,
 				{
 					Grabadas:
@@ -191,10 +198,7 @@ const TomaPedido: React.FC = () => {
 						...promociones,
 						contado: promocionesOingoing?.contado ?? promociones.contado,
 				  })
-				: setPromocionesOingoing(promociones);
-
-			console.log({tipos});
-			console.log({promociones});
+				: setPromocionesOingoing({...promociones});
 
 			let beneficioParaAgregar = [];
 
@@ -220,12 +224,32 @@ const TomaPedido: React.FC = () => {
 				})
 			);
 		} else {
-			/* 			let promociones = promocionesOngoing.calcular(
+			const promociones = promocionesOngoing.calcular(
 				venta.productos,
-				{Grabadas: [], VisitaActual: visitaActual.promosOngoing},
-				[]
+				{
+					Grabadas:
+						pedidosCliente[clienteActual.codigoCliente]?.promocionesOngoing ??
+						[],
+					VisitaActual: visitaActual.promosOngoing,
+				},
+				[ETiposDePago.Contado, ETiposDePago.Credito]
 			);
-			setPromocionesOingoing(promociones); */
+			setPromocionesOingoing(promociones);
+			/* 			if (visitaActual.promocionesNegociadas) {
+				setPromocionesOingoing({...visitaActual.promocionesNegociadas});
+			} else {
+				const promociones = promocionesOngoing.calcular(
+					venta.productos,
+					{
+						Grabadas:
+							pedidosCliente[clienteActual.codigoCliente]?.promocionesOngoing ??
+							[],
+						VisitaActual: visitaActual.promosOngoing,
+					},
+					[ETiposDePago.Contado, ETiposDePago.Credito]
+				);
+				setPromocionesOingoing(promociones);
+			} */
 		}
 
 		dispatch(
