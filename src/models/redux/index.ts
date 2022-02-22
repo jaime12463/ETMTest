@@ -71,13 +71,6 @@ export type TVisita = {
 	envasesConError: number;
 	avisos: TAvisos;
 	clienteBloqueado: boolean;
-	promocionesNegociadas: {
-		contado: TPromoOngoingAplicablesResultado;
-		credito: TPromoOngoingAplicablesResultado;
-		noAplicable: TPromoOngoing[];
-		benficiosParaAgregar: TPromoOngoingAplicadas[];
-		disponibles: TPromoOngoingDisponibilidad;
-	};
 };
 
 export type TAvisos = {

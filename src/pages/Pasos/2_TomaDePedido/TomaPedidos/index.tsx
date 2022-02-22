@@ -25,7 +25,6 @@ import {
 import {
 	agregarBeneficiosPromoOngoing,
 	agregarProductoDelPedidoActual,
-	agregarPromocionesNegociadas,
 	cambiarAvisos,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
