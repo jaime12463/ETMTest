@@ -104,11 +104,17 @@ export const DrawerPromociones: React.FC<Props> = ({
 			setPromocionesOingoing({
 				...promociones,
 				credito: promocionesOingoing.credito,
+				benficiosParaAgregar: promociones.benficiosParaAgregar.concat(
+					promocionesOingoing.benficiosParaAgregar
+				),
 			});
 		} else {
 			setPromocionesOingoing({
 				...promociones,
 				contado: promocionesOingoing.contado,
+				benficiosParaAgregar: promociones.benficiosParaAgregar.concat(
+					promocionesOingoing.benficiosParaAgregar
+				),
 			});
 		}
 		setpromosDisponibles(promociones.disponibles);
