@@ -1,4 +1,4 @@
-import {TPrecioProducto} from 'models';
+import {TAtributos, TPrecioProducto, TProductos} from 'models';
 import {exit} from 'process';
 
 export enum ETiposDeFiltro {
@@ -24,6 +24,11 @@ export type TFiltro = {
 };
 
 type TListaDeFiltros = Record<ETiposDeFiltro, TFiltro>;
+
+
+type TAtributosProductos ={ 
+	[tipo:string]:number[];
+};
 
 /**
  * Retorna las promociones que se aplicaron al cliente en formato TPromoOngoingAplicadas[] para ser despachas al redux
@@ -70,16 +75,48 @@ export class FiltroProductos {
 		// },
 	};
 
-	listaProductos: TPrecioProducto[] | undefined;
+	private portafolioProductos: TPrecioProducto[] | undefined;
+
+	private atributosDelLosProductos: TAtributosProductos | undefined;
 	/**
 	 * Crea una instancia de filtro de productos
 	 * @constructor
-	 * @param {TPrecioProducto[]} listaProductos - Portafolio dle cliente
+	 * @param {TPrecioProducto[]} portafolioProductos - Portafolio del  cliente
 	 */
-	constructor(listaProductos?: TPrecioProducto[], filtrosDefault?:ETiposDeFiltro[] ) {
-		this.listaProductos = listaProductos;
+	constructor( portafolioProductos?: TPrecioProducto[],  filtrosDefault?:ETiposDeFiltro[] ) {
+		this.portafolioProductos = portafolioProductos;
 		filtrosDefault?.forEach((filtroActivar)=> this.agregarFiltro(filtroActivar));
 	}
+
+	obtenerAtributos(){
+
+		if(this.atributosDelLosProductos!=undefined)
+			return this.atributosDelLosProductos;
+		
+		
+		let obj:TAtributosProductos={
+			sabor: [],
+			familia: [],
+			medida: [],
+			marca:[],
+			envase:[]
+		};	
+		this.portafolioProductos?.forEach((producto) => {
+			if ( producto.atributos != undefined)
+			{
+				obj.sabor.push( producto.atributos.sabor);
+				obj.familia.push( producto.atributos.familia);
+				obj.medida.push( producto.atributos.medida);
+				obj.marca.push( producto.atributos.marca);
+				obj.envase.push( producto.atributos.envase);
+			}
+
+		})
+		
+		this.atributosDelLosProductos=obj;
+		return this.atributosDelLosProductos;
+	}
+
 
 	/**
      * Activa un filtro para la ejecución
@@ -108,7 +145,7 @@ export class FiltroProductos {
      */
 	ejecutar(codigo: number | string) {
 		const  filtros=Object.values(this.filtros).filter((filtro: TFiltro) => filtro.activo).sort((e1,e2)=> e1.orden>e2.orden ? -1 : 1);
-		return this.listaProductos?.filter((producto) => {
+		return this.portafolioProductos?.filter((producto) => {
 			let ret = true;
 			for( let filtro of filtros)
 			{
