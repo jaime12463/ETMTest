@@ -252,6 +252,7 @@ export const Planeacion: React.FC = () => {
 				setExpandido={setExpandido}
 				dataCy='PedidosEnCurso'
 				iniciativasEjecutadasSinCantidad={iniciativasEjecutadasSinCantidad}
+				iniciativasCanceladasSinMotivo={iniciativasCanceladasSinMotivo}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
 						{t('titulos.pedidosEnCursoDeshabilitado')}
@@ -275,6 +276,7 @@ export const Planeacion: React.FC = () => {
 				setExpandido={setExpandido}
 				dataCy='Sugeridos'
 				iniciativasEjecutadasSinCantidad={iniciativasEjecutadasSinCantidad}
+				iniciativasCanceladasSinMotivo={iniciativasCanceladasSinMotivo}
 				mensaje={
 					<Typography color='primary' variant='subtitle3'>
 						{t('titulos.sugeridosDeshabilitado')}
@@ -326,6 +328,7 @@ export const Planeacion: React.FC = () => {
 					dataCy: 'clienteNoPortafolio',
 				}}
 				iniciativasEjecutadasSinCantidad={iniciativasEjecutadasSinCantidad}
+				iniciativasCanceladasSinMotivo={iniciativasCanceladasSinMotivo}
 			>
 				<Iniciativas />
 			</TarjetaColapsable>
@@ -355,6 +358,7 @@ export const Planeacion: React.FC = () => {
 				}
 				dataCy='Coberturas'
 				iniciativasEjecutadasSinCantidad={iniciativasEjecutadasSinCantidad}
+				iniciativasCanceladasSinMotivo={iniciativasCanceladasSinMotivo}
 			>
 				<Coberturas coberturasAgregadas={coberturasAgregadas} />
 			</TarjetaColapsable>

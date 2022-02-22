@@ -63,6 +63,7 @@ type Props = {
 		dataCy?: string;
 	};
 	iniciativasEjecutadasSinCantidad?: TIniciativasCliente;
+	iniciativasCanceladasSinMotivo?: boolean;
 };
 
 export const TarjetaColapsable: React.FC<Props> = ({
@@ -82,6 +83,7 @@ export const TarjetaColapsable: React.FC<Props> = ({
 	mostrarAvisoAlCerrar,
 	iniciativasEjecutadasSinCantidad,
 	disabledPadding,
+	iniciativasCanceladasSinMotivo,
 }) => {
 	const mostrarAviso = useMostrarAviso();
 	const classes = useEstilos({valido, open: expandido === id});
@@ -97,6 +99,15 @@ export const TarjetaColapsable: React.FC<Props> = ({
 			setAlerta(true);
 			setCacheId(id);
 			return;
+		}
+
+		if(iniciativasCanceladasSinMotivo){
+			mostrarAviso(
+				'error',
+				t('toast.iniciativaSinMotivoTitulo'),
+				t('toast.iniciativaSinMotivoMensaje'),
+			)
+			return
 		}
 
 		if (expandido === 'Bonificaciones' && visitaActual.seQuedaAEditar.seQueda) {
