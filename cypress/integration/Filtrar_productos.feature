@@ -3,6 +3,9 @@
 @Pedido @Filtrar_productos @Srptin19
 
 # _atributos_ son aquellos definidos como Marca, Envase, Familia, Sabores, Medida
+# El Contador deberá de sumar por cada atributo que este seleccionado, 
+# es decir si en sabores selecciona 3 atributos deberá de aparecer el numero 3.
+# Cardenas 23/02/2022
 
 Característica: Filtrar productos
     Como prevendedor 
