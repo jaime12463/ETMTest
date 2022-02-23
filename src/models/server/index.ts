@@ -156,7 +156,7 @@ export type TProducto = {
 };
 
 export type TAtributos = {
-	sabore: number;
+	sabor: number;
 	familia: number;
 	medida: number;
 	marca: number;
