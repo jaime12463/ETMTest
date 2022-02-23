@@ -56,28 +56,15 @@ Ejemplos:
     | Precio recuperacion: $34,12|       4       |
 
 
-Esquema del escenario: N°3 - Desplegar promociones ongoing que no cumplen requisito
+Escenario: N°3 - Desplegar promociones ongoing que no cumplen requisito
 	Dado que tenemos promociones ongoing que no cumplen con requisitos
 	Cuando seleccionamos el control ver detalle
 	Entonces el sistema contraerá las otras promociones que estén abiertas
 	Y desplegará la promoción seleccionada
-	Y mostrará todos los controles deshabilitados
-	Y mostrará el control combo secuencia habilitado, que contiene las secuencias del beneficio ordenadas por _secuencia con la primer secuencia seleccionada
-	Y visualizando la _secuencia
-	Y mostrará el beneficio como '<beneficio>' cuando la secuencia tenga _formaBeneficio <_formaBeneficio>
-	Y mostrará el listado de productos que tiene la secuencia seleccionada
-	Y mostrará para cada producto, el _codigoProducto, _nombre, _atributos, _unidadMedida y presentación
-	Y mostrará las cantidades en 0
-	Y mostrará el disponible
-	Y mostrará el control para contraer la promoción habilitado
-	
-Ejemplos:
-    |     beneficio              |_formaBeneficio|
-    | Beneficio: obsequio        |       1       |
-    | Beneficio: 10,30%          |       2       |
-    | Beneficio: $-54,12         |       3       |
-    | Precio recuperacion: $34,12|       4       |
-
+	Y mostrará los productos que son requisito de la promoción
+	Y mostrará la cantidad
+	Y mostrará la unidad de medida
+# confirma Cardenas el 23/02/2022 por mail
 
 
 Escenario: N°4 - Ocultar o contraer promocion 
