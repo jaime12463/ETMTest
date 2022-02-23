@@ -78,9 +78,9 @@ export type TPromoOngoingAplicadasOrigen = Record<
 export class PromocionesOngoing {
 	private static instance: PromocionesOngoing;
 
-	private cliente: TCliente;
+	private _cliente:TCliente | undefined =undefined;
 
-	private listaPromoOngoing: TListaPromoOngoing;
+	private _listaPromoOngoing: TListaPromoOngoing={};
 
 	private disponibilidadDeLaPromo: TPromoOngoingDisponibilidad = {
 		999999999: {disponibles: 0, aplicadas: 0},
@@ -95,28 +95,39 @@ export class PromocionesOngoing {
 	 * @param {TListaPromoOngoing} listaPromociones  - Catalógo de promociones
 	 */
 
-	private constructor(
-		clienteActual: TCliente,
-		listaPromociones: TListaPromoOngoing
-	) {
-		this.cliente = clienteActual;
-		this.listaPromoOngoing = listaPromociones;
+	private constructor() {
 	}
 
+	/*propiedades
+	public set cliente(cliente:TCliente)
+	{
+		this._cliente=cliente;
+	}
+
+	public set listaPromoOngoing(listaPromociones:TListaPromoOngoing)
+	{
+		this._listaPromoOngoing=listaPromociones;
+	}
+*/
+
+
 	public static getInstance(
-		clienteActual: TCliente,
-		listaPromociones: TListaPromoOngoing
+		
 	): PromocionesOngoing {
 		if (!PromocionesOngoing.instance) {
-			PromocionesOngoing.instance = new PromocionesOngoing(
-				clienteActual,
-				listaPromociones
-			);
+			PromocionesOngoing.instance = new PromocionesOngoing();
 		}
-
+		console.log(`Recuperando instancia del motor de promociones para el cliente: ${PromocionesOngoing.instance._cliente?.codigoCliente}`);
 		return PromocionesOngoing.instance;
 	}
 
+	public inicializar(cliente:TCliente,listaPromociones:TListaPromoOngoing )
+	{
+		this._cliente=cliente;
+		this._listaPromoOngoing=listaPromociones;
+		console.log(`Inicializando  motor de promociones para el cliente: ${this._cliente.codigoCliente}`);
+
+	}
 	/**
 	 * Retorna las promociones aplicadas en Contado y Credito, ademas retona las promociones que no cumplen requisitos
 	 * @method
@@ -132,36 +143,37 @@ export class PromocionesOngoing {
 		let listaPromos: TListaPromoOngoing = {};
 		const fDispositivo = fechaDispositivo();
 		const indicePorTipoId: string[] = [];
-		this.cliente.promocionesHabilitadas?.forEach(
-			(promo: TPromoOngoingHabilitadas) => {
-				const promoDeLaLista = this.listaPromoOngoing[promo.idPromocion];
-				if (
-					promo.promocionesDisponibles > 0 &&
-					promoDeLaLista &&
-					fechaDentroDelRango(
-						fDispositivo,
-						promoDeLaLista.inicioVigenciaPromocion,
-						promoDeLaLista.finVigenciaPromocion
-					)
-				) {
-					this.disponibilidadDeLaPromo = {
-						...this.disponibilidadDeLaPromo,
-						[promo.idPromocion]: {
-							disponibles: promo.promocionesDisponibles,
-							aplicadas: 0,
-						},
-					};
+		if (this._cliente!=undefined)
+			this._cliente.promocionesHabilitadas?.forEach(
+				(promo: TPromoOngoingHabilitadas) => {
+					const promoDeLaLista = this._listaPromoOngoing[promo.idPromocion];
+					if (
+						promo.promocionesDisponibles > 0 &&
+						promoDeLaLista &&
+						fechaDentroDelRango(
+							fDispositivo,
+							promoDeLaLista.inicioVigenciaPromocion,
+							promoDeLaLista.finVigenciaPromocion
+						)
+					) {
+						this.disponibilidadDeLaPromo = {
+							...this.disponibilidadDeLaPromo,
+							[promo.idPromocion]: {
+								disponibles: promo.promocionesDisponibles,
+								aplicadas: 0,
+							},
+						};
 
-					listaPromos = {
-						...listaPromos,
-						[promo.idPromocion]: promoDeLaLista,
-					};
-					indicePorTipoId.push(
-						`${promoDeLaLista.aplicacion}${promo.idPromocion}`
-					);
+						listaPromos = {
+							...listaPromos,
+							[promo.idPromocion]: promoDeLaLista,
+						};
+						indicePorTipoId.push(
+							`${promoDeLaLista.aplicacion}${promo.idPromocion}`
+						);
+					}
 				}
-			}
-		);
+			);
 
 		this.listaPromocionesVigentes = {
 			lista: listaPromos,
@@ -448,7 +460,7 @@ export class PromocionesOngoing {
 				if (secuencia.formaBeneficio == EFormaBeneficio.Obsequio) {
 					materiales = secuencia.materialesBeneficio.filter(
 						(producto: number) =>
-							validarProductoContraPortafolio(producto, this.cliente.portafolio)
+							validarProductoContraPortafolio(producto, this._cliente?.portafolio ?? [])
 					);
 				} //if ([EFormaBeneficio.DescuentoPorcentaje , EFormaBeneficio.DescuentoMonto , EFormaBeneficio.Precio].includes(secuencia.formaBeneficio))
 				else {

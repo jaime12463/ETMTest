@@ -79,10 +79,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 		contado: boolean;
 	}>({credito: false, contado: false});
 	const pedidosCliente: TPedidosClientes = useObtenerPedidosClientes();
-	const promocionesOngoing = PromocionesOngoing.getInstance(
-		datosCliente,
-		datos?.promociones
-	);
+	const promocionesOngoing = PromocionesOngoing.getInstance();
 
 	const [promosDisponibles, setpromosDisponibles] =
 		React.useState<TPromoOngoingDisponibilidad>({});
