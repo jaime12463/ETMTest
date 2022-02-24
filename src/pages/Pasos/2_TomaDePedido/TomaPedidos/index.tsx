@@ -138,10 +138,7 @@ const TomaPedido: React.FC = () => {
 
 	const borrarlinea = useBorrarLinea({setAlerta, setConfigAlerta});
 
-	const promocionesOngoing = PromocionesOngoing.getInstance(
-		datosCliente,
-		datos?.promociones
-	);
+	const promocionesOngoing = PromocionesOngoing.getInstance();
 	const promocionesVigentesCliente = promocionesOngoing.obtenerListaVigentes();
 	const pedidosCliente: TPedidosClientes = useObtenerPedidosClientes();
 

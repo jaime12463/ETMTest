@@ -134,10 +134,7 @@ const Pasos: React.FC = () => {
 		[datosCliente, datos?.promociones]
 	);
 */
-	const promocionesOngoing = PromocionesOngoing.getInstance(
-		datosCliente,
-		datos?.promociones
-	);
+	const promocionesOngoing = PromocionesOngoing.getInstance();
 
 	useEffect(() => {
 		if (pasoActual < controlador.length - 1) {
