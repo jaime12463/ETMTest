@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
-import {BorrarIcon, BuscarIcon} from 'assests/iconos';
+import {BorrarIcon, BuscarIcon, FlechaArribaIcon} from 'assests/iconos';
 import {Filter} from 'assests/iconos/Filter';
 import Drawer from 'components/UI/Drawer';
 import {useTranslation} from 'react-i18next';
@@ -12,6 +12,7 @@ import useEstilos from './useEstilos';
 import {
 	useDebounce,
 	useFiltrarPreciosProductosDelClienteActual,
+	useObtenerAtributos,
 	useObtenerDatosTipoPedido,
 	useObtenerPresupuestosTipoPedidoActual,
 } from 'hooks';
@@ -27,6 +28,7 @@ import {
 	ETiposDeFiltro,
 	FiltroProductos,
 } from 'utils/procesos/filtros/productos/filtroProductos';
+import theme from 'theme';
 
 interface Props {
 	openBuscador: boolean;
@@ -49,6 +51,8 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 	const [resultadosBusqueda, setResultadosBusqueda] = React.useState<
 		ResultadoBusqueda[]
 	>([]);
+
+	const {envases, familias, sabores, marcas, medidas} = useObtenerAtributos();
 
 	const clienteActual = useObtenerClienteActual();
 
@@ -239,7 +243,33 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 								<BuscarIcon />
 							</IconButton>
 						</Box>
-						<IconButton sx={{padding: 0}} onClick={() => setAbrirFiltros(true)}>
+						<IconButton
+							sx={{padding: 0, position: 'relative'}}
+							onClick={() => setAbrirFiltros(true)}
+						>
+							<Box
+								display='flex'
+								alignItems='center'
+								justifyContent='center'
+								sx={{
+									background: '#fff',
+									borderRadius: '50%',
+									minHeight: '15px',
+									minWidth: '15px',
+									position: 'absolute',
+									right: 1,
+									top: -3,
+								}}
+							>
+								<Typography
+									fontSize='8px'
+									fontFamily='Open Sans'
+									color='primary'
+									fontWeight={700}
+								>
+									1
+								</Typography>
+							</Box>
 							<Filter />
 						</IconButton>
 					</Box>
@@ -353,7 +383,7 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 						justifyContent='center'
 					>
 						<Typography variant='h3' color='primary' marginBottom='4px'>
-							¡Lo sentimos!
+							{t('general.loSentimos')}
 						</Typography>
 						<Typography
 							variant='body3'
@@ -362,19 +392,232 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 							textAlign='center'
 							width='18ch'
 						>
-							No existen resultados para tu búsqueda
+							{t('general.noHayResultadosBusqueda')}
 						</Typography>
 						<Typography variant='subtitle3' fontFamily='Open Sans'>
-							Intenta con otro producto
+							{t('general.intentaOtroProducto')}
 						</Typography>
 					</Box>
 				</Box>
 			)}
 
 			<DrawerFiltros open={abrirFiltros} setOpen={setAbrirFiltros}>
-				<Typography variant='subtitle3'>
-					Próximamente filtros de búsqueda
-				</Typography>
+				<Box
+					padding='20px 10px 30px 12px'
+					height='calc(100% - 50px)'
+					sx={{overflowY: 'auto'}}
+				>
+					<Box marginBottom='24px'>
+						<Box
+							alignItems='center'
+							display='flex'
+							justifyContent='space-between'
+							marginBottom='24px'
+						>
+							<Typography
+								variant='subtitle2'
+								fontFamily='Open Sans'
+								fontWeight={700}
+								color='#000'
+							>
+								{t('general.sabores')}
+							</Typography>
+							<FlechaArribaIcon />
+						</Box>
+						<Box display='flex' gap='16px 8px' flexWrap='wrap'>
+							{sabores?.map((sabor) => {
+								return (
+									<IconButton key={sabor.id} sx={{padding: 0}}>
+										<Typography
+											border={`1px solid ${theme.palette.secondary.main}`}
+											borderRadius='50px'
+											color='secondary'
+											fontFamily='Open Sans'
+											padding='4px 12px'
+											variant='caption'
+										>
+											{sabor.descripcion}
+										</Typography>
+									</IconButton>
+								);
+							})}
+						</Box>
+					</Box>
+					<Box marginBottom='24px'>
+						<Box
+							alignItems='center'
+							display='flex'
+							justifyContent='space-between'
+							marginBottom='24px'
+						>
+							<Typography
+								variant='subtitle2'
+								fontFamily='Open Sans'
+								fontWeight={700}
+								color='#000'
+							>
+								{t('general.familias')}
+							</Typography>
+							<FlechaArribaIcon />
+						</Box>
+						<Box display='flex' gap='16px 8px' flexWrap='wrap'>
+							{familias?.map((familia) => {
+								return (
+									<IconButton sx={{padding: 0}} key={familia.id}>
+										<Typography
+											border={`1px solid ${theme.palette.secondary.main}`}
+											borderRadius='50px'
+											color='secondary'
+											fontFamily='Open Sans'
+											padding='4px 12px'
+											variant='caption'
+										>
+											{familia.descripcion}
+										</Typography>
+									</IconButton>
+								);
+							})}
+						</Box>
+					</Box>
+					<Box marginBottom='24px'>
+						<Box
+							alignItems='center'
+							display='flex'
+							justifyContent='space-between'
+							marginBottom='24px'
+						>
+							<Typography
+								variant='subtitle2'
+								fontFamily='Open Sans'
+								fontWeight={700}
+								color='#000'
+							>
+								{t('general.medidas')}
+							</Typography>
+							<FlechaArribaIcon />
+						</Box>
+						<Box display='flex' gap='16px 8px' flexWrap='wrap'>
+							{medidas?.map((medida) => {
+								return (
+									<IconButton sx={{padding: 0}} key={medida.id}>
+										<Typography
+											border={`1px solid ${theme.palette.secondary.main}`}
+											borderRadius='50px'
+											color='secondary'
+											fontFamily='Open Sans'
+											padding='4px 12px'
+											variant='caption'
+										>
+											{medida.descripcion}
+										</Typography>
+									</IconButton>
+								);
+							})}
+						</Box>
+					</Box>
+					<Box marginBottom='24px'>
+						<Box
+							alignItems='center'
+							display='flex'
+							justifyContent='space-between'
+							marginBottom='24px'
+						>
+							<Typography
+								variant='subtitle2'
+								fontFamily='Open Sans'
+								fontWeight={700}
+								color='#000'
+							>
+								{t('general.marcas')}
+							</Typography>
+							<FlechaArribaIcon />
+						</Box>
+						<Box display='flex' gap='16px 8px' flexWrap='wrap'>
+							{marcas?.map((marca) => {
+								return (
+									<IconButton sx={{padding: 0}} key={marca.id}>
+										<Typography
+											border={`1px solid ${theme.palette.secondary.main}`}
+											borderRadius='50px'
+											color='secondary'
+											fontFamily='Open Sans'
+											padding='4px 12px'
+											variant='caption'
+										>
+											{marca.descripcion}
+										</Typography>
+									</IconButton>
+								);
+							})}
+						</Box>
+					</Box>
+					<Box>
+						<Box
+							alignItems='center'
+							display='flex'
+							justifyContent='space-between'
+							marginBottom='24px'
+						>
+							<Typography
+								variant='subtitle2'
+								fontFamily='Open Sans'
+								fontWeight={700}
+								color='#000'
+							>
+								{t('general.envases')}
+							</Typography>
+							<FlechaArribaIcon />
+						</Box>
+						<Box display='flex' gap='16px 8px' flexWrap='wrap'>
+							{envases?.map((envase) => {
+								return (
+									<IconButton sx={{padding: 0}} key={envase.id}>
+										<Typography
+											border={`1px solid ${theme.palette.secondary.main}`}
+											borderRadius='50px'
+											color='secondary'
+											fontFamily='Open Sans'
+											padding='4px 12px'
+											variant='caption'
+										>
+											{envase.descripcion}
+										</Typography>
+									</IconButton>
+								);
+							})}
+						</Box>
+					</Box>
+				</Box>
+				<Box
+					alignItems='center'
+					display='flex'
+					justifyContent='end'
+					padding='10px'
+					sx={{
+						background: '#F5F0EF',
+						borderTop: `1px solid ${theme.palette.secondary.dark}`,
+					}}
+				>
+					<IconButton sx={{padding: 0}}>
+						<Box
+							alignItems='center'
+							display='flex'
+							borderRadius='50px'
+							gap='4px'
+							padding='8px 16px'
+							sx={{background: theme.palette.secondary.main}}
+						>
+							<BorrarIcon height={13} width={13} fill='#fff' />
+							<Typography
+								variant='subtitle3'
+								fontFamily='Open Sans'
+								color='#fff'
+							>
+								{t('general.borrarSeleccion')}
+							</Typography>
+						</Box>
+					</IconButton>
+				</Box>
 			</DrawerFiltros>
 		</Drawer>
 	);

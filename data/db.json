@@ -2090,8 +2090,8 @@
 			"subunidadesVentaMinima": 1,
 			"tipoProducto": 1,
 			"atributos": {
-				"sabor": 1,
-				"familia": 8,
+				"sabor": 6,
+				"familia": 1,
 				"marca": 4,
 				"envase": 2,
 				"medida": 2
@@ -2099,16 +2099,16 @@
 		},
 		{
 			"codigoProducto": 440,
-			"nombre": "YOLI LIMON BOT 2.5L 12PK",
+			"nombre": "YOLI LIMON BOT 2L 12PK",
 			"presentacion": 12,
 			"subunidadesVentaMinima": 1,
 			"tipoProducto": 1,
 			"atributos": {
-				"sabor": 1,
-				"familia": 8,
-				"marca": 4,
+				"sabor": 6,
+				"familia": 1,
+				"marca": 6,
 				"envase": 2,
-				"medida": 2
+				"medida": 6
 			}
 		},
 		{
@@ -2118,7 +2118,7 @@
 			"subunidadesVentaMinima": 1,
 			"tipoProducto": 1,
 			"atributos": {
-				"sabor": 1,
+				"sabor": 3,
 				"familia": 8,
 				"marca": 4,
 				"envase": 2,
@@ -2230,11 +2230,11 @@
 			"implicito2": 1020,
 			"tipoProducto": 1,
 			"atributos": {
-				"sabor": 1,
-				"familia": 8,
-				"marca": 4,
-				"envase": 2,
-				"medida": 2
+				"sabor": 7,
+				"familia": 1,
+				"marca": 3,
+				"envase": 3,
+				"medida": 1
 			}
 		},
 		{
@@ -2261,11 +2261,11 @@
 			"implicito2": 1020,
 			"tipoProducto": 1,
 			"atributos": {
-				"sabor": 1,
-				"familia": 8,
-				"marca": 4,
-				"envase": 2,
-				"medida": 2
+				"sabor": 5,
+				"familia": 1,
+				"marca": 3,
+				"envase": 3,
+				"medida": 4
 			}
 		},
 		{
@@ -2540,18 +2540,46 @@
 	"sabores": [
 		{
 			"id": 1,
-			"descripcion": "COLA"
+			"descripcion": "Colas"
 		},
 		{
 			"id": 2,
-			"descripcion": "NARANJA"
+			"descripcion": "Naranja"
+		},
+		{
+			"id": 3,
+			"descripcion": "Agua"
+		},
+		{
+			"id": 4,
+			"descripcion": "Agua mineral con gas"
+		},
+		{
+			"id": 5,
+			"descripcion": "Ginger Ale"
+		},
+		{
+			"id": 6,
+			"descripcion": "Limón"
+		},
+		{
+			"id": 7,
+			"descripcion": "Mandarina"
+		},
+		{
+			"id": 8,
+			"descripcion": "Toronja"
 		}
 	],
 
 	"familias": [
 		{
 			"id": 8,
-			"descripcion": "AGUAS"
+			"descripcion": "Aguas"
+		},
+		{
+			"id": 1,
+			"descripcion": "Tónicos"
 		}
 	],
 
@@ -2563,17 +2591,49 @@
 		{
 			"id": 6,
 			"descripcion": "2 L"
+		},
+		{
+			"id": 3,
+			"descripcion": "600 ml"
+		},
+		{
+			"id": 4,
+			"descripcion": "400 ml"
+		},
+		{
+			"id": 1,
+			"descripcion": "1.75 L"
+		},
+		{
+			"id": 5,
+			"descripcion": "3 L"
 		}
 	],
 
 	"marcas": [
 		{
 			"id": 3,
-			"descripcion": "SPRITE"
+			"descripcion": "Sprite"
 		},
 		{
 			"id": 4,
-			"descripcion": "ADES"
+			"descripcion": "Ades"
+		},
+		{
+			"id": 1,
+			"descripcion": "Del valle"
+		},
+		{
+			"id": 2,
+			"descripcion": "Brisa"
+		},
+		{
+			"id": 5,
+			"descripcion": "Schweppes"
+		},
+		{
+			"id": 6,
+			"descripcion": "Sprite sin azúcar"
 		}
 	],
 
@@ -2584,7 +2644,15 @@
 		},
 		{
 			"id": 5,
-			"descripcion": "ALUMINIO"
+			"descripcion": "Aluminio"
+		},
+		{
+			"id": 1,
+			"descripcion": "Bolsa de plástico"
+		},
+		{
+			"id": 3,
+			"descripcion": "Vidrio"
 		}
 	],
 

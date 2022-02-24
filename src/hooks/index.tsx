@@ -34,3 +34,4 @@ export {useContador} from './useContador';
 export {useObtenerBonificacionesHabilitadas} from './useObtenerBonificacionesHabilitadas';
 export {useDebounce} from './useDebounce';
 export {useValidarTipoPedidosRealizadosSegunConfiguracion} from './useValidarTipoPedidosRealizadosSegunConfiguracion';
+export {useObtenerAtributos} from './useObtenerAtributos';
