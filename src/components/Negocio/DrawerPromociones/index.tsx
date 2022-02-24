@@ -65,6 +65,9 @@ export const DrawerPromociones: React.FC<Props> = ({
 		iconoMensaje: <></>,
 		callbackAceptar: () => {},
 	});
+	const [expandido, setExpandidoexpandido] = React.useState<string | boolean>(
+		false
+	);
 	const datos = useObtenerDatos();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
@@ -132,8 +135,6 @@ export const DrawerPromociones: React.FC<Props> = ({
 			setpromosDisponibles(promocionesOingoing.disponibles);
 		}
 	}, [promocionesOingoing]);
-
-	console.log({promocionesOingoing});
 
 	return (
 		<>
@@ -205,6 +206,8 @@ export const DrawerPromociones: React.FC<Props> = ({
 												setBorroPromociones={setBorroPromociones}
 												setpromosDisponibles={setpromosDisponibles}
 												promosDisponibles={promosDisponibles}
+												setExpandidoexpandido={setExpandidoexpandido}
+												expandido={expandido}
 												beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
 													(promo: TPromoOngoingAplicadas) =>
 														promo.promocionID === promocion.promocionID &&
@@ -249,6 +252,8 @@ export const DrawerPromociones: React.FC<Props> = ({
 												borroPromociones={borroPromociones}
 												setpromosDisponibles={setpromosDisponibles}
 												setBorroPromociones={setBorroPromociones}
+												setExpandidoexpandido={setExpandidoexpandido}
+												expandido={expandido}
 												promosDisponibles={promosDisponibles}
 												beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
 													(promo: TPromoOngoingAplicadas) =>
@@ -268,6 +273,8 @@ export const DrawerPromociones: React.FC<Props> = ({
 									(promocion: TPromoOngoing) => (
 										<PromoOngoing.Card
 											key={promocion.promocionID}
+											setExpandidoexpandido={setExpandidoexpandido}
+											expandido={expandido}
 											promocion={promocion}
 											beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
 												(promo: TPromoOngoingAplicadas) =>
