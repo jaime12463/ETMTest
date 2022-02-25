@@ -25,7 +25,7 @@ const useEstilos = makeStyles(() =>
 			height: '16px',
 			lineHeight: '16px',
 			transition: 'all 0.3s ease-in-out',
-			width: (props: Props) => (props.promocionAplicada ? 'fullWidth' : '42px'),
+			width: (props: Props) => (props.promocionAplicada ? '82px' : '42px'),
 		},
 	})
 );

@@ -100,7 +100,7 @@ export const Card: React.VFC<CardProps> = ({
 	const [beneficiosProductos, setBeneficiosProductos] = React.useState<
 		TProductosPromoOngoingAplicadas[]
 	>([]);
-	const [beneficiosSelect, setBeneficiosSelect] = React.useState<any>();
+	const [beneficiosSelect, setBeneficiosSelect] = React.useState<string>('');
 	const [promocionSinDisponibile, setPromocionSinDisponibile] =
 		React.useState<boolean>(false);
 	const {t} = useTranslation();
@@ -279,6 +279,10 @@ export const Card: React.VFC<CardProps> = ({
 		setExpandidoexpandido(id);
 	};
 
+	console.log([
+		...promocion?.beneficios?.map((beneficio) => beneficio.descripcion),
+	]);
+
 	return (
 		<CardMUI
 			style={{
@@ -357,7 +361,7 @@ export const Card: React.VFC<CardProps> = ({
 						borderTop='none'
 						padding='10px 14px 0px 14px'
 					>
-						<Box display='flex' mb='15px'>
+						<Box display='flex'>
 							<Box marginBottom='8px'>
 								<Typography variant='subtitle3' fontFamily='Open Sans'>
 									Grupos
@@ -365,7 +369,11 @@ export const Card: React.VFC<CardProps> = ({
 								<Box width='181px' height='24px' mt='8px'>
 									<CustomSelect
 										opcionSeleccionada={beneficiosSelect}
-										opciones={[]}
+										opciones={[
+											...promocion?.beneficios?.map(
+												(beneficio) => beneficio.descripcion
+											),
+										]}
 										setOpcion={setBeneficiosSelect}
 										dataCy='select-bonificaciones'
 									/>
