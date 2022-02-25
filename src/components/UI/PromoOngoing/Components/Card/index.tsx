@@ -1,8 +1,5 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import {CheckRedondoIcon} from 'assests/iconos';
+import {CheckRedondoIcon, FlechaAbajoIcon} from 'assests/iconos';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {ETiposDePago, TPromoOngoing, TPromoOngoingAplicadas} from 'models';
@@ -10,11 +7,51 @@ import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
 import {TProductosUsadosEnOtrasPromos} from 'utils/procesos/promociones';
 import {TPromoOngoingDisponibilidad} from 'utils/procesos/promociones/PromocionesOngoing';
+import {TarjetaPromociones} from './TarjetaPromociones';
+import {createStyles, makeStyles, styled} from '@material-ui/styles';
+import {
+	Box,
+	Button,
+	Card as CardMUI,
+	CardActions,
+	Collapse,
+	Divider,
+	Stack,
+	Theme,
+	Typography,
+} from '@mui/material';
+import clsx from 'clsx';
+
+const useEstilos = makeStyles((theme: Theme) =>
+	createStyles({
+		expand: {
+			transform: 'rotate(0deg)',
+			padding: 0,
+		},
+		expandOpen: {
+			transform: 'rotate(180deg)',
+		},
+		inactiva: {
+			opacity: 0.6,
+		},
+		cardContent: {
+			'&.MuiCardContent-root': {
+				padding: 0,
+
+				'&.MuiCardContent-root:last-child': {
+					padding: 0,
+				},
+			},
+		},
+	})
+);
 
 export interface CardProps {
 	promocionAutomatica?: boolean;
 	tipo?: 'contado' | 'credito';
 	soloLectura?: boolean;
+	setExpandidoexpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
+	expandido: string | boolean;
 	beneficiosPararAgregar?: TPromoOngoingAplicadas;
 	promocion: TPromoOngoing;
 	promosSimilares?: TProductosUsadosEnOtrasPromos;
@@ -45,12 +82,15 @@ export const Card: React.VFC<CardProps> = ({
 	promosSimilares,
 	setpromosDisponibles,
 	promosDisponibles,
+	setExpandidoexpandido,
+	expandido,
 }) => {
 	const [mostrarCheck, setMostrarCheck] = React.useState<boolean>(false);
 	const [bordeColor, setBordeColor] = React.useState<string>('#D9D9D9');
 	const [puedeVerBotonera, setPuedeVerBotonera] = React.useState<boolean>(true);
 	const [esPromoSimilar, setEsPromoSimilar] = React.useState<boolean>(false);
 	const [borroPromocion, setBorroPromocion] = React.useState<boolean>(false);
+	const [focusId, setFocusId] = React.useState<string>('');
 	const [promocionSinDisponibile, setPromocionSinDisponibile] =
 		React.useState<boolean>(false);
 	const {t} = useTranslation();
@@ -59,6 +99,8 @@ export const Card: React.VFC<CardProps> = ({
 	const visitaActual = useObtenerVisitaActual();
 	const [promocionAplicada, setPromocionAplicada] =
 		React.useState<boolean>(false);
+
+	const classes = useEstilos();
 
 	const tipoPago =
 		tipo === 'contado' ? ETiposDePago.Contado : ETiposDePago.Credito;
@@ -214,32 +256,246 @@ export const Card: React.VFC<CardProps> = ({
 		}
 	}, [promocionAutomatica]);
 
+	console.log({beneficiosPararAgregar, promocion});
+
+	const manejadorExpandido = (id: string | boolean) => {
+		setExpandidoexpandido(id);
+	};
+
 	return (
-		<Box
-			border={`1px solid ${bordeColor}`}
-			borderRadius='8px'
-			padding='12px 14px'
+		<CardMUI
+			style={{
+				boxShadow: 'none',
+				overflow: 'visible',
+			}}
 		>
-			<Box display='flex' justifyContent='space-between'>
-				<Box display='flex' flexDirection='column'>
-					<Typography
-						variant='subtitle3'
-						fontFamily='Open Sans'
-						data-cy={`promoOnGoing-ID-${promocionID}-${tipo}`}
-					>
-						{promocionID}
-					</Typography>
-					<Typography variant='subtitle3'>{descripcion}</Typography>
+			<Box border={`1px solid ${bordeColor}`} borderRadius='8px'>
+				<Box
+					align-items='center'
+					color={
+						expandido === promocion.promocionID.toString() ? '#fff' : '#000'
+					}
+					borderRadius='4px 4px 0 0 '
+					display='flex'
+					flexDirection='column'
+					justifyContent='space-between'
+					padding={
+						expandido === promocion.promocionID.toString()
+							? '12px 14px 12px 14px'
+							: '12px 14px 8px 14px'
+					}
+					sx={{
+						background:
+							expandido === promocion.promocionID.toString()
+								? theme.palette.secondary.light
+								: 'none',
+						borderBottom: 'none',
+						transition: 'all 0.3s ease-in-out',
+					}}
+				>
+					<Box display='flex' justifyContent='space-between'>
+						<Box display='flex' flexDirection='column'>
+							<Typography
+								variant='subtitle3'
+								fontFamily='Open Sans'
+								data-cy={`promoOnGoing-ID-${promocion.promocionID}-${tipo}`}
+							>
+								{promocion.promocionID}
+							</Typography>
+							<Typography variant='subtitle3'>
+								{promocion.descripcion}
+							</Typography>
+						</Box>
+						{mostrarCheck && (
+							<CheckRedondoIcon
+								height='20px'
+								width='20px'
+								data-cy={`promoOnGoing-Check-${promocion.promocionID}-${tipo}`}
+							/>
+						)}
+					</Box>
+					{promocionAutomatica && (
+						<Box
+							borderRadius='50px'
+							display='flex'
+							marginTop='8px'
+							padding='2px 12px'
+							sx={{background: theme.palette.primary.main}}
+							width='fit-content'
+						>
+							<Typography variant='caption' color='#fff' fontFamily='Open Sans'>
+								{t('general.promocionAutomatica')}
+							</Typography>
+						</Box>
+					)}
 				</Box>
-				{mostrarCheck && (
-					<CheckRedondoIcon
-						height='20px'
-						width='20px'
-						data-cy={`promoOnGoing-Check-${promocionID}-${tipo}`}
-					/>
-				)}
+
+				<Collapse
+					in={expandido === promocion.promocionID.toString()}
+					timeout='auto'
+					unmountOnExit
+				>
+					<Box
+						borderBottom='none'
+						borderTop='none'
+						padding='10px 14px 0px 14px'
+					>
+						<Box display='flex'>
+							<Box
+								alignItems='center'
+								display='flex'
+								justifyContent='space-between'
+								marginBottom='8px'
+							>
+								<Typography variant='subtitle3' fontFamily='Open Sans'>
+									Grupos
+								</Typography>
+							</Box>
+
+							<Box
+								alignItems='center'
+								display='flex'
+								justifyContent='space-between'
+								marginBottom='8px'
+								padding='0 14px'
+							>
+								<Typography variant='subtitle3' fontFamily='Open Sans'>
+									Secuencia
+								</Typography>
+							</Box>
+							<Box marginBottom='10px' padding='0 14px'>
+								{/* 							<CustomSelect
+								opcionSeleccionada={opciones}
+								opciones={[...grupos.map((grupo) => grupo.nombreGrupo)]}
+								setOpcion={setOpciones}
+								dataCy='select-bonificaciones'
+							/> */}
+							</Box>
+						</Box>
+						<Stack spacing={'14px'}>
+							<Box>
+								<Typography
+									fontSize={'14px'}
+									color={'red'}
+									variant='subtitle2'
+									fontFamily='Open Sans'
+								>
+									Beneficio: 10.5%
+								</Typography>
+							</Box>
+							<Box>
+								<Button
+									onClick={onClick}
+									sx={{
+										border: `1px solid #651C32`,
+										borderRadius: '50px',
+										display: 'flex',
+										gap: '4px',
+										padding: '4px 12px',
+										width: '276px',
+										height: '33px',
+										textTransform: 'none',
+										'&:hover': {
+											background: 'none',
+										},
+									}}
+									data-cy={`boton-aplicarPromocion`}
+								>
+									<Typography
+										color='#8A4C5F'
+										fontSize={'12px'}
+										variant='subtitle3'
+										fontFamily='Poppins'
+										sx={{padding: '4px 12px'}}
+									>
+										Aplicar Beneficio
+									</Typography>
+								</Button>
+							</Box>
+							<Box>
+								<Typography variant='subtitle3'>
+									Detalles del beneficio
+								</Typography>
+							</Box>
+						</Stack>
+					</Box>
+					<Divider sx={{marginTop: '10px'}} variant='fullWidth' />
+					{beneficiosPararAgregar?.productos.map((producto) => (
+						<TarjetaPromociones
+							key={producto.codigoProducto}
+							producto={producto}
+							statefocusId={{focusId, setFocusId}}
+						/>
+					))}
+					<Divider sx={{marginBottom: '10px'}} variant='fullWidth' />
+				</Collapse>
+
+				<Box
+					padding={
+						expandido === promocion.promocionID.toString()
+							? '0 14px 12px 14px'
+							: '0 14px 12px 14px'
+					}
+					sx={{
+						borderTop: 'none',
+					}}
+				>
+					<Button
+						sx={{
+							boxSizing: 'border-box',
+							border: '1px solid #651C32',
+							borderRadius: '50px',
+							minHeight: '10px',
+							height: '18px',
+							textTransform: 'none',
+							'&:hover': {
+								background: 'none',
+							},
+						}}
+						disableFocusRipple
+						fullWidth
+						disableRipple
+						onClick={() =>
+							manejadorExpandido(
+								expandido === promocion.promocionID.toString()
+									? false
+									: promocion.promocionID.toString()
+							)
+						}
+					>
+						<CardActions disableSpacing style={{padding: 0}}>
+							<Box display='flex' gap='6px' alignItems='center'>
+								<Typography variant='caption' color='secondary'>
+									{expandido !== promocion.promocionID.toString()
+										? t('general.verDetalle')
+										: t('general.ocultarDetalle')}
+								</Typography>
+								<Box
+									className={clsx(classes.expand, {
+										[classes.expandOpen]:
+											expandido === promocion.promocionID.toString()
+												? true
+												: false,
+									})}
+									aria-expanded={
+										expandido === promocion.promocionID.toString()
+											? true
+											: false
+									}
+									style={{padding: 0}}
+								>
+									<FlechaAbajoIcon width='10px' height='10px' />
+								</Box>
+							</Box>
+						</CardActions>
+					</Button>
+				</Box>
 			</Box>
-			{!soloLectura && (
+		</CardMUI>
+	);
+};
+
+/* {!soloLectura && (
 				<>
 					{promocionAutomatica && (
 						<Box
@@ -304,7 +560,4 @@ export const Card: React.VFC<CardProps> = ({
 						</Box>
 					)}
 				</>
-			)}
-		</Box>
-	);
-};
+			)} */
