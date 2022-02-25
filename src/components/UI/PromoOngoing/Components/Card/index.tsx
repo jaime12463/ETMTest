@@ -225,25 +225,28 @@ export const Card: React.VFC<CardProps> = ({
 	}, [borroPromociones]); */
 
 	const onClick = () => {
-		setMostrarCheck(true);
-		setBordeColor(theme.palette.success.main);
-		setPromocionAplicada(true);
-		if (beneficiosPararAgregar) {
-			dispatch(
-				agregarBeneficiosPromoOngoing({
-					beneficios: visitaActual.promosOngoing.concat(beneficiosPararAgregar),
-				})
-			);
-		}
-
-		if (promosDisponibles && setpromosDisponibles) {
-			setpromosDisponibles({
-				...promosDisponibles,
-				[Number(promocionID)]: {
-					disponibles: promosDisponibles[Number(promocionID)].disponibles,
-					aplicadas: promosDisponibles[Number(promocionID)].aplicadas + 1,
-				},
-			});
+		if (!promocionAplicada) {
+			setMostrarCheck(true);
+			setBordeColor(theme.palette.success.main);
+			setPromocionAplicada(true);
+			if (beneficiosPararAgregar) {
+				dispatch(
+					agregarBeneficiosPromoOngoing({
+						beneficios: visitaActual.promosOngoing.concat(
+							beneficiosPararAgregar
+						),
+					})
+				);
+			}
+			if (promosDisponibles && setpromosDisponibles) {
+				setpromosDisponibles({
+					...promosDisponibles,
+					[Number(promocionID)]: {
+						disponibles: promosDisponibles[Number(promocionID)].disponibles,
+						aplicadas: promosDisponibles[Number(promocionID)].aplicadas + 1,
+					},
+				});
+			}
 		}
 	};
 
@@ -372,7 +375,7 @@ export const Card: React.VFC<CardProps> = ({
 								<Typography variant='subtitle3' fontFamily='Open Sans'>
 									Secuencia
 								</Typography>
-								<Box width='81px' height='24px' mt='8px'>
+								<Box width='81px' height='24px' mt='8px' mb='8px'>
 									<CustomSelect
 										opcionSeleccionada={beneficiosSelect}
 										opciones={[]}
@@ -380,6 +383,16 @@ export const Card: React.VFC<CardProps> = ({
 										dataCy='select-bonificaciones'
 									/>
 								</Box>
+								<Typography
+									variant='caption'
+									fontFamily='Open Sans'
+									color='red'
+								>
+									Disponible:
+									{promosDisponibles &&
+										promosDisponibles[Number(promocionID)].disponibles -
+											promosDisponibles[Number(promocionID)].aplicadas}
+								</Typography>
 							</Box>
 						</Box>
 
