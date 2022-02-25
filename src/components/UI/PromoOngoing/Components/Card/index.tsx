@@ -26,6 +26,7 @@ import {
 	Typography,
 } from '@mui/material';
 import clsx from 'clsx';
+import CustomSelect from 'components/UI/CustomSelect';
 
 const useEstilos = makeStyles((theme: Theme) =>
 	createStyles({
@@ -99,6 +100,7 @@ export const Card: React.VFC<CardProps> = ({
 	const [beneficiosProductos, setBeneficiosProductos] = React.useState<
 		TProductosPromoOngoingAplicadas[]
 	>([]);
+	const [beneficiosSelect, setBeneficiosSelect] = React.useState<any>();
 	const [promocionSinDisponibile, setPromocionSinDisponibile] =
 		React.useState<boolean>(false);
 	const {t} = useTranslation();
@@ -352,38 +354,35 @@ export const Card: React.VFC<CardProps> = ({
 						borderTop='none'
 						padding='10px 14px 0px 14px'
 					>
-						<Box display='flex'>
-							<Box
-								alignItems='center'
-								display='flex'
-								justifyContent='space-between'
-								marginBottom='8px'
-							>
+						<Box display='flex' mb='15px'>
+							<Box marginBottom='8px'>
 								<Typography variant='subtitle3' fontFamily='Open Sans'>
 									Grupos
 								</Typography>
+								<Box width='181px' height='24px' mt='8px'>
+									<CustomSelect
+										opcionSeleccionada={beneficiosSelect}
+										opciones={[]}
+										setOpcion={setBeneficiosSelect}
+										dataCy='select-bonificaciones'
+									/>
+								</Box>
 							</Box>
-
-							<Box
-								alignItems='center'
-								display='flex'
-								justifyContent='space-between'
-								marginBottom='8px'
-								padding='0 14px'
-							>
+							<Box marginBottom='8px' padding='0 14px'>
 								<Typography variant='subtitle3' fontFamily='Open Sans'>
 									Secuencia
 								</Typography>
-							</Box>
-							<Box marginBottom='10px' padding='0 14px'>
-								{/* 							<CustomSelect
-								opcionSeleccionada={opciones}
-								opciones={[...grupos.map((grupo) => grupo.nombreGrupo)]}
-								setOpcion={setOpciones}
-								dataCy='select-bonificaciones'
-							/> */}
+								<Box width='81px' height='24px' mt='8px'>
+									<CustomSelect
+										opcionSeleccionada={beneficiosSelect}
+										opciones={[]}
+										setOpcion={setBeneficiosSelect}
+										dataCy='select-bonificaciones'
+									/>
+								</Box>
 							</Box>
 						</Box>
+
 						<Stack spacing={'14px'}>
 							<Box>
 								<Typography
@@ -392,7 +391,7 @@ export const Card: React.VFC<CardProps> = ({
 									variant='subtitle2'
 									fontFamily='Open Sans'
 								>
-									Beneficio: 10.5%
+									Beneficio: 9999%
 								</Typography>
 							</Box>
 							<Box>

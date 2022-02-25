@@ -73,8 +73,6 @@ export const Controles: React.FC<Props> = ({
 		//setFocusId(productoOriginal.codigoProducto.toString());
 	};
 
-	console.log(cantidad);
-
 	return (
 		<>
 			{productoOriginal && (
