@@ -7,7 +7,7 @@ import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
 import {TProductosUsadosEnOtrasPromos} from 'utils/procesos/promociones';
 import {TPromoOngoingDisponibilidad} from 'utils/procesos/promociones/PromocionesOngoing';
-
+import {TarjetaPromociones} from './TarjetaPromociones';
 import {createStyles, makeStyles, styled} from '@material-ui/styles';
 import {
 	Box,
@@ -21,18 +21,6 @@ import {
 	Typography,
 } from '@mui/material';
 import clsx from 'clsx';
-
-const ButtonStyled = styled(Button)(({theme: Theme}) => ({
-	boxSizing: 'border-box',
-	border: '1.5px solid #651C32',
-	borderRadius: '20px',
-	minHeight: '10px',
-	height: '16px',
-	textTransform: 'none',
-	'&:hover': {
-		background: 'none',
-	},
-}));
 
 const useEstilos = makeStyles((theme: Theme) =>
 	createStyles({
@@ -102,6 +90,7 @@ export const Card: React.VFC<CardProps> = ({
 	const [puedeVerBotonera, setPuedeVerBotonera] = React.useState<boolean>(true);
 	const [esPromoSimilar, setEsPromoSimilar] = React.useState<boolean>(false);
 	const [borroPromocion, setBorroPromocion] = React.useState<boolean>(false);
+	const [focusId, setFocusId] = React.useState<string>('');
 	const [promocionSinDisponibile, setPromocionSinDisponibile] =
 		React.useState<boolean>(false);
 	const {t} = useTranslation();
@@ -267,6 +256,8 @@ export const Card: React.VFC<CardProps> = ({
 		}
 	}, [promocionAutomatica]);
 
+	console.log({beneficiosPararAgregar, promocion});
+
 	const manejadorExpandido = (id: string | boolean) => {
 		setExpandidoexpandido(id);
 	};
@@ -338,12 +329,17 @@ export const Card: React.VFC<CardProps> = ({
 						</Box>
 					)}
 				</Box>
+
 				<Collapse
 					in={expandido === promocion.promocionID.toString()}
 					timeout='auto'
 					unmountOnExit
 				>
-					<Box borderBottom='none' borderTop='none' padding='10px 14px'>
+					<Box
+						borderBottom='none'
+						borderTop='none'
+						padding='10px 14px 0px 14px'
+					>
 						<Box display='flex'>
 							<Box
 								alignItems='center'
@@ -422,9 +418,16 @@ export const Card: React.VFC<CardProps> = ({
 								</Typography>
 							</Box>
 						</Stack>
-
-						<Divider sx={{marginTop: '10px'}} />
 					</Box>
+					<Divider sx={{marginTop: '10px'}} variant='fullWidth' />
+					{beneficiosPararAgregar?.productos.map((producto) => (
+						<TarjetaPromociones
+							key={producto.codigoProducto}
+							producto={producto}
+							statefocusId={{focusId, setFocusId}}
+						/>
+					))}
+					<Divider sx={{marginBottom: '10px'}} variant='fullWidth' />
 				</Collapse>
 
 				<Box
