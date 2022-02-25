@@ -4,7 +4,7 @@ import {exit} from 'process';
 export enum ETiposDeFiltro {
 	Venta = 'venta',
 	// Canje = 'canje',
-    NoPromoPush='noPromoPush'
+	NoPromoPush = 'noPromoPush',
 }
 
 export type TFuncionDeFiltro = {
@@ -17,7 +17,7 @@ export type TFuncionDeFiltro = {
 };
 
 export type TFiltro = {
-	orden:number;
+	orden: number;
 	activo: boolean;
 	func: TFuncionDeFiltro;
 	param?: number[] | string[];
@@ -25,9 +25,8 @@ export type TFiltro = {
 
 type TListaDeFiltros = Record<ETiposDeFiltro, TFiltro>;
 
-
-type TAtributosProductos ={ 
-	[tipo:string]:number[];
+export type TAtributosProductos = {
+	[tipo: string]: number[];
 };
 
 /**
@@ -39,33 +38,24 @@ type TAtributosProductos ={
 export class FiltroProductos {
 	filtros: TListaDeFiltros = {
 		venta: {
-			orden:20,
-			activo: false,
-			func: (
-				producto: TPrecioProducto,
-				codigo: number | string,
-				param?: number[] | string[]
-			) => {
+			orden: 20,
+			activo: true,
+			func: (producto, codigo) => {
 				return (
-					(producto.nombreProducto
+					producto.nombreProducto
 						.toLowerCase()
 						.includes(codigo.toString().toLowerCase()) ||
-						producto.codigoProducto.toString().includes(codigo.toString())) &&
-					!producto.promoPush
+					producto.codigoProducto.toString().includes(codigo.toString())
 				);
 			},
 		},
-        noPromoPush: {
-			orden:10,
+		noPromoPush: {
+			orden: 10,
 			activo: true,
-			func: (
-				producto: TPrecioProducto,
-				codigo: number | string,
-				param?: number[] | string[]
-			) => {
-				return (!producto.promoPush);
+			func: (producto: TPrecioProducto) => {
+				return !producto.promoPush;
 			},
-		}
+		},
 		//ToDo
 		// canje: {
 		// 	activo: false,
@@ -75,84 +65,90 @@ export class FiltroProductos {
 		// },
 	};
 
-	private portafolioProductos: TPrecioProducto[] | undefined;
+	private portafolioProductos?: TPrecioProducto[];
 
-	private atributosDelLosProductos: TAtributosProductos | undefined;
+	private atributosDelLosProductos?: TAtributosProductos;
 	/**
 	 * Crea una instancia de filtro de productos
 	 * @constructor
 	 * @param {TPrecioProducto[]} portafolioProductos - Portafolio del  cliente
 	 */
-	constructor( portafolioProductos?: TPrecioProducto[],  filtrosDefault?:ETiposDeFiltro[] ) {
+	constructor(
+		portafolioProductos?: TPrecioProducto[],
+		filtrosDefault?: ETiposDeFiltro[]
+	) {
 		this.portafolioProductos = portafolioProductos;
-		filtrosDefault?.forEach((filtroActivar)=> this.agregarFiltro(filtroActivar));
+		filtrosDefault?.forEach((filtroActivar) =>
+			this.agregarFiltro(filtroActivar)
+		);
 	}
 
-	obtenerAtributos(){
-
-		if(this.atributosDelLosProductos!=undefined)
+	obtenerAtributos() {
+		if (this.atributosDelLosProductos != undefined)
 			return this.atributosDelLosProductos;
-		
-		
-		let obj:TAtributosProductos={
+
+		let obj: TAtributosProductos = {
 			sabor: [],
 			familia: [],
 			medida: [],
-			marca:[],
-			envase:[]
-		};	
+			marca: [],
+			envase: [],
+		};
 		this.portafolioProductos?.forEach((producto) => {
-			if ( producto.atributos != undefined)
-			{
-				obj.sabor.push( producto.atributos.sabor);
-				obj.familia.push( producto.atributos.familia);
-				obj.medida.push( producto.atributos.medida);
-				obj.marca.push( producto.atributos.marca);
-				obj.envase.push( producto.atributos.envase);
+			if (producto.atributos != undefined) {
+				!obj.sabor.includes(producto.atributos.sabor) &&
+					obj.sabor.push(producto.atributos.sabor);
+				!obj.familia.includes(producto.atributos.familia) &&
+					obj.familia.push(producto.atributos.familia);
+				!obj.medida.includes(producto.atributos.medida) &&
+					obj.medida.push(producto.atributos.medida);
+				!obj.marca.includes(producto.atributos.marca) &&
+					obj.marca.push(producto.atributos.marca);
+				!obj.envase.includes(producto.atributos.envase) &&
+					obj.envase.push(producto.atributos.envase);
 			}
+		});
 
-		})
-		
-		this.atributosDelLosProductos=obj;
+		this.atributosDelLosProductos = obj;
 		return this.atributosDelLosProductos;
 	}
 
-
 	/**
-     * Activa un filtro para la ejecución
-     * @param {ETiposDeFiltro} tipo - tipo de filtro
+	 * Activa un filtro para la ejecución
+	 * @param {ETiposDeFiltro} tipo - tipo de filtro
 	 * @param {number[] | string[]} param - Opcional lista de valores donde debe encontrarse alguna de las propiedades del producto
-     * @return void.
-     */
+	 * @return void.
+	 */
 	agregarFiltro(tipo: ETiposDeFiltro, param?: number[] | string[]): void {
 		this.filtros[tipo].activo = true;
 		this.filtros[tipo].param = this.filtros[tipo].param;
 	}
 
 	/**
-     * Desactiva un filtro para la ejecución
-     * @param {ETiposDeFiltro} tipo - tipo de filtro
-     * @return void.
-     */
+	 * Desactiva un filtro para la ejecución
+	 * @param {ETiposDeFiltro} tipo - tipo de filtro
+	 * @return void.
+	 */
 	quitarFiltro(tipo: ETiposDeFiltro): void {
 		this.filtros[tipo].activo = false;
 	}
 
 	/**
-     * Ejecuta la lista de fltros activos
-     * @param { number | string} codigo - Parcial o Total de caracteres intervinientes en el código de producto
-     * @return void.
-     */
+	 * Ejecuta la lista de fltros activos
+	 * @param { number | string} codigo - Parcial o Total de caracteres intervinientes en el código de producto
+	 * @return void.
+	 */
 	ejecutar(codigo: number | string) {
-		const  filtros=Object.values(this.filtros).filter((filtro: TFiltro) => filtro.activo).sort((e1,e2)=> e1.orden>e2.orden ? -1 : 1);
+		const filtros = Object.values(this.filtros)
+			.filter((filtro: TFiltro) => filtro.activo)
+			.sort((e1, e2) => (e1.orden > e2.orden ? -1 : 1));
 		return this.portafolioProductos?.filter((producto) => {
 			let ret = true;
-			for( let filtro of filtros)
-			{
+			for (let filtro of filtros) {
 				ret = filtro.func.apply(this, [producto, codigo, filtro.param]);
 				if (!ret) break;
 			}
-			
+
 			return ret;
 		});
 	}
