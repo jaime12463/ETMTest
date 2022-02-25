@@ -8,11 +8,13 @@ import React from 'react';
 interface Props {
 	producto: TProductosPromoOngoingAplicadas;
 	statefocusId: any;
+	stateBeneficiosProductos: any;
 }
 
 export const TarjetaPromociones: React.FC<Props> = ({
 	producto,
 	statefocusId,
+	stateBeneficiosProductos,
 }) => {
 	const datos = useObtenerDatos();
 	const [productoActual, setProductoActual] = React.useState<TProducto>();
@@ -34,6 +36,7 @@ export const TarjetaPromociones: React.FC<Props> = ({
 						statefocusId={statefocusId}
 						producto={productoActual}
 						unidadMedida={producto.unidadMedida}
+						stateBeneficiosProductos={stateBeneficiosProductos}
 					/>
 				</Box>
 			)}

@@ -2,7 +2,12 @@ import React from 'react';
 import {CheckRedondoIcon, FlechaAbajoIcon} from 'assests/iconos';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
-import {ETiposDePago, TPromoOngoing, TPromoOngoingAplicadas} from 'models';
+import {
+	ETiposDePago,
+	TProductosPromoOngoingAplicadas,
+	TPromoOngoing,
+	TPromoOngoingAplicadas,
+} from 'models';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
 import {TProductosUsadosEnOtrasPromos} from 'utils/procesos/promociones';
@@ -91,12 +96,16 @@ export const Card: React.VFC<CardProps> = ({
 	const [esPromoSimilar, setEsPromoSimilar] = React.useState<boolean>(false);
 	const [borroPromocion, setBorroPromocion] = React.useState<boolean>(false);
 	const [focusId, setFocusId] = React.useState<string>('');
+	const [beneficiosProductos, setBeneficiosProductos] = React.useState<
+		TProductosPromoOngoingAplicadas[]
+	>([]);
 	const [promocionSinDisponibile, setPromocionSinDisponibile] =
 		React.useState<boolean>(false);
 	const {t} = useTranslation();
 	const {descripcion, promocionID} = promocion;
 	const dispatch = useAppDispatch();
 	const visitaActual = useObtenerVisitaActual();
+
 	const [promocionAplicada, setPromocionAplicada] =
 		React.useState<boolean>(false);
 
@@ -104,6 +113,11 @@ export const Card: React.VFC<CardProps> = ({
 
 	const tipoPago =
 		tipo === 'contado' ? ETiposDePago.Contado : ETiposDePago.Credito;
+
+	React.useEffect(() => {
+		if (beneficiosPararAgregar)
+			setBeneficiosProductos([...beneficiosPararAgregar.productos]);
+	}, [beneficiosPararAgregar]);
 
 	React.useEffect(() => {
 		promocionAutomatica
@@ -144,8 +158,6 @@ export const Card: React.VFC<CardProps> = ({
 			}
 		}
 	}, [visitaActual.promosOngoing]);
-
-	//console.log(promocionID, tipo, promocionSinDisponibile);
 
 	React.useEffect(() => {
 		if (!promocionAutomatica) {
@@ -425,6 +437,10 @@ export const Card: React.VFC<CardProps> = ({
 							key={producto.codigoProducto}
 							producto={producto}
 							statefocusId={{focusId, setFocusId}}
+							stateBeneficiosProductos={{
+								beneficiosProductos,
+								setBeneficiosProductos,
+							}}
 						/>
 					))}
 					<Divider sx={{marginBottom: '10px'}} variant='fullWidth' />
