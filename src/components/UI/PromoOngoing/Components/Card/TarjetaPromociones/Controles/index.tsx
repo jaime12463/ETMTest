@@ -25,6 +25,7 @@ interface Props {
 	unidadMedida: string;
 	statefocusId: any;
 	stateBeneficiosProductos: any;
+	promocionAplicada: boolean;
 }
 
 export const Controles: React.FC<Props> = ({
@@ -32,8 +33,13 @@ export const Controles: React.FC<Props> = ({
 	unidadMedida,
 	statefocusId,
 	stateBeneficiosProductos,
+	promocionAplicada,
 }) => {
-	const classes = useEstilos({errorAplicacionTotal: false});
+	//const classes = useEstilos({errorAplicacionTotal: false, promocionAplicada});
+
+	const [classes, setClasses] = React.useState<any>(
+		useEstilos({errorAplicacionTotal: false, promocionAplicada})
+	);
 	const {focusId, setFocusId} = statefocusId;
 	const {beneficiosProductos, setBeneficiosProductos} =
 		stateBeneficiosProductos;
@@ -80,7 +86,7 @@ export const Controles: React.FC<Props> = ({
 					<Box
 						alignItems='center'
 						display='flex'
-						justifyContent='end'
+						justifyContent='center'
 						gap='2px'
 					>
 						{unidadMedida === 'Unidad' ? (
@@ -88,18 +94,20 @@ export const Controles: React.FC<Props> = ({
 						) : (
 							<BotellaIcon height='18px' width='18px' />
 						)}
-						<IconButton
-							sx={{marginLeft: '2px', padding: 0}}
-							name='-'
-							onClick={handleButtons}
-							disabled={cantidad === 0}
-						>
-							<QuitarRellenoIcon
-								height='18px'
-								width='18px'
+						{!promocionAplicada && (
+							<IconButton
+								sx={{marginLeft: '2px', padding: 0}}
+								name='-'
+								onClick={handleButtons}
 								disabled={cantidad === 0}
-							/>
-						</IconButton>
+							>
+								<QuitarRellenoIcon
+									height='18px'
+									width='18px'
+									disabled={cantidad === 0}
+								/>
+							</IconButton>
+						)}
 						<Input
 							autoComplete='off'
 							className={classes.input}
@@ -109,7 +117,7 @@ export const Controles: React.FC<Props> = ({
 							name='unidades'
 							id='unidades_producto'
 							//onBlur={handleBlur}
-							//	onKeyDown={handleKeyPress}
+							//onKeyDown={handleKeyPress}
 							onFocus={(e) => {
 								e.target.select();
 								setFocusId(productoOriginal.codigoProducto.toString());
@@ -119,19 +127,21 @@ export const Controles: React.FC<Props> = ({
 								inputMode: 'numeric',
 							}}
 						/>
-						<IconButton
-							sx={{padding: '0'}}
-							size='small'
-							name='+'
-							onClick={handleButtons}
-							disabled={cantidad >= productoOriginal.cantidad}
-						>
-							<AgregarRedondoIcon
-								width='18px'
-								height='18px'
+						{!promocionAplicada && (
+							<IconButton
+								sx={{padding: '0'}}
+								size='small'
+								name='+'
+								onClick={handleButtons}
 								disabled={cantidad >= productoOriginal.cantidad}
-							/>
-						</IconButton>
+							>
+								<AgregarRedondoIcon
+									width='18px'
+									height='18px'
+									disabled={cantidad >= productoOriginal.cantidad}
+								/>
+							</IconButton>
+						)}
 					</Box>
 				</Box>
 			)}

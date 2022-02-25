@@ -410,14 +410,16 @@ export const Card: React.VFC<CardProps> = ({
 							<Box>
 								<Button
 									onClick={onClick}
+									disabled={promocionAplicada}
 									sx={{
-										border: `1px solid #651C32`,
+										border: promocionAplicada ? 'none' : `1px solid #651C32`,
 										borderRadius: '50px',
 										display: 'flex',
 										gap: '4px',
 										padding: '4px 12px',
 										width: '276px',
 										height: '33px',
+										backgroundColor: promocionAplicada ? '#D9D9D9' : '#fff',
 										textTransform: 'none',
 										'&:hover': {
 											background: 'none',
@@ -426,7 +428,7 @@ export const Card: React.VFC<CardProps> = ({
 									data-cy={`boton-aplicarPromocion`}
 								>
 									<Typography
-										color='#8A4C5F'
+										color={promocionAplicada ? '' : '#8A4C5F'}
 										fontSize={'12px'}
 										variant='subtitle3'
 										fontFamily='Poppins'
@@ -447,6 +449,7 @@ export const Card: React.VFC<CardProps> = ({
 					{beneficiosPararAgregar?.productos.map((producto) => (
 						<TarjetaPromociones
 							key={producto.codigoProducto}
+							promocionAplicada={promocionAplicada}
 							producto={producto}
 							statefocusId={{focusId, setFocusId}}
 							stateBeneficiosProductos={{

@@ -3,15 +3,17 @@ import theme from 'theme';
 
 interface Props {
 	errorAplicacionTotal: boolean;
+	promocionAplicada: boolean;
 }
 
 const useEstilos = makeStyles(() =>
 	createStyles({
 		input: {
-			backgroundColor: '#fff',
+			backgroundColor: (props: Props) =>
+				props.promocionAplicada ? '#D9D9D9' : '#fff',
 			border: (props: Props) =>
-				props.errorAplicacionTotal
-					? `1px solid ${theme.palette.primary.main}`
+				props.promocionAplicada
+					? `none`
 					: `1px solid ${theme.palette.secondary.main}`,
 			borderRadius: '10px',
 			'& .MuiInput-input': {
@@ -23,7 +25,7 @@ const useEstilos = makeStyles(() =>
 			height: '16px',
 			lineHeight: '16px',
 			transition: 'all 0.3s ease-in-out',
-			width: '42px',
+			width: (props: Props) => (props.promocionAplicada ? 'fullWidth' : '42px'),
 		},
 	})
 );
