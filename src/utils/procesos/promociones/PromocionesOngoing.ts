@@ -75,6 +75,14 @@ export type TPromoOngoingAplicadasOrigen = Record<
 	TPromoOngoingAplicadas[]
 >;
 
+export type  TPromocionesOngoingCalcularResultado = {
+    contado: TPromoOngoingAplicablesResultado | undefined,
+    credito: TPromoOngoingAplicablesResultado | undefined,
+    noAplicable: TPromoOngoing[],
+    benficiosParaAgregar: TPromoOngoingAplicadas[],
+    disponibles: TPromoOngoingDisponibilidad,
+};
+
 export class PromocionesOngoing {
 	private static instance: PromocionesOngoing;
 
@@ -88,7 +96,11 @@ export class PromocionesOngoing {
 		999999999: {disponibles: 0, aplicadas: 0},
 	};
 
+	private _resultado:TPromocionesOngoingCalcularResultado | undefined =undefined;
+
 	private listaPromocionesVigentes: TListaPromoOngoingConIndices | undefined;
+
+	private _calculoRealizado:boolean=false;
 
 	/**
 	 *
@@ -128,6 +140,7 @@ export class PromocionesOngoing {
 		this._cliente=cliente;
 		this._listaPromoOngoing=listaPromociones;
 		this._promosAplicadasOtrasVisitas= promosAplicadasOtrasVisitas;
+		this._calculoRealizado=false;
 
 		console.log(`Inicializando  motor de promociones para el cliente: ${this._cliente.codigoCliente}`);
 
@@ -191,7 +204,11 @@ export class PromocionesOngoing {
 	calcular(
 		productos: TProductoPedido[],
 		tipos: ETiposDePago[]
-	) {
+	):TPromocionesOngoingCalcularResultado  {
+		
+		if( this._calculoRealizado && tipos.length==0 && this._resultado)
+			return this._resultado;
+
 		//contadores a cero
 		Object.keys(this.disponibilidadDeLaPromo).forEach((promoId) => {
 			this.disponibilidadDeLaPromo[Number(promoId)].aplicadas = 0;
@@ -204,15 +221,18 @@ export class PromocionesOngoing {
 			}
 		);
 
-		//sumamos las aplicadas solo cuando se pide recalculo de credito o contado, si se pide de los 2 quedarí en cero
-
+		
 		if (tipos.length === 1) {
-			/*promosAplicadas[ETipoOrigenDeDatos.VisitaActual]
-				.filter((promo) => promo.tipoPago != tipos[0])
-				.forEach((promo: TPromoOngoingAplicadas) => {
+			if ( tipos[0] == ETiposDePago.Contado)
+			{
+				this._resultado?.credito?.promosAplicables.filter((promo)=> promo.aplicada).forEach((promo:TPromoOngoingAplicables) => {
 					this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++;
 				});
-			*/
+			}else{
+				this._resultado?.contado?.promosAplicables.filter((promo)=> promo.aplicada).forEach((promo:TPromoOngoingAplicables) => {
+					this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++;
+				});
+			}
 		}
 
 		let promocionesContado: TPromoOngoingAplicablesResultado | undefined;
@@ -252,14 +272,19 @@ export class PromocionesOngoing {
 			)
 			.sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1));
 
-		return {
-			contado: promocionesContado,
-			credito: promocionesCredito,
+		this._resultado= {
+			contado: promocionesContado ?? this._resultado?.contado,
+			credito: promocionesCredito ?? this._resultado?.credito,
 			noAplicable: promocionesVigentesNoAplicables,
 			benficiosParaAgregar,
 			disponibles: this.disponibilidadDeLaPromo,
 		};
+		
+		this._calculoRealizado=true;
+
+		return this._resultado;
 	}
+
 
 
 	/**
@@ -267,10 +292,18 @@ export class PromocionesOngoing {
 	 * @param {ETiposDePago} tipoDePago  - tipo de pago donde se realiza la aplicación de la promo
 	 * @param {number} index - indice del array de promociones
 	*/
-	aplicarPromo(tipoDePago: ETiposDePago, index:number )
+	aplicarPromo(tipoDePago: ETiposDePago, index:number , promo:TPromoOngoingAplicables )
 	{
-
+		if (tipoDePago == ETiposDePago.Contado && this._resultado?.contado!=undefined)
+		{	
+			this._resultado["contado"].promosAplicables[index]=promo;
+		}else if  (tipoDePago == ETiposDePago.Credito && this._resultado?.credito!=undefined) {
+			this._resultado["credito"].promosAplicables[index]=promo;
+		}
 	}
+
+
+
 	/**
 	 * Retorna una lista de promociones ongoing aplicables según sean de creditos o contado
 	 * @method
