@@ -3,10 +3,10 @@ import {
 	useObtenerDatosCliente,
 	useObtenerIniciativasClienteActual,
 } from 'hooks';
-import {TCliente, TDatosClientesProductos, TPedidos} from 'models';
+import {TCliente, TDatosClientesProductos, TPedidos, TPedidosClientes} from 'models';
 import {useCallback} from 'react';
 import {inicializarVisitaActual} from 'redux/features/visitaActual/visitaActualSlice';
-import {useAppDispatch, useObtenerConfiguracion, useObtenerDatos} from 'redux/hooks';
+import {useAppDispatch, useObtenerConfiguracion, useObtenerDatos, useObtenerPedidosClientes} from 'redux/hooks';
 import {useInicializarPedidos} from '.';
 import {v4 as uuidv4} from 'uuid';
 import { PromocionesOngoing } from 'utils/procesos/promociones/PromocionesOngoing';
@@ -20,6 +20,7 @@ export const useInicializarVisitaActual = () => {
 	const obtenerBonificacionesHabilitadas =
 		useObtenerBonificacionesHabilitadas();
 	const datos = useObtenerDatos();
+	const pedidosCliente: TPedidosClientes = useObtenerPedidosClientes();
 	
 	const useInicializarPedidoActual = useCallback(
 		(
@@ -42,7 +43,9 @@ export const useInicializarVisitaActual = () => {
 			const promocionesOngoing = PromocionesOngoing.getInstance();
 			
 			if (datosCliente!=undefined)
-				promocionesOngoing.inicializar(datosCliente,datos?.promociones);
+				promocionesOngoing.inicializar(
+					datosCliente,datos?.promociones,
+					pedidosCliente[datosCliente.codigoCliente]?.promocionesOngoing ??[]);
 
 			dispatch(
 				inicializarVisitaActual({

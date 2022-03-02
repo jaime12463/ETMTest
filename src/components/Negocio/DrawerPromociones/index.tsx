@@ -92,11 +92,6 @@ export const DrawerPromociones: React.FC<Props> = ({
 	const restablecerPromociones = (tipo: 'Credito' | 'Contado') => {
 		let promociones = promocionesOngoing.calcular(
 			visitaActual.pedidos.venta.productos,
-			{
-				Grabadas:
-					pedidosCliente[clienteActual.codigoCliente]?.promocionesOngoing ?? [],
-				VisitaActual: visitaActual.promosOngoing,
-			},
 			tipo === 'Credito' ? [ETiposDePago.Credito] : [ETiposDePago.Contado]
 		);
 

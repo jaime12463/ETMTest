@@ -175,12 +175,6 @@ const TomaPedido: React.FC = () => {
 
 			const promociones = promocionesOngoing.calcular(
 				venta.productos,
-				{
-					Grabadas:
-						pedidosCliente[clienteActual.codigoCliente]?.promocionesOngoing ??
-						[],
-					VisitaActual: visitaActual.promosOngoing,
-				},
 				tipos
 			);
 
@@ -222,12 +216,6 @@ const TomaPedido: React.FC = () => {
 		} else {
 			const promociones = promocionesOngoing.calcular(
 				venta.productos,
-				{
-					Grabadas:
-						pedidosCliente[clienteActual.codigoCliente]?.promocionesOngoing ??
-						[],
-					VisitaActual: visitaActual.promosOngoing,
-				},
 				[ETiposDePago.Contado, ETiposDePago.Credito]
 			);
 			setPromocionesOingoing(promociones);

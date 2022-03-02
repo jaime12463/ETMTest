@@ -82,6 +82,8 @@ export class PromocionesOngoing {
 
 	private _listaPromoOngoing: TListaPromoOngoing={};
 
+	private _promosAplicadasOtrasVisitas:TPromoOngoingAplicadas[]=[];
+
 	private disponibilidadDeLaPromo: TPromoOngoingDisponibilidad = {
 		999999999: {disponibles: 0, aplicadas: 0},
 	};
@@ -121,10 +123,12 @@ export class PromocionesOngoing {
 		return PromocionesOngoing.instance;
 	}
 
-	public inicializar(cliente:TCliente,listaPromociones:TListaPromoOngoing )
+	public inicializar(cliente:TCliente,listaPromociones:TListaPromoOngoing, promosAplicadasOtrasVisitas:TPromoOngoingAplicadas[] )
 	{
 		this._cliente=cliente;
 		this._listaPromoOngoing=listaPromociones;
+		this._promosAplicadasOtrasVisitas= promosAplicadasOtrasVisitas;
+
 		console.log(`Inicializando  motor de promociones para el cliente: ${this._cliente.codigoCliente}`);
 
 	}
@@ -186,7 +190,6 @@ export class PromocionesOngoing {
 
 	calcular(
 		productos: TProductoPedido[],
-		promosAplicadas: TPromoOngoingAplicadasOrigen,
 		tipos: ETiposDePago[]
 	) {
 		//contadores a cero
@@ -195,7 +198,7 @@ export class PromocionesOngoing {
 		});
 
 		//sumamos grabadas
-		promosAplicadas[ETipoOrigenDeDatos.Grabadas].forEach(
+		this._promosAplicadasOtrasVisitas.forEach(
 			(promo: TPromoOngoingAplicadas) => {
 				this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++;
 			}
@@ -204,11 +207,12 @@ export class PromocionesOngoing {
 		//sumamos las aplicadas solo cuando se pide recalculo de credito o contado, si se pide de los 2 quedarí en cero
 
 		if (tipos.length === 1) {
-			promosAplicadas[ETipoOrigenDeDatos.VisitaActual]
+			/*promosAplicadas[ETipoOrigenDeDatos.VisitaActual]
 				.filter((promo) => promo.tipoPago != tipos[0])
 				.forEach((promo: TPromoOngoingAplicadas) => {
 					this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++;
 				});
+			*/
 		}
 
 		let promocionesContado: TPromoOngoingAplicablesResultado | undefined;
@@ -257,6 +261,16 @@ export class PromocionesOngoing {
 		};
 	}
 
+
+	/**
+	 * @method
+	 * @param {ETiposDePago} tipoDePago  - tipo de pago donde se realiza la aplicación de la promo
+	 * @param {number} index - indice del array de promociones
+	*/
+	aplicarPromo(tipoDePago: ETiposDePago, index:number )
+	{
+
+	}
 	/**
 	 * Retorna una lista de promociones ongoing aplicables según sean de creditos o contado
 	 * @method
