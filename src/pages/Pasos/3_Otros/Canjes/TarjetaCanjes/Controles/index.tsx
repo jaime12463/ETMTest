@@ -8,6 +8,7 @@ import {
 	useMostrarAdvertenciaEnDialogo,
 	useMostrarAviso,
 	useObtenerDatosCliente,
+	useValidacionPermiteSubUnidades,
 } from 'hooks';
 import {useObtenerClienteActual} from 'redux/hooks';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
@@ -52,6 +53,7 @@ const Controles: React.FC<Props> = ({
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {configuracionPedido}: any = datosCliente;
+	const validacionPermiteSubUnidades = useValidacionPermiteSubUnidades(producto);
 
 	const avisoCanjeAgregado = () =>
 		focusId === producto.codigoProducto &&
@@ -257,70 +259,77 @@ const Controles: React.FC<Props> = ({
 						/>
 					</IconButton>
 				</Box>
-				<Box alignItems='center' display='flex' justifyContent='end' gap='2px'>
-					<BotellaIcon
-						width='18px'
-						height='18px'
-						style={{marginRight: '2px'}}
-					/>
-					<IconButton
-						sx={{padding: 0}}
-						size='small'
-						value='-'
-						name='subUnidades'
-						onClick={handleButtons}
-						disabled={producto.subUnidades === 0}
+				{validacionPermiteSubUnidades && (
+					<Box
+						alignItems='center'
+						display='flex'
+						justifyContent='end'
+						gap='2px'
 					>
-						<QuitarRellenoIcon
+						<BotellaIcon
 							width='18px'
 							height='18px'
-							disabled={producto.subUnidades === 0}
+							style={{marginRight: '2px'}}
 						/>
-					</IconButton>
-					<Input
-						className={classes.input}
-						onKeyPress={handleKeyPress}
-						onChange={handleOnChange}
-						value={getValues.subUnidades}
-						disableUnderline
-						id='subUnidades_producto'
-						name='subUnidades'
-						onClick={() => {
-							setInputFocus('subUnidades');
-							setFocusId(producto.codigoProducto);
-						}}
-						onFocus={(e) => e.target.select()}
-						inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
-						inputRef={(input) => {
-							if (
-								inputFocus === 'subUnidades' &&
-								focusId === producto.codigoProducto
-							) {
-								input?.focus();
-							}
-						}}
-					/>
-					<IconButton
-						sx={{padding: 0}}
-						size='small'
-						name='subUnidades'
-						value='+'
-						onClick={handleButtons}
-						disabled={
-							getValues.subUnidades >=
-							producto.presentacion - producto.subunidadesVentaMinima
-						}
-					>
-						<AgregarRedondoIcon
-							width='18px'
-							height='18px'
+						<IconButton
+							sx={{padding: 0}}
+							size='small'
+							value='-'
+							name='subUnidades'
+							onClick={handleButtons}
+							disabled={producto.subUnidades === 0}
+						>
+							<QuitarRellenoIcon
+								width='18px'
+								height='18px'
+								disabled={producto.subUnidades === 0}
+							/>
+						</IconButton>
+						<Input
+							className={classes.input}
+							onKeyPress={handleKeyPress}
+							onChange={handleOnChange}
+							value={getValues.subUnidades}
+							disableUnderline
+							id='subUnidades_producto'
+							name='subUnidades'
+							onClick={() => {
+								setInputFocus('subUnidades');
+								setFocusId(producto.codigoProducto);
+							}}
+							onFocus={(e) => e.target.select()}
+							inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
+							inputRef={(input) => {
+								if (
+									inputFocus === 'subUnidades' &&
+									focusId === producto.codigoProducto
+								) {
+									input?.focus();
+								}
+							}}
+						/>
+						<IconButton
+							sx={{padding: 0}}
+							size='small'
+							name='subUnidades'
+							value='+'
+							onClick={handleButtons}
 							disabled={
 								getValues.subUnidades >=
 								producto.presentacion - producto.subunidadesVentaMinima
 							}
-						/>
-					</IconButton>
-				</Box>
+						>
+							<AgregarRedondoIcon
+								width='18px'
+								height='18px'
+								disabled={
+									getValues.subUnidades >=
+									producto.presentacion - producto.subunidadesVentaMinima
+								}
+							/>
+						</IconButton>
+					</Box>
+				)}
 			</Box>
 		</>
 	);

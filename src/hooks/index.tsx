@@ -35,3 +35,4 @@ export {useObtenerBonificacionesHabilitadas} from './useObtenerBonificacionesHab
 export {useDebounce} from './useDebounce';
 export {useValidarTipoPedidosRealizadosSegunConfiguracion} from './useValidarTipoPedidosRealizadosSegunConfiguracion';
 export {useObtenerAtributos} from './useObtenerAtributos';
+export {useValidacionPermiteSubUnidades} from './useValidacionPermiteSubUnidades';

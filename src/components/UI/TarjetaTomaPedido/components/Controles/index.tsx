@@ -18,6 +18,7 @@ import {
 	useMostrarAdvertenciaEnDialogo,
 	useMostrarAviso,
 	useObtenerDatosCliente,
+	useValidacionPermiteSubUnidades,
 } from 'hooks';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
@@ -72,6 +73,7 @@ const Controles: React.FC<Props> = ({
 	);
 	const {t} = useTranslation();
 	const mostrarAviso = useMostrarAviso();
+	const validacionPermiteSubUnidades = useValidacionPermiteSubUnidades(producto);
 
 	const classes = useEstilos({
 		bordeError: visitaActual.seQuedaAEditar.bordeError,
@@ -286,7 +288,7 @@ const Controles: React.FC<Props> = ({
 					/>
 				</IconButton>
 			</Box>
-			{producto.esVentaSubunidades && (
+			{validacionPermiteSubUnidades && (
 				<Box width='100%'>
 					<Box
 						display='flex'
