@@ -10,6 +10,7 @@ interface Props {
 	statefocusId: any;
 	stateBeneficiosProductos: any;
 	promocionAplicada: boolean;
+	promocionAutomatica: boolean;
 }
 
 export const TarjetaPromociones: React.FC<Props> = ({
@@ -17,6 +18,7 @@ export const TarjetaPromociones: React.FC<Props> = ({
 	statefocusId,
 	stateBeneficiosProductos,
 	promocionAplicada,
+	promocionAutomatica,
 }) => {
 	const datos = useObtenerDatos();
 	const [productoActual, setProductoActual] = React.useState<TProducto>();
@@ -35,6 +37,7 @@ export const TarjetaPromociones: React.FC<Props> = ({
 						unidadMedida={producto.unidadMedida}
 					/>
 					<Controles
+						promocionAutomatica={promocionAutomatica}
 						promocionAplicada={promocionAplicada}
 						statefocusId={statefocusId}
 						producto={productoActual}

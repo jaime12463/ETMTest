@@ -11,7 +11,10 @@ import {
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
 import {TProductosUsadosEnOtrasPromos} from 'utils/procesos/promociones';
-import {TPromoOngoingDisponibilidad} from 'utils/procesos/promociones/PromocionesOngoing';
+import {
+	PromocionesOngoing,
+	TPromoOngoingDisponibilidad,
+} from 'utils/procesos/promociones/PromocionesOngoing';
 import {TarjetaPromociones} from './TarjetaPromociones';
 import {createStyles, makeStyles, styled} from '@material-ui/styles';
 import {
@@ -53,6 +56,7 @@ const useEstilos = makeStyles((theme: Theme) =>
 );
 
 export interface CardProps {
+	promocionesOngoing: PromocionesOngoing;
 	promocionAutomatica?: boolean;
 	tipo?: 'contado' | 'credito';
 	soloLectura?: boolean;
@@ -86,6 +90,7 @@ export const Card: React.VFC<CardProps> = ({
 	tipo,
 	setBorroPromociones,
 	promosSimilares,
+	promocionesOngoing,
 	setpromosDisponibles,
 	promosDisponibles,
 	setExpandidoexpandido,
@@ -93,7 +98,6 @@ export const Card: React.VFC<CardProps> = ({
 }) => {
 	const [mostrarCheck, setMostrarCheck] = React.useState<boolean>(false);
 	const [bordeColor, setBordeColor] = React.useState<string>('#D9D9D9');
-	const [puedeVerBotonera, setPuedeVerBotonera] = React.useState<boolean>(true);
 	const [esPromoSimilar, setEsPromoSimilar] = React.useState<boolean>(false);
 	const [borroPromocion, setBorroPromocion] = React.useState<boolean>(false);
 	const [focusId, setFocusId] = React.useState<string>('');
@@ -107,6 +111,7 @@ export const Card: React.VFC<CardProps> = ({
 	const {descripcion, promocionID} = promocion;
 	const dispatch = useAppDispatch();
 	const visitaActual = useObtenerVisitaActual();
+	const expandID = `${promocion.promocionID}-${tipo}`;
 
 	const [promocionAplicada, setPromocionAplicada] =
 		React.useState<boolean>(false);
@@ -120,27 +125,6 @@ export const Card: React.VFC<CardProps> = ({
 		if (beneficiosPararAgregar)
 			setBeneficiosProductos([...beneficiosPararAgregar.productos]);
 	}, [beneficiosPararAgregar]);
-
-	React.useEffect(() => {
-		promocionAutomatica
-			? setPuedeVerBotonera(false)
-			: mostrarCheck
-			? setPuedeVerBotonera(false)
-			: esPromoSimilar
-			? setPuedeVerBotonera(false)
-			: promocionSinDisponibile
-			? setPuedeVerBotonera(false)
-			: setPuedeVerBotonera(true);
-	}, [
-		promocionAutomatica,
-		mostrarCheck,
-		esPromoSimilar,
-		visitaActual.promosOngoing,
-		promocionSinDisponibile,
-		promosDisponibles,
-		borroPromociones,
-		borroPromocion,
-	]);
 
 	React.useEffect(() => {
 		if (promosSimilares && !promocionAutomatica) {
@@ -273,15 +257,9 @@ export const Card: React.VFC<CardProps> = ({
 		}
 	}, [promocionAutomatica]);
 
-	console.log({beneficiosPararAgregar, promocion});
-
 	const manejadorExpandido = (id: string | boolean) => {
 		setExpandidoexpandido(id);
 	};
-
-	console.log([
-		...promocion?.beneficios?.map((beneficio) => beneficio.descripcion),
-	]);
 
 	return (
 		<CardMUI
@@ -293,23 +271,19 @@ export const Card: React.VFC<CardProps> = ({
 			<Box border={`1px solid ${bordeColor}`} borderRadius='8px'>
 				<Box
 					align-items='center'
-					color={
-						expandido === promocion.promocionID.toString() ? '#fff' : '#000'
-					}
+					color={expandido === expandID ? '#fff' : '#000'}
 					borderRadius='4px 4px 0 0 '
 					display='flex'
 					flexDirection='column'
 					justifyContent='space-between'
 					padding={
-						expandido === promocion.promocionID.toString()
+						expandido === expandID
 							? '12px 14px 12px 14px'
 							: '12px 14px 8px 14px'
 					}
 					sx={{
 						background:
-							expandido === promocion.promocionID.toString()
-								? theme.palette.secondary.light
-								: 'none',
+							expandido === expandID ? theme.palette.secondary.light : 'none',
 						borderBottom: 'none',
 						transition: 'all 0.3s ease-in-out',
 					}}
@@ -351,11 +325,7 @@ export const Card: React.VFC<CardProps> = ({
 					)}
 				</Box>
 
-				<Collapse
-					in={expandido === promocion.promocionID.toString()}
-					timeout='auto'
-					unmountOnExit
-				>
+				<Collapse in={expandido === expandID} timeout='auto' unmountOnExit>
 					<Box
 						borderBottom='none'
 						borderTop='none'
@@ -418,16 +388,22 @@ export const Card: React.VFC<CardProps> = ({
 							<Box>
 								<Button
 									onClick={onClick}
-									disabled={promocionAplicada}
+									disabled={promocionAplicada || promocionAutomatica}
 									sx={{
-										border: promocionAplicada ? 'none' : `1px solid #651C32`,
+										border:
+											promocionAplicada || promocionAutomatica
+												? 'none'
+												: `1px solid #651C32`,
 										borderRadius: '50px',
 										display: 'flex',
 										gap: '4px',
 										padding: '4px 12px',
 										width: '276px',
 										height: '33px',
-										backgroundColor: promocionAplicada ? '#D9D9D9' : '#fff',
+										backgroundColor:
+											promocionAplicada || promocionAutomatica
+												? '#D9D9D9'
+												: '#fff',
 										textTransform: 'none',
 										'&:hover': {
 											background: 'none',
@@ -436,7 +412,9 @@ export const Card: React.VFC<CardProps> = ({
 									data-cy={`boton-aplicarPromocion`}
 								>
 									<Typography
-										color={promocionAplicada ? '' : '#8A4C5F'}
+										color={
+											promocionAplicada || promocionAutomatica ? '' : '#8A4C5F'
+										}
 										fontSize={'12px'}
 										variant='subtitle3'
 										fontFamily='Poppins'
@@ -458,6 +436,7 @@ export const Card: React.VFC<CardProps> = ({
 						<TarjetaPromociones
 							key={producto.codigoProducto}
 							promocionAplicada={promocionAplicada}
+							promocionAutomatica={promocionAutomatica}
 							producto={producto}
 							statefocusId={{focusId, setFocusId}}
 							stateBeneficiosProductos={{
@@ -471,9 +450,7 @@ export const Card: React.VFC<CardProps> = ({
 
 				<Box
 					padding={
-						expandido === promocion.promocionID.toString()
-							? '0 14px 12px 14px'
-							: '0 14px 12px 14px'
+						expandido === expandID ? '0 14px 12px 14px' : '0 14px 12px 14px'
 					}
 					sx={{
 						borderTop: 'none',
@@ -495,32 +472,21 @@ export const Card: React.VFC<CardProps> = ({
 						fullWidth
 						disableRipple
 						onClick={() =>
-							manejadorExpandido(
-								expandido === promocion.promocionID.toString()
-									? false
-									: promocion.promocionID.toString()
-							)
+							manejadorExpandido(expandido === expandID ? false : expandID)
 						}
 					>
 						<CardActions disableSpacing style={{padding: 0}}>
 							<Box display='flex' gap='6px' alignItems='center'>
 								<Typography variant='caption' color='secondary'>
-									{expandido !== promocion.promocionID.toString()
+									{expandido !== expandID
 										? t('general.verDetalle')
 										: t('general.ocultarDetalle')}
 								</Typography>
 								<Box
 									className={clsx(classes.expand, {
-										[classes.expandOpen]:
-											expandido === promocion.promocionID.toString()
-												? true
-												: false,
+										[classes.expandOpen]: expandido === expandID ? true : false,
 									})}
-									aria-expanded={
-										expandido === promocion.promocionID.toString()
-											? true
-											: false
-									}
+									aria-expanded={expandido === expandID ? true : false}
 									style={{padding: 0}}
 								>
 									<FlechaAbajoIcon width='10px' height='10px' />
