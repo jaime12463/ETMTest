@@ -17,6 +17,7 @@ import {
 	TDetalleBonificacionesCliente,
 	TPrecioProducto,
 	TProducto,
+	TProductosPromoOngoingAplicadas,
 } from 'models';
 import Modal from 'components/UI/Modal';
 import {useMostrarAviso} from 'hooks';
@@ -31,7 +32,7 @@ interface Props {
 	};
 	unidadMedida: string;
 	statefocusId: any;
-
+	stateBeneficiosParaAgregar: any;
 	promocionAplicada: boolean;
 	promocionAutomatica: boolean;
 }
@@ -40,18 +41,41 @@ export const Controles: React.FC<Props> = ({
 	producto,
 	unidadMedida,
 	statefocusId,
-
+	stateBeneficiosParaAgregar,
 	promocionAplicada,
 	promocionAutomatica,
 }) => {
 	const {focusId, setFocusId} = statefocusId;
-
+	const {beneficiosParaAgregar, setBeneficiosParaAgregar} =
+		stateBeneficiosParaAgregar;
 	const [productoOriginal, setProductoOriginal] = React.useState<any>();
-	const [cantidad, setCantidad] = React.useState<number>(0);
+	const [cantidadActual, setCantidadActual] = React.useState<number>(0);
 	const [puedeVerBotones, setPuedeVerBotones] = React.useState<boolean>(false);
 	const [classes, setClasses] = React.useState<any>(
 		useEstilos({errorAplicacionTotal: false, puedeVerBotones})
 	);
+
+	React.useEffect(() => {
+		if (beneficiosParaAgregar) {
+			const productoActualizar = beneficiosParaAgregar.productos.find(
+				(productoEnPromocion: TProductosPromoOngoingAplicadas) =>
+					productoEnPromocion.codigoProducto === producto.codigoProducto
+			);
+
+			const productosFiltrado = beneficiosParaAgregar.productos.filter(
+				(producto: TProductosPromoOngoingAplicadas) =>
+					producto.codigoProducto !== productoActualizar.codigoProducto
+			);
+
+			setBeneficiosParaAgregar({
+				...beneficiosParaAgregar,
+				productos: productosFiltrado.concat({
+					...productoActualizar,
+					cantidad: cantidadActual,
+				}),
+			});
+		}
+	}, [cantidadActual]);
 
 	React.useEffect(() => {
 		if (promocionAplicada || promocionAutomatica) {
@@ -63,25 +87,25 @@ export const Controles: React.FC<Props> = ({
 
 	React.useEffect(() => {
 		if (producto) {
-			setCantidad(producto.cantidad);
+			setCantidadActual(producto.cantidad);
 			setProductoOriginal(producto);
 		}
-	}, [producto]);
+	}, []);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setCantidad(Number(e.target.value.replace(/[^0-9]/g, '')));
+		setCantidadActual(Number(e.target.value.replace(/[^0-9]/g, '')));
 	};
 
 	const handleButtons = (e: React.MouseEvent<HTMLButtonElement>) => {
 		const {name} = e.currentTarget;
 
 		if (name === '-') {
-			setCantidad((prevCantidad) => {
+			setCantidadActual((prevCantidad) => {
 				return prevCantidad - 1;
 			});
 		}
 		if (name === '+') {
-			setCantidad((prevCantidad) => {
+			setCantidadActual((prevCantidad) => {
 				return prevCantidad + 1;
 			});
 		}
@@ -107,19 +131,19 @@ export const Controles: React.FC<Props> = ({
 								sx={{marginLeft: '2px', padding: 0}}
 								name='-'
 								onClick={handleButtons}
-								disabled={cantidad === 0}
+								disabled={cantidadActual === 0}
 							>
 								<QuitarRellenoIcon
 									height='18px'
 									width='18px'
-									disabled={cantidad === 0}
+									disabled={cantidadActual === 0}
 								/>
 							</IconButton>
 						)}
 						<Input
 							autoComplete='off'
 							className={classes.input}
-							value={cantidad}
+							value={cantidadActual}
 							onChange={handleChange}
 							disableUnderline
 							name='unidades'
@@ -141,12 +165,12 @@ export const Controles: React.FC<Props> = ({
 								size='small'
 								name='+'
 								onClick={handleButtons}
-								disabled={cantidad >= productoOriginal.tope}
+								disabled={cantidadActual >= productoOriginal.tope}
 							>
 								<AgregarRedondoIcon
 									width='18px'
 									height='18px'
-									disabled={cantidad >= productoOriginal.tope}
+									disabled={cantidadActual >= productoOriginal.tope}
 								/>
 							</IconButton>
 						)}

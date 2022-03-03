@@ -3,6 +3,7 @@ import {CheckRedondoIcon, FlechaAbajoIcon} from 'assests/iconos';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {
+	EFormaDeAplicacion,
 	ETiposDePago,
 	TProductosPromoOngoingAplicadas,
 	TPromoOngoing,
@@ -136,6 +137,12 @@ export const Card: React.VFC<CardProps> = ({
 			setSecuenciaSelect(
 				promocion.beneficios[0].secuencias[0].secuencia.toString()
 			);
+
+			/*   promocionID: number;
+    aplicacion: EFormaDeAplicacion;
+    productos: TProductosPromoOngoingAplicadas[];
+    tipoPago: ETiposDePago;
+    descripcion: string; */
 		}
 	}, []);
 
@@ -151,8 +158,25 @@ export const Card: React.VFC<CardProps> = ({
 			setSecuenciaSelect(
 				promocion.beneficios[indexGrupo].secuencias[0].secuencia.toString()
 			);
+			setBeneficiosParaAgregar({
+				promocionID,
+				tipoPago,
+				descripcion: '',
+				aplicacion: EFormaDeAplicacion.Manual,
+				productos: promocion.beneficios[
+					indexGrupo
+				].secuencias[0].materialesBeneficio.map((producto) => ({
+					tipoPago,
+					codigoProducto: producto,
+					unidadMedida: 'Unidad',
+					cantidad: promocion.beneficios[indexGrupo].secuencias[0].cantidad,
+					descripcion: '',
+				})),
+			});
 		}
 	}, [gruposSelect]);
+
+	console.log({beneficiosParaAgregar});
 
 	React.useEffect(() => {
 		if (promosSimilares && !promocionAutomatica) {
@@ -225,27 +249,18 @@ export const Card: React.VFC<CardProps> = ({
 				aplicada: true,
 			});
 
-			/* 	if (promocion) {
+			if (promocion && beneficiosParaAgregar) {
 				dispatch(
 					agregarBeneficiosPromoOngoing({
-						beneficios: visitaActual.promosOngoing.concat({
-							codigoProducto:
-								400,
-							tope: promocion.beneficios[grupoYSecuenciaActual.grupo]
-								.secuencias[grupoYSecuenciaActual.secuencia].tope,
-							tipoPago,
-							cantidad:
-								promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
-									grupoYSecuenciaActual.secuencia
-								].cantidad,
-							unidadMedida:
-								promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
-									grupoYSecuenciaActual.secuencia
-								].unidadMedida,
-						}),
+						beneficios: [
+							...visitaActual.promosOngoing,
+							{
+								...beneficiosParaAgregar,
+							},
+						],
 					})
 				);
-			}   */
+			}
 			if (promosDisponibles && setpromosDisponibles) {
 				setpromosDisponibles({
 					...promosDisponibles,
@@ -285,13 +300,13 @@ export const Card: React.VFC<CardProps> = ({
 		setExpandidoexpandido(id);
 	};
 
-	console.log(promocion);
+	/* 	console.log(promocion);
 
 	console.log(
 		promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
 			grupoYSecuenciaActual.secuencia
 		]
-	);
+	); */
 
 	return (
 		<CardMUI
@@ -477,6 +492,10 @@ export const Card: React.VFC<CardProps> = ({
 							key={producto}
 							promocionAplicada={promocionAplicada}
 							promocionAutomatica={promocionAutomatica}
+							stateBeneficiosParaAgregar={{
+								beneficiosParaAgregar,
+								setBeneficiosParaAgregar,
+							}}
 							producto={{
 								codigoProducto: producto,
 								tope: promocion.beneficios[grupoYSecuenciaActual.grupo]
