@@ -11,11 +11,10 @@ import {
 } from 'models';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
+
 import {
 	TProductosUsadosEnOtrasPromos,
 	TPromoOngoingAplicables,
-} from 'utils/procesos/promociones';
-import {
 	PromocionesOngoing,
 	TPromoOngoingDisponibilidad,
 } from 'utils/procesos/promociones/PromocionesOngoing';

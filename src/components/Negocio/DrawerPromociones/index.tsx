@@ -19,12 +19,10 @@ import {
 } from 'redux/hooks';
 import {borrarPromocionesOngoing} from 'redux/features/visitaActual/visitaActualSlice';
 import React, {useReducer} from 'react';
+
 import {
 	TPromoOngoingAplicables,
 	TPromoOngoingAplicablesResultado,
-} from 'utils/procesos/promociones';
-
-import {
 	TPromoOngoingDisponibilidad,
 	PromocionesOngoing,
 } from 'utils/procesos/promociones/PromocionesOngoing';

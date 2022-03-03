@@ -82,7 +82,7 @@ export type  TPromocionesOngoingCalcularResultado = {
     benficiosParaAgregar: TPromoOngoingAplicadas[],
     disponibles: TPromoOngoingDisponibilidad,
 };
-
+ 
 export class PromocionesOngoing {
 	private static instance: PromocionesOngoing;
 
@@ -464,7 +464,8 @@ export class PromocionesOngoing {
 		let TotalUnidades = 0;
 		let TotalSubUnidades = 0;
 		let lista: TProductosUsadosEnOtrasPromos = {};
-		requisito.materiales.forEach((material) => {
+		const materiales =requisito.materiales as number[]; 
+		materiales.forEach((material) => {
 			if (productosIndex[material] && !productosUsadosEnOtrasPromos[material]) {
 				TotalUnidades +=
 					productosIndex[material].unidades - productosIndex[material].aplicado;

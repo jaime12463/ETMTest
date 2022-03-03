@@ -47,6 +47,11 @@ export enum EFormaDeAsignacion {
 	Parcial="P"
 }
 
+export type TCodigoCantidad = {
+	codigo:number | string,
+	cantidad:number
+}
+
 export type TPromoOngoing = {
 	promocionID: number;
 	descripcion: string;
@@ -62,7 +67,7 @@ export type TPromoOngoing = {
 export type TListaPromoOngoing = Record<number, TPromoOngoing>;
 
 export type TPromoOngoingRequisitos= {
-	materiales: number[];
+	materiales: number[] | TCodigoCantidad[];
 	cantidad: number;
 	unidadMedida: string;
 	conector?: string;
