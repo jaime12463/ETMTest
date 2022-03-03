@@ -405,6 +405,7 @@ export class PromocionesOngoing {
 
 						this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++;
 					} else {
+						grupoDeBeneficios=[...grupoDeBeneficiosResultado];
 						productosUsadosEnOtrasPromosManuales =
 							this.comprometerProductosUsadosEnPromos(
 								materialesRequisitosVerificados,
