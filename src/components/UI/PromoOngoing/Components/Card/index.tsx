@@ -104,7 +104,8 @@ export const Card: React.VFC<CardProps> = ({
 	const [esPromoSimilar, setEsPromoSimilar] = React.useState<boolean>(false);
 	const [borroPromocion, setBorroPromocion] = React.useState<boolean>(false);
 	const [focusId, setFocusId] = React.useState<string>('');
-
+	const [beneficiosParaAgregar, setBeneficiosParaAgregar] =
+		React.useState<TPromoOngoingAplicadas>();
 	const [gruposSelect, setGruposSelect] = React.useState<string>('');
 	const [grupoYSecuenciaActual, setGrupoYSecuenciaActual] = React.useState<{
 		grupo: number;
@@ -219,8 +220,12 @@ export const Card: React.VFC<CardProps> = ({
 			setMostrarCheck(true);
 			setBordeColor(theme.palette.success.main);
 			setPromocionAplicada(true);
-			promocionesOngoing.aplicarPromo(tipoPago, index, promocion);
-			/* 		if (promocion) {
+			promocionesOngoing.aplicarPromo(tipoPago, index, {
+				...promocion,
+				aplicada: true,
+			});
+
+			/* 	if (promocion) {
 				dispatch(
 					agregarBeneficiosPromoOngoing({
 						beneficios: visitaActual.promosOngoing.concat({
@@ -240,7 +245,7 @@ export const Card: React.VFC<CardProps> = ({
 						}),
 					})
 				);
-			}  */
+			}   */
 			if (promosDisponibles && setpromosDisponibles) {
 				setpromosDisponibles({
 					...promosDisponibles,
