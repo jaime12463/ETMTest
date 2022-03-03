@@ -10,7 +10,10 @@ import {
 } from 'models';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
-import {TProductosUsadosEnOtrasPromos} from 'utils/procesos/promociones';
+import {
+	TProductosUsadosEnOtrasPromos,
+	TPromoOngoingAplicables,
+} from 'utils/procesos/promociones';
 import {
 	PromocionesOngoing,
 	TPromoOngoingDisponibilidad,
@@ -62,13 +65,13 @@ export interface CardProps {
 	soloLectura?: boolean;
 	setExpandidoexpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
 	expandido: string | boolean;
-	beneficiosPararAgregar?: TPromoOngoingAplicadas;
-	promocion: TPromoOngoing;
+	promocion: TPromoOngoing & TPromoOngoingAplicables;
 	promosSimilares?: TProductosUsadosEnOtrasPromos;
 	borroPromociones?: {
 		credito: boolean;
 		contado: boolean;
 	};
+	index: number;
 	promosDisponibles?: TPromoOngoingDisponibilidad;
 	setpromosDisponibles?: React.Dispatch<
 		React.SetStateAction<TPromoOngoingDisponibilidad>
@@ -84,7 +87,6 @@ export interface CardProps {
 export const Card: React.VFC<CardProps> = ({
 	promocionAutomatica = false,
 	soloLectura = false,
-	beneficiosPararAgregar,
 	promocion,
 	borroPromociones,
 	tipo,
@@ -95,18 +97,23 @@ export const Card: React.VFC<CardProps> = ({
 	promosDisponibles,
 	setExpandidoexpandido,
 	expandido,
+	index,
 }) => {
 	const [mostrarCheck, setMostrarCheck] = React.useState<boolean>(false);
 	const [bordeColor, setBordeColor] = React.useState<string>('#D9D9D9');
 	const [esPromoSimilar, setEsPromoSimilar] = React.useState<boolean>(false);
 	const [borroPromocion, setBorroPromocion] = React.useState<boolean>(false);
 	const [focusId, setFocusId] = React.useState<string>('');
-	const [beneficiosProductos, setBeneficiosProductos] = React.useState<
-		TProductosPromoOngoingAplicadas[]
-	>([]);
-	const [beneficiosSelect, setBeneficiosSelect] = React.useState<string>('');
+
+	const [gruposSelect, setGruposSelect] = React.useState<string>('');
+	const [grupoYSecuenciaActual, setGrupoYSecuenciaActual] = React.useState<{
+		grupo: number;
+		secuencia: number;
+	}>({grupo: 0, secuencia: 0});
+	const [secuenciaSelect, setSecuenciaSelect] = React.useState<string>('');
 	const [promocionSinDisponibile, setPromocionSinDisponibile] =
 		React.useState<boolean>(false);
+
 	const {t} = useTranslation();
 	const {descripcion, promocionID} = promocion;
 	const dispatch = useAppDispatch();
@@ -122,9 +129,29 @@ export const Card: React.VFC<CardProps> = ({
 		tipo === 'contado' ? ETiposDePago.Contado : ETiposDePago.Credito;
 
 	React.useEffect(() => {
-		if (beneficiosPararAgregar)
-			setBeneficiosProductos([...beneficiosPararAgregar.productos]);
-	}, [beneficiosPararAgregar]);
+		if (promocion) {
+			setGruposSelect(promocion.beneficios[0].descripcion);
+			setGrupoYSecuenciaActual({grupo: 0, secuencia: 0});
+			setSecuenciaSelect(
+				promocion.beneficios[0].secuencias[0].secuencia.toString()
+			);
+		}
+	}, []);
+
+	React.useEffect(() => {
+		if (promocion && gruposSelect !== '') {
+			const indexGrupo = promocion.beneficios.findIndex(
+				(grupo) =>
+					grupo.descripcion.toLowerCase() === gruposSelect.toLowerCase()
+			);
+
+			setGrupoYSecuenciaActual({grupo: indexGrupo, secuencia: 0});
+
+			setSecuenciaSelect(
+				promocion.beneficios[indexGrupo].secuencias[0].secuencia.toString()
+			);
+		}
+	}, [gruposSelect]);
 
 	React.useEffect(() => {
 		if (promosSimilares && !promocionAutomatica) {
@@ -187,41 +214,33 @@ export const Card: React.VFC<CardProps> = ({
 		}
 	}, [borroPromociones]);
 
-	/* React.useEffect(() => {
-		setBorroPromocion(true);
-		if (!promocionAutomatica && borroPromocion) {
-			if (promocionAplicada) {
-				if (promosDisponibles && setpromosDisponibles) {
-					setpromosDisponibles({
-						...promosDisponibles,
-						[Number(promocionID)]: {
-							disponibles: promosDisponibles[Number(promocionID)].disponibles,
-							aplicadas: promosDisponibles[Number(promocionID)].aplicadas + 1,
-						},
-					});
-
-					setBorroPromocion(false);
-				}
-			} else {
-				setPromocionAplicada(false);
-			}
-		}
-	}, [borroPromociones]); */
-
 	const onClick = () => {
 		if (!promocionAplicada) {
 			setMostrarCheck(true);
 			setBordeColor(theme.palette.success.main);
 			setPromocionAplicada(true);
-			if (beneficiosPararAgregar) {
+			promocionesOngoing.aplicarPromo(tipoPago, index, promocion);
+			/* 		if (promocion) {
 				dispatch(
 					agregarBeneficiosPromoOngoing({
-						beneficios: visitaActual.promosOngoing.concat(
-							beneficiosPararAgregar
-						),
+						beneficios: visitaActual.promosOngoing.concat({
+							codigoProducto:
+								400,
+							tope: promocion.beneficios[grupoYSecuenciaActual.grupo]
+								.secuencias[grupoYSecuenciaActual.secuencia].tope,
+							tipoPago,
+							cantidad:
+								promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
+									grupoYSecuenciaActual.secuencia
+								].cantidad,
+							unidadMedida:
+								promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
+									grupoYSecuenciaActual.secuencia
+								].unidadMedida,
+						}),
 					})
 				);
-			}
+			}  */
 			if (promosDisponibles && setpromosDisponibles) {
 				setpromosDisponibles({
 					...promosDisponibles,
@@ -260,6 +279,14 @@ export const Card: React.VFC<CardProps> = ({
 	const manejadorExpandido = (id: string | boolean) => {
 		setExpandidoexpandido(id);
 	};
+
+	console.log(promocion);
+
+	console.log(
+		promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
+			grupoYSecuenciaActual.secuencia
+		]
+	);
 
 	return (
 		<CardMUI
@@ -338,14 +365,14 @@ export const Card: React.VFC<CardProps> = ({
 								</Typography>
 								<Box width='181px' height='24px' mt='8px'>
 									<CustomSelect
-										opcionSeleccionada={beneficiosSelect}
+										opcionSeleccionada={gruposSelect}
 										opciones={[
 											...promocion?.beneficios?.map(
 												(beneficio) => beneficio.descripcion
 											),
 										]}
-										setOpcion={setBeneficiosSelect}
-										dataCy='select-bonificaciones'
+										setOpcion={setGruposSelect}
+										dataCy='select-grupos-promociones'
 									/>
 								</Box>
 							</Box>
@@ -355,10 +382,16 @@ export const Card: React.VFC<CardProps> = ({
 								</Typography>
 								<Box width='81px' height='24px' mt='8px' mb='8px'>
 									<CustomSelect
-										opcionSeleccionada={beneficiosSelect}
-										opciones={[]}
-										setOpcion={setBeneficiosSelect}
-										dataCy='select-bonificaciones'
+										opcionSeleccionada={secuenciaSelect}
+										opciones={[
+											...promocion?.beneficios[
+												grupoYSecuenciaActual.grupo
+											].secuencias?.map((secuencia) =>
+												secuencia?.secuencia?.toString()
+											),
+										]}
+										setOpcion={setSecuenciaSelect}
+										dataCy='select-secuencia-promociones'
 									/>
 								</Box>
 								<Typography
@@ -432,17 +465,28 @@ export const Card: React.VFC<CardProps> = ({
 						</Stack>
 					</Box>
 					<Divider sx={{marginTop: '10px'}} variant='fullWidth' />
-					{beneficiosPararAgregar?.productos.map((producto) => (
+					{promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
+						grupoYSecuenciaActual.secuencia
+					].materialesBeneficio.map((producto) => (
 						<TarjetaPromociones
-							key={producto.codigoProducto}
+							key={producto}
 							promocionAplicada={promocionAplicada}
 							promocionAutomatica={promocionAutomatica}
-							producto={producto}
-							statefocusId={{focusId, setFocusId}}
-							stateBeneficiosProductos={{
-								beneficiosProductos,
-								setBeneficiosProductos,
+							producto={{
+								codigoProducto: producto,
+								tope: promocion.beneficios[grupoYSecuenciaActual.grupo]
+									.secuencias[grupoYSecuenciaActual.secuencia].tope,
+								tipoPago,
+								cantidad:
+									promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
+										grupoYSecuenciaActual.secuencia
+									].cantidad,
+								unidadMedida:
+									promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
+										grupoYSecuenciaActual.secuencia
+									].unidadMedida,
 							}}
+							statefocusId={{focusId, setFocusId}}
 						/>
 					))}
 					<Divider sx={{marginBottom: '10px'}} variant='fullWidth' />

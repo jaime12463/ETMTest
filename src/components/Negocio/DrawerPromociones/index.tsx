@@ -187,7 +187,10 @@ export const DrawerPromociones: React.FC<Props> = ({
 							>
 								<PromoOngoing.CardsContainer>
 									{promocionesOingoing?.credito?.promosAplicables.map(
-										(promocion: TPromoOngoing) => (
+										(
+											promocion: TPromoOngoing & TPromoOngoingAplicables,
+											index
+										) => (
 											<PromoOngoing.Card
 												key={promocion.promocionID}
 												promosSimilares={
@@ -204,11 +207,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 												promosDisponibles={promosDisponibles}
 												setExpandidoexpandido={setExpandidoexpandido}
 												expandido={expandido}
-												beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
-													(promo: TPromoOngoingAplicadas) =>
-														promo.promocionID === promocion.promocionID &&
-														promo.tipoPago === ETiposDePago.Credito
-												)}
+												index={index}
 											/>
 										)
 									)}
@@ -235,7 +234,10 @@ export const DrawerPromociones: React.FC<Props> = ({
 							>
 								<PromoOngoing.CardsContainer>
 									{promocionesOingoing?.contado?.promosAplicables.map(
-										(promocion: TPromoOngoing) => (
+										(
+											promocion: TPromoOngoing & TPromoOngoingAplicables,
+											index
+										) => (
 											<PromoOngoing.Card
 												key={promocion.promocionID}
 												promosSimilares={
@@ -252,11 +254,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 												setExpandidoexpandido={setExpandidoexpandido}
 												expandido={expandido}
 												promosDisponibles={promosDisponibles}
-												beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
-													(promo: TPromoOngoingAplicadas) =>
-														promo.promocionID === promocion.promocionID &&
-														promo.tipoPago === ETiposDePago.Contado
-												)}
+												index={index}
 											/>
 										)
 									)}
@@ -267,17 +265,14 @@ export const DrawerPromociones: React.FC<Props> = ({
 						<PromoOngoing.Container dataCy='No-aplicables'>
 							<PromoOngoing.CardsContainer>
 								{promocionesOingoing?.noAplicable?.map(
-									(promocion: TPromoOngoing) => (
+									(promocion: any, index) => (
 										<PromoOngoing.Card
 											key={promocion.promocionID}
 											promocionesOngoing={promocionesOngoing}
 											setExpandidoexpandido={setExpandidoexpandido}
 											expandido={expandido}
 											promocion={promocion}
-											beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
-												(promo: TPromoOngoingAplicadas) =>
-													promo.promocionID === promocion.promocionID
-											)}
+											index={index}
 											soloLectura
 										/>
 									)
