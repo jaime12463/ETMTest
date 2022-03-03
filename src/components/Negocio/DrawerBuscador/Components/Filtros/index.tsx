@@ -5,8 +5,10 @@ import IconButton from '@mui/material/IconButton';
 import theme from 'theme';
 import {BorrarIcon, FlechaArribaIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
-import {FiltrosBusqueda, ItemsBusqueda} from '../..';
-
+import {
+	FiltrosBusqueda,
+	ItemsBusqueda,
+} from 'hooks/useObtenerFiltrosDelCliente';
 interface Props {
 	filtrosBusqueda: FiltrosBusqueda;
 	setFiltrosBusqueda: React.Dispatch<React.SetStateAction<FiltrosBusqueda>>;

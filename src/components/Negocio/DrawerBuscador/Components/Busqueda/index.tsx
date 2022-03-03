@@ -2,7 +2,6 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import {ResultadoBusqueda} from '../..';
 import {BusquedaSinResultados} from 'assests/iconos/BusquedaSinResultados';
 import {useTranslation} from 'react-i18next';
 import useEstilos from '../../useEstilos';
@@ -12,14 +11,11 @@ import {
 	useObtenerClienteActual,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {TProductoPedido} from 'models';
+import {TPrecioProducto, TProductoPedido} from 'models';
 import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 
 interface Props {
-	resultadosBusqueda: ResultadoBusqueda[];
-	setResultadosBusqueda: React.Dispatch<
-		React.SetStateAction<ResultadoBusqueda[]>
-	>;
+	resultadosBusqueda: TPrecioProducto[];
 	debouncedInput: string;
 	setOpenBuscador: React.Dispatch<React.SetStateAction<boolean>>;
 	setInputBusqueda: React.Dispatch<React.SetStateAction<string>>;
@@ -27,7 +23,6 @@ interface Props {
 
 const Busqueda: React.FC<Props> = ({
 	resultadosBusqueda,
-	setResultadosBusqueda,
 	debouncedInput,
 	setOpenBuscador,
 	setInputBusqueda,
@@ -42,29 +37,27 @@ const Busqueda: React.FC<Props> = ({
 
 	const dispatch = useAppDispatch();
 
+	const [codigosProductos, setCodigosProductos] = React.useState<number[]>([]);
+
+	React.useEffect(() => {
+		setCodigosProductos([]);
+	}, [resultadosBusqueda]);
+
 	const onChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const {value} = e.target;
+		const {value, checked} = e.target;
 
-		setResultadosBusqueda(
-			resultadosBusqueda.map((producto) => {
-				// Se mapea el array de busqueda y se cambia el checked del producto seleccionado
-				if (producto.codigoProducto === Number(value)) {
-					return {...producto, checked: !producto.checked};
-				}
+		if (checked) {
+			setCodigosProductos([...codigosProductos, +value]);
+			return;
+		}
 
-				return producto;
-			})
-		);
+		setCodigosProductos(codigosProductos.filter((codigo) => codigo !== +value));
 	};
 
 	const agregarProductosAlPedido = () => {
 		// Filtramos los productos seleccionados
 		const productosParaAgregar = resultadosBusqueda.filter((producto) => {
-			if (producto.checked) {
-				const {checked, ...productoSinCheck} = producto;
-
-				return productoSinCheck;
-			}
+			return codigosProductos.includes(producto.codigoProducto);
 		});
 
 		for (const producto of productosParaAgregar) {
@@ -120,7 +113,7 @@ const Busqueda: React.FC<Props> = ({
 						gap='14px'
 						padding='20px 14px'
 					>
-						{resultadosBusqueda.map((producto: ResultadoBusqueda) => {
+						{resultadosBusqueda.map((producto: TPrecioProducto) => {
 							return (
 								<Box
 									alignItems='center'
@@ -135,7 +128,7 @@ const Busqueda: React.FC<Props> = ({
 										className={classes.inputCheckbox}
 										value={producto.codigoProducto}
 										onChange={onChangeCheckbox}
-										checked={producto.checked}
+										// checked={producto.checked}
 									/>
 									<label htmlFor={producto.nombreProducto}>
 										<Typography
@@ -169,11 +162,9 @@ const Busqueda: React.FC<Props> = ({
 							onClick={agregarProductosAlPedido}
 							sx={{
 								padding: 0,
-								opacity: resultadosBusqueda.some((producto) => producto.checked)
-									? 1
-									: 0.5,
+								opacity: codigosProductos.length > 0 ? 1 : 0.5,
 							}}
-							disabled={resultadosBusqueda.length === 0}
+							disabled={codigosProductos.length === 0}
 						>
 							<Box className={classes.button}>
 								<Typography
@@ -189,7 +180,7 @@ const Busqueda: React.FC<Props> = ({
 				</>
 			)}
 
-			{debouncedInput.length < 3 && (
+			{debouncedInput.length < 3 && resultadosBusqueda.length === 0 && (
 				<Box display='flex' justifyContent='center' padding='103px 0 0 0'>
 					<Typography
 						variant='subtitle2'
