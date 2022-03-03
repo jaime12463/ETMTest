@@ -36,3 +36,4 @@ export {useDebounce} from './useDebounce';
 export {useValidarTipoPedidosRealizadosSegunConfiguracion} from './useValidarTipoPedidosRealizadosSegunConfiguracion';
 export {useFiltradorProductos} from './useFiltradorProductos';
 export {useObtenerFiltrosDelCliente} from './useObtenerFiltrosDelCliente';
+export {useValidacionPermiteSubUnidades} from './useValidacionPermiteSubUnidades';

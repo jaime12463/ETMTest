@@ -13,70 +13,102 @@ import useEstilos from './useEstilos';
 import theme from 'theme';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {
+	ETiposDePago,
 	TDetalleBonificacionesCliente,
 	TPrecioProducto,
 	TProducto,
+	TProductosPromoOngoingAplicadas,
 } from 'models';
 import Modal from 'components/UI/Modal';
 import {useMostrarAviso} from 'hooks';
 
 interface Props {
-	producto: TProducto;
+	producto: {
+		cantidad: number;
+		codigoProducto: number;
+		tope: number;
+		tipoPago: ETiposDePago;
+		unidadMedida: string;
+	};
 	unidadMedida: string;
 	statefocusId: any;
-	stateBeneficiosProductos: any;
+	stateBeneficiosParaAgregar: any;
 	promocionAplicada: boolean;
+	promocionAutomatica: boolean;
 }
 
 export const Controles: React.FC<Props> = ({
 	producto,
 	unidadMedida,
 	statefocusId,
-	stateBeneficiosProductos,
+	stateBeneficiosParaAgregar,
 	promocionAplicada,
+	promocionAutomatica,
 }) => {
-	//const classes = useEstilos({errorAplicacionTotal: false, promocionAplicada});
-
-	const [classes, setClasses] = React.useState<any>(
-		useEstilos({errorAplicacionTotal: false, promocionAplicada})
-	);
 	const {focusId, setFocusId} = statefocusId;
-	const {beneficiosProductos, setBeneficiosProductos} =
-		stateBeneficiosProductos;
+	const {beneficiosParaAgregar, setBeneficiosParaAgregar} =
+		stateBeneficiosParaAgregar;
 	const [productoOriginal, setProductoOriginal] = React.useState<any>();
-	const [cantidad, setCantidad] = React.useState<number>(0);
+	const [cantidadActual, setCantidadActual] = React.useState<number>(0);
+	const [puedeVerBotones, setPuedeVerBotones] = React.useState<boolean>(false);
+	const [classes, setClasses] = React.useState<any>(
+		useEstilos({errorAplicacionTotal: false, puedeVerBotones})
+	);
 
 	React.useEffect(() => {
-		if (beneficiosProductos) {
-			let productoEnBeneficio = beneficiosProductos.find(
-				(productoBeneficio: any) =>
-					productoBeneficio.codigoProducto === producto.codigoProducto
+		if (beneficiosParaAgregar) {
+			const productoActualizar = beneficiosParaAgregar.productos.find(
+				(productoEnPromocion: TProductosPromoOngoingAplicadas) =>
+					productoEnPromocion.codigoProducto === producto.codigoProducto
 			);
 
-			setCantidad(productoEnBeneficio.cantidad);
-			setProductoOriginal(productoEnBeneficio);
+			const productosFiltrado = beneficiosParaAgregar.productos.filter(
+				(producto: TProductosPromoOngoingAplicadas) =>
+					producto.codigoProducto !== productoActualizar.codigoProducto
+			);
+
+			setBeneficiosParaAgregar({
+				...beneficiosParaAgregar,
+				productos: productosFiltrado.concat({
+					...productoActualizar,
+					cantidad: cantidadActual,
+				}),
+			});
 		}
-	}, [stateBeneficiosProductos]);
+	}, [cantidadActual]);
+
+	React.useEffect(() => {
+		if (promocionAplicada || promocionAutomatica) {
+			setPuedeVerBotones(false);
+		} else {
+			setPuedeVerBotones(true);
+		}
+	}, [promocionAutomatica, promocionAplicada]);
+
+	React.useEffect(() => {
+		if (producto) {
+			setCantidadActual(producto.cantidad);
+			setProductoOriginal(producto);
+		}
+	}, []);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setCantidad(Number(e.target.value.replace(/[^0-9]/g, '')));
+		setCantidadActual(Number(e.target.value.replace(/[^0-9]/g, '')));
 	};
 
 	const handleButtons = (e: React.MouseEvent<HTMLButtonElement>) => {
 		const {name} = e.currentTarget;
 
 		if (name === '-') {
-			setCantidad((prevCantidad) => {
+			setCantidadActual((prevCantidad) => {
 				return prevCantidad - 1;
 			});
 		}
 		if (name === '+') {
-			setCantidad((prevCantidad) => {
+			setCantidadActual((prevCantidad) => {
 				return prevCantidad + 1;
 			});
 		}
-
-		//setFocusId(productoOriginal.codigoProducto.toString());
 	};
 
 	return (
@@ -94,24 +126,24 @@ export const Controles: React.FC<Props> = ({
 						) : (
 							<BotellaIcon height='18px' width='18px' />
 						)}
-						{!promocionAplicada && (
+						{puedeVerBotones && (
 							<IconButton
 								sx={{marginLeft: '2px', padding: 0}}
 								name='-'
 								onClick={handleButtons}
-								disabled={cantidad === 0}
+								disabled={cantidadActual === 0}
 							>
 								<QuitarRellenoIcon
 									height='18px'
 									width='18px'
-									disabled={cantidad === 0}
+									disabled={cantidadActual === 0}
 								/>
 							</IconButton>
 						)}
 						<Input
 							autoComplete='off'
 							className={classes.input}
-							value={cantidad}
+							value={cantidadActual}
 							onChange={handleChange}
 							disableUnderline
 							name='unidades'
@@ -127,18 +159,18 @@ export const Controles: React.FC<Props> = ({
 								inputMode: 'numeric',
 							}}
 						/>
-						{!promocionAplicada && (
+						{puedeVerBotones && (
 							<IconButton
 								sx={{padding: '0'}}
 								size='small'
 								name='+'
 								onClick={handleButtons}
-								disabled={cantidad >= productoOriginal.cantidad}
+								disabled={cantidadActual >= productoOriginal.tope}
 							>
 								<AgregarRedondoIcon
 									width='18px'
 									height='18px'
-									disabled={cantidad >= productoOriginal.cantidad}
+									disabled={cantidadActual >= productoOriginal.tope}
 								/>
 							</IconButton>
 						)}

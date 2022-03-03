@@ -56,11 +56,30 @@ export const validarUnidadesMinimasProducto = (
 	return true;
 };
 
-export const validarVentaSubUnidades = (
-	esVentaSubunidadesRuta: boolean,
-	esVentaSubunidades: boolean
+export const validarSubUnidades = (
+	esVentaSubunidades: boolean,
+	habilitaSubunidades?: string
 ): boolean => {
-	if (esVentaSubunidadesRuta && esVentaSubunidades) return true;
+	const esHabilitaSubunidadesCondicional: boolean =
+		habilitaSubunidades === 'condicional';
+	const esHabilitaSubunidadesSiempre: boolean =
+		habilitaSubunidades === 'siempre';
+	const esHabilitaSubunidadesNunca: boolean = habilitaSubunidades === 'nunca';
+
+	if (
+		(esVentaSubunidades && esHabilitaSubunidadesCondicional) ||
+		(esVentaSubunidades && esHabilitaSubunidadesSiempre) ||
+		(!esVentaSubunidades && esHabilitaSubunidadesSiempre)
+	)
+		return true;
+
+	if (
+		(!esVentaSubunidades && esHabilitaSubunidadesCondicional) ||
+		(esVentaSubunidades && esHabilitaSubunidadesNunca) ||
+		(!esVentaSubunidades && esHabilitaSubunidadesNunca)
+	)
+		return false;
+
 	return false;
 };
 
@@ -222,18 +241,17 @@ export const validarHabilitarBotonCerrarPedido = (
 	return validarHabilitarBotonVisita;
 };
 
-
 /**
  * Valida la existencia de un producto en el portafolio del cliente
  * @constructor
- * @param {number} codigoProducto  - código de producto 
+ * @param {number} codigoProducto  - código de producto
  * @param {	TPortafolio[] } portafolio - Portafolio o catálogo de productos asociados al cliente
- * @returns {boolean} 
+ * @returns {boolean}
  */
 
 export const validarProductoContraPortafolio = (
-	codigoProducto:number, 
-	portafolio:TPortafolio[]
-	) : boolean => {
-	return  (portafolio.findIndex( (p) => p.codigoProducto===codigoProducto)>-1);
-}
+	codigoProducto: number,
+	portafolio: TPortafolio[]
+): boolean => {
+	return portafolio.findIndex((p) => p.codigoProducto === codigoProducto) > -1;
+};
