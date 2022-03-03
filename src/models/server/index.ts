@@ -67,7 +67,7 @@ export type TPromoOngoing = {
 export type TListaPromoOngoing = Record<number, TPromoOngoing>;
 
 export type TPromoOngoingRequisitos= {
-	materiales: number[] | TCodigoCantidad[];
+	materiales: number[];
 	cantidad: number;
 	unidadMedida: string;
 	conector?: string;
@@ -82,7 +82,7 @@ export type TPromoOngoingGrupoBeneficios={
 
 export type TPromoOngoingBeneficiosSecuencia = {
 	secuencia: number;
-	materialesBeneficio: number[];
+	materialesBeneficio: number[]  | TCodigoCantidad[];
 	cantidad: number;
 	unidadMedida: string;
 	formaBeneficio:EFormaBeneficio;

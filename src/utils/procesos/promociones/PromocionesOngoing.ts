@@ -14,6 +14,7 @@ import {
 	EFormaDeAsignacion,
 	TPromoOngoingHabilitadas,
 	TPromoOngoingAplicadas,
+	TCodigoCantidad,
 } from 'models';
 
 import {fechaDispositivo, fechaDentroDelRango} from 'utils/methods';
@@ -367,9 +368,11 @@ export class PromocionesOngoing {
 				conector == 'Y'
 					? multiplo.every((requisito) => requisito > 0)
 					: multiplo.some((requisito) => requisito > 0);
+			const topeSegunMultiplo:number=Math.min(...multiplo);
 			if (sonValidosLosRequisitos) {
 				// verificar si el grupo de beneficios se puede aplicar
 				let grupoDeBeneficiosResultado = this.verificarBeneficios(
+					topeSegunMultiplo,
 					promo.beneficios,
 					productosPedidos
 				);
@@ -392,15 +395,6 @@ export class PromocionesOngoing {
 
 						grupoDeBeneficios.push({
 							...grupoDeBeneficiosResultado[0],
-							secuencias: [
-								{
-									...grupoDeBeneficiosResultado[0].secuencias[0],
-									materialesBeneficio: [
-										grupoDeBeneficiosResultado[0].secuencias[0]
-											.materialesBeneficio[0],
-									],
-								},
-							],
 						});
 
 						this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++;
@@ -413,20 +407,6 @@ export class PromocionesOngoing {
 							);
 					}
 
-					//Beneficio por default
-					topeTotal = Math.min(
-						grupoDeBeneficiosResultado[0].secuencias[0].cantidad *
-							Math.min(...multiplo),
-						grupoDeBeneficiosResultado[0].secuencias[0].tope
-					);
-					listaProductosAplicados.push({
-						codigoProducto:
-							grupoDeBeneficiosResultado[0].secuencias[0]
-								.materialesBeneficio[0],
-						unidadMedida:
-							grupoDeBeneficiosResultado[0].secuencias[0].unidadMedida,
-						cantidad: topeTotal,
-					});
 
 					aplicables.push({
 						...{
@@ -464,8 +444,7 @@ export class PromocionesOngoing {
 		let TotalUnidades = 0;
 		let TotalSubUnidades = 0;
 		let lista: TProductosUsadosEnOtrasPromos = {};
-		const materiales =requisito.materiales as number[]; 
-		materiales.forEach((material) => {
+		requisito.materiales.forEach((material) => {
 			if (productosIndex[material] && !productosUsadosEnOtrasPromos[material]) {
 				TotalUnidades +=
 					productosIndex[material].unidades - productosIndex[material].aplicado;
@@ -496,26 +475,43 @@ export class PromocionesOngoing {
 	 */
 
 	private verificarBeneficios(
+		topeSegunMultiplo:number,
 		grupoBeneficios: TPromoOngoingGrupoBeneficios[],
 		productosPedidoIndex: TProductosPedidoIndex
 	): TPromoOngoingGrupoBeneficios[] {
 		let grupoBeneficiosVerificados: TPromoOngoingGrupoBeneficios[] = [];
 		grupoBeneficios.forEach((grupo: TPromoOngoingGrupoBeneficios) => {
-			let materiales: number[] = [];
+			let materiales: TCodigoCantidad[] = [];
 			let secuencias: TPromoOngoingBeneficiosSecuencia[] = [];
 			let grupoValido: boolean = true;
 			// si una de las secuencia al validar materiales no queda al menos uno, el grupo se descarta
 			for (let secuencia of grupo.secuencias) {
+				// se ordenan los beneficios según Sku menor
+				const materialesBeneficio= (secuencia.materialesBeneficio as number[]).sort((a,b) => {
+					if(a<b)
+						return -1;
+					if (a>b)
+						return 1;
+					return 0;
+				 });
+				let flag=true; // flag para otorgar el tope al primero
+				secuencia.tope= Math.min(topeSegunMultiplo, secuencia.tope); // nuevo tope
 				if (secuencia.formaBeneficio == EFormaBeneficio.Obsequio) {
-					materiales = secuencia.materialesBeneficio.filter(
+					materialesBeneficio.filter(
 						(producto: number) =>
 							validarProductoContraPortafolio(producto, this._cliente?.portafolio ?? [])
-					);
+					).forEach((material)=> {
+						materiales.push({codigo:material , cantidad: (flag) ? secuencia.tope : 0});
+						flag=false;
+					});
 				} //if ([EFormaBeneficio.DescuentoPorcentaje , EFormaBeneficio.DescuentoMonto , EFormaBeneficio.Precio].includes(secuencia.formaBeneficio))
 				else {
-					materiales = secuencia.materialesBeneficio.filter(
+					materialesBeneficio.filter(
 						(producto: number) => productosPedidoIndex[producto]
-					);
+					).forEach((material)=> {
+						materiales.push({codigo:material , cantidad: (flag) ? secuencia.tope : 0});
+						flag=false;
+					});
 				}
 				if (materiales.length == 0) {
 					// si no se pudo validar materiales(productos) para una secuencia se descarta el grupo
