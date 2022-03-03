@@ -131,18 +131,28 @@ export const Card: React.VFC<CardProps> = ({
 		tipo === 'contado' ? ETiposDePago.Contado : ETiposDePago.Credito;
 
 	React.useEffect(() => {
+		if (!promocionAutomatica && !soloLectura) {
+			let promoAplicada = visitaActual.promosOngoing.some(
+				(promo) =>
+					promocionID == promo.promocionID && promo.tipoPago === tipoPago
+			);
+			setPromocionAplicada(promoAplicada);
+			if (promoAplicada) {
+				setMostrarCheck(true);
+				setBordeColor(theme.palette.success.main);
+			} else {
+				setPromocionAplicada(false);
+			}
+		}
+	}, [borroPromociones]);
+
+	React.useEffect(() => {
 		if (promocion) {
 			setGruposSelect(promocion.beneficios[0].descripcion);
 			setGrupoYSecuenciaActual({grupo: 0, secuencia: 0});
 			setSecuenciaSelect(
 				promocion.beneficios[0].secuencias[0].secuencia.toString()
 			);
-
-			/*   promocionID: number;
-    aplicacion: EFormaDeAplicacion;
-    productos: TProductosPromoOngoingAplicadas[];
-    tipoPago: ETiposDePago;
-    descripcion: string; */
 		}
 	}, []);
 
@@ -175,8 +185,6 @@ export const Card: React.VFC<CardProps> = ({
 			});
 		}
 	}, [gruposSelect]);
-
-	console.log({beneficiosParaAgregar});
 
 	React.useEffect(() => {
 		if (promosSimilares && !promocionAutomatica) {
@@ -213,32 +221,6 @@ export const Card: React.VFC<CardProps> = ({
 		}
 	}, [promosDisponibles, borroPromociones, borroPromocion]);
 
-	React.useEffect(() => {
-		if (!promocionAutomatica && !soloLectura) {
-			let promoAplicada = visitaActual.promosOngoing.some(
-				(promo) =>
-					promocionID == promo.promocionID && promo.tipoPago === tipoPago
-			);
-
-			setPromocionAplicada(promoAplicada);
-			if (promoAplicada) {
-				setMostrarCheck(true);
-				setBordeColor(theme.palette.success.main);
-				if (promosDisponibles && setpromosDisponibles) {
-					setpromosDisponibles({
-						...promosDisponibles,
-						[Number(promocionID)]: {
-							disponibles: promosDisponibles[Number(promocionID)].disponibles,
-							aplicadas: promosDisponibles[Number(promocionID)].aplicadas + 1,
-						},
-					});
-				}
-			} else {
-				setPromocionAplicada(false);
-			}
-		}
-	}, [borroPromociones]);
-
 	const onClick = () => {
 		if (!promocionAplicada) {
 			setMostrarCheck(true);
@@ -260,15 +242,6 @@ export const Card: React.VFC<CardProps> = ({
 						],
 					})
 				);
-			}
-			if (promosDisponibles && setpromosDisponibles) {
-				setpromosDisponibles({
-					...promosDisponibles,
-					[Number(promocionID)]: {
-						disponibles: promosDisponibles[Number(promocionID)].disponibles,
-						aplicadas: promosDisponibles[Number(promocionID)].aplicadas + 1,
-					},
-				});
 			}
 		}
 	};
@@ -295,6 +268,20 @@ export const Card: React.VFC<CardProps> = ({
 			setBordeColor(theme.palette.success.main);
 		}
 	}, [promocionAutomatica]);
+
+	React.useEffect(() => {
+		if (promosDisponibles && setpromosDisponibles && promocionAplicada) {
+			const actualizaDisponible = {
+				...promosDisponibles,
+				[Number(promocionID)]: {
+					disponibles: promosDisponibles[Number(promocionID)].disponibles,
+					aplicadas: promosDisponibles[Number(promocionID)].aplicadas + 1,
+				},
+			};
+			console.log(actualizaDisponible);
+			setpromosDisponibles(actualizaDisponible);
+		}
+	}, [promocionAplicada, borroPromociones]);
 
 	const manejadorExpandido = (id: string | boolean) => {
 		setExpandidoexpandido(id);
