@@ -26,6 +26,7 @@ interface Props {
 	statefocusId: any;
 	stateBeneficiosProductos: any;
 	promocionAplicada: boolean;
+	promocionAutomatica: boolean;
 }
 
 export const Controles: React.FC<Props> = ({
@@ -34,17 +35,27 @@ export const Controles: React.FC<Props> = ({
 	statefocusId,
 	stateBeneficiosProductos,
 	promocionAplicada,
+	promocionAutomatica,
 }) => {
 	//const classes = useEstilos({errorAplicacionTotal: false, promocionAplicada});
 
-	const [classes, setClasses] = React.useState<any>(
-		useEstilos({errorAplicacionTotal: false, promocionAplicada})
-	);
 	const {focusId, setFocusId} = statefocusId;
 	const {beneficiosProductos, setBeneficiosProductos} =
 		stateBeneficiosProductos;
 	const [productoOriginal, setProductoOriginal] = React.useState<any>();
 	const [cantidad, setCantidad] = React.useState<number>(0);
+	const [puedeVerBotones, setPuedeVerBotones] = React.useState<boolean>(false);
+	const [classes, setClasses] = React.useState<any>(
+		useEstilos({errorAplicacionTotal: false, puedeVerBotones})
+	);
+
+	React.useEffect(() => {
+		if (promocionAplicada || promocionAutomatica) {
+			setPuedeVerBotones(false);
+		} else {
+			setPuedeVerBotones(true);
+		}
+	}, [promocionAutomatica, promocionAplicada]);
 
 	React.useEffect(() => {
 		if (beneficiosProductos) {
@@ -94,7 +105,7 @@ export const Controles: React.FC<Props> = ({
 						) : (
 							<BotellaIcon height='18px' width='18px' />
 						)}
-						{!promocionAplicada && (
+						{puedeVerBotones && (
 							<IconButton
 								sx={{marginLeft: '2px', padding: 0}}
 								name='-'
@@ -127,7 +138,7 @@ export const Controles: React.FC<Props> = ({
 								inputMode: 'numeric',
 							}}
 						/>
-						{!promocionAplicada && (
+						{puedeVerBotones && (
 							<IconButton
 								sx={{padding: '0'}}
 								size='small'

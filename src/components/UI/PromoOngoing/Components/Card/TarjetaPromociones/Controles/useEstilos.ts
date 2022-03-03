@@ -3,16 +3,16 @@ import theme from 'theme';
 
 interface Props {
 	errorAplicacionTotal: boolean;
-	promocionAplicada: boolean;
+	puedeVerBotones: boolean;
 }
 
 const useEstilos = makeStyles(() =>
 	createStyles({
 		input: {
 			backgroundColor: (props: Props) =>
-				props.promocionAplicada ? '#D9D9D9' : '#fff',
+				!props.puedeVerBotones ? '#D9D9D9' : '#fff',
 			border: (props: Props) =>
-				props.promocionAplicada
+				!props.puedeVerBotones
 					? `none`
 					: `1px solid ${theme.palette.secondary.main}`,
 			borderRadius: '10px',
@@ -25,7 +25,7 @@ const useEstilos = makeStyles(() =>
 			height: '16px',
 			lineHeight: '16px',
 			transition: 'all 0.3s ease-in-out',
-			width: (props: Props) => (props.promocionAplicada ? '82px' : '42px'),
+			width: (props: Props) => (!props.puedeVerBotones ? '82px' : '42px'),
 		},
 	})
 );

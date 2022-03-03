@@ -195,6 +195,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 														?.indiceProductosxPromosManuales
 												}
 												tipo='credito'
+												promocionesOngoing={promocionesOngoing}
 												promocion={promocion}
 												promocionAutomatica={promocion.aplicacion === 'A'}
 												borroPromociones={borroPromociones}
@@ -243,6 +244,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 												}
 												tipo='contado'
 												promocion={promocion}
+												promocionesOngoing={promocionesOngoing}
 												promocionAutomatica={promocion.aplicacion === 'A'}
 												borroPromociones={borroPromociones}
 												setpromosDisponibles={setpromosDisponibles}
@@ -268,6 +270,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 									(promocion: TPromoOngoing) => (
 										<PromoOngoing.Card
 											key={promocion.promocionID}
+											promocionesOngoing={promocionesOngoing}
 											setExpandidoexpandido={setExpandidoexpandido}
 											expandido={expandido}
 											promocion={promocion}
