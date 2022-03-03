@@ -270,15 +270,13 @@ export const Card: React.VFC<CardProps> = ({
 
 	React.useEffect(() => {
 		if (promosDisponibles && setpromosDisponibles && promocionAplicada) {
-			const actualizaDisponible = {
-				...promosDisponibles,
+			setpromosDisponibles((prevState) => ({
+				...prevState,
 				[Number(promocionID)]: {
-					disponibles: promosDisponibles[Number(promocionID)].disponibles,
-					aplicadas: promosDisponibles[Number(promocionID)].aplicadas + 1,
+					disponibles: prevState[Number(promocionID)].disponibles,
+					aplicadas: prevState[Number(promocionID)].aplicadas + 1,
 				},
-			};
-			console.log(actualizaDisponible);
-			setpromosDisponibles(actualizaDisponible);
+			}));
 		}
 	}, [promocionAplicada, borroPromociones]);
 

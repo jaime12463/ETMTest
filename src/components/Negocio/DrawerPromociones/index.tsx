@@ -123,6 +123,8 @@ export const DrawerPromociones: React.FC<Props> = ({
 		);
 	};
 
+	//console.log(promocionesOingoing.disponibles);
+
 	React.useEffect(() => {
 		if (promocionesOingoing) {
 			setpromosDisponibles(promocionesOingoing.disponibles);
