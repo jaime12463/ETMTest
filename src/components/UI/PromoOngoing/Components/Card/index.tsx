@@ -5,6 +5,7 @@ import {useTranslation} from 'react-i18next';
 import {
 	EFormaDeAplicacion,
 	ETiposDePago,
+	TCodigoCantidad,
 	TProductosPromoOngoingAplicadas,
 	TPromoOngoing,
 	TPromoOngoingAplicadas,
@@ -125,6 +126,9 @@ export const Card: React.VFC<CardProps> = ({
 		React.useState<boolean>(false);
 
 	const classes = useEstilos();
+	const materiales = promocion.beneficios[grupoYSecuenciaActual.grupo]
+		.secuencias[grupoYSecuenciaActual.secuencia]
+		.materialesBeneficio as TCodigoCantidad[];
 
 	const tipoPago =
 		tipo === 'contado' ? ETiposDePago.Contado : ETiposDePago.Credito;
@@ -167,18 +171,20 @@ export const Card: React.VFC<CardProps> = ({
 			setSecuenciaSelect(
 				promocion.beneficios[indexGrupo].secuencias[0].secuencia.toString()
 			);
+
 			setBeneficiosParaAgregar({
 				promocionID,
 				tipoPago,
 				descripcion: '',
 				aplicacion: EFormaDeAplicacion.Manual,
-				productos: promocion.beneficios[
-					indexGrupo
-				].secuencias[0].materialesBeneficio.map((producto) => ({
+				productos: materiales.map((producto) => ({
 					tipoPago,
-					codigoProducto: producto,
+					codigoProducto: Number(producto.codigo),
 					unidadMedida: 'Unidad',
-					cantidad: promocion.beneficios[indexGrupo].secuencias[0].cantidad,
+					cantidad:
+						promocion.beneficios[indexGrupo].secuencias[
+							grupoYSecuenciaActual.secuencia
+						].cantidad,
 					descripcion: '',
 				})),
 			});
@@ -283,14 +289,6 @@ export const Card: React.VFC<CardProps> = ({
 	const manejadorExpandido = (id: string | boolean) => {
 		setExpandidoexpandido(id);
 	};
-
-	/* 	console.log(promocion);
-
-	console.log(
-		promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
-			grupoYSecuenciaActual.secuencia
-		]
-	); */
 
 	return (
 		<CardMUI
@@ -469,11 +467,9 @@ export const Card: React.VFC<CardProps> = ({
 						</Stack>
 					</Box>
 					<Divider sx={{marginTop: '10px'}} variant='fullWidth' />
-					{promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
-						grupoYSecuenciaActual.secuencia
-					].materialesBeneficio.map((producto) => (
+					{materiales.map((producto) => (
 						<TarjetaPromociones
-							key={producto}
+							key={producto.codigo}
 							promocionAplicada={promocionAplicada}
 							promocionAutomatica={promocionAutomatica}
 							stateBeneficiosParaAgregar={{
@@ -481,7 +477,7 @@ export const Card: React.VFC<CardProps> = ({
 								setBeneficiosParaAgregar,
 							}}
 							producto={{
-								codigoProducto: producto,
+								codigoProducto: Number(producto.codigo),
 								tope: promocion.beneficios[grupoYSecuenciaActual.grupo]
 									.secuencias[grupoYSecuenciaActual.secuencia].tope,
 								tipoPago,
