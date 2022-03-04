@@ -91,7 +91,7 @@ export class PromocionesOngoing {
 
 	private _listaPromoOngoing: TListaPromoOngoing={};
 
-	private _promosAplicadasOtrasVisitas:TPromoOngoingAplicadas[]=[];
+	private _promosAplicadasOtrasVisitas:TPromoOngoing[]=[];
 
 	private disponibilidadDeLaPromo: TPromoOngoingDisponibilidad = {
 		999999999: {disponibles: 0, aplicadas: 0},
@@ -136,7 +136,7 @@ export class PromocionesOngoing {
 		return PromocionesOngoing.instance;
 	}
 
-	public inicializar(cliente:TCliente,listaPromociones:TListaPromoOngoing, promosAplicadasOtrasVisitas:TPromoOngoingAplicadas[] )
+	public inicializar(cliente:TCliente,listaPromociones:TListaPromoOngoing, promosAplicadasOtrasVisitas:TPromoOngoing[] )
 	{
 		this._cliente=cliente;
 		this._listaPromoOngoing=listaPromociones;
@@ -217,7 +217,7 @@ export class PromocionesOngoing {
 
 		//sumamos grabadas
 		this._promosAplicadasOtrasVisitas.forEach(
-			(promo: TPromoOngoingAplicadas) => {
+			(promo: TPromoOngoing) => {
 				this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++;
 			}
 		);
@@ -469,6 +469,7 @@ export class PromocionesOngoing {
 
 	/**
 	 * Retorna un array de grupos de benenficios ordenado por Id, con los materiales validades según corresponda
+	 * SI el grupo no tiene ninguna secuencia válida se descarta
 	 * @constructor
 	 * @param {TPromoOngoingGrupoBeneficios[]} grupoBeneficios  - array de grupos de beneficios de la promo
 	 * @param {TProductosPedidoIndex} productosIndex - lista d productos distintos de promoPush y que sean de una forma de pago
@@ -497,23 +498,23 @@ export class PromocionesOngoing {
 					return 0;
 				 });
 
-				let flag=true; // flag para otorgar el tope al primero
+				let topeAlprimero=true; // flag para otorgar el tope al primero
 				const tope= Math.min(topeSegunMultiplo, secuencia.tope); // nuevo tope
 				if (secuencia.formaBeneficio == EFormaBeneficio.Obsequio) {
 					materialesBeneficio.filter(
 						(producto: number) =>
 							validarProductoContraPortafolio(producto, this._cliente?.portafolio ?? [])
 					).forEach((material)=> {
-						materiales.push({codigo:material , cantidad: (flag) ? tope : 0});
-						flag=false;
+						materiales.push({codigo:material , cantidad: (topeAlprimero) ? tope : 0});
+						topeAlprimero=false;
 					});
 				} //if ([EFormaBeneficio.DescuentoPorcentaje , EFormaBeneficio.DescuentoMonto , EFormaBeneficio.Precio].includes(secuencia.formaBeneficio))
 				else {
 					materialesBeneficio.filter(
 						(producto: number) => productosPedidoIndex[producto]
 					).forEach((material)=> {
-						materiales.push({codigo:material , cantidad: (flag) ? tope : 0});
-						flag=false;
+						materiales.push({codigo:material , cantidad: (topeAlprimero) ? tope : 0});
+						topeAlprimero=false;
 					});
 				}
 				if (materiales.length == 0) {
