@@ -13,12 +13,15 @@ import {
 } from 'redux/hooks';
 import {TPrecioProducto, TProductoPedido} from 'models';
 import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
+import {FiltrosBusqueda} from 'hooks/useObtenerFiltrosDelCliente';
 
 interface Props {
 	resultadosBusqueda: TPrecioProducto[];
 	debouncedInput: string;
 	setOpenBuscador: React.Dispatch<React.SetStateAction<boolean>>;
 	setInputBusqueda: React.Dispatch<React.SetStateAction<string>>;
+	setFiltrosBusqueda: React.Dispatch<React.SetStateAction<FiltrosBusqueda>>;
+	estadoInicialFiltros: FiltrosBusqueda;
 }
 
 const Busqueda: React.FC<Props> = ({
@@ -26,6 +29,8 @@ const Busqueda: React.FC<Props> = ({
 	debouncedInput,
 	setOpenBuscador,
 	setInputBusqueda,
+	setFiltrosBusqueda,
+	estadoInicialFiltros,
 }) => {
 	const classes = useEstilos();
 	const {t} = useTranslation();
@@ -101,6 +106,7 @@ const Busqueda: React.FC<Props> = ({
 
 	const borrarTodo = () => {
 		setInputBusqueda('');
+		setFiltrosBusqueda(estadoInicialFiltros);
 	};
 
 	return (
