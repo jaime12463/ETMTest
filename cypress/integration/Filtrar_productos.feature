@@ -93,3 +93,13 @@ Escenario: N°6 - Borrar selección de filtros
     Entonces el sistema restablecerá los filtros a su estado inicial
     Y descartará los filtros aplicados a los resultados obtenidos en la búsqueda de productos
     Y borrará la indicación de la suma de filtros aplicados en el control de filtro
+
+Escenario: N°7 - Contraer sección de filtro
+    Dado que se desplegó una sección del filtro
+    Cuando se selecciona el control para contraer de una sección
+    Entonces el sistema contraerá la sección ocultando los atributos contenidos
+
+Escenario: N°8 - Desplegar sección de filtro
+    Dado que se contrajo una sección del filtro
+    Cuando se selecciona el control para desplegar de una sección
+    Entonces el sistema desplegará la sección haciendo visibile los atributos contenidos
