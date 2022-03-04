@@ -53,6 +53,7 @@ export const Controles: React.FC<Props> = ({
 	promocionAutomatica,
 	grupoYSecuenciaActual,
 }) => {
+	const mostrarAviso = useMostrarAviso();
 	const {focusId, setFocusId} = statefocusId;
 	const {beneficiosParaAgregar, setBeneficiosParaAgregar} =
 		stateBeneficiosParaAgregar;
@@ -88,8 +89,6 @@ export const Controles: React.FC<Props> = ({
 				grupoYSecuenciaActual.secuencia
 			].materialesBeneficio[productoActualizar].cantidad = cantidadActual;
 
-			console.log(promocion);
-
 			setBeneficiosParaAgregar(
 				(prevState: TPromoOngoingBeneficiosSecuencia) => ({
 					...promocion,
@@ -115,8 +114,6 @@ export const Controles: React.FC<Props> = ({
 					productoEnPromocion.codigo === producto.codigoProducto
 			);
 
-			console.log({productoActual});
-
 			setCantidadActual(productoActual.cantidad);
 			setProductoOriginal(producto);
 		}
@@ -124,7 +121,11 @@ export const Controles: React.FC<Props> = ({
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (Number(e.target.value) + totalProductos > producto.tope) {
-			// TODO ALONSO
+			mostrarAviso(
+				'error',
+				'Aplicación máxima incompleta',
+				'Se debe asignar la aplicación total del beneficio'
+			);
 		} else {
 			setCantidadActual(Number(e.target.value.replace(/[^0-9]/g, '')));
 			setPuedeAgregar(true);
