@@ -212,10 +212,7 @@ const TomaPedido: React.FC = () => {
 			// 	})
 			// );
 		} else {
-			const promociones = promocionesOngoing.calcular(venta.productos, [
-				ETiposDePago.Contado,
-				ETiposDePago.Credito,
-			]);
+			const promociones = promocionesOngoing.calcular(venta.productos, []);
 			setPromocionesOingoing(promociones);
 			/* 			if (visitaActual.promocionesNegociadas) {
 				setPromocionesOingoing({...visitaActual.promocionesNegociadas});
