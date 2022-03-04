@@ -265,6 +265,23 @@ export const Card: React.VFC<CardProps> = ({
 		if (promocionAutomatica) {
 			setMostrarCheck(true);
 			setBordeColor(theme.palette.success.main);
+			if (promocion && beneficiosParaAgregar) {
+				console.log(beneficiosParaAgregar);
+				dispatch(
+					agregarBeneficiosPromoOngoing({
+						beneficios: [
+							...visitaActual.promosOngoing,
+							{
+								...beneficiosParaAgregar,
+								tipoPago,
+								beneficios: [
+									beneficiosParaAgregar.beneficios[grupoYSecuenciaActual.grupo],
+								],
+							},
+						],
+					})
+				);
+			}
 		}
 	}, [promocionAutomatica]);
 
@@ -468,7 +485,7 @@ export const Card: React.VFC<CardProps> = ({
 					<Divider sx={{marginTop: '10px'}} variant='fullWidth' />
 					{materiales.map((producto) => (
 						<TarjetaPromociones
-							key={producto.codigo}
+							key={Number(producto.codigo)}
 							promocionAplicada={promocionAplicada}
 							promocionAutomatica={promocionAutomatica}
 							stateBeneficiosParaAgregar={{

@@ -124,7 +124,7 @@ export const Controles: React.FC<Props> = ({
 			mostrarAviso(
 				'error',
 				'Aplicación máxima incompleta',
-				'Se debe asignar la aplicación total del beneficio'
+				'La cantidad es mayor al disponible permitido'
 			);
 		} else {
 			setCantidadActual(Number(e.target.value.replace(/[^0-9]/g, '')));

@@ -307,14 +307,6 @@ const Pasos: React.FC = () => {
 								cambioElPedidoSinPromociones: {contado: false, credito: false},
 							})
 						);
-						// TODO ALONSO
-						// dispatch(
-						// 	agregarBeneficiosPromoOngoing({
-						// 		beneficios: promociones?.benficiosParaAgregar.filter(
-						// 			(promo) => promo.aplicacion === 'A'
-						// 		),
-						// 	})
-						// );
 					}
 
 					if (

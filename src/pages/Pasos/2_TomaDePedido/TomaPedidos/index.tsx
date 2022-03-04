@@ -171,7 +171,7 @@ const TomaPedido: React.FC = () => {
 					: cambioElPedidoSinPromociones.credito &&
 					  !cambioElPedidoSinPromociones.contado
 					? [ETiposDePago.Credito]
-					: [ETiposDePago.Contado, ETiposDePago.Credito];
+					: [];
 
 			const promociones = promocionesOngoing.calcular(venta.productos, tipos);
 
