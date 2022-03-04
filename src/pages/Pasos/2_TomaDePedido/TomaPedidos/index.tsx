@@ -173,10 +173,7 @@ const TomaPedido: React.FC = () => {
 					? [ETiposDePago.Credito]
 					: [ETiposDePago.Contado, ETiposDePago.Credito];
 
-			const promociones = promocionesOngoing.calcular(
-				venta.productos,
-				tipos
-			);
+			const promociones = promocionesOngoing.calcular(venta.productos, tipos);
 
 			tipos.length === 1 && tipos[0] === ETiposDePago.Contado
 				? setPromocionesOingoing({
@@ -208,16 +205,17 @@ const TomaPedido: React.FC = () => {
 						(promo) => promo.aplicacion === 'A'
 				  ));
 
-			dispatch(
-				agregarBeneficiosPromoOngoing({
-					beneficios: beneficioParaAgregar,
-				})
-			);
+			// TODO ALONSO
+			// dispatch(
+			// 	agregarBeneficiosPromoOngoing({
+			// 		beneficios: beneficioParaAgregar,
+			// 	})
+			// );
 		} else {
-			const promociones = promocionesOngoing.calcular(
-				venta.productos,
-				[ETiposDePago.Contado, ETiposDePago.Credito]
-			);
+			const promociones = promocionesOngoing.calcular(venta.productos, [
+				ETiposDePago.Contado,
+				ETiposDePago.Credito,
+			]);
 			setPromocionesOingoing(promociones);
 			/* 			if (visitaActual.promocionesNegociadas) {
 				setPromocionesOingoing({...visitaActual.promocionesNegociadas});

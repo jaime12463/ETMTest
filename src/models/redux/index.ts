@@ -4,18 +4,13 @@ import {
 	TCondicicon,
 	TPromoPush,
 	TDatosConfiguracion,
-	TIniciativas,
 	TDescuentoEscalonado,
 	TDescuentoPolarizado,
 	TComponente,
 	TAtributos,
 	EFormaDeAplicacion,
-	TPromoOngoing,
 } from 'models/server';
-import {
-	TPromoOngoingAplicablesResultado,
-	TPromoOngoingDisponibilidad,
-} from 'utils/procesos/promociones/PromocionesOngoing';
+import {TPromoOngoingAplicables} from 'utils/procesos/promociones/PromocionesOngoing';
 
 //Cliente Actual
 export type TClienteActual = {
@@ -67,7 +62,7 @@ export type TVisita = {
 	seQuedaAEditar: SeQuedaAEditar;
 	fechaVisitaPlanificada: string;
 	bonificaciones: TBonificacionesCliente[];
-	promosOngoing: TPromoOngoingAplicadas[];
+	promosOngoing: TPromoOngoingAplicables[];
 	envasesConError: number;
 	avisos: TAvisos;
 	clienteBloqueado: boolean;
@@ -236,7 +231,7 @@ export type TPedidosClientes = {
 		iniciativas: TIniciativasCliente[];
 		bonificaciones: TBonificacionesCliente[];
 		coberturas: TCoberturasCliente[];
-		promocionesOngoing: TPromoOngoingAplicadas[];
+		promocionesOngoing: TPromoOngoingAplicables[];
 	};
 };
 

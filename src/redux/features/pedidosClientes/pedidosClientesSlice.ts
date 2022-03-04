@@ -8,12 +8,11 @@ import {
 	ETiposDePago,
 	TCompromisoDeCobro,
 	TIniciativasCliente,
-	TIniciativas,
 	TBonificacionesCliente,
 	TCoberturasCliente,
-	TPromoOngoingAplicadas,
 } from 'models';
 import {RootState} from 'redux/store';
+import {TPromoOngoingAplicables} from 'utils/procesos/promociones/PromocionesOngoing';
 
 const estadoInicial: TPedidosClientes = {};
 
@@ -246,13 +245,13 @@ export const pedidosClientesSlice = createSlice({
 		guardarPromosOngoing: (
 			state,
 			action: PayloadAction<{
-				promocionesOngoing: TPromoOngoingAplicadas[];
+				promocionesOngoing: TPromoOngoingAplicables[];
 				clienteActual: TClienteActual;
 			}>
 		) => {
 			const {codigoCliente}: TClienteActual = action.payload.clienteActual;
 
-			if (!state[codigoCliente]){
+			if (!state[codigoCliente]) {
 				state[codigoCliente] = {
 					pedidos: [],
 					compromisosDeCobro: [],
@@ -263,9 +262,9 @@ export const pedidosClientesSlice = createSlice({
 				};
 			}
 
-			state[codigoCliente].promocionesOngoing = action.payload.promocionesOngoing;
-
-		}
+			state[codigoCliente].promocionesOngoing =
+				action.payload.promocionesOngoing;
+		},
 	},
 });
 

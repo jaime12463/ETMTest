@@ -237,16 +237,17 @@ export const Card: React.VFC<CardProps> = ({
 			});
 
 			if (promocion && beneficiosParaAgregar) {
-				dispatch(
-					agregarBeneficiosPromoOngoing({
-						beneficios: [
-							...visitaActual.promosOngoing,
-							{
-								...beneficiosParaAgregar,
-							},
-						],
-					})
-				);
+				// TODO ALONSO
+				// dispatch(
+				// 	agregarBeneficiosPromoOngoing({
+				// 		beneficios: [
+				// 			...visitaActual.promosOngoing,
+				// 			{
+				// 				...beneficiosParaAgregar,
+				// 			},
+				// 		],
+				// 	})
+				// );
 			}
 		}
 	};

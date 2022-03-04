@@ -3,13 +3,18 @@ import {
 	useObtenerDatosCliente,
 	useObtenerIniciativasClienteActual,
 } from 'hooks';
-import {TCliente, TDatosClientesProductos, TPedidos, TPedidosClientes} from 'models';
+import {TCliente, TPedidos, TPedidosClientes} from 'models';
 import {useCallback} from 'react';
 import {inicializarVisitaActual} from 'redux/features/visitaActual/visitaActualSlice';
-import {useAppDispatch, useObtenerConfiguracion, useObtenerDatos, useObtenerPedidosClientes} from 'redux/hooks';
+import {
+	useAppDispatch,
+	useObtenerConfiguracion,
+	useObtenerDatos,
+	useObtenerPedidosClientes,
+} from 'redux/hooks';
 import {useInicializarPedidos} from '.';
 import {v4 as uuidv4} from 'uuid';
-import { PromocionesOngoing } from 'utils/procesos/promociones/PromocionesOngoing';
+import {PromocionesOngoing} from 'utils/procesos/promociones/PromocionesOngoing';
 
 export const useInicializarVisitaActual = () => {
 	const dispatch = useAppDispatch();
@@ -21,14 +26,15 @@ export const useInicializarVisitaActual = () => {
 		useObtenerBonificacionesHabilitadas();
 	const datos = useObtenerDatos();
 	const pedidosCliente: TPedidosClientes = useObtenerPedidosClientes();
-	
+
 	const useInicializarPedidoActual = useCallback(
 		(
 			fechaEntrega: string,
 			codigoCliente: string,
 			fechaVisitaPlanificada: string
 		) => {
-			const datosCliente : TCliente | undefined  = obtenerDatosCliente(codigoCliente);
+			const datosCliente: TCliente | undefined =
+				obtenerDatosCliente(codigoCliente);
 			const pedidos: TPedidos = inicializarPedidos(fechaEntrega, codigoCliente);
 
 			const tiposPedidos = configuracion.tipoPedidos;
@@ -38,14 +44,12 @@ export const useInicializarVisitaActual = () => {
 			const mostrarPromoPush: boolean = false;
 
 			const bloquearPanelCarga: boolean = false;
-			
-			
+
 			const promocionesOngoing = PromocionesOngoing.getInstance();
-			
-			if (datosCliente!=undefined)
-				promocionesOngoing.inicializar(
-					datosCliente,datos?.promociones,
-					pedidosCliente[datosCliente.codigoCliente]?.promocionesOngoing ??[]);
+
+			// TODO ALONSO
+			if (datosCliente != undefined)
+				promocionesOngoing.inicializar(datosCliente, datos?.promociones, []);
 
 			dispatch(
 				inicializarVisitaActual({

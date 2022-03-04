@@ -6,16 +6,10 @@ import {
 	TPresupuestoTipoPedidoTotal,
 	TDetalleBonificacionesCliente,
 	TAvisos,
-	TPromoOngoingGrupoBeneficios,
-	TPromoOngoingAplicadas,
-	TPromoOngoing,
 } from 'models';
 
 import {RootState} from 'redux/store';
-import {
-	TPromoOngoingAplicablesResultado,
-	TPromoOngoingDisponibilidad,
-} from 'utils/procesos/promociones/PromocionesOngoing';
+import {TPromoOngoingAplicables} from 'utils/procesos/promociones/PromocionesOngoing';
 
 const estadoInicial: TVisita = {
 	fechaEntrega: '',
@@ -146,7 +140,7 @@ export const visitaActualSlice = createSlice({
 		agregarBeneficiosPromoOngoing: (
 			state,
 			action: PayloadAction<{
-				beneficios: TPromoOngoingAplicadas[];
+				beneficios: TPromoOngoingAplicables[];
 			}>
 		) => {
 			const {cambioElPedidoSinPromociones} = state.avisos;

@@ -22,7 +22,10 @@ import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {formatearFecha, formatearNumero} from 'utils/methods';
 import {useObtenerBonificacionesHabilitadas} from 'hooks';
-import {useCalcularEnvasesDeObsequios, useObtenerConsolidacionImplicitos} from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
+import {
+	useCalcularEnvasesDeObsequios,
+	useObtenerConsolidacionImplicitos,
+} from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
 interface Props {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -46,14 +49,15 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 		})
 	);
 
-	const promoOngoinFormateado = promosOngoing.map((promo) => ({
-		...promo,
-		productos: promo.productos.map((producto) => ({
-			...producto,
-			descripcion:
-				datos?.productos[producto.codigoProducto].nombre ?? 'No encontrado',
-		})),
-	}));
+	// TODO ALONSO
+	// const promoOngoinFormateado = promosOngoing.map((promo) => ({
+	// 	...promo,
+	// 	productos: promo.productos.map((producto) => ({
+	// 		...producto,
+	// 		descripcion:
+	// 			datos?.productos[producto.codigoProducto].nombre ?? 'No encontrado',
+	// 	})),
+	// }));
 
 	const cantidadBonificaciones = visitaActual.bonificaciones
 		.map((bonificacion) => bonificacion.detalle)
@@ -282,7 +286,8 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 								</>
 							)}
 						</Resumen.Container>
-						{promoOngoinFormateado?.map(
+						{/* TODO ALONSO */}
+						{/* {promoOngoinFormateado?.map(
 							(promo) =>
 								promo.tipoPago === ETiposDePago.Credito && (
 									<Resumen.PromoOngoing
@@ -290,7 +295,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 										key={promo.promocionID}
 									/>
 								)
-						)}
+						)} */}
 					</Box>
 				)}
 
@@ -324,7 +329,8 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 								</>
 							)}
 						</Resumen.Container>
-						{promoOngoinFormateado?.map(
+						{/* TODO ALONSO */}
+						{/* {promoOngoinFormateado?.map(
 							(promo) =>
 								promo.tipoPago === ETiposDePago.Contado && (
 									<Resumen.PromoOngoing
@@ -332,7 +338,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 										key={promo.promocionID}
 									/>
 								)
-						)}
+						)} */}
 					</Box>
 				)}
 
