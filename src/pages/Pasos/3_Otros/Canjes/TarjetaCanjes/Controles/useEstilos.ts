@@ -16,6 +16,7 @@ const useEstilos = makeStyles(() =>
 				fontSize: '12px',
 				fontWeight: 600,
 			},
+			paddingTop: '1px',
 		},
 		chip: {
 			fontFamily: 'Open Sans',
