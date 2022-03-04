@@ -3,6 +3,7 @@ import {CheckRedondoIcon, FlechaAbajoIcon} from 'assests/iconos';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {
+	EFormaBeneficio,
 	EFormaDeAplicacion,
 	ETiposDePago,
 	TCodigoCantidad,
@@ -410,7 +411,12 @@ export const Card: React.VFC<CardProps> = ({
 									variant='subtitle2'
 									fontFamily='Open Sans'
 								>
-									Beneficio: 9999%
+									{beneficiosParaAgregar &&
+									beneficiosParaAgregar.beneficios[grupoYSecuenciaActual.grupo]
+										.secuencias[grupoYSecuenciaActual.secuencia]
+										.formaBeneficio === EFormaBeneficio.Obsequio
+										? 'Beneficio: Obsequio'
+										: 'Beneficio: 9999%'}
 								</Typography>
 							</Box>
 							<Box>
