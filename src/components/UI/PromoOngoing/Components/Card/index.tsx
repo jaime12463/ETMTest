@@ -104,8 +104,6 @@ export const Card: React.VFC<CardProps> = ({
 }) => {
 	const [mostrarCheck, setMostrarCheck] = React.useState<boolean>(false);
 	const [bordeColor, setBordeColor] = React.useState<string>('#D9D9D9');
-	const [esPromoSimilar, setEsPromoSimilar] = React.useState<boolean>(false);
-	const [borroPromocion, setBorroPromocion] = React.useState<boolean>(false);
 	const [focusId, setFocusId] = React.useState<string>('');
 	const [beneficiosParaAgregar, setBeneficiosParaAgregar] =
 		React.useState<TPromoOngoingAplicables>();
@@ -117,8 +115,8 @@ export const Card: React.VFC<CardProps> = ({
 	const [promocionEditada, setPromocionEditada] =
 		React.useState<TPromoOngoingAplicables>();
 	const [secuenciaSelect, setSecuenciaSelect] = React.useState<string>('');
-	const [promocionSinDisponibile, setPromocionSinDisponibile] =
-		React.useState<boolean>(false);
+	const [promocionSinDisponible, setPromocionSinDisponible] =
+		React.useState<boolean>(true);
 
 	const {t} = useTranslation();
 	const {descripcion, promocionID} = promocion;
@@ -138,20 +136,23 @@ export const Card: React.VFC<CardProps> = ({
 		tipo === 'contado' ? ETiposDePago.Contado : ETiposDePago.Credito;
 
 	React.useEffect(() => {
-		if (!promocionAutomatica && !soloLectura) {
-			let promoAplicada = visitaActual.promosOngoing.some(
-				(promo) =>
-					promocionID == promo.promocionID && promo.tipoPago === tipoPago
-			);
-			setPromocionAplicada(promoAplicada);
-			if (promoAplicada) {
+		if (!promocionAutomatica && !soloLectura && setpromosDisponibles) {
+			if (promocion.aplicada) {
+				setPromocionAplicada(true);
 				setMostrarCheck(true);
 				setBordeColor(theme.palette.success.main);
+				setpromosDisponibles((prevState) => ({
+					...prevState,
+					[Number(promocionID)]: {
+						disponibles: prevState[Number(promocionID)].disponibles,
+						aplicadas: prevState[Number(promocionID)].aplicadas + 1,
+					},
+				}));
 			} else {
 				setPromocionAplicada(false);
 			}
 		}
-	}, [borroPromociones]);
+	}, []);
 
 	React.useEffect(() => {
 		if (promocion) {
@@ -184,25 +185,6 @@ export const Card: React.VFC<CardProps> = ({
 	}, [gruposSelect]);
 
 	React.useEffect(() => {
-		if (promosSimilares && !promocionAutomatica) {
-			let promosSimilatresLista = Object.values(promosSimilares).flat();
-			let PromoSimilar = visitaActual.promosOngoing.find((promo) => {
-				let hayPromoSimilar = promosSimilatresLista.find(
-					(similar) =>
-						similar === promo.promocionID && promo.tipoPago === tipoPago
-				);
-				if (hayPromoSimilar) {
-					return promo;
-				}
-			});
-
-			if (PromoSimilar && PromoSimilar?.promocionID !== promocionID) {
-				setEsPromoSimilar(true);
-			}
-		}
-	}, [visitaActual.promosOngoing]);
-
-	React.useEffect(() => {
 		if (!promocionAutomatica) {
 			if (!promocionAplicada && promosDisponibles) {
 				if (
@@ -210,15 +192,17 @@ export const Card: React.VFC<CardProps> = ({
 						promosDisponibles[Number(promocionID)].aplicadas <=
 					0
 				) {
-					setPromocionSinDisponibile(true);
+					setPromocionSinDisponible(true);
 				} else {
-					setPromocionSinDisponibile(false);
+					setPromocionSinDisponible(false);
 				}
 			}
 		}
-	}, [promosDisponibles, borroPromociones, borroPromocion]);
+	}, [promosDisponibles, borroPromociones, visitaActual.promosOngoing]);
 
 	const onClick = () => {
+		//Iteramos la secuencias y si la suma de sus materilaes es menor al tope entonces avisar que tiene que completar tdo
+
 		if (!promocionAplicada) {
 			setMostrarCheck(true);
 			setBordeColor(theme.palette.success.main);
@@ -228,7 +212,15 @@ export const Card: React.VFC<CardProps> = ({
 				aplicada: true,
 			});
 
-			if (promocion && beneficiosParaAgregar) {
+			if (promocion && beneficiosParaAgregar && setpromosDisponibles) {
+				setpromosDisponibles((prevState) => ({
+					...prevState,
+					[Number(promocionID)]: {
+						disponibles: prevState[Number(promocionID)].disponibles,
+						aplicadas: prevState[Number(promocionID)].aplicadas + 1,
+					},
+				}));
+
 				dispatch(
 					agregarBeneficiosPromoOngoing({
 						beneficios: [
@@ -258,7 +250,6 @@ export const Card: React.VFC<CardProps> = ({
 			setMostrarCheck(false);
 			setBordeColor('#D9D9D9');
 			setBorroPromociones({...borroPromociones, [tipo]: false});
-			setEsPromoSimilar(false);
 			setPromocionAplicada(false);
 		}
 	}, [borroPromociones]);
@@ -267,28 +258,30 @@ export const Card: React.VFC<CardProps> = ({
 		if (promocionAutomatica) {
 			setMostrarCheck(true);
 			setBordeColor(theme.palette.success.main);
-			if (promocion && beneficiosParaAgregar) {
-				console.log(beneficiosParaAgregar);
+			if (
+				promocion &&
+				!visitaActual.promosOngoing.some(
+					(promo) => promo.promocionID === promocionID
+				)
+			) {
 				dispatch(
 					agregarBeneficiosPromoOngoing({
 						beneficios: [
 							...visitaActual.promosOngoing,
 							{
-								...beneficiosParaAgregar,
+								...promocion,
 								tipoPago,
-								beneficios: [
-									beneficiosParaAgregar.beneficios[grupoYSecuenciaActual.grupo],
-								],
+								beneficios: [promocion.beneficios[grupoYSecuenciaActual.grupo]],
 							},
 						],
 					})
 				);
 			}
 		}
-	}, [promocionAutomatica]);
+	}, [promocionAutomatica, borroPromociones]);
 
-	React.useEffect(() => {
-		if (promosDisponibles && setpromosDisponibles && promocionAplicada) {
+	/* 	React.useEffect(() => {
+		if (promosDisponibles && setpromosDisponibles && !promocionAplicada) {
 			setpromosDisponibles((prevState) => ({
 				...prevState,
 				[Number(promocionID)]: {
@@ -297,7 +290,7 @@ export const Card: React.VFC<CardProps> = ({
 				},
 			}));
 		}
-	}, [promocionAplicada, borroPromociones]);
+	}, [promocionAplicada, borroPromociones]); */
 
 	const manejadorExpandido = (id: string | boolean) => {
 		setExpandidoexpandido(id);
@@ -441,10 +434,16 @@ export const Card: React.VFC<CardProps> = ({
 							<Box>
 								<Button
 									onClick={onClick}
-									disabled={promocionAplicada || promocionAutomatica}
+									disabled={
+										promocionAplicada ||
+										promocionAutomatica ||
+										promocionSinDisponible
+									}
 									sx={{
 										border:
-											promocionAplicada || promocionAutomatica
+											promocionAplicada ||
+											promocionAutomatica ||
+											promocionSinDisponible
 												? 'none'
 												: `1px solid #651C32`,
 										borderRadius: '50px',
@@ -454,7 +453,9 @@ export const Card: React.VFC<CardProps> = ({
 										width: '276px',
 										height: '33px',
 										backgroundColor:
-											promocionAplicada || promocionAutomatica
+											promocionAplicada ||
+											promocionAutomatica ||
+											promocionSinDisponible
 												? '#D9D9D9'
 												: '#fff',
 										textTransform: 'none',
@@ -466,7 +467,11 @@ export const Card: React.VFC<CardProps> = ({
 								>
 									<Typography
 										color={
-											promocionAplicada || promocionAutomatica ? '' : '#8A4C5F'
+											promocionAplicada ||
+											promocionAutomatica ||
+											promocionSinDisponible
+												? ''
+												: '#8A4C5F'
 										}
 										fontSize={'12px'}
 										variant='subtitle3'
@@ -494,6 +499,7 @@ export const Card: React.VFC<CardProps> = ({
 								beneficiosParaAgregar,
 								setBeneficiosParaAgregar,
 							}}
+							promocionSinDisponible={promocionSinDisponible}
 							grupoYSecuenciaActual={grupoYSecuenciaActual}
 							producto={{
 								codigoProducto: Number(producto.codigo),
@@ -566,70 +572,3 @@ export const Card: React.VFC<CardProps> = ({
 		</CardMUI>
 	);
 };
-
-/* {!soloLectura && (
-				<>
-					{promocionAutomatica && (
-						<Box
-							borderRadius='50px'
-							display='flex'
-							marginTop='8px'
-							padding='2px 12px'
-							sx={{background: theme.palette.primary.main}}
-							width='fit-content'
-						>
-							<Typography variant='caption' color='#fff' fontFamily='Open Sans'>
-								{t('general.promocionAutomatica')}
-							</Typography>
-						</Box>
-					)}
-					{puedeVerBotonera && (
-						<Box display='flex' gap='10px' marginTop='8px'>
-							<IconButton
-								onClick={onClick}
-								sx={{
-									border: `1px solid ${theme.palette.secondary.main}`,
-									borderRadius: '50px',
-									display: 'flex',
-									gap: '4px',
-									padding: '4px 12px',
-									width: 'fit-content',
-									'&:hover': {
-										backgroundColor: 'none',
-									},
-								}}
-								data-cy={`promoOnGoing-Aplicar-${promocionID}-${tipo}`}
-							>
-								<Typography
-									variant='caption'
-									fontFamily='Open Sans'
-									color={theme.palette.secondary.main}
-								>
-									{t('general.aplicar')}
-								</Typography>
-							</IconButton>
-							<IconButton
-								sx={{
-									border: `1px solid ${theme.palette.secondary.main}`,
-									borderRadius: '50px',
-									display: 'flex',
-									gap: '4px',
-									padding: '4px 12px',
-									width: 'fit-content',
-									'&:hover': {
-										backgroundColor: 'none',
-									},
-								}}
-							>
-								<Typography
-									variant='caption'
-									fontFamily='Open Sans'
-									color={theme.palette.secondary.main}
-								>
-									{t('general.editar')}
-								</Typography>
-							</IconButton>
-						</Box>
-					)}
-				</>
-			)} */

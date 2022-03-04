@@ -87,6 +87,12 @@ export const DrawerPromociones: React.FC<Props> = ({
 
 	const dispatch = useAppDispatch();
 
+	React.useEffect(() => {
+		if (promocionesOingoing) {
+			setpromosDisponibles({...promocionesOingoing.disponibles});
+		}
+	}, [openDrawerPromociones]);
+
 	const restablecerPromociones = (tipo: 'Credito' | 'Contado') => {
 		let promociones = promocionesOngoing.calcular(
 			visitaActual.pedidos.venta.productos,
@@ -97,17 +103,11 @@ export const DrawerPromociones: React.FC<Props> = ({
 			setPromocionesOingoing({
 				...promociones,
 				credito: promocionesOingoing.credito,
-				benficiosParaAgregar: promociones.benficiosParaAgregar.concat(
-					promocionesOingoing.benficiosParaAgregar
-				),
 			});
 		} else {
 			setPromocionesOingoing({
 				...promociones,
 				contado: promocionesOingoing.contado,
-				benficiosParaAgregar: promociones.benficiosParaAgregar.concat(
-					promocionesOingoing.benficiosParaAgregar
-				),
 			});
 		}
 		setpromosDisponibles(promociones.disponibles);
@@ -122,8 +122,6 @@ export const DrawerPromociones: React.FC<Props> = ({
 			})
 		);
 	};
-
-	//console.log(promocionesOingoing.disponibles);
 
 	React.useEffect(() => {
 		if (promocionesOingoing) {

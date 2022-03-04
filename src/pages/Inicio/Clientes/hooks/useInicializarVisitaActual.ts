@@ -47,9 +47,12 @@ export const useInicializarVisitaActual = () => {
 
 			const promocionesOngoing = PromocionesOngoing.getInstance();
 
-			// TODO ALONSO
-			if (datosCliente != undefined)
-				promocionesOngoing.inicializar(datosCliente, datos?.promociones, []);
+			if (datosCliente !== undefined)
+				promocionesOngoing.inicializar(
+					datosCliente,
+					datos?.promociones,
+					pedidosCliente[codigoCliente]?.promocionesOngoing ?? []
+				);
 
 			dispatch(
 				inicializarVisitaActual({

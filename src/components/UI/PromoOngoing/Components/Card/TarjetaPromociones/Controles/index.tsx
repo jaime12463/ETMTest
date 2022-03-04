@@ -38,6 +38,7 @@ interface Props {
 	stateBeneficiosParaAgregar: any;
 	promocionAplicada: boolean;
 	promocionAutomatica: boolean;
+	promocionSinDisponible: boolean;
 	grupoYSecuenciaActual: {
 		grupo: number;
 		secuencia: number;
@@ -51,6 +52,7 @@ export const Controles: React.FC<Props> = ({
 	stateBeneficiosParaAgregar,
 	promocionAplicada,
 	promocionAutomatica,
+	promocionSinDisponible,
 	grupoYSecuenciaActual,
 }) => {
 	const mostrarAviso = useMostrarAviso();
@@ -98,12 +100,12 @@ export const Controles: React.FC<Props> = ({
 	}, [cantidadActual]);
 
 	React.useEffect(() => {
-		if (promocionAplicada || promocionAutomatica) {
+		if (promocionAplicada || promocionAutomatica || promocionSinDisponible) {
 			setPuedeVerBotones(false);
 		} else {
 			setPuedeVerBotones(true);
 		}
-	}, [promocionAutomatica, promocionAplicada]);
+	}, [promocionAutomatica, promocionAplicada, promocionSinDisponible]);
 
 	React.useEffect(() => {
 		if (producto && beneficiosParaAgregar) {

@@ -207,7 +207,6 @@ const Pasos: React.FC = () => {
 		}
 
 		setPasoActual(pasoActual - 1);
-		console.log('entro23');
 	};
 
 	const manejadorPasoAdelante = () => {
@@ -291,14 +290,39 @@ const Pasos: React.FC = () => {
 								: visitaActual?.avisos?.cambioElPedidoSinPromociones.contado &&
 								  !visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
 								? [ETiposDePago.Contado]
-								: visitaActual?.avisos?.cambioElPedidoSinPromociones.contado &&
-								  !visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
+								: visitaActual?.avisos?.cambioElPedidoSinPromociones.credito &&
+								  !visitaActual?.avisos?.cambioElPedidoSinPromociones.contado
 								? [ETiposDePago.Credito]
-								: [];
+								: [ETiposDePago.Contado, ETiposDePago.Credito];
 
 						promociones = promocionesOngoing.calcular(
 							visitaActual?.pedidos?.venta?.productos,
 							tipos
+						);
+
+						let promocionesAutomaticasContado =
+							promociones.contado?.promosAplicables
+								.filter((promocion) => promocion.aplicacion === 'A')
+								.map((promocion) => ({
+									...promocion,
+									tipoPago: ETiposDePago.Contado,
+								})) ?? [];
+
+						let promocionesAutomaticasCredito =
+							promociones.credito?.promosAplicables
+								.filter((promocion) => promocion.aplicacion === 'A')
+								.map((promocion) => ({
+									...promocion,
+									tipoPago: ETiposDePago.Credito,
+								})) ?? [];
+
+						dispatch(
+							agregarBeneficiosPromoOngoing({
+								beneficios: [
+									...promocionesAutomaticasContado,
+									...promocionesAutomaticasCredito,
+								],
+							})
 						);
 
 						dispatch(
@@ -309,9 +333,17 @@ const Pasos: React.FC = () => {
 						);
 					}
 
+					let tienePromocionesAutomaticas =
+						promociones.contado?.promosAplicables.some(
+							(promocion) => promocion.aplicacion === 'A'
+						) ||
+						promociones.credito?.promosAplicables.some(
+							(promocion) => promocion.aplicacion === 'A'
+						);
+
 					if (
 						visitaActual?.avisos?.cambiosPasoActual &&
-						promociones?.benficiosParaAgregar?.length <= 0
+						!tienePromocionesAutomaticas
 					) {
 						mostrarAviso(
 							'success',
@@ -324,9 +356,9 @@ const Pasos: React.FC = () => {
 
 					if (
 						(visitaActual?.avisos?.cambioElPedidoSinPromociones.contado &&
-							promociones?.benficiosParaAgregar?.length > 0) ||
+							tienePromocionesAutomaticas) ||
 						(visitaActual?.avisos?.cambioElPedidoSinPromociones.credito &&
-							promociones?.benficiosParaAgregar?.length > 0)
+							tienePromocionesAutomaticas)
 					) {
 						mostrarAviso(
 							'success',

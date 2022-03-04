@@ -160,8 +160,6 @@ export const visitaActualSlice = createSlice({
 				(promo) =>
 					(promo.tipoPago !== ETiposDePago[action.payload.tipoPago] &&
 						promo.aplicacion === 'A') ||
-					(promo.tipoPago === ETiposDePago[action.payload.tipoPago] &&
-						promo.aplicacion === 'A') ||
 					(promo.tipoPago !== ETiposDePago[action.payload.tipoPago] &&
 						promo.aplicacion === 'M')
 			);
