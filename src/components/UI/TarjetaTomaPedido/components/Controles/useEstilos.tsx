@@ -60,7 +60,7 @@ const useEstilos = makeStyles(() =>
 			},
 			height: '16px',
 			lineHeight: '16px',
-			padding: '0 2px',
+			padding: '1px 2px 0px 2px',
 			width: '42px',
 		},
 	})

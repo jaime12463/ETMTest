@@ -14,13 +14,16 @@ import theme from 'theme';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {
 	ETiposDePago,
+	TCodigoCantidad,
 	TDetalleBonificacionesCliente,
 	TPrecioProducto,
 	TProducto,
 	TProductosPromoOngoingAplicadas,
+	TPromoOngoingBeneficiosSecuencia,
 } from 'models';
 import Modal from 'components/UI/Modal';
 import {useMostrarAviso} from 'hooks';
+import {TPromoOngoingAplicables} from 'utils/procesos/promociones/PromocionesOngoing';
 
 interface Props {
 	producto: {
@@ -35,6 +38,10 @@ interface Props {
 	stateBeneficiosParaAgregar: any;
 	promocionAplicada: boolean;
 	promocionAutomatica: boolean;
+	grupoYSecuenciaActual: {
+		grupo: number;
+		secuencia: number;
+	};
 }
 
 export const Controles: React.FC<Props> = ({
@@ -44,6 +51,7 @@ export const Controles: React.FC<Props> = ({
 	stateBeneficiosParaAgregar,
 	promocionAplicada,
 	promocionAutomatica,
+	grupoYSecuenciaActual,
 }) => {
 	const {focusId, setFocusId} = statefocusId;
 	const {beneficiosParaAgregar, setBeneficiosParaAgregar} =
@@ -51,29 +59,42 @@ export const Controles: React.FC<Props> = ({
 	const [productoOriginal, setProductoOriginal] = React.useState<any>();
 	const [cantidadActual, setCantidadActual] = React.useState<number>(0);
 	const [puedeVerBotones, setPuedeVerBotones] = React.useState<boolean>(false);
+	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 	const [classes, setClasses] = React.useState<any>(
 		useEstilos({errorAplicacionTotal: false, puedeVerBotones})
 	);
 
+	const totalProductos = beneficiosParaAgregar?.beneficios[
+		grupoYSecuenciaActual.grupo
+	]?.secuencias[grupoYSecuenciaActual.secuencia]?.materialesBeneficio.reduce(
+		(a: number, v: TCodigoCantidad) => a + v.cantidad,
+		0
+	);
+
 	React.useEffect(() => {
-		if (beneficiosParaAgregar) {
-			const productoActualizar = beneficiosParaAgregar.productos.find(
-				(productoEnPromocion: TProductosPromoOngoingAplicadas) =>
-					productoEnPromocion.codigoProducto === producto.codigoProducto
+		if (beneficiosParaAgregar && puedeAgregar) {
+			setPuedeAgregar(false);
+			const productoActualizar = beneficiosParaAgregar.beneficios[
+				grupoYSecuenciaActual.grupo
+			].secuencias[
+				grupoYSecuenciaActual.secuencia
+			].materialesBeneficio.findIndex(
+				(productoEnPromocion: TCodigoCantidad) =>
+					productoEnPromocion.codigo === producto.codigoProducto
 			);
+			let promocion: any = {...beneficiosParaAgregar};
 
-			const productosFiltrado = beneficiosParaAgregar.productos.filter(
-				(producto: TProductosPromoOngoingAplicadas) =>
-					producto.codigoProducto !== productoActualizar.codigoProducto
+			promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
+				grupoYSecuenciaActual.secuencia
+			].materialesBeneficio[productoActualizar].cantidad = cantidadActual;
+
+			console.log(promocion);
+
+			setBeneficiosParaAgregar(
+				(prevState: TPromoOngoingBeneficiosSecuencia) => ({
+					...promocion,
+				})
 			);
-
-			setBeneficiosParaAgregar({
-				...beneficiosParaAgregar,
-				productos: productosFiltrado.concat({
-					...productoActualizar,
-					cantidad: cantidadActual,
-				}),
-			});
 		}
 	}, [cantidadActual]);
 
@@ -86,14 +107,28 @@ export const Controles: React.FC<Props> = ({
 	}, [promocionAutomatica, promocionAplicada]);
 
 	React.useEffect(() => {
-		if (producto) {
-			setCantidadActual(producto.cantidad);
+		if (producto && beneficiosParaAgregar) {
+			const productoActual = beneficiosParaAgregar.beneficios[
+				grupoYSecuenciaActual.grupo
+			].secuencias[grupoYSecuenciaActual.secuencia].materialesBeneficio.find(
+				(productoEnPromocion: TCodigoCantidad) =>
+					productoEnPromocion.codigo === producto.codigoProducto
+			);
+
+			console.log({productoActual});
+
+			setCantidadActual(productoActual.cantidad);
 			setProductoOriginal(producto);
 		}
 	}, []);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setCantidadActual(Number(e.target.value.replace(/[^0-9]/g, '')));
+		if (Number(e.target.value) + totalProductos > producto.tope) {
+			// TODO ALONSO
+		} else {
+			setCantidadActual(Number(e.target.value.replace(/[^0-9]/g, '')));
+			setPuedeAgregar(true);
+		}
 	};
 
 	const handleButtons = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -109,6 +144,7 @@ export const Controles: React.FC<Props> = ({
 				return prevCantidad + 1;
 			});
 		}
+		setPuedeAgregar(true);
 	};
 
 	return (
@@ -165,12 +201,12 @@ export const Controles: React.FC<Props> = ({
 								size='small'
 								name='+'
 								onClick={handleButtons}
-								disabled={cantidadActual >= productoOriginal.tope}
+								disabled={totalProductos >= producto.tope}
 							>
 								<AgregarRedondoIcon
 									width='18px'
 									height='18px'
-									disabled={cantidadActual >= productoOriginal.tope}
+									disabled={totalProductos >= producto.tope}
 								/>
 							</IconButton>
 						)}

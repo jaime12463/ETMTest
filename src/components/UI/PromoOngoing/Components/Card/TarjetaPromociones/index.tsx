@@ -22,6 +22,10 @@ interface Props {
 	promocionAplicada: boolean;
 	stateBeneficiosParaAgregar: any;
 	promocionAutomatica: boolean;
+	grupoYSecuenciaActual: {
+		grupo: number;
+		secuencia: number;
+	};
 }
 
 export const TarjetaPromociones: React.FC<Props> = ({
@@ -30,6 +34,7 @@ export const TarjetaPromociones: React.FC<Props> = ({
 	promocionAplicada,
 	promocionAutomatica,
 	stateBeneficiosParaAgregar,
+	grupoYSecuenciaActual,
 }) => {
 	const datos = useObtenerDatos();
 	const [productoActual, setProductoActual] = React.useState<TProducto>();
@@ -48,6 +53,7 @@ export const TarjetaPromociones: React.FC<Props> = ({
 						unidadMedida={producto.unidadMedida}
 					/>
 					<Controles
+						grupoYSecuenciaActual={grupoYSecuenciaActual}
 						promocionAutomatica={promocionAutomatica}
 						promocionAplicada={promocionAplicada}
 						statefocusId={statefocusId}

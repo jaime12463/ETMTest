@@ -9,6 +9,7 @@ import {
 	TProductosPromoOngoingAplicadas,
 	TPromoOngoing,
 	TPromoOngoingAplicadas,
+	TPromoOngoingBeneficiosSecuencia,
 } from 'models';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
@@ -106,12 +107,14 @@ export const Card: React.VFC<CardProps> = ({
 	const [borroPromocion, setBorroPromocion] = React.useState<boolean>(false);
 	const [focusId, setFocusId] = React.useState<string>('');
 	const [beneficiosParaAgregar, setBeneficiosParaAgregar] =
-		React.useState<TPromoOngoingAplicadas>();
+		React.useState<TPromoOngoingAplicables>();
 	const [gruposSelect, setGruposSelect] = React.useState<string>('');
 	const [grupoYSecuenciaActual, setGrupoYSecuenciaActual] = React.useState<{
 		grupo: number;
 		secuencia: number;
 	}>({grupo: 0, secuencia: 0});
+	const [promocionEditada, setPromocionEditada] =
+		React.useState<TPromoOngoingAplicables>();
 	const [secuenciaSelect, setSecuenciaSelect] = React.useState<string>('');
 	const [promocionSinDisponibile, setPromocionSinDisponibile] =
 		React.useState<boolean>(false);
@@ -151,6 +154,7 @@ export const Card: React.VFC<CardProps> = ({
 
 	React.useEffect(() => {
 		if (promocion) {
+			setPromocionEditada({...promocion});
 			setGruposSelect(promocion.beneficios[0].descripcion);
 			setGrupoYSecuenciaActual({grupo: 0, secuencia: 0});
 			setSecuenciaSelect(
@@ -165,28 +169,13 @@ export const Card: React.VFC<CardProps> = ({
 				(grupo) =>
 					grupo.descripcion.toLowerCase() === gruposSelect.toLowerCase()
 			);
-
 			setGrupoYSecuenciaActual({grupo: indexGrupo, secuencia: 0});
-
 			setSecuenciaSelect(
 				promocion.beneficios[indexGrupo].secuencias[0].secuencia.toString()
 			);
 
 			setBeneficiosParaAgregar({
-				promocionID,
-				tipoPago,
-				descripcion: '',
-				aplicacion: EFormaDeAplicacion.Manual,
-				productos: materiales.map((producto) => ({
-					tipoPago,
-					codigoProducto: Number(producto.codigo),
-					unidadMedida: 'Unidad',
-					cantidad:
-						promocion.beneficios[indexGrupo].secuencias[
-							grupoYSecuenciaActual.secuencia
-						].cantidad,
-					descripcion: '',
-				})),
+				...promocion,
 			});
 		}
 	}, [gruposSelect]);
@@ -237,17 +226,16 @@ export const Card: React.VFC<CardProps> = ({
 			});
 
 			if (promocion && beneficiosParaAgregar) {
-				// TODO ALONSO
-				// dispatch(
-				// 	agregarBeneficiosPromoOngoing({
-				// 		beneficios: [
-				// 			...visitaActual.promosOngoing,
-				// 			{
-				// 				...beneficiosParaAgregar,
-				// 			},
-				// 		],
-				// 	})
-				// );
+				dispatch(
+					agregarBeneficiosPromoOngoing({
+						beneficios: [
+							...visitaActual.promosOngoing,
+							{
+								...beneficiosParaAgregar,
+							},
+						],
+					})
+				);
 			}
 		}
 	};
@@ -477,6 +465,7 @@ export const Card: React.VFC<CardProps> = ({
 								beneficiosParaAgregar,
 								setBeneficiosParaAgregar,
 							}}
+							grupoYSecuenciaActual={grupoYSecuenciaActual}
 							producto={{
 								codigoProducto: Number(producto.codigo),
 								tope: promocion.beneficios[grupoYSecuenciaActual.grupo]
