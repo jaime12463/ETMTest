@@ -162,6 +162,8 @@ export const Card: React.VFC<CardProps> = ({
 				promocion.beneficios[0].secuencias[0].secuencia.toString()
 			);
 		}
+
+		return () => setExpandidoexpandido(false);
 	}, []);
 
 	React.useEffect(() => {
