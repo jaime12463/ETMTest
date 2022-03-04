@@ -233,6 +233,9 @@ export const Card: React.VFC<CardProps> = ({
 							{
 								...beneficiosParaAgregar,
 								tipoPago,
+								beneficios: [
+									beneficiosParaAgregar.beneficios[grupoYSecuenciaActual.grupo],
+								],
 							},
 						],
 					})
