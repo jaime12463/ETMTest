@@ -2,6 +2,8 @@ import React from 'react';
 import {TDataSecundaria} from 'models';
 import {useFiltrarPreciosProductosDelClienteActual} from './useFiltrarPreciosProductosDelClienteActual';
 import {useObtenerDatos} from 'redux/hooks';
+import {useObtenerDatosTipoPedido} from './useObtenerDatosTipoPedido';
+import {useObtenerPresupuestosTipoPedidoActual} from './useObtenerPresupuestosTipoPedidoActual';
 
 export interface ItemsBusqueda extends TDataSecundaria {
 	checked: boolean;
@@ -30,6 +32,13 @@ export const useObtenerFiltrosDelCliente = (): FiltrosBusqueda => {
 	const preciosProductosDelClienteActual =
 		useFiltrarPreciosProductosDelClienteActual();
 
+	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
+	const obtenerPresupuestosTipoPedidoActual =
+		useObtenerPresupuestosTipoPedidoActual();
+
+	const datosTipoPedidoActual = obtenerDatosTipoPedido();
+	const presupuestoTipoPedido = obtenerPresupuestosTipoPedidoActual();
+
 	const [filtrosDelCliente] = React.useState<FiltrosBusqueda>(() => {
 		let idAtributosCliente: IDAtributosCliente = {
 			envases: [],
@@ -53,6 +62,26 @@ export const useObtenerFiltrosDelCliente = (): FiltrosBusqueda => {
 		for (const producto of preciosProductosDelClienteActual) {
 			//Si el producto no tiene atributos se descarta
 			if (!producto.atributos) continue;
+
+			// Si el producto no cumple con estas condiciones se descarta
+			if (
+				(!datosTipoPedidoActual?.validaPresupuesto &&
+					!datosTipoPedidoActual?.tipoProductosHabilitados.includes(
+						producto.tipoProducto
+					)) ||
+				(datosTipoPedidoActual?.validaPresupuesto &&
+					!presupuestoTipoPedido?.tieneProductosHabilitados &&
+					!datosTipoPedidoActual?.tipoProductosHabilitados.includes(
+						producto.tipoProducto
+					)) ||
+				(datosTipoPedidoActual?.validaPresupuesto &&
+					presupuestoTipoPedido?.tieneProductosHabilitados &&
+					!presupuestoTipoPedido.productosHabilitados.includes(
+						producto.codigoProducto
+					))
+			) {
+				continue;
+			}
 
 			// Se verifica que el codigo del producto no este en el arreglo
 			!idAtributosCliente.sabores.includes(producto.atributos.sabor) &&

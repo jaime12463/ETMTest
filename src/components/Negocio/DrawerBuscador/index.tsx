@@ -88,6 +88,8 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 				debouncedInput={debouncedInput}
 				setOpenBuscador={setOpenBuscador}
 				setInputBusqueda={setInputBusqueda}
+				setFiltrosBusqueda={setFiltrosBusqueda}
+				estadoInicialFiltros={estadoInicialFiltros}
 			/>
 
 			<DrawerFiltros open={abrirFiltros} setOpen={setAbrirFiltros}>
