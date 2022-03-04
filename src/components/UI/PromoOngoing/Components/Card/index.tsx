@@ -232,6 +232,7 @@ export const Card: React.VFC<CardProps> = ({
 							...visitaActual.promosOngoing,
 							{
 								...beneficiosParaAgregar,
+								tipoPago,
 							},
 						],
 					})
