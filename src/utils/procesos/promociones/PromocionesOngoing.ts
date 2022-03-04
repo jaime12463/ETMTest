@@ -487,21 +487,24 @@ export class PromocionesOngoing {
 			// si una de las secuencia al validar materiales no queda al menos uno, el grupo se descarta
 			for (let secuencia of grupo.secuencias) {
 				// se ordenan los beneficios según Sku menor
-				const materialesBeneficio= (secuencia.materialesBeneficio as number[]).sort((a,b) => {
+				const materialesBeneficio=[...secuencia.materialesBeneficio as number[]] ;
+				
+				materialesBeneficio.sort((a,b) => {
 					if(a<b)
 						return -1;
 					if (a>b)
 						return 1;
 					return 0;
 				 });
+
 				let flag=true; // flag para otorgar el tope al primero
-				secuencia.tope= Math.min(topeSegunMultiplo, secuencia.tope); // nuevo tope
+				const tope= Math.min(topeSegunMultiplo, secuencia.tope); // nuevo tope
 				if (secuencia.formaBeneficio == EFormaBeneficio.Obsequio) {
 					materialesBeneficio.filter(
 						(producto: number) =>
 							validarProductoContraPortafolio(producto, this._cliente?.portafolio ?? [])
 					).forEach((material)=> {
-						materiales.push({codigo:material , cantidad: (flag) ? secuencia.tope : 0});
+						materiales.push({codigo:material , cantidad: (flag) ? tope : 0});
 						flag=false;
 					});
 				} //if ([EFormaBeneficio.DescuentoPorcentaje , EFormaBeneficio.DescuentoMonto , EFormaBeneficio.Precio].includes(secuencia.formaBeneficio))
@@ -509,7 +512,7 @@ export class PromocionesOngoing {
 					materialesBeneficio.filter(
 						(producto: number) => productosPedidoIndex[producto]
 					).forEach((material)=> {
-						materiales.push({codigo:material , cantidad: (flag) ? secuencia.tope : 0});
+						materiales.push({codigo:material , cantidad: (flag) ? tope : 0});
 						flag=false;
 					});
 				}
@@ -520,6 +523,7 @@ export class PromocionesOngoing {
 				}
 				secuencias.push({
 					...secuencia,
+					tope,
 					materialesBeneficio: materiales,
 				});
 			}
