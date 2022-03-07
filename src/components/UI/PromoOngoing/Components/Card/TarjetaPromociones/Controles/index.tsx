@@ -86,6 +86,8 @@ export const Controles: React.FC<Props> = ({
 					.secuencias[grupoYSecuenciaActual.secuencia].materialesBeneficio,
 			];
 
+			console.log({materialesBeneficio});
+
 			let productoActualizar = materialesBeneficio.findIndex(
 				(productoEnPromocion: TCodigoCantidad) =>
 					productoEnPromocion.codigo === producto.codigoProducto

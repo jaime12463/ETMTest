@@ -92,7 +92,7 @@ export const Card: React.VFC<CardProps> = ({
 	borroPromociones,
 	tipo,
 	setBorroPromociones,
-	promosSimilares,
+
 	promocionesOngoing,
 	setpromosDisponibles,
 	promosDisponibles,
