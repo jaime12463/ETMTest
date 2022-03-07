@@ -38,6 +38,7 @@ interface Props {
 	stateBeneficiosParaAgregar: any;
 	promocionAplicada: boolean;
 	promocionAutomatica: boolean;
+	promocionSinDisponible: boolean;
 	grupoYSecuenciaActual: {
 		grupo: number;
 		secuencia: number;
@@ -51,8 +52,10 @@ export const Controles: React.FC<Props> = ({
 	stateBeneficiosParaAgregar,
 	promocionAplicada,
 	promocionAutomatica,
+	promocionSinDisponible,
 	grupoYSecuenciaActual,
 }) => {
+	const mostrarAviso = useMostrarAviso();
 	const {focusId, setFocusId} = statefocusId;
 	const {beneficiosParaAgregar, setBeneficiosParaAgregar} =
 		stateBeneficiosParaAgregar;
@@ -63,48 +66,54 @@ export const Controles: React.FC<Props> = ({
 	const [classes, setClasses] = React.useState<any>(
 		useEstilos({errorAplicacionTotal: false, puedeVerBotones})
 	);
+	const [totalProductos, setTotalProductos] = React.useState<number>(0);
 
-	const totalProductos = beneficiosParaAgregar?.beneficios[
-		grupoYSecuenciaActual.grupo
-	]?.secuencias[grupoYSecuenciaActual.secuencia]?.materialesBeneficio.reduce(
-		(a: number, v: TCodigoCantidad) => a + v.cantidad,
-		0
-	);
+	React.useEffect(() => {
+		const totalProductos = beneficiosParaAgregar?.beneficios[
+			grupoYSecuenciaActual.grupo
+		]?.secuencias[grupoYSecuenciaActual.secuencia]?.materialesBeneficio.reduce(
+			(a: number, v: TCodigoCantidad) => a + v.cantidad,
+			0
+		);
+		setTotalProductos(totalProductos);
+	}, [beneficiosParaAgregar, cantidadActual]);
 
 	React.useEffect(() => {
 		if (beneficiosParaAgregar && puedeAgregar) {
 			setPuedeAgregar(false);
-			const productoActualizar = beneficiosParaAgregar.beneficios[
-				grupoYSecuenciaActual.grupo
-			].secuencias[
-				grupoYSecuenciaActual.secuencia
-			].materialesBeneficio.findIndex(
+			const materialesBeneficio = [
+				...beneficiosParaAgregar.beneficios[grupoYSecuenciaActual.grupo]
+					.secuencias[grupoYSecuenciaActual.secuencia].materialesBeneficio,
+			];
+
+			let productoActualizar = materialesBeneficio.findIndex(
 				(productoEnPromocion: TCodigoCantidad) =>
 					productoEnPromocion.codigo === producto.codigoProducto
 			);
-			let promocion: any = {...beneficiosParaAgregar};
 
-			promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
-				grupoYSecuenciaActual.secuencia
-			].materialesBeneficio[productoActualizar].cantidad = cantidadActual;
+			if (productoActualizar !== -1) {
+				let promocionEditada: any = {...beneficiosParaAgregar};
 
-			console.log(promocion);
+				promocionEditada.beneficios[grupoYSecuenciaActual.grupo].secuencias[
+					grupoYSecuenciaActual.secuencia
+				].materialesBeneficio[productoActualizar].cantidad = cantidadActual;
 
-			setBeneficiosParaAgregar(
-				(prevState: TPromoOngoingBeneficiosSecuencia) => ({
-					...promocion,
-				})
-			);
+				setBeneficiosParaAgregar(
+					(prevState: TPromoOngoingBeneficiosSecuencia) => ({
+						...promocionEditada,
+					})
+				);
+			}
 		}
 	}, [cantidadActual]);
 
 	React.useEffect(() => {
-		if (promocionAplicada || promocionAutomatica) {
+		if (promocionAplicada || promocionAutomatica || promocionSinDisponible) {
 			setPuedeVerBotones(false);
 		} else {
 			setPuedeVerBotones(true);
 		}
-	}, [promocionAutomatica, promocionAplicada]);
+	}, [promocionAutomatica, promocionAplicada, promocionSinDisponible]);
 
 	React.useEffect(() => {
 		if (producto && beneficiosParaAgregar) {
@@ -115,8 +124,6 @@ export const Controles: React.FC<Props> = ({
 					productoEnPromocion.codigo === producto.codigoProducto
 			);
 
-			console.log({productoActual});
-
 			setCantidadActual(productoActual.cantidad);
 			setProductoOriginal(producto);
 		}
@@ -124,7 +131,7 @@ export const Controles: React.FC<Props> = ({
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (Number(e.target.value) + totalProductos > producto.tope) {
-			// TODO ALONSO
+			mostrarAviso('error', 'La cantidad es mayor al disponible permitido');
 		} else {
 			setCantidadActual(Number(e.target.value.replace(/[^0-9]/g, '')));
 			setPuedeAgregar(true);
