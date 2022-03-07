@@ -177,9 +177,7 @@ export const Card: React.VFC<CardProps> = ({
 			setSecuenciaSelect(
 				promocion.beneficios[indexGrupo].secuencias[0].secuencia.toString()
 			);
-			setBeneficiosParaAgregar({
-				...promocion,
-			});
+			setBeneficiosParaAgregar(JSON.parse(JSON.stringify(promocion)));
 		}
 	}, [gruposSelect]);
 
@@ -215,23 +213,24 @@ export const Card: React.VFC<CardProps> = ({
 	}, [promosDisponibles, borroPromociones, visitaActual.promosOngoing]);
 
 	const onClick = () => {
-		if (!promocionAplicada) {
-			if (promocion.asignacion === EFormaDeAsignacion.Total) {
+		if (!promocionAplicada && beneficiosParaAgregar) {
+			if (beneficiosParaAgregar.asignacion === EFormaDeAsignacion.Total) {
 				let apliacionTotalIncomplenta = false;
-				promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias.forEach(
-					(secuencia: any) => {
-						let tope = secuencia.tope;
 
-						let totalCantidadMateriales = secuencia.materialesBeneficio.reduce(
-							(a: number, v: TCodigoCantidad) => a + v.cantidad,
-							0
-						);
+				beneficiosParaAgregar.beneficios[
+					grupoYSecuenciaActual.grupo
+				].secuencias.forEach((secuencia: any) => {
+					let tope = secuencia.tope;
 
-						if (totalCantidadMateriales < tope) {
-							apliacionTotalIncomplenta = true;
-						}
+					let totalCantidadMateriales = secuencia.materialesBeneficio.reduce(
+						(a: number, v: TCodigoCantidad) => a + v.cantidad,
+						0
+					);
+
+					if (totalCantidadMateriales < tope) {
+						apliacionTotalIncomplenta = true;
 					}
-				);
+				});
 
 				if (apliacionTotalIncomplenta) {
 					setBordeColor(theme.palette.error.main);
@@ -246,7 +245,7 @@ export const Card: React.VFC<CardProps> = ({
 			setBordeColor(theme.palette.success.main);
 			setPromocionAplicada(true);
 			promocionesOngoing.aplicarPromo(tipoPago, index, {
-				...promocion,
+				...beneficiosParaAgregar,
 				aplicada: true,
 			});
 

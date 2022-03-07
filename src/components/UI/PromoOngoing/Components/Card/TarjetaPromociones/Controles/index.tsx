@@ -86,8 +86,6 @@ export const Controles: React.FC<Props> = ({
 					.secuencias[grupoYSecuenciaActual.secuencia].materialesBeneficio,
 			];
 
-			console.log({materialesBeneficio});
-
 			let productoActualizar = materialesBeneficio.findIndex(
 				(productoEnPromocion: TCodigoCantidad) =>
 					productoEnPromocion.codigo === producto.codigoProducto
@@ -100,11 +98,7 @@ export const Controles: React.FC<Props> = ({
 					grupoYSecuenciaActual.secuencia
 				].materialesBeneficio[productoActualizar].cantidad = cantidadActual;
 
-				setBeneficiosParaAgregar(
-					(prevState: TPromoOngoingBeneficiosSecuencia) => ({
-						...promocionEditada,
-					})
-				);
+				setBeneficiosParaAgregar({...promocionEditada});
 			}
 		}
 	}, [cantidadActual]);
