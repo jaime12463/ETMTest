@@ -298,9 +298,7 @@ export const Card: React.VFC<CardProps> = ({
 				promocion.beneficios[indexGrupo].secuencias[0].secuencia.toString()
 			);
 
-			setBeneficiosParaAgregar({
-				...promocion,
-			});
+			setBeneficiosParaAgregar(JSON.parse(JSON.stringify(promocion)));
 			setExpandidoexpandido(false);
 		}
 	}, [borroPromociones]);
