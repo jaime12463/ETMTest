@@ -182,6 +182,8 @@ const TomaPedido: React.FC = () => {
 				  })
 				: setPromocionesOingoing({...promociones});
 
+			console.log(tipos);
+
 			tipos.forEach((tipo) =>
 				dispatch(
 					borrarPromocionesOngoing({
