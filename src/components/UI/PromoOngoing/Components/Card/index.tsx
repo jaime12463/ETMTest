@@ -177,12 +177,26 @@ export const Card: React.VFC<CardProps> = ({
 			setSecuenciaSelect(
 				promocion.beneficios[indexGrupo].secuencias[0].secuencia.toString()
 			);
-
 			setBeneficiosParaAgregar({
 				...promocion,
 			});
 		}
 	}, [gruposSelect]);
+
+	React.useEffect(() => {
+		if (promocion && secuenciaSelect !== '') {
+			const indexSecuencia = promocion.beneficios[
+				grupoYSecuenciaActual.grupo
+			].secuencias.findIndex(
+				(secuncia) => secuncia.secuencia === Number(secuenciaSelect)
+			);
+
+			setGrupoYSecuenciaActual((prevState) => ({
+				...prevState,
+				secuencia: indexSecuencia,
+			}));
+		}
+	}, [secuenciaSelect]);
 
 	React.useEffect(() => {
 		if (!promocionAutomatica) {
