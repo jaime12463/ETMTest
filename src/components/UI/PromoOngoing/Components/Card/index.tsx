@@ -532,32 +532,39 @@ export const Card: React.VFC<CardProps> = ({
 					</Box>
 					<Divider sx={{marginTop: '10px'}} variant='fullWidth' />
 					{!soloLectura &&
-						materiales.map((producto) => (
-							<TarjetaPromociones
-								key={Number(producto.codigo)}
-								promocionAplicada={promocionAplicada}
-								promocionAutomatica={promocionAutomatica}
-								stateBeneficiosParaAgregar={{
-									beneficiosParaAgregar,
-									setBeneficiosParaAgregar,
-								}}
-								promocionSinDisponible={promocionSinDisponible}
-								grupoYSecuenciaActual={grupoYSecuenciaActual}
-								producto={{
-									codigoProducto: Number(producto.codigo),
-									tope: promocion.beneficios[grupoYSecuenciaActual.grupo]
-										.secuencias[grupoYSecuenciaActual.secuencia].tope,
-									tipoPago,
-									cantidad:
-										promocion.beneficios[grupoYSecuenciaActual.grupo]
-											.secuencias[grupoYSecuenciaActual.secuencia].cantidad,
-									unidadMedida:
-										promocion.beneficios[grupoYSecuenciaActual.grupo]
-											.secuencias[grupoYSecuenciaActual.secuencia].unidadMedida,
-								}}
-								statefocusId={{focusId, setFocusId}}
-							/>
-						))}
+						promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
+							grupoYSecuenciaActual.secuencia
+						].materialesBeneficio.map((producto) => {
+							const {cantidad, codigo} = producto as TCodigoCantidad;
+
+							return (
+								<TarjetaPromociones
+									key={Number(codigo)}
+									promocionAplicada={promocionAplicada}
+									promocionAutomatica={promocionAutomatica}
+									stateBeneficiosParaAgregar={{
+										beneficiosParaAgregar,
+										setBeneficiosParaAgregar,
+									}}
+									promocionSinDisponible={promocionSinDisponible}
+									grupoYSecuenciaActual={grupoYSecuenciaActual}
+									producto={{
+										codigoProducto: Number(codigo),
+										tope: promocion.beneficios[grupoYSecuenciaActual.grupo]
+											.secuencias[grupoYSecuenciaActual.secuencia].tope,
+										tipoPago,
+										cantidad:
+											promocion.beneficios[grupoYSecuenciaActual.grupo]
+												.secuencias[grupoYSecuenciaActual.secuencia].cantidad,
+										unidadMedida:
+											promocion.beneficios[grupoYSecuenciaActual.grupo]
+												.secuencias[grupoYSecuenciaActual.secuencia]
+												.unidadMedida,
+									}}
+									statefocusId={{focusId, setFocusId}}
+								/>
+							);
+						})}
 					<Divider sx={{marginBottom: '10px'}} variant='fullWidth' />
 				</Collapse>
 
