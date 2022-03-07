@@ -273,6 +273,7 @@ export const Card: React.VFC<CardProps> = ({
 						],
 					})
 				);
+				setExpandidoexpandido(false);
 			}
 		}
 	};
@@ -583,9 +584,42 @@ export const Card: React.VFC<CardProps> = ({
 						disableFocusRipple
 						fullWidth
 						disableRipple
-						onClick={() =>
-							manejadorExpandido(expandido === expandID ? false : expandID)
-						}
+						onClick={() => {
+							if (
+								(expandido === expandID && promocion.asignacion) ===
+								EFormaDeAsignacion.Total
+							) {
+								let apliacionTotalIncomplenta = false;
+								promocion.beneficios[
+									grupoYSecuenciaActual.grupo
+								].secuencias.forEach((secuencia: any) => {
+									let tope = secuencia.tope;
+
+									let totalCantidadMateriales =
+										secuencia.materialesBeneficio.reduce(
+											(a: number, v: TCodigoCantidad) => a + v.cantidad,
+											0
+										);
+
+									if (totalCantidadMateriales < tope) {
+										apliacionTotalIncomplenta = true;
+									}
+								});
+
+								if (apliacionTotalIncomplenta) {
+									setBordeColor(theme.palette.error.main);
+									return mostrarAviso(
+										'error',
+										'Aplicación máxima incompleta',
+										'Se debe asignar la aplicación total del beneficio'
+									);
+								} else {
+									manejadorExpandido(expandido === expandID ? false : expandID);
+								}
+							} else {
+								manejadorExpandido(expandido === expandID ? false : expandID);
+							}
+						}}
 					>
 						<CardActions disableSpacing style={{padding: 0}}>
 							<Box display='flex' gap='6px' alignItems='center'>
