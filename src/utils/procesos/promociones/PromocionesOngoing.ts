@@ -492,12 +492,13 @@ export class PromocionesOngoing {
 	): TPromoOngoingGrupoBeneficios[] {
 		let grupoBeneficiosVerificados: TPromoOngoingGrupoBeneficios[] = [];
 		grupoBeneficios.forEach((grupo: TPromoOngoingGrupoBeneficios) => {
-			let materiales: TCodigoCantidad[] = [];
+			
 			let secuencias: TPromoOngoingBeneficiosSecuencia[] = [];
 			let grupoValido: boolean = true;
 			// si una de las secuencia al validar materiales no queda al menos uno, el grupo se descarta
 			for (let secuencia of grupo.secuencias) {
 				// se ordenan los beneficios según Sku menor
+				let materiales: TCodigoCantidad[] = [];
 				const materialesBeneficio = [
 					...(secuencia.materialesBeneficio as number[]),
 				];
