@@ -234,6 +234,7 @@ export const Card: React.VFC<CardProps> = ({
 				);
 
 				if (apliacionTotalIncomplenta) {
+					setBordeColor(theme.palette.error.main);
 					return mostrarAviso(
 						'error',
 						'Aplicación máxima incompleta',
