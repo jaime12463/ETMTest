@@ -4,13 +4,10 @@ import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {
 	EFormaBeneficio,
-	EFormaDeAplicacion,
+	EFormaDeAsignacion,
 	ETiposDePago,
 	TCodigoCantidad,
-	TProductosPromoOngoingAplicadas,
 	TPromoOngoing,
-	TPromoOngoingAplicadas,
-	TPromoOngoingBeneficiosSecuencia,
 } from 'models';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
@@ -36,6 +33,7 @@ import {
 } from '@mui/material';
 import clsx from 'clsx';
 import CustomSelect from 'components/UI/CustomSelect';
+import {useMostrarAviso} from 'hooks';
 
 const useEstilos = makeStyles((theme: Theme) =>
 	createStyles({
@@ -132,6 +130,8 @@ export const Card: React.VFC<CardProps> = ({
 		.secuencias[grupoYSecuenciaActual.secuencia]
 		.materialesBeneficio as TCodigoCantidad[];
 
+	const mostrarAviso = useMostrarAviso();
+
 	const tipoPago =
 		tipo === 'contado' ? ETiposDePago.Contado : ETiposDePago.Credito;
 
@@ -201,9 +201,32 @@ export const Card: React.VFC<CardProps> = ({
 	}, [promosDisponibles, borroPromociones, visitaActual.promosOngoing]);
 
 	const onClick = () => {
-		//Iteramos la secuencias y si la suma de sus materilaes es menor al tope entonces avisar que tiene que completar tdo
-
 		if (!promocionAplicada) {
+			if (promocion.asignacion === EFormaDeAsignacion.Total) {
+				let apliacionTotalIncomplenta = false;
+				promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias.forEach(
+					(secuencia: any) => {
+						let tope = secuencia.tope;
+
+						let totalCantidadMateriales = secuencia.materialesBeneficio.reduce(
+							(a: number, v: TCodigoCantidad) => a + v.cantidad,
+							0
+						);
+
+						if (totalCantidadMateriales < tope) {
+							apliacionTotalIncomplenta = true;
+						}
+					}
+				);
+
+				if (apliacionTotalIncomplenta) {
+					return mostrarAviso(
+						'error',
+						'Aplicación máxima incompleta',
+						'Se debe asignar la aplicación total del beneficio'
+					);
+				}
+			}
 			setMostrarCheck(true);
 			setBordeColor(theme.palette.success.main);
 			setPromocionAplicada(true);
@@ -251,6 +274,19 @@ export const Card: React.VFC<CardProps> = ({
 			setBordeColor('#D9D9D9');
 			setBorroPromociones({...borroPromociones, [tipo]: false});
 			setPromocionAplicada(false);
+			const indexGrupo = promocion.beneficios.findIndex(
+				(grupo) =>
+					grupo.descripcion.toLowerCase() === gruposSelect.toLowerCase()
+			);
+			setGrupoYSecuenciaActual({grupo: indexGrupo, secuencia: 0});
+			setSecuenciaSelect(
+				promocion.beneficios[indexGrupo].secuencias[0].secuencia.toString()
+			);
+
+			setBeneficiosParaAgregar({
+				...promocion,
+			});
+			setExpandidoexpandido(false);
 		}
 	}, [borroPromociones]);
 
@@ -279,18 +315,6 @@ export const Card: React.VFC<CardProps> = ({
 			}
 		}
 	}, [promocionAutomatica, borroPromociones]);
-
-	/* 	React.useEffect(() => {
-		if (promosDisponibles && setpromosDisponibles && !promocionAplicada) {
-			setpromosDisponibles((prevState) => ({
-				...prevState,
-				[Number(promocionID)]: {
-					disponibles: prevState[Number(promocionID)].disponibles,
-					aplicadas: prevState[Number(promocionID)].aplicadas + 1,
-				},
-			}));
-		}
-	}, [promocionAplicada, borroPromociones]); */
 
 	const manejadorExpandido = (id: string | boolean) => {
 		setExpandidoexpandido(id);
@@ -373,6 +397,7 @@ export const Card: React.VFC<CardProps> = ({
 								</Typography>
 								<Box width='181px' height='24px' mt='8px'>
 									<CustomSelect
+										bloqueado={promocionAplicada}
 										opcionSeleccionada={gruposSelect}
 										opciones={[
 											...promocion?.beneficios?.map(
