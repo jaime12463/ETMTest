@@ -1,5 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import {PromocionesIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
@@ -67,51 +68,53 @@ export const PromoOngoing: React.FC<PromoOngoingProps> = ({promocion}) => {
 					if (cantidad === 0) return null;
 
 					return (
-						<Box display='flex' key={codigo}>
-							<Box
-								display='flex'
-								flexDirection='column'
-								gap='4px'
-								flex='1'
-								padding='16px 6px 16px 14px'
-							>
-								<Box display='flex' flexDirection='column'>
-									<Typography variant='subtitle3' fontFamily='Open Sans'>
-										{codigo}
-									</Typography>
-									<Typography variant='subtitle3'>{producto.nombre}</Typography>
+						<Box key={codigo}>
+							<Box display='flex'>
+								<Box
+									display='flex'
+									flexDirection='column'
+									gap='4px'
+									flex='1'
+									padding='16px 6px 16px 14px'
+								>
+									<Box display='flex' flexDirection='column'>
+										<Typography variant='subtitle3' fontFamily='Open Sans'>
+											{codigo}
+										</Typography>
+										<Typography variant='subtitle3'>
+											{producto.nombre}
+										</Typography>
+									</Box>
+									<Box alignItems='center' display='flex' gap='4px'>
+										<PromocionesIcon height='14px' width='14px' />
+										<Typography variant='subtitle3' fontFamily='Open Sans'>
+											{cantidad}
+										</Typography>
+									</Box>
 								</Box>
-								<Box alignItems='center' display='flex' gap='4px'>
-									<PromocionesIcon height='14px' width='14px' />
-									<Typography variant='subtitle3' fontFamily='Open Sans'>
-										{cantidad}
+								<Box
+									display='flex'
+									flexBasis='143px'
+									flexDirection='column'
+									gap='4px'
+									justifyContent='center'
+									minHeight='100%'
+									padding='8px 14px 8px 8px'
+									sx={{background: '#F5F0EF'}}
+								>
+									<Typography variant='caption' color='#000'>
+										{`${t('general.tipo')}:`}
+									</Typography>
+									<Typography variant='subtitle3'>
+										{t('general.obsequio')}
 									</Typography>
 								</Box>
 							</Box>
-							<Box
-								display='flex'
-								flexBasis='143px'
-								flexDirection='column'
-								gap='4px'
-								justifyContent='center'
-								minHeight='100%'
-								padding='8px 14px 8px 8px'
-								sx={{background: '#F5F0EF'}}
-							>
-								<Typography variant='caption' color='#000'>
-									{`${t('general.tipo')}:`}
-								</Typography>
-								<Typography variant='subtitle3'>
-									{t('general.obsequio')}
-								</Typography>
-							</Box>
+							<Divider />
 						</Box>
 					);
 				});
 			})}
-			{/* {productos.map((producto) => (
-				
-			))} */}
 		</Box>
 	);
 };
