@@ -26,6 +26,11 @@ export type TDataSecundaria = {
 
 export type TListaDataSecundaria = Record<number, TDataSecundaria>;
 
+export type TCodigoCantidad = {
+	codigo:number | string,
+	cantidad:number
+}
+
 /* */
 /* 	ESTRUCTURAS PROMOONGOING */
 
@@ -47,10 +52,6 @@ export enum EFormaDeAsignacion {
 	Parcial="P"
 }
 
-export type TCodigoCantidad = {
-	codigo:number | string,
-	cantidad:number
-}
 
 export type TPromoOngoing = {
 	promocionID: number;

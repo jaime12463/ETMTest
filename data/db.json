@@ -2912,6 +2912,15 @@
 							"formaBeneficio": "1",
 							"valorBeneficio": 100,
 							"tope": 2
+						},
+						{
+							"secuencia": 2,
+							"materialesBeneficio": [420],
+							"cantidad": 1,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "1",
+							"valorBeneficio": 100,
+							"tope": 4
 						}
 					]
 				}

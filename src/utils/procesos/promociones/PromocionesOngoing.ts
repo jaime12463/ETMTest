@@ -381,7 +381,8 @@ export class PromocionesOngoing {
 				let grupoDeBeneficiosResultado = this.verificarBeneficios(
 					topeSegunMultiplo,
 					promo.beneficios,
-					productosPedidos
+					productosPedidos,
+					productosUsadosEnOtrasPromosAutomaticas
 				);
 				let listaProductosAplicados: TPromoOngoingListaProductosAplicados[] =
 					[];
@@ -477,14 +478,17 @@ export class PromocionesOngoing {
 	 * Retorna un array de grupos de benenficios ordenado por Id, con los materiales validades según corresponda
 	 * SI el grupo no tiene ninguna secuencia válida se descarta
 	 * @constructor
+	 * @param {number} topeSegunMultiplo -  tope según el multiplo resultante de las unidades vendidas  sobre la cantidad del requisito
 	 * @param {TPromoOngoingGrupoBeneficios[]} grupoBeneficios  - array de grupos de beneficios de la promo
 	 * @param {TProductosPedidoIndex} productosIndex - lista d productos distintos de promoPush y que sean de una forma de pago
+	 * @param {TProductosUsadosEnOtrasPromos} productosUsadosEnOtrasPromos - materiales usados en promos aplicadas
 	 */
 
 	private verificarBeneficios(
 		topeSegunMultiplo: number,
 		grupoBeneficios: TPromoOngoingGrupoBeneficios[],
-		productosPedidoIndex: TProductosPedidoIndex
+		productosPedidoIndex: TProductosPedidoIndex,
+		productosUsadosEnOtrasPromos: TProductosUsadosEnOtrasPromos
 	): TPromoOngoingGrupoBeneficios[] {
 		let grupoBeneficiosVerificados: TPromoOngoingGrupoBeneficios[] = [];
 		grupoBeneficios.forEach((grupo: TPromoOngoingGrupoBeneficios) => {
@@ -514,23 +518,27 @@ export class PromocionesOngoing {
 								this._cliente?.portafolio ?? []
 							)
 						)
-						.forEach((material) => {
+						.forEach((producto) => {
 							materiales.push({
-								codigo: material,
+								codigo: producto,
 								cantidad: topeAlprimero ? tope : 0,
 							});
 							topeAlprimero = false;
 						});
-				} //if ([EFormaBeneficio.DescuentoPorcentaje , EFormaBeneficio.DescuentoMonto , EFormaBeneficio.Precio].includes(secuencia.formaBeneficio))
-				else {
+				} 
+				else if ([EFormaBeneficio.DescuentoPorcentaje , EFormaBeneficio.DescuentoMonto , EFormaBeneficio.Precio].includes(secuencia.formaBeneficio))
+			    {
+					// solo se toman los productos que esten en el pedido y no hayann sido requisito de una promo aplicada
+					let auxtope=tope;
 					materialesBeneficio
-						.filter((producto: number) => productosPedidoIndex[producto])
-						.forEach((material) => {
+						.filter((producto: number) => productosPedidoIndex[producto] && productosUsadosEnOtrasPromos[producto]==undefined )
+						.forEach((producto) => {
 							materiales.push({
-								codigo: material,
-								cantidad: topeAlprimero ? tope : 0,
+								codigo: producto,
+								cantidad: Math.min(auxtope ,productosPedidoIndex[producto].unidades) , // Se otroga el minimo entre el resto del tope y la cantidad pedida
 							});
-							topeAlprimero = false;
+							auxtope-=productosPedidoIndex[producto].unidades;
+							auxtope=(auxtope<0) ? 0: auxtope;
 						});
 				}
 				if (materiales.length == 0) {
