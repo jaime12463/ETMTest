@@ -17,10 +17,11 @@ export const useCalcularEnvasesDeObsequios = () => {
 			promo.beneficios.forEach((beneficio) => {
 				beneficio.secuencias.forEach((secuencia) => {
 					//console.log("*secuencia", secuencia);
-					secuencia.materialesBeneficio.forEach((material) => {
+					for (const material of secuencia.materialesBeneficio) {
 						//console.log("*material", material);
 
 						const {codigo, cantidad} = material as TCodigoCantidad;
+						if (cantidad === 0) continue;
 
 						const {implicito1, implicito2} = obtenerDatosProducto(
 							Number(codigo)
@@ -34,7 +35,7 @@ export const useCalcularEnvasesDeObsequios = () => {
 							unidades: secuencia.unidadMedida === medidaUnidad ? cantidad : 0,
 							subUnidades:
 								secuencia.unidadMedida === medidaSubunidad ? cantidad : 0,
-							tipoPago: promo.tipoPago ?? ETiposDePago.Contado,
+							tipoPago: promo.tipoPago ? promo.tipoPago : ETiposDePago.Contado,
 							codigoImplicito1: implicito1,
 							nombreImplicito1: datosImplicito1 ? datosImplicito1.nombre : '',
 							codigoImplicito2: implicito2,
@@ -59,7 +60,7 @@ export const useCalcularEnvasesDeObsequios = () => {
 						};
 						promosConvertidasAProducto =
 							promosConvertidasAProducto.concat(productoConvertido);
-					});
+					};
 				});
 			});
 		});
