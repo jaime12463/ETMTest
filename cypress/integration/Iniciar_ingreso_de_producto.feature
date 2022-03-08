@@ -143,6 +143,7 @@ Esquema del escenario: N°13 - El total del producto vendido con descuento se en
     Y se aplicaron promociones ongoing que otorgaron la totalidad del producto como beneficiado
     Cuando se muestra la tarjeta del producto
     Entonces el sistema mostrará los precios con impuestos tachados
+    Y no mostrará los datos del descuento aplicado
     Y mostrará el icono de promociones
     Y mostrará la leyenda '<leyenda>' en rojo
 
