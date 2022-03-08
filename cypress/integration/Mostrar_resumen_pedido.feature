@@ -1,6 +1,6 @@
 # language: es
 
-@Pedido @Resumen_pedido @Sprint15 @Sprint17 @Sprint19 @Sprint21 @Sprint22
+@Pedido @Resumen_pedido @Sprint15 @Sprint17 @Sprint19 @Sprint21 @Sprint22 @Sprint24
 
 Característica: Mostrar resumen del pedido 
     Como prevendedor 
@@ -11,19 +11,20 @@ Escenario: N°1 - Sección de condiciones de pago
     Dado que estoy en un cliente 
     Cuando selecciono ver resumen del pedido
     Entonces el sistema mostrará dentro de la sección de condición de pago correspondiente un listado de los productos ingresados 
+    Y que no son beneficios de promociones ongoing aplicadas
     Y separados por _tipoPedido que esValorizado = true
     Y por condición de pago, indicando código de producto, nombre
+    Y cantidad de producto no beneficiado por promociones ongoing aplicadas
     Y precio unidades, precio subunidad, subtotal del producto ordenados por código de producto
-    Y mostrará al final del listado de productos, los obsequios obtenidos de promociones ongoing en la condición de pago que corresponda, según sección obsequios promo ongoing
     
-Escenario: N°2 - Promo push dentro de condiciones de pago
+Escenario: N°2 - Promo push según condiciones de pago
     Dado que estoy en un cliente 
     Y se ingresaron promo push al pedido
     Cuando selecciono ver resumen del pedido
-    Entonces el sistema mostrará dentro de la sección de condición de pago a la promo push según su condición de pago, indicando el código de promoción,
+    Entonces el sistema mostrará dentro de la sección promo push para cada condición de pago, indicando el código de promoción,
     Y nombre, precio unitario, descuento, subtotal de la promoción como la cantidad de promoción multiplicado por precio unitario y la cantidad pedida de la promoción ordenados por código de promoción
-    Y los componentes de la promoción, indicando el código de prodcuto del componente,
-    Y nombre del componente, precio unidad, descuento, subtotal del componente ordenados por código de componente
+    Y los componentes de la promoción, indicando el código de producto del componente,
+    Y nombre del componente, la cantidad de dicho componente, la unidad de medida, precio unidad, descuento, subtotal del componente ordenados por código de componente
 
 Escenario: N°3 - Sección envases con productos para retorno y envases
     Dado que estoy en un cliente 
@@ -72,6 +73,8 @@ Escenario: N°8 - Mostrar en el resumen las secciones
     Cuando selecciono ver resumen del pedido
     Entonces el sistema mostrará la fecha de entrega del pedido
     Y si tiene _tipoPedido que _esValorizado = true, mostrará las secciónes de cada condicion de pago si las tiene
+    Y si tiene productos promo push, mostrará las secciónes de promo push para cada condición de pago
+    Y si tiene promociones ongoing, mostrará la seccion de promocion ongoing para cada condición de pago
     Y si tiene productos para retorno, mostrará la sección envases
     Y si tiene _tipoPedido cuyo código = "PrestamoEnvase", mostrará la sección envases
     Y si tiene _tipoPedido cuyo código = "Canje", mostrará la sección canjes
@@ -100,19 +103,43 @@ Escenario: N°10 - Recalcular envases
     Cuando selecciono ver resumen del pedido 
     Entonces el sistema recalculará los envases para retorno según calcular envases retornables.
 
+Escenario: N°11 - Sección promo ongoing
+    Dado que se aplicaron promociones ongoing
+    Cuando selecciono ver el pedido
+    Entonces el sistema mostarará ordenado por _promocionID las promociones ongoing aplicadas según la condición de pago
+    Y mostrará _descripcion
+    Y mostrará por cada secuencia del grupo aplicado el beneficio obtenido según la forma beneficio de cada secuencia 
+    Y mostrará ordenado por producto
 
-Escenario: N°11 - Sección obsequios promo ongoing
-    Dado que se obtuvieron productos obsequios por promociones ongoing
-    Cuando selecciono ver resumen del pedido
-    Entonces el sistema mostrará dentro de la condición de pago de la promoción como cabecera el _promocionID
-    Y mostrará _descripcion de la promoción ordenados por _promocionID
-    Y mostrará el tag producto gratis
-    Y mostrará como detalle el _codigoProducto, _nombre, _atributos, icono de promocion, cantidad obtenida
-    Y mostrará el detalle ordenado por _codigoProducto
+Escenario: N°12 - Mostrar forma beneficio obsequios
+    Dado que la forma beneficio de la secuencia es obsequio
+    Cuando se muestra el beneficio de la secuencia
+    Entonces el sistema mostrará dentro de la promocion ongoing para cada producto el _codigoProducto, _nombre, _atributos, _presentacion
+    Y mostrará la cantidad obtenida promocionada y unidad de medida
+    Y mostrará la _formaBeneficio = 1 con el label obsequio
 
-# icono de promocion cambiaría por _unidadMedida 
+Esquema del escenario: N°13 - Mostrar forma beneficio descuento % o $
+    Dado que la forma beneficio de la secuencia es '<formaBeneficio>'
+    Cuando se muestra el beneficio de la secuencia
+    Entonces el sistema mostrará dentro de la promocion ongoing para cada producto el _codigoProducto, _nombre, _atributos, _presentación, precio unidad
+    Y mostrará la cantidad obtenida promocionada, unidad de medida, precio unidad, '<descuento>' y subtotal como el precio unidad por cantidad - descuento
 
-Escenario: N°12 - No mostrar promociones ni obsequios al cambiar el pedido
+Ejemplos:
+|formaBeneficio   |  descuento                                                           |
+| 2 (descuento %) |  descuento = (precioSinImpuestos * valorBenegicio) / 100             |
+| 3 (descuento $) |  descuento = valorBeneficio                                          |    
+
+# Aplicar sobre precioSinImpuestosUnidad o precioSinImpuestosSubunidad según corresponda
+
+Escenario: N°14 - Sección promo ongoing beneficio precio recuperación
+    Dado que la forma beneficio de la secuencia es precio recuperación
+    Cuando se muestra el beneficio de la secuencia
+    Entonces el sistema mostrará dentro de la promocion ongoing para cada producto el _codigoProducto, _nombre, _atributos, _presentacion, 
+    Y mostrará la cantidad obtenida promocionada y unidad de medida
+    Y mostrará la _formaBeneficio = 4 con el label precio recuperación
+    Y mostrará el _valorBeneficio * cantidad obtenida promocionada
+
+    Escenario: N°15 - No mostrar promociones ni beneficios al cambiar el pedido
     Dado que se modificó el pedido
     Y no se recalcularon promociones
     Cuando selecciono ver resumen del pedido

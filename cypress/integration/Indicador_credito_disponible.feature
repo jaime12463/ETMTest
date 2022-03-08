@@ -12,16 +12,17 @@ Característica: Indicador de crédito disponible
 Escenario: N°1 - Ver crédito disponible 
     Dado que el cliente no tiene _condición de pago contado
     Cuando estoy en la pantalla de ingreso del pedido
-    Entonces el sistema mostrará el total del indicador igual a crédito _disponible informado – pedidos a crédito registrado por el prevendor 
-    Y el avance según la suma de los montos de los pedidos de crédito registrados para la misma fecha de entrega más monto de los productos de crédito del pedido en curso
+    Entonces el sistema mostrará el total del indicador igual a crédito _disponible informado - pedidos a crédito registrado por el prevendor 
+    Y el avance según la suma de los montos de los pedidos de crédito registrados más monto de los productos de crédito del pedido en curso
     Y mostrará el mensaje de límite de crédito excedido cuando el crédito pase por primera vez a negativo
     
 # Ejemplo de avance de credito.
 #Crédito disponible productos crédito Avance 		Texto		Color
-#3000		0			100%		$3000.00	verde
-#3000		300			90%		$2700.00	verde
-#3000		3000			0%		$0.00		verde
-#3000		3001			0%		$-1.00		rojo
+#0                        0            0%          $0.00        barra verde con fondo gris 
+#3000		              0			 100%		   $3000.00	    barra verde con fondo gris
+#3000		              300			90%		   $2700.00	    barra verde con fondo gris
+#3000		              3000			0%		   $0.00		barra verde con fondo gris
+#3000		               3001			0%		   $-1.00		barra verde con fondo gris
 
 Escenario: N°2: Ocultar indicador de crédito disponible
     Dado que el cliente tiene _condición de pago contado

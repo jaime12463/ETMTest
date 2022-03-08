@@ -48,6 +48,7 @@ Ejemplos:
 
 #repartir cantidades como lo hace envases: retorno con venta y con prestamo
 
+
 Esquema del escenario: N°4 - Control aplicar beneficio
 	Dado que estamos editando una promocion ongoing de asignación <asignacion>
 	Y el disponible '<condicion>'
@@ -60,4 +61,9 @@ Ejemplos:
     | Total    | mayor a cero en al menos una secunecia       | mostrará el toast de error indicando que se debe asignar el total del beneficio                                                                            |
     | Parcial  | es mayor o igual a 0 en todas las secuencias | aplicará los beneficios con los productos que tienen cantidades ingresadas en todas las secuencias del grupo seleccionado según aplicar promocion ongoing  |   
 
-	
+Escenario: N°5 - Ingresar manualmente cantidades superiores al disponible
+	Dado que se ingresaron cantidades manualmente
+	Cuando la suma de las cantidades ingresadas supera el disponible
+	Entonces el sistema descartará el valor ingresado
+	Y restablecerá el valor que tenía el control de cantidad
+	Y mostrará un mensaje indicando que la cantidad es mayor al disponible permitido

@@ -3,6 +3,9 @@
 @Pedido @Filtrar_productos @Srptin19
 
 # _atributos_ son aquellos definidos como Marca, Envase, Familia, Sabores, Medida
+# El Contador deberá de sumar por cada atributo que este seleccionado, 
+# es decir si en sabores selecciona 3 atributos deberá de aparecer el numero 3.
+# Cardenas 23/02/2022
 
 Característica: Filtrar productos
     Como prevendedor 
@@ -90,3 +93,13 @@ Escenario: N°6 - Borrar selección de filtros
     Entonces el sistema restablecerá los filtros a su estado inicial
     Y descartará los filtros aplicados a los resultados obtenidos en la búsqueda de productos
     Y borrará la indicación de la suma de filtros aplicados en el control de filtro
+
+Escenario: N°7 - Contraer sección de filtro
+    Dado que se desplegó una sección del filtro
+    Cuando se selecciona el control para contraer de una sección
+    Entonces el sistema contraerá la sección ocultando los atributos contenidos
+
+Escenario: N°8 - Desplegar sección de filtro
+    Dado que se contrajo una sección del filtro
+    Cuando se selecciona el control para desplegar de una sección
+    Entonces el sistema desplegará la sección haciendo visibile los atributos contenidos
