@@ -159,7 +159,7 @@ Esquema del escenario: N°14 - No toda la cantidad del producto vendido con desc
     Y el producto tenía aplicado un '<descuento>'
     Y se aplicaron promociones ongoing que otorgaron como beneficio parte del producto
     Cuando se muestra la tarjeta del producto
-    Entonces el sistema mostrará el producto según escenario de '<tipoDescuento>'
+    Entonces el sistema mostrará el producto según escenario de '<tipoDescuento>' para la cantidad no beneficiada del producto
     Y mostrará la cantidad otorgada de beneficio
     Y mostrará la unidad de medida del beneficio
     Y mostrará la leyenda "Viene con promoción ongoing"
