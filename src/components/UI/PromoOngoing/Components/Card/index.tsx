@@ -125,15 +125,33 @@ export const Card: React.VFC<CardProps> = ({
 	const [promocionAplicada, setPromocionAplicada] =
 		React.useState<boolean>(false);
 
+	const [disponibleSecuencia, setDisponibleSecuencia] =
+		React.useState<number>(0);
+
 	const classes = useEstilos();
-	const materiales = promocion.beneficios[grupoYSecuenciaActual.grupo]
-		.secuencias[grupoYSecuenciaActual.secuencia]
-		.materialesBeneficio as TCodigoCantidad[];
 
 	const mostrarAviso = useMostrarAviso();
 
 	const tipoPago =
 		tipo === 'contado' ? ETiposDePago.Contado : ETiposDePago.Credito;
+
+	React.useEffect(() => {
+		if (beneficiosParaAgregar) {
+			const materiales = beneficiosParaAgregar.beneficios[
+				grupoYSecuenciaActual.grupo
+			].secuencias[grupoYSecuenciaActual.secuencia]
+				.materialesBeneficio as TCodigoCantidad[];
+			const totalProductos = materiales.reduce(
+				(a: number, v: TCodigoCantidad) => a + v.cantidad,
+				0
+			);
+
+			setDisponibleSecuencia(
+				beneficiosParaAgregar.beneficios[grupoYSecuenciaActual.grupo]
+					.secuencias[grupoYSecuenciaActual.secuencia].tope - totalProductos
+			);
+		}
+	}, [beneficiosParaAgregar, grupoYSecuenciaActual]);
 
 	React.useEffect(() => {
 		if (!promocionAutomatica && !soloLectura && setpromosDisponibles) {
@@ -446,9 +464,7 @@ export const Card: React.VFC<CardProps> = ({
 									color='red'
 								>
 									Disponible:
-									{promosDisponibles &&
-										promosDisponibles[Number(promocionID)].disponibles -
-											promosDisponibles[Number(promocionID)].aplicadas}
+									{disponibleSecuencia}
 								</Typography>
 							</Box>
 						</Box>
