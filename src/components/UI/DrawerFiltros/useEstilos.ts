@@ -3,7 +3,10 @@ import {makeStyles, createStyles} from '@material-ui/styles';
 const useEstilos = makeStyles(() =>
 	createStyles({
 		content: {
-			padding: '20px 10px',
+			display: 'flex',
+			flexDirection: 'column',
+			height: '100%',
+			justifyContent: 'space-between',
 			maxWidth: '360px',
 			width: '100%',
 		},

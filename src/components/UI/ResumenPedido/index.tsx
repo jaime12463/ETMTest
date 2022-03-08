@@ -15,17 +15,23 @@ import {
 	TConsolidadoImplicitos,
 	TDatosClientesProductos,
 	TProductoPedido,
-	TPromoOngoingAplicadas,
 } from 'models';
 import Resumen from './Resumen';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {formatearFecha, formatearNumero} from 'utils/methods';
 import {useObtenerBonificacionesHabilitadas} from 'hooks';
-import {useCalcularEnvasesDeObsequios, useObtenerConsolidacionImplicitos} from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
+import {
+	useCalcularEnvasesDeObsequios,
+	useObtenerConsolidacionImplicitos,
+} from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
+import {TPromoOngoingAplicables} from 'utils/procesos/promociones/PromocionesOngoing';
+
 interface Props {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+interface TipoPagoPromoOngoing {}
 
 const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 	const compromisoDeCobro = useObtenerCompromisoDeCobroActual();
@@ -46,14 +52,16 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 		})
 	);
 
-	const promoOngoinFormateado = promosOngoing.map((promo) => ({
-		...promo,
-		productos: promo.productos.map((producto) => ({
-			...producto,
-			descripcion:
-				datos?.productos[producto.codigoProducto].nombre ?? 'No encontrado',
-		})),
-	}));
+	const [promoOngoingCredito, promoOngoingContado] = promosOngoing.reduce(
+		(acc, promocion) => {
+			promocion.tipoPago === ETiposDePago.Credito
+				? acc[0].push(promocion)
+				: acc[1].push(promocion);
+
+			return acc;
+		},
+		[[], []] as [TPromoOngoingAplicables[], TPromoOngoingAplicables[]]
+	);
 
 	const cantidadBonificaciones = visitaActual.bonificaciones
 		.map((bonificacion) => bonificacion.detalle)
@@ -176,8 +184,6 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 	let esGeneraEnvases = false;
 	let puedeVerEnvases = false;
 
-	console.log(promosOngoing);
-
 	Object.values(visitaActual.pedidos).forEach((pedido) => {
 		tipoPedidos.forEach((tipoPedido) => {
 			if (tipoPedido.codigo === pedido.tipoPedido)
@@ -282,15 +288,9 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 								</>
 							)}
 						</Resumen.Container>
-						{promoOngoinFormateado?.map(
-							(promo) =>
-								promo.tipoPago === ETiposDePago.Credito && (
-									<Resumen.PromoOngoing
-										promocion={promo}
-										key={promo.promocionID}
-									/>
-								)
-						)}
+						{promoOngoingCredito?.map((promo) => (
+							<Resumen.PromoOngoing promocion={promo} key={promo.promocionID} />
+						))}
 					</Box>
 				)}
 
@@ -324,15 +324,9 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 								</>
 							)}
 						</Resumen.Container>
-						{promoOngoinFormateado?.map(
-							(promo) =>
-								promo.tipoPago === ETiposDePago.Contado && (
-									<Resumen.PromoOngoing
-										promocion={promo}
-										key={promo.promocionID}
-									/>
-								)
-						)}
+						{promoOngoingContado?.map((promo) => (
+							<Resumen.PromoOngoing promocion={promo} key={promo.promocionID} />
+						))}
 					</Box>
 				)}
 

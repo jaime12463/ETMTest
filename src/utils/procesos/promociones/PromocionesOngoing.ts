@@ -14,6 +14,7 @@ import {
 	EFormaDeAsignacion,
 	TPromoOngoingHabilitadas,
 	TPromoOngoingAplicadas,
+	TCodigoCantidad,
 } from 'models';
 
 import {fechaDispositivo, fechaDentroDelRango} from 'utils/methods';
@@ -38,6 +39,7 @@ export type TPromoOngoingAplicables = TPromoOngoing & {
 	listaProductosAplicados: TPromoOngoingListaProductosAplicados[];
 	aplicada: boolean;
 	topeTotal: number;
+	tipoPago?: ETiposDePago;
 };
 
 export type TPromoOngoingAplicablesResultado = {
@@ -75,18 +77,33 @@ export type TPromoOngoingAplicadasOrigen = Record<
 	TPromoOngoingAplicadas[]
 >;
 
+export type TPromocionesOngoingCalcularResultado = {
+	contado: TPromoOngoingAplicablesResultado | undefined;
+	credito: TPromoOngoingAplicablesResultado | undefined;
+	noAplicable: TPromoOngoing[];
+	benficiosParaAgregar: TPromoOngoingAplicadas[];
+	disponibles: TPromoOngoingDisponibilidad;
+};
+
 export class PromocionesOngoing {
 	private static instance: PromocionesOngoing;
 
-	private cliente: TCliente;
+	private _cliente: TCliente | undefined = undefined;
 
-	private listaPromoOngoing: TListaPromoOngoing;
+	private _listaPromoOngoing: TListaPromoOngoing = {};
+
+	private _promosAplicadasOtrasVisitas: TPromoOngoing[] = [];
 
 	private disponibilidadDeLaPromo: TPromoOngoingDisponibilidad = {
 		999999999: {disponibles: 0, aplicadas: 0},
 	};
 
+	private _resultado: TPromocionesOngoingCalcularResultado | undefined =
+		undefined;
+
 	private listaPromocionesVigentes: TListaPromoOngoingConIndices | undefined;
+
+	private _calculoRealizado: boolean = false;
 
 	/**
 	 *
@@ -95,28 +112,44 @@ export class PromocionesOngoing {
 	 * @param {TListaPromoOngoing} listaPromociones  - Catalógo de promociones
 	 */
 
-	private constructor(
-		clienteActual: TCliente,
-		listaPromociones: TListaPromoOngoing
-	) {
-		this.cliente = clienteActual;
-		this.listaPromoOngoing = listaPromociones;
+	private constructor() {}
+
+	/*propiedades
+	public set cliente(cliente:TCliente)
+	{
+		this._cliente=cliente;
 	}
 
-	public static getInstance(
-		clienteActual: TCliente,
-		listaPromociones: TListaPromoOngoing
-	): PromocionesOngoing {
-		if (!PromocionesOngoing.instance) {
-			PromocionesOngoing.instance = new PromocionesOngoing(
-				clienteActual,
-				listaPromociones
-			);
-		}
+	public set listaPromoOngoing(listaPromociones:TListaPromoOngoing)
+	{
+		this._listaPromoOngoing=listaPromociones;
+	}
+*/
 
+	public static getInstance(): PromocionesOngoing {
+		if (!PromocionesOngoing.instance) {
+			PromocionesOngoing.instance = new PromocionesOngoing();
+		}
+		console.log(
+			`Recuperando instancia del motor de promociones para el cliente: ${PromocionesOngoing.instance._cliente?.codigoCliente}`
+		);
 		return PromocionesOngoing.instance;
 	}
 
+	public inicializar(
+		cliente: TCliente,
+		listaPromociones: TListaPromoOngoing,
+		promosAplicadasOtrasVisitas: TPromoOngoing[]
+	) {
+		this._cliente = cliente;
+		this._listaPromoOngoing = listaPromociones;
+		this._promosAplicadasOtrasVisitas = promosAplicadasOtrasVisitas;
+		this._calculoRealizado = false;
+
+		console.log(
+			`Inicializando  motor de promociones para el cliente: ${this._cliente.codigoCliente}`
+		);
+	}
 	/**
 	 * Retorna las promociones aplicadas en Contado y Credito, ademas retona las promociones que no cumplen requisitos
 	 * @method
@@ -132,36 +165,37 @@ export class PromocionesOngoing {
 		let listaPromos: TListaPromoOngoing = {};
 		const fDispositivo = fechaDispositivo();
 		const indicePorTipoId: string[] = [];
-		this.cliente.promocionesHabilitadas?.forEach(
-			(promo: TPromoOngoingHabilitadas) => {
-				const promoDeLaLista = this.listaPromoOngoing[promo.idPromocion];
-				if (
-					promo.promocionesDisponibles > 0 &&
-					promoDeLaLista &&
-					fechaDentroDelRango(
-						fDispositivo,
-						promoDeLaLista.inicioVigenciaPromocion,
-						promoDeLaLista.finVigenciaPromocion
-					)
-				) {
-					this.disponibilidadDeLaPromo = {
-						...this.disponibilidadDeLaPromo,
-						[promo.idPromocion]: {
-							disponibles: promo.promocionesDisponibles,
-							aplicadas: 0,
-						},
-					};
+		if (this._cliente != undefined)
+			this._cliente.promocionesHabilitadas?.forEach(
+				(promo: TPromoOngoingHabilitadas) => {
+					const promoDeLaLista = this._listaPromoOngoing[promo.idPromocion];
+					if (
+						promo.promocionesDisponibles > 0 &&
+						promoDeLaLista &&
+						fechaDentroDelRango(
+							fDispositivo,
+							promoDeLaLista.inicioVigenciaPromocion,
+							promoDeLaLista.finVigenciaPromocion
+						)
+					) {
+						this.disponibilidadDeLaPromo = {
+							...this.disponibilidadDeLaPromo,
+							[promo.idPromocion]: {
+								disponibles: promo.promocionesDisponibles,
+								aplicadas: 0,
+							},
+						};
 
-					listaPromos = {
-						...listaPromos,
-						[promo.idPromocion]: promoDeLaLista,
-					};
-					indicePorTipoId.push(
-						`${promoDeLaLista.aplicacion}${promo.idPromocion}`
-					);
+						listaPromos = {
+							...listaPromos,
+							[promo.idPromocion]: promoDeLaLista,
+						};
+						indicePorTipoId.push(
+							`${promoDeLaLista.aplicacion}${promo.idPromocion}`
+						);
+					}
 				}
-			}
-		);
+			);
 
 		this.listaPromocionesVigentes = {
 			lista: listaPromos,
@@ -174,29 +208,35 @@ export class PromocionesOngoing {
 
 	calcular(
 		productos: TProductoPedido[],
-		promosAplicadas: TPromoOngoingAplicadasOrigen,
 		tipos: ETiposDePago[]
-	) {
+	): TPromocionesOngoingCalcularResultado {
+		if (this._calculoRealizado && tipos.length == 0 && this._resultado)
+			return this._resultado;
+
 		//contadores a cero
 		Object.keys(this.disponibilidadDeLaPromo).forEach((promoId) => {
 			this.disponibilidadDeLaPromo[Number(promoId)].aplicadas = 0;
 		});
 
 		//sumamos grabadas
-		promosAplicadas[ETipoOrigenDeDatos.Grabadas].forEach(
-			(promo: TPromoOngoingAplicadas) => {
-				this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++;
-			}
-		);
-
-		//sumamos las aplicadas solo cuando se pide recalculo de credito o contado, si se pide de los 2 quedarí en cero
+		this._promosAplicadasOtrasVisitas.forEach((promo: TPromoOngoing) => {
+			this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++;
+		});
 
 		if (tipos.length === 1) {
-			promosAplicadas[ETipoOrigenDeDatos.VisitaActual]
-				.filter((promo) => promo.tipoPago != tipos[0])
-				.forEach((promo: TPromoOngoingAplicadas) => {
-					this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++;
-				});
+			if (tipos[0] == ETiposDePago.Contado) {
+				this._resultado?.credito?.promosAplicables
+					.filter((promo) => promo.aplicada)
+					.forEach((promo: TPromoOngoingAplicables) => {
+						this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++;
+					});
+			} else {
+				this._resultado?.contado?.promosAplicables
+					.filter((promo) => promo.aplicada)
+					.forEach((promo: TPromoOngoingAplicables) => {
+						this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++;
+					});
+			}
 		}
 
 		let promocionesContado: TPromoOngoingAplicablesResultado | undefined;
@@ -236,13 +276,40 @@ export class PromocionesOngoing {
 			)
 			.sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1));
 
-		return {
-			contado: promocionesContado,
-			credito: promocionesCredito,
+		this._resultado = {
+			contado: promocionesContado ?? this._resultado?.contado,
+			credito: promocionesCredito ?? this._resultado?.credito,
 			noAplicable: promocionesVigentesNoAplicables,
 			benficiosParaAgregar,
 			disponibles: this.disponibilidadDeLaPromo,
 		};
+
+		this._calculoRealizado = true;
+
+		return this._resultado;
+	}
+
+	/**
+	 * @method
+	 * @param {ETiposDePago} tipoDePago  - tipo de pago donde se realiza la aplicación de la promo
+	 * @param {number} index - indice del array de promociones
+	 */
+	aplicarPromo(
+		tipoDePago: ETiposDePago,
+		index: number,
+		promo: TPromoOngoingAplicables
+	) {
+		if (
+			tipoDePago == ETiposDePago.Contado &&
+			this._resultado?.contado != undefined
+		) {
+			this._resultado['contado'].promosAplicables[index] = promo;
+		} else if (
+			tipoDePago == ETiposDePago.Credito &&
+			this._resultado?.credito != undefined
+		) {
+			this._resultado['credito'].promosAplicables[index] = promo;
+		}
 	}
 
 	/**
@@ -308,11 +375,14 @@ export class PromocionesOngoing {
 				conector == 'Y'
 					? multiplo.every((requisito) => requisito > 0)
 					: multiplo.some((requisito) => requisito > 0);
+			const topeSegunMultiplo: number = Math.min(...multiplo);
 			if (sonValidosLosRequisitos) {
 				// verificar si el grupo de beneficios se puede aplicar
 				let grupoDeBeneficiosResultado = this.verificarBeneficios(
+					topeSegunMultiplo,
 					promo.beneficios,
-					productosPedidos
+					productosPedidos,
+					productosUsadosEnOtrasPromosAutomaticas
 				);
 				let listaProductosAplicados: TPromoOngoingListaProductosAplicados[] =
 					[];
@@ -333,40 +403,17 @@ export class PromocionesOngoing {
 
 						grupoDeBeneficios.push({
 							...grupoDeBeneficiosResultado[0],
-							secuencias: [
-								{
-									...grupoDeBeneficiosResultado[0].secuencias[0],
-									materialesBeneficio: [
-										grupoDeBeneficiosResultado[0].secuencias[0]
-											.materialesBeneficio[0],
-									],
-								},
-							],
 						});
 
 						this.disponibilidadDeLaPromo[promo.promocionID].aplicadas++;
 					} else {
+						grupoDeBeneficios = [...grupoDeBeneficiosResultado];
 						productosUsadosEnOtrasPromosManuales =
 							this.comprometerProductosUsadosEnPromos(
 								materialesRequisitosVerificados,
 								productosUsadosEnOtrasPromosManuales
 							);
 					}
-
-					//Beneficio por default
-					topeTotal = Math.min(
-						grupoDeBeneficiosResultado[0].secuencias[0].cantidad *
-							Math.min(...multiplo),
-						grupoDeBeneficiosResultado[0].secuencias[0].tope
-					);
-					listaProductosAplicados.push({
-						codigoProducto:
-							grupoDeBeneficiosResultado[0].secuencias[0]
-								.materialesBeneficio[0],
-						unidadMedida:
-							grupoDeBeneficiosResultado[0].secuencias[0].unidadMedida,
-						cantidad: topeTotal,
-					});
 
 					aplicables.push({
 						...{
@@ -429,32 +476,71 @@ export class PromocionesOngoing {
 
 	/**
 	 * Retorna un array de grupos de benenficios ordenado por Id, con los materiales validades según corresponda
+	 * SI el grupo no tiene ninguna secuencia válida se descarta
 	 * @constructor
+	 * @param {number} topeSegunMultiplo -  tope según el multiplo resultante de las unidades vendidas  sobre la cantidad del requisito
 	 * @param {TPromoOngoingGrupoBeneficios[]} grupoBeneficios  - array de grupos de beneficios de la promo
 	 * @param {TProductosPedidoIndex} productosIndex - lista d productos distintos de promoPush y que sean de una forma de pago
+	 * @param {TProductosUsadosEnOtrasPromos} productosUsadosEnOtrasPromos - materiales usados en promos aplicadas
 	 */
 
 	private verificarBeneficios(
+		topeSegunMultiplo: number,
 		grupoBeneficios: TPromoOngoingGrupoBeneficios[],
-		productosPedidoIndex: TProductosPedidoIndex
+		productosPedidoIndex: TProductosPedidoIndex,
+		productosUsadosEnOtrasPromos: TProductosUsadosEnOtrasPromos
 	): TPromoOngoingGrupoBeneficios[] {
 		let grupoBeneficiosVerificados: TPromoOngoingGrupoBeneficios[] = [];
 		grupoBeneficios.forEach((grupo: TPromoOngoingGrupoBeneficios) => {
-			let materiales: number[] = [];
+			
 			let secuencias: TPromoOngoingBeneficiosSecuencia[] = [];
 			let grupoValido: boolean = true;
 			// si una de las secuencia al validar materiales no queda al menos uno, el grupo se descarta
 			for (let secuencia of grupo.secuencias) {
+				// se ordenan los beneficios según Sku menor
+				let materiales: TCodigoCantidad[] = [];
+				const materialesBeneficio = [
+					...(secuencia.materialesBeneficio as number[]),
+				];
+
+				materialesBeneficio.sort((a, b) => {
+					if (a < b) return -1;
+					if (a > b) return 1;
+					return 0;
+				});
+
+				let topeAlprimero = true; // flag para otorgar el tope al primero
+				const tope = Math.min(topeSegunMultiplo, secuencia.tope); // nuevo tope
 				if (secuencia.formaBeneficio == EFormaBeneficio.Obsequio) {
-					materiales = secuencia.materialesBeneficio.filter(
-						(producto: number) =>
-							validarProductoContraPortafolio(producto, this.cliente.portafolio)
-					);
-				} //if ([EFormaBeneficio.DescuentoPorcentaje , EFormaBeneficio.DescuentoMonto , EFormaBeneficio.Precio].includes(secuencia.formaBeneficio))
-				else {
-					materiales = secuencia.materialesBeneficio.filter(
-						(producto: number) => productosPedidoIndex[producto]
-					);
+					materialesBeneficio
+						.filter((producto: number) =>
+							validarProductoContraPortafolio(
+								producto,
+								this._cliente?.portafolio ?? []
+							)
+						)
+						.forEach((producto) => {
+							materiales.push({
+								codigo: producto,
+								cantidad: topeAlprimero ? tope : 0,
+							});
+							topeAlprimero = false;
+						});
+				} 
+				else if ([EFormaBeneficio.DescuentoPorcentaje , EFormaBeneficio.DescuentoMonto , EFormaBeneficio.Precio].includes(secuencia.formaBeneficio))
+			    {
+					// solo se toman los productos que esten en el pedido y no hayann sido requisito de una promo aplicada
+					let auxtope=tope;
+					materialesBeneficio
+						.filter((producto: number) => productosPedidoIndex[producto] && productosUsadosEnOtrasPromos[producto]==undefined )
+						.forEach((producto) => {
+							materiales.push({
+								codigo: producto,
+								cantidad: Math.min(auxtope ,productosPedidoIndex[producto].unidades) , // Se otroga el minimo entre el resto del tope y la cantidad pedida
+							});
+							auxtope-=productosPedidoIndex[producto].unidades;
+							auxtope=(auxtope<0) ? 0: auxtope;
+						});
 				}
 				if (materiales.length == 0) {
 					// si no se pudo validar materiales(productos) para una secuencia se descarta el grupo
@@ -463,6 +549,7 @@ export class PromocionesOngoing {
 				}
 				secuencias.push({
 					...secuencia,
+					tope,
 					materialesBeneficio: materiales,
 				});
 			}

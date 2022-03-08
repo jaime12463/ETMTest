@@ -6,16 +6,10 @@ import {
 	TPresupuestoTipoPedidoTotal,
 	TDetalleBonificacionesCliente,
 	TAvisos,
-	TPromoOngoingGrupoBeneficios,
-	TPromoOngoingAplicadas,
-	TPromoOngoing,
 } from 'models';
 
 import {RootState} from 'redux/store';
-import {
-	TPromoOngoingAplicablesResultado,
-	TPromoOngoingDisponibilidad,
-} from 'utils/procesos/promociones/PromocionesOngoing';
+import {TPromoOngoingAplicables} from 'utils/procesos/promociones/PromocionesOngoing';
 
 const estadoInicial: TVisita = {
 	fechaEntrega: '',
@@ -43,13 +37,6 @@ const estadoInicial: TVisita = {
 		cambioElPedidoSinPromociones: {contado: true, credito: false},
 	},
 	clienteBloqueado: false,
-	promocionesNegociadas: {
-		contado: {promosAplicables: [], indiceProductosxPromosManuales: {}},
-		credito: {promosAplicables: [], indiceProductosxPromosManuales: {}},
-		noAplicable: [],
-		benficiosParaAgregar: [],
-		disponibles: {},
-	},
 };
 
 export const visitaActualSlice = createSlice({
@@ -119,29 +106,6 @@ export const visitaActualSlice = createSlice({
 			}
 		},
 
-		agregarPromocionesNegociadas: (
-			state,
-			action: PayloadAction<{
-				promocionesNegociadas: {
-					contado: TPromoOngoingAplicablesResultado;
-					credito: TPromoOngoingAplicablesResultado;
-					noAplicable: TPromoOngoing[];
-					benficiosParaAgregar: TPromoOngoingAplicadas[];
-					disponibles: TPromoOngoingDisponibilidad;
-				};
-			}>
-		) => {
-			let promo = {...action.payload.promocionesNegociadas};
-
-			state.promocionesNegociadas = {
-				contado: promo.contado,
-				credito: promo.credito,
-				noAplicable: promo.noAplicable,
-				benficiosParaAgregar: promo.benficiosParaAgregar,
-				disponibles: promo.disponibles,
-			};
-		},
-
 		agregarEnvaseDelPedidoActual: (
 			state,
 			action: PayloadAction<{
@@ -176,7 +140,7 @@ export const visitaActualSlice = createSlice({
 		agregarBeneficiosPromoOngoing: (
 			state,
 			action: PayloadAction<{
-				beneficios: TPromoOngoingAplicadas[];
+				beneficios: TPromoOngoingAplicables[];
 			}>
 		) => {
 			const {cambioElPedidoSinPromociones} = state.avisos;
@@ -195,8 +159,6 @@ export const visitaActualSlice = createSlice({
 			let promoFiltradas = state.promosOngoing.filter(
 				(promo) =>
 					(promo.tipoPago !== ETiposDePago[action.payload.tipoPago] &&
-						promo.aplicacion === 'A') ||
-					(promo.tipoPago === ETiposDePago[action.payload.tipoPago] &&
 						promo.aplicacion === 'A') ||
 					(promo.tipoPago !== ETiposDePago[action.payload.tipoPago] &&
 						promo.aplicacion === 'M')
@@ -666,6 +628,5 @@ export const {
 	cambiarAvisos,
 	activarClienteBloqueado,
 	agregarBeneficiosPromoOngoing,
-	agregarPromocionesNegociadas,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

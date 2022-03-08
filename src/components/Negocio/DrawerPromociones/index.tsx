@@ -19,12 +19,10 @@ import {
 } from 'redux/hooks';
 import {borrarPromocionesOngoing} from 'redux/features/visitaActual/visitaActualSlice';
 import React, {useReducer} from 'react';
+
 import {
 	TPromoOngoingAplicables,
 	TPromoOngoingAplicablesResultado,
-} from 'utils/procesos/promociones';
-
-import {
 	TPromoOngoingDisponibilidad,
 	PromocionesOngoing,
 } from 'utils/procesos/promociones/PromocionesOngoing';
@@ -65,6 +63,9 @@ export const DrawerPromociones: React.FC<Props> = ({
 		iconoMensaje: <></>,
 		callbackAceptar: () => {},
 	});
+	const [expandido, setExpandidoexpandido] = React.useState<string | boolean>(
+		false
+	);
 	const datos = useObtenerDatos();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
@@ -79,24 +80,22 @@ export const DrawerPromociones: React.FC<Props> = ({
 		contado: boolean;
 	}>({credito: false, contado: false});
 	const pedidosCliente: TPedidosClientes = useObtenerPedidosClientes();
-	const promocionesOngoing = PromocionesOngoing.getInstance(
-		datosCliente,
-		datos?.promociones
-	);
+	const promocionesOngoing = PromocionesOngoing.getInstance();
 
 	const [promosDisponibles, setpromosDisponibles] =
 		React.useState<TPromoOngoingDisponibilidad>({});
 
 	const dispatch = useAppDispatch();
 
+	React.useEffect(() => {
+		if (promocionesOingoing) {
+			setpromosDisponibles({...promocionesOingoing.disponibles});
+		}
+	}, [openDrawerPromociones]);
+
 	const restablecerPromociones = (tipo: 'Credito' | 'Contado') => {
 		let promociones = promocionesOngoing.calcular(
 			visitaActual.pedidos.venta.productos,
-			{
-				Grabadas:
-					pedidosCliente[clienteActual.codigoCliente]?.promocionesOngoing ?? [],
-				VisitaActual: visitaActual.promosOngoing,
-			},
 			tipo === 'Credito' ? [ETiposDePago.Credito] : [ETiposDePago.Contado]
 		);
 
@@ -104,17 +103,11 @@ export const DrawerPromociones: React.FC<Props> = ({
 			setPromocionesOingoing({
 				...promociones,
 				credito: promocionesOingoing.credito,
-				benficiosParaAgregar: promociones.benficiosParaAgregar.concat(
-					promocionesOingoing.benficiosParaAgregar
-				),
 			});
 		} else {
 			setPromocionesOingoing({
 				...promociones,
 				contado: promocionesOingoing.contado,
-				benficiosParaAgregar: promociones.benficiosParaAgregar.concat(
-					promocionesOingoing.benficiosParaAgregar
-				),
 			});
 		}
 		setpromosDisponibles(promociones.disponibles);
@@ -135,8 +128,6 @@ export const DrawerPromociones: React.FC<Props> = ({
 			setpromosDisponibles(promocionesOingoing.disponibles);
 		}
 	}, [promocionesOingoing]);
-
-	console.log({promocionesOingoing});
 
 	return (
 		<>
@@ -194,7 +185,10 @@ export const DrawerPromociones: React.FC<Props> = ({
 							>
 								<PromoOngoing.CardsContainer>
 									{promocionesOingoing?.credito?.promosAplicables.map(
-										(promocion: TPromoOngoing) => (
+										(
+											promocion: TPromoOngoing & TPromoOngoingAplicables,
+											index
+										) => (
 											<PromoOngoing.Card
 												key={promocion.promocionID}
 												promosSimilares={
@@ -202,17 +196,16 @@ export const DrawerPromociones: React.FC<Props> = ({
 														?.indiceProductosxPromosManuales
 												}
 												tipo='credito'
+												promocionesOngoing={promocionesOngoing}
 												promocion={promocion}
 												promocionAutomatica={promocion.aplicacion === 'A'}
 												borroPromociones={borroPromociones}
 												setBorroPromociones={setBorroPromociones}
 												setpromosDisponibles={setpromosDisponibles}
 												promosDisponibles={promosDisponibles}
-												beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
-													(promo: TPromoOngoingAplicadas) =>
-														promo.promocionID === promocion.promocionID &&
-														promo.tipoPago === ETiposDePago.Credito
-												)}
+												setExpandidoexpandido={setExpandidoexpandido}
+												expandido={expandido}
+												index={index}
 											/>
 										)
 									)}
@@ -239,7 +232,10 @@ export const DrawerPromociones: React.FC<Props> = ({
 							>
 								<PromoOngoing.CardsContainer>
 									{promocionesOingoing?.contado?.promosAplicables.map(
-										(promocion: TPromoOngoing) => (
+										(
+											promocion: TPromoOngoing & TPromoOngoingAplicables,
+											index
+										) => (
 											<PromoOngoing.Card
 												key={promocion.promocionID}
 												promosSimilares={
@@ -248,16 +244,15 @@ export const DrawerPromociones: React.FC<Props> = ({
 												}
 												tipo='contado'
 												promocion={promocion}
+												promocionesOngoing={promocionesOngoing}
 												promocionAutomatica={promocion.aplicacion === 'A'}
 												borroPromociones={borroPromociones}
 												setpromosDisponibles={setpromosDisponibles}
 												setBorroPromociones={setBorroPromociones}
+												setExpandidoexpandido={setExpandidoexpandido}
+												expandido={expandido}
 												promosDisponibles={promosDisponibles}
-												beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
-													(promo: TPromoOngoingAplicadas) =>
-														promo.promocionID === promocion.promocionID &&
-														promo.tipoPago === ETiposDePago.Contado
-												)}
+												index={index}
 											/>
 										)
 									)}
@@ -268,14 +263,14 @@ export const DrawerPromociones: React.FC<Props> = ({
 						<PromoOngoing.Container dataCy='No-aplicables'>
 							<PromoOngoing.CardsContainer>
 								{promocionesOingoing?.noAplicable?.map(
-									(promocion: TPromoOngoing) => (
+									(promocion: any, index) => (
 										<PromoOngoing.Card
 											key={promocion.promocionID}
+											promocionesOngoing={promocionesOngoing}
+											setExpandidoexpandido={setExpandidoexpandido}
+											expandido={expandido}
 											promocion={promocion}
-											beneficiosPararAgregar={promocionesOingoing?.benficiosParaAgregar?.find(
-												(promo: TPromoOngoingAplicadas) =>
-													promo.promocionID === promocion.promocionID
-											)}
+											index={index}
 											soloLectura
 										/>
 									)

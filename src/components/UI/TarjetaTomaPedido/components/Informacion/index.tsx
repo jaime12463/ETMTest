@@ -16,7 +16,7 @@ import {useTranslation} from 'react-i18next';
 import theme from 'theme';
 import {useAppDispatch, useObtenerDatos} from 'redux/hooks';
 import {borrarDescuentoDelProducto} from 'redux/features/visitaActual/visitaActualSlice';
-import {useMostrarAviso} from 'hooks';
+import {useMostrarAviso, useValidacionPermiteSubUnidades} from 'hooks';
 
 const ChipStyled = styled(Chip)(() => ({
 	'&.MuiChip-root': {
@@ -98,6 +98,8 @@ const Informacion: React.FC<Props> = ({
 			'descuentoEscalonadoEliminado'
 		);
 	};
+
+	const validacionPermiteSubUnidades = useValidacionPermiteSubUnidades(producto);
 
 	React.useEffect(() => {
 		if (
@@ -215,7 +217,7 @@ const Informacion: React.FC<Props> = ({
 				>
 					{formatearNumero(precioConImpuestoUnidad, t)}
 				</Typography>
-				{esVentaSubunidades && (
+				{validacionPermiteSubUnidades && (
 					<>
 						<BotellaIcon
 							height='14px'

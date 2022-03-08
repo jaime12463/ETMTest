@@ -25,7 +25,7 @@ import {
 import {
 	agregarBeneficiosPromoOngoing,
 	agregarProductoDelPedidoActual,
-	agregarPromocionesNegociadas,
+	borrarPromocionesOngoing,
 	cambiarAvisos,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
@@ -139,10 +139,7 @@ const TomaPedido: React.FC = () => {
 
 	const borrarlinea = useBorrarLinea({setAlerta, setConfigAlerta});
 
-	const promocionesOngoing = PromocionesOngoing.getInstance(
-		datosCliente,
-		datos?.promociones
-	);
+	const promocionesOngoing = PromocionesOngoing.getInstance();
 	const promocionesVigentesCliente = promocionesOngoing.obtenerListaVigentes();
 	const pedidosCliente: TPedidosClientes = useObtenerPedidosClientes();
 
@@ -150,12 +147,6 @@ const TomaPedido: React.FC = () => {
 		venta.productos.some(
 			(producto) => producto.unidades > 0 || producto.subUnidades > 0
 		) && promocionesVigentesCliente?.existenPromociones;
-
-	/* 	React.useEffect(() => {
-		dispatch(
-			agregarPromocionesNegociadas({promocionesNegociadas: promocionesOingoing})
-		);
-	}, [promocionesOingoing]); */
 
 	const manejadorBotonPromosOngoing = () => {
 		setOpenDrawerPromociones(true);
@@ -177,16 +168,7 @@ const TomaPedido: React.FC = () => {
 					? [ETiposDePago.Credito]
 					: [ETiposDePago.Contado, ETiposDePago.Credito];
 
-			const promociones = promocionesOngoing.calcular(
-				venta.productos,
-				{
-					Grabadas:
-						pedidosCliente[clienteActual.codigoCliente]?.promocionesOngoing ??
-						[],
-					VisitaActual: visitaActual.promosOngoing,
-				},
-				tipos
-			);
+			const promociones = promocionesOngoing.calcular(venta.productos, tipos);
 
 			tipos.length === 1 && tipos[0] === ETiposDePago.Contado
 				? setPromocionesOingoing({
@@ -200,56 +182,18 @@ const TomaPedido: React.FC = () => {
 				  })
 				: setPromocionesOingoing({...promociones});
 
-			let beneficioParaAgregar = [];
+			console.log(tipos);
 
-			tipos.length === 1 && tipos[0] === ETiposDePago.Contado
-				? (beneficioParaAgregar = visitaActual.promosOngoing.filter(
-						(promo) =>
-							promo.aplicacion === 'A' ||
-							promo.tipoPago === ETiposDePago.Credito
-				  ))
-				: tipos.length === 1 && tipos[0] === ETiposDePago.Credito
-				? (beneficioParaAgregar = visitaActual.promosOngoing.filter(
-						(promo) =>
-							promo.aplicacion === 'A' ||
-							promo.tipoPago === ETiposDePago.Contado
-				  ))
-				: (beneficioParaAgregar = promociones?.benficiosParaAgregar.filter(
-						(promo) => promo.aplicacion === 'A'
-				  ));
-
-			dispatch(
-				agregarBeneficiosPromoOngoing({
-					beneficios: beneficioParaAgregar,
-				})
+			tipos.forEach((tipo) =>
+				dispatch(
+					borrarPromocionesOngoing({
+						tipoPago: tipo === ETiposDePago.Contado ? 'Contado' : 'Credito',
+					})
+				)
 			);
 		} else {
-			const promociones = promocionesOngoing.calcular(
-				venta.productos,
-				{
-					Grabadas:
-						pedidosCliente[clienteActual.codigoCliente]?.promocionesOngoing ??
-						[],
-					VisitaActual: visitaActual.promosOngoing,
-				},
-				[ETiposDePago.Contado, ETiposDePago.Credito]
-			);
+			const promociones = promocionesOngoing.calcular(venta.productos, []);
 			setPromocionesOingoing(promociones);
-			/* 			if (visitaActual.promocionesNegociadas) {
-				setPromocionesOingoing({...visitaActual.promocionesNegociadas});
-			} else {
-				const promociones = promocionesOngoing.calcular(
-					venta.productos,
-					{
-						Grabadas:
-							pedidosCliente[clienteActual.codigoCliente]?.promocionesOngoing ??
-							[],
-						VisitaActual: visitaActual.promosOngoing,
-					},
-					[ETiposDePago.Contado, ETiposDePago.Credito]
-				);
-				setPromocionesOingoing(promociones);
-			} */
 		}
 
 		dispatch(

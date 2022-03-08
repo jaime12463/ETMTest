@@ -23,14 +23,19 @@ const DrawerFiltros: React.FC<Props> = ({open, setOpen, children}) => {
 			disableSwipeToOpen
 			anchor='right'
 			transitionDuration={{enter: 450, exit: 450}}
-			PaperProps={{style: {width: '70%', top: '111px'}}}
+			PaperProps={{
+				style: {
+					width: '266px',
+					top: '111px',
+					display: 'block',
+					height: 'calc(100% - 111px)',
+				},
+			}}
 			sx={{
 				'& .MuiBackdrop-root, .MuiModal-backdrop': {top: '111px !important'},
 			}}
 		>
-			<Box display='flex' justifyContent='center' width='100%'>
-				<Box className={classes.content}>{children}</Box>
-			</Box>
+			<Box className={classes.content}>{children}</Box>
 		</SwipeableDrawer>
 	);
 };

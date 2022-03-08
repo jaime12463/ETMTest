@@ -8,6 +8,7 @@ import {
 import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
+	useObtenerConfiguracion,
 	useObtenerPedidosClientes,
 } from 'redux/hooks';
 import Box from '@mui/material/Box';
@@ -54,6 +55,7 @@ const CompromisoDeCobro: React.FC = () => {
 	const [error, setError] = React.useState<Error>({error: false, mensaje: ''});
 	const pedidosCliente = useObtenerPedidosClientes();
 	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
+	const {habilitaCompromisoDeCobro} = useObtenerConfiguracion();
 
 	const compromisosDeCobro =
 		pedidosCliente[clienteActual.codigoCliente]?.compromisosDeCobro.reduce(
@@ -148,19 +150,21 @@ const CompromisoDeCobro: React.FC = () => {
 					</Typography>
 				</Box>
 			</Box>
-			<InputConIcono
-				value={importeFormateado}
-				valid={importeValido}
-				onKeyPress={handleKeyPress}
-				onBlur={handleBlur}
-				onChange={handleChange}
-				label={t('general.agregarCompromisoDeCobro')}
-				margin='20px 0 0 0 '
-				simboloMoneda
-				error={error.error}
-				mensajeError={error.mensaje}
-				focus
-			/>
+			{habilitaCompromisoDeCobro && (
+				<InputConIcono
+					value={importeFormateado}
+					valid={importeValido}
+					onKeyPress={handleKeyPress}
+					onBlur={handleBlur}
+					onChange={handleChange}
+					label={t('general.agregarCompromisoDeCobro')}
+					margin='20px 0 0 0 '
+					simboloMoneda
+					error={error.error}
+					mensajeError={error.mensaje}
+					focus
+				/>
+			)}
 			<Grid
 				container
 				marginTop='18px'
@@ -223,7 +227,10 @@ const CompromisoDeCobro: React.FC = () => {
 					justifyContent='end'
 					alignItems='center'
 					gap='8px'
-					sx={{background: `${theme.palette.secondary.light}`}}
+					sx={{
+						background: `${theme.palette.secondary.light}`,
+						borderRadius: habilitaCompromisoDeCobro ? '0 0 0 0' : '0 0 4px 4px',
+					}}
 				>
 					<Grid item>
 						<Typography variant='caption' color='#fff'>
@@ -236,28 +243,30 @@ const CompromisoDeCobro: React.FC = () => {
 						</Typography>
 					</Grid>
 				</Grid>
-				<Grid
-					container
-					height='24px'
-					justifyContent='end'
-					alignItems='center'
-					gap='8px'
-					sx={{
-						background: `${theme.palette.secondary.contrastText}`,
-						borderRadius: '0 0 4px 4px',
-					}}
-				>
-					<Grid item>
-						<Typography variant='caption' color='#1B1915'>
-							{t('general.totalCompromisosRegistrados')}:
-						</Typography>
+				{habilitaCompromisoDeCobro && (
+					<Grid
+						container
+						height='24px'
+						justifyContent='end'
+						alignItems='center'
+						gap='8px'
+						sx={{
+							background: `${theme.palette.secondary.contrastText}`,
+							borderRadius: '0 0 4px 4px',
+						}}
+					>
+						<Grid item>
+							<Typography variant='caption' color='#1B1915'>
+								{t('general.totalCompromisosRegistrados')}:
+							</Typography>
+						</Grid>
+						<Grid item paddingRight='8px'>
+							<Typography variant='caption' fontWeight='500' color='#1B1915'>
+								{formatearNumero(compromisosDeCobro, t)}
+							</Typography>
+						</Grid>
 					</Grid>
-					<Grid item paddingRight='8px'>
-						<Typography variant='caption' fontWeight='500' color='#1B1915'>
-							{formatearNumero(compromisosDeCobro, t)}
-						</Typography>
-					</Grid>
-				</Grid>
+				)}
 			</Grid>
 		</>
 	);
