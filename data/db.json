@@ -1509,6 +1509,10 @@
 			},
 			"promocionesHabilitadas": [
 				{
+					"idPromocion": 680000,
+					"promocionesDisponibles": 1
+				},
+				{
 					"idPromocion": 682199,
 					"promocionesDisponibles": 1
 				},
@@ -1542,12 +1546,16 @@
 						{
 							"precioConImpuestoUnidad": 106,
 							"precioConImpuestoSubunidad": 8.84,
+							"precioSinImpuestoUnidad": 106,
+							"precioSinImpuestoSubunidad": 8.84,
 							"vigenciaInicioPrecio": "2017-09-07",
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
 							"precioConImpuestoUnidad": 105,
 							"precioConImpuestoSubunidad": 8.75,
+							"precioSinImpuestoUnidad": 105,
+							"precioSinImpuestoSubunidad": 8.75,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}
@@ -1561,12 +1569,16 @@
 						{
 							"precioConImpuestoUnidad": 106,
 							"precioConImpuestoSubunidad": 8.84,
+							"precioSinImpuestoUnidad": 106,
+							"precioSinImpuestoSubunidad": 8.84,
 							"vigenciaInicioPrecio": "2017-09-07",
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
 							"precioConImpuestoUnidad": 105,
 							"precioConImpuestoSubunidad": 8.75,
+							"precioSinImpuestoUnidad": 105,
+							"precioSinImpuestoSubunidad": 8.75,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}
@@ -1579,12 +1591,16 @@
 						{
 							"precioConImpuestoUnidad": 106,
 							"precioConImpuestoSubunidad": 8.84,
+							"precioSinImpuestoUnidad": 106,
+							"precioSinImpuestoSubunidad": 8.84,
 							"vigenciaInicioPrecio": "2017-09-07",
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
 							"precioConImpuestoUnidad": 105,
 							"precioConImpuestoSubunidad": 8.75,
+							"precioSinImpuestoUnidad": 105,
+							"precioSinImpuestoSubunidad": 8.75,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}
@@ -1611,12 +1627,16 @@
 						{
 							"precioConImpuestoUnidad": 106,
 							"precioConImpuestoSubunidad": 8.84,
+							"precioSinImpuestoUnidad": 106,
+							"precioSinImpuestoSubunidad": 8.84,
 							"vigenciaInicioPrecio": "2017-09-07",
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
 							"precioConImpuestoUnidad": 105,
 							"precioConImpuestoSubunidad": 8.75,
+							"precioSinImpuestoUnidad": 105,
+							"precioSinImpuestoSubunidad": 8.75,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}
@@ -1629,12 +1649,16 @@
 						{
 							"precioConImpuestoUnidad": 100,
 							"precioConImpuestoSubunidad": 8.84,
+							"precioSinImpuestoUnidad": 100,
+							"precioSinImpuestoSubunidad": 8.84,
 							"vigenciaInicioPrecio": "2017-09-07",
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
 							"precioConImpuestoUnidad": 150,
 							"precioConImpuestoSubunidad": 15,
+							"precioSinImpuestoUnidad": 150,
+							"precioSinImpuestoSubunidad": 15,
 							"precioConDescuentoUnidad": 145,
 							"precioConDescuentoSubunidad": 14.5,
 							"vigenciaInicioPrecio": "2017-10-01",
@@ -1649,12 +1673,16 @@
 						{
 							"precioConImpuestoUnidad": 100,
 							"precioConImpuestoSubunidad": 8.84,
+							"precioSinImpuestoUnidad": 100,
+							"precioSinImpuestoSubunidad": 8.84,
 							"vigenciaInicioPrecio": "2017-09-07",
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
 							"precioConImpuestoUnidad": 170,
 							"precioConImpuestoSubunidad": 20,
+							"precioSinImpuestoUnidad": 170,
+							"precioSinImpuestoSubunidad": 20,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}
@@ -1725,12 +1753,16 @@
 						{
 							"precioConImpuestoUnidad": 106,
 							"precioConImpuestoSubunidad": 8.84,
+							"precioSinImpuestoUnidad": 106,
+							"precioSinImpuestoSubunidad": 8.84,
 							"vigenciaInicioPrecio": "2001-01-01",
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
 							"precioConImpuestoUnidad": 24,
 							"precioConImpuestoSubunidad": 2,
+							"precioSinImpuestoUnidad": 24,
+							"precioSinImpuestoSubunidad": 2,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}
@@ -1755,12 +1787,16 @@
 						{
 							"precioConImpuestoUnidad": 106,
 							"precioConImpuestoSubunidad": 8.84,
+							"precioSinImpuestoUnidad": 106,
+							"precioSinImpuestoSubunidad": 8.84,
 							"vigenciaInicioPrecio": "2001-01-01",
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
 							"precioConImpuestoUnidad": 105,
 							"precioConImpuestoSubunidad": 8.75,
+							"precioSinImpuestoUnidad": 105,
+							"precioSinImpuestoSubunidad": 8.75,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}
@@ -1785,12 +1821,16 @@
 						{
 							"precioConImpuestoUnidad": 106,
 							"precioConImpuestoSubunidad": 8.84,
+							"precioSinImpuestoUnidad": 106,
+							"precioSinImpuestoSubunidad": 8.84,
 							"vigenciaInicioPrecio": "2001-01-01",
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
 							"precioConImpuestoUnidad": 105,
 							"precioConImpuestoSubunidad": 8.75,
+							"precioSinImpuestoUnidad": 105,
+							"precioSinImpuestoSubunidad": 8.75,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}
@@ -1817,12 +1857,16 @@
 						{
 							"precioConImpuestoUnidad": 106,
 							"precioConImpuestoSubunidad": 8.84,
+							"precioSinImpuestoUnidad": 106,
+							"precioSinImpuestoSubunidad": 8.84,
 							"vigenciaInicioPrecio": "2001-01-01",
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
 							"precioConImpuestoUnidad": 105,
 							"precioConImpuestoSubunidad": 8.75,
+							"precioSinImpuestoUnidad": 105,
+							"precioSinImpuestoSubunidad": 8.75,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}
@@ -1835,12 +1879,16 @@
 						{
 							"precioConImpuestoUnidad": 12,
 							"precioConImpuestoSubunidad": 1,
+							"precioSinImpuestoUnidad": 12,
+							"precioSinImpuestoSubunidad": 1,
 							"vigenciaInicioPrecio": "2001-01-01",
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
 							"precioConImpuestoUnidad": 12,
 							"precioConImpuestoSubunidad": 1,
+							"precioSinImpuestoUnidad": 12,
+							"precioSinImpuestoSubunidad": 1,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}
@@ -1853,12 +1901,16 @@
 						{
 							"precioConImpuestoUnidad": 5,
 							"precioConImpuestoSubunidad": 5,
+							"precioSinImpuestoUnidad": 5,
+							"precioSinImpuestoSubunidad": 5,
 							"vigenciaInicioPrecio": "2001-01-01",
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
 							"precioConImpuestoUnidad": 5,
 							"precioConImpuestoSubunidad": 5,
+							"precioSinImpuestoUnidad": 5,
+							"precioSinImpuestoSubunidad": 5,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}
@@ -1871,6 +1923,8 @@
 						{
 							"precioConImpuestoUnidad": 10,
 							"precioConImpuestoSubunidad": 5,
+							"precioSinImpuestoUnidad": 10,
+							"precioSinImpuestoSubunidad": 5,
 							"vigenciaInicioPrecio": "2021-01-01",
 							"vigenciaFinPrecio": "2022-12-31"
 						}
@@ -2657,6 +2711,66 @@
 	],
 
 	"promociones": [
+	{
+			"promocionID": "680000",
+			"descripcion": "La Promo de varias secuencias",
+			"tipo": "1",
+			"aplicacion": "M",
+			"asignacion": "P",
+			"inicioVigenciaPromocion": "2021-01-08",
+			"finVigenciaPromocion": "2022-12-31",
+			"requisitos": [
+				{
+					"materiales": [340,360,380,420,440],
+					"cantidad": 12,
+					"unidadMedida": "Unidad"
+				}
+			],
+			"beneficios": [
+				{
+					"grupoBeneficioID": 1,
+					"descripcion": "Grupo 1",
+					"secuencias": [
+						{
+							"secuencia": 1,
+							"materialesBeneficio": [340,360],
+							"cantidad": 4,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "2",
+							"valorBeneficio": 10,
+							"tope": 40
+						},
+						{
+							"secuencia": 2,
+							"materialesBeneficio": [380,420],
+							"cantidad": 4,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "3",
+							"valorBeneficio": 10,
+							"tope": 40
+						},
+						{
+							"secuencia": 3,
+							"materialesBeneficio": [440],
+							"cantidad": 4,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "4",
+							"valorBeneficio": 10,
+							"tope": 40
+						},
+						{
+							"secuencia": 4,
+							"materialesBeneficio": [603653],
+							"cantidad": 1,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "1",
+							"valorBeneficio": 100,
+							"tope": 5
+						}
+					]
+				}
+			]
+		},
 		{
 			"promocionID": "682199",
 			"descripcion": "607-PJ Política Lonchera 1en5 VP ESP",
@@ -2912,15 +3026,6 @@
 							"formaBeneficio": "1",
 							"valorBeneficio": 100,
 							"tope": 2
-						},
-						{
-							"secuencia": 2,
-							"materialesBeneficio": [420],
-							"cantidad": 1,
-							"unidadMedida": "Unidad",
-							"formaBeneficio": "1",
-							"valorBeneficio": 100,
-							"tope": 4
 						}
 					]
 				}
