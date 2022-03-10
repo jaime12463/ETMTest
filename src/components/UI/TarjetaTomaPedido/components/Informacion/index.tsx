@@ -1,5 +1,5 @@
 import React from 'react';
-import {TProductoPedido, TStateInfoDescuentos} from 'models';
+import {ETipoDescuento, TProductoPedido, TStateInfoDescuentos} from 'models';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {styled} from '@mui/material/styles';
@@ -80,7 +80,7 @@ const Informacion: React.FC<Props> = ({
 
 	const eliminarDescuento = () => {
 		setInfoDescuento({
-			tipo: 'eliminado',
+			tipo: ETipoDescuento.eliminado,
 			porcentajeDescuento: null,
 			inputPolarizado: 0,
 			codigoDescuento: '',
@@ -99,18 +99,19 @@ const Informacion: React.FC<Props> = ({
 		);
 	};
 
-	const validacionPermiteSubUnidades = useValidacionPermiteSubUnidades(producto);
+	const validacionPermiteSubUnidades =
+		useValidacionPermiteSubUnidades(producto);
 
 	React.useEffect(() => {
 		if (
 			(infoDescuento.porcentajeDescuento !== null &&
 				infoDescuento.porcentajeDescuento > 0) ||
-			infoDescuento.tipo === 'automatico'
+			infoDescuento.tipo === ETipoDescuento.automatico
 		) {
 			if (
 				producto.unidades > 0 ||
 				producto.subUnidades > 0 ||
-				infoDescuento.tipo === 'automatico'
+				infoDescuento.tipo === ETipoDescuento.automatico
 			) {
 				setMostrarinfo(true);
 			} else {
@@ -167,10 +168,12 @@ const Informacion: React.FC<Props> = ({
 				display='grid'
 				gridTemplateColumns='20px min-content min-content 14px min-content'
 				gridTemplateRows={
-					infoDescuento.tipo === 'automatico' ? 'auto auto' : 'auto auto auto'
+					infoDescuento.tipo === ETipoDescuento.automatico
+						? 'auto auto'
+						: 'auto auto auto'
 				}
 				gridTemplateAreas={
-					infoDescuento.tipo === 'automatico'
+					infoDescuento.tipo === ETipoDescuento.automatico
 						? `"Caja Presentacion PrecioUnidad Botella PrecioSubUnidad"
 						"Promo Vacio DescuentoUnidad Vacio2 DescuentoSubUnidad"`
 						: `"Caja Presentacion PrecioUnidad Botella PrecioSubUnidad"
@@ -269,12 +272,14 @@ const Informacion: React.FC<Props> = ({
 							color={theme.palette.primary.main}
 							sx={{
 								gridArea:
-									infoDescuento.tipo !== 'automatico' ? 'Descuento' : '',
+									infoDescuento.tipo !== ETipoDescuento.automatico
+										? 'Descuento'
+										: '',
 								marginBottom: '8px',
 							}}
 						>
-							{infoDescuento.tipo === 'polarizado' ||
-							infoDescuento.tipo === 'escalonado'
+							{infoDescuento.tipo === ETipoDescuento.polarizado ||
+							infoDescuento.tipo === ETipoDescuento.escalonado
 								? `Descuento ${infoDescuento.tipo} del -${infoDescuento.porcentajeDescuento}%`
 								: null}
 						</Typography>
@@ -298,7 +303,7 @@ const Informacion: React.FC<Props> = ({
 					</>
 				)}
 			</Box>
-			{mostrarInfo && infoDescuento.tipo === 'escalonado' && (
+			{mostrarInfo && infoDescuento.tipo === ETipoDescuento.escalonado && (
 				<Box marginTop='8px'>
 					<ChipStyled
 						onClick={() => {

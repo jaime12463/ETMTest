@@ -6,6 +6,7 @@ import {
 	TProducto,
 	TPortafolio,
 	TPrecio,
+	ETipoDescuento,
 } from 'models';
 import {validarFechaVigenciaProducto} from 'utils/validaciones';
 import {
@@ -93,11 +94,11 @@ export const useObtenerPreciosProductosDelCliente = () => {
 						descuentoEscalonado,
 						descuentoPolarizado,
 						descuento: descuentoEscalonado
-							? {tipo: 'escalonado'}
+							? {tipo: ETipoDescuento.escalonado}
 							: descuentoPolarizado
-							? {tipo: 'polarizado'}
+							? {tipo: ETipoDescuento.polarizado}
 							: precioConDescuentoUnidad
-							? {tipo: 'automatico'}
+							? {tipo: ETipoDescuento.automatico}
 							: undefined,
 						componentes,
 						tipoProducto,

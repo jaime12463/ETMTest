@@ -1,4 +1,5 @@
 import {
+	ETipoDescuento,
 	TInfoDescuentos,
 	TPedidoDelProducto,
 	TPrecioProducto,
@@ -21,7 +22,7 @@ export const useObtenerCalculoDescuentoProducto = (
 		const {infoDescuento, setInfoDescuento} = stateInfoDescuento;
 
 		if (
-			infoDescuento.tipo === 'polarizado' &&
+			infoDescuento.tipo === ETipoDescuento.polarizado &&
 			valoresIngresados.inputPolarizado !== undefined
 		) {
 			const descuento = producto.descuentoPolarizado?.find(
@@ -50,7 +51,7 @@ export const useObtenerCalculoDescuentoProducto = (
 					inputPolarizado: valoresIngresados.inputPolarizado,
 				});
 			}
-		} else if (infoDescuento.tipo === 'escalonado') {
+		} else if (infoDescuento.tipo === ETipoDescuento.escalonado) {
 			const descuento = producto.descuentoEscalonado?.find(
 				(descuentoEscalonado) => {
 					if (
