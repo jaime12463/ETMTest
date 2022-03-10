@@ -16,3 +16,5 @@ Escenario: N°1 - Eliminar descuento
     Y marcará el producto para que no se vuelva a calcular el descuento escalonado
     Y ocultará los controles relacionados al descuento escalonado
 
+# Sprint25 ver con KOF si al quitar el descuento escalonado se debe 
+# avisar que las promociones ongoing pudieron haber cambiado

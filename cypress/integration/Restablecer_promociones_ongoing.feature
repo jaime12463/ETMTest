@@ -12,7 +12,7 @@ Esquema del escenario: N°1 - Restablecer promociones de condición de pago
     Cuando selecciono el control restablecer promociones en '<condicionDePago>'
     Entonces el sistema avisará que se restablecerán las promociones manuales aplicadas en '<condicionDePago>'
     Y si acepta, el sistema borrará los beneficios otorgados de las promociones manuales
-    Y restablecerá los descuentos de los productos del pedido afectados por las promociónes manuales
+#    Y restablecerá los descuentos de los productos del pedido afectados por las promociónes manuales
     Y recalculará las promociones manuales para la condición de pago '<condicionDePago>'
     Y actualizará la pantalla de promociones ongoing según mostrar promociones ongoing
     Y recalculará los envases para retorno según calcular envases retornables
