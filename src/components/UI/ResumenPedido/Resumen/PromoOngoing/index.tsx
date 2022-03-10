@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import {PromocionesIcon} from 'assests/iconos';
+import {Caja} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import theme from 'theme';
 import {TPromoOngoingAplicables} from 'utils/procesos/promociones/PromocionesOngoing';
@@ -40,32 +40,19 @@ export const PromoOngoing: React.FC<PromoOngoingProps> = ({promocion}) => {
 						{descripcion}
 					</Typography>
 				</Box>
-				<Box
-					alignItems='center'
-					display='flex'
-					justifyContent='end'
-					flexBasis='143px'
-					padding='10px 16px 10px 8px'
-				>
-					<Box
-						borderRadius='50px'
-						display='flex'
-						padding='2px 12px'
-						sx={{background: theme.palette.info.main}}
-					>
-						<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
-							{t('general.productoGratis')}
-						</Typography>
-					</Box>
-				</Box>
 			</Box>
-			{secuencias?.map(({materialesBeneficio}) => {
-				return materialesBeneficio.map((beneficio) => {
+			{secuencias?.map((secuencia) => {
+				const materialesBeneficio =
+					secuencia.materialesBeneficio as TCodigoCantidad[];
+
+				const beneficiosFiltrados = materialesBeneficio.filter(
+					(beneficio) => beneficio.cantidad > 0
+				);
+
+				return beneficiosFiltrados.map((beneficio, index) => {
 					const {cantidad, codigo} = beneficio as TCodigoCantidad;
 
 					const producto = obtenerDatosProducto(Number(codigo));
-
-					if (cantidad === 0) return null;
 
 					return (
 						<Box key={codigo}>
@@ -75,7 +62,7 @@ export const PromoOngoing: React.FC<PromoOngoingProps> = ({promocion}) => {
 									flexDirection='column'
 									gap='4px'
 									flex='1'
-									padding='16px 6px 16px 14px'
+									padding='8px 8px 8px 14px'
 								>
 									<Box display='flex' flexDirection='column'>
 										<Typography variant='subtitle3' fontFamily='Open Sans'>
@@ -85,32 +72,45 @@ export const PromoOngoing: React.FC<PromoOngoingProps> = ({promocion}) => {
 											{producto.nombre}
 										</Typography>
 									</Box>
-									<Box alignItems='center' display='flex' gap='4px'>
-										<PromocionesIcon height='14px' width='14px' />
-										<Typography variant='subtitle3' fontFamily='Open Sans'>
-											{cantidad}
-										</Typography>
-									</Box>
 								</Box>
 								<Box
 									display='flex'
 									flexBasis='143px'
 									flexDirection='column'
-									gap='4px'
-									justifyContent='center'
+									justifyContent='space-between'
 									minHeight='100%'
-									padding='8px 14px 8px 8px'
 									sx={{background: '#F5F0EF'}}
 								>
-									<Typography variant='caption' color='#000'>
-										{`${t('general.tipo')}:`}
-									</Typography>
-									<Typography variant='subtitle3'>
+									<Box
+										alignItems='center'
+										display='flex'
+										gap='4px'
+										padding='8px 14px 16px 8px'
+									>
+										<Caja height='14px' width='14px' />
+										<Typography variant='caption' fontFamily='Open Sans'>
+											{cantidad}{' '}
+											{cantidad > 1
+												? t('general.cajas').toLowerCase()
+												: t('general.caja').toLowerCase()}
+										</Typography>
+									</Box>
+									<Typography
+										variant='subtitle3'
+										sx={{
+											background: '#F5F0EF',
+											padding: '8px 14px 8px 8px',
+											width: '100%',
+											mixBlendMode: 'multiply',
+										}}
+									>
 										{t('general.obsequio')}
 									</Typography>
 								</Box>
 							</Box>
-							<Divider />
+							{beneficiosFiltrados.length - 1 !== index && (
+								<Divider sx={{borderColor: theme.palette.secondary.main}} />
+							)}
 						</Box>
 					);
 				});

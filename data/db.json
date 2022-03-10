@@ -241,9 +241,9 @@
 					"unidadesDisponibles": 10,
 					"precios": [
 						{
-							"precioConImpuestoUnidad": 18.4,
-							"precioConImpuestoSubunidad": 18.4,
-							"descuento": 1.6,
+							"precioConImpuestoUnidad": 119.6,
+							"precioConImpuestoSubunidad": 119.6,
+							"descuento": 10.4,
 							"vigenciaInicioPrecio": "2017-09-07",
 							"vigenciaFinPrecio": "9999-12-31",
 							"componentes": [
@@ -638,9 +638,9 @@
 					"unidadesDisponibles": 10,
 					"precios": [
 						{
-							"precioConImpuestoUnidad": 18.4,
-							"precioConImpuestoSubunidad": 18.4,
-							"descuento": 1.6,
+							"precioConImpuestoUnidad": 119.6,
+							"precioConImpuestoSubunidad": 119.6,
+							"descuento": 10.4,
 							"vigenciaInicioPrecio": "2017-09-07",
 							"vigenciaFinPrecio": "9999-12-31",
 							"componentes": [
@@ -1067,9 +1067,9 @@
 					"unidadesDisponibles": 10,
 					"precios": [
 						{
-							"precioConImpuestoUnidad": 18.4,
-							"precioConImpuestoSubunidad": 18.4,
-							"descuento": 1.6,
+							"precioConImpuestoUnidad": 119.6,
+							"precioConImpuestoSubunidad": 119.6,
+							"descuento": 10.4,
 							"vigenciaInicioPrecio": "2017-09-07",
 							"vigenciaFinPrecio": "9999-12-31",
 							"componentes": [
@@ -1694,9 +1694,9 @@
 					"unidadesDisponibles": 10,
 					"precios": [
 						{
-							"precioConImpuestoUnidad": 18.4,
-							"precioConImpuestoSubunidad": 18.4,
-							"descuento": 1.6,
+							"precioConImpuestoUnidad": 119.6,
+							"precioConImpuestoSubunidad": 119.6,
+							"descuento": 10.4,
 							"vigenciaInicioPrecio": "2017-09-07",
 							"vigenciaFinPrecio": "9999-12-31",
 							"componentes": [
@@ -2711,7 +2711,7 @@
 	],
 
 	"promociones": [
-	{
+		{
 			"promocionID": "680000",
 			"descripcion": "La Promo de varias secuencias",
 			"tipo": "1",
@@ -2721,7 +2721,7 @@
 			"finVigenciaPromocion": "2022-12-31",
 			"requisitos": [
 				{
-					"materiales": [340,360,380,420,440],
+					"materiales": [340, 360, 380, 420, 440],
 					"cantidad": 12,
 					"unidadMedida": "Unidad"
 				}
@@ -2733,7 +2733,7 @@
 					"secuencias": [
 						{
 							"secuencia": 1,
-							"materialesBeneficio": [340,360],
+							"materialesBeneficio": [340, 360],
 							"cantidad": 4,
 							"unidadMedida": "Unidad",
 							"formaBeneficio": "2",
@@ -2742,7 +2742,7 @@
 						},
 						{
 							"secuencia": 2,
-							"materialesBeneficio": [380,420],
+							"materialesBeneficio": [380, 420],
 							"cantidad": 4,
 							"unidadMedida": "Unidad",
 							"formaBeneficio": "3",

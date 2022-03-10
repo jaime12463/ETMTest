@@ -113,6 +113,8 @@ const es = {
 		medidas: 'Tamaños',
 		marcas: 'Marcas',
 		borrarSeleccion: 'Borrar selección',
+		caja: 'Caja',
+		cajas: 'Cajas',
 	},
 	simbolos: {
 		decimal: '.',
