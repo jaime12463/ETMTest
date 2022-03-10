@@ -1,5 +1,10 @@
 import React from 'react';
-import {TProductoPedido, TStateInfoDescuentos, TStateInputFocus} from 'models';
+import {
+	ETipoDescuento,
+	TProductoPedido,
+	TStateInfoDescuentos,
+	TStateInputFocus,
+} from 'models';
 import Box from '@mui/material/Box';
 import InputConIcono from 'components/UI/InputConIcono';
 import {StateFocusID} from '../..';
@@ -71,7 +76,7 @@ const Descuentos: React.FC<Props> = ({
 	};
 
 	const mostrarInputPolarizado =
-		infoDescuento.tipo === 'polarizado'
+		infoDescuento.tipo === ETipoDescuento.polarizado
 			? producto.unidades > 0 || producto.subUnidades > 0
 				? true
 				: false

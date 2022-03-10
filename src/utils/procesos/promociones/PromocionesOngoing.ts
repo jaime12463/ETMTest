@@ -12,6 +12,7 @@ import {
 	EFormaBeneficio,
 	EFormaDeAplicacion,
 	EFormaDeAsignacion,
+	ETipoDescuento,
 	TPromoOngoingHabilitadas,
 	TPromoOngoingAplicadas,
 	TCodigoCantidad,
@@ -335,7 +336,7 @@ export class PromocionesOngoing {
 				promosAplicables: [],
 				indiceProductosxPromosManuales: {},
 			};
-
+		// se verifican las promociones ordenadas por Aplicación + promocionID (primero las (A)utomáticas luego las (M)anuales)
 		for (let clave of this.listaPromocionesVigentes.indexPorTipoId) {
 			const claveAplicacion = clave.substring(0, 1);
 			const promocionID = clave.replace(claveAplicacion, '');
@@ -363,6 +364,9 @@ export class PromocionesOngoing {
 						productosUsadosEnOtrasPromosAutomaticas
 					);
 
+				if (materialesVerificados.multiplo>1)
+					continue;
+				
 				materialesRequisitosVerificados.push(materialesVerificados);
 
 				multiplo.push(materialesVerificados.multiplo);
@@ -438,7 +442,7 @@ export class PromocionesOngoing {
 	 * Retorna la lista de materiales (productos) intervinientes y la cantidad de veces que se cumple el requisito, en función de los materiales (productos) del requisito
 	 * @constructor
 	 * @param {TPromoOngoingRequisitos} requisito
-	 * @param {TProductosPedidoIndex} productosIndex - lista d productos distintos de promoPush y que sean de una forma de pago
+	 * @param {TProductosPedidoIndex} productosIndex - lista d productos distintos de promoPush, que no se le hayan aplicado descuentos escalonados y que sean de una forma de pago
 	 */
 	private verificarRequisito(
 		promocionID: number,
@@ -529,14 +533,14 @@ export class PromocionesOngoing {
 				} 
 				else if ([EFormaBeneficio.DescuentoPorcentaje , EFormaBeneficio.DescuentoMonto , EFormaBeneficio.Precio].includes(secuencia.formaBeneficio))
 			    {
-					// solo se toman los productos que esten en el pedido y no hayann sido requisito de una promo aplicada
+					// solo se toman los productos que esten en el pedido y no hayan sido requisito de una promo aplicada
 					let auxtope=tope;
 					materialesBeneficio
 						.filter((producto: number) => productosPedidoIndex[producto] && productosUsadosEnOtrasPromos[producto]==undefined )
 						.forEach((producto) => {
 							materiales.push({
 								codigo: producto,
-								cantidad: Math.min(auxtope ,productosPedidoIndex[producto].unidades) , // Se otroga el minimo entre el resto del tope y la cantidad pedida
+								cantidad: Math.min(auxtope ,productosPedidoIndex[producto].unidades) , // Se otorga el minimo entre el resto del tope y la cantidad pedida
 							});
 							auxtope-=productosPedidoIndex[producto].unidades;
 							auxtope=(auxtope<0) ? 0: auxtope;
@@ -575,7 +579,7 @@ export class PromocionesOngoing {
 	}
 
 	/**
-	 * Retorna un TProductosPedidoIndex con todos los productos distintos de promoPush y que sean de una forma de pago
+	 * Retorna un TProductosPedidoIndex con todos los productos distintos de promoPush, que no se le haya aplicado descuento escalonado y que sean de una forma de pago
 	 * @constructor
 	 * @param {TProductoPedido[]} productosPedidos - item's del pedido
 	 * @param {ETiposDePago} tipoPago - Contado o Crédito
@@ -590,7 +594,7 @@ export class PromocionesOngoing {
 				productosPedidoIndex: TProductosPedidoIndex,
 				producto: TProductoPedido
 			) => {
-				if (!producto.promoPush && producto.tipoPago == tipoPago) {
+				if (!producto.promoPush && producto.descuento?.tipo != ETipoDescuento.escalonado &&  producto.tipoPago == tipoPago) {
 					return {
 						...productosPedidoIndex,
 						[producto['codigoProducto']]: {...producto, aplicado: 0},

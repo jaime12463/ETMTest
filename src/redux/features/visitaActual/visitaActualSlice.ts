@@ -6,6 +6,7 @@ import {
 	TPresupuestoTipoPedidoTotal,
 	TDetalleBonificacionesCliente,
 	TAvisos,
+	ETipoDescuento,
 } from 'models';
 
 import {RootState} from 'redux/store';
@@ -300,7 +301,7 @@ export const visitaActualSlice = createSlice({
 				state.pedidos[state.tipoPedidoActual].productos[indexProductoPedido];
 
 			producto.descuento = {
-				tipo: 'eliminado',
+				tipo: ETipoDescuento.eliminado,
 				porcentajeDescuento: 0,
 				inputPolarizado: 0,
 			};
