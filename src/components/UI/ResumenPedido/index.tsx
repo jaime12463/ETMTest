@@ -26,12 +26,12 @@ import {
 	useObtenerConsolidacionImplicitos,
 } from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
 import {TPromoOngoingAplicables} from 'utils/procesos/promociones/PromocionesOngoing';
+import i18n from '../../../lang/i18n';
+import {convertToObject} from 'typescript';
 
 interface Props {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-interface TipoPagoPromoOngoing {}
 
 const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 	const compromisoDeCobro = useObtenerCompromisoDeCobroActual();
@@ -198,8 +198,6 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 				: a.codigoImplicito - b.codigoImplicito
 		);
 
-	console.log(ventaenvase);
-
 	const envasesRetorno = consolidacionImplicitos?.map((envase) => {
 		const existeEnvaseVenta = ventaenvase?.productos?.find(
 			(producto) => envase.codigoImplicito === producto.codigoProducto
@@ -223,6 +221,23 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 		return cantidadDeRetorno;
 	});
 
+	const lenguaje = i18n.language !== 'br' ? i18n.language : 'pt';
+
+	let fechaFormateada = new Intl.DateTimeFormat(lenguaje, {
+		day: 'numeric',
+		month: 'long',
+		year: 'numeric',
+	}).format(Date.parse(visitaActual.fechaEntrega));
+
+	// Si el lenguaje no es ingles, se pasa a mayuscula el mes
+	if (lenguaje !== 'en') {
+		console.log('entre');
+		let aux = fechaFormateada.split(' ');
+		aux[2] = aux[2].slice(0, 1).toUpperCase() + aux[2].slice(1);
+		fechaFormateada = aux.join(' ');
+		console.log(aux);
+	}
+
 	return (
 		<>
 			<Box
@@ -244,12 +259,18 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 			>
 				{t('general.resumenDePedido')}
 			</Typography>
-			<Box alignItems='center' display='flex' justifyContent='center' gap='2px'>
+			<Box
+				alignItems='center'
+				display='flex'
+				justifyContent='center'
+				gap='10px'
+				width='100%'
+			>
 				<Typography variant='subtitle3' fontFamily='Open Sans' color='#565657'>
-					{t('general.fechaEntrega')}
+					{t('general.fechaEntrega')}:
 				</Typography>
 				<Typography variant='body3' fontFamily='Open Sans' color='#565657'>
-					{formatearFecha(visitaActual.fechaEntrega, t)}
+					{fechaFormateada}
 				</Typography>
 			</Box>
 
