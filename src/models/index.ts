@@ -83,6 +83,19 @@ export enum ETipoDescuento {
 	eliminado = '4',
 }
 
+export type TRetornoEnvases = {
+	unidades: number;
+	subUnidades: number;
+	retornoUnidades: number;
+	retornorSubUnidades: number;
+};
+
+export type TEnvases = {
+	tipoEnvase: string;
+	unidades: 0;
+	subUnidades: 0;
+}
+
 //Estados
 
 export type TStateProductoActual = {

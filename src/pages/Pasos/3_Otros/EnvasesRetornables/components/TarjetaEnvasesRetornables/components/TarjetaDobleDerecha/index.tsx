@@ -2,7 +2,7 @@ import {Grid, Input, Typography} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {InputTipoPedido} from '../../..';
 import {FunctionComponent, useEffect, useState} from 'react';
-import {TConsolidadoImplicitos, TPrecioProducto, TTipoPedido} from 'models';
+import {TRetornoEnvases, TConsolidadoImplicitos, TPrecioProducto, TTipoPedido} from 'models';
 import {useAgregarProductoAlPedidoActual} from '../../../../hooks/useAgregarProductoAlPedidoActual';
 import {useMostrarAdvertenciaEnDialogo, useMostrarAviso} from 'hooks';
 import {useTranslation} from 'react-i18next';
@@ -49,12 +49,7 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 	const unidadesIniciales = unidades;
 	const subUnidadesIniciales = subUnidades;
 
-	const [retorno, setRetorno] = useState<{
-		unidades: number;
-		subUnidades: number;
-		retornoUnidades: number;
-		retornorSubUnidades: number;
-	}>({
+	const [retorno, setRetorno] = useState<TRetornoEnvases>({
 		unidades: unidadesIniciales,
 		subUnidades: subUnidadesIniciales,
 		retornoUnidades: unidadesIniciales,
