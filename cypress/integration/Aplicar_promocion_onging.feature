@@ -36,3 +36,4 @@ Escenario: N°2 - Aplicar promociones ongoing con edicion de beneficio
 
 # Los descuentos en monto y %, se aplican sobre precioSinImpuestoUnidad y precioSinImpuestoSubunidad
 # cuando es en monto, el precio corresponde a unidades.
+# Si el producto tiene descuento polarizaro, la promo ongoing aplica sobre el precio calculado con descuento polarizado.

@@ -74,8 +74,29 @@ Escenario: N°6 - Calcular y aplicar promociones ongoing
     Y aplicará las promociones automáticas que correspondan a la condición de pago
     Y al obtener beneficios de alguna de las promociones mostrará en la pantalla del paso 3 otros el mensaje "Cambios guardados exitosamente. Se calcularon y aplicaron las promociones automáticas"
 
-#Modificar productos implica agregar, cambiar cantidades, borrar productos o cambiar condición de pago en toma de pedido de productos que no son promo push
-#No se calcularon promociones por no acceder al control de las promociones
+#Se considera modificación:
+# Cuando se cambia la condición de pago de un producto que 
+# no tiene descuento automático ni tiene descuento escalonado 
+# o tiene descuento automático y por configuración no se excluye 
+# como requisito a los productos con desc. automático; 
+# Se reinician las promociones para las dos condiciones de pago.
+# 
+# Cuando se agrega/modifica cantidad/borra un producto que 
+# no tiene descuento automático ni tiene descuento escalonado 
+# o tiene descuento automático y por configuración no se excluye 
+# como requisito a los productos con desc. automático; 
+# Solo se recalculan las promociones correspondientes a la condición de pago del producto. 
+#
+# Cuando a un producto con descuento escalonado 
+# se le quita el descuento, manualmente o porque se modificó la cantidad 
+# de unidades y ya no entra en ningún rango; 
+# Este producto comenzaría a jugar como requisito entonces se 
+# tienen que reiniciar las promociones de su condición de pago
+#
+# Cuando a un producto con descuento escalonado cuyas unidades no entraban 
+# en ningún rango pero se modifica la cantidad y obtiene un descuento escalonado; 
+# Este producto dejaría de jugar como requisito entonces se tienen 
+# que reiniciar las promociones de su condición de pago
 
 Escenario: N°7 - Promociones ya calculadas y aplicadas
     Dado que ya se calcularon promociones
