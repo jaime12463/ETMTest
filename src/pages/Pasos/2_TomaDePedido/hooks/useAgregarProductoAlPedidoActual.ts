@@ -14,17 +14,13 @@ import {
 	TProductoPedido,
 	TStateInfoDescuentos,
 	TConfiguracionAgregarPedido,
+	EFormaBeneficio,
+	ETipoDescuento,
 } from 'models';
-import {
-	useValidarAgregarProductoAlPedidoCliente,
-	useManejadorConfirmarEliminarPedidosNoMandatorios,
-} from '.';
+import {useValidarAgregarProductoAlPedidoCliente} from '.';
 
 import {useTranslation} from 'react-i18next';
-import {
-	useCalularPruductoEnPromoOnGoing,
-	useObtenerProductosMandatoriosVisitaActual,
-} from 'hooks';
+import {useCalularPruductoEnPromoOnGoing} from 'hooks';
 
 export const useAgregarProductoAlPedidoActual = (
 	productoActual: TProductoPedido | null,
@@ -47,16 +43,7 @@ export const useAgregarProductoAlPedidoActual = (
 		productoActual?.codigoProducto ?? 0
 	);
 
-	const productosMandatoriosVisitaActual =
-		useObtenerProductosMandatoriosVisitaActual();
-	const manejadorConfirmarEliminarPedidosNoMandatorios =
-		useManejadorConfirmarEliminarPedidosNoMandatorios(
-			productosMandatoriosVisitaActual.noMandatorios,
-			productoActual?.codigoProducto
-		);
-
 	const clienteActual: TClienteActual = useObtenerClienteActual();
-	const configuracion = useObtenerConfiguracion();
 
 	const visitaActual = useObtenerVisitaActual();
 
@@ -74,6 +61,8 @@ export const useAgregarProductoAlPedidoActual = (
 
 			const subUnidadesParseado: number =
 				subUnidades !== '' ? parseInt(subUnidades) : 0;
+
+			const infoBeneficio = calularPruductoEnPromoOnGoing();
 
 			if (!productoActual) return;
 
@@ -99,7 +88,7 @@ export const useAgregarProductoAlPedidoActual = (
 				obtenerCalculoDescuentoProducto(
 					{
 						inputPolarizado: undefined,
-						unidades: unidadesParseado - calularPruductoEnPromoOnGoing(),
+						unidades: unidadesParseado,
 						subUnidades: subUnidadesParseado,
 					},
 					stateInfoDescuento
@@ -127,6 +116,27 @@ export const useAgregarProductoAlPedidoActual = (
 							productoActual.precioConDescuentoSubunidad ??
 							productoActual.precioConImpuestoSubunidad,
 				  };
+
+			//Si existe Descuento de alguna promoOngoin para este producto
+			if (infoBeneficio) {
+				//Si el descuento de promoOngoin es con porcentaje
+				if (
+					infoBeneficio.formaBeneficio === EFormaBeneficio.DescuentoPorcentaje
+				) {
+					//si el descuento del producto es tipo polarizado
+					if (productoActual.descuento?.tipo === ETipoDescuento.polarizado) {
+						// MULTIPLICAMOS PRECIO.NETO * UNIDADES FUERA DE LA PROMO ONGOIN
+						// MULTIPLIAMOS EL PRECIO NETO + LOS DOS DESCUENTOS * UNIDADES DENTRO DE PROMO ONOGIN
+						// SUMAMOS / TOTAL DE UNIDADES
+
+						preciosNeto.unidad *= (100 - infoBeneficio.valorBeneficio) / 100;
+						preciosNeto.subUnidad *= (100 - infoBeneficio.valorBeneficio) / 100;
+					}
+					if (productoActual.descuento?.tipo === ETipoDescuento.automatico) {
+					}
+				}
+			}
+
 			dispatch(
 				agregarProductoDelPedidoActual({
 					productoPedido: {
