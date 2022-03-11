@@ -129,6 +129,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 						<Typography
 							variant='body3'
 							fontFamily='Open Sans'
+							color={expandidoPromoPush === id ? '#fff' : '#000'}
 							sx={{textDecoration: 'line-through'}}
 						>
 							{`${t('general.precioUnitario')}: ${formatearNumero(

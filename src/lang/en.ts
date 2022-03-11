@@ -113,6 +113,8 @@ const en = {
 		medidas: 'Sizes',
 		marcas: 'Brands',
 		borrarSeleccion: 'Delete selection',
+		caja: 'Box',
+		cajas: 'Boxes',
 	},
 	simbolos: {
 		decimal: ',',

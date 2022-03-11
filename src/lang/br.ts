@@ -106,6 +106,8 @@ const br = {
 		medidas: 'Tamanhos',
 		marcas: 'Marcas',
 		borrarSeleccion: 'Excluir seleção',
+		caja: 'Caixa',
+		cajas: 'Caixas',
 	},
 	simbolos: {
 		decimal: '.',

@@ -23,3 +23,4 @@ export {CruzCerrar} from './CruzCerrar';
 export {PromocionColor} from './PromocionColor';
 export {ReiniciarIcon} from './ReiniciarIcon';
 export {Clip} from './Clip';
+export {Caja} from './Caja';
