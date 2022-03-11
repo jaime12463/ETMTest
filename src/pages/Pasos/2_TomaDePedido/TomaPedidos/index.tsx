@@ -292,7 +292,11 @@ const TomaPedido: React.FC = () => {
 					alignItems='center'
 					display='flex'
 					justifyContent='space-between'
-					margin={openTooltip ? '18px 0 45px 0' : '18px 0'}
+					margin={
+						openTooltip && venta.productos.length > 0
+							? '18px 0 45px 0'
+							: '18px 0'
+					}
 					paddingLeft='18px'
 				>
 					<AutocompleteSeleccionarProducto
