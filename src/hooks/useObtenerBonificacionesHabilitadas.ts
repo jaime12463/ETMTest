@@ -65,7 +65,9 @@ export const useObtenerBonificacionesHabilitadas = () => {
 			const bonificacionesClienteActual: TBonificaciones[] =
 				BonificacionesGenerales.filter((bonificacion) => {
 					const bonificacionDisponible = bonificacionesHabilitadas?.find(
-						(el) => bonificacion.idBonificacion === el.idBonificacion
+						(el) =>
+							bonificacion.idBonificacion === el.idBonificacion &&
+							el.bonificacionesDisponibles > 0
 					);
 					if (
 						bonificacionDisponible &&

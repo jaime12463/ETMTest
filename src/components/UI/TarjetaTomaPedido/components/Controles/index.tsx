@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Input from '@mui/material/Input';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -15,6 +15,7 @@ import {
 	TStateInputFocus,
 } from 'models';
 import {
+	useCalularPruductoEnPromoOnGoing,
 	useMostrarAdvertenciaEnDialogo,
 	useMostrarAviso,
 	useObtenerDatosCliente,
@@ -73,7 +74,8 @@ const Controles: React.FC<Props> = ({
 	);
 	const {t} = useTranslation();
 	const mostrarAviso = useMostrarAviso();
-	const validacionPermiteSubUnidades = useValidacionPermiteSubUnidades(producto);
+	const validacionPermiteSubUnidades =
+		useValidacionPermiteSubUnidades(producto);
 
 	const classes = useEstilos({
 		bordeError: visitaActual.seQuedaAEditar.bordeError,
@@ -105,6 +107,12 @@ const Controles: React.FC<Props> = ({
 		}
 		setGetValues(defaultValue);
 	}, [infoDescuento]);
+
+	/* 	useEffect(() => {
+		if (getValues.unidades > 0) {
+			agregarProductoAlPedidoActual(getValues, obtenerCalculoDescuentoProducto);
+		}
+	}, [visitaActual.promosOngoing]); */
 
 	React.useEffect(() => {
 		if (puedeAgregar) {

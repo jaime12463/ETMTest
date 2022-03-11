@@ -32,7 +32,10 @@ import {
 	validarHayMasProductosNoMandatorios,
 } from 'utils/validaciones';
 import {useTranslation} from 'react-i18next';
-import {useObtenerProductosMandatoriosVisitaActual} from 'hooks';
+import {
+	useCalularPruductoEnPromoOnGoing,
+	useObtenerProductosMandatoriosVisitaActual,
+} from 'hooks';
 
 export const useAgregarProductoAlPedidoActual = (
 	productoActual: TProductoPedido | null,
@@ -51,6 +54,10 @@ export const useAgregarProductoAlPedidoActual = (
 			getValues
 		);
 
+	const calularPruductoEnPromoOnGoing = useCalularPruductoEnPromoOnGoing(
+		productoActual?.codigoProducto ?? 0
+	);
+
 	const productosMandatoriosVisitaActual =
 		useObtenerProductosMandatoriosVisitaActual();
 	const manejadorConfirmarEliminarPedidosNoMandatorios =
@@ -63,14 +70,6 @@ export const useAgregarProductoAlPedidoActual = (
 	const configuracion = useObtenerConfiguracion();
 
 	const visitaActual = useObtenerVisitaActual();
-
-	const configuracionTipoDePedidoActual = configuracion.tipoPedidos.find(
-		(tipoPedido) => tipoPedido.codigo === visitaActual.tipoPedidoActual
-	);
-
-	const pedidoNoMandatorio = configuracion.tipoPedidos.find(
-		(tipoPedido) => tipoPedido.esMandatorio === false
-	);
 
 	const {productos}: TPedido = useObtenerPedidoActual();
 
@@ -107,7 +106,7 @@ export const useAgregarProductoAlPedidoActual = (
 				obtenerCalculoDescuentoProducto(
 					{
 						inputPolarizado: undefined,
-						unidades: unidadesParseado,
+						unidades: unidadesParseado - calularPruductoEnPromoOnGoing(),
 						subUnidades: subUnidadesParseado,
 					},
 					stateInfoDescuento
