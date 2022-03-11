@@ -15,4 +15,3 @@ Escenario: N°1 - Eliminar descuento
     Y actualizará los indicadores y totales
     Y marcará el producto para que no se vuelva a calcular el descuento escalonado
     Y ocultará los controles relacionados al descuento escalonado
-

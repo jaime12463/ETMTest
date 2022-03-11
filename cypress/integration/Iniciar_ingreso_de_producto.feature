@@ -170,12 +170,15 @@ Ejemplos:
 |automático| descuento automático aplicado |
 |polarizado| descuento polarizado aplicado |
 
-Escenario: N°15 - El producto vendido sin descuentos se encuentra beneficiado por promocion ongoing
+Escenario: N°15 - El producto vendido se encuentra beneficiado por promocion ongoing
     Dado que se ingreso un producto al pedido
-    Y el producto no tenía descuento
     Y se aplicaron promociones ongoing que otorgaron como beneficio cantidad igual o menor a la ingresada del producto
     Cuando se muestra la tarjeta del producto
     Entonces el sistema mostrará la tarjeta del producto 
     Y mostrará la cantidad otorgada de beneficio
     Y mostrará la unidad de medida del beneficio
     Y mostrará la leyenda "Viene con promoción ongoing"
+
+
+
+
