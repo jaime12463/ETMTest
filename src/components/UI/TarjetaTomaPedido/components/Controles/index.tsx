@@ -108,11 +108,15 @@ const Controles: React.FC<Props> = ({
 		setGetValues(defaultValue);
 	}, [infoDescuento]);
 
-	/* 	useEffect(() => {
+	useEffect(() => {
 		if (getValues.unidades > 0) {
-			agregarProductoAlPedidoActual(getValues, obtenerCalculoDescuentoProducto);
+			agregarProductoAlPedidoActual(
+				getValues,
+				obtenerCalculoDescuentoProducto,
+				{actualizaDescuento: true}
+			);
 		}
-	}, [visitaActual.promosOngoing]); */
+	}, [visitaActual.promosOngoing]);
 
 	React.useEffect(() => {
 		if (puedeAgregar) {

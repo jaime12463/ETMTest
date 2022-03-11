@@ -6,31 +6,20 @@ import {
 	useObtenerPedidoActual,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {
-	editarProductoDelPedidoActual,
-	borrarProductoDelPedidoActual,
-	agregarProductoDelPedidoActual,
-} from 'redux/features/visitaActual/visitaActualSlice';
+import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 import {
 	TClienteActual,
-	TFormTomaDePedido,
 	TFunctionMostarAvertenciaPorDialogo,
 	TPedido,
-	TPrecioProducto,
-	TStateInputFocus,
 	TProductoPedido,
 	TStateInfoDescuentos,
+	TConfiguracionAgregarPedido,
 } from 'models';
 import {
 	useValidarAgregarProductoAlPedidoCliente,
 	useManejadorConfirmarEliminarPedidosNoMandatorios,
 } from '.';
-import {UseFormGetValues} from 'react-hook-form';
 
-import {
-	validarHayMasProductosMandatorios,
-	validarHayMasProductosNoMandatorios,
-} from 'utils/validaciones';
 import {useTranslation} from 'react-i18next';
 import {
 	useCalularPruductoEnPromoOnGoing,
@@ -74,7 +63,11 @@ export const useAgregarProductoAlPedidoActual = (
 	const {productos}: TPedido = useObtenerPedidoActual();
 
 	const agregarProductoAlPedidoActual = useCallback(
-		(inputs: any, obtenerCalculoDescuentoProducto?: any) => {
+		(
+			inputs: any,
+			obtenerCalculoDescuentoProducto?: any,
+			configruacion: TConfiguracionAgregarPedido = {actualizaDescuento: false}
+		) => {
 			const {unidades, subUnidades, catalogoMotivo, infoDescuento} = inputs;
 
 			const unidadesParseado: number = unidades !== '' ? parseInt(unidades) : 0;

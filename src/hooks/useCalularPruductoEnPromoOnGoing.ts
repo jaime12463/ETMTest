@@ -1,7 +1,7 @@
 import {TCodigoCantidad} from 'models';
 import {TPedido} from 'models/redux';
 import {useCallback} from 'react';
-import {useObtenerPedidoActual, useObtenerVisitaActual} from 'redux/hooks';
+import {useObtenerVisitaActual} from 'redux/hooks';
 
 export const useCalularPruductoEnPromoOnGoing = (codigoProducto: number) => {
 	const visitaActual = useObtenerVisitaActual();

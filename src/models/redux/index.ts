@@ -240,3 +240,7 @@ export type TPedidoClienteParaEnviar = {
 	tipoPago?: ETiposDePago;
 	enviado: boolean;
 } & TPedido;
+
+export interface TConfiguracionAgregarPedido {
+	actualizaDescuento?: boolean;
+}

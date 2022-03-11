@@ -7,6 +7,7 @@ import {
 	TDetalleBonificacionesCliente,
 	TAvisos,
 	ETipoDescuento,
+	TConfiguracionAgregarPedido,
 } from 'models';
 
 import {RootState} from 'redux/store';
@@ -63,7 +64,9 @@ export const visitaActualSlice = createSlice({
 		},
 		agregarProductoDelPedidoActual: (
 			state,
-			action: PayloadAction<{productoPedido: TProductoPedido}>
+			action: PayloadAction<{
+				productoPedido: TProductoPedido;
+			}>
 		) => {
 			const producto = state.pedidos[state.tipoPedidoActual].productos.find(
 				(precioProducto: TProductoPedido) =>
