@@ -2738,7 +2738,7 @@
 							"unidadMedida": "Unidad",
 							"formaBeneficio": "2",
 							"valorBeneficio": 10,
-							"tope": 40
+							"tope": 10
 						},
 						{
 							"secuencia": 2,
@@ -2747,7 +2747,7 @@
 							"unidadMedida": "Unidad",
 							"formaBeneficio": "3",
 							"valorBeneficio": 10,
-							"tope": 40
+							"tope": 10
 						},
 						{
 							"secuencia": 3,
@@ -2756,7 +2756,7 @@
 							"unidadMedida": "Unidad",
 							"formaBeneficio": "4",
 							"valorBeneficio": 10,
-							"tope": 40
+							"tope": 10
 						},
 						{
 							"secuencia": 4,

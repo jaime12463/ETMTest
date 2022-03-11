@@ -53,7 +53,7 @@ export const useAgregarProductoAlPedidoActual = (
 		(
 			inputs: any,
 			obtenerCalculoDescuentoProducto?: any,
-			configruacion: TConfiguracionAgregarPedido = {actualizaDescuento: false}
+			configuracion: TConfiguracionAgregarPedido = {actualizaDescuento: false}
 		) => {
 			const {unidades, subUnidades, catalogoMotivo, infoDescuento} = inputs;
 
@@ -95,6 +95,10 @@ export const useAgregarProductoAlPedidoActual = (
 				);
 			}
 
+			const unidadesSinPromoOngoing = infoBeneficio.cantidad
+				? unidadesParseado - infoBeneficio.cantidad
+				: unidadesParseado;
+
 			const preciosNeto = infoDescuento
 				? {
 						unidad:
@@ -117,6 +121,8 @@ export const useAgregarProductoAlPedidoActual = (
 							productoActual.precioConImpuestoSubunidad,
 				  };
 
+			const preciosPromo = {...preciosNeto};
+
 			//Si existe Descuento de alguna promoOngoin para este producto
 			if (infoBeneficio) {
 				//Si el descuento de promoOngoin es con porcentaje
@@ -125,12 +131,13 @@ export const useAgregarProductoAlPedidoActual = (
 				) {
 					//si el descuento del producto es tipo polarizado
 					if (productoActual.descuento?.tipo === ETipoDescuento.polarizado) {
-						// MULTIPLICAMOS PRECIO.NETO * UNIDADES FUERA DE LA PROMO ONGOIN
+						// MULTIPLICAMOS PRECIO.NETO * UNIDADES FUERA DE LA PROMO ONGOING
 						// MULTIPLIAMOS EL PRECIO NETO + LOS DOS DESCUENTOS * UNIDADES DENTRO DE PROMO ONOGIN
 						// SUMAMOS / TOTAL DE UNIDADES
 
-						preciosNeto.unidad *= (100 - infoBeneficio.valorBeneficio) / 100;
-						preciosNeto.subUnidad *= (100 - infoBeneficio.valorBeneficio) / 100;
+						preciosPromo.unidad *= (100 - infoBeneficio.valorBeneficio) / 100;
+						preciosPromo.subUnidad *=
+							(100 - infoBeneficio.valorBeneficio) / 100;
 					}
 					if (productoActual.descuento?.tipo === ETipoDescuento.automatico) {
 					}
@@ -144,7 +151,8 @@ export const useAgregarProductoAlPedidoActual = (
 						unidades: unidadesParseado,
 						subUnidades: subUnidadesParseado,
 						total:
-							preciosNeto.unidad * unidadesParseado +
+							preciosNeto.unidad * unidadesSinPromoOngoing +
+							preciosPromo.unidad * (infoBeneficio.cantidad ?? 0) +
 							preciosNeto.subUnidad * subUnidadesParseado,
 						tipoPago: productoBuscado
 							? productoBuscado.tipoPago
@@ -158,6 +166,7 @@ export const useAgregarProductoAlPedidoActual = (
 						preciosNeto,
 						descuento: infoDescuento ?? productoActual.descuento,
 					},
+					configuracion,
 				})
 			);
 		},

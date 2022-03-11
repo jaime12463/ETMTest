@@ -131,10 +131,9 @@ export class PromocionesOngoing {
 		if (!PromocionesOngoing.instance) {
 			PromocionesOngoing.instance = new PromocionesOngoing();
 		}
-		//lo saque un rato - Alonso
-		/* 		console.log(
-			`Recuperando instancia del motor de promociones para el cliente: ${PromocionesOngoing.instance._cliente?.codigoCliente}`
-		); */
+		// console.log(
+		// 	`Recuperando instancia del motor de promociones para el cliente: ${PromocionesOngoing.instance._cliente?.codigoCliente}`
+		// );
 		return PromocionesOngoing.instance;
 	}
 
@@ -538,25 +537,24 @@ export class PromocionesOngoing {
 				) {
 					// solo se toman los productos que esten en el pedido y no hayan sido requisito de una promo aplicada
 					let auxtope = tope;
-					materialesBeneficio
-						.filter(
-							(producto: number) =>
-								productosPedidoIndex[producto] &&
-								productosUsadosEnOtrasPromos[producto] == undefined
-						)
-						.forEach((producto) => {
-							materiales.push({
-								codigo: producto,
-								cantidad: Math.min(
-									auxtope,
-									productosPedidoIndex[producto].unidades
-								), // Se otorga el minimo entre el resto del tope y la cantidad pedida
-							});
-							auxtope -= productosPedidoIndex[producto].unidades;
-							auxtope = auxtope < 0 ? 0 : auxtope;
+					let auxm = materialesBeneficio.filter(
+						(producto: number) =>
+							productosPedidoIndex[producto] &&
+							productosUsadosEnOtrasPromos[producto] == undefined
+					);
+					auxm.forEach((producto) => {
+						materiales.push({
+							codigo: producto,
+							cantidad: Math.min(
+								auxtope,
+								productosPedidoIndex[producto].unidades
+							), // Se otorga el minimo entre el resto del tope y la cantidad pedida
 						});
+						auxtope -= productosPedidoIndex[producto].unidades;
+						auxtope = auxtope < 0 ? 0 : auxtope;
+					});
 				}
-				if (materiales.length == 0) {
+				if (materiales.length != materialesBeneficio.length) {
 					// si no se pudo validar materiales(productos) para una secuencia se descarta el grupo
 					grupoValido = false;
 					break;
@@ -606,8 +604,10 @@ export class PromocionesOngoing {
 			) => {
 				if (
 					!producto.promoPush &&
-					producto.descuento?.tipo != ETipoDescuento.escalonado &&
-					producto.tipoPago == tipoPago
+					producto.tipoPago == tipoPago &&
+					(producto.descuento?.tipo != ETipoDescuento.escalonado ||
+						(producto.descuento?.tipo == ETipoDescuento.escalonado &&
+							producto.descuento?.porcentajeDescuento == 0))
 				) {
 					return {
 						...productosPedidoIndex,
