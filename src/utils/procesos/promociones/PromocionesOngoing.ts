@@ -130,9 +130,10 @@ export class PromocionesOngoing {
 		if (!PromocionesOngoing.instance) {
 			PromocionesOngoing.instance = new PromocionesOngoing();
 		}
-		console.log(
+		//lo saque un rato - Alonso
+		/* 		console.log(
 			`Recuperando instancia del motor de promociones para el cliente: ${PromocionesOngoing.instance._cliente?.codigoCliente}`
-		);
+		); */
 		return PromocionesOngoing.instance;
 	}
 
@@ -492,7 +493,6 @@ export class PromocionesOngoing {
 	): TPromoOngoingGrupoBeneficios[] {
 		let grupoBeneficiosVerificados: TPromoOngoingGrupoBeneficios[] = [];
 		grupoBeneficios.forEach((grupo: TPromoOngoingGrupoBeneficios) => {
-			
 			let secuencias: TPromoOngoingBeneficiosSecuencia[] = [];
 			let grupoValido: boolean = true;
 			// si una de las secuencia al validar materiales no queda al menos uno, el grupo se descarta
@@ -526,20 +526,31 @@ export class PromocionesOngoing {
 							});
 							topeAlprimero = false;
 						});
-				} 
-				else if ([EFormaBeneficio.DescuentoPorcentaje , EFormaBeneficio.DescuentoMonto , EFormaBeneficio.Precio].includes(secuencia.formaBeneficio))
-			    {
+				} else if (
+					[
+						EFormaBeneficio.DescuentoPorcentaje,
+						EFormaBeneficio.DescuentoMonto,
+						EFormaBeneficio.Precio,
+					].includes(secuencia.formaBeneficio)
+				) {
 					// solo se toman los productos que esten en el pedido y no hayann sido requisito de una promo aplicada
-					let auxtope=tope;
+					let auxtope = tope;
 					materialesBeneficio
-						.filter((producto: number) => productosPedidoIndex[producto] && productosUsadosEnOtrasPromos[producto]==undefined )
+						.filter(
+							(producto: number) =>
+								productosPedidoIndex[producto] &&
+								productosUsadosEnOtrasPromos[producto] == undefined
+						)
 						.forEach((producto) => {
 							materiales.push({
 								codigo: producto,
-								cantidad: Math.min(auxtope ,productosPedidoIndex[producto].unidades) , // Se otroga el minimo entre el resto del tope y la cantidad pedida
+								cantidad: Math.min(
+									auxtope,
+									productosPedidoIndex[producto].unidades
+								), // Se otroga el minimo entre el resto del tope y la cantidad pedida
 							});
-							auxtope-=productosPedidoIndex[producto].unidades;
-							auxtope=(auxtope<0) ? 0: auxtope;
+							auxtope -= productosPedidoIndex[producto].unidades;
+							auxtope = auxtope < 0 ? 0 : auxtope;
 						});
 				}
 				if (materiales.length == 0) {

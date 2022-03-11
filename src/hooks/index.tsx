@@ -37,3 +37,5 @@ export {useValidarTipoPedidosRealizadosSegunConfiguracion} from './useValidarTip
 export {useFiltradorProductos} from './useFiltradorProductos';
 export {useObtenerFiltrosDelCliente} from './useObtenerFiltrosDelCliente';
 export {useValidacionPermiteSubUnidades} from './useValidacionPermiteSubUnidades';
+
+export {useCalularPruductoEnPromoOnGoing} from './useCalularPruductoEnPromoOnGoing';
