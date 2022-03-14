@@ -525,6 +525,7 @@ export class PromocionesOngoing {
 							materiales.push({
 								codigo: producto,
 								cantidad: topeAlprimero ? tope : 0,
+								tope: tope,
 							});
 							topeAlprimero = false;
 						});
@@ -549,6 +550,7 @@ export class PromocionesOngoing {
 								auxtope,
 								productosPedidoIndex[producto].unidades
 							), // Se otorga el minimo entre el resto del tope y la cantidad pedida
+							tope:productosPedidoIndex[producto].unidades
 						});
 						auxtope -= productosPedidoIndex[producto].unidades;
 						auxtope = auxtope < 0 ? 0 : auxtope;
