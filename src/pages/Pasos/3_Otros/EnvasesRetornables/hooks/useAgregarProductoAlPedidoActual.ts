@@ -39,6 +39,10 @@ export const useAgregarProductoAlPedidoActual = () => {
 							unidad: productoActual.precioConImpuestoUnidad,
 							subUnidad: productoActual.precioConImpuestoSubunidad,
 						},
+						preciosPromo: {
+							unidad: 0,
+							subUnidad: 0,
+						},
 						descuento: undefined,
 					},
 					codigoTipoPedidoActual,

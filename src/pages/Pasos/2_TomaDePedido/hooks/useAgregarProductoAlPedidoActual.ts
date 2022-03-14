@@ -196,7 +196,7 @@ export const useAgregarProductoAlPedidoActual = (
 							subUnidad: productoActual.precioConImpuestoSubunidad,
 						},
 						preciosNeto,
-						// preciosPromo TODO ALONSO
+						preciosPromo,
 						descuento: infoDescuento ?? productoActual.descuento,
 					},
 					configuracion,

@@ -148,6 +148,10 @@ const TarjetaIniciativas: React.FC<Props> = ({
 			unidad: producto.precioConImpuestoUnidad,
 			subUnidad: producto.precioConImpuestoSubunidad,
 		},
+		preciosPromo: {
+			unidad: 0,
+			subUnidad: 0,
+		},
 		preciosNeto: {
 			unidad: producto.precioConImpuestoUnidad,
 			subUnidad: producto.precioConImpuestoSubunidad,
