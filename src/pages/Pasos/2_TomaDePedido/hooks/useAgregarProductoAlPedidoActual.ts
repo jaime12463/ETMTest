@@ -95,12 +95,14 @@ export const useAgregarProductoAlPedidoActual = (
 				);
 			}
 
+			// unidadesSinPromoOngoing toma el valor de unidadesParseado - las unidades que se agregan en las promoOngoing, si no hay promoOngoing, toma el valor de unidadesParseado
 			const unidadesSinPromoOngoing = infoBeneficio.cantidad
 				? unidadesParseado - infoBeneficio.cantidad
 				: unidadesParseado;
 
 			const preciosNeto = infoDescuento
 				? {
+						// Precios del producto con algún descuento aplicado. No incluye PromoOngoing
 						unidad:
 							((productoActual.precioConDescuentoUnidad ??
 								productoActual.precioConImpuestoUnidad) *
@@ -113,6 +115,7 @@ export const useAgregarProductoAlPedidoActual = (
 							100,
 				  }
 				: {
+						// Precios del producto sin descuentos aplicados. No incluye PromoOngoing
 						unidad:
 							productoActual.precioConDescuentoUnidad ??
 							productoActual.precioConImpuestoUnidad,
@@ -121,25 +124,54 @@ export const useAgregarProductoAlPedidoActual = (
 							productoActual.precioConImpuestoSubunidad,
 				  };
 
-			const preciosPromo = {...preciosNeto};
+			// Se hace una copia de los precios para manejar las PromoOngoing. Si tiene descuento automático toma los valores por defecto.
+			const preciosPromo =
+				infoDescuento && infoDescuento.tipo !== ETipoDescuento.automatico
+					? {...preciosNeto}
+					: {
+							unidad: productoActual.precioConImpuestoUnidad,
+							subUnidad: productoActual.precioConImpuestoSubunidad,
+					  };
 
-			//Si existe Descuento de alguna promoOngoin para este producto
 			if (infoBeneficio) {
-				//Si el descuento de promoOngoin es con porcentaje
+				// Si el descuento de promoOngoin es descuento porcentaje
 				if (
 					infoBeneficio.formaBeneficio === EFormaBeneficio.DescuentoPorcentaje
 				) {
-					//si el descuento del producto es tipo polarizado
-					if (productoActual.descuento?.tipo === ETipoDescuento.polarizado) {
-						// MULTIPLICAMOS PRECIO.NETO * UNIDADES FUERA DE LA PROMO ONGOING
-						// MULTIPLIAMOS EL PRECIO NETO + LOS DOS DESCUENTOS * UNIDADES DENTRO DE PROMO ONOGIN
-						// SUMAMOS / TOTAL DE UNIDADES
-
+					// Si el descuento del producto es tipo polarizado o automático
+					if (
+						!productoActual.descuento?.tipo ||
+						productoActual.descuento?.tipo !== ETipoDescuento.escalonado
+					) {
 						preciosPromo.unidad *= (100 - infoBeneficio.valorBeneficio) / 100;
 						preciosPromo.subUnidad *=
 							(100 - infoBeneficio.valorBeneficio) / 100;
 					}
-					if (productoActual.descuento?.tipo === ETipoDescuento.automatico) {
+				}
+
+				// Si el descuento de promoOngoin es descuento monto
+				if (infoBeneficio.formaBeneficio === EFormaBeneficio.DescuentoMonto) {
+					// Si el descuento del producto es tipo polarizado o automático
+					if (
+						!productoActual.descuento?.tipo ||
+						productoActual.descuento?.tipo !== ETipoDescuento.escalonado
+					) {
+						preciosPromo.unidad -= infoBeneficio.valorBeneficio;
+						preciosPromo.subUnidad =
+							preciosPromo.unidad / productoActual.presentacion;
+					}
+				}
+
+				// Si el descuento de promoOngoin es precio recupero
+				if (infoBeneficio.formaBeneficio === EFormaBeneficio.Precio) {
+					// Si el descuento del producto es tipo polarizado o automático
+					if (
+						!productoActual.descuento?.tipo ||
+						productoActual.descuento?.tipo !== ETipoDescuento.escalonado
+					) {
+						preciosPromo.unidad = infoBeneficio.valorBeneficio;
+						preciosPromo.subUnidad =
+							infoBeneficio.valorBeneficio / productoActual.presentacion;
 					}
 				}
 			}
@@ -164,6 +196,7 @@ export const useAgregarProductoAlPedidoActual = (
 							subUnidad: productoActual.precioConImpuestoSubunidad,
 						},
 						preciosNeto,
+						preciosPromo,
 						descuento: infoDescuento ?? productoActual.descuento,
 					},
 					configuracion,

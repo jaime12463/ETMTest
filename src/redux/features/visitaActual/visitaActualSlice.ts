@@ -92,6 +92,7 @@ export const visitaActualSlice = createSlice({
 				producto.estado = action.payload.productoPedido.estado;
 				producto.preciosBase = action.payload.productoPedido.preciosBase;
 				producto.preciosNeto = action.payload.productoPedido.preciosNeto;
+				producto.preciosPromo = action.payload.productoPedido.preciosPromo;
 				producto.descuento = action.payload.productoPedido.descuento;
 				if (
 					!producto.promoPush &&

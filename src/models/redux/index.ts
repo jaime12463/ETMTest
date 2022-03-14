@@ -202,6 +202,7 @@ export type TPedidoDelProducto = {
 	total: number;
 	preciosBase: TPreciosProductoUnidadYSubUnidad;
 	preciosNeto: TPreciosProductoUnidadYSubUnidad;
+	preciosPromo: TPreciosProductoUnidadYSubUnidad;
 	descuento?: TInfoDescuentos;
 	tipoPago: ETiposDePago;
 	catalogoMotivo: string;

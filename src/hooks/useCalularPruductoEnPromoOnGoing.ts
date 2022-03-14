@@ -13,7 +13,7 @@ export const useCalularPruductoEnPromoOnGoing = (codigoProducto: number) => {
 	const visitaActual = useObtenerVisitaActual();
 
 	const calularPruductoEnPromoOnGoing =
-		useCallback((): TInfoBeneficioProductoPromoOngoin => {
+		(): TInfoBeneficioProductoPromoOngoin => {
 			const {promosOngoing} = visitaActual;
 			let infoBeneficio = {} as TInfoBeneficioProductoPromoOngoin;
 			// Se busca el producto en las promociones ongoing del redux
@@ -36,7 +36,7 @@ export const useCalularPruductoEnPromoOnGoing = (codigoProducto: number) => {
 			});
 
 			return infoBeneficio;
-		}, [codigoProducto]);
+		};
 
 	return calularPruductoEnPromoOnGoing;
 };

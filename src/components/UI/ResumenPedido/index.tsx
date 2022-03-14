@@ -231,11 +231,9 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 
 	// Si el lenguaje no es ingles, se pasa a mayuscula el mes
 	if (lenguaje !== 'en') {
-		console.log('entre');
 		let aux = fechaFormateada.split(' ');
 		aux[2] = aux[2].slice(0, 1).toUpperCase() + aux[2].slice(1);
 		fechaFormateada = aux.join(' ');
-		console.log(aux);
 	}
 
 	return (

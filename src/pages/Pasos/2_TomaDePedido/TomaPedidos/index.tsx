@@ -264,6 +264,10 @@ const TomaPedido: React.FC = () => {
 								unidad: productoActual.precioConImpuestoUnidad,
 								subUnidad: productoActual.precioConImpuestoSubunidad,
 							},
+							preciosPromo: {
+								unidad: 0,
+								subUnidad: 0,
+							},
 						},
 					})
 				);

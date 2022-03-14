@@ -1,4 +1,4 @@
-import { getAutomaticTypeDirectiveNames } from "typescript";
+import {getAutomaticTypeDirectiveNames} from 'typescript';
 
 //db.json
 export type TDatosClientesProductos = {
@@ -27,31 +27,30 @@ export type TDataSecundaria = {
 export type TListaDataSecundaria = Record<number, TDataSecundaria>;
 
 export type TCodigoCantidad = {
-	codigo:number | string,
-	cantidad:number
-}
+	codigo: number | string;
+	cantidad: number;
+	tope: number;
+};
 
 /* */
 /* 	ESTRUCTURAS PROMOONGOING */
 
 export enum EFormaBeneficio {
-	Obsequio="1",
-	DescuentoPorcentaje="2",
-	DescuentoMonto="3",
-	Precio="4"
-};
-
-export enum EFormaDeAplicacion {
-	Automatica = "A",
-	Manual="M"
-
-};
-
-export enum EFormaDeAsignacion {
-	Total="T",
-	Parcial="P"
+	Obsequio = '1',
+	DescuentoPorcentaje = '2',
+	DescuentoMonto = '3',
+	Precio = '4',
 }
 
+export enum EFormaDeAplicacion {
+	Automatica = 'A',
+	Manual = 'M',
+}
+
+export enum EFormaDeAsignacion {
+	Total = 'T',
+	Parcial = 'P',
+}
 
 export type TPromoOngoing = {
 	promocionID: number;
@@ -67,35 +66,34 @@ export type TPromoOngoing = {
 
 export type TListaPromoOngoing = Record<number, TPromoOngoing>;
 
-export type TPromoOngoingRequisitos= {
+export type TPromoOngoingRequisitos = {
 	materiales: number[];
 	cantidad: number;
 	unidadMedida: string;
 	conector?: string;
-}
+};
 
-
-export type TPromoOngoingGrupoBeneficios={
-	grupoBeneficioID:number;
-	descripcion:string;
+export type TPromoOngoingGrupoBeneficios = {
+	grupoBeneficioID: number;
+	descripcion: string;
 	secuencias: TPromoOngoingBeneficiosSecuencia[];
-}
+};
 
 export type TPromoOngoingBeneficiosSecuencia = {
 	secuencia: number;
-	materialesBeneficio: number[]  | TCodigoCantidad[];
+	materialesBeneficio: number[] | TCodigoCantidad[];
 	cantidad: number;
 	unidadMedida: string;
-	formaBeneficio:EFormaBeneficio;
-	valorBeneficio:number;
-	claseCondicion:string;
-	tope:number;
-}
+	formaBeneficio: EFormaBeneficio;
+	valorBeneficio: number;
+	claseCondicion: string;
+	tope: number;
+};
 
 export type TPromoOngoingHabilitadas = {
 	idPromocion: number;
-	promocionesDisponibles:number;
-}
+	promocionesDisponibles: number;
+};
 /* */
 
 export type TIniciativas = {
@@ -146,7 +144,7 @@ export type TCliente = {
 	configuracionPedido: TConfiguracionPedido;
 	portafolio: TPortafolio[];
 	bonificacionesHabilitadas?: TBonificacionesHabilitadas[];
-	promocionesHabilitadas?:TPromoOngoingHabilitadas[];
+	promocionesHabilitadas?: TPromoOngoingHabilitadas[];
 };
 
 export type TProducto = {

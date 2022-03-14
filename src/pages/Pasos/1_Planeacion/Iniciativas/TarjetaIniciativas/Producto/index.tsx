@@ -92,6 +92,10 @@ const Producto: React.FC<Props> = ({
 			unidad: producto.precioConImpuestoUnidad,
 			subUnidad: producto.precioConImpuestoSubunidad,
 		},
+		preciosPromo: {
+			unidad: 0,
+			subUnidad: 0,
+		},
 	};
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(

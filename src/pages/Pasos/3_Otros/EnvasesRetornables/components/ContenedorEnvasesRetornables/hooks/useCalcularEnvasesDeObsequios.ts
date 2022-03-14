@@ -56,11 +56,15 @@ export const useCalcularEnvasesDeObsequios = () => {
 								unidad: 0,
 								subUnidad: 0,
 							},
+							preciosPromo: {
+								unidad: 0,
+								subUnidad: 0,
+							},
 							catalogoMotivo: '',
 						};
 						promosConvertidasAProducto =
 							promosConvertidasAProducto.concat(productoConvertido);
-					};
+					}
 				});
 			});
 		});
