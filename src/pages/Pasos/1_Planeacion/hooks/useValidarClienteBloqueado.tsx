@@ -43,43 +43,13 @@ export const useValidarClienteBloqueado = () => {
 				clienteActual.condicion === 'creditoFormal';
 			const {habilitaCompromisoDeCobro} = configuracion;
 
-			if (esCondicionCreditoInformal && esCreditoBloqueado) {
-				//console.log('CA1');
-				mostrarAviso(
-					'warning',
-					t('toast.clienteCreditoBloqueadoTitulo'),
-					t('toast.clienteCreditoBloqueadoMensaje'),
-					undefined,
-					'cliente-bloqueado'
-				);
-				return;
-			}
-
-			if (
-				(esCondicionCreditoFormal &&
-					esCreditoBloqueado &&
-					habilitaCompromisoDeCobro) ||
-				(esVentaBloqueado && habilitaCompromisoDeCobro)
-			) {
-				//console.log('CA2 y CA3');
-				mostrarAviso(
-					'error',
-					t('toast.ventaBloqueadaTitulo'),
-					t('toast.ventaBloqueadaMensaje'),
-					undefined,
-					'cliente-bloqueado'
-				);
-				dispatch(activarClienteBloqueado());
-				return;
-			}
-
 			if (
 				(esCondicionCreditoFormal &&
 					esCreditoBloqueado &&
 					!habilitaCompromisoDeCobro) ||
 				(esVentaBloqueado && !habilitaCompromisoDeCobro)
 			) {
-				//console.log('CA4 y CA5');
+				console.log('CA4 y CA5');
 				setConfigAlerta({
 					titulo: t('toast.clienteBloqueadoTitulo'),
 					mensaje: t('toast.clienteBloqueadoMensaje'),
@@ -94,6 +64,36 @@ export const useValidarClienteBloqueado = () => {
 				});
 				setAlertaPasos(true);
 				dispatch(activarClienteBloqueado());
+				return;
+			}
+			
+			if (
+				(esCondicionCreditoFormal &&
+					esCreditoBloqueado &&
+					habilitaCompromisoDeCobro) ||
+				(esVentaBloqueado && habilitaCompromisoDeCobro)
+			) {
+				console.log('CA2 y CA3');
+				mostrarAviso(
+					'error',
+					t('toast.ventaBloqueadaTitulo'),
+					t('toast.ventaBloqueadaMensaje'),
+					undefined,
+					'cliente-bloqueado'
+				);
+				dispatch(activarClienteBloqueado());
+				return;
+			}
+
+			if (esCondicionCreditoInformal && esCreditoBloqueado) {
+				console.log('CA1');
+				mostrarAviso(
+					'warning',
+					t('toast.clienteCreditoBloqueadoTitulo'),
+					t('toast.clienteCreditoBloqueadoMensaje'),
+					undefined,
+					'cliente-bloqueado'
+				);
 				return;
 			}
 		},
