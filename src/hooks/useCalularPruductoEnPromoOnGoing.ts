@@ -1,9 +1,7 @@
 import {EFormaBeneficio, TCodigoCantidad} from 'models';
-import {TPedido} from 'models/redux';
-import {useCallback} from 'react';
 import {useObtenerVisitaActual} from 'redux/hooks';
 
-interface TInfoBeneficioProductoPromoOngoin {
+export interface TInfoBeneficioProductoPromoOngoing {
 	cantidad: number;
 	valorBeneficio: number;
 	formaBeneficio: EFormaBeneficio;
@@ -13,9 +11,9 @@ export const useCalularPruductoEnPromoOnGoing = (codigoProducto: number) => {
 	const visitaActual = useObtenerVisitaActual();
 
 	const calularPruductoEnPromoOnGoing =
-		(): TInfoBeneficioProductoPromoOngoin => {
+		(): TInfoBeneficioProductoPromoOngoing => {
 			const {promosOngoing} = visitaActual;
-			let infoBeneficio = {} as TInfoBeneficioProductoPromoOngoin;
+			let infoBeneficio = {} as TInfoBeneficioProductoPromoOngoing;
 			// Se busca el producto en las promociones ongoing del redux
 			promosOngoing.forEach((promocion) => {
 				promocion.beneficios[0].secuencias.forEach((secuencia) => {

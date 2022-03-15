@@ -325,5 +325,15 @@ const es = {
 	tooltip: {
 		cambioPromocion: 'Las promociones disponibles podrían haber cambiado.',
 	},
+	descuentos: {
+		automatico: 'automático',
+		escalonado: 'escalonado',
+		polarizado: 'polarizado',
+		descuentoMensaje: 'Descuento {{tipo}} del -{{descuento}}%',
+		descuentoSustituido:
+			'El descuento {{tipo}} ha sido sustituido por una promoción ongoing',
+		vieneConPromoOngoing: 'Viene con promoción ongoing',
+		descuentoAutomatico: 'Descuento automático',
+	},
 };
 export default es;

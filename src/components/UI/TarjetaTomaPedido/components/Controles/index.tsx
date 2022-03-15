@@ -32,7 +32,14 @@ interface Props {
 	stateInputFocus: TStateInputFocus;
 	stateFocusId: StateFocusID;
 	stateInfoDescuento: TStateInfoDescuentos;
-	obtenerCalculoDescuentoProducto: any;
+	obtenerCalculoDescuentoProducto: (
+		valoresIngresados: {
+			inputPolarizado: number | undefined;
+			unidades: number;
+			subUnidades: number;
+		},
+		stateInfoDescuento: TStateInfoDescuentos
+	) => void;
 }
 
 const Controles: React.FC<Props> = ({
@@ -218,10 +225,9 @@ const Controles: React.FC<Props> = ({
 			display='flex'
 			flexDirection='column'
 			alignItems='center'
-			justifyContent='start'
 			width='125px'
 			gap='12px'
-			padding='12px 0 16px 0'
+			padding='20px 0 12px 0'
 			sx={{background: '#F5F0EF'}}
 		>
 			<Box display='flex' alignItems='center' justifyContent='center' gap='2px'>

@@ -8,13 +8,22 @@ import {
 import Box from '@mui/material/Box';
 import InputConIcono from 'components/UI/InputConIcono';
 import {StateFocusID} from '../..';
+import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularPruductoEnPromoOnGoing';
 
 interface Props {
 	stateInfoDescuento: TStateInfoDescuentos;
-	obtenerCalculoDescuentoProducto: any;
+	obtenerCalculoDescuentoProducto: (
+		valoresIngresados: {
+			inputPolarizado: number | undefined;
+			unidades: number;
+			subUnidades: number;
+		},
+		stateInfoDescuento: TStateInfoDescuentos
+	) => void;
 	producto: TProductoPedido;
 	stateInputFocus: TStateInputFocus;
 	stateFocusId: StateFocusID;
+	infoBeneficio: TInfoBeneficioProductoPromoOngoing;
 }
 
 const Descuentos: React.FC<Props> = ({
@@ -23,6 +32,7 @@ const Descuentos: React.FC<Props> = ({
 	stateInputFocus,
 	stateFocusId,
 	producto,
+	infoBeneficio: {cantidad},
 }) => {
 	const {infoDescuento} = stateInfoDescuento;
 
@@ -85,43 +95,43 @@ const Descuentos: React.FC<Props> = ({
 	if (!infoDescuento.tipo) return null;
 
 	return (
-		<>
-			<Box display='flex' flexDirection='column'>
-				<Box
-					marginBottom={mostrarInputPolarizado ? '16px' : '0'}
-					sx={{
-						opacity: mostrarInputPolarizado ? 1 : 0,
-						transition: 'opacity 0.3s ease-in-out',
-					}}
-				>
-					{mostrarInputPolarizado && (
-						<InputConIcono
-							onBlur={onBlurHandler}
-							valid={false}
-							value={inputValue}
-							onChange={onChangeInput}
-							onKeyPress={handleKeyPress}
-							onFocus={(e) => e.target.select()}
-							onClick={() => {
-								setInputFocus('descuento');
-								setFocusId(producto.codigoProducto);
-							}}
-							label='Ingresar precio de venta al consumidor'
-							margin='0'
-							simboloMoneda
-							inputRef={(input) => {
-								if (
-									inputFocus === 'descuento' &&
-									focusId === producto.codigoProducto
-								) {
-									input?.focus();
-								}
-							}}
-						/>
-					)}
-				</Box>
+		<Box display='flex' flexDirection='column'>
+			<Box
+				marginBottom={
+					mostrarInputPolarizado && (cantidad === 0 || !cantidad) ? '12px' : '0'
+				}
+				sx={{
+					opacity: mostrarInputPolarizado ? 1 : 0,
+					transition: 'opacity 0.3s ease-in-out',
+				}}
+			>
+				{mostrarInputPolarizado && cantidad !== producto.unidades && (
+					<InputConIcono
+						onBlur={onBlurHandler}
+						valid={false}
+						value={inputValue}
+						onChange={onChangeInput}
+						onKeyPress={handleKeyPress}
+						onFocus={(e) => e.target.select()}
+						onClick={() => {
+							setInputFocus('descuento');
+							setFocusId(producto.codigoProducto);
+						}}
+						label='Ingresar precio de venta al consumidor'
+						margin='0'
+						simboloMoneda
+						inputRef={(input) => {
+							if (
+								inputFocus === 'descuento' &&
+								focusId === producto.codigoProducto
+							) {
+								input?.focus();
+							}
+						}}
+					/>
+				)}
 			</Box>
-		</>
+		</Box>
 	);
 };
 

@@ -17,6 +17,7 @@ import theme from 'theme';
 import {useAppDispatch, useObtenerDatos} from 'redux/hooks';
 import {borrarDescuentoDelProducto} from 'redux/features/visitaActual/visitaActualSlice';
 import {useMostrarAviso, useValidacionPermiteSubUnidades} from 'hooks';
+import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularPruductoEnPromoOnGoing';
 
 const ChipStyled = styled(Chip)(() => ({
 	'&.MuiChip-root': {
@@ -35,7 +36,15 @@ interface Props {
 	conSwitch?: boolean;
 	stateAviso: any;
 	stateInfoDescuento: TStateInfoDescuentos;
-	obtenerCalculoDescuentoProducto: any;
+	obtenerCalculoDescuentoProducto: (
+		valoresIngresados: {
+			inputPolarizado: number | undefined;
+			unidades: number;
+			subUnidades: number;
+		},
+		stateInfoDescuento: TStateInfoDescuentos
+	) => void;
+	infoBeneficio: TInfoBeneficioProductoPromoOngoing;
 }
 
 const Informacion: React.FC<Props> = ({
@@ -44,6 +53,7 @@ const Informacion: React.FC<Props> = ({
 	stateInfoDescuento,
 	stateAviso,
 	obtenerCalculoDescuentoProducto,
+	infoBeneficio: {cantidad},
 }) => {
 	const {t} = useTranslation();
 
@@ -55,10 +65,8 @@ const Informacion: React.FC<Props> = ({
 		precioConImpuestoSubunidad,
 		preciosNeto,
 		unidades,
-		subUnidades,
 		precioConDescuentoUnidad,
 		precioConDescuentoSubunidad,
-		esVentaSubunidades,
 	} = producto;
 
 	const {unidad, subUnidad} = preciosNeto;
@@ -77,6 +85,15 @@ const Informacion: React.FC<Props> = ({
 			? ''
 			: infoDescuento.inputPolarizado.toString()
 	);
+
+	const tipoDescuento =
+		infoDescuento.tipo === ETipoDescuento.automatico
+			? t('descuentos.automatico')
+			: infoDescuento.tipo === ETipoDescuento.polarizado
+			? t('descuentos.polarizado')
+			: infoDescuento.tipo === ETipoDescuento.escalonado
+			? t('descuentos.escalonado')
+			: '';
 
 	const eliminarDescuento = () => {
 		setInfoDescuento({
@@ -137,7 +154,14 @@ const Informacion: React.FC<Props> = ({
 		<Box
 			display='flex'
 			flexDirection='column'
-			padding={conSwitch ? '10px 0 12px 14px' : '12px 0 12px 14px'}
+			padding={
+				conSwitch && (cantidad === 0 || !cantidad)
+					? '10px 0 12px 14px'
+					: cantidad !== unidades &&
+					  tipoDescuento === t('descuentos.polarizado')
+					? '12px 0 12px 14px'
+					: '12px 0 0 14px'
+			}
 			justifyContent='center'
 			width='179px'
 		>
@@ -168,18 +192,24 @@ const Informacion: React.FC<Props> = ({
 				display='grid'
 				gridTemplateColumns='20px min-content min-content 14px min-content'
 				gridTemplateRows={
-					infoDescuento.tipo === ETipoDescuento.automatico
-						? 'auto auto'
-						: 'auto auto auto'
+					infoDescuento.tipo !== ETipoDescuento.automatico ||
+					(infoDescuento.tipo === ETipoDescuento.automatico &&
+						cantidad &&
+						cantidad !== unidades)
+						? 'auto auto auto'
+						: 'auto auto'
 				}
 				gridTemplateAreas={
-					infoDescuento.tipo === ETipoDescuento.automatico
+					infoDescuento.tipo !== ETipoDescuento.automatico ||
+					(infoDescuento.tipo === ETipoDescuento.automatico &&
+						cantidad &&
+						cantidad !== unidades)
 						? `"Caja Presentacion PrecioUnidad Botella PrecioSubUnidad"
-						"Promo Vacio DescuentoUnidad Vacio2 DescuentoSubUnidad"`
-						: `"Caja Presentacion PrecioUnidad Botella PrecioSubUnidad"
 						"Descuento Descuento Descuento Descuento Descuento"
 						"Promo Vacio DescuentoUnidad Vacio2 DescuentoSubUnidad"
 						`
+						: `"Caja Presentacion PrecioUnidad Botella PrecioSubUnidad"
+						"Promo Vacio DescuentoUnidad Vacio2 DescuentoSubUnidad"`
 				}
 				justifyItems='start'
 				sx={{
@@ -190,14 +220,17 @@ const Informacion: React.FC<Props> = ({
 				<CajaIcon
 					height='18px'
 					width='18px'
-					style={{gridArea: 'Caja', marginBottom: mostrarInfo ? '8px' : '0'}}
+					style={{
+						gridArea: 'Caja',
+						marginBottom: mostrarInfo && cantidad !== unidades ? '8px' : '0',
+					}}
 				/>
 				<Typography
 					variant='caption'
 					fontFamily='Open Sans'
 					sx={{
 						gridArea: 'Presentacion',
-						marginBottom: mostrarInfo ? '8px' : '0',
+						marginBottom: mostrarInfo && cantidad !== unidades ? '8px' : '0',
 					}}
 				>
 					x{presentacion}
@@ -207,7 +240,7 @@ const Informacion: React.FC<Props> = ({
 					fontFamily='Open Sans'
 					sx={{
 						gridArea: 'PrecioUnidad',
-						marginBottom: mostrarInfo ? '8px' : '0',
+						marginBottom: mostrarInfo && cantidad !== unidades ? '8px' : '0',
 						textDecoration:
 							unidades > 0
 								? unidad !== precioConImpuestoUnidad
@@ -227,7 +260,8 @@ const Informacion: React.FC<Props> = ({
 							width='14px'
 							style={{
 								gridArea: 'Botella',
-								marginBottom: mostrarInfo ? '8px' : '0',
+								marginBottom:
+									mostrarInfo && cantidad !== unidades ? '8px' : '0',
 							}}
 						/>
 						<Typography
@@ -235,7 +269,8 @@ const Informacion: React.FC<Props> = ({
 							fontFamily='Open Sans'
 							sx={{
 								gridArea: 'PrecioSubUnidad',
-								marginBottom: mostrarInfo ? '8px' : '0',
+								marginBottom:
+									mostrarInfo && cantidad !== unidades ? '8px' : '0',
 								textDecoration:
 									unidades > 0
 										? subUnidad !== precioConImpuestoSubunidad
@@ -248,7 +283,7 @@ const Informacion: React.FC<Props> = ({
 						>
 							{formatearNumero(precioConImpuestoSubunidad, t)}
 						</Typography>
-						{mostrarInfo && (
+						{mostrarInfo && cantidad !== unidades && (
 							<Typography
 								variant='subtitle3'
 								fontFamily='Open Sans'
@@ -264,7 +299,7 @@ const Informacion: React.FC<Props> = ({
 						)}
 					</>
 				)}
-				{mostrarInfo && (
+				{mostrarInfo && cantidad !== unidades && (
 					<>
 						<Typography
 							variant='caption'
@@ -272,7 +307,10 @@ const Informacion: React.FC<Props> = ({
 							color={theme.palette.primary.main}
 							sx={{
 								gridArea:
-									infoDescuento.tipo !== ETipoDescuento.automatico
+									infoDescuento.tipo !== ETipoDescuento.automatico ||
+									(infoDescuento.tipo === ETipoDescuento.automatico &&
+										cantidad &&
+										cantidad !== unidades)
 										? 'Descuento'
 										: '',
 								marginBottom: '8px',
@@ -280,7 +318,12 @@ const Informacion: React.FC<Props> = ({
 						>
 							{infoDescuento.tipo === ETipoDescuento.polarizado ||
 							infoDescuento.tipo === ETipoDescuento.escalonado
-								? `Descuento ${infoDescuento.tipo} del -${infoDescuento.porcentajeDescuento}%`
+								? t('descuentos.descuentoMensaje', {
+										tipo: tipoDescuento,
+										descuento: infoDescuento.porcentajeDescuento,
+								  })
+								: cantidad && cantidad !== unidades
+								? t('descuentos.descuentoAutomatico')
 								: null}
 						</Typography>
 						<PromocionColor

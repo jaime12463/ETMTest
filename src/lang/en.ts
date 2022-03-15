@@ -312,5 +312,15 @@ const en = {
 	tooltip: {
 		cambioPromocion: 'Available promotions may have changed.',
 	},
+	descuentos: {
+		automatico: 'automatic',
+		escalonado: 'staggered',
+		polarizado: 'polarized',
+		descuentoMensaje: '{{descuento}}% {{tipo}} discount',
+		descuentoSustituido:
+			'The {{tipo}} discount has been replaced by an ongoing promotion',
+		vieneConPromoOngoing: 'Comes with ongoing promotion',
+		descuentoAutomatico: 'Automatic discount',
+	},
 };
 export default en;

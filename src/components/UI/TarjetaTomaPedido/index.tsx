@@ -1,15 +1,11 @@
 import React from 'react';
-import {
-	ETiposDePago,
-	TInfoDescuentos,
-	TProductoPedido,
-	TStateInputFocus,
-} from 'models';
+import {TInfoDescuentos, TProductoPedido, TStateInputFocus} from 'models';
 import Box from '@mui/material/Box';
 import theme from 'theme';
 import Controles from './components/Controles';
 import Informacion from './components/Informacion';
 import Descuentos from './components/Descuentos';
+import PromoOngoing from './components/PromoOngoing';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import SwitchYCheck from './components/SwitchYCheck';
 import {useTranslation} from 'react-i18next';
@@ -17,8 +13,7 @@ import {
 	useObtenerCalculoDescuentoProducto,
 	useObtenerDatosCliente,
 	useMostrarAviso,
-	useObtenerCreditoDisponible,
-	useObtenerTotalPedidosVisitaActual,
+	useCalularPruductoEnPromoOnGoing,
 } from 'hooks';
 
 export interface StateFocusID {
@@ -81,6 +76,15 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 		inputPolarizado: productoAMandar.descuento?.inputPolarizado ?? 0,
 	});
 
+	const obtenerCalculoDescuentoProducto =
+		useObtenerCalculoDescuentoProducto(producto);
+
+	const calculosPromoOngoing = useCalularPruductoEnPromoOnGoing(
+		producto.codigoProducto
+	);
+
+	const infoBeneficio = calculosPromoOngoing();
+
 	React.useEffect(() => {
 		if (
 			focusId === producto.codigoProducto &&
@@ -92,12 +96,6 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 			return setProductoAgregado(true);
 		}
 	}, [focusId]);
-
-	const obtenerCalculoDescuentoProducto =
-		useObtenerCalculoDescuentoProducto(producto);
-
-	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
-	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 
 	React.useEffect(() => {
 		if (productoEnVenta) {
@@ -140,7 +138,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	]);
 
 	return (
-		<Box minWidth={'100%'} display={'flex'} justifyContent={'flex-end'}>
+		<Box minWidth='100%' display='flex' justifyContent='flex-end'>
 			<Box
 				border={`1px solid ${colorBorde}`}
 				borderRadius={bordeRedondeado ? '8px' : '0'}
@@ -158,6 +156,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
 						stateAviso={{setAlerta, setConfigAlerta}}
 						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
+						infoBeneficio={infoBeneficio}
 					/>
 					<Controles
 						producto={productoEnVenta ?? productoAMandar}
@@ -167,13 +166,18 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 					/>
 				</Box>
-
 				<Descuentos
 					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
 					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 					producto={productoEnVenta ?? productoAMandar}
 					stateInputFocus={stateInputFocus}
 					stateFocusId={stateFocusId}
+					infoBeneficio={infoBeneficio}
+				/>
+				<PromoOngoing
+					producto={productoEnVenta ?? productoAMandar}
+					infoDescuento={infoDescuento}
+					infoBeneficio={infoBeneficio}
 				/>
 			</Box>
 		</Box>

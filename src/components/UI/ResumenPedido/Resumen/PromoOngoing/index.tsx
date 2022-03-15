@@ -48,70 +48,69 @@ export const PromoOngoing: React.FC<PromoOngoingProps> = ({promocion}) => {
 				const beneficiosFiltrados = materialesBeneficio.filter(
 					(beneficio) => beneficio.cantidad > 0
 				);
-
 				return beneficiosFiltrados.map((beneficio, index) => {
 					const {cantidad, codigo} = beneficio as TCodigoCantidad;
 
 					const producto = obtenerDatosProducto(Number(codigo));
 
 					return (
-						<Box key={codigo}>
-							<Box display='flex'>
-								<Box
-									display='flex'
-									flexDirection='column'
-									gap='4px'
-									flex='1'
-									padding='8px 8px 8px 14px'
-								>
-									<Box display='flex' flexDirection='column'>
-										<Typography variant='subtitle3' fontFamily='Open Sans'>
-											{codigo}
-										</Typography>
-										<Typography variant='subtitle3'>
-											{producto.nombre}
-										</Typography>
-									</Box>
-								</Box>
-								<Box
-									display='flex'
-									flexBasis='143px'
-									flexDirection='column'
-									justifyContent='space-between'
-									minHeight='100%'
-									sx={{background: '#F5F0EF'}}
-								>
+						<>
+							<Divider sx={{borderColor: theme.palette.secondary.main}} />
+							<Box key={codigo}>
+								<Box display='flex'>
 									<Box
-										alignItems='center'
 										display='flex'
+										flexDirection='column'
 										gap='4px'
-										padding='8px 14px 16px 8px'
+										flex='1'
+										padding='8px 8px 8px 14px'
 									>
-										<Caja height='14px' width='14px' />
-										<Typography variant='caption' fontFamily='Open Sans'>
-											{cantidad}{' '}
-											{cantidad > 1
-												? t('general.cajas').toLowerCase()
-												: t('general.caja').toLowerCase()}
+										<Box display='flex' flexDirection='column'>
+											<Typography variant='subtitle3' fontFamily='Open Sans'>
+												{codigo}
+											</Typography>
+											<Typography variant='subtitle3'>
+												{producto.nombre}
+											</Typography>
+										</Box>
+									</Box>
+									<Box
+										display='flex'
+										flexBasis='143px'
+										flexDirection='column'
+										justifyContent='space-between'
+										minHeight='100%'
+										sx={{background: '#F5F0EF'}}
+									>
+										<Box
+											alignItems='center'
+											display='flex'
+											gap='4px'
+											padding='8px 14px 16px 8px'
+										>
+											<Caja height='14px' width='14px' />
+											<Typography variant='caption' fontFamily='Open Sans'>
+												{cantidad}{' '}
+												{cantidad > 1
+													? t('general.cajas').toLowerCase()
+													: t('general.caja').toLowerCase()}
+											</Typography>
+										</Box>
+										<Typography
+											variant='subtitle3'
+											sx={{
+												background: '#F5F0EF',
+												padding: '8px 14px 8px 8px',
+												width: '100%',
+												mixBlendMode: 'multiply',
+											}}
+										>
+											{t('general.obsequio')}
 										</Typography>
 									</Box>
-									<Typography
-										variant='subtitle3'
-										sx={{
-											background: '#F5F0EF',
-											padding: '8px 14px 8px 8px',
-											width: '100%',
-											mixBlendMode: 'multiply',
-										}}
-									>
-										{t('general.obsequio')}
-									</Typography>
 								</Box>
 							</Box>
-							{beneficiosFiltrados.length - 1 !== index && (
-								<Divider sx={{borderColor: theme.palette.secondary.main}} />
-							)}
-						</Box>
+						</>
 					);
 				});
 			})}
