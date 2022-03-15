@@ -17,6 +17,7 @@ interface Props {
 		tope: number;
 		tipoPago: ETiposDePago;
 		unidadMedida: string;
+		topeSecuencia: number;
 	};
 	statefocusId: any;
 	promocionAplicada: boolean;

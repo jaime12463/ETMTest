@@ -32,6 +32,7 @@ interface Props {
 		tope: number;
 		tipoPago: ETiposDePago;
 		unidadMedida: string;
+		topeSecuencia: number;
 	};
 	unidadMedida: string;
 	statefocusId: any;
@@ -63,6 +64,8 @@ export const Controles: React.FC<Props> = ({
 	const [cantidadActual, setCantidadActual] = React.useState<number>(0);
 	const [puedeVerBotones, setPuedeVerBotones] = React.useState<boolean>(false);
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
+	const [superaTope, setSuperaTope] = React.useState<boolean>(false);
+
 	const [classes, setClasses] = React.useState<any>(
 		useEstilos({errorAplicacionTotal: false, puedeVerBotones})
 	);
@@ -76,6 +79,15 @@ export const Controles: React.FC<Props> = ({
 			0
 		);
 		setTotalProductos(totalProductos);
+
+		const topeTotal =
+			cantidadActual >= producto.tope
+				? true
+				: totalProductos >= producto.topeSecuencia
+				? true
+				: false;
+
+		setSuperaTope(topeTotal);
 	}, [beneficiosParaAgregar, cantidadActual]);
 
 	React.useEffect(() => {
@@ -113,20 +125,20 @@ export const Controles: React.FC<Props> = ({
 
 	React.useEffect(() => {
 		if (producto && beneficiosParaAgregar) {
-			const productoActual = beneficiosParaAgregar.beneficios[
-				grupoYSecuenciaActual.grupo
-			].secuencias[grupoYSecuenciaActual.secuencia].materialesBeneficio.find(
-				(productoEnPromocion: TCodigoCantidad) =>
-					productoEnPromocion.codigo === producto.codigoProducto
-			);
-
-			setCantidadActual(productoActual.cantidad);
+			setCantidadActual(producto.cantidad);
 			setProductoOriginal(producto);
 		}
 	}, []);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (Number(e.target.value) + totalProductos > producto.tope) {
+		const topeTotal =
+			Number(e.target.value) > producto.tope
+				? true
+				: Number(e.target.value) + totalProductos > producto.topeSecuencia
+				? true
+				: false;
+
+		if (topeTotal) {
 			mostrarAviso('error', 'La cantidad es mayor al disponible permitido');
 		} else {
 			setCantidadActual(Number(e.target.value.replace(/[^0-9]/g, '')));
@@ -204,12 +216,12 @@ export const Controles: React.FC<Props> = ({
 								size='small'
 								name='+'
 								onClick={handleButtons}
-								disabled={totalProductos >= producto.tope}
+								disabled={superaTope}
 							>
 								<AgregarRedondoIcon
 									width='18px'
 									height='18px'
-									disabled={totalProductos >= producto.tope}
+									disabled={superaTope}
 								/>
 							</IconButton>
 						)}
