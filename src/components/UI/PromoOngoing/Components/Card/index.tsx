@@ -562,7 +562,7 @@ export const Card: React.VFC<CardProps> = ({
 						promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
 							grupoYSecuenciaActual.secuencia
 						].materialesBeneficio.map((producto) => {
-							const {cantidad, codigo} = producto as TCodigoCantidad;
+							const {cantidad, codigo, tope} = producto as TCodigoCantidad;
 
 							return (
 								<TarjetaPromociones
@@ -577,12 +577,12 @@ export const Card: React.VFC<CardProps> = ({
 									grupoYSecuenciaActual={grupoYSecuenciaActual}
 									producto={{
 										codigoProducto: Number(codigo),
-										tope: promocion.beneficios[grupoYSecuenciaActual.grupo]
-											.secuencias[grupoYSecuenciaActual.secuencia].tope,
-										tipoPago,
-										cantidad:
+										tope: tope,
+										topeSecuencia:
 											promocion.beneficios[grupoYSecuenciaActual.grupo]
-												.secuencias[grupoYSecuenciaActual.secuencia].cantidad,
+												.secuencias[grupoYSecuenciaActual.secuencia].tope,
+										tipoPago,
+										cantidad: cantidad,
 										unidadMedida:
 											promocion.beneficios[grupoYSecuenciaActual.grupo]
 												.secuencias[grupoYSecuenciaActual.secuencia]
