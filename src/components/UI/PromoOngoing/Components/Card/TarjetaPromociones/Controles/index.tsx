@@ -4,26 +4,15 @@ import Input from '@mui/material/Input';
 import IconButton from '@mui/material/IconButton';
 import {
 	AgregarRedondoIcon,
-	AvisoIcon,
 	BotellaIcon,
 	CajaIcon,
 	QuitarRellenoIcon,
 } from 'assests/iconos';
 import useEstilos from './useEstilos';
-import theme from 'theme';
-import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
-import {
-	ETiposDePago,
-	TCodigoCantidad,
-	TDetalleBonificacionesCliente,
-	TPrecioProducto,
-	TProducto,
-	TProductosPromoOngoingAplicadas,
-	TPromoOngoingBeneficiosSecuencia,
-} from 'models';
-import Modal from 'components/UI/Modal';
+
+import {ETiposDePago, TCodigoCantidad} from 'models';
+
 import {useMostrarAviso} from 'hooks';
-import {TPromoOngoingAplicables} from 'utils/procesos/promociones/PromocionesOngoing';
 
 interface Props {
 	producto: {
@@ -72,23 +61,33 @@ export const Controles: React.FC<Props> = ({
 	const [totalProductos, setTotalProductos] = React.useState<number>(0);
 
 	React.useEffect(() => {
-		const totalProductos = beneficiosParaAgregar?.beneficios[
-			grupoYSecuenciaActual.grupo
-		]?.secuencias[grupoYSecuenciaActual.secuencia]?.materialesBeneficio.reduce(
-			(a: number, v: TCodigoCantidad) => a + v.cantidad,
-			0
-		);
-		setTotalProductos(totalProductos);
+		if (beneficiosParaAgregar) {
+			const totalProductosActual = beneficiosParaAgregar?.beneficios[
+				grupoYSecuenciaActual.grupo
+			]?.secuencias[
+				grupoYSecuenciaActual.secuencia
+			]?.materialesBeneficio.reduce(
+				(a: number, v: TCodigoCantidad) => a + v.cantidad,
+				0
+			);
+			setTotalProductos(totalProductosActual);
 
-		const topeTotal =
-			cantidadActual >= producto.tope
-				? true
-				: totalProductos >= producto.topeSecuencia
-				? true
-				: false;
+			const topeTotal =
+				cantidadActual >= producto.tope
+					? true
+					: totalProductosActual >= producto.topeSecuencia
+					? true
+					: false;
 
-		setSuperaTope(topeTotal);
+			setSuperaTope(topeTotal);
+		}
 	}, [beneficiosParaAgregar, cantidadActual]);
+
+	React.useEffect(() => {
+		return () => {
+			setCantidadActual(producto.cantidad);
+		};
+	}, []);
 
 	React.useEffect(() => {
 		if (beneficiosParaAgregar && puedeAgregar) {

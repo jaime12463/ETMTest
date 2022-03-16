@@ -92,7 +92,6 @@ export const Card: React.VFC<CardProps> = ({
 	borroPromociones,
 	tipo,
 	setBorroPromociones,
-
 	promocionesOngoing,
 	setpromosDisponibles,
 	promosDisponibles,
@@ -110,17 +109,17 @@ export const Card: React.VFC<CardProps> = ({
 		grupo: number;
 		secuencia: number;
 	}>({grupo: 0, secuencia: 0});
-	const [promocionEditada, setPromocionEditada] =
-		React.useState<TPromoOngoingAplicables>();
+
 	const [secuenciaSelect, setSecuenciaSelect] = React.useState<string>('');
 	const [promocionSinDisponible, setPromocionSinDisponible] =
 		React.useState<boolean>(true);
 
 	const [valorBeneficio, setValorBeneficio] = React.useState<string>('');
 	const {t} = useTranslation();
-	const {descripcion, promocionID} = promocion;
+	const {promocionID} = promocion;
 	const dispatch = useAppDispatch();
 	const visitaActual = useObtenerVisitaActual();
+
 	const expandID = `${promocion.promocionID}-${tipo}`;
 
 	const [promocionAplicada, setPromocionAplicada] =
@@ -155,6 +154,10 @@ export const Card: React.VFC<CardProps> = ({
 	}, [beneficiosParaAgregar, grupoYSecuenciaActual]);
 
 	React.useEffect(() => {
+		setBeneficiosParaAgregar(JSON.parse(JSON.stringify(promocion)));
+	}, [expandido]);
+
+	React.useEffect(() => {
 		if (!promocionAutomatica && !soloLectura && setpromosDisponibles) {
 			if (promocion.aplicada) {
 				setPromocionAplicada(true);
@@ -175,7 +178,6 @@ export const Card: React.VFC<CardProps> = ({
 
 	React.useEffect(() => {
 		if (promocion) {
-			setPromocionEditada({...promocion});
 			setGruposSelect(promocion.beneficios[0].descripcion);
 			setGrupoYSecuenciaActual({grupo: 0, secuencia: 0});
 			setSecuenciaSelect(
@@ -185,6 +187,10 @@ export const Card: React.VFC<CardProps> = ({
 
 		return () => setExpandidoexpandido(false);
 	}, []);
+
+	React.useEffect(() => {
+		setGruposSelect(promocion.beneficios[0].descripcion);
+	}, [expandido]);
 
 	React.useEffect(() => {
 		if (promocion && gruposSelect !== '') {
