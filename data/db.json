@@ -64,15 +64,23 @@
 			},
 			"promocionesHabilitadas": [
 				{
-					"idPromocion": "695263",
+					"idPromocion": 695263,
 					"promocionesDisponibles": 999
 				},
 				{
-					"idPromocion": "695269",
+					"idPromocion": 680830,
 					"promocionesDisponibles": 999
 				},
 				{
-					"idPromocion": "680614",
+					"idPromocion": 695269,
+					"promocionesDisponibles": 999
+				},
+				{
+					"idPromocion": 680614,
+					"promocionesDisponibles": 999
+				},
+				{
+					"idPromocion": 680616,
 					"promocionesDisponibles": 999
 				}
 			],
