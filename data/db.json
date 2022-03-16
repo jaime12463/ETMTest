@@ -53488,7 +53488,7 @@
 							"materialesBeneficio": [170456],
 							"cantidad": 1,
 							"unidadMedida": "Unidad",
-							"formaBeneficio": 1,
+							"formaBeneficio": "1",
 							"valorBeneficio": 100.0,
 							"tope": 999
 						}
@@ -53521,7 +53521,7 @@
 							"materialesBeneficio": [360],
 							"cantidad": 5,
 							"unidadMedida": "Unidad",
-							"formaBeneficio": 3,
+							"formaBeneficio": "3",
 							"valorBeneficio": 28.0,
 							"tope": 999
 						}
@@ -53554,7 +53554,7 @@
 							"materialesBeneficio": [673],
 							"cantidad": 3,
 							"unidadMedida": "Unidad",
-							"formaBeneficio": 2,
+							"formaBeneficio": "2",
 							"valorBeneficio": 15.0,
 							"tope": 999
 						}
@@ -53587,7 +53587,7 @@
 							"materialesBeneficio": [570],
 							"cantidad": 1,
 							"unidadMedida": "Unidad",
-							"formaBeneficio": 2,
+							"formaBeneficio": "2",
 							"valorBeneficio": 20.0,
 							"tope": 999
 						}
@@ -53620,7 +53620,7 @@
 							"materialesBeneficio": [97145],
 							"cantidad": 1,
 							"unidadMedida": "Unidad",
-							"formaBeneficio": 3,
+							"formaBeneficio": "3",
 							"valorBeneficio": 24.0,
 							"tope": 999
 						}

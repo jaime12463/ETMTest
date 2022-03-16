@@ -142,7 +142,6 @@ export type TIniciativasCliente = {
 	idMaterialIniciativa: number;
 	unidadVentaIniciativa: number;
 	subunidadVentaIniciativa: number;
-
 	unidadesEjecutadas: number;
 	subUnidadesEjecutadas: number;
 	archivoAdjunto?: string;
