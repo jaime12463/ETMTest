@@ -4880,34 +4880,16 @@
 				"cantidadMaximaUnidades": 999
 			},
 			"promocionesHabilitadas": [
+				
 				{
-					"idPromocion": 680000,
-					"promocionesDisponibles": 1
-				},
-				{
-					"idPromocion": 682199,
-					"promocionesDisponibles": 1
-				},
-				{
-					"idPromocion": 682200,
-					"promocionesDisponibles": 1
-				},
-				{
-					"idPromocion": 685218,
-					"promocionesDisponibles": 1
-				},
-				{
-					"idPromocion": 685232,
+					"idPromocion": 680616,
 					"promocionesDisponibles": 1
 				},
 				{
 					"idPromocion": 685233,
 					"promocionesDisponibles": 1
-				},
-				{
-					"idPromocion": 685234,
-					"promocionesDisponibles": 1
 				}
+
 			],
 			"portafolio": [
 				{
@@ -53502,7 +53484,7 @@
 			"tipo": 1,
 			"aplicacion": "M",
 			"asignacion": "P",
-			"inicioVigenciaPromocion": "2022-03-01",
+			"inicioVigenciaPromocion": "2022-01-01",
 			"finVigenciaPromocion": "2022-12-31",
 			"requisitos": [
 				{
