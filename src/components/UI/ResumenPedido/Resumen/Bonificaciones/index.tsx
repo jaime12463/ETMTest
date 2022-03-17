@@ -22,6 +22,7 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 }) => {
 	const {t} = useTranslation();
 	const {envases, medidas} = useObtenerDatos();
+	const obtenerProductoPorCodigo = useObtenerProductoPorCodigo();
 
 	return (
 		<Box border={`1px solid ${theme.palette.secondary.main}`}>
@@ -52,7 +53,7 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 						</Box>
 						<Box display='flex' flex='1' flexDirection='column'>
 							{bonificacion.detalle.map((detalle, index) => {
-								const producto = useObtenerProductoPorCodigo(
+								const producto = obtenerProductoPorCodigo(
 									detalle.codigoProducto
 								);
 								if (!producto) return null;

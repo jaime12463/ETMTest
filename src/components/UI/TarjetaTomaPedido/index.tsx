@@ -79,11 +79,9 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 	const obtenerCalculoDescuentoProducto =
 		useObtenerCalculoDescuentoProducto(producto);
 
-	const calculosPromoOngoing = useCalularPruductoEnPromoOnGoing(
-		producto.codigoProducto
-	);
+	const calculosPromoOngoing = useCalularPruductoEnPromoOnGoing();
 
-	const infoBeneficio = calculosPromoOngoing();
+	const infoBeneficio = calculosPromoOngoing(producto.codigoProducto);
 
 	React.useEffect(() => {
 		if (

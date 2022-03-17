@@ -1,13 +1,16 @@
 import {useFiltrarPreciosProductosDelClienteActual} from 'hooks';
 import {TPrecioProducto} from 'models';
 
-export const useObtenerProductoPorCodigo = (
-	codigo: number
-): TPrecioProducto | undefined => {
+export const useObtenerProductoPorCodigo = () => {
 	const preciosProductosDelCliente =
 		useFiltrarPreciosProductosDelClienteActual();
 
-	return preciosProductosDelCliente?.find(
-		(producto) => producto.codigoProducto === codigo
-	);
+	const obtenerProductoPorCodigo = (
+		codigo: number
+	): TPrecioProducto | undefined =>
+		preciosProductosDelCliente?.find(
+			(producto) => producto.codigoProducto === codigo
+		);
+
+	return obtenerProductoPorCodigo;
 };

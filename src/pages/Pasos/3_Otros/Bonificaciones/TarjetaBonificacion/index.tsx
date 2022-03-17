@@ -37,7 +37,8 @@ const TarjetaBonificacion: React.FC<Props> = ({
 	statefocusId,
 	statePrimerProductoAgregado,
 }) => {
-	const producto = useObtenerProductoPorCodigo(codigoProducto);
+	const obtenerProductoPorCodigo = useObtenerProductoPorCodigo();
+	const producto = obtenerProductoPorCodigo(codigoProducto);
 	if (!producto) return null;
 
 	return (

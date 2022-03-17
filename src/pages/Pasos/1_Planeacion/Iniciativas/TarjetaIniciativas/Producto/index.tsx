@@ -48,7 +48,8 @@ const Producto: React.FC<Props> = ({
 	unidadesEjecutadas,
 	subUnidadesEjecutadas,
 }) => {
-	const producto = useObtenerProductoPorCodigo(idMaterialIniciativa);
+	const obtenerProductoPorCodigo = useObtenerProductoPorCodigo();
+	const producto = obtenerProductoPorCodigo(idMaterialIniciativa);
 	if (!producto) return null;
 
 	const visitaActual = useObtenerVisitaActual();

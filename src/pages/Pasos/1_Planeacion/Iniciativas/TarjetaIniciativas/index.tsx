@@ -113,7 +113,8 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	setAvanza,
 }) => {
 	const {t} = useTranslation();
-	const producto = useObtenerProductoPorCodigo(idMaterialIniciativa);
+	const obtenerProductoPorCodigo = useObtenerProductoPorCodigo();
+	const producto = obtenerProductoPorCodigo(idMaterialIniciativa);
 	const visitaActual = useObtenerVisitaActual();
 	const {motivosCancelacionIniciativas} = useObtenerConfiguracion();
 	const clienteActual = useObtenerClienteActual();

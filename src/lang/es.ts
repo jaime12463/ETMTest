@@ -115,6 +115,7 @@ const es = {
 		borrarSeleccion: 'Borrar selección',
 		caja: 'Caja',
 		cajas: 'Cajas',
+		ahorraste: 'Ahorraste',
 	},
 	simbolos: {
 		decimal: '.',

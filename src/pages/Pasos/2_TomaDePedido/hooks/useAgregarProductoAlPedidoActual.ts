@@ -39,9 +39,7 @@ export const useAgregarProductoAlPedidoActual = (
 			getValues
 		);
 
-	const calularPruductoEnPromoOnGoing = useCalularPruductoEnPromoOnGoing(
-		productoActual?.codigoProducto ?? 0
-	);
+	const calularPruductoEnPromoOnGoing = useCalularPruductoEnPromoOnGoing();
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
@@ -62,7 +60,9 @@ export const useAgregarProductoAlPedidoActual = (
 			const subUnidadesParseado: number =
 				subUnidades !== '' ? parseInt(subUnidades) : 0;
 
-			const infoBeneficio = calularPruductoEnPromoOnGoing();
+			const infoBeneficio = calularPruductoEnPromoOnGoing(
+				productoActual?.codigoProducto ?? 0
+			);
 
 			if (!productoActual) return;
 
@@ -96,9 +96,16 @@ export const useAgregarProductoAlPedidoActual = (
 			}
 
 			// unidadesSinPromoOngoing toma el valor de unidadesParseado - las unidades que se agregan en las promoOngoing, si no hay promoOngoing, toma el valor de unidadesParseado
-			const unidadesSinPromoOngoing = infoBeneficio.cantidad
-				? unidadesParseado - infoBeneficio.cantidad
-				: unidadesParseado;
+			const unidadesSinPromoOngoing =
+				infoBeneficio.cantidad && infoBeneficio.unidadMedida === 'Unidad'
+					? unidadesParseado - infoBeneficio.cantidad
+					: unidadesParseado;
+
+			// subUnidadesSinPromoOngoing toma el valor de subUnidadesParseado - las unidades que se agregan en las promoOngoing, si no hay promoOngoing, toma el valor de subUnidadesParseado
+			const subUnidadesSinPromoOngoing =
+				infoBeneficio.cantidad && infoBeneficio.unidadMedida !== 'Unidad'
+					? subUnidadesParseado - infoBeneficio.cantidad
+					: subUnidadesParseado;
 
 			const preciosNeto = infoDescuento
 				? {
@@ -176,16 +183,29 @@ export const useAgregarProductoAlPedidoActual = (
 				}
 			}
 
+			const precioFinalUnidad =
+				preciosNeto.unidad * unidadesSinPromoOngoing +
+				preciosPromo.unidad *
+					(infoBeneficio.unidadMedida === 'Unidad' &&
+					infoBeneficio.formaBeneficio !== EFormaBeneficio.Obsequio
+						? infoBeneficio.cantidad ?? 0
+						: 0);
+
+			const precioFinalSubUnidad =
+				preciosNeto.subUnidad * subUnidadesSinPromoOngoing +
+				preciosPromo.subUnidad *
+					(infoBeneficio.unidadMedida !== 'Unidad' &&
+					infoBeneficio.formaBeneficio !== EFormaBeneficio.Obsequio
+						? infoBeneficio.cantidad ?? 0
+						: 0);
+
 			dispatch(
 				agregarProductoDelPedidoActual({
 					productoPedido: {
 						...productoActual,
 						unidades: unidadesParseado,
 						subUnidades: subUnidadesParseado,
-						total:
-							preciosNeto.unidad * unidadesSinPromoOngoing +
-							preciosPromo.unidad * (infoBeneficio.cantidad ?? 0) +
-							preciosNeto.subUnidad * subUnidadesParseado,
+						total: precioFinalUnidad + precioFinalSubUnidad,
 						tipoPago: productoBuscado
 							? productoBuscado.tipoPago
 							: clienteActual.tipoPagoActual,

@@ -177,13 +177,9 @@ const Informacion: React.FC<Props> = ({
 				{nombreProducto}
 			</Typography>
 			{producto.atributos && (
-				<Typography
-					margin='4px 0 6px 0'
-					variant='caption'
-					color={theme.palette.secondary.main}
-				>
-					{`${medidas[producto.atributos?.medida ?? 0].descripcion} | ${
-						envases[producto.atributos?.envase ?? 0].descripcion
+				<Typography margin='4px 0 6px 0' variant='caption' color='secondary'>
+					{`${medidas[producto.atributos?.medida].descripcion} | ${
+						envases[producto.atributos?.envase].descripcion
 					}`}
 				</Typography>
 			)}
@@ -287,7 +283,7 @@ const Informacion: React.FC<Props> = ({
 							<Typography
 								variant='subtitle3'
 								fontFamily='Open Sans'
-								color={theme.palette.primary.main}
+								color='primary'
 								sx={{gridArea: 'DescuentoSubUnidad'}}
 							>
 								{formatearNumero(
@@ -304,7 +300,7 @@ const Informacion: React.FC<Props> = ({
 						<Typography
 							variant='caption'
 							fontFamily='Open Sans'
-							color={theme.palette.primary.main}
+							color='primary'
 							sx={{
 								gridArea:
 									infoDescuento.tipo !== ETipoDescuento.automatico ||
@@ -334,7 +330,7 @@ const Informacion: React.FC<Props> = ({
 						<Typography
 							variant='subtitle3'
 							fontFamily='Open Sans'
-							color={theme.palette.primary.main}
+							color='primary'
 							sx={{gridArea: 'DescuentoUnidad', justifySelf: 'start'}}
 						>
 							{formatearNumero(
@@ -363,7 +359,7 @@ const Informacion: React.FC<Props> = ({
 							setAlerta(true);
 						}}
 						label={
-							<Typography variant='caption' color={theme.palette.primary.main}>
+							<Typography variant='caption' color='primary'>
 								Eliminar descuento
 							</Typography>
 						}

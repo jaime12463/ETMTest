@@ -2,32 +2,34 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
 import {CerrarIcon} from 'assests/iconos';
 import {
 	useObtenerCompromisoDeCobroActual,
 	useObtenerConfiguracion,
-	useObtenerDatos,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {
+	EFormaBeneficio,
 	ETiposDePago,
 	TConsolidadoImplicitos,
-	TDatosClientesProductos,
 	TProductoPedido,
 } from 'models';
 import Resumen from './Resumen';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
-import {formatearFecha, formatearNumero} from 'utils/methods';
-import {useObtenerBonificacionesHabilitadas} from 'hooks';
+import {formatearNumero} from 'utils/methods';
+import {
+	useCalularPruductoEnPromoOnGoing,
+	useObtenerBonificacionesHabilitadas,
+} from 'hooks';
 import {
 	useCalcularEnvasesDeObsequios,
 	useObtenerConsolidacionImplicitos,
 } from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
 import {TPromoOngoingAplicables} from 'utils/procesos/promociones/PromocionesOngoing';
 import i18n from '../../../lang/i18n';
-import {convertToObject} from 'typescript';
 
 interface Props {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,13 +38,13 @@ interface Props {
 const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 	const compromisoDeCobro = useObtenerCompromisoDeCobroActual();
 	const visitaActual = useObtenerVisitaActual();
-	const datos: TDatosClientesProductos = useObtenerDatos();
 	const {venta, canje, prestamoenvase, ventaenvase} = visitaActual.pedidos;
 	const {promosOngoing} = visitaActual;
 
 	const bonificacionesHabilitadas = useObtenerBonificacionesHabilitadas();
 	const bonificacionesCliente = bonificacionesHabilitadas();
 	const calcularEnvasesDeObsequios = useCalcularEnvasesDeObsequios();
+	const calularPruductoEnPromoOnGoing = useCalularPruductoEnPromoOnGoing();
 
 	const bonificaciones = visitaActual.bonificaciones.map(
 		(bonificacion, index) => ({
@@ -69,24 +71,73 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 
 	const canjes = canje?.productos?.map((producto) => producto);
 
+	let totalDescuentos = 0;
+	let totalContado = 0;
+	let totalCredito = 0;
+
 	const [ventaCredito, ventaContado, promocionesCredito, promocionesContado] =
 		venta?.productos.reduce(
 			(acc, producto) => {
-				// Se evaluan las condiciones de los productos y se los pushea a su array correspondiente. De esta manera se recorre el array de prodcutos una única vez.
-				// arr[0] = venta credito arr[1] = venta contado arr[2] = promociones credito arr[3] = promociones contado
+				// Se evaluan las condiciones de los productos y se hace push a su array correspondiente. De esta manera se recorre el array de prodcutos una única vez.
+				// arr[0] = venta credito | arr[1] = venta contado | arr[2] = promociones credito | arr[3] = promociones contado
+
+				const infoBeneficio = calularPruductoEnPromoOnGoing(
+					producto.codigoProducto
+				);
+
+				//Se evalua si el producto esta en PromoOngoing
 				if (
+					infoBeneficio.cantidad &&
+					infoBeneficio.tipoPago === ETiposDePago.Credito
+				) {
+					let unidadesFinales = producto.unidades;
+					let subUnidadesFinales = producto.subUnidades;
+
+					if (infoBeneficio.unidadMedida === 'Unidad') {
+						unidadesFinales = producto.unidades - infoBeneficio.cantidad;
+					} else {
+						subUnidadesFinales = producto.subUnidades - infoBeneficio.cantidad;
+					}
+
+					totalCredito += producto.total;
+					// Si unidadesFinales === 0 && subUnidadesFinales === 0 el producto esta en su totalidad en promoOngoing, por ende no se muestra en el apartado crédito.
+					if (unidadesFinales > 0 || subUnidadesFinales > 0) {
+						acc[0].push(producto);
+					}
+				} else if (
 					producto.tipoPago === ETiposDePago.Credito &&
 					!producto.promoPush &&
 					(producto.unidades > 0 || producto.subUnidades > 0)
 				) {
+					totalCredito += producto.total;
 					acc[0].push(producto);
 				}
 
+				//Se evalua si el producto esta en PromoOngoing
 				if (
+					infoBeneficio.cantidad &&
+					infoBeneficio.tipoPago === ETiposDePago.Contado
+				) {
+					let unidadesFinales = producto.unidades;
+					let subUnidadesFinales = producto.subUnidades;
+
+					if (infoBeneficio.unidadMedida === 'Unidad') {
+						unidadesFinales = producto.unidades - infoBeneficio.cantidad;
+					} else {
+						subUnidadesFinales = producto.subUnidades - infoBeneficio.cantidad;
+					}
+
+					totalContado += producto.total;
+					// Si unidadesFinales === 0 && subUnidadesFinales === 0 el producto esta en su totalidad en promoOngoing, por ende no se muestra en el apartado contado.
+					if (unidadesFinales > 0 || subUnidadesFinales > 0) {
+						acc[1].push(producto);
+					}
+				} else if (
 					producto.tipoPago === ETiposDePago.Contado &&
 					!producto.promoPush &&
 					(producto.unidades > 0 || producto.subUnidades > 0)
 				) {
+					totalContado += producto.total;
 					acc[1].push(producto);
 				}
 
@@ -95,6 +146,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					producto.promoPush &&
 					(producto.unidades > 0 || producto.subUnidades > 0)
 				) {
+					totalCredito += producto.total;
 					acc[2].push(producto);
 					acc[2].sort((a, b) => (a.codigoProducto > b.codigoProducto ? 1 : -1));
 				}
@@ -104,8 +156,76 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					producto.promoPush &&
 					(producto.unidades > 0 || producto.subUnidades > 0)
 				) {
+					totalContado += producto.total;
 					acc[3].push(producto);
 					acc[3].sort((a, b) => (a.codigoProducto > b.codigoProducto ? 1 : -1));
+				}
+
+				if (producto.descuentoPromoPush) {
+					totalDescuentos += producto.descuentoPromoPush * producto.unidades;
+				}
+
+				// Si el producto tiene PromoOngoing
+				if (infoBeneficio.cantidad) {
+					// Si la PromoOngoing es Descuento Monto | Descuento Porcentaje
+					if (
+						infoBeneficio.formaBeneficio === EFormaBeneficio.DescuentoMonto ||
+						infoBeneficio.formaBeneficio === EFormaBeneficio.DescuentoPorcentaje
+					) {
+						// Se verifica la unidad de medida para saber donde calcular los descuentos
+						if (infoBeneficio.unidadMedida === 'Unidad') {
+							if (infoBeneficio.cantidad === producto.unidades) {
+								totalDescuentos +=
+									producto.precioConImpuestoUnidad * infoBeneficio.cantidad -
+									producto.preciosPromo.unidad * infoBeneficio.cantidad;
+							} else {
+								const descuentoSinPromoOngoing =
+									producto.precioConImpuestoUnidad *
+										(producto.unidades - infoBeneficio.cantidad) -
+									producto.preciosNeto.unidad *
+										(producto.unidades - infoBeneficio.cantidad);
+
+								const descuentoPromoOngoing =
+									producto.precioConImpuestoUnidad * infoBeneficio.cantidad -
+									producto.preciosPromo.unidad * infoBeneficio.cantidad;
+
+								totalDescuentos +=
+									descuentoSinPromoOngoing + descuentoPromoOngoing;
+							}
+						} else {
+							if (infoBeneficio.cantidad === producto.subUnidades) {
+								totalDescuentos +=
+									producto.precioConImpuestoSubunidad * infoBeneficio.cantidad -
+									producto.preciosPromo.subUnidad * infoBeneficio.cantidad;
+							} else {
+								const descuentoSinPromoOngoing =
+									producto.precioConImpuestoSubunidad *
+										(producto.subUnidades - infoBeneficio.cantidad) -
+									producto.preciosNeto.subUnidad *
+										(producto.subUnidades - infoBeneficio.cantidad);
+
+								const descuentoPromoOngoing =
+									producto.precioConImpuestoSubunidad * infoBeneficio.cantidad -
+									producto.preciosPromo.subUnidad * infoBeneficio.cantidad;
+
+								totalDescuentos +=
+									descuentoSinPromoOngoing + descuentoPromoOngoing;
+							}
+						}
+					}
+					// Si no hay PromoOngoing se verifica que si precios base es !== a precios neto ==> hay descuentos por calcular
+				} else if (
+					producto.preciosBase.unidad !== producto.preciosNeto.unidad &&
+					producto.preciosBase.subUnidad !== producto.preciosNeto.subUnidad
+				) {
+					const descuentoUnidad =
+						(producto.preciosBase.unidad - producto.preciosNeto.unidad) *
+						producto.unidades;
+					const descuentoSubUnidad =
+						(producto.preciosBase.subUnidad - producto.preciosNeto.subUnidad) *
+						producto.subUnidades;
+
+					totalDescuentos += descuentoUnidad + descuentoSubUnidad;
 				}
 
 				return acc;
@@ -117,56 +237,6 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 				TProductoPedido[]
 			]
 		);
-
-	let totalDescuentos = 0;
-	let totalContado = 0;
-	let totalCredito = 0;
-
-	ventaContado?.forEach((producto) => {
-		if (producto) {
-			totalContado += producto?.total;
-		}
-	});
-
-	promocionesContado?.forEach((promocion) => {
-		if (promocion) {
-			totalContado += promocion?.total;
-		}
-	});
-
-	ventaCredito?.forEach((producto) => {
-		if (producto) {
-			totalCredito += producto?.total;
-		}
-	});
-
-	promocionesCredito?.forEach((promocion) => {
-		if (promocion) {
-			totalCredito += promocion?.total;
-		}
-	});
-
-	venta?.productos?.forEach((producto) => {
-		if (
-			producto.preciosBase.unidad !== producto.preciosNeto.unidad &&
-			producto.preciosBase.subUnidad !== producto.preciosNeto.subUnidad
-		) {
-			const descuentoUnidad =
-				(producto.preciosBase.unidad - producto.preciosNeto.unidad) *
-				producto.unidades;
-			const descuentoSubUnidad =
-				(producto.preciosBase.subUnidad - producto.preciosNeto.subUnidad) *
-				producto.subUnidades;
-
-			totalDescuentos += descuentoUnidad + descuentoSubUnidad;
-		}
-	});
-
-	venta?.productos?.forEach((producto) => {
-		if (producto.descuentoPromoPush) {
-			totalDescuentos += producto.descuentoPromoPush * producto.unidades;
-		}
-	});
 
 	const {t} = useTranslation();
 
@@ -223,11 +293,18 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 
 	const lenguaje = i18n.language !== 'br' ? i18n.language : 'pt';
 
+	const fechaEntregaSplit = visitaActual.fechaEntrega.split('-');
+	const fechaEntrega = new Date(
+		Number(fechaEntregaSplit[0]),
+		Number(fechaEntregaSplit[1]) - 1,
+		Number(fechaEntregaSplit[2])
+	);
+
 	let fechaFormateada = new Intl.DateTimeFormat(lenguaje, {
 		day: 'numeric',
 		month: 'long',
 		year: 'numeric',
-	}).format(Date.parse(visitaActual.fechaEntrega));
+	}).format(fechaEntrega);
 
 	// Si el lenguaje no es ingles, se pasa a mayuscula el mes
 	if (lenguaje !== 'en') {
@@ -241,19 +318,22 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 			<Box
 				display='flex'
 				justifyContent='end'
-				onClick={() => setOpen((prevState) => !prevState)}
 				padding='22px 24px 10px 24px'
-				sx={{cursor: 'pointer'}}
 				width='100%'
 			>
-				<CerrarIcon fill='#565657' />
+				<IconButton
+					onClick={() => setOpen((prevState) => !prevState)}
+					sx={{padding: 0}}
+				>
+					<CerrarIcon />
+				</IconButton>
 			</Box>
 			<Typography
 				variant='subtitle2'
 				fontFamily='Open Sans'
-				color='#565657'
+				color='#000'
 				textAlign='center'
-				marginBottom='4px'
+				marginBottom='10px'
 			>
 				{t('general.resumenDePedido')}
 			</Typography>
@@ -280,8 +360,6 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 						</Resumen.Titulo>
 						<Box border={`1px solid ${theme.palette.success.dark}`}>
 							{ventaCredito.map((producto, index) => {
-								if (!producto) return null;
-
 								return (
 									<Box key={producto.codigoProducto}>
 										<Resumen.Tarjeta producto={producto} />
@@ -302,8 +380,6 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 						</Resumen.Titulo>
 						<Box border='1px solid #000'>
 							{ventaContado.map((producto, index) => {
-								if (!producto) return null;
-
 								return (
 									<Box key={producto.codigoProducto}>
 										<Resumen.Tarjeta producto={producto} />
@@ -434,7 +510,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 								}
 
 								return (
-									<Box key={`${envase.codigoImplicito} ${index}`}>
+									<Box key={`${envase.nombreImplicito} ${index}`}>
 										<Resumen.Envases retorno={envase} />
 										{index !== envasesRetorno?.length - 1 && (
 											<Divider

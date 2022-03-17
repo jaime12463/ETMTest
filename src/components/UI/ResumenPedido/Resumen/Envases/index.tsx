@@ -94,11 +94,19 @@ export const Envases: React.FC<EnvasesProps> = ({producto, retorno}) => {
 					{(producto || retorno) && (
 						<Box alignItems='center' display='flex' gap='4px'>
 							{producto && producto.unidades > 0 ? (
-								<Typography variant='subtitle3' fontFamily='Open Sans'>
+								<Typography
+									variant='caption'
+									color='secondary'
+									fontFamily='Open Sans'
+								>
 									{producto.unidades}
 								</Typography>
 							) : (
-								<Typography variant='subtitle3' fontFamily='Open Sans'>
+								<Typography
+									variant='caption'
+									color='secondary'
+									fontFamily='Open Sans'
+								>
 									{retorno?.unidades}
 								</Typography>
 							)}
@@ -111,11 +119,19 @@ export const Envases: React.FC<EnvasesProps> = ({producto, retorno}) => {
 						(retorno && retorno.subUnidades > 0)) && (
 						<Box alignItems='center' display='flex' gap='4px'>
 							{producto && producto.subUnidades > 0 ? (
-								<Typography variant='subtitle3' fontFamily='Open Sans'>
+								<Typography
+									variant='caption'
+									color='secondary'
+									fontFamily='Open Sans'
+								>
 									{producto?.subUnidades}
 								</Typography>
 							) : (
-								<Typography variant='subtitle3' fontFamily='Open Sans'>
+								<Typography
+									variant='caption'
+									color='secondary'
+									fontFamily='Open Sans'
+								>
 									{retorno?.subUnidades}
 								</Typography>
 							)}

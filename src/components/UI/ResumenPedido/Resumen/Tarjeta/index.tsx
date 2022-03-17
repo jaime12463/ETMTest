@@ -7,6 +7,7 @@ import {useTranslation} from 'react-i18next';
 import {TProductoPedido} from 'models';
 import theme from 'theme';
 import {useObtenerDatos} from 'redux/hooks';
+import {useCalularPruductoEnPromoOnGoing} from 'hooks';
 
 export interface TarjetaProps {
 	producto: TProductoPedido;
@@ -22,10 +23,31 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 		esVentaSubunidades,
 		precioConImpuestoUnidad,
 		precioConImpuestoSubunidad,
-		total,
 		atributos,
 		presentacion,
+		tipoPago,
 	} = producto;
+
+	const calularPruductoEnPromoOnGoing = useCalularPruductoEnPromoOnGoing();
+
+	const infoBeneficio = calularPruductoEnPromoOnGoing(codigoProducto);
+
+	let unidadesFinales = unidades;
+	let subUnidadesFinales = subUnidades;
+
+	if (infoBeneficio.cantidad) {
+		if (tipoPago === infoBeneficio.tipoPago) {
+			if (infoBeneficio.unidadMedida === 'Unidad') {
+				unidadesFinales = unidades - infoBeneficio.cantidad;
+			} else {
+				subUnidadesFinales = subUnidades - infoBeneficio.cantidad;
+			}
+		}
+	}
+
+	let precioFinal =
+		producto.preciosNeto.unidad * unidadesFinales +
+		producto.preciosNeto.subUnidad * subUnidadesFinales;
 
 	const {envases, medidas} = useObtenerDatos();
 
@@ -99,23 +121,29 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 				sx={{background: '#F5F0EF'}}
 			>
 				<Box display='flex' flexDirection='column' padding='6px 14px 4px 8px'>
-					<Box
-						alignItems='center'
-						display='flex'
-						justifyContent='space-between'
-						marginBottom='2px'
-					>
-						<Box alignItems='center' display='flex' gap='4px'>
+					{unidadesFinales > 0 && (
+						<Box
+							alignItems='center'
+							display='flex'
+							justifyContent='space-between'
+							marginBottom='2px'
+						>
+							<Box alignItems='center' display='flex' gap='4px'>
+								<Typography
+									variant='caption'
+									fontFamily='Open Sans'
+									color='#000'
+								>
+									{unidadesFinales}
+								</Typography>
+								<CajaIcon height='18px' width='18px' />
+							</Box>
 							<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-								{unidades}
+								{formatearNumero(precioConImpuestoUnidad * unidadesFinales, t)}
 							</Typography>
-							<CajaIcon height='18px' width='18px' />
 						</Box>
-						<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-							{formatearNumero(precioConImpuestoUnidad * unidades, t)}
-						</Typography>
-					</Box>
-					{subUnidades > 0 && (
+					)}
+					{subUnidadesFinales > 0 && (
 						<Box
 							alignItems='center'
 							display='flex'
@@ -127,12 +155,15 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 									fontFamily='Open Sans'
 									color='#000'
 								>
-									{subUnidades}
+									{subUnidadesFinales}
 								</Typography>
 								<BotellaIcon height='18px' width='18px' />
 							</Box>
 							<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-								{formatearNumero(precioConImpuestoSubunidad * subUnidades, t)}
+								{formatearNumero(
+									precioConImpuestoSubunidad * subUnidadesFinales,
+									t
+								)}
 							</Typography>
 						</Box>
 					)}
@@ -153,7 +184,7 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 						{t('general.subTotal')}
 					</Typography>
 					<Typography variant='subtitle3' color='#000'>
-						{formatearNumero(total, t)}
+						{formatearNumero(precioFinal, t)}
 					</Typography>
 				</Box>
 			</Box>

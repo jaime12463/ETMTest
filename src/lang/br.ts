@@ -108,6 +108,7 @@ const br = {
 		borrarSeleccion: 'Excluir seleção',
 		caja: 'Caixa',
 		cajas: 'Caixas',
+		ahorraste: 'Você salvou',
 	},
 	simbolos: {
 		decimal: '.',

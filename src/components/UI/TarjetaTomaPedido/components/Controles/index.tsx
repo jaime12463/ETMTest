@@ -15,7 +15,6 @@ import {
 	TStateInputFocus,
 } from 'models';
 import {
-	useCalularPruductoEnPromoOnGoing,
 	useMostrarAdvertenciaEnDialogo,
 	useMostrarAviso,
 	useObtenerDatosCliente,
