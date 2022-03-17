@@ -67,7 +67,7 @@ export interface CardProps {
 	setExpandidoexpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
 	expandido: string | boolean;
 	promocion: TPromoOngoing & TPromoOngoingAplicables;
-	promosSimilares?: TProductosUsadosEnOtrasPromos;
+	promosMismosRequisitos?: TProductosUsadosEnOtrasPromos;
 	borroPromociones?: {
 		credito: boolean;
 		contado: boolean;
@@ -89,10 +89,10 @@ export const Card: React.VFC<CardProps> = ({
 	promocionAutomatica = false,
 	soloLectura = false,
 	promocion,
+	promosMismosRequisitos,
 	borroPromociones,
 	tipo,
 	setBorroPromociones,
-
 	promocionesOngoing,
 	setpromosDisponibles,
 	promosDisponibles,
@@ -110,17 +110,17 @@ export const Card: React.VFC<CardProps> = ({
 		grupo: number;
 		secuencia: number;
 	}>({grupo: 0, secuencia: 0});
-	const [promocionEditada, setPromocionEditada] =
-		React.useState<TPromoOngoingAplicables>();
+
 	const [secuenciaSelect, setSecuenciaSelect] = React.useState<string>('');
 	const [promocionSinDisponible, setPromocionSinDisponible] =
 		React.useState<boolean>(true);
 
 	const [valorBeneficio, setValorBeneficio] = React.useState<string>('');
 	const {t} = useTranslation();
-	const {descripcion, promocionID} = promocion;
+	const {promocionID} = promocion;
 	const dispatch = useAppDispatch();
 	const visitaActual = useObtenerVisitaActual();
+
 	const expandID = `${promocion.promocionID}-${tipo}`;
 
 	const [promocionAplicada, setPromocionAplicada] =
@@ -155,6 +155,10 @@ export const Card: React.VFC<CardProps> = ({
 	}, [beneficiosParaAgregar, grupoYSecuenciaActual]);
 
 	React.useEffect(() => {
+		setBeneficiosParaAgregar(JSON.parse(JSON.stringify(promocion)));
+	}, [expandido]);
+
+	React.useEffect(() => {
 		if (!promocionAutomatica && !soloLectura && setpromosDisponibles) {
 			if (promocion.aplicada) {
 				setPromocionAplicada(true);
@@ -175,7 +179,6 @@ export const Card: React.VFC<CardProps> = ({
 
 	React.useEffect(() => {
 		if (promocion) {
-			setPromocionEditada({...promocion});
 			setGruposSelect(promocion.beneficios[0].descripcion);
 			setGrupoYSecuenciaActual({grupo: 0, secuencia: 0});
 			setSecuenciaSelect(
@@ -185,6 +188,10 @@ export const Card: React.VFC<CardProps> = ({
 
 		return () => setExpandidoexpandido(false);
 	}, []);
+
+	React.useEffect(() => {
+		setGruposSelect(promocion.beneficios[0].descripcion);
+	}, [expandido]);
 
 	React.useEffect(() => {
 		if (promocion && gruposSelect !== '') {
@@ -330,10 +337,12 @@ export const Card: React.VFC<CardProps> = ({
 				(grupo) =>
 					grupo.descripcion.toLowerCase() === gruposSelect.toLowerCase()
 			);
-			setGrupoYSecuenciaActual({grupo: indexGrupo, secuencia: 0});
-			setSecuenciaSelect(
-				promocion.beneficios[indexGrupo].secuencias[0].secuencia.toString()
-			);
+			if (indexGrupo !== -1) {
+				setGrupoYSecuenciaActual({grupo: indexGrupo, secuencia: 0});
+				setSecuenciaSelect(
+					promocion.beneficios[indexGrupo].secuencias[0].secuencia.toString()
+				);
+			}
 
 			setBeneficiosParaAgregar(JSON.parse(JSON.stringify(promocion)));
 			setExpandidoexpandido(false);
@@ -365,6 +374,45 @@ export const Card: React.VFC<CardProps> = ({
 			}
 		}
 	}, [promocionAutomatica, borroPromociones]);
+
+	React.useEffect(() => {
+		if (!soloLectura && !promocionAplicada && promosMismosRequisitos) {
+			promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
+				grupoYSecuenciaActual.secuencia
+			].materialesBeneficio.forEach((producto) => {
+				const {codigo} = producto as TCodigoCantidad;
+
+				if (promosMismosRequisitos[Number(codigo)]) {
+					const promoActualEnMismosRequisitos = promosMismosRequisitos[
+						Number(codigo)
+					].some((promo: number) => Number(promo) === Number(promocionID));
+
+					if (promoActualEnMismosRequisitos) {
+						const promosAplicadas = visitaActual.promosOngoing.filter(
+							(promo) => promo.tipoPago === tipoPago
+						);
+
+						promosAplicadas.forEach((promoAplicada) => {
+							const promoEnMismosRequisitos = promosMismosRequisitos[
+								Number(codigo)
+							].some(
+								(promo: number) =>
+									Number(promo) === Number(promoAplicada.promocionID)
+							);
+
+							if (promoEnMismosRequisitos) {
+								setPromocionSinDisponible(true);
+							}
+						});
+					}
+				}
+			});
+		}
+	}, [
+		promosMismosRequisitos,
+		visitaActual.promosOngoing,
+		beneficiosParaAgregar,
+	]);
 
 	const manejadorExpandido = (id: string | boolean) => {
 		setExpandidoexpandido(id);

@@ -364,7 +364,7 @@ export class PromocionesOngoing {
 						productosUsadosEnOtrasPromosAutomaticas
 					);
 
-				if (materialesVerificados.multiplo > 1) continue;
+				if (materialesVerificados.multiplo < 1) continue;
 
 				materialesRequisitosVerificados.push(materialesVerificados);
 
@@ -374,10 +374,11 @@ export class PromocionesOngoing {
 					conector = promo.requisitos[i].conector?.toUpperCase();
 			}
 			/** Analisis según conector                         ----------------AND----------------------    ----------------------OR-----------------*/
-			const sonValidosLosRequisitos =
-				conector == 'Y'
-					? multiplo.every((requisito) => requisito > 0)
-					: multiplo.some((requisito) => requisito > 0);
+			const sonValidosLosRequisitos =	(multiplo.length==0) 
+											? false
+											: (conector == 'Y')
+																? multiplo.every((requisito) => requisito > 0) 
+																: multiplo.some((requisito) => requisito > 0);
 			const topeSegunMultiplo: number = Math.min(...multiplo);
 			if (sonValidosLosRequisitos) {
 				// verificar si el grupo de beneficios se puede aplicar
@@ -512,7 +513,7 @@ export class PromocionesOngoing {
 				});
 
 				let topeAlprimero = true; // flag para otorgar el tope al primero
-				const tope = Math.min(topeSegunMultiplo, secuencia.tope); // nuevo tope
+				const tope = Math.min(topeSegunMultiplo * secuencia.cantidad, secuencia.tope); // nuevo tope
 				if (secuencia.formaBeneficio == EFormaBeneficio.Obsequio) {
 					materialesBeneficio
 						.filter((producto: number) =>

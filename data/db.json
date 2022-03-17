@@ -64,15 +64,23 @@
 			},
 			"promocionesHabilitadas": [
 				{
-					"idPromocion": "695263",
+					"idPromocion": 695263,
 					"promocionesDisponibles": 999
 				},
 				{
-					"idPromocion": "695269",
+					"idPromocion": 680830,
 					"promocionesDisponibles": 999
 				},
 				{
-					"idPromocion": "680614",
+					"idPromocion": 695269,
+					"promocionesDisponibles": 999
+				},
+				{
+					"idPromocion": 680614,
+					"promocionesDisponibles": 999
+				},
+				{
+					"idPromocion": 680616,
 					"promocionesDisponibles": 999
 				}
 			],
@@ -4872,34 +4880,16 @@
 				"cantidadMaximaUnidades": 999
 			},
 			"promocionesHabilitadas": [
+				
 				{
-					"idPromocion": 680000,
-					"promocionesDisponibles": 1
-				},
-				{
-					"idPromocion": 682199,
-					"promocionesDisponibles": 1
-				},
-				{
-					"idPromocion": 682200,
-					"promocionesDisponibles": 1
-				},
-				{
-					"idPromocion": 685218,
-					"promocionesDisponibles": 1
-				},
-				{
-					"idPromocion": 685232,
+					"idPromocion": 680616,
 					"promocionesDisponibles": 1
 				},
 				{
 					"idPromocion": 685233,
 					"promocionesDisponibles": 1
-				},
-				{
-					"idPromocion": 685234,
-					"promocionesDisponibles": 1
 				}
+
 			],
 			"portafolio": [
 				{
@@ -53447,9 +53437,9 @@
 			]
 		},
 		{
-			"promocionID": "680614",
+			"promocionID": 680614,
 			"descripcion": "308-350+CC 12 OZ VID 24+283",
-			"tipo": "2",
+			"tipo": 2,
 			"aplicacion": "M",
 			"asignacion": "T",
 			"inicioVigenciaPromocion": "2022-01-01",
@@ -53471,7 +53461,7 @@
 							"materialesBeneficio": [350],
 							"cantidad": 1,
 							"unidadMedida": "Unidad",
-							"formaBeneficio": "4",
+							"formaBeneficio": 4,
 							"valorBeneficio": 283.0,
 							"tope": 999
 						},
@@ -53489,9 +53479,75 @@
 			]
 		},
 		{
-			"promocionID": "695263",
+			"promocionID": 680616,
+			"descripcion": "360+CC $28 desc",
+			"tipo": 1,
+			"aplicacion": "M",
+			"asignacion": "P",
+			"inicioVigenciaPromocion": "2022-01-01",
+			"finVigenciaPromocion": "2022-12-31",
+			"requisitos": [
+				{
+					"materiales": [360],
+					"cantidad": 5,
+					"unidadMedida": "Unidad"
+				}
+			],
+			"beneficios": [
+				{
+					"grupoBeneficioID": 1,
+					"descripcion": "308-1885+CC 500ML VID 24+283",
+					"secuencias": [
+						{
+							"secuencia": 1,
+							"materialesBeneficio": [360],
+							"cantidad": 5,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "3",
+							"valorBeneficio": 28.0,
+							"tope": 999
+						}
+					]
+				}
+			]
+		},
+		{
+			"promocionID": 680830,
+			"descripcion": "673+CC 1.25 15% Desc",
+			"tipo": 1,
+			"aplicacion": "M",
+			"asignacion": "P",
+			"inicioVigenciaPromocion": "2022-03-01",
+			"finVigenciaPromocion": "2022-12-31",
+			"requisitos": [
+				{
+					"materiales": [673],
+					"cantidad": 3,
+					"unidadMedida": "Unidad"
+				}
+			],
+			"beneficios": [
+				{
+					"grupoBeneficioID": 1,
+					"descripcion": "329-(673)CC 1.25 LT VID$167.3",
+					"secuencias": [
+						{
+							"secuencia": 1,
+							"materialesBeneficio": [673],
+							"cantidad": 3,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "2",
+							"valorBeneficio": 15.0,
+							"tope": 999
+						}
+					]
+				}
+			]
+		},
+		{
+			"promocionID": 695263,
 			"descripcion": "305 (570) SP DT LE Plan Cob 24",
-			"tipo": "1",
+			"tipo": 1,
 			"aplicacion": "M",
 			"asignacion": "T",
 			"inicioVigenciaPromocion": "2022-01-01",
@@ -53522,9 +53578,9 @@
 			]
 		},
 		{
-			"promocionID": "695269",
+			"promocionID": 695269,
 			"descripcion": "305 (97145) SP DT LE Plan Cob 24",
-			"tipo": "1",
+			"tipo": 1,
 			"aplicacion": "M",
 			"asignacion": "T",
 			"inicioVigenciaPromocion": "2022-01-01",
