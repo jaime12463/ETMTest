@@ -53,6 +53,7 @@ const Controles: React.FC<Props> = ({
 	const visitaActual = useObtenerVisitaActual();
 	const {infoDescuento} = stateInfoDescuento;
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
+	const [cambioValores, setCambioValores] = React.useState<boolean>(false);
 
 	const defaultValue = {
 		unidades: producto.unidades,
@@ -129,6 +130,7 @@ const Controles: React.FC<Props> = ({
 		if (puedeAgregar) {
 			agregarProductoAlPedidoActual(getValues, obtenerCalculoDescuentoProducto);
 			setPuedeAgregar(false);
+			setCambioValores(false);
 		}
 	}, [puedeAgregar]);
 
@@ -150,8 +152,10 @@ const Controles: React.FC<Props> = ({
 				})
 			);
 		}
-
-		agregarProductoAlPedidoActual(getValues, obtenerCalculoDescuentoProducto);
+		if (cambioValores) {
+			agregarProductoAlPedidoActual(getValues, obtenerCalculoDescuentoProducto);
+			setCambioValores(false);
+		}
 
 		if (producto.descuentoPolarizado) {
 			setInputFocus('descuento');
@@ -164,6 +168,7 @@ const Controles: React.FC<Props> = ({
 	const handleOnChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
+		setCambioValores(true);
 		setGetValues({
 			...getValues,
 			[e.target.name]: e.target.value.replace(/[^0-9]/g, ''),
@@ -179,10 +184,13 @@ const Controles: React.FC<Props> = ({
 		if (e.key === 'Enter') {
 			if (inputFocus === 'unidades') {
 				setInputFocus('subUnidades');
-				agregarProductoAlPedidoActual(
-					getValues,
-					obtenerCalculoDescuentoProducto
-				);
+				if (cambioValores) {
+					setCambioValores(false);
+					agregarProductoAlPedidoActual(
+						getValues,
+						obtenerCalculoDescuentoProducto
+					);
+				}
 			} else if (inputFocus === 'subUnidades') {
 				validacionSubUnidades();
 			}

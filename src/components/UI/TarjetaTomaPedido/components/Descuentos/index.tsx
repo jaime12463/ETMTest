@@ -38,6 +38,7 @@ const Descuentos: React.FC<Props> = ({
 
 	const {focusId, setFocusId} = stateFocusId;
 	const {inputFocus, setInputFocus} = stateInputFocus;
+	const [cambioValor, setCambioValor] = React.useState<boolean>(false);
 	const [inputValue, setInputValue] = React.useState<string>(
 		infoDescuento.inputPolarizado === 0
 			? ''
@@ -53,26 +54,9 @@ const Descuentos: React.FC<Props> = ({
 		}
 	}, []);
 
-	const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (Number(e.target.value) >= 0) {
-			setInputValue(e.target.value.replace(/[^0-9,.]/g, ''));
-		}
-	};
-
-	const onBlurHandler = () => {
-		obtenerCalculoDescuentoProducto(
-			{
-				inputPolarizado: Number(inputValue),
-				unidades: 0,
-				subUnidades: 0,
-			},
-			stateInfoDescuento
-		);
-		setInputFocus('productoABuscar');
-	};
-
-	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
-		if (e.key === 'Enter') {
+	const obtenerDescuento = () => {
+		if (cambioValor) {
+			setCambioValor(false);
 			obtenerCalculoDescuentoProducto(
 				{
 					inputPolarizado: Number(inputValue),
@@ -81,7 +65,22 @@ const Descuentos: React.FC<Props> = ({
 				},
 				stateInfoDescuento
 			);
-			setInputFocus('productoABuscar');
+		}
+		setInputFocus('productoABuscar');
+	};
+
+	const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (Number(e.target.value) >= 0) {
+			setInputValue(e.target.value.replace(/[^0-9,.]/g, ''));
+			setCambioValor(true);
+		}
+	};
+
+	const onBlurHandler = () => obtenerDescuento();
+
+	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+		if (e.key === 'Enter') {
+			obtenerDescuento();
 		}
 	};
 
