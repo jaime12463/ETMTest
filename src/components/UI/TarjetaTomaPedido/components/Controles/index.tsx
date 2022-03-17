@@ -105,7 +105,7 @@ const Controles: React.FC<Props> = ({
 
 	React.useEffect(() => {
 		if (
-			infoDescuento.porcentajeDescuento > 0 &&
+			infoDescuento.porcentajeDescuento !== null &&
 			focusId === producto.codigoProducto
 		) {
 			if (getValues.unidades > 0 || getValues.subUnidades > 0) {
