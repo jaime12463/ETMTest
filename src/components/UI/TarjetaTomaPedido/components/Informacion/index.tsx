@@ -98,7 +98,7 @@ const Informacion: React.FC<Props> = ({
 	const eliminarDescuento = () => {
 		setInfoDescuento({
 			tipo: ETipoDescuento.eliminado,
-			porcentajeDescuento: 0,
+			porcentajeDescuento: null,
 			inputPolarizado: 0,
 			codigoDescuento: '',
 		});
@@ -121,7 +121,8 @@ const Informacion: React.FC<Props> = ({
 
 	React.useEffect(() => {
 		if (
-			infoDescuento.porcentajeDescuento > 0 ||
+			(infoDescuento.porcentajeDescuento !== null &&
+				infoDescuento.porcentajeDescuento > 0) ||
 			infoDescuento.tipo === ETipoDescuento.automatico
 		) {
 			if (

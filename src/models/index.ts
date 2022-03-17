@@ -71,7 +71,7 @@ export type THeader = {
 
 export interface TInfoDescuentos {
 	tipo: ETipoDescuento | undefined;
-	porcentajeDescuento: number;
+	porcentajeDescuento: number | null;
 	inputPolarizado: number;
 	codigoDescuento?: string;
 }
@@ -94,7 +94,7 @@ export type TEnvases = {
 	tipoEnvase: string;
 	unidades: 0;
 	subUnidades: 0;
-};
+}
 
 //Estados
 
