@@ -72,7 +72,11 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 
 	const [infoDescuento, setInfoDescuento] = React.useState<TInfoDescuentos>({
 		tipo: productoAMandar.descuento?.tipo,
-		porcentajeDescuento: 0,
+		porcentajeDescuento:
+			productoAMandar.descuento &&
+			productoAMandar.descuento?.porcentajeDescuento > 0
+				? productoAMandar.descuento?.porcentajeDescuento
+				: 0,
 		inputPolarizado: productoAMandar.descuento?.inputPolarizado ?? 0,
 	});
 

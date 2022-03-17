@@ -199,6 +199,8 @@ export const useAgregarProductoAlPedidoActual = (
 						? infoBeneficio.cantidad ?? 0
 						: 0);
 
+			console.log({infoDescuento});
+
 			dispatch(
 				agregarProductoDelPedidoActual({
 					productoPedido: {
