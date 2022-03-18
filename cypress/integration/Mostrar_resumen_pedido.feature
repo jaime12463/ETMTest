@@ -13,9 +13,13 @@ Escenario: N°1 - Sección de condiciones de pago
     Entonces el sistema mostrará dentro de la sección de condición de pago correspondiente un listado de los productos ingresados 
     Y que no son beneficios de promociones ongoing aplicadas
     Y separados por _tipoPedido que esValorizado = true
-    Y por condición de pago, indicando código de producto, nombre
-    Y cantidad de producto no beneficiado por promociones ongoing aplicadas
-    Y precio con impuestos unidades, precio con impuestos subunidad, subtotal como la suma de el precio con impuesto unidades por la cantidad de unidades del producto ingresadas al pedido más, el precio con impuesto subunidades por la cantidad de subunidades del producto ingresadas al pedido 
+    Y por condición de pago, indicando código de producto, nombre, atributos, icono correspondiente a unidades
+    Y mostrará la presentación del producto
+    Y el precio unitario con impuestos unidades, precio unitario con impuestos subunidad
+    Y la cantidad de producto ingresado al pedido de venta no beneficiado por promociones ongoing aplicadas
+    Y mostrará el subtotal unidades como el precio unitario unidad * cantidad unidades
+    Y mostrará el subtotal subunidades como el precio unitario subunidad * cantidad subunidades
+    Y el subtotal del producto como la suma del subtotal unidades y del subtotal subunidades  
     Y ordenados por código de producto
     
 Escenario: N°2 - Promo push según condiciones de pago
