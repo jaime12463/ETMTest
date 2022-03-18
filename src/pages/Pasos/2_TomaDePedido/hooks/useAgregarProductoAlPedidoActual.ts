@@ -163,9 +163,11 @@ export const useAgregarProductoAlPedidoActual = (
 						!productoActual.descuento?.tipo ||
 						productoActual.descuento?.tipo !== ETipoDescuento.escalonado
 					) {
+						console.log('antes de la actualizacion', preciosPromo);
 						preciosPromo.unidad -= infoBeneficio.valorBeneficio;
 						preciosPromo.subUnidad =
 							preciosPromo.unidad / productoActual.presentacion;
+						console.log('despues de la actualizacion', preciosPromo);
 					}
 				}
 
@@ -190,6 +192,8 @@ export const useAgregarProductoAlPedidoActual = (
 					infoBeneficio.formaBeneficio !== EFormaBeneficio.Obsequio
 						? infoBeneficio.cantidad ?? 0
 						: 0);
+
+			console.log(precioFinalUnidad);
 
 			const precioFinalSubUnidad =
 				preciosNeto.subUnidad * subUnidadesSinPromoOngoing +

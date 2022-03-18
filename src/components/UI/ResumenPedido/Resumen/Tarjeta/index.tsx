@@ -46,8 +46,8 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 	}
 
 	let precioFinal =
-		producto.preciosNeto.unidad * unidadesFinales +
-		producto.preciosNeto.subUnidad * subUnidadesFinales;
+		producto.precioConImpuestoUnidad * unidadesFinales +
+		producto.precioConImpuestoSubunidad * subUnidadesFinales;
 
 	const {envases, medidas} = useObtenerDatos();
 

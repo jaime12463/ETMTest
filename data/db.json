@@ -4880,7 +4880,6 @@
 				"cantidadMaximaUnidades": 999
 			},
 			"promocionesHabilitadas": [
-				
 				{
 					"idPromocion": 680616,
 					"promocionesDisponibles": 1
@@ -4889,7 +4888,6 @@
 					"idPromocion": 685233,
 					"promocionesDisponibles": 1
 				}
-
 			],
 			"portafolio": [
 				{
@@ -5113,9 +5111,9 @@
 							"vigenciaFinPrecio": "2017-09-31"
 						},
 						{
-							"precioConImpuestoUnidad": 24,
+							"precioConImpuestoUnidad": 328,
 							"precioConImpuestoSubunidad": 2,
-							"precioSinImpuestoUnidad": 24,
+							"precioSinImpuestoUnidad": 328,
 							"precioSinImpuestoSubunidad": 2,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
