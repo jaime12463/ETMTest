@@ -3,7 +3,12 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {CajaIcon, PromocionColor} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
-import {ETipoDescuento, TInfoDescuentos, TProductoPedido} from 'models';
+import {
+	EFormaBeneficio,
+	ETipoDescuento,
+	TInfoDescuentos,
+	TProductoPedido,
+} from 'models';
 import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularPruductoEnPromoOnGoing';
 
 interface Props {
@@ -14,10 +19,14 @@ interface Props {
 
 const PromoOngoing: React.FC<Props> = ({
 	infoDescuento,
-	infoBeneficio: {cantidad},
-	producto: {unidades},
+	infoBeneficio: {cantidad, formaBeneficio},
+	producto: {unidades, preciosBase, preciosNeto},
 }) => {
 	const {t} = useTranslation();
+
+	const hayDescuentoAplicado =
+		preciosBase.unidad === preciosNeto.unidad &&
+		preciosBase.subUnidad === preciosNeto.subUnidad;
 
 	const tipoDescuento =
 		infoDescuento.tipo === ETipoDescuento.automatico
@@ -30,7 +39,7 @@ const PromoOngoing: React.FC<Props> = ({
 
 	return (
 		<>
-			{cantidad > 0 && (
+			{cantidad > 0 && formaBeneficio !== EFormaBeneficio.Obsequio && (
 				<Box
 					alignItems='center'
 					display='flex'
@@ -46,7 +55,8 @@ const PromoOngoing: React.FC<Props> = ({
 				>
 					{cantidad === unidades &&
 					(tipoDescuento !== '' ||
-						tipoDescuento === t('descuentos.escalonado')) ? (
+						tipoDescuento === t('descuentos.escalonado')) &&
+					!hayDescuentoAplicado ? (
 						<>
 							<PromocionColor height='18px' width='18px' />
 							<Typography variant='caption' color='primary'>

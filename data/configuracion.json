@@ -4,7 +4,7 @@
 		"esFrecuenciaAbierta": true,
 		"habilitaOrdenDeCompra": true,
 		"bonificacionesConVenta": true,
-		"habilitaCompromisoDeCobro": false,
+		"habilitaCompromisoDeCobro": true,
 		"tipoPedidoEnvasesHabilitados": ["VentaEnvase", "PrestamoEnvase"],
 		"tipoPedidos": [
 			{

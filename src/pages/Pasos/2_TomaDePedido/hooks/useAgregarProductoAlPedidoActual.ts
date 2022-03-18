@@ -145,9 +145,12 @@ export const useAgregarProductoAlPedidoActual = (
 				if (
 					infoBeneficio.formaBeneficio === EFormaBeneficio.DescuentoPorcentaje
 				) {
-					// Si el descuento del producto es tipo polarizado o automático
+					// Si el descuento del producto es tipo polarizado || automático || no tiene descuento
 					if (
-						!productoActual.descuento?.tipo ||
+						(productoActual.precioConImpuestoUnidad ===
+							productoActual.preciosNeto.unidad &&
+							productoActual.precioConImpuestoSubunidad ===
+								productoActual.preciosNeto.subUnidad) ||
 						productoActual.descuento?.tipo !== ETipoDescuento.escalonado
 					) {
 						preciosPromo.unidad *= (100 - infoBeneficio.valorBeneficio) / 100;
@@ -158,24 +161,28 @@ export const useAgregarProductoAlPedidoActual = (
 
 				// Si el descuento de promoOngoin es descuento monto
 				if (infoBeneficio.formaBeneficio === EFormaBeneficio.DescuentoMonto) {
-					// Si el descuento del producto es tipo polarizado o automático
+					// Si el descuento del producto es tipo polarizado || automático || no tiene descuento
 					if (
-						!productoActual.descuento?.tipo ||
+						(productoActual.precioConImpuestoUnidad ===
+							productoActual.preciosNeto.unidad &&
+							productoActual.precioConImpuestoSubunidad ===
+								productoActual.preciosNeto.subUnidad) ||
 						productoActual.descuento?.tipo !== ETipoDescuento.escalonado
 					) {
-						console.log('antes de la actualizacion', preciosPromo);
 						preciosPromo.unidad -= infoBeneficio.valorBeneficio;
 						preciosPromo.subUnidad =
 							preciosPromo.unidad / productoActual.presentacion;
-						console.log('despues de la actualizacion', preciosPromo);
 					}
 				}
 
 				// Si el descuento de promoOngoin es precio recupero
 				if (infoBeneficio.formaBeneficio === EFormaBeneficio.Precio) {
-					// Si el descuento del producto es tipo polarizado o automático
+					// Si el descuento del producto es tipo polarizado || automático || no tiene descuento
 					if (
-						!productoActual.descuento?.tipo ||
+						(productoActual.precioConImpuestoUnidad ===
+							productoActual.preciosNeto.unidad &&
+							productoActual.precioConImpuestoSubunidad ===
+								productoActual.preciosNeto.subUnidad) ||
 						productoActual.descuento?.tipo !== ETipoDescuento.escalonado
 					) {
 						preciosPromo.unidad = infoBeneficio.valorBeneficio;
@@ -193,8 +200,6 @@ export const useAgregarProductoAlPedidoActual = (
 						? infoBeneficio.cantidad ?? 0
 						: 0);
 
-			console.log(precioFinalUnidad);
-
 			const precioFinalSubUnidad =
 				preciosNeto.subUnidad * subUnidadesSinPromoOngoing +
 				preciosPromo.subUnidad *
@@ -202,8 +207,6 @@ export const useAgregarProductoAlPedidoActual = (
 					infoBeneficio.formaBeneficio !== EFormaBeneficio.Obsequio
 						? infoBeneficio.cantidad ?? 0
 						: 0);
-
-			console.log({infoDescuento});
 
 			dispatch(
 				agregarProductoDelPedidoActual({

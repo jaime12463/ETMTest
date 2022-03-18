@@ -5112,9 +5112,9 @@
 						},
 						{
 							"precioConImpuestoUnidad": 328,
-							"precioConImpuestoSubunidad": 2,
+							"precioConImpuestoSubunidad": 13.67,
 							"precioSinImpuestoUnidad": 328,
-							"precioSinImpuestoSubunidad": 2,
+							"precioSinImpuestoSubunidad": 13.67,
 							"vigenciaInicioPrecio": "2017-10-01",
 							"vigenciaFinPrecio": "9999-12-31"
 						}

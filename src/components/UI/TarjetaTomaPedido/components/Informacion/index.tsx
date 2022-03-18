@@ -1,5 +1,10 @@
 import React from 'react';
-import {ETipoDescuento, TProductoPedido, TStateInfoDescuentos} from 'models';
+import {
+	EFormaBeneficio,
+	ETipoDescuento,
+	TProductoPedido,
+	TStateInfoDescuentos,
+} from 'models';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {styled} from '@mui/material/styles';
@@ -53,7 +58,7 @@ const Informacion: React.FC<Props> = ({
 	stateInfoDescuento,
 	stateAviso,
 	obtenerCalculoDescuentoProducto,
-	infoBeneficio: {cantidad},
+	infoBeneficio: {cantidad, formaBeneficio},
 }) => {
 	const {t} = useTranslation();
 
@@ -156,6 +161,8 @@ const Informacion: React.FC<Props> = ({
 			padding={
 				conSwitch && (cantidad === 0 || !cantidad)
 					? '10px 0 12px 14px'
+					: formaBeneficio === EFormaBeneficio.Obsequio
+					? '12px 0 12px 14px'
 					: cantidad !== unidades &&
 					  tipoDescuento === t('descuentos.polarizado')
 					? '12px 0 12px 14px'

@@ -75,6 +75,8 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 	let totalContado = 0;
 	let totalCredito = 0;
 
+	totalContado += compromisoDeCobro.monto > 0 ? compromisoDeCobro.monto : 0;
+
 	const [ventaCredito, ventaContado, promocionesCredito, promocionesContado] =
 		venta?.productos.reduce(
 			(acc, producto) => {
