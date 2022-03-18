@@ -67,7 +67,6 @@ export const DrawerPromociones: React.FC<Props> = ({
 		false
 	);
 
-	console.log(promocionesOingoing);
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(
