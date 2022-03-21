@@ -752,40 +752,46 @@ const TarjetaIniciativas: React.FC<Props> = ({
 									)}
 
 									<Box display='flex' alignItems='center' gap='4px'>
-										<CajaIcon height='18px' width='18px' />
-										<Typography
-											variant='caption'
-											data-cy={`iniciativa-presentacion-${idMaterialIniciativa}`}
-										>
-											x{producto.presentacion}
-										</Typography>
-										<Typography
-											variant='subtitle3'
-											data-cy={`iniciativa-precioUnidad-${idMaterialIniciativa}`}
-										>
-											{formatearNumero(producto.precioConImpuestoUnidad, t)}
-										</Typography>
-										<BotellaIcon
-											height='15px'
-											width='15px'
-											style={{marginLeft: '2px'}}
-										/>
-										<Typography
-											variant='subtitle3'
-											data-cy={`iniciativa-precioSubunidad-${idMaterialIniciativa}`}
-										>
-											{formatearNumero(producto.precioConImpuestoSubunidad, t)}
-										</Typography>
+										<Box alignItems='center' display='flex' gap='2px'>
+											<CajaIcon height='18px' width='18px' />
+											<Typography
+												variant='caption'
+												color='secondary'
+												data-cy={`iniciativa-presentacion-${idMaterialIniciativa}`}
+											>
+												x{producto.presentacion}
+											</Typography>
+											<Typography
+												variant='subtitle3'
+												data-cy={`iniciativa-precioUnidad-${idMaterialIniciativa}`}
+											>
+												{formatearNumero(producto.precioConImpuestoUnidad, t)}
+											</Typography>
+										</Box>
+										{producto.esVentaSubunidades && (
+											<Box alignItems='center' display='flex' gap='2px'>
+												<BotellaIcon height='15px' width='15px' />
+												<Typography
+													variant='subtitle3'
+													data-cy={`iniciativa-precioSubunidad-${idMaterialIniciativa}`}
+												>
+													{formatearNumero(
+														producto.precioConImpuestoSubunidad,
+														t
+													)}
+												</Typography>
+											</Box>
+										)}
 									</Box>
 								</Box>
 
 								<Box
 									display='flex'
 									alignItems='center'
-									justifyContent='center'
 									flexDirection='column'
 									gap='12px'
 									padding='22px 12px 16px 8px'
+									alignSelf='stretch'
 									minWidth='125px'
 									sx={{background: '#F5F0EF'}}
 								>

@@ -108,11 +108,6 @@ const Producto: React.FC<Props> = ({
 
 	const mostrarAviso = useMostrarAviso();
 
-	// const classes = useEstilos({
-	// 	estado: estadoSelect,
-	// 	inputsBloqueados: visitaActual.pasoATomaPedido,
-	// });
-
 	const dispatch = useAppDispatch();
 
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
@@ -258,17 +253,17 @@ const Producto: React.FC<Props> = ({
 						>
 							{formatearNumero(producto.precioConImpuestoUnidad, t)}
 						</Typography>
-						<BotellaIcon
-							height='15px'
-							width='15px'
-							style={{marginLeft: '2px'}}
-						/>
-						<Typography
-							variant='subtitle3'
-							data-cy={`iniciativa-precioSubunidad-${idMaterialIniciativa}`}
-						>
-							{formatearNumero(producto.precioConImpuestoSubunidad, t)}
-						</Typography>
+						{producto.esVentaSubunidades && (
+							<Box alignItems='center' display='flex' gap='2px'>
+								<BotellaIcon height='15px' width='15px' />
+								<Typography
+									variant='subtitle3'
+									data-cy={`iniciativa-precioSubunidad-${idMaterialIniciativa}`}
+								>
+									{formatearNumero(producto.precioConImpuestoSubunidad, t)}
+								</Typography>
+							</Box>
+						)}
 					</Box>
 				</Box>
 

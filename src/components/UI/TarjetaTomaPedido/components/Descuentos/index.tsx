@@ -96,15 +96,13 @@ const Descuentos: React.FC<Props> = ({
 	return (
 		<Box display='flex' flexDirection='column'>
 			<Box
-				marginBottom={
-					mostrarInputPolarizado && (cantidad === 0 || !cantidad) ? '12px' : '0'
-				}
+				marginBottom={mostrarInputPolarizado && !cantidad ? '12px' : '0'}
 				sx={{
 					opacity: mostrarInputPolarizado ? 1 : 0,
 					transition: 'opacity 0.3s ease-in-out',
 				}}
 			>
-				{mostrarInputPolarizado && cantidad !== producto.unidades && (
+				{mostrarInputPolarizado && (
 					<InputConIcono
 						onBlur={onBlurHandler}
 						valid={false}

@@ -37,6 +37,12 @@ const PromoOngoing: React.FC<Props> = ({
 			? t('descuentos.escalonado')
 			: '';
 
+	console.log(
+		// cantidad === unidades &&
+		tipoDescuento !== t('descuentos.polarizado')
+		// &&	!hayDescuentoAplicado
+	);
+
 	return (
 		<>
 			{cantidad > 0 && formaBeneficio !== EFormaBeneficio.Obsequio && (
@@ -44,8 +50,7 @@ const PromoOngoing: React.FC<Props> = ({
 					alignItems='center'
 					display='flex'
 					padding={
-						tipoDescuento === t('descuentos.polarizado') &&
-						cantidad !== unidades
+						tipoDescuento === t('descuentos.polarizado')
 							? '8px 14px'
 							: cantidad && cantidad === unidades
 							? '8px 14px 12px 14px'
@@ -54,8 +59,7 @@ const PromoOngoing: React.FC<Props> = ({
 					gap='4px'
 				>
 					{cantidad === unidades &&
-					(tipoDescuento !== '' ||
-						tipoDescuento === t('descuentos.escalonado')) &&
+					tipoDescuento !== t('descuentos.polarizado') &&
 					!hayDescuentoAplicado ? (
 						<>
 							<PromocionColor height='18px' width='18px' />
