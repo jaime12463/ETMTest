@@ -288,9 +288,11 @@ const TomaPedido: React.FC = () => {
 					display='flex'
 					justifyContent='space-between'
 					margin={
-						openTooltip && venta.productos.length > 0
+						openTooltip
 							? '18px 0 45px 0'
-							: '18px 0'
+							: venta.productos.length > 0
+							? '18px 0 28px 0'
+							: '18px 0 0 0'
 					}
 					paddingLeft='18px'
 				>

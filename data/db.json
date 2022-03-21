@@ -4887,6 +4887,14 @@
 				{
 					"idPromocion": 685233,
 					"promocionesDisponibles": 1
+				},
+				{
+					"idPromocion": 680614,
+					"promocionesDisponibles": 1
+				},
+				{
+					"idPromocion": 680420,
+					"promocionesDisponibles": 1
 				}
 			],
 			"portafolio": [
@@ -53436,40 +53444,64 @@
 		},
 		{
 			"promocionID": 680614,
-			"descripcion": "308-350+CC 12 OZ VID 24+283",
-			"tipo": 2,
+			"descripcion": "360+CC $28 desc",
+			"tipo": 1,
 			"aplicacion": "M",
-			"asignacion": "T",
+			"asignacion": "P",
 			"inicioVigenciaPromocion": "2022-01-01",
 			"finVigenciaPromocion": "2022-12-31",
 			"requisitos": [
 				{
-					"materiales": [350],
-					"cantidad": 1,
+					"materiales": [340],
+					"cantidad": 5,
 					"unidadMedida": "Unidad"
 				}
 			],
 			"beneficios": [
 				{
 					"grupoBeneficioID": 1,
-					"descripcion": "308-350+CC 12 OZ VID 24+283",
+					"descripcion": "308-1885+CC 500ML VID 24+283",
 					"secuencias": [
 						{
 							"secuencia": 1,
-							"materialesBeneficio": [350],
-							"cantidad": 1,
+							"materialesBeneficio": [340],
+							"cantidad": 5,
 							"unidadMedida": "Unidad",
-							"formaBeneficio": 4,
-							"valorBeneficio": 283.0,
+							"formaBeneficio": "2",
+							"valorBeneficio": 28.0,
 							"tope": 999
-						},
+						}
+					]
+				}
+			]
+		},
+		{
+			"promocionID": 680420,
+			"descripcion": "360+CC $28 desc",
+			"tipo": 1,
+			"aplicacion": "M",
+			"asignacion": "P",
+			"inicioVigenciaPromocion": "2022-01-01",
+			"finVigenciaPromocion": "2022-12-31",
+			"requisitos": [
+				{
+					"materiales": [420],
+					"cantidad": 5,
+					"unidadMedida": "Unidad"
+				}
+			],
+			"beneficios": [
+				{
+					"grupoBeneficioID": 1,
+					"descripcion": "308-1885+CC 500ML VID 24+283",
+					"secuencias": [
 						{
-							"secuencia": 2,
-							"materialesBeneficio": [170456],
-							"cantidad": 1,
+							"secuencia": 1,
+							"materialesBeneficio": [420],
+							"cantidad": 5,
 							"unidadMedida": "Unidad",
-							"formaBeneficio": "1",
-							"valorBeneficio": 100.0,
+							"formaBeneficio": "4",
+							"valorBeneficio": 28.0,
 							"tope": 999
 						}
 					]
