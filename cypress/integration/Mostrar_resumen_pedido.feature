@@ -13,9 +13,14 @@ Escenario: N°1 - Sección de condiciones de pago
     Entonces el sistema mostrará dentro de la sección de condición de pago correspondiente un listado de los productos ingresados 
     Y que no son beneficios de promociones ongoing aplicadas
     Y separados por _tipoPedido que esValorizado = true
-    Y por condición de pago, indicando código de producto, nombre
-    Y cantidad de producto no beneficiado por promociones ongoing aplicadas
-    Y precio unidades, precio subunidad, subtotal del producto ordenados por código de producto
+    Y por condición de pago, indicando código de producto, nombre, atributos, icono correspondiente a unidades
+    Y mostrará la presentación del producto
+    Y el precio unitario con impuestos unidades, precio unitario con impuestos subunidad
+    Y la cantidad de producto ingresado al pedido de venta no beneficiado por promociones ongoing aplicadas
+    Y mostrará el subtotal unidades como el precio unitario unidad * cantidad unidades
+    Y mostrará el subtotal subunidades como el precio unitario subunidad * cantidad subunidades
+    Y el subtotal del producto como la suma del subtotal unidades y del subtotal subunidades  
+    Y ordenados por código de producto
     
 Escenario: N°2 - Promo push según condiciones de pago
     Dado que estoy en un cliente 
@@ -62,11 +67,12 @@ Escenario: N°7 - Mostrar los totales al pié del resumen
     Dado que estoy en un cliente
     Cuando selecciono ver resumen del pedido
     Entonces el sistema mostrará al final del resumen los totales de contado, crédito y descuentos
-    Y siendo contado = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago contado más el compromiso de cobro,
-    Y crédito = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago crédito,
-    Y descuentos = a la suma de los descuentos de cada producto de los tipos de pedidos valorizados de ambas condiciones de pago.
+    Y siendo total contado = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago contado más el compromiso de cobro, menos la suma de los descuentos de cada producto a contado
+    Y total crédito = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago crédito, menos la suma de los descuentos de cada producto a crédto
+    Y total ahorro = a la suma de los descuentos de cada producto de ambas condiciones de pago.
 
- # Si el producto en el peddo guardado tiene informado precioConDescuentoUnidad y precioConDescuentoSubunidad, el descuento se calcula = precioConImpuestoUnidad - precioConDescuentoUnidad y precioConImpuestoSubunidad - precioConDescuentoSubunidad   
+ # Descuentos: son los montos de ahorro obtenidos por descuento escalonado, descuento polarizado, descuento automático y descuentos otenidos por promociones ongoing aplicadas
+
 
 Escenario: N°8 - Mostrar en el resumen las secciones
     Dado que estoy en un cliente

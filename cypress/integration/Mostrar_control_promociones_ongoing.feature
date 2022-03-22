@@ -40,7 +40,26 @@ Escenario: N°5 - Mostrar notificacion de cálculo de promociones
     Cuando se modifica el pedido
     Entonces el sistema mostrará un control tooltip indicando que las promociones disponibles podrían haber cambiado
 
-#Se considera modificado el pedido cuando:
-# se cambia la condición de pago del pedido y al menos un producto no sea promo push
-# se cambia la condición de pago de 1 producto que no sea promo push
-# se agrega/modifican cantidades/borra un producto en el pedido que no sea promo push
+#Se considera modificado el pedido:
+# Cuando se cambia la condición de pago de un producto que 
+# no tiene descuento automático ni tiene descuento escalonado 
+# o tiene descuento automático y por configuración no se excluye 
+# como requisito a los productos con desc. automático; 
+# Se reinician las promociones para las dos condiciones de pago.
+# 
+# Cuando se agrega/modifica cantidad/borra un producto que 
+# no tiene descuento automático ni tiene descuento escalonado 
+# o tiene descuento automático y por configuración no se excluye 
+# como requisito a los productos con desc. automático; 
+# Solo se recalculan las promociones correspondientes a la condición de pago del producto. 
+#
+# Cuando a un producto con descuento escalonado 
+# se le quita el descuento, manualmente o porque se modificó la cantidad 
+# de unidades y ya no entra en ningún rango; 
+# Este producto comenzaría a jugar como requisito entonces se 
+# tienen que reiniciar las promociones de su condición de pago
+#
+# Cuando a un producto con descuento escalonado cuyas unidades no entraban 
+# en ningún rango pero se modifica la cantidad y obtiene un descuento escalonado; 
+# Este producto dejaría de jugar como requisito entonces se tienen 
+# que reiniciar las promociones de su condición de pago

@@ -137,6 +137,7 @@ Escenario: N°12 - El producto tiene descuento automático
 
 # al guardar, se guardan todos los precios para luego calcular el ahorro.
 
+
 Esquema del escenario: N°13 - El total del producto vendido con descuento se encuentra beneficiado por promocion ongoing
     Dado que se ingreso un producto al pedido
     Y el producto tenía aplicado un descuento '<descuento>'
@@ -149,10 +150,9 @@ Esquema del escenario: N°13 - El total del producto vendido con descuento se en
 
 Ejemplos:
 |descuento          |leyenda                                                                       |
-| escalonado        | El descuento escalonado del X% ha sido sustituido por una promoción ongoing  |
 | automático        | El descuento automático ha sido sustituido por una promoción ongoing         |
-| polarizado        | El descuento polarizado ha sido sustituido por una promoción ongoing         |
 
+#solo descuento automatico
 
 Esquema del escenario: N°14 - No toda la cantidad del producto vendido con descuento se encuentra beneficiado por promocion ongoing
     Dado que se ingreso un producto al pedido
@@ -166,16 +166,22 @@ Esquema del escenario: N°14 - No toda la cantidad del producto vendido con desc
 
 Ejemplos:
 |descuento | tipoDescuento                 |
-|escalonado| descuento escalonado aplicado |
 |automático| descuento automático aplicado |
-|polarizado| descuento polarizado aplicado |
 
-Escenario: N°15 - El producto vendido sin descuentos se encuentra beneficiado por promocion ongoing
+#solo descuento automático
+
+Escenario: N°15 - El producto vendido se encuentra beneficiado por promocion ongoing
     Dado que se ingreso un producto al pedido
-    Y el producto no tenía descuento
     Y se aplicaron promociones ongoing que otorgaron como beneficio cantidad igual o menor a la ingresada del producto
     Cuando se muestra la tarjeta del producto
     Entonces el sistema mostrará la tarjeta del producto 
     Y mostrará la cantidad otorgada de beneficio
     Y mostrará la unidad de medida del beneficio
     Y mostrará la leyenda "Viene con promoción ongoing"
+
+#escenario 15 incluye productos con descuento polarizado
+
+#descuento escalonado y polarizado no se toma en cuenta para promociones ongoing.
+#descuento automático puede tener promoción ongoing.
+
+
