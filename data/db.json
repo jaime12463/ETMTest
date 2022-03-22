@@ -53386,7 +53386,7 @@
 			"finVigenciaPromocion": "2022-12-31",
 			"requisitos": [
 				{
-					"materiales": [353, 354, 360, 386, 389, 440, 513, 97151, 420],
+					"materiales": [353, 354, 360, 386, 389, 440, 513, 97151],
 					"cantidad": 5,
 					"unidadMedida": "Unidad"
 				}
@@ -53444,7 +53444,7 @@
 		},
 		{
 			"promocionID": 680614,
-			"descripcion": "360+CC $28 desc",
+			"descripcion": "340+CC $28 desc",
 			"tipo": 1,
 			"aplicacion": "M",
 			"asignacion": "P",
@@ -53477,7 +53477,7 @@
 		},
 		{
 			"promocionID": 680420,
-			"descripcion": "360+CC $28 desc",
+			"descripcion": "420+CC $28 desc",
 			"tipo": 1,
 			"aplicacion": "M",
 			"asignacion": "P",
