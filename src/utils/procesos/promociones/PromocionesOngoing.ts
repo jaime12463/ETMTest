@@ -12,6 +12,7 @@ import {
 	EFormaBeneficio,
 	EFormaDeAplicacion,
 	EFormaDeAsignacion,
+	ETipoDescuento,
 	TPromoOngoingHabilitadas,
 	TPromoOngoingAplicadas,
 	TCodigoCantidad,
@@ -130,9 +131,9 @@ export class PromocionesOngoing {
 		if (!PromocionesOngoing.instance) {
 			PromocionesOngoing.instance = new PromocionesOngoing();
 		}
-		console.log(
-			`Recuperando instancia del motor de promociones para el cliente: ${PromocionesOngoing.instance._cliente?.codigoCliente}`
-		);
+		// console.log(
+		// 	`Recuperando instancia del motor de promociones para el cliente: ${PromocionesOngoing.instance._cliente?.codigoCliente}`
+		// );
 		return PromocionesOngoing.instance;
 	}
 
@@ -335,7 +336,7 @@ export class PromocionesOngoing {
 				promosAplicables: [],
 				indiceProductosxPromosManuales: {},
 			};
-
+		// se verifican las promociones ordenadas por Aplicación + promocionID (primero las (A)utomáticas luego las (M)anuales)
 		for (let clave of this.listaPromocionesVigentes.indexPorTipoId) {
 			const claveAplicacion = clave.substring(0, 1);
 			const promocionID = clave.replace(claveAplicacion, '');
@@ -363,6 +364,8 @@ export class PromocionesOngoing {
 						productosUsadosEnOtrasPromosAutomaticas
 					);
 
+				if (materialesVerificados.multiplo < 1) continue;
+
 				materialesRequisitosVerificados.push(materialesVerificados);
 
 				multiplo.push(materialesVerificados.multiplo);
@@ -371,10 +374,11 @@ export class PromocionesOngoing {
 					conector = promo.requisitos[i].conector?.toUpperCase();
 			}
 			/** Analisis según conector                         ----------------AND----------------------    ----------------------OR-----------------*/
-			const sonValidosLosRequisitos =
-				conector == 'Y'
-					? multiplo.every((requisito) => requisito > 0)
-					: multiplo.some((requisito) => requisito > 0);
+			const sonValidosLosRequisitos =	(multiplo.length==0) 
+											? false
+											: (conector == 'Y')
+																? multiplo.every((requisito) => requisito > 0) 
+																: multiplo.some((requisito) => requisito > 0);
 			const topeSegunMultiplo: number = Math.min(...multiplo);
 			if (sonValidosLosRequisitos) {
 				// verificar si el grupo de beneficios se puede aplicar
@@ -438,7 +442,7 @@ export class PromocionesOngoing {
 	 * Retorna la lista de materiales (productos) intervinientes y la cantidad de veces que se cumple el requisito, en función de los materiales (productos) del requisito
 	 * @constructor
 	 * @param {TPromoOngoingRequisitos} requisito
-	 * @param {TProductosPedidoIndex} productosIndex - lista d productos distintos de promoPush y que sean de una forma de pago
+	 * @param {TProductosPedidoIndex} productosIndex - lista d productos distintos de promoPush, que no se le hayan aplicado descuentos escalonados y que sean de una forma de pago
 	 */
 	private verificarRequisito(
 		promocionID: number,
@@ -492,7 +496,6 @@ export class PromocionesOngoing {
 	): TPromoOngoingGrupoBeneficios[] {
 		let grupoBeneficiosVerificados: TPromoOngoingGrupoBeneficios[] = [];
 		grupoBeneficios.forEach((grupo: TPromoOngoingGrupoBeneficios) => {
-			
 			let secuencias: TPromoOngoingBeneficiosSecuencia[] = [];
 			let grupoValido: boolean = true;
 			// si una de las secuencia al validar materiales no queda al menos uno, el grupo se descarta
@@ -510,7 +513,7 @@ export class PromocionesOngoing {
 				});
 
 				let topeAlprimero = true; // flag para otorgar el tope al primero
-				const tope = Math.min(topeSegunMultiplo, secuencia.tope); // nuevo tope
+				const tope = Math.min(topeSegunMultiplo * secuencia.cantidad, secuencia.tope); // nuevo tope
 				if (secuencia.formaBeneficio == EFormaBeneficio.Obsequio) {
 					materialesBeneficio
 						.filter((producto: number) =>
@@ -523,26 +526,38 @@ export class PromocionesOngoing {
 							materiales.push({
 								codigo: producto,
 								cantidad: topeAlprimero ? tope : 0,
+								tope: tope,
 							});
 							topeAlprimero = false;
 						});
-				} 
-				else if ([EFormaBeneficio.DescuentoPorcentaje , EFormaBeneficio.DescuentoMonto , EFormaBeneficio.Precio].includes(secuencia.formaBeneficio))
-			    {
-					// solo se toman los productos que esten en el pedido y no hayann sido requisito de una promo aplicada
-					let auxtope=tope;
-					materialesBeneficio
-						.filter((producto: number) => productosPedidoIndex[producto] && productosUsadosEnOtrasPromos[producto]==undefined )
-						.forEach((producto) => {
-							materiales.push({
-								codigo: producto,
-								cantidad: Math.min(auxtope ,productosPedidoIndex[producto].unidades) , // Se otroga el minimo entre el resto del tope y la cantidad pedida
-							});
-							auxtope-=productosPedidoIndex[producto].unidades;
-							auxtope=(auxtope<0) ? 0: auxtope;
+				} else if (
+					[
+						EFormaBeneficio.DescuentoPorcentaje,
+						EFormaBeneficio.DescuentoMonto,
+						EFormaBeneficio.Precio,
+					].includes(secuencia.formaBeneficio)
+				) {
+					// solo se toman los productos que esten en el pedido y no hayan sido requisito de una promo aplicada
+					let auxtope = tope;
+					let auxm = materialesBeneficio.filter(
+						(producto: number) =>
+							productosPedidoIndex[producto] &&
+							productosUsadosEnOtrasPromos[producto] == undefined
+					);
+					auxm.forEach((producto) => {
+						materiales.push({
+							codigo: producto,
+							cantidad: Math.min(
+								auxtope,
+								productosPedidoIndex[producto].unidades
+							), // Se otorga el minimo entre el resto del tope y la cantidad pedida
+							tope:productosPedidoIndex[producto].unidades
 						});
+						auxtope -= productosPedidoIndex[producto].unidades;
+						auxtope = auxtope < 0 ? 0 : auxtope;
+					});
 				}
-				if (materiales.length == 0) {
+				if (materiales.length != materialesBeneficio.length) {
 					// si no se pudo validar materiales(productos) para una secuencia se descarta el grupo
 					grupoValido = false;
 					break;
@@ -575,7 +590,7 @@ export class PromocionesOngoing {
 	}
 
 	/**
-	 * Retorna un TProductosPedidoIndex con todos los productos distintos de promoPush y que sean de una forma de pago
+	 * Retorna un TProductosPedidoIndex con todos los productos distintos de promoPush, que no se le haya aplicado descuento escalonado y que sean de una forma de pago
 	 * @constructor
 	 * @param {TProductoPedido[]} productosPedidos - item's del pedido
 	 * @param {ETiposDePago} tipoPago - Contado o Crédito
@@ -590,7 +605,13 @@ export class PromocionesOngoing {
 				productosPedidoIndex: TProductosPedidoIndex,
 				producto: TProductoPedido
 			) => {
-				if (!producto.promoPush && producto.tipoPago == tipoPago) {
+				if (
+					!producto.promoPush &&
+					producto.tipoPago == tipoPago &&
+					(producto.descuento?.tipo != ETipoDescuento.escalonado ||
+						(producto.descuento?.tipo == ETipoDescuento.escalonado &&
+							producto.descuento?.porcentajeDescuento == 0))
+				) {
 					return {
 						...productosPedidoIndex,
 						[producto['codigoProducto']]: {...producto, aplicado: 0},

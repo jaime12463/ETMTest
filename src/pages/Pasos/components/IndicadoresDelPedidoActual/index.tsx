@@ -95,10 +95,12 @@ const IndicadoresDelPedidoActual = () => {
 	]);
 
 	const indicadores = [];
+
+	const disponible = datosCliente?.informacionCrediticia.disponible;
 	if (datosCliente?.informacionCrediticia.condicion !== 'contado')
 		indicadores.push({
 			titulo: t('general.creditoDisponible'),
-			valorMax: datosCliente?.informacionCrediticia.disponible,
+			valorMax: disponible === 0 ? 1 : disponible,
 			valor:
 				creditoDisponible - //error
 				(obtenerTotalPedidosVisitaActual().totalCredito.totalPrecio ?? 0),

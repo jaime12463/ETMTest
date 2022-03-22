@@ -51,11 +51,7 @@ import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoP
 import Box from '@mui/material/Box';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
-import {
-	PromocionesOngoing,
-	TPromoOngoingAplicablesResultado,
-	TPromoOngoingDisponibilidad,
-} from 'utils/procesos/promociones/PromocionesOngoing';
+import {PromocionesOngoing} from 'utils/procesos/promociones/PromocionesOngoing';
 
 import {useObtenerDatos} from 'redux/hooks';
 import DrawerBuscador from 'components/Negocio/DrawerBuscador';
@@ -98,10 +94,6 @@ const TomaPedido: React.FC = () => {
 	const [promocionesOingoing, setPromocionesOingoing] = React.useState<any>();
 	const [openDrawerPromociones, setOpenDrawerPromociones] =
 		React.useState<boolean>(false);
-
-	const [tiposPagoParaCalculo, setTiposPagoParaCalculo] = React.useState<
-		ETiposDePago[]
-	>([ETiposDePago.Contado, ETiposDePago.Credito]);
 
 	const [focusId, setFocusId] = React.useState(0);
 	const visitaActual = useObtenerVisitaActual();
@@ -150,7 +142,8 @@ const TomaPedido: React.FC = () => {
 
 	const manejadorBotonPromosOngoing = () => {
 		setOpenDrawerPromociones(true);
-
+		setFocusId(0);
+		setInputFocus('productoABuscar');
 		if (
 			visitaActual.avisos.cambioElPedidoSinPromociones.contado ||
 			visitaActual.avisos.cambioElPedidoSinPromociones.credito
@@ -181,8 +174,6 @@ const TomaPedido: React.FC = () => {
 						contado: promocionesOingoing?.contado ?? promociones.contado,
 				  })
 				: setPromocionesOingoing({...promociones});
-
-			console.log(tipos);
 
 			tipos.forEach((tipo) =>
 				dispatch(
@@ -264,6 +255,10 @@ const TomaPedido: React.FC = () => {
 								unidad: productoActual.precioConImpuestoUnidad,
 								subUnidad: productoActual.precioConImpuestoSubunidad,
 							},
+							preciosPromo: {
+								unidad: 0,
+								subUnidad: 0,
+							},
 						},
 					})
 				);
@@ -292,7 +287,13 @@ const TomaPedido: React.FC = () => {
 					alignItems='center'
 					display='flex'
 					justifyContent='space-between'
-					margin={openTooltip ? '18px 0 45px 0' : '18px 0'}
+					margin={
+						openTooltip
+							? '18px 0 45px 0'
+							: venta.productos.length > 0
+							? '18px 0 28px 0'
+							: '18px 0 0 0'
+					}
 					paddingLeft='18px'
 				>
 					<AutocompleteSeleccionarProducto

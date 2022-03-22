@@ -6,6 +6,8 @@ import {
 	TPresupuestoTipoPedidoTotal,
 	TDetalleBonificacionesCliente,
 	TAvisos,
+	ETipoDescuento,
+	TConfiguracionAgregarPedido,
 } from 'models';
 
 import {RootState} from 'redux/store';
@@ -62,8 +64,16 @@ export const visitaActualSlice = createSlice({
 		},
 		agregarProductoDelPedidoActual: (
 			state,
-			action: PayloadAction<{productoPedido: TProductoPedido}>
+			action: PayloadAction<{
+				productoPedido: TProductoPedido;
+				configuracion?: TConfiguracionAgregarPedido;
+			}>
 		) => {
+			let configDefault: TConfiguracionAgregarPedido = action.payload
+				.configuracion
+				? action.payload.configuracion
+				: {actualizaDescuento: false};
+
 			const producto = state.pedidos[state.tipoPedidoActual].productos.find(
 				(precioProducto: TProductoPedido) =>
 					precioProducto.codigoProducto ===
@@ -82,8 +92,13 @@ export const visitaActualSlice = createSlice({
 				producto.estado = action.payload.productoPedido.estado;
 				producto.preciosBase = action.payload.productoPedido.preciosBase;
 				producto.preciosNeto = action.payload.productoPedido.preciosNeto;
+				producto.preciosPromo = action.payload.productoPedido.preciosPromo;
 				producto.descuento = action.payload.productoPedido.descuento;
-				if (!producto.promoPush && state.tipoPedidoActual === 'venta') {
+				if (
+					!producto.promoPush &&
+					state.tipoPedidoActual === 'venta' &&
+					!configDefault.actualizaDescuento
+				) {
 					if (producto.tipoPago === ETiposDePago.Contado) {
 						state.avisos.cambioElPedidoSinPromociones.contado = true;
 					} else if (producto.tipoPago === ETiposDePago.Credito) {
@@ -300,7 +315,7 @@ export const visitaActualSlice = createSlice({
 				state.pedidos[state.tipoPedidoActual].productos[indexProductoPedido];
 
 			producto.descuento = {
-				tipo: 'eliminado',
+				tipo: ETipoDescuento.eliminado,
 				porcentajeDescuento: 0,
 				inputPolarizado: 0,
 			};

@@ -11,6 +11,7 @@ import {
 import {useObtenerDatosCliente} from 'hooks';
 import {TCliente} from 'models';
 import {useObtenerMontoTotalDocumentos} from 'pages/Pasos/3_Otros/CompromisoDeCobro/hooks';
+import theme from 'theme';
 
 export const CompromisoDeCobro: React.FC = () => {
 	const {t} = useTranslation();
@@ -30,7 +31,7 @@ export const CompromisoDeCobro: React.FC = () => {
 	}-${fechaDeHoy.getDate()}`;
 
 	return (
-		<Box>
+		<Box border={`1px solid ${theme.palette.secondary.main}`}>
 			<Box display='flex'>
 				<Box
 					display='flex'
@@ -71,7 +72,7 @@ export const CompromisoDeCobro: React.FC = () => {
 					</Typography>
 				</Box>
 			</Box>
-			<Divider />
+			<Divider sx={{borderColor: theme.palette.secondary.main}} />
 			<Box
 				alignItems='center'
 				display='flex'

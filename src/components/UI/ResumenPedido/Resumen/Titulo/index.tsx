@@ -6,13 +6,13 @@ import {useTranslation} from 'react-i18next';
 
 export interface TituloProps {
 	background: string;
-	bonificacion?: boolean;
+	label?: 'credito' | 'contado';
 }
 
 export const Titulo: React.FC<TituloProps> = ({
 	children,
 	background,
-	bonificacion,
+	label,
 }) => {
 	const {t} = useTranslation();
 
@@ -20,24 +20,28 @@ export const Titulo: React.FC<TituloProps> = ({
 		<Box
 			alignItems='center'
 			display='flex'
-			justifyContent='space-between'
-			padding='12px 14px'
+			padding='14px 12px'
 			sx={{background}}
+			gap='40px'
 		>
 			<Typography variant='subtitle2' color='#fff'>
 				{children}
 			</Typography>
-			{bonificacion && (
+			{label && (
 				<Typography
 					borderRadius='50px'
 					color='#fff'
 					fontFamily='Open Sans'
-					marginRight='6px'
-					padding='2px 12px'
-					sx={{background: theme.palette.info.main}}
+					padding='4px 16px'
+					sx={{
+						background:
+							label === 'credito'
+								? theme.palette.success.dark
+								: theme.palette.secondary.dark,
+					}}
 					variant='caption'
 				>
-					{t('general.productoGratis')}
+					{label === 'credito' ? t('general.credito') : t('general.contado')}
 				</Typography>
 			)}
 		</Box>

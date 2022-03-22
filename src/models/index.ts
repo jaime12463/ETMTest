@@ -70,11 +70,31 @@ export type THeader = {
 };
 
 export interface TInfoDescuentos {
-	tipo: 'escalonado' | 'polarizado' | 'automatico' | 'eliminado' | undefined;
-	porcentajeDescuento: number | null;
+	tipo: ETipoDescuento | undefined;
+	porcentajeDescuento: number;
 	inputPolarizado: number;
 	codigoDescuento?: string;
 }
+
+export enum ETipoDescuento {
+	escalonado = '1',
+	polarizado = '2',
+	automatico = '3',
+	eliminado = '4',
+}
+
+export type TRetornoEnvases = {
+	unidades: number;
+	subUnidades: number;
+	retornoUnidades: number;
+	retornorSubUnidades: number;
+};
+
+export type TEnvases = {
+	tipoEnvase: string;
+	unidades: 0;
+	subUnidades: 0;
+};
 
 //Estados
 

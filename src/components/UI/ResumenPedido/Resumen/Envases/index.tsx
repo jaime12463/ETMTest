@@ -8,7 +8,7 @@ import theme from 'theme';
 import {useObtenerDatos} from 'redux/hooks';
 
 export interface ProductoEnvases extends TProductoPedido {
-	tipo: string;
+	tipo: 'venta' | 'prestamo';
 }
 
 export interface EnvasesProps {
@@ -55,8 +55,8 @@ export const Envases: React.FC<EnvasesProps> = ({producto, retorno}) => {
 						variant='caption'
 						color={theme.palette.secondary.main}
 					>
-						{`${medidas[producto.atributos?.medida ?? 0].descripcion} | ${
-							envases[producto.atributos?.envase ?? 0].descripcion
+						{`${medidas[producto.atributos?.medida].descripcion} | ${
+							envases[producto.atributos?.envase].descripcion
 						}`}
 					</Typography>
 				)}
@@ -64,48 +64,95 @@ export const Envases: React.FC<EnvasesProps> = ({producto, retorno}) => {
 					<Box alignItems='center' display='flex' gap='4px'>
 						<CajaIcon height='14px' width='14px' />
 						{producto ? (
-							<Typography variant='subtitle3' fontFamily='Open Sans'>
-								{producto?.unidades}
+							<Typography
+								variant='caption'
+								color='secondary'
+								fontFamily='Open Sans'
+							>
+								x{producto?.presentacion}
 							</Typography>
 						) : (
-							<Typography variant='subtitle3' fontFamily='Open Sans'>
-								{retorno?.unidades}
+							<Typography
+								variant='caption'
+								color='secondary'
+								fontFamily='Open Sans'
+							>
+								x{retorno?.presentacion}
 							</Typography>
 						)}
 					</Box>
+				</Box>
+			</Box>
+			<Box
+				display='flex'
+				flexBasis='143px'
+				flexDirection='column'
+				justifyContent='space-between'
+				sx={{background: '#F5F0EF'}}
+			>
+				<Box display='flex' flexDirection='column' gap='4px' padding='8px'>
+					{(producto || retorno) && (
+						<Box alignItems='center' display='flex' gap='4px'>
+							{producto && producto.unidades > 0 ? (
+								<Typography
+									variant='caption'
+									color='secondary'
+									fontFamily='Open Sans'
+								>
+									{producto.unidades}
+								</Typography>
+							) : (
+								<Typography
+									variant='caption'
+									color='secondary'
+									fontFamily='Open Sans'
+								>
+									{retorno?.unidades}
+								</Typography>
+							)}
+							{((producto && producto?.unidades > 0) || retorno?.unidades) && (
+								<CajaIcon height='18px' width='18px' />
+							)}
+						</Box>
+					)}
 					{(producto?.esVentaSubunidades ||
 						(retorno && retorno.subUnidades > 0)) && (
 						<Box alignItems='center' display='flex' gap='4px'>
-							<BotellaIcon height='12px' width='12px' />
-							{producto ? (
-								<Typography variant='subtitle3' fontFamily='Open Sans'>
+							{producto && producto.subUnidades > 0 ? (
+								<Typography
+									variant='caption'
+									color='secondary'
+									fontFamily='Open Sans'
+								>
 									{producto?.subUnidades}
 								</Typography>
 							) : (
-								<Typography variant='subtitle3' fontFamily='Open Sans'>
+								<Typography
+									variant='caption'
+									color='secondary'
+									fontFamily='Open Sans'
+								>
 									{retorno?.subUnidades}
 								</Typography>
+							)}
+							{((producto && producto?.subUnidades > 0) ||
+								retorno?.subUnidades) && (
+								<BotellaIcon height='18px' width='18px' />
 							)}
 						</Box>
 					)}
 				</Box>
-			</Box>
-			<Box
-				alignItems='center'
-				display='flex'
-				flexBasis='143px'
-				padding='8px 14px 8px 8px'
-				sx={{background: '#F5F0EF'}}
-			>
-				<Box display='flex' flexDirection='column' gap='4px'>
-					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-						{`${t('general.tipo')}:`}
-					</Typography>
-					<Typography variant='subtitle3'>
-						{producto?.tipo === 'prestamo' && t('general.prestamo')}
-						{retorno && t('general.retorno')}
-					</Typography>
-				</Box>
+				<Typography
+					variant='subtitle3'
+					padding='8px'
+					sx={{background: '#F5F0EF', mixBlendMode: 'multiply'}}
+				>
+					{retorno
+						? t('general.retorno')
+						: producto?.tipo === 'prestamo'
+						? t('general.prestamo')
+						: t('general.venta')}
+				</Typography>
 			</Box>
 		</Box>
 	);

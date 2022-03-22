@@ -6,30 +6,18 @@ import Iniciativas from './Iniciativas';
 import {useTranslation} from 'react-i18next';
 import {
 	useAppDispatch,
-	useObtenerClienteActual,
 	useObtenerConfiguracion,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import Coberturas from './Coberturas';
-import {
-	useMostrarAviso,
-	useObtenerCoberturas,
-	useObtenerCreditoDisponible,
-	useObtenerDatosCliente,
-	useReiniciarClienteActual,
-	useResetVisitaActual,
-} from 'hooks';
+import {useObtenerCoberturas} from 'hooks';
 import {
 	cambiarSeQuedaAEditar,
 	limpiarProductosSinCantidad,
 	cambiarAvisos,
-	activarClienteBloqueado,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {TCliente, TClienteActual} from 'models';
-import {AvisoIcon} from 'assests/iconos';
 import Modal, {Configuracion} from 'components/UI/Modal';
-import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
-import {useHistory} from 'react-router-dom';
+import {useValidarClienteBloqueado} from './hooks';
 
 export const Planeacion: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
@@ -40,18 +28,9 @@ export const Planeacion: React.FC = () => {
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
 	const dispatch = useAppDispatch();
-	const {codigoCliente}: TClienteActual = useObtenerClienteActual();
-	const {obtenerDatosCliente} = useObtenerDatosCliente();
-	const creditoDisponible = useObtenerCreditoDisponible().creditoDisponible;
-	const datosCliente: TCliente | undefined = obtenerDatosCliente(codigoCliente);
-	const mostrarAviso = useMostrarAviso();
-	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const [alertaPasos, setAlertaPasos] = useState<boolean>(false);
 	const [pasoActual, setPasoActual] = useState<number>(0);
-	const reiniciarVisita = useResetVisitaActual();
-	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
-	const reiniciarClienteActual = useReiniciarClienteActual();
-	const history = useHistory();
+	const validarClienteBloqueado = useValidarClienteBloqueado();
 
 	const codigosCoberturas = coberturas.reduce(
 		(codigos: number[], cobertura) => {
@@ -130,104 +109,8 @@ export const Planeacion: React.FC = () => {
 		callbackAceptar: () => {},
 	});
 
-	const validacionClienteBloqueado = () => {
-		const esCreditoBloqueado =
-			datosCliente?.informacionCrediticia.esCreditoBloqueado;
-		const esVentaBloqueado =
-			datosCliente?.informacionCrediticia.esBloqueadoVenta;
-		const esCondicionCreditoInformal =
-			clienteActual.condicion === 'creditoInformal';
-		const esCondicionCreditoFormal =
-			clienteActual.condicion === 'creditoFormal';
-		const {habilitaCompromisoDeCobro} = configuracion;
-
-		if (esCreditoBloqueado && esCondicionCreditoInformal && !esVentaBloqueado) {
-			mostrarAviso(
-				'warning',
-				t('toast.clienteCreditoBloqueadoTitulo'),
-				t('toast.clienteCreditoBloqueadoMensaje'),
-				undefined,
-				'cliente-bloqueado'
-			);
-		}
-
-		if (
-			esCreditoBloqueado &&
-			esCondicionCreditoFormal &&
-			habilitaCompromisoDeCobro
-		) {
-			mostrarAviso(
-				'error',
-				t('toast.ventaBloqueadaTitulo'),
-				t('toast.ventaBloqueadaMensaje'),
-				undefined,
-				'cliente-bloqueado'
-			);
-			dispatch(activarClienteBloqueado());
-		}
-
-		if (
-			esCreditoBloqueado &&
-			esCondicionCreditoInformal &&
-			esVentaBloqueado &&
-			habilitaCompromisoDeCobro
-		) {
-			mostrarAviso(
-				'error',
-				t('toast.ventaBloqueadaTitulo'),
-				t('toast.ventaBloqueadaMensaje'),
-				undefined,
-				'cliente-bloqueado'
-			);
-			dispatch(activarClienteBloqueado());
-		}
-
-		if (
-			esCreditoBloqueado &&
-			esCondicionCreditoFormal &&
-			!habilitaCompromisoDeCobro
-		) {
-			setConfigAlerta({
-				titulo: t('toast.clienteBloqueadoTitulo'),
-				mensaje: t('toast.clienteBloqueadoMensaje'),
-				tituloBotonAceptar: t('general.finalizarVisita'),
-				callbackAceptar: () => {
-					reiniciarVisita();
-					reiniciarCompromisoDeCobro();
-					reiniciarClienteActual();
-					history.push('/clientes');
-				},
-				iconoMensaje: <AvisoIcon />,
-			});
-			setAlertaPasos(true);
-			dispatch(activarClienteBloqueado());
-		}
-
-		if (
-			esCreditoBloqueado &&
-			esCondicionCreditoInformal &&
-			esVentaBloqueado &&
-			!habilitaCompromisoDeCobro
-		) {
-			setConfigAlerta({
-				titulo: t('toast.clienteBloqueadoTitulo'),
-				mensaje: t('toast.clienteBloqueadoMensaje'),
-				tituloBotonAceptar: t('general.finalizarVisita'),
-				callbackAceptar: () => {
-					reiniciarVisita();
-					reiniciarCompromisoDeCobro();
-					reiniciarClienteActual();
-					history.push('/clientes');
-				},
-				iconoMensaje: <AvisoIcon />,
-			});
-			setAlertaPasos(true);
-			dispatch(activarClienteBloqueado());
-		}
-	};
-
 	useEffect(() => {
-		validacionClienteBloqueado();
+		validarClienteBloqueado(setConfigAlerta, setAlertaPasos);
 	}, []);
 
 	return (

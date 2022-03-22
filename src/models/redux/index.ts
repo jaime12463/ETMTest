@@ -142,7 +142,6 @@ export type TIniciativasCliente = {
 	idMaterialIniciativa: number;
 	unidadVentaIniciativa: number;
 	subunidadVentaIniciativa: number;
-
 	unidadesEjecutadas: number;
 	subUnidadesEjecutadas: number;
 	archivoAdjunto?: string;
@@ -202,6 +201,7 @@ export type TPedidoDelProducto = {
 	total: number;
 	preciosBase: TPreciosProductoUnidadYSubUnidad;
 	preciosNeto: TPreciosProductoUnidadYSubUnidad;
+	preciosPromo: TPreciosProductoUnidadYSubUnidad;
 	descuento?: TInfoDescuentos;
 	tipoPago: ETiposDePago;
 	catalogoMotivo: string;
@@ -240,3 +240,7 @@ export type TPedidoClienteParaEnviar = {
 	tipoPago?: ETiposDePago;
 	enviado: boolean;
 } & TPedido;
+
+export interface TConfiguracionAgregarPedido {
+	actualizaDescuento?: boolean;
+}

@@ -1,5 +1,10 @@
 import React from 'react';
-import {TProductoPedido, TStateInfoDescuentos} from 'models';
+import {
+	EFormaBeneficio,
+	ETipoDescuento,
+	TProductoPedido,
+	TStateInfoDescuentos,
+} from 'models';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {styled} from '@mui/material/styles';
@@ -17,6 +22,7 @@ import theme from 'theme';
 import {useAppDispatch, useObtenerDatos} from 'redux/hooks';
 import {borrarDescuentoDelProducto} from 'redux/features/visitaActual/visitaActualSlice';
 import {useMostrarAviso, useValidacionPermiteSubUnidades} from 'hooks';
+import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularPruductoEnPromoOnGoing';
 
 const ChipStyled = styled(Chip)(() => ({
 	'&.MuiChip-root': {
@@ -35,7 +41,15 @@ interface Props {
 	conSwitch?: boolean;
 	stateAviso: any;
 	stateInfoDescuento: TStateInfoDescuentos;
-	obtenerCalculoDescuentoProducto: any;
+	obtenerCalculoDescuentoProducto: (
+		valoresIngresados: {
+			inputPolarizado: number | undefined;
+			unidades: number;
+			subUnidades: number;
+		},
+		stateInfoDescuento: TStateInfoDescuentos
+	) => void;
+	infoBeneficio: TInfoBeneficioProductoPromoOngoing;
 }
 
 const Informacion: React.FC<Props> = ({
@@ -44,6 +58,7 @@ const Informacion: React.FC<Props> = ({
 	stateInfoDescuento,
 	stateAviso,
 	obtenerCalculoDescuentoProducto,
+	infoBeneficio: {cantidad, formaBeneficio},
 }) => {
 	const {t} = useTranslation();
 
@@ -55,10 +70,8 @@ const Informacion: React.FC<Props> = ({
 		precioConImpuestoSubunidad,
 		preciosNeto,
 		unidades,
-		subUnidades,
 		precioConDescuentoUnidad,
 		precioConDescuentoSubunidad,
-		esVentaSubunidades,
 	} = producto;
 
 	const {unidad, subUnidad} = preciosNeto;
@@ -78,10 +91,19 @@ const Informacion: React.FC<Props> = ({
 			: infoDescuento.inputPolarizado.toString()
 	);
 
+	const tipoDescuento =
+		infoDescuento.tipo === ETipoDescuento.automatico
+			? t('descuentos.automatico')
+			: infoDescuento.tipo === ETipoDescuento.polarizado
+			? t('descuentos.polarizado')
+			: infoDescuento.tipo === ETipoDescuento.escalonado
+			? t('descuentos.escalonado')
+			: '';
+
 	const eliminarDescuento = () => {
 		setInfoDescuento({
-			tipo: 'eliminado',
-			porcentajeDescuento: null,
+			tipo: ETipoDescuento.eliminado,
+			porcentajeDescuento: 0,
 			inputPolarizado: 0,
 			codigoDescuento: '',
 		});
@@ -99,18 +121,18 @@ const Informacion: React.FC<Props> = ({
 		);
 	};
 
-	const validacionPermiteSubUnidades = useValidacionPermiteSubUnidades(producto);
+	const validacionPermiteSubUnidades =
+		useValidacionPermiteSubUnidades(producto);
 
 	React.useEffect(() => {
 		if (
-			(infoDescuento.porcentajeDescuento !== null &&
-				infoDescuento.porcentajeDescuento > 0) ||
-			infoDescuento.tipo === 'automatico'
+			infoDescuento.porcentajeDescuento > 0 ||
+			infoDescuento.tipo === ETipoDescuento.automatico
 		) {
 			if (
 				producto.unidades > 0 ||
 				producto.subUnidades > 0 ||
-				infoDescuento.tipo === 'automatico'
+				infoDescuento.tipo === ETipoDescuento.automatico
 			) {
 				setMostrarinfo(true);
 			} else {
@@ -136,7 +158,15 @@ const Informacion: React.FC<Props> = ({
 		<Box
 			display='flex'
 			flexDirection='column'
-			padding={conSwitch ? '10px 0 12px 14px' : '12px 0 12px 14px'}
+			padding={
+				conSwitch && (cantidad === 0 || !cantidad)
+					? '10px 0 12px 14px'
+					: formaBeneficio === EFormaBeneficio.Obsequio
+					? '12px 0 12px 14px'
+					: tipoDescuento === t('descuentos.polarizado')
+					? '12px 0 12px 14px'
+					: '12px 0 0 14px'
+			}
 			justifyContent='center'
 			width='179px'
 		>
@@ -152,13 +182,9 @@ const Informacion: React.FC<Props> = ({
 				{nombreProducto}
 			</Typography>
 			{producto.atributos && (
-				<Typography
-					margin='4px 0 6px 0'
-					variant='caption'
-					color={theme.palette.secondary.main}
-				>
-					{`${medidas[producto.atributos?.medida ?? 0].descripcion} | ${
-						envases[producto.atributos?.envase ?? 0].descripcion
+				<Typography margin='4px 0 6px 0' variant='caption' color='secondary'>
+					{`${medidas[producto.atributos?.medida].descripcion} | ${
+						envases[producto.atributos?.envase].descripcion
 					}`}
 				</Typography>
 			)}
@@ -167,16 +193,24 @@ const Informacion: React.FC<Props> = ({
 				display='grid'
 				gridTemplateColumns='20px min-content min-content 14px min-content'
 				gridTemplateRows={
-					infoDescuento.tipo === 'automatico' ? 'auto auto' : 'auto auto auto'
+					infoDescuento.tipo === ETipoDescuento.polarizado ||
+					(infoDescuento.tipo === ETipoDescuento.automatico &&
+						cantidad &&
+						cantidad !== unidades)
+						? 'auto auto auto'
+						: 'auto auto'
 				}
 				gridTemplateAreas={
-					infoDescuento.tipo === 'automatico'
+					infoDescuento.tipo !== ETipoDescuento.automatico ||
+					(infoDescuento.tipo === ETipoDescuento.automatico &&
+						cantidad &&
+						cantidad !== unidades)
 						? `"Caja Presentacion PrecioUnidad Botella PrecioSubUnidad"
-						"Promo Vacio DescuentoUnidad Vacio2 DescuentoSubUnidad"`
-						: `"Caja Presentacion PrecioUnidad Botella PrecioSubUnidad"
 						"Descuento Descuento Descuento Descuento Descuento"
 						"Promo Vacio DescuentoUnidad Vacio2 DescuentoSubUnidad"
 						`
+						: `"Caja Presentacion PrecioUnidad Botella PrecioSubUnidad"
+						"Promo Vacio DescuentoUnidad Vacio2 DescuentoSubUnidad"`
 				}
 				justifyItems='start'
 				sx={{
@@ -187,14 +221,29 @@ const Informacion: React.FC<Props> = ({
 				<CajaIcon
 					height='18px'
 					width='18px'
-					style={{gridArea: 'Caja', marginBottom: mostrarInfo ? '8px' : '0'}}
+					style={{
+						gridArea: 'Caja',
+						marginBottom:
+							mostrarInfo &&
+							(cantidad !== unidades ||
+								(cantidad === unidades &&
+									tipoDescuento === t('descuentos.polarizado')))
+								? '8px'
+								: '0',
+					}}
 				/>
 				<Typography
 					variant='caption'
 					fontFamily='Open Sans'
 					sx={{
 						gridArea: 'Presentacion',
-						marginBottom: mostrarInfo ? '8px' : '0',
+						marginBottom:
+							mostrarInfo &&
+							(cantidad !== unidades ||
+								(cantidad === unidades &&
+									tipoDescuento === t('descuentos.polarizado')))
+								? '8px'
+								: '0',
 					}}
 				>
 					x{presentacion}
@@ -204,7 +253,13 @@ const Informacion: React.FC<Props> = ({
 					fontFamily='Open Sans'
 					sx={{
 						gridArea: 'PrecioUnidad',
-						marginBottom: mostrarInfo ? '8px' : '0',
+						marginBottom:
+							mostrarInfo &&
+							(cantidad !== unidades ||
+								(cantidad === unidades &&
+									tipoDescuento === t('descuentos.polarizado')))
+								? '8px'
+								: '0',
 						textDecoration:
 							unidades > 0
 								? unidad !== precioConImpuestoUnidad
@@ -224,7 +279,13 @@ const Informacion: React.FC<Props> = ({
 							width='14px'
 							style={{
 								gridArea: 'Botella',
-								marginBottom: mostrarInfo ? '8px' : '0',
+								marginBottom:
+									mostrarInfo &&
+									(cantidad !== unidades ||
+										(cantidad === unidades &&
+											tipoDescuento === t('descuentos.polarizado')))
+										? '8px'
+										: '0',
 							}}
 						/>
 						<Typography
@@ -232,7 +293,13 @@ const Informacion: React.FC<Props> = ({
 							fontFamily='Open Sans'
 							sx={{
 								gridArea: 'PrecioSubUnidad',
-								marginBottom: mostrarInfo ? '8px' : '0',
+								marginBottom:
+									mostrarInfo &&
+									(cantidad !== unidades ||
+										(cantidad === unidades &&
+											tipoDescuento === t('descuentos.polarizado')))
+										? '8px'
+										: '0',
 								textDecoration:
 									unidades > 0
 										? subUnidad !== precioConImpuestoSubunidad
@@ -245,60 +312,76 @@ const Informacion: React.FC<Props> = ({
 						>
 							{formatearNumero(precioConImpuestoSubunidad, t)}
 						</Typography>
-						{mostrarInfo && (
+						{mostrarInfo &&
+							(cantidad !== unidades ||
+								(cantidad === unidades &&
+									tipoDescuento === t('descuentos.polarizado'))) && (
+								<Typography
+									variant='subtitle3'
+									fontFamily='Open Sans'
+									color='primary'
+									sx={{gridArea: 'DescuentoSubUnidad'}}
+								>
+									{formatearNumero(
+										producto.precioConDescuentoSubunidad ??
+											producto.preciosNeto.subUnidad,
+										t
+									)}
+								</Typography>
+							)}
+					</>
+				)}
+				{mostrarInfo &&
+					(cantidad !== unidades ||
+						(cantidad === unidades &&
+							tipoDescuento === t('descuentos.polarizado'))) && (
+						<>
+							<Typography
+								variant='caption'
+								fontFamily='Open Sans'
+								color='primary'
+								sx={{
+									gridArea:
+										infoDescuento.tipo !== ETipoDescuento.automatico ||
+										(infoDescuento.tipo === ETipoDescuento.automatico &&
+											cantidad &&
+											cantidad !== unidades)
+											? 'Descuento'
+											: '',
+									marginBottom: '8px',
+								}}
+							>
+								{infoDescuento.tipo === ETipoDescuento.polarizado ||
+								infoDescuento.tipo === ETipoDescuento.escalonado
+									? t('descuentos.descuentoMensaje', {
+											tipo: tipoDescuento,
+											descuento: infoDescuento.porcentajeDescuento,
+									  })
+									: cantidad && cantidad !== unidades
+									? t('descuentos.descuentoAutomatico')
+									: null}
+							</Typography>
+							<PromocionColor
+								height='20px'
+								width='20px'
+								style={{gridArea: 'Promo'}}
+							/>
 							<Typography
 								variant='subtitle3'
 								fontFamily='Open Sans'
-								color={theme.palette.primary.main}
-								sx={{gridArea: 'DescuentoSubUnidad'}}
+								color='primary'
+								sx={{gridArea: 'DescuentoUnidad', justifySelf: 'start'}}
 							>
 								{formatearNumero(
-									producto.precioConDescuentoSubunidad ??
-										producto.preciosNeto.subUnidad,
+									producto.precioConDescuentoUnidad ??
+										producto.preciosNeto.unidad,
 									t
 								)}
 							</Typography>
-						)}
-					</>
-				)}
-				{mostrarInfo && (
-					<>
-						<Typography
-							variant='caption'
-							fontFamily='Open Sans'
-							color={theme.palette.primary.main}
-							sx={{
-								gridArea:
-									infoDescuento.tipo !== 'automatico' ? 'Descuento' : '',
-								marginBottom: '8px',
-							}}
-						>
-							{infoDescuento.tipo === 'polarizado' ||
-							infoDescuento.tipo === 'escalonado'
-								? `Descuento ${infoDescuento.tipo} del -${infoDescuento.porcentajeDescuento}%`
-								: null}
-						</Typography>
-						<PromocionColor
-							height='20px'
-							width='20px'
-							style={{gridArea: 'Promo'}}
-						/>
-						<Typography
-							variant='subtitle3'
-							fontFamily='Open Sans'
-							color={theme.palette.primary.main}
-							sx={{gridArea: 'DescuentoUnidad', justifySelf: 'start'}}
-						>
-							{formatearNumero(
-								producto.precioConDescuentoUnidad ??
-									producto.preciosNeto.unidad,
-								t
-							)}
-						</Typography>
-					</>
-				)}
+						</>
+					)}
 			</Box>
-			{mostrarInfo && infoDescuento.tipo === 'escalonado' && (
+			{mostrarInfo && infoDescuento.tipo === ETipoDescuento.escalonado && (
 				<Box marginTop='8px'>
 					<ChipStyled
 						onClick={() => {
@@ -315,7 +398,7 @@ const Informacion: React.FC<Props> = ({
 							setAlerta(true);
 						}}
 						label={
-							<Typography variant='caption' color={theme.palette.primary.main}>
+							<Typography variant='caption' color='primary'>
 								Eliminar descuento
 							</Typography>
 						}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Input from '@mui/material/Input';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -31,7 +31,14 @@ interface Props {
 	stateInputFocus: TStateInputFocus;
 	stateFocusId: StateFocusID;
 	stateInfoDescuento: TStateInfoDescuentos;
-	obtenerCalculoDescuentoProducto: any;
+	obtenerCalculoDescuentoProducto: (
+		valoresIngresados: {
+			inputPolarizado: number | undefined;
+			unidades: number;
+			subUnidades: number;
+		},
+		stateInfoDescuento: TStateInfoDescuentos
+	) => void;
 }
 
 const Controles: React.FC<Props> = ({
@@ -45,6 +52,7 @@ const Controles: React.FC<Props> = ({
 	const visitaActual = useObtenerVisitaActual();
 	const {infoDescuento} = stateInfoDescuento;
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
+	const [cambioValores, setCambioValores] = React.useState<boolean>(false);
 
 	const defaultValue = {
 		unidades: producto.unidades,
@@ -73,7 +81,8 @@ const Controles: React.FC<Props> = ({
 	);
 	const {t} = useTranslation();
 	const mostrarAviso = useMostrarAviso();
-	const validacionPermiteSubUnidades = useValidacionPermiteSubUnidades(producto);
+	const validacionPermiteSubUnidades =
+		useValidacionPermiteSubUnidades(producto);
 
 	const classes = useEstilos({
 		bordeError: visitaActual.seQuedaAEditar.bordeError,
@@ -96,7 +105,7 @@ const Controles: React.FC<Props> = ({
 
 	React.useEffect(() => {
 		if (
-			infoDescuento.porcentajeDescuento !== null &&
+			infoDescuento.porcentajeDescuento >= 0 &&
 			focusId === producto.codigoProducto
 		) {
 			if (getValues.unidades > 0 || getValues.subUnidades > 0) {
@@ -106,10 +115,21 @@ const Controles: React.FC<Props> = ({
 		setGetValues(defaultValue);
 	}, [infoDescuento]);
 
+	useEffect(() => {
+		if (getValues.unidades > 0) {
+			agregarProductoAlPedidoActual(
+				getValues,
+				obtenerCalculoDescuentoProducto,
+				{actualizaDescuento: true}
+			);
+		}
+	}, [visitaActual.promosOngoing]);
+
 	React.useEffect(() => {
 		if (puedeAgregar) {
 			agregarProductoAlPedidoActual(getValues, obtenerCalculoDescuentoProducto);
 			setPuedeAgregar(false);
+			setCambioValores(false);
 		}
 	}, [puedeAgregar]);
 
@@ -131,8 +151,10 @@ const Controles: React.FC<Props> = ({
 				})
 			);
 		}
-
-		agregarProductoAlPedidoActual(getValues, obtenerCalculoDescuentoProducto);
+		if (cambioValores) {
+			agregarProductoAlPedidoActual(getValues, obtenerCalculoDescuentoProducto);
+			setCambioValores(false);
+		}
 
 		if (producto.descuentoPolarizado) {
 			setInputFocus('descuento');
@@ -145,6 +167,7 @@ const Controles: React.FC<Props> = ({
 	const handleOnChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
+		setCambioValores(true);
 		setGetValues({
 			...getValues,
 			[e.target.name]: e.target.value.replace(/[^0-9]/g, ''),
@@ -160,10 +183,13 @@ const Controles: React.FC<Props> = ({
 		if (e.key === 'Enter') {
 			if (inputFocus === 'unidades') {
 				setInputFocus('subUnidades');
-				agregarProductoAlPedidoActual(
-					getValues,
-					obtenerCalculoDescuentoProducto
-				);
+				if (cambioValores) {
+					setCambioValores(false);
+					agregarProductoAlPedidoActual(
+						getValues,
+						obtenerCalculoDescuentoProducto
+					);
+				}
 			} else if (inputFocus === 'subUnidades') {
 				validacionSubUnidades();
 			}
@@ -206,10 +232,9 @@ const Controles: React.FC<Props> = ({
 			display='flex'
 			flexDirection='column'
 			alignItems='center'
-			justifyContent='start'
 			width='125px'
 			gap='12px'
-			padding='12px 0 16px 0'
+			padding='20px 0 12px 0'
 			sx={{background: '#F5F0EF'}}
 		>
 			<Box display='flex' alignItems='center' justifyContent='center' gap='2px'>

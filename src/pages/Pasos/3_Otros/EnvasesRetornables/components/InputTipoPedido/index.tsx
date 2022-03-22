@@ -1,5 +1,5 @@
 import {FunctionComponent, useEffect, useState} from 'react';
-import {TEnvasesPedidos, TTipoPedido} from 'models';
+import {TEnvases, TEnvasesPedidos, TTipoPedido} from 'models';
 import {Grid, Input, styled, Typography} from '@mui/material';
 import {TConsolidadoImplicitos} from 'models';
 import {useObtenerVisitaActual, useAppDispatch} from 'redux/hooks';
@@ -46,13 +46,17 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 
 	const {valoresEnvase, setValoresEnvase} = stateTipoEnvases;
 
-	const [envase, setEnvase] = useState({
+	const [envase, setEnvase] = useState<TEnvases>({
 		tipoEnvase: '',
 		unidades: 0,
 		subUnidades: 0,
 	});
 
-	const [otrosTiposEnvase, setOtrosTiposEnvase] = useState();
+	const [otrosTiposEnvase, setOtrosTiposEnvase] = useState<TEnvases>({
+		tipoEnvase: '',
+		unidades: 0,
+		subUnidades: 0,
+	});
 	const {retorno, setRetorno} = stateRetorno;
 
 	const visitaActual = useObtenerVisitaActual();
@@ -128,7 +132,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 	const cambioUnidadesPorTipoPedido = (
 		unidadesIngresadas: number,
 		tipoEnvase: string,
-		totalUnidadesTiposEnvase: any,
+		totalUnidadesTiposEnvase : TEnvases,
 		codigoTipoPedidoActual: string | undefined
 	): boolean => {
 		let unidadesPermitidas = false;
@@ -143,7 +147,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 					...retorno,
 					unidades: Number(
 						retorno.unidades -
-							totalUnidadesTiposEnvase.unidades -
+							(totalUnidadesTiposEnvase ? totalUnidadesTiposEnvase.unidades : 0) -
 							unidadesIngresadas
 					),
 				});
@@ -212,7 +216,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 	const cambioSubUnidadesPorTipoPedido = (
 		subUnidadesIngresadas: number,
 		tipoEnvase: string,
-		totalSubUnidadesTiposEnvase: any,
+		totalSubUnidadesTiposEnvase: TEnvases,
 		codigoTipoPedidoActual: string | undefined
 	): boolean => {
 		let unidadesPermitidas = false;
@@ -230,7 +234,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 					...retorno,
 					subUnidades: Number(
 						retorno.subUnidades -
-							totalSubUnidadesTiposEnvase.subUnidades -
+							(totalSubUnidadesTiposEnvase ? totalSubUnidadesTiposEnvase.subUnidades : 0) -
 							subUnidadesIngresadas
 					),
 				});

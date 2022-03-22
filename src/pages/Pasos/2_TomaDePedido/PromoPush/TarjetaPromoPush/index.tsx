@@ -277,6 +277,7 @@ const TarjetaPromoPush = (props: any) => {
 							<Typography
 								variant='body3'
 								fontFamily='Open Sans'
+								color={expandidoPromoPush === id ? '#fff' : '#000'}
 								sx={{textDecoration: 'line-through'}}
 							>
 								{`${t('general.precioUnitario')}: ${formatearNumero(
@@ -503,7 +504,7 @@ const TarjetaPromoPush = (props: any) => {
 																variant='caption'
 																color={theme.palette.secondary.main}
 															>
-																{` x${promoPush.componentes[i].cantidad} `}{' '}
+																{`x${promoPush.componentes[i].cantidad}`}
 															</Typography>
 															<Typography color={'#000000'} variant='caption'>
 																{`${formatearNumero(el.precioBase, t)}`}

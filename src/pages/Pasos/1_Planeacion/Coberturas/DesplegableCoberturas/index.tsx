@@ -50,7 +50,7 @@ const DesplegableCoberturas: React.FC<Props> = ({
 	const classes = useEstilos();
 	const {t} = useTranslation();
 	const visitaActual = useObtenerVisitaActual();
-	const {venta} = visitaActual.pedidos;
+	const obtenerProductoPorCodigo = useObtenerProductoPorCodigo();
 
 	const coberturasAgregadas = visitaActual.coberturasEjecutadas.filter(
 		(producto) => {
@@ -63,7 +63,7 @@ const DesplegableCoberturas: React.FC<Props> = ({
 	);
 
 	const productos = codigosProductos.map((codigoPoducto) =>
-		useObtenerProductoPorCodigo(codigoPoducto)
+		obtenerProductoPorCodigo(codigoPoducto)
 	);
 
 	const [inputFocus, setInputFocus] =

@@ -66,7 +66,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 	const [expandido, setExpandidoexpandido] = React.useState<string | boolean>(
 		false
 	);
-	const datos = useObtenerDatos();
+
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(
@@ -79,7 +79,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 		credito: boolean;
 		contado: boolean;
 	}>({credito: false, contado: false});
-	const pedidosCliente: TPedidosClientes = useObtenerPedidosClientes();
+
 	const promocionesOngoing = PromocionesOngoing.getInstance();
 
 	const [promosDisponibles, setpromosDisponibles] =
@@ -191,7 +191,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 										) => (
 											<PromoOngoing.Card
 												key={promocion.promocionID}
-												promosSimilares={
+												promosMismosRequisitos={
 													promocionesOingoing?.credito
 														?.indiceProductosxPromosManuales
 												}
@@ -238,7 +238,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 										) => (
 											<PromoOngoing.Card
 												key={promocion.promocionID}
-												promosSimilares={
+												promosMismosRequisitos={
 													promocionesOingoing?.contado
 														?.indiceProductosxPromosManuales
 												}

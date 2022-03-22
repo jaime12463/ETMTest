@@ -12,17 +12,17 @@ export interface CanjesProps {
 	producto: TProductoPedido;
 }
 
-export const Canjes: React.FC<CanjesProps> = ({producto}) => {
-	const {
+export const Canjes: React.FC<CanjesProps> = ({
+	producto: {
 		codigoProducto,
 		nombreProducto,
 		unidades,
 		subUnidades,
-		esVentaSubunidades,
 		catalogoMotivo,
 		atributos,
-	} = producto;
-
+		presentacion,
+	},
+}) => {
 	const itemCatalogoMotivos = useObtenerCatalogoMotivos(undefined, 'canje');
 
 	const {t} = useTranslation();
@@ -54,38 +54,62 @@ export const Canjes: React.FC<CanjesProps> = ({producto}) => {
 						}`}
 					</Typography>
 				)}
-				<Box alignItems='center' display='flex' gap='8px'>
-					<Box alignItems='center' display='flex' gap='4px'>
-						<CajaIcon height='14px' width='14px' />
-						<Typography variant='subtitle3' fontFamily='Open Sans'>
-							{unidades}
-						</Typography>
-					</Box>
-					{esVentaSubunidades && (
-						<Box alignItems='center' display='flex' gap='4px'>
-							<BotellaIcon height='12px' width='12px' />
-							<Typography variant='subtitle3' fontFamily='Open Sans'>
-								{subUnidades}
-							</Typography>
-						</Box>
-					)}
+				<Box alignItems='center' display='flex' gap='4px'>
+					<CajaIcon height='14px' width='14px' />
+					<Typography
+						variant='caption'
+						color='secondary'
+						fontFamily='Open Sans'
+					>
+						x{presentacion}
+					</Typography>
 				</Box>
 			</Box>
 			<Box
-				alignItems='center'
 				display='flex'
+				flexDirection='column'
+				justifyContent='space-between'
 				flexBasis='143px'
-				padding='8px 14px 8px 8px'
 				sx={{background: '#F5F0EF'}}
 			>
-				<Box display='flex' flexDirection='column' gap='4px'>
-					<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-						{`${t('general.motivo')}:`}
-					</Typography>
-					<Typography variant='subtitle3'>
-						{itemCatalogoMotivos[Number(catalogoMotivo) - 1]?.label}
-					</Typography>
+				<Box
+					display='flex'
+					flexDirection='column'
+					gap='8px'
+					padding='8px 14px 8px 8px'
+				>
+					{unidades > 0 && (
+						<Box alignItems='center' display='flex' gap='4px'>
+							<Typography
+								variant='caption'
+								color='secondary'
+								fontFamily='Open Sans'
+							>
+								{unidades}
+							</Typography>
+							<CajaIcon height='18px' width='18px' />
+						</Box>
+					)}
+					{subUnidades > 0 && (
+						<Box alignItems='center' display='flex' gap='4px'>
+							<Typography
+								variant='caption'
+								color='secondary'
+								fontFamily='Open Sans'
+							>
+								{subUnidades}
+							</Typography>
+							<BotellaIcon height='18px' width='18px' />
+						</Box>
+					)}
 				</Box>
+				<Typography
+					variant='subtitle3'
+					padding='8px 14px 8px 8px'
+					sx={{background: '#F5F0EF', mixBlendMode: 'multiply'}}
+				>
+					{itemCatalogoMotivos[Number(catalogoMotivo) - 1]?.label}
+				</Typography>
 			</Box>
 		</Box>
 	);

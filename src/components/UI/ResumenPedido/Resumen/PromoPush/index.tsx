@@ -60,7 +60,8 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 						>
 							<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
 								{`${t('general.precioUnitario')}: ${formatearNumero(
-									promocion.precioConImpuestoUnidad,
+									promocion.precioConImpuestoUnidad +
+										promocion.descuentoPromoPush!,
 									t
 								)}`}
 							</Typography>
@@ -68,7 +69,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 						<Box display='flex' justifyContent='end'>
 							<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
 								{`${t('general.ahorroTotal')}: ${formatearNumero(
-									promocion.descuentoPromoPush ?? 0,
+									promocion.descuentoPromoPush!,
 									t
 								)}`}
 							</Typography>
@@ -91,125 +92,197 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 					</Box>
 				</Box>
 			</Box>
-			<Box display='flex' flexDirection='row'>
-				<Box flex='1' padding='8px 14px 12px 14px'>
-					<Typography
-						fontSize='12px'
-						lineHeight='14px'
-						fontFamily='Open Sans'
-						fontWeight='700'
-						color='#000'
-						letterSpacing='-0.4px'
-					>
-						{`${t('general.paquetes')} ${t('general.cadaUno')}`}
-					</Typography>
+			<Box border={`1px solid ${theme.palette.secondary.light}`}>
+				<Box display='flex' flexDirection='row'>
+					<Box flex='1' padding='8px 14px 12px 14px'>
+						<Typography
+							fontSize='12px'
+							lineHeight='14px'
+							fontFamily='Open Sans'
+							fontWeight='700'
+							color='#000'
+							letterSpacing='-0.4px'
+						>
+							{`${t('general.paquetes')} ${t('general.cadaUno')}`}
+						</Typography>
+					</Box>
+					<Box
+						flexBasis='143px'
+						sx={{background: '#F5F0EF'}}
+						padding='8px 14px'
+					/>
 				</Box>
-				<Box
-					flexBasis='143px'
-					sx={{background: '#F5F0EF'}}
-					padding='8px 14px'
-				/>
-			</Box>
-			<Box>
-				{promocion.componentes?.map((componente, index) => {
-					return (
-						<Box key={`${componente.codigoProducto}${index}`}>
-							<Box display='flex'>
-								<Box
-									display='flex'
-									flexDirection='column'
-									flex='1'
-									padding='6px 14px'
-								>
-									<Typography variant='subtitle3' fontFamily='Open Sans'>
-										{componente.codigoProducto}
-									</Typography>
-									<Typography variant='subtitle3'>
-										{productos[componente.codigoProducto].nombre}
-									</Typography>
-									{productos[componente.codigoProducto].atributos && (
-										<Typography
-											margin='4px 0 6px 0'
-											variant='caption'
-											color={theme.palette.secondary.main}
-										>
-											{`${
-												medidas[
-													productos[componente.codigoProducto].atributos
-														?.medida ?? 0
-												].descripcion
-											} | ${
-												envases[
-													productos[componente.codigoProducto].atributos
-														?.envase ?? 0
-												].descripcion
-											}`}
-										</Typography>
-									)}
-								</Box>
-								<Box
-									display='flex'
-									flexDirection='column'
-									flexBasis='143px'
-									padding='6px 14px'
-									sx={{background: '#F5F0EF'}}
-								>
+				<Box>
+					{promocion.componentes?.map((componente, index) => {
+						return (
+							<Box key={`${componente.codigoProducto}${index}`}>
+								<Box display='flex'>
 									<Box
-										alignItems='center'
 										display='flex'
-										justifyContent='end'
-										gap='2px'
-										marginBottom='2px'
+										flexDirection='column'
+										flex='1'
+										padding='6px 14px'
 									>
-										{promocion.promoPush?.componentes[index].unidadMedida ===
-										'CAJ' ? (
-											<CajaIcon height='18px' width='18px' />
-										) : (
-											<BotellaIcon height='15px' width='15px' />
+										<Typography variant='subtitle3' fontFamily='Open Sans'>
+											{componente.codigoProducto}
+										</Typography>
+										<Typography variant='subtitle3'>
+											{productos[componente.codigoProducto].nombre}
+										</Typography>
+										{productos[componente.codigoProducto].atributos && (
+											<Typography
+												marginTop='4px'
+												variant='caption'
+												color='secondary'
+											>
+												{`${
+													medidas[
+														productos[componente.codigoProducto].atributos
+															?.medida!
+													].descripcion
+												} | ${
+													envases[
+														productos[componente.codigoProducto].atributos
+															?.envase!
+													].descripcion
+												}`}
+											</Typography>
 										)}
-										<Typography
-											variant='caption'
-											color={theme.palette.secondary.main}
-											marginRight='2px'
+										<Box
+											alignItems='center'
+											display='flex'
+											gap='4px'
+											marginTop={
+												productos[componente.codigoProducto].atributos
+													? '8px'
+													: '20px'
+											}
 										>
-											x{promocion.promoPush?.componentes[index].cantidad}
-										</Typography>
-										<Typography
-											variant='caption'
-											fontFamily='Open Sans'
-											color='#000'
-										>
-											{formatearNumero(componente.precioBase, t)}
-										</Typography>
+											<Box alignItems='center' display='flex' gap='2px'>
+												{promocion.promoPush?.componentes[index]
+													.unidadMedida === 'CAJ' ? (
+													<CajaIcon height='18px' width='18px' />
+												) : (
+													<BotellaIcon height='18px' width='18px' />
+												)}
+												{promocion.promoPush?.componentes[index]
+													.unidadMedida === 'CAJ' && (
+													<Typography
+														variant='caption'
+														fontFamily='Open Sans'
+														color='secondary'
+													>
+														x{productos[componente.codigoProducto].presentacion}
+													</Typography>
+												)}
+											</Box>
+											<Typography
+												variant='caption'
+												fontFamily='Open Sans'
+												color='secondary'
+												fontWeight={600}
+											>
+												{formatearNumero(componente.precioBase, t)}
+											</Typography>
+										</Box>
 									</Box>
-									<Box display='flex' justifyContent='end' marginBottom='12px'>
-										<Typography
-											variant='caption'
-											color={theme.palette.primary.main}
+									<Box
+										display='flex'
+										flexDirection='column'
+										justifyContent='space-between'
+										flexBasis='143px'
+										sx={{background: '#F5F0EF'}}
+									>
+										<Box
+											display='flex'
+											flexDirection='column'
+											gap='8px'
+											padding='6px 14px 8px 8px'
 										>
-											{`${t('general.ahorras')}: ${formatearNumero(
-												componente.descuento,
-												t
-											)}`}
-										</Typography>
-									</Box>
-									<Box display='flex' justifyContent='end'>
-										<Typography variant='subtitle3' color='#000'>
-											{`${t('general.total')}: ${formatearNumero(
-												componente.descuento,
-												t
-											)}`}
-										</Typography>
+											<Box
+												alignItems='center'
+												display='flex'
+												justifyContent='space-between'
+												gap='2px'
+											>
+												<Box alignItems='center' display='flex' gap='4px'>
+													<Typography variant='caption' color='secondary'>
+														{promocion.promoPush?.componentes[index].cantidad}
+													</Typography>
+													{promocion.promoPush?.componentes[index]
+														.unidadMedida === 'CAJ' ? (
+														<CajaIcon height='18px' width='18px' />
+													) : (
+														<BotellaIcon height='18px' width='18px' />
+													)}
+												</Box>
+												<Typography
+													variant='caption'
+													fontFamily='Open Sans'
+													color='#000'
+												>
+													{formatearNumero(
+														componente.precioBase *
+															promocion.promoPush?.componentes[index].cantidad!,
+														t
+													)}
+												</Typography>
+											</Box>
+											<Box display='flex' justifyContent='space-between'>
+												<Typography
+													variant='caption'
+													color='primary'
+													fontWeight={600}
+												>
+													{`${t('general.ahorras')}:`}
+												</Typography>
+												<Typography
+													variant='caption'
+													color='primary'
+													fontWeight={600}
+												>
+													-
+													{formatearNumero(
+														componente.descuento *
+															promocion.promoPush?.componentes[index].cantidad!,
+														t
+													)}
+												</Typography>
+											</Box>
+										</Box>
+										<Box
+											display='flex'
+											justifyContent='space-between'
+											padding='10px 14px 6px 8px'
+											sx={{background: '#F5F0EF', mixBlendMode: 'multiply'}}
+										>
+											<Typography
+												variant='caption'
+												color='#000'
+												fontWeight={700}
+											>
+												{`${t('general.subTotal')}:`}
+											</Typography>
+											<Typography variant='subtitle3' color='#000'>
+												{formatearNumero(
+													componente.precioFinal *
+														promocion.promoPush?.componentes[index].cantidad!,
+													t
+												)}
+											</Typography>
+										</Box>
 									</Box>
 								</Box>
+								{promocion.promoPush?.componentes &&
+									promocion.promoPush.componentes.length - 1 !== index && (
+										<Divider
+											sx={{borderColor: theme.palette.secondary.light}}
+										/>
+									)}
 							</Box>
-							{promocion.promoPush?.componentes &&
-								index < promocion.promoPush.componentes.length - 1 && (
-									<Divider />
-								)}
-						</Box>
-					);
-				})}
+						);
+					})}
+				</Box>
 			</Box>
 		</Box>
 	);

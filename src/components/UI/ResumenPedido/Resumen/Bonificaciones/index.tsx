@@ -22,9 +22,10 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 }) => {
 	const {t} = useTranslation();
 	const {envases, medidas} = useObtenerDatos();
+	const obtenerProductoPorCodigo = useObtenerProductoPorCodigo();
 
 	return (
-		<>
+		<Box border={`1px solid ${theme.palette.secondary.main}`}>
 			{bonificaciones.map((bonificacion, index) => {
 				if (bonificacion.detalle.length === 0) {
 					return;
@@ -32,9 +33,27 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 
 				return (
 					<Box key={bonificacion.id}>
+						<Box
+							display='flex'
+							flexDirection='column'
+							padding='10px 14px'
+							gap='2px'
+							sx={{background: theme.palette.secondary.light}}
+						>
+							<Typography
+								variant='subtitle3'
+								color='#fff'
+								fontFamily='Open Sans'
+							>
+								{bonificacion.id}
+							</Typography>
+							<Typography variant='subtitle3' color='#fff'>
+								{bonificacion.nombre}
+							</Typography>
+						</Box>
 						<Box display='flex' flex='1' flexDirection='column'>
 							{bonificacion.detalle.map((detalle, index) => {
-								const producto = useObtenerProductoPorCodigo(
+								const producto = obtenerProductoPorCodigo(
 									detalle.codigoProducto
 								);
 								if (!producto) return null;
@@ -56,22 +75,20 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 													</Typography>
 													<Typography
 														variant='subtitle3'
-														marginBottom={producto.atributos ? 0 : '6px'}
+														marginBottom={producto.atributos ? 0 : '8px'}
 													>
 														{producto.nombreProducto}
 													</Typography>
 													{producto.atributos && (
 														<Typography
-															margin='4px 0 6px 0'
+															margin='4px 0 8px 0'
 															variant='caption'
 															color={theme.palette.secondary.main}
 														>
 															{`${
-																medidas[producto.atributos?.medida ?? 0]
-																	.descripcion
+																medidas[producto.atributos?.medida].descripcion
 															} | ${
-																envases[producto.atributos?.envase ?? 0]
-																	.descripcion
+																envases[producto.atributos?.envase].descripcion
 															}`}
 														</Typography>
 													)}
@@ -82,10 +99,11 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 															<BotellaIcon height='12px' width='12px' />
 														)}
 														<Typography
-															variant='subtitle3'
+															variant='caption'
+															color='secondary'
 															fontFamily='Open Sans'
 														>
-															{detalle.cantidad}
+															x{producto.presentacion}
 														</Typography>
 													</Box>
 												</Box>
@@ -95,33 +113,54 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 												flexBasis='143px'
 												flexDirection='column'
 												gap='4px'
-												justifyContent='center'
-												padding='8px '
+												justifyContent='space-between'
 												sx={{background: '#F5F0EF'}}
 											>
-												<Typography
-													variant='caption'
-													fontFamily='Open Sans'
-													color='#000'
+												<Box
+													alignItems='center'
+													display='flex'
+													gap='4px'
+													padding='8px'
 												>
-													{`${t('general.tipo')}:`}
-												</Typography>
-												<Typography variant='subtitle3'>
+													<Typography
+														variant='caption'
+														color='secondary'
+														fontFamily='Open Sans'
+													>
+														{detalle.cantidad}
+													</Typography>
+													{detalle.unidadMedida === 'Unidad' ? (
+														<CajaIcon height='18px' width='18px' />
+													) : (
+														<BotellaIcon height='18px' width='18px' />
+													)}
+												</Box>
+												<Typography
+													variant='subtitle3'
+													padding='8px'
+													sx={{background: '#F5F0EF', mixBlendMode: 'multiply'}}
+												>
 													{t('general.bonificacion')}
 												</Typography>
 											</Box>
 										</Box>
-										{index < bonificacion.detalle.length - 1 && <Divider />}
+										{index !== bonificacion.detalle.length - 1 && (
+											<Divider
+												sx={{borderColor: theme.palette.secondary.main}}
+											/>
+										)}
 									</Box>
 								);
 							})}
 						</Box>
 
-						{index < bonificaciones.length - 1 &&
-							bonificaciones[index + 1].detalle.length > 0 && <Divider />}
+						{index !== bonificaciones.length - 1 &&
+							bonificaciones[index + 1].detalle.length > 0 && (
+								<Divider sx={{borderColor: theme.palette.secondary.main}} />
+							)}
 					</Box>
 				);
 			})}
-		</>
+		</Box>
 	);
 };

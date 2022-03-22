@@ -7,6 +7,7 @@ import {useTranslation} from 'react-i18next';
 import {TProductoPedido} from 'models';
 import theme from 'theme';
 import {useObtenerDatos} from 'redux/hooks';
+import {useCalularPruductoEnPromoOnGoing} from 'hooks';
 
 export interface TarjetaProps {
 	producto: TProductoPedido;
@@ -22,9 +23,31 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 		esVentaSubunidades,
 		precioConImpuestoUnidad,
 		precioConImpuestoSubunidad,
-		total,
 		atributos,
+		presentacion,
+		tipoPago,
 	} = producto;
+
+	const calularPruductoEnPromoOnGoing = useCalularPruductoEnPromoOnGoing();
+
+	const infoBeneficio = calularPruductoEnPromoOnGoing(codigoProducto);
+
+	let unidadesFinales = unidades;
+	let subUnidadesFinales = subUnidades;
+
+	if (infoBeneficio.cantidad) {
+		if (tipoPago === infoBeneficio.tipoPago) {
+			if (infoBeneficio.unidadMedida === 'Unidad') {
+				unidadesFinales = unidades - infoBeneficio.cantidad;
+			} else {
+				subUnidadesFinales = subUnidades - infoBeneficio.cantidad;
+			}
+		}
+	}
+
+	let precioFinal =
+		producto.precioConImpuestoUnidad * unidadesFinales +
+		producto.precioConImpuestoSubunidad * subUnidadesFinales;
 
 	const {envases, medidas} = useObtenerDatos();
 
@@ -34,17 +57,20 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 				display='flex'
 				flexDirection='column'
 				flex='1'
-				padding='8px 8px 8px 14px'
+				padding='6px 8px 6px 14px'
 			>
 				<Typography variant='subtitle3' fontFamily='Open Sans'>
 					{codigoProducto}
 				</Typography>
-				<Typography variant='subtitle3' marginBottom={atributos ? 0 : '6px'}>
+				<Typography
+					variant='subtitle3'
+					marginBottom={atributos ? '2px' : '6px'}
+				>
 					{nombreProducto}
 				</Typography>
 				{atributos && (
 					<Typography
-						margin='4px 0 6px 0'
+						marginBottom='8px'
 						variant='caption'
 						color={theme.palette.secondary.main}
 					>
@@ -53,73 +79,113 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 						}`}
 					</Typography>
 				)}
-				<Box alignItems='center' display='flex' gap='8px'>
-					<Box alignItems='center' display='flex' gap='4px'>
+				<Box alignItems='center' display='flex' gap='4px'>
+					<Box alignItems='center' display='flex' gap='2px'>
 						<CajaIcon height='14px' width='14px' />
-						<Typography variant='subtitle3' fontFamily='Open Sans'>
-							{unidades}
+						<Typography
+							variant='caption'
+							fontFamily='Open Sans'
+							color='secondary'
+						>
+							x{presentacion}
+						</Typography>
+						<Typography
+							variant='caption'
+							fontFamily='Open Sans'
+							color='secondary'
+							fontWeight={600}
+						>
+							{formatearNumero(precioConImpuestoUnidad, t)}
 						</Typography>
 					</Box>
 					{esVentaSubunidades && (
-						<Box alignItems='center' display='flex' gap='4px'>
+						<Box alignItems='center' display='flex'>
 							<BotellaIcon height='12px' width='12px' />
-							<Typography variant='subtitle3' fontFamily='Open Sans'>
-								{subUnidades}
+							<Typography
+								variant='caption'
+								fontFamily='Open Sans'
+								color='secondary'
+								fontWeight={600}
+							>
+								{formatearNumero(precioConImpuestoSubunidad, t)}
 							</Typography>
 						</Box>
 					)}
 				</Box>
 			</Box>
 			<Box
+				display='flex'
+				flexDirection='column'
+				justifyContent='space-between'
 				flexBasis='143px'
-				padding='8px 14px 16px 8px'
 				sx={{background: '#F5F0EF'}}
 			>
-				<Box display='flex' flexDirection='column'>
-					<Box
-						alignItems='center'
-						display='flex'
-						justifyContent='space-between'
-						marginBottom='10px'
-					>
-						<Box alignItems='center' display='flex' gap='4px'>
+				<Box display='flex' flexDirection='column' padding='6px 14px 4px 8px'>
+					{unidadesFinales > 0 && (
+						<Box
+							alignItems='center'
+							display='flex'
+							justifyContent='space-between'
+							marginBottom='2px'
+						>
+							<Box alignItems='center' display='flex' gap='4px'>
+								<Typography
+									variant='caption'
+									fontFamily='Open Sans'
+									color='#000'
+								>
+									{unidadesFinales}
+								</Typography>
+								<CajaIcon height='18px' width='18px' />
+							</Box>
 							<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-								{t('general.precioUnitario')}
+								{formatearNumero(precioConImpuestoUnidad * unidadesFinales, t)}
 							</Typography>
-							<CajaIcon height='12px' width='12px' />
 						</Box>
-						<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-							{formatearNumero(precioConImpuestoUnidad, t)}
-						</Typography>
-					</Box>
-					<Box
-						alignItems='center'
-						display='flex'
-						justifyContent='space-between'
-						marginBottom='10px'
-					>
-						<Box alignItems='center' display='flex' gap='4px'>
+					)}
+					{subUnidadesFinales > 0 && (
+						<Box
+							alignItems='center'
+							display='flex'
+							justifyContent='space-between'
+						>
+							<Box alignItems='center' display='flex' gap='4px'>
+								<Typography
+									variant='caption'
+									fontFamily='Open Sans'
+									color='#000'
+								>
+									{subUnidadesFinales}
+								</Typography>
+								<BotellaIcon height='18px' width='18px' />
+							</Box>
 							<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-								{t('general.precioUnitario')}
+								{formatearNumero(
+									precioConImpuestoSubunidad * subUnidadesFinales,
+									t
+								)}
 							</Typography>
-							<BotellaIcon height='10px' width='10px' />
 						</Box>
-						<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-							{formatearNumero(precioConImpuestoSubunidad, t)}
-						</Typography>
-					</Box>
-					<Box
-						alignItems='center'
-						display='flex'
-						justifyContent='space-between'
+					)}
+				</Box>
+				<Box
+					alignItems='center'
+					display='flex'
+					justifyContent='space-between'
+					padding='10px 14px 4px 8px'
+					sx={{background: '#F5F0EF', mixBlendMode: 'multiply'}}
+				>
+					<Typography
+						variant='caption'
+						fontFamily='Open Sans'
+						color='#000'
+						fontWeight={700}
 					>
-						<Typography variant='caption' fontFamily='Open Sans' color='#000'>
-							{t('general.subTotal')}
-						</Typography>
-						<Typography variant='subtitle3' color='#000'>
-							{formatearNumero(total, t)}
-						</Typography>
-					</Box>
+						{t('general.subTotal')}
+					</Typography>
+					<Typography variant='subtitle3' color='#000'>
+						{formatearNumero(precioFinal, t)}
+					</Typography>
 				</Box>
 			</Box>
 		</Box>
