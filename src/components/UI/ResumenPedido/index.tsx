@@ -316,13 +316,8 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 	}
 
 	return (
-		<>
-			<Box
-				display='flex'
-				justifyContent='end'
-				padding='22px 24px 10px 24px'
-				width='100%'
-			>
+		<Box sx={{background: '#fff'}} borderRadius='8px' width='100%'>
+			<Box display='flex' justifyContent='end' padding='22px 24px 10px 24px'>
 				<IconButton
 					onClick={() => setOpen((prevState) => !prevState)}
 					sx={{padding: 0}}
@@ -631,7 +626,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					</Box>
 				</Box>
 			</Box>
-		</>
+		</Box>
 	);
 };
 

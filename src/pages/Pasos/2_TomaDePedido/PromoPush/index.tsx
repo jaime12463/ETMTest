@@ -56,32 +56,13 @@ const PromoPush: React.FC = () => {
 	);
 
 	return (
-		<>
+		<Box mt={'28px'}>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
 			<Modal
 				setAlerta={setAlerta}
 				alerta={alerta}
 				contenidoMensaje={configAlerta}
 			/>
-			<Grid
-				container
-				justifyContent='space-evenly'
-				paddingBottom={2}
-				marginTop='18px'
-			>
-				<Button
-					sx={promoActiva.push === true ? {opacity: '1'} : {opacity: '0.5'}}
-					className={classes.root}
-				>
-					Promo push
-				</Button>
-				<Button
-					sx={promoActiva.ongoing === true ? {opacity: '1'} : {opacity: '0.5'}}
-					className={classes.root}
-				>
-					Promo ongoing
-				</Button>
-			</Grid>
 
 			{hayPromosPushEnPedido === true && (
 				<Grid container>
@@ -135,7 +116,7 @@ const PromoPush: React.FC = () => {
 						);
 					})}
 			</Stack>
-		</>
+		</Box>
 	);
 };
 

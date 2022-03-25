@@ -105,7 +105,7 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 					</Typography>
 				}
 				subTitulo={
-					<Typography variant={'body3'}>
+					<Typography color={'black'} variant={'body3'}>
 						{t('titulos.tarjetaPromociones')}
 					</Typography>
 				}

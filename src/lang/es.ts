@@ -116,6 +116,7 @@ const es = {
 		caja: 'Caja',
 		cajas: 'Cajas',
 		ahorraste: 'Ahorraste',
+		eliminarTodo: 'Eliminar todo',
 	},
 	simbolos: {
 		decimal: '.',

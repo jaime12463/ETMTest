@@ -105,13 +105,6 @@ export const Canjes = () => {
 						},
 					})
 				);
-				mostrarAviso(
-					'success',
-					'Producto ingresado correctamente',
-					undefined,
-					undefined,
-					'productoIngresado'
-				);
 			}
 			setFocusId(productoActual.codigoProducto);
 			setProductoActual(null);

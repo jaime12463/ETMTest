@@ -138,7 +138,6 @@ const Busqueda: React.FC<Props> = ({
 										className={classes.inputCheckbox}
 										value={producto.codigoProducto}
 										onChange={onChangeCheckbox}
-										// checked={producto.checked}
 									/>
 									<label htmlFor={producto.nombreProducto}>
 										<Typography

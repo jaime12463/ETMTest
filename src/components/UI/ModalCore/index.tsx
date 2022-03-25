@@ -5,11 +5,10 @@ import useEstilos from './useEstilos';
 
 interface Props {
 	open: boolean;
-	borderRadius?: boolean;
 }
 
-const ModalCore: React.FC<Props> = ({open, borderRadius = false, children}) => {
-	const classes = useEstilos({borderRadius});
+const ModalCore: React.FC<Props> = ({open, children}) => {
+	const classes = useEstilos();
 
 	const modalPortal = document.getElementById('modal');
 
@@ -19,7 +18,16 @@ const ModalCore: React.FC<Props> = ({open, borderRadius = false, children}) => {
 		<>
 			{open && (
 				<Box className={classes.container}>
-					<Box className={classes.card}>{children}</Box>
+					<Box className={classes.card}>
+						{children}
+						<Box
+							sx={{
+								background: 'transparent',
+								width: '340px',
+								height: '8px',
+							}}
+						/>
+					</Box>
 				</Box>
 			)}
 		</>,

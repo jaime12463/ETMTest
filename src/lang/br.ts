@@ -109,6 +109,7 @@ const br = {
 		caja: 'Caixa',
 		cajas: 'Caixas',
 		ahorraste: 'Você salvou',
+		eliminarTodo: 'Excluir todos',
 	},
 	simbolos: {
 		decimal: '.',
