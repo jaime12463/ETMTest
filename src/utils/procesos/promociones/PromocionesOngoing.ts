@@ -16,6 +16,7 @@ import {
 	TPromoOngoingHabilitadas,
 	TPromoOngoingAplicadas,
 	TCodigoCantidad,
+	TConfiguracion,
 } from 'models';
 
 import {fechaDispositivo, fechaDentroDelRango} from 'utils/methods';
@@ -140,7 +141,8 @@ export class PromocionesOngoing {
 	public inicializar(
 		cliente: TCliente,
 		listaPromociones: TListaPromoOngoing,
-		promosAplicadasOtrasVisitas: TPromoOngoing[]
+		promosAplicadasOtrasVisitas: TPromoOngoing[],
+		configuracion:TConfiguracion
 	) {
 		this._cliente = cliente;
 		this._listaPromoOngoing = listaPromociones;
