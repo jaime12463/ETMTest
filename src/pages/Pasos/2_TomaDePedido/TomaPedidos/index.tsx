@@ -7,8 +7,6 @@ import {
 	TCliente,
 	ETiposDePago,
 	TPedidosClientes,
-	TPromoOngoing,
-	TPromoOngoingAplicadas,
 } from 'models';
 import {
 	useAppDispatch,
@@ -23,7 +21,6 @@ import {
 	useObtenerDatosCliente,
 } from 'hooks';
 import {
-	agregarBeneficiosPromoOngoing,
 	agregarProductoDelPedidoActual,
 	borrarPromocionesOngoing,
 	cambiarAvisos,
@@ -40,7 +37,6 @@ import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import {BorrarIcon, BuscarIcon, PromocionColor} from 'assests/iconos';
-import {styled} from '@mui/material/styles';
 import {useBorrarLinea, useBorrarTodoTomaPedido} from '../hooks';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import useEstilos from '../useEstilos';
@@ -49,17 +45,11 @@ import Modal from 'components/UI/Modal';
 import TarjetaTomaPedido from 'components/UI/TarjetaTomaPedido';
 import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoPush';
 import Box from '@mui/material/Box';
-import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {PromocionesOngoing} from 'utils/procesos/promociones/PromocionesOngoing';
 
 import {useObtenerDatos} from 'redux/hooks';
 import DrawerBuscador from 'components/Negocio/DrawerBuscador';
-
-const TextStyled = styled(Typography)(() => ({
-	color: theme.palette.secondary.main,
-	fontSize: '10px',
-}));
 
 const TomaPedido: React.FC = () => {
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
@@ -349,8 +339,18 @@ const TomaPedido: React.FC = () => {
 								<Chip
 									className={classes.root}
 									size='small'
-									icon={<BorrarIcon width='7.5px' height='7.5px' />}
-									label={<TextStyled>{t('general.borrarTodo')}</TextStyled>}
+									label={
+										<Box alignItems='center' display='flex' gap='4px'>
+											<BorrarIcon width='10px' height='10px' />
+											<Typography
+												variant='caption'
+												color='secondary'
+												fontFamily='Open Sans'
+											>
+												{t('general.eliminarTodo')}
+											</Typography>
+										</Box>
+									}
 									sx={{'&:hover': {background: 'none'}}}
 									onClick={() => borrarTodosLosProductos()}
 								/>

@@ -128,12 +128,7 @@ const Pasos: React.FC = () => {
 		pedidosClienteMismaFechaEntrega,
 		tipoPedidos,
 	});
-	/*
-	const promocionesVigentesCliente = React.useMemo(
-		() => obtenerlistaPromocionesVigentes(datosCliente, datos?.promociones),
-		[datosCliente, datos?.promociones]
-	);
-*/
+
 	const promocionesOngoing = PromocionesOngoing.getInstance();
 
 	useEffect(() => {
@@ -425,7 +420,7 @@ const Pasos: React.FC = () => {
 			</Estructura.Encabezado>
 			<Estructura.Cuerpo>
 				{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-				<ModalCore open={openVistaPromoPush} borderRadius>
+				<ModalCore open={openVistaPromoPush}>
 					<VistaPromoPush setOpenVistaPromoPush={setOpenVistaPromoPush} />
 				</ModalCore>
 				<Box
@@ -443,9 +438,7 @@ const Pasos: React.FC = () => {
 				<Box padding='0 10px'>
 					<Box>
 						<Stepper
-							pasos={pasos.map(
-								(paso: TControlador, index) => `${index + 1}. ${t(paso.titulo)}`
-							)}
+							pasos={pasos.map((paso: TControlador) => `${t(paso.titulo)}`)}
 							pasoActivo={
 								pasoActual === 2 && visitaActual.clienteBloqueado
 									? 0
@@ -461,7 +454,7 @@ const Pasos: React.FC = () => {
 						setPasoActual={setPasoActual}
 						contenidoMensaje={configAlerta}
 					/>
-					<ModalCore open={openResumenPedido} borderRadius>
+					<ModalCore open={openResumenPedido}>
 						<ResumenPedido setOpen={setOpenResumenPedido} />
 					</ModalCore>
 				</Box>

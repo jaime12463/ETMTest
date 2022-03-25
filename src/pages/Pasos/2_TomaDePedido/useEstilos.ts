@@ -1,11 +1,11 @@
 import {makeStyles, createStyles} from '@material-ui/styles';
-import {Theme} from '@mui/material';
+import theme from 'theme';
 
-const useEstilos = makeStyles((theme: Theme) =>
+const useEstilos = makeStyles(() =>
 	createStyles({
 		root: {
 			'&.MuiButton-root': {
-				background: '#651C32',
+				background: theme.palette.secondary.main,
 				borderRadius: '50px',
 				color: '#fff',
 				fontFamily: 'Open Sans, Poppins',
@@ -15,7 +15,7 @@ const useEstilos = makeStyles((theme: Theme) =>
 				textTransform: 'inherit',
 				width: '137px',
 				'&:hover': {
-					background: '#651C32',
+					background: theme.palette.secondary.main,
 					color: '#fff',
 				},
 			},
@@ -25,12 +25,11 @@ const useEstilos = makeStyles((theme: Theme) =>
 			},
 			'&.MuiChip-root': {
 				background: 'transparent',
-				border: '1px solid #651C32',
+				border: `1px solid ${theme.palette.secondary.main}`,
 				cursor: 'pointer',
 				borderRadius: '50px',
 				height: ' 18px',
 				padding: '4px, 12px, 4px, 12px',
-				width: '93px',
 			},
 		},
 	})

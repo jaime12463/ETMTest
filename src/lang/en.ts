@@ -116,6 +116,7 @@ const en = {
 		caja: 'Box',
 		cajas: 'Boxes',
 		ahorraste: 'Saved',
+		eliminarTodo: 'Delete all',
 	},
 	simbolos: {
 		decimal: ',',
