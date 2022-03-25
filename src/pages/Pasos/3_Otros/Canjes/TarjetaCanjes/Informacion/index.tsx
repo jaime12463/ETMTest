@@ -54,22 +54,22 @@ const Informacion: React.FC<Props> = ({
 			'canjeAgreado'
 		);
 
-	const [selectBloqueado, setSelectBloqueado] = React.useState<boolean>(true);
+	const [puedeVerSelect, setPuedeVerSelect] = React.useState<boolean>(true);
 
 	React.useEffect(() => {
 		if (producto.unidades === 0 && producto.subUnidades === 0) {
 			setMotivo('');
-			setSelectBloqueado(true);
+			setPuedeVerSelect(false);
 			return;
 		}
 	}, [producto.unidades, producto.subUnidades]);
 
 	React.useEffect(() => {
 		if (getValues.unidades > 0 || getValues.subUnidades > 0) {
-			return setSelectBloqueado(false);
+			return setPuedeVerSelect(true);
 		}
 
-		return setSelectBloqueado(true);
+		return setPuedeVerSelect(false);
 	}, [getValues.unidades, getValues.subUnidades]);
 
 	React.useEffect(() => {
@@ -88,6 +88,10 @@ const Informacion: React.FC<Props> = ({
 			setInputFocus('productoABuscar');
 		}
 	}, [motivo]);
+
+	console.log(
+		Number(getValues.unidades) > 0 || Number(getValues.subUnidades) > 0
+	);
 
 	return (
 		<Box padding='12px 4px 12px 14px' width='179px'>
@@ -124,19 +128,20 @@ const Informacion: React.FC<Props> = ({
 					fontFamily='Open Sans'
 				>{`x${producto.presentacion}`}</Typography>
 			</Box>
-			<CustomSelect
-				opciones={[...itemCatalogoMotivos.map((item) => item.label)]}
-				opcionSeleccionada={motivo}
-				setOpcion={setMotivo}
-				dataCy={`canje-motivo-value`}
-				bloqueado={selectBloqueado}
-				border
-				sinFlecha
-				placeholder={t('general.motivoDelCanje')}
-				stateInputFocus={stateInputFocus}
-				statefocusId={statefocusId}
-				producto={producto}
-			/>
+			{puedeVerSelect && (
+				<CustomSelect
+					opciones={[...itemCatalogoMotivos.map((item) => item.label)]}
+					opcionSeleccionada={motivo}
+					setOpcion={setMotivo}
+					dataCy={`canje-motivo-value`}
+					border
+					sinFlecha
+					placeholder={t('general.motivoDelCanje')}
+					stateInputFocus={stateInputFocus}
+					statefocusId={statefocusId}
+					producto={producto}
+				/>
+			)}
 		</Box>
 	);
 };
