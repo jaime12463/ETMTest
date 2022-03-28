@@ -255,13 +255,6 @@ const TomaPedido: React.FC = () => {
 			}
 			setFocusId(productoActual.codigoProducto);
 			setProductoActual(null);
-			mostrarAviso(
-				'success',
-				t('toast.productoIngresado'),
-				undefined,
-				undefined,
-				'productoIngresado'
-			);
 		}
 	}, [productoActual?.codigoProducto]);
 

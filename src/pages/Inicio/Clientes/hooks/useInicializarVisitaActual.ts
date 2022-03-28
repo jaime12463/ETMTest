@@ -51,7 +51,8 @@ export const useInicializarVisitaActual = () => {
 				promocionesOngoing.inicializar(
 					datosCliente,
 					datos?.promociones,
-					pedidosCliente[codigoCliente]?.promocionesOngoing ?? []
+					pedidosCliente[codigoCliente]?.promocionesOngoing ?? [],
+					configuracion
 				);
 
 			dispatch(

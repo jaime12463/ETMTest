@@ -308,6 +308,7 @@ export type TDatosConfiguracion = {
 };
 
 export type TConfiguracion = {
+	habilitaRequisitoConDescuentoAutomatico:boolean;
 	maximoGrupoCoberturaAMostrar: number;
 	esFrecuenciaAbierta: boolean;
 	habilitaOrdenDeCompra: boolean;
