@@ -272,19 +272,24 @@ const TomaPedido: React.FC = () => {
 				alerta={alerta}
 				contenidoMensaje={configAlerta}
 			/>
-			<Stack spacing='10px'>
+			<Stack spacing='10px' position='relative'>
 				<Box
 					alignItems='center'
 					display='flex'
 					justifyContent='space-between'
-					margin={
-						openTooltip
-							? '18px 0 45px 0'
-							: venta.productos.length > 0
-							? '18px 0 28px 0'
-							: '18px 0 0 0'
+					marginBottom={
+						openTooltip ? '35px' : venta.productos.length > 0 ? '18px' : '0'
 					}
-					paddingLeft='18px'
+					padding={
+						openTooltip
+							? '18px 0 10px 18px'
+							: venta.productos.length > 0
+							? '18px 0 10px 18px'
+							: '18px 0 0 18px'
+					}
+					position='sticky'
+					top='69px'
+					sx={{background: '#fff', zIndex: 1}}
 				>
 					<AutocompleteSeleccionarProducto
 						hookForm={hookForm}

@@ -4,23 +4,24 @@ import useEstilos from './useEstilos';
 
 const Cuerpo: React.FC = ({children}) => {
 	const estilos = useEstilos();
+
 	return (
-		<Box
-			display='flex'
-			justifyContent='center'
+		<Container
+			component='main'
+			disableGutters
 			className={estilos.main}
-			style={{overflow: 'auto'}}
+			classes={{maxWidthXs: estilos.maxWidthXs}}
+			sx={{
+				alignItems: 'center',
+				display: 'flex',
+				flexDirection: 'column',
+				minHeight: '100%',
+				minWidth: '100%',
+				overflow: 'auto',
+			}}
 		>
-			<Container
-				maxWidth='xs'
-				component='main'
-				disableGutters
-				className={estilos.main}
-				classes={{maxWidthXs: estilos.maxWidthXs}}
-			>
-				{children}
-			</Container>
-		</Box>
+			<Box maxWidth='360px'>{children}</Box>
+		</Container>
 	);
 };
 
