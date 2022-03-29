@@ -212,7 +212,7 @@ const Busqueda: React.FC<Props> = ({
 					gap='16px'
 					paddingTop='63px'
 				>
-					<Box display='flex' justifyContent='end'>
+					<Box display='flex' justifyContent='flex-end'>
 						<BusquedaSinResultados />
 					</Box>
 					<Box

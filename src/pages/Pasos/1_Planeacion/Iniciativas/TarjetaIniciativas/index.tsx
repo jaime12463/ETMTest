@@ -481,7 +481,6 @@ const TarjetaIniciativas: React.FC<Props> = ({
 					<Box
 						display='flex'
 						flexDirection='column'
-						alignItems='start'
 						padding={expandido === id ? '12px 14px' : '12px 14px 0 14px'}
 						borderRadius='4px 4px 0 0'
 						gap='8px'
@@ -508,12 +507,12 @@ const TarjetaIniciativas: React.FC<Props> = ({
 							</Box>
 						)}
 						{estadoSelect === 'ejecutada' && (
-							<Box display='flex' justifyContent='end' width='100%'>
+							<Box display='flex' justifyContent='flex-end' width='100%'>
 								<CheckRedondoIcon height='17.5px' width='17.5px' />
 							</Box>
 						)}
 						{estadoSelect === 'cancelada' && motivo !== '' && (
-							<Box display='flex' justifyContent='end' width='100%'>
+							<Box display='flex' justifyContent='flex-end' width='100%'>
 								<CerrarRedondoIcon
 									height='20px'
 									width='20px'

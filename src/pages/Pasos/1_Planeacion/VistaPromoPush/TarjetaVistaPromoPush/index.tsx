@@ -264,7 +264,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 										<GridStyled
 											item
 											xs={5}
-											justifyContent='end'
+											justifyContent='flex-end'
 											sx={{background: '#F5F0EF'}}
 										>
 											<Box
@@ -282,7 +282,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 														alignItems='center'
 														display='flex'
 														gap='4px'
-														justifyContent='end'
+														justifyContent='flex-end'
 													>
 														<Box alignItems='center' display='flex' gap='2px'>
 															{promoPush.componentes[i].unidadMedida ===

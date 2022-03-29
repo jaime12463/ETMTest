@@ -20,7 +20,9 @@ const Cuerpo: React.FC = ({children}) => {
 				overflow: 'auto',
 			}}
 		>
-			<Box maxWidth='360px'>{children}</Box>
+			<Box maxWidth='360px' width='100%'>
+				{children}
+			</Box>
 		</Container>
 	);
 };

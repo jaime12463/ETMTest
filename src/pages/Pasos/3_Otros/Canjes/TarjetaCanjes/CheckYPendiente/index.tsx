@@ -67,14 +67,14 @@ const CheckYPendiente: React.FC<Props> = ({
 						sx={{background: '#F5F0EF'}}
 					>
 						{mostrarAcciones && (
-							<Box display='flex' justifyContent='end'>
+							<Box display='flex' justifyContent='flex-end'>
 								<IconButton sx={{padding: '0'}}>
 									<CheckRedondoIcon height='17.5px' width='17.5px' />
 								</IconButton>
 							</Box>
 						)}
 						{pendiente && (
-							<Box display='flex' justifyContent='end'>
+							<Box display='flex' justifyContent='flex-end'>
 								<Typography
 									variant='caption'
 									fontFamily='Open Sans'

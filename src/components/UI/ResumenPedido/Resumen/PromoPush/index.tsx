@@ -54,7 +54,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 						<Box
 							alignItems='center'
 							display='flex'
-							justifyContent='end'
+							justifyContent='flex-end'
 							paddingLeft='8px'
 							marginTop='4px'
 						>
@@ -66,7 +66,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 								)}`}
 							</Typography>
 						</Box>
-						<Box display='flex' justifyContent='end'>
+						<Box display='flex' justifyContent='flex-end'>
 							<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
 								{`${t('general.ahorroTotal')}: ${formatearNumero(
 									promocion.descuentoPromoPush!,
@@ -74,7 +74,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 								)}`}
 							</Typography>
 						</Box>
-						<Box alignItems='center' display='flex' justifyContent='end'>
+						<Box alignItems='center' display='flex' justifyContent='flex-end'>
 							<Typography
 								variant='subtitle3'
 								fontFamily='Open Sans'

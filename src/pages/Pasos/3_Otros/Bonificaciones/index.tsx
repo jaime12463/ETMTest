@@ -53,7 +53,7 @@ const Bonificaciones: React.FC<Props> = ({bonificacionValida}) => {
 			/>
 			<Stack marginTop='18px' spacing='10px'>
 				{bonificacionValida && (
-					<Box display='flex' justifyContent='end'>
+					<Box display='flex' justifyContent='flex-end'>
 						<Chip
 							className={classes.chip}
 							size='small'

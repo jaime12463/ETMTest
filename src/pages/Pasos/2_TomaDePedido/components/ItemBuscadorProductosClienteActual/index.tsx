@@ -27,7 +27,7 @@ const ItemBuscadorProductosClienteActual: FunctionComponent<Props> = (
 			}}
 		>
 			<Grid item xs={3}>
-				<Box display='flex' justifyContent='start' px={2}>
+				<Box display='flex' px={2}>
 					<Typography variant='body2'>{item.codigoProducto}</Typography>
 				</Box>
 			</Grid>
@@ -40,7 +40,7 @@ const ItemBuscadorProductosClienteActual: FunctionComponent<Props> = (
 			</Grid>
 
 			<Grid item xs={3}>
-				<Box display='flex' justifyContent='end' px={2}>
+				<Box display='flex' justifyContent='flex-end' px={2}>
 					{formatearNumero(item.precioConImpuestoUnidad, t)}
 				</Box>
 			</Grid>

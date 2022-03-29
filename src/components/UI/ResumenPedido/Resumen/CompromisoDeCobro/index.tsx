@@ -77,7 +77,7 @@ export const CompromisoDeCobro: React.FC = () => {
 				alignItems='center'
 				display='flex'
 				gap='40px'
-				justifyContent='end'
+				justifyContent='flex-end'
 				padding='8px 12px'
 			>
 				<Typography variant='subtitle3' color='#000'>

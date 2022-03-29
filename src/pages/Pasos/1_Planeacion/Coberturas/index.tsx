@@ -75,7 +75,7 @@ const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 					visitaActual.coberturasEjecutadas.some(
 						(cobertura) => cobertura.unidades > 0 || cobertura.subUnidades > 0
 					) && (
-						<Box display='flex' justifyContent='end'>
+						<Box display='flex' justifyContent='flex-end'>
 							<Chip
 								className={classes.chip}
 								size='small'
