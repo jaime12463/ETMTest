@@ -53,14 +53,6 @@ import {
 } from 'redux/features/visitaActual/visitaActualSlice';
 import ModalCore from 'components/UI/ModalCore';
 import {obtenerTotalesPedidosCliente} from 'utils/methods';
-/*
-import {
-	obtenerlistaPromocionesVigentes,
-	obtenerPromocionesOngoingTotal,
-	TPromoOngoingAplicables,
-	TPromoOngoingAplicablesResultado,
-} from 'utils/procesos/promociones';
-*/
 
 import {
 	PromocionesOngoing,

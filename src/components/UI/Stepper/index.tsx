@@ -13,8 +13,6 @@ type Props = {
 };
 
 export const Stepper: FunctionComponent<Props> = ({pasos, pasoActivo}) => {
-	console.log(pasos);
-
 	return (
 		<Box width='100%'>
 			<StepperMUI
