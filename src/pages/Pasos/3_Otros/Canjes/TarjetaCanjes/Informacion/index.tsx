@@ -89,10 +89,6 @@ const Informacion: React.FC<Props> = ({
 		}
 	}, [motivo]);
 
-	console.log(
-		Number(getValues.unidades) > 0 || Number(getValues.subUnidades) > 0
-	);
-
 	return (
 		<Box padding='12px 4px 12px 14px' width='179px'>
 			<Box display='flex' flexDirection='column'>

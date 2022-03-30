@@ -329,6 +329,12 @@ export const visitaActualSlice = createSlice({
 			producto.total =
 				producto.preciosBase.unidad * producto.unidades +
 				producto.preciosBase.subUnidad * producto.subUnidades;
+
+			if (producto.tipoPago === ETiposDePago.Contado) {
+				state.avisos.cambioElPedidoSinPromociones.contado = true;
+			} else if (producto.tipoPago === ETiposDePago.Credito) {
+				state.avisos.cambioElPedidoSinPromociones.credito = true;
+			}
 		},
 
 		cambiarTipoPagoPoductoDelPedidoActual: (
