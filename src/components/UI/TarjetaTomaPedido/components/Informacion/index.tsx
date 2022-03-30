@@ -398,16 +398,20 @@ const Informacion: React.FC<Props> = ({
 							setAlerta(true);
 						}}
 						label={
-							<Typography variant='caption' color='primary'>
-								Eliminar descuento
-							</Typography>
-						}
-						icon={
-							<QuitarRellenoIcon
-								height='9px'
-								width='9px'
-								fill={theme.palette.primary.main}
-							/>
+							<Box alignItems='center' display='flex' gap='4px'>
+								<QuitarRellenoIcon
+									height='10px'
+									width='10px'
+									fill={theme.palette.primary.main}
+								/>
+								<Typography
+									variant='caption'
+									color='primary'
+									fontFamily='Open Sans'
+								>
+									{t('descuentos.eliminarDescuento')}
+								</Typography>
+							</Box>
 						}
 					/>
 				</Box>

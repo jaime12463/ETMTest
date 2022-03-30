@@ -248,6 +248,7 @@ const br = {
 			'O desconto {{tipo}} foi substituído por uma promoção contínua.',
 		vieneConPromoOngoing: 'Vem com promoção contínua',
 		descuentoAutomatico: 'Desconto automático',
+		eliminarDescuento: 'Excluir desconto',
 	},
 };
 export default br;
