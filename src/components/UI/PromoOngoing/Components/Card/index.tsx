@@ -646,77 +646,82 @@ export const Card: React.VFC<CardProps> = ({
 						borderTop: 'none',
 					}}
 				>
-					<Button
-						sx={{
-							boxSizing: 'border-box',
-							border: '1px solid #651C32',
-							borderRadius: '50px',
-							minHeight: '10px',
-							height: '18px',
-							textTransform: 'none',
-							'&:hover': {
-								background: 'none',
-							},
-						}}
-						disableFocusRipple
-						fullWidth
-						disableRipple
-						onClick={() => {
-							if (
-								(expandido === expandID && promocion.asignacion) ===
-								EFormaDeAsignacion.Total
-							) {
-								let apliacionTotalIncomplenta = false;
-								promocion.beneficios[
-									grupoYSecuenciaActual.grupo
-								].secuencias.forEach((secuencia: any) => {
-									let tope = secuencia.tope;
+					{!soloLectura && (
+						<Button
+							sx={{
+								boxSizing: 'border-box',
+								border: '1px solid #651C32',
+								borderRadius: '50px',
+								minHeight: '10px',
+								height: '18px',
+								textTransform: 'none',
+								'&:hover': {
+									background: 'none',
+								},
+							}}
+							disableFocusRipple
+							fullWidth
+							disableRipple
+							onClick={() => {
+								if (
+									(expandido === expandID && promocion.asignacion) ===
+									EFormaDeAsignacion.Total
+								) {
+									let apliacionTotalIncomplenta = false;
+									promocion.beneficios[
+										grupoYSecuenciaActual.grupo
+									].secuencias.forEach((secuencia: any) => {
+										let tope = secuencia.tope;
 
-									let totalCantidadMateriales =
-										secuencia.materialesBeneficio.reduce(
-											(a: number, v: TCodigoCantidad) => a + v.cantidad,
-											0
+										let totalCantidadMateriales =
+											secuencia.materialesBeneficio.reduce(
+												(a: number, v: TCodigoCantidad) => a + v.cantidad,
+												0
+											);
+
+										if (totalCantidadMateriales < tope) {
+											apliacionTotalIncomplenta = true;
+										}
+									});
+
+									if (apliacionTotalIncomplenta) {
+										setBordeColor(theme.palette.error.main);
+										return mostrarAviso(
+											'error',
+											'Aplicación máxima incompleta',
+											'Se debe asignar la aplicación total del beneficio'
 										);
-
-									if (totalCantidadMateriales < tope) {
-										apliacionTotalIncomplenta = true;
+									} else {
+										manejadorExpandido(
+											expandido === expandID ? false : expandID
+										);
 									}
-								});
-
-								if (apliacionTotalIncomplenta) {
-									setBordeColor(theme.palette.error.main);
-									return mostrarAviso(
-										'error',
-										'Aplicación máxima incompleta',
-										'Se debe asignar la aplicación total del beneficio'
-									);
 								} else {
 									manejadorExpandido(expandido === expandID ? false : expandID);
 								}
-							} else {
-								manejadorExpandido(expandido === expandID ? false : expandID);
-							}
-						}}
-					>
-						<CardActions disableSpacing style={{padding: 0}}>
-							<Box display='flex' gap='6px' alignItems='center'>
-								<Typography variant='caption' color='secondary'>
-									{expandido !== expandID
-										? t('general.verDetalle')
-										: t('general.ocultarDetalle')}
-								</Typography>
-								<Box
-									className={clsx(classes.expand, {
-										[classes.expandOpen]: expandido === expandID ? true : false,
-									})}
-									aria-expanded={expandido === expandID ? true : false}
-									style={{padding: 0}}
-								>
-									<FlechaAbajoIcon width='10px' height='10px' />
+							}}
+						>
+							<CardActions disableSpacing style={{padding: 0}}>
+								<Box display='flex' gap='6px' alignItems='center'>
+									<Typography variant='caption' color='secondary'>
+										{expandido !== expandID
+											? t('general.verDetalle')
+											: t('general.ocultarDetalle')}
+									</Typography>
+									<Box
+										className={clsx(classes.expand, {
+											[classes.expandOpen]:
+												expandido === expandID ? true : false,
+										})}
+										aria-expanded={expandido === expandID ? true : false}
+										style={{padding: 0}}
+									>
+										<FlechaAbajoIcon width='10px' height='10px' />
+									</Box>
 								</Box>
-							</Box>
-						</CardActions>
-					</Button>
+							</CardActions>
+						</Button>
+					)}
 				</Box>
 			</Box>
 		</CardMUI>

@@ -22,7 +22,7 @@ import IconButton from '@mui/material/IconButton';
 import TarjetaCanjes from './TarjetaCanjes';
 import {SwipeBorrar} from 'components/UI';
 import {useBorrarLinea} from '../hooks/useBorrarLinea';
-import {Box} from '@mui/material';
+import {Box, Typography} from '@mui/material';
 import Modal from 'components/UI/Modal';
 import {BuscarIcon} from 'assests/iconos';
 import DrawerBuscador from 'components/Negocio/DrawerBuscador';
@@ -119,26 +119,38 @@ export const Canjes = () => {
 				contenidoMensaje={configAlerta}
 			/>
 
-			<Stack spacing='10px'>
+			<Stack mt={'5px'} spacing='10px'>
 				<Box
-					alignItems='center'
+					alignItems='flex-end'
 					display='flex'
 					justifyContent='space-between'
 					margin='18px 0'
 					paddingLeft='18px'
 				>
-					<AutocompleteSeleccionarProducto
-						hookForm={hookForm}
-						stateProductoActual={{productoActual, setProductoActual}}
-						statePreciosProductos={{preciosProductos, setPreciosProductos}}
-						stateInputFocus={stateInputFocus}
-					/>
+					<Box>
+						<Box mb={'16px'}>
+							<Typography
+								fontWeight={'600'}
+								fontSize={'Poppins'}
+								variant='subtitle3'
+							>
+								Agregar producto para canje
+							</Typography>
+						</Box>
+
+						<AutocompleteSeleccionarProducto
+							hookForm={hookForm}
+							stateProductoActual={{productoActual, setProductoActual}}
+							statePreciosProductos={{preciosProductos, setPreciosProductos}}
+							stateInputFocus={stateInputFocus}
+						/>
+					</Box>
 
 					<IconButton
 						sx={{padding: 0, marginRight: '9px'}}
 						onClick={() => setOpenBuscador(true)}
 					>
-						<BuscarIcon height='18px' width='18px' />
+						<BuscarIcon height='22px' width='22px' />
 					</IconButton>
 				</Box>
 

@@ -97,7 +97,10 @@ export const visitaActualSlice = createSlice({
 				if (
 					!producto.promoPush &&
 					state.tipoPedidoActual === 'venta' &&
-					!configDefault.actualizaDescuento
+					!configDefault.actualizaDescuento &&
+					(producto.descuento?.tipo !== ETipoDescuento.escalonado ||
+						(producto.descuento?.tipo === ETipoDescuento.escalonado &&
+							producto?.descuento?.porcentajeDescuento! === 0))
 				) {
 					if (producto.tipoPago === ETiposDePago.Contado) {
 						state.avisos.cambioElPedidoSinPromociones.contado = true;
@@ -158,8 +161,6 @@ export const visitaActualSlice = createSlice({
 				beneficios: TPromoOngoingAplicables[];
 			}>
 		) => {
-			const {cambioElPedidoSinPromociones} = state.avisos;
-
 			state.promosOngoing = action.payload.beneficios;
 
 			state.pedidos.ventaenvase.productos = [];
@@ -214,7 +215,12 @@ export const visitaActualSlice = createSlice({
 				...productosPedidoClienteFiltrados,
 			];
 
-			if (!producto?.promoPush && pedidoActual == 'venta') {
+			if (
+				!producto?.promoPush &&
+				pedidoActual == 'venta' &&
+				producto?.descuento?.tipo !== ETipoDescuento.escalonado &&
+				producto?.descuento?.porcentajeDescuento! === 0
+			) {
 				// Esto es para mostrar tooltip de cambios, si se borro un producto de venta con unidades/subunidades mayores a 0
 				if (
 					(producto && producto?.unidades > 0) ||
@@ -323,6 +329,12 @@ export const visitaActualSlice = createSlice({
 			producto.total =
 				producto.preciosBase.unidad * producto.unidades +
 				producto.preciosBase.subUnidad * producto.subUnidades;
+
+			if (producto.tipoPago === ETiposDePago.Contado) {
+				state.avisos.cambioElPedidoSinPromociones.contado = true;
+			} else if (producto.tipoPago === ETiposDePago.Credito) {
+				state.avisos.cambioElPedidoSinPromociones.credito = true;
+			}
 		},
 
 		cambiarTipoPagoPoductoDelPedidoActual: (
@@ -337,7 +349,11 @@ export const visitaActualSlice = createSlice({
 			);
 			if (
 				!state.pedidos[state.tipoPedidoActual].productos[indexProductoPedido]
-					.promoPush
+					.promoPush &&
+				state.pedidos[state.tipoPedidoActual].productos[indexProductoPedido]
+					?.descuento?.tipo !== ETipoDescuento.escalonado &&
+				state.pedidos[state.tipoPedidoActual].productos[indexProductoPedido]
+					?.descuento?.porcentajeDescuento! === 0
 			) {
 				state.avisos.cambioElPedidoSinPromociones = {
 					contado: true,
