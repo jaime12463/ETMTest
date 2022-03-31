@@ -52,10 +52,11 @@ import {
 	useObtenerDatosCliente,
 } from 'hooks';
 import {formatearFecha, formatearNumero} from 'utils/methods';
-import CustomSelect from 'components/UI/CustomSelect';
 import {Link} from '@mui/material';
 import Modal from 'components/UI/Modal';
 import ModalCore from 'components/UI/ModalCore';
+import MaterialSelect from 'components/UI/MaterialSelect';
+import {capitalize} from '@mui/material';
 
 const ButtonStyled = styled(Button)(() => ({
 	border: `1.5px solid ${theme.palette.secondary.main}`,
@@ -563,16 +564,15 @@ const TarjetaIniciativas: React.FC<Props> = ({
 									{t('general.estatus')}
 								</Typography>
 								<Box flex='3' data-cy={`iniciativa-estatus-value-${id}`}>
-									<CustomSelect
+									<MaterialSelect
+										state={capitalize(estadoSelect)}
+										setState={setEstadoSelect}
 										opciones={[
 											t('general.pendiente'),
-											t('general.cancelada'),
 											t('general.ejecutada'),
+											t('general.cancelada'),
 										]}
-										opcionSeleccionada={estadoSelect}
-										setOpcion={setEstadoSelect}
-										bloqueado={visitaActual.pasoATomaPedido}
-										dataCy={`iniciativa-estatus-value-${id}`}
+										disabled={visitaActual.pasoATomaPedido}
 									/>
 								</Box>
 							</Box>
@@ -587,18 +587,18 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										{t('general.motivo')}
 									</Typography>
 									<Box flex='3'>
-										<CustomSelect
+										<MaterialSelect
+											state={capitalize(motivoSelect)}
+											setState={setMotivoSelect}
 											opciones={[
 												...motivosCancelacionIniciativas.map(
 													(motivos) => motivos.descripcion
 												),
 											]}
-											opcionSeleccionada={motivoSelect}
-											setOpcion={setMotivoSelect}
-											bloqueado={visitaActual.pasoATomaPedido}
-											border
-											dataCy={`iniciativa-motivo-value-${id}`}
+											borderColor={motivoSelect === ''}
 											placeholder={t('general.motivoCancelacion')}
+											greyTextPlaceholder
+											disabled={visitaActual.pasoATomaPedido}
 										/>
 									</Box>
 								</Box>

@@ -5,12 +5,12 @@ import {TCondicicon, TProductoPedido, TStateInputFocus} from 'models';
 import {StateFocusID} from 'components/UI/TarjetaTomaPedido';
 import {useObtenerCatalogoMotivos} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {CajaIcon} from 'assests/iconos';
-import CustomSelect from 'components/UI/CustomSelect';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {GetValueProps} from '..';
 import {useObtenerDatos} from 'redux/hooks';
 import {useMostrarAviso} from 'hooks';
+import MaterialSelect from 'components/UI/MaterialSelect';
 
 interface Props {
 	producto: TProductoPedido;
@@ -129,17 +129,12 @@ const Informacion: React.FC<Props> = ({
 				>{`x${producto.presentacion}`}</Typography>
 			</Box>
 			{puedeVerSelect && (
-				<CustomSelect
+				<MaterialSelect
 					opciones={[...itemCatalogoMotivos.map((item) => item.label)]}
-					opcionSeleccionada={motivo}
-					setOpcion={setMotivo}
-					dataCy={`canje-motivo-value`}
-					border
-					sinFlecha
+					state={motivo}
+					setState={setMotivo}
 					placeholder={t('general.motivoDelCanje')}
-					stateInputFocus={stateInputFocus}
-					statefocusId={statefocusId}
-					producto={producto}
+					borderColor={motivo === ''}
 				/>
 			)}
 		</Box>

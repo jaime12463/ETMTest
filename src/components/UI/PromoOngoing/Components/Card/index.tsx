@@ -11,7 +11,6 @@ import {
 } from 'models';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
-
 import {
 	TProductosUsadosEnOtrasPromos,
 	TPromoOngoingAplicables,
@@ -19,7 +18,7 @@ import {
 	TPromoOngoingDisponibilidad,
 } from 'utils/procesos/promociones/PromocionesOngoing';
 import {TarjetaPromociones} from './TarjetaPromociones';
-import {createStyles, makeStyles, styled} from '@material-ui/styles';
+import {createStyles, makeStyles} from '@material-ui/styles';
 import {
 	Box,
 	Button,
@@ -28,14 +27,13 @@ import {
 	Collapse,
 	Divider,
 	Stack,
-	Theme,
 	Typography,
 } from '@mui/material';
 import clsx from 'clsx';
-import CustomSelect from 'components/UI/CustomSelect';
 import {useMostrarAviso} from 'hooks';
+import MaterialSelect from 'components/UI/MaterialSelect';
 
-const useEstilos = makeStyles((theme: Theme) =>
+const useEstilos = makeStyles(() =>
 	createStyles({
 		expand: {
 			transform: 'rotate(0deg)',
@@ -494,16 +492,14 @@ export const Card: React.VFC<CardProps> = ({
 									Grupos
 								</Typography>
 								<Box width='181px' height='24px' mt='8px'>
-									<CustomSelect
-										bloqueado={promocionAplicada}
-										opcionSeleccionada={gruposSelect}
+									<MaterialSelect
+										state={gruposSelect}
+										setState={setGruposSelect}
 										opciones={[
 											...promocion?.beneficios?.map(
 												(beneficio) => beneficio.descripcion
 											),
 										]}
-										setOpcion={setGruposSelect}
-										dataCy='select-grupos-promociones'
 									/>
 								</Box>
 							</Box>
@@ -512,8 +508,9 @@ export const Card: React.VFC<CardProps> = ({
 									Secuencia
 								</Typography>
 								<Box width='81px' height='24px' mt='8px' mb='8px'>
-									<CustomSelect
-										opcionSeleccionada={secuenciaSelect}
+									<MaterialSelect
+										state={secuenciaSelect}
+										setState={setSecuenciaSelect}
 										opciones={[
 											...promocion?.beneficios[
 												grupoYSecuenciaActual.grupo
@@ -521,8 +518,6 @@ export const Card: React.VFC<CardProps> = ({
 												secuencia?.secuencia?.toString()
 											),
 										]}
-										setOpcion={setSecuenciaSelect}
-										dataCy='select-secuencia-promociones'
 									/>
 								</Box>
 								<Typography
