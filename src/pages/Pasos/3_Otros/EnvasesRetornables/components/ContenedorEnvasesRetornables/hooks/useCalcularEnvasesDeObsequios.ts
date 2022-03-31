@@ -6,6 +6,7 @@ import {ETiposDePago} from 'models/redux';
 export const useCalcularEnvasesDeObsequios = () => {
 	const visitaActual = useObtenerVisitaActual();
 	const obtenerDatosProducto = useObtenerDatosProducto();
+	const esTipoObsequio = '1';
 
 	const calcularEnvasesDeObsequios = () => {
 		const medidaUnidad = 'Unidad';
@@ -13,12 +14,13 @@ export const useCalcularEnvasesDeObsequios = () => {
 
 		let promosConvertidasAProducto: TProductoPedido[] = [];
 		visitaActual.promosOngoing.forEach((promo) => {
-			//console.log("*promo", promo);
+			
 			promo.beneficios.forEach((beneficio) => {
-				beneficio.secuencias.forEach((secuencia) => {
-					//console.log("*secuencia", secuencia);
+				for (const secuencia of beneficio.secuencias) {
+					//Solo calculo envases cuando es tipo Obsequio
+					if (secuencia.formaBeneficio !== esTipoObsequio) continue;
+
 					for (const material of secuencia.materialesBeneficio) {
-						//console.log("*material", material);
 
 						const {codigo, cantidad} = material as TCodigoCantidad;
 						if (cantidad === 0) continue;
@@ -65,7 +67,7 @@ export const useCalcularEnvasesDeObsequios = () => {
 						promosConvertidasAProducto =
 							promosConvertidasAProducto.concat(productoConvertido);
 					}
-				});
+				}
 			});
 		});
 
