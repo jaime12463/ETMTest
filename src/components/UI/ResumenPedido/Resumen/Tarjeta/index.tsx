@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import {BotellaIcon, CajaIcon} from 'assests/iconos';
 import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
-import {TProductoPedido} from 'models';
+import {EFormaBeneficio, TProductoPedido} from 'models';
 import theme from 'theme';
 import {useObtenerDatos} from 'redux/hooks';
 import {useCalularPruductoEnPromoOnGoing} from 'hooks';
@@ -36,7 +36,10 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 	let subUnidadesFinales = subUnidades;
 
 	if (infoBeneficio.cantidad) {
-		if (tipoPago === infoBeneficio.tipoPago) {
+		if (
+			tipoPago === infoBeneficio.tipoPago &&
+			infoBeneficio.formaBeneficio !== EFormaBeneficio.Obsequio
+		) {
 			if (infoBeneficio.unidadMedida === 'Unidad') {
 				unidadesFinales = unidades - infoBeneficio.cantidad;
 			} else {

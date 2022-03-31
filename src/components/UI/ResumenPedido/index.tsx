@@ -90,7 +90,8 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 				//Se evalua si el producto esta en PromoOngoing
 				if (
 					infoBeneficio.cantidad &&
-					infoBeneficio.tipoPago === ETiposDePago.Credito
+					infoBeneficio.tipoPago === ETiposDePago.Credito &&
+					infoBeneficio.formaBeneficio !== EFormaBeneficio.Obsequio
 				) {
 					let unidadesFinales = producto.unidades;
 					let subUnidadesFinales = producto.subUnidades;
@@ -118,7 +119,8 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 				//Se evalua si el producto esta en PromoOngoing
 				if (
 					infoBeneficio.cantidad &&
-					infoBeneficio.tipoPago === ETiposDePago.Contado
+					infoBeneficio.tipoPago === ETiposDePago.Contado &&
+					infoBeneficio.formaBeneficio !== EFormaBeneficio.Obsequio
 				) {
 					let unidadesFinales = producto.unidades;
 					let subUnidadesFinales = producto.subUnidades;
