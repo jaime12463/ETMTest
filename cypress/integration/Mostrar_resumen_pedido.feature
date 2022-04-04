@@ -63,15 +63,22 @@ Escenario: N°6 - Sección orden de compra
     Cuando selecciono ver resumen del pedido
     Entonces el sistema mostrará dentro de la sección orden de compra el número de la orden de compra registrada en la visita 
 
-Escenario: N°7 - Mostrar los totales al pié del resumen
+Esquema del escenario: N°7 - Mostrar los totales al pié del resumen
     Dado que estoy en un cliente
     Cuando selecciono ver resumen del pedido
     Entonces el sistema mostrará al final del resumen los totales de contado, crédito y descuentos
+    Y si <_habilitaCargosFinancieros>, '<mostrara>' la línea de cargos financieros
     Y siendo total contado = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago contado más el compromiso de cobro, menos la suma de los descuentos de cada producto a contado
     Y total crédito = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago crédito, menos la suma de los descuentos de cada producto a crédto
-    Y total ahorro = a la suma de los descuentos de cada producto de ambas condiciones de pago.
+    Y total ahorro = a la suma de los descuentos de cada producto de ambas condiciones de pago
+    Y total cargos financieros = a la suma de los cargos financieros de cada producto de ambas condiciones de pago
 
  # Descuentos: son los montos de ahorro obtenidos por descuento escalonado, descuento polarizado, descuento automático y descuentos otenidos por promociones ongoing aplicadas
+
+Ejemplos:
+|_habilitaCargosFinancieros|mostrara     |
+|         true             | mostrará    |
+|         false            | no mostrará |
 
 
 Escenario: N°8 - Mostrar en el resumen las secciones
