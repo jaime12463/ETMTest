@@ -186,7 +186,7 @@ export const Otros: React.FC = () => {
 					<Typography variant={'subtitle2'}>{t('general.canje')}</Typography>
 				}
 				subTitulo={
-					<Typography color={'black'} variant={'body3'}>
+					<Typography  color={'black'} variant={'body3'}>
 						{t('titulos.tarjetaCanjes')}
 					</Typography>
 				}
