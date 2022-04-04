@@ -47,6 +47,8 @@ export const TarjetaPromociones: React.FC<Props> = ({
 		}
 	}, [producto]);
 
+	//console.log(producto);
+
 	return (
 		<>
 			{productoActual && (

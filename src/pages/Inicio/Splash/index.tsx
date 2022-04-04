@@ -11,6 +11,7 @@ import {useAppSelector} from 'redux/hooks';
 import {selectDatos} from 'redux/features/datos/datosSlice';
 import {Box, Typography} from '@mui/material';
 import React from 'react';
+import theme from 'theme';
 
 export default function Splash() {
 	const history = useHistory();
@@ -40,23 +41,21 @@ export default function Splash() {
 						<img
 							src={LogoFemsa}
 							onClick={() => history.push(nombresRutas.clientes)}
-							style={{cursor: 'pointer'}}
-							alt='logo'
+							style={{
+								cursor: 'pointer',
+								position: 'fixed',
+								top: '50%',
+								left: '50%',
+								transform: 'translate(-50%, -50%)',
+							}}
+							alt='Logo Coca Cola Femsa'
 							data-cy='boton-splash'
-						></img>
+						/>
 					</Center>
 				</Estructura.Cuerpo>
 				<Estructura.PieDePagina>
 					<Center>
-						<div
-							style={{
-								background: `url(${Footers}) no-repeat`,
-								height: '75px',
-								width: '300px',
-								position: 'absolute',
-								bottom: '0px',
-							}}
-						></div>
+						<img src={Footers} alt='Logo Hasar' />
 					</Center>
 				</Estructura.PieDePagina>
 			</Estructura>
@@ -64,7 +63,11 @@ export default function Splash() {
 	} else {
 		return (
 			<Box
-				sx={{minWidth: '100vw', minHeight: '100vh', backgroundColor: '#651C32'}}
+				sx={{
+					minWidth: '100vw',
+					minHeight: '100vh',
+					backgroundColor: theme.palette.secondary.main,
+				}}
 			>
 				<Center>
 					<Box>
@@ -73,9 +76,9 @@ export default function Splash() {
 							alt='logo'
 							data-cy='boton-splash'
 							style={{width: '188px', height: '169px'}}
-						></img>
+						/>
 						<Typography fontFamily={'Poppins'} color='white'>
-							Procesando información...{' '}
+							Procesando información...
 						</Typography>
 					</Box>
 				</Center>

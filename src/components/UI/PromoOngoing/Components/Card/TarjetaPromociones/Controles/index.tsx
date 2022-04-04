@@ -133,10 +133,11 @@ export const Controles: React.FC<Props> = ({
 		const topeTotal =
 			Number(e.target.value) > producto.tope
 				? true
-				: Number(e.target.value) + totalProductos > producto.topeSecuencia
+				: Number(e.target.value) + totalProductos - cantidadActual >
+				  producto.topeSecuencia
 				? true
 				: false;
-
+		console.log(Number(e.target.value) + totalProductos - cantidadActual);
 		if (topeTotal) {
 			mostrarAviso('error', 'La cantidad es mayor al disponible permitido');
 		} else {

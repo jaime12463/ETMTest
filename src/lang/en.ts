@@ -116,6 +116,7 @@ const en = {
 		caja: 'Box',
 		cajas: 'Boxes',
 		ahorraste: 'Saved',
+		eliminarTodo: 'Delete all',
 	},
 	simbolos: {
 		decimal: ',',
@@ -322,6 +323,7 @@ const en = {
 			'The {{tipo}} discount has been replaced by an ongoing promotion',
 		vieneConPromoOngoing: 'Comes with ongoing promotion',
 		descuentoAutomatico: 'Automatic discount',
+		eliminarDescuento: 'Delete discount',
 	},
 };
 export default en;

@@ -109,13 +109,6 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 
 			if (productoEnVenta?.unidades > 0 || productoEnVenta?.subUnidades > 0) {
 				if (!productoAgregado) {
-					mostrarAviso(
-						'success',
-						t('toast.productoAgregado'),
-						undefined,
-						undefined,
-						'ProductoAgreado'
-					);
 					setProductoAgregado(true);
 				}
 				return setColorBorde(theme.palette.success.main);

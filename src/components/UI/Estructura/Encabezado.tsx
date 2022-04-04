@@ -45,7 +45,7 @@ const Encabezado: React.FC<Props> = ({
 							)}
 						</Stack>
 					</Grid>
-					<Box alignItems='end' display='flex' gap='16px'>
+					<Box alignItems='flex-end' display='flex' gap='16px'>
 						<Box position='relative'>
 							<Logo />
 						</Box>

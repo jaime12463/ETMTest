@@ -90,7 +90,8 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 				//Se evalua si el producto esta en PromoOngoing
 				if (
 					infoBeneficio.cantidad &&
-					infoBeneficio.tipoPago === ETiposDePago.Credito
+					infoBeneficio.tipoPago === ETiposDePago.Credito &&
+					infoBeneficio.formaBeneficio !== EFormaBeneficio.Obsequio
 				) {
 					let unidadesFinales = producto.unidades;
 					let subUnidadesFinales = producto.subUnidades;
@@ -118,7 +119,8 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 				//Se evalua si el producto esta en PromoOngoing
 				if (
 					infoBeneficio.cantidad &&
-					infoBeneficio.tipoPago === ETiposDePago.Contado
+					infoBeneficio.tipoPago === ETiposDePago.Contado &&
+					infoBeneficio.formaBeneficio !== EFormaBeneficio.Obsequio
 				) {
 					let unidadesFinales = producto.unidades;
 					let subUnidadesFinales = producto.subUnidades;
@@ -316,12 +318,11 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 	}
 
 	return (
-		<>
+		<Box sx={{background: '#fff'}} borderRadius='8px' width='100%'>
 			<Box
 				display='flex'
-				justifyContent='end'
+				justifyContent='flex-end'
 				padding='22px 24px 10px 24px'
-				width='100%'
 			>
 				<IconButton
 					onClick={() => setOpen((prevState) => !prevState)}
@@ -631,7 +632,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					</Box>
 				</Box>
 			</Box>
-		</>
+		</Box>
 	);
 };
 

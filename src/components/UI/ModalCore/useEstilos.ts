@@ -29,8 +29,6 @@ const useEstilos = makeStyles(() =>
 		card: {
 			animation: `$animationStart 0.5s cubic-bezier(0.35, 0.34, 0.46, 1.01)`,
 			alignItems: 'center',
-			background: '#fff',
-			borderRadius: ({borderRadius}: Props) => (borderRadius ? '8px' : 0),
 			display: 'flex',
 			flexDirection: 'column',
 			position: 'absolute',

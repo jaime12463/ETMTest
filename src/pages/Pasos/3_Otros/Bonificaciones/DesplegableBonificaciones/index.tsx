@@ -12,12 +12,13 @@ import theme from 'theme';
 import {CheckRedondoIcon, FlechaAbajoIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
-import CustomSelect from 'components/UI/CustomSelect';
 import TarjetaBonificacion from '../TarjetaBonificacion';
 import {TGruposBonificacion} from 'models';
 import {useContador, useMostrarAviso} from 'hooks';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {cambiarSeQuedaAEditar} from 'redux/features/visitaActual/visitaActualSlice';
+import MaterialSelect from 'components/UI/MaterialSelect';
+import {capitalize} from '@mui/material';
 
 const ButtonStyled = styled(Button)(() => ({
 	border: `1.5px solid ${theme.palette.secondary.main}`,
@@ -72,13 +73,12 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 	const [primerProductoAgregado, setPrimerProductoAgregado] =
 		React.useState<boolean>(false);
 	const [opciones, setOpciones] = React.useState<string>(
-		grupoBonificacionesActivas?.nombreGrupo.toLowerCase() ??
-			grupos[0].nombreGrupo.toLowerCase()
+		grupoBonificacionesActivas?.nombreGrupo ?? grupos[0].nombreGrupo
 	);
 	const dispatch = useAppDispatch();
 
 	const grupoSeleccionado = grupos.find(
-		(grupo) => grupo.nombreGrupo.toLowerCase() === opciones
+		(grupo) => grupo.nombreGrupo === opciones
 	);
 
 	const mostrarAviso = useMostrarAviso();
@@ -245,7 +245,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 	React.useEffect(() => {
 		if (resetBonificaciones) {
 			reiniciar();
-			setOpciones(grupos[0].nombreGrupo.toLowerCase());
+			setOpciones(grupos[0].nombreGrupo);
 			setPrimerProductoAgregado(false);
 		}
 	}, [resetBonificaciones]);
@@ -276,7 +276,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 					}}
 				>
 					{mostrarCheck && (
-						<Box display='flex' justifyContent='end'>
+						<Box display='flex' justifyContent='flex-end'>
 							<CheckRedondoIcon height='20px' width='20px' />
 						</Box>
 					)}
@@ -308,11 +308,10 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 							</Typography>
 						</Box>
 						<Box marginBottom='10px' padding='0 14px'>
-							<CustomSelect
-								opcionSeleccionada={opciones}
+							<MaterialSelect
+								state={capitalize(opciones)}
+								setState={setOpciones}
 								opciones={[...grupos.map((grupo) => grupo.nombreGrupo)]}
-								setOpcion={setOpciones}
-								dataCy='select-bonificaciones'
 							/>
 						</Box>
 						<Typography

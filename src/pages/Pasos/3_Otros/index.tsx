@@ -86,7 +86,8 @@ export const Otros: React.FC = () => {
 		(bonificacion) => bonificacion.detalle.length > 0
 	);
 
-	const validarTipoPedidosRealizadosSegunConfiguracion = useValidarTipoPedidosRealizadosSegunConfiguracion('esValorizado');
+	const validarTipoPedidosRealizadosSegunConfiguracion =
+		useValidarTipoPedidosRealizadosSegunConfiguracion('esValorizado');
 	const enableOrdenDeCompra = validarTipoPedidosRealizadosSegunConfiguracion();
 
 	React.useEffect(() => {
@@ -185,7 +186,7 @@ export const Otros: React.FC = () => {
 					<Typography variant={'subtitle2'}>{t('general.canje')}</Typography>
 				}
 				subTitulo={
-					<Typography variant={'body3'}>
+					<Typography  color={'black'} variant={'body3'}>
 						{t('titulos.tarjetaCanjes')}
 					</Typography>
 				}

@@ -53,7 +53,8 @@ const Controles: React.FC<Props> = ({
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {configuracionPedido}: any = datosCliente;
-	const validacionPermiteSubUnidades = useValidacionPermiteSubUnidades(producto);
+	const validacionPermiteSubUnidades =
+		useValidacionPermiteSubUnidades(producto);
 
 	const avisoCanjeAgregado = () =>
 		focusId === producto.codigoProducto &&
@@ -176,7 +177,6 @@ const Controles: React.FC<Props> = ({
 				alignItems='center'
 				display='flex'
 				flexDirection='column'
-				justifyContent='start'
 				padding='22px 14px 12px 8px'
 				gap='12px'
 				width='125px'
@@ -190,7 +190,12 @@ const Controles: React.FC<Props> = ({
 				}
 				sx={{background: '#F5F0EF'}}
 			>
-				<Box alignItems='center' display='flex' gap='2px' justifyContent='end'>
+				<Box
+					alignItems='center'
+					display='flex'
+					gap='2px'
+					justifyContent='flex-end'
+				>
 					<CajaIcon
 						height='18px'
 						width='18px'
@@ -263,7 +268,7 @@ const Controles: React.FC<Props> = ({
 					<Box
 						alignItems='center'
 						display='flex'
-						justifyContent='end'
+						justifyContent='flex-end'
 						gap='2px'
 					>
 						<BotellaIcon

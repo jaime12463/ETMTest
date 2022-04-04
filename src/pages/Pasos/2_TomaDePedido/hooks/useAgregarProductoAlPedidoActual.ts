@@ -97,13 +97,17 @@ export const useAgregarProductoAlPedidoActual = (
 
 			// unidadesSinPromoOngoing toma el valor de unidadesParseado - las unidades que se agregan en las promoOngoing, si no hay promoOngoing, toma el valor de unidadesParseado
 			const unidadesSinPromoOngoing =
-				infoBeneficio.cantidad && infoBeneficio.unidadMedida === 'Unidad'
+				infoBeneficio.cantidad &&
+				infoBeneficio.unidadMedida === 'Unidad' &&
+				infoBeneficio.formaBeneficio !== EFormaBeneficio.Obsequio
 					? unidadesParseado - infoBeneficio.cantidad
 					: unidadesParseado;
 
 			// subUnidadesSinPromoOngoing toma el valor de subUnidadesParseado - las unidades que se agregan en las promoOngoing, si no hay promoOngoing, toma el valor de subUnidadesParseado
 			const subUnidadesSinPromoOngoing =
-				infoBeneficio.cantidad && infoBeneficio.unidadMedida !== 'Unidad'
+				infoBeneficio.cantidad &&
+				infoBeneficio.unidadMedida !== 'Unidad' &&
+				infoBeneficio.formaBeneficio !== EFormaBeneficio.Obsequio
 					? subUnidadesParseado - infoBeneficio.cantidad
 					: subUnidadesParseado;
 

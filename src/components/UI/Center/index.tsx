@@ -1,9 +1,7 @@
-import React, {FunctionComponent} from 'react';
+import React from 'react';
 import {Box} from '@mui/material';
 
-type Props = {};
-
-const Center: FunctionComponent<Props> = (props) => {
+const Center: React.FC = ({children}) => {
 	return (
 		<Box
 			display='flex'
@@ -11,7 +9,7 @@ const Center: FunctionComponent<Props> = (props) => {
 			alignItems='center'
 			minHeight='100%'
 		>
-			{props.children}
+			{children}
 		</Box>
 	);
 };

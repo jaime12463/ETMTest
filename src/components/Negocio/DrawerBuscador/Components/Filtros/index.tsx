@@ -421,7 +421,7 @@ const Filtros: React.FC<Props> = ({
 			<Box
 				alignItems='center'
 				display='flex'
-				justifyContent='end'
+				justifyContent='flex-end'
 				padding='10px'
 				sx={{
 					background: '#F5F0EF',

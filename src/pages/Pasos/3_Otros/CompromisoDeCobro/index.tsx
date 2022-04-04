@@ -131,7 +131,7 @@ const CompromisoDeCobro: React.FC = () => {
 
 	return (
 		<>
-			<Box marginTop='18px' display='flex' alignItems='start' gap='22px'>
+			<Box marginTop='18px' display='flex' gap='22px'>
 				<Box display='flex' flexDirection='column' gap='14px'>
 					<Typography variant='body3'>
 						{t('general.limiteDeCredito')}:
@@ -224,7 +224,7 @@ const CompromisoDeCobro: React.FC = () => {
 				<Grid
 					container
 					height='24px'
-					justifyContent='end'
+					justifyContent='flex-end'
 					alignItems='center'
 					gap='8px'
 					sx={{
@@ -247,7 +247,7 @@ const CompromisoDeCobro: React.FC = () => {
 					<Grid
 						container
 						height='24px'
-						justifyContent='end'
+						justifyContent='flex-end'
 						alignItems='center'
 						gap='8px'
 						sx={{

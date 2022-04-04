@@ -5,12 +5,12 @@ import {TCondicicon, TProductoPedido, TStateInputFocus} from 'models';
 import {StateFocusID} from 'components/UI/TarjetaTomaPedido';
 import {useObtenerCatalogoMotivos} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {CajaIcon} from 'assests/iconos';
-import CustomSelect from 'components/UI/CustomSelect';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {GetValueProps} from '..';
 import {useObtenerDatos} from 'redux/hooks';
 import {useMostrarAviso} from 'hooks';
+import MaterialSelect from 'components/UI/MaterialSelect';
 
 interface Props {
 	producto: TProductoPedido;
@@ -54,22 +54,22 @@ const Informacion: React.FC<Props> = ({
 			'canjeAgreado'
 		);
 
-	const [selectBloqueado, setSelectBloqueado] = React.useState<boolean>(true);
+	const [puedeVerSelect, setPuedeVerSelect] = React.useState<boolean>(true);
 
 	React.useEffect(() => {
 		if (producto.unidades === 0 && producto.subUnidades === 0) {
 			setMotivo('');
-			setSelectBloqueado(true);
+			setPuedeVerSelect(false);
 			return;
 		}
 	}, [producto.unidades, producto.subUnidades]);
 
 	React.useEffect(() => {
 		if (getValues.unidades > 0 || getValues.subUnidades > 0) {
-			return setSelectBloqueado(false);
+			return setPuedeVerSelect(true);
 		}
 
-		return setSelectBloqueado(true);
+		return setPuedeVerSelect(false);
 	}, [getValues.unidades, getValues.subUnidades]);
 
 	React.useEffect(() => {
@@ -124,19 +124,15 @@ const Informacion: React.FC<Props> = ({
 					fontFamily='Open Sans'
 				>{`x${producto.presentacion}`}</Typography>
 			</Box>
-			<CustomSelect
-				opciones={[...itemCatalogoMotivos.map((item) => item.label)]}
-				opcionSeleccionada={motivo}
-				setOpcion={setMotivo}
-				dataCy={`canje-motivo-value`}
-				bloqueado={selectBloqueado}
-				border
-				sinFlecha
-				placeholder={t('general.motivoDelCanje')}
-				stateInputFocus={stateInputFocus}
-				statefocusId={statefocusId}
-				producto={producto}
-			/>
+			{puedeVerSelect && (
+				<MaterialSelect
+					opciones={[...itemCatalogoMotivos.map((item) => item.label)]}
+					state={motivo}
+					setState={setMotivo}
+					placeholder={t('general.motivoDelCanje')}
+					borderColor={motivo === ''}
+				/>
+			)}
 		</Box>
 	);
 };

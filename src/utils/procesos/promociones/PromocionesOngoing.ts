@@ -16,15 +16,14 @@ import {
 	TPromoOngoingHabilitadas,
 	TPromoOngoingAplicadas,
 	TCodigoCantidad,
+	TConfiguracion,
 } from 'models';
 
 import {fechaDispositivo, fechaDentroDelRango} from 'utils/methods';
 import {validarProductoContraPortafolio} from 'utils/validaciones';
+import { TProductosPedidoIndex, ProductosDelPedidoFiltrados } from '../productos/ProductosDelPedidoFiltrosStrategy';
 
-export type TProductosPedidoIndex = Record<
-	number,
-	TProductoPedido & {aplicado: number}
->;
+
 
 export type TProductosUsadosEnOtrasPromos = {
 	[codigoProducto: number]: number[];
@@ -91,6 +90,8 @@ export class PromocionesOngoing {
 
 	private _cliente: TCliente | undefined = undefined;
 
+	private _configuracion: TConfiguracion | undefined = undefined;
+
 	private _listaPromoOngoing: TListaPromoOngoing = {};
 
 	private _promosAplicadasOtrasVisitas: TPromoOngoing[] = [];
@@ -140,12 +141,14 @@ export class PromocionesOngoing {
 	public inicializar(
 		cliente: TCliente,
 		listaPromociones: TListaPromoOngoing,
-		promosAplicadasOtrasVisitas: TPromoOngoing[]
+		promosAplicadasOtrasVisitas: TPromoOngoing[],
+		configuracion:TConfiguracion
 	) {
 		this._cliente = cliente;
 		this._listaPromoOngoing = listaPromociones;
 		this._promosAplicadasOtrasVisitas = promosAplicadasOtrasVisitas;
 		this._calculoRealizado = false;
+		this._configuracion= configuracion;
 
 		console.log(
 			`Inicializando  motor de promociones para el cliente: ${this._cliente.codigoCliente}`
@@ -323,8 +326,7 @@ export class PromocionesOngoing {
 		productos: TProductoPedido[],
 		tipoDePago: ETiposDePago
 	): TPromoOngoingAplicablesResultado {
-		let productosPedidos: TProductosPedidoIndex =
-			this.obtenerProductosDelPedidoIndex(productos, tipoDePago);
+		let productosPedidos: TProductosPedidoIndex = ProductosDelPedidoFiltrados.obtenerListaIndex(productos, tipoDePago,this._configuracion);
 		let productosUsadosEnOtrasPromosAutomaticas: TProductosUsadosEnOtrasPromos =
 			{};
 		let productosUsadosEnOtrasPromosManuales: TProductosUsadosEnOtrasPromos =
@@ -589,42 +591,6 @@ export class PromocionesOngoing {
 		);
 	}
 
-	/**
-	 * Retorna un TProductosPedidoIndex con todos los productos distintos de promoPush, que no se le haya aplicado descuento escalonado y que sean de una forma de pago
-	 * @constructor
-	 * @param {TProductoPedido[]} productosPedidos - item's del pedido
-	 * @param {ETiposDePago} tipoPago - Contado o Crédito
-	 */
-	private obtenerProductosDelPedidoIndex(
-		productosPedidos: TProductoPedido[],
-		tipoPago: ETiposDePago,
-		aplicadas?: number[]
-	): TProductosPedidoIndex {
-		return productosPedidos.reduce(
-			(
-				productosPedidoIndex: TProductosPedidoIndex,
-				producto: TProductoPedido
-			) => {
-				if (
-					!producto.promoPush &&
-					producto.tipoPago == tipoPago &&
-					(producto.descuento?.tipo != ETipoDescuento.escalonado ||
-						(producto.descuento?.tipo == ETipoDescuento.escalonado &&
-							producto.descuento?.porcentajeDescuento == 0))
-				) {
-					return {
-						...productosPedidoIndex,
-						[producto['codigoProducto']]: {...producto, aplicado: 0},
-					};
-				} else {
-					return {
-						...productosPedidoIndex,
-					};
-				}
-			},
-			{}
-		);
-	}
 
 	private comprometerProductosUsadosEnPromos(
 		materialesRequisitosVerificados: TPromoOngoingMaterialesRequisitosVerificados[],

@@ -267,7 +267,12 @@ const Controles: React.FC<Props> = ({
 				}}
 			/>
 			<Box flex='1' padding='19px 14px 8px 0' sx={{background: '#F5F0EF'}}>
-				<Box alignItems='center' display='flex' justifyContent='end' gap='2px'>
+				<Box
+					alignItems='center'
+					display='flex'
+					justifyContent='flex-end'
+					gap='2px'
+				>
 					{unidadMedida === 'Unidad' ? (
 						<CajaIcon height='18px' width='18px' />
 					) : (

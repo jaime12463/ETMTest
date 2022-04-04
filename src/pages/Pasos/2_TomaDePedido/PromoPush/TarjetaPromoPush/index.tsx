@@ -479,7 +479,7 @@ const TarjetaPromoPush = (props: any) => {
 												}}
 												item
 												xs={6}
-												justifyContent='end'
+												justifyContent='flex-end'
 											>
 												<Box
 													display='flex'
@@ -489,7 +489,7 @@ const TarjetaPromoPush = (props: any) => {
 													<Box
 														display='flex'
 														textAlign='center'
-														justifyContent='end'
+														justifyContent='flex-end'
 													>
 														<Box mr={'2px'}>
 															{promoPush.componentes[i].unidadMedida ===

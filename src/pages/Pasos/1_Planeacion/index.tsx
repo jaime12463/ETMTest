@@ -79,8 +79,9 @@ export const Planeacion: React.FC = () => {
 
 	const totalesIniciativasCompletas = iniciativas.filter(
 		(iniciativa) =>
-			iniciativa.estado === 'ejecutada' ||
-			(iniciativa.estado === 'cancelada' && iniciativa.motivo !== '')
+			iniciativa.estado === 'ejecutada' &&
+			(iniciativa.unidadesEjecutadas > 0 ||
+				iniciativa.subUnidadesEjecutadas > 0)
 	);
 
 	React.useEffect(() => {

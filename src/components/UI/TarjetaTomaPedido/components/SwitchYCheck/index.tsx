@@ -12,19 +12,10 @@ interface Props {
 
 const SwitchYCheck: React.FC<Props> = ({conSwitch, producto}) => {
 	return (
-		<Box
-			display='flex'
-			alignItems='start'
-			justifyContent={conSwitch ? 'space-between' : 'end'}
-		>
+		<Box display='flex' justifyContent={conSwitch ? 'space-between' : 'end'}>
 			{conSwitch ? (
 				<>
-					<Box
-						padding='12px 0 0 14px'
-						display='flex'
-						justifyContent='start'
-						flex={3}
-					>
+					<Box padding='12px 0 0 14px' display='flex' flex={3}>
 						<SwitchCambiarTipoPago producto={producto} />
 					</Box>
 					<Box
@@ -36,7 +27,7 @@ const SwitchYCheck: React.FC<Props> = ({conSwitch, producto}) => {
 						height='30px'
 						display='flex'
 						alignItems='center'
-						justifyContent='end'
+						justifyContent='flex-end'
 					>
 						{(producto.unidades > 0 || producto.subUnidades > 0) && (
 							<CheckRedondoIcon width='17.5px' />
@@ -47,12 +38,7 @@ const SwitchYCheck: React.FC<Props> = ({conSwitch, producto}) => {
 				<>
 					{(producto.unidades > 0 || producto.subUnidades > 0) && (
 						<>
-							<Box
-								padding='12px 0 0 14px'
-								display='flex'
-								justifyContent='start'
-								flex={3}
-							/>
+							<Box padding='12px 0 0 14px' display='flex' flex={3} />
 							<Box
 								padding='12px 14px 0 0'
 								sx={{background: '#F5F0EF'}}
@@ -62,7 +48,7 @@ const SwitchYCheck: React.FC<Props> = ({conSwitch, producto}) => {
 								height='30px'
 								display='flex'
 								alignItems='center'
-								justifyContent='end'
+								justifyContent='flex-end'
 							>
 								<CheckRedondoIcon width='17.5px' />
 							</Box>

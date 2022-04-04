@@ -1,10 +1,10 @@
-import React, {Fragment} from 'react';
-import useEstilos from './useEstilos';
+import React from 'react';
 import Encabezado from './Encabezado';
 import Cuerpo from './Cuerpo';
 import PieDePagina from './PieDePagina';
 import {useRouteMatch} from 'react-router-dom';
-import {CssBaseline, Typography} from '@mui/material';
+import {CssBaseline} from '@mui/material';
+import Box from '@mui/material/Box';
 
 export type Props = {
 	children: React.ReactNode;
@@ -13,21 +13,18 @@ export type Props = {
 };
 
 const Estructura = ({esConFechaHaciaAtras = true, titulo, children}: Props) => {
-	const estilos = useEstilos();
-
 	return (
 		<>
 			{useRouteMatch().isExact && (
-				<Fragment>
+				<Box display='grid' gridTemplateRows='auto 1fr auto' minHeight='100%'>
 					<CssBaseline />
 					{titulo !== undefined && (
 						<Encabezado esConFechaHaciaAtras={esConFechaHaciaAtras}>
 							{titulo}
 						</Encabezado>
 					)}
-					<CssBaseline />
 					{children}
-				</Fragment>
+				</Box>
 			)}
 		</>
 	);

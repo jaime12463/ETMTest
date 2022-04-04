@@ -139,7 +139,7 @@ const IndicadoresDelPedidoActual = () => {
 		});
 
 	return (
-		<Grid container spacing='20px' alignItems='end'>
+		<Grid container spacing='20px' alignItems='flex-end'>
 			{indicadores.map((el, i) => (
 				<Grid item xs key={i}>
 					<BarraDeProgreso
