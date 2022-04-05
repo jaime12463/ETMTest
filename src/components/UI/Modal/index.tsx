@@ -81,7 +81,9 @@ const Modal: React.FC<Props> = ({
 								className={classes.btnAceptar}
 								onClick={() => {
 									contenidoMensaje?.callbackAceptar();
-									setPasoActual?.((pasoActual) => pasoActual + 1);
+									setPasoActual?.((pasoActual) =>
+										pasoActual === 3 ? pasoActual : pasoActual + 1
+									);
 									setAlerta((prevAlerta) => !prevAlerta);
 								}}
 							>
