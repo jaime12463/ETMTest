@@ -427,7 +427,7 @@ const Pasos: React.FC = () => {
 						marginBottom='10px'
 						position='sticky'
 						top='2px'
-						sx={{zIndex: 99}}
+						sx={{background: '#F5F0F0', zIndex: 99}}
 					>
 						<IndicadoresDelPedidoActual />
 					</Box>
