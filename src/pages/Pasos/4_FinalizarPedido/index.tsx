@@ -17,7 +17,7 @@ import {validarHabilitarBotonCerrarPedido} from 'utils/validaciones/index';
 import {useObtenerClienteActual} from '../../../redux/hooks';
 import {TClienteActual} from 'models';
 
-export const FinalizarPedido: React.FC = () => {
+const FinalizarPedido: React.FC = () => {
 	const {t} = useTranslation();
 
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
@@ -46,3 +46,5 @@ export const FinalizarPedido: React.FC = () => {
 		</>
 	);
 };
+
+export default FinalizarPedido;

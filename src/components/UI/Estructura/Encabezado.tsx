@@ -29,48 +29,47 @@ const Encabezado: React.FC<Props> = ({
 	onClick,
 }) => {
 	return (
-		<AppBar position='relative' elevation={0}>
-			<StyledToolbar>
-				<Grid container alignItems='flex-end' flexWrap='nowrap'>
-					<Grid item>
-						<Stack direction='row' spacing={2} justifyContent='space-between'>
-							{esConFechaHaciaAtras && (
-								<IconButton
-									size='small'
-									onClick={() => (onClick ? onClick() : null)}
-									data-cy='boton-atras'
-								>
-									<RetrocederIcon />
-								</IconButton>
-							)}
-						</Stack>
-					</Grid>
-					<Box alignItems='flex-end' display='flex' gap='16px'>
-						<Box position='relative'>
-							<Logo />
-						</Box>
-
-						<Typography noWrap style={{fontWeight: 'bold'}}>
-							{titulo ?? children}
-						</Typography>
-					</Box>
-					<Grid
-						item
-						display='flex'
-						justifyContent='flex-end'
-						sx={{width: '100%'}}
+		<AppBar position='relative' elevation={0} sx={{height: 69}}>
+			<Toolbar
+				sx={{
+					height: '100%',
+					padding: '24px 18px 14px 95px !important',
+					justifyContent: 'space-between',
+				}}
+			>
+				{esConFechaHaciaAtras && (
+					<IconButton
+						size='small'
+						onClick={() => (onClick ? onClick() : null)}
+						data-cy='boton-atras'
+						sx={{
+							position: 'absolute',
+							left: '3px',
+						}}
 					>
-						{acciones && acciones}
-					</Grid>
-				</Grid>
-			</StyledToolbar>
+						<RetrocederIcon />
+					</IconButton>
+				)}
+				<Logo
+					style={{
+						position: 'absolute',
+						left: '35px',
+						top: '13px',
+						zIndex: 101,
+					}}
+				/>
+				<Typography fontSize='16px' fontWeight={700} style={{width: '206px'}}>
+					{titulo ?? children}
+				</Typography>
+				{acciones && acciones}
+			</Toolbar>
 			<Box
 				position='absolute'
 				borderRadius='50%'
 				height='8px'
 				width='120%'
 				sx={{
-					top: '72px',
+					top: '65px',
 					left: '-10%',
 					background: theme.palette.primary.main,
 					zIndex: 100,

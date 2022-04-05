@@ -23,7 +23,7 @@ const PieDePagina: React.FC = ({children}) => {
 					position: 'fixed',
 					bottom: 0,
 					left: 0,
-					background: 'linear-gradient(0deg, #e5e5e5  80%, transparent 95%)',
+					background: 'linear-gradient(0deg, #F5F0F0  80%, transparent 95%)',
 					zIndex: 0,
 				}}
 			/>

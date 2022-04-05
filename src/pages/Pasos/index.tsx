@@ -1,10 +1,9 @@
-import React from 'react';
-import {FunctionComponent, useEffect, useState} from 'react';
+import React, {Suspense, FunctionComponent, useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {IndicadoresDelPedidoActual} from './components';
 import {controlador, TControlador} from './controlador';
 import {Estructura, BotonBarraInferior, Stepper, Dialogo} from 'components/UI';
-import {Box, Button} from '@mui/material';
+import {Box, IconButton} from '@mui/material';
 import {InfoClienteDelPedidoActual} from 'components/Negocio';
 import {
 	useObtenerPedidosValorizados,
@@ -59,6 +58,7 @@ import {
 	TPromoOngoingAplicablesResultado,
 	TPromoOngoingDisponibilidad,
 } from 'utils/procesos/promociones/PromocionesOngoing';
+import {Loading} from 'components/UI/Loading';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -393,75 +393,80 @@ const Pasos: React.FC = () => {
 	const AccionesEstructura = () => (
 		<>
 			{pasoActual === 0 && (
-				<Button onClick={() => handleOpenVistaPromoPush()}>
+				<IconButton
+					sx={{padding: 0}}
+					onClick={() => handleOpenVistaPromoPush()}
+				>
 					<PromocionesRellenoIcon />
-				</Button>
+				</IconButton>
 			)}
 		</>
 	);
 
 	return (
-		<Estructura>
-			<Estructura.Encabezado
-				esConFechaHaciaAtras={true}
-				titulo={razonSocial}
-				onClick={() => manejadorPasoAtras()}
-				acciones={<AccionesEstructura />}
-			>
-				<InfoClienteDelPedidoActual />
-			</Estructura.Encabezado>
-			<Estructura.Cuerpo>
-				{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-				<ModalCore open={openVistaPromoPush}>
-					<VistaPromoPush setOpenVistaPromoPush={setOpenVistaPromoPush} />
-				</ModalCore>
-				<Box
-					display='flex'
-					justifyContent='center'
-					marginTop='20px'
-					padding='10px'
-					marginBottom='10px'
-					position='sticky'
-					top='2px'
-					sx={{background: '#e5e5e5', zIndex: 99}}
+		<Suspense fallback={<Loading />}>
+			<Estructura>
+				<Estructura.Encabezado
+					esConFechaHaciaAtras={true}
+					titulo={razonSocial}
+					onClick={() => manejadorPasoAtras()}
+					acciones={<AccionesEstructura />}
 				>
-					<IndicadoresDelPedidoActual />
-				</Box>
-				<Box padding='0 10px'>
-					<Box>
-						<Stepper
-							pasos={pasos.map((paso: TControlador) => `${t(paso.titulo)}`)}
-							pasoActivo={
-								pasoActual === 2 && visitaActual.clienteBloqueado
-									? 0
-									: pasoActual
-							}
-						/>
-					</Box>
-
-					<Contenedor pasoActivo={pasoActual} />
-					<Modal
-						setAlerta={setAlertaPasos}
-						alerta={alertaPasos}
-						setPasoActual={setPasoActual}
-						contenidoMensaje={configAlerta}
-					/>
-					<ModalCore open={openResumenPedido}>
-						<ResumenPedido setOpen={setOpenResumenPedido} />
+					<InfoClienteDelPedidoActual />
+				</Estructura.Encabezado>
+				<Estructura.Cuerpo>
+					{mostarDialogo && <Dialogo {...parametrosDialogo} />}
+					<ModalCore open={openVistaPromoPush}>
+						<VistaPromoPush setOpenVistaPromoPush={setOpenVistaPromoPush} />
 					</ModalCore>
-				</Box>
-			</Estructura.Cuerpo>
-			<Estructura.PieDePagina>
-				<BotonResumenPedido setOpen={setOpenResumenPedido} />
-				<BotonBarraInferior
-					descripcion={leyendaBoton}
-					numeroItems={formatearItems(itemsValorizados.length)}
-					total={totalVisitaActual}
-					onClick={() => manejadorPasoAdelante()}
-					pasoActual={pasoActual}
-				/>
-			</Estructura.PieDePagina>
-		</Estructura>
+					<Box
+						display='flex'
+						justifyContent='center'
+						marginTop='20px'
+						padding='10px'
+						marginBottom='10px'
+						position='sticky'
+						top='2px'
+						sx={{zIndex: 99}}
+					>
+						<IndicadoresDelPedidoActual />
+					</Box>
+					<Box padding='0 10px'>
+						<Box>
+							<Stepper
+								pasos={pasos.map((paso: TControlador) => `${t(paso.titulo)}`)}
+								pasoActivo={
+									pasoActual === 2 && visitaActual.clienteBloqueado
+										? 0
+										: pasoActual
+								}
+							/>
+						</Box>
+
+						<Contenedor pasoActivo={pasoActual} />
+						<Modal
+							setAlerta={setAlertaPasos}
+							alerta={alertaPasos}
+							setPasoActual={setPasoActual}
+							contenidoMensaje={configAlerta}
+						/>
+						<ModalCore open={openResumenPedido}>
+							<ResumenPedido setOpen={setOpenResumenPedido} />
+						</ModalCore>
+					</Box>
+				</Estructura.Cuerpo>
+				<Estructura.PieDePagina>
+					<BotonResumenPedido setOpen={setOpenResumenPedido} />
+					<BotonBarraInferior
+						descripcion={leyendaBoton}
+						numeroItems={formatearItems(itemsValorizados.length)}
+						total={totalVisitaActual}
+						onClick={() => manejadorPasoAdelante()}
+						pasoActual={pasoActual}
+					/>
+				</Estructura.PieDePagina>
+			</Estructura>
+		</Suspense>
 	);
 };
 

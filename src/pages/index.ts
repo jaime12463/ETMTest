@@ -5,8 +5,6 @@ import PedidosDelClienteActual from './Pasos/1_Planeacion/PedidosDelClienteActua
 import TomaPedidoDelClienteActual from './Pasos/2_TomaDePedido';
 import EnvasesRetornables from './Pasos/3_Otros/EnvasesRetornables';
 import CompromisoDeCobro from './Pasos/3_Otros/CompromisoDeCobro';
-export {Planeacion} from './Pasos/1_Planeacion';
-export {FinalizarPedido} from './Pasos/4_FinalizarPedido';
 
 export {
 	Inicio,
