@@ -1,9 +1,8 @@
-import i18n from 'i18next';
-import React, {Component} from 'react';
-import {Planeacion} from './1_Planeacion';
-import TomaDePedido from './2_TomaDePedido';
-import {Otros} from './3_Otros';
-import {FinalizarPedido} from './4_FinalizarPedido';
+import {lazy} from 'react';
+const Planeacion = lazy(() => import('./1_Planeacion'));
+const TomaDePedido = lazy(() => import('./2_TomaDePedido'));
+const Otros = lazy(() => import('./3_Otros'));
+const FinalizarPedido = lazy(() => import('./4_FinalizarPedido'));
 
 export type TControlador = {
 	id: string;

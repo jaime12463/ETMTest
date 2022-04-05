@@ -19,7 +19,7 @@ import {
 import Modal, {Configuracion} from 'components/UI/Modal';
 import {useValidarClienteBloqueado} from './hooks';
 
-export const Planeacion: React.FC = () => {
+const Planeacion: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
 	const {t} = useTranslation();
 	const {iniciativas} = useObtenerVisitaActual();
@@ -249,3 +249,5 @@ export const Planeacion: React.FC = () => {
 		</Box>
 	);
 };
+
+export default Planeacion;
