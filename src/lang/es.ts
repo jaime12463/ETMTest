@@ -11,7 +11,7 @@ const es = {
 		precio: 'Precio',
 		buscar: 'Buscar',
 		verDetalle: 'Ver Detalle',
-		ocultarDetalle: 'Ocultar Detalle',
+		ocultarDetalle: 'Ocultar detalle',
 		verGrupo: 'Ver grupo',
 		ocultarGrupo: 'Ocultar grupo',
 		fechaEntrega: 'Fecha de entrega',

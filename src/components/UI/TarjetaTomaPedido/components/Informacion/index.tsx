@@ -7,8 +7,6 @@ import {
 } from 'models';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {styled} from '@mui/material/styles';
-import Chip from '@mui/material/Chip';
 import {
 	AvisoIcon,
 	BotellaIcon,
@@ -23,18 +21,6 @@ import {useAppDispatch, useObtenerDatos} from 'redux/hooks';
 import {borrarDescuentoDelProducto} from 'redux/features/visitaActual/visitaActualSlice';
 import {useMostrarAviso, useValidacionPermiteSubUnidades} from 'hooks';
 import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularPruductoEnPromoOnGoing';
-
-const ChipStyled = styled(Chip)(() => ({
-	'&.MuiChip-root': {
-		background: 'transparent',
-		border: `1px solid ${theme.palette.primary.main}`,
-		cursor: 'pointer',
-		borderRadius: '50px',
-		height: ' 18px',
-		padding: '4px, 12px',
-		width: '133px',
-	},
-}));
 
 interface Props {
 	producto: TProductoPedido;
@@ -182,7 +168,12 @@ const Informacion: React.FC<Props> = ({
 				{nombreProducto}
 			</Typography>
 			{producto.atributos && (
-				<Typography margin='4px 0 6px 0' variant='caption' color='secondary'>
+				<Typography
+					margin='4px 0 6px 0'
+					variant='caption'
+					fontFamily='Open Sans'
+					color='secondary'
+				>
 					{`${medidas[producto.atributos?.medida].descripcion} | ${
 						envases[producto.atributos?.envase].descripcion
 					}`}
@@ -382,38 +373,38 @@ const Informacion: React.FC<Props> = ({
 					)}
 			</Box>
 			{mostrarInfo && infoDescuento.tipo === ETipoDescuento.escalonado && (
-				<Box marginTop='8px'>
-					<ChipStyled
-						onClick={() => {
-							setConfigAlerta({
-								titulo: t('advertencias.borrarDescuento'),
-								mensaje: t('mensajes.borrarDescuento', {
-									codigo: codigoProducto,
-								}),
-								tituloBotonAceptar: 'Eliminar',
-								tituloBotonCancelar: 'Cancelar',
-								callbackAceptar: () => eliminarDescuento(),
-								iconoMensaje: <AvisoIcon />,
-							});
-							setAlerta(true);
-						}}
-						label={
-							<Box alignItems='center' display='flex' gap='4px'>
-								<QuitarRellenoIcon
-									height='10px'
-									width='10px'
-									fill={theme.palette.primary.main}
-								/>
-								<Typography
-									variant='caption'
-									color='primary'
-									fontFamily='Open Sans'
-								>
-									{t('descuentos.eliminarDescuento')}
-								</Typography>
-							</Box>
-						}
+				<Box
+					alignItems='center'
+					border={`1px solid ${theme.palette.primary.main}`}
+					borderRadius='50px'
+					display='flex'
+					gap='4px'
+					marginTop='8px'
+					padding='4px 12px'
+					sx={{cursor: 'pointer'}}
+					width='fit-content'
+					onClick={() => {
+						setConfigAlerta({
+							titulo: t('advertencias.borrarDescuento'),
+							mensaje: t('mensajes.borrarDescuento', {
+								codigo: codigoProducto,
+							}),
+							tituloBotonAceptar: 'Eliminar',
+							tituloBotonCancelar: 'Cancelar',
+							callbackAceptar: () => eliminarDescuento(),
+							iconoMensaje: <AvisoIcon />,
+						});
+						setAlerta(true);
+					}}
+				>
+					<QuitarRellenoIcon
+						height='10px'
+						width='10px'
+						fill={theme.palette.primary.main}
 					/>
+					<Typography variant='caption' color='primary' fontFamily='Open Sans'>
+						{t('descuentos.eliminarDescuento')}
+					</Typography>
 				</Box>
 			)}
 		</Box>

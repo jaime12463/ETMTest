@@ -131,6 +131,13 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 						className={estilos.root}
 						InputProps={{disableUnderline: true}}
 						placeholder={`${t('general.agregarProductoSKU')}`}
+						inputProps={{
+							style: {
+								fontSize: '12px',
+								fontFamily: 'Open Sans',
+								lineHeight: '16px',
+							},
+						}}
 						inputRef={(input) => {
 							if (inputFocus === 'productoABuscar') {
 								input?.focus();

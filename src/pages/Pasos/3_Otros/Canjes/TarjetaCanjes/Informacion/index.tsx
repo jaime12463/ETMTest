@@ -105,6 +105,7 @@ const Informacion: React.FC<Props> = ({
 					<Typography
 						margin='4px 0 6px 0'
 						variant='caption'
+						fontFamily='Open Sans'
 						color={theme.palette.secondary.main}
 					>
 						{`${medidas[producto.atributos?.medida ?? 0].descripcion} | ${

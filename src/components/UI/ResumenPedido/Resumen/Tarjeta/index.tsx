@@ -75,6 +75,7 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 					<Typography
 						marginBottom='8px'
 						variant='caption'
+						fontFamily='Open Sans'
 						color={theme.palette.secondary.main}
 					>
 						{`${medidas[producto.atributos?.medida ?? 0].descripcion} | ${

@@ -47,6 +47,7 @@ export const Canjes: React.FC<CanjesProps> = ({
 					<Typography
 						margin='4px 0 6px 0'
 						variant='caption'
+						fontFamily='Open Sans'
 						color={theme.palette.secondary.main}
 					>
 						{`${medidas[atributos?.medida ?? 0].descripcion} | ${
