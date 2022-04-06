@@ -113,8 +113,8 @@ Escenario: N°10 - El producto tiene descuento escalonado aplicado
     Cuando se muestra la tarjeta del producto
     Entonces el sistema mostrará el descuento aplicado según el rango
     Y mostrará los nuevos precios aplicados
-    Y mostrará el ahorro para unidades
-    Y mostrará el ahorro para subunidades
+    Y mostrará el ahorro para unidades como el precio unitario de unidades con el descuento aplicado
+    Y mostrará el ahorro para subunidades como el precio unitario de subunidades con el descuento aplicado
     Y mostrará el control para quitar el descuento
 
 
@@ -125,8 +125,8 @@ Escenario: N°11 - El producto tiene descuento polarizado aplicado
     Cuando se muestra la tarjeta del producto
     Entonces el sistema mostrará el descuento aplicado según el rango
     Y mostrará el precio ingresado por el prevendedor
-    Y mostrará el ahorro para unidades
-    Y mostrará el ahorro para subunidades
+    Y mostrará el ahorro para unidades como el precio unitario unidades con el descuento aplicado
+    Y mostrará el ahorro para subunidades como el precio unitario subunidades con el descuento aplicado
 
 Escenario: N°12 - El producto tiene descuento automático
     Dado que se ingreso un producto al pedido
@@ -138,7 +138,7 @@ Escenario: N°12 - El producto tiene descuento automático
 # al guardar, se guardan todos los precios para luego calcular el ahorro.
 
 
-Esquema del escenario: N°13 - El total del producto vendido con descuento se encuentra beneficiado por promocion ongoing
+Esquema del escenario: N°13 - El total del producto vendido con descuento automatico se encuentra beneficiado por promocion ongoing
     Dado que se ingreso un producto al pedido
     Y el producto tenía aplicado un descuento '<descuento>'
     Y se aplicaron promociones ongoing que otorgaron la totalidad del producto como beneficiado
@@ -160,28 +160,31 @@ Esquema del escenario: N°14 - No toda la cantidad del producto vendido con desc
     Y se aplicaron promociones ongoing que otorgaron como beneficio parte del producto
     Cuando se muestra la tarjeta del producto
     Entonces el sistema mostrará el producto según escenario de '<tipoDescuento>' para la cantidad no beneficiada del producto
-    Y mostrará la cantidad otorgada de beneficio
+    Y mostrará la cantidad otorgada de beneficio como promoción ongoing
     Y mostrará la unidad de medida del beneficio
-    Y mostrará la leyenda "Viene con promoción ongoing"
 
 Ejemplos:
 |descuento | tipoDescuento                 |
 |automático| descuento automático aplicado |
 
+
 #solo descuento automático
 
-Escenario: N°15 - El producto vendido se encuentra beneficiado por promocion ongoing
+Escenario: N°15 - El producto vendido se encuentra beneficiado por promocion ongoing y no tiene otros descuentos o tiene descuento polarizado
     Dado que se ingreso un producto al pedido
     Y se aplicaron promociones ongoing que otorgaron como beneficio cantidad igual o menor a la ingresada del producto
     Cuando se muestra la tarjeta del producto
     Entonces el sistema mostrará la tarjeta del producto 
-    Y mostrará la cantidad otorgada de beneficio
+    Y si el producto tiene descuento polarizado, mostrará el producto con descuento según escenario descuento polarizado
+    Y mostrará la cantidad otorgada de beneficio como promoción ongoing
     Y mostrará la unidad de medida del beneficio
-    Y mostrará la leyenda "Viene con promoción ongoing"
 
-#escenario 15 incluye productos con descuento polarizado
+#escenario 15 incluye descuentos polarizados
+# en caso descuento polarizado es descuento + beneficio ongoing.
+# ej. si descuento es 2% por polarizado en precio unidad unitario de $100 y beneficio ongoing es un 10% descuento.
+# es $100 - 2% = $98 y a esos $98 - 10% = $88,2
 
-#descuento escalonado y polarizado no se toma en cuenta para promociones ongoing.
+#descuento escalonado no se toma en cuenta para promociones ongoing.
 #descuento automático puede tener promoción ongoing.
 
 
