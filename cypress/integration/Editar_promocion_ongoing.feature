@@ -51,15 +51,16 @@ Ejemplos:
 
 Esquema del escenario: N°4 - Control aplicar beneficio
 	Dado que estamos editando una promocion ongoing de asignación <asignacion>
-	Y el disponible '<condicion>'
+	Y '<condicion>'
 	Cuando seleccionamos el control aplicar beneficio
 	Entonces el sistema '<realizaraAccion>'
 	
 Ejemplos:
-    |asignacion|condicion                                     |realizaraAccion                                                                                                                                             |
-    | Total    | es igual a 0 en todas las secuencias         | aplicará los beneficios con los productos que tienen cantidades ingresadas en todas las secuencias del grupo seleccionado según aplicar promocion ongoing  |
-    | Total    | mayor a cero en al menos una secunecia       | mostrará el toast de error indicando que se debe asignar el total del beneficio                                                                            |
-    | Parcial  | es mayor o igual a 0 en todas las secuencias | aplicará los beneficios con los productos que tienen cantidades ingresadas en todas las secuencias del grupo seleccionado según aplicar promocion ongoing  |   
+    |asignacion|condicion                                     						 |realizaraAccion                                                                                                                                             |
+    | Total    | el disponible es igual a 0 en todas las secuencias         		 | aplicará los beneficios con los productos que tienen cantidades ingresadas en todas las secuencias del grupo seleccionado según aplicar promocion ongoing  |
+    | Total    | el disponible es mayor a cero en al menos una secunecia             | mostrará el toast de error indicando que se debe asignar el total del beneficio                                                                            |
+    | Parcial  | al menos en una secuencia hay un producto con cantidad mayor a cero | aplicará los beneficios con los productos que tienen cantidades ingresadas en todas las secuencias del grupo seleccionado según aplicar promocion ongoing  | 
+	| Parcial  | los productos en todas las secuencias tienen cantidades en 0        | no aplicará la promoción                                                                                                                                   |  
 
 Escenario: N°5 - Ingresar manualmente cantidades superiores al disponible
 	Dado que se ingresaron cantidades manualmente
