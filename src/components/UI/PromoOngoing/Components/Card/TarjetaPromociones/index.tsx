@@ -41,13 +41,12 @@ export const TarjetaPromociones: React.FC<Props> = ({
 }) => {
 	const datos = useObtenerDatos();
 	const [productoActual, setProductoActual] = React.useState<TProducto>();
+
 	React.useEffect(() => {
 		if (datos) {
 			setProductoActual(datos.productos[producto.codigoProducto]);
 		}
 	}, [producto]);
-
-	//console.log(producto);
 
 	return (
 		<>
