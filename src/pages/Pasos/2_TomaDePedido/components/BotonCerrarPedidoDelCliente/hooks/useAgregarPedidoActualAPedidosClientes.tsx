@@ -5,7 +5,6 @@ import {
 } from 'redux/hooks';
 import {
 	TClienteActual,
-	TFunctionMostarAvertenciaPorDialogo,
 	TPedido,
 	TPedidoClienteParaEnviar,
 	TRetornoValidacion,
@@ -27,11 +26,13 @@ import {
 	useSepararPedidosCreditoContado,
 	useValidarCierreVisitaCliente,
 } from '.';
+import {AvisoIcon} from 'assests/iconos';
 
 export const useAgregarPedidoActualAPedidosClientes = (
-	mostrarAdvertenciaEnDialogo: TFunctionMostarAvertenciaPorDialogo
+	stateConfigAlert: any
 ) => {
 	const dispatch = useAppDispatch();
+	const {setConfigAlerta, setAlertaPasos} = stateConfigAlert;
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 	const history = useHistory();
@@ -56,13 +57,16 @@ export const useAgregarPedidoActualAPedidosClientes = (
 		if (!esValido && propsAdvertencia) {
 			const {dataCy, mensaje, manejadorClick, textosBotonesDefault} =
 				propsAdvertencia;
-			mostrarAdvertenciaEnDialogo(
-				mensaje,
-				dataCy,
-				manejadorClick,
-				textosBotonesDefault
-			);
-			return;
+
+			setConfigAlerta({
+				titulo: '',
+				mensaje: mensaje,
+				tituloBotonAceptar: 'Aceptar',
+				callbackAceptar: () => {},
+				iconoMensaje: <AvisoIcon />,
+			});
+
+			return setAlertaPasos(true);
 		}
 
 		const pedidosSeparadosCreditoContadoArray: TPedidoClienteParaEnviar[] =
@@ -108,7 +112,12 @@ export const useAgregarPedidoActualAPedidosClientes = (
 			dispatch(limpiarCompromisoDeCobroActual());
 		}
 
-		dispatch(guardarPromosOngoing({clienteActual, promocionesOngoing: visitaActual.promosOngoing}))
+		dispatch(
+			guardarPromosOngoing({
+				clienteActual,
+				promocionesOngoing: visitaActual.promosOngoing,
+			})
+		);
 
 		history.push('/clientes');
 	}, [clienteActual, compromisoDeCobroActual, visitaActual]);

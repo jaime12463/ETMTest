@@ -75,6 +75,16 @@ const Pasos: React.FC = () => {
 	const [leyendaBoton, setLeyendaBoton] = useState(
 		`${t('general.continuarA')} ${t(controlador[1].titulo)}`
 	);
+	const [alertaPasos, setAlertaPasos] = React.useState<boolean>(false);
+
+	const [configAlerta, setConfigAlerta] = React.useState<Configuracion>({
+		titulo: '',
+		mensaje: '',
+		tituloBotonAceptar: '',
+		tituloBotonCancelar: '',
+		iconoMensaje: <></>,
+		callbackAceptar: () => {},
+	});
 	const dispatch = useAppDispatch();
 	const history = useHistory();
 	const {razonSocial, codigoCliente}: TClienteActual =
@@ -99,7 +109,7 @@ const Pasos: React.FC = () => {
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
 	const agregarPedidoActualAPedidosClientes =
-		useAgregarPedidoActualAPedidosClientes(mostrarAdvertenciaEnDialogo);
+		useAgregarPedidoActualAPedidosClientes({setAlertaPasos, setConfigAlerta});
 
 	const totalVisitaActual =
 		obtenerTotalPedidosVisitaActual().totalPrecio +
@@ -138,16 +148,6 @@ const Pasos: React.FC = () => {
 	const valido = useValidarPasos(pasoActual);
 	const [openResumenPedido, setOpenResumenPedido] =
 		React.useState<boolean>(false);
-	const [alertaPasos, setAlertaPasos] = React.useState<boolean>(false);
-
-	const [configAlerta, setConfigAlerta] = React.useState<Configuracion>({
-		titulo: '',
-		mensaje: '',
-		tituloBotonAceptar: '',
-		tituloBotonCancelar: '',
-		iconoMensaje: <></>,
-		callbackAceptar: () => {},
-	});
 
 	const [pasos, setPasos] = useState(controlador);
 
