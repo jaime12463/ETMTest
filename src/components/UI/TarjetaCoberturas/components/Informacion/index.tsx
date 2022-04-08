@@ -6,15 +6,16 @@ import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
 import theme from 'theme';
 import {useObtenerDatos} from 'redux/hooks';
-import {TPrecioProducto} from 'models';
+import {TProductoPedido} from 'models';
+import {useValidacionPermiteSubUnidades} from 'hooks';
 
 interface Props {
-	producto: TPrecioProducto;
+	producto: TProductoPedido;
 }
 
 const Informacion: React.FC<Props> = ({producto}) => {
 	const {t} = useTranslation();
-
+	const permiteSubUnidades = useValidacionPermiteSubUnidades(producto);
 	const {envases, medidas} = useObtenerDatos();
 
 	return (
@@ -58,7 +59,7 @@ const Informacion: React.FC<Props> = ({producto}) => {
 						{formatearNumero(producto.precioConImpuestoUnidad, t)}
 					</Typography>
 				</Box>
-				{producto.esVentaSubunidades && (
+				{permiteSubUnidades && (
 					<Box display='flex' alignItems='center' gap='4px'>
 						<BotellaIcon height='14px' width='14px' />
 						<Typography variant='subtitle3' fontFamily='Open Sans'>

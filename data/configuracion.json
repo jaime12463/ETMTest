@@ -1,6 +1,6 @@
 {
 	"configuraciones": {
-		"habilitaRequisitoConDescuentoAutomatico":true,
+		"habilitaRequisitoConDescuentoAutomatico": true,
 		"maximoGrupoCoberturaAMostrar": 5,
 		"esFrecuenciaAbierta": true,
 		"habilitaOrdenDeCompra": true,

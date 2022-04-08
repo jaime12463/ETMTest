@@ -50,6 +50,7 @@ import {
 	useMostrarAdvertenciaEnDialogo,
 	useMostrarAviso,
 	useObtenerDatosCliente,
+	useValidacionPermiteSubUnidades,
 } from 'hooks';
 import {formatearFecha, formatearNumero} from 'utils/methods';
 import {Link} from '@mui/material';
@@ -160,6 +161,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		},
 	};
 
+	const permiteSubUnidades = useValidacionPermiteSubUnidades(productoACargar);
 	const [estadoSelect, setEstadoSelect] = React.useState<string>(estado);
 	const [motivoSelect, setMotivoSelect] = React.useState<string>(motivo);
 
@@ -768,7 +770,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 												{formatearNumero(producto.precioConImpuestoUnidad, t)}
 											</Typography>
 										</Box>
-										{producto.esVentaSubunidades && (
+										{permiteSubUnidades && (
 											<Box alignItems='center' display='flex' gap='2px'>
 												<BotellaIcon height='15px' width='15px' />
 												<Typography
@@ -889,7 +891,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 												</IconButton>
 											)}
 									</Box>
-									{producto.esVentaSubunidades && (
+									{permiteSubUnidades && (
 										<Box
 											display='flex'
 											alignItems='center'
