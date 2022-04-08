@@ -156,9 +156,9 @@ const es = {
 		tomaDePedido: 'Toma de pedido',
 		tarjetaTomaDePedido:
 			'Modifica tu pedido con las mejores opciones para tu cliente.',
-		promociones: 'Promociones',
+		promociones: 'Promociones push',
 		tarjetaPromociones:
-			'Selecciona las promociones que tienes disponible para tus clientes.',
+			'Selecciona las promociones push que tienes disponible para tus clientes.',
 		pedidosEnCursoDeshabilitado: 'No hay pedidos para mostrar',
 		sugeridosDeshabilitado: 'No hay sugerencias para mostrar',
 	},

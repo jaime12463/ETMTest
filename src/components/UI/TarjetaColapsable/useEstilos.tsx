@@ -19,7 +19,7 @@ const useEstilos = makeStyles(() =>
 			},
 		},
 		inactiva: {
-			opacity: 0.5,
+			opacity: 1,
 		},
 		arrow: {
 			transform: ({open}: Props) =>
