@@ -101,13 +101,13 @@ export const TarjetaColapsable: React.FC<Props> = ({
 			return;
 		}
 
-		if(iniciativasCanceladasSinMotivo){
+		if (iniciativasCanceladasSinMotivo) {
 			mostrarAviso(
 				'error',
 				t('toast.iniciativaSinMotivoTitulo'),
-				t('toast.iniciativaSinMotivoMensaje'),
-			)
-			return
+				t('toast.iniciativaSinMotivoMensaje')
+			);
+			return;
 		}
 
 		if (expandido === 'Bonificaciones' && visitaActual.seQuedaAEditar.seQueda) {
@@ -187,7 +187,11 @@ export const TarjetaColapsable: React.FC<Props> = ({
 					style={{padding: '0 18px'}}
 					title={
 						<Box display='flex' justifyContent='space-between'>
-							<Box alignSelf='center' data-cy={'titulo-' + dataCy}>
+							<Box
+								color={'black'}
+								alignSelf='center'
+								data-cy={'titulo-' + dataCy}
+							>
 								{titulo}
 							</Box>
 							<Box>
@@ -218,7 +222,11 @@ export const TarjetaColapsable: React.FC<Props> = ({
 					}
 					subheader={
 						<Box marginTop='5px'>
-							<Typography variant='body3' fontFamily='Open Sans'>
+							<Typography
+								color={'black'}
+								variant='body3'
+								fontFamily='Open Sans'
+							>
 								{subTitulo}
 							</Typography>
 							{disabled ? <p data-cy={'mensaje-' + dataCy}>{mensaje}</p> : null}
