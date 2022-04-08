@@ -6,9 +6,11 @@ import {
 	TStateInputFocus,
 } from 'models';
 import Box from '@mui/material/Box';
-import InputConIcono from 'components/UI/InputConIcono';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import {StateFocusID} from '../..';
 import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularPruductoEnPromoOnGoing';
+import {SimboloMoneda} from 'assests/iconos';
 
 interface Props {
 	stateInfoDescuento: TStateInfoDescuentos;
@@ -44,6 +46,7 @@ const Descuentos: React.FC<Props> = ({
 			? ''
 			: infoDescuento.inputPolarizado.toString()
 	);
+	const [inputClicked, setInputClicked] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
 		if (infoDescuento.inputPolarizado > 0) {
@@ -94,38 +97,82 @@ const Descuentos: React.FC<Props> = ({
 	if (!infoDescuento.tipo) return null;
 
 	return (
-		<Box display='flex' flexDirection='column'>
+		<Box display='flex' flexDirection='column' padding='0 14px'>
 			<Box
-				marginBottom={mostrarInputPolarizado && !cantidad ? '12px' : '0'}
+				marginBottom='12px'
 				sx={{
 					opacity: mostrarInputPolarizado ? 1 : 0,
 					transition: 'opacity 0.3s ease-in-out',
 				}}
 			>
 				{mostrarInputPolarizado && (
-					<InputConIcono
-						onBlur={onBlurHandler}
-						valid={false}
-						value={inputValue}
-						onChange={onChangeInput}
-						onKeyPress={handleKeyPress}
-						onFocus={(e) => e.target.select()}
-						onClick={() => {
-							setInputFocus('descuento');
-							setFocusId(producto.codigoProducto);
-						}}
-						label='Ingresar precio de venta al consumidor'
-						margin='0'
-						simboloMoneda
-						inputRef={(input) => {
-							if (
-								inputFocus === 'descuento' &&
-								focusId === producto.codigoProducto
-							) {
-								input?.focus();
-							}
-						}}
-					/>
+					<Box position='relative'>
+						{!inputValue && !inputClicked && (
+							<Typography
+								fontFamily='Open Sans'
+								left='12px'
+								position='absolute'
+								sx={{transform: 'translateY(-50%)'}}
+								top='50%'
+								variant='body3'
+							>
+								Ingresar precio venta
+							</Typography>
+						)}
+						{(inputClicked || inputValue) && (
+							<SimboloMoneda
+								style={{
+									left: '12px',
+									position: 'absolute',
+									top: '50%',
+									transform: 'translateY(-50%)',
+								}}
+							/>
+						)}
+						<TextField
+							variant='standard'
+							InputProps={{
+								disableUnderline: true,
+							}}
+							inputProps={{
+								style: {
+									borderRadius: '20px',
+									boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.15)',
+									boxSizing: 'border-box',
+									fontFamily: 'Open Sans',
+									fontSize: '14px',
+									fontWeight: 600,
+									height: '32px',
+									padding: '4px 12px 4px 32px',
+									width: '145px',
+								},
+							}}
+							onBlur={() => {
+								onBlurHandler();
+								setInputClicked(false);
+							}}
+							value={inputValue}
+							onChange={onChangeInput}
+							onKeyPress={handleKeyPress}
+							onFocus={(e) => {
+								e.target.select();
+								setInputClicked(true);
+							}}
+							onClick={() => {
+								setInputFocus('descuento');
+								setFocusId(producto.codigoProducto);
+								setInputClicked(true);
+							}}
+							inputRef={(input) => {
+								if (
+									inputFocus === 'descuento' &&
+									focusId === producto.codigoProducto
+								) {
+									input?.focus();
+								}
+							}}
+						/>
+					</Box>
 				)}
 			</Box>
 		</Box>

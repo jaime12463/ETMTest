@@ -117,6 +117,7 @@ const es = {
 		cajas: 'Cajas',
 		ahorraste: 'Ahorraste',
 		eliminarTodo: 'Eliminar todo',
+		procesandoInformacion: 'Procesando información',
 	},
 	simbolos: {
 		decimal: '.',
@@ -329,14 +330,15 @@ const es = {
 	},
 	descuentos: {
 		automatico: 'automático',
-		escalonado: 'escalonado',
-		polarizado: 'polarizado',
+		descuentoAutomatico: 'Descuento automático',
 		descuentoMensaje: 'Descuento {{tipo}} del -{{descuento}}%',
 		descuentoSustituido:
 			'El descuento {{tipo}} ha sido sustituido por una promoción ongoing',
-		vieneConPromoOngoing: 'Viene con promoción ongoing',
-		descuentoAutomatico: 'Descuento automático',
 		eliminarDescuento: 'Eliminar descuento',
+		escalonado: 'escalonado',
+		polarizado: 'polarizado',
+		promocionOngoing: 'Promoción ongoing',
+		vieneConPromoOngoing: 'Viene con promoción ongoing',
 	},
 };
 export default es;

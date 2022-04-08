@@ -138,37 +138,45 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 				border={`1px solid ${colorBorde}`}
 				borderRadius={bordeRedondeado ? '8px' : '0'}
 				overflow='hidden'
-				maxWidth={'304px'}
+				maxWidth='304px'
+				width='100%'
+				sx={{
+					background:
+						'linear-gradient(90deg, transparent 0%, transparent 178px, #F5F0EF 178px, #F5F0EF 100%)',
+				}}
 			>
 				<SwitchYCheck
-					producto={productoEnVenta ?? productoAMandar}
 					conSwitch={conSwitch}
+					producto={productoEnVenta ?? productoAMandar}
 				/>
 				<Box display='flex'>
 					<Informacion
-						producto={productoEnVenta ?? productoAMandar}
 						conSwitch={conSwitch}
-						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-						stateAviso={{setAlerta, setConfigAlerta}}
-						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 						infoBeneficio={infoBeneficio}
-					/>
-					<Controles
+						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 						producto={productoEnVenta ?? productoAMandar}
+						stateAviso={{setAlerta, setConfigAlerta}}
+						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
 						stateInputFocus={stateInputFocus}
 						stateFocusId={stateFocusId}
-						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+					/>
+					<Controles
+						infoBeneficio={infoBeneficio}
 						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
+						producto={productoEnVenta ?? productoAMandar}
+						stateFocusId={stateFocusId}
+						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+						stateInputFocus={stateInputFocus}
 					/>
 				</Box>
-				<Descuentos
+				{/* <Descuentos
 					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
 					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 					producto={productoEnVenta ?? productoAMandar}
 					stateInputFocus={stateInputFocus}
 					stateFocusId={stateFocusId}
 					infoBeneficio={infoBeneficio}
-				/>
+				/> */}
 				<PromoOngoing
 					producto={productoEnVenta ?? productoAMandar}
 					infoDescuento={infoDescuento}

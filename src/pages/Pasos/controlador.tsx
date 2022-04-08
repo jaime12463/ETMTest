@@ -1,8 +1,18 @@
 import {lazy} from 'react';
-const Planeacion = lazy(() => import('./1_Planeacion'));
-const TomaDePedido = lazy(() => import('./2_TomaDePedido'));
-const Otros = lazy(() => import('./3_Otros'));
-const FinalizarPedido = lazy(() => import('./4_FinalizarPedido'));
+
+const Planeacion = lazy(
+	() => import(/* webpackChunkName: "Planeacion" */ './1_Planeacion')
+);
+
+const TomaDePedido = lazy(
+	() => import(/* webpackChunkName: "TomaDePedido" */ './2_TomaDePedido')
+);
+
+const Otros = lazy(() => import(/* webpackChunkName: "Otros" */ './3_Otros'));
+
+const FinalizarPedido = lazy(
+	() => import(/* webpackChunkName: "FinalizarPedido" */ './4_FinalizarPedido')
+);
 
 export type TControlador = {
 	id: string;

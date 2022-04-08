@@ -4,8 +4,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import conejoCarga from 'assests/images/conejoCarga.gif';
 import theme from 'theme';
+import {useTranslation} from 'react-i18next';
 
 export const Loading: React.FC = () => {
+	const {t} = useTranslation();
+
 	return (
 		<Box
 			sx={{
@@ -23,7 +26,7 @@ export const Loading: React.FC = () => {
 						style={{width: '188px', height: '169px'}}
 					/>
 					<Typography fontFamily={'Poppins'} color='white'>
-						Procesando información...
+						{t('general.procesandoInformacion')}
 					</Typography>
 				</Box>
 			</Center>

@@ -4,15 +4,18 @@ import {
 	ETipoDescuento,
 	TProductoPedido,
 	TStateInfoDescuentos,
+	TStateInputFocus,
 } from 'models';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
 import {
 	AvisoIcon,
 	BotellaIcon,
 	CajaIcon,
 	PromocionColor,
 	QuitarRellenoIcon,
+	SimboloMoneda,
 } from 'assests/iconos';
 import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
@@ -21,6 +24,7 @@ import {useAppDispatch, useObtenerDatos} from 'redux/hooks';
 import {borrarDescuentoDelProducto} from 'redux/features/visitaActual/visitaActualSlice';
 import {useMostrarAviso, useValidacionPermiteSubUnidades} from 'hooks';
 import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularPruductoEnPromoOnGoing';
+import {StateFocusID} from '../..';
 
 interface Props {
 	producto: TProductoPedido;
@@ -36,6 +40,8 @@ interface Props {
 		stateInfoDescuento: TStateInfoDescuentos
 	) => void;
 	infoBeneficio: TInfoBeneficioProductoPromoOngoing;
+	stateInputFocus: TStateInputFocus;
+	stateFocusId: StateFocusID;
 }
 
 const Informacion: React.FC<Props> = ({
@@ -44,7 +50,9 @@ const Informacion: React.FC<Props> = ({
 	stateInfoDescuento,
 	stateAviso,
 	obtenerCalculoDescuentoProducto,
-	infoBeneficio: {cantidad, formaBeneficio},
+	infoBeneficio: {cantidad, formaBeneficio, unidadMedida},
+	stateInputFocus,
+	stateFocusId,
 }) => {
 	const {t} = useTranslation();
 
@@ -110,6 +118,11 @@ const Informacion: React.FC<Props> = ({
 	const validacionPermiteSubUnidades =
 		useValidacionPermiteSubUnidades(producto);
 
+	console.log(
+		tipoDescuento === t('descuentos.polarizado') ||
+			tipoDescuento === t('descuentos.automatico')
+	);
+
 	React.useEffect(() => {
 		if (
 			infoDescuento.porcentajeDescuento > 0 ||
@@ -140,39 +153,93 @@ const Informacion: React.FC<Props> = ({
 
 	const {envases, medidas} = useObtenerDatos();
 
+	const {focusId, setFocusId} = stateFocusId;
+	const {inputFocus, setInputFocus} = stateInputFocus;
+	const [cambioValor, setCambioValor] = React.useState<boolean>(false);
+
+	const [inputClicked, setInputClicked] = React.useState<boolean>(false);
+
+	React.useEffect(() => {
+		if (infoDescuento.inputPolarizado > 0) {
+			obtenerCalculoDescuentoProducto(
+				{inputPolarizado: Number(inputValue), unidades: 0, subUnidades: 0},
+				stateInfoDescuento
+			);
+		}
+	}, []);
+
+	const obtenerDescuento = () => {
+		if (cambioValor) {
+			setCambioValor(false);
+			obtenerCalculoDescuentoProducto(
+				{
+					inputPolarizado: Number(inputValue),
+					unidades: 0,
+					subUnidades: 0,
+				},
+				stateInfoDescuento
+			);
+		}
+		setInputFocus('productoABuscar');
+	};
+
+	const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (Number(e.target.value) >= 0) {
+			setInputValue(e.target.value.replace(/[^0-9,.]/g, ''));
+			setCambioValor(true);
+		}
+	};
+
+	const onBlurHandler = () => obtenerDescuento();
+
+	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+		if (e.key === 'Enter') {
+			obtenerDescuento();
+		}
+	};
+
+	const mostrarInputPolarizado =
+		infoDescuento.tipo === ETipoDescuento.polarizado
+			? producto.unidades > 0 || producto.subUnidades > 0
+				? true
+				: false
+			: false;
+
+	if (!infoDescuento.tipo) return null;
+
 	return (
 		<Box
 			display='flex'
+			flex='1'
 			flexDirection='column'
 			padding={
 				conSwitch && (cantidad === 0 || !cantidad)
-					? '10px 0 12px 14px'
+					? '10px 8px 12px 14px'
 					: formaBeneficio === EFormaBeneficio.Obsequio
-					? '12px 0 12px 14px'
-					: tipoDescuento === t('descuentos.polarizado')
-					? '12px 0 12px 14px'
-					: '12px 0 0 14px'
+					? '12px 8px 12px 14px'
+					: tipoDescuento === t('descuentos.polarizado') ||
+					  tipoDescuento === t('descuentos.automatico')
+					? '12px 8px 12px 14px'
+					: '12px 8px 0 14px'
 			}
-			justifyContent='center'
-			width='179px'
 		>
 			<Typography variant='subtitle3' fontFamily='Open Sans'>
 				{codigoProducto}
 			</Typography>
 			<Typography
-				variant='subtitle3'
-				noWrap
-				width='150px'
 				marginBottom={producto.atributos ? 0 : '6px'}
+				noWrap
+				variant='subtitle3'
+				width='150px'
 			>
 				{nombreProducto}
 			</Typography>
 			{producto.atributos && (
 				<Typography
+					color='secondary'
+					fontFamily='Open Sans'
 					margin='4px 0 6px 0'
 					variant='caption'
-					fontFamily='Open Sans'
-					color='secondary'
 				>
 					{`${medidas[producto.atributos?.medida].descripcion} | ${
 						envases[producto.atributos?.envase].descripcion
@@ -372,6 +439,84 @@ const Informacion: React.FC<Props> = ({
 						</>
 					)}
 			</Box>
+			{mostrarInputPolarizado && (
+				<Box display='flex' flexDirection='column' marginTop='12px'>
+					<Box
+						sx={{
+							opacity: mostrarInputPolarizado ? 1 : 0,
+							transition: 'opacity 0.3s ease-in-out',
+						}}
+					>
+						<Box position='relative'>
+							{!inputValue && !inputClicked && (
+								<Typography
+									fontFamily='Open Sans'
+									left='12px'
+									position='absolute'
+									sx={{transform: 'translateY(-50%)'}}
+									top='50%'
+									variant='body3'
+								>
+									Ingresar precio venta
+								</Typography>
+							)}
+							{(inputClicked || inputValue) && (
+								<SimboloMoneda
+									style={{
+										left: '12px',
+										position: 'absolute',
+										top: '50%',
+										transform: 'translateY(-50%)',
+									}}
+								/>
+							)}
+							<TextField
+								variant='standard'
+								InputProps={{
+									disableUnderline: true,
+								}}
+								inputProps={{
+									style: {
+										borderRadius: '20px',
+										boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.15)',
+										boxSizing: 'border-box',
+										fontFamily: 'Open Sans',
+										fontSize: '14px',
+										fontWeight: 600,
+										height: '32px',
+										padding: '4px 12px 4px 32px',
+										width: '145px',
+									},
+								}}
+								onBlur={() => {
+									onBlurHandler();
+									setInputClicked(false);
+								}}
+								value={inputValue}
+								onChange={onChangeInput}
+								onKeyPress={handleKeyPress}
+								onFocus={(e) => {
+									e.target.select();
+									setInputClicked(true);
+								}}
+								onClick={() => {
+									setInputFocus('descuento');
+									setFocusId(producto.codigoProducto);
+									setInputClicked(true);
+								}}
+								inputRef={(input) => {
+									if (
+										inputFocus === 'descuento' &&
+										focusId === producto.codigoProducto
+									) {
+										input?.focus();
+									}
+								}}
+							/>
+						</Box>
+					</Box>
+				</Box>
+			)}
 			{mostrarInfo && infoDescuento.tipo === ETipoDescuento.escalonado && (
 				<Box
 					alignItems='center'

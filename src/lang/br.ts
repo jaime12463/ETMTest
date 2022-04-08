@@ -110,6 +110,7 @@ const br = {
 		cajas: 'Caixas',
 		ahorraste: 'Você salvou',
 		eliminarTodo: 'Excluir todos',
+		procesandoInformacion: 'Processando informação',
 	},
 	simbolos: {
 		decimal: '.',
@@ -241,14 +242,15 @@ const br = {
 	},
 	descuentos: {
 		automatico: 'automático',
-		escalonado: 'escalonado',
-		polarizado: 'polarizado',
+		descuentoAutomatico: 'Desconto automático',
 		descuentoMensaje: 'Desconto {{tipo}} de -{{descuento}}%',
 		descuentoSustituido:
 			'O desconto {{tipo}} foi substituído por uma promoção contínua.',
-		vieneConPromoOngoing: 'Vem com promoção contínua',
-		descuentoAutomatico: 'Desconto automático',
 		eliminarDescuento: 'Excluir desconto',
+		escalonado: 'escalonado',
+		polarizado: 'polarizado',
+		promocionOngoing: 'Promoção contínua',
+		vieneConPromoOngoing: 'Vem com promoção contínua',
 	},
 };
 export default br;

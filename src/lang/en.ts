@@ -117,6 +117,7 @@ const en = {
 		cajas: 'Boxes',
 		ahorraste: 'Saved',
 		eliminarTodo: 'Delete all',
+		procesandoInformacion: 'Processing information',
 	},
 	simbolos: {
 		decimal: ',',
@@ -316,14 +317,15 @@ const en = {
 	},
 	descuentos: {
 		automatico: 'automatic',
-		escalonado: 'staggered',
-		polarizado: 'polarized',
+		descuentoAutomatico: 'Automatic discount',
 		descuentoMensaje: '{{descuento}}% {{tipo}} discount',
 		descuentoSustituido:
 			'The {{tipo}} discount has been replaced by an ongoing promotion',
-		vieneConPromoOngoing: 'Comes with ongoing promotion',
-		descuentoAutomatico: 'Automatic discount',
 		eliminarDescuento: 'Delete discount',
+		escalonado: 'staggered',
+		polarizado: 'polarized',
+		promocionOngoing: 'Ongoing promotion',
+		vieneConPromoOngoing: 'Comes with ongoing promotion',
 	},
 };
 export default en;
