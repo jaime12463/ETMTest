@@ -4794,6 +4794,7 @@
 				"disponible": 1050,
 				"esCreditoBloqueado": false,
 				"esBloqueadoVenta": false,
+				"habilitaCargosFinancieros": false,
 				"documentos": [
 					{
 						"numero": "12123456789",

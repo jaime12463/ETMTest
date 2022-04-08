@@ -6,6 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
 import {CerrarIcon} from 'assests/iconos';
 import {
+	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
 	useObtenerConfiguracion,
 	useObtenerVisitaActual,
@@ -23,6 +24,7 @@ import {formatearNumero} from 'utils/methods';
 import {
 	useCalularPruductoEnPromoOnGoing,
 	useObtenerBonificacionesHabilitadas,
+	useObtenerDatosCliente,
 } from 'hooks';
 import {
 	useCalcularEnvasesDeObsequios,
@@ -40,7 +42,8 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 	const visitaActual = useObtenerVisitaActual();
 	const {venta, canje, prestamoenvase, ventaenvase} = visitaActual.pedidos;
 	const {promosOngoing} = visitaActual;
-
+	const clienteActual = useObtenerClienteActual();
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const bonificacionesHabilitadas = useObtenerBonificacionesHabilitadas();
 	const bonificacionesCliente = bonificacionesHabilitadas();
 	const calcularEnvasesDeObsequios = useCalcularEnvasesDeObsequios();
@@ -617,19 +620,21 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 							{formatearNumero(totalDescuentos, t)}
 						</Typography>
 					</Box>
-					<Box
-						display='flex'
-						justifyContent='space-between'
-						padding='12px 14px'
-						sx={{background: '#F5F0EF50'}}
-					>
-						<Typography variant='subtitle3' color='#000'>
-							{t('general.totalCargosFinancieros')}:
-						</Typography>
-						<Typography variant='subtitle3' color='#000'>
-							{formatearNumero(0, t)}
-						</Typography>
-					</Box>
+					{datosCliente?.informacionCrediticia.habilitaCargosFinancieros && (
+						<Box
+							display='flex'
+							justifyContent='space-between'
+							padding='12px 14px'
+							sx={{background: '#F5F0EF50'}}
+						>
+							<Typography variant='subtitle3' color='#000'>
+								{t('general.totalCargosFinancieros')}:
+							</Typography>
+							<Typography variant='subtitle3' color='#000'>
+								{formatearNumero(0, t)}
+							</Typography>
+						</Box>
+					)}
 				</Box>
 			</Box>
 		</Box>

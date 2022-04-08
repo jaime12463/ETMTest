@@ -101,13 +101,13 @@ export const TarjetaColapsable: React.FC<Props> = ({
 			return;
 		}
 
-		if(iniciativasCanceladasSinMotivo){
+		if (iniciativasCanceladasSinMotivo) {
 			mostrarAviso(
 				'error',
 				t('toast.iniciativaSinMotivoTitulo'),
-				t('toast.iniciativaSinMotivoMensaje'),
-			)
-			return
+				t('toast.iniciativaSinMotivoMensaje')
+			);
+			return;
 		}
 
 		if (expandido === 'Bonificaciones' && visitaActual.seQuedaAEditar.seQueda) {
@@ -195,7 +195,11 @@ export const TarjetaColapsable: React.FC<Props> = ({
 									{cantidadItems !== undefined && cantidadItems > 0 && (
 										<ChipStyled
 											size='small'
-											label={labelChip}
+											label={
+												<Typography variant='subtitle3' fontFamily='Open Sans'>
+													{labelChip}
+												</Typography>
+											}
 											className={classes.root}
 										/>
 									)}
