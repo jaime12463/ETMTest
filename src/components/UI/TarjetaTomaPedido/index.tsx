@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import theme from 'theme';
 import Controles from './components/Controles';
 import Informacion from './components/Informacion';
-import Descuentos from './components/Descuentos';
 import PromoOngoing from './components/PromoOngoing';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import SwitchYCheck from './components/SwitchYCheck';
@@ -169,14 +168,6 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 						stateInputFocus={stateInputFocus}
 					/>
 				</Box>
-				{/* <Descuentos
-					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
-					producto={productoEnVenta ?? productoAMandar}
-					stateInputFocus={stateInputFocus}
-					stateFocusId={stateFocusId}
-					infoBeneficio={infoBeneficio}
-				/> */}
 				<PromoOngoing
 					producto={productoEnVenta ?? productoAMandar}
 					infoDescuento={infoDescuento}

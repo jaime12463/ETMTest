@@ -119,38 +119,35 @@ export const Canjes = () => {
 				contenidoMensaje={configAlerta}
 			/>
 
-			<Stack mt={'5px'} spacing='10px'>
+			<Stack>
+				<Box padding='0 18px' marginBottom='16px' marginTop='32px'>
+					<Typography
+						fontWeight={'600'}
+						fontSize={'Poppins'}
+						variant='subtitle3'
+					>
+						Agregar producto para canje
+					</Typography>
+				</Box>
 				<Box
-					alignItems='flex-end'
+					alignItems='center'
 					display='flex'
 					justifyContent='space-between'
-					margin='18px 0'
+					marginBottom={canje.productos.length > 0 ? '18px' : 0}
 					paddingLeft='18px'
 				>
-					<Box>
-						<Box mb={'16px'}>
-							<Typography
-								fontWeight={'600'}
-								fontSize={'Poppins'}
-								variant='subtitle3'
-							>
-								Agregar producto para canje
-							</Typography>
-						</Box>
-
-						<AutocompleteSeleccionarProducto
-							hookForm={hookForm}
-							stateProductoActual={{productoActual, setProductoActual}}
-							statePreciosProductos={{preciosProductos, setPreciosProductos}}
-							stateInputFocus={stateInputFocus}
-						/>
-					</Box>
+					<AutocompleteSeleccionarProducto
+						hookForm={hookForm}
+						stateProductoActual={{productoActual, setProductoActual}}
+						statePreciosProductos={{preciosProductos, setPreciosProductos}}
+						stateInputFocus={stateInputFocus}
+					/>
 
 					<IconButton
 						sx={{padding: 0, marginRight: '9px'}}
 						onClick={() => setOpenBuscador(true)}
 					>
-						<BuscarIcon height='22px' width='22px' />
+						<BuscarIcon height='24px' width='24px' />
 					</IconButton>
 				</Box>
 

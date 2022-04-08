@@ -307,7 +307,7 @@ const TomaPedido: React.FC = () => {
 							sx={{padding: 0, marginRight: '9px'}}
 							onClick={() => setOpenBuscador(true)}
 						>
-							<BuscarIcon height='18px' width='18px' />
+							<BuscarIcon height='24px' width='24px' />
 						</IconButton>
 					</Box>
 				</Box>
