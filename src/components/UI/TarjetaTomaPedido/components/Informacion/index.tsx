@@ -218,7 +218,10 @@ const Informacion: React.FC<Props> = ({
 					: formaBeneficio === EFormaBeneficio.Obsequio
 					? '12px 8px 12px 14px'
 					: tipoDescuento === t('descuentos.polarizado') ||
-					  tipoDescuento === t('descuentos.automatico')
+					  (tipoDescuento === t('descuentos.automatico') &&
+							((unidadMedida === 'Unidad' && cantidad !== producto.unidades) ||
+								(unidadMedida !== 'Unidad' &&
+									cantidad !== producto.subUnidades)))
 					? '12px 8px 12px 14px'
 					: '12px 8px 0 14px'
 			}
