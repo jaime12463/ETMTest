@@ -10,7 +10,7 @@ const es = {
 		cliente: 'Cliente',
 		precio: 'Precio',
 		buscar: 'Buscar',
-		verDetalle: 'Ver Detalle',
+		verDetalle: 'Ver detalle',
 		ocultarDetalle: 'Ocultar detalle',
 		verGrupo: 'Ver grupo',
 		ocultarGrupo: 'Ocultar grupo',
