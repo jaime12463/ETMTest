@@ -35,14 +35,15 @@ import {SwitchCambiarTipoPago} from '../../components';
 import theme from 'theme';
 
 const InputStyled = styled(Input)(({}) => ({
-	borderRadius: '10px',
-	border: `1px solid ${theme.palette.secondary.dark}`,
-	height: '16px',
-	width: '42px',
 	backgroundColor: 'white',
-	fontWeight: 600,
-	lineHeight: '16px',
+	border: `1px solid ${theme.palette.secondary.dark}`,
+	borderRadius: '10px',
+	fontFamily: 'Open Sans',
 	fontSize: '12px',
+	fontWeight: 600,
+	height: '16px',
+	lineHeight: '16px',
+	width: '42px',
 }));
 
 const GridStyled = styled(Grid)(() => ({

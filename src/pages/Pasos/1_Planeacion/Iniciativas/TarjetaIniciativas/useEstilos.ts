@@ -65,11 +65,12 @@ const useEstilos = makeStyles(() =>
 
 					return '#000';
 				},
+				fontFamily: 'Open Sans',
 				fontSize: '12px',
 				fontWeight: 600,
+				lineHeight: '16px',
 			},
 			height: '16px',
-			lineHeight: '16px',
 			transition: 'all 0.3s ease-in-out',
 			width: ({estado, inputsBloqueados}: Props) =>
 				estado === 'pendiente' || estado === 'cancelada' || inputsBloqueados

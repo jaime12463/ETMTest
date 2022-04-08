@@ -55,12 +55,12 @@ const useEstilos = makeStyles(() =>
 
 					return '#000';
 				},
+				fontFamily: 'Open Sans',
 				fontSize: '12px',
 				fontWeight: 600,
+				lineHeight: '16px',
 			},
 			height: '16px',
-			lineHeight: '16px',
-			padding: '1px 2px 0px 2px',
 			width: '42px',
 		},
 	})

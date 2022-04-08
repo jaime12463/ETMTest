@@ -15,11 +15,12 @@ const useEstilos = makeStyles(() =>
 			'& .MuiInput-input': {
 				color: (props: Props) =>
 					props.inputsBloqueados ? 'rgba(0, 0, 0, 0.5)' : '#000',
+				fontFamily: 'Open Sans',
 				fontSize: '12px',
 				fontWeight: 600,
+				lineHeight: '16px',
 			},
 			height: '16px',
-			lineHeight: '16px',
 			transition: 'all 0.3s ease-in-out',
 			width: (props: Props) => (props.inputsBloqueados ? '82px' : '42px'),
 		},

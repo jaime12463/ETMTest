@@ -1,6 +1,6 @@
 import {makeStyles, createStyles} from '@material-ui/styles';
-import {Theme} from '@mui/material';
-const useEstilos = makeStyles((theme: Theme) =>
+
+const useEstilos = makeStyles(() =>
 	createStyles({
 		root: {
 			width: '100%',
@@ -12,9 +12,6 @@ const useEstilos = makeStyles((theme: Theme) =>
 			transform: 'rotate(0deg)',
 			marginLeft: 'auto',
 			padding: 0,
-			/* 			transition: theme.transitions.create('transform', {
-				duration: theme.transitions.duration.shortest,
-			}), */
 		},
 		expandOpen: {
 			transform: 'rotate(180deg)',
