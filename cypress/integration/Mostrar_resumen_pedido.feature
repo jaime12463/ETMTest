@@ -145,7 +145,7 @@ Ejemplos:
 # Aplicar sobre precioSinImpuestosUnidad o precioSinImpuestosSubunidad según corresponda
 # si el producto beneficiado tiene descuento polarizado, aplicar el beneficio sobre el nuevo precio calculado que incluye el descuento polarizado
 
-Escenario: N°14 - Sección promo ongoing beneficio precio recuperación
+Escenario: N°14 - Mostrar forma beneficio precio recuperación
     Dado que la forma beneficio de la secuencia es precio recuperación
     Cuando se muestra el beneficio de la secuencia
     Entonces el sistema mostrará dentro de la promocion ongoing para cada producto el _codigoProducto, _nombre, _atributos, _presentacion, 
@@ -153,7 +153,7 @@ Escenario: N°14 - Sección promo ongoing beneficio precio recuperación
     Y mostrará la _formaBeneficio = 4 con el label precio recuperación
     Y mostrará el _valorBeneficio * cantidad obtenida promocionada
 
-    Escenario: N°15 - No mostrar promociones ni beneficios al cambiar el pedido
+Escenario: N°15 - No mostrar promociones ni beneficios al cambiar el pedido
     Dado que se modificó el pedido
     Y no se recalcularon promociones
     Cuando selecciono ver resumen del pedido
