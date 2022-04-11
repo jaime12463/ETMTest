@@ -40,6 +40,7 @@ Escenario: N°1 - El producto del pedido no tiene Implícito1 ni Implícito2 inf
 Esquema del escenario: N°2 - El producto del pedido tiene Implícito1 informado con tipo de pedido de envases habilitado valorizado
 	Dado que se realizó la venta de '<cantidadUnidades>' y '<cantidadSubunidades>' de '<producto>' 
 	Y éste tiene '<implicito1>' informado
+	Y el implícito no resulta beneficiado por promociones ongoing
 	Y tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
 	Y la condición de pago es '<condicion>'
 	Cuando se calculan los envases retornables del pedido
@@ -55,6 +56,7 @@ Ejemplos:
 Esquema del escenario: N°3 - El producto del pedido tiene Implícito1 informado con tipo de pedido de envases habilitado no valorizado
 	Dado que se realizó la venta de '<cantidadUnidades>' y '<cantidadSubunidades>' de '<producto>' 
 	Y éste tiene '<implicito1>' informado
+	Y el implícito no resulta beneficiado por promociones ongoing
 	Y no tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
 	Cuando se calculan los envases retornables del pedido
 	Entonces el sistema calculará el '<implicito1>' con '<cantidadUnidades>' y '<cantidadSubunidades>' para retorno
@@ -69,6 +71,7 @@ Ejemplos:
 Esquema del escenario: N°4 - El producto del pedido tiene Implícito2 informado con tipo de pedido de envases habilitado valorizado
 	Dado que se realizó la venta de '<cantidadUnidades>' mayores a cero del '<producto>' 
 	Y éste tiene '<implicito2>' informado
+	Y el implícito no resulta beneficiado por promociones ongoing
 	Y tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
 	Y la condición de pago es '<condicion>'
 	Cuando se calculan los envases retornables del pedido
@@ -84,6 +87,7 @@ Ejemplos:
 Esquema del escenario: N°5 - El producto del pedido tiene Implícito2 informado con tipo de pedido de envases habilitado no valorizado
 	Dado que se realizó la venta de '<cantidadUnidades>' mayores a cero del '<producto>' 
 	Y éste tiene '<implicito2>' informado
+	Y el implícito no resulta beneficiado por promociones ongoing
 	Y no tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
 	Cuando se calculan los envases retornables del pedido
 	Entonces el sistema calculará el '<implicito2>' con '<cantidadUnidades>' para retorno
@@ -230,6 +234,7 @@ Escenario: N°8 - Consolidar los retornables del pedido con tipo de pedido de en
 	| 400	 |       0	      |       9	          | contado |
 	| 10010  |       3        |       0           | contado |  
 	Y tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true 
+	Y los implícitos no resultan beneficiados por promociones ongoing
 	Cuando se calculan los envases retornables del pedido  
 	Entonces el sistema calculará
 	|implicito| unidades |subunidades|condicion|
@@ -251,6 +256,7 @@ Escenario: N°9 - Consolidar los retornables del pedido con pedido de envases ha
 	| 400	 |       0	      |       9	          | contado |
 	| 10010  |       3        |       0           | contado | 
 	Y no tiene un _tipoPedidoEnvasesHabilitados que _esValorizada = true  
+	Y los implícitos no resultan beneficiados por promociones ongoing
 	Cuando se calculan los envases retornables del pedido  
 	Entonces el sistema calculará
 	|implicito| unidades |subunidades|
@@ -262,6 +268,7 @@ Escenario: N°9 - Consolidar los retornables del pedido con pedido de envases ha
 Esquema del escenario: N°10 - Consolidar los retornables de productos que son beneficio/obsequios de promociones ongoing 
 	Dado que se obtuvo '<producto>' como beneficio/obsequio por promociones ongoing
 	Y el producto beneficio/obsequio tiene implícitos 
+	Y los implícitos no resultan beneficiados por promociones ongoing
 	Y la condición de pago de la promoción por la cual se obtuvo el obsequio es '<condicion>'
 	Y la cantidad obtenida es '<cantidad>'
 	Y la unidad de medida del beneficio/obsequio es '<unidadMedida>'
