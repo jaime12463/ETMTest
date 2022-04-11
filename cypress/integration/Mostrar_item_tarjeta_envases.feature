@@ -23,10 +23,10 @@ Escenario: N°1 - Mostrar items de tarjeta de envases con tipo de pedido de enva
     Cuando se selecciona la tarjeta de envases
     Entonces el sistema desplegará la tarjeta de envases
     Y mostrará las tarjetas de items ordenadas por codigo de producto y por condicion de pago
-    con los datos de condición de pago, codigo y descripcion de envase, unidades y subunidades para retorno resultantes del cálculo de envases,
-    precio de la unidad y subunidad y los totales de unidad y subunidad, todos no editables
+    Y con los datos de condición de pago, codigo y descripcion de envase, unidades y subunidades para retorno resultantes del cálculo de envases,
+    Y precio de la unidad y subunidad y los totales de unidad y subunidad, todos no editables
     Y mostrará por cada _tipoPedidoEnvasesHabilitados, de forma ordenada según la configuración, una línea con los datos de descripcion corta del tipo de pedido,
-    unidades y subunidades editables y habilitadas según la configuración del pedido
+    Y unidades y subunidades editables y habilitadas según la configuración del pedido
 
 
 Escenario: N°2 - Mostrar items de tarjeta de envases de pedido con tipo de pedido de envases habilitado no valorizado
@@ -36,9 +36,9 @@ Escenario: N°2 - Mostrar items de tarjeta de envases de pedido con tipo de pedi
     Cuando se selecciona la tarjeta de envases
     Entonces el sistema desplegará la tarjeta de envases
     Y mostrará las tarjetas de items ordenadas por codigo de producto
-    con los datos codigo y descripcion de envase, unidades y subunidades para retorno resultantes del cálculo de envases,
-    y los totales de unidad y subunidad, todos no editables
+    Y con los datos codigo y descripcion de envase, unidades y subunidades para retorno resultantes del cálculo de envases,
+    Y los totales de unidad y subunidad, todos no editables
     Y mostrará por cada _tipoPedidoEnvasesHabilitados, de forma ordenada según la configuración, una línea con los datos de descripcion corta del tipo de pedido,
-    unidades y subunidades editables y habilitadas según la configuración del pedido
+    Y unidades y subunidades editables y habilitadas según la configuración del pedido
 
 

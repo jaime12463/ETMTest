@@ -77,9 +77,9 @@ Esquema del escenario: N°2 - La cantidad es menor o igual a la disponible para 
 	Y la cantidad ingresada no supera a la cantidad de subunidades actual de retorno + la cantidad de subunidades inicial del item que se está modificando 
     Y el tipo de pedido de envase es valorizado = '<_esValorizado>'
 	Entonces el sistema registrará las subunidades ingresadas para el tipo de pedido de envase 
-    y actualizará las unidades para retorno 
-	y '<actualiza>' los indicadores del pedido
-    y permanecerá en la tarjeta de envases
+    Y actualizará las unidades para retorno 
+	Y '<actualiza>' los indicadores del pedido
+    Y permanecerá en la tarjeta de envases
 
 Ejemplos:
 |_esValorizado| actualiza      |

@@ -9,6 +9,11 @@
 
 # Sprint13 UX: https://www.figma.com/file/a6j0OiJCxmdy9DupAaFiac/Order-taking-SFA---Compartida-con-Hasar?node-id=668%3A72153
 
+Característica: Mostrar tarjeta orden de compra
+    Como prevendedor
+    Quiero ver la tarjeta de orden de compra si la ruta lo habilitadas
+    Para registrar una orden de compra si el cliente posee
+
 Antecedentes:
     Dado estoy en paso 3 - otros
 

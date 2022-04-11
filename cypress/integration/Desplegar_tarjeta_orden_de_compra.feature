@@ -9,6 +9,11 @@
 
 # Sprint13 UX: https://www.figma.com/file/a6j0OiJCxmdy9DupAaFiac/Order-taking-SFA---Compartida-con-Hasar?node-id=668%3A72153
 
+Característica: Desplegar tarjeta orden de compra
+    Como prevendedor 
+    quiero registrar una orden de compra
+    para asociarla al pedido del cliente
+
 Antecedentes:
     Dado estoy en paso 3 - otros
     Y _habilitaOrdenDeCompra = true

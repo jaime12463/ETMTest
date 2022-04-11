@@ -23,14 +23,14 @@ Característica: Mostrar comprobante
 
  Esquema del escenario: N°1 - Mostrar productos que no son promo push en comprobante
     Dado que estoy en el paso 4 en finalizar pedido
-    y se ingresaron productos que no son promo push en el _tipoPedido con codigo=venta
-    con  '<condicionPago>'
+    Y se ingresaron productos que no son promo push en el _tipoPedido con codigo=venta
+    Y con  '<condicionPago>'
     Cuando despliego la tarjeta comprobante  
     Entonces el sistema mostrará el título "Items de" & '<condicionPago>',
-    la lista de los productos ingresados visualizando
-    el código de producto, indicador presentación unidades, cantidad de unidades, precio unitario por unidad, subtotal de las unidades,
-    indicador presentación subnidades, cantidad de subunidades vendidas, precio unitario por subunidad, subtotal de las subunidades vendidas,
-    ordenados por código de producto ascendente
+    Y la lista de los productos ingresados visualizando
+    Y el código de producto, indicador presentación unidades, cantidad de unidades, precio unitario por unidad, subtotal de las unidades,
+    Y indicador presentación subnidades, cantidad de subunidades vendidas, precio unitario por subunidad, subtotal de las subunidades vendidas,
+    Y ordenados por código de producto ascendente
     Y el monto total de los productos. 
 
     Ejemplos:
@@ -45,12 +45,12 @@ Característica: Mostrar comprobante
 
  Esquema del escenario: N°2 - Mostrar promo push en comprobante
     Dado que estoy en el paso 4 en finalizar pedido
-    y se ingresaron productos que son promo push en el _tipoPedido con codigo = "Venta"
-    con '<condicionPago>'
+    Y se ingresaron productos que son promo push en el _tipoPedido con codigo = "Venta"
+    Y con '<condicionPago>'
     Cuando despliego la tarjeta comprobante  
     Entonces el sistema mostrará una lista de los productos no promo push con '<condiciónpago>' visualizando
-    el código de producto, indicador presentación unidades, cantidad de unidades, precio unitario por unidad, subtotal de las unidades,
-    indicador presentación subunidades, cantidad de subunidades vendidas, precio unitario por subunidad, subtotal de las subunidades vendidas,
+    Y el código de producto, indicador presentación unidades, cantidad de unidades, precio unitario por unidad, subtotal de las unidades,
+    Y indicador presentación subunidades, cantidad de subunidades vendidas, precio unitario por subunidad, subtotal de las subunidades vendidas,
     Y el monto total 
      
     Ejemplos:
@@ -60,12 +60,12 @@ Característica: Mostrar comprobante
 
  Esquema del escenario: N°3 - Mostrar venta de envases en comprobante
     Dado que estoy en el paso 4 en finalizar pedido
-    y se ingresaron productos en el _tipoPedido con codigo = "VentaEnvase"
-    con '<condicionPago>'
+    Y se ingresaron productos en el _tipoPedido con codigo = "VentaEnvase"
+    Y con '<condicionPago>'
     Cuando despliego la tarjeta comprobante  
     Entonces el sistema mostrará una lista de los productos no promo push con '<condiciónpago>' visualizando
-    el código de producto, indicador presentación unidades, cantidad de unidades, precio unitario por unidad, subtotal de las unidades,
-    indicador presentación subunidades, cantidad de subunidades vendidas, precio unitario por subunidad, subtotal de las subunidades vendidas,
+    Y el código de producto, indicador presentación unidades, cantidad de unidades, precio unitario por unidad, subtotal de las unidades,
+    Y indicador presentación subunidades, cantidad de subunidades vendidas, precio unitario por subunidad, subtotal de las subunidades vendidas,
     Y el monto total 
 
     Ejemplos:
@@ -75,10 +75,10 @@ Característica: Mostrar comprobante
 
     Escenario: N°4 - Mostrar canjes en comprobante
     Dado que estoy en el paso 4 en finalizar pedido
-    y se ingresaron productos  en el _tipoPedido con codigo = "Canje"
+    Y se ingresaron productos  en el _tipoPedido con codigo = "Canje"
     Cuando despliego la tarjeta comprobante  
     Entonces el sistema mostrará una lista de los productos canjeados visualizando
-    el código de producto, indicador presentación unidades, cantidad de unidades
-    indicador presentación subunidades, cantidad de subunidades vendidas
+    Y el código de producto, indicador presentación unidades, cantidad de unidades
+    Y indicador presentación subunidades, cantidad de subunidades vendidas
     
 
