@@ -65,6 +65,6 @@ Ejemplos:
 Escenario: N°5 - Ingresar manualmente cantidades superiores al disponible
 	Dado que se ingresaron cantidades manualmente
 	Cuando la suma de las cantidades ingresadas supera el disponible
-	Entonces el sistema descartará el valor ingresado
-	Y restablecerá el valor que tenía el control de cantidad
-	Y mostrará un mensaje indicando que la cantidad es mayor al disponible permitido
+	Entonces el sistema mostrará mensaje de error
+	Y marcará en rojo el control de cantidades con error
+	Y permanecerá en pantalla
