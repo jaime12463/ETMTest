@@ -143,6 +143,7 @@ Ejemplos:
 | 3 (descuento $) |  descuento = valorBeneficio                                          |    
 
 # Aplicar sobre precioSinImpuestosUnidad o precioSinImpuestosSubunidad según corresponda
+# si el producto beneficiado tiene descuento polarizado, aplicar el beneficio sobre el nuevo precio calculado que incluye el descuento polarizado
 
 Escenario: N°14 - Sección promo ongoing beneficio precio recuperación
     Dado que la forma beneficio de la secuencia es precio recuperación
