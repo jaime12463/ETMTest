@@ -8,6 +8,7 @@ import {useInicializarClienteActual} from './hooks';
 
 const Clientes = () => {
 	const {t} = useTranslation();
+	console.log('probando');
 
 	const defaultValues: TInputsCodigoCliente = {
 		codigoCliente: '',
