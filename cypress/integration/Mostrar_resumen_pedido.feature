@@ -68,9 +68,9 @@ Esquema del escenario: N°7 - Mostrar los totales al pié del resumen
     Cuando selecciono ver resumen del pedido
     Entonces el sistema mostrará al final del resumen los totales de contado, crédito y descuentos
     Y si <_habilitaCargosFinancieros>, '<mostrara>' la línea de cargos financieros
-    Y siendo total contado = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago contado más el compromiso de cobro, menos la suma de los descuentos de cada producto a contado
-    Y total crédito = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago crédito, menos la suma de los descuentos de cada producto a crédto
-    Y total ahorro = a la suma de los descuentos de cada producto de ambas condiciones de pago
+    Y siendo total contado = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago contado, más el valor monetario de envases beneficiados por promoción ongoing descuento/precio recupero para la misma condición de pago, más el compromiso de cobro, menos la suma de los descuentos de cada producto a contado, menos la suma de los descuentos de envases beneficados por promocion ongoing descuento de la misma condición de pago
+    Y total crédito = a la suma del subtotal de cada producto de los tipos de pedidos valorizados con condición de pago crédito más el valor monetario de envases beneficiados por promoción ongoing descuento/precio recupero para la misma condición de pago, menos la suma de los descuentos de cada producto a crédito, menos la suma de los descuentos de envases beneficados por promocion ongoing descuento de la misma condición de pago
+    Y total ahorro = a la suma de los descuentos de cada producto de ambas condiciones de pago, más la suma de los descuentos obtenidos en envases beneficiados por promoción ongoing descuento
     Y total cargos financieros = a la suma de los cargos financieros de cada producto de ambas condiciones de pago
 
  # Descuentos: son los montos de ahorro obtenidos por descuento escalonado, descuento polarizado, descuento automático y descuentos otenidos por promociones ongoing aplicadas

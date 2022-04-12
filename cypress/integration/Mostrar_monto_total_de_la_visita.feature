@@ -14,5 +14,8 @@ Escenario: N°1 - Calcular total
     Y se ingresó un compromiso de cobro
     Cuando se calculan los precios y totales
     Entonces el sistema calculará el total del pedido de la visita como la suma de los totales de los pedidos cuyo _tipoPedido es _esValorizado = true más el monto del compromiso de cobro ingresado.
+    Y más el valor monetario de envases beneficiados por promoción ongoing descuento/precio recupero para ambas condciones de pago 
+    Y menos la suma de los descuentos de cada producto de ambas condiciones de pago
+    Y menos la suma de los descuentos de envases beneficados por promocion ongoing descuento de ambas condiciones de pago
 
 # Se contemplan para el calculo los pedidos a credito y a contado
