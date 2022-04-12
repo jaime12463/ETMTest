@@ -149,6 +149,7 @@ export class PromocionesOngoing {
 		this._promosAplicadasOtrasVisitas = promosAplicadasOtrasVisitas;
 		this._calculoRealizado = false;
 		this._configuracion= configuracion;
+		this._resultado= undefined;
 
 		console.log(
 			`Inicializando  motor de promociones para el cliente: ${this._cliente.codigoCliente}`
@@ -381,8 +382,9 @@ export class PromocionesOngoing {
 											: (conector == 'Y')
 																? multiplo.every((requisito) => requisito > 0) 
 																: multiplo.some((requisito) => requisito > 0);
-			const topeSegunMultiplo: number = Math.min(...multiplo);
+			
 			if (sonValidosLosRequisitos) {
+				const topeSegunMultiplo: number =  (conector == 'Y') ? Math.min(...multiplo) : multiplo.reduce((pv,cv)=> pv+cv,0 );
 				// verificar si el grupo de beneficios se puede aplicar
 				let grupoDeBeneficiosResultado = this.verificarBeneficios(
 					topeSegunMultiplo,
