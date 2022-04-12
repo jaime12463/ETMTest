@@ -116,6 +116,7 @@ Escenario: N°10 - El producto tiene descuento escalonado aplicado
     Y mostrará el ahorro para unidades como el precio unitario de unidades con el descuento aplicado
     Y mostrará el ahorro para subunidades como el precio unitario de subunidades con el descuento aplicado
     Y mostrará el control para quitar el descuento
+    Y mostrará el control para ver el detalle de los rangos y descuentos
 
 
 Escenario: N°11 - El producto tiene descuento polarizado aplicado
