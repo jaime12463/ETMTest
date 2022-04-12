@@ -6,16 +6,16 @@ import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
 import {EFormaBeneficio, TProductoPedido} from 'models';
 import theme from 'theme';
-import {useObtenerDatos} from 'redux/hooks';
+import {useObtenerConfiguracion, useObtenerDatos} from 'redux/hooks';
 import {useCalularPruductoEnPromoOnGoing} from 'hooks';
+import {validarSubUnidades} from 'utils/validaciones';
 
 export interface TarjetaProps {
 	producto: TProductoPedido;
 }
 
-export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
-	const {t} = useTranslation();
-	const {
+export const Tarjeta: React.FC<TarjetaProps> = ({
+	producto: {
 		codigoProducto,
 		nombreProducto,
 		unidades,
@@ -26,9 +26,17 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 		atributos,
 		presentacion,
 		tipoPago,
-	} = producto;
-
+	},
+}) => {
+	const {t} = useTranslation();
 	const calularPruductoEnPromoOnGoing = useCalularPruductoEnPromoOnGoing();
+	const {tipoPedidos} = useObtenerConfiguracion();
+	const [{habilitaSubunidades}] = tipoPedidos;
+
+	const permiteSubUnidades = validarSubUnidades(
+		esVentaSubunidades,
+		habilitaSubunidades
+	);
 
 	const infoBeneficio = calularPruductoEnPromoOnGoing(codigoProducto);
 
@@ -49,8 +57,8 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 	}
 
 	let precioFinal =
-		producto.precioConImpuestoUnidad * unidadesFinales +
-		producto.precioConImpuestoSubunidad * subUnidadesFinales;
+		precioConImpuestoUnidad * unidadesFinales +
+		precioConImpuestoSubunidad * subUnidadesFinales;
 
 	const {envases, medidas} = useObtenerDatos();
 
@@ -78,8 +86,8 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 						fontFamily='Open Sans'
 						color={theme.palette.secondary.main}
 					>
-						{`${medidas[producto.atributos?.medida ?? 0].descripcion} | ${
-							envases[producto.atributos?.envase ?? 0].descripcion
+						{`${medidas[atributos?.medida ?? 0].descripcion} | ${
+							envases[atributos?.envase ?? 0].descripcion
 						}`}
 					</Typography>
 				)}
@@ -102,7 +110,7 @@ export const Tarjeta: React.FC<TarjetaProps> = ({producto}) => {
 							{formatearNumero(precioConImpuestoUnidad, t)}
 						</Typography>
 					</Box>
-					{esVentaSubunidades && (
+					{permiteSubUnidades && (
 						<Box alignItems='center' display='flex'>
 							<BotellaIcon height='12px' width='12px' />
 							<Typography

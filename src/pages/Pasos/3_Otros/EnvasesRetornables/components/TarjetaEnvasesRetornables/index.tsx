@@ -110,16 +110,19 @@ const TarjetaEnvasesRetornables: React.VFC<Props> = ({envase}) => {
 	);
 
 	const {
-		tipoPedidos: [, , ventaEnvases, prestamoEnvases],
+		tipoPedidos: [
+			,
+			,
+			{habilitaSubunidades: subUnidadesVenta},
+			{habilitaSubunidades: subUnidadesPrestamo},
+		],
 	} = useObtenerConfiguracion();
-
-	const {habilitaSubunidades: subUnidadesVenta} = ventaEnvases;
-	const {habilitaSubunidades: subUnidadesPrestamo} = prestamoEnvases;
 
 	const habilitaSubUnidadesVenta = validarSubUnidades(
 		producto?.esVentaSubunidades ?? false,
 		subUnidadesVenta
 	);
+
 	const habilitaSubUnidadesPrestamo = validarSubUnidades(
 		producto?.esVentaSubunidades ?? false,
 		subUnidadesPrestamo

@@ -7,11 +7,9 @@ import Informacion from './components/Informacion';
 import PromoOngoing from './components/PromoOngoing';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import SwitchYCheck from './components/SwitchYCheck';
-import {useTranslation} from 'react-i18next';
 import {
 	useObtenerCalculoDescuentoProducto,
 	useObtenerDatosCliente,
-	useMostrarAviso,
 	useCalularPruductoEnPromoOnGoing,
 } from 'hooks';
 
@@ -38,10 +36,8 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 }) => {
 	const clienteActual = useObtenerClienteActual();
 	const [productoAgregado, setProductoAgregado] = React.useState<boolean>(true);
-	const {focusId, setFocusId} = stateFocusId;
+	const {focusId} = stateFocusId;
 	const visitaActual = useObtenerVisitaActual();
-	const mostrarAviso = useMostrarAviso();
-	const {t} = useTranslation();
 	const {setAlerta, setConfigAlerta} = stateAviso;
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {configuracionPedido}: any = datosCliente;
@@ -141,7 +137,7 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 				width='100%'
 				sx={{
 					background:
-						'linear-gradient(90deg, transparent 0%, transparent 178px, #F5F0EF 178px, #F5F0EF 100%)',
+						'linear-gradient(90deg, transparent 0%, transparent 179px, #F5F0EF 179px, #F5F0EF 100%)',
 				}}
 			>
 				<SwitchYCheck
