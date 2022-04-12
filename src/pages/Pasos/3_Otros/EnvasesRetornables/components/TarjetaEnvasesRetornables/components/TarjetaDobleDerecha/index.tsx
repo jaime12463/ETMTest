@@ -1,10 +1,14 @@
-import {Grid, Input, Typography} from '@mui/material';
+import {useEffect, useState} from 'react';
+import {Box, Input, Typography} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {InputTipoPedido} from '../../..';
-import {FunctionComponent, useEffect, useState} from 'react';
-import {TRetornoEnvases, TConsolidadoImplicitos, TPrecioProducto, TTipoPedido} from 'models';
-import {useAgregarProductoAlPedidoActual} from '../../../../hooks/useAgregarProductoAlPedidoActual';
-import {useMostrarAdvertenciaEnDialogo, useMostrarAviso} from 'hooks';
+import {
+	TRetornoEnvases,
+	TConsolidadoImplicitos,
+	TPrecioProducto,
+	TTipoPedido,
+} from 'models';
+import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import {useTranslation} from 'react-i18next';
 import {Dialogo} from 'components/UI';
 import {BotellaIcon, CajaIcon} from 'assests/iconos';
@@ -20,32 +24,29 @@ const InputStyled = styled(Input)(({theme}) => ({
 	fontSize: '12px',
 }));
 
-type Props = {
-	pedidosEnvasesHabilitados: (TTipoPedido | undefined)[];
-	stateTipoEnvases: any;
+interface Props {
 	envase: TConsolidadoImplicitos;
+	habilitaSubUnidadesPrestamo: boolean;
+	habilitaSubUnidadesVenta: boolean;
+	pedidosEnvasesHabilitados: (TTipoPedido | undefined)[];
 	productoEnvase: TPrecioProducto | undefined;
 	productoPedido: any;
-};
+	stateTipoEnvases: any;
+}
 
-const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
-	const {
-		pedidosEnvasesHabilitados,
-		stateTipoEnvases,
-		envase,
-		productoEnvase,
-		productoPedido,
-	} = props;
-
+const TarjetaDobleDerecha: React.VFC<Props> = ({
+	envase,
+	habilitaSubUnidadesPrestamo,
+	habilitaSubUnidadesVenta,
+	pedidosEnvasesHabilitados,
+	productoEnvase,
+	productoPedido,
+	stateTipoEnvases,
+}) => {
 	const {valoresEnvase, setValoresEnvase} = stateTipoEnvases;
-
-	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
-		useMostrarAdvertenciaEnDialogo();
-
+	const {mostarDialogo, parametrosDialogo} = useMostrarAdvertenciaEnDialogo();
 	const {t} = useTranslation();
-
 	const {unidades, subUnidades} = envase;
-
 	const unidadesIniciales = unidades;
 	const subUnidadesIniciales = subUnidades;
 
@@ -68,78 +69,85 @@ const TarjetaDobleDerecha: FunctionComponent<Props> = (props) => {
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-			<Grid container p={1} spacing={1} maxWidth={'180px'} maxHeight={'125px'}>
-				<Grid
-					item
-					display='flex'
-					alignItems='center'
-					justifyContent='flex-end'
-					xs={12}
-					ml={4}
-				>
-					<Grid
-						item
-						xs={4}
-						display='flex'
-						alignItems='center'
-						justifyContent='flex-start'
-						mr={-0.4}
-					>
-						<CajaIcon height='19px' width='19px' />
-					</Grid>
-					<Grid
-						item
-						xs={5}
-						display='flex'
-						alignItems='center'
-						justifyContent='center'
-					>
-						<BotellaIcon height='19px' width='19px' />
-					</Grid>
-				</Grid>
-				<Grid
-					item
-					display='flex'
-					alignItems='center'
-					justifyContent='space-between'
-					xs={12}
-				>
-					<Grid item xs={4}>
-						<Typography fontFamily='Open Sans' variant={'caption'}>
-							Retorno:
-						</Typography>
-					</Grid>
-
-					<Grid item xs={3}>
-						<InputStyled
-							inputProps={{style: {textAlign: 'center'}}}
-							disableUnderline
-							value={retorno.unidades}
-							readOnly
-						/>
-					</Grid>
-
-					<Grid item xs={3}>
-						<InputStyled
-							inputProps={{style: {textAlign: 'center'}}}
-							disableUnderline
-							value={retorno.subUnidades}
-							readOnly
-						/>
-					</Grid>
-				</Grid>
-
-				{pedidosEnvasesHabilitados?.map((tipoPedido) => (
-					<InputTipoPedido
-						key={tipoPedido?.codigo}
-						tipoPedido={tipoPedido}
-						productoEnvase={productoEnvase}
-						stateTipoEnvases={{valoresEnvase, setValoresEnvase}}
-						stateRetorno={{retorno, setRetorno}}
-						datosEnvase={envase}
+			<Box
+				alignItems='center'
+				display='grid'
+				gap='8px 0'
+				gridTemplateAreas={`"Vacio Caja Botella"
+														"Retorno RUnidad RSubUnidad"
+														"Venta VUnidad VSubUnidad"
+														"Prestamo PUnidad PSubUnidad"`}
+				gridTemplateColumns='1fr auto auto'
+				gridTemplateRows='auto 1fr 1fr 1fr'
+				height='100%'
+				justifyItems='center'
+				padding='12px 14px 12px 4px'
+			>
+				<CajaIcon
+					height='14px'
+					width='14px'
+					style={{
+						gridArea: 'Caja',
+						marginBottom: '-4px',
+						marginRight:
+							habilitaSubUnidadesVenta || habilitaSubUnidadesPrestamo
+								? '8px'
+								: '0',
+					}}
+				/>
+				{(habilitaSubUnidadesVenta || habilitaSubUnidadesPrestamo) && (
+					<BotellaIcon
+						height='12px'
+						width='12px'
+						style={{gridArea: 'Botella', marginBottom: '-4px'}}
 					/>
-				))}
-			</Grid>
+				)}
+				<Typography
+					fontFamily='Open Sans'
+					sx={{gridArea: 'Retorno'}}
+					variant='caption'
+					justifySelf='flex-end'
+					marginRight='4px'
+				>
+					Retorno:
+				</Typography>
+				<InputStyled
+					disableUnderline
+					inputProps={{style: {textAlign: 'center'}}}
+					readOnly
+					sx={{
+						gridArea: 'RUnidad',
+						marginRight:
+							habilitaSubUnidadesVenta || habilitaSubUnidadesPrestamo
+								? '8px'
+								: '0',
+					}}
+					value={retorno.unidades}
+				/>
+				{(habilitaSubUnidadesVenta || habilitaSubUnidadesPrestamo) && (
+					<InputStyled
+						disableUnderline
+						inputProps={{style: {textAlign: 'center'}}}
+						readOnly
+						sx={{gridArea: 'RSubUnidad'}}
+						value={retorno.subUnidades}
+					/>
+				)}
+				{pedidosEnvasesHabilitados?.map((tipoPedido) => {
+					return (
+						<InputTipoPedido
+							key={tipoPedido?.codigo}
+							tipoPedido={tipoPedido}
+							productoEnvase={productoEnvase}
+							stateTipoEnvases={{valoresEnvase, setValoresEnvase}}
+							stateRetorno={{retorno, setRetorno}}
+							datosEnvase={envase}
+							habilitaSubUnidadesVenta={habilitaSubUnidadesVenta}
+							habilitaSubUnidadesPrestamo={habilitaSubUnidadesPrestamo}
+						/>
+					);
+				})}
+			</Box>
 		</>
 	);
 };

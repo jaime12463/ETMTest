@@ -26,27 +26,17 @@ type Props = {
 	borderColor?: string;
 };
 
-export const TarjetaDoble = ({
+export const TarjetaDoble: React.FC<Props> = ({
 	derecha,
 	izquierda,
 	widthIzquierda,
 	widthDerecha,
 	borderColor = '#D9D9D9',
-}: Props) => {
+}) => {
 	return (
 		<CardContenedor border={`1px solid ${borderColor}`}>
 			<Izquierda width={widthIzquierda}>{izquierda}</Izquierda>
 			<Derecha width={widthDerecha}>{derecha}</Derecha>
 		</CardContenedor>
-		// <CardContenedor sx={{border: `1px solid ${borderColor}`}}>
-		// 	<Grid container minWidth='304px' maxWidth='304px'>
-		// 		<Izquierda item width={widthIzquierda}>
-		// 			{izquierda}
-		// 		</Izquierda>
-		// 		<Derecha item width={widthDerecha}>
-		// 			{derecha}
-		// 		</Derecha>
-		// 	</Grid>
-		// </CardContenedor>
 	);
 };

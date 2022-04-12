@@ -118,11 +118,6 @@ const Informacion: React.FC<Props> = ({
 	const validacionPermiteSubUnidades =
 		useValidacionPermiteSubUnidades(producto);
 
-	console.log(
-		tipoDescuento === t('descuentos.polarizado') ||
-			tipoDescuento === t('descuentos.automatico')
-	);
-
 	React.useEffect(() => {
 		if (
 			infoDescuento.porcentajeDescuento > 0 ||
