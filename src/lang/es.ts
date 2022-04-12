@@ -332,8 +332,7 @@ const es = {
 		automatico: 'automático',
 		descuentoAutomatico: 'Descuento automático',
 		descuentoMensaje: 'Descuento {{tipo}} del -{{descuento}}%',
-		descuentoSustituido:
-			'El descuento {{tipo}} ha sido sustituido por una promoción ongoing',
+		descuentoSustituido: 'El descuento {{tipo}} ha sido sustituido por una',
 		eliminarDescuento: 'Eliminar descuento',
 		escalonado: 'escalonado',
 		polarizado: 'polarizado',

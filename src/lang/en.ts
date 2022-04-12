@@ -319,8 +319,7 @@ const en = {
 		automatico: 'automatic',
 		descuentoAutomatico: 'Automatic discount',
 		descuentoMensaje: '{{descuento}}% {{tipo}} discount',
-		descuentoSustituido:
-			'The {{tipo}} discount has been replaced by an ongoing promotion',
+		descuentoSustituido: 'The {{tipo}} discount has been replaced by an',
 		eliminarDescuento: 'Delete discount',
 		escalonado: 'staggered',
 		polarizado: 'polarized',

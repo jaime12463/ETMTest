@@ -63,6 +63,9 @@ const PromoOngoing: React.FC<Props> = ({
 								<PromocionColor height='20px' width='20px' />
 								<Typography variant='caption' color='primary'>
 									{t('descuentos.descuentoSustituido', {tipo: tipoDescuento})}
+									<span style={{fontWeight: 500}}>
+										{` ${t('descuentos.promocionOngoing').toLowerCase()}`}
+									</span>
 								</Typography>
 							</Box>
 						)}

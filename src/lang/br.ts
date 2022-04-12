@@ -244,8 +244,7 @@ const br = {
 		automatico: 'automático',
 		descuentoAutomatico: 'Desconto automático',
 		descuentoMensaje: 'Desconto {{tipo}} de -{{descuento}}%',
-		descuentoSustituido:
-			'O desconto {{tipo}} foi substituído por uma promoção contínua.',
+		descuentoSustituido: 'O desconto {{tipo}} foi substituído por uma',
 		eliminarDescuento: 'Excluir desconto',
 		escalonado: 'escalonado',
 		polarizado: 'polarizado',
