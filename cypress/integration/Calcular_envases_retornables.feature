@@ -1,6 +1,8 @@
 # language: es
 
-@Pedido @Calcular_envases @Sprint8 @Sprint11 @Sprint12 @Sprint21
+@Pedido @Calcular_envases @Sprint8 @Sprint11 @Sprint12 @Sprint21 @Sprint27
+
+# Sprint27: no se contempla para el cálculo de envases aquellos implicitos que resultan beneficiados por promociones ongoing
 
 # Sprint12: Calculo de envases por condicion de pago
 

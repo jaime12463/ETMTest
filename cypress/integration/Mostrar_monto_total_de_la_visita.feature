@@ -1,6 +1,8 @@
 # language: es
 
-@Pedido @Totales @Sprint12
+@Pedido @Totales @Sprint12 @Sprint27
+
+# Sprint27: se agrega al cálculo el valor de los envases beneficiados por promocion ongoing
 
 # sprint 12 UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA_S12_S13_S14?node-id=871%3A5542&scaling=scale-down&page-id=871%3A5541&starting-point-node-id=871%3A5542
 

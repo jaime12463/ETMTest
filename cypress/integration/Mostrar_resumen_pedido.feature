@@ -1,6 +1,8 @@
 # language: es
 
-@Pedido @Resumen_pedido @Sprint15 @Sprint17 @Sprint19 @Sprint21 @Sprint22 @Sprint24
+@Pedido @Resumen_pedido @Sprint15 @Sprint17 @Sprint19 @Sprint21 @Sprint22 @Sprint24 @Sprint27
+
+# Sprint27: se agregan a los totales, los envases beneficiados por promocion ongoing
 
 Característica: Mostrar resumen del pedido 
     Como prevendedor 
