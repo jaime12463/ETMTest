@@ -346,3 +346,4 @@ export type TCatalogoMotivo = {
 	codigo: number;
 	descripcion: string;
 };
+
