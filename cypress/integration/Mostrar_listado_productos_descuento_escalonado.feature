@@ -26,3 +26,8 @@ Escenario: N°2 - El cliente tiene productos con descuento escalonado
     Y mostrará un listado de productos con descuento escalonado que no estén en el pedido, ordenado por producto
     Y mostrará el código de producto, descripción, atributos, icono unidades, presentación, precio unitario unidad, icono subunidades y precio unitario subunidades
     Y mostrará el control para agregar el sku al pedido
+
+Escenario: N°3 - Agregar SKU
+    Cuando se selecciona el control para agregar el sku al pedido
+    Entonces el sistema agregará el producto al pedido con cantidad en 0
+    Y quitará del listado el producto agregado
