@@ -28,10 +28,14 @@ interface Props {
 	envase: TConsolidadoImplicitos;
 	habilitaSubUnidadesPrestamo: boolean;
 	habilitaSubUnidadesVenta: boolean;
-	pedidosEnvasesHabilitados: (TTipoPedido | undefined)[];
-	productoEnvase: TPrecioProducto | undefined;
+	pedidosEnvasesHabilitados: TTipoPedido[];
+	productoEnvase?: TPrecioProducto;
 	productoPedido: any;
 	stateTipoEnvases: any;
+}
+
+interface MapPedidos {
+	[key: string]: TTipoPedido;
 }
 
 const TarjetaDobleDerecha: React.VFC<Props> = ({
@@ -66,6 +70,10 @@ const TarjetaDobleDerecha: React.VFC<Props> = ({
 		});
 	}, [productoPedido]);
 
+	const existeVentaEnvase = !!pedidosEnvasesHabilitados.find(
+		(pedido) => pedido.codigo === 'ventaenvase'
+	);
+
 	return (
 		<>
 			{mostarDialogo && <Dialogo {...parametrosDialogo} />}
@@ -73,12 +81,26 @@ const TarjetaDobleDerecha: React.VFC<Props> = ({
 				alignItems='center'
 				display='grid'
 				gap='8px 0'
-				gridTemplateAreas={`"Vacio Caja Botella"
-														"Retorno RUnidad RSubUnidad"
-														"Venta VUnidad VSubUnidad"
-														"Prestamo PUnidad PSubUnidad"`}
+				gridTemplateAreas={
+					pedidosEnvasesHabilitados.length === 2
+						? `"Vacio Caja Botella"
+							"Retorno RUnidad RSubUnidad"
+							"Venta VUnidad VSubUnidad"
+							"Prestamo PUnidad PSubUnidad"`
+						: existeVentaEnvase
+						? `"Vacio Caja Botella"
+							"Retorno RUnidad RSubUnidad"
+							"Venta VUnidad VSubUnidad"`
+						: `"Vacio Caja Botella"
+							"Retorno RUnidad RSubUnidad"
+							"Prestamo PUnidad PSubUnidad"`
+				}
 				gridTemplateColumns='1fr auto auto'
-				gridTemplateRows='auto 1fr 1fr 1fr'
+				gridTemplateRows={
+					pedidosEnvasesHabilitados.length === 2
+						? 'auto 1fr 1fr 1fr'
+						: 'min-content min-content min-content'
+				}
 				height='100%'
 				justifyItems='center'
 				padding='12px 14px 12px 4px'

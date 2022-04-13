@@ -67,12 +67,13 @@ const TarjetaEnvasesRetornables: React.VFC<Props> = ({envase}) => {
 		dispatch(restablecerEnvasesConError());
 	}, []);
 
-	const pedidosEnvasesHabilitados =
-		configuracion.tipoPedidoEnvasesHabilitados.map((tipoEnvases) =>
-			configuracion.tipoPedidos.find(
+	const pedidosEnvasesHabilitados = configuracion.tipoPedidoEnvasesHabilitados
+		.map((tipoEnvases) =>
+			configuracion.tipoPedidos.filter(
 				(tipoPedidos) => tipoPedidos.codigo === tipoEnvases
 			)
-		);
+		)
+		.flat();
 
 	const tipoPedidosEnvases = pedidosEnvasesHabilitados.map((tipoEnvases) => {
 		if (!tipoEnvases) return;
@@ -97,7 +98,7 @@ const TarjetaEnvasesRetornables: React.VFC<Props> = ({envase}) => {
 		(tipoEnvases) =>
 			configuracion.tipoPedidos.find(
 				(tipoPedidos) => tipoPedidos.codigo === tipoEnvases
-			)?.esValorizado === true
+			)?.esValorizado
 	);
 
 	let tieneTipoPedidoValorizado = buscarPedidoValorizado.includes(true);
@@ -135,20 +136,20 @@ const TarjetaEnvasesRetornables: React.VFC<Props> = ({envase}) => {
 			izquierda={
 				<TarjetaDobleIzquierda
 					envase={envase}
-					tieneTipoPedidoValorizado={tieneTipoPedidoValorizado}
-					habilitaSubUnidadesVenta={habilitaSubUnidadesVenta}
 					habilitaSubUnidadesPrestamo={habilitaSubUnidadesPrestamo}
+					habilitaSubUnidadesVenta={habilitaSubUnidadesVenta}
+					tieneTipoPedidoValorizado={tieneTipoPedidoValorizado}
 				/>
 			}
 			derecha={
 				<TarjetaDobleDerecha
-					pedidosEnvasesHabilitados={pedidosEnvasesHabilitados}
-					stateTipoEnvases={{valoresEnvase, setValoresEnvase}}
 					envase={envase}
+					habilitaSubUnidadesPrestamo={habilitaSubUnidadesPrestamo}
+					habilitaSubUnidadesVenta={habilitaSubUnidadesVenta}
+					pedidosEnvasesHabilitados={pedidosEnvasesHabilitados}
 					productoEnvase={productoEnvase}
 					productoPedido={productoPedido}
-					habilitaSubUnidadesVenta={habilitaSubUnidadesVenta}
-					habilitaSubUnidadesPrestamo={habilitaSubUnidadesPrestamo}
+					stateTipoEnvases={{valoresEnvase, setValoresEnvase}}
 				/>
 			}
 		></TarjetaDoble>

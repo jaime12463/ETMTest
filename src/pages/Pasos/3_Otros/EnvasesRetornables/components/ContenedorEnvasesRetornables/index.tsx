@@ -46,11 +46,12 @@ const ContenedorEnvasesRetornables: FunctionComponent = () => {
 			{puedeVerEnvases && (
 				<Box marginTop='32px'>
 					<Stack spacing={1.5}>
-						{consolidacionImplicitos.map(
-							(envase: TConsolidadoImplicitos, i: number) => (
-								<TarjetaEnvasesRetornables envase={envase} key={i} />
-							)
-						)}
+						{consolidacionImplicitos.map((envase: TConsolidadoImplicitos) => (
+							<TarjetaEnvasesRetornables
+								envase={envase}
+								key={envase.codigoImplicito}
+							/>
+						))}
 					</Stack>
 				</Box>
 			)}
