@@ -27,10 +27,8 @@ import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularPruductoEnProm
 import {StateFocusID} from '../..';
 
 interface Props {
-	producto: TProductoPedido;
 	conSwitch?: boolean;
-	stateAviso: any;
-	stateInfoDescuento: TStateInfoDescuentos;
+	infoBeneficio: TInfoBeneficioProductoPromoOngoing;
 	obtenerCalculoDescuentoProducto: (
 		valoresIngresados: {
 			inputPolarizado: number | undefined;
@@ -39,33 +37,37 @@ interface Props {
 		},
 		stateInfoDescuento: TStateInfoDescuentos
 	) => void;
-	infoBeneficio: TInfoBeneficioProductoPromoOngoing;
-	stateInputFocus: TStateInputFocus;
+	producto: TProductoPedido;
+	stateAviso: any;
 	stateFocusId: StateFocusID;
+	stateInfoDescuento: TStateInfoDescuentos;
+	stateInputFocus: TStateInputFocus;
 }
 
 const Informacion: React.FC<Props> = ({
-	producto,
 	conSwitch,
-	stateInfoDescuento,
-	stateAviso,
-	obtenerCalculoDescuentoProducto,
 	infoBeneficio: {cantidad, formaBeneficio, unidadMedida},
-	stateInputFocus,
+	obtenerCalculoDescuentoProducto,
+	producto,
+	stateAviso,
 	stateFocusId,
+	stateInfoDescuento,
+	stateInputFocus,
 }) => {
 	const {t} = useTranslation();
 
 	const {
+		atributos,
 		codigoProducto,
 		nombreProducto,
-		presentacion,
-		precioConImpuestoUnidad,
-		precioConImpuestoSubunidad,
-		preciosNeto,
-		unidades,
-		precioConDescuentoUnidad,
 		precioConDescuentoSubunidad,
+		precioConDescuentoUnidad,
+		precioConImpuestoSubunidad,
+		precioConImpuestoUnidad,
+		preciosNeto,
+		presentacion,
+		subUnidades,
+		unidades,
 	} = producto;
 
 	const {unidad, subUnidad} = preciosNeto;
@@ -103,7 +105,7 @@ const Informacion: React.FC<Props> = ({
 		});
 		dispatch(
 			borrarDescuentoDelProducto({
-				codigoProducto: producto.codigoProducto,
+				codigoProducto: codigoProducto,
 			})
 		);
 		mostrarAviso(
@@ -124,8 +126,8 @@ const Informacion: React.FC<Props> = ({
 			infoDescuento.tipo === ETipoDescuento.automatico
 		) {
 			if (
-				producto.unidades > 0 ||
-				producto.subUnidades > 0 ||
+				unidades > 0 ||
+				subUnidades > 0 ||
 				infoDescuento.tipo === ETipoDescuento.automatico
 			) {
 				setMostrarinfo(true);
@@ -195,12 +197,10 @@ const Informacion: React.FC<Props> = ({
 
 	const mostrarInputPolarizado =
 		infoDescuento.tipo === ETipoDescuento.polarizado
-			? producto.unidades > 0 || producto.subUnidades > 0
+			? unidades > 0 || subUnidades > 0
 				? true
 				: false
 			: false;
-
-	if (!infoDescuento.tipo) return null;
 
 	return (
 		<Box
@@ -214,9 +214,8 @@ const Informacion: React.FC<Props> = ({
 					? '12px 8px 12px 14px'
 					: tipoDescuento === t('descuentos.polarizado') ||
 					  (tipoDescuento === t('descuentos.automatico') &&
-							((unidadMedida === 'Unidad' && cantidad !== producto.unidades) ||
-								(unidadMedida !== 'Unidad' &&
-									cantidad !== producto.subUnidades)))
+							((unidadMedida === 'Unidad' && cantidad !== unidades) ||
+								(unidadMedida !== 'Unidad' && cantidad !== subUnidades)))
 					? '12px 8px 12px 14px'
 					: '12px 8px 0 14px'
 			}
@@ -225,22 +224,22 @@ const Informacion: React.FC<Props> = ({
 				{codigoProducto}
 			</Typography>
 			<Typography
-				marginBottom={producto.atributos ? 0 : '6px'}
+				marginBottom={atributos ? 0 : '6px'}
 				noWrap
 				variant='subtitle3'
 				width='150px'
 			>
 				{nombreProducto}
 			</Typography>
-			{producto.atributos && (
+			{atributos && (
 				<Typography
 					color='secondary'
 					fontFamily='Open Sans'
 					margin='4px 0 6px 0'
 					variant='caption'
 				>
-					{`${medidas[producto.atributos?.medida].descripcion} | ${
-						envases[producto.atributos?.envase].descripcion
+					{`${medidas[atributos?.medida].descripcion} | ${
+						envases[atributos?.envase].descripcion
 					}`}
 				</Typography>
 			)}
@@ -379,8 +378,7 @@ const Informacion: React.FC<Props> = ({
 									sx={{gridArea: 'DescuentoSubUnidad'}}
 								>
 									{formatearNumero(
-										producto.precioConDescuentoSubunidad ??
-											producto.preciosNeto.subUnidad,
+										precioConDescuentoSubunidad ?? preciosNeto.subUnidad,
 										t
 									)}
 								</Typography>
@@ -429,8 +427,7 @@ const Informacion: React.FC<Props> = ({
 								sx={{gridArea: 'DescuentoUnidad', justifySelf: 'start'}}
 							>
 								{formatearNumero(
-									producto.precioConDescuentoUnidad ??
-										producto.preciosNeto.unidad,
+									precioConDescuentoUnidad ?? preciosNeto.unidad,
 									t
 								)}
 							</Typography>
@@ -499,13 +496,13 @@ const Informacion: React.FC<Props> = ({
 								}}
 								onClick={() => {
 									setInputFocus('descuento');
-									setFocusId(producto.codigoProducto);
+									setFocusId(codigoProducto);
 									setInputClicked(true);
 								}}
 								inputRef={(input) => {
 									if (
 										inputFocus === 'descuento' &&
-										focusId === producto.codigoProducto
+										focusId === codigoProducto
 									) {
 										input?.focus();
 									}
