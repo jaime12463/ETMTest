@@ -25,6 +25,7 @@ Esquema del escenario: N°1 - Desplegar detalle de iniciativa pendiente
       Y si permite botelleo, precio por subunidad 
       Y los valores iniciales de cantidad de _unidadVentaIniciativa 
       Y si permite botelleo, los valores iniciales de cantidad de _subunidadVentaIniciativa
+      Y si permite el estado cancelado, agregará al combo de estado la opción cancelado
       Y <ingresoTomaDePedido> se ingreso a la toma de pedido <habilitaSeleccion> habilita la selección del status
 
 # comentado es para multiproducto
