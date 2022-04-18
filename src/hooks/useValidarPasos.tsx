@@ -75,10 +75,14 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 	);
 	const validarPedidoMinimoVisitaActual = useValidarPedidoMinimoVisitaActual();
 
+	const pedidoMinimoCumplido =
+		!!datosCliente?.configuracionPedido?.ventaMinima?.cumplimientoPorFecha.find(
+			(fecha) => fecha.fechaEntrega === visitaActual.fechaEntrega
+		)?.cumplido;
+
 	React.useEffect(() => {
 		borrarTodoTomaPedido();
 	}, [visitaActual.pedidos, venta]);
-	//const borrado = borrarTodoTomaPedido();
 
 	if (pasoActual === 0) {
 		const iniciativasCanceladasSinMotivo = visitaActual.iniciativas.some(
@@ -202,22 +206,19 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 				(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0) <
 				datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima;
 
-		if (
-			/*!datosCliente?.informacionCrediticia.esBloqueadoVenta &&*/
-
-			pedidoMinimoNoAlcanzado &&
-			validarPedidoMinimoVisitaActual()
-		) {
-			return {
-				error: true,
-				contenidoMensajeAviso: {
-					tipo: 'error',
-					titulo: t('toast.pedidoMinimoNoAlcanzadoTitulo'),
-					mensaje: t('toast.pedidoMinimoNoAlcanzadoMensaje'),
-					opciones: undefined,
-					dataCy: 'pedidoMinimoNoAlcanzado',
-				},
-			};
+		if (!pedidoMinimoCumplido) {
+			if (pedidoMinimoNoAlcanzado && validarPedidoMinimoVisitaActual()) {
+				return {
+					error: true,
+					contenidoMensajeAviso: {
+						tipo: 'error',
+						titulo: t('toast.pedidoMinimoNoAlcanzadoTitulo'),
+						mensaje: t('toast.pedidoMinimoNoAlcanzadoMensaje'),
+						opciones: undefined,
+						dataCy: 'pedidoMinimoNoAlcanzado',
+					},
+				};
+			}
 		}
 
 		if (visitaActual.envasesConError > 0) {

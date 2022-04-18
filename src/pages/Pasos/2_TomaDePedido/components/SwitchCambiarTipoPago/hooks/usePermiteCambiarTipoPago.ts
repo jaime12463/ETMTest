@@ -12,7 +12,11 @@ import {
 	ETiposDePago,
 } from 'models';
 import {useCallback, useEffect, useState} from 'react';
-import {useObtenerClienteActual, useObtenerConfiguracion} from 'redux/hooks';
+import {
+	useObtenerClienteActual,
+	useObtenerConfiguracion,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
 import {calcularTotalPedidosClienteValorizadosPorTipoPago} from 'utils/methods';
 import {validarSiExcedeAlMaximoContado} from 'utils/validaciones/validacionesDePedidos';
 
@@ -21,13 +25,12 @@ export const usePermiteCambiarTipoPago = () => {
 	const calcularTotalPedido: () => TTotalPedido = useCalcularTotalPedido();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {creditoDisponible} = useObtenerCreditoDisponible();
-	const {
-		pedidosClienteMismaFechaEntrega,
-	} = useObtenerPedidosClienteMismaFechaEntrega();
+	const {pedidosClienteMismaFechaEntrega} =
+		useObtenerPedidosClienteMismaFechaEntrega();
+	const visitaActual = useObtenerVisitaActual();
 
-	const [permiteCambiarTipoPago, setPermiteCambiarTipoPago] = useState<boolean>(
-		false
-	);
+	const [permiteCambiarTipoPago, setPermiteCambiarTipoPago] =
+		useState<boolean>(false);
 	const {tipoPedidos} = useObtenerConfiguracion();
 	const validarPermiteCambiarTipoPago = useCallback(() => {
 		if (!datosCliente) return;
@@ -38,19 +41,24 @@ export const usePermiteCambiarTipoPago = () => {
 
 		const {configuracionPedido}: TCliente = datosCliente;
 
-		const totalContadoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
-			{
+		const totalContadoPedidosClienteMismaFechaEntrega =
+			calcularTotalPedidosClienteValorizadosPorTipoPago({
 				pedidosClienteMismaFechaEntrega,
 				tipoPedidos,
 				tipoPago: ETiposDePago.Contado,
-			}
-		);
+			});
 
-		const retornoSiExcedeAlMaximoContado: TRetornoValidacion = validarSiExcedeAlMaximoContado(
-			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0,
-			totalPedidoActual.totalContado.totalPrecio,
-			totalContadoPedidosClienteMismaFechaEntrega
-		);
+		const montoConsumidoPorFecha =
+			datosCliente?.configuracionPedido.ventaContadoMaxima?.consumidoPorFecha.find(
+				(fecha) => fecha.fechaEntrega === visitaActual.fechaEntrega
+			)?.consumido || 0;
+
+		const retornoSiExcedeAlMaximoContado: TRetornoValidacion =
+			validarSiExcedeAlMaximoContado(
+				configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0,
+				totalPedidoActual.totalContado.totalPrecio + montoConsumidoPorFecha,
+				totalContadoPedidosClienteMismaFechaEntrega
+			);
 
 		const hayCreditoDisponible = creditoDisponible > 0;
 

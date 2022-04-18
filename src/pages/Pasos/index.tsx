@@ -196,6 +196,11 @@ const Pasos: React.FC = () => {
 		setPasoActual(pasoActual - 1);
 	};
 
+	const pedidoMinimoCumplido =
+		!!datosCliente?.configuracionPedido?.ventaMinima?.cumplimientoPorFecha.find(
+			(fecha) => fecha.fechaEntrega === visitaActual.fechaEntrega
+		)?.cumplido;
+
 	const manejadorPasoAdelante = () => {
 		if (valido?.error) {
 			if (valido?.contenidoMensajeModal) {
@@ -365,21 +370,23 @@ const Pasos: React.FC = () => {
 							'bloqueadoParaVenta'
 						);
 					}
-					if (
-						pedidoEnvaseContribuyeAlMinimo &&
-						!datosCliente?.informacionCrediticia.esBloqueadoVenta &&
-						datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima &&
-						totalesPedidoCliente +
-							(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0) <
-							datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
-					) {
-						mostrarAviso(
-							'warning',
-							t('toast.pedidoMinimoNoAlcanzadoTitulo'),
-							t('toast.pedidoMinimoNoAlcanzadoMensaje'),
-							undefined,
-							'pedidoMinimoNoAlcanzadoWarning'
-						);
+					if (!pedidoMinimoCumplido) {
+						if (
+							pedidoEnvaseContribuyeAlMinimo &&
+							!datosCliente?.informacionCrediticia.esBloqueadoVenta &&
+							datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima &&
+							totalesPedidoCliente +
+								(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0) <
+								datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
+						) {
+							mostrarAviso(
+								'warning',
+								t('toast.pedidoMinimoNoAlcanzadoTitulo'),
+								t('toast.pedidoMinimoNoAlcanzadoMensaje'),
+								undefined,
+								'pedidoMinimoNoAlcanzadoWarning'
+							);
+						}
 					}
 				}
 

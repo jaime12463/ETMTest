@@ -114,7 +114,7 @@ export const validarSiExcedeAlMaximoContado = (
 ): TRetornoValidacion => {
 	return {
 		esValido:
-			(montoVentaMaxima === 0 ? true : false) ||
+			montoVentaMaxima === 0 ||
 			totalVisita + totalContadoPedidosClienteMismaFechaEntrega <=
 				montoVentaMaxima,
 		propsAdvertencia: {
