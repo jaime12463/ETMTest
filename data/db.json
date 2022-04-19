@@ -4817,11 +4817,11 @@
 					"cumplimientoPorFecha": [
 						{
 							"fechaEntrega": "2021-06-10",
-							"cumplido": true
+							"cumplido": false
 						},
 						{
 							"fechaEntrega": "2022-01-28",
-							"cumplido": true
+							"cumplido": false
 						},
 						{
 							"fechaEntrega": "2022-01-31",
