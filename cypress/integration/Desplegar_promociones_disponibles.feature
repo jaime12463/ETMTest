@@ -19,7 +19,7 @@ Escenario: N°1 - Ver tarjetas de promociones
 	Y cuyas _unidadesDisponibles menos la cantidad ya registrada en otros pedidos para la misma promoción sea mayor a 0
 	Y mostrará el código producto, el disponible total como _unidadesDisponibles menos la cantidad ya registrada en otros pedidos para la misma promocion menos la cantidad ingresada en el pedido en curso, la descripción de la promoción, el total de los descuentos
 	Y el precio total de la promoción
-	Y mostrará el control para ingresar las unidades
-	Y mostrará el control para borrar todo.
+	Y si no estamos en planeación, mostrará el control para ingresar las unidades
+	Y si no estamos en planeación, mostrará el control para borrar todo.
 	
 # disponible total = _unidadesDisponbles - cantidades ya registrada para la misma promo - cantidad ingresada para el pedido en curso

@@ -1,6 +1,8 @@
 # language: es
 
-@Pedido @Totales @Sprint12
+@Pedido @Totales @Sprint12 @Sprint27
+
+# Sprint27: se agrega al cálculo el valor de los envases beneficiados por promocion ongoing
 
 # sprint 12 UX: https://www.figma.com/proto/4sKBs7Q0Ap07bdHIXsuukt/SFA_S12_S13_S14?node-id=871%3A5542&scaling=scale-down&page-id=871%3A5541&starting-point-node-id=871%3A5542
 
@@ -13,8 +15,9 @@ Escenario: N°1 - Calcular total
     Dado que se ingresan productos en pedidos cuyo _tipoPedido es _esValorizado = true
     Y se ingresó un compromiso de cobro
     Cuando se calculan los precios y totales
-    Entonces el sistema calculará el total del pedido de la visita como la suma
-    de los totales de los pedidos cuyo _tipoPedido es _esValorizado = true
-    más el monto del compromiso de cobro ingresado.
+    Entonces el sistema calculará el total del pedido de la visita como la suma de los totales de los pedidos cuyo _tipoPedido es _esValorizado = true más el monto del compromiso de cobro ingresado.
+    Y más el valor monetario de envases beneficiados por promoción ongoing descuento/precio recupero para ambas condciones de pago 
+    Y menos la suma de los descuentos de cada producto de ambas condiciones de pago
+    Y menos la suma de los descuentos de envases beneficados por promocion ongoing descuento de ambas condiciones de pago
 
 # Se contemplan para el calculo los pedidos a credito y a contado

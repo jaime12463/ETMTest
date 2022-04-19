@@ -39,6 +39,8 @@ Escenario: N°5 - Mostrar notificacion de cálculo de promociones
     Dado que se calcularon las promociones del pedido
     Cuando se modifica el pedido
     Entonces el sistema mostrará un control tooltip indicando que las promociones disponibles podrían haber cambiado
+    Y reiniciará las promociones correspondientes a la condición de pago afectada
+    Y redibujará todas las tarjetas del pedido quitando las promociones ongoing que pudieran tener
 
 #Se considera modificado el pedido:
 # Cuando se cambia la condición de pago de un producto que 

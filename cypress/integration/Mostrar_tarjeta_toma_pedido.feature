@@ -10,8 +10,8 @@ Característica: Mostrar tarjeta de pedido
 Escenario: N°1 - Mostrar tarjeta de pedido
     Dado que estamos en el paso 2 - toma de pedido
     Cuando se muestran las tarjetas 
-    Entonces el sistema mostrará la tarjeta toma de pedido asociada al _tipoPedido cuyo _codigo = "Venta" cerrada con
-    su título, subtitulo y cantidad de items igual a la cantidad de productos ingresados en el pedido
+    Entonces el sistema mostrará la tarjeta toma de pedido asociada al _tipoPedido cuyo _codigo = "Venta" cerrada 
+    Y con su título, subtitulo y cantidad de items igual a la cantidad de productos ingresados en el pedido
     Y mostrará el control para desplegar la tarjeta
 
 # producto ingresado = producto que tenga en sus cantidades > 0

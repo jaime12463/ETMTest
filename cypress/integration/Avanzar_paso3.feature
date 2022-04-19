@@ -11,10 +11,12 @@ Característica: Mostrar avance de visita
 Escenario: N°1 - Pedido mínimo no alcanzado teniendo un tipo de pedido que contribuye al mínimo
     Dado que estoy en paso otros
     Y existe un _tipoPedido cargado que _contribuyeAMinimo = true 
-    Y el pedido mínimo no está alcanzado
+    Y el pedido mínimo no está cumplido
     Cuando avanzo al paso 4 finalizar pedido
     Entonces el sistema mostrará un mensaje de error indicando que el pedido no alcanza el pedido mínimo
     Y permanece en el paso Otros
+
+# pedido mínimo cumplido, ya sea por ingresar productos y cumplir con el mínimo o por venir configurado como cumplido = true
 
 Esquema del escenario: N°2 - No hay un tipo de pedido que contribuye a mínimo y existe compromiso de cobro cargadado o bonificaciones
     Dado que estoy en paso otros

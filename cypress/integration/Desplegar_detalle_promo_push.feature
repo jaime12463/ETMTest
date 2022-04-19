@@ -15,7 +15,7 @@ Escenario: N°1 - Expandir detalle de promociones
 	Dado que el prevendedor se encuentra en la lista de promociones
 	Cuando selecciona expandir el detalle de la tarjeta
 	Entonces el sistema mostrará los componentes de la promocion indicando el código de producto del componente, la descripcion, la cantidad, la unidad de medida, el precio base, el descuento, el precio total de la línea del componente de la promoción ordenados por código de producto 
-	Y el ícono para borrar
+	Y si el prevendedor no se encuentra en planeacióne, se mostrará el ícono para borrar
 	Y contraerá el resto de las tarjetas de promociones.
 	
 Escenario: N°2 - Contraer detalle de promociones
