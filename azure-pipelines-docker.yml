@@ -60,4 +60,3 @@ stages:
         tags: |
           $(GitVersion.FullSemVer)
           latest          
-
