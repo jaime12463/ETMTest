@@ -1,6 +1,5 @@
 import {useHistory, useLocation} from 'react-router-dom';
 import LogoFemsa from 'assests/images/hdpi_logo_client.png';
-import conejoCarga from 'assests/images/conejoCarga.gif';
 import nombresRutas from 'routes/nombresRutas';
 import {Center, Estructura} from 'components/UI';
 import {useInicializarDatosYConfiguracion} from 'hooks';
@@ -9,9 +8,8 @@ import {useTranslation} from 'react-i18next';
 import {selectConfiguracion} from 'redux/features/configuracion/configuracionSlice';
 import {useAppSelector} from 'redux/hooks';
 import {selectDatos} from 'redux/features/datos/datosSlice';
-import {Box, Typography} from '@mui/material';
 import React from 'react';
-import theme from 'theme';
+import {Loading} from '../../../components/UI';
 
 export default function Splash() {
 	const history = useHistory();
@@ -61,28 +59,6 @@ export default function Splash() {
 			</Estructura>
 		);
 	} else {
-		return (
-			<Box
-				sx={{
-					minWidth: '100vw',
-					minHeight: '100vh',
-					backgroundColor: theme.palette.secondary.main,
-				}}
-			>
-				<Center>
-					<Box>
-						<img
-							src={conejoCarga}
-							alt='logo'
-							data-cy='boton-splash'
-							style={{width: '188px', height: '169px'}}
-						/>
-						<Typography fontFamily={'Poppins'} color='white'>
-							Procesando información...
-						</Typography>
-					</Box>
-				</Center>
-			</Box>
-		);
+		return <Loading />;
 	}
 }

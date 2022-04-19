@@ -7,6 +7,7 @@ import GlobalStyles from './theme/estilosGlobales';
 import {SnackbarProvider} from 'notistack';
 import AvisoContenido from 'components/UI/AvisoContenido';
 import useEstilos from './components/UI/AvisoContenido/useEstilos';
+import './globals.css';
 
 const App = () => {
 	const classes = useEstilos({tipo: 'default'});

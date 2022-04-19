@@ -84,6 +84,7 @@ export const PromoOngoing: React.FC<PromoOngoingProps> = ({promocion}) => {
 												<Typography
 													margin='2px 0 8px 0'
 													variant='caption'
+													fontFamily='Open Sans'
 													color='secondary'
 												>{`${medidas[atributos?.medida].descripcion} | ${
 													envases[atributos?.envase].descripcion

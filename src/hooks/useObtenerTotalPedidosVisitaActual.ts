@@ -10,9 +10,6 @@ export const useObtenerTotalPedidosVisitaActual = () => {
 	const visitaActual = useObtenerVisitaActual();
 	const clienteActual = useObtenerClienteActual();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
-
-	//const {configuracionPedido}: TCliente = datosCliente;
-
 	const configuracion = useObtenerConfiguracion();
 
 	const obtenerTotalPedidosVisitaActual = (

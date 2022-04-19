@@ -83,6 +83,7 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 														<Typography
 															margin='4px 0 8px 0'
 															variant='caption'
+															fontFamily='Open Sans'
 															color={theme.palette.secondary.main}
 														>
 															{`${

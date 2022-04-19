@@ -133,6 +133,7 @@ export const PromoPush: React.FC<PromoPushProps> = ({promocion}) => {
 											<Typography
 												marginTop='4px'
 												variant='caption'
+												fontFamily='Open Sans'
 												color='secondary'
 											>
 												{`${

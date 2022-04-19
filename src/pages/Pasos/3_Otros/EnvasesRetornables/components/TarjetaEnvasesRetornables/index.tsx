@@ -1,20 +1,27 @@
 import {TConsolidadoImplicitos, TPrecioProducto} from 'models';
 import {TarjetaDoble} from 'components/UI';
 import {useEffect, useState} from 'react';
-import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
-import {useObtenerConfiguracion, useObtenerVisitaActual} from 'redux/hooks';
+import {
+	useInicializarPreciosProductosDelClienteActual,
+	useObtenerDatosCliente,
+} from 'hooks';
+import {
+	useObtenerClienteActual,
+	useObtenerConfiguracion,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
 import TarjetaDobleDerecha from './components/TarjetaDobleDerecha';
 import TarjetaDobleIzquierda from './components/TarjetaDobleIzquierda';
-import {
-	restablecerEnvasesConError,
-} from 'redux/features/visitaActual/visitaActualSlice';
+import {restablecerEnvasesConError} from 'redux/features/visitaActual/visitaActualSlice';
 import {useAppDispatch} from 'redux/hooks';
+import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
+import {validarSubUnidades} from 'utils/validaciones';
 
-const TarjetaEnvasesRetornables = ({
-	envase,
-}: {
+interface Props {
 	envase: TConsolidadoImplicitos;
-}) => {
+}
+
+const TarjetaEnvasesRetornables: React.VFC<Props> = ({envase}) => {
 	const [preciosProductos, setPreciosProductos] = useState<TPrecioProducto[]>(
 		[]
 	);
@@ -60,12 +67,13 @@ const TarjetaEnvasesRetornables = ({
 		dispatch(restablecerEnvasesConError());
 	}, []);
 
-	const pedidosEnvasesHabilitados =
-		configuracion.tipoPedidoEnvasesHabilitados.map((tipoEnvases) =>
-			configuracion.tipoPedidos.find(
+	const pedidosEnvasesHabilitados = configuracion.tipoPedidoEnvasesHabilitados
+		.map((tipoEnvases) =>
+			configuracion.tipoPedidos.filter(
 				(tipoPedidos) => tipoPedidos.codigo === tipoEnvases
 			)
-		);
+		)
+		.flat();
 
 	const tipoPedidosEnvases = pedidosEnvasesHabilitados.map((tipoEnvases) => {
 		if (!tipoEnvases) return;
@@ -90,33 +98,61 @@ const TarjetaEnvasesRetornables = ({
 		(tipoEnvases) =>
 			configuracion.tipoPedidos.find(
 				(tipoPedidos) => tipoPedidos.codigo === tipoEnvases
-			)?.esValorizado === true
+			)?.esValorizado
 	);
 
 	let tieneTipoPedidoValorizado = buscarPedidoValorizado.includes(true);
 
+	const clienteActual = useObtenerClienteActual();
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+
+	const producto = datosCliente?.portafolio.find(
+		(p) => p.codigoProducto === envase.codigoImplicito
+	);
+
+	const {
+		tipoPedidos: [
+			,
+			,
+			{habilitaSubunidades: subUnidadesVenta},
+			{habilitaSubunidades: subUnidadesPrestamo},
+		],
+	} = useObtenerConfiguracion();
+
+	const habilitaSubUnidadesVenta = validarSubUnidades(
+		producto?.esVentaSubunidades ?? false,
+		subUnidadesVenta
+	);
+
+	const habilitaSubUnidadesPrestamo = validarSubUnidades(
+		producto?.esVentaSubunidades ?? false,
+		subUnidadesPrestamo
+	);
+
 	return (
-		<>
-			<TarjetaDoble
-				widthDerecha='134px'
-				widthIzquierda='170px'
-				izquierda={
-					<TarjetaDobleIzquierda
-						envase={envase}
-						tieneTipoPedidoValorizado={tieneTipoPedidoValorizado}
-					/>
-				}
-				derecha={
-					<TarjetaDobleDerecha
-						pedidosEnvasesHabilitados={pedidosEnvasesHabilitados}
-						stateTipoEnvases={{valoresEnvase, setValoresEnvase}}
-						envase={envase}
-						productoEnvase={productoEnvase}
-						productoPedido={productoPedido}
-					/>
-				}
-			></TarjetaDoble>
-		</>
+		<TarjetaDoble
+			widthDerecha='134px'
+			widthIzquierda='170px'
+			izquierda={
+				<TarjetaDobleIzquierda
+					envase={envase}
+					habilitaSubUnidadesPrestamo={habilitaSubUnidadesPrestamo}
+					habilitaSubUnidadesVenta={habilitaSubUnidadesVenta}
+					tieneTipoPedidoValorizado={tieneTipoPedidoValorizado}
+				/>
+			}
+			derecha={
+				<TarjetaDobleDerecha
+					envase={envase}
+					habilitaSubUnidadesPrestamo={habilitaSubUnidadesPrestamo}
+					habilitaSubUnidadesVenta={habilitaSubUnidadesVenta}
+					pedidosEnvasesHabilitados={pedidosEnvasesHabilitados}
+					productoEnvase={productoEnvase}
+					productoPedido={productoPedido}
+					stateTipoEnvases={{valoresEnvase, setValoresEnvase}}
+				/>
+			}
+		></TarjetaDoble>
 	);
 };
 

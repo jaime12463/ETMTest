@@ -44,6 +44,11 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 		const esCreditoFormal = clienteActual.condicion === 'creditoFormal';
 		const esCreditoInformal = clienteActual.condicion === 'creditoInformal';
 
+		const montoConsumidoPorFecha =
+			datosCliente?.configuracionPedido.ventaContadoMaxima?.consumidoPorFecha.find(
+				(fecha) => fecha.fechaEntrega === visitaActual.fechaEntrega
+			)?.consumido || 0;
+
 		if (esCreditoFormal && esCreditoBloqueado)
 			return !esPermitidoAgregarProductoAlPedido;
 
@@ -74,7 +79,7 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 		const retornoSiExcedeAlMaximoContado: TRetornoValidacion =
 			validarSiExcedeAlMaximoContado(
 				configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0,
-				totalContadoVisitaActual,
+				totalContadoVisitaActual + montoConsumidoPorFecha,
 				totalContadoPedidosClienteMismaFechaEntrega
 			);
 

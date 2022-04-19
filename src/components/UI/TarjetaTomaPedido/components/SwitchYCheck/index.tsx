@@ -1,9 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import {CheckRedondoIcon} from 'assests/iconos';
-import {TPrecioProducto, TProductoPedido} from 'models';
+import {TProductoPedido} from 'models';
 import {SwitchCambiarTipoPago} from 'pages/Pasos/2_TomaDePedido/components';
-import theme from 'theme';
 
 interface Props {
 	conSwitch?: boolean;
@@ -12,25 +11,15 @@ interface Props {
 
 const SwitchYCheck: React.FC<Props> = ({conSwitch, producto}) => {
 	return (
-		<Box display='flex' justifyContent={conSwitch ? 'space-between' : 'end'}>
+		<Box display='flex'>
 			{conSwitch ? (
 				<>
-					<Box padding='12px 0 0 14px' display='flex' flex={3}>
+					<Box display='flex' flex='1' padding='12px 8px 0 14px'>
 						<SwitchCambiarTipoPago producto={producto} />
 					</Box>
-					<Box
-						padding='12px 14px 0 0'
-						sx={{background: '#F5F0EF'}}
-						flex={2}
-						width='125px'
-						textAlign='right'
-						height='30px'
-						display='flex'
-						alignItems='center'
-						justifyContent='flex-end'
-					>
+					<Box padding='12px 14px 0 8px' textAlign='right' width='125px'>
 						{(producto.unidades > 0 || producto.subUnidades > 0) && (
-							<CheckRedondoIcon width='17.5px' />
+							<CheckRedondoIcon height='17.5px' width='17.5px' />
 						)}
 					</Box>
 				</>
@@ -38,19 +27,9 @@ const SwitchYCheck: React.FC<Props> = ({conSwitch, producto}) => {
 				<>
 					{(producto.unidades > 0 || producto.subUnidades > 0) && (
 						<>
-							<Box padding='12px 0 0 14px' display='flex' flex={3} />
-							<Box
-								padding='12px 14px 0 0'
-								sx={{background: '#F5F0EF'}}
-								flex={2}
-								width='125px'
-								textAlign='right'
-								height='30px'
-								display='flex'
-								alignItems='center'
-								justifyContent='flex-end'
-							>
-								<CheckRedondoIcon width='17.5px' />
+							<Box flex='1' />
+							<Box padding='12px 14px 0 8px' textAlign='right' width='125px'>
+								<CheckRedondoIcon height='17.5px' width='17.5px' />
 							</Box>
 						</>
 					)}

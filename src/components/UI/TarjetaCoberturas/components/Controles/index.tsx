@@ -14,6 +14,7 @@ import {
 	useMostrarAdvertenciaEnDialogo,
 	useMostrarAviso,
 	useObtenerDatosCliente,
+	useValidacionPermiteSubUnidades,
 } from 'hooks';
 import {
 	useAppDispatch,
@@ -45,9 +46,8 @@ const Controles: React.FC<Props> = ({
 }) => {
 	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
 	const visitaActual = useObtenerVisitaActual();
-	const {venta} = visitaActual.pedidos;
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
-
+	const permiteSubUnidades = useValidacionPermiteSubUnidades(producto);
 	const coberturaEjecutada = visitaActual.coberturasEjecutadas.find(
 		(p) => producto.codigoProducto === p.codigoProducto
 	);
@@ -225,10 +225,9 @@ const Controles: React.FC<Props> = ({
 			display='flex'
 			flexDirection='column'
 			alignItems='center'
-			justifyContent='center'
 			width='125px'
 			gap='10px'
-			padding='12px 0 16px 0'
+			padding='22px 0 16px 0'
 			sx={{background: '#F5F0EF'}}
 		>
 			<Box display='flex' alignItems='center' justifyContent='center' gap='2px'>
@@ -312,7 +311,7 @@ const Controles: React.FC<Props> = ({
 					</IconButton>
 				)}
 			</Box>
-			{producto.esVentaSubunidades && (
+			{permiteSubUnidades && (
 				<Box width='100%'>
 					<Box
 						display='flex'

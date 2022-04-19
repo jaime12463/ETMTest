@@ -8,15 +8,15 @@ const useEstilos = makeStyles(() =>
 			border: `1px solid ${theme.palette.secondary.dark}`,
 			borderRadius: '10px',
 			height: '16px',
-			lineHeight: '16px',
 			transition: 'all 0.3s ease-in-out',
 			width: '42px',
 			'& .MuiInput-input': {
 				color: '#000',
+				fontFamily: 'Open Sans',
 				fontSize: '12px',
 				fontWeight: 600,
+				lineHeight: '16px',
 			},
-			paddingTop: '1px',
 		},
 		chip: {
 			fontFamily: 'Open Sans',

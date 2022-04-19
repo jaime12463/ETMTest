@@ -9,7 +9,6 @@ import {
 	CardActions,
 	Divider,
 } from '@mui/material';
-import {Theme} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {makeStyles, createStyles} from '@material-ui/styles';
 import clsx from 'clsx';
@@ -20,11 +19,11 @@ import {useTranslation} from 'react-i18next';
 import {formatearNumero} from 'utils/methods';
 import theme from 'theme';
 
-const GridStyled = styled(Grid)(({theme}) => ({
+const GridStyled = styled(Grid)(() => ({
 	display: 'flex',
 }));
 
-const ButtonStyled = styled(Button)(({theme}) => ({
+const ButtonStyled = styled(Button)(() => ({
 	border: `1.5px solid ${theme.palette.secondary.main}`,
 	boxSizing: 'border-box',
 	borderRadius: '20px',
@@ -36,7 +35,7 @@ const ButtonStyled = styled(Button)(({theme}) => ({
 	},
 }));
 
-const CardStyled = styled(Card)(({theme}) => ({
+const CardStyled = styled(Card)(() => ({
 	boxSizing: 'border-box',
 	borderRadius: '4px',
 	minHeight: '124px',
@@ -44,7 +43,7 @@ const CardStyled = styled(Card)(({theme}) => ({
 	boxShadow: 'none',
 }));
 
-const useEstilos = makeStyles((theme: Theme) =>
+const useEstilos = makeStyles(() =>
 	createStyles({
 		expand: {
 			transform: 'rotate(0deg)',
@@ -122,13 +121,17 @@ export const TarjetaVistaPromoPush = (props: any) => {
 						gap='2px'
 						marginBottom='8px'
 					>
-						<Typography variant='subtitle3'>{codigoProducto}</Typography>
+						<Typography variant='subtitle3' fontFamily='Open Sans'>
+							{codigoProducto}
+						</Typography>
 						<Typography variant='subtitle3'>{nombreProducto}</Typography>
 					</Box>
 					<Box display='flex' flexDirection='column' width='50%' gap='6px'>
 						<Typography
-							variant='body3'
 							fontFamily='Open Sans'
+							fontSize='10px'
+							fontWeight={600}
+							lineHeight='16px'
 							color={expandidoPromoPush === id ? '#fff' : '#000'}
 							sx={{textDecoration: 'line-through'}}
 						>
@@ -139,6 +142,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 						</Typography>
 						<Typography
 							variant='caption'
+							fontFamily='Open Sans'
 							color={
 								expandidoPromoPush === id
 									? '#fff'
@@ -210,6 +214,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 								<Typography
 									sx={{padding: '8px 14px 8px 14px'}}
 									variant={'subtitle3'}
+									fontFamily='Open Sans'
 									fontWeight={700}
 									letterSpacing='-0.4px'
 								>
@@ -244,6 +249,7 @@ export const TarjetaVistaPromoPush = (props: any) => {
 													<Typography
 														margin='4px 0 6px 0'
 														variant='caption'
+														fontFamily='Open Sans'
 														color={theme.palette.secondary.main}
 													>
 														{`${

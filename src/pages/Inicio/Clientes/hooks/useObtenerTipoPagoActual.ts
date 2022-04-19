@@ -7,15 +7,28 @@ import {
 import {calcularTotalPedidosClienteValorizadosPorTipoPago} from 'utils/methods';
 import {useCallback} from 'react';
 import {validarSiExcedeAlMaximoContado} from 'utils/validaciones/validacionesDePedidos';
-import {useObtenerConfiguracion} from 'redux/hooks';
+import {
+	useObtenerClienteActual,
+	useObtenerConfiguracion,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
 
 export const useObtenerTipoPagoActual = () => {
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const {obtenerCreditoDisponible} = useObtenerCreditoDisponible();
-	const {
-		obtenerPedidosClienteMismaFechaEntrega,
-	} = useObtenerPedidosClienteMismaFechaEntrega();
+	const {obtenerPedidosClienteMismaFechaEntrega} =
+		useObtenerPedidosClienteMismaFechaEntrega();
 	const {tipoPedidos} = useObtenerConfiguracion();
+
+	const clienteActual = useObtenerClienteActual();
+	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
+	const visitaActual = useObtenerVisitaActual();
+
+	const montoConsumidoPorFecha =
+		datosCliente?.configuracionPedido.ventaContadoMaxima?.consumidoPorFecha.find(
+			(fecha) => fecha.fechaEntrega === visitaActual.fechaEntrega
+		)?.consumido || 0;
+
 	const obtenerTipoPagoActual = useCallback(
 		(codigoCliente: string): ETiposDePago => {
 			const datosCliente = obtenerDatosCliente(codigoCliente);
@@ -36,9 +49,8 @@ export const useObtenerTipoPagoActual = () => {
 
 			const hayCreditoDisponible = creditoDisponible > 0;
 
-			const pedidosClienteMismaFechaEntrega = obtenerPedidosClienteMismaFechaEntrega(
-				codigoCliente
-			);
+			const pedidosClienteMismaFechaEntrega =
+				obtenerPedidosClienteMismaFechaEntrega(codigoCliente);
 
 			if (!datosCliente) return tipoPagoActual;
 
@@ -46,19 +58,19 @@ export const useObtenerTipoPagoActual = () => {
 
 			const {esCreditoBloqueado} = datosCliente.informacionCrediticia;
 
-			const totalContadoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
-				{
+			const totalContadoPedidosClienteMismaFechaEntrega =
+				calcularTotalPedidosClienteValorizadosPorTipoPago({
 					pedidosClienteMismaFechaEntrega,
 					tipoPedidos,
 					tipoPago: ETiposDePago.Contado,
-				}
-			);
+				});
 
-			const retornoSiExcedeAlMaximoContado: TRetornoValidacion = validarSiExcedeAlMaximoContado(
-				configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0,
-				0,
-				totalContadoPedidosClienteMismaFechaEntrega
-			);
+			const retornoSiExcedeAlMaximoContado: TRetornoValidacion =
+				validarSiExcedeAlMaximoContado(
+					configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0,
+					montoConsumidoPorFecha,
+					totalContadoPedidosClienteMismaFechaEntrega
+				);
 
 			tipoPagoActual = ETiposDePago.Credito;
 

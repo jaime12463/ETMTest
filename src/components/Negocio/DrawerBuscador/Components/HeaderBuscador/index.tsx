@@ -56,6 +56,13 @@ const HeaderBuscador: React.FC<Props> = ({
 							style: {fontSize: '12px'},
 						}}
 						placeholder={`${t('general.buscarProducto')}`}
+						inputProps={{
+							style: {
+								fontFamily: 'Open Sans',
+								fontSize: '12px',
+								lineHeight: '16px',
+							},
+						}}
 						value={inputBusqueda}
 						onChange={onChangeBusqueda}
 					/>

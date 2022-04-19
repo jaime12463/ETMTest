@@ -10,8 +10,8 @@ const es = {
 		cliente: 'Cliente',
 		precio: 'Precio',
 		buscar: 'Buscar',
-		verDetalle: 'Ver Detalle',
-		ocultarDetalle: 'Ocultar Detalle',
+		verDetalle: 'Ver detalle',
+		ocultarDetalle: 'Ocultar detalle',
 		verGrupo: 'Ver grupo',
 		ocultarGrupo: 'Ocultar grupo',
 		fechaEntrega: 'Fecha de entrega',
@@ -117,6 +117,7 @@ const es = {
 		cajas: 'Cajas',
 		ahorraste: 'Ahorraste',
 		eliminarTodo: 'Eliminar todo',
+		procesandoInformacion: 'Procesando información',
 	},
 	simbolos: {
 		decimal: '.',
@@ -155,9 +156,9 @@ const es = {
 		tomaDePedido: 'Toma de pedido',
 		tarjetaTomaDePedido:
 			'Modifica tu pedido con las mejores opciones para tu cliente.',
-		promociones: 'Promociones',
+		promociones: 'Promociones push',
 		tarjetaPromociones:
-			'Selecciona las promociones que tienes disponible para tus clientes.',
+			'Selecciona las promociones push que tienes disponible para tus clientes.',
 		pedidosEnCursoDeshabilitado: 'No hay pedidos para mostrar',
 		sugeridosDeshabilitado: 'No hay sugerencias para mostrar',
 	},
@@ -329,14 +330,15 @@ const es = {
 	},
 	descuentos: {
 		automatico: 'automático',
+		descuentoAutomatico: 'Descuento automático',
+		descuentoMensaje: 'Descuento {{tipo}} del -{{descuento}}%',
+		descuentoSustituido: 'El descuento {{tipo}} ha sido sustituido por una',
+		eliminarDescuento: 'Eliminar descuento',
 		escalonado: 'escalonado',
 		polarizado: 'polarizado',
-		descuentoMensaje: 'Descuento {{tipo}} del -{{descuento}}%',
-		descuentoSustituido:
-			'El descuento {{tipo}} ha sido sustituido por una promoción ongoing',
+		promocionOngoing: 'Promoción ongoing',
+		promocionesOngoing: 'Promociones ongoing',
 		vieneConPromoOngoing: 'Viene con promoción ongoing',
-		descuentoAutomatico: 'Descuento automático',
-		eliminarDescuento: 'Eliminar descuento',
 	},
 };
 export default es;

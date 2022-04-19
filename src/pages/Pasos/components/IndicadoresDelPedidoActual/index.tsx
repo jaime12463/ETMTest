@@ -14,6 +14,7 @@ import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
 	useObtenerConfiguracion,
+	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
 import {
@@ -95,6 +96,16 @@ const IndicadoresDelPedidoActual = () => {
 	]);
 
 	const indicadores = [];
+	const visitaActual = useObtenerVisitaActual();
+	const pedidoMinimoCumplido =
+		!!datosCliente?.configuracionPedido?.ventaMinima?.cumplimientoPorFecha.find(
+			(fecha) => fecha.fechaEntrega === visitaActual.fechaEntrega
+		)?.cumplido;
+
+	const montoConsumidoPorFecha =
+		datosCliente?.configuracionPedido.ventaContadoMaxima?.consumidoPorFecha.find(
+			(fecha) => fecha.fechaEntrega === visitaActual.fechaEntrega
+		)?.consumido || 0;
 
 	const disponible = datosCliente?.informacionCrediticia.disponible;
 	if (datosCliente?.informacionCrediticia.condicion !== 'contado')
@@ -116,7 +127,7 @@ const IndicadoresDelPedidoActual = () => {
 			valor:
 				totalesPedidoCliente +
 				(obtenerTotalPedidosVisitaActual(true).totalPrecio ?? 0),
-			color: color.pedidoMinimo,
+			color: pedidoMinimoCumplido ? 'success' : color.pedidoMinimo,
 			dataCY: 'indicador-pedido-minimo',
 		});
 
@@ -130,6 +141,7 @@ const IndicadoresDelPedidoActual = () => {
 				datosCliente?.configuracionPedido.ventaContadoMaxima
 					?.montoVentaContadoMaxima,
 			valor:
+				montoConsumidoPorFecha +
 				totalContadoPedidosClienteMismaFechaEntrega +
 				(obtenerTotalPedidosVisitaActual().totalContado.totalPrecio ?? 0) +
 				montoTotalCompromisos +
@@ -140,15 +152,16 @@ const IndicadoresDelPedidoActual = () => {
 
 	return (
 		<Grid container spacing='20px' alignItems='flex-end'>
-			{indicadores.map((el, i) => (
-				<Grid item xs key={i}>
+			{indicadores.map((indicador) => (
+				<Grid item xs key={indicador.titulo}>
 					<BarraDeProgreso
-						titulo={el.titulo}
-						max={el.valorMax}
-						valor={el.valor}
-						color={el.color}
-						condicion={el.condicion}
-						dataCY={el.dataCY}
+						color={indicador.color}
+						condicion={indicador.condicion}
+						dataCY={indicador.dataCY}
+						max={indicador.valorMax}
+						pedidoMinimoCumplido={pedidoMinimoCumplido}
+						titulo={indicador.titulo}
+						valor={indicador.valor}
 					/>
 				</Grid>
 			))}

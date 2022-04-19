@@ -9,8 +9,8 @@ const br = {
 		cliente: 'Cliente',
 		precio: 'Preço',
 		buscar: 'Buscar',
-		verDetalle: 'Ver Detalhe',
-		ocultarDetalle: 'Ocultar Detalhe',
+		verDetalle: 'Ver detalhe',
+		ocultarDetalle: 'Ocultar detalhe',
 		verGrupo: 'Ver grupo',
 		ocultarGrupo: 'Esconder grupo',
 		fechaEntrega: 'Data de entrega',
@@ -110,6 +110,7 @@ const br = {
 		cajas: 'Caixas',
 		ahorraste: 'Você salvou',
 		eliminarTodo: 'Excluir todos',
+		procesandoInformacion: 'Processando informação',
 	},
 	simbolos: {
 		decimal: '.',
@@ -241,14 +242,15 @@ const br = {
 	},
 	descuentos: {
 		automatico: 'automático',
+		descuentoAutomatico: 'Desconto automático',
+		descuentoMensaje: 'Desconto {{tipo}} de -{{descuento}}%',
+		descuentoSustituido: 'O desconto {{tipo}} foi substituído por uma',
+		eliminarDescuento: 'Excluir desconto',
 		escalonado: 'escalonado',
 		polarizado: 'polarizado',
-		descuentoMensaje: 'Desconto {{tipo}} de -{{descuento}}%',
-		descuentoSustituido:
-			'O desconto {{tipo}} foi substituído por uma promoção contínua.',
+		promocionOngoing: 'Promoção contínua',
+		promocionesOngoing: 'Promoções contínua',
 		vieneConPromoOngoing: 'Vem com promoção contínua',
-		descuentoAutomatico: 'Desconto automático',
-		eliminarDescuento: 'Excluir desconto',
 	},
 };
 export default br;

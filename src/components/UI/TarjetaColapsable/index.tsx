@@ -101,13 +101,13 @@ export const TarjetaColapsable: React.FC<Props> = ({
 			return;
 		}
 
-		if(iniciativasCanceladasSinMotivo){
+		if (iniciativasCanceladasSinMotivo) {
 			mostrarAviso(
 				'error',
 				t('toast.iniciativaSinMotivoTitulo'),
-				t('toast.iniciativaSinMotivoMensaje'),
-			)
-			return
+				t('toast.iniciativaSinMotivoMensaje')
+			);
+			return;
 		}
 
 		if (expandido === 'Bonificaciones' && visitaActual.seQuedaAEditar.seQueda) {
@@ -180,22 +180,30 @@ export const TarjetaColapsable: React.FC<Props> = ({
 				className={clsx(classes.root, {
 					[classes.inactiva]: expandido !== id,
 				})}
-				sx={{overflow: 'visible'}}
+				sx={{overflow: 'visible', minHeight: '82px'}}
 				data-cy={'tarjeta-' + dataCy}
 			>
 				<CardHeader
-					style={{padding: '0 18px'}}
+					sx={{padding: '0 18px'}}
 					title={
 						<Box display='flex' justifyContent='space-between'>
-							<Box alignSelf='center' data-cy={'titulo-' + dataCy}>
+							<Box
+								color={'black'}
+								alignSelf='center'
+								data-cy={'titulo-' + dataCy}
+							>
 								{titulo}
 							</Box>
 							<Box>
-								<CardActions disableSpacing style={{padding: 0}}>
+								<CardActions disableSpacing sx={{padding: 0}}>
 									{cantidadItems !== undefined && cantidadItems > 0 && (
 										<ChipStyled
 											size='small'
-											label={labelChip}
+											label={
+												<Typography variant='subtitle3' fontFamily='Open Sans'>
+													{labelChip}
+												</Typography>
+											}
 											className={classes.root}
 										/>
 									)}
@@ -217,11 +225,24 @@ export const TarjetaColapsable: React.FC<Props> = ({
 						</Box>
 					}
 					subheader={
-						<Box marginTop='5px'>
-							<Typography variant='body3' fontFamily='Open Sans'>
+						<Box display='flex' flexDirection='column' marginTop='10px'>
+							<Typography
+								color={'black'}
+								variant='body3'
+								fontFamily='Open Sans'
+							>
 								{subTitulo}
 							</Typography>
-							{disabled ? <p data-cy={'mensaje-' + dataCy}>{mensaje}</p> : null}
+							{disabled ? (
+								<Typography
+									data-cy={'mensaje-' + dataCy}
+									fontFamily='Open Sans'
+									marginTop='10px'
+									variant='subtitle3'
+								>
+									{mensaje}
+								</Typography>
+							) : null}
 						</Box>
 					}
 				></CardHeader>

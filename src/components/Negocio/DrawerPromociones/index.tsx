@@ -154,7 +154,7 @@ export const DrawerPromociones: React.FC<Props> = ({
 							fontWeight={700}
 							data-cy='pantalla-promociones'
 						>
-							{t('titulos.promociones')}
+							{t('descuentos.promocionesOngoing')}
 						</Typography>
 					</Box>
 				}

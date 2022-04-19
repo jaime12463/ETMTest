@@ -14,14 +14,12 @@ export const useCalcularEnvasesDeObsequios = () => {
 
 		let promosConvertidasAProducto: TProductoPedido[] = [];
 		visitaActual.promosOngoing.forEach((promo) => {
-			
 			promo.beneficios.forEach((beneficio) => {
 				for (const secuencia of beneficio.secuencias) {
 					//Solo calculo envases cuando es tipo Obsequio
 					if (secuencia.formaBeneficio !== esTipoObsequio) continue;
 
 					for (const material of secuencia.materialesBeneficio) {
-
 						const {codigo, cantidad} = material as TCodigoCantidad;
 						if (cantidad === 0) continue;
 

@@ -12,7 +12,6 @@ import {
 import TomaPedido from './TomaPedidos';
 import PromoPush from './PromoPush';
 import {useTranslation} from 'react-i18next';
-import {useCalularPruductoEnPromoOnGoing} from 'hooks';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<boolean | string>(false);

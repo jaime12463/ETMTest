@@ -35,22 +35,23 @@ import {SwitchCambiarTipoPago} from '../../components';
 import theme from 'theme';
 
 const InputStyled = styled(Input)(({}) => ({
-	borderRadius: '10px',
-	border: '1px solid #2F000E',
-	height: '16px',
-	width: '42px',
 	backgroundColor: 'white',
-	fontWeight: 600,
-	lineHeight: '16px',
+	border: `1px solid ${theme.palette.secondary.dark}`,
+	borderRadius: '10px',
+	fontFamily: 'Open Sans',
 	fontSize: '12px',
+	fontWeight: 600,
+	height: '16px',
+	lineHeight: '16px',
+	width: '42px',
 }));
 
-const GridStyled = styled(Grid)(({theme}) => ({
+const GridStyled = styled(Grid)(() => ({
 	display: 'flex',
 }));
 
-const ButtonStyled = styled(Button)(({theme}) => ({
-	border: '1.5px solid #651C32',
+const ButtonStyled = styled(Button)(() => ({
+	border: `1.5px solid ${theme.palette.secondary.main}`,
 	boxSizing: 'border-box',
 	borderRadius: '20px',
 	minHeight: '10px',
@@ -61,7 +62,7 @@ const ButtonStyled = styled(Button)(({theme}) => ({
 	},
 }));
 
-const CardStyled = styled(Card)(({theme}) => ({
+const CardStyled = styled(Card)(() => ({
 	border: '1.5px solid #D9D9D9',
 	boxSizing: 'border-box',
 	borderRadius: ' 8px',
@@ -70,7 +71,7 @@ const CardStyled = styled(Card)(({theme}) => ({
 	boxShadow: 'none',
 }));
 
-const useEstilos = makeStyles((theme: Theme) =>
+const useEstilos = makeStyles(() =>
 	createStyles({
 		expand: {
 			transform: 'rotate(0deg)',
@@ -270,13 +271,17 @@ const TarjetaPromoPush = (props: any) => {
 							gap='2px'
 							marginBottom='8px'
 						>
-							<Typography variant='subtitle3'>{codigoProducto}</Typography>
+							<Typography variant='subtitle3' fontFamily='Open Sans'>
+								{codigoProducto}
+							</Typography>
 							<Typography variant='subtitle3'>{nombreProducto}</Typography>
 						</Box>
 						<Box display='flex' flexDirection='column' width='50%' gap='6px'>
 							<Typography
-								variant='body3'
 								fontFamily='Open Sans'
+								fontSize='10px'
+								lineHeight='16px'
+								fontWeight={600}
 								color={expandidoPromoPush === id ? '#fff' : '#000'}
 								sx={{textDecoration: 'line-through'}}
 							>
@@ -287,6 +292,7 @@ const TarjetaPromoPush = (props: any) => {
 							</Typography>
 							<Typography
 								variant='caption'
+								fontFamily='Open Sans'
 								color={
 									expandidoPromoPush === id
 										? '#fff'
@@ -411,7 +417,9 @@ const TarjetaPromoPush = (props: any) => {
 											padding: '6px 14px 14px 14px',
 											letterSpacing: '-0.4px',
 										}}
-										variant={'subtitle3'}
+										fontFamily='Open Sans'
+										fontSize='12px'
+										lineHeight='14px'
 										fontWeight={700}
 									>
 										{t('general.paquetes')}
@@ -455,6 +463,7 @@ const TarjetaPromoPush = (props: any) => {
 														<Typography
 															margin='4px 0 6px 0'
 															variant='caption'
+															fontFamily='Open Sans'
 															color={theme.palette.secondary.main}
 														>
 															{`${

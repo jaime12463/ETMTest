@@ -5,31 +5,39 @@ import {useTranslation} from 'react-i18next';
 import {formatearNumero} from 'utils/methods';
 
 export type Props = {
-	max: number | undefined;
-	valor: number;
-	titulo: string;
 	color: string;
-	disable?: boolean;
 	condicion?: string;
 	dataCY: string;
+	disable?: boolean;
+	max?: number;
+	pedidoMinimoCumplido: boolean;
+	titulo: string;
+	valor: number;
 };
 
 const BarraDeProgreso = ({
-	max = 0,
-	valor,
-	titulo,
-	disable = false,
 	color,
 	condicion = 'contado',
 	dataCY,
+	disable = false,
+	max = 0,
+	pedidoMinimoCumplido,
+	titulo,
+	valor,
 }: Props) => {
 	const {t} = useTranslation();
+
 	const progesoActual = (valor * 100) / max;
 	const calcularProgreso = progesoActual > 100 ? 100 : progesoActual;
 	const [progreso, setProgreso] = useState(calcularProgreso);
 	const [colorActual, setColorActual] = useState(color);
 
 	useEffect(() => {
+		if (titulo === t('general.pedidoMinimo') && pedidoMinimoCumplido) {
+			setProgreso(100);
+			return;
+		}
+
 		setProgreso(calcularProgreso);
 		setColorActual(color);
 	}, [valor, progreso, color]);
@@ -52,7 +60,7 @@ const BarraDeProgreso = ({
 			</Box>
 			<BorderLinearProgress
 				variant='determinate'
-				value={progreso ?? 0} //{ progreso <= 0 ? setProgreso(5) : progreso ?? 0}
+				value={progreso}
 				color={colorActual === 'success' ? 'success' : 'primary'}
 			/>
 		</Box>

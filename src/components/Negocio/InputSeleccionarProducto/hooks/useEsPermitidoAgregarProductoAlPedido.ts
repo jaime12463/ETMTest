@@ -32,9 +32,8 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 	const visitaActual = useObtenerVisitaActual();
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
 	const {tipoPedidos} = useObtenerConfiguracion();
-	const {
-		pedidosClienteMismaFechaEntrega,
-	} = useObtenerPedidosClienteMismaFechaEntrega();
+	const {pedidosClienteMismaFechaEntrega} =
+		useObtenerPedidosClienteMismaFechaEntrega();
 	const validarEsPermitidoAgregarProductoAlPedido = useCallback((): boolean => {
 		let esPermitidoAgregarProductoAlPedido: boolean = true;
 
@@ -45,18 +44,22 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 		const esCreditoFormal = clienteActual.condicion === 'creditoFormal';
 		const esCreditoInformal = clienteActual.condicion === 'creditoInformal';
 
+		const montoConsumidoPorFecha =
+			datosCliente?.configuracionPedido.ventaContadoMaxima?.consumidoPorFecha.find(
+				(fecha) => fecha.fechaEntrega === visitaActual.fechaEntrega
+			)?.consumido || 0;
+
 		if (esCreditoFormal && esCreditoBloqueado)
 			return !esPermitidoAgregarProductoAlPedido;
 
 		const {configuracionPedido}: TCliente = datosCliente;
 
-		const totalContadoPedidosClienteMismaFechaEntrega = calcularTotalPedidosClienteValorizadosPorTipoPago(
-			{
+		const totalContadoPedidosClienteMismaFechaEntrega =
+			calcularTotalPedidosClienteValorizadosPorTipoPago({
 				pedidosClienteMismaFechaEntrega,
 				tipoPedidos,
 				tipoPago: ETiposDePago.Contado,
-			}
-		);
+			});
 
 		let totalContadoVisitaActual = 0;
 
@@ -73,11 +76,12 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 			});
 		});
 
-		const retornoSiExcedeAlMaximoContado: TRetornoValidacion = validarSiExcedeAlMaximoContado(
-			configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0,
-			totalContadoVisitaActual,
-			totalContadoPedidosClienteMismaFechaEntrega
-		);
+		const retornoSiExcedeAlMaximoContado: TRetornoValidacion =
+			validarSiExcedeAlMaximoContado(
+				configuracionPedido.ventaContadoMaxima?.montoVentaContadoMaxima ?? 0,
+				totalContadoVisitaActual + montoConsumidoPorFecha,
+				totalContadoPedidosClienteMismaFechaEntrega
+			);
 
 		if (
 			esCreditoInformal &&
@@ -92,11 +96,10 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 		const HayPedidosMandatoriosRegistrados: boolean = pedidosClientes[
 			clienteActual.codigoCliente
 		]?.pedidos.some((pedido) => {
-			const datosTipoPedido:
-				| TTipoPedido
-				| undefined = configuracion.tipoPedidos.find(
-				(tipoPedido) => tipoPedido.codigo === pedido.tipoPedido
-			);
+			const datosTipoPedido: TTipoPedido | undefined =
+				configuracion.tipoPedidos.find(
+					(tipoPedido) => tipoPedido.codigo === pedido.tipoPedido
+				);
 			if (!datosTipoPedido) return false;
 			return (
 				datosTipoPedido.esMandatorio &&
@@ -107,11 +110,10 @@ export const useEsPermitidoAgregarProductoAlPedido = () => {
 		const HayPedidosMandatoriosEnCurso: boolean = Object.values(
 			visitaActual.pedidos
 		).some((pedido: TPedido) => {
-			const datosTipoPedido:
-				| TTipoPedido
-				| undefined = configuracion.tipoPedidos.find(
-				(tipoPedido) => tipoPedido.codigo === pedido.tipoPedido
-			);
+			const datosTipoPedido: TTipoPedido | undefined =
+				configuracion.tipoPedidos.find(
+					(tipoPedido) => tipoPedido.codigo === pedido.tipoPedido
+				);
 
 			if (!datosTipoPedido) return false;
 			return (

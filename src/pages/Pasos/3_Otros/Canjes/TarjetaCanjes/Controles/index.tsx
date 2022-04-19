@@ -11,7 +11,10 @@ import {
 	useValidacionPermiteSubUnidades,
 } from 'hooks';
 import {useObtenerClienteActual} from 'redux/hooks';
-import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
+import {
+	useAgregarProductoAlPedidoActual,
+	useValidarProductoPermiteSubUnidades,
+} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {Dialogo} from 'components/UI';
 import {
 	AgregarRedondoIcon,
@@ -42,7 +45,6 @@ const Controles: React.FC<Props> = ({
 }) => {
 	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
 		useMostrarAdvertenciaEnDialogo();
-
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 	const {catalogoMotivo} = stateCatalogo;
 

@@ -5,7 +5,7 @@ const GlobalStyles = () => {
 		<GlobalThemeStyles
 			styles={{
 				'#root': {
-					background: '#E5E5E5',
+					background: '#F5F0F0',
 					overflow: 'hidden',
 				},
 			}}

@@ -137,7 +137,6 @@ export const Controles: React.FC<Props> = ({
 				  producto.topeSecuencia
 				? true
 				: false;
-		console.log(Number(e.target.value) + totalProductos - cantidadActual);
 		if (topeTotal) {
 			mostrarAviso('error', 'La cantidad es mayor al disponible permitido');
 		} else {

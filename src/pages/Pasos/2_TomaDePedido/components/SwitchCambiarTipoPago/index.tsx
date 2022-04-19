@@ -5,7 +5,7 @@ import {
 	TProductoPedido,
 	TTipoPedido,
 } from 'models';
-import {Chip, Switch, Typography} from '@mui/material';
+import {Box, Chip, Switch, Typography} from '@mui/material';
 import {useCambiarTipoPago, usePermiteCambiarTipoPago} from './hooks';
 import {Center} from 'components/UI';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
@@ -157,7 +157,7 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 	}, [clienteActual.tipoPagoActual, promoPushTemporal, producto]);
 
 	return (
-		<Center>
+		<Box>
 			{mostrarSwitch && (
 				<CustomSwitch
 					checked={switchTipoPago.content}
@@ -214,6 +214,6 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 					}
 				/>
 			)}
-		</Center>
+		</Box>
 	);
 };

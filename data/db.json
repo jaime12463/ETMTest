@@ -4794,6 +4794,7 @@
 				"disponible": 1050,
 				"esCreditoBloqueado": false,
 				"esBloqueadoVenta": false,
+				"habilitaCargosFinancieros": false,
 				"documentos": [
 					{
 						"numero": "12123456789",
@@ -4816,7 +4817,7 @@
 					"cumplimientoPorFecha": [
 						{
 							"fechaEntrega": "2021-06-10",
-							"cumplido": true
+							"cumplido": false
 						},
 						{
 							"fechaEntrega": "2022-01-28",
@@ -4894,6 +4895,14 @@
 				},
 				{
 					"idPromocion": 680420,
+					"promocionesDisponibles": 1
+				},
+				{
+					"idPromocion": 601064,
+					"promocionesDisponibles": 1
+				},
+				{
+					"idPromocion": 710797,
 					"promocionesDisponibles": 1
 				}
 			],
@@ -47742,7 +47751,6 @@
 			"productosHabilitados": [340, 365]
 		}
 	],
-
 	"iniciativas": [
 		{
 			"idActividadIniciativa": 1,
@@ -47766,7 +47774,6 @@
 			"subunidadVentaIniciativa": 0
 		}
 	],
-
 	"bonificaciones": [
 		{
 			"idBonificacion": 1,
@@ -50226,7 +50233,6 @@
 			"descripcion": "DUMMY"
 		}
 	],
-
 	"medidas": [
 		{
 			"id": 0,
@@ -51097,7 +51103,6 @@
 			"descripcion": "DUMMY"
 		}
 	],
-
 	"marcas": [
 		{
 			"id": 1,
@@ -52972,7 +52977,6 @@
 			"descripcion": "NA"
 		}
 	],
-
 	"envases": [
 		{
 			"id": 1,
@@ -53087,12 +53091,11 @@
 			"descripcion": "CACEROLA"
 		}
 	],
-
 	"promociones": [
 		{
-			"promocionID": "680000",
+			"promocionID": 680000,
 			"descripcion": "La Promo de varias secuencias",
-			"tipo": "1",
+			"tipo": 1,
 			"aplicacion": "M",
 			"asignacion": "P",
 			"inicioVigenciaPromocion": "2021-01-08",
@@ -53150,9 +53153,9 @@
 			]
 		},
 		{
-			"promocionID": "682199",
+			"promocionID": 682199,
 			"descripcion": "607-PJ Política Lonchera 1en5 VP ESP",
-			"tipo": "1",
+			"tipo": 1,
 			"aplicacion": "A",
 			"asignacion": "T",
 			"inicioVigenciaPromocion": "2021-01-08",
@@ -53189,9 +53192,9 @@
 			]
 		},
 		{
-			"promocionID": "682200",
+			"promocionID": 682200,
 			"descripcion": "607-PJ Política PWD 1en5 VP ESP",
-			"tipo": "1",
+			"tipo": 1,
 			"aplicacion": "A",
 			"asignacion": "T",
 			"inicioVigenciaPromocion": "2021-01-08",
@@ -53222,9 +53225,9 @@
 			]
 		},
 		{
-			"promocionID": "683709",
+			"promocionID": 683709,
 			"descripcion": "503-MCMY  Política 1 en 5 Pte",
-			"tipo": "1",
+			"tipo": 1,
 			"aplicacion": "M",
 			"asignacion": "T",
 			"inicioVigenciaPromocion": "2022-01-18",
@@ -53255,9 +53258,9 @@
 			]
 		},
 		{
-			"promocionID": "685183",
+			"promocionID": 685183,
 			"descripcion": "503-CIEL 1 EN 3 OP Pte",
-			"tipo": "1",
+			"tipo": 1,
 			"aplicacion": "M",
 			"asignacion": "T",
 			"inicioVigenciaPromocion": "2022-01-14",
@@ -53290,9 +53293,9 @@
 			]
 		},
 		{
-			"promocionID": "685218",
+			"promocionID": 685218,
 			"descripcion": "558-POLÍTICA HORECAS 1 en 6 Pte",
-			"tipo": "1",
+			"tipo": 1,
 			"aplicacion": "M",
 			"asignacion": "T",
 			"inicioVigenciaPromocion": "2022-01-15",
@@ -53341,9 +53344,9 @@
 			]
 		},
 		{
-			"promocionID": "685232",
+			"promocionID": 685232,
 			"descripcion": "554- MC Política Lata 1 en 5 Pte",
-			"tipo": "1",
+			"tipo": 1,
 			"aplicacion": "A",
 			"asignacion": "T",
 			"inicioVigenciaPromocion": "2022-01-15",
@@ -53377,9 +53380,9 @@
 			]
 		},
 		{
-			"promocionID": "685233",
+			"promocionID": 685233,
 			"descripcion": "554- MC Política Pet 1 en 5 Pte",
-			"tipo": "1",
+			"tipo": 1,
 			"aplicacion": "M",
 			"asignacion": "T",
 			"inicioVigenciaPromocion": "2022-01-15",
@@ -53410,9 +53413,9 @@
 			]
 		},
 		{
-			"promocionID": "685234",
+			"promocionID": 685234,
 			"descripcion": "554- MC Gran oferta",
-			"tipo": "1",
+			"tipo": 1,
 			"aplicacion": "M",
 			"asignacion": "T",
 			"inicioVigenciaPromocion": "2022-01-15",
@@ -53634,6 +53637,102 @@
 							"unidadMedida": "Unidad",
 							"formaBeneficio": "3",
 							"valorBeneficio": 24.0,
+							"tope": 999
+						}
+					]
+				}
+			]
+		},
+		{
+			"promocionID": 601064,
+			"descripcion": "1000-MC CC3+SDAL3=5%",
+			"tipo": 1,
+			"aplicacion": "M",
+			"asignacion": "T",
+			"inicioVigenciaPromocion": "2022-01-11",
+			"finVigenciaPromocion": "2022-12-20",
+			"requisitos": [
+				{
+					"materiales": [360],
+					"cantidad": 1,
+					"unidadMedida": "Unidad",
+					"conector": "Y"
+				},
+				{
+					"materiales": [380],
+					"cantidad": 1,
+					"unidadMedida": "Unidad"
+				}
+			],
+			"beneficios": [
+				{
+					"grupoBeneficioID": 1,
+					"descripcion": "1000-MC CC3+SDAL3=5%",
+					"secuencias": [
+						{
+							"secuencia": 1,
+							"materialesBeneficio": [360],
+							"cantidad": 1,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "2",
+							"valorBeneficio": 5,
+							"tope": 999
+						},
+						{
+							"secuencia": 2,
+							"materialesBeneficio": [380],
+							"cantidad": 1,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "2",
+							"valorBeneficio": 5,
+							"tope": 999
+						}
+					]
+				}
+			]
+		},
+		{
+			"promocionID": 710797,
+			"descripcion": "1000-MC SDAL 3L + FTA2L = 8%",
+			"tipo": 1,
+			"aplicacion": "M",
+			"asignacion": "T",
+			"inicioVigenciaPromocion": "2022-01-11",
+			"finVigenciaPromocion": "2022-12-20",
+			"requisitos": [
+				{
+					"materiales": [340],
+					"cantidad": 1,
+					"unidadMedida": "Unidad",
+					"conector": "Y"
+				},
+				{
+					"materiales": [420],
+					"cantidad": 1,
+					"unidadMedida": "Unidad"
+				}
+			],
+			"beneficios": [
+				{
+					"grupoBeneficioID": 1,
+					"descripcion": "1000-MC SDAL 3L + FTA2L = 8%",
+					"secuencias": [
+						{
+							"secuencia": 1,
+							"materialesBeneficio": [340],
+							"cantidad": 1,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "2",
+							"valorBeneficio": 8,
+							"tope": 999
+						},
+						{
+							"secuencia": 2,
+							"materialesBeneficio": [420],
+							"cantidad": 1,
+							"unidadMedida": "Unidad",
+							"formaBeneficio": "2",
+							"valorBeneficio": 8,
 							"tope": 999
 						}
 					]

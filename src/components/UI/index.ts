@@ -13,7 +13,6 @@ import Numero from './Numero';
 import Cajon from './Cajon';
 import BuscadorenLista from './BuscadorenLista';
 import VisualizadorPdfs from './VisualizadorPdfs';
-
 export {Tooltip} from './Tooltip';
 export {TarjetaColapsable} from './TarjetaColapsable';
 export {Fecha} from './Fecha';
@@ -21,6 +20,7 @@ export {BotonBarraInferior} from './BotonBarraInferior';
 export {TarjetaDoble} from './TarjetaDoble';
 export {Stepper} from './Stepper';
 export {SwipeBorrar} from './SwipeBorrar';
+export * from './Loading';
 
 export {
 	Estructura,

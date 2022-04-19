@@ -4,15 +4,12 @@ import Box from '@mui/material/Box';
 import theme from 'theme';
 import Controles from './components/Controles';
 import Informacion from './components/Informacion';
-import Descuentos from './components/Descuentos';
 import PromoOngoing from './components/PromoOngoing';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import SwitchYCheck from './components/SwitchYCheck';
-import {useTranslation} from 'react-i18next';
 import {
 	useObtenerCalculoDescuentoProducto,
 	useObtenerDatosCliente,
-	useMostrarAviso,
 	useCalularPruductoEnPromoOnGoing,
 } from 'hooks';
 
@@ -39,10 +36,8 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 }) => {
 	const clienteActual = useObtenerClienteActual();
 	const [productoAgregado, setProductoAgregado] = React.useState<boolean>(true);
-	const {focusId, setFocusId} = stateFocusId;
+	const {focusId} = stateFocusId;
 	const visitaActual = useObtenerVisitaActual();
-	const mostrarAviso = useMostrarAviso();
-	const {t} = useTranslation();
 	const {setAlerta, setConfigAlerta} = stateAviso;
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
 	const {configuracionPedido}: any = datosCliente;
@@ -138,37 +133,37 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 				border={`1px solid ${colorBorde}`}
 				borderRadius={bordeRedondeado ? '8px' : '0'}
 				overflow='hidden'
-				maxWidth={'304px'}
+				maxWidth='304px'
+				width='100%'
+				sx={{
+					background:
+						'linear-gradient(90deg, transparent 0%, transparent 179px, #F5F0EF 179px, #F5F0EF 100%)',
+				}}
 			>
 				<SwitchYCheck
-					producto={productoEnVenta ?? productoAMandar}
 					conSwitch={conSwitch}
+					producto={productoEnVenta ?? productoAMandar}
 				/>
 				<Box display='flex'>
 					<Informacion
-						producto={productoEnVenta ?? productoAMandar}
 						conSwitch={conSwitch}
-						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-						stateAviso={{setAlerta, setConfigAlerta}}
-						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 						infoBeneficio={infoBeneficio}
-					/>
-					<Controles
+						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 						producto={productoEnVenta ?? productoAMandar}
+						stateAviso={{setAlerta, setConfigAlerta}}
+						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
 						stateInputFocus={stateInputFocus}
 						stateFocusId={stateFocusId}
-						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+					/>
+					<Controles
+						infoBeneficio={infoBeneficio}
 						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
+						producto={productoEnVenta ?? productoAMandar}
+						stateFocusId={stateFocusId}
+						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+						stateInputFocus={stateInputFocus}
 					/>
 				</Box>
-				<Descuentos
-					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
-					producto={productoEnVenta ?? productoAMandar}
-					stateInputFocus={stateInputFocus}
-					stateFocusId={stateFocusId}
-					infoBeneficio={infoBeneficio}
-				/>
 				<PromoOngoing
 					producto={productoEnVenta ?? productoAMandar}
 					infoDescuento={infoDescuento}

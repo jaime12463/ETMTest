@@ -1,18 +1,15 @@
 import {FunctionComponent, useEffect, useState} from 'react';
 import {TEnvases, TEnvasesPedidos, TTipoPedido} from 'models';
-import {Grid, Input, styled, Typography} from '@mui/material';
+import {Input, styled, Typography} from '@mui/material';
 import {TConsolidadoImplicitos} from 'models';
 import {useObtenerVisitaActual, useAppDispatch} from 'redux/hooks';
 import {useMostrarAviso} from 'hooks';
 import {useAgregarProductoAlPedidoActual} from '../../hooks/useAgregarProductoAlPedidoActual';
 import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
-import {
-	modificarEnvasesConError,
-	restablecerEnvasesConError,
-} from 'redux/features/visitaActual/visitaActualSlice';
+import {modificarEnvasesConError} from 'redux/features/visitaActual/visitaActualSlice';
 
-const InputStyled = styled(Input)(({theme}) => ({
+const InputStyled = styled(Input)(() => ({
 	borderRadius: '4px',
 	width: '28px',
 	height: '22px',
@@ -28,17 +25,19 @@ type Props = {
 	productoEnvase: any;
 	stateRetorno: any;
 	datosEnvase: TConsolidadoImplicitos;
+	habilitaSubUnidadesVenta: boolean;
+	habilitaSubUnidadesPrestamo: boolean;
 };
 
-const InputTipoPedido: FunctionComponent<Props> = (props) => {
-	const {
-		tipoPedido,
-		stateTipoEnvases,
-		productoEnvase,
-		stateRetorno,
-		datosEnvase,
-	} = props;
-
+const InputTipoPedido: FunctionComponent<Props> = ({
+	tipoPedido,
+	stateTipoEnvases,
+	productoEnvase,
+	stateRetorno,
+	datosEnvase,
+	habilitaSubUnidadesVenta,
+	habilitaSubUnidadesPrestamo,
+}) => {
 	const {t} = useTranslation();
 	const dispatch = useAppDispatch();
 	const mostrarAviso = useMostrarAviso();
@@ -132,7 +131,7 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 	const cambioUnidadesPorTipoPedido = (
 		unidadesIngresadas: number,
 		tipoEnvase: string,
-		totalUnidadesTiposEnvase : TEnvases,
+		totalUnidadesTiposEnvase: TEnvases,
 		codigoTipoPedidoActual: string | undefined
 	): boolean => {
 		let unidadesPermitidas = false;
@@ -147,7 +146,9 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 					...retorno,
 					unidades: Number(
 						retorno.unidades -
-							(totalUnidadesTiposEnvase ? totalUnidadesTiposEnvase.unidades : 0) -
+							(totalUnidadesTiposEnvase
+								? totalUnidadesTiposEnvase.unidades
+								: 0) -
 							unidadesIngresadas
 					),
 				});
@@ -234,7 +235,9 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 					...retorno,
 					subUnidades: Number(
 						retorno.subUnidades -
-							(totalSubUnidadesTiposEnvase ? totalSubUnidadesTiposEnvase.subUnidades : 0) -
+							(totalSubUnidadesTiposEnvase
+								? totalSubUnidadesTiposEnvase.subUnidades
+								: 0) -
 							subUnidadesIngresadas
 					),
 				});
@@ -309,78 +312,116 @@ const InputTipoPedido: FunctionComponent<Props> = (props) => {
 
 	return (
 		<>
-			<Grid
-				item
-				display='flex'
-				alignItems='center'
-				justifyContent='space-between'
-				xs={12}
-				key={tipoPedido?.descripcionCorta}
+			<Typography
+				fontFamily='Open Sans'
+				justifySelf='flex-end'
+				marginRight='4px'
+				sx={{
+					gridArea:
+						tipoPedido?.descripcionCorta === 'venta' ? 'Venta' : 'Prestamo',
+					textTransform: 'capitalize',
+				}}
+				variant='caption'
 			>
-				<Grid item xs={4}>
-					<Typography
-						fontFamily='Open Sans'
-						variant={'caption'}
-						style={{textTransform: 'capitalize'}}
-					>
-						{`${tipoPedido?.descripcionCorta}:`}
-					</Typography>
-				</Grid>
-				<Grid item xs={3}>
-					{tipoPedido && (
-						<InputStyled
-							inputProps={{style: {textAlign: 'center'}}}
-							value={datosIngresados.unidadesIngresadas}
-							disableUnderline
-							onChange={(e) => {
-								setDatosIngresados({
-									...datosIngresados,
-									unidadesIngresadas: isNaN(Number(e.target.value))
-										? 0
-										: Number(e.target.value),
-								});
-								cambioUnidadesPorTipoPedido(
-									isNaN(Number(e.target.value)) ? 0 : Number(e.target.value),
-									envase?.tipoEnvase,
-									otrosTiposEnvase,
-									tipoPedido.codigo
-								);
-							}}
-							onFocus={(e) => e.target.select()}
-							type='tel'
-							className={classes.celdaUnidad}
-							id='inputUnidades'
-						/>
-					)}
-				</Grid>
-				<Grid item xs={3}>
-					{tipoPedido && (
-						<InputStyled
-							inputProps={{style: {textAlign: 'center'}}}
-							value={datosIngresados.subUnidadesIngresadas}
-							disableUnderline
-							onChange={(e) => {
-								setDatosIngresados({
-									...datosIngresados,
-									subUnidadesIngresadas: isNaN(Number(e.target.value))
-										? 0
-										: Number(e.target.value),
-								});
-								cambioSubUnidadesPorTipoPedido(
-									isNaN(Number(e.target.value)) ? 0 : Number(e.target.value),
-									envase?.tipoEnvase,
-									otrosTiposEnvase,
-									tipoPedido.codigo
-								);
-							}}
-							onFocus={(e) => e.target.select()}
-							type='tel'
-							className={classes.celdaSubUnidad}
-							id='inputSubunidades'
-						/>
-					)}
-				</Grid>
-			</Grid>
+				{`${tipoPedido?.descripcionCorta}:`}
+			</Typography>
+
+			{tipoPedido && (
+				<InputStyled
+					className={classes.celdaUnidad}
+					disableUnderline
+					id='inputUnidades'
+					inputProps={{style: {textAlign: 'center'}}}
+					onChange={(e) => {
+						setDatosIngresados({
+							...datosIngresados,
+							unidadesIngresadas: isNaN(Number(e.target.value))
+								? 0
+								: Number(e.target.value),
+						});
+						cambioUnidadesPorTipoPedido(
+							isNaN(Number(e.target.value)) ? 0 : Number(e.target.value),
+							envase?.tipoEnvase,
+							otrosTiposEnvase,
+							tipoPedido.codigo
+						);
+					}}
+					onFocus={(e) => e.target.select()}
+					sx={{
+						gridArea:
+							tipoPedido?.descripcionCorta === 'venta' ? 'VUnidad' : 'PUnidad',
+						marginRight:
+							habilitaSubUnidadesVenta || habilitaSubUnidadesPrestamo
+								? '8px'
+								: '0',
+					}}
+					type='tel'
+					value={datosIngresados.unidadesIngresadas}
+				/>
+			)}
+
+			{tipoPedido.codigo === 'ventaenvase' && habilitaSubUnidadesVenta && (
+				<InputStyled
+					className={classes.celdaSubUnidad}
+					disableUnderline
+					id='inputSubunidades'
+					inputProps={{style: {textAlign: 'center'}}}
+					onChange={(e) => {
+						setDatosIngresados({
+							...datosIngresados,
+							subUnidadesIngresadas: isNaN(Number(e.target.value))
+								? 0
+								: Number(e.target.value),
+						});
+						cambioSubUnidadesPorTipoPedido(
+							isNaN(Number(e.target.value)) ? 0 : Number(e.target.value),
+							envase?.tipoEnvase,
+							otrosTiposEnvase,
+							tipoPedido.codigo
+						);
+					}}
+					onFocus={(e) => e.target.select()}
+					sx={{
+						gridArea:
+							tipoPedido?.descripcionCorta === 'venta'
+								? 'VSubUnidad'
+								: 'PSubUnidad',
+					}}
+					type='tel'
+					value={datosIngresados.subUnidadesIngresadas}
+				/>
+			)}
+			{tipoPedido.codigo === 'prestamoenvase' && habilitaSubUnidadesPrestamo && (
+				<InputStyled
+					className={classes.celdaSubUnidad}
+					disableUnderline
+					id='inputSubunidades'
+					inputProps={{style: {textAlign: 'center'}}}
+					onChange={(e) => {
+						setDatosIngresados({
+							...datosIngresados,
+							subUnidadesIngresadas: isNaN(Number(e.target.value))
+								? 0
+								: Number(e.target.value),
+						});
+						cambioSubUnidadesPorTipoPedido(
+							isNaN(Number(e.target.value)) ? 0 : Number(e.target.value),
+							envase?.tipoEnvase,
+							otrosTiposEnvase,
+							tipoPedido.codigo
+						);
+					}}
+					onFocus={(e) => e.target.select()}
+					sx={{
+						gridArea:
+							tipoPedido?.descripcionCorta === 'venta'
+								? 'VSubUnidad'
+								: 'PSubUnidad',
+					}}
+					type='tel'
+					value={datosIngresados.subUnidadesIngresadas}
+				/>
+			)}
 		</>
 	);
 };

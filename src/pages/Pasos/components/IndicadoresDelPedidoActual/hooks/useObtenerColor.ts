@@ -17,6 +17,7 @@ import {
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
 	useObtenerConfiguracion,
+	useObtenerVisitaActual,
 } from 'redux/hooks';
 
 const obtenerporcentaje = (valor: number, valorMax: number = 0) => {
@@ -62,7 +63,15 @@ export const useObtenerColor = () => {
 	);
 
 	const totalPedidoActual = obtenerTotalPedidosVisitaActual();
-	const totalPedidoActualContribuyeMinimo = obtenerTotalPedidosVisitaActual(true);
+	const totalPedidoActualContribuyeMinimo =
+		obtenerTotalPedidosVisitaActual(true);
+
+	const visitaActual = useObtenerVisitaActual();
+
+	const montoConsumidoPorFecha =
+		datosCliente?.configuracionPedido.ventaContadoMaxima?.consumidoPorFecha.find(
+			(fecha) => fecha.fechaEntrega === visitaActual.fechaEntrega
+		)?.consumido || 0;
 
 	useEffect(() => {
 		setColor({
@@ -75,7 +84,8 @@ export const useObtenerColor = () => {
 					: 'primary',
 			pedidoMaximo:
 				obtenerporcentaje(
-					totalContadoPedidosClienteMismaFechaEntrega +
+					montoConsumidoPorFecha +
+						totalContadoPedidosClienteMismaFechaEntrega +
 						totalPedidoActual.totalContado.totalPrecio +
 						montoTotalCompromisos +
 						compromisoDeCobroActual.monto,

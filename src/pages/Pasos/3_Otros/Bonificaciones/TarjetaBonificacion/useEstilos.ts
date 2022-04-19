@@ -17,11 +17,12 @@ const useEstilos = makeStyles(() =>
 			'& .MuiInput-input': {
 				color: (props: Props) =>
 					props.errorAplicacionTotal ? theme.palette.primary.main : '#000',
+				fontFamily: 'Open Sans',
 				fontSize: '12px',
 				fontWeight: 600,
+				lineHeight: '16px',
 			},
 			height: '16px',
-			lineHeight: '16px',
 			transition: 'all 0.3s ease-in-out',
 			width: '42px',
 		},

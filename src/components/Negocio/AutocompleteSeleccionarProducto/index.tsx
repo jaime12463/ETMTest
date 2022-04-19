@@ -76,27 +76,12 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	const [textoIngresado, setTextoIngresado] = useState<string>('');
 	const [opciones, setOpciones] = useState<TPrecioProducto[]>([]); //(preciosProductos);
 
-	/* 	useEffect(() => {
-		if (textoIngresado.length >= 3 && preciosProductosDelClienteActual) {
-			const lista = preciosProductosDelClienteActual.filter(
-				(item) =>
-					item.nombreProducto
-						.toLowerCase()
-						.indexOf(textoIngresado.toLowerCase()) > -1 ||
-					item.codigoProducto.toString() == textoIngresado
-			);
-			setOpciones(lista);
-		} else if (textoIngresado.length === 0) {
-			setOpciones([]);
-		}
-	}, [textoIngresado]); */
-
 	const handleInputChange = (e: any) => {
 		setTextoIngresado(e.target.value);
 	};
 
 	return (
-		<Box display='flex' justifyContent='space-between'>
+		<Box display='flex' justifyContent='space-between' position='relative'>
 			<GridAutocomplete
 				container
 				direction='row'
@@ -131,6 +116,13 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 						className={estilos.root}
 						InputProps={{disableUnderline: true}}
 						placeholder={`${t('general.agregarProductoSKU')}`}
+						inputProps={{
+							style: {
+								fontSize: '12px',
+								fontFamily: 'Open Sans',
+								lineHeight: '16px',
+							},
+						}}
 						inputRef={(input) => {
 							if (inputFocus === 'productoABuscar') {
 								input?.focus();
@@ -139,21 +131,26 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 						data-cy={'codigo-producto-a-buscar'}
 					/>
 				</Grid>
-				<Grid item>
-					<IconButton
-						aria-label='search'
-						size='small'
-						name='boton-+'
-						onClick={(e: any) => {
-							seleccionarProductoDePrecios({
-								productoABuscar: textoIngresado,
-							});
-						}}
-						disabled={!validarEsPermitidoAgregarProductoAlPedido()}
-					>
-						<AgregarIcon name='boton-+' height='15px' width='15px' />
-					</IconButton>
-				</Grid>
+				<IconButton
+					aria-label='search'
+					size='small'
+					name='boton-+'
+					onClick={(e: any) => {
+						seleccionarProductoDePrecios({
+							productoABuscar: textoIngresado,
+						});
+					}}
+					sx={{
+						padding: 0,
+						position: 'absolute',
+						right: '12px',
+						top: '50%',
+						transform: 'translateY(-50%)',
+					}}
+					disabled={!validarEsPermitidoAgregarProductoAlPedido()}
+				>
+					<AgregarIcon name='boton-+' height='24px' width='24px' />
+				</IconButton>
 			</GridAutocomplete>
 			{/* <Grid item>
 				<IconButton>

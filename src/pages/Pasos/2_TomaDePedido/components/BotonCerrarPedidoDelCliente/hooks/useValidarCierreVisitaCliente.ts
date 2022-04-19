@@ -71,21 +71,18 @@ export const useValidarCierreVisitaCliente = () => {
 		retornoValidacion = validarDatosCliente(datosCliente);
 		if (!retornoValidacion.esValido) return retornoValidacion;
 
-		/*retornoValidacion = validarSiExcedeElMontoMinimo(
-			datosCliente,
-			totalPedidosVisitaActual.totalPrecio +
-				totalContadoPedidosClienteMismaFechaEntrega +
-				totalCreditoPedidosClienteMismaFechaEntrega
-		);
-
-		if (!retornoValidacion.esValido) return retornoValidacion;*/
+		const montoConsumidoPorFecha =
+			datosCliente?.configuracionPedido.ventaContadoMaxima?.consumidoPorFecha.find(
+				(fecha) => fecha.fechaEntrega === visitaActual.fechaEntrega
+			)?.consumido || 0;
 
 		retornoValidacion = validarSiExcedeAlMaximoContado(
 			datosCliente?.configuracionPedido.ventaContadoMaxima
 				?.montoVentaContadoMaxima ?? 0,
 			totalPedidosVisitaActual.totalContado.totalPrecio +
 				compromisoDeCobroActual.monto +
-				montoTotalCompromisos,
+				montoTotalCompromisos +
+				montoConsumidoPorFecha,
 			totalContadoPedidosClienteMismaFechaEntrega
 		);
 

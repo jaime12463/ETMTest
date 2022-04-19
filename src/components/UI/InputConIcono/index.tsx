@@ -46,12 +46,22 @@ const InputConIcono: React.FC<Props> = ({
 
 	return (
 		<Box margin={margin} position='relative'>
+			<Typography
+				variant='caption'
+				color='secondary.light'
+				fontFamily='Open Sans'
+				position='absolute'
+				top='8px'
+				left='12px'
+				sx={{zIndex: 1}}
+			>
+				{label}
+			</Typography>
 			<TextField
-				label={label}
 				variant='filled'
 				fullWidth
 				className={classes.root}
-				autoFocus={focus ? true : false}
+				autoFocus={focus}
 				focused
 				inputRef={inputRef}
 				onClick={onClick}
@@ -68,7 +78,8 @@ const InputConIcono: React.FC<Props> = ({
 							sx={{color: '#000', marginRight: 0}}
 						>
 							<Typography
-								variant='body2'
+								variant='body3'
+								fontFamily='Open Sans'
 								sx={{color: error ? theme.palette.primary.main : 'inherit'}}
 							>
 								{t('simbolos.moneda')}

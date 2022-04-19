@@ -4,17 +4,18 @@ import {
 	ETipoDescuento,
 	TProductoPedido,
 	TStateInfoDescuentos,
+	TStateInputFocus,
 } from 'models';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {styled} from '@mui/material/styles';
-import Chip from '@mui/material/Chip';
+import TextField from '@mui/material/TextField';
 import {
 	AvisoIcon,
 	BotellaIcon,
 	CajaIcon,
 	PromocionColor,
 	QuitarRellenoIcon,
+	SimboloMoneda,
 } from 'assests/iconos';
 import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
@@ -23,24 +24,11 @@ import {useAppDispatch, useObtenerDatos} from 'redux/hooks';
 import {borrarDescuentoDelProducto} from 'redux/features/visitaActual/visitaActualSlice';
 import {useMostrarAviso, useValidacionPermiteSubUnidades} from 'hooks';
 import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularPruductoEnPromoOnGoing';
-
-const ChipStyled = styled(Chip)(() => ({
-	'&.MuiChip-root': {
-		background: 'transparent',
-		border: `1px solid ${theme.palette.primary.main}`,
-		cursor: 'pointer',
-		borderRadius: '50px',
-		height: ' 18px',
-		padding: '4px, 12px',
-		width: '133px',
-	},
-}));
+import {StateFocusID} from '../..';
 
 interface Props {
-	producto: TProductoPedido;
 	conSwitch?: boolean;
-	stateAviso: any;
-	stateInfoDescuento: TStateInfoDescuentos;
+	infoBeneficio: TInfoBeneficioProductoPromoOngoing;
 	obtenerCalculoDescuentoProducto: (
 		valoresIngresados: {
 			inputPolarizado: number | undefined;
@@ -49,29 +37,37 @@ interface Props {
 		},
 		stateInfoDescuento: TStateInfoDescuentos
 	) => void;
-	infoBeneficio: TInfoBeneficioProductoPromoOngoing;
+	producto: TProductoPedido;
+	stateAviso: any;
+	stateFocusId: StateFocusID;
+	stateInfoDescuento: TStateInfoDescuentos;
+	stateInputFocus: TStateInputFocus;
 }
 
 const Informacion: React.FC<Props> = ({
-	producto,
 	conSwitch,
-	stateInfoDescuento,
-	stateAviso,
+	infoBeneficio: {cantidad, formaBeneficio, unidadMedida},
 	obtenerCalculoDescuentoProducto,
-	infoBeneficio: {cantidad, formaBeneficio},
+	producto,
+	stateAviso,
+	stateFocusId,
+	stateInfoDescuento,
+	stateInputFocus,
 }) => {
 	const {t} = useTranslation();
 
 	const {
+		atributos,
 		codigoProducto,
 		nombreProducto,
-		presentacion,
-		precioConImpuestoUnidad,
-		precioConImpuestoSubunidad,
-		preciosNeto,
-		unidades,
-		precioConDescuentoUnidad,
 		precioConDescuentoSubunidad,
+		precioConDescuentoUnidad,
+		precioConImpuestoSubunidad,
+		precioConImpuestoUnidad,
+		preciosNeto,
+		presentacion,
+		subUnidades,
+		unidades,
 	} = producto;
 
 	const {unidad, subUnidad} = preciosNeto;
@@ -109,7 +105,7 @@ const Informacion: React.FC<Props> = ({
 		});
 		dispatch(
 			borrarDescuentoDelProducto({
-				codigoProducto: producto.codigoProducto,
+				codigoProducto: codigoProducto,
 			})
 		);
 		mostrarAviso(
@@ -130,8 +126,8 @@ const Informacion: React.FC<Props> = ({
 			infoDescuento.tipo === ETipoDescuento.automatico
 		) {
 			if (
-				producto.unidades > 0 ||
-				producto.subUnidades > 0 ||
+				unidades > 0 ||
+				subUnidades > 0 ||
 				infoDescuento.tipo === ETipoDescuento.automatico
 			) {
 				setMostrarinfo(true);
@@ -154,37 +150,96 @@ const Informacion: React.FC<Props> = ({
 
 	const {envases, medidas} = useObtenerDatos();
 
+	const {focusId, setFocusId} = stateFocusId;
+	const {inputFocus, setInputFocus} = stateInputFocus;
+	const [cambioValor, setCambioValor] = React.useState<boolean>(false);
+
+	const [inputClicked, setInputClicked] = React.useState<boolean>(false);
+
+	React.useEffect(() => {
+		if (infoDescuento.inputPolarizado > 0) {
+			obtenerCalculoDescuentoProducto(
+				{inputPolarizado: Number(inputValue), unidades: 0, subUnidades: 0},
+				stateInfoDescuento
+			);
+		}
+	}, []);
+
+	const obtenerDescuento = () => {
+		if (cambioValor) {
+			setCambioValor(false);
+			obtenerCalculoDescuentoProducto(
+				{
+					inputPolarizado: Number(inputValue),
+					unidades: 0,
+					subUnidades: 0,
+				},
+				stateInfoDescuento
+			);
+		}
+		setInputFocus('productoABuscar');
+	};
+
+	const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (Number(e.target.value) >= 0) {
+			setInputValue(e.target.value.replace(/[^0-9,.]/g, ''));
+			setCambioValor(true);
+		}
+	};
+
+	const onBlurHandler = () => obtenerDescuento();
+
+	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+		if (e.key === 'Enter') {
+			obtenerDescuento();
+		}
+	};
+
+	const mostrarInputPolarizado =
+		infoDescuento.tipo === ETipoDescuento.polarizado
+			? unidades > 0 || subUnidades > 0
+				? true
+				: false
+			: false;
+
 	return (
 		<Box
 			display='flex'
+			flex='1'
 			flexDirection='column'
 			padding={
 				conSwitch && (cantidad === 0 || !cantidad)
-					? '10px 0 12px 14px'
+					? '10px 8px 12px 14px'
 					: formaBeneficio === EFormaBeneficio.Obsequio
-					? '12px 0 12px 14px'
-					: tipoDescuento === t('descuentos.polarizado')
-					? '12px 0 12px 14px'
-					: '12px 0 0 14px'
+					? '12px 8px 12px 14px'
+					: tipoDescuento === t('descuentos.polarizado') ||
+					  (tipoDescuento === t('descuentos.automatico') &&
+							((unidadMedida === 'Unidad' && cantidad !== unidades) ||
+								(unidadMedida !== 'Unidad' && cantidad !== subUnidades)))
+					? '12px 8px 12px 14px'
+					: '12px 8px 0 14px'
 			}
-			justifyContent='center'
-			width='179px'
 		>
 			<Typography variant='subtitle3' fontFamily='Open Sans'>
 				{codigoProducto}
 			</Typography>
 			<Typography
-				variant='subtitle3'
+				marginBottom={atributos ? 0 : '6px'}
 				noWrap
+				variant='subtitle3'
 				width='150px'
-				marginBottom={producto.atributos ? 0 : '6px'}
 			>
 				{nombreProducto}
 			</Typography>
-			{producto.atributos && (
-				<Typography margin='4px 0 6px 0' variant='caption' color='secondary'>
-					{`${medidas[producto.atributos?.medida].descripcion} | ${
-						envases[producto.atributos?.envase].descripcion
+			{atributos && (
+				<Typography
+					color='secondary'
+					fontFamily='Open Sans'
+					margin='4px 0 6px 0'
+					variant='caption'
+				>
+					{`${medidas[atributos?.medida].descripcion} | ${
+						envases[atributos?.envase].descripcion
 					}`}
 				</Typography>
 			)}
@@ -323,8 +378,7 @@ const Informacion: React.FC<Props> = ({
 									sx={{gridArea: 'DescuentoSubUnidad'}}
 								>
 									{formatearNumero(
-										producto.precioConDescuentoSubunidad ??
-											producto.preciosNeto.subUnidad,
+										precioConDescuentoSubunidad ?? preciosNeto.subUnidad,
 										t
 									)}
 								</Typography>
@@ -373,47 +427,124 @@ const Informacion: React.FC<Props> = ({
 								sx={{gridArea: 'DescuentoUnidad', justifySelf: 'start'}}
 							>
 								{formatearNumero(
-									producto.precioConDescuentoUnidad ??
-										producto.preciosNeto.unidad,
+									precioConDescuentoUnidad ?? preciosNeto.unidad,
 									t
 								)}
 							</Typography>
 						</>
 					)}
 			</Box>
-			{mostrarInfo && infoDescuento.tipo === ETipoDescuento.escalonado && (
-				<Box marginTop='8px'>
-					<ChipStyled
-						onClick={() => {
-							setConfigAlerta({
-								titulo: t('advertencias.borrarDescuento'),
-								mensaje: t('mensajes.borrarDescuento', {
-									codigo: codigoProducto,
-								}),
-								tituloBotonAceptar: 'Eliminar',
-								tituloBotonCancelar: 'Cancelar',
-								callbackAceptar: () => eliminarDescuento(),
-								iconoMensaje: <AvisoIcon />,
-							});
-							setAlerta(true);
+			{mostrarInputPolarizado && (
+				<Box display='flex' flexDirection='column' marginTop='12px'>
+					<Box
+						sx={{
+							opacity: mostrarInputPolarizado ? 1 : 0,
+							transition: 'opacity 0.3s ease-in-out',
 						}}
-						label={
-							<Box alignItems='center' display='flex' gap='4px'>
-								<QuitarRellenoIcon
-									height='10px'
-									width='10px'
-									fill={theme.palette.primary.main}
-								/>
+					>
+						<Box position='relative'>
+							{!inputValue && !inputClicked && (
 								<Typography
-									variant='caption'
-									color='primary'
 									fontFamily='Open Sans'
+									left='12px'
+									position='absolute'
+									sx={{transform: 'translateY(-50%)'}}
+									top='50%'
+									variant='body3'
 								>
-									{t('descuentos.eliminarDescuento')}
+									Ingresar precio venta
 								</Typography>
-							</Box>
-						}
+							)}
+							{(inputClicked || inputValue) && (
+								<SimboloMoneda
+									style={{
+										left: '12px',
+										position: 'absolute',
+										top: '50%',
+										transform: 'translateY(-50%)',
+									}}
+								/>
+							)}
+							<TextField
+								variant='standard'
+								InputProps={{
+									disableUnderline: true,
+								}}
+								inputProps={{
+									style: {
+										borderRadius: '20px',
+										boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.15)',
+										boxSizing: 'border-box',
+										fontFamily: 'Open Sans',
+										fontSize: '14px',
+										fontWeight: 600,
+										height: '32px',
+										padding: '4px 12px 4px 32px',
+										width: '145px',
+									},
+								}}
+								onBlur={() => {
+									onBlurHandler();
+									setInputClicked(false);
+								}}
+								value={inputValue}
+								onChange={onChangeInput}
+								onKeyPress={handleKeyPress}
+								onFocus={(e) => {
+									e.target.select();
+									setInputClicked(true);
+								}}
+								onClick={() => {
+									setInputFocus('descuento');
+									setFocusId(codigoProducto);
+									setInputClicked(true);
+								}}
+								inputRef={(input) => {
+									if (
+										inputFocus === 'descuento' &&
+										focusId === codigoProducto
+									) {
+										input?.focus();
+									}
+								}}
+							/>
+						</Box>
+					</Box>
+				</Box>
+			)}
+			{mostrarInfo && infoDescuento.tipo === ETipoDescuento.escalonado && (
+				<Box
+					alignItems='center'
+					border={`1px solid ${theme.palette.primary.main}`}
+					borderRadius='50px'
+					display='flex'
+					gap='4px'
+					marginTop='8px'
+					padding='4px 12px'
+					sx={{cursor: 'pointer'}}
+					width='fit-content'
+					onClick={() => {
+						setConfigAlerta({
+							titulo: t('advertencias.borrarDescuento'),
+							mensaje: t('mensajes.borrarDescuento', {
+								codigo: codigoProducto,
+							}),
+							tituloBotonAceptar: 'Eliminar',
+							tituloBotonCancelar: 'Cancelar',
+							callbackAceptar: () => eliminarDescuento(),
+							iconoMensaje: <AvisoIcon />,
+						});
+						setAlerta(true);
+					}}
+				>
+					<QuitarRellenoIcon
+						height='10px'
+						width='10px'
+						fill={theme.palette.primary.main}
 					/>
+					<Typography variant='caption' color='primary' fontFamily='Open Sans'>
+						{t('descuentos.eliminarDescuento')}
+					</Typography>
 				</Box>
 			)}
 		</Box>
