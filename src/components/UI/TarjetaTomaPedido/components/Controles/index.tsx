@@ -401,43 +401,43 @@ const Controles: React.FC<Props> = ({
 				)}
 			</Box>
 			{cantidad &&
-				((((unidadMedida === 'Unidad' && cantidad !== producto.unidades) ||
-					(unidadMedida !== 'Unidad' && cantidad !== producto.subUnidades)) &&
-					infoDescuento.tipo === ETipoDescuento.automatico) ||
-					infoDescuento.tipo === ETipoDescuento.polarizado) && (
-					<Box
-						display='flex'
-						flexDirection='column'
-						gap='6px'
-						marginTop={validacionPermiteSubUnidades ? '0' : '26px'}
-						padding='0 14px 12px 8px'
-					>
-						<Typography color='#000' variant='caption' fontFamily='Open Sans'>
-							{t('descuentos.promocionOngoing')}
+			((((unidadMedida === 'Unidad' && cantidad !== producto.unidades) ||
+				(unidadMedida !== 'Unidad' && cantidad !== producto.subUnidades)) &&
+				infoDescuento.tipo === ETipoDescuento.automatico) ||
+				infoDescuento.tipo === ETipoDescuento.polarizado) ? (
+				<Box
+					display='flex'
+					flexDirection='column'
+					gap='6px'
+					marginTop={validacionPermiteSubUnidades ? '0' : '26px'}
+					padding='0 14px 12px 8px'
+				>
+					<Typography color='#000' variant='caption' fontFamily='Open Sans'>
+						{t('descuentos.promocionOngoing')}
+					</Typography>
+					<Box alignItems='center' display='flex' gap='4px'>
+						{unidadMedida === 'Unidad' ? (
+							<CajaIcon height='18px' width='18px' />
+						) : (
+							<BotellaIcon height='18px' width='18px' />
+						)}
+						<Typography
+							color='rgba(0, 0, 0, .50)'
+							flex='1'
+							fontFamily='Open Sans'
+							sx={{
+								background: '#D9D9D9',
+								borderRadius: '10px',
+								paddingBlock: '2px',
+							}}
+							textAlign='center'
+							variant='subtitle3'
+						>
+							{cantidad}
 						</Typography>
-						<Box alignItems='center' display='flex' gap='4px'>
-							{unidadMedida === 'Unidad' ? (
-								<CajaIcon height='18px' width='18px' />
-							) : (
-								<BotellaIcon height='18px' width='18px' />
-							)}
-							<Typography
-								color='rgba(0, 0, 0, .50)'
-								flex='1'
-								fontFamily='Open Sans'
-								sx={{
-									background: '#D9D9D9',
-									borderRadius: '10px',
-									paddingBlock: '2px',
-								}}
-								textAlign='center'
-								variant='subtitle3'
-							>
-								{cantidad}
-							</Typography>
-						</Box>
 					</Box>
-				)}
+				</Box>
+			) : null}
 		</Box>
 	);
 };
