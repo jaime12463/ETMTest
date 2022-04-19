@@ -55,6 +55,9 @@ const BarraDeProgreso = ({
 				<Typography component='p' variant='caption' data-cy={dataCY}>
 					{condicion !== 'contado'
 						? formatearNumero(valor, t)
+						: (titulo === t('general.pedidoMinimo') && pedidoMinimoCumplido) ||
+						  progreso === 100
+						? `${formatearNumero(max, t)}`
 						: `${formatearNumero(valor, t)} / ${formatearNumero(max, t)}`}
 				</Typography>
 			</Box>
