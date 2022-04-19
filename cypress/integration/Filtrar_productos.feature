@@ -65,7 +65,7 @@ Esquema del escenario: N°4 - Buscar producto en portafolio vigente con presupue
     Y el _presupuestoTipoPedido tiene _tieneProductosHabilitados = true
     Cuando se selecciona una opción del filtro
     Entonces el sistema mostrará los _productosHabilitados en el presupuesto con _vigenciaInicioPresupuesto <= fecha del dispositivo <= _vigenciaFinPresupuesto
-    que estén en el portafolio del cliente cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
+    Y que estén en el portafolio del cliente cuyo precio cumpla <vigenciaInicioPrecio> <= <fechaEntrega> <= <vigenciaFinPrecio>
     Y que tenga el atributo seleccionado
     Y que no sean productos promo push
     Y ordenados ascendente por código de producto

@@ -38,6 +38,8 @@ Escenario: N°3 - La ruta tiene tipoPedidoEnvasesHabilitados que contribuyen al 
     Entonces el sistema muestra la pantalla del paso 3 
     Y mostrará un warning indicando que no aclanza el pedido mínimo
 
+# el mínimo no es alcanzado por el pedido o por configuración cumplido = false y no alcanza el mínimo
+
 Esquema del escenario: N°4 - Productos con cantidades en 0
     Dado que estoy en toma de pedido
     Y hay tarjetas de productos con cantidades en 0

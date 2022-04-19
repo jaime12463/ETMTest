@@ -15,6 +15,9 @@ Escenario: N°1 - Desplegar detalle de cobertura
     Y mostrará las cantidades en 0
     Y deshabilitará el control - de las cantidades
     Y habilitará el control + de las cantidades
+    Y mostrará en la cabecera del grupo el control para filtrar productos por atributos
+
+# filtro igual al ingreso de producto. Se muestran atriutos de los productos que están en coberturas.
 
 Escenario: N°2 - Desplegar detalle de cobertura con producto existente en pedido
     Dado que se desplegó la tarjeta coberturas
