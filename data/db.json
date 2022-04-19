@@ -53659,7 +53659,7 @@
 					"conector": "Y"
 				},
 				{
-					"materiales": [420],
+					"materiales": [380],
 					"cantidad": 1,
 					"unidadMedida": "Unidad"
 				}
@@ -53680,7 +53680,7 @@
 						},
 						{
 							"secuencia": 2,
-							"materialesBeneficio": [420],
+							"materialesBeneficio": [380],
 							"cantidad": 1,
 							"unidadMedida": "Unidad",
 							"formaBeneficio": "2",
@@ -53707,7 +53707,7 @@
 					"conector": "Y"
 				},
 				{
-					"materiales": [380],
+					"materiales": [420],
 					"cantidad": 1,
 					"unidadMedida": "Unidad"
 				}
@@ -53728,7 +53728,7 @@
 						},
 						{
 							"secuencia": 2,
-							"materialesBeneficio": [380],
+							"materialesBeneficio": [420],
 							"cantidad": 1,
 							"unidadMedida": "Unidad",
 							"formaBeneficio": "2",

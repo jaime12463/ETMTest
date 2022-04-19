@@ -337,6 +337,7 @@ const es = {
 		escalonado: 'escalonado',
 		polarizado: 'polarizado',
 		promocionOngoing: 'Promoción ongoing',
+		promocionesOngoing: 'Promociones ongoing',
 		vieneConPromoOngoing: 'Viene con promoción ongoing',
 	},
 };

@@ -324,6 +324,7 @@ const en = {
 		escalonado: 'staggered',
 		polarizado: 'polarized',
 		promocionOngoing: 'Ongoing promotion',
+		promocionesOngoing: 'Ongoing promotions',
 		vieneConPromoOngoing: 'Comes with ongoing promotion',
 	},
 };

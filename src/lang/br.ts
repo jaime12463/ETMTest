@@ -249,6 +249,7 @@ const br = {
 		escalonado: 'escalonado',
 		polarizado: 'polarizado',
 		promocionOngoing: 'Promoção contínua',
+		promocionesOngoing: 'Promoções contínua',
 		vieneConPromoOngoing: 'Vem com promoção contínua',
 	},
 };
