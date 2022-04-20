@@ -11,13 +11,10 @@ Antecedentes:
     Dado que se ingresó un cliente
     Y se seleccionó el control de productos con descuento escalonado
 
-Escenario: N°1 - El cliente no tiene productos con descuento escalonado
-    Dado que
-    | no hay productos en portafolio con descuento esclaondo                    |
-    | todos los productos con descuento escalonado están agregados en el pedido |
+Escenario: N°1 - El cliente tiene productos con descuento escalonado y están agregados al pedido
+    Dado que todos los productos con descuento escalonado están agregados en el pedido
     Cuando se muestra el popup
     Entonces el sistema mostrará en el popup el mensaje indicando que hay productos con desucentos escalonados para el cliente
-
 
 Escenario: N°2 - El cliente tiene productos con descuento escalonado
     Dado que el cliente tiene en el portafolio productos con descuento escalonado
