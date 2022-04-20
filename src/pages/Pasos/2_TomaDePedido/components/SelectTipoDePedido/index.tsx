@@ -1,19 +1,20 @@
-import {FunctionComponent} from 'react';
-import Select from 'components/UI/Select';
+import {Select} from 'components/UI';
 import {TFormTomaDePedido, THookForm, TStateProductoActual} from 'models';
 import {
 	useCambiarTipoDePedido,
 	useObtenerOpcionesTiposDePedidos,
 } from './hooks';
-import { useResetLineaActual } from 'hooks';
+import {useResetLineaActual} from 'hooks';
 
-type Props = {
+interface Props {
 	hookForm: THookForm<TFormTomaDePedido>;
 	stateProductoActual: TStateProductoActual;
-};
+}
 
-export const SelectTipoDePedido: FunctionComponent<Props> = (props) => {
-	const {hookForm, stateProductoActual} = props;
+export const SelectTipoDePedido: React.FC<Props> = ({
+	hookForm,
+	stateProductoActual,
+}) => {
 	const {control, setValue} = hookForm;
 	const opcionesTiposDePedidos = useObtenerOpcionesTiposDePedidos();
 	const {setProductoActual} = stateProductoActual;

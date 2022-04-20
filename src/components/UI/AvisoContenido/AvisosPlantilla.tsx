@@ -24,7 +24,12 @@ type TAvisoAcciones = {
 	acciones: React.ReactNode;
 };
 
-export const AvisoPlantilla = ({tipo, titulo, mensaje, id, dataCy}: TAviso) => {
+export const AvisoPlantilla: React.VFC<TAviso> = ({
+	id,
+	mensaje,
+	tipo,
+	titulo,
+}) => {
 	let icono: any = null;
 	const classes = useEstilos({tipo});
 	const {closeSnackbar} = useSnackbar();
@@ -73,15 +78,13 @@ export const AvisoPlantilla = ({tipo, titulo, mensaje, id, dataCy}: TAviso) => {
 	);
 };
 
-export const AvisoError = (props: TAvisoTemplate) => {
+export const AvisoError: React.VFC<TAvisoTemplate> = (props) => {
 	return <AvisoPlantilla tipo='error' {...props} />;
 };
 
-export const AvisoDeshacer: React.FC<TAvisoTemplate & TAvisoAcciones> = ({
-	titulo,
-	mensaje,
-	dataCy,
+export const AvisoDeshacer: React.VFC<TAvisoTemplate & TAvisoAcciones> = ({
 	acciones,
+	titulo,
 }) => {
 	const classes = useEstilos({tipo: 'default'});
 	return (

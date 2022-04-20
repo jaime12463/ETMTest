@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import DesplegableBonificaciones from './DesplegableBonificaciones';
 import Stack from '@mui/material/Stack';
-import Modal from 'components/UI/Modal';
+import {Modal} from 'components/UI';
 import useEstilos from './useEstilos';
 import {useObtenerBonificacionesHabilitadas} from 'hooks';
 import {AvisoIcon, ReiniciarIcon} from 'assests/iconos';

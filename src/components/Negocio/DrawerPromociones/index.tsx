@@ -1,24 +1,15 @@
+import React from 'react';
 import {Box, Typography} from '@mui/material';
 import {AvisoIcon, PromocionesIcon} from 'assests/iconos';
-import Drawer from 'components/UI/Drawer';
-import PromoOngoing from 'components/UI/PromoOngoing';
-import {
-	ETiposDePago,
-	TClienteActual,
-	TPedidosClientes,
-	TPromoOngoingAplicadas,
-} from 'models';
+import {ETiposDePago, TClienteActual, TPromoOngoingAplicadas} from 'models';
 import {TCliente, TPromoOngoing} from 'models/server';
 import {useTranslation} from 'react-i18next';
 import {
 	useAppDispatch,
 	useObtenerClienteActual,
-	useObtenerDatos,
-	useObtenerPedidosClientes,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {borrarPromocionesOngoing} from 'redux/features/visitaActual/visitaActualSlice';
-import React, {useReducer} from 'react';
 
 import {
 	TPromoOngoingAplicables,
@@ -26,32 +17,32 @@ import {
 	TPromoOngoingDisponibilidad,
 	PromocionesOngoing,
 } from 'utils/procesos/promociones/PromocionesOngoing';
-import Modal from 'components/UI/Modal';
 import {useObtenerDatosCliente} from 'hooks';
+import {Drawer, Modal, PromoOngoing} from 'components/UI';
 
 export interface Props {
 	openDrawerPromociones: boolean;
+	promocionesOingoing: {
+		benficiosParaAgregar: TPromoOngoingAplicadas[];
+		contado: TPromoOngoingAplicablesResultado | undefined;
+		credito: TPromoOngoingAplicablesResultado | undefined;
+		disponibles: TPromoOngoingDisponibilidad;
+		noAplicable: TPromoOngoing[];
+	};
 	setOpenDrawerPromociones: React.Dispatch<React.SetStateAction<boolean>>;
 	setPromocionesOingoing: React.Dispatch<{
+		benficiosParaAgregar: TPromoOngoingAplicadas[];
 		contado: TPromoOngoingAplicablesResultado | undefined;
 		credito: TPromoOngoingAplicablesResultado | undefined;
-		noAplicable: TPromoOngoing[];
-		benficiosParaAgregar: TPromoOngoingAplicadas[];
 		disponibles: TPromoOngoingDisponibilidad;
+		noAplicable: TPromoOngoing[];
 	}>;
-	promocionesOingoing: {
-		contado: TPromoOngoingAplicablesResultado | undefined;
-		credito: TPromoOngoingAplicablesResultado | undefined;
-		noAplicable: TPromoOngoing[];
-		benficiosParaAgregar: TPromoOngoingAplicadas[];
-		disponibles: TPromoOngoingDisponibilidad;
-	};
 }
 
-export const DrawerPromociones: React.FC<Props> = ({
+export const DrawerPromociones: React.VFC<Props> = ({
 	openDrawerPromociones,
-	setOpenDrawerPromociones,
 	promocionesOingoing,
+	setOpenDrawerPromociones,
 	setPromocionesOingoing,
 }) => {
 	const {t} = useTranslation();

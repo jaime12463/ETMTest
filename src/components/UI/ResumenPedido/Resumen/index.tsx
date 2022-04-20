@@ -11,31 +11,29 @@ import {OrdenDeCompra, OrdenDeCompraProps} from './OrdenDeCompra';
 import {PromoOngoing, PromoOngoingProps} from './PromoOngoing';
 
 interface Props {
-	Container: React.FC;
-	Titulo: React.FC<TituloProps>;
-	PromoPush: React.FC<PromoPushProps>;
-	Tarjeta: React.FC<TarjetaProps>;
-	Envases: React.FC<EnvasesProps>;
-	Canjes: React.FC<CanjesProps>;
 	Bonificaciones: React.FC<BonificacionesProps>;
+	Canjes: React.FC<CanjesProps>;
 	CompromisoDeCobro: React.FC;
+	Container: React.FC;
+	Envases: React.FC<EnvasesProps>;
 	OrdenDeCompra: React.FC<OrdenDeCompraProps>;
 	PromoOngoing: React.FC<PromoOngoingProps>;
+	PromoPush: React.FC<PromoPushProps>;
+	Tarjeta: React.FC<TarjetaProps>;
+	Titulo: React.FC<TituloProps>;
 }
 
-const Resumen: React.FC & Props = ({children}) => {
+export const Resumen: React.FC & Props = ({children}) => {
 	return <Container>{children}</Container>;
 };
 
-Resumen.Container = Container;
-Resumen.Titulo = Titulo;
-Resumen.PromoPush = PromoPush;
-Resumen.Tarjeta = Tarjeta;
-Resumen.Envases = Envases;
-Resumen.Canjes = Canjes;
 Resumen.Bonificaciones = Bonificaciones;
+Resumen.Canjes = Canjes;
 Resumen.CompromisoDeCobro = CompromisoDeCobro;
+Resumen.Container = Container;
+Resumen.Envases = Envases;
 Resumen.OrdenDeCompra = OrdenDeCompra;
 Resumen.PromoOngoing = PromoOngoing;
-
-export default Resumen;
+Resumen.PromoPush = PromoPush;
+Resumen.Tarjeta = Tarjeta;
+Resumen.Titulo = Titulo;

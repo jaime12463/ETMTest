@@ -1,18 +1,15 @@
 import React from 'react';
-import Drawer from 'components/UI/Drawer';
-import DrawerFiltros from 'components/UI/DrawerFiltros';
 import {
 	useDebounce,
 	useFiltradorProductos,
 	useObtenerFiltrosDelCliente,
 } from 'hooks';
-import Filtros from './Components/Filtros';
-import Busqueda from './Components/Busqueda';
-import HeaderBuscador from './Components/HeaderBuscador';
 import {
 	FiltrosBusqueda,
 	ItemsBusqueda,
 } from 'hooks/useObtenerFiltrosDelCliente';
+import {HeaderBuscador, Filtros, Busqueda} from './Components';
+import {Drawer, DrawerFiltros} from 'components/UI';
 
 interface Props {
 	openBuscador: boolean;
@@ -27,7 +24,10 @@ interface IDFiltros {
 	medidas: number[];
 }
 
-const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
+export const DrawerBuscador: React.VFC<Props> = ({
+	openBuscador,
+	setOpenBuscador,
+}) => {
 	const [abrirFiltros, setAbrirFiltros] = React.useState<boolean>(false);
 
 	const [inputBusqueda, setInputBusqueda] = React.useState<string>('');
@@ -103,5 +103,3 @@ const DrawerBuscador: React.FC<Props> = ({openBuscador, setOpenBuscador}) => {
 		</Drawer>
 	);
 };
-
-export default DrawerBuscador;

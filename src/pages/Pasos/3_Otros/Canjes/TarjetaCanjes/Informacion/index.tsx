@@ -10,7 +10,7 @@ import {useTranslation} from 'react-i18next';
 import {GetValueProps} from '..';
 import {useObtenerDatos} from 'redux/hooks';
 import {useMostrarAviso} from 'hooks';
-import MaterialSelect from 'components/UI/MaterialSelect';
+import {MaterialSelect} from 'components/UI';
 
 interface Props {
 	producto: TProductoPedido;

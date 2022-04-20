@@ -10,7 +10,6 @@ import {
 	QuitarRellenoIcon,
 } from 'assests/iconos';
 import useEstilos from '../useEstilos';
-import theme from 'theme';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {
 	agregarBonificacion,
@@ -18,7 +17,7 @@ import {
 	eliminarBonificacionesGrupo,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {TDetalleBonificacionesCliente, TPrecioProducto} from 'models';
-import Modal from 'components/UI/Modal';
+import {Modal} from 'components/UI';
 import {useMostrarAviso} from 'hooks';
 
 interface Props {
@@ -38,7 +37,7 @@ interface Props {
 	statePrimerProductoAgregado: any;
 }
 
-const Controles: React.FC<Props> = ({
+const Controles: React.VFC<Props> = ({
 	contador,
 	estadoInicial,
 	incrementar,
@@ -58,7 +57,7 @@ const Controles: React.FC<Props> = ({
 	const visitaActual = useObtenerVisitaActual();
 	const [alerta, setAlerta] = React.useState<boolean>(false);
 	const mostrarAviso = useMostrarAviso();
-	const {focusId, setFocusId} = statefocusId;
+	const {setFocusId} = statefocusId;
 
 	const {primerProductoAgregado, setPrimerProductoAgregado} =
 		statePrimerProductoAgregado;

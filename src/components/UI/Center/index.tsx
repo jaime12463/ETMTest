@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box} from '@mui/material';
 
-const Center: React.FC = ({children}) => {
+export const Center: React.FC = ({children}) => {
 	return (
 		<Box
 			display='flex'
@@ -13,5 +13,3 @@ const Center: React.FC = ({children}) => {
 		</Box>
 	);
 };
-
-export default Center;

@@ -3,14 +3,16 @@ import SwipeableViews from 'react-swipeable-views';
 import {Box, Typography} from '@mui/material';
 import {TProductoPedido} from 'models';
 
-type Props = {
-	children: ReactNode;
+interface Props {
 	item: TProductoPedido;
 	manejadorGesto: Function;
-};
+}
 
-export const SwipeBorrar = (props: Props) => {
-	const {children, item, manejadorGesto} = props;
+export const SwipeBorrar: React.FC<Props> = ({
+	children,
+	item,
+	manejadorGesto,
+}) => {
 	const [index, setIndex] = useState<number>(item.estado == 'activo' ? 0 : 1);
 	const [swipe, SetSwipe] = useState<number>(0);
 	const [swipeMargen, SetSwipeMargen] = useState<string>('');

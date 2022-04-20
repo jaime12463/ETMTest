@@ -4,19 +4,19 @@ import {FormInput, List, Center} from 'components/UI';
 import {useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 
-type Props = {
-	lista: any[];
+interface Props {
 	itemComponent: React.FC<{item: any; onClickItem?: (item: any) => void}>;
-	onClick: (item: any) => void;
+	lista: any[];
 	manejadorInput: any;
-};
+	onClick: (item: any) => void;
+}
 
-const BuscadorenLista = ({
-	lista,
+export const BuscadorenLista: React.VFC<Props> = ({
 	itemComponent,
-	onClick,
+	lista,
 	manejadorInput,
-}: Props) => {
+	onClick,
+}) => {
 	const {t} = useTranslation();
 	const defaultValues = {
 		buscador: '',
@@ -54,5 +54,3 @@ const BuscadorenLista = ({
 		</>
 	);
 };
-
-export default BuscadorenLista;

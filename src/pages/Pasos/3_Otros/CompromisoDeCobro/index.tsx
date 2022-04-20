@@ -16,11 +16,11 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import {useObtenerMontoTotalDocumentos} from './hooks/useObtenerMontoTotalDocumentos';
 import {useTranslation} from 'react-i18next';
-import InputConIcono from 'components/UI/InputConIcono';
 import {formatearNumero} from 'utils/methods';
 import {useAgregarCompromisoDeCobro} from './hooks';
 import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
 import theme from 'theme';
+import {InputConIcono} from 'components/UI';
 interface Error {
 	error: boolean;
 	mensaje: string;

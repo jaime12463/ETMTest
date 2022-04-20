@@ -18,15 +18,15 @@ export interface StateFocusID {
 	setFocusId: React.Dispatch<React.SetStateAction<number>>;
 }
 interface Props {
-	producto: TProductoPedido;
-	conSwitch?: boolean;
 	bordeRedondeado?: boolean;
-	stateInputFocus: TStateInputFocus;
-	stateFocusId: StateFocusID;
+	conSwitch?: boolean;
+	producto: TProductoPedido;
 	stateAviso: any;
+	stateFocusId: StateFocusID;
+	stateInputFocus: TStateInputFocus;
 }
 
-const TarjetaTomaPedido: React.FC<Props> = ({
+export const TarjetaTomaPedido: React.VFC<Props> = ({
 	producto,
 	conSwitch = false,
 	bordeRedondeado = false,
@@ -173,5 +173,3 @@ const TarjetaTomaPedido: React.FC<Props> = ({
 		</Box>
 	);
 };
-
-export default TarjetaTomaPedido;

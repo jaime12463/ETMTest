@@ -2,7 +2,14 @@ import React, {Suspense, FunctionComponent, useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {IndicadoresDelPedidoActual} from './components';
 import {controlador, TControlador} from './controlador';
-import {Estructura, BotonBarraInferior, Stepper, Dialogo} from 'components/UI';
+import {
+	Estructura,
+	BotonBarraInferior,
+	Stepper,
+	Dialogo,
+	BotonResumenPedido,
+	ModalCore,
+} from 'components/UI';
 import {Box, IconButton} from '@mui/material';
 import {InfoClienteDelPedidoActual} from 'components/Negocio';
 import {
@@ -20,45 +27,36 @@ import {
 import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
 import {Configuracion} from 'components/UI/Modal';
 import {VistaPromoPush} from 'pages/Pasos/1_Planeacion/VistaPromoPush/index';
-
 import {
 	useAppDispatch,
 	useObtenerClienteActual,
 	useObtenerCompromisoDeCobroActual,
 	useObtenerVisitaActual,
 	useObtenerConfiguracion,
-	useObtenerDatos,
-	useObtenerPedidosClientes,
 } from 'redux/hooks';
-
 import {
 	ETiposDePago,
 	TCliente,
 	TClienteActual,
-	TPedidosClientes,
 	TPromoOngoing,
 	TPromoOngoingAplicadas,
 } from 'models';
 import {useTranslation} from 'react-i18next';
 import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
 import {AvisoIcon, PromocionesRellenoIcon} from 'assests/iconos';
-import Modal from 'components/UI/Modal';
-import BotonResumenPedido from 'components/UI/BotonResumenPedido';
 import ResumenPedido from 'components/UI/ResumenPedido';
 import {
 	agregarBeneficiosPromoOngoing,
 	cambiarAvisos,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import ModalCore from 'components/UI/ModalCore';
 import {obtenerTotalesPedidosCliente} from 'utils/methods';
-
 import {
 	PromocionesOngoing,
 	TPromoOngoingAplicablesResultado,
 	TPromoOngoingDisponibilidad,
 } from 'utils/procesos/promociones/PromocionesOngoing';
-import {Loading} from 'components/UI/Loading';
+import {Loading, Modal} from 'components/UI';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -106,8 +104,7 @@ const Pasos: React.FC = () => {
 	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(codigoCliente);
 	if (!datosCliente) return <></>;
-	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
-		useMostrarAdvertenciaEnDialogo();
+	const {mostarDialogo, parametrosDialogo} = useMostrarAdvertenciaEnDialogo();
 	const agregarPedidoActualAPedidosClientes =
 		useAgregarPedidoActualAPedidosClientes({setAlertaPasos, setConfigAlerta});
 
@@ -116,10 +113,8 @@ const Pasos: React.FC = () => {
 		compromisoDeCobroActual.monto;
 
 	const visitaActual = useObtenerVisitaActual();
-	const datos = useObtenerDatos();
 	const reiniciarVisita = useResetVisitaActual();
 	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
-	const pedidosCliente: TPedidosClientes = useObtenerPedidosClientes();
 	const {obtenerPedidosClienteMismaFechaEntrega} =
 		useObtenerPedidosClienteMismaFechaEntrega();
 	const handleOpenVistaPromoPush = () => setOpenVistaPromoPush(true);

@@ -15,17 +15,17 @@ export interface Configuracion {
 }
 
 interface Props {
-	setPasoActual?: React.Dispatch<React.SetStateAction<number>>;
 	alerta: boolean;
-	setAlerta: React.Dispatch<React.SetStateAction<boolean>>;
 	contenidoMensaje?: Configuracion;
+	setAlerta: React.Dispatch<React.SetStateAction<boolean>>;
+	setPasoActual?: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Modal: React.FC<Props> = ({
-	setPasoActual,
+export const Modal: React.VFC<Props> = ({
 	alerta,
-	setAlerta,
 	contenidoMensaje,
+	setAlerta,
+	setPasoActual,
 }) => {
 	const classes = useEstilos();
 
@@ -99,5 +99,3 @@ const Modal: React.FC<Props> = ({
 		modalPortal
 	);
 };
-
-export default Modal;

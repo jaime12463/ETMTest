@@ -1,4 +1,3 @@
-import {FunctionComponent, useState} from 'react';
 import {Dialogo, FormInput, Cajon} from 'components/UI';
 import {
 	TFormTomaDePedido,
@@ -8,34 +7,29 @@ import {
 	TStateProductoActual,
 } from 'models';
 import {IconButton, Grid} from '@mui/material';
-import nombresRutas from 'routes/nombresRutas';
-import {useRouteMatch, useHistory} from 'react-router-dom';
 import {useSeleccionarProductoDePrecios} from 'hooks';
 import {
 	useMostrarAdvertenciaEnDialogo,
 	useMostrarContenidoEnCajon,
 } from 'hooks';
-import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';
 import {useEsPermitidoAgregarProductoAlPedido} from './hooks';
 import {BuscadorProductosClienteActual} from 'pages/Pasos/2_TomaDePedido/components';
 import {BuscarIcon} from 'assests/iconos';
 
-export type Props = {
+interface Props {
 	hookForm: THookForm<TFormTomaDePedido>;
-	stateProductoActual: TStateProductoActual;
-	statePreciosProductos: TStatePreciosProductos;
 	stateInputFocus: TStateInputFocus;
-};
+	statePreciosProductos: TStatePreciosProductos;
+	stateProductoActual: TStateProductoActual;
+}
 
-const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
-	const {
-		stateProductoActual,
-		statePreciosProductos,
-		stateInputFocus,
-		hookForm,
-	} = props;
-
+export const InputSeleccionarProducto: React.VFC<Props> = ({
+	hookForm,
+	stateInputFocus,
+	statePreciosProductos,
+	stateProductoActual,
+}) => {
 	const {setProductoActual} = stateProductoActual;
 
 	const {preciosProductos} = statePreciosProductos;
@@ -113,5 +107,3 @@ const InputSeleccionarProducto: FunctionComponent<Props> = (props) => {
 		</>
 	);
 };
-
-export default InputSeleccionarProducto;

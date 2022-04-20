@@ -10,23 +10,23 @@ import {TIniciativasCliente} from 'models';
 import {useTranslation} from 'react-i18next';
 
 interface Props {
-	opciones: string[];
-	state: string;
-	setState: React.Dispatch<React.SetStateAction<string>>;
-	placeholder?: string;
-	greyTextPlaceholder?: boolean;
 	borderColor?: boolean;
 	disabled?: boolean;
+	greyTextPlaceholder?: boolean;
+	opciones: string[];
+	placeholder?: string;
+	setState: React.Dispatch<React.SetStateAction<string>>;
+	state: string;
 }
 
-const MaterialSelect: React.FC<Props> = ({
-	opciones,
-	state,
-	setState,
-	placeholder = '',
-	greyTextPlaceholder = false,
+export const MaterialSelect: React.VFC<Props> = ({
 	borderColor = false,
 	disabled = false,
+	greyTextPlaceholder = false,
+	opciones,
+	placeholder = '',
+	setState,
+	state,
 }) => {
 	const classes = useEstilos();
 	const {t} = useTranslation();
@@ -135,5 +135,3 @@ const MaterialSelect: React.FC<Props> = ({
 		</Box>
 	);
 };
-
-export default MaterialSelect;

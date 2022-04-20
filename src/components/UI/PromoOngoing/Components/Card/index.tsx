@@ -31,7 +31,7 @@ import {
 } from '@mui/material';
 import clsx from 'clsx';
 import {useMostrarAviso} from 'hooks';
-import MaterialSelect from 'components/UI/MaterialSelect';
+import {MaterialSelect} from 'components/UI';
 
 const useEstilos = makeStyles(() =>
 	createStyles({

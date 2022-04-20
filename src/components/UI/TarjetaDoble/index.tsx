@@ -18,20 +18,20 @@ const Derecha = styled(Box)(() => ({
 	boxShadow: 'none',
 }));
 
-type Props = {
+interface Props {
+	borderColor?: string;
 	derecha: React.ReactNode;
 	izquierda: React.ReactNode;
-	widthIzquierda: string;
 	widthDerecha: string;
-	borderColor?: string;
-};
+	widthIzquierda: string;
+}
 
 export const TarjetaDoble: React.FC<Props> = ({
+	borderColor = '#D9D9D9',
 	derecha,
 	izquierda,
-	widthIzquierda,
 	widthDerecha,
-	borderColor = '#D9D9D9',
+	widthIzquierda,
 }) => {
 	return (
 		<CardContenedor border={`1px solid ${borderColor}`}>

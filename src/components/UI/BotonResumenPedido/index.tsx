@@ -6,13 +6,12 @@ import {
 	useObtenerCompromisoDeCobroActual,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {useObtenerBonificacionesHabilitadas} from 'hooks';
 
 interface Props {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const BotonResumenPedido: React.FC<Props> = ({setOpen}) => {
+export const BotonResumenPedido: React.VFC<Props> = ({setOpen}) => {
 	const [botonHabilitado, setBotonHabilitado] = React.useState<boolean>(false);
 	const visitaActual = useObtenerVisitaActual();
 	const compromisoDeCobro = useObtenerCompromisoDeCobroActual();
@@ -70,5 +69,3 @@ const BotonResumenPedido: React.FC<Props> = ({setOpen}) => {
 		</Box>
 	);
 };
-
-export default BotonResumenPedido;

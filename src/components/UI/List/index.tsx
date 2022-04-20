@@ -1,13 +1,7 @@
-import {
-	Box,
-	Grid,
-	List as ListMUI,
-	ListSubheader,
-	Divider,
-} from '@mui/material';
+import React from 'react';
+import {Box, Grid, List as ListMUI, ListSubheader} from '@mui/material';
 import {Item} from 'components/UI';
 import {THeader} from 'models';
-import React, {Fragment} from 'react';
 
 type Props<T> = {
 	items: T[];
@@ -18,7 +12,7 @@ type Props<T> = {
 	dataCY: string;
 };
 
-function List<T>(props: Props<T>) {
+export function List<T>(props: Props<T>) {
 	const {items, ItemComponent, headers, onClickItem, estado, dataCY} = props;
 	return (
 		<ListMUI
@@ -39,29 +33,24 @@ function List<T>(props: Props<T>) {
 							))}
 						</Grid>
 					</ListSubheader>
-				) : (
-					<Fragment />
-				)
+				) : null
 			}
 		>
-			{items &&
-				items.map((item, index) => {
-					return (
-						<React.Fragment key={index}>
-							<Item
-								item={item}
-								ItemComponent={ItemComponent}
-								index={index}
-								key={index}
-								onClick={onClickItem}
-								estado={estado}
-								dataCY={`${dataCY}-${index}`}
-							/>
-						</React.Fragment>
-					);
-				})}
+			{items?.map((item, index) => {
+				return (
+					<Box key={index}>
+						<Item
+							item={item}
+							ItemComponent={ItemComponent}
+							index={index}
+							key={index}
+							onClick={onClickItem}
+							estado={estado}
+							dataCY={`${dataCY}-${index}`}
+						/>
+					</Box>
+				);
+			})}
 		</ListMUI>
 	);
 }
-
-export default List;

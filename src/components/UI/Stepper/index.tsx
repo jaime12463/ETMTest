@@ -1,4 +1,3 @@
-import {FunctionComponent} from 'react';
 import Box from '@mui/material/Box';
 import {StepConnector, Stepper as StepperMUI, Typography} from '@mui/material';
 import Step from '@mui/material/Step';
@@ -7,12 +6,12 @@ import {styled} from '@mui/material/styles';
 import {stepConnectorClasses} from '@mui/material/StepConnector';
 import {StepIconProps} from '@mui/material/StepIcon';
 
-type Props = {
-	pasos: string[];
+interface Props {
 	pasoActivo: number;
-};
+	pasos: string[];
+}
 
-export const Stepper: FunctionComponent<Props> = ({pasos, pasoActivo}) => {
+export const Stepper: React.VFC<Props> = ({pasoActivo, pasos}) => {
 	return (
 		<Box width='100%'>
 			<StepperMUI

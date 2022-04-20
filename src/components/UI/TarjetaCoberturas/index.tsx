@@ -7,28 +7,27 @@ import Check from './components/Check';
 import {TPrecioProducto, TProductoPedido, TStateInputFocus} from 'models';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 
-export interface StateFocusID {
+interface StateFocusID {
 	focusId: number;
 	setFocusId: React.Dispatch<React.SetStateAction<number>>;
 }
 interface Props {
 	producto: TPrecioProducto;
-	stateInputFocus: TStateInputFocus;
-	stateFocusId: StateFocusID;
 	resetCoberturas: boolean;
 	setResetCoberturas: React.Dispatch<React.SetStateAction<boolean>>;
+	stateFocusId: StateFocusID;
+	stateInputFocus: TStateInputFocus;
 }
 
-const TarjetaCoberturas: React.FC<Props> = ({
+export const TarjetaCoberturas: React.VFC<Props> = ({
 	producto,
-	stateFocusId,
-	stateInputFocus,
 	resetCoberturas,
 	setResetCoberturas,
+	stateFocusId,
+	stateInputFocus,
 }) => {
 	const clienteActual = useObtenerClienteActual();
 	const visitaActual = useObtenerVisitaActual();
-	const {venta} = visitaActual.pedidos;
 
 	const coberturaEjecutada = visitaActual.coberturasEjecutadas.find(
 		(cobertura) => cobertura.codigoProducto === producto.codigoProducto
@@ -81,5 +80,3 @@ const TarjetaCoberturas: React.FC<Props> = ({
 		</Box>
 	);
 };
-
-export default TarjetaCoberturas;

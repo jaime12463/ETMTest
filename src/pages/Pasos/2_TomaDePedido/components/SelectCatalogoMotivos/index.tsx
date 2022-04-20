@@ -1,12 +1,11 @@
 import {FunctionComponent} from 'react';
-import Select from 'components/UI/Select';
+import {Select} from 'components/UI';
 import {
 	TFormTomaDePedido,
 	THookForm,
 	TStateInputFocus,
 	TStateProductoActual,
 } from 'models';
-//import {useObtenerCatalogoMotivos} from './hooks';
 import {useMostrarAdvertenciaEnDialogo, useResetLineaActual} from 'hooks';
 import {useAgregarProductoAlPedidoActual} from 'components/Negocio/InputsUnidadesYSubUnidades/hooks';
 import {Dialogo} from 'components/UI';

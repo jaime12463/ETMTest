@@ -16,21 +16,21 @@ import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visita
 import {FiltrosBusqueda} from 'hooks/useObtenerFiltrosDelCliente';
 
 interface Props {
-	resultadosBusqueda: TPrecioProducto[];
 	debouncedInput: string;
-	setOpenBuscador: React.Dispatch<React.SetStateAction<boolean>>;
-	setInputBusqueda: React.Dispatch<React.SetStateAction<string>>;
-	setFiltrosBusqueda: React.Dispatch<React.SetStateAction<FiltrosBusqueda>>;
 	estadoInicialFiltros: FiltrosBusqueda;
+	resultadosBusqueda: TPrecioProducto[];
+	setFiltrosBusqueda: React.Dispatch<React.SetStateAction<FiltrosBusqueda>>;
+	setInputBusqueda: React.Dispatch<React.SetStateAction<string>>;
+	setOpenBuscador: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Busqueda: React.FC<Props> = ({
-	resultadosBusqueda,
+export const Busqueda: React.VFC<Props> = ({
 	debouncedInput,
-	setOpenBuscador,
-	setInputBusqueda,
-	setFiltrosBusqueda,
 	estadoInicialFiltros,
+	resultadosBusqueda,
+	setFiltrosBusqueda,
+	setInputBusqueda,
+	setOpenBuscador,
 }) => {
 	const classes = useEstilos();
 	const {t} = useTranslation();
@@ -243,5 +243,3 @@ const Busqueda: React.FC<Props> = ({
 		</>
 	);
 };
-
-export default Busqueda;

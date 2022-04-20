@@ -54,9 +54,7 @@ import {
 } from 'hooks';
 import {formatearFecha, formatearNumero} from 'utils/methods';
 import {Link} from '@mui/material';
-import Modal from 'components/UI/Modal';
-import ModalCore from 'components/UI/ModalCore';
-import MaterialSelect from 'components/UI/MaterialSelect';
+import {Modal, ModalCore, MaterialSelect} from 'components/UI';
 import {capitalize} from '@mui/material';
 
 const ButtonStyled = styled(Button)(() => ({

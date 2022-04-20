@@ -8,8 +8,6 @@ import {
 	TStateInputFocus,
 	THookForm,
 } from 'models';
-import {FunctionComponent} from 'react';
-//import {SelectCatalogoMotivos} from '../SelectCatalogoMotivos';
 import useEstilos from 'theme/useEstilosGenerales';
 import {useObtenerEsPermitidoSubUnidades} from 'components/Negocio/InputsUnidadesYSubUnidades/hooks';
 
@@ -19,8 +17,7 @@ type Props = {
 	hookForm: THookForm<TFormTomaDePedido>;
 };
 
-export const InfoProductoActual: FunctionComponent<Props> = (props) => {
-	const {stateProductoActual, hookForm, stateInputFocus} = props;
+export const InfoProductoActual: React.VFC<Props> = ({stateProductoActual}) => {
 	const {productoActual} = stateProductoActual;
 
 	const {nombreProducto, precioConImpuestoSubunidad, precioConImpuestoUnidad} =

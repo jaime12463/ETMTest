@@ -9,7 +9,7 @@ interface Props {
 	titulo: React.ReactNode | string;
 }
 
-const Drawer: React.FC<Props> = ({open, setOpen, titulo, children}) => {
+export const Drawer: React.FC<Props> = ({open, setOpen, titulo, children}) => {
 	const classes = useEstilos();
 
 	const toggleDrawer = (newOpen: boolean) => {
@@ -36,5 +36,3 @@ const Drawer: React.FC<Props> = ({open, setOpen, titulo, children}) => {
 		</SwipeableDrawer>
 	);
 };
-
-export default Drawer;

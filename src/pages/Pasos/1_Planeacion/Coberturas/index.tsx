@@ -17,7 +17,7 @@ import {
 	agregarCoberturasEjecutadas,
 	borrarProductoDelPedidoActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import Modal from 'components/UI/Modal';
+import {Modal} from 'components/UI';
 import {useTranslation} from 'react-i18next';
 import theme from 'theme';
 

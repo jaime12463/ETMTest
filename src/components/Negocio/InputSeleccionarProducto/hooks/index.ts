@@ -1,1 +1,1 @@
-export {useEsPermitidoAgregarProductoAlPedido} from './useEsPermitidoAgregarProductoAlPedido';
+export * from './useEsPermitidoAgregarProductoAlPedido';

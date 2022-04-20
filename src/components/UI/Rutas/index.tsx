@@ -1,13 +1,7 @@
 import useObtenerRutas from './useObtenerRutas';
 
-const Rutas = () => {
+export const Rutas: React.VFC = () => {
 	const obtenerRutas = useObtenerRutas();
 
-	return (
-		<>
-			{ obtenerRutas }
-		</>
-	);
+	return <>{obtenerRutas}</>;
 };
-
-export default Rutas;

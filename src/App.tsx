@@ -1,7 +1,7 @@
-import Rutas from 'components/UI/Rutas';
+import {Rutas} from 'components/UI';
 import {Provider} from 'react-redux';
 import {store} from 'redux/store';
-import {makeStyles, ThemeProvider} from '@mui/material/styles';
+import {ThemeProvider} from '@mui/material/styles';
 import theme from 'theme';
 import GlobalStyles from './theme/estilosGlobales';
 import {SnackbarProvider} from 'notistack';

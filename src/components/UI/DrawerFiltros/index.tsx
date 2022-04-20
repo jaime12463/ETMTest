@@ -8,7 +8,7 @@ interface Props {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DrawerFiltros: React.FC<Props> = ({open, setOpen, children}) => {
+export const DrawerFiltros: React.FC<Props> = ({open, setOpen, children}) => {
 	const classes = useEstilos();
 
 	const toggleDrawer = (newOpen: boolean) => {
@@ -39,5 +39,3 @@ const DrawerFiltros: React.FC<Props> = ({open, setOpen, children}) => {
 		</SwipeableDrawer>
 	);
 };
-
-export default DrawerFiltros;

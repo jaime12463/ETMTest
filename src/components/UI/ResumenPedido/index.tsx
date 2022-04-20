@@ -17,7 +17,7 @@ import {
 	TConsolidadoImplicitos,
 	TProductoPedido,
 } from 'models';
-import Resumen from './Resumen';
+import {Resumen} from './Resumen';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {formatearNumero} from 'utils/methods';

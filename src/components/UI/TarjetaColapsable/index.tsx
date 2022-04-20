@@ -11,12 +11,10 @@ import {
 } from '@mui/material';
 import useEstilos from './useEstilos';
 import clsx from 'clsx';
-import flechaAbajo from '../../../assests/iconos/chevron--down.svg';
 import Chip from '@mui/material/Chip';
 import {styled} from '@mui/material/styles';
 import {AvisoIcon, FlechaAbajoIcon} from 'assests/iconos';
 import {useMostrarAviso} from 'hooks';
-import Modal from '../Modal';
 import {
 	useAppDispatch,
 	useObtenerVisitaActual,
@@ -28,6 +26,7 @@ import {
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {TIniciativasCliente} from 'models';
 import {useTranslation} from 'react-i18next';
+import {Modal} from '..';
 
 const ChipStyled = styled(Chip)(() => ({
 	background: '#000',
@@ -41,20 +40,8 @@ const ChipStyled = styled(Chip)(() => ({
 	},
 }));
 
-type Props = {
-	setExpandido: Dispatch<SetStateAction<string | boolean>>;
-	expandido: string | boolean;
-	titulo: React.ReactNode;
-	subTitulo?: React.ReactNode;
-	id: string;
+interface Props {
 	cantidadItems?: number;
-	disabled?: boolean;
-	mensaje?: React.ReactNode;
-	valido?: boolean;
-	labelChip?: string | React.ReactNode;
-	dataCy: string;
-	disabledPadding?: boolean;
-	mostrarAvisoAlCerrar?: boolean;
 	contenidoMensajeAviso?: {
 		tipo: 'default' | 'error' | 'success' | 'warning' | 'info';
 		titulo: string;
@@ -62,28 +49,40 @@ type Props = {
 		opciones?: any;
 		dataCy?: string;
 	};
-	iniciativasEjecutadasSinCantidad?: TIniciativasCliente;
+	dataCy: string;
+	disabled?: boolean;
+	disabledPadding?: boolean;
+	expandido: string | boolean;
+	id: string;
 	iniciativasCanceladasSinMotivo?: boolean;
-};
+	iniciativasEjecutadasSinCantidad?: TIniciativasCliente;
+	labelChip?: string | React.ReactNode;
+	mensaje?: React.ReactNode;
+	mostrarAvisoAlCerrar?: boolean;
+	setExpandido: Dispatch<SetStateAction<string | boolean>>;
+	subTitulo?: React.ReactNode;
+	titulo: React.ReactNode;
+	valido?: boolean;
+}
 
 export const TarjetaColapsable: React.FC<Props> = ({
+	cantidadItems,
 	children,
-	setExpandido,
-	titulo,
-	subTitulo,
+	contenidoMensajeAviso,
+	dataCy,
+	disabled,
+	disabledPadding,
 	expandido,
 	id,
-	cantidadItems,
-	disabled,
-	mensaje,
-	valido = false,
-	labelChip,
-	dataCy,
-	contenidoMensajeAviso,
-	mostrarAvisoAlCerrar,
-	iniciativasEjecutadasSinCantidad,
-	disabledPadding,
 	iniciativasCanceladasSinMotivo,
+	iniciativasEjecutadasSinCantidad,
+	labelChip,
+	mensaje,
+	mostrarAvisoAlCerrar,
+	setExpandido,
+	subTitulo,
+	titulo,
+	valido = false,
 }) => {
 	const mostrarAviso = useMostrarAviso();
 	const classes = useEstilos({valido, open: expandido === id});

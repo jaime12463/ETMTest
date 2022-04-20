@@ -9,12 +9,10 @@ interface Props {
 	Card: React.FC<CardProps>;
 }
 
-const PromoOngoing: React.FC & Props = ({children}) => {
+export const PromoOngoing: React.FC & Props = ({children}) => {
 	return <Container>{children}</Container>;
 };
 
 PromoOngoing.Container = Container;
 PromoOngoing.CardsContainer = CardsContainer;
 PromoOngoing.Card = Card;
-
-export default PromoOngoing;

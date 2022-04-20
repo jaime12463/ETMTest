@@ -1,26 +1,23 @@
-import {FunctionComponent} from 'react';
 import {FormInput} from 'components/UI';
 import {TFormTomaDePedido, THookForm, TStatePreciosProductos} from 'models';
 import {useFiltrarPreciosProductosDelClienteActual} from './hooks';
 import {useTranslation} from 'react-i18next';
 
-export type Props = {
+interface Props {
 	hookForm: THookForm<TFormTomaDePedido>;
 	statePreciosProductos: TStatePreciosProductos;
-};
+}
 
-const FiltroPreciosProductosDelClienteActual: FunctionComponent<Props> = (
-	props
-) => {
-	const {statePreciosProductos, hookForm} = props;
-
+export const FiltroPreciosProductosDelClienteActual: React.VFC<Props> = ({
+	statePreciosProductos,
+	hookForm,
+}) => {
 	const {t} = useTranslation();
 
 	const {control, handleSubmit} = hookForm;
 
-	const filtrarPreciosProductosDelClienteActual = useFiltrarPreciosProductosDelClienteActual(
-		statePreciosProductos
-	);
+	const filtrarPreciosProductosDelClienteActual =
+		useFiltrarPreciosProductosDelClienteActual(statePreciosProductos);
 
 	return (
 		<FormInput
@@ -34,5 +31,3 @@ const FiltroPreciosProductosDelClienteActual: FunctionComponent<Props> = (
 		/>
 	);
 };
-
-export default FiltroPreciosProductosDelClienteActual;

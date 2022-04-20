@@ -1,4 +1,3 @@
-import {FunctionComponent} from 'react';
 import {Grid} from '@mui/material';
 import {Dialogo, FormInput} from 'components/UI';
 import {
@@ -14,15 +13,17 @@ import {
 import {useMostrarAdvertenciaEnDialogo, useResetLineaActual} from 'hooks';
 import {useTranslation} from 'react-i18next';
 
-type Props = {
+interface Props {
 	hookForm: THookForm<TFormTomaDePedido>;
 	stateProductoActual: TStateProductoActual;
 	stateInputFocus: TStateInputFocus;
-};
+}
 
-const InputsUnidadesYSubUnidades: FunctionComponent<Props> = (props) => {
-	const {hookForm, stateProductoActual, stateInputFocus} = props;
-
+export const InputsUnidadesYSubUnidades: React.VFC<Props> = ({
+	hookForm,
+	stateProductoActual,
+	stateInputFocus,
+}) => {
 	const {inputFocus, setInputFocus} = stateInputFocus;
 
 	const {productoActual, setProductoActual} = stateProductoActual;
@@ -90,5 +91,3 @@ const InputsUnidadesYSubUnidades: FunctionComponent<Props> = (props) => {
 		</>
 	);
 };
-
-export default InputsUnidadesYSubUnidades;

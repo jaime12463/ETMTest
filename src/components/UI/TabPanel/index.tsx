@@ -1,14 +1,16 @@
-import {FunctionComponent} from 'react';
 import {Box} from '@mui/material';
 
-type Props = {
+interface Props {
 	index: number;
 	value: number;
-};
+}
 
-const TabPanel: FunctionComponent<Props> = (props) => {
-	const {children, value, index, ...other} = props;
-
+export const TabPanel: React.FC<Props> = ({
+	children,
+	index,
+	value,
+	...other
+}) => {
 	return (
 		<div
 			role='tabpanel'
@@ -21,5 +23,3 @@ const TabPanel: FunctionComponent<Props> = (props) => {
 		</div>
 	);
 };
-
-export default TabPanel;

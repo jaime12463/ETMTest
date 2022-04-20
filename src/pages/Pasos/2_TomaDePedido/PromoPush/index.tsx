@@ -1,16 +1,13 @@
 import React from 'react';
 import {Dialogo} from 'components/UI';
 import {Typography, Button, Grid, Stack, Box} from '@mui/material';
-
 import TarjetaPromoPush from './TarjetaPromoPush';
 import {useObtenerPromoPushDelCliente} from 'hooks';
 import useEstilos from './useEstilos';
 import {ReiniciarIcon} from 'assests/iconos';
-
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
-
 import {useTranslation} from 'react-i18next';
-import Modal from 'components/UI/Modal';
+import {Modal} from 'components/UI';
 import theme from 'theme';
 import {useBorrarTodoPromociones} from './hooks';
 import {useObtenerVisitaActual} from 'redux/hooks';

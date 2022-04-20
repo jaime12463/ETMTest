@@ -11,21 +11,21 @@ import {useEstilos} from './useEstilos';
 import {useTranslation} from 'react-i18next';
 import Numero from 'components/UI/Numero';
 
-export type Props = {
+interface Props {
+	dataCY: string;
 	metodoVenta?: string;
+	subunidades: number;
 	total?: number;
 	unidades: number;
-	subunidades: number;
-	dataCY: string;
-};
+}
 
-const TotalesMetodoDeVenta = ({
+export const TotalesMetodoDeVenta: React.VFC<Props> = ({
+	dataCY,
 	metodoVenta,
+	subunidades,
 	total,
 	unidades,
-	subunidades,
-	dataCY,
-}: Props) => {
+}) => {
 	const estilos = useEstilos();
 	const {t} = useTranslation();
 
@@ -66,5 +66,3 @@ const TotalesMetodoDeVenta = ({
 		</TableContainer>
 	);
 };
-
-export default TotalesMetodoDeVenta;

@@ -14,7 +14,7 @@ import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {InputsKeysFormTomaDePedido} from 'models';
 import theme from 'theme';
-import TarjetaCoberturas from 'components/UI/TarjetaCoberturas';
+import {TarjetaCoberturas} from 'components/UI';
 
 const ButtonStyled = styled(Button)(() => ({
 	border: `1.5px solid ${theme.palette.secondary.main}`,
@@ -29,22 +29,22 @@ const ButtonStyled = styled(Button)(() => ({
 }));
 
 interface Props {
-	id: string;
-	expandido: string | boolean;
-	setExpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
-	grupo: string;
 	codigosProductos: number[];
+	expandido: string | boolean;
+	grupo: string;
+	id: string;
 	resetCoberturas: boolean;
+	setExpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
 	setResetCoberturas: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DesplegableCoberturas: React.FC<Props> = ({
-	id,
-	expandido,
-	setExpandido,
-	grupo,
+const DesplegableCoberturas: React.VFC<Props> = ({
 	codigosProductos,
+	expandido,
+	grupo,
+	id,
 	resetCoberturas,
+	setExpandido,
 	setResetCoberturas,
 }) => {
 	const classes = useEstilos();

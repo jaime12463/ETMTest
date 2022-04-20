@@ -1,28 +1,27 @@
 import {Control, Controller} from 'react-hook-form';
 import {TextField, TextFieldProps} from '@mui/material';
 
-type Props = {
+interface Props {
 	control?: Control<any> | undefined; //TODO: Este any debe ser un typo extendible de FormValues
-	name: string;
 	defaultValue?: string;
-	rules?: any;
 	inputDataCY?: string;
-};
+	name: string;
+	rules?: any;
+}
 
 export type PropsInput = Props & TextFieldProps;
 
-const Input = (props: PropsInput) => {
-	const {
-		control,
-		name,
-		defaultValue,
-		rules,
-		inputDataCY,
-		inputProps,
-		variant,
-		size,
-		...other
-	} = props;
+export const Input: React.VFC<PropsInput> = ({
+	control,
+	name,
+	defaultValue,
+	rules,
+	inputDataCY,
+	inputProps,
+	variant,
+	size,
+	...other
+}) => {
 	return (
 		<Controller
 			render={({field: {onChange, onBlur, value}}) => (
@@ -47,4 +46,3 @@ const Input = (props: PropsInput) => {
 		/>
 	);
 };
-export default Input;

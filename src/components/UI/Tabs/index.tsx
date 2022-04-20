@@ -1,27 +1,18 @@
-import {FunctionComponent} from 'react';
-import {makeStyles} from '@material-ui/styles';
-import {Tabs as TabsMUI, Tab, Grid} from '@mui/material';
 import React from 'react';
+import {Tab} from '@mui/material';
 import {TTab} from 'models';
 import TabPanel from '@mui/lab/TabPanel';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 
-type Props = {
+interface Props {
+	setValue: any;
 	tabs: TTab[];
 	value: number;
-	setValue: any;
-};
+}
 
-const useStyles = makeStyles(() => ({
-	root: {
-		flexGrow: 1,
-		width: '100%',
-	},
-}));
-
-const Tabs: FunctionComponent<Props> = ({tabs, value, setValue}) => {
-	const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+export const Tabs: React.VFC<Props> = ({tabs, value, setValue}) => {
+	const handleChange = (_: React.SyntheticEvent, newValue: string) => {
 		setValue(newValue);
 	};
 
@@ -51,5 +42,3 @@ const Tabs: FunctionComponent<Props> = ({tabs, value, setValue}) => {
 		</>
 	);
 };
-
-export default Tabs;

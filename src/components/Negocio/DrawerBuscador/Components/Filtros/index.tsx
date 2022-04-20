@@ -12,10 +12,10 @@ import {
 	ItemsBusqueda,
 } from 'hooks/useObtenerFiltrosDelCliente';
 interface Props {
+	cantidadFiltrosAplicados: number;
+	estadoInicialFiltros: FiltrosBusqueda;
 	filtrosBusqueda: FiltrosBusqueda;
 	setFiltrosBusqueda: React.Dispatch<React.SetStateAction<FiltrosBusqueda>>;
-	estadoInicialFiltros: FiltrosBusqueda;
-	cantidadFiltrosAplicados: number;
 }
 
 interface FiltrosExpandidos {
@@ -26,11 +26,11 @@ interface FiltrosExpandidos {
 	familias: boolean;
 }
 
-const Filtros: React.FC<Props> = ({
+export const Filtros: React.VFC<Props> = ({
+	cantidadFiltrosAplicados,
+	estadoInicialFiltros,
 	filtrosBusqueda,
 	setFiltrosBusqueda,
-	estadoInicialFiltros,
-	cantidadFiltrosAplicados,
 }) => {
 	const {t} = useTranslation();
 
@@ -454,5 +454,3 @@ const Filtros: React.FC<Props> = ({
 		</>
 	);
 };
-
-export default Filtros;

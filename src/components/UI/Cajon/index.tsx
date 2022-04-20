@@ -2,18 +2,17 @@ import React from 'react';
 import {Drawer} from '@mui/material';
 import {useEstilos} from './useEstilos';
 
-type Props = {
-	children: React.ReactNode;
+interface Props {
 	toggleCajon: Function;
-};
+}
 
-const Cajon = ({children, toggleCajon}: Props) => {
+export const Cajon: React.FC<Props> = ({children, toggleCajon}) => {
 	const classes = useEstilos();
 
 	const funcionprueba = () => children;
 
 	return (
-		<React.Fragment>
+		<>
 			<Drawer
 				variant='temporary'
 				anchor='bottom'
@@ -23,8 +22,6 @@ const Cajon = ({children, toggleCajon}: Props) => {
 			>
 				{funcionprueba()}
 			</Drawer>
-		</React.Fragment>
+		</>
 	);
 };
-
-export default Cajon;

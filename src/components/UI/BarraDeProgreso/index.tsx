@@ -15,16 +15,15 @@ export type Props = {
 	valor: number;
 };
 
-const BarraDeProgreso = ({
+export const BarraDeProgreso: React.VFC<Props> = ({
 	color,
 	condicion = 'contado',
 	dataCY,
-	disable = false,
 	max = 0,
 	pedidoMinimoCumplido,
 	titulo,
 	valor,
-}: Props) => {
+}) => {
 	const {t} = useTranslation();
 
 	const progesoActual = (valor * 100) / max;
@@ -69,5 +68,3 @@ const BarraDeProgreso = ({
 		</Box>
 	);
 };
-
-export default BarraDeProgreso;

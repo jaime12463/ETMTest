@@ -1,3 +1,4 @@
+import Box from '@mui/material/Box';
 import {makeStyles} from '@material-ui/styles';
 import {useTranslation} from 'react-i18next';
 import {formatearNumero} from 'utils/methods';
@@ -11,20 +12,20 @@ const useStyles = makeStyles({
 	},
 });
 
-type Props = {
-	valor: number;
+interface Props {
 	dataCy?: string;
-};
+	valor: number;
+}
 
-function Numero(props: Props) {
+export const Numero: React.VFC<Props> = ({valor, dataCy}) => {
 	const {t} = useTranslation();
 	const classes = useStyles();
-	const {valor, dataCy} = props;
+
 	return (
-		<div className={classes.numero} data-cy={dataCy ?? ''}>
+		<Box className={classes.numero} data-cy={dataCy ?? ''}>
 			{formatearNumero(valor, t)}
-		</div>
+		</Box>
 	);
-}
+};
 
 export default Numero;

@@ -10,20 +10,20 @@ import {
 } from 'redux/hooks';
 import {useObtenerDatosCliente} from 'hooks';
 
-type Props = {
-	numeroItems: string;
+interface Props {
 	descripcion: string;
-	total: number;
-	onClick: (e: any) => void;
+	numeroItems: string;
+	onClick: () => void;
 	pasoActual: number;
-};
+	total: number;
+}
 
-export const BotonBarraInferior: React.FC<Props> = ({
-	numeroItems,
+export const BotonBarraInferior: React.VFC<Props> = ({
 	descripcion,
-	total,
+	numeroItems,
 	onClick,
 	pasoActual,
+	total,
 }) => {
 	const {t} = useTranslation();
 	const compromisoDeCobro = useObtenerCompromisoDeCobroActual();

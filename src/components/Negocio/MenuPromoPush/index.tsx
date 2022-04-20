@@ -3,11 +3,9 @@ import IconButton from '@mui/material/IconButton';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {cambiarMostrarPromoPush} from 'redux/features/visitaActual/visitaActualSlice';
 import {useObtenerDatosTipoPedido} from 'hooks';
+import {PromocionesRellenoIcon, CajaIcon} from '../../../assests/iconos';
 
-
-import {PromocionesRellenoIcon, CajaIcon} from '../../../assests/iconos'
-
-const MenuPromoPush = (): any => {
+export const MenuPromoPush = (): any => {
 	const dispatch = useAppDispatch();
 
 	const cambiandoMostrarPromoPush = (accion: boolean) => {
@@ -43,5 +41,3 @@ const MenuPromoPush = (): any => {
 		</Box>
 	);
 };
-
-export default MenuPromoPush;

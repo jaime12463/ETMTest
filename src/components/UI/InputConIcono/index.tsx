@@ -9,37 +9,37 @@ import InputAdornment from '@mui/material/InputAdornment';
 import theme from 'theme';
 
 interface Props {
-	valid: boolean;
-	value: string;
+	error?: boolean;
+	focus?: boolean;
+	inputRef?: (input: any) => void;
+	label: string;
+	margin?: string;
+	mensajeError?: string;
 	onBlur?: any;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	onKeyPress?: any;
-	inputRef?: (input: any) => void;
 	onClick?: () => void;
 	onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
-	margin?: string;
-	label: string;
+	onKeyPress?: any;
 	simboloMoneda?: boolean;
-	error?: boolean;
-	mensajeError?: string;
-	focus?: boolean;
+	valid: boolean;
+	value: string;
 }
 
-const InputConIcono: React.FC<Props> = ({
+export const InputConIcono: React.VFC<Props> = ({
+	error = false,
+	focus = false,
+	inputRef,
+	label,
+	margin = '10px 0 0 0',
+	mensajeError,
+	onBlur,
+	onChange,
+	onClick,
+	onFocus,
+	onKeyPress,
+	simboloMoneda = false,
 	valid,
 	value,
-	onChange,
-	inputRef,
-	onKeyPress,
-	onClick,
-	onBlur,
-	margin = '10px 0 0 0',
-	label,
-	simboloMoneda = false,
-	error = false,
-	mensajeError,
-	focus = false,
-	onFocus,
 }) => {
 	const classes = useEstilos({valid, error});
 	const {t} = useTranslation();
@@ -107,5 +107,3 @@ const InputConIcono: React.FC<Props> = ({
 		</Box>
 	);
 };
-
-export default InputConIcono;

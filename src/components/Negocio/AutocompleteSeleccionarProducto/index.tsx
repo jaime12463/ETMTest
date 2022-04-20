@@ -1,8 +1,7 @@
-import {FunctionComponent, useState} from 'react';
+import {useState} from 'react';
 import {
 	TFormTomaDePedido,
 	THookForm,
-	TPrecioProducto,
 	TStateInputFocus,
 	TStatePreciosProductos,
 	TStateProductoActual,
@@ -15,16 +14,16 @@ import {
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';
-import {BuscarIcon, AgregarIcon, PromocionColor} from 'assests/iconos';
+import {AgregarIcon} from 'assests/iconos';
 import {useEsPermitidoAgregarProductoAlPedido} from './hooks';
 import {styled} from '@mui/material/styles';
 
-export type Props = {
+interface Props {
 	hookForm: THookForm<TFormTomaDePedido>;
-	stateProductoActual: TStateProductoActual;
-	statePreciosProductos: TStatePreciosProductos;
 	stateInputFocus: TStateInputFocus;
-};
+	statePreciosProductos: TStatePreciosProductos;
+	stateProductoActual: TStateProductoActual;
+}
 
 const GridAutocomplete = styled(Grid)(() => ({
 	borderRadius: '20px',
@@ -34,28 +33,22 @@ const GridAutocomplete = styled(Grid)(() => ({
 	width: '164px',
 }));
 
-const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
-	const {
-		stateProductoActual,
-		statePreciosProductos,
-		stateInputFocus,
-		hookForm,
-	} = props;
-
+export const AutocompleteSeleccionarProducto: React.FC<Props> = ({
+	hookForm,
+	stateInputFocus,
+	stateProductoActual,
+}) => {
 	const {t} = useTranslation();
 
 	const estilos = useEstilos();
 
-	const {preciosProductos, setPreciosProductos} = statePreciosProductos;
-
-	const {handleSubmit, control, setValue} = hookForm;
+	const {setValue} = hookForm;
 
 	const {setProductoActual} = stateProductoActual;
 
 	const {inputFocus, setInputFocus} = stateInputFocus;
 
-	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
-		useMostrarAdvertenciaEnDialogo();
+	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
 
 	let preciosProductosDelClienteActual =
 		useFiltrarPreciosProductosDelClienteActual();
@@ -71,10 +64,7 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 	const {validarEsPermitidoAgregarProductoAlPedido} =
 		useEsPermitidoAgregarProductoAlPedido();
 
-	const [productoSeleccionado, setProductoSeleccionado] =
-		useState<TPrecioProducto | null>();
 	const [textoIngresado, setTextoIngresado] = useState<string>('');
-	const [opciones, setOpciones] = useState<TPrecioProducto[]>([]); //(preciosProductos);
 
 	const handleInputChange = (e: any) => {
 		setTextoIngresado(e.target.value);
@@ -152,25 +142,6 @@ const AutocompleteSeleccionarProducto: FunctionComponent<Props> = (props) => {
 					<AgregarIcon name='boton-+' height='24px' width='24px' />
 				</IconButton>
 			</GridAutocomplete>
-			{/* <Grid item>
-				<IconButton>
-					<PromocionColor />
-				</IconButton>
-				<IconButton
-					aria-label='search'
-					size='small'
-					disabled={!validarEsPermitidoAgregarProductoAlPedido()}
-					onClick={() => {
-						seleccionarProductoDePrecios({
-							productoABuscar: textoIngresado,
-						});
-					}}
-				>
-					<BuscarIcon height='18px' width='18px' />
-				</IconButton>
-			</Grid> */}
 		</Box>
 	);
 };
-
-export default AutocompleteSeleccionarProducto;

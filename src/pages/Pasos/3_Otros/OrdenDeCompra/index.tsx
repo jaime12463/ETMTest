@@ -2,7 +2,7 @@ import React from 'react';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {cambiarOrdenDeCompra} from 'redux/features/visitaActual/visitaActualSlice';
 import {TVisita} from 'models';
-import InputConIcono from 'components/UI/InputConIcono';
+import {InputConIcono} from 'components/UI';
 import {useTranslation} from 'react-i18next';
 import {useMostrarAviso} from 'hooks';
 

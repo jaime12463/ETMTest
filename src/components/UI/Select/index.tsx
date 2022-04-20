@@ -1,4 +1,4 @@
-import {ChangeEvent, FunctionComponent} from 'react';
+import React from 'react';
 import {
 	MenuItem,
 	Select as SelectMUI,
@@ -8,33 +8,31 @@ import {
 import {Control, Controller} from 'react-hook-form';
 import {TOpcionSelect} from 'models';
 
-type Props = {
+interface Props {
 	control: Control<any>;
-	name: string;
-	defaultValue?: string;
-	rules?: any;
 	dataCY?: string;
-	label?: string;
+	defaultValue?: string;
 	handleChange: (e: any) => void;
+	label?: string;
+	name: string;
 	opciones: TOpcionSelect[];
-};
+	rules?: any;
+}
 
 export type PropsSelect = Props & SelectProps;
 
-const Select: FunctionComponent<PropsSelect> = (props) => {
-	const {
-		control,
-		name,
-		defaultValue,
-		rules,
-		dataCY,
-		inputProps,
-		label,
-		opciones,
-		handleChange,
-		...other
-	} = props;
-
+export const Select: React.VFC<PropsSelect> = ({
+	control,
+	name,
+	defaultValue,
+	rules,
+	dataCY,
+	inputProps,
+	label,
+	opciones,
+	handleChange,
+	...other
+}) => {
 	return (
 		<Controller
 			render={({field: {onChange, onBlur, value}}) => (
@@ -70,5 +68,3 @@ const Select: FunctionComponent<PropsSelect> = (props) => {
 		/>
 	);
 };
-
-export default Select;

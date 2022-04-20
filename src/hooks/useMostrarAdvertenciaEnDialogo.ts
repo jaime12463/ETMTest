@@ -1,5 +1,5 @@
 import {useCallback, useState} from 'react';
-import {Props as PropsDialogo} from 'components/UI/Dialogo';
+import {PropsDialogo} from 'components/UI';
 
 export const useMostrarAdvertenciaEnDialogo = () => {
 	const [mostarDialogo, setMostarDialogo] = useState<boolean>(false);

@@ -17,7 +17,7 @@ import {TGruposBonificacion} from 'models';
 import {useContador, useMostrarAviso} from 'hooks';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {cambiarSeQuedaAEditar} from 'redux/features/visitaActual/visitaActualSlice';
-import MaterialSelect from 'components/UI/MaterialSelect';
+import {MaterialSelect} from 'components/UI';
 import {capitalize} from '@mui/material';
 
 const ButtonStyled = styled(Button)(() => ({

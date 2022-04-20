@@ -6,13 +6,17 @@ import {useRouteMatch} from 'react-router-dom';
 import {CssBaseline} from '@mui/material';
 import Box from '@mui/material/Box';
 
-export type Props = {
+interface Props {
 	children: React.ReactNode;
-	titulo?: string;
 	esConFechaHaciaAtras?: boolean;
-};
+	titulo?: string;
+}
 
-const Estructura = ({esConFechaHaciaAtras = true, titulo, children}: Props) => {
+export const Estructura = ({
+	esConFechaHaciaAtras = true,
+	titulo,
+	children,
+}: Props) => {
 	return (
 		<>
 			{useRouteMatch().isExact && (
@@ -33,5 +37,3 @@ const Estructura = ({esConFechaHaciaAtras = true, titulo, children}: Props) => {
 Estructura.Encabezado = Encabezado;
 Estructura.Cuerpo = Cuerpo;
 Estructura.PieDePagina = PieDePagina;
-
-export default Estructura;

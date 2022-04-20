@@ -9,17 +9,17 @@ import {useTranslation} from 'react-i18next';
 import useEstilos from '../../useEstilos';
 
 interface Props {
-	inputBusqueda: string;
-	setInputBusqueda: React.Dispatch<React.SetStateAction<string>>;
-	setAbrirFiltros: React.Dispatch<React.SetStateAction<boolean>>;
 	cantidadFiltrosAplicados: number;
+	inputBusqueda: string;
+	setAbrirFiltros: React.Dispatch<React.SetStateAction<boolean>>;
+	setInputBusqueda: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const HeaderBuscador: React.FC<Props> = ({
-	inputBusqueda,
-	setInputBusqueda,
-	setAbrirFiltros,
+export const HeaderBuscador: React.VFC<Props> = ({
 	cantidadFiltrosAplicados,
+	inputBusqueda,
+	setAbrirFiltros,
+	setInputBusqueda,
 }) => {
 	const {t} = useTranslation();
 	const classes = useEstilos();
@@ -113,5 +113,3 @@ const HeaderBuscador: React.FC<Props> = ({
 		</Box>
 	);
 };
-
-export default HeaderBuscador;

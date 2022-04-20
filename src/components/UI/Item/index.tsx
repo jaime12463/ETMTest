@@ -14,7 +14,7 @@ type Props<T> = {
 	dataCY: string;
 };
 
-function Item<T>(props: Props<T>) {
+export function Item<T>(props: Props<T>) {
 	const {item, ItemComponent, onClick, estado, index, dataCY} = props;
 
 	return (
@@ -30,5 +30,3 @@ function Item<T>(props: Props<T>) {
 		</ListItem>
 	);
 }
-
-export default Item;

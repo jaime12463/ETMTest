@@ -1,19 +1,13 @@
-import {FunctionComponent} from 'react';
 import {Box, Typography} from '@mui/material';
 import {useObtenerPedidoActual} from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
 import {Center, Fecha} from 'components/UI';
 
-type Props = {};
-
-const FechaEntregaDelPedidoActual: FunctionComponent<Props> = (props) => {
+export const FechaEntregaDelPedidoActual: React.VFC = () => {
 	const {t} = useTranslation();
 	const pedidoActual = useObtenerPedidoActual();
 	const {fechaEntrega} = pedidoActual;
-	const fechaFormateada = (fecha: string) => {
-		const arrayfecha = fecha.split('-');
-		return `${arrayfecha[2]}-${arrayfecha[1]}-${arrayfecha[0]}`;
-	};
+
 	return (
 		<Box mt={1}>
 			<Center>
@@ -24,5 +18,3 @@ const FechaEntregaDelPedidoActual: FunctionComponent<Props> = (props) => {
 		</Box>
 	);
 };
-
-export default FechaEntregaDelPedidoActual;

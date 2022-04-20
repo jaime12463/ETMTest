@@ -10,28 +10,28 @@ import {
 import {useTranslation} from 'react-i18next';
 import {useState} from 'react';
 
-export type Props = {
-	titulo?: string;
-	mensaje?: string;
+export interface PropsDialogo {
 	conBotonCancelar?: boolean;
+	dataCy: string;
 	manejadorClick?: (oprimioBotonAceptar: boolean, data?: any) => void;
 	textosBotonesDefault?: {
 		aceptar: string;
 		cancelar?: string;
 	};
-	dataCy: string;
+	mensaje?: string;
 	textoInput?: string;
-};
+	titulo?: string;
+}
 
-const Dialogo = ({
-	titulo = '',
-	mensaje = '',
+export const Dialogo: React.VFC<PropsDialogo> = ({
 	conBotonCancelar = false,
-	manejadorClick = () => {},
-	textosBotonesDefault,
 	dataCy,
+	manejadorClick = () => {},
+	mensaje = '',
 	textoInput = undefined,
-}: Props) => {
+	textosBotonesDefault,
+	titulo = '',
+}) => {
 	const {t} = useTranslation();
 
 	const manejarClick = (oprimioBotonAceptar: boolean, data?: any) => {
@@ -81,5 +81,3 @@ const Dialogo = ({
 		</Dialog>
 	);
 };
-
-export default Dialogo;

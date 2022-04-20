@@ -1,4 +1,1 @@
-import {useFiltrarPreciosProductosDelClienteActual} from './useFiltrarPreciosProductosDelClienteActual';
-export {
-	useFiltrarPreciosProductosDelClienteActual,
-};
+export * from './useFiltrarPreciosProductosDelClienteActual';

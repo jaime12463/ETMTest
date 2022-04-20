@@ -1,10 +1,10 @@
 import React from 'react';
-import Center from '../Center';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import conejoCarga from 'assests/images/conejoCarga.gif';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
+import {Center} from '..';
 
 export const Loading: React.FC = () => {
 	const {t} = useTranslation();

@@ -1,28 +1,19 @@
-import {FunctionComponent} from 'react';
 import {TProductoPedido} from 'models';
 import {Box, Grid} from '@mui/material';
 import {useTranslation} from 'react-i18next';
-/* import {useObtenerCatalogoMotivos} from '../SelectCatalogoMotivos/hooks'; */
 
 type Props = {
 	item: TProductoPedido;
 	onClickItem?: (item: TProductoPedido) => void;
 };
 
-const ItemCanjeAgregadoAlPedidoActual: FunctionComponent<Props> = (props) => {
-	const {item, onClickItem} = props;
-
-	const {
-		codigoProducto,
-		nombreProducto,
-		unidades,
-		subUnidades,
-		catalogoMotivo,
-	} = item;
+const ItemCanjeAgregadoAlPedidoActual: React.VFC<Props> = ({
+	item,
+	onClickItem,
+}) => {
+	const {codigoProducto, nombreProducto, unidades, subUnidades} = item;
 
 	const {t} = useTranslation();
-
-	/* 	const itemCatalogoMotivos = useObtenerCatalogoMotivos(catalogoMotivo); */
 
 	return (
 		<Grid container>

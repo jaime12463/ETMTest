@@ -6,18 +6,15 @@ import {
 	TPrecioProducto,
 	TCliente,
 	ETiposDePago,
-	TPedidosClientes,
 } from 'models';
 import {
 	useAppDispatch,
 	useObtenerClienteActual,
-	useObtenerPedidosClientes,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {useForm} from 'react-hook-form';
 import {
 	useInicializarPreciosProductosDelClienteActual,
-	useMostrarAviso,
 	useObtenerDatosCliente,
 } from 'hooks';
 import {
@@ -27,10 +24,6 @@ import {
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {SwipeBorrar, Tooltip} from 'components/UI';
-import {
-	AutocompleteSeleccionarProducto,
-	DrawerPromociones,
-} from 'components/Negocio';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -41,19 +34,19 @@ import {useBorrarLinea, useBorrarTodoTomaPedido} from '../hooks';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import useEstilos from '../useEstilos';
 import {SwitchCambiarTipoPago} from '../components';
-import Modal from 'components/UI/Modal';
-import TarjetaTomaPedido from 'components/UI/TarjetaTomaPedido';
+import {Modal, TarjetaTomaPedido} from 'components/UI';
 import TarjetaPromoPush from 'pages/Pasos/2_TomaDePedido/PromoPush/TarjetaPromoPush';
 import Box from '@mui/material/Box';
 import {useTranslation} from 'react-i18next';
 import {PromocionesOngoing} from 'utils/procesos/promociones/PromocionesOngoing';
-
-import {useObtenerDatos} from 'redux/hooks';
-import DrawerBuscador from 'components/Negocio/DrawerBuscador';
+import {
+	AutocompleteSeleccionarProducto,
+	DrawerBuscador,
+	DrawerPromociones,
+} from 'components/Negocio';
 
 const TomaPedido: React.FC = () => {
-	const {mostrarAdvertenciaEnDialogo, mostarDialogo, parametrosDialogo} =
-		useMostrarAdvertenciaEnDialogo();
+	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
 
 	const [configAlerta, setConfigAlerta] = useState({
 		titulo: '',
@@ -87,7 +80,6 @@ const TomaPedido: React.FC = () => {
 
 	const [focusId, setFocusId] = React.useState(0);
 	const visitaActual = useObtenerVisitaActual();
-	const datos = useObtenerDatos();
 	const {venta} = visitaActual.pedidos;
 	const defaultValues: TFormTomaDePedido = {
 		unidades: '',
@@ -105,7 +97,6 @@ const TomaPedido: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const catalogoMotivo = '';
 	const classes = useEstilos();
-	const mostrarAviso = useMostrarAviso();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(
 		clienteActual.codigoCliente
@@ -123,7 +114,6 @@ const TomaPedido: React.FC = () => {
 
 	const promocionesOngoing = PromocionesOngoing.getInstance();
 	const promocionesVigentesCliente = promocionesOngoing.obtenerListaVigentes();
-	const pedidosCliente: TPedidosClientes = useObtenerPedidosClientes();
 
 	const puedeBotonPromocionesOngoing =
 		venta.productos.some(

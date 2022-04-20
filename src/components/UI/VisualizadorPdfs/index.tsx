@@ -9,13 +9,17 @@ pdfjs.GlobalWorkerOptions.workerSrc = `pdf.worker.min.js`;
 
 console.log(pdfjs.version);
 
-export type Props = {
-	titulo: string;
+interface Props {
 	archivo: string;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+	titulo: string;
+}
 
-export default function VisualizadorPdfs({titulo, archivo, setOpen}: Props) {
+export const VisualizadorPdfs: React.VFC<Props> = ({
+	archivo,
+	setOpen,
+	titulo,
+}) => {
 	const [pageNumber, setPageNumber] = useState(1);
 	const options = {
 		cMapUrl: 'cmaps/',
@@ -61,4 +65,4 @@ export default function VisualizadorPdfs({titulo, archivo, setOpen}: Props) {
 			</Box>
 		</>
 	);
-}
+};

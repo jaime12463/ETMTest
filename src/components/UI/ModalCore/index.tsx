@@ -7,7 +7,7 @@ interface Props {
 	open: boolean;
 }
 
-const ModalCore: React.FC<Props> = ({open, children}) => {
+export const ModalCore: React.FC<Props> = ({open, children}) => {
 	const classes = useEstilos();
 
 	const modalPortal = document.getElementById('modal');
@@ -34,5 +34,3 @@ const ModalCore: React.FC<Props> = ({open, children}) => {
 		modalPortal
 	);
 };
-
-export default ModalCore;

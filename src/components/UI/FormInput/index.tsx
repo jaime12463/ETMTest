@@ -1,17 +1,22 @@
-import {FormEventHandler, FunctionComponent} from 'react';
-import Input, {PropsInput} from 'components/UI/Input';
+import {FormEventHandler} from 'react';
+import {Input, PropsInput} from 'components/UI';
 import {Box, InputLabel, Typography} from '@mui/material';
 
-export type Props = {
-	onChangeForm?: FormEventHandler<HTMLFormElement> | undefined;
-	onSubmitForm?: FormEventHandler<HTMLFormElement> | undefined;
+interface Props {
 	labelForm?: string;
-};
+	onChangeForm?: FormEventHandler<HTMLFormElement>;
+	onSubmitForm?: FormEventHandler<HTMLFormElement>;
+}
 
-const FormInput: FunctionComponent<Props & PropsInput> = (props) => {
-	const {onChangeForm, onSubmitForm, labelForm, ...other} = props;
+export const FormInput: React.FC<Props & PropsInput> = ({
+	onChangeForm,
+	onSubmitForm,
+	labelForm,
+	...other
+}) => {
 	const defaultFunction = (e: React.FormEvent<HTMLFormElement>) =>
 		e.preventDefault();
+
 	return (
 		<>
 			<Box pb={1}>
@@ -34,5 +39,3 @@ const FormInput: FunctionComponent<Props & PropsInput> = (props) => {
 		</>
 	);
 };
-
-export default FormInput;

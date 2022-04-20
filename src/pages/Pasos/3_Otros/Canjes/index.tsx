@@ -1,21 +1,21 @@
+import React from 'react';
 import {
 	InputsKeysFormTomaDePedido,
 	TClienteActual,
 	TFormTomaDePedido,
 	TPrecioProducto,
 } from 'models';
-import {AutocompleteSeleccionarProducto} from 'components/Negocio';
-import React, {useState} from 'react';
+import {
+	AutocompleteSeleccionarProducto,
+	DrawerBuscador,
+} from 'components/Negocio';
 import {
 	useAppDispatch,
 	useObtenerClienteActual,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {useForm} from 'react-hook-form';
-import {
-	useInicializarPreciosProductosDelClienteActual,
-	useMostrarAviso,
-} from 'hooks';
+import {useInicializarPreciosProductosDelClienteActual} from 'hooks';
 import {agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
@@ -23,11 +23,10 @@ import TarjetaCanjes from './TarjetaCanjes';
 import {SwipeBorrar} from 'components/UI';
 import {useBorrarLinea} from '../hooks/useBorrarLinea';
 import {Box, Typography} from '@mui/material';
-import Modal from 'components/UI/Modal';
+import {Modal} from 'components/UI';
 import {BuscarIcon} from 'assests/iconos';
-import DrawerBuscador from 'components/Negocio/DrawerBuscador';
 
-export const Canjes = () => {
+export const Canjes: React.VFC = () => {
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
@@ -38,7 +37,7 @@ export const Canjes = () => {
 	const [focusId, setFocusId] = React.useState(0);
 	const visitaActual = useObtenerVisitaActual();
 	const [alerta, setAlerta] = React.useState<boolean>(false);
-	const [configAlerta, setConfigAlerta] = useState({
+	const [configAlerta, setConfigAlerta] = React.useState({
 		titulo: '',
 		mensaje: '',
 		tituloBotonAceptar: '',
@@ -65,8 +64,7 @@ export const Canjes = () => {
 	useInicializarPreciosProductosDelClienteActual(setPreciosProductos);
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const stateInputFocus = {inputFocus, setInputFocus};
-	const mostrarAviso = useMostrarAviso();
-	const [catalogoMotivo, setCatalogoMotivo] = useState({});
+	const [catalogoMotivo, setCatalogoMotivo] = React.useState({});
 	const borrarLinea = useBorrarLinea({setAlerta, setConfigAlerta});
 
 	const [openBuscador, setOpenBuscador] = React.useState<boolean>(false);

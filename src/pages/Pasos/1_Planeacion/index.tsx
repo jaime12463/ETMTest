@@ -16,7 +16,7 @@ import {
 	limpiarProductosSinCantidad,
 	cambiarAvisos,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import Modal, {Configuracion} from 'components/UI/Modal';
+import {Configuracion, Modal} from 'components/UI';
 import {useValidarClienteBloqueado} from './hooks';
 
 const Planeacion: React.FC = () => {
