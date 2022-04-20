@@ -9,6 +9,7 @@ import {useMostrarAviso} from 'hooks';
 const OrdenDeCompra: React.FC = () => {
 	const visitaActual: TVisita = useObtenerVisitaActual();
 	const mostrarAviso = useMostrarAviso();
+	const [huboCambios, setHuboCambios] = React.useState<boolean>(false);
 	const [ordenDeCompra, setOrdenDeCompra] = React.useState<string>(
 		visitaActual.ordenDeCompra
 	);
@@ -25,7 +26,7 @@ const OrdenDeCompra: React.FC = () => {
 	}, [ordenDeCompra]);
 
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		if (e.key === 'Enter') {
+		if (e.key === 'Enter' && huboCambios) {
 			mostrarAviso(
 				'success',
 				'Orden de compra agregado correctamente',
@@ -34,24 +35,29 @@ const OrdenDeCompra: React.FC = () => {
 				'bonificacionAgregada'
 			);
 			dispatch(cambiarOrdenDeCompra({ordenDeCompra}));
+			setHuboCambios(false);
 		}
 	};
 
 	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-		mostrarAviso(
-			'success',
-			'Orden de compra agregado correctamente',
-			undefined,
-			undefined,
-			'bonificacionAgregada'
-		);
-		dispatch(cambiarOrdenDeCompra({ordenDeCompra}));
+		if (huboCambios) {
+			mostrarAviso(
+				'success',
+				'Orden de compra agregado correctamente',
+				undefined,
+				undefined,
+				'bonificacionAgregada'
+			);
+			dispatch(cambiarOrdenDeCompra({ordenDeCompra}));
+			setHuboCambios(false);
+		}
 	};
 
 	const handleChange = (
 		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 	) => {
 		setOrdenDeCompra(e.target.value.trim());
+		setHuboCambios(true);
 	};
 
 	return (
