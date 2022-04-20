@@ -1,7 +1,7 @@
 import React from 'react';
 import theme from 'theme';
 
-export const PromocionColor: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const PromocionColor: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	...props
 }) => {
 	return (

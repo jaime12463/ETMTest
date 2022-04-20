@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const ConejoSfaIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const ConejoSfaIcon: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	...props
 }) => {
 	return (

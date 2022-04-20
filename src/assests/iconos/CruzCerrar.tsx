@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const CruzCerrar: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const CruzCerrar: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	fill = '#565657',
 	...props
 }) => {

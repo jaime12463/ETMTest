@@ -1,7 +1,7 @@
 import React from 'react';
 import theme from 'theme';
 
-export const PromocionesIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const PromocionesIcon: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	fill = theme.palette.secondary.dark,
 	...props
 }) => {

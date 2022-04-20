@@ -5,7 +5,7 @@ interface Props extends React.SVGProps<SVGSVGElement> {
 	disabled?: boolean;
 }
 
-export const AgregarRedondoIcon: React.FC<Props> = ({
+export const AgregarRedondoIcon: React.VFC<Props> = ({
 	disabled = false,
 	...props
 }) => {

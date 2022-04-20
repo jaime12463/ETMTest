@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const RetrocederIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const RetrocederIcon: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	fill = '#fff',
 	...props
 }) => {

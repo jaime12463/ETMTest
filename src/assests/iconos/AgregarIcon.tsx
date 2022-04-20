@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const AgregarIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const AgregarIcon: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	...props
 }) => {
 	return (

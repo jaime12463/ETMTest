@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const SimboloMoneda: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const SimboloMoneda: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	...props
 }) => {
 	return (

@@ -1,10 +1,9 @@
 import React from 'react';
 import theme from 'theme';
 
-export const BusquedaSinResultados: React.FC<React.SVGProps<SVGSVGElement>> = ({
-	fill = theme.palette.primary.main,
-	...props
-}) => {
+export const BusquedaSinResultados: React.VFC<
+	React.SVGProps<SVGSVGElement>
+> = ({fill = theme.palette.primary.main, ...props}) => {
 	return (
 		<svg
 			width={241}

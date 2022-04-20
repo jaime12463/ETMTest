@@ -1,7 +1,7 @@
 import React from 'react';
 import theme from 'theme';
 
-export const CheckRedondoIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const CheckRedondoIcon: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	...props
 }) => {
 	return (

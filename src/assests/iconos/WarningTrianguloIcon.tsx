@@ -1,7 +1,7 @@
 import React from 'react';
 import theme from 'theme';
 
-export const WarningTrianguloIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const WarningTrianguloIcon: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	fill = theme.palette.warning.main,
 	...props
 }) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import theme from 'theme';
 
-export const AvisoIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const AvisoIcon: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	fill = theme.palette.warning.main,
 	...props
 }) => {

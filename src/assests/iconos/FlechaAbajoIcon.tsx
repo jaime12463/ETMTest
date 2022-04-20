@@ -1,7 +1,7 @@
 import React from 'react';
 import theme from 'theme';
 
-export const FlechaAbajoIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const FlechaAbajoIcon: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	...props
 }) => {
 	return (

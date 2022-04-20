@@ -5,7 +5,7 @@ interface Props extends React.SVGProps<SVGSVGElement> {
 	disabled?: boolean;
 }
 
-export const QuitarRellenoIcon: React.FC<Props> = ({
+export const QuitarRellenoIcon: React.VFC<Props> = ({
 	fill,
 	disabled = false,
 	...props
@@ -24,6 +24,9 @@ export const QuitarRellenoIcon: React.FC<Props> = ({
 			rx={12}
 			fill={fill ? fill : disabled ? '#D9D9D9' : theme.palette.secondary.dark}
 		/>
-		<path d='M18 11.25H6v1.5h12v-1.5Z' fill={disabled ? '#00000050' : '#fff'} />
+		<path
+			d='M18 11.25H6v1.5h12v-1.5Z'
+			fill={disabled ? 'rgba(0, 0, 0, 0.5)' : '#fff'}
+		/>
 	</svg>
 );

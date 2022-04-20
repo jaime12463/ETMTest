@@ -1,7 +1,7 @@
 import React from 'react';
 import theme from 'theme';
 
-export const CerrarRedondoIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const CerrarRedondoIcon: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	fill = theme.palette.primary.main,
 	...props
 }) => {

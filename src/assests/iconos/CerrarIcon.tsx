@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const CerrarIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const CerrarIcon: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	fill = '#000',
 	...props
 }) => {

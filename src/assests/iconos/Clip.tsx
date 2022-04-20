@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Clip: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const Clip: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	fill = '#000',
 	...props
 }) => {

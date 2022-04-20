@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Filter: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const Filter: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	fill = '#fff',
 	...props
 }) => {

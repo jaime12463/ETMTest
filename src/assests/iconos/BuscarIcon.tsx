@@ -1,7 +1,7 @@
 import React from 'react';
 import theme from 'theme';
 
-export const BuscarIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const BuscarIcon: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	fill = theme.palette.primary.main,
 	...props
 }) => {

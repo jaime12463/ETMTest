@@ -1,7 +1,7 @@
 import React from 'react';
 import theme from 'theme';
 
-export const Caja: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const Caja: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	fill = theme.palette.secondary.dark,
 	...props
 }) => {

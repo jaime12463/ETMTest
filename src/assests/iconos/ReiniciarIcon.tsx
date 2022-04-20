@@ -1,7 +1,7 @@
 import React from 'react';
 import theme from 'theme';
 
-export const ReiniciarIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const ReiniciarIcon: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 	fill = theme.palette.secondary.main,
 	...props
 }) => {
