@@ -12,12 +12,13 @@ Antecedentes:
     Y se seleccionó el control de productos con descuento escalonado
 
 Escenario: N°1 - El cliente tiene productos con descuento escalonado y están agregados al pedido
-    Dado que todos los productos con descuento escalonado están agregados en el pedido
+    Dado que todos los productos con descuento escalonado están agregados en el pedido con cantidad mayor igual a 0
     Cuando se muestra el popup
-    Entonces el sistema mostrará en el popup el mensaje indicando que hay productos con desucentos escalonados para el cliente
+    Entonces el sistema mostrará en el popup el mensaje indicando que no hay productos con descuentos escalonados para el cliente
 
 Escenario: N°2 - El cliente tiene productos con descuento escalonado
     Dado que el cliente tiene en el portafolio productos con descuento escalonado
+    Y al menos uno no está en el pedido
     Cuando se muestra el popup
     Entonces el sistema mostrará el título del popup
     Y mostrará un listado de productos con descuento escalonado que no estén en el pedido, ordenado por producto
