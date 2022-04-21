@@ -118,6 +118,7 @@ const es = {
 		ahorraste: 'Ahorraste',
 		eliminarTodo: 'Eliminar todo',
 		procesandoInformacion: 'Procesando información',
+		agregarSKU: 'Agregar SKU',
 	},
 	simbolos: {
 		decimal: '.',
@@ -332,12 +333,15 @@ const es = {
 		automatico: 'automático',
 		descuentoAutomatico: 'Descuento automático',
 		descuentoMensaje: 'Descuento {{tipo}} del -{{descuento}}%',
+		descuentosEscalonados: 'Descuentos escalonados',
 		descuentoSustituido: 'El descuento {{tipo}} ha sido sustituido por una',
 		eliminarDescuento: 'Eliminar descuento',
 		escalonado: 'escalonado',
+		mensajeModalDescuentosEscalonados:
+			'Materiales disponibles para agregar a la toma del pedido que contienen descuentos escalonados.',
 		polarizado: 'polarizado',
-		promocionOngoing: 'Promoción ongoing',
 		promocionesOngoing: 'Promociones ongoing',
+		promocionOngoing: 'Promoción ongoing',
 		vieneConPromoOngoing: 'Viene con promoción ongoing',
 	},
 };

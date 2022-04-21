@@ -1,7 +1,7 @@
 import {makeStyles, createStyles} from '@material-ui/styles';
 
 interface Props {
-	borderRadius: boolean;
+	position: string;
 }
 
 const useEstilos = makeStyles(() =>
@@ -27,12 +27,12 @@ const useEstilos = makeStyles(() =>
 			},
 		},
 		card: {
-			animation: `$animationStart 0.5s cubic-bezier(0.35, 0.34, 0.46, 1.01)`,
 			alignItems: 'center',
+			animation: `$animationStart 0.5s cubic-bezier(0.35, 0.34, 0.46, 1.01)`,
 			display: 'flex',
 			flexDirection: 'column',
 			position: 'absolute',
-			top: '5vh',
+			top: ({position}: Props) => position,
 			width: '340px',
 		},
 	})

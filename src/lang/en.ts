@@ -118,6 +118,7 @@ const en = {
 		ahorraste: 'Saved',
 		eliminarTodo: 'Delete all',
 		procesandoInformacion: 'Processing information',
+		agregarSKU: 'Add SKU',
 	},
 	simbolos: {
 		decimal: ',',
@@ -318,10 +319,13 @@ const en = {
 	descuentos: {
 		automatico: 'automatic',
 		descuentoAutomatico: 'Automatic discount',
+		descuentoEscalonado: 'Staggered discounts',
 		descuentoMensaje: '{{descuento}}% {{tipo}} discount',
 		descuentoSustituido: 'The {{tipo}} discount has been replaced by an',
 		eliminarDescuento: 'Delete discount',
 		escalonado: 'staggered',
+		mensajeModalDescuentosEscalonados:
+			'Materials available to add to the order taking that contain staggered discounts.',
 		polarizado: 'polarized',
 		promocionOngoing: 'Ongoing promotion',
 		promocionesOngoing: 'Ongoing promotions',

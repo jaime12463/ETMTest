@@ -9,10 +9,7 @@ import {
 	ETipoDescuento,
 } from 'models';
 import {validarFechaVigenciaProducto} from 'utils/validaciones';
-import {
-	useObtenerPrecioVigenteDelProducto,
-	useObtenerDatosTipoPedido,
-} from 'hooks';
+import {useObtenerPrecioVigenteDelProducto} from 'hooks';
 
 export const useObtenerPreciosProductosDelCliente = () => {
 	const datos = useObtenerDatos();

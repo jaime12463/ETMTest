@@ -1,6 +1,8 @@
 import React from 'react';
+import theme from 'theme';
 
 export const AgregarIcon: React.VFC<React.SVGProps<SVGSVGElement>> = ({
+	fill = theme.palette.primary.main,
 	...props
 }) => {
 	return (
@@ -14,7 +16,7 @@ export const AgregarIcon: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 		>
 			<path
 				d='M20 13.2192L20 11.7808H13.2192V5H11.7808V11.7808H5L5 13.2192H11.7808L11.7808 20H13.2192L13.2192 13.2192H20Z'
-				fill='#FF0000'
+				fill={fill}
 			/>
 		</svg>
 	);

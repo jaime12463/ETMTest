@@ -111,6 +111,7 @@ const br = {
 		ahorraste: 'Você salvou',
 		eliminarTodo: 'Excluir todos',
 		procesandoInformacion: 'Processando informação',
+		agregarSKU: 'Adicionar SKU',
 	},
 	simbolos: {
 		decimal: '.',
@@ -243,10 +244,13 @@ const br = {
 	descuentos: {
 		automatico: 'automático',
 		descuentoAutomatico: 'Desconto automático',
+		descuentoEscalonado: 'Descontos escalonados',
 		descuentoMensaje: 'Desconto {{tipo}} de -{{descuento}}%',
 		descuentoSustituido: 'O desconto {{tipo}} foi substituído por uma',
 		eliminarDescuento: 'Excluir desconto',
 		escalonado: 'escalonado',
+		mensajeModalDescuentosEscalonados:
+			'Materiais disponíveis para adicionar à entrada de pedidos que contenham descontos escalonados.',
 		polarizado: 'polarizado',
 		promocionOngoing: 'Promoção contínua',
 		promocionesOngoing: 'Promoções contínua',

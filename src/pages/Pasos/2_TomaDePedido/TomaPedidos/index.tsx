@@ -16,6 +16,7 @@ import {useForm} from 'react-hook-form';
 import {
 	useInicializarPreciosProductosDelClienteActual,
 	useObtenerDatosCliente,
+	useObtenerProductosConDescuentoEscalonado,
 } from 'hooks';
 import {
 	agregarProductoDelPedidoActual,
@@ -23,13 +24,18 @@ import {
 	cambiarAvisos,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {SwipeBorrar, Tooltip} from 'components/UI';
+import {ModalCore, SwipeBorrar, Tooltip} from 'components/UI';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
-import {BorrarIcon, BuscarIcon, PromocionColor} from 'assests/iconos';
+import {
+	BorrarIcon,
+	BuscarIcon,
+	DescuentosEscalonadosIcon,
+	PromocionColor,
+} from 'assests/iconos';
 import {useBorrarLinea, useBorrarTodoTomaPedido} from '../hooks';
 import {useMostrarAdvertenciaEnDialogo} from 'hooks';
 import useEstilos from '../useEstilos';
@@ -43,6 +49,7 @@ import {
 	AutocompleteSeleccionarProducto,
 	DrawerBuscador,
 	DrawerPromociones,
+	ModalDescuentoEscalondo,
 } from 'components/Negocio';
 
 const TomaPedido: React.FC = () => {
@@ -114,6 +121,11 @@ const TomaPedido: React.FC = () => {
 
 	const promocionesOngoing = PromocionesOngoing.getInstance();
 	const promocionesVigentesCliente = promocionesOngoing.obtenerListaVigentes();
+	const [abrirModalDescuentosEscalonados, setAbrirModalDescuentosEscalonados] =
+		React.useState<boolean>(false);
+
+	const hayProductosConDescuentoEscalonado =
+		!!useObtenerProductosConDescuentoEscalonado().length;
 
 	const puedeBotonPromocionesOngoing =
 		venta.productos.some(
@@ -255,6 +267,9 @@ const TomaPedido: React.FC = () => {
 				alerta={alerta}
 				contenidoMensaje={configAlerta}
 			/>
+			<ModalCore open={abrirModalDescuentosEscalonados} position='180px'>
+				<ModalDescuentoEscalondo setOpen={setAbrirModalDescuentosEscalonados} />
+			</ModalCore>
 			<Stack spacing='10px' position='relative'>
 				<Box
 					alignItems='center'
@@ -280,11 +295,19 @@ const TomaPedido: React.FC = () => {
 						statePreciosProductos={{preciosProductos, setPreciosProductos}}
 						stateInputFocus={stateInputFocus}
 					/>
-					<Box alignItems='center' display='flex' gap='16px'>
+					<Box alignItems='center' display='flex' gap='14px'>
+						{hayProductosConDescuentoEscalonado && (
+							<IconButton
+								onClick={() => setAbrirModalDescuentosEscalonados(true)}
+								sx={{padding: 0}}
+							>
+								<DescuentosEscalonadosIcon />
+							</IconButton>
+						)}
 						{puedeBotonPromocionesOngoing && (
 							<Box position='relative'>
 								<IconButton
-									style={{padding: 0}}
+									sx={{padding: 0}}
 									onClick={() => manejadorBotonPromosOngoing()}
 									data-cy={'botonPromocionesOnGoing'}
 								>

@@ -5,10 +5,15 @@ import useEstilos from './useEstilos';
 
 interface Props {
 	open: boolean;
+	position?: string;
 }
 
-export const ModalCore: React.FC<Props> = ({open, children}) => {
-	const classes = useEstilos();
+export const ModalCore: React.FC<Props> = ({
+	children,
+	open,
+	position = '5%',
+}) => {
+	const classes = useEstilos({position});
 
 	const modalPortal = document.getElementById('modal');
 
