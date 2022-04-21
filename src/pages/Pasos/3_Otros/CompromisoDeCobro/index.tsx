@@ -32,6 +32,7 @@ const CompromisoDeCobro: React.FC = () => {
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(
 		clienteActual.codigoCliente
 	);
+	const [huboCambios, setHuboCambios] = React.useState<boolean>(false);
 	const limiteDeCredito: number | undefined =
 		datosCliente?.informacionCrediticia.limite;
 	const totalDocumentos = useObtenerMontoTotalDocumentos();
@@ -110,15 +111,21 @@ const CompromisoDeCobro: React.FC = () => {
 
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === 'Enter') {
-			if (!Number.isNaN(Number(importe)) && Number(importe) > 0) {
+			if (
+				!Number.isNaN(Number(importe)) &&
+				Number(importe) > 0 &&
+				huboCambios
+			) {
 				agregarCompromisoDeCobro({monto: importe});
+				setHuboCambios(false);
 			}
 		}
 	};
 
 	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-		if (!Number.isNaN(Number(importe)) && Number(importe) > 0) {
+		if (!Number.isNaN(Number(importe)) && Number(importe) > 0 && huboCambios) {
 			agregarCompromisoDeCobro({monto: importe});
+			setHuboCambios(false);
 		}
 	};
 
@@ -127,6 +134,7 @@ const CompromisoDeCobro: React.FC = () => {
 	) => {
 		setImporte(e.target.value.replace(/[^0-9]/g, ''));
 		setImporteFormateado(e.target.value.replace(/[^0-9]/g, ''));
+		setHuboCambios(true);
 	};
 
 	return (
