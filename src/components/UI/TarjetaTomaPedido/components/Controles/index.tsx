@@ -43,6 +43,7 @@ interface Props {
 	stateFocusId: StateFocusID;
 	stateInfoDescuento: TStateInfoDescuentos;
 	stateInputFocus: TStateInputFocus;
+	puedeVerInfoPromoOngoin: boolean;
 }
 
 export const Controles: React.VFC<Props> = ({
@@ -52,6 +53,7 @@ export const Controles: React.VFC<Props> = ({
 	stateFocusId,
 	stateInfoDescuento,
 	stateInputFocus,
+	puedeVerInfoPromoOngoin,
 }) => {
 	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
 	const visitaActual = useObtenerVisitaActual();
@@ -400,7 +402,8 @@ export const Controles: React.VFC<Props> = ({
 					</Box>
 				)}
 			</Box>
-			{cantidad &&
+			{puedeVerInfoPromoOngoin &&
+			cantidad &&
 			((((unidadMedida === 'Unidad' && cantidad !== producto.unidades) ||
 				(unidadMedida !== 'Unidad' && cantidad !== producto.subUnidades)) &&
 				infoDescuento.tipo === ETipoDescuento.automatico) ||
