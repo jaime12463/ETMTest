@@ -1,5 +1,10 @@
 import React from 'react';
-import {TInfoDescuentos, TProductoPedido, TStateInputFocus} from 'models';
+import {
+	ETiposDePago,
+	TInfoDescuentos,
+	TProductoPedido,
+	TStateInputFocus,
+} from 'models';
 import Box from '@mui/material/Box';
 import theme from 'theme';
 import Controles from './components/Controles';
@@ -82,6 +87,16 @@ export const TarjetaTomaPedido: React.VFC<Props> = ({
 
 	const infoBeneficio = calculosPromoOngoing(producto.codigoProducto);
 
+	const productoActual = productoEnVenta ?? productoAMandar;
+	const puedeVerInfoPromoOngoin =
+		productoActual.tipoPago === ETiposDePago.Credito
+			? visitaActual.avisos.cambioElPedidoSinPromociones.credito === true
+				? false
+				: true
+			: visitaActual.avisos.cambioElPedidoSinPromociones.contado === true
+			? false
+			: true;
+
 	React.useEffect(() => {
 		if (
 			focusId === producto.codigoProducto &&
@@ -140,16 +155,13 @@ export const TarjetaTomaPedido: React.VFC<Props> = ({
 						'linear-gradient(90deg, transparent 0%, transparent 179px, #F5F0EF 179px, #F5F0EF 100%)',
 				}}
 			>
-				<SwitchYCheck
-					conSwitch={conSwitch}
-					producto={productoEnVenta ?? productoAMandar}
-				/>
+				<SwitchYCheck conSwitch={conSwitch} producto={productoActual} />
 				<Box display='flex'>
 					<Informacion
 						conSwitch={conSwitch}
 						infoBeneficio={infoBeneficio}
 						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
-						producto={productoEnVenta ?? productoAMandar}
+						producto={productoActual}
 						stateAviso={{setAlerta, setConfigAlerta}}
 						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
 						stateInputFocus={stateInputFocus}
@@ -158,17 +170,20 @@ export const TarjetaTomaPedido: React.VFC<Props> = ({
 					<Controles
 						infoBeneficio={infoBeneficio}
 						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
-						producto={productoEnVenta ?? productoAMandar}
+						producto={productoActual}
 						stateFocusId={stateFocusId}
 						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
 						stateInputFocus={stateInputFocus}
+						puedeVerInfoPromoOngoin={puedeVerInfoPromoOngoin}
 					/>
 				</Box>
-				<PromoOngoing
-					producto={productoEnVenta ?? productoAMandar}
-					infoDescuento={infoDescuento}
-					infoBeneficio={infoBeneficio}
-				/>
+				{puedeVerInfoPromoOngoin && (
+					<PromoOngoing
+						producto={productoActual}
+						infoDescuento={infoDescuento}
+						infoBeneficio={infoBeneficio}
+					/>
+				)}
 			</Box>
 		</Box>
 	);

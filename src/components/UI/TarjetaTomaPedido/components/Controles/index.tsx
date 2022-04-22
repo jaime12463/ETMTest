@@ -43,6 +43,7 @@ interface Props {
 	stateFocusId: StateFocusID;
 	stateInfoDescuento: TStateInfoDescuentos;
 	stateInputFocus: TStateInputFocus;
+	puedeVerInfoPromoOngoin: boolean;
 }
 
 const Controles: React.FC<Props> = ({
@@ -52,6 +53,7 @@ const Controles: React.FC<Props> = ({
 	stateFocusId,
 	stateInfoDescuento,
 	stateInputFocus,
+	puedeVerInfoPromoOngoin,
 }) => {
 	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
 	const visitaActual = useObtenerVisitaActual();
@@ -400,7 +402,8 @@ const Controles: React.FC<Props> = ({
 					</Box>
 				)}
 			</Box>
-			{cantidad &&
+			{puedeVerInfoPromoOngoin &&
+			cantidad &&
 			((((unidadMedida === 'Unidad' && cantidad !== producto.unidades) ||
 				(unidadMedida !== 'Unidad' && cantidad !== producto.subUnidades)) &&
 				infoDescuento.tipo === ETipoDescuento.automatico) ||
