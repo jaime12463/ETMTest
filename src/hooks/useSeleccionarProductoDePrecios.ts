@@ -52,7 +52,6 @@ export const useSeleccionarProductoDePrecios = (
 					t('advertencias.errorSKUIncorrecto'),
 					undefined,
 					'SKUincorrecto'
-
 				);
 				return;
 			}
@@ -69,7 +68,7 @@ export const useSeleccionarProductoDePrecios = (
 			) {
 				mostrarAviso(
 					'error',
-					t('advertencias.ProductoNoEstaHabilitado', {
+					t('advertencias.productoNoEstaHabilitado', {
 						codigo: productoABuscar,
 						descripcion: datosTipoPedidoActual?.descripcion,
 					})
@@ -87,7 +86,7 @@ export const useSeleccionarProductoDePrecios = (
 			) {
 				mostrarAviso(
 					'error',
-					t('advertencias.ProductoNoEstaHabilitado', {
+					t('advertencias.productoNoEstaHabilitado', {
 						codigo: productoABuscar,
 						descripcion: datosTipoPedidoActual?.descripcion,
 					})
@@ -102,7 +101,7 @@ export const useSeleccionarProductoDePrecios = (
 			) {
 				mostrarAviso(
 					'error',
-					t('advertencias.ProductoNoEstaHabilitado', {
+					t('advertencias.productoNoEstaHabilitado', {
 						codigo: productoABuscar,
 						descripcion: datosTipoPedidoActual?.descripcion,
 					})

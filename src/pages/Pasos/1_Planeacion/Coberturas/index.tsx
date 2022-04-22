@@ -25,7 +25,7 @@ interface Props {
 	coberturasAgregadas: TProductoPedido[];
 }
 
-const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
+export const Coberturas: React.VFC<Props> = ({coberturasAgregadas}) => {
 	const coberturas = useObtenerCoberturas();
 	const visitaActual = useObtenerVisitaActual();
 	const configuracion = useObtenerConfiguracion();
@@ -113,5 +113,3 @@ const Coberturas: React.FC<Props> = ({coberturasAgregadas}) => {
 		</>
 	);
 };
-
-export default Coberturas;

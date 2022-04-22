@@ -4,7 +4,7 @@ import {useObtenerVisitaActual} from 'redux/hooks';
 import Box from '@mui/material/Box';
 import {TIniciativasCliente} from 'models';
 
-const Iniciativas: React.FC = () => {
+export const Iniciativas: React.VFC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
 	const [iniciativaIncompleta, setIniciativaIncompleta] =
 		React.useState<boolean>(false);
@@ -34,5 +34,3 @@ const Iniciativas: React.FC = () => {
 		</Box>
 	);
 };
-
-export default Iniciativas;

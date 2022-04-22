@@ -11,62 +11,51 @@ import {
 	eliminarCanje,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {
-	useObtenerProductosMandatoriosVisitaActual,
 	useMostrarAviso,
 	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
-
 import {TProductoPedido} from 'models';
-
-import {
-	useManejadorConfirmarEliminarPedidosNoMandatorios,
-	useValidarTieneBonificaciones,
-} from 'pages/Pasos/2_TomaDePedido/hooks';
-
+import {useValidarTieneBonificaciones} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {useTranslation} from 'react-i18next';
 import {AvisoIcon} from 'assests/iconos';
 
 export const useBorrarTodoPromociones = (
 	stateAlerta: any,
-	productos: TProductoPedido[],
+	productos: TProductoPedido[]
 ) => {
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
-	const configuracion = useObtenerConfiguracion();
 	const visitaActual = useObtenerVisitaActual();
 	const clienteActual = useObtenerClienteActual();
 	const mostrarAviso = useMostrarAviso();
 	const {setAlerta, setConfigAlerta} = stateAlerta;
 
-	const productosMandatoriosVisitaActual =
-		useObtenerProductosMandatoriosVisitaActual();
+	const {obtenerPedidosClienteMismaFechaEntrega} =
+		useObtenerPedidosClienteMismaFechaEntrega();
 
-	const pedidoNoMandatorio = configuracion.tipoPedidos.find(
-		(tipoPedido) => tipoPedido.esMandatorio === false
-	);
+	const pedidosClienteMismaFechaEntrega =
+		obtenerPedidosClienteMismaFechaEntrega(clienteActual.codigoCliente);
 
-	const {
-		obtenerPedidosClienteMismaFechaEntrega,
-	} = useObtenerPedidosClienteMismaFechaEntrega();
-
-	const pedidosClienteMismaFechaEntrega = obtenerPedidosClienteMismaFechaEntrega(
-		clienteActual.codigoCliente
-	);
-
-	const validarTieneBonificaciones =
-		useValidarTieneBonificaciones();
+	const validarTieneBonificaciones = useValidarTieneBonificaciones();
 
 	const {bonificacionesConVenta} = useObtenerConfiguracion();
 
 	const borrarTodoPromociones = useCallback(() => {
-		const clienteOtroPedidoMismaFecha = pedidosClienteMismaFechaEntrega.length > 0 ? true : false;
+		const clienteOtroPedidoMismaFecha =
+			pedidosClienteMismaFechaEntrega.length > 0 ? true : false;
 
-		const clienteTieneCanje = visitaActual.pedidos.canje.productos.length > 0 ? true : false;
+		const clienteTieneCanje =
+			visitaActual.pedidos.canje.productos.length > 0 ? true : false;
 
 		const clienteTieneBoficaciones = validarTieneBonificaciones();
 
 		//CA2:
-		if (!clienteOtroPedidoMismaFecha && clienteTieneCanje && (clienteTieneBoficaciones && bonificacionesConVenta)) {
+		if (
+			!clienteOtroPedidoMismaFecha &&
+			clienteTieneCanje &&
+			clienteTieneBoficaciones &&
+			bonificacionesConVenta
+		) {
 			setConfigAlerta({
 				titulo: t('advertencias.borrarPromocionTitulo'),
 				mensaje: t('advertencias.borrarPromocionMensajeCanjeBonificacion'),
@@ -98,10 +87,14 @@ export const useBorrarTodoPromociones = (
 		}
 
 		//CA3:
-		if (!clienteOtroPedidoMismaFecha && clienteTieneCanje && (!clienteTieneBoficaciones || !bonificacionesConVenta)) {
+		if (
+			!clienteOtroPedidoMismaFecha &&
+			clienteTieneCanje &&
+			(!clienteTieneBoficaciones || !bonificacionesConVenta)
+		) {
 			setConfigAlerta({
 				titulo: t('advertencias.borrarPromocionTitulo'),
-				mensaje: t('advertencias.borrarPromocionMensajeCanje'),
+				mensaje: t('advertencias.borrarPromocionMensajeCanjeBonificacion'),
 				tituloBotonAceptar: 'Aceptar',
 				tituloBotonCancelar: 'Cancelar',
 				callbackAceptar: () => {
@@ -129,7 +122,12 @@ export const useBorrarTodoPromociones = (
 		}
 
 		//CA4:
-		if (!clienteOtroPedidoMismaFecha && !clienteTieneCanje && (clienteTieneBoficaciones && bonificacionesConVenta)) {
+		if (
+			!clienteOtroPedidoMismaFecha &&
+			!clienteTieneCanje &&
+			clienteTieneBoficaciones &&
+			bonificacionesConVenta
+		) {
 			setConfigAlerta({
 				titulo: t('advertencias.borrarPromocionTitulo'),
 				mensaje: t('advertencias.borrarPromocionMensajeBonificacion'),
@@ -161,34 +159,33 @@ export const useBorrarTodoPromociones = (
 
 		//CA1: o default
 		//if (clienteOtroPedidoMismaFecha) {
-			setConfigAlerta({
-				titulo: t('advertencias.borrarPromocionTitulo'),
-				mensaje: t('advertencias.borrarPromocionMensaje'),
-				tituloBotonAceptar: 'Aceptar',
-				tituloBotonCancelar: 'Cancelar',
-				callbackAceptar: () => {
-					for (const producto of productos) {
-						dispatch(
-							borrarProductoDelPedidoActual({
-								codigoProducto: producto.codigoProducto,
-							})
-						);
-					}
-					mostrarAviso(
-						'success',
-						t('advertencias.promocionEliminadoTitulo'),
-						undefined,
-						undefined,
-						'productoEliminado'
+		setConfigAlerta({
+			titulo: t('advertencias.borrarPromocionTitulo'),
+			mensaje: t('advertencias.borrarPromocionMensaje'),
+			tituloBotonAceptar: 'Aceptar',
+			tituloBotonCancelar: 'Cancelar',
+			callbackAceptar: () => {
+				for (const producto of productos) {
+					dispatch(
+						borrarProductoDelPedidoActual({
+							codigoProducto: producto.codigoProducto,
+						})
 					);
-				},
-				iconoMensaje: <AvisoIcon />,
-			});
-			setAlerta(true);
+				}
+				mostrarAviso(
+					'success',
+					t('advertencias.promocionEliminadoTitulo'),
+					undefined,
+					undefined,
+					'productoEliminado'
+				);
+			},
+			iconoMensaje: <AvisoIcon />,
+		});
+		setAlerta(true);
 
-			return;
+		return;
 		//}
-
 	}, [productos]);
 
 	return borrarTodoPromociones;

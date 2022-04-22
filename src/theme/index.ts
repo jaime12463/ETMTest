@@ -102,7 +102,7 @@ const theme = createTheme({
 			fontSize: '14px',
 		},
 		body3: {
-			lineHeight: '12px',
+			lineHeight: '14px',
 			fontSize: '12px',
 		},
 		caption: {

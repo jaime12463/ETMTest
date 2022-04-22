@@ -17,7 +17,7 @@ interface Props {
 	infoBeneficio: TInfoBeneficioProductoPromoOngoing;
 }
 
-const PromoOngoing: React.FC<Props> = ({
+export const PromoOngoing: React.VFC<Props> = ({
 	infoDescuento,
 	infoBeneficio: {cantidad, formaBeneficio, unidadMedida},
 	producto: {unidades, subUnidades, preciosBase, preciosNeto},
@@ -107,5 +107,3 @@ const PromoOngoing: React.FC<Props> = ({
 		</>
 	);
 };
-
-export default PromoOngoing;

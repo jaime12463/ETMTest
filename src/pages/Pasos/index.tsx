@@ -26,7 +26,6 @@ import {
 } from 'hooks';
 import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
 import {Configuracion} from 'components/UI/Modal';
-import {VistaPromoPush} from 'pages/Pasos/1_Planeacion/VistaPromoPush/index';
 import {
 	useAppDispatch,
 	useObtenerClienteActual,
@@ -392,19 +391,6 @@ const Pasos: React.FC = () => {
 		}
 	};
 
-	const AccionesEstructura = () => (
-		<>
-			{pasoActual === 0 && (
-				<IconButton
-					sx={{padding: 0}}
-					onClick={() => handleOpenVistaPromoPush()}
-				>
-					<PromocionesRellenoIcon />
-				</IconButton>
-			)}
-		</>
-	);
-
 	return (
 		<Suspense fallback={<Loading />}>
 			<Estructura>
@@ -412,15 +398,12 @@ const Pasos: React.FC = () => {
 					esConFechaHaciaAtras={true}
 					titulo={razonSocial}
 					onClick={() => manejadorPasoAtras()}
-					acciones={<AccionesEstructura />}
 				>
 					<InfoClienteDelPedidoActual />
 				</Estructura.Encabezado>
 				<Estructura.Cuerpo>
 					{mostarDialogo && <Dialogo {...parametrosDialogo} />}
-					<ModalCore open={openVistaPromoPush}>
-						<VistaPromoPush setOpenVistaPromoPush={setOpenVistaPromoPush} />
-					</ModalCore>
+
 					<Box
 						display='flex'
 						justifyContent='center'

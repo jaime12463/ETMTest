@@ -1,17 +1,14 @@
-import useEstilos from './useEstilos';
 import {useTranslation} from 'react-i18next';
 import {Estructura} from 'components/UI';
 import {ListadoPedidosRealizados} from './components';
 
-const PedidosDelClienteActual: React.FC = () => {
+export const PedidosDelClienteActual: React.VFC = () => {
 	const {t} = useTranslation();
-	const estilos = useEstilos();
-	//const [expandido, setExpandido] = useState<string | boolean>('');
 
 	return (
 		<Estructura
-			titulo={t('titulos.PedidosDelClienteActual')}
-			esConFechaHaciaAtras={true}
+			titulo={t('titulos.pedidosDelClienteActual')}
+			esConFechaHaciaAtras
 		>
 			<Estructura.Cuerpo>
 				<ListadoPedidosRealizados />
@@ -19,5 +16,3 @@ const PedidosDelClienteActual: React.FC = () => {
 		</Estructura>
 	);
 };
-
-export default PedidosDelClienteActual;

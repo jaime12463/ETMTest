@@ -2,16 +2,13 @@ import React from 'react';
 import {TInfoDescuentos, TProductoPedido, TStateInputFocus} from 'models';
 import Box from '@mui/material/Box';
 import theme from 'theme';
-import Controles from './components/Controles';
-import Informacion from './components/Informacion';
-import PromoOngoing from './components/PromoOngoing';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
-import SwitchYCheck from './components/SwitchYCheck';
 import {
 	useObtenerCalculoDescuentoProducto,
 	useObtenerDatosCliente,
 	useCalularPruductoEnPromoOnGoing,
 } from 'hooks';
+import {SwitchYCheck, Informacion, Controles, PromoOngoing} from './components';
 
 export interface StateFocusID {
 	focusId: number;

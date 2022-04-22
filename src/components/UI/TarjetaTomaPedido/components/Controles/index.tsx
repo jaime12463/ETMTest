@@ -45,7 +45,7 @@ interface Props {
 	stateInputFocus: TStateInputFocus;
 }
 
-const Controles: React.FC<Props> = ({
+export const Controles: React.VFC<Props> = ({
 	obtenerCalculoDescuentoProducto,
 	infoBeneficio: {cantidad, unidadMedida},
 	producto,
@@ -441,5 +441,3 @@ const Controles: React.FC<Props> = ({
 		</Box>
 	);
 };
-
-export default Controles;

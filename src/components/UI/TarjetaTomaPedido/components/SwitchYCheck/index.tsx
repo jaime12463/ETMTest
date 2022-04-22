@@ -9,7 +9,7 @@ interface Props {
 	producto: TProductoPedido;
 }
 
-const SwitchYCheck: React.FC<Props> = ({conSwitch, producto}) => {
+export const SwitchYCheck: React.VFC<Props> = ({conSwitch, producto}) => {
 	return (
 		<Box display='flex'>
 			{conSwitch ? (
@@ -38,5 +38,3 @@ const SwitchYCheck: React.FC<Props> = ({conSwitch, producto}) => {
 		</Box>
 	);
 };
-
-export default SwitchYCheck;
