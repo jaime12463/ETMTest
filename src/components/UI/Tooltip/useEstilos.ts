@@ -19,7 +19,7 @@ const useEstilos = makeStyles(() =>
 			bottom: '-40px',
 			display: 'flex',
 			left: '-235px',
-			padding: '8px 22px',
+			padding: '8px 20px',
 			position: 'absolute',
 			width: '304px',
 			'&::before': {
