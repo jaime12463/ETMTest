@@ -1,33 +1,34 @@
 import {makeStyles, createStyles} from '@material-ui/styles';
-import produce from 'immer';
 import {TProductoPedido} from 'models';
 import theme from 'theme';
 
-interface Props {
+export interface EstilosInputProps {
 	bordeError: boolean;
-	unidades: number;
-	subUnidades: number;
 	producto: TProductoPedido;
 	cantidadMaximaConfig: number;
 }
 
-const useEstilos = makeStyles(() =>
+export const useEstilos = makeStyles(() =>
 	createStyles({
 		input: {
 			backgroundColor: '#fff',
-			border: (props: Props) => {
-				if (props.bordeError) {
-					if (props.unidades === 0 && props.subUnidades === 0) {
+			border: ({
+				bordeError,
+				cantidadMaximaConfig,
+				producto,
+			}: EstilosInputProps) => {
+				if (bordeError) {
+					if (producto.unidades === 0 && producto.subUnidades === 0) {
 						return `1px solid ${theme.palette.primary.main}`;
 					}
 
-					if (props.producto.unidadesDisponibles) {
-						if (props.unidades > props.producto.unidadesDisponibles) {
+					if (producto.unidadesDisponibles) {
+						if (producto.unidades > producto.unidadesDisponibles) {
 							return `1px solid ${theme.palette.primary.main}`;
 						}
 					}
 
-					if (props.unidades > props.cantidadMaximaConfig) {
+					if (producto.unidades > cantidadMaximaConfig) {
 						return `1px solid ${theme.palette.primary.main}`;
 					}
 				}
@@ -36,19 +37,23 @@ const useEstilos = makeStyles(() =>
 			},
 			borderRadius: '10px',
 			'& .MuiInput-input': {
-				color: (props: Props) => {
-					if (props.bordeError) {
-						if (props.unidades === 0 && props.subUnidades === 0) {
+				color: ({
+					bordeError,
+					cantidadMaximaConfig,
+					producto,
+				}: EstilosInputProps) => {
+					if (bordeError) {
+						if (producto.unidades === 0 && producto.subUnidades === 0) {
 							return theme.palette.primary.main;
 						}
 
-						if (props.producto.unidadesDisponibles) {
-							if (props.unidades > props.producto.unidadesDisponibles) {
+						if (producto.unidadesDisponibles) {
+							if (producto.unidades > producto.unidadesDisponibles) {
 								return theme.palette.primary.main;
 							}
 						}
 
-						if (props.unidades > props.cantidadMaximaConfig) {
+						if (producto.unidades > cantidadMaximaConfig) {
 							return theme.palette.primary.main;
 						}
 					}
@@ -65,5 +70,3 @@ const useEstilos = makeStyles(() =>
 		},
 	})
 );
-
-export default useEstilos;

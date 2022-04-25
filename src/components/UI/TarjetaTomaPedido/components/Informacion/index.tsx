@@ -220,7 +220,11 @@ export const Informacion: React.VFC<Props> = ({
 					: '12px 8px 0 14px'
 			}
 		>
-			<Typography variant='subtitle3' fontFamily='Open Sans'>
+			<Typography
+				variant='subtitle3'
+				fontFamily='Open Sans'
+				sx={{gridArea: 'Informacion1'}}
+			>
 				{codigoProducto}
 			</Typography>
 			<Typography

@@ -1,8 +1,5 @@
 import React, {useEffect} from 'react';
-import Input from '@mui/material/Input';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import {Box, IconButton, Typography} from '@mui/material';
 import {
 	AgregarRedondoIcon,
 	BotellaIcon,
@@ -26,8 +23,8 @@ import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {useTranslation} from 'react-i18next';
 import {StateFocusID} from '../..';
-import useEstilos from './useEstilos';
 import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularPruductoEnPromoOnGoing';
+import {InputCantidades, EstilosInputProps} from 'components/UI';
 
 interface Props {
 	obtenerCalculoDescuentoProducto: (
@@ -77,7 +74,7 @@ export const Controles: React.VFC<Props> = ({
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
-	const {configuracionPedido}: any = datosCliente;
+	const configuracionPedido = datosCliente!.configuracionPedido;
 
 	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
 		producto,
@@ -91,13 +88,11 @@ export const Controles: React.VFC<Props> = ({
 	const validacionPermiteSubUnidades =
 		useValidacionPermiteSubUnidades(producto);
 
-	const classes = useEstilos({
+	const useEstilosProps: EstilosInputProps = {
 		bordeError: visitaActual.seQuedaAEditar.bordeError,
-		unidades: getValues.unidades,
-		subUnidades: getValues.subUnidades,
 		producto,
-		cantidadMaximaConfig: configuracionPedido.cantidadMaximaUnidades,
-	});
+		cantidadMaximaConfig: configuracionPedido.cantidadMaximaUnidades ?? 0,
+	};
 
 	React.useEffect(() => {
 		obtenerCalculoDescuentoProducto(
@@ -265,11 +260,9 @@ export const Controles: React.VFC<Props> = ({
 							width='18px'
 						/>
 					</IconButton>
-					<Input
-						autoComplete='off'
-						className={classes.input}
+					<InputCantidades
+						useEstilosProps={useEstilosProps}
 						data-cy={`cantidad-producto-unidades-${producto.codigoProducto}`}
-						disableUnderline
 						id='unidades_producto'
 						inputProps={{
 							style: {textAlign: 'center'},
@@ -299,8 +292,9 @@ export const Controles: React.VFC<Props> = ({
 								? producto.unidades >= producto.unidadesDisponibles
 									? true
 									: false
-								: producto.unidades >=
-								  configuracionPedido?.cantidadMaximaUnidades
+								: !!configuracionPedido?.cantidadMaximaUnidades &&
+								  producto.unidades >=
+										configuracionPedido?.cantidadMaximaUnidades
 								? true
 								: false
 						}
@@ -316,8 +310,9 @@ export const Controles: React.VFC<Props> = ({
 									? producto.unidades >= producto.unidadesDisponibles
 										? true
 										: false
-									: producto.unidades >=
-									  configuracionPedido?.cantidadMaximaUnidades
+									: !!configuracionPedido?.cantidadMaximaUnidades &&
+									  producto.unidades >=
+											configuracionPedido?.cantidadMaximaUnidades
 									? true
 									: false
 							}
@@ -349,11 +344,9 @@ export const Controles: React.VFC<Props> = ({
 									width='18px'
 								/>
 							</IconButton>
-							<Input
-								autoComplete='off'
-								className={classes.input}
+							<InputCantidades
+								useEstilosProps={useEstilosProps}
 								data-cy={`cantidad-producto-subUnidades-${producto.codigoProducto}`}
-								disableUnderline
 								id='subUnidades_producto'
 								inputProps={{
 									style: {textAlign: 'center'},

@@ -24,7 +24,13 @@ import {
 	cambiarAvisos,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {ModalCore, SwipeBorrar, Tooltip} from 'components/UI';
+import {
+	BotonSmall,
+	ModalCore,
+	SwipeBorrar,
+	TarjetaDescuentoEscalonado,
+	Tooltip,
+} from 'components/UI';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -340,31 +346,23 @@ const TomaPedido: React.FC = () => {
 					) && (
 						<Grid container alignItems='center' justifyContent='space-between'>
 							<Box
-								display={'flex'}
-								minWidth={'100%'}
+								display='flex'
+								minWidth='100%'
 								justifyContent='space-between'
 								alignItems='center'
 								padding={'0 0 0 18px'}
 							>
 								<SwitchCambiarTipoPago />
-								<Chip
-									className={classes.root}
-									size='small'
-									label={
-										<Box alignItems='center' display='flex' gap='4px'>
-											<BorrarIcon width='10px' height='10px' />
-											<Typography
-												variant='caption'
-												color='secondary'
-												fontFamily='Open Sans'
-											>
-												{t('general.eliminarTodo')}
-											</Typography>
-										</Box>
-									}
-									sx={{'&:hover': {background: 'none'}}}
-									onClick={() => borrarTodosLosProductos()}
-								/>
+								<BotonSmall onClick={() => borrarTodosLosProductos()}>
+									<BorrarIcon height={10} width={10} />
+									<Typography
+										variant='caption'
+										color='secondary'
+										fontFamily='Open Sans'
+									>
+										{t('general.eliminarTodo')}
+									</Typography>
+								</BotonSmall>
 							</Box>
 						</Grid>
 					)}
@@ -400,13 +398,22 @@ const TomaPedido: React.FC = () => {
 												stateInputFocus={stateInputFocus}
 											/>
 										</Box>
+									) : !!producto.descuentoEscalonado ? (
+										<TarjetaDescuentoEscalonado
+											producto={producto}
+											stateFocusId={{focusId, setFocusId}}
+											stateInputFocus={stateInputFocus}
+											bordeRedondeado
+											conSwitch={clienteActual.condicion === 'creditoInformal'}
+											stateAviso={{setAlerta, setConfigAlerta}}
+										/>
 									) : (
 										<TarjetaTomaPedido
 											producto={producto}
 											stateFocusId={{focusId, setFocusId}}
 											stateInputFocus={stateInputFocus}
 											bordeRedondeado
-											conSwitch
+											conSwitch={clienteActual.condicion === 'creditoInformal'}
 											stateAviso={{setAlerta, setConfigAlerta}}
 										/>
 									)}

@@ -14,12 +14,22 @@ export const SwitchYCheck: React.VFC<Props> = ({conSwitch, producto}) => {
 		<Box display='flex'>
 			{conSwitch ? (
 				<>
-					<Box display='flex' flex='1' padding='12px 8px 0 14px'>
+					<Box
+						display='flex'
+						flex='1'
+						padding='12px 8px 0 14px'
+						sx={{gridArea: 'Switch'}}
+					>
 						<SwitchCambiarTipoPago producto={producto} />
 					</Box>
-					<Box padding='12px 14px 0 8px' textAlign='right' width='125px'>
+					<Box
+						padding='12px 14px 0 8px'
+						textAlign='right'
+						width='125px'
+						sx={{gridArea: 'Check'}}
+					>
 						{(producto.unidades > 0 || producto.subUnidades > 0) && (
-							<CheckRedondoIcon height='17.5px' width='17.5px' />
+							<CheckRedondoIcon height={20} width={20} />
 						)}
 					</Box>
 				</>
@@ -29,7 +39,7 @@ export const SwitchYCheck: React.VFC<Props> = ({conSwitch, producto}) => {
 						<>
 							<Box flex='1' />
 							<Box padding='12px 14px 0 8px' textAlign='right' width='125px'>
-								<CheckRedondoIcon height='17.5px' width='17.5px' />
+								<CheckRedondoIcon height={20} width={20} />
 							</Box>
 						</>
 					)}

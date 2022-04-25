@@ -6,6 +6,7 @@ import {formatearNumero} from 'utils/methods';
 import {useObtenerDatos} from 'redux/hooks';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
+import {BotonSmall} from 'components/UI';
 
 interface Props {
 	agregarProductoAlPedido: (producto: TPrecioProducto) => void;
@@ -80,25 +81,7 @@ export const ListaProductos: React.VFC<Props> = ({
 											</Typography>
 										</Box>
 									</Box>
-									<Box
-										alignItems='center'
-										border={`1px solid ${theme.palette.secondary.main}`}
-										borderRadius='50px'
-										component='button'
-										display='flex'
-										gap='4px'
-										onClick={() => agregarProductoAlPedido(producto)}
-										padding='4px 12px'
-										sx={{
-											background: 'transparent',
-											cursor: 'pointer',
-											transition: 'box-shadow 0.2s ease-in-out',
-											'&:focus-visible': {
-												boxShadow: `0 0 0 1px ${theme.palette.secondary.main}`,
-												outline: 'none',
-											},
-										}}
-									>
+									<BotonSmall onClick={() => agregarProductoAlPedido(producto)}>
 										<AgregarIcon
 											fill={theme.palette.secondary.main}
 											height={10}
@@ -111,7 +94,7 @@ export const ListaProductos: React.VFC<Props> = ({
 										>
 											{t('general.agregarSKU')}
 										</Typography>
-									</Box>
+									</BotonSmall>
 								</Box>
 								{index !== productosParaMostrar.length - 1 && <Divider />}
 							</Box>
