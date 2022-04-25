@@ -26,7 +26,7 @@ const OrdenDeCompra: React.FC = () => {
 	}, [ordenDeCompra]);
 
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		if (e.key === 'Enter' && huboCambios) {
+		if (e.key === 'Enter' && huboCambios && ordenDeCompra.length > 0) {
 			mostrarAviso(
 				'success',
 				'Orden de compra agregado correctamente',
@@ -40,7 +40,7 @@ const OrdenDeCompra: React.FC = () => {
 	};
 
 	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-		if (huboCambios) {
+		if (huboCambios && ordenDeCompra.length > 0) {
 			mostrarAviso(
 				'success',
 				'Orden de compra agregado correctamente',
