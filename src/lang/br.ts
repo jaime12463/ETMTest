@@ -47,6 +47,7 @@ const br = {
 		editar: 'Editar',
 		editarCantidades: 'Editar quantidades',
 		ejecutada: 'Executado',
+		eliminar: 'Excluir',
 		eliminarTodo: 'Excluir todos',
 		envase: 'Vasilhame',
 		estado: 'Estado',
@@ -55,6 +56,7 @@ const br = {
 		fechaDeAlta: 'Data de alta',
 		fechaEntrega: 'Data de entrega',
 		finalizarVisita: 'Finalizar visita',
+		ingresarPrecioVenta: 'Insira o preço de venda',
 		intentaOtroProducto: 'Experimente outro produto',
 		limiteDeCredito: 'Limite de crédito',
 		loSentimos: '¡Desculpe!',
@@ -289,6 +291,12 @@ const br = {
 		restablecerBonificacionesMensaje:
 			'Todos os valores de bônus devem ser zerados.',
 		restablecerBonificacionesTitulo: 'Redefinir quantidades para zero',
+		restablecerPromocionesContadoMensaje:
+			'As promoções em dinheiro que você já aplicou serão reiniciadas para novo cálculo.',
+		restablecerPromocionesContadoTitulo: 'Restaurar as promoções em dinheiro',
+		restablecerPromocionesCreditoMensaje:
+			'As promoções de crédito que você já aplicou serão redefinidas para novo cálculo.',
+		restablecerPromocionesCreditoTitulo: 'Restaurar as promoções de crédito',
 		salirOrderTaking: 'Deseja sair do Order Taking?',
 		salirOrderTakingMensaje:
 			'Se sair de toda a actividade registada será perdida.',
@@ -324,6 +332,8 @@ const br = {
 		limiteDeCreditoExcedidoMensaje:
 			'Este cliente excedeu seu limite de crédito, portanto, não será possível fazer pedidos a crédito.',
 		limiteDeCreditoExcedidoTitulo: 'Limite de crédito excedido',
+		noPuedesGenerarPedidoMensaje:
+			'Você não pode gerar um pedido para este cliente. Você quer gerar um compromisso de pagamento?',
 		pedidoMinimoNoAlcanzadoMensaje:
 			'O pedido mínimo não foi alcançado, por favor, complete o pedido.',
 		pedidoMinimoNoAlcanzadoTitulo: 'Pedido mínimo não alcançado',

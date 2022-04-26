@@ -94,10 +94,10 @@ export const useBorrarTodoTomaPedido = (
 					: t('advertencias.borrarPedidosGeneral'),
 				tituloBotonAceptar: esEnValidarPasos
 					? t('general.avanzar')
-					: 'Eliminar Todos',
+					: t('general.eliminarTodo'),
 				tituloBotonCancelar: esEnValidarPasos
 					? t('general.editarCantidades')
-					: 'Cancelar',
+					: t('general.cancelar'),
 				callbackAceptar: () => {
 					for (const producto of productos) {
 						dispatch(
@@ -148,10 +148,10 @@ export const useBorrarTodoTomaPedido = (
 					: t('advertencias.borrarPedidosGeneral'),
 				tituloBotonAceptar: esEnValidarPasos
 					? t('general.avanzar')
-					: 'Eliminar Todos',
+					: t('general.eliminarTodo'),
 				tituloBotonCancelar: esEnValidarPasos
 					? t('general.editarCantidades')
-					: 'Cancelar',
+					: t('general.cancelar'),
 				callbackAceptar: () => {
 					for (const producto of productos) {
 						dispatch(
@@ -201,10 +201,10 @@ export const useBorrarTodoTomaPedido = (
 					: t('advertencias.borrarPedidosGeneral'),
 				tituloBotonAceptar: esEnValidarPasos
 					? t('general.avanzar')
-					: 'Eliminar Todos',
+					: t('general.eliminarTodo'),
 				tituloBotonCancelar: esEnValidarPasos
 					? t('general.editarCantidades')
-					: 'Cancelar',
+					: t('general.cancelar'),
 				callbackAceptar: () => {
 					for (const producto of productos) {
 						dispatch(
@@ -250,7 +250,7 @@ export const useBorrarTodoTomaPedido = (
 			tituloBotonAceptar: esEnValidarPasos ? t('general.avanzar') : 'Eliminar',
 			tituloBotonCancelar: esEnValidarPasos
 				? t('general.editarCantidades')
-				: 'Cancelar',
+				: t('general.cancelar'),
 			callbackAceptar: () => {
 				if (esEnValidarPasos) {
 					dispatch(limpiarProductosSinCantidad());

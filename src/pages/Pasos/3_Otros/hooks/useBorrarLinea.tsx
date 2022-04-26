@@ -18,8 +18,8 @@ export const useBorrarLinea = (stateAlerta: any) => {
 			setConfigAlerta({
 				titulo: t('advertencias.borrarLineaPedidosTitulo'),
 				mensaje: t('advertencias.borrarLineaPedidosMensajeUnicoCanje'),
-				tituloBotonAceptar: 'Aceptar',
-				tituloBotonCancelar: 'Cancelar',
+				tituloBotonAceptar: t('general.aceptar'),
+				tituloBotonCancelar: t('general.cancelar'),
 				callbackAceptar: () => {
 					dispatch(
 						borrarProductoDelPedidoActual({

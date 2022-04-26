@@ -159,7 +159,6 @@ export const TarjetaTomaPedido: React.VFC<Props> = ({
 						infoBeneficio={infoBeneficio}
 						obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
 						producto={productoActual}
-						stateAviso={{setAlerta, setConfigAlerta}}
 						stateInfoDescuento={{infoDescuento, setInfoDescuento}}
 						stateInputFocus={stateInputFocus}
 						stateFocusId={stateFocusId}

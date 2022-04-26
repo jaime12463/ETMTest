@@ -66,8 +66,8 @@ export const useBorrarLinea = (stateAlerta: any) => {
 				setConfigAlerta({
 					titulo: t('advertencias.borrarLineaPedidosTitulo'),
 					mensaje: t('advertencias.borrarLineaPedidosMensajeCanjeBonificacion'),
-					tituloBotonAceptar: 'Aceptar',
-					tituloBotonCancelar: 'Cancelar',
+					tituloBotonAceptar: t('general.aceptar'),
+					tituloBotonCancelar: t('general.cancelar'),
 					callbackAceptar: () => {
 						dispatch(
 							borrarProductoDelPedidoActual({
@@ -102,8 +102,8 @@ export const useBorrarLinea = (stateAlerta: any) => {
 				setConfigAlerta({
 					titulo: t('advertencias.borrarLineaPedidosTitulo'),
 					mensaje: t('advertencias.borrarLineaPedidosMensajeCanje'),
-					tituloBotonAceptar: 'Eliminar',
-					tituloBotonCancelar: 'Cancelar',
+					tituloBotonAceptar: t('general.eliminar'),
+					tituloBotonCancelar: t('general.cancelar'),
 					callbackAceptar: () => {
 						dispatch(
 							borrarProductoDelPedidoActual({
@@ -138,8 +138,8 @@ export const useBorrarLinea = (stateAlerta: any) => {
 				setConfigAlerta({
 					titulo: t('advertencias.borrarLineaPedidosTitulo'),
 					mensaje: t('advertencias.borrarLineaPedidosMensajeBonificacion'),
-					tituloBotonAceptar: 'Eliminar',
-					tituloBotonCancelar: 'Cancelar',
+					tituloBotonAceptar: t('general.eliminar'),
+					tituloBotonCancelar: t('general.cancelar'),
 					callbackAceptar: () => {
 						dispatch(
 							borrarProductoDelPedidoActual({
@@ -189,8 +189,8 @@ export const useBorrarLinea = (stateAlerta: any) => {
 				setConfigAlerta({
 					titulo: t('advertencias.borrarLineaPedidosTitulo'),
 					mensaje: t('advertencias.borrarLineaPedidosMensajeUnico'),
-					tituloBotonAceptar: 'Aceptar',
-					tituloBotonCancelar: 'Cancelar',
+					tituloBotonAceptar: t('general.aceptar'),
+					tituloBotonCancelar: t('general.cancelar'),
 					callbackAceptar: () => {
 						dispatch(
 							borrarProductoDelPedidoActual({

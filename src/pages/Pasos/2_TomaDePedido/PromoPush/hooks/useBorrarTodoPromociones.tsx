@@ -59,8 +59,8 @@ export const useBorrarTodoPromociones = (
 			setConfigAlerta({
 				titulo: t('advertencias.borrarPromocionTitulo'),
 				mensaje: t('advertencias.borrarPromocionMensajeCanjeBonificacion'),
-				tituloBotonAceptar: 'Aceptar',
-				tituloBotonCancelar: 'Cancelar',
+				tituloBotonAceptar: t('general.aceptar'),
+				tituloBotonCancelar: t('general.cancelar'),
 				callbackAceptar: () => {
 					for (const producto of productos) {
 						dispatch(
@@ -95,8 +95,8 @@ export const useBorrarTodoPromociones = (
 			setConfigAlerta({
 				titulo: t('advertencias.borrarPromocionTitulo'),
 				mensaje: t('advertencias.borrarPromocionMensajeCanjeBonificacion'),
-				tituloBotonAceptar: 'Aceptar',
-				tituloBotonCancelar: 'Cancelar',
+				tituloBotonAceptar: t('general.aceptar'),
+				tituloBotonCancelar: t('general.cancelar'),
 				callbackAceptar: () => {
 					for (const producto of productos) {
 						dispatch(
@@ -131,8 +131,8 @@ export const useBorrarTodoPromociones = (
 			setConfigAlerta({
 				titulo: t('advertencias.borrarPromocionTitulo'),
 				mensaje: t('advertencias.borrarPromocionMensajeBonificacion'),
-				tituloBotonAceptar: 'Aceptar',
-				tituloBotonCancelar: 'Cancelar',
+				tituloBotonAceptar: t('general.aceptar'),
+				tituloBotonCancelar: t('general.cancelar'),
 				callbackAceptar: () => {
 					for (const producto of productos) {
 						dispatch(
@@ -162,8 +162,8 @@ export const useBorrarTodoPromociones = (
 		setConfigAlerta({
 			titulo: t('advertencias.borrarPromocionTitulo'),
 			mensaje: t('advertencias.borrarPromocionMensaje'),
-			tituloBotonAceptar: 'Aceptar',
-			tituloBotonCancelar: 'Cancelar',
+			tituloBotonAceptar: t('general.aceptar'),
+			tituloBotonCancelar: t('general.cancelar'),
 			callbackAceptar: () => {
 				for (const producto of productos) {
 					dispatch(

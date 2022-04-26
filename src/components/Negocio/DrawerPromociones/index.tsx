@@ -162,12 +162,11 @@ export const DrawerPromociones: React.VFC<Props> = ({
 								tipo='credito'
 								onClick={() => {
 									setConfigAlerta({
-										titulo: 'Restablecer promociones a crédito',
-										mensaje:
-											'Las promociones a crédito que ya tienes aplicadas se reiniciarán para volver a calcular. ',
-										tituloBotonAceptar: 'Aceptar',
+										titulo: t('modal.restablecerPromocionesContadoTitulo'),
+										mensaje: t('modal.restablecerPromocionesContadoMensaje'),
+										tituloBotonAceptar: t('general.aceptar'),
 										callbackAceptar: () => restablecerPromociones('Credito'),
-										tituloBotonCancelar: 'Cancelar',
+										tituloBotonCancelar: t('general.cancelar'),
 										iconoMensaje: <AvisoIcon />,
 									});
 									setAlerta(true);
@@ -209,12 +208,11 @@ export const DrawerPromociones: React.VFC<Props> = ({
 								tipo='contado'
 								onClick={() => {
 									setConfigAlerta({
-										titulo: 'Restablecer promociones a contado',
-										mensaje:
-											'Las promociones a contado que ya tienes aplicadas se reiniciarán para volver a calcular.',
-										tituloBotonAceptar: 'Aceptar',
+										titulo: t('modal.restablecerPromocionesContadoTitulo'),
+										mensaje: t('modal.restablecerPromocionesContadoMensaje'),
+										tituloBotonAceptar: t('general.aceptar'),
 										callbackAceptar: () => restablecerPromociones('Contado'),
-										tituloBotonCancelar: 'Cancelar',
+										tituloBotonCancelar: t('general.cancelar'),
 										iconoMensaje: <AvisoIcon />,
 									});
 									setAlerta(true);

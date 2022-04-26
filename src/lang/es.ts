@@ -47,6 +47,7 @@ const es = {
 		editar: 'Editar',
 		editarCantidades: 'Editar cantidades',
 		ejecutada: 'Ejecutada',
+		eliminar: 'Eliminar',
 		eliminarTodo: 'Eliminar todo',
 		envases: 'Envases',
 		estado: 'Estado',
@@ -55,6 +56,7 @@ const es = {
 		fechaDeAlta: 'Fecha de alta',
 		fechaEntrega: 'Fecha de entrega',
 		finalizarVisita: 'Finalizar visita',
+		ingresarPrecioVenta: 'Ingresar precio venta',
 		intentaOtroProducto: 'Intenta con otro producto',
 		limiteDeCredito: 'Límite de crédito',
 		loSentimos: '¡Lo sentimos!',
@@ -288,6 +290,12 @@ const es = {
 		restablecerBonificacionesMensaje:
 			'Todas las cantidades de las bonificaciones se restablecerán a cero.',
 		restablecerBonificacionesTitulo: 'Restablecer cantidades a cero',
+		restablecerPromocionesContadoMensaje:
+			'Las promociones a contado que ya tienes aplicadas se reiniciarán para volver a calcular.',
+		restablecerPromocionesContadoTitulo: 'Restablecer promociones a contado',
+		restablecerPromocionesCreditoMensaje:
+			'Las promociones a crédito que ya tienes aplicadas se reiniciarán para volver a calcular.',
+		restablecerPromocionesCreditoTitulo: 'Restablecer promociones a crédito',
 		salirOrderTaking: '¿Quieres salir de Order taking?',
 		salirOrderTakingMensaje:
 			'Si sales toda la actividad registrada se perderá.',
@@ -322,6 +330,8 @@ const es = {
 		limiteDeCreditoExcedidoMensaje:
 			'Este cliente ha excedido su límite de crédito, por lo que no se podra levantar pedidos a crédito',
 		limiteDeCreditoExcedidoTitulo: 'Límite de crédito excedido',
+		noPuedesGenerarPedidoMensaje:
+			'No puedes generar un pedido para este cliente. ¿Quieres generar un compromiso de pago?',
 		pedidoMinimoNoAlcanzadoMensaje:
 			'No se ha alcanzado el pedido mínimo, por favor completar el pedido.',
 		pedidoMinimoNoAlcanzadoTitulo: 'Pedido mínimo no alcanzado',

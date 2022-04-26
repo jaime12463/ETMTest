@@ -47,6 +47,7 @@ const en = {
 		editar: 'Edit',
 		editarCantidades: 'Edit quantities',
 		ejecutada: 'Executed',
+		eliminar: 'Delete',
 		eliminarTodo: 'Delete all',
 		envase: 'Packaging',
 		estado: 'Status',
@@ -55,6 +56,7 @@ const en = {
 		fechaDeAlta: 'Date of registration',
 		fechaEntrega: 'Delivery date',
 		finalizarVisita: 'End visit',
+		ingresarPrecioVenta: 'Enter selling price',
 		intentaOtroProducto: 'Try another product',
 		limiteDeCredito: 'Credit limit',
 		loSentimos: 'Sorry!',
@@ -286,6 +288,12 @@ const en = {
 		restablecerBonificacionesMensaje:
 			'All bonus amounts will be reset to zero.',
 		restablecerBonificacionesTitulo: 'Reset quantities to zero',
+		restablecerPromocionesContadoMensaje:
+			'The cash promotions you have already applied will be reset for recalculation.',
+		restablecerPromocionesContadoTitulo: 'Reset cash promotions',
+		restablecerPromocionesCreditoMensaje:
+			'Credit promotions already applied will be reset for recalculation.',
+		restablecerPromocionesCreditoTitulo: 'Reset credit promotions',
 		salirOrderTaking: 'Do you want to leave the order taking?',
 		salirOrderTakingMensaje: 'If you exit all recorded activity will be lost.',
 		tarjetasVaciasMensaje:
@@ -320,6 +328,8 @@ const en = {
 		limiteDeCreditoExcedidoMensaje:
 			'This customer has exceeded his credit limit, so no credit orders can be placed.',
 		limiteDeCreditoExcedidoTitulo: 'Credit limit exceeded',
+		noPuedesGenerarPedidoMensaje:
+			'You cannot generate an order for this customer. Do you want to generate a payment commitment?',
 		pedidoMinimoNoAlcanzadoMensaje:
 			'The minimum order has not been reached, please complete the order.',
 		pedidoMinimoNoAlcanzadoTitulo: 'Minimum order not reached',
