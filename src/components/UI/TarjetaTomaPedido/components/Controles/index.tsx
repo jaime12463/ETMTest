@@ -7,6 +7,7 @@ import {
 	QuitarRellenoIcon,
 } from 'assests/iconos';
 import {
+	EFormaBeneficio,
 	ETipoDescuento,
 	TClienteActual,
 	TProductoPedido,
@@ -45,7 +46,7 @@ interface Props {
 
 export const Controles: React.VFC<Props> = ({
 	obtenerCalculoDescuentoProducto,
-	infoBeneficio: {cantidad, unidadMedida},
+	infoBeneficio: {cantidad, formaBeneficio, unidadMedida},
 	producto,
 	stateFocusId,
 	stateInfoDescuento,
@@ -395,17 +396,21 @@ export const Controles: React.VFC<Props> = ({
 					</Box>
 				)}
 			</Box>
-			{puedeVerInfoPromoOngoin &&
-			cantidad &&
-			((((unidadMedida === 'Unidad' && cantidad !== producto.unidades) ||
-				(unidadMedida !== 'Unidad' && cantidad !== producto.subUnidades)) &&
-				infoDescuento.tipo === ETipoDescuento.automatico) ||
-				infoDescuento.tipo === ETipoDescuento.polarizado) ? (
+			{(puedeVerInfoPromoOngoin &&
+				!!cantidad &&
+				(infoDescuento.tipo === ETipoDescuento.polarizado ||
+					!infoDescuento.tipo) &&
+				formaBeneficio !== EFormaBeneficio.Obsequio) ||
+			(puedeVerInfoPromoOngoin &&
+				!!cantidad &&
+				infoDescuento.tipo === ETipoDescuento.automatico &&
+				((unidadMedida === 'Unidad' && cantidad !== producto.unidades) ||
+					(unidadMedida !== 'Unidad' && cantidad !== producto.subUnidades))) ? (
 				<Box
 					display='flex'
 					flexDirection='column'
 					gap='6px'
-					marginTop={validacionPermiteSubUnidades ? '0' : '26px'}
+					marginTop={validacionPermiteSubUnidades ? 0 : '26px'}
 					padding='0 14px 12px 8px'
 				>
 					<Typography color='#000' variant='caption' fontFamily='Open Sans'>

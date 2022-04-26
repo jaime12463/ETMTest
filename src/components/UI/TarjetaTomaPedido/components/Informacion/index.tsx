@@ -10,16 +10,13 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import {
-	AvisoIcon,
 	BotellaIcon,
 	CajaIcon,
 	PromocionColor,
-	QuitarRellenoIcon,
 	SimboloMoneda,
 } from 'assests/iconos';
 import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
-import theme from 'theme';
 import {useAppDispatch, useObtenerDatos} from 'redux/hooks';
 import {borrarDescuentoDelProducto} from 'redux/features/visitaActual/visitaActualSlice';
 import {useMostrarAviso, useValidacionPermiteSubUnidades} from 'hooks';
@@ -38,7 +35,6 @@ interface Props {
 		stateInfoDescuento: TStateInfoDescuentos
 	) => void;
 	producto: TProductoPedido;
-	stateAviso: any;
 	stateFocusId: StateFocusID;
 	stateInfoDescuento: TStateInfoDescuentos;
 	stateInputFocus: TStateInputFocus;
@@ -49,7 +45,6 @@ export const Informacion: React.VFC<Props> = ({
 	infoBeneficio: {cantidad, formaBeneficio, unidadMedida},
 	obtenerCalculoDescuentoProducto,
 	producto,
-	stateAviso,
 	stateFocusId,
 	stateInfoDescuento,
 	stateInputFocus,
@@ -72,8 +67,6 @@ export const Informacion: React.VFC<Props> = ({
 
 	const {unidad, subUnidad} = preciosNeto;
 
-	const {setAlerta, setConfigAlerta} = stateAviso;
-
 	const {infoDescuento, setInfoDescuento} = stateInfoDescuento;
 
 	const dispatch = useAppDispatch();
@@ -92,8 +85,6 @@ export const Informacion: React.VFC<Props> = ({
 			? t('descuentos.automatico')
 			: infoDescuento.tipo === ETipoDescuento.polarizado
 			? t('descuentos.polarizado')
-			: infoDescuento.tipo === ETipoDescuento.escalonado
-			? t('descuentos.escalonado')
 			: '';
 
 	const eliminarDescuento = () => {
@@ -196,11 +187,8 @@ export const Informacion: React.VFC<Props> = ({
 	};
 
 	const mostrarInputPolarizado =
-		infoDescuento.tipo === ETipoDescuento.polarizado
-			? unidades > 0 || subUnidades > 0
-				? true
-				: false
-			: false;
+		infoDescuento.tipo === ETipoDescuento.polarizado &&
+		(unidades > 0 || subUnidades > 0);
 
 	return (
 		<Box
@@ -278,8 +266,8 @@ export const Informacion: React.VFC<Props> = ({
 				}}
 			>
 				<CajaIcon
-					height='18px'
-					width='18px'
+					height={18}
+					width={18}
 					style={{
 						gridArea: 'Caja',
 						marginBottom:
@@ -305,7 +293,7 @@ export const Informacion: React.VFC<Props> = ({
 								: '0',
 					}}
 				>
-					x{presentacion}
+					{`x${presentacion}`}
 				</Typography>
 				<Typography
 					variant='subtitle3'
@@ -409,8 +397,7 @@ export const Informacion: React.VFC<Props> = ({
 									marginBottom: '8px',
 								}}
 							>
-								{infoDescuento.tipo === ETipoDescuento.polarizado ||
-								infoDescuento.tipo === ETipoDescuento.escalonado
+								{infoDescuento.tipo === ETipoDescuento.polarizado
 									? t('descuentos.descuentoMensaje', {
 											tipo: tipoDescuento,
 											descuento: infoDescuento.porcentajeDescuento,
@@ -456,7 +443,7 @@ export const Informacion: React.VFC<Props> = ({
 									top='50%'
 									variant='body3'
 								>
-									Ingresar precio venta
+									{t('general.ingresarPrecioVenta')}
 								</Typography>
 							)}
 							{(inputClicked || inputValue) && (
@@ -514,41 +501,6 @@ export const Informacion: React.VFC<Props> = ({
 							/>
 						</Box>
 					</Box>
-				</Box>
-			)}
-			{mostrarInfo && infoDescuento.tipo === ETipoDescuento.escalonado && (
-				<Box
-					alignItems='center'
-					border={`1px solid ${theme.palette.primary.main}`}
-					borderRadius='50px'
-					display='flex'
-					gap='4px'
-					marginTop='8px'
-					padding='4px 12px'
-					sx={{cursor: 'pointer'}}
-					width='fit-content'
-					onClick={() => {
-						setConfigAlerta({
-							titulo: t('advertencias.borrarDescuento'),
-							mensaje: t('mensajes.borrarDescuento', {
-								codigo: codigoProducto,
-							}),
-							tituloBotonAceptar: 'Eliminar',
-							tituloBotonCancelar: 'Cancelar',
-							callbackAceptar: () => eliminarDescuento(),
-							iconoMensaje: <AvisoIcon />,
-						});
-						setAlerta(true);
-					}}
-				>
-					<QuitarRellenoIcon
-						height='10px'
-						width='10px'
-						fill={theme.palette.primary.main}
-					/>
-					<Typography variant='caption' color='primary' fontFamily='Open Sans'>
-						{t('descuentos.eliminarDescuento')}
-					</Typography>
 				</Box>
 			)}
 		</Box>

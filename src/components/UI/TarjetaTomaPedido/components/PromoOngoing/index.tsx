@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {CajaIcon, PromocionColor} from 'assests/iconos';
+import {PromocionColor} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import {
 	EFormaBeneficio,
@@ -28,82 +28,32 @@ export const PromoOngoing: React.VFC<Props> = ({
 		preciosBase.unidad === preciosNeto.unidad &&
 		preciosBase.subUnidad === preciosNeto.subUnidad;
 
-	const tipoDescuento =
-		infoDescuento.tipo === ETipoDescuento.automatico
-			? t('descuentos.automatico')
-			: infoDescuento.tipo === ETipoDescuento.polarizado
-			? t('descuentos.polarizado')
-			: infoDescuento.tipo === ETipoDescuento.escalonado
-			? t('descuentos.escalonado')
-			: '';
-
 	return (
 		<>
-			{cantidad > 0 && formaBeneficio !== EFormaBeneficio.Obsequio && (
-				<>
-					{((unidadMedida === 'Unidad' && cantidad === unidades) ||
-						(unidadMedida !== 'Unidad' && cantidad === subUnidades)) &&
-						tipoDescuento !== t('descuentos.polarizado') &&
-						!hayDescuentoAplicado && (
-							<Box
-								alignItems='center'
-								display='flex'
-								gap='4px'
-								padding={
-									tipoDescuento === t('descuentos.polarizado')
-										? '8px 14px'
-										: cantidad &&
-										  ((unidadMedida === 'Unidad' && cantidad === unidades) ||
-												(unidadMedida !== 'Unidad' && cantidad === subUnidades))
-										? '8px 14px 12px 14px'
-										: '12px 14px'
-								}
-								sx={{background: '#fff'}}
-							>
-								<PromocionColor height='20px' width='20px' />
-								<Typography variant='caption' color='primary'>
-									{t('descuentos.descuentoSustituido', {tipo: tipoDescuento})}
-									<span style={{fontWeight: 500}}>
-										{` ${t('descuentos.promocionOngoing').toLowerCase()}`}
-									</span>
-								</Typography>
-							</Box>
-						)}
-
-					{tipoDescuento !== t('descuentos.automatico') &&
-						tipoDescuento !== t('descuentos.polarizado') && (
-							<Box
-								alignItems='center'
-								display='flex'
-								gap='4px'
-								padding={
-									tipoDescuento === t('descuentos.polarizado')
-										? '8px 14px'
-										: cantidad &&
-										  ((unidadMedida === 'Unidad' && cantidad === unidades) ||
-												(unidadMedida !== 'Unidad' && cantidad === subUnidades))
-										? '8px 14px 12px 14px'
-										: '12px 14px'
-								}
-								sx={{background: '#fff'}}
-							>
-								<Box alignItems='center' display='flex' gap='2px'>
-									<Typography
-										variant='caption'
-										fontFamily='Open Sans'
-										color='secondary'
-									>
-										{cantidad}
-									</Typography>
-									<CajaIcon height='18px' width='18px' />
-								</Box>
-								<Typography variant='subtitle3' fontFamily='Open Sans'>
-									{t('descuentos.vieneConPromoOngoing')}
-								</Typography>
-							</Box>
-						)}
-				</>
-			)}
+			{cantidad > 0 &&
+				formaBeneficio !== EFormaBeneficio.Obsequio &&
+				infoDescuento.tipo === ETipoDescuento.automatico &&
+				((unidadMedida === 'Unidad' && cantidad === unidades) ||
+					(unidadMedida !== 'Unidad' && cantidad === subUnidades)) &&
+				!hayDescuentoAplicado && (
+					<Box
+						alignItems='center'
+						display='flex'
+						gap='4px'
+						padding='8px 14px 12px 14px'
+						sx={{background: '#fff'}}
+					>
+						<PromocionColor height='20px' width='20px' />
+						<Typography variant='caption' color='primary'>
+							{t('descuentos.descuentoSustituido', {
+								tipo: t('descuentos.automatico'),
+							})}
+							<span style={{fontWeight: 500}}>
+								{` ${t('descuentos.promocionOngoing').toLowerCase()}`}
+							</span>
+						</Typography>
+					</Box>
+				)}
 		</>
 	);
 };

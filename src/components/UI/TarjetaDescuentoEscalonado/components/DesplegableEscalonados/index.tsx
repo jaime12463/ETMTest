@@ -77,13 +77,13 @@ export const DesplegableEscalonados: React.VFC<Props> = ({
 											</Typography>
 											<CajaIcon height={18} width={18} />
 										</Box>
-										<Box>
+										<Box display='flex' justifyContent='flex-end' width='3ch'>
 											<Typography
 												color='#000'
 												fontFamily='Open Sans'
 												variant='body3'
 											>
-												{porcentajeDescuentoEscalonado}%
+												{`${porcentajeDescuentoEscalonado}%`}
 											</Typography>
 										</Box>
 									</Box>
