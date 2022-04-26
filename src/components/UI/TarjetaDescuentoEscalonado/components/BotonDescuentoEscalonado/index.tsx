@@ -85,8 +85,8 @@ export const BotonDescuentoEscalonado: React.VFC<Props> = ({
 								mensaje: t('mensajes.borrarDescuento', {
 									codigo: codigoProducto,
 								}),
-								tituloBotonAceptar: 'Eliminar',
-								tituloBotonCancelar: 'Cancelar',
+								tituloBotonAceptar: t('general.eliminar'),
+								tituloBotonCancelar: t('general.cancelar'),
 								callbackAceptar: () => eliminarDescuento(),
 								iconoMensaje: <AvisoIcon />,
 							});

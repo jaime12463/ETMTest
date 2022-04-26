@@ -74,7 +74,7 @@ export const Informacion: React.VFC<Props> = ({
 						fontFamily='Open Sans'
 						variant='caption'
 					>
-						x{presentacion}
+						{`x${presentacion}`}
 					</Typography>
 					<Typography
 						fontFamily='Open Sans'

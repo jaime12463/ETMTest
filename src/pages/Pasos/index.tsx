@@ -217,8 +217,7 @@ const Pasos: React.FC = () => {
 				if (pasoActual === 0 && visitaActual.clienteBloqueado) {
 					setConfigAlerta({
 						titulo: t('toast.ventaBloqueadaTitulo'),
-						mensaje:
-							'No puedes generar un pedido para este cliente ¿Quieres generar un compromiso de pago?',
+						mensaje: t('toast.noPuedesGenerarPedidoMensaje'),
 						tituloBotonAceptar: t('general.continuar'),
 						tituloBotonCancelar: t('general.finalizarVisita'),
 						callbackAceptar: () => {

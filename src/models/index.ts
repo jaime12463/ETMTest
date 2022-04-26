@@ -70,7 +70,7 @@ export type THeader = {
 };
 
 export interface TInfoDescuentos {
-	tipo: ETipoDescuento | undefined;
+	tipo?: ETipoDescuento;
 	porcentajeDescuento: number;
 	inputPolarizado: number;
 	codigoDescuento?: string;
