@@ -18,8 +18,9 @@ export const Informacion: React.VFC<Props> = ({
 		codigoProducto,
 		nombreProducto,
 		atributos,
-		presentacion,
 		precioConImpuestoUnidad,
+		preciosNeto,
+		presentacion,
 	},
 }) => {
 	const {t} = useTranslation();
@@ -75,7 +76,16 @@ export const Informacion: React.VFC<Props> = ({
 					>
 						x{presentacion}
 					</Typography>
-					<Typography fontFamily='Open Sans' variant='subtitle3'>
+					<Typography
+						fontFamily='Open Sans'
+						variant='subtitle3'
+						sx={{
+							textDecoration:
+								precioConImpuestoUnidad !== preciosNeto.unidad
+									? 'line-through'
+									: 'none',
+						}}
+					>
 						{formatearNumero(precioConImpuestoUnidad, t)}
 					</Typography>
 				</Box>
