@@ -1,36 +1,21 @@
 import React from 'react';
-import Card from '@mui/material/Card';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Collapse from '@mui/material/Collapse';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import {styled} from '@mui/material/styles';
-import clsx from 'clsx';
 import theme from 'theme';
 import {CheckRedondoIcon, FlechaAbajoIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
-import useEstilos from './useEstilos';
 import TarjetaBonificacion from '../TarjetaBonificacion';
 import {TGruposBonificacion} from 'models';
 import {useContador, useMostrarAviso} from 'hooks';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {cambiarSeQuedaAEditar} from 'redux/features/visitaActual/visitaActualSlice';
-import {MaterialSelect} from 'components/UI';
-import {capitalize} from '@mui/material';
-
-const ButtonStyled = styled(Button)(() => ({
-	border: `1.5px solid ${theme.palette.secondary.main}`,
-	boxSizing: 'border-box',
-	borderRadius: '20px',
-	minHeight: '10px',
-	height: '16px',
-	textTransform: 'none',
-	'&:hover': {
-		background: 'none',
-	},
-}));
+import {BotonSmall, MaterialSelect} from 'components/UI';
+import {
+	Box,
+	capitalize,
+	Card,
+	Collapse,
+	Divider,
+	Typography,
+} from '@mui/material';
 
 interface Props {
 	id: string;
@@ -54,7 +39,6 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 	resetBonificaciones,
 }) => {
 	const {t} = useTranslation();
-	const classes = useEstilos();
 	const visitaActual = useObtenerVisitaActual();
 
 	const grupoConBonificaiones = visitaActual.bonificaciones.find(
@@ -357,31 +341,29 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 						borderTop: 'none',
 					}}
 				>
-					<ButtonStyled
-						disableFocusRipple
+					<BotonSmall
 						fullWidth
-						disableRipple
 						onClick={() => manejadorExpandido(expandido === id ? false : id)}
 					>
-						<CardActions disableSpacing style={{padding: 0}}>
-							<Box display='flex' gap='6px' alignItems='center'>
-								<Typography variant='caption' color='secondary'>
-									{expandido === id
-										? t('general.ocultarDetalle')
-										: t('general.verDetalle')}
-								</Typography>
-								<Box
-									className={clsx(classes.expand, {
-										[classes.expandOpen]: expandido === id ? true : false,
-									})}
-									aria-expanded={expandido === id ? true : false}
-									style={{padding: 0}}
-								>
-									<FlechaAbajoIcon width='10px' height='10px' />
-								</Box>
-							</Box>
-						</CardActions>
-					</ButtonStyled>
+						<Typography
+							fontFamily='Open Sans'
+							variant='caption'
+							color='secondary'
+						>
+							{expandido === id
+								? t('general.ocultarDetalle')
+								: t('general.verDetalle')}
+						</Typography>
+						<FlechaAbajoIcon
+							height={10}
+							style={{
+								transition: 'transform 0.3s ease-in-out',
+								transform:
+									expandido === id ? 'rotateX(180deg)' : 'rotate(0deg)',
+							}}
+							width={10}
+						/>
+					</BotonSmall>
 				</Box>
 			</Box>
 		</Card>

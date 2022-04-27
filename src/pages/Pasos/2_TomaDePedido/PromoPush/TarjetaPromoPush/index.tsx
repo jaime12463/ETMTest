@@ -6,18 +6,13 @@ import {
 	Stack,
 	IconButton,
 	Input,
-	Button,
 	Collapse,
-	CardActions,
 	Divider,
 } from '@mui/material';
-import {Theme} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {makeStyles, createStyles} from '@material-ui/styles';
-import clsx from 'clsx';
 import React, {useEffect, useState} from 'react';
 import {TClienteActual, ETiposDePago} from 'models';
-
 import {useObtenerDatos, useObtenerClienteActual} from 'redux/hooks';
 import {
 	AgregarRedondoIcon,
@@ -33,6 +28,7 @@ import {formatearNumero} from 'utils/methods';
 import {useAgregarProductoAlPedidoActual} from '../hooks/useAgregarProductoAlPedidoActual';
 import {SwitchCambiarTipoPago} from '../../components';
 import theme from 'theme';
+import {BotonSmall} from 'components/UI';
 
 const InputStyled = styled(Input)(({}) => ({
 	backgroundColor: 'white',
@@ -48,18 +44,6 @@ const InputStyled = styled(Input)(({}) => ({
 
 const GridStyled = styled(Grid)(() => ({
 	display: 'flex',
-}));
-
-const ButtonStyled = styled(Button)(() => ({
-	border: `1.5px solid ${theme.palette.secondary.main}`,
-	boxSizing: 'border-box',
-	borderRadius: '20px',
-	minHeight: '10px',
-	height: '16px',
-	textTransform: 'none',
-	'&:hover': {
-		background: 'none',
-	},
 }));
 
 const CardStyled = styled(Card)(() => ({
@@ -554,34 +538,29 @@ const TarjetaPromoPush = (props: any) => {
 								: '0 14px 12px 14px'
 						}
 					>
-						<ButtonStyled
-							disableFocusRipple
+						<BotonSmall
 							fullWidth
-							disableRipple
 							onClick={() =>
 								manejadorExpandido(expandidoPromoPush === id ? false : id)
 							}
 						>
-							<CardActions disableSpacing style={{padding: 0}}>
-								<Box display='flex' gap='6px' alignItems='center'>
-									<Typography variant='caption' color='secondary'>
-										{expandidoPromoPush !== id
-											? t('general.verDetalle')
-											: t('general.ocultarDetalle')}
-									</Typography>
-									<Box
-										className={clsx(classes.expand, {
-											[classes.expandOpen]:
-												expandidoPromoPush === id ? true : false,
-										})}
-										aria-expanded={expandidoPromoPush === id ? true : false}
-										style={{padding: 0}}
-									>
-										<FlechaAbajoIcon width='10px' height='10px' />
-									</Box>
-								</Box>
-							</CardActions>
-						</ButtonStyled>
+							<Typography variant='caption' color='secondary'>
+								{expandidoPromoPush !== id
+									? t('general.verDetalle')
+									: t('general.ocultarDetalle')}
+							</Typography>
+							<FlechaAbajoIcon
+								height={10}
+								style={{
+									transition: 'transform 0.3s ease-in-out',
+									transform:
+										expandidoPromoPush === id
+											? 'rotateX(180deg)'
+											: 'rotate(0deg)',
+								}}
+								width={10}
+							/>
+						</BotonSmall>
 					</Box>
 				</Box>
 			</CardStyled>

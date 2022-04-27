@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import DesplegableBonificaciones from './DesplegableBonificaciones';
 import Stack from '@mui/material/Stack';
-import {Modal} from 'components/UI';
+import {BotonSmall, Modal} from 'components/UI';
 import useEstilos from './useEstilos';
 import {useObtenerBonificacionesHabilitadas} from 'hooks';
 import {AvisoIcon, ReiniciarIcon} from 'assests/iconos';
@@ -17,7 +17,7 @@ interface Props {
 	bonificacionValida: boolean;
 }
 
-const Bonificaciones: React.FC<Props> = ({bonificacionValida}) => {
+const Bonificaciones: React.VFC<Props> = ({bonificacionValida}) => {
 	const [expandido, setExpandido] = React.useState<boolean | string>(false);
 	const [alerta, setAlerta] = React.useState<boolean>(false);
 	const {t} = useTranslation();
@@ -54,21 +54,19 @@ const Bonificaciones: React.FC<Props> = ({bonificacionValida}) => {
 			<Stack marginTop='18px' spacing='10px'>
 				{bonificacionValida && (
 					<Box display='flex' justifyContent='flex-end'>
-						<Chip
-							className={classes.chip}
-							size='small'
-							icon={<ReiniciarIcon width='10px' height='10px' />}
-							label={
-								<Typography
-									variant='caption'
-									fontFamily='Open Sans'
-									color={theme.palette.secondary.main}
-								>
-									{t('general.restablecerCero')}
-								</Typography>
-							}
+						<BotonSmall
 							onClick={() => setAlerta(true)}
-						/>
+							padding='4px 10px 4px 5px'
+						>
+							<ReiniciarIcon height={10} width={10} />
+							<Typography
+								variant='caption'
+								fontFamily='Open Sans'
+								color={theme.palette.secondary.main}
+							>
+								{t('general.restablecerCero')}
+							</Typography>
+						</BotonSmall>
 					</Box>
 				)}
 				{bonificacionesHabilitadas?.map((bonificacion) => (

@@ -1,32 +1,12 @@
 import React from 'react';
-import {styled} from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import {Card, Box, Typography, Collapse} from '@mui/material';
 import {CheckRedondoIcon, FlechaAbajoIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
-import useEstilos from './useEstilos';
-import clsx from 'clsx';
 import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
 import {useObtenerVisitaActual} from 'redux/hooks';
 import {InputsKeysFormTomaDePedido} from 'models';
 import theme from 'theme';
-import {TarjetaCoberturas} from 'components/UI';
-
-const ButtonStyled = styled(Button)(() => ({
-	border: `1.5px solid ${theme.palette.secondary.main}`,
-	boxSizing: 'border-box',
-	borderRadius: '20px',
-	minHeight: '10px',
-	height: '16px',
-	textTransform: 'none',
-	'&:hover': {
-		background: 'none',
-	},
-}));
+import {BotonSmall, TarjetaCoberturas} from 'components/UI';
 
 interface Props {
 	codigosProductos: number[];
@@ -47,7 +27,6 @@ const DesplegableCoberturas: React.VFC<Props> = ({
 	setExpandido,
 	setResetCoberturas,
 }) => {
-	const classes = useEstilos();
 	const {t} = useTranslation();
 	const visitaActual = useObtenerVisitaActual();
 	const obtenerProductoPorCodigo = useObtenerProductoPorCodigo();
@@ -161,33 +140,32 @@ const DesplegableCoberturas: React.VFC<Props> = ({
 						borderRadius: '0 0 4px 4px',
 					}}
 				>
-					<ButtonStyled
-						disableFocusRipple
+					<BotonSmall
 						fullWidth
-						disableRipple
 						onClick={manejadorExpandido({
 							id: expandido === id ? false : id,
 						})}
 					>
-						<CardActions disableSpacing style={{padding: 0}}>
-							<Box display='flex' gap='6px' alignItems='center'>
-								<Typography variant='caption' color='secondary'>
-									{expandido === id
-										? t('general.ocultarGrupo')
-										: t('general.verGrupo')}
-								</Typography>
-								<Box
-									className={clsx(classes.expand, {
-										[classes.expandOpen]: expandido === id ? true : false,
-									})}
-									aria-expanded={expandido === id ? true : false}
-									style={{padding: 0}}
-								>
-									<FlechaAbajoIcon width='10px' height='10px' />
-								</Box>
-							</Box>
-						</CardActions>
-					</ButtonStyled>
+						<Typography
+							fontFamily='Open Sans'
+							variant='caption'
+							color='secondary'
+						>
+							{expandido === id
+								? t('general.ocultarGrupo')
+								: t('general.verGrupo')}
+						</Typography>
+
+						<FlechaAbajoIcon
+							height={10}
+							style={{
+								transition: 'transform 0.3s ease-in-out',
+								transform:
+									expandido === id ? 'rotateX(180deg)' : 'rotate(0deg)',
+							}}
+							width={10}
+						/>
+					</BotonSmall>
 				</Box>
 			</Box>
 		</Card>

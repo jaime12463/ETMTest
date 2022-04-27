@@ -1,15 +1,16 @@
 import React from 'react';
-import {styled} from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import IconButton from '@mui/material/IconButton';
-import Input from '@mui/material/Input';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
-import {VisualizadorPdfs} from 'components/UI';
+import {
+	Box,
+	Card,
+	Collapse,
+	Divider,
+	IconButton,
+	Input,
+	Link,
+	Typography,
+	capitalize,
+} from '@mui/material';
+import {BotonSmall, VisualizadorPdfs} from 'components/UI';
 import {
 	AgregarRedondoIcon,
 	AvisoIcon,
@@ -23,7 +24,6 @@ import {
 } from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
-import clsx from 'clsx';
 import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
 import {
 	useAppDispatch,
@@ -53,22 +53,7 @@ import {
 	useValidacionPermiteSubUnidades,
 } from 'hooks';
 import {formatearFecha, formatearNumero} from 'utils/methods';
-import {Link} from '@mui/material';
 import {Modal, ModalCore, MaterialSelect} from 'components/UI';
-import {capitalize} from '@mui/material';
-
-const ButtonStyled = styled(Button)(() => ({
-	border: `1.5px solid ${theme.palette.secondary.main}`,
-	boxSizing: 'border-box',
-	borderRadius: '20px',
-	minHeight: '10px',
-	height: '18px',
-	width: '276px',
-	textTransform: 'none',
-	'&:hover': {
-		background: 'none',
-	},
-}));
 
 interface Props extends TIniciativasCliente {
 	expandido: boolean | string;
@@ -981,32 +966,30 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						<Divider />
 					</Collapse>
 					<Box padding={expandido === id ? '12px 14px' : '8px 14px 12px 14px'}>
-						<ButtonStyled
-							disableFocusRipple
-							fullWidth
-							disableRipple
-							onClick={() => manejadorExpandido(expandido === id ? false : id)}
+						<BotonSmall
 							data-cy={'ver-detalle-iniciativa-' + id}
+							fullWidth
+							onClick={() => manejadorExpandido(expandido === id ? false : id)}
 						>
-							<CardActions disableSpacing style={{padding: 0}}>
-								<Box display='flex' gap='6px' alignItems='center'>
-									<Typography variant='caption' color='secondary'>
-										{expandido === id
-											? t('general.ocultarDetalle')
-											: t('general.verDetalle')}
-									</Typography>
-									<Box
-										className={clsx(classes.expand, {
-											[classes.expandOpen]: expandido === id,
-										})}
-										aria-expanded={expandido === id}
-										style={{padding: 0}}
-									>
-										<FlechaAbajoIcon width='10px' height='10px' />
-									</Box>
-								</Box>
-							</CardActions>
-						</ButtonStyled>
+							<Typography
+								color='secondary'
+								fontFamily='Open Sans'
+								variant='caption'
+							>
+								{expandido === id
+									? t('general.ocultarDetalle')
+									: t('general.verDetalle')}
+							</Typography>
+							<FlechaAbajoIcon
+								height={10}
+								style={{
+									transition: 'transform 0.3s ease-in-out',
+									transform:
+										expandido === id ? 'rotateX(180deg)' : 'rotate(0deg)',
+								}}
+								width={10}
+							/>
+						</BotonSmall>
 					</Box>
 				</Box>
 			</Card>

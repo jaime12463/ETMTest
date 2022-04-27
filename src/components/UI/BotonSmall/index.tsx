@@ -28,6 +28,7 @@ export const BotonSmall: React.FC<Props> = ({
 			component='button'
 			display='flex'
 			gap='4px'
+			height='18px'
 			justifyContent='center'
 			padding='4px 12px'
 			sx={{

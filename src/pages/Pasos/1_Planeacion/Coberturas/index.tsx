@@ -1,10 +1,6 @@
 import React from 'react';
-import Stack from '@mui/material/Stack';
-import Chip from '@mui/material/Chip';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import {Stack, Box, Typography} from '@mui/material';
 import DesplegableCoberturas from './DesplegableCoberturas';
-import useEstilos from './useEstilos';
 import {useObtenerCoberturas} from 'hooks';
 import {AvisoIcon, ReiniciarIcon} from 'assests/iconos';
 import {TProductoPedido} from 'models';
@@ -17,7 +13,7 @@ import {
 	agregarCoberturasEjecutadas,
 	borrarProductoDelPedidoActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {Modal} from 'components/UI';
+import {BotonSmall, Modal} from 'components/UI';
 import {useTranslation} from 'react-i18next';
 import theme from 'theme';
 
@@ -29,7 +25,6 @@ export const Coberturas: React.VFC<Props> = ({coberturasAgregadas}) => {
 	const coberturas = useObtenerCoberturas();
 	const visitaActual = useObtenerVisitaActual();
 	const configuracion = useObtenerConfiguracion();
-	const classes = useEstilos();
 	const {t} = useTranslation();
 	const dispatch = useAppDispatch();
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
@@ -76,21 +71,19 @@ export const Coberturas: React.VFC<Props> = ({coberturasAgregadas}) => {
 						(cobertura) => cobertura.unidades > 0 || cobertura.subUnidades > 0
 					) && (
 						<Box display='flex' justifyContent='flex-end'>
-							<Chip
-								className={classes.chip}
-								size='small'
-								icon={<ReiniciarIcon width='7.5px' height='7.5px' />}
-								label={
-									<Typography
-										variant='caption'
-										fontFamily='Open Sans'
-										color={theme.palette.secondary.main}
-									>
-										{t('general.restablecerCero')}
-									</Typography>
-								}
+							<BotonSmall
 								onClick={() => setAlerta(true)}
-							/>
+								padding='4px 10px 4px 5px'
+							>
+								<ReiniciarIcon height={7.5} width={7.5} />
+								<Typography
+									variant='caption'
+									fontFamily='Open Sans'
+									color={theme.palette.secondary.main}
+								>
+									{t('general.restablecerCero')}
+								</Typography>
+							</BotonSmall>
 						</Box>
 					)}
 				{coberturas
