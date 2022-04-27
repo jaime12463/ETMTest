@@ -4,7 +4,7 @@ const es = {
 		aceptar: 'Aceptar',
 		agregar: 'Agregar',
 		agregarCompromisoDeCobro: 'Agregar compromiso de cobro',
-		agregarProductoSKU: 'Ingresar producto',
+		agregarProductoSKU: 'Agregar un SKU',
 		agregarSKU: 'Agregar SKU',
 		ahorras: 'Ahorras',
 		ahorraste: 'Ahorraste',

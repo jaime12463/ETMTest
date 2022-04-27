@@ -4,7 +4,7 @@ const br = {
 		aceptar: 'Aceitar',
 		agregar: 'Adicionar',
 		agregarCompromisoDeCobro: 'Adicionar compromisso de coleção',
-		agregarProductoSKU: 'Entrar no produto',
+		agregarProductoSKU: 'Adicionar um SKU',
 		agregarSKU: 'Adicionar SKU',
 		ahorras: 'Poupança',
 		ahorraste: 'Você salvou',

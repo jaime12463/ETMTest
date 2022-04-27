@@ -85,7 +85,10 @@ export const AutocompleteSeleccionarProducto: React.FC<Props> = ({
 								'&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
 									appearance: 'none',
 								},
-							},
+								"&::placeholder": {
+									color: "black",
+									opacity:"1"
+							}},
 							width: '100%',
 						}}
 						type='number'
