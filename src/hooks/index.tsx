@@ -2,7 +2,7 @@ export * from './useCalcularPresupuestoPedidoActual';
 export * from './useCalcularPresupuestoTipoPedido';
 export * from './useCalcularTotalPedido';
 export * from './useCalcularTotalPedidos';
-export * from './useCalularPruductoEnPromoOnGoing';
+export * from './useCalularProductoEnPromoOnGoing';
 export * from './useContador';
 export * from './useDebounce';
 export * from './useFiltradorProductos';

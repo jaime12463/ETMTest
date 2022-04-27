@@ -20,7 +20,7 @@ import {
 import {useValidarAgregarProductoAlPedidoCliente} from '.';
 
 import {useTranslation} from 'react-i18next';
-import {useCalularPruductoEnPromoOnGoing} from 'hooks';
+import {useCalularProductoEnPromoOnGoing} from 'hooks';
 
 export const useAgregarProductoAlPedidoActual = (
 	productoActual: TProductoPedido | null,
@@ -39,7 +39,7 @@ export const useAgregarProductoAlPedidoActual = (
 			getValues
 		);
 
-	const calularPruductoEnPromoOnGoing = useCalularPruductoEnPromoOnGoing();
+	const calularPruductoEnPromoOnGoing = useCalularProductoEnPromoOnGoing();
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 

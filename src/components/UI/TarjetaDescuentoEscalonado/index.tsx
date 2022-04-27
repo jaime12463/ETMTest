@@ -3,7 +3,7 @@ import {Box} from '@mui/material';
 import {
 	useObtenerDatosCliente,
 	useObtenerCalculoDescuentoProducto,
-	useCalularPruductoEnPromoOnGoing,
+	useCalularProductoEnPromoOnGoing,
 } from 'hooks';
 import {
 	TProductoPedido,
@@ -82,7 +82,7 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 	const obtenerCalculoDescuentoProducto =
 		useObtenerCalculoDescuentoProducto(producto);
 
-	const calculosPromoOngoing = useCalularPruductoEnPromoOnGoing();
+	const calculosPromoOngoing = useCalularProductoEnPromoOnGoing();
 
 	const infoBeneficio = calculosPromoOngoing(producto.codigoProducto);
 

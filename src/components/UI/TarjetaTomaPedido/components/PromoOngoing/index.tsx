@@ -9,7 +9,7 @@ import {
 	TInfoDescuentos,
 	TProductoPedido,
 } from 'models';
-import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularPruductoEnPromoOnGoing';
+import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularProductoEnPromoOnGoing';
 
 interface Props {
 	producto: TProductoPedido;

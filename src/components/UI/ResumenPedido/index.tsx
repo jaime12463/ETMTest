@@ -22,7 +22,7 @@ import theme from 'theme';
 import {useTranslation} from 'react-i18next';
 import {formatearNumero} from 'utils/methods';
 import {
-	useCalularPruductoEnPromoOnGoing,
+	useCalularProductoEnPromoOnGoing,
 	useObtenerBonificacionesHabilitadas,
 	useObtenerDatosCliente,
 } from 'hooks';
@@ -47,7 +47,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 	const bonificacionesHabilitadas = useObtenerBonificacionesHabilitadas();
 	const bonificacionesCliente = bonificacionesHabilitadas();
 	const calcularEnvasesDeObsequios = useCalcularEnvasesDeObsequios();
-	const calularPruductoEnPromoOnGoing = useCalularPruductoEnPromoOnGoing();
+	const calularPruductoEnPromoOnGoing = useCalularProductoEnPromoOnGoing();
 
 	const bonificaciones = visitaActual.bonificaciones.map(
 		(bonificacion, index) => ({
