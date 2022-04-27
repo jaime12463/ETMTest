@@ -25,7 +25,7 @@ import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks
 import {useTranslation} from 'react-i18next';
 import {StateFocusID} from '../..';
 import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularPruductoEnPromoOnGoing';
-import {InputCantidades, EstilosInputProps} from 'components/UI';
+import {InputCantidades, InputPropsEstilos} from 'components/UI';
 
 interface Props {
 	obtenerCalculoDescuentoProducto: (
@@ -89,10 +89,12 @@ export const Controles: React.VFC<Props> = ({
 	const validacionPermiteSubUnidades =
 		useValidacionPermiteSubUnidades(producto);
 
-	const useEstilosProps: EstilosInputProps = {
+	const useEstilosProps: InputPropsEstilos = {
 		bordeError: visitaActual.seQuedaAEditar.bordeError,
-		producto,
 		cantidadMaximaConfig: configuracionPedido.cantidadMaximaUnidades ?? 0,
+		subUnidades: producto.subUnidades,
+		unidades: producto.unidades,
+		unidadesDisponibles: producto.unidadesDisponibles,
 	};
 
 	React.useEffect(() => {

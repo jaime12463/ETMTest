@@ -1,3 +1,4 @@
+import React, {useEffect, useState} from 'react';
 import {
 	Grid,
 	Card,
@@ -5,13 +6,11 @@ import {
 	Box,
 	Stack,
 	IconButton,
-	Input,
 	Collapse,
 	Divider,
 } from '@mui/material';
+import {BotonSmall, InputCantidades, InputPropsEstilos} from 'components/UI';
 import {styled} from '@mui/material/styles';
-import {makeStyles, createStyles} from '@material-ui/styles';
-import React, {useEffect, useState} from 'react';
 import {TClienteActual, ETiposDePago} from 'models';
 import {useObtenerDatos, useObtenerClienteActual} from 'redux/hooks';
 import {
@@ -28,19 +27,6 @@ import {formatearNumero} from 'utils/methods';
 import {useAgregarProductoAlPedidoActual} from '../hooks/useAgregarProductoAlPedidoActual';
 import {SwitchCambiarTipoPago} from '../../components';
 import theme from 'theme';
-import {BotonSmall} from 'components/UI';
-
-const InputStyled = styled(Input)(({}) => ({
-	backgroundColor: 'white',
-	border: `1px solid ${theme.palette.secondary.dark}`,
-	borderRadius: '10px',
-	fontFamily: 'Open Sans',
-	fontSize: '12px',
-	fontWeight: 600,
-	height: '16px',
-	lineHeight: '16px',
-	width: '42px',
-}));
 
 const GridStyled = styled(Grid)(() => ({
 	display: 'flex',
@@ -55,30 +41,6 @@ const CardStyled = styled(Card)(() => ({
 	boxShadow: 'none',
 }));
 
-const useEstilos = makeStyles(() =>
-	createStyles({
-		expand: {
-			transform: 'rotate(0deg)',
-			padding: 0,
-		},
-		expandOpen: {
-			transform: 'rotate(180deg)',
-		},
-		inactiva: {
-			opacity: 0.6,
-		},
-		cardContent: {
-			'&.MuiCardContent-root': {
-				padding: 0,
-
-				'&.MuiCardContent-root:last-child': {
-					padding: 0,
-				},
-			},
-		},
-	})
-);
-
 const TarjetaPromoPush = (props: any) => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 
@@ -86,7 +48,6 @@ const TarjetaPromoPush = (props: any) => {
 	const [puedeAgregar, setPuedeAgregar] = useState(false);
 
 	const {t} = useTranslation();
-	const classes = useEstilos();
 	const {
 		item,
 		expandidoPromoPush,
@@ -133,6 +94,13 @@ const TarjetaPromoPush = (props: any) => {
 	};
 
 	const [getValues, setGetValues] = React.useState(defaultValues);
+
+	const useEstilosProps: InputPropsEstilos = {
+		bordeError: getValues.unidades > unidadesDisponibles,
+		cantidadMaximaConfig: unidadesDisponibles,
+		subUnidades: getValues.subUnidades,
+		unidades: getValues.unidades,
+	};
 
 	useEffect(() => {
 		const defaultValues = {
@@ -239,7 +207,7 @@ const TarjetaPromoPush = (props: any) => {
 							promoPushTemporal={promoPushTemporal}
 						/>
 						{getValues.unidades > 0 && (
-							<CheckRedondoIcon height='17.5px' width='17.5px' />
+							<CheckRedondoIcon height={20} width={20} />
 						)}
 					</Box>
 					<Box
@@ -341,16 +309,8 @@ const TarjetaPromoPush = (props: any) => {
 											disabled={getValues.unidades === 0}
 										/>
 									</IconButton>
-									<InputStyled
-										value={getValues.unidades}
-										disableUnderline
-										name='unidades'
+									<InputCantidades
 										id='unidades_producto'
-										onFocus={(e) => e.target.select()}
-										onClick={() => {
-											props?.stateInputFocus?.setInputFocus('unidades');
-											props?.stateFocusId?.setFocusId(codigoProducto);
-										}}
 										inputProps={{
 											style: {textAlign: 'center'},
 											inputMode: 'numeric',
@@ -364,8 +324,16 @@ const TarjetaPromoPush = (props: any) => {
 												input?.focus();
 											}
 										}}
+										name='unidades'
 										onChange={handleOnChange}
+										onClick={() => {
+											props?.stateInputFocus?.setInputFocus('unidades');
+											props?.stateFocusId?.setFocusId(codigoProducto);
+										}}
+										onFocus={(e) => e.target.select()}
 										onKeyPress={handleKeyPress}
+										useEstilosProps={useEstilosProps}
+										value={getValues.unidades}
 									/>
 									<IconButton
 										size='small'
@@ -544,7 +512,11 @@ const TarjetaPromoPush = (props: any) => {
 								manejadorExpandido(expandidoPromoPush === id ? false : id)
 							}
 						>
-							<Typography variant='caption' color='secondary'>
+							<Typography
+								fontFamily='Open Sans'
+								variant='caption'
+								color='secondary'
+							>
 								{expandidoPromoPush !== id
 									? t('general.verDetalle')
 									: t('general.ocultarDetalle')}

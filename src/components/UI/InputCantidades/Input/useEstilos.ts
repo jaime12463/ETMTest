@@ -1,11 +1,12 @@
 import {makeStyles, createStyles} from '@material-ui/styles';
-import {TProductoPedido} from 'models';
 import theme from 'theme';
 
-export interface EstilosInputProps {
+export interface InputPropsEstilos {
 	bordeError: boolean;
-	producto: TProductoPedido;
 	cantidadMaximaConfig: number;
+	subUnidades: number;
+	unidades: number;
+	unidadesDisponibles?: number;
 }
 
 export const useEstilos = makeStyles(() =>
@@ -15,20 +16,22 @@ export const useEstilos = makeStyles(() =>
 			border: ({
 				bordeError,
 				cantidadMaximaConfig,
-				producto,
-			}: EstilosInputProps) => {
+				subUnidades,
+				unidades,
+				unidadesDisponibles,
+			}: InputPropsEstilos) => {
 				if (bordeError) {
-					if (producto.unidades === 0 && producto.subUnidades === 0) {
+					if (unidades === 0 && subUnidades === 0) {
 						return `1px solid ${theme.palette.primary.main}`;
 					}
 
-					if (producto.unidadesDisponibles) {
-						if (producto.unidades > producto.unidadesDisponibles) {
+					if (unidadesDisponibles) {
+						if (unidades > unidadesDisponibles) {
 							return `1px solid ${theme.palette.primary.main}`;
 						}
 					}
 
-					if (producto.unidades > cantidadMaximaConfig) {
+					if (unidades > cantidadMaximaConfig) {
 						return `1px solid ${theme.palette.primary.main}`;
 					}
 				}
@@ -40,20 +43,22 @@ export const useEstilos = makeStyles(() =>
 				color: ({
 					bordeError,
 					cantidadMaximaConfig,
-					producto,
-				}: EstilosInputProps) => {
+					subUnidades,
+					unidades,
+					unidadesDisponibles,
+				}: InputPropsEstilos) => {
 					if (bordeError) {
-						if (producto.unidades === 0 && producto.subUnidades === 0) {
+						if (unidades === 0 && subUnidades === 0) {
 							return theme.palette.primary.main;
 						}
 
-						if (producto.unidadesDisponibles) {
-							if (producto.unidades > producto.unidadesDisponibles) {
+						if (unidadesDisponibles) {
+							if (unidades > unidadesDisponibles) {
 								return theme.palette.primary.main;
 							}
 						}
 
-						if (producto.unidades > cantidadMaximaConfig) {
+						if (unidades > cantidadMaximaConfig) {
 							return theme.palette.primary.main;
 						}
 					}

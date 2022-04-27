@@ -4,7 +4,7 @@ import {CajaIcon, QuitarRellenoIcon, AgregarRedondoIcon} from 'assests/iconos';
 import {TProductoPedido, TStateInfoDescuentos, TStateInputFocus} from 'models';
 import {
 	InputCantidades,
-	EstilosInputProps,
+	InputPropsEstilos,
 } from 'components/UI/InputCantidades';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import {
@@ -49,10 +49,12 @@ export const Control: React.VFC<Props> = ({
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 	const [cambioValores, setCambioValores] = React.useState<boolean>(false);
 
-	const useEstilosProps: EstilosInputProps = {
+	const useEstilosProps: InputPropsEstilos = {
 		bordeError: visitaActual.seQuedaAEditar.bordeError,
-		producto,
 		cantidadMaximaConfig: configuracionPedido?.cantidadMaximaUnidades ?? 0,
+		subUnidades: producto.subUnidades,
+		unidades: producto.unidades,
+		unidadesDisponibles: producto.unidadesDisponibles,
 	};
 
 	const defaultValue = {

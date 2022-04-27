@@ -1,9 +1,9 @@
 import React from 'react';
 import {Input, InputProps} from '@mui/material';
-import {useEstilos, EstilosInputProps} from './useEstilos';
+import {useEstilos, InputPropsEstilos} from './useEstilos';
 
 interface Props extends InputProps {
-	useEstilosProps: EstilosInputProps;
+	useEstilosProps: InputPropsEstilos;
 }
 
 export const InputCantidades: React.FC<Props> = ({
