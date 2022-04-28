@@ -8,7 +8,7 @@ Característica: Mostrar iniciativas.
 	Quiero visualizar las iniciativas habilitadas para el cliente
 	Para conocer el listado de las iniciativas del cliente y el status de cada una de ellas
 
-Esquema del escenario: N°1 – Desplegar tarjeta Iniciativas
+Esquema del escenario: N°1 - Desplegar tarjeta Iniciativas
     Dado que estoy en paso 1 - Planeación
     Cuando se despliega la tarjeta de iniciativas
     Entonces el sistema mostrará un listado de las _iniciativasHabilitadas del cliente  ordenadas por _secuencia en forma ascendente

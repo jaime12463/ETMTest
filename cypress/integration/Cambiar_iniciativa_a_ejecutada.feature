@@ -13,60 +13,65 @@ Escenario: N°1 - Agregar producto de la iniciativa al pedido
     Y se desplegó el detalle de una iniciativa
     Y existen grupos de cobertura con los mismos productos de la iniciativa
     Cuando cambio el estado de la iniciativa a ejecutada
-    Y agrego cantidades
+    Y se agregaron cantidades
     Entonces el sistema marcará en verde la tarjeta de esa iniciativa
     Y mostrará el icono de ejecución
     Y agregará el producto con la cantidad de unidades y subunidades ingresadas como un _tipoPedido con _codigo = "Venta"
     Y establecerá al pedido la condición de pago definida para el cliente
     Y agregará las mismas cantidades a los mismos productos de coberturas
-    Y actualizará el disponible según la cantidad ingresada correspondiente a la unidad de medida de la iniciativa.
+    Y actualizará el disponible según la cantidad ingresada en unidades o subunidades, según la unidad de medida de la iniciativa.
 
 # Si la iniciativa indica unidad de medida Unidades, se actualizará el disponible cuando ingresen unidades en los productos de la iniciativa.
 
 Escenario: N°2 - Ingresar unidades a la iniciativa
     Dado que se cambió el estado de la iniciativa a ejecutada
-    Y tiene _cantidadMáximaUnidades
+    Y tiene _cantidadDisponible mayor a cero
+    Y _unidadMedida es unidad
     Y existen grupos de cobertura con los mismos productos de la iniciativa
     Cuando aumento las unidades
     Entonces el sistema aumentará las unidades en 1
-    Y no podrá superar _cantidadMáximaUnidades
+    Y no podrá superar _cantidadDisponible de la iniciativa
     Y cambiará las unidades del producto en el pedido
     Y cambiará las unidades del mismo producto en coberturas
-    Y actualizará el disponible de la iniciativa según la unidad de medida si corresponde
+    Y actualizará el disponible de la iniciativa
 
 Escenario: N°3 - Restar unidades a la iniciativa
     Dado que se cambió el estado de la iniciativa a ejecutada
+    Y _unidadMedida es unidad
     Y existen grupos de cobertiras con los mismos productos de la iniciativa
     Cuando resto las unidades
     Entonces el sistema restará las unidades en 1 
     Y cambiará las unidades del producto en el pedido
     Y cambiará las unidades del mismo producto en coberturas 
-    Y actualizará el disponible de la iniciativa según la unidad de medida si corresponde
-
+    Y actualizará el disponible de la iniciativa
 
 Escenario: N°4 - Ingresar subunidades a la iniciativa
     Dado que se cambió el estado de la iniciativa a ejecutada
     Y el producto _validaSubunidadesMinimas = true
     Y tiene _subunidadesVentaMinima
+    Y _unidadMedida es subunidad
+    Y tiene _cantidadDisponible mayor a cero
     Y existen grupos de coberturas con los mismos productos de la iniciativa
     Cuando aumento las subunidades
     Entonces el sistema aumentará las subunidades según _subunidadesVentaMinima 
     Y no podrá superar su _presentacion
+    Y no podrá superar _cantidadDisponible de la iniciativa
     Y cambiará las subunidades del producto en el pedido
     Y cambiará las subunidades del mismo producto en coberturas
-    Y actualizará el disponible de la iniciativa según la unidad de medida si corresponde
+    Y actualizará el disponible de la iniciativa
 
 
 Escenario: N°5 - Restar subunidades a la iniciativa
     Dado que se cambió el estado de la iniciativa a ejecutada
     Y el producto _validaSubunidadesMinimas = true
     Y tiene _subunidadesVentaMinima
+    Y _unidadMedida es subunidad
     Y existen grupos de coberturas con los mismos productos de la iniciativa
     Cuando resto las subunidades
     Entonces el sistema restará las subunidades según _subunidadesVentaMinima 
     Y cambiará las subunidades del producto en el pedido
     Y cambiará las subunidades del mismo producto en coberturas 
-    Y actualizará el disponible de la iniciativa según la unidad de medida si corresponde
+    Y actualizará el disponible de la iniciativa
 
 
 # El disponible de iniciativas se actualiza según la unidad de medida de la iniciativa.

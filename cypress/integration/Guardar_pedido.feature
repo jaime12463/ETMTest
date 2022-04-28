@@ -127,24 +127,32 @@ Escenario: N°7 - El cliente es de crédito informal y el pedido a guardar a cr�
     Cuando guardo el pedido
     Entonces el sistema Mostrará mensaje "El pedido excede el crédito disponible" y permanecerá en la pantalla  
 
-Escenario: N°8 - Iniciativas cumplidas
+Esquema del escenario: N°8 - Iniciativas cumplidas
     Dado que el cliente tiene iniciativas habilitadas para el pedido actual
-    Y al menos un producto de las iniciativas se encuentran en el pedido 
-    #Y la suma de las cantidades de dichos productos es mayor o igual a la indicada en la iniciativa
-    Y la suma de las cantidades de dichos productos, sean unidades o subunidades según la unidad de medida de la iniciativa, es mayor o igual al disponible indicado en la iniciativa
+    Y al menos un producto de las iniciativas se encuentran en el pedido
+    Y la unidad de medida de la iniciativa es '<_unidadMedida>' 
+    Y la suma de las '<cantidades>' de dichos productos es mayor o igual al disponible indicado en la iniciativa
     Cuando guardo el pedido
     Entonces el sistema registrara la iniciativa con status = "Ejecutada" indicando usuario, fecha y hora, código de iniciativa, código de cliente, status, producto, unidades y subunidades.
 
-Escenario: N°9 - Iniciativas no cumplidas
+Ejemplos:
+    |_unidadMedida|cantidades   |
+    | Unidad      | unidades    |
+    | Subunidad   | subunidades |
+
+Esquema del escenario: N°9 - Iniciativas no cumplidas
     Dado que el cliente tiene iniciativas con status = "Ejecutada" para el pedido actual
     Y al menos un producto de la iniciativa se encuentra en el pedido 
-    #Y la suma de las cantidades de dichos productos es menor a la indicada en la iniciativa
-    Y la suma de las cantidades de dichos productos, sean unidades o subunidades según la unidad de medida de la iniciativa, es menor al disponible indicado en la iniciativa
+    Y la unidad de medida de la iniciativa es '<_unidadMedida>'
+    Y la suma de las '<cantidades>' de dichos productos es menor al disponible indicado en la iniciativa
     Cuando guardo el pedido
     Entonces el sistema elimina la iniciativa registrada
 
-# La conversión según la unidad de medida se debe realizar con la presentación. Ej, si la unidad de medida es subunidades
-# y se vende 1 unidad de un producto que tiene presentación 12, se convierten en 12 subunidades para el cálculo.
+Ejemplos:
+    |_unidadMedida|cantidades   |
+    | Unidad      | unidades    |
+    | Subunidad   | subunidades |
+
 
 Escenario: N°10 - Bonificaciones ingresadas
     Dado que se ingresaron bonificaciones para el pedido actual
