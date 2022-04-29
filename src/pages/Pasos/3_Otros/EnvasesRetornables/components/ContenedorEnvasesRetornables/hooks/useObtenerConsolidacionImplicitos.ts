@@ -118,15 +118,14 @@ export const useObtenerConsolidacionImplicitos = () => {
 
 					if (typeof pedido.codigoImplicito2 !== 'undefined')
 						incrementarImplicitos({
-							codigoImplicito:pedido.codigoImplicito1 ?? 0,
-							nombreImplicito:pedido.nombreImplicito1 ?? '',
+							codigoImplicito:pedido.codigoImplicito2 ?? 0,
+							nombreImplicito:pedido.nombreImplicito2 ?? '',
 							unidades,
 							subUnidades:0,
 							tipoPago
 						});
 				}
 			});
-			
 			visitaActual.promosOngoing.forEach((promo) => {
 				promo.beneficios.forEach((beneficio) => {
 					beneficio.secuencias.forEach( (secuencia) => {
@@ -149,7 +148,7 @@ export const useObtenerConsolidacionImplicitos = () => {
 					})
 				})
 			});
-
+			
 			const preciosProductosDelCliente = obtenerPreciosProductosDelCliente(
 				datosCliente,
 				fechaEntrega
