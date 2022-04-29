@@ -29,7 +29,7 @@ Ejemplos:
       | si                  | no habilita       |
       | no                  | habilita          |
 
-# habilitaCancelarIniciativas: true  muestra el estado cancelar en iniciativas.      
+# habilitaCancelarIniciativa: true  muestra el estado cancelar en iniciativas.      
 
 Esquema del escenario: N°2 - Desplegar detalle de iniciativa ejecutada
       Dado que estoy en la tarjeta de iniciativas
