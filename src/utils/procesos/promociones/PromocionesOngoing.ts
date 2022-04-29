@@ -17,12 +17,14 @@ import {
 	TPromoOngoingAplicadas,
 	TCodigoCantidad,
 	TConfiguracion,
+	TProductos,
+	TProducto,
+	ETipoProducto,
 } from 'models';
 
 import {fechaDispositivo, fechaDentroDelRango} from 'utils/methods';
 import {validarProductoContraPortafolio} from 'utils/validaciones';
 import { TProductosPedidoIndex, ProductosDelPedidoFiltrados } from '../productos/ProductosDelPedidoFiltrosStrategy';
-
 
 
 export type TProductosUsadosEnOtrasPromos = {
@@ -107,11 +109,11 @@ export class PromocionesOngoing {
 
 	private _calculoRealizado: boolean = false;
 
+	private _productos:TProductos  = {}; 
+
 	/**
 	 *
 	 * @constructor
-	 * @param {TCliente} cliente
-	 * @param {TListaPromoOngoing} listaPromociones  - Catalógo de promociones
 	 */
 
 	private constructor() {}
@@ -142,7 +144,8 @@ export class PromocionesOngoing {
 		cliente: TCliente,
 		listaPromociones: TListaPromoOngoing,
 		promosAplicadasOtrasVisitas: TPromoOngoing[],
-		configuracion:TConfiguracion
+		configuracion:TConfiguracion,
+		productos:TProductos
 	) {
 		this._cliente = cliente;
 		this._listaPromoOngoing = listaPromociones;
@@ -150,6 +153,7 @@ export class PromocionesOngoing {
 		this._calculoRealizado = false;
 		this._configuracion= configuracion;
 		this._resultado= undefined;
+		this._productos=productos;
 
 		console.log(
 			`Inicializando  motor de promociones para el cliente: ${this._cliente.codigoCliente}`
@@ -542,11 +546,16 @@ export class PromocionesOngoing {
 					].includes(secuencia.formaBeneficio)
 				) {
 					// solo se toman los productos que esten en el pedido y no hayan sido requisito de una promo aplicada
+					// salvo que san envases en ese caso si se permite el material
 					let auxtope = tope;
 					let auxm = materialesBeneficio.filter(
 						(producto: number) =>
-							productosPedidoIndex[producto] &&
-							productosUsadosEnOtrasPromos[producto] == undefined
+							(productosPedidoIndex[producto] &&
+							productosUsadosEnOtrasPromos[producto] == undefined) 
+					);
+					let auxmEnvases  = materialesBeneficio.filter(
+						(producto: number) =>
+							this.obtenerProductoPorId(producto).tipoProducto == ETipoProducto.Envase
 					);
 					auxm.forEach((producto) => {
 						materiales.push({
@@ -560,6 +569,14 @@ export class PromocionesOngoing {
 						auxtope -= productosPedidoIndex[producto].unidades;
 						auxtope = auxtope < 0 ? 0 : auxtope;
 					});
+					// lógica aparte para los materiales tipo envases
+					auxmEnvases.forEach((producto) => {
+						materiales.push({
+							codigo: producto,
+							cantidad:tope,
+							tope:tope
+						});
+					})
 				}
 				if (materiales.length != materialesBeneficio.length) {
 					// si no se pudo validar materiales(productos) para una secuencia se descarta el grupo
@@ -668,5 +685,13 @@ export class PromocionesOngoing {
 		);
 
 		return [...beneficiosPromoCredito, ...beneficiosPromoContado];
+
+
 	}
+
+	private obtenerProductoPorId(id:number): TProducto
+	{
+		 return this._productos[id];
+	}
+
 }

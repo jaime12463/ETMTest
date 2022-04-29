@@ -52,7 +52,8 @@ export const useInicializarVisitaActual = () => {
 					datosCliente,
 					datos?.promociones,
 					pedidosCliente[codigoCliente]?.promocionesOngoing ?? [],
-					configuracion
+					configuracion,
+					datos.productos
 				);
 
 			dispatch(

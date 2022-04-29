@@ -9,6 +9,7 @@ import {
 	TComponente,
 	TAtributos,
 	EFormaDeAplicacion,
+	ETipoProducto,
 } from 'models/server';
 import {TPromoOngoingAplicables} from 'utils/procesos/promociones/PromocionesOngoing';
 
@@ -187,7 +188,7 @@ export type TPrecioProducto = {
 	nombreImplicito2?: string;
 	unidadesDisponibles?: number;
 	promoPush?: TPromoPush;
-	tipoProducto: number;
+	tipoProducto: ETipoProducto;
 	descuentoPolarizado?: TDescuentoPolarizado[];
 	descuentoEscalonado?: TDescuentoEscalonado[];
 	descuentoPromoPush?: number;
