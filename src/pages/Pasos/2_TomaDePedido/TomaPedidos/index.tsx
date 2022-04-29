@@ -369,7 +369,10 @@ const TomaPedido: React.FC = () => {
 
 				{venta.productos.length > 0 &&
 					venta.productos
-						.filter((producto) => producto.estado === 'activo')
+						.filter(
+							(producto) =>
+								producto.estado === 'activo' && !producto.codigoPromo
+						)
 						.map((producto) => {
 							return (
 								<SwipeBorrar
