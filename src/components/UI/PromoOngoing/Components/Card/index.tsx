@@ -5,12 +5,15 @@ import {useTranslation} from 'react-i18next';
 import {
 	EFormaBeneficio,
 	EFormaDeAsignacion,
+	ETipoProducto,
 	ETiposDePago,
+	TCliente,
+	TClienteActual,
 	TCodigoCantidad,
 	TPromoOngoing,
 } from 'models';
-import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
-import {agregarBeneficiosPromoOngoing} from 'redux/features/visitaActual/visitaActualSlice';
+import {useAppDispatch, useObtenerVisitaActual,useObtenerClienteActual, useObtenerPedidoActual} from 'redux/hooks';
+import {agregarBeneficiosPromoOngoing, agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
 import {
 	TProductosUsadosEnOtrasPromos,
 	TPromoOngoingAplicables,
@@ -30,9 +33,11 @@ import {
 	Typography,
 } from '@mui/material';
 import clsx from 'clsx';
-import {useMostrarAviso} from 'hooks';
+import {useMostrarAviso, useObtenerPreciosProductosDelCliente,useObtenerDatosCliente,} from 'hooks';
 import {MaterialSelect} from 'components/UI';
+import { useObtenerDatosProducto } from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
 
+		
 const useEstilos = makeStyles(() =>
 	createStyles({
 		expand: {
@@ -118,7 +123,16 @@ export const Card: React.VFC<CardProps> = ({
 	const {promocionID} = promocion;
 	const dispatch = useAppDispatch();
 	const visitaActual = useObtenerVisitaActual();
-
+	const obtenerDatosProducto = useObtenerDatosProducto();
+	const {obtenerDatosCliente} = useObtenerDatosCliente();
+	const clienteActual: TClienteActual = useObtenerClienteActual();
+	const pedidoActual = useObtenerPedidoActual();
+	const datosCliente: TCliente | undefined = obtenerDatosCliente(
+		clienteActual.codigoCliente
+	);
+	const fechaEntrega: string = pedidoActual?.fechaEntrega;
+	const obtenerPreciosProductosDelCliente =	useObtenerPreciosProductosDelCliente();
+	
 	const expandID = `${promocion.promocionID}-${tipo}`;
 
 	const [promocionAplicada, setPromocionAplicada] =
@@ -314,6 +328,60 @@ export const Card: React.VFC<CardProps> = ({
 						],
 					})
 				);
+				if (!datosCliente) return;
+
+				beneficiosParaAgregar.beneficios.forEach( (grupo) => 
+					grupo.secuencias.forEach ((secuencia) => 
+						secuencia.materialesBeneficio.forEach( ( material) => {
+							const {codigo, cantidad} = material as TCodigoCantidad;
+							const productoActual = obtenerDatosProducto(
+								Number(codigo)
+							);
+							const preciosProductosDelCliente = obtenerPreciosProductosDelCliente(
+								datosCliente,
+								fechaEntrega
+							);
+				
+							if (productoActual.tipoProducto == ETipoProducto.Envase)
+							{
+								dispatch(
+									agregarProductoDelPedidoActual({
+										productoPedido: {
+											codigoProducto:productoActual.codigoProducto,
+											nombreProducto:productoActual.nombre,
+											unidades: (secuencia.unidadMedida.toLowerCase() == 'unidad' ) ? cantidad : 0,
+											subUnidades:(secuencia.unidadMedida.toLowerCase() == 'subunidad' ) ? cantidad : 0,
+											presentacion:productoActual.presentacion,
+											subunidadesVentaMinima: 0,
+											esVentaSubunidades: false,
+											precioConImpuestoUnidad: 0,
+											precioConImpuestoSubunidad:0,
+											tipoProducto:productoActual.tipoProducto,
+											total: 0, //precioFinalUnidad + precioFinalSubUnidad,
+											tipoPago: tipoPago,
+											catalogoMotivo:'',
+											estado: 'activo',
+											preciosBase: {
+												unidad:0 ,// productoActual.precioConImpuestoUnidad,
+												subUnidad:0, // productoActual.precioConImpuestoSubunidad,
+											},
+											preciosNeto: {
+												unidad: 1,
+												subUnidad: 1,
+											},
+											preciosPromo: {
+												unidad: 0,
+												subUnidad: 0,
+											},
+										},
+										
+									})
+								);
+							}
+
+						}) )
+				)
+				
 				setExpandidoexpandido(false);
 			}
 		}
