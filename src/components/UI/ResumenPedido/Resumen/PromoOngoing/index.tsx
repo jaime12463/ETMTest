@@ -50,9 +50,10 @@ export const PromoOngoing: React.FC<PromoOngoingProps> = ({promocion}) => {
 				const materialesBeneficio =
 					secuencia.materialesBeneficio as TCodigoCantidad[];
 
-				const beneficiosFiltrados = materialesBeneficio.filter(
-					(beneficio) => beneficio.cantidad > 0
-				);
+				const beneficiosFiltrados = materialesBeneficio
+					.filter((beneficio) => beneficio.cantidad > 0)
+					.sort((a, b) => (a.codigo > b.codigo ? 1 : -1));
+
 				return beneficiosFiltrados.map((beneficio) => {
 					const {cantidad, codigo} = beneficio as TCodigoCantidad;
 

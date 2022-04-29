@@ -155,7 +155,6 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 				) {
 					totalCredito += producto.total;
 					acc[2].push(producto);
-					acc[2].sort((a, b) => (a.codigoProducto > b.codigoProducto ? 1 : -1));
 				}
 
 				if (
@@ -165,7 +164,6 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 				) {
 					totalContado += producto.total;
 					acc[3].push(producto);
-					acc[3].sort((a, b) => (a.codigoProducto > b.codigoProducto ? 1 : -1));
 				}
 
 				if (producto.descuentoPromoPush) {
@@ -270,7 +268,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 
 	const consolidacionImplicitos: TConsolidadoImplicitos[] =
 		obtenerConsolidacionImplicitos(pedidosArray).sort((a, b) =>
-			a.tipoPago !== undefined && b.tipoPago !== undefined
+			!!a.tipoPago && !!b.tipoPago
 				? a.codigoImplicito - b.codigoImplicito || a.tipoPago - b.tipoPago
 				: a.codigoImplicito - b.codigoImplicito
 		);
@@ -359,47 +357,53 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 			</Box>
 
 			<Stack spacing='20px' padding='16px 18px 20px 18px' width='100%'>
-				{ventaCredito.length > 0 && (
+				{!!ventaCredito.length && (
 					<Resumen.Container>
 						<Resumen.Titulo background={theme.palette.success.dark}>
 							{t('general.credito')}
 						</Resumen.Titulo>
 						<Box border={`1px solid ${theme.palette.success.dark}`}>
-							{ventaCredito.map((producto, index) => {
-								return (
-									<Box key={producto.codigoProducto}>
-										<Resumen.Tarjeta producto={producto} />
-										{index !== ventaCredito.length - 1 && (
-											<Divider sx={{borderColor: theme.palette.success.dark}} />
-										)}
-									</Box>
-								);
-							})}
+							{ventaCredito
+								.sort((a, b) => (a.codigoProducto > b.codigoProducto ? 1 : -1))
+								.map((producto, index) => {
+									return (
+										<Box key={producto.codigoProducto}>
+											<Resumen.Tarjeta producto={producto} />
+											{index !== ventaCredito.length - 1 && (
+												<Divider
+													sx={{borderColor: theme.palette.success.dark}}
+												/>
+											)}
+										</Box>
+									);
+								})}
 						</Box>
 					</Resumen.Container>
 				)}
 
-				{ventaContado.length > 0 && (
+				{!!ventaContado.length && (
 					<Resumen.Container>
 						<Resumen.Titulo background={theme.palette.secondary.dark}>
 							{t('general.contado')}
 						</Resumen.Titulo>
 						<Box border='1px solid #000'>
-							{ventaContado.map((producto, index) => {
-								return (
-									<Box key={producto.codigoProducto}>
-										<Resumen.Tarjeta producto={producto} />
-										{index !== ventaContado.length - 1 && (
-											<Divider sx={{borderColor: '#000'}} />
-										)}
-									</Box>
-								);
-							})}
+							{ventaContado
+								.sort((a, b) => (a.codigoProducto > b.codigoProducto ? 1 : -1))
+								.map((producto, index) => {
+									return (
+										<Box key={producto.codigoProducto}>
+											<Resumen.Tarjeta producto={producto} />
+											{index !== ventaContado.length - 1 && (
+												<Divider sx={{borderColor: '#000'}} />
+											)}
+										</Box>
+									);
+								})}
 						</Box>
 					</Resumen.Container>
 				)}
 
-				{promocionesCredito.length > 0 && (
+				{!!promocionesCredito.length && (
 					<Resumen.Container>
 						<Resumen.Titulo
 							background={theme.palette.primary.dark}
@@ -407,18 +411,20 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 						>
 							Promociones push a crédito
 						</Resumen.Titulo>
-						{promocionesCredito.map((promocion) => {
-							return (
-								<Resumen.PromoPush
-									key={promocion.codigoProducto}
-									promocion={promocion}
-								/>
-							);
-						})}
+						{promocionesCredito
+							.sort((a, b) => (a.codigoProducto > b.codigoProducto ? 1 : -1))
+							.map((promocion) => {
+								return (
+									<Resumen.PromoPush
+										key={promocion.codigoProducto}
+										promocion={promocion}
+									/>
+								);
+							})}
 					</Resumen.Container>
 				)}
 
-				{promocionesContado.length > 0 && (
+				{!!promocionesContado.length && (
 					<Resumen.Container>
 						<Resumen.Titulo
 							background={theme.palette.primary.dark}
@@ -426,18 +432,20 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 						>
 							Promociones push a contado
 						</Resumen.Titulo>
-						{promocionesContado.map((promocion) => {
-							return (
-								<Resumen.PromoPush
-									key={promocion.codigoProducto}
-									promocion={promocion}
-								/>
-							);
-						})}
+						{promocionesContado
+							.sort((a, b) => (a.codigoProducto > b.codigoProducto ? 1 : -1))
+							.map((promocion) => {
+								return (
+									<Resumen.PromoPush
+										key={promocion.codigoProducto}
+										promocion={promocion}
+									/>
+								);
+							})}
 					</Resumen.Container>
 				)}
 
-				{promoOngoingCredito.length > 0 && (
+				{!!promoOngoingCredito.length && (
 					<Resumen.Container>
 						<Resumen.Titulo
 							background={theme.palette.primary.dark}
@@ -445,13 +453,18 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 						>
 							Promociones ongoing a crédito
 						</Resumen.Titulo>
-						{promoOngoingCredito.map((promo) => (
-							<Resumen.PromoOngoing promocion={promo} key={promo.promocionID} />
-						))}
+						{promoOngoingCredito
+							.sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1))
+							.map((promo) => (
+								<Resumen.PromoOngoing
+									promocion={promo}
+									key={promo.promocionID}
+								/>
+							))}
 					</Resumen.Container>
 				)}
 
-				{promoOngoingContado.length > 0 && (
+				{!!promoOngoingContado.length && (
 					<Resumen.Container>
 						<Resumen.Titulo
 							background={theme.palette.primary.dark}
@@ -459,14 +472,18 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 						>
 							Promociones ongoing a contado
 						</Resumen.Titulo>
-						{promoOngoingContado.map((promo) => (
-							<Resumen.PromoOngoing promocion={promo} key={promo.promocionID} />
-						))}
+						{promoOngoingContado
+							.sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1))
+							.map((promo) => (
+								<Resumen.PromoOngoing
+									promocion={promo}
+									key={promo.promocionID}
+								/>
+							))}
 					</Resumen.Container>
 				)}
 
-				{(prestamoenvase?.productos?.length > 0 ||
-					envasesRetorno?.length > 0) && (
+				{(!!prestamoenvase?.productos?.length || !!envasesRetorno?.length) && (
 					<Resumen.Container>
 						<Resumen.Titulo background={theme.palette.secondary.main}>
 							{t('general.envases')}
@@ -487,8 +504,8 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 									</Box>
 								);
 							})}
-							{prestamoenvase?.productos?.length > 0 &&
-								envasesRetorno?.length > 0 && (
+							{!!prestamoenvase?.productos?.length &&
+								!!envasesRetorno?.length && (
 									<Divider sx={{borderColor: theme.palette.secondary.main}} />
 								)}
 							{prestamoenvase?.productos?.map((envase, index) => {
@@ -506,8 +523,8 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 									</Box>
 								);
 							})}
-							{prestamoenvase?.productos?.length > 0 &&
-								envasesRetorno?.length > 0 && (
+							{!!prestamoenvase?.productos?.length &&
+								!!envasesRetorno?.length && (
 									<Divider sx={{borderColor: theme.palette.secondary.main}} />
 								)}
 							{envasesRetorno?.map((envase, index) => {
@@ -530,7 +547,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					</Resumen.Container>
 				)}
 
-				{canjes.length > 0 && (
+				{!!canjes.length && (
 					<Resumen.Container>
 						<Resumen.Titulo background={theme.palette.secondary.main}>
 							Canjes
@@ -552,7 +569,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					</Resumen.Container>
 				)}
 
-				{cantidadBonificaciones > 0 && (
+				{!!cantidadBonificaciones && (
 					<Resumen.Container>
 						<Resumen.Titulo background={theme.palette.secondary.main}>
 							{t('titulos.bonificaciones')}
@@ -561,7 +578,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					</Resumen.Container>
 				)}
 
-				{compromisoDeCobro.monto !== 0 && (
+				{!!compromisoDeCobro.monto && (
 					<Resumen.Container>
 						<Resumen.Titulo background={theme.palette.secondary.main}>
 							{t('general.compromisoCobro')}
@@ -570,7 +587,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					</Resumen.Container>
 				)}
 
-				{visitaActual.ordenDeCompra !== '' && (
+				{!!visitaActual.ordenDeCompra && (
 					<Resumen.Container>
 						<Resumen.Titulo background={theme.palette.secondary.main}>
 							{t('titulos.ordenDeCompra')}

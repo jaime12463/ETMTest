@@ -31,6 +31,10 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 					return;
 				}
 
+				const detalleOrdenado = [...bonificacion.detalle].sort((a, b) =>
+					a.codigoProducto > b.codigoProducto ? 1 : -1
+				);
+
 				return (
 					<Box key={bonificacion.id}>
 						<Box
@@ -52,11 +56,10 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 							</Typography>
 						</Box>
 						<Box display='flex' flex='1' flexDirection='column'>
-							{bonificacion.detalle.map((detalle, index) => {
+							{detalleOrdenado?.map((detalle, index) => {
 								const producto = obtenerProductoPorCodigo(
 									detalle.codigoProducto
-								);
-								if (!producto) return null;
+								)!;
 
 								return (
 									<Box key={`${detalle.idGrupo}${index}`}>
@@ -139,7 +142,10 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 												<Typography
 													variant='subtitle3'
 													padding='8px'
-													sx={{background: '#F5F0EF', mixBlendMode: 'multiply'}}
+													sx={{
+														background: '#F5F0EF',
+														mixBlendMode: 'multiply',
+													}}
 												>
 													{t('general.bonificacion')}
 												</Typography>
