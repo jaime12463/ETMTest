@@ -21,13 +21,15 @@ Esquema del escenario: N°1 - Desplegar detalle de iniciativa pendiente
       Y si permite botelleo, precio por subunidad
       Y la _cantidadDisponible
       Y mostrará el ícono junto a la _cantidadDisponible según la unidad de medida indicada en la iniciativa
-      Y si permite el estado cancelado, agregará al combo de estado la opción cancelado
+      Y si habilita el estado cancelado, agregará al combo de estado la opción cancelado
       Y <ingresoTomaDePedido> se ingreso a la toma de pedido <habilitaSeleccion> habilita la selección del status
 
 Ejemplos:
       | ingresoTomaDePedido | habilitaSeleccion |
       | si                  | no habilita       |
       | no                  | habilita          |
+
+# habilitaCancelarIniciativas: true  muestra el estado cancelar en iniciativas.      
 
 Esquema del escenario: N°2 - Desplegar detalle de iniciativa ejecutada
       Dado que estoy en la tarjeta de iniciativas
