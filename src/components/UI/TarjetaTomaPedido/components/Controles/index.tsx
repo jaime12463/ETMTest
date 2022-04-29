@@ -169,8 +169,6 @@ export const Controles: React.VFC<Props> = ({
 		}
 	}, [getValues]);
 
-	console.log(getValues.subUnidades);
-
 	const handleOnChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
