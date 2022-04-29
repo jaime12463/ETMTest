@@ -169,13 +169,15 @@ export const Controles: React.VFC<Props> = ({
 		}
 	}, [getValues]);
 
+	console.log(getValues.subUnidades);
+
 	const handleOnChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
 		setCambioValores(true);
 		setGetValues({
 			...getValues,
-			[e.target.name]: e.target.value.replace(/[^0-9]/g, ''),
+			[e.target.name]: +e.target.value.replace(/[^0-9]/g, ''),
 		});
 		setFocusId(producto.codigoProducto);
 

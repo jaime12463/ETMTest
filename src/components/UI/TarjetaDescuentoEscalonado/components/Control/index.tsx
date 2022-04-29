@@ -162,7 +162,7 @@ export const Control: React.VFC<Props> = ({
 		setCambioValores(true);
 		setGetValues({
 			...getValues,
-			[e.target.name]: e.target.value.replace(/[^0-9]/g, ''),
+			[e.target.name]: +e.target.value.replace(/[^0-9]/g, ''),
 		});
 		setFocusId(producto.codigoProducto);
 
