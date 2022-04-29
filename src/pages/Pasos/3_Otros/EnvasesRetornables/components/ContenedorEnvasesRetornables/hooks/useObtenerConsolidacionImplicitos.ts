@@ -159,7 +159,6 @@ export const useObtenerConsolidacionImplicitos = () => {
 			consolidado =Object.keys(consolidadoImplicitos).map((key) => {
 				const implicito=consolidadoImplicitos[key];
 				let {presentacion} = obtenerDatosProducto(implicito.codigoImplicito);
-				// ToDo: ver si esta OK, no falta vigencia??
 				let productoImplicito = preciosProductosDelCliente.find(
 					(el) => el.codigoProducto === implicito.codigoImplicito
 				);

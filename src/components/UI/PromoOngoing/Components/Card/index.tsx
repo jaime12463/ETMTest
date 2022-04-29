@@ -347,6 +347,25 @@ export const Card: React.VFC<CardProps> = ({
 								let productoImplicito = preciosProductosDelCliente.find(
 									(el) => el.codigoProducto === Number(codigo)
 								);
+								let preciosPromo= {
+									unidad: productoImplicito?.precioConImpuestoUnidad ?? 0,
+									subUnidad:productoImplicito?.precioConImpuestoSubunidad ?? 0,
+								};
+
+								if( secuencia.formaBeneficio  === EFormaBeneficio.DescuentoMonto)
+								{
+									preciosPromo.unidad -=  secuencia.valorBeneficio;
+									preciosPromo.subUnidad =preciosPromo.unidad / productoActual.presentacion;
+								}else if( secuencia.formaBeneficio  === EFormaBeneficio.DescuentoPorcentaje)
+								{
+									preciosPromo.unidad *= (100 - secuencia.valorBeneficio) /100;
+									preciosPromo.subUnidad *= (100 - secuencia.valorBeneficio) /100;
+									
+								}else  if( secuencia.formaBeneficio  === EFormaBeneficio.Precio)
+								{
+									preciosPromo.unidad=  secuencia.valorBeneficio;
+									preciosPromo.subUnidad=preciosPromo.unidad / productoActual.presentacion;
+								}
 
 								dispatch(
 									agregarProductoDelPedidoActual({
@@ -373,10 +392,7 @@ export const Card: React.VFC<CardProps> = ({
 												unidad: 1,
 												subUnidad: 1,
 											},
-											preciosPromo: {
-												unidad:50,
-												subUnidad: 0,
-											},
+											preciosPromo,
 											codigoPromo:beneficiosParaAgregar.promocionID
 										},
 										
