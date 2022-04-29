@@ -132,7 +132,7 @@ export const Card: React.VFC<CardProps> = ({
 	);
 	const fechaEntrega: string = pedidoActual?.fechaEntrega;
 	const obtenerPreciosProductosDelCliente =	useObtenerPreciosProductosDelCliente();
-	
+
 	const expandID = `${promocion.promocionID}-${tipo}`;
 
 	const [promocionAplicada, setPromocionAplicada] =
@@ -344,6 +344,10 @@ export const Card: React.VFC<CardProps> = ({
 				
 							if (productoActual.tipoProducto == ETipoProducto.Envase)
 							{
+								let productoImplicito = preciosProductosDelCliente.find(
+									(el) => el.codigoProducto === Number(codigo)
+								);
+
 								dispatch(
 									agregarProductoDelPedidoActual({
 										productoPedido: {
@@ -354,8 +358,8 @@ export const Card: React.VFC<CardProps> = ({
 											presentacion:productoActual.presentacion,
 											subunidadesVentaMinima: 0,
 											esVentaSubunidades: false,
-											precioConImpuestoUnidad: 0,
-											precioConImpuestoSubunidad:0,
+											precioConImpuestoUnidad: productoImplicito?.precioConImpuestoUnidad ?? 0,
+											precioConImpuestoSubunidad:productoImplicito?.precioConImpuestoSubunidad ?? 0,
 											tipoProducto:productoActual.tipoProducto,
 											total: 0, //precioFinalUnidad + precioFinalSubUnidad,
 											tipoPago: tipoPago,
@@ -370,9 +374,10 @@ export const Card: React.VFC<CardProps> = ({
 												subUnidad: 1,
 											},
 											preciosPromo: {
-												unidad: 0,
+												unidad:50,
 												subUnidad: 0,
 											},
+											codigoPromo:beneficiosParaAgregar.promocionID
 										},
 										
 									})
