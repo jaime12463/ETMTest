@@ -123,7 +123,7 @@ Escenario: N°11 - Sección promo ongoing
     Cuando selecciono ver el pedido
     Entonces el sistema mostarará ordenado por _promocionID las promociones ongoing aplicadas según la condición de pago
     Y mostrará _descripcion
-    Y mostrará por cada secuencia del grupo aplicado el beneficio obtenido según la forma beneficio de cada secuencia 
+    Y mostrará por cada secuencia del grupo aplicado, el beneficio obtenido según la forma beneficio de cada secuencia 
     Y mostrará ordenado por producto
 
 Escenario: N°12 - Mostrar forma beneficio obsequios
