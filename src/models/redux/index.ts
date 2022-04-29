@@ -207,6 +207,7 @@ export type TPedidoDelProducto = {
 	tipoPago: ETiposDePago;
 	catalogoMotivo: string;
 	estado?: 'activo' | 'eliminado' | 'transito';
+	codigoPromo?:number;
 };
 
 export type TPreciosProductoUnidadYSubUnidad = {
