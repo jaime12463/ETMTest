@@ -11,7 +11,7 @@ import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import {
 	useObtenerCalculoDescuentoProducto,
 	useObtenerDatosCliente,
-	useCalularPruductoEnPromoOnGoing,
+	useCalularProductoEnPromoOnGoing,
 } from 'hooks';
 import {SwitchYCheck, Informacion, Controles, PromoOngoing} from './components';
 
@@ -80,7 +80,7 @@ export const TarjetaTomaPedido: React.VFC<Props> = ({
 	const obtenerCalculoDescuentoProducto =
 		useObtenerCalculoDescuentoProducto(producto);
 
-	const calculosPromoOngoing = useCalularPruductoEnPromoOnGoing();
+	const calculosPromoOngoing = useCalularProductoEnPromoOnGoing();
 
 	const infoBeneficio = calculosPromoOngoing(producto.codigoProducto);
 

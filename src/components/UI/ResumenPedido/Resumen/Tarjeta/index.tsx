@@ -7,7 +7,7 @@ import {useTranslation} from 'react-i18next';
 import {EFormaBeneficio, TProductoPedido} from 'models';
 import theme from 'theme';
 import {useObtenerConfiguracion, useObtenerDatos} from 'redux/hooks';
-import {useCalularPruductoEnPromoOnGoing} from 'hooks';
+import {useCalularProductoEnPromoOnGoing} from 'hooks';
 import {validarSubUnidades} from 'utils/validaciones';
 
 export interface TarjetaProps {
@@ -29,7 +29,7 @@ export const Tarjeta: React.FC<TarjetaProps> = ({
 	},
 }) => {
 	const {t} = useTranslation();
-	const calularPruductoEnPromoOnGoing = useCalularPruductoEnPromoOnGoing();
+	const calularPruductoEnPromoOnGoing = useCalularProductoEnPromoOnGoing();
 	const {tipoPedidos} = useObtenerConfiguracion();
 	const [{habilitaSubunidades}] = tipoPedidos;
 

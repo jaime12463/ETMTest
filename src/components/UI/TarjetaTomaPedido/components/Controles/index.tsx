@@ -24,7 +24,7 @@ import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {useTranslation} from 'react-i18next';
 import {StateFocusID} from '../..';
-import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularPruductoEnPromoOnGoing';
+import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularProductoEnPromoOnGoing';
 import {InputCantidades, InputPropsEstilos} from 'components/UI';
 
 interface Props {

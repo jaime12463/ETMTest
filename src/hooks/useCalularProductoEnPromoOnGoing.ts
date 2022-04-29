@@ -9,7 +9,7 @@ export interface TInfoBeneficioProductoPromoOngoing {
 	unidadMedida: string;
 }
 
-export const useCalularPruductoEnPromoOnGoing = () => {
+export const useCalularProductoEnPromoOnGoing = () => {
 	const visitaActual = useObtenerVisitaActual();
 
 	const calularPruductoEnPromoOnGoing = (

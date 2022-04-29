@@ -154,10 +154,16 @@ export type TProducto = {
 	subunidadesVentaMinima: number;
 	implicito1?: number;
 	implicito2?: number;
-	tipoProducto: number;
+	tipoProducto: ETipoProducto;
 	promoPush?: TPromoPush;
 	atributos?: TAtributos;
 };
+
+export enum ETipoProducto {
+	ProductoTerminado = 1,
+	Envase=5,
+	PromoPush=9
+}
 
 export type TAtributos = {
 	sabor: number;

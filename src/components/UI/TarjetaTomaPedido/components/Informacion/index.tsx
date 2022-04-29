@@ -20,7 +20,7 @@ import {useTranslation} from 'react-i18next';
 import {useAppDispatch, useObtenerDatos} from 'redux/hooks';
 import {borrarDescuentoDelProducto} from 'redux/features/visitaActual/visitaActualSlice';
 import {useMostrarAviso, useValidacionPermiteSubUnidades} from 'hooks';
-import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularPruductoEnPromoOnGoing';
+import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularProductoEnPromoOnGoing';
 import {StateFocusID} from '../..';
 
 interface Props {
