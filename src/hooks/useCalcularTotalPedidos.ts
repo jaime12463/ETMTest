@@ -1,5 +1,4 @@
 import {TProductoPedido, TTotalPedido, ETiposDePago} from '../models';
-import {useCallback} from 'react';
 
 export const useCalcularTotalPedidos = (): ((
 	productosPedido: TProductoPedido[]
@@ -22,7 +21,7 @@ export const useCalcularTotalPedidos = (): ((
 	const reducerSumarProductos = (
 		total: TTotalPedido,
 		productoPedido: TProductoPedido
-	): any => ({
+	): TTotalPedido => ({
 		totalUnidades: total.totalUnidades + productoPedido.unidades,
 		totalSubUnidades: total.totalSubUnidades + productoPedido.subUnidades,
 		totalPrecio: total.totalPrecio + productoPedido.total,
@@ -55,15 +54,14 @@ export const useCalcularTotalPedidos = (): ((
 					: total.totalCredito.totalPrecio,
 		},
 	});
-	const calcularTotalPedido = 
-		(productosPedido: TProductoPedido[]) => {
-			const totalPedido: TTotalPedido = productosPedido.reduce(
-				reducerSumarProductos,
-				TotalInicial
-			);
-			return totalPedido;
-		}
-	
-	
+
+	const calcularTotalPedido = (productosPedido: TProductoPedido[]) => {
+		const totalPedido: TTotalPedido = productosPedido.reduce(
+			reducerSumarProductos,
+			TotalInicial
+		);
+		return totalPedido;
+	};
+
 	return calcularTotalPedido;
 };

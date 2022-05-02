@@ -62,7 +62,7 @@ export const Canjes: React.FC<CanjesProps> = ({
 						color='secondary'
 						fontFamily='Open Sans'
 					>
-						x{presentacion}
+						{`x${presentacion}`}
 					</Typography>
 				</Box>
 			</Box>

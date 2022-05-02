@@ -3,7 +3,7 @@ import {
 	useObtenerConfiguracion,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {TCliente, TPedido, TProductoPedido, TTotalPedido} from 'models';
+import {TPedido, TProductoPedido, TTotalPedido} from 'models';
 import {useCalcularTotalPedidos, useObtenerDatosCliente} from 'hooks';
 
 export const useObtenerTotalPedidosVisitaActual = () => {
@@ -48,7 +48,6 @@ export const useObtenerTotalPedidosVisitaActual = () => {
 		});
 
 		const calcularTotalPedidos = useCalcularTotalPedidos();
-
 		return calcularTotalPedidos(productosFinales);
 	};
 

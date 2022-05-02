@@ -786,13 +786,6 @@
 	],
 	"productos": [
 		{
-			"codigoProducto": 360,
-			"nombre": "COCA  COLA 600 ML 24 PK",
-			"presentacion": 24,
-			"subunidadesVentaMinima": 12,
-			"tipoProducto": 1
-		},
-		{
 			"codigoProducto": 390,
 			"nombre": "LIFT 250 ML PET NR 12 G",
 			"presentacion": 12,
@@ -815,15 +808,6 @@
 			"subunidadesVentaMinima": 12,
 			"tipoProducto": 1,
 			"implicito1": 170463,
-			"implicito2": 170445
-		},
-		{
-			"codigoProducto": 440,
-			"nombre": "FRESCA 12 OZ VIDRIO R 24 G",
-			"presentacion": 24,
-			"subunidadesVentaMinima": 12,
-			"tipoProducto": 1,
-			"implicito1": 170459,
 			"implicito2": 170445
 		},
 		{
@@ -1473,6 +1457,8 @@
 			"presentacion": 12,
 			"subunidadesVentaMinima": 1,
 			"tipoProducto": 1,
+			"implicito1": 170459,
+			"implicito2": 170445,
 			"atributos": {
 				"sabor": 6,
 				"familia": 1,
@@ -7818,7 +7804,7 @@
 			"descripcion": "Env+Caja 12 OZ VDR FRESCA Nuevos",
 			"tipo": 2,
 			"aplicacion": "M",
-			"asignacion": "T",
+			"asignacion": "P",
 			"inicioVigenciaPromocion": "2022-01-10",
 			"finVigenciaPromocion": "2022-12-31",
 			"requisitos": [
@@ -7839,7 +7825,7 @@
 							"cantidad": 4,
 							"unidadMedida": "Unidad",
 							"formaBeneficio": "2",
-							"valorBeneficio": 100,
+							"valorBeneficio": 50,
 							"tope": 999
 						},
 						{
@@ -7848,7 +7834,7 @@
 							"cantidad": 4,
 							"unidadMedida": "Unidad",
 							"formaBeneficio": "2",
-							"valorBeneficio": 100,
+							"valorBeneficio": 50,
 							"tope": 999
 						}
 					]

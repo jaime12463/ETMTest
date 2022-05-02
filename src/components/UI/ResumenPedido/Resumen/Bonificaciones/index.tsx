@@ -107,7 +107,7 @@ export const Bonificaciones: React.FC<BonificacionesProps> = ({
 															color='secondary'
 															fontFamily='Open Sans'
 														>
-															x{producto.presentacion}
+															{`x${producto.presentacion}`}
 														</Typography>
 													</Box>
 												</Box>

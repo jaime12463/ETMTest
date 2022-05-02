@@ -10,15 +10,16 @@ import {
 	ETipoProducto,
 	TCodigoCantidad,
 } from 'models';
-import {
-	useObtenerImplicitosPromoPush,
-	useObtenerDatosProducto,
-} from '.';
+import {useObtenerImplicitosPromoPush, useObtenerDatosProducto} from '.';
 import {
 	useObtenerPreciosProductosDelCliente,
 	useObtenerDatosCliente,
 } from 'hooks';
-import {useObtenerClienteActual, useObtenerPedidoActual, useObtenerVisitaActual} from 'redux/hooks';
+import {
+	useObtenerClienteActual,
+	useObtenerPedidoActual,
+	useObtenerVisitaActual,
+} from 'redux/hooks';
 
 export const useObtenerConsolidacionImplicitos = () => {
 	const obtenerImplicitosPromoPush = useObtenerImplicitosPromoPush();
@@ -39,26 +40,20 @@ export const useObtenerConsolidacionImplicitos = () => {
 
 	const obtenerConsolidacionImplicitos = useCallback(
 		(productosPedido: TProductoPedido[]) => {
-			
-			const consolidadoImplicitos:Record<string, TConsolidadoImplicitos> = {};
-			let consolidado: TConsolidadoImplicitos[] = []; 
-			
-			const incrementarImplicitos = (
-				implicito: TConsolidadoImplicitos,
-			) => {
-				const key= `${implicito.tipoPago}-${implicito.codigoImplicito}`;
-				if ( consolidadoImplicitos[key])
-				{
-					consolidadoImplicitos[key].unidades+= implicito.unidades;
-					consolidadoImplicitos[key].subUnidades+= implicito.subUnidades;
+			const consolidadoImplicitos: Record<string, TConsolidadoImplicitos> = {};
+			let consolidado: TConsolidadoImplicitos[] = [];
 
-				}else{
-					consolidadoImplicitos[key]={...implicito}
+			const incrementarImplicitos = (implicito: TConsolidadoImplicitos) => {
+				const key = `${implicito.tipoPago}-${implicito.codigoImplicito}`;
+				if (consolidadoImplicitos[key]) {
+					consolidadoImplicitos[key].unidades += implicito.unidades;
+					consolidadoImplicitos[key].subUnidades += implicito.subUnidades;
+				} else {
+					consolidadoImplicitos[key] = {...implicito};
 				}
 			};
 
 			if (!datosCliente) return consolidado;
-			
 
 			productosPedido.forEach((pedido) => {
 				const {unidades, subUnidades, promoPush, tipoPago} = pedido;
@@ -88,9 +83,9 @@ export const useObtenerConsolidacionImplicitos = () => {
 								incrementarImplicitos({
 									codigoImplicito: implicito.codigoImplicito,
 									nombreImplicito: implicito.nombreImplicito ?? '',
-									unidades:unidadesImplicito,
+									unidades: unidadesImplicito,
 									subUnidades: subUnidadesImplicito,
-									tipoPago
+									tipoPago,
 								});
 							}
 						});
@@ -99,65 +94,67 @@ export const useObtenerConsolidacionImplicitos = () => {
 							obtenerDatosProducto(componente.codigoProducto);
 						if (tipoProducto === ETipoProducto.Envase)
 							incrementarImplicitos({
-								codigoImplicito:codigoProducto,
-								nombreImplicito:nombre,
-								unidades:-unidadesImplicito,
-								subUnidades:-subUnidadesImplicito,
-								tipoPago
+								codigoImplicito: codigoProducto,
+								nombreImplicito: nombre,
+								unidades: -unidadesImplicito,
+								subUnidades: -subUnidadesImplicito,
+								tipoPago,
 							});
 					});
 				} else {
 					if (typeof pedido.codigoImplicito1 !== 'undefined')
 						incrementarImplicitos({
-							codigoImplicito:pedido.codigoImplicito1,
-							nombreImplicito:pedido.nombreImplicito1 ?? '',
+							codigoImplicito: pedido.codigoImplicito1,
+							nombreImplicito: pedido.nombreImplicito1 ?? '',
 							unidades,
 							subUnidades,
-							tipoPago
+							tipoPago,
 						});
 
 					if (typeof pedido.codigoImplicito2 !== 'undefined')
 						incrementarImplicitos({
-							codigoImplicito:pedido.codigoImplicito2 ?? 0,
-							nombreImplicito:pedido.nombreImplicito2 ?? '',
+							codigoImplicito: pedido.codigoImplicito2 ?? 0,
+							nombreImplicito: pedido.nombreImplicito2 ?? '',
 							unidades,
-							subUnidades:0,
-							tipoPago
+							subUnidades: 0,
+							tipoPago,
 						});
 				}
 			});
 			visitaActual.promosOngoing.forEach((promo) => {
 				promo.beneficios.forEach((beneficio) => {
-					beneficio.secuencias.forEach( (secuencia) => {
-						secuencia.materialesBeneficio.forEach((material)=> { 
+					beneficio.secuencias.forEach((secuencia) => {
+						secuencia.materialesBeneficio.forEach((material) => {
 							const {codigo, cantidad} = material as TCodigoCantidad;
-							const {codigoProducto, nombre, tipoProducto, presentacion} = obtenerDatosProducto(
-								Number(codigo)
-							);
-							if (tipoProducto == ETipoProducto.Envase)
-							{
+							const {codigoProducto, nombre, tipoProducto} =
+								obtenerDatosProducto(Number(codigo));
+							if (tipoProducto == ETipoProducto.Envase) {
 								incrementarImplicitos({
-									codigoImplicito:codigoProducto,
-									nombreImplicito:nombre,
-									unidades: (secuencia.unidadMedida.toLowerCase() == 'unidad' ) ? -cantidad : 0,
-									subUnidades:(secuencia.unidadMedida.toLowerCase() == 'subunidad' ) ? -cantidad : 0,
-									tipoPago:promo.tipoPago
+									codigoImplicito: codigoProducto,
+									nombreImplicito: nombre,
+									unidades:
+										secuencia.unidadMedida.toLowerCase() == 'unidad'
+											? -cantidad
+											: 0,
+									subUnidades:
+										secuencia.unidadMedida.toLowerCase() == 'subunidad'
+											? -cantidad
+											: 0,
+									tipoPago: promo.tipoPago,
 								});
 							}
-						} )
-					})
-				})
+						});
+					});
+				});
 			});
-			
+
 			const preciosProductosDelCliente = obtenerPreciosProductosDelCliente(
 				datosCliente,
 				fechaEntrega
 			);
 
-			
-
-			consolidado =Object.keys(consolidadoImplicitos).map((key) => {
-				const implicito=consolidadoImplicitos[key];
+			consolidado = Object.keys(consolidadoImplicitos).map((key) => {
+				const implicito = consolidadoImplicitos[key];
 				let {presentacion} = obtenerDatosProducto(implicito.codigoImplicito);
 				let productoImplicito = preciosProductosDelCliente.find(
 					(el) => el.codigoProducto === implicito.codigoImplicito

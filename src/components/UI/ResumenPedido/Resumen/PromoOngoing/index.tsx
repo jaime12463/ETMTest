@@ -106,7 +106,7 @@ export const PromoOngoing: React.FC<PromoOngoingProps> = ({promocion}) => {
 																fontFamily='Open Sans'
 																color='secondary'
 															>
-																x{presentacion}
+																{`x${presentacion}`}
 															</Typography>
 														</Box>
 														{producto && (

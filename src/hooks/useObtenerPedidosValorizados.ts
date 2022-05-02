@@ -1,6 +1,5 @@
 import {useObtenerConfiguracion, useObtenerVisitaActual} from 'redux/hooks';
-import {TPedido, TProductoPedido, TTotalPedido} from 'models';
-import {useCalcularTotalPedidos} from 'hooks';
+import {ETipoProducto, TPedido, TProductoPedido} from 'models';
 
 export const useObtenerPedidosValorizados = () => {
 	const visitaActual = useObtenerVisitaActual();
@@ -20,7 +19,9 @@ export const useObtenerPedidosValorizados = () => {
 		});
 
 		let productosConUnidades = productos.filter(
-			(productos) => productos.unidades > 0 || productos.subUnidades > 0
+			(productos) =>
+				(productos.unidades > 0 || productos.subUnidades > 0) &&
+				productos.tipoProducto !== ETipoProducto.Envase
 		);
 
 		return productosConUnidades;

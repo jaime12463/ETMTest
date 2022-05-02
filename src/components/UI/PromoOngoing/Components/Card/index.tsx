@@ -401,7 +401,10 @@ export const Card: React.VFC<CardProps> = ({
 											precioConImpuestoSubunidad:
 												productoImplicito?.precioConImpuestoSubunidad ?? 0,
 											tipoProducto: productoActual.tipoProducto,
-											total: 0, //precioFinalUnidad + precioFinalSubUnidad,
+											total:
+												secuencia.unidadMedida === 'Unidad'
+													? preciosPromo.unidad * cantidad
+													: preciosPromo.subUnidad * cantidad,
 											tipoPago: tipoPago,
 											catalogoMotivo: '',
 											estado: 'activo',
