@@ -18,7 +18,10 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
 	const productosConUnidades = venta?.productos?.filter((producto) => {
-		return producto.unidades > 0 || producto.subUnidades > 0;
+		return (
+			(producto.unidades > 0 || producto.subUnidades > 0) &&
+			!producto.codigoPromo
+		);
 	});
 	const cantidadPromoPush = productosConUnidades?.filter(
 		(producto) => producto.promoPush

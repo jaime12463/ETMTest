@@ -169,14 +169,14 @@ export const visitaActualSlice = createSlice({
 		borrarPromocionesOngoing: (
 			state,
 			action: PayloadAction<{
-				tipoPago: 'Contado' | 'Credito';
+				tipoPago: ETiposDePago;
 			}>
 		) => {
 			let promoFiltradas = state.promosOngoing.filter(
 				(promo) =>
-					(promo.tipoPago !== ETiposDePago[action.payload.tipoPago] &&
+					(promo.tipoPago !== action.payload.tipoPago &&
 						promo.aplicacion === 'A') ||
-					(promo.tipoPago !== ETiposDePago[action.payload.tipoPago] &&
+					(promo.tipoPago !== action.payload.tipoPago &&
 						promo.aplicacion === 'M')
 			);
 
@@ -620,6 +620,16 @@ export const visitaActualSlice = createSlice({
 		activarClienteBloqueado: (state) => {
 			state.clienteBloqueado = true;
 		},
+		eliminarEnvasesPromoOngoing: (
+			state,
+			action: PayloadAction<{tipo: ETiposDePago}>
+		) => {
+			state.pedidos.venta.productos = state.pedidos.venta.productos.filter(
+				(producto) =>
+					!producto.codigoPromo ||
+					(producto.codigoPromo && producto.tipoPago !== action.payload.tipo)
+			);
+		},
 	},
 });
 
@@ -659,5 +669,6 @@ export const {
 	cambiarAvisos,
 	activarClienteBloqueado,
 	agregarBeneficiosPromoOngoing,
+	eliminarEnvasesPromoOngoing,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

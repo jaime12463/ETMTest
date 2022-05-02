@@ -1,10 +1,10 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import theme from 'theme';
 import {ReiniciarIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
+import {BotonSmall} from 'components/UI/BotonSmall';
 
 export interface ContainerProps {
 	tipo?: 'credito' | 'contado' | 'default';
@@ -72,30 +72,16 @@ export const Container: React.FC<ContainerProps> = ({
 								{tipo === 'credito' ? 'Crédito' : 'Contado'}
 							</Typography>
 						</Box>
-						<IconButton
-							onClick={onClick}
-							sx={{
-								border: `1px solid ${theme.palette.secondary.main}`,
-								borderRadius: '50px',
-								display: 'flex',
-								gap: '4px',
-								padding: '4px 12px',
-								width: 'fit-content',
-								'&:hover': {
-									backgroundColor: 'none',
-								},
-							}}
-							data-cy={`boton-restablecer-${tipo}`}
-						>
-							<ReiniciarIcon height='10px' width='10px' />
+						<BotonSmall onClick={onClick} data-cy={`boton-restablecer-${tipo}`}>
+							<ReiniciarIcon height={10} width={10} />
 							<Typography
 								variant='caption'
 								fontFamily='Open Sans'
-								color={theme.palette.secondary.main}
+								color='secondary'
 							>
 								{t('general.restablecerPromociones')}
 							</Typography>
-						</IconButton>
+						</BotonSmall>
 					</>
 				)}
 			</Box>

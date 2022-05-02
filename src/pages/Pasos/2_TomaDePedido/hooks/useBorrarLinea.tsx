@@ -9,13 +9,14 @@ import {
 	borrarProductoDelPedidoActual,
 	restablecerBonificaciones,
 	eliminarCanje,
+	cambiarAvisos,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {
 	useObtenerProductosMandatoriosVisitaActual,
 	useMostrarAviso,
 	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
-import {TProductoPedido} from 'models';
+import {ETiposDePago, TProductoPedido} from 'models';
 import {useValidarTieneBonificaciones} from '../hooks';
 import {useTranslation} from 'react-i18next';
 import {AvisoIcon} from 'assests/iconos';
@@ -23,14 +24,10 @@ import {AvisoIcon} from 'assests/iconos';
 export const useBorrarLinea = (stateAlerta: any) => {
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
-	const configuracion = useObtenerConfiguracion();
 	const visitaActual = useObtenerVisitaActual();
 	const clienteActual = useObtenerClienteActual();
 	const mostrarAviso = useMostrarAviso();
 	const {setAlerta, setConfigAlerta} = stateAlerta;
-
-	const productosMandatoriosVisitaActual =
-		useObtenerProductosMandatoriosVisitaActual();
 
 	const {obtenerPedidosClienteMismaFechaEntrega} =
 		useObtenerPedidosClienteMismaFechaEntrega();
@@ -45,15 +42,14 @@ export const useBorrarLinea = (stateAlerta: any) => {
 	const borrarLinea = useCallback(
 		(productoaBorrar: TProductoPedido) => {
 			const clienteOtroPedidoMismaFecha =
-				pedidosClienteMismaFechaEntrega.length > 0 ? true : false;
+				pedidosClienteMismaFechaEntrega.length > 0;
 
-			const clienteTieneCanje =
-				visitaActual.pedidos.canje.productos.length > 0 ? true : false;
+			const clienteTieneCanje = visitaActual.pedidos.canje.productos.length > 0;
 
 			const clienteTieneBoficaciones = validarTieneBonificaciones();
 
 			const esUltimoProducto =
-				visitaActual.pedidos.venta.productos.length === 1 ? true : false;
+				visitaActual.pedidos.venta.productos.length === 1;
 
 			//CA2:
 			if (
@@ -84,7 +80,6 @@ export const useBorrarLinea = (stateAlerta: any) => {
 							'productoEliminado'
 						);
 					},
-					callbackCancelar: () => {},
 					iconoMensaje: <AvisoIcon />,
 				});
 				setAlerta(true);
@@ -119,7 +114,6 @@ export const useBorrarLinea = (stateAlerta: any) => {
 							'productoEliminado'
 						);
 					},
-					callbackCancelar: () => {},
 					iconoMensaje: <AvisoIcon />,
 				});
 				setAlerta(true);
@@ -155,7 +149,6 @@ export const useBorrarLinea = (stateAlerta: any) => {
 							'productoEliminado'
 						);
 					},
-					callbackCancelar: () => {},
 					iconoMensaje: <AvisoIcon />,
 				});
 				setAlerta(true);
@@ -163,29 +156,49 @@ export const useBorrarLinea = (stateAlerta: any) => {
 				return;
 			}
 
-			//CA1:
-			/*if (!esUltimoProducto || clienteOtroPedidoMismaFecha) {
-			console.log("pase por ca1")
-			dispatch(
-				borrarProductoDelPedidoActual({
-					codigoProducto: productoaBorrar.codigoProducto,
-				})
-			);
-			mostrarAviso(
-				'success',
-				t('advertencias.productoUnicoEliminadoTitulo'),
-				undefined,
-				undefined,
-				'productoEliminado'
-			);
-			return;
-		}*/
+			if (!esUltimoProducto || clienteOtroPedidoMismaFecha) {
+				setConfigAlerta({
+					titulo: t('advertencias.borrarLineaPedidosTitulo'),
+					mensaje: t('advertencias.borrarLineaPedidosMensajeUnico'),
+					tituloBotonAceptar: t('general.aceptar'),
+					tituloBotonCancelar: t('general.cancelar'),
+					callbackAceptar: () => {
+						dispatch(
+							borrarProductoDelPedidoActual({
+								codigoProducto: productoaBorrar.codigoProducto,
+							})
+						);
+						mostrarAviso(
+							'success',
+							t('advertencias.productoUnicoEliminadoTitulo'),
+							undefined,
+							undefined,
+							'productoEliminado'
+						);
+						if (productoaBorrar.tipoPago === ETiposDePago.Credito) {
+							dispatch(
+								cambiarAvisos({
+									calculoPromociones: true,
+									cambioElPedidoSinPromociones: {credito: true, contado: false},
+								})
+							);
+						}
 
-			if (
-				esUltimoProducto ||
-				!esUltimoProducto ||
-				clienteOtroPedidoMismaFecha
-			) {
+						if (productoaBorrar.tipoPago === ETiposDePago.Contado) {
+							dispatch(
+								cambiarAvisos({
+									calculoPromociones: true,
+									cambioElPedidoSinPromociones: {credito: false, contado: true},
+								})
+							);
+						}
+					},
+					iconoMensaje: <AvisoIcon />,
+				});
+				setAlerta(true);
+			}
+
+			if (esUltimoProducto) {
 				setConfigAlerta({
 					titulo: t('advertencias.borrarLineaPedidosTitulo'),
 					mensaje: t('advertencias.borrarLineaPedidosMensajeUnico'),
@@ -205,7 +218,6 @@ export const useBorrarLinea = (stateAlerta: any) => {
 							'productoEliminado'
 						);
 					},
-					callbackCancelar: () => {},
 					iconoMensaje: <AvisoIcon />,
 				});
 				setAlerta(true);

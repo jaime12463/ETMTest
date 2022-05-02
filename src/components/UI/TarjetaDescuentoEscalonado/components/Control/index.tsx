@@ -125,37 +125,6 @@ export const Control: React.VFC<Props> = ({
 		}
 	}, [puedeAgregar]);
 
-	const validacionSubUnidades = React.useCallback(() => {
-		if (
-			getValues.subUnidades % producto.subunidadesVentaMinima !== 0 &&
-			getValues.subUnidades < producto.presentacion
-		) {
-			return (
-				mostrarAviso(
-					'error',
-					t('advertencias.subUnidadesNoMultiplo', {
-						subunidadesVentaMinima: producto.subunidadesVentaMinima,
-					})
-				),
-				setGetValues({
-					...getValues,
-					subUnidades: 0,
-				})
-			);
-		}
-		if (cambioValores) {
-			agregarProductoAlPedidoActual(getValues, obtenerCalculoDescuentoProducto);
-			setCambioValores(false);
-		}
-
-		if (producto.descuentoPolarizado) {
-			setInputFocus('descuento');
-		} else {
-			setFocusId(0);
-			setInputFocus('productoABuscar');
-		}
-	}, [getValues]);
-
 	const handleOnChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
@@ -174,7 +143,7 @@ export const Control: React.VFC<Props> = ({
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === 'Enter') {
 			if (inputFocus === 'unidades') {
-				setInputFocus('subUnidades');
+				setInputFocus('productoABuscar');
 				if (cambioValores) {
 					setCambioValores(false);
 					agregarProductoAlPedidoActual(
@@ -182,8 +151,6 @@ export const Control: React.VFC<Props> = ({
 						obtenerCalculoDescuentoProducto
 					);
 				}
-			} else if (inputFocus === 'subUnidades') {
-				validacionSubUnidades();
 			}
 		}
 	};

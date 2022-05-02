@@ -12,8 +12,16 @@ import {
 	TCodigoCantidad,
 	TPromoOngoing,
 } from 'models';
-import {useAppDispatch, useObtenerVisitaActual,useObtenerClienteActual, useObtenerPedidoActual} from 'redux/hooks';
-import {agregarBeneficiosPromoOngoing, agregarProductoDelPedidoActual} from 'redux/features/visitaActual/visitaActualSlice';
+import {
+	useAppDispatch,
+	useObtenerVisitaActual,
+	useObtenerClienteActual,
+	useObtenerPedidoActual,
+} from 'redux/hooks';
+import {
+	agregarBeneficiosPromoOngoing,
+	agregarProductoDelPedidoActual,
+} from 'redux/features/visitaActual/visitaActualSlice';
 import {
 	TProductosUsadosEnOtrasPromos,
 	TPromoOngoingAplicables,
@@ -33,11 +41,14 @@ import {
 	Typography,
 } from '@mui/material';
 import clsx from 'clsx';
-import {useMostrarAviso, useObtenerPreciosProductosDelCliente,useObtenerDatosCliente,} from 'hooks';
-import {MaterialSelect} from 'components/UI';
-import { useObtenerDatosProducto } from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
+import {
+	useMostrarAviso,
+	useObtenerPreciosProductosDelCliente,
+	useObtenerDatosCliente,
+} from 'hooks';
+import {BotonSmall, MaterialSelect} from 'components/UI';
+import {useObtenerDatosProducto} from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
 
-		
 const useEstilos = makeStyles(() =>
 	createStyles({
 		expand: {
@@ -131,7 +142,8 @@ export const Card: React.VFC<CardProps> = ({
 		clienteActual.codigoCliente
 	);
 	const fechaEntrega: string = pedidoActual?.fechaEntrega;
-	const obtenerPreciosProductosDelCliente =	useObtenerPreciosProductosDelCliente();
+	const obtenerPreciosProductosDelCliente =
+		useObtenerPreciosProductosDelCliente();
 
 	const expandID = `${promocion.promocionID}-${tipo}`;
 
@@ -330,79 +342,87 @@ export const Card: React.VFC<CardProps> = ({
 				);
 				if (!datosCliente) return;
 
-				beneficiosParaAgregar.beneficios.forEach( (grupo) => 
-					grupo.secuencias.forEach ((secuencia) => 
-						secuencia.materialesBeneficio.forEach( ( material) => {
+				beneficiosParaAgregar.beneficios.forEach((grupo) =>
+					grupo.secuencias.forEach((secuencia) =>
+						secuencia.materialesBeneficio.forEach((material) => {
 							const {codigo, cantidad} = material as TCodigoCantidad;
-							const productoActual = obtenerDatosProducto(
-								Number(codigo)
-							);
-							const preciosProductosDelCliente = obtenerPreciosProductosDelCliente(
-								datosCliente,
-								fechaEntrega
-							);
-				
-							if (productoActual.tipoProducto == ETipoProducto.Envase)
-							{
+							const productoActual = obtenerDatosProducto(Number(codigo));
+							const preciosProductosDelCliente =
+								obtenerPreciosProductosDelCliente(datosCliente, fechaEntrega);
+
+							if (productoActual.tipoProducto == ETipoProducto.Envase) {
 								let productoImplicito = preciosProductosDelCliente.find(
 									(el) => el.codigoProducto === Number(codigo)
 								);
-								let preciosPromo= {
+								let preciosPromo = {
 									unidad: productoImplicito?.precioConImpuestoUnidad ?? 0,
-									subUnidad:productoImplicito?.precioConImpuestoSubunidad ?? 0,
+									subUnidad: productoImplicito?.precioConImpuestoSubunidad ?? 0,
 								};
 
-								if( secuencia.formaBeneficio  === EFormaBeneficio.DescuentoMonto)
-								{
-									preciosPromo.unidad -=  secuencia.valorBeneficio;
-									preciosPromo.subUnidad =preciosPromo.unidad / productoActual.presentacion;
-								}else if( secuencia.formaBeneficio  === EFormaBeneficio.DescuentoPorcentaje)
-								{
-									preciosPromo.unidad *= (100 - secuencia.valorBeneficio) /100;
-									preciosPromo.subUnidad *= (100 - secuencia.valorBeneficio) /100;
-									
-								}else  if( secuencia.formaBeneficio  === EFormaBeneficio.Precio)
-								{
-									preciosPromo.unidad=  secuencia.valorBeneficio;
-									preciosPromo.subUnidad=preciosPromo.unidad / productoActual.presentacion;
+								if (
+									secuencia.formaBeneficio === EFormaBeneficio.DescuentoMonto
+								) {
+									preciosPromo.unidad -= secuencia.valorBeneficio;
+									preciosPromo.subUnidad =
+										preciosPromo.unidad / productoActual.presentacion;
+								} else if (
+									secuencia.formaBeneficio ===
+									EFormaBeneficio.DescuentoPorcentaje
+								) {
+									preciosPromo.unidad *= (100 - secuencia.valorBeneficio) / 100;
+									preciosPromo.subUnidad *=
+										(100 - secuencia.valorBeneficio) / 100;
+								} else if (
+									secuencia.formaBeneficio === EFormaBeneficio.Precio
+								) {
+									preciosPromo.unidad = secuencia.valorBeneficio;
+									preciosPromo.subUnidad =
+										preciosPromo.unidad / productoActual.presentacion;
 								}
 
 								dispatch(
 									agregarProductoDelPedidoActual({
 										productoPedido: {
-											codigoProducto:productoActual.codigoProducto,
-											nombreProducto:productoActual.nombre,
-											unidades: (secuencia.unidadMedida.toLowerCase() == 'unidad' ) ? cantidad : 0,
-											subUnidades:(secuencia.unidadMedida.toLowerCase() == 'subunidad' ) ? cantidad : 0,
-											presentacion:productoActual.presentacion,
+											codigoProducto: productoActual.codigoProducto,
+											nombreProducto: productoActual.nombre,
+											unidades:
+												secuencia.unidadMedida.toLowerCase() == 'unidad'
+													? cantidad
+													: 0,
+											subUnidades:
+												secuencia.unidadMedida.toLowerCase() == 'subunidad'
+													? cantidad
+													: 0,
+											presentacion: productoActual.presentacion,
 											subunidadesVentaMinima: 0,
 											esVentaSubunidades: false,
-											precioConImpuestoUnidad: productoImplicito?.precioConImpuestoUnidad ?? 0,
-											precioConImpuestoSubunidad:productoImplicito?.precioConImpuestoSubunidad ?? 0,
-											tipoProducto:productoActual.tipoProducto,
+											precioConImpuestoUnidad:
+												productoImplicito?.precioConImpuestoUnidad ?? 0,
+											precioConImpuestoSubunidad:
+												productoImplicito?.precioConImpuestoSubunidad ?? 0,
+											tipoProducto: productoActual.tipoProducto,
 											total: 0, //precioFinalUnidad + precioFinalSubUnidad,
 											tipoPago: tipoPago,
-											catalogoMotivo:'',
+											catalogoMotivo: '',
 											estado: 'activo',
 											preciosBase: {
-												unidad:0 ,// productoActual.precioConImpuestoUnidad,
-												subUnidad:0, // productoActual.precioConImpuestoSubunidad,
+												unidad: 0, // productoActual.precioConImpuestoUnidad,
+												subUnidad: 0, // productoActual.precioConImpuestoSubunidad,
 											},
 											preciosNeto: {
 												unidad: 1,
 												subUnidad: 1,
 											},
 											preciosPromo,
-											codigoPromo:beneficiosParaAgregar.promocionID
+											codigoPromo: beneficiosParaAgregar.promocionID,
 										},
-										
 									})
 								);
 							}
+						})
+					)
+				);
 
-						}) )
-				)
-				
 				setExpandidoexpandido(false);
 			}
 		}
@@ -736,21 +756,8 @@ export const Card: React.VFC<CardProps> = ({
 					}}
 				>
 					{!soloLectura && (
-						<Button
-							sx={{
-								boxSizing: 'border-box',
-								border: '1px solid #651C32',
-								borderRadius: '50px',
-								minHeight: '10px',
-								height: '18px',
-								textTransform: 'none',
-								'&:hover': {
-									background: 'none',
-								},
-							}}
-							disableFocusRipple
+						<BotonSmall
 							fullWidth
-							disableRipple
 							onClick={() => {
 								if (
 									(expandido === expandID && promocion.asignacion) ===
@@ -790,26 +797,27 @@ export const Card: React.VFC<CardProps> = ({
 								}
 							}}
 						>
-							<CardActions disableSpacing style={{padding: 0}}>
-								<Box display='flex' gap='6px' alignItems='center'>
-									<Typography variant='caption' color='secondary'>
-										{expandido !== expandID
-											? t('general.verDetalle')
-											: t('general.ocultarDetalle')}
-									</Typography>
-									<Box
-										className={clsx(classes.expand, {
-											[classes.expandOpen]:
-												expandido === expandID ? true : false,
-										})}
-										aria-expanded={expandido === expandID ? true : false}
-										style={{padding: 0}}
-									>
-										<FlechaAbajoIcon width='10px' height='10px' />
-									</Box>
-								</Box>
-							</CardActions>
-						</Button>
+							<Typography
+								color='secondary'
+								fontFamily='Open Sans'
+								variant='caption'
+							>
+								{expandido !== expandID
+									? t('general.verDetalle')
+									: t('general.ocultarDetalle')}
+							</Typography>
+							<FlechaAbajoIcon
+								height={10}
+								width={10}
+								style={{
+									transition: 'transform .3s ease-in-out',
+									transform:
+										expandido === expandID
+											? 'rotateX(180deg)'
+											: 'rotateX(0deg)',
+								}}
+							/>
+						</BotonSmall>
 					)}
 				</Box>
 			</Box>

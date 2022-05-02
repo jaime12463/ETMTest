@@ -23,6 +23,7 @@ import {
 	borrarPromocionesOngoing,
 	cambiarAvisos,
 	cambiarSeQuedaAEditar,
+	eliminarEnvasesPromoOngoing,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {
 	BotonSmall,
@@ -34,7 +35,6 @@ import {
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
-import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import {
 	BorrarIcon,
@@ -109,7 +109,6 @@ const TomaPedido: React.FC = () => {
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const dispatch = useAppDispatch();
 	const catalogoMotivo = '';
-	const classes = useEstilos();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(
 		clienteActual.codigoCliente
@@ -138,6 +137,49 @@ const TomaPedido: React.FC = () => {
 			(producto) => producto.unidades > 0 || producto.subUnidades > 0
 		) && promocionesVigentesCliente?.existenPromociones;
 
+	const recalcularPromociones = () => {
+		const {cambioElPedidoSinPromociones} = visitaActual.avisos;
+		let tipos: ETiposDePago[] =
+			cambioElPedidoSinPromociones.contado &&
+			cambioElPedidoSinPromociones.credito
+				? [ETiposDePago.Contado, ETiposDePago.Credito]
+				: cambioElPedidoSinPromociones.contado &&
+				  !cambioElPedidoSinPromociones.credito
+				? [ETiposDePago.Contado]
+				: cambioElPedidoSinPromociones.credito &&
+				  !cambioElPedidoSinPromociones.contado
+				? [ETiposDePago.Credito]
+				: [ETiposDePago.Contado, ETiposDePago.Credito];
+
+		const promociones = promocionesOngoing.calcular(venta.productos, tipos);
+
+		tipos.length === 1 && tipos[0] === ETiposDePago.Contado
+			? setPromocionesOingoing({
+					...promociones,
+					credito: promocionesOingoing?.credito ?? promociones.credito,
+			  })
+			: tipos.length === 1 && tipos[0] === ETiposDePago.Credito
+			? setPromocionesOingoing({
+					...promociones,
+					contado: promocionesOingoing?.contado ?? promociones.contado,
+			  })
+			: setPromocionesOingoing({...promociones});
+
+		tipos.forEach((tipo) => {
+			dispatch(
+				borrarPromocionesOngoing({
+					tipoPago: tipo,
+				})
+			);
+
+			dispatch(
+				eliminarEnvasesPromoOngoing({
+					tipo,
+				})
+			);
+		});
+	};
+
 	const manejadorBotonPromosOngoing = () => {
 		setOpenDrawerPromociones(true);
 		setFocusId(0);
@@ -146,40 +188,7 @@ const TomaPedido: React.FC = () => {
 			visitaActual.avisos.cambioElPedidoSinPromociones.contado ||
 			visitaActual.avisos.cambioElPedidoSinPromociones.credito
 		) {
-			const {cambioElPedidoSinPromociones} = visitaActual.avisos;
-			let tipos: ETiposDePago[] =
-				cambioElPedidoSinPromociones.contado &&
-				cambioElPedidoSinPromociones.credito
-					? [ETiposDePago.Contado, ETiposDePago.Credito]
-					: cambioElPedidoSinPromociones.contado &&
-					  !cambioElPedidoSinPromociones.credito
-					? [ETiposDePago.Contado]
-					: cambioElPedidoSinPromociones.credito &&
-					  !cambioElPedidoSinPromociones.contado
-					? [ETiposDePago.Credito]
-					: [ETiposDePago.Contado, ETiposDePago.Credito];
-
-			const promociones = promocionesOngoing.calcular(venta.productos, tipos);
-
-			tipos.length === 1 && tipos[0] === ETiposDePago.Contado
-				? setPromocionesOingoing({
-						...promociones,
-						credito: promocionesOingoing?.credito ?? promociones.credito,
-				  })
-				: tipos.length === 1 && tipos[0] === ETiposDePago.Credito
-				? setPromocionesOingoing({
-						...promociones,
-						contado: promocionesOingoing?.contado ?? promociones.contado,
-				  })
-				: setPromocionesOingoing({...promociones});
-
-			tipos.forEach((tipo) =>
-				dispatch(
-					borrarPromocionesOngoing({
-						tipoPago: tipo === ETiposDePago.Contado ? 'Contado' : 'Credito',
-					})
-				)
-			);
+			recalcularPromociones();
 		} else {
 			const promociones = promocionesOngoing.calcular(venta.productos, []);
 			setPromocionesOingoing(promociones);
@@ -206,8 +215,11 @@ const TomaPedido: React.FC = () => {
 			venta.productos.length > 0
 		) {
 			setOpenTooltip(true);
+			recalcularPromociones();
 		}
 	}, [visitaActual.avisos.cambioElPedidoSinPromociones]);
+
+	// console.log(venta.productos);
 
 	React.useEffect(() => {
 		if (

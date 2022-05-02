@@ -9,7 +9,10 @@ import {
 	useObtenerClienteActual,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {borrarPromocionesOngoing} from 'redux/features/visitaActual/visitaActualSlice';
+import {
+	borrarPromocionesOngoing,
+	eliminarEnvasesPromoOngoing,
+} from 'redux/features/visitaActual/visitaActualSlice';
 
 import {
 	TPromoOngoingAplicables,
@@ -84,13 +87,19 @@ export const DrawerPromociones: React.VFC<Props> = ({
 		}
 	}, [openDrawerPromociones]);
 
-	const restablecerPromociones = (tipo: 'Credito' | 'Contado') => {
-		let promociones = promocionesOngoing.calcular(
-			visitaActual.pedidos.venta.productos,
-			tipo === 'Credito' ? [ETiposDePago.Credito] : [ETiposDePago.Contado]
+	const restablecerPromociones = (tipo: ETiposDePago) => {
+		dispatch(
+			eliminarEnvasesPromoOngoing({
+				tipo,
+			})
 		);
 
-		if (tipo === 'Contado') {
+		let promociones = promocionesOngoing.calcular(
+			visitaActual.pedidos.venta.productos,
+			[tipo]
+		);
+
+		if (tipo === ETiposDePago.Contado) {
 			setPromocionesOingoing({
 				...promociones,
 				credito: promocionesOingoing.credito,
@@ -103,10 +112,11 @@ export const DrawerPromociones: React.VFC<Props> = ({
 		}
 		setpromosDisponibles(promociones.disponibles);
 		setBorroPromociones(
-			tipo === 'Credito'
+			tipo === ETiposDePago.Credito
 				? {...borroPromociones, credito: true}
 				: {...borroPromociones, contado: true}
 		);
+
 		dispatch(
 			borrarPromocionesOngoing({
 				tipoPago: tipo,
@@ -162,10 +172,11 @@ export const DrawerPromociones: React.VFC<Props> = ({
 								tipo='credito'
 								onClick={() => {
 									setConfigAlerta({
-										titulo: t('modal.restablecerPromocionesContadoTitulo'),
-										mensaje: t('modal.restablecerPromocionesContadoMensaje'),
+										titulo: t('modal.restablecerPromocionesCreditoTitulo'),
+										mensaje: t('modal.restablecerPromocionesCreditoMensaje'),
 										tituloBotonAceptar: t('general.aceptar'),
-										callbackAceptar: () => restablecerPromociones('Credito'),
+										callbackAceptar: () =>
+											restablecerPromociones(ETiposDePago.Credito),
 										tituloBotonCancelar: t('general.cancelar'),
 										iconoMensaje: <AvisoIcon />,
 									});
@@ -211,7 +222,8 @@ export const DrawerPromociones: React.VFC<Props> = ({
 										titulo: t('modal.restablecerPromocionesContadoTitulo'),
 										mensaje: t('modal.restablecerPromocionesContadoMensaje'),
 										tituloBotonAceptar: t('general.aceptar'),
-										callbackAceptar: () => restablecerPromociones('Contado'),
+										callbackAceptar: () =>
+											restablecerPromociones(ETiposDePago.Contado),
 										tituloBotonCancelar: t('general.cancelar'),
 										iconoMensaje: <AvisoIcon />,
 									});

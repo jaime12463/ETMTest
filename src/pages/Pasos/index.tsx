@@ -42,7 +42,7 @@ import {
 } from 'models';
 import {useTranslation} from 'react-i18next';
 import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
-import {AvisoIcon, PromocionesRellenoIcon} from 'assests/iconos';
+import {AvisoIcon} from 'assests/iconos';
 import ResumenPedido from 'components/UI/ResumenPedido';
 import {
 	agregarBeneficiosPromoOngoing,
