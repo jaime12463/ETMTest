@@ -76,12 +76,13 @@ export class ProductosDelPedidoFiltrosCondiciones {
         (producto.descuento?.tipo == ETipoDescuento.automatico &&
             producto.descuento?.porcentajeDescuento == 0));
 
-
+	private queNoSeaUnImplicitoAgregado=  (producto: TProductoPedido) => producto.codigoPromo==undefined;
 
     private default = (producto: TProductoPedido) =>
             this.queNOSeaPromoPush(producto) && 
             this.queSeaDelTipoDePago(producto, this._tipoDePago) && 
-            this.queNOSeaDescuentoEscalonado(producto)
+            this.queNOSeaDescuentoEscalonado(producto) &&
+			this.queNoSeaUnImplicitoAgregado(producto)
 
     
 
