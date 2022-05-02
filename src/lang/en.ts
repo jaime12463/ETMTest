@@ -88,6 +88,10 @@ const en = {
 		productoGratis: 'Free product',
 		promocionAutomatica: 'Automatic promotion',
 		promocionesAplicadas: 'Applied promotions',
+		promocionesOngoingAContado: 'Ongoing promotions in cash',
+		promocionesOngoingACredito: 'Ongoing promotions on credit',
+		promocionesPushAContado: 'Push promotions in cash',
+		promocionesPushACredito: 'Push promotions on credit',
 		rangoFinal: 'Final range',
 		rangoInicial: 'Initial range',
 		razonSocial: 'Social reason',
@@ -135,6 +139,7 @@ const en = {
 		bienvenido: 'Welcome',
 		bonificaciones: 'Bonuses',
 		bonificacionesDeshabilitadas: `There are not bonuses for this customer at this time.`,
+		canjes: 'Exchanges',
 		canjesDeshabilitadas:
 			'There are not exchange for this customer at this time.',
 		clientes: 'Customers',

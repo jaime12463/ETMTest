@@ -296,6 +296,10 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 		return cantidadDeRetorno;
 	});
 
+	const hayEnvasesParaRetorno = envasesRetorno?.some(
+		(envase) => envase.unidades > 0 || envase.subUnidades > 0
+	);
+
 	const lenguaje = i18n.language !== 'br' ? i18n.language : 'pt';
 
 	const fechaEntregaSplit = visitaActual.fechaEntrega.split('-');
@@ -409,7 +413,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 							background={theme.palette.primary.dark}
 							label='credito'
 						>
-							Promociones push a crédito
+							{t('general.promocionesPushACredito')}
 						</Resumen.Titulo>
 						{promocionesCredito
 							.sort((a, b) => (a.codigoProducto > b.codigoProducto ? 1 : -1))
@@ -430,7 +434,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 							background={theme.palette.primary.dark}
 							label='contado'
 						>
-							Promociones push a contado
+							{t('general.promocionesPushAContado')}
 						</Resumen.Titulo>
 						{promocionesContado
 							.sort((a, b) => (a.codigoProducto > b.codigoProducto ? 1 : -1))
@@ -451,7 +455,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 							background={theme.palette.primary.dark}
 							label='credito'
 						>
-							Promociones ongoing a crédito
+							{t('general.promocionesOngoingACredito')}
 						</Resumen.Titulo>
 						{promoOngoingCredito
 							.sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1))
@@ -470,7 +474,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 							background={theme.palette.primary.dark}
 							label='contado'
 						>
-							Promociones ongoing a contado
+							{t('general.promocionesOngoingAContado')}
 						</Resumen.Titulo>
 						{promoOngoingContado
 							.sort((a, b) => (a.promocionID > b.promocionID ? 1 : -1))
@@ -483,7 +487,9 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 					</Resumen.Container>
 				)}
 
-				{(!!prestamoenvase?.productos?.length || !!envasesRetorno?.length) && (
+				{(!!prestamoenvase?.productos?.length ||
+					hayEnvasesParaRetorno ||
+					!!ventaenvase?.productos?.length) && (
 					<Resumen.Container>
 						<Resumen.Titulo background={theme.palette.secondary.main}>
 							{t('general.envases')}
@@ -550,7 +556,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 				{!!canjes.length && (
 					<Resumen.Container>
 						<Resumen.Titulo background={theme.palette.secondary.main}>
-							Canjes
+							{t('titulos.canjes')}
 						</Resumen.Titulo>
 						<Box border={`1px solid ${theme.palette.secondary.main}`}>
 							{canjes.map((canje, index) => {

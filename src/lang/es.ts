@@ -88,6 +88,10 @@ const es = {
 		productoGratis: 'Producto gratis',
 		promocionAutomatica: 'Promoción automática',
 		promocionesAplicadas: 'Promociones aplicadas',
+		promocionesOngoingAContado: 'Promociones ongoing a contado',
+		promocionesOngoingACredito: 'Promociones ongoing a crédito',
+		promocionesPushAContado: 'Promociones push a contado',
+		promocionesPushACredito: 'Promociones push a crédito',
 		rangoFinal: 'Rango final',
 		rangoInicial: 'Rango inicial',
 		razonSocial: 'Razón social',
@@ -136,6 +140,7 @@ const es = {
 		bonificaciones: 'Bonificaciones',
 		bonificacionesDeshabilitadas:
 			'No hay bonificaciones para el cliente en este momento',
+		canjes: 'Canjes',
 		canjesDeshabilitadas:
 			'No hay disponibilidad de canje para este cliente en este momento',
 		clientes: 'Clientes',

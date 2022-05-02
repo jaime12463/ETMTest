@@ -183,7 +183,7 @@ const Otros: React.FC = () => {
 			</TarjetaColapsable>
 			<TarjetaColapsable
 				titulo={
-					<Typography variant={'subtitle2'}>{t('general.canje')}</Typography>
+					<Typography variant={'subtitle2'}>{t('titulos.canjes')}</Typography>
 				}
 				subTitulo={
 					<Typography color={'black'} variant={'body3'}>
