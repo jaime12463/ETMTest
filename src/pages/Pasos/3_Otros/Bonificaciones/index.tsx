@@ -1,11 +1,7 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
+import {Stack, Box, Typography} from '@mui/material';
 import DesplegableBonificaciones from './DesplegableBonificaciones';
-import Stack from '@mui/material/Stack';
 import {BotonSmall, Modal} from 'components/UI';
-import useEstilos from './useEstilos';
 import {useObtenerBonificacionesHabilitadas} from 'hooks';
 import {AvisoIcon, ReiniciarIcon} from 'assests/iconos';
 import {useDispatch} from 'react-redux';
@@ -25,7 +21,6 @@ const Bonificaciones: React.VFC<Props> = ({bonificacionValida}) => {
 		React.useState<boolean>(false);
 	const bonificaciones = useObtenerBonificacionesHabilitadas();
 	const bonificacionesHabilitadas = bonificaciones();
-	const classes = useEstilos();
 	const dispatch = useDispatch();
 
 	const restablecerCantidades = () => {

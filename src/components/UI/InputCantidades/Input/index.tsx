@@ -17,6 +17,10 @@ export const InputCantidades: React.FC<Props> = ({
 			autoComplete='off'
 			className={classes.input}
 			disableUnderline
+			inputProps={{
+				style: {textAlign: 'center'},
+				inputMode: 'numeric',
+			}}
 			{...props}
 		/>
 	);

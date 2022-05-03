@@ -267,10 +267,6 @@ export const Controles: React.VFC<Props> = ({
 						useEstilosProps={useEstilosProps}
 						data-cy={`cantidad-producto-unidades-${producto.codigoProducto}`}
 						id='unidades_producto'
-						inputProps={{
-							style: {textAlign: 'center'},
-							inputMode: 'numeric',
-						}}
 						inputRef={(input) => {
 							if (
 								inputFocus === 'unidades' &&
@@ -351,10 +347,6 @@ export const Controles: React.VFC<Props> = ({
 								useEstilosProps={useEstilosProps}
 								data-cy={`cantidad-producto-subUnidades-${producto.codigoProducto}`}
 								id='subUnidades_producto'
-								inputProps={{
-									style: {textAlign: 'center'},
-									inputMode: 'numeric',
-								}}
 								inputRef={(input) => {
 									if (
 										inputFocus === 'subUnidades' &&

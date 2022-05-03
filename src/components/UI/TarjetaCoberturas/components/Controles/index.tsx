@@ -1,8 +1,5 @@
 import React from 'react';
-import {styled} from '@mui/material/styles';
-import Input from '@mui/material/Input';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
+import {Box, IconButton} from '@mui/material';
 import {
 	AgregarRedondoIcon,
 	BotellaIcon,
@@ -29,6 +26,7 @@ import {
 	agregarCoberturasEjecutadas,
 	borrarProductoDelPedidoActual,
 } from 'redux/features/visitaActual/visitaActualSlice';
+import {InputCantidades, InputPropsEstilos} from 'components/UI';
 interface Props {
 	producto: TProductoPedido;
 	stateInputFocus: TStateInputFocus;
@@ -37,7 +35,7 @@ interface Props {
 	setResetCoberturas: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Controles: React.FC<Props> = ({
+const Controles: React.VFC<Props> = ({
 	producto,
 	stateInputFocus,
 	stateFocusId,
@@ -79,6 +77,15 @@ const Controles: React.FC<Props> = ({
 	const mostrarAviso = useMostrarAviso();
 	const dispatch = useAppDispatch();
 	const classes = useEstilos({inputsBloqueados: visitaActual.pasoATomaPedido});
+
+	const useEstilosProps: InputPropsEstilos = {
+		bordeError: visitaActual.seQuedaAEditar.bordeError,
+		cantidadMaximaConfig: configuracionPedido.cantidadMaximaUnidades ?? 0,
+		subUnidades: getValues.subUnidades,
+		unidades: getValues.unidades,
+		unidadesDisponibles: producto.unidadesDisponibles,
+		disabled: visitaActual.pasoATomaPedido,
+	};
 
 	React.useEffect(() => {
 		if (puedeAgregar) {
@@ -142,7 +149,7 @@ const Controles: React.FC<Props> = ({
 	) => {
 		setGetValues({
 			...getValues,
-			[e.target.name]: e.target.value.replace(/[^0-9]/g, ''),
+			[e.target.name]: +e.target.value.replace(/[^0-9]/g, ''),
 		});
 		setFocusId(producto.codigoProducto);
 
@@ -248,24 +255,9 @@ const Controles: React.FC<Props> = ({
 						/>
 					</IconButton>
 				)}
-				<Input
-					autoComplete='off'
-					className={classes.input}
-					value={getValues.unidades}
-					onChange={handleOnChange}
-					onKeyPress={handleKeyPress}
-					disableUnderline
-					name='unidades'
+				<InputCantidades
+					disabled={visitaActual.pasoATomaPedido}
 					id='unidades_producto'
-					onClick={() => {
-						setInputFocus('unidades');
-						setFocusId(producto.codigoProducto);
-					}}
-					onFocus={(e) => e.target.select()}
-					inputProps={{
-						style: {textAlign: 'center'},
-						inputMode: 'numeric',
-					}}
 					inputRef={(input) => {
 						if (
 							inputFocus === 'unidades' &&
@@ -274,7 +266,16 @@ const Controles: React.FC<Props> = ({
 							input?.focus();
 						}
 					}}
-					disabled={visitaActual.pasoATomaPedido}
+					name='unidades'
+					onChange={handleOnChange}
+					onClick={() => {
+						setInputFocus('unidades');
+						setFocusId(producto.codigoProducto);
+					}}
+					onFocus={(e) => e.target.select()}
+					onKeyPress={handleKeyPress}
+					useEstilosProps={useEstilosProps}
+					value={getValues.unidades}
 				/>
 				{!visitaActual.pasoATomaPedido && (
 					<IconButton
@@ -336,25 +337,9 @@ const Controles: React.FC<Props> = ({
 								/>
 							</IconButton>
 						)}
-						<Input
-							autoComplete='off'
-							className={classes.input}
-							onKeyPress={handleKeyPress}
-							onChange={handleOnChange}
-							value={getValues.subUnidades}
-							disableUnderline
+						<InputCantidades
+							disabled={visitaActual.pasoATomaPedido}
 							id='subUnidades_producto'
-							name='subUnidades'
-							onClick={() => {
-								setInputFocus('subUnidades');
-								setFocusId(producto.codigoProducto);
-							}}
-							onFocus={(e) => e.target.select()}
-							onBlur={validacionSubUnidades}
-							inputProps={{
-								style: {textAlign: 'center'},
-								inputMode: 'numeric',
-							}}
 							inputRef={(input) => {
 								if (
 									inputFocus === 'subUnidades' &&
@@ -363,7 +348,17 @@ const Controles: React.FC<Props> = ({
 									input?.focus();
 								}
 							}}
-							disabled={visitaActual.pasoATomaPedido}
+							name='subUnidades'
+							onBlur={validacionSubUnidades}
+							onChange={handleOnChange}
+							onClick={() => {
+								setInputFocus('subUnidades');
+								setFocusId(producto.codigoProducto);
+							}}
+							onFocus={(e) => e.target.select()}
+							onKeyPress={handleKeyPress}
+							useEstilosProps={useEstilosProps}
+							value={getValues.subUnidades}
 						/>
 						{!visitaActual.pasoATomaPedido && (
 							<IconButton

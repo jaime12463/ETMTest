@@ -110,7 +110,7 @@ const DesplegableCoberturas: React.VFC<Props> = ({
 				</Box>
 				<Collapse in={expandido === id} timeout='auto' unmountOnExit>
 					<Box>
-						{productos.map((producto, i) => {
+						{productos.map((producto) => {
 							if (producto)
 								return (
 									<TarjetaCoberturas

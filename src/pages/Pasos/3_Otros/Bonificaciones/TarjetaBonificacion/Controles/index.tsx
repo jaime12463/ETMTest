@@ -1,7 +1,5 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Input from '@mui/material/Input';
-import IconButton from '@mui/material/IconButton';
+import {Box, IconButton} from '@mui/material';
 import {
 	AgregarRedondoIcon,
 	AvisoIcon,
@@ -9,7 +7,6 @@ import {
 	CajaIcon,
 	QuitarRellenoIcon,
 } from 'assests/iconos';
-import useEstilos from '../useEstilos';
 import {useAppDispatch, useObtenerVisitaActual} from 'redux/hooks';
 import {
 	agregarBonificacion,
@@ -17,7 +14,7 @@ import {
 	eliminarBonificacionesGrupo,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {TDetalleBonificacionesCliente, TPrecioProducto} from 'models';
-import {Modal} from 'components/UI';
+import {InputCantidades, InputPropsEstilos, Modal} from 'components/UI';
 import {useMostrarAviso} from 'hooks';
 
 interface Props {
@@ -51,16 +48,12 @@ const Controles: React.VFC<Props> = ({
 	actualizarContador,
 	errorAplicacionTotal,
 	statefocusId,
-	statePrimerProductoAgregado,
 }) => {
-	const classes = useEstilos({errorAplicacionTotal});
 	const visitaActual = useObtenerVisitaActual();
 	const [alerta, setAlerta] = React.useState<boolean>(false);
 	const mostrarAviso = useMostrarAviso();
 	const {setFocusId} = statefocusId;
 
-	const {primerProductoAgregado, setPrimerProductoAgregado} =
-		statePrimerProductoAgregado;
 	const bonificacionEjecutada = visitaActual.bonificaciones.find(
 		(bonificacion) => {
 			if (bonificacion.idBonificacion === idBonificacion) {
@@ -103,6 +96,12 @@ const Controles: React.VFC<Props> = ({
 	const [cantidadTemporal, setCantidadTemporal] = React.useState<number>(0);
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 	const dispatch = useAppDispatch();
+
+	const useEstilosProps: InputPropsEstilos = {
+		bordeError: errorAplicacionTotal,
+		cantidadMaximaConfig: 0,
+		unidades: cantidad,
+	};
 
 	React.useEffect(() => {
 		actualizarContador(totalCantidadBonificaciones);
@@ -289,25 +288,20 @@ const Controles: React.VFC<Props> = ({
 							disabled={cantidad === 0}
 						/>
 					</IconButton>
-					<Input
-						autoComplete='off'
-						className={classes.input}
-						value={cantidad}
-						onChange={handleChange}
-						disableUnderline
-						name='unidades'
+					<InputCantidades
 						id='unidades_producto'
+						name='unidades'
 						onBlur={handleBlur}
-						onKeyDown={handleKeyPress}
+						onChange={handleChange}
 						onFocus={(e) => {
 							e.target.select();
 							setFocusId(producto.codigoProducto);
 						}}
-						inputProps={{
-							style: {textAlign: 'center'},
-							inputMode: 'numeric',
-						}}
+						onKeyDown={handleKeyPress}
+						value={cantidad}
+						useEstilosProps={useEstilosProps}
 					/>
+
 					<IconButton
 						sx={{padding: '0'}}
 						size='small'

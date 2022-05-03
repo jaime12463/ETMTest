@@ -1,7 +1,5 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Input from '@mui/material/Input';
+import {Box, IconButton} from '@mui/material';
 import {StateFocusID} from 'components/UI/TarjetaTomaPedido';
 import {TClienteActual, TProductoPedido, TStateInputFocus} from 'models';
 import {
@@ -11,11 +9,8 @@ import {
 	useValidacionPermiteSubUnidades,
 } from 'hooks';
 import {useObtenerClienteActual} from 'redux/hooks';
-import {
-	useAgregarProductoAlPedidoActual,
-	useValidarProductoPermiteSubUnidades,
-} from 'pages/Pasos/2_TomaDePedido/hooks';
-import {Dialogo} from 'components/UI';
+import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
+import {Dialogo, InputCantidades, InputPropsEstilos} from 'components/UI';
 import {
 	AgregarRedondoIcon,
 	BotellaIcon,
@@ -35,7 +30,7 @@ interface Props {
 	setGetValues: React.Dispatch<React.SetStateAction<GetValueProps>>;
 }
 
-const Controles: React.FC<Props> = ({
+const Controles: React.VFC<Props> = ({
 	producto,
 	stateInputFocus,
 	statefocusId,
@@ -87,10 +82,18 @@ const Controles: React.FC<Props> = ({
 		setGetValues
 	);
 
+	const useEstilosProps: InputPropsEstilos = {
+		bordeError: false,
+		cantidadMaximaConfig: configuracionPedido.cantidadMaximaUnidades ?? 0,
+		subUnidades: getValues.subUnidades,
+		unidades: getValues.unidades,
+		unidadesDisponibles: producto.unidadesDisponibles,
+	};
+
 	const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setGetValues({
 			...getValues,
-			[e.target.name]: e.target.value.replace(/[^0-9]/g, ''),
+			[e.target.name]: +e.target.value.replace(/[^0-9]/g, ''),
 		});
 		setFocusId(producto.codigoProducto);
 		setPuedeAgregar(true);
@@ -218,22 +221,8 @@ const Controles: React.FC<Props> = ({
 							disabled={producto.unidades === 0}
 						/>
 					</IconButton>
-					<Input
-						className={classes.input}
-						value={getValues.unidades}
-						onChange={handleOnChange}
-						onKeyPress={handleKeyPress}
-						disableUnderline
-						name='unidades'
+					<InputCantidades
 						id='unidades_producto'
-						onClick={() => {
-							setInputFocus('unidades');
-							setFocusId(producto.codigoProducto);
-						}}
-						onFocus={(e) => {
-							e.target.select();
-						}}
-						inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
 						inputRef={(input) => {
 							if (
 								inputFocus === 'unidades' &&
@@ -242,6 +231,18 @@ const Controles: React.FC<Props> = ({
 								input?.focus();
 							}
 						}}
+						name='unidades'
+						onChange={handleOnChange}
+						onClick={() => {
+							setInputFocus('unidades');
+							setFocusId(producto.codigoProducto);
+						}}
+						onFocus={(e) => {
+							e.target.select();
+						}}
+						onKeyPress={handleKeyPress}
+						useEstilosProps={useEstilosProps}
+						value={getValues.unidades}
 					/>
 					<IconButton
 						sx={{padding: 0}}
@@ -251,8 +252,6 @@ const Controles: React.FC<Props> = ({
 						onClick={handleButtons}
 						disabled={
 							producto.unidades >= configuracionPedido?.cantidadMaximaUnidades
-								? true
-								: false
 						}
 					>
 						<AgregarRedondoIcon
@@ -260,8 +259,6 @@ const Controles: React.FC<Props> = ({
 							height='18px'
 							disabled={
 								producto.unidades >= configuracionPedido?.cantidadMaximaUnidades
-									? true
-									: false
 							}
 						/>
 					</IconButton>
@@ -292,20 +289,8 @@ const Controles: React.FC<Props> = ({
 								disabled={producto.subUnidades === 0}
 							/>
 						</IconButton>
-						<Input
-							className={classes.input}
-							onKeyPress={handleKeyPress}
-							onChange={handleOnChange}
-							value={getValues.subUnidades}
-							disableUnderline
+						<InputCantidades
 							id='subUnidades_producto'
-							name='subUnidades'
-							onClick={() => {
-								setInputFocus('subUnidades');
-								setFocusId(producto.codigoProducto);
-							}}
-							onFocus={(e) => e.target.select()}
-							inputProps={{style: {textAlign: 'center'}, inputMode: 'numeric'}}
 							inputRef={(input) => {
 								if (
 									inputFocus === 'subUnidades' &&
@@ -314,6 +299,16 @@ const Controles: React.FC<Props> = ({
 									input?.focus();
 								}
 							}}
+							name='subUnidades'
+							onChange={handleOnChange}
+							onClick={() => {
+								setInputFocus('subUnidades');
+								setFocusId(producto.codigoProducto);
+							}}
+							onFocus={(e) => e.target.select()}
+							onKeyPress={handleKeyPress}
+							useEstilosProps={useEstilosProps}
+							value={getValues.subUnidades}
 						/>
 						<IconButton
 							sx={{padding: 0}}

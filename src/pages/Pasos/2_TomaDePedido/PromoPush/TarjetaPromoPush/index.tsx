@@ -130,7 +130,7 @@ const TarjetaPromoPush = (props: any) => {
 	) => {
 		setGetValues({
 			...getValues,
-			[e.target.name]: e.target.value.replace(/[^0-9]/g, ''),
+			[e.target.name]: +e.target.value.replace(/[^0-9]/g, ''),
 		});
 
 		setPuedeAgregar(true);
@@ -311,11 +311,6 @@ const TarjetaPromoPush = (props: any) => {
 									</IconButton>
 									<InputCantidades
 										id='unidades_producto'
-										inputProps={{
-											style: {textAlign: 'center'},
-											inputMode: 'numeric',
-											pattern: '[0-9]*',
-										}}
 										inputRef={(input) => {
 											if (
 												props?.stateInputFocus?.inputFocus === 'unidades' &&

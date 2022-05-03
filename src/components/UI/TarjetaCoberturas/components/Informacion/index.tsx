@@ -1,6 +1,5 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import {Box, Typography} from '@mui/material';
 import {BotellaIcon, CajaIcon} from 'assests/iconos';
 import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
@@ -13,7 +12,7 @@ interface Props {
 	producto: TProductoPedido;
 }
 
-const Informacion: React.FC<Props> = ({producto}) => {
+const Informacion: React.VFC<Props> = ({producto}) => {
 	const {t} = useTranslation();
 	const permiteSubUnidades = useValidacionPermiteSubUnidades(producto);
 	const {envases, medidas} = useObtenerDatos();

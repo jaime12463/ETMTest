@@ -5,12 +5,16 @@ import {
 	Collapse,
 	Divider,
 	IconButton,
-	Input,
 	Link,
 	Typography,
 	capitalize,
 } from '@mui/material';
-import {BotonSmall, VisualizadorPdfs} from 'components/UI';
+import {
+	BotonSmall,
+	InputCantidades,
+	InputPropsEstilos,
+	VisualizadorPdfs,
+} from 'components/UI';
 import {
 	AgregarRedondoIcon,
 	AvisoIcon,
@@ -284,12 +288,10 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		setInputFocus('productoABuscar');
 	};
 
-	const handleInputChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	) => {
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setGetValues({
 			...getValues,
-			[e.target.name]: e.target.value.replace(/[^0-9]/g, ''),
+			[e.target.name]: +e.target.value.replace(/[^0-9]/g, ''),
 		});
 		setFocusId(producto.codigoProducto);
 
@@ -314,6 +316,15 @@ const TarjetaIniciativas: React.FC<Props> = ({
 				validacionSubUnidades();
 			}
 		}
+	};
+
+	const useEstilosProps: InputPropsEstilos = {
+		bordeError: visitaActual.seQuedaAEditar.bordeError,
+		cantidadMaximaConfig: configuracionPedido.cantidadMaximaUnidades ?? 0,
+		subUnidades: getValues.subUnidades,
+		unidades: getValues.unidades,
+		unidadesDisponibles: producto.unidadesDisponibles,
+		disabled: estadoSelect !== 'ejecutada' || visitaActual.pasoATomaPedido,
 	};
 
 	React.useEffect(() => {
@@ -804,28 +815,13 @@ const TarjetaIniciativas: React.FC<Props> = ({
 													/>
 												</IconButton>
 											)}
-										<Input
-											className={classes.input}
-											inputProps={{
-												style: {textAlign: 'center'},
-												inputMode: 'numeric',
-												className: classes.input,
-											}}
-											disableUnderline
-											name='unidades'
-											value={getValues.unidades}
-											onChange={handleInputChange}
+										<InputCantidades
+											data-cy={`iniciativa-unidad-venta`}
 											disabled={
 												estadoSelect !== 'ejecutada' ||
 												visitaActual.pasoATomaPedido
 											}
-											onKeyPress={handleKeyPress}
 											id='unidades_producto'
-											onClick={() => {
-												setInputFocus('unidades');
-												setFocusId(producto.codigoProducto);
-											}}
-											onFocus={(e) => e.target.select()}
 											inputRef={(input) => {
 												if (
 													inputFocus === 'unidades' &&
@@ -834,7 +830,16 @@ const TarjetaIniciativas: React.FC<Props> = ({
 													input?.focus();
 												}
 											}}
-											data-cy={`iniciativa-unidad-venta`}
+											name='unidades'
+											onChange={handleInputChange}
+											onClick={() => {
+												setInputFocus('unidades');
+												setFocusId(producto.codigoProducto);
+											}}
+											onKeyPress={handleKeyPress}
+											onFocus={(e) => e.target.select()}
+											useEstilosProps={useEstilosProps}
+											value={getValues.unidades}
 										/>
 										{estadoSelect === 'ejecutada' &&
 											!visitaActual.pasoATomaPedido && (
@@ -899,29 +904,13 @@ const TarjetaIniciativas: React.FC<Props> = ({
 														/>
 													</IconButton>
 												)}
-											<Input
-												className={classes.input}
-												inputProps={{
-													style: {textAlign: 'center'},
-													inputMode: 'numeric',
-													className: classes.input,
-												}}
-												disableUnderline
-												name='subUnidades'
-												value={getValues.subUnidades}
-												onChange={handleInputChange}
+											<InputCantidades
+												data-cy={`iniciativa-subUnidad-venta`}
 												disabled={
 													estadoSelect !== 'ejecutada' ||
 													visitaActual.pasoATomaPedido
 												}
 												id='subUnidades_producto'
-												onClick={() => {
-													setInputFocus('subUnidades');
-													setFocusId(producto.codigoProducto);
-												}}
-												onFocus={(e) => e.target.select()}
-												onBlur={validacionSubUnidades}
-												onKeyPress={handleKeyPress}
 												inputRef={(input) => {
 													if (
 														inputFocus === 'subUnidades' &&
@@ -930,8 +919,19 @@ const TarjetaIniciativas: React.FC<Props> = ({
 														input?.focus();
 													}
 												}}
-												data-cy={`iniciativa-subUnidad-venta`}
+												name='subUnidades'
+												onBlur={validacionSubUnidades}
+												onChange={handleInputChange}
+												onClick={() => {
+													setInputFocus('subUnidades');
+													setFocusId(producto.codigoProducto);
+												}}
+												onFocus={(e) => e.target.select()}
+												onKeyPress={handleKeyPress}
+												useEstilosProps={useEstilosProps}
+												value={getValues.subUnidades}
 											/>
+
 											{estadoSelect === 'ejecutada' &&
 												!visitaActual.pasoATomaPedido && (
 													<IconButton
