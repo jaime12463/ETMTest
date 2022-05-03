@@ -25,6 +25,11 @@ Escenario: N°3 - Navegar entre pasos
     Dado que se avanzó entre pasos
     Y se habilitaron pasos anteriores
     Cuando seleccino un paso anterior al paso donde me encuentro
-    Entonces el sistema mostrará habilitado el paso seleccionado en color bordo
-    Y mostrará los pasos anteriores al seleccionado habilitados en color verde
-    Y deshabilitará los pasos siguientes al paso actual seleccionado en color bordo
+    Entonces el sistema mostrará la pantalla del paso seleccionado
+    Y mantendrá habilitados con color verde los pasos.
+
+Escenario: N°4 - Cambios en el pedido
+    Dado que se hicieron cambios dentro de la pantalla en la que me encuentro
+    Cuando se muestra la navegación
+    Entonces el sistema deshabilitará los pasos siguientes al actual
+    Y mantendrá habilitados en verde los anteriores.
