@@ -41,17 +41,26 @@ const ContenedorEnvasesRetornables: FunctionComponent = () => {
 				: a.codigoImplicito - b.codigoImplicito
 		);
 
+	const hayEnvasesParaMostrar = consolidacionImplicitos.some(
+		(envase) => envase.unidades > 0 || envase.subUnidades > 0
+	);
+
 	return (
 		<>
 			{puedeVerEnvases && (
-				<Box marginTop={consolidacionImplicitos.length ? '32px' : '0'}>
+				<Box marginTop={hayEnvasesParaMostrar ? '32px' : '0'}>
 					<Stack spacing={1.5}>
-						{consolidacionImplicitos.map((envase: TConsolidadoImplicitos) => (
-							<TarjetaEnvasesRetornables
-								envase={envase}
-								key={envase.codigoImplicito}
-							/>
-						))}
+						{consolidacionImplicitos.map((envase: TConsolidadoImplicitos) => {
+							if (envase.unidades === 0 && envase.subUnidades === 0)
+								return null;
+
+							return (
+								<TarjetaEnvasesRetornables
+									envase={envase}
+									key={envase.codigoImplicito}
+								/>
+							);
+						})}
 					</Stack>
 				</Box>
 			)}

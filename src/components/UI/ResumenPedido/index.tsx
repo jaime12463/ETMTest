@@ -13,6 +13,7 @@ import {
 } from 'redux/hooks';
 import {
 	EFormaBeneficio,
+	ETipoProducto,
 	ETiposDePago,
 	TConsolidadoImplicitos,
 	TProductoPedido,
@@ -113,6 +114,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 				} else if (
 					producto.tipoPago === ETiposDePago.Credito &&
 					!producto.promoPush &&
+					producto.tipoProducto === ETipoProducto.ProductoTerminado &&
 					(producto.unidades > 0 || producto.subUnidades > 0)
 				) {
 					totalCredito += producto.total;
@@ -142,6 +144,7 @@ const ResumenPedido: React.FC<Props> = ({setOpen}) => {
 				} else if (
 					producto.tipoPago === ETiposDePago.Contado &&
 					!producto.promoPush &&
+					producto.tipoProducto === ETipoProducto.ProductoTerminado &&
 					(producto.unidades > 0 || producto.subUnidades > 0)
 				) {
 					totalContado += producto.total;

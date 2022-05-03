@@ -63,8 +63,14 @@ const TarjetaDobleDerecha: React.VFC<Props> = ({
 
 	useEffect(() => {
 		setRetorno({
-			unidades: unidadesIniciales - productoPedido.unidades,
-			subUnidades: subUnidadesIniciales - productoPedido.subUnidades,
+			unidades:
+				unidadesIniciales - productoPedido.unidades <= 0
+					? 0
+					: unidadesIniciales - productoPedido.unidades,
+			subUnidades:
+				subUnidadesIniciales - productoPedido.subUnidades <= 0
+					? 0
+					: subUnidadesIniciales - productoPedido.subUnidades,
 			retornoUnidades: unidadesIniciales,
 			retornorSubUnidades: subUnidadesIniciales,
 		});

@@ -219,8 +219,6 @@ const TomaPedido: React.FC = () => {
 		}
 	}, [visitaActual.avisos.cambioElPedidoSinPromociones]);
 
-	// console.log(venta.productos);
-
 	React.useEffect(() => {
 		if (
 			!visitaActual.seQuedaAEditar.seQueda &&
