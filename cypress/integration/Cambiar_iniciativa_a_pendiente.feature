@@ -17,7 +17,7 @@ Escenario: N°1 - Cambiar a pendiente una iniciativa ejecutada
     Entonces el sistema desmarcará la tarjeta de esa iniciativa dejandola en su color default
     Y ocultará el icono de ejecución
     Y establecerá las unidades y subunidades en cero
-    Y eliminará el producto del pedido
+    Y eliminará los productos del pedido
     Y restablecerá los productos en común de las coberturas a cero
 
 Escenario: N°2 - Cambiar a pendiente una iniciativa cancelada
