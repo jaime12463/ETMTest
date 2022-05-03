@@ -1,16 +1,16 @@
+import React from 'react';
 import {Controles} from './Controles';
 import {Informacion} from './Informacion';
-import {
-	ETiposDePago,
-	TProducto,
-	TProductos,
-	TProductosPromoOngoingAplicadas,
-} from 'models';
+import {ETiposDePago, TProducto} from 'models';
 import {Box} from '@mui/material';
 import {useObtenerDatos} from 'redux/hooks';
-import React from 'react';
 
 interface Props {
+	cantidadesPedido: {[codigo: number]: number};
+	grupoYSecuenciaActual: {
+		grupo: number;
+		secuencia: number;
+	};
 	producto: {
 		cantidad: number;
 		codigoProducto: number;
@@ -19,25 +19,26 @@ interface Props {
 		unidadMedida: string;
 		topeSecuencia: number;
 	};
-	statefocusId: any;
 	promocionAplicada: boolean;
-	stateBeneficiosParaAgregar: any;
 	promocionAutomatica: boolean;
 	promocionSinDisponible: boolean;
-	grupoYSecuenciaActual: {
-		grupo: number;
-		secuencia: number;
-	};
+	stateBeneficiosParaAgregar: any;
+	statefocusId: any;
+	setCantidadesPedido: React.Dispatch<
+		React.SetStateAction<{[codigo: number]: number}>
+	>;
 }
 
-export const TarjetaPromociones: React.FC<Props> = ({
-	producto,
-	statefocusId,
-	promocionAplicada,
-	promocionSinDisponible,
-	promocionAutomatica,
-	stateBeneficiosParaAgregar,
+export const TarjetaPromociones: React.VFC<Props> = ({
+	cantidadesPedido,
 	grupoYSecuenciaActual,
+	producto,
+	promocionAplicada,
+	promocionAutomatica,
+	promocionSinDisponible,
+	setCantidadesPedido,
+	stateBeneficiosParaAgregar,
+	statefocusId,
 }) => {
 	const datos = useObtenerDatos();
 	const [productoActual, setProductoActual] = React.useState<TProducto>();
@@ -57,14 +58,16 @@ export const TarjetaPromociones: React.FC<Props> = ({
 						unidadMedida={producto.unidadMedida}
 					/>
 					<Controles
+						cantidadesPedido={cantidadesPedido}
 						grupoYSecuenciaActual={grupoYSecuenciaActual}
-						promocionAutomatica={promocionAutomatica}
-						promocionAplicada={promocionAplicada}
-						statefocusId={statefocusId}
 						producto={producto}
-						unidadMedida={producto.unidadMedida}
-						stateBeneficiosParaAgregar={stateBeneficiosParaAgregar}
+						promocionAplicada={promocionAplicada}
+						promocionAutomatica={promocionAutomatica}
 						promocionSinDisponible={promocionSinDisponible}
+						stateBeneficiosParaAgregar={stateBeneficiosParaAgregar}
+						statefocusId={statefocusId}
+						unidadMedida={producto.unidadMedida}
+						setCantidadesPedido={setCantidadesPedido}
 					/>
 				</Box>
 			)}

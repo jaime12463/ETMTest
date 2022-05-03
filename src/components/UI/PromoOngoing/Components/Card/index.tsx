@@ -29,18 +29,15 @@ import {
 	TPromoOngoingDisponibilidad,
 } from 'utils/procesos/promociones/PromocionesOngoing';
 import {TarjetaPromociones} from './TarjetaPromociones';
-import {createStyles, makeStyles} from '@material-ui/styles';
 import {
 	Box,
 	Button,
 	Card as CardMUI,
-	CardActions,
 	Collapse,
 	Divider,
 	Stack,
 	Typography,
 } from '@mui/material';
-import clsx from 'clsx';
 import {
 	useMostrarAviso,
 	useObtenerPreciosProductosDelCliente,
@@ -48,30 +45,6 @@ import {
 } from 'hooks';
 import {BotonSmall, MaterialSelect} from 'components/UI';
 import {useObtenerDatosProducto} from 'pages/Pasos/3_Otros/EnvasesRetornables/components/ContenedorEnvasesRetornables/hooks';
-
-const useEstilos = makeStyles(() =>
-	createStyles({
-		expand: {
-			transform: 'rotate(0deg)',
-			padding: 0,
-		},
-		expandOpen: {
-			transform: 'rotate(180deg)',
-		},
-		inactiva: {
-			opacity: 0.6,
-		},
-		cardContent: {
-			'&.MuiCardContent-root': {
-				padding: 0,
-
-				'&.MuiCardContent-root:last-child': {
-					padding: 0,
-				},
-			},
-		},
-	})
-);
 
 export interface CardProps {
 	promocionesOngoing: PromocionesOngoing;
@@ -153,12 +126,29 @@ export const Card: React.VFC<CardProps> = ({
 	const [disponibleSecuencia, setDisponibleSecuencia] =
 		React.useState<number>(0);
 
-	const classes = useEstilos();
-
 	const mostrarAviso = useMostrarAviso();
 
 	const tipoPago =
 		tipo === 'contado' ? ETiposDePago.Contado : ETiposDePago.Credito;
+
+	const [cantidadesPedido, setCantidadesPedido] = React.useState<{
+		[codigo: number]: number;
+	}>(() => {
+		let cantidades: {[codigo: number]: number} = {};
+
+		promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias.forEach(
+			(secuencia) => {
+				secuencia.materialesBeneficio.forEach((producto) => {
+					const {cantidad, codigo} = producto as TCodigoCantidad;
+
+					if (!!codigo) {
+						cantidades = {...cantidades, [+codigo]: cantidad};
+					}
+				});
+			}
+		);
+		return cantidades;
+	});
 
 	React.useEffect(() => {
 		if (beneficiosParaAgregar) {
@@ -167,7 +157,7 @@ export const Card: React.VFC<CardProps> = ({
 			].secuencias[grupoYSecuenciaActual.secuencia]
 				.materialesBeneficio as TCodigoCantidad[];
 			const totalProductos = materiales.reduce(
-				(a: number, v: TCodigoCantidad) => a + v.cantidad,
+				(a: number, v: TCodigoCantidad) => a + cantidadesPedido[+v.codigo],
 				0
 			);
 
@@ -176,7 +166,7 @@ export const Card: React.VFC<CardProps> = ({
 					.secuencias[grupoYSecuenciaActual.secuencia].tope - totalProductos
 			);
 		}
-	}, [beneficiosParaAgregar, grupoYSecuenciaActual]);
+	}, [beneficiosParaAgregar, grupoYSecuenciaActual, cantidadesPedido]);
 
 	React.useEffect(() => {
 		setBeneficiosParaAgregar(JSON.parse(JSON.stringify(promocion)));
@@ -355,8 +345,14 @@ export const Card: React.VFC<CardProps> = ({
 									(el) => el.codigoProducto === Number(codigo)
 								);
 								let preciosPromo = {
-									unidad: productoImplicito?.precioConImpuestoUnidad ?? 0,
-									subUnidad: productoImplicito?.precioConImpuestoSubunidad ?? 0,
+									unidad:
+										secuencia.formaBeneficio !== EFormaBeneficio.Obsequio
+											? productoImplicito?.precioConImpuestoUnidad ?? 0
+											: 0,
+									subUnidad:
+										secuencia.formaBeneficio !== EFormaBeneficio.Obsequio
+											? productoImplicito?.precioConImpuestoSubunidad ?? 0
+											: 0,
 								};
 
 								if (
@@ -455,6 +451,22 @@ export const Card: React.VFC<CardProps> = ({
 			}
 
 			setBeneficiosParaAgregar(JSON.parse(JSON.stringify(promocion)));
+			setCantidadesPedido((state) => {
+				let cantidades: {[codigo: number]: number} = {...state};
+
+				promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias.forEach(
+					(secuencia) => {
+						secuencia.materialesBeneficio.forEach((producto) => {
+							const {cantidad, codigo} = producto as TCodigoCantidad;
+
+							if (!!codigo) {
+								cantidades = {...cantidades, [+codigo]: cantidad};
+							}
+						});
+					}
+				);
+				return cantidades;
+			});
 			setExpandidoexpandido(false);
 		}
 	}, [borroPromociones]);
@@ -668,7 +680,7 @@ export const Card: React.VFC<CardProps> = ({
 											promocionAutomatica ||
 											promocionSinDisponible
 												? 'none'
-												: `1px solid #651C32`,
+												: `1px solid ${theme.palette.secondary.main}`,
 										borderRadius: '50px',
 										display: 'flex',
 										gap: '4px',
@@ -694,7 +706,7 @@ export const Card: React.VFC<CardProps> = ({
 											promocionAutomatica ||
 											promocionSinDisponible
 												? ''
-												: '#8A4C5F'
+												: theme.palette.secondary.light
 										}
 										fontSize={'12px'}
 										variant='subtitle3'
@@ -721,15 +733,9 @@ export const Card: React.VFC<CardProps> = ({
 
 							return (
 								<TarjetaPromociones
-									key={Number(codigo)}
-									promocionAplicada={promocionAplicada}
-									promocionAutomatica={promocionAutomatica}
-									stateBeneficiosParaAgregar={{
-										beneficiosParaAgregar,
-										setBeneficiosParaAgregar,
-									}}
-									promocionSinDisponible={promocionSinDisponible}
+									cantidadesPedido={cantidadesPedido}
 									grupoYSecuenciaActual={grupoYSecuenciaActual}
+									key={Number(codigo)}
 									producto={{
 										codigoProducto: Number(codigo),
 										tope: tope,
@@ -743,7 +749,15 @@ export const Card: React.VFC<CardProps> = ({
 												.secuencias[grupoYSecuenciaActual.secuencia]
 												.unidadMedida,
 									}}
+									promocionAplicada={promocionAplicada}
+									promocionAutomatica={promocionAutomatica}
+									promocionSinDisponible={promocionSinDisponible}
+									stateBeneficiosParaAgregar={{
+										beneficiosParaAgregar,
+										setBeneficiosParaAgregar,
+									}}
 									statefocusId={{focusId, setFocusId}}
+									setCantidadesPedido={setCantidadesPedido}
 								/>
 							);
 						})}

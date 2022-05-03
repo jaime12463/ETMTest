@@ -1,7 +1,5 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Input from '@mui/material/Input';
-import IconButton from '@mui/material/IconButton';
+import {Box, IconButton} from '@mui/material';
 import {
 	AgregarRedondoIcon,
 	BotellaIcon,
@@ -9,12 +7,19 @@ import {
 	QuitarRellenoIcon,
 } from 'assests/iconos';
 import useEstilos from './useEstilos';
-
 import {ETiposDePago, TCodigoCantidad} from 'models';
-
 import {useMostrarAviso} from 'hooks';
+import {
+	InputCantidades,
+	InputPropsEstilos,
+} from 'components/UI/InputCantidades';
 
 interface Props {
+	cantidadesPedido: {[codigo: number]: number};
+	grupoYSecuenciaActual: {
+		grupo: number;
+		secuencia: number;
+	};
 	producto: {
 		cantidad: number;
 		codigoProducto: number;
@@ -23,42 +28,45 @@ interface Props {
 		unidadMedida: string;
 		topeSecuencia: number;
 	};
-	unidadMedida: string;
-	statefocusId: any;
-	stateBeneficiosParaAgregar: any;
 	promocionAplicada: boolean;
 	promocionAutomatica: boolean;
 	promocionSinDisponible: boolean;
-	grupoYSecuenciaActual: {
-		grupo: number;
-		secuencia: number;
-	};
+	stateBeneficiosParaAgregar: any;
+	statefocusId: any;
+	setCantidadesPedido: React.Dispatch<
+		React.SetStateAction<{[codigo: number]: number}>
+	>;
+	unidadMedida: string;
 }
 
-export const Controles: React.FC<Props> = ({
+export const Controles: React.VFC<Props> = ({
+	cantidadesPedido,
+	grupoYSecuenciaActual,
 	producto,
-	unidadMedida,
-	statefocusId,
-	stateBeneficiosParaAgregar,
 	promocionAplicada,
 	promocionAutomatica,
 	promocionSinDisponible,
-	grupoYSecuenciaActual,
+	setCantidadesPedido,
+	stateBeneficiosParaAgregar,
+	statefocusId,
+	unidadMedida,
 }) => {
 	const mostrarAviso = useMostrarAviso();
 	const {focusId, setFocusId} = statefocusId;
 	const {beneficiosParaAgregar, setBeneficiosParaAgregar} =
 		stateBeneficiosParaAgregar;
-	const [productoOriginal, setProductoOriginal] = React.useState<any>();
-	const [cantidadActual, setCantidadActual] = React.useState<number>(0);
 	const [puedeVerBotones, setPuedeVerBotones] = React.useState<boolean>(false);
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 	const [superaTope, setSuperaTope] = React.useState<boolean>(false);
 
-	const [classes, setClasses] = React.useState<any>(
-		useEstilos({errorAplicacionTotal: false, puedeVerBotones})
-	);
+	const classes = useEstilos({errorAplicacionTotal: false, puedeVerBotones});
 	const [totalProductos, setTotalProductos] = React.useState<number>(0);
+
+	const useEstilosProps: InputPropsEstilos = {
+		disabled: !puedeVerBotones,
+		cantidadMaximaConfig: 0,
+		unidades: cantidadesPedido[producto.codigoProducto],
+	};
 
 	React.useEffect(() => {
 		if (beneficiosParaAgregar) {
@@ -67,13 +75,13 @@ export const Controles: React.FC<Props> = ({
 			]?.secuencias[
 				grupoYSecuenciaActual.secuencia
 			]?.materialesBeneficio.reduce(
-				(a: number, v: TCodigoCantidad) => a + v.cantidad,
+				(a: number, v: TCodigoCantidad) => a + cantidadesPedido[+v.codigo],
 				0
 			);
 			setTotalProductos(totalProductosActual);
 
 			const topeTotal =
-				cantidadActual >= producto.tope
+				cantidadesPedido[producto.codigoProducto] >= producto.tope
 					? true
 					: totalProductosActual >= producto.topeSecuencia
 					? true
@@ -81,13 +89,7 @@ export const Controles: React.FC<Props> = ({
 
 			setSuperaTope(topeTotal);
 		}
-	}, [beneficiosParaAgregar, cantidadActual]);
-
-	React.useEffect(() => {
-		return () => {
-			setCantidadActual(producto.cantidad);
-		};
-	}, []);
+	}, [beneficiosParaAgregar, cantidadesPedido[producto.codigoProducto]]);
 
 	React.useEffect(() => {
 		if (beneficiosParaAgregar && puedeAgregar) {
@@ -107,12 +109,13 @@ export const Controles: React.FC<Props> = ({
 
 				promocionEditada.beneficios[grupoYSecuenciaActual.grupo].secuencias[
 					grupoYSecuenciaActual.secuencia
-				].materialesBeneficio[productoActualizar].cantidad = cantidadActual;
+				].materialesBeneficio[productoActualizar].cantidad =
+					cantidadesPedido[producto.codigoProducto];
 
 				setBeneficiosParaAgregar({...promocionEditada});
 			}
 		}
-	}, [cantidadActual]);
+	}, [cantidadesPedido[producto.codigoProducto]]);
 
 	React.useEffect(() => {
 		if (promocionAplicada || promocionAutomatica || promocionSinDisponible) {
@@ -122,25 +125,25 @@ export const Controles: React.FC<Props> = ({
 		}
 	}, [promocionAutomatica, promocionAplicada, promocionSinDisponible]);
 
-	React.useEffect(() => {
-		if (producto && beneficiosParaAgregar) {
-			setCantidadActual(producto.cantidad);
-			setProductoOriginal(producto);
-		}
-	}, []);
-
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const topeTotal =
 			Number(e.target.value) > producto.tope
 				? true
-				: Number(e.target.value) + totalProductos - cantidadActual >
+				: Number(e.target.value) +
+						totalProductos -
+						cantidadesPedido[producto.codigoProducto] >
 				  producto.topeSecuencia
 				? true
 				: false;
 		if (topeTotal) {
 			mostrarAviso('error', 'La cantidad es mayor al disponible permitido');
 		} else {
-			setCantidadActual(Number(e.target.value.replace(/[^0-9]/g, '')));
+			setCantidadesPedido((state) => ({
+				...state,
+				[producto.codigoProducto]: Number(
+					e.target.value.replace(/[^0-9]/g, '')
+				),
+			}));
 			setPuedeAgregar(true);
 		}
 	};
@@ -149,21 +152,22 @@ export const Controles: React.FC<Props> = ({
 		const {name} = e.currentTarget;
 
 		if (name === '-') {
-			setCantidadActual((prevCantidad) => {
-				return prevCantidad - 1;
-			});
+			setCantidadesPedido((state) => ({
+				...state,
+				[producto.codigoProducto]: state[producto.codigoProducto] - 1,
+			}));
 		}
 		if (name === '+') {
-			setCantidadActual((prevCantidad) => {
-				return prevCantidad + 1;
-			});
+			setCantidadesPedido((state) => ({
+				...state,
+				[producto.codigoProducto]: state[producto.codigoProducto] + 1,
+			}));
 		}
 		setPuedeAgregar(true);
 	};
-
 	return (
 		<>
-			{productoOriginal && (
+			{!!producto && (
 				<Box flex='1' padding='19px 14px 8px 0' sx={{background: '#F5F0EF'}}>
 					<Box
 						alignItems='center'
@@ -181,33 +185,25 @@ export const Controles: React.FC<Props> = ({
 								sx={{marginLeft: '2px', padding: 0}}
 								name='-'
 								onClick={handleButtons}
-								disabled={cantidadActual === 0}
+								disabled={cantidadesPedido[producto.codigoProducto] === 0}
 							>
 								<QuitarRellenoIcon
 									height='18px'
 									width='18px'
-									disabled={cantidadActual === 0}
+									disabled={cantidadesPedido[producto.codigoProducto] === 0}
 								/>
 							</IconButton>
 						)}
-						<Input
-							autoComplete='off'
-							className={classes.input}
-							value={cantidadActual}
-							onChange={handleChange}
-							disableUnderline
-							name='unidades'
+						<InputCantidades
 							id='unidades_producto'
-							//onBlur={handleBlur}
-							//onKeyDown={handleKeyPress}
+							name='unidades'
+							onChange={handleChange}
 							onFocus={(e) => {
 								e.target.select();
-								setFocusId(productoOriginal.codigoProducto.toString());
+								setFocusId(producto.codigoProducto.toString());
 							}}
-							inputProps={{
-								style: {textAlign: 'center'},
-								inputMode: 'numeric',
-							}}
+							useEstilosProps={useEstilosProps}
+							value={cantidadesPedido[producto.codigoProducto]}
 						/>
 						{puedeVerBotones && (
 							<IconButton
