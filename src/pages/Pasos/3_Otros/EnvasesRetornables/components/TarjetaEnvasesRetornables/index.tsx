@@ -14,7 +14,6 @@ import TarjetaDobleDerecha from './components/TarjetaDobleDerecha';
 import TarjetaDobleIzquierda from './components/TarjetaDobleIzquierda';
 import {restablecerEnvasesConError} from 'redux/features/visitaActual/visitaActualSlice';
 import {useAppDispatch} from 'redux/hooks';
-import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
 import {validarSubUnidades} from 'utils/validaciones';
 
 interface Props {
@@ -35,7 +34,7 @@ const TarjetaEnvasesRetornables: React.VFC<Props> = ({envase}) => {
 	const [productoPedido, setProductoPedido] = useState({
 		unidades: 0,
 		subUnidades: 0,
-	}); //
+	});
 
 	const productoEnvase = preciosProductos.find(
 		(producto: TPrecioProducto) =>
@@ -46,14 +45,18 @@ const TarjetaEnvasesRetornables: React.VFC<Props> = ({envase}) => {
 		let unidadesContador = 0;
 		let subUnidadesContador = 0;
 		Object.values(visitaActual.pedidos).forEach((pedido) => {
+			if (pedido.tipoPedido === 'venta') {
+				return;
+			}
+
 			const producto = pedido.productos.find(
 				(producto) =>
 					producto.codigoProducto === envase.codigoImplicito &&
 					producto.tipoPago === envase.tipoPago
 			);
 			if (producto) {
-				unidadesContador = unidadesContador + producto?.unidades;
-				subUnidadesContador = subUnidadesContador + producto?.subUnidades;
+				unidadesContador += producto?.unidades;
+				subUnidadesContador += producto?.subUnidades;
 			}
 		});
 

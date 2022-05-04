@@ -50,15 +50,14 @@ const TarjetaDobleDerecha: React.VFC<Props> = ({
 	const {valoresEnvase, setValoresEnvase} = stateTipoEnvases;
 	const {mostarDialogo, parametrosDialogo} = useMostrarAdvertenciaEnDialogo();
 	const {t} = useTranslation();
-	const {unidades, subUnidades} = envase;
-	const unidadesIniciales = unidades;
-	const subUnidadesIniciales = subUnidades;
+	const {unidades: unidadesIniciales, subUnidades: subUnidadesIniciales} =
+		envase;
 
 	const [retorno, setRetorno] = useState<TRetornoEnvases>({
 		unidades: unidadesIniciales,
 		subUnidades: subUnidadesIniciales,
 		retornoUnidades: unidadesIniciales,
-		retornorSubUnidades: subUnidadesIniciales,
+		retornoSubUnidades: subUnidadesIniciales,
 	});
 
 	useEffect(() => {
@@ -72,7 +71,7 @@ const TarjetaDobleDerecha: React.VFC<Props> = ({
 					? 0
 					: subUnidadesIniciales - productoPedido.subUnidades,
 			retornoUnidades: unidadesIniciales,
-			retornorSubUnidades: subUnidadesIniciales,
+			retornoSubUnidades: subUnidadesIniciales,
 		});
 	}, [productoPedido]);
 

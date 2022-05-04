@@ -87,7 +87,7 @@ export type TRetornoEnvases = {
 	unidades: number;
 	subUnidades: number;
 	retornoUnidades: number;
-	retornorSubUnidades: number;
+	retornoSubUnidades: number;
 };
 
 export type TEnvases = {
