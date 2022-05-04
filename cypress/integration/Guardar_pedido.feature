@@ -129,9 +129,9 @@ Escenario: N°7 - El cliente es de crédito informal y el pedido a guardar a cr�
 
 Esquema del escenario: N°8 - Iniciativas cumplidas
     Dado que el cliente tiene iniciativas habilitadas para el pedido actual
-    Y al menos un producto de las iniciativas se encuentran en el pedido
+    Y al menos un producto de la iniciativa a evaluar se encuentra en el pedido
     Y la unidad de medida de la iniciativa es '<_unidadMedida>' 
-    Y la suma de las '<cantidades>' de dichos productos es mayor o igual al disponible indicado en la iniciativa
+    Y la suma de las '<cantidades>' de los productos del pedido que están en la iniciativa es mayor o igual al disponible indicado en la iniciativa
     Cuando guardo el pedido
     Entonces el sistema registrara la iniciativa con status = "Ejecutada" indicando usuario, fecha y hora, código de iniciativa, código de cliente, status, producto, unidades y subunidades.
 
@@ -142,9 +142,9 @@ Ejemplos:
 
 Esquema del escenario: N°9 - Iniciativas no cumplidas
     Dado que el cliente tiene iniciativas con status = "Ejecutada" para el pedido actual
-    Y al menos un producto de la iniciativa se encuentra en el pedido 
+    Y al menos un producto de la iniciativa a evaluar se encuentra en el pedido 
     Y la unidad de medida de la iniciativa es '<_unidadMedida>'
-    Y la suma de las '<cantidades>' de dichos productos es menor al disponible indicado en la iniciativa
+    Y la suma de las '<cantidades>' de los productos del pedido que están en la iniciativa es menor al disponible indicado en la iniciativa
     Cuando guardo el pedido
     Entonces el sistema elimina la iniciativa registrada
 
