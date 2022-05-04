@@ -170,7 +170,12 @@ export enum EEstadosDeUnPedido {
 	Cancelado,
 }
 
-export type TProductoPedido = TPrecioProducto & TPedidoDelProducto;
+export type TRegistro = {
+	id?:string,
+	fechaActualizacion?:string,
+	uuid?:string
+}
+export type TProductoPedido = TRegistro & TPrecioProducto & TPedidoDelProducto;
 
 export type TPrecioProducto = {
 	codigoProducto: number;

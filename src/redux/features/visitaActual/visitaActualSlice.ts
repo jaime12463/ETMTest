@@ -9,6 +9,7 @@ import {
 	ETipoDescuento,
 	TConfiguracionAgregarPedido,
 } from 'models';
+import { ItemsDelPedido } from 'models/adapter/ItemsDelPedido';
 
 import {RootState} from 'redux/store';
 import {TPromoOngoingAplicables} from 'utils/procesos/promociones/PromocionesOngoing';
@@ -53,8 +54,8 @@ export const visitaActualSlice = createSlice({
 				state.tipoPedidoActual
 			].productos.filter(
 				(precioProducto: TProductoPedido) =>
-					precioProducto.codigoProducto !==
-					action.payload.productoPedido.codigoProducto
+					precioProducto.id !==
+					action.payload.productoPedido.id
 			);
 
 			state.pedidos[state.tipoPedidoActual].productos = [
@@ -73,27 +74,29 @@ export const visitaActualSlice = createSlice({
 				.configuracion
 				? action.payload.configuracion
 				: {actualizaDescuento: false};
+			
+			const itemDelPedido : TProductoPedido= ItemsDelPedido.crear( action.payload.productoPedido);
 
 			const producto = state.pedidos[state.tipoPedidoActual].productos.find(
 				(precioProducto: TProductoPedido) =>
-					precioProducto.codigoProducto ===
-					action.payload.productoPedido.codigoProducto
+					precioProducto.id ===
+					itemDelPedido.id
 			);
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
 			state.avisos.cambiosPasoActual = true;
 
 			if (producto) {
-				producto.unidades = action.payload.productoPedido.unidades;
-				producto.subUnidades = action.payload.productoPedido.subUnidades;
-				producto.total = action.payload.productoPedido.total;
-				producto.tipoPago = action.payload.productoPedido.tipoPago;
-				producto.catalogoMotivo = action.payload.productoPedido.catalogoMotivo;
-				producto.estado = action.payload.productoPedido.estado;
-				producto.preciosBase = action.payload.productoPedido.preciosBase;
-				producto.preciosNeto = action.payload.productoPedido.preciosNeto;
-				producto.preciosPromo = action.payload.productoPedido.preciosPromo;
-				producto.descuento = action.payload.productoPedido.descuento;
+				producto.unidades = itemDelPedido.unidades;
+				producto.subUnidades = itemDelPedido.subUnidades;
+				producto.total = itemDelPedido.total;
+				producto.tipoPago = itemDelPedido.tipoPago;
+				producto.catalogoMotivo = itemDelPedido.catalogoMotivo;
+				producto.estado = itemDelPedido.estado;
+				producto.preciosBase = itemDelPedido.preciosBase;
+				producto.preciosNeto = itemDelPedido.preciosNeto;
+				producto.preciosPromo = itemDelPedido.preciosPromo;
+				producto.descuento = itemDelPedido.descuento;
 				if (
 					!producto.promoPush &&
 					state.tipoPedidoActual === 'venta' &&
@@ -110,7 +113,7 @@ export const visitaActualSlice = createSlice({
 				}
 			} else {
 				state.pedidos[state.tipoPedidoActual].productos = [
-					action.payload.productoPedido,
+					itemDelPedido,
 					...state.pedidos[state.tipoPedidoActual].productos,
 				];
 			}
@@ -135,8 +138,8 @@ export const visitaActualSlice = createSlice({
 				action.payload.codigoTipoPedidoActual
 			].productos.findIndex(
 				(precioProducto: TProductoPedido) =>
-					precioProducto.codigoProducto ===
-						action.payload.productoPedido.codigoProducto &&
+					precioProducto.id ===
+						action.payload.productoPedido.id &&
 					precioProducto.tipoPago === action.payload.productoPedido.tipoPago
 			);
 
@@ -200,15 +203,18 @@ export const visitaActualSlice = createSlice({
 				pedidoActual = state.tipoPedidoActual;
 			}
 			if (!pedidoActual) return;
+
+			const id = ItemsDelPedido.obtenerId(action.payload.codigoProducto);
+
 			const producto = state.pedidos[pedidoActual].productos.find(
-				(producto) => action.payload.codigoProducto === producto.codigoProducto
+				(producto) => id === producto.id
 			);
 
 			const productosPedidoClienteFiltrados = state.pedidos[
 				pedidoActual
 			].productos.filter(
 				(precioProducto: TProductoPedido) =>
-					precioProducto.codigoProducto !== action.payload.codigoProducto
+					precioProducto.id !== id
 			);
 
 			state.pedidos[pedidoActual].productos = [
