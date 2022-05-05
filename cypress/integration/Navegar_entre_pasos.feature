@@ -29,7 +29,8 @@ Escenario: N°3 - Navegar entre pasos
     Y mantendrá habilitados con color verde los pasos.
 
 Escenario: N°4 - Cambios en el pedido
-    Dado que se hicieron cambios dentro de la pantalla en la que me encuentro
+    Dado que se hicieron cambios en toma de pedido
     Cuando se muestra la navegación
     Entonces el sistema deshabilitará los pasos siguientes al actual
-    Y mantendrá habilitados en verde los anteriores.
+    Y mantendrá habilitados en verde los anteriores
+    Y marcará el paso otros con un icono.
