@@ -1,4 +1,4 @@
-import {getAutomaticTypeDirectiveNames} from 'typescript';
+import {EUnidadMedida} from 'models';
 
 //db.json
 export type TDatosClientesProductos = {
@@ -97,15 +97,15 @@ export type TPromoOngoingHabilitadas = {
 /* */
 
 export type TIniciativas = {
-	idActividadIniciativa: number;
-	nombreIniciativa: string;
-	nombreActividadPlan: string;
+	archivoAdjunto?: string;
+	cantidad: number;
 	descripcionIniciativa: string;
 	finVigenciaIniciativa: string;
-	idMaterialIniciativa: number;
-	unidadVentaIniciativa: number;
-	subunidadVentaIniciativa: number;
-	archivoAdjunto?: string;
+	idActividadIniciativa: number;
+	materialesIniciativa: number[];
+	nombreActividadPlan: string;
+	nombreIniciativa: string;
+	unidadMedida: EUnidadMedida;
 };
 
 export type TBonificaciones = {
@@ -161,8 +161,8 @@ export type TProducto = {
 
 export enum ETipoProducto {
 	ProductoTerminado = 1,
-	Envase=5,
-	PromoPush=9
+	Envase = 5,
+	PromoPush = 9,
 }
 
 export type TAtributos = {
