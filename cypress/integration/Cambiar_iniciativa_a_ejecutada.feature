@@ -25,12 +25,11 @@ Escenario: N°1 - Agregar producto de la iniciativa al pedido
 
 Escenario: N°2 - Ingresar unidades a la iniciativa
     Dado que se cambió el estado de la iniciativa a ejecutada
-    Y tiene _cantidadDisponible mayor a cero
     Y _unidadMedida es unidad
     Y existen grupos de cobertura con los mismos productos de la iniciativa
     Cuando aumento las unidades
     Entonces el sistema aumentará las unidades en 1
-    Y no podrá superar _cantidadDisponible de la iniciativa
+    Y no podrá superar _cantidadMaximaUnidades 
     Y cambiará las unidades del producto en el pedido
     Y cambiará las unidades del mismo producto en coberturas
     Y actualizará el disponible de la iniciativa
@@ -50,12 +49,10 @@ Escenario: N°4 - Ingresar subunidades a la iniciativa
     Y el producto _validaSubunidadesMinimas = true
     Y tiene _subunidadesVentaMinima
     Y _unidadMedida es subunidad
-    Y tiene _cantidadDisponible mayor a cero
     Y existen grupos de coberturas con los mismos productos de la iniciativa
     Cuando aumento las subunidades
     Entonces el sistema aumentará las subunidades según _subunidadesVentaMinima 
     Y no podrá superar su _presentacion
-    Y no podrá superar _cantidadDisponible de la iniciativa
     Y cambiará las subunidades del producto en el pedido
     Y cambiará las subunidades del mismo producto en coberturas
     Y actualizará el disponible de la iniciativa
