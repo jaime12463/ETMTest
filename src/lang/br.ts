@@ -10,6 +10,7 @@ const br = {
 		ahorraste: 'Você salvou',
 		ahorroTotal: 'Poupança total',
 		aplicacionMaxima: 'Aplicação máxima',
+		aplicacionPendiente: 'Implementação pendente',
 		aplicar: 'Aplicar',
 		archivosAdjuntos: 'Arquivos anexados',
 		avanzar: 'Avançar',

@@ -70,19 +70,27 @@ const Planeacion: React.FC = () => {
 		(iniciativa) => iniciativa.estado === 'ejecutada'
 	);
 
-	const iniciativasEjecutadasSinCantidad = iniciativas.find(
-		(iniciativa) =>
-			iniciativa.estado === 'ejecutada' &&
-			iniciativa.unidadesEjecutadas === 0 &&
-			iniciativa.subUnidadesEjecutadas === 0
-	);
+	const iniciativasEjecutadasSinCantidad = iniciativas.filter((iniciativa) => {
+		const cantidadesEnIniciativa = Object.values(
+			iniciativa.cantidadesProductos
+		).reduce(
+			(total, actual) => (total += actual.unidades + actual.subUnidades),
+			0
+		);
 
-	const totalesIniciativasCompletas = iniciativas.filter(
-		(iniciativa) =>
-			iniciativa.estado === 'ejecutada' &&
-			(iniciativa.unidadesEjecutadas > 0 ||
-				iniciativa.subUnidadesEjecutadas > 0)
-	);
+		return iniciativa.estado === 'ejecutada' && cantidadesEnIniciativa === 0;
+	});
+
+	const totalesIniciativasCompletas = iniciativas.filter((iniciativa) => {
+		const cantidadesEnIniciativa = Object.values(
+			iniciativa.cantidadesProductos
+		).reduce(
+			(total, actual) => (total += actual.unidades + actual.subUnidades),
+			0
+		);
+
+		return iniciativa.estado === 'ejecutada' && cantidadesEnIniciativa > 0;
+	});
 
 	React.useEffect(() => {
 		dispatch(cambiarAvisos({cambiosPasoActual: false}));

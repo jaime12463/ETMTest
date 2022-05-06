@@ -135,9 +135,17 @@ export enum EUnidadMedida {
 	SubUnidad = 'SubUnidad',
 }
 
+export type TCantidadesProductosIniciativas = {
+	[codigo: number]: {
+		unidades: number;
+		subUnidades: number;
+	};
+};
+
 export type TIniciativasCliente = {
 	archivoAdjunto?: string;
 	cantidad: number;
+	cantidadesProductos: TCantidadesProductosIniciativas;
 	descripcionIniciativa: string;
 	estado: 'pendiente' | 'ejecutada' | 'cancelada';
 	fechaEntrega: string;

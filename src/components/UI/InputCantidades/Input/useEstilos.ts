@@ -37,7 +37,10 @@ export const useEstilos = makeStyles(() =>
 					if (unidades > cantidadMaximaConfig) {
 						return `1px solid ${theme.palette.primary.main}`;
 					}
+
+					return `1px solid ${theme.palette.primary.main}`;
 				}
+
 				if (disabled) {
 					return 'none';
 				}

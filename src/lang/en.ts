@@ -10,6 +10,7 @@ const en = {
 		ahorraste: 'Saved',
 		ahorroTotal: 'Total savings',
 		aplicacionMaxima: 'Maximum application',
+		aplicacionPendiente: 'Pending application',
 		aplicar: 'Apply',
 		archivosAdjuntos: 'Attached files',
 		avanzar: 'Next',

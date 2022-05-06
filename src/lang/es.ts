@@ -10,6 +10,7 @@ const es = {
 		ahorraste: 'Ahorraste',
 		ahorroTotal: 'Ahorro total',
 		aplicacionMaxima: 'Aplicación máxima',
+		aplicacionPendiente: 'Aplicación pendiente',
 		aplicar: 'Aplicar',
 		archivosAdjuntos: 'Archivos adjuntos',
 		avanzar: 'Avanzar',
