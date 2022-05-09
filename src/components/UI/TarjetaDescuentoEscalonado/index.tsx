@@ -179,6 +179,7 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 				<SwitchYCheck
 					abrirCollapse={abrirCollapse}
 					conSwitch={conSwitch}
+					producto={productoEnVenta ?? productoAMandar}
 					unidades={producto.unidades}
 				/>
 				<Informacion
