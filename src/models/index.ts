@@ -1,3 +1,4 @@
+import React, {Dispatch, ReactElement, SetStateAction} from 'react';
 import {GridSize} from '@mui/material';
 import {
 	ETiposDePago,
@@ -5,7 +6,6 @@ import {
 	TIniciativasCliente,
 	TPrecioProducto,
 } from 'models/redux';
-import React, {Dispatch, ReactElement, SetStateAction} from 'react';
 import {
 	Control,
 	UseFormGetValues,
@@ -108,6 +108,11 @@ export type TStatePreciosProductos = {
 	setPreciosProductos: Dispatch<SetStateAction<TPrecioProducto[]>>;
 };
 
+export type StateFocusID = {
+	focusId: number;
+	setFocusId: React.Dispatch<SetStateAction<number>>;
+};
+
 export type TStateInputFocus = {
 	inputFocus: InputsKeysFormTomaDePedido;
 	setInputFocus: Dispatch<SetStateAction<InputsKeysFormTomaDePedido>>;
@@ -118,10 +123,19 @@ export type TStateSubUnidadesEnvases = {
 	setSubUnidadesEnvases: Dispatch<SetStateAction<number>>;
 };
 
-export interface TStateInfoDescuentos {
+export type TStateInfoDescuentos = {
 	infoDescuento: TInfoDescuentos;
-	setInfoDescuento: React.Dispatch<React.SetStateAction<TInfoDescuentos>>;
-}
+	setInfoDescuento: React.Dispatch<SetStateAction<TInfoDescuentos>>;
+};
+
+export type GetValueProps = {
+	unidades: number;
+	subUnidades: number;
+	productoABuscar: string;
+	tipoDePedido: string;
+	catalogoMotivo: string;
+	infoDescuento?: TInfoDescuentos;
+};
 
 //Formularios
 

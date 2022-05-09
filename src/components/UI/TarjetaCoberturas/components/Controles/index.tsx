@@ -6,7 +6,12 @@ import {
 	CajaIcon,
 	QuitarRellenoIcon,
 } from 'assests/iconos';
-import {TClienteActual, TProductoPedido, TStateInputFocus} from 'models';
+import {
+	StateFocusID,
+	TClienteActual,
+	TProductoPedido,
+	TStateInputFocus,
+} from 'models';
 import {
 	useMostrarAdvertenciaEnDialogo,
 	useMostrarAviso,
@@ -20,7 +25,6 @@ import {
 } from 'redux/hooks';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {useTranslation} from 'react-i18next';
-import {StateFocusID} from 'components/UI/TarjetaTomaPedido';
 import useEstilos from './useEstilos';
 import {
 	agregarCoberturasEjecutadas,

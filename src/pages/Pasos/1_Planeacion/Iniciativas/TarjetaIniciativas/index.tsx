@@ -23,20 +23,22 @@ import useEstilos from './useEstilos';
 import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
 import {
 	useAppDispatch,
-	useObtenerClienteActual,
 	useObtenerConfiguracion,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {
+	borrarProductoDelPedidoActual,
 	cambiarEstadoIniciativa,
 	cambiarMotivoCancelacionIniciativa,
 	cambiarSeQuedaAEditar,
+	limpiarValoresIniciativas,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {TIniciativasCliente, EUnidadMedida, TPrecioProducto} from 'models';
 import theme from 'theme';
 import {formatearFecha} from 'utils/methods';
 import {Modal, ModalCore, MaterialSelect} from 'components/UI';
-import Producto from './Producto';
+import {useContador} from 'hooks';
+import {Producto} from './components';
 
 interface Props {
 	avanza: boolean;
@@ -80,8 +82,9 @@ const TarjetaIniciativas: React.VFC<Props> = ({
 	const obtenerProductoPorCodigo = useObtenerProductoPorCodigo();
 	const visitaActual = useObtenerVisitaActual();
 	const {motivosCancelacionIniciativas} = useObtenerConfiguracion();
-	const clienteActual = useObtenerClienteActual();
 	const id = idActividadIniciativa.toString();
+
+	const {contador, ...restoContador} = useContador(cantidad);
 
 	const productosIniciativa = React.useMemo(() => {
 		const productos: TPrecioProducto[] = [];
@@ -108,8 +111,14 @@ const TarjetaIniciativas: React.VFC<Props> = ({
 	const [mostrarArchivosAdjuntos, setMostrarArchivosAdjuntos] =
 		React.useState(false);
 
+	const cantidadesEjecutadasIniciativa = React.useMemo(() => {
+		return Object.values(cantidadesProductos).reduce((total, actual) => {
+			return total + actual.unidades + actual.subUnidades;
+		}, 0);
+	}, [cantidadesProductos]);
+
 	const classes = useEstilos({
-		editarInputs: visitaActual?.seQuedaAEditar?.bordeError,
+		editarInputs: visitaActual?.seQuedaAEditar?.bordeError || contador !== 0,
 		estado: estadoSelect,
 		iniciativaAbierta: expandido === id,
 		inputsBloqueados: visitaActual.pasoATomaPedido,
@@ -120,19 +129,15 @@ const TarjetaIniciativas: React.VFC<Props> = ({
 
 	const dispatch = useAppDispatch();
 
-	// React.useEffect(() => {
-	// 	if (
-	// 		unidadesEjecutadas === 0 &&
-	// 		subUnidadesEjecutadas === 0 &&
-	// 		estado === 'ejecutada'
-	// 	) {
-	// 		setIniciativaIncompleta(true);
-	// 		setIdIniciativaIncompleta(idMaterialIniciativa);
-	// 		return;
-	// 	}
+	React.useEffect(() => {
+		if (cantidadesEjecutadasIniciativa === 0 && estado === 'ejecutada') {
+			setIniciativaIncompleta(true);
+			setIdIniciativaIncompleta(idActividadIniciativa);
+			return;
+		}
 
-	// 	setIniciativaIncompleta(false);
-	// }, [unidadesEjecutadas, subUnidadesEjecutadas, estado]);
+		setIniciativaIncompleta(false);
+	}, [cantidadesProductos, estado]);
 
 	const manejadorExpandido = (id: string | boolean) => {
 		if (iniciativaIncompleta) {
@@ -178,11 +183,16 @@ const TarjetaIniciativas: React.VFC<Props> = ({
 							codigoIniciativa: idActividadIniciativa,
 						})
 					);
-					// dispatch(
-					// 	borrarProductoDelPedidoActual({
-					// 		codigoProducto: producto.codigoProducto,
-					// 	})
-					// );
+					Object.keys(cantidadesProductos).map((codigo) => {
+						dispatch(
+							borrarProductoDelPedidoActual({
+								codigoProducto: +codigo,
+							})
+						);
+					});
+					dispatch(
+						limpiarValoresIniciativas({idIniciativa: idActividadIniciativa})
+					);
 					if (motivo !== '') {
 						dispatch(
 							cambiarMotivoCancelacionIniciativa({
@@ -219,34 +229,41 @@ const TarjetaIniciativas: React.VFC<Props> = ({
 							codigoIniciativa: idActividadIniciativa,
 						})
 					);
-					// dispatch(
-					// 	borrarProductoDelPedidoActual({
-					// 		codigoProducto: producto.codigoProducto,
-					// 	})
-					// );
+					Object.keys(cantidadesProductos).map((codigo) => {
+						dispatch(
+							borrarProductoDelPedidoActual({
+								codigoProducto: +codigo,
+							})
+						);
+					});
+					dispatch(
+						limpiarValoresIniciativas({idIniciativa: idActividadIniciativa})
+					);
 					break;
 			}
 		}
 	}, [estadoSelect]);
 
 	React.useEffect(() => {
-		// if (
-		// 	visitaActual.seQuedaAEditar.bordeError &&
-		// 	idIniciativaIncompleta === idMaterialIniciativa
-		// ) {
-		// 	if (getValues.unidades > 0 || getValues.subUnidades) {
-		// 		dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
-		// 	}
-		// }
-		// if (avanza) {
-		// 	if (idIniciativaIncompleta === idMaterialIniciativa) {
-		// 		setEstadoSelect('pendiente');
-		// 		setMotivoSelect('');
-		// 		setGetValues({...getValues, unidades, subUnidades});
-		// 	}
-		// 	setAvanza(false);
-		// }
-	}, [avanza, visitaActual?.seQuedaAEditar?.bordeError]);
+		if (
+			visitaActual.seQuedaAEditar.bordeError &&
+			idIniciativaIncompleta === idActividadIniciativa
+		) {
+			if (cantidadesEjecutadasIniciativa > 0) {
+				dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+			}
+		}
+		if (avanza) {
+			if (idIniciativaIncompleta === idActividadIniciativa) {
+				setEstadoSelect('pendiente');
+				setMotivoSelect('');
+				dispatch(
+					limpiarValoresIniciativas({idIniciativa: idActividadIniciativa})
+				);
+			}
+			setAvanza(false);
+		}
+	}, [avanza, visitaActual?.seQuedaAEditar?.bordeError, cantidadesProductos]);
 
 	return (
 		<>
@@ -320,7 +337,7 @@ const TarjetaIniciativas: React.VFC<Props> = ({
 									</Typography>
 								</Box>
 							)}
-						{estadoSelect === 'ejecutada' && (
+						{estadoSelect === 'ejecutada' && contador !== cantidad && (
 							<Box display='flex' justifyContent='flex-end' width='100%'>
 								<CheckRedondoIcon height={20} width={20} />
 							</Box>
@@ -371,7 +388,7 @@ const TarjetaIniciativas: React.VFC<Props> = ({
 										fontFamily='Open Sans'
 										variant='subtitle3'
 									>
-										{cantidad}
+										{contador}
 									</Typography>
 								</Box>
 							</Box>
@@ -511,6 +528,8 @@ const TarjetaIniciativas: React.VFC<Props> = ({
 									estado={estadoSelect}
 									idIniciativa={idActividadIniciativa}
 									producto={producto}
+									restoContador={restoContador}
+									unidadMedida={unidadMedida}
 								/>
 								{productosIniciativa.length !== index - 1 && <Divider />}
 							</Box>

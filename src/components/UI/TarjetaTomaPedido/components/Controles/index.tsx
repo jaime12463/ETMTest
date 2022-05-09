@@ -9,6 +9,8 @@ import {
 import {
 	EFormaBeneficio,
 	ETipoDescuento,
+	GetValueProps,
+	StateFocusID,
 	TClienteActual,
 	TProductoPedido,
 	TStateInfoDescuentos,
@@ -23,7 +25,6 @@ import {
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {useTranslation} from 'react-i18next';
-import {StateFocusID} from '../..';
 import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularProductoEnPromoOnGoing';
 import {InputCantidades, InputPropsEstilos} from 'components/UI';
 
@@ -59,7 +60,7 @@ export const Controles: React.VFC<Props> = ({
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 	const [cambioValores, setCambioValores] = React.useState<boolean>(false);
 
-	const defaultValue = {
+	const defaultValues: GetValueProps = {
 		unidades: producto.unidades,
 		subUnidades: producto.subUnidades,
 		productoABuscar: '',
@@ -67,7 +68,7 @@ export const Controles: React.VFC<Props> = ({
 		catalogoMotivo: '',
 		infoDescuento: infoDescuento,
 	};
-	const [getValues, setGetValues] = React.useState(defaultValue);
+	const [getValues, setGetValues] = React.useState(defaultValues);
 
 	const {focusId, setFocusId} = stateFocusId;
 
@@ -114,10 +115,10 @@ export const Controles: React.VFC<Props> = ({
 			focusId === producto.codigoProducto
 		) {
 			if (getValues.unidades > 0 || getValues.subUnidades > 0) {
-				agregarProductoAlPedidoActual(defaultValue);
+				agregarProductoAlPedidoActual(defaultValues);
 			}
 		}
-		setGetValues(defaultValue);
+		setGetValues(defaultValues);
 	}, [infoDescuento]);
 
 	useEffect(() => {

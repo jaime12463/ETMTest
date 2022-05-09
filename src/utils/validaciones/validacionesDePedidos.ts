@@ -8,6 +8,7 @@ import {
 	TCoberturas,
 	TCoberturasEjecutadas,
 	TCoberturasCliente,
+	EUnidadMedida,
 } from 'models';
 export const validarDatosCliente = (
 	cliente: TCliente | undefined
@@ -52,43 +53,65 @@ export const validarProductosIniciativas = (
 	iniciativas: TIniciativasCliente[],
 	pedidos: TPedidos
 ) => {
-	// TODO INICIATIVAS
 	const {venta} = pedidos;
 
-	// const productosDeIniciativaEnPedido = venta.productos.filter((producto) => {
-	// 	const productoEnIniciativa = iniciativas.find(
-	// 		(iniciativa) =>
-	// 			iniciativa.idMaterialIniciativa === producto.codigoProducto
-	// 	);
-	// 	if (productoEnIniciativa?.idMaterialIniciativa === producto.codigoProducto)
-	// 		return true;
+	const iniciativasVerificadas: TIniciativasCliente[] = iniciativas.map(
+		(iniciativa) => {
+			const productosEnVenta = venta.productos.filter((producto) =>
+				iniciativa.materialesIniciativa.includes(producto.codigoProducto)
+			);
 
-	// 	return false;
-	// });
+			if (!productosEnVenta.length && iniciativa.estado === 'ejecutada') {
+				return {...iniciativa, estado: 'pendiente'};
+			}
 
-	// const iniciativasVerificadas: TIniciativasCliente[] = iniciativas.map(
-	// 	(iniciativa: TIniciativasCliente) => {
-	// 		const producto = productosDeIniciativaEnPedido.find(
-	// 			(producto) =>
-	// 				producto.codigoProducto === iniciativa.idMaterialIniciativa
-	// 		);
-	// 		if (!producto) return iniciativa;
-	// 		if (
-	// 			producto?.unidades >= iniciativa.unidadVentaIniciativa &&
-	// 			producto?.subUnidades >= iniciativa.subunidadVentaIniciativa
-	// 		) {
-	// 			return {...iniciativa, estado: 'ejecutada'};
-	// 		} else {
-	// 			if (iniciativa.estado === 'ejecutada') {
-	// 				return {...iniciativa, estado: 'pendiente'};
-	// 			} else {
-	// 				return iniciativa;
-	// 			}
-	// 		}
-	// 	}
-	// );
+			const [unidadesTotales, subUnidadesTotales] = productosEnVenta.reduce(
+				(total, producto) => {
+					return [
+						total[0] + producto.unidades,
+						total[1] + producto.subUnidades,
+					];
+				},
+				[0, 0]
+			);
 
-	// return iniciativasVerificadas;
+			if (
+				iniciativa.unidadMedida === EUnidadMedida.Unidad &&
+				unidadesTotales >= iniciativa.cantidad &&
+				(iniciativa.estado === 'pendiente' || iniciativa.estado === 'cancelada')
+			) {
+				return {...iniciativa, estado: 'ejecutada'};
+			}
+
+			if (
+				iniciativa.unidadMedida === EUnidadMedida.Unidad &&
+				unidadesTotales < iniciativa.cantidad &&
+				iniciativa.estado === 'ejecutada'
+			) {
+				return {...iniciativa, estado: 'pendiente'};
+			}
+
+			if (
+				iniciativa.unidadMedida === EUnidadMedida.SubUnidad &&
+				subUnidadesTotales >= iniciativa.cantidad &&
+				(iniciativa.estado === 'pendiente' || iniciativa.estado === 'cancelada')
+			) {
+				return {...iniciativa, estado: 'ejecutada'};
+			}
+
+			if (
+				iniciativa.unidadMedida === EUnidadMedida.SubUnidad &&
+				subUnidadesTotales < iniciativa.cantidad &&
+				iniciativa.estado === 'ejecutada'
+			) {
+				return {...iniciativa, estado: 'pendiente'};
+			}
+
+			return iniciativa;
+		}
+	);
+
+	return iniciativasVerificadas;
 };
 
 export const validarSiExcedeElMontoMinimo = (

@@ -1,7 +1,12 @@
 import React from 'react';
 import {Box, IconButton} from '@mui/material';
 import {CajaIcon, QuitarRellenoIcon, AgregarRedondoIcon} from 'assests/iconos';
-import {TProductoPedido, TStateInfoDescuentos, TStateInputFocus} from 'models';
+import {
+	StateFocusID,
+	TProductoPedido,
+	TStateInfoDescuentos,
+	TStateInputFocus,
+} from 'models';
 import {
 	InputCantidades,
 	InputPropsEstilos,
@@ -12,7 +17,6 @@ import {
 	useMostrarAviso,
 	useObtenerDatosCliente,
 } from 'hooks';
-import {StateFocusID} from 'components/UI';
 import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {useTranslation} from 'react-i18next';
 

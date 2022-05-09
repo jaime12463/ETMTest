@@ -10,7 +10,7 @@ import {
 	TConfiguracionAgregarPedido,
 	TCantidadesProductosIniciativas,
 } from 'models';
-import { ItemsDelPedido } from 'models/adapter/ItemsDelPedido';
+import {ItemsDelPedido} from 'models/adapter/ItemsDelPedido';
 
 import {RootState} from 'redux/store';
 import {TPromoOngoingAplicables} from 'utils/procesos/promociones/PromocionesOngoing';
@@ -55,8 +55,7 @@ export const visitaActualSlice = createSlice({
 				state.tipoPedidoActual
 			].productos.filter(
 				(precioProducto: TProductoPedido) =>
-					precioProducto.id !==
-					action.payload.productoPedido.id
+					precioProducto.id !== action.payload.productoPedido.id
 			);
 
 			state.pedidos[state.tipoPedidoActual].productos = [
@@ -75,13 +74,14 @@ export const visitaActualSlice = createSlice({
 				.configuracion
 				? action.payload.configuracion
 				: {actualizaDescuento: false};
-			
-			const itemDelPedido : TProductoPedido= ItemsDelPedido.crear( action.payload.productoPedido);
+
+			const itemDelPedido: TProductoPedido = ItemsDelPedido.crear(
+				action.payload.productoPedido
+			);
 
 			const producto = state.pedidos[state.tipoPedidoActual].productos.find(
 				(precioProducto: TProductoPedido) =>
-					precioProducto.id ===
-					itemDelPedido.id
+					precioProducto.id === itemDelPedido.id
 			);
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
@@ -139,8 +139,7 @@ export const visitaActualSlice = createSlice({
 				action.payload.codigoTipoPedidoActual
 			].productos.findIndex(
 				(precioProducto: TProductoPedido) =>
-					precioProducto.id ===
-						action.payload.productoPedido.id &&
+					precioProducto.id === action.payload.productoPedido.id &&
 					precioProducto.tipoPago === action.payload.productoPedido.tipoPago
 			);
 
@@ -214,8 +213,7 @@ export const visitaActualSlice = createSlice({
 			const productosPedidoClienteFiltrados = state.pedidos[
 				pedidoActual
 			].productos.filter(
-				(precioProducto: TProductoPedido) =>
-					precioProducto.id !== id
+				(precioProducto: TProductoPedido) => precioProducto.id !== id
 			);
 
 			state.pedidos[pedidoActual].productos = [
@@ -445,6 +443,29 @@ export const visitaActualSlice = createSlice({
 			});
 		},
 
+		limpiarValoresIniciativas: (
+			state,
+			action: PayloadAction<{idIniciativa: number}>
+		) => {
+			state.iniciativas = state.iniciativas.map((iniciativa) => {
+				if (iniciativa.idActividadIniciativa === action.payload.idIniciativa) {
+					iniciativa.cantidadesProductos = Object.keys(
+						iniciativa.cantidadesProductos
+					).reduce(
+						(obj, actual) => ({
+							...obj,
+							[+actual]: {unidades: 0, subUnidades: 0},
+						}),
+						{} as TCantidadesProductosIniciativas
+					);
+
+					return iniciativa;
+				}
+
+				return iniciativa;
+			});
+		},
+
 		cambiarMotivoCancelacionIniciativa: (
 			state,
 			action: PayloadAction<{motivo: string; codigoIniciativa: number}>
@@ -644,40 +665,41 @@ export const visitaActualSlice = createSlice({
 
 export const selectVisitaActual = (state: RootState) => state.visitaActual;
 export const {
+	activarClienteBloqueado,
+	agregarBeneficiosPromoOngoing,
+	agregarBonificacion,
+	agregarCoberturasEjecutadas,
 	agregarEnvaseDelPedidoActual,
 	agregarProductoDelPedidoActual,
-	editarProductoDelPedidoActual,
+	borrarDescuentoDelProducto,
+	borrarEnvases,
 	borrarProductoDelPedidoActual,
-	inicializarVisitaActual,
-	resetearVisitaActual,
 	borrarProductosDeVisitaActual,
+	borrarPromocionesOngoing,
+	cambiarAvisos,
+	cambiarBloquearPanelCarga,
+	cambiarEstadoIniciativa,
+	cambiarMostrarPromoPush,
+	cambiarMotivoCancelacionIniciativa,
+	cambiarOrdenDeCompra,
+	cambiarSaldoPresupuestoTipoPedido,
+	cambiarSeQuedaAEditar,
 	cambiarTipoPagoPoductoDelPedidoActual,
 	cambiarTipoPagoPoductosDelPedidoActual,
 	cambiarTipoPedidoActual,
-	cambiarMostrarPromoPush,
-	borrarPromocionesOngoing,
-	cambiarSaldoPresupuestoTipoPedido,
-	cambiarBloquearPanelCarga,
-	cambiarOrdenDeCompra,
-	cambiarEstadoIniciativa,
-	cambiarMotivoCancelacionIniciativa,
+	editarProductoDelPedidoActual,
 	editarUnidadesOSubUnidadesEjecutadas,
-	pasoATomaPedido,
-	agregarCoberturasEjecutadas,
-	borrarDescuentoDelProducto,
-	cambiarSeQuedaAEditar,
-	agregarBonificacion,
 	eliminarBonificacion,
 	eliminarBonificacionesGrupo,
-	restablecerBonificaciones,
-	borrarEnvases,
-	limpiarProductosSinCantidad,
 	eliminarCanje,
-	modificarEnvasesConError,
-	restablecerEnvasesConError,
-	cambiarAvisos,
-	activarClienteBloqueado,
-	agregarBeneficiosPromoOngoing,
 	eliminarEnvasesPromoOngoing,
+	inicializarVisitaActual,
+	limpiarProductosSinCantidad,
+	limpiarValoresIniciativas,
+	modificarEnvasesConError,
+	pasoATomaPedido,
+	resetearVisitaActual,
+	restablecerBonificaciones,
+	restablecerEnvasesConError,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

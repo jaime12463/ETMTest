@@ -2,16 +2,15 @@ import React from 'react';
 import {Box} from '@mui/material';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import {
+	EUnidadMedida,
 	TCantidadesProductosIniciativas,
 	TPrecioProducto,
 	TProductoPedido,
 } from 'models';
-import {useObtenerDatosCliente} from 'hooks';
-import {
-	ControlesProducto,
-	InformacionProducto,
-	InputPropsEstilos,
-} from 'components/UI';
+import {Contador, useObtenerDatosCliente} from 'hooks';
+import {InformacionProducto, InputPropsEstilos} from 'components/UI';
+import theme from 'theme';
+import {Controles} from '..';
 
 export interface GetValuesProps {
 	unidades: number;
@@ -26,13 +25,17 @@ interface Props {
 	estado: string;
 	idIniciativa: number;
 	producto: TPrecioProducto;
+	restoContador: Omit<Contador, 'contador' | 'reiniciar'>;
+	unidadMedida: EUnidadMedida;
 }
 
-const Producto: React.FC<Props> = ({
+export const Producto: React.VFC<Props> = ({
 	cantidadesProductos,
 	estado,
 	idIniciativa,
 	producto,
+	restoContador,
+	unidadMedida,
 }) => {
 	const visitaActual = useObtenerVisitaActual();
 	const clienteActual = useObtenerClienteActual();
@@ -41,8 +44,8 @@ const Producto: React.FC<Props> = ({
 	const configuracionPedido = datosCliente.configuracionPedido;
 
 	const defaultValues: GetValuesProps = {
-		unidades: 0,
-		subUnidades: 0,
+		unidades: cantidadesProductos[producto.codigoProducto].unidades,
+		subUnidades: cantidadesProductos[producto.codigoProducto].subUnidades,
 		productoABuscar: '',
 		tipoDePedido: visitaActual.tipoPedidoActual,
 		catalogoMotivo: '',
@@ -74,13 +77,24 @@ const Producto: React.FC<Props> = ({
 
 	const useEstilosProps: InputPropsEstilos = {
 		bordeError:
-			getValues.unidades > (configuracionPedido.cantidadMaximaUnidades ?? 0),
-		unidades: getValues.unidades,
-		subUnidades: getValues.subUnidades,
+			getValues.unidades > (configuracionPedido.cantidadMaximaUnidades ?? 0) ||
+			visitaActual.seQuedaAEditar.bordeError,
+		unidades: cantidadesProductos[producto.codigoProducto].unidades,
+		subUnidades: cantidadesProductos[producto.codigoProducto].subUnidades,
 		unidadesDisponibles: producto.unidadesDisponibles ?? 0,
 		cantidadMaximaConfig: configuracionPedido.cantidadMaximaUnidades ?? 0,
 		disabled: estado !== 'ejecutada' || visitaActual.pasoATomaPedido,
 	};
+
+	React.useEffect(() => {
+		if (estado === 'pendiente' || estado === 'cancelada') {
+			setGetValues((state) => ({
+				...state,
+				unidades: 0,
+				subUnidades: 0,
+			}));
+		}
+	}, [estado]);
 
 	return (
 		<Box
@@ -88,20 +102,22 @@ const Producto: React.FC<Props> = ({
 			sx={{
 				background:
 					'linear-gradient(90deg, transparent 0%, transparent 177px, #F5F0EF 177px, #F5F0EF 100%)',
+				outline: visitaActual.seQuedaAEditar.bordeError
+					? `1px solid ${theme.palette.primary.main}`
+					: 'none',
 			}}
 		>
 			<InformacionProducto producto={productoACargar} />
-			<ControlesProducto
+			<Controles
 				cantidadesProductos={cantidadesProductos}
-				cantidadMaximaUnidades={configuracionPedido.cantidadMaximaUnidades}
 				getValues={getValues}
 				idIniciativa={idIniciativa}
 				producto={productoACargar}
+				restoContador={restoContador}
 				setGetValues={setGetValues}
+				unidadMedida={unidadMedida}
 				useEstilosProps={useEstilosProps}
 			/>
 		</Box>
 	);
 };
-
-export default Producto;

@@ -10,10 +10,10 @@ import {
 	TStateInputFocus,
 	TInfoDescuentos,
 	ETiposDePago,
+	StateFocusID,
 } from 'models';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import theme from 'theme';
-import {StateFocusID} from '../TarjetaTomaPedido';
 import {
 	Control,
 	DesplegableEscalonados,

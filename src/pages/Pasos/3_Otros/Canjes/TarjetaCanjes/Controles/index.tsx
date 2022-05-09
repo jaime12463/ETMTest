@@ -1,7 +1,12 @@
 import React from 'react';
 import {Box, IconButton} from '@mui/material';
-import {StateFocusID} from 'components/UI/TarjetaTomaPedido';
-import {TClienteActual, TProductoPedido, TStateInputFocus} from 'models';
+import {
+	GetValueProps,
+	StateFocusID,
+	TClienteActual,
+	TProductoPedido,
+	TStateInputFocus,
+} from 'models';
 import {
 	useMostrarAdvertenciaEnDialogo,
 	useMostrarAviso,
@@ -19,7 +24,6 @@ import {
 } from 'assests/iconos';
 import useEstilos from './useEstilos';
 import theme from 'theme';
-import {GetValueProps} from '..';
 
 interface Props {
 	producto: TProductoPedido;

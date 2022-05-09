@@ -6,184 +6,48 @@ import {
 	AgregarRedondoIcon,
 	BotellaIcon,
 } from 'assests/iconos';
-import {InputCantidades, InputPropsEstilos} from '../InputCantidades';
+import {InputCantidades, InputPropsEstilos} from 'components/UI';
 import {
-	InputsKeysFormTomaDePedido,
-	TCantidadesProductosIniciativas,
+	GetValueProps,
+	StateFocusID,
 	TProductoPedido,
+	TStateInputFocus,
 } from 'models';
-import {
-	useMostrarAdvertenciaEnDialogo,
-	useMostrarAviso,
-	useValidacionPermiteSubUnidades,
-} from 'hooks';
-import {GetValueProps} from 'pages/Pasos/3_Otros/Canjes/TarjetaCanjes';
-import {useAppDispatch} from 'redux/hooks';
-import {useTranslation} from 'react-i18next';
-import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
-import {editarUnidadesOSubUnidadesEjecutadas} from 'redux/features/visitaActual/visitaActualSlice';
+import {useObtenerDatosCliente, useValidacionPermiteSubUnidades} from 'hooks';
+import {useObtenerClienteActual} from 'redux/hooks';
 
 interface Props {
-	cantidadesProductos: TCantidadesProductosIniciativas;
-	cantidadMaximaUnidades?: number;
 	getValues: GetValueProps;
-	idIniciativa: number;
+	handleButtons: (e: React.MouseEvent<HTMLButtonElement>) => void;
+	inputValueUnidades?: number;
+	intpuValueSubUnidades?: number;
+	onBlur: () => void;
+	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 	producto: TProductoPedido;
-	setGetValues: React.Dispatch<React.SetStateAction<GetValueProps>>;
+	stateFocusId: StateFocusID;
+	stateInputFocus: TStateInputFocus;
 	useEstilosProps: InputPropsEstilos;
 }
 
 export const ControlesProducto: React.VFC<Props> = ({
-	cantidadesProductos,
-	cantidadMaximaUnidades,
 	getValues,
-	idIniciativa,
+	handleButtons,
+	inputValueUnidades,
+	intpuValueSubUnidades,
+	onBlur,
+	onChange,
+	onKeyPress,
 	producto,
-	setGetValues,
+	stateFocusId: {focusId, setFocusId},
+	stateInputFocus: {inputFocus, setInputFocus},
 	useEstilosProps,
 }) => {
-	const {t} = useTranslation();
-	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
-	const [focusId, setFocusId] = React.useState<number>(0);
-	const [inputFocus, setInputFocus] =
-		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
 	const permiteSubUnidades = useValidacionPermiteSubUnidades(producto);
-
-	const mostrarAviso = useMostrarAviso();
-
-	const dispatch = useAppDispatch();
-
-	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
-
-	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
-		producto,
-		mostrarAdvertenciaEnDialogo,
-		getValues,
-		setGetValues
-	);
-
-	React.useEffect(() => {
-		if (puedeAgregar) {
-			agregarProductoAlPedidoActual(getValues);
-			dispatch(
-				editarUnidadesOSubUnidadesEjecutadas({
-					codigoProducto: producto.codigoProducto,
-					unidades: getValues.unidades,
-					subUnidades: getValues.subUnidades,
-					codigoIniciativa: idIniciativa,
-				})
-			);
-		}
-
-		return () => setPuedeAgregar(false);
-	}, [puedeAgregar]);
-
-	const handleButtons = (
-		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-	) => {
-		const {value, name} = e.currentTarget;
-		setFocusId(producto.codigoProducto);
-		if (name === 'unidades') {
-			if (value === '-' && getValues.unidades === 0) {
-				return;
-			}
-			setInputFocus('unidades');
-			setGetValues({
-				...getValues,
-				[name]: value === '+' ? ++getValues.unidades : --getValues.unidades,
-			});
-			setPuedeAgregar(true);
-		} else if (name === 'subUnidades') {
-			if (value === '-' && getValues.subUnidades === 0) {
-				return;
-			}
-			setInputFocus('subUnidades');
-			setGetValues((prevState) => ({
-				...prevState,
-				[name]:
-					value === '+'
-						? prevState.subUnidades + producto.subunidadesVentaMinima
-						: prevState.subUnidades - producto.subunidadesVentaMinima,
-			}));
-			setPuedeAgregar(true);
-		}
-	};
-
-	const validacionSubUnidades = () => {
-		if (
-			getValues.subUnidades % producto.subunidadesVentaMinima !== 0 &&
-			getValues.subUnidades < producto.presentacion
-		) {
-			mostrarAviso(
-				'error',
-				t('advertencias.subUnidadesNoMultiplo', {
-					subunidadesVentaMinima: producto.subunidadesVentaMinima,
-				})
-			),
-				dispatch(
-					editarUnidadesOSubUnidadesEjecutadas({
-						codigoProducto: producto.codigoProducto,
-						unidades: getValues.unidades,
-						subUnidades: 0,
-						codigoIniciativa: idIniciativa,
-					})
-				);
-			setGetValues((state) => ({...state, subUnidades: 0}));
-			return;
-		}
-
-		setPuedeAgregar(true);
-		setFocusId(0);
-		setInputFocus('productoABuscar');
-	};
-
-	const handleInputChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	) => {
-		debugger;
-		setGetValues((state) => {
-			if (e.target.name === 'subUnidades') {
-				if (+e.target.value >= producto.presentacion) {
-					mostrarAviso('error', t('advertencias.limiteSubUnidades'));
-					return {...state, [e.target.name]: 0};
-				}
-			}
-
-			return {
-				...state,
-				[e.target.name]: +e.target.value.replace(/[^0-9]/g, ''),
-			};
-		});
-
-		setFocusId(producto.codigoProducto);
-
-		if (e.target.name === 'unidades') {
-			setPuedeAgregar(true);
-		}
-
-		if (e.target.name === 'subUnidades') {
-			validacionSubUnidades();
-		}
-	};
-
-	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
-		if (e.key === 'Enter') {
-			if (inputFocus === 'unidades') {
-				setInputFocus('subUnidades');
-				agregarProductoAlPedidoActual(getValues);
-				dispatch(
-					editarUnidadesOSubUnidadesEjecutadas({
-						codigoProducto: producto.codigoProducto,
-						unidades: getValues.unidades,
-						subUnidades: getValues.subUnidades,
-						codigoIniciativa: idIniciativa,
-					})
-				);
-			} else if (inputFocus === 'subUnidades') {
-				validacionSubUnidades();
-			}
-		}
-	};
+	const clienteActual = useObtenerClienteActual();
+	const {obtenerDatosCliente} = useObtenerDatosCliente();
+	const datosCliente = obtenerDatosCliente(clienteActual.codigoCliente)!;
+	const {cantidadMaximaUnidades} = datosCliente.configuracionPedido;
 
 	return (
 		<Box
@@ -224,15 +88,15 @@ export const ControlesProducto: React.VFC<Props> = ({
 						}
 					}}
 					name='unidades'
-					onChange={handleInputChange}
+					onChange={onChange}
 					onClick={() => {
 						setInputFocus('unidades');
 						setFocusId(producto.codigoProducto);
 					}}
 					onFocus={(e) => e.target.select()}
-					onKeyPress={handleKeyPress}
+					onKeyPress={onKeyPress}
 					useEstilosProps={useEstilosProps}
-					value={cantidadesProductos[producto.codigoProducto].unidades}
+					value={inputValueUnidades ?? getValues.unidades}
 				/>
 				{!useEstilosProps.disabled && (
 					<IconButton
@@ -301,15 +165,15 @@ export const ControlesProducto: React.VFC<Props> = ({
 							}
 						}}
 						name='subUnidades'
-						onChange={handleInputChange}
-						onKeyPress={handleKeyPress}
-						onBlur={validacionSubUnidades}
+						onChange={onChange}
+						onKeyPress={onKeyPress}
+						onBlur={onBlur}
 						onClick={() => {
 							setInputFocus('subUnidades');
 							setFocusId(producto.codigoProducto);
 						}}
 						onFocus={(e) => e.target.select()}
-						value={cantidadesProductos[producto.codigoProducto].subUnidades}
+						value={intpuValueSubUnidades ?? getValues.subUnidades}
 					/>
 					{!useEstilosProps.disabled && (
 						<IconButton

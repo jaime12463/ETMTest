@@ -96,14 +96,12 @@ export const useValidarCierreVisitaCliente = () => {
 
 		if (!retornoValidacion.esValido) return retornoValidacion;
 
-		// TODO INICIATIVAS
-
 		return {
 			...retornoValidacion,
-			// iniciativasVerificadas: validarProductosIniciativas(
-			// 	visitaActual.iniciativas,
-			// 	visitaActual.pedidos
-			// ),
+			iniciativasVerificadas: validarProductosIniciativas(
+				visitaActual.iniciativas,
+				visitaActual.pedidos
+			),
 			coberturasCumplidas: validarCoberturas(coberturas, visitaActual.pedidos),
 		};
 	};

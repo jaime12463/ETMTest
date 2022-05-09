@@ -1819,7 +1819,7 @@
 			"descripcionIniciativa": "Ejecuta los materiales de la PDE",
 			"finVigenciaIniciativa": "2022-12-31",
 			"materialesIniciativa": [360, 420],
-			"cantidad": 2,
+			"cantidad": 10,
 			"archivoAdjunto": "68449_One Pager.pdf",
 			"unidadMedida": "Unidad"
 		},
@@ -1830,8 +1830,8 @@
 			"descripcionIniciativa": "Ejecuta los materiales de la PDE",
 			"finVigenciaIniciativa": "2022-12-31",
 			"materialesIniciativa": [400],
-			"cantidad": 2,
-			"unidadMedida": "Unidad"
+			"cantidad": 5,
+			"unidadMedida": "SubUnidad"
 		}
 	],
 	"bonificaciones": [
