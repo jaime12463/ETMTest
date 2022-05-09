@@ -326,6 +326,7 @@ const es = {
 		errorBonificacionTotalMensaje:
 			'Esta bonificación tiene que ser de aplicación total. Favor de modificar cantidades.',
 		errorBonificacionTotalTitulo: 'Error en bonificación total',
+		cantidadMayorDisponiblePromocionOngoing:'No puedes superar el límite disponible',
 		excedeMayorPermitidoMensaje:
 			'Es necesario corregir el valor de la presentación.',
 		excedeMayorPermitidoTitulo: 'Cantidad excede el valor permitido',
