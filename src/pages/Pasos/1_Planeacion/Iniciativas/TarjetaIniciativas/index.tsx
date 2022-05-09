@@ -118,8 +118,10 @@ const TarjetaIniciativas: React.VFC<Props> = ({
 	}, [cantidadesProductos]);
 
 	const classes = useEstilos({
-		editarInputs: visitaActual?.seQuedaAEditar?.bordeError || contador !== 0,
-		estado: estadoSelect,
+		editarInputs:
+			visitaActual?.seQuedaAEditar?.bordeError ||
+			cantidadesEjecutadasIniciativa === 0,
+		estado,
 		iniciativaAbierta: expandido === id,
 		inputsBloqueados: visitaActual.pasoATomaPedido,
 	});
@@ -260,6 +262,7 @@ const TarjetaIniciativas: React.VFC<Props> = ({
 				dispatch(
 					limpiarValoresIniciativas({idIniciativa: idActividadIniciativa})
 				);
+				dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
 			}
 			setAvanza(false);
 		}
@@ -337,11 +340,12 @@ const TarjetaIniciativas: React.VFC<Props> = ({
 									</Typography>
 								</Box>
 							)}
-						{estadoSelect === 'ejecutada' && contador !== cantidad && (
-							<Box display='flex' justifyContent='flex-end' width='100%'>
-								<CheckRedondoIcon height={20} width={20} />
-							</Box>
-						)}
+						{estadoSelect === 'ejecutada' &&
+							cantidadesEjecutadasIniciativa > 0 && (
+								<Box display='flex' justifyContent='flex-end' width='100%'>
+									<CheckRedondoIcon height={20} width={20} />
+								</Box>
+							)}
 						{estadoSelect === 'cancelada' && motivo !== '' && (
 							<Box display='flex' justifyContent='flex-end' width='100%'>
 								<CerrarRedondoIcon height={20} width={20} />
@@ -419,6 +423,7 @@ const TarjetaIniciativas: React.VFC<Props> = ({
 											t('general.cancelada'),
 										]}
 										disabled={visitaActual.pasoATomaPedido}
+										borderColor={estadoSelect === 'pendiente'}
 									/>
 								</Box>
 							</Box>
