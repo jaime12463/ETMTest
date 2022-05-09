@@ -169,3 +169,9 @@ Escenario: N°11 - Coberturas ingresadas
     Cuando guardo el pedido
     Entonces el sistema registrará el cliente, _grupoCobertura, el _codigo producto y las cantidades ingresadas de los productos
 	
+
+Escenario: N°12 - Iniciativas no cumplidas - sin productos en pedido
+    Dado que el cliente tiene iniciativas con status = "Ejecutada" para el pedido actual
+    Y en el pedido no hay ningún producto de la iniciativa evaluada
+    Cuando guardo el pedido
+    Entonces el sistema elimina la iniciativa registrada    
