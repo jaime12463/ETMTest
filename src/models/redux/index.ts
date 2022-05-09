@@ -130,22 +130,33 @@ export type TCoberturasEjecutadas = Pick<
 	'codigoProducto' | 'unidades' | 'subUnidades'
 >;
 
+export enum EUnidadMedida {
+	Unidad = 'Unidad',
+	SubUnidad = 'SubUnidad',
+}
+
+export type TCantidadesProductosIniciativas = {
+	[codigo: number]: {
+		unidades: number;
+		subUnidades: number;
+	};
+};
+
 export type TIniciativasCliente = {
-	estado: 'pendiente' | 'ejecutada' | 'cancelada';
-	motivo: string;
-	secuencia: number;
-	fechaEntrega: string;
-	idActividadIniciativa: number;
-	nombreIniciativa: string;
-	nombreActividadPlan: string;
-	descripcionIniciativa: string;
-	finVigenciaIniciativa: string;
-	idMaterialIniciativa: number;
-	unidadVentaIniciativa: number;
-	subunidadVentaIniciativa: number;
-	unidadesEjecutadas: number;
-	subUnidadesEjecutadas: number;
 	archivoAdjunto?: string;
+	cantidad: number;
+	cantidadesProductos: TCantidadesProductosIniciativas;
+	descripcionIniciativa: string;
+	estado: 'pendiente' | 'ejecutada' | 'cancelada';
+	fechaEntrega: string;
+	finVigenciaIniciativa: string;
+	idActividadIniciativa: number;
+	materialesIniciativa: number[];
+	motivo: string;
+	nombreActividadPlan: string;
+	nombreIniciativa: string;
+	secuencia: number;
+	unidadMedida: EUnidadMedida;
 };
 
 export type TPresupuestoTipoPedidoTotal = {
@@ -212,7 +223,7 @@ export type TPedidoDelProducto = {
 	tipoPago: ETiposDePago;
 	catalogoMotivo: string;
 	estado?: 'activo' | 'eliminado' | 'transito';
-	codigoPromo?:number;
+	codigoPromo?: number;
 };
 
 export type TPreciosProductoUnidadYSubUnidad = {

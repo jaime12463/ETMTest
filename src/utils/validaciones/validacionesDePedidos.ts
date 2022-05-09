@@ -52,42 +52,43 @@ export const validarProductosIniciativas = (
 	iniciativas: TIniciativasCliente[],
 	pedidos: TPedidos
 ) => {
+	// TODO INICIATIVAS
 	const {venta} = pedidos;
 
-	const productosDeIniciativaEnPedido = venta.productos.filter((producto) => {
-		const productoEnIniciativa = iniciativas.find(
-			(iniciativa) =>
-				iniciativa.idMaterialIniciativa === producto.codigoProducto
-		);
-		if (productoEnIniciativa?.idMaterialIniciativa === producto.codigoProducto)
-			return true;
+	// const productosDeIniciativaEnPedido = venta.productos.filter((producto) => {
+	// 	const productoEnIniciativa = iniciativas.find(
+	// 		(iniciativa) =>
+	// 			iniciativa.idMaterialIniciativa === producto.codigoProducto
+	// 	);
+	// 	if (productoEnIniciativa?.idMaterialIniciativa === producto.codigoProducto)
+	// 		return true;
 
-		return false;
-	});
+	// 	return false;
+	// });
 
-	const iniciativasVerificadas: TIniciativasCliente[] = iniciativas.map(
-		(iniciativa: TIniciativasCliente) => {
-			const producto = productosDeIniciativaEnPedido.find(
-				(producto) =>
-					producto.codigoProducto === iniciativa.idMaterialIniciativa
-			);
-			if (!producto) return iniciativa;
-			if (
-				producto?.unidades >= iniciativa.unidadVentaIniciativa &&
-				producto?.subUnidades >= iniciativa.subunidadVentaIniciativa
-			) {
-				return {...iniciativa, estado: 'ejecutada'};
-			} else {
-				if (iniciativa.estado === 'ejecutada') {
-					return {...iniciativa, estado: 'pendiente'};
-				} else {
-					return iniciativa;
-				}
-			}
-		}
-	);
+	// const iniciativasVerificadas: TIniciativasCliente[] = iniciativas.map(
+	// 	(iniciativa: TIniciativasCliente) => {
+	// 		const producto = productosDeIniciativaEnPedido.find(
+	// 			(producto) =>
+	// 				producto.codigoProducto === iniciativa.idMaterialIniciativa
+	// 		);
+	// 		if (!producto) return iniciativa;
+	// 		if (
+	// 			producto?.unidades >= iniciativa.unidadVentaIniciativa &&
+	// 			producto?.subUnidades >= iniciativa.subunidadVentaIniciativa
+	// 		) {
+	// 			return {...iniciativa, estado: 'ejecutada'};
+	// 		} else {
+	// 			if (iniciativa.estado === 'ejecutada') {
+	// 				return {...iniciativa, estado: 'pendiente'};
+	// 			} else {
+	// 				return iniciativa;
+	// 			}
+	// 		}
+	// 	}
+	// );
 
-	return iniciativasVerificadas;
+	// return iniciativasVerificadas;
 };
 
 export const validarSiExcedeElMontoMinimo = (

@@ -3,6 +3,7 @@
 		"habilitaRequisitoConDescuentoAutomatico": true,
 		"maximoGrupoCoberturaAMostrar": 5,
 		"esFrecuenciaAbierta": true,
+		"habilitaCancelarIniciativa": true,
 		"habilitaOrdenDeCompra": true,
 		"bonificacionesConVenta": true,
 		"habilitaCompromisoDeCobro": true,

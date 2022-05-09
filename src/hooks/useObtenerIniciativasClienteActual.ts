@@ -1,6 +1,7 @@
 import {useCallback} from 'react';
 import {useObtenerDatosCliente} from 'hooks';
 import {
+	TCantidadesProductosIniciativas,
 	TCliente,
 	TDatosClientesProductos,
 	TIniciativas,
@@ -64,14 +65,20 @@ export const useObtenerIniciativasClienteActual = () => {
 							iniciativa.idActividadIniciativa
 					)?.secuenciaCliente;
 
+					const cantidadesProductos = iniciativa.materialesIniciativa.reduce(
+						(obj, codigo) => {
+							return {...obj, [codigo]: {unidades: 0, subUnidades: 0}};
+						},
+						{} as TCantidadesProductosIniciativas
+					);
+
 					iniciativasParaElCliente.push({
 						...iniciativa,
+						cantidadesProductos,
 						estado: 'pendiente',
+						fechaEntrega,
 						motivo: '',
 						secuencia: secuenciaIniciativa ?? 0,
-						fechaEntrega,
-						unidadesEjecutadas: iniciativa.unidadVentaIniciativa,
-						subUnidadesEjecutadas: iniciativa.subunidadVentaIniciativa,
 					});
 				}
 			});

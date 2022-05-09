@@ -91,10 +91,18 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 		);
 
 		const iniciativasEjecutadasSinCantidad = visitaActual.iniciativas.filter(
-			(iniciativa) =>
-				iniciativa.estado === 'ejecutada' &&
-				iniciativa.unidadesEjecutadas === 0 &&
-				iniciativa.subUnidadesEjecutadas === 0
+			(iniciativa) => {
+				const cantidadesEnIniciativa = Object.values(
+					iniciativa.cantidadesProductos
+				).reduce(
+					(total, actual) => (total += actual.unidades + actual.subUnidades),
+					0
+				);
+
+				return (
+					iniciativa.estado === 'ejecutada' && cantidadesEnIniciativa === 0
+				);
+			}
 		);
 
 		if (iniciativasCanceladasSinMotivo) {
@@ -110,7 +118,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 			};
 		}
 
-		if (iniciativasEjecutadasSinCantidad) {
+		if (!!iniciativasEjecutadasSinCantidad.length) {
 			return {
 				error: iniciativasEjecutadasSinCantidad.length > 0,
 				contenidoMensajeModal: {
@@ -118,11 +126,11 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 					mensaje: t('modal.tarjetasVaciasMensaje'),
 					tituloBotonAceptar: t('general.avanzar'),
 					callbackAceptar: () => {
-						iniciativasEjecutadasSinCantidad.map((iniciativa) => {
+						iniciativasEjecutadasSinCantidad?.map((iniciativa) => {
 							dispatch(
 								cambiarEstadoIniciativa({
 									estado: 'pendiente',
-									codigoIniciativa: iniciativa.idMaterialIniciativa,
+									codigoIniciativa: iniciativa.idActividadIniciativa,
 								})
 							);
 						});

@@ -8,6 +8,7 @@ import {
 	TAvisos,
 	ETipoDescuento,
 	TConfiguracionAgregarPedido,
+	TCantidadesProductosIniciativas,
 } from 'models';
 import { ItemsDelPedido } from 'models/adapter/ItemsDelPedido';
 
@@ -436,7 +437,7 @@ export const visitaActualSlice = createSlice({
 		) => {
 			state.iniciativas = state.iniciativas.map((iniciativa) => {
 				if (
-					iniciativa.idMaterialIniciativa === action.payload.codigoIniciativa
+					iniciativa.idActividadIniciativa === action.payload.codigoIniciativa
 				) {
 					iniciativa.estado = action.payload.estado;
 				}
@@ -462,17 +463,19 @@ export const visitaActualSlice = createSlice({
 			state,
 			action: PayloadAction<{
 				codigoIniciativa: number;
-				unidadesEjecutadas: number;
-				subUnidadesEjecutadas: number;
+				codigoProducto: number;
+				unidades: number;
+				subUnidades: number;
 			}>
 		) => {
 			state.iniciativas = state.iniciativas.map((iniciativa) => {
 				if (
-					iniciativa.idMaterialIniciativa === action.payload.codigoIniciativa
+					iniciativa.idActividadIniciativa === action.payload.codigoIniciativa
 				) {
-					iniciativa.unidadesEjecutadas = action.payload.unidadesEjecutadas;
-					iniciativa.subUnidadesEjecutadas =
-						action.payload.subUnidadesEjecutadas;
+					iniciativa.cantidadesProductos[action.payload.codigoProducto] = {
+						unidades: action.payload.unidades,
+						subUnidades: action.payload.subUnidades,
+					};
 				}
 				return iniciativa;
 			});

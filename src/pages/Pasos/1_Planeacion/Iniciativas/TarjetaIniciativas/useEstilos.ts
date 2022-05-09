@@ -2,17 +2,21 @@ import {makeStyles, createStyles} from '@material-ui/styles';
 import theme from 'theme';
 
 interface Props {
-	estado: string;
-	inputsBloqueados: boolean;
 	editarInputs: boolean;
+	estado: string;
+	iniciativaAbierta: boolean;
+	inputsBloqueados: boolean;
 }
 
 const useEstilos = makeStyles(() =>
 	createStyles({
 		card: {
-			border: ({estado, editarInputs}: Props) => {
+			border: ({estado, editarInputs, iniciativaAbierta}: Props) => {
 				switch (estado) {
 					case 'pendiente':
+						if (iniciativaAbierta) {
+							return `1px solid ${theme.palette.primary.main}`;
+						}
 						return '1px solid #D9D9D9';
 					case 'ejecutada':
 						return editarInputs

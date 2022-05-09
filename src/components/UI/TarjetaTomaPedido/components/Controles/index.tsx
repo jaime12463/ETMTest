@@ -423,6 +423,7 @@ export const Controles: React.VFC<Props> = ({
 							sx={{
 								background: '#D9D9D9',
 								borderRadius: '10px',
+								height: '16px',
 								paddingBlock: '2px',
 							}}
 							textAlign='center'
