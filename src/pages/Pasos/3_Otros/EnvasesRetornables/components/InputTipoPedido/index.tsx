@@ -293,11 +293,8 @@ const InputTipoPedido: FunctionComponent<Props> = ({
 
 				mostrarAviso(
 					'error',
-					t('toast.cantidadSuperiorEnvases'),
-					t('mensajes.cantidadSuperiorEnvases'),
-					undefined,
-					'cantidad-superior-envases'
-				);
+					`${t('toast.cantidadSuperiorEnvasesMensaje')}`,
+					`${t('toast.cantidadSuperiorEnvasesTitulo')}`);
 			}
 
 		return unidadesPermitidas;

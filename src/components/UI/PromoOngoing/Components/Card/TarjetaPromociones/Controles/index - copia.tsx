@@ -143,26 +143,17 @@ export const Controles: React.VFC<Props> = ({
 					producto.topeSecuencia
 					? true
 					: false;
-		//debugger;
-		if (topeTotal) {
-			setErrorLimiteDisponible(true);
+
+		if (!topeTotal) {
 			setCantidadesPedido((state) => ({
 				...state,
 				[producto.codigoProducto]: Number(
 					e.target.value.replace(/[^0-9]/g, '')
 				),
 			}));
-			setPuedeAgregar(false);
-		} else {
-			setCantidadesPedido((state) => ({
-				...state,
-				[producto.codigoProducto]: Number(
-					e.target.value.replace(/[^0-9]/g, '')
-				),
-			}));
-			setPuedeAgregar(true);
-			setErrorLimiteDisponible(false);
+
 		}
+		setPuedeAgregar(false);
 	};
 
 	const handleButtons = (e: React.MouseEvent<HTMLButtonElement>) => {
