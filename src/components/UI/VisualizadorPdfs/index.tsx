@@ -37,7 +37,7 @@ export const VisualizadorPdfs: React.VFC<Props> = ({
 				justifyContent='space-between'
 				onClick={() => setOpen((prevState) => !prevState)}
 				padding='25px'
-				sx={{cursor: 'pointer'}}
+				sx={{background: '#fff', cursor: 'pointer'}}
 				width='100%'
 			>
 				<Typography variant='subtitle2' fontFamily='Open Sans' color='#565657'>
