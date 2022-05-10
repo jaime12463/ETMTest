@@ -61,6 +61,7 @@ Ejemplos:
     | Total    | el disponible es mayor a cero en al menos una secunecia             | mostrará el toast de error indicando que se debe asignar el total del beneficio                                                                            |
     | Parcial  | al menos en una secuencia hay un producto con cantidad mayor a cero | aplicará los beneficios con los productos que tienen cantidades ingresadas en todas las secuencias del grupo seleccionado según aplicar promocion ongoing  | 
 	| Parcial  | los productos en todas las secuencias tienen cantidades en 0        | no aplicará la promoción                                                                                                                                   |  
+	|   -      | la suma de las cantidades ingresadas es mayor al disponible         | mostrará el toast de error y no aplicará el beneficio                                                                                                      |           
 
 Escenario: N°5 - Ingresar manualmente cantidades superiores al disponible
 	Dado que se ingresaron cantidades manualmente
