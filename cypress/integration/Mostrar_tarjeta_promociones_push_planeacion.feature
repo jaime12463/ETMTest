@@ -21,4 +21,10 @@ Escenario: N°1 - Mostrar tarjeta promociones push
     Entonces el sistema mostrará la tarjeta de promociones push con su título
     Y el control para desplegar la tarjeta.
 
+Escenario: N°2 - Mostrar aviso en tarjeta promociones push
+    Dado que se ingresó un cliente que no promociones push vigentes en el portafolio
+    Cuando estamos en el paso 1 - planeación
+    Entonces el sistema mostrará la tarjeta de promociones push con su título
+    Y no mostrará el control para desplegar la tarjeta
+    Y mostrará el aviso "Este cliente no cuenta con promociones push" en rojo
 
