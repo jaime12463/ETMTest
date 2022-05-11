@@ -81,7 +81,8 @@ const TarjetaIniciativas: React.VFC<Props> = ({
 	const {t} = useTranslation();
 	const obtenerProductoPorCodigo = useObtenerProductoPorCodigo();
 	const visitaActual = useObtenerVisitaActual();
-	const {motivosCancelacionIniciativas} = useObtenerConfiguracion();
+	const {motivosCancelacionIniciativas, habilitaCancelarIniciativa} =
+		useObtenerConfiguracion();
 	const id = idActividadIniciativa.toString();
 
 	const {contador, ...restoContador} = useContador(cantidad);
@@ -417,11 +418,15 @@ const TarjetaIniciativas: React.VFC<Props> = ({
 									<MaterialSelect
 										state={capitalize(estadoSelect)}
 										setState={setEstadoSelect}
-										opciones={[
-											t('general.pendiente'),
-											t('general.ejecutada'),
-											t('general.cancelada'),
-										]}
+										opciones={
+											habilitaCancelarIniciativa
+												? [
+														t('general.pendiente'),
+														t('general.ejecutada'),
+														t('general.cancelada'),
+												  ]
+												: [t('general.pendiente'), t('general.ejecutada')]
+										}
 										disabled={visitaActual.pasoATomaPedido}
 										borderColor={estadoSelect === 'pendiente'}
 									/>
