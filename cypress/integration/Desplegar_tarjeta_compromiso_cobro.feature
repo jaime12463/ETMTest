@@ -1,5 +1,5 @@
 # language: es
-@Compromiso_Cobro @Sprint14 @Sprint23
+@Compromiso_Cobro @Sprint14 @Sprint23 @Sprint29
 
 Característica: Ver deuda del cliente
     Como prevendedor 
@@ -11,10 +11,33 @@ Característica: Ver deuda del cliente
 Antecedentes:
     Dado que estoy en paso 3 - otros
 
-Escenario: N°1 – Desplegar tarjeta compromiso de cobro
-    Cuando selecciono desplegar tarjeta
-    Entonces el sistema mostrará el control para ingresar el monto a saldar de compromiso de pago
-    Y el límite de crédito, el disponible = límite crédito menos la suma de los saldos de los documentos pendientes, la lista de los documentos pendientes ordenados por vencimiento ascendente, la deuda pendiente = suma de los saldos de los documentos pendientes y compromiso de cobro = suma de los compromisos de cobro registrados en visitas anteriores.
+
+Esquema del escenario: N°1 - Compromiso de cobro en paso otros
+    Dado que el cliente tiene partidas generadas
+    Y por configuración es ruta de '<pais>'
+    Cuando el cliente habilita el compromiso de cobro
+    Entonces el sistema mostrará en la tarjeta compromiso de cobro el listado de documentos ordenados por vencimiento ascendente
+    Y mostrará de título compromiso de cobro
+    Y mostrará el control para registrar compromiso de cobro
+    Y mostrará el icono que indica la leyenda de colores
+    Y mostrará el límite de crédito
+    Y mostrará el disponible = límite crédito menos la suma de los saldos de los documentos pendientes 
+    Y mostrará la deuda pendiente = suma de los saldos de los documentos pendientes 
+    Y si habilita compromiso de cobro, compromiso de cobro = suma de los compromisos de cobro registrados en visitas anteriores.
+    Y mostrará para cada documento el número, fecha de vencimiento, monto
+    Y mostrará cada documento en '<color>' según '<condicion>'
+
+Ejemplos:
+    |pais | color     |  condicion                                                                                                                                              |
+    | COL |  Verde    | si la fecha de visita es menor al vencimiento                                                                                                           |
+    | COL |  Amarillo | si la fecha del dispositivo es igual o mayor hasta _diasDeGracia días posterior a la fecha de vencimineto                                               |
+    | COL |  Rojo     | si la fecha del dispositivo es mayor al vencimiento + _diasDeGracia                                                                                     |
+    | MEX |  Verde    | si el porcentaje de avance de días de crédito según _diasCredito y fecha del dispositivo, redondeado para arriba, es menor o igual a _avanceVerde       |
+    | MEX |  Amarillo | si el porcentaje de avance de días de crédito según _diasCredito y fecha del dispositivo, redondeado para arriba, mayor o igual a _avanceAmarillo       |
+    | MEX |  Rojo     | si la fecha del dispositivo es mayor o igual al vencimiento                                                                                             |
+    | -   |  Verde    | si la fecha del dispositivo es menor al vencimiento |
+    | -   |  Amarillo | si la fecha del dispositivo es igual al vencimiento |
+    | -   |  Rojo     | si la fecha del dispositivo es mayor al vencimiento |
 
 #En la lista mostrar número de documento, vencimiento y saldo 
 
@@ -40,6 +63,5 @@ Escenario: N°3 – Compromiso de cobro no válido
 
 Escenario: N°4 - Compromiso de cobro deshabilitado
     Dado que la ruta tiene _habilitaCompromisoDeCobro = false
-    Cuando se despliega la tarjeta de compromiso de cobro
-    Entonces el sistema no mostrará el control para ingresar el monto 
-    Y mostrará el límite de crédito, el disponible = límite crédito menos la suma de los saldos de los documentos pendientes, la lista de los documentos pendientes ordenados por vencimiento ascendente, la deuda pendiente = suma de los saldos de los documentos pendientes
+    Cuando se despliega la tarjeta
+    Entonces el sistema mostrará la tarjeta según mostrar partidas generadas
