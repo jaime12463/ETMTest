@@ -146,7 +146,7 @@ const es = {
 			'No hay disponibilidad de canje para este cliente en este momento',
 		clientes: 'Clientes',
 		coberturas: 'Coberturas',
-		coberturassDeshabilitadas:
+		coberturasDeshabilitadas:
 			'No existen coberturas para mostrar',
 		envases: 'Envases retornables',
 		ingresoPedido: 'Ingreso de Pedido',
