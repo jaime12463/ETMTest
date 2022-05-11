@@ -18,6 +18,7 @@ import {useValidarClienteBloqueado} from './hooks';
 import {VistaPromoPush} from './VistaPromoPush';
 import {Iniciativas} from './Iniciativas';
 import {Coberturas} from './Coberturas';
+import {EPasos, TStatePasos} from 'models';
 
 const Planeacion: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<string | boolean>(false);
@@ -29,7 +30,15 @@ const Planeacion: React.FC = () => {
 	const {venta} = visitaActual.pedidos;
 	const dispatch = useAppDispatch();
 	const [alertaPasos, setAlertaPasos] = useState<boolean>(false);
-	const [pasoActual, setPasoActual] = useState<number>(0);
+	const [pasoActual, setPasoActual] = useState<TStatePasos>({
+		actual: EPasos.Planeacion,
+		visitados: {
+			[EPasos.Planeacion]: false,
+			[EPasos.TomaPedido]: false,
+			[EPasos.Otros]: false,
+			[EPasos.FinalizarPedido]: false,
+		},
+	});
 	const validarClienteBloqueado = useValidarClienteBloqueado();
 
 	const codigosCoberturas = coberturas.reduce(

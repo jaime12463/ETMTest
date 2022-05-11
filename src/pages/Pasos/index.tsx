@@ -1,17 +1,16 @@
 import React, {Suspense, FunctionComponent, useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {IndicadoresDelPedidoActual} from './components';
-import {controlador, TControlador} from './controlador';
+import {controlador} from './controlador';
 import {
 	Estructura,
 	BotonBarraInferior,
-	Stepper,
 	Dialogo,
 	BotonResumenPedido,
 	ModalCore,
 } from 'components/UI';
-import {Box, IconButton} from '@mui/material';
-import {InfoClienteDelPedidoActual} from 'components/Negocio';
+import {Box} from '@mui/material';
+import {InfoClienteDelPedidoActual, Navegacion} from 'components/Negocio';
 import {
 	useObtenerPedidosValorizados,
 	useObtenerTotalPedidosVisitaActual,
@@ -34,11 +33,13 @@ import {
 	useObtenerConfiguracion,
 } from 'redux/hooks';
 import {
+	EPasos,
 	ETiposDePago,
 	TCliente,
 	TClienteActual,
 	TPromoOngoing,
 	TPromoOngoingAplicadas,
+	TStatePasos,
 } from 'models';
 import {useTranslation} from 'react-i18next';
 import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
@@ -66,8 +67,15 @@ const formatearItems = (items: number) => {
 
 const Pasos: React.FC = () => {
 	const {t} = useTranslation();
-	const [pasoActual, setPasoActual] = useState<number>(0);
-	const [openVistaPromoPush, setOpenVistaPromoPush] = React.useState(false);
+	const [pasoActual, setPasoActual] = useState<TStatePasos>({
+		actual: EPasos.Planeacion,
+		visitados: {
+			[EPasos.Planeacion]: true,
+			[EPasos.TomaPedido]: false,
+			[EPasos.Otros]: false,
+			[EPasos.FinalizarPedido]: false,
+		},
+	});
 	const {tipoPedidoEnvasesHabilitados, tipoPedidos} = useObtenerConfiguracion();
 	const [leyendaBoton, setLeyendaBoton] = useState(
 		`${t('general.continuarA')} ${t(controlador[1].titulo)}`
@@ -116,7 +124,6 @@ const Pasos: React.FC = () => {
 	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
 	const {obtenerPedidosClienteMismaFechaEntrega} =
 		useObtenerPedidosClienteMismaFechaEntrega();
-	const handleOpenVistaPromoPush = () => setOpenVistaPromoPush(true);
 	const pedidosClienteMismaFechaEntrega =
 		obtenerPedidosClienteMismaFechaEntrega(datosCliente?.codigoCliente ?? '');
 	const reiniciarClienteActual = useReiniciarClienteActual();
@@ -128,18 +135,18 @@ const Pasos: React.FC = () => {
 	const promocionesOngoing = PromocionesOngoing.getInstance();
 
 	useEffect(() => {
-		if (pasoActual < controlador.length - 1) {
+		if (pasoActual.actual < controlador.length - 1) {
 			setLeyendaBoton(
 				`${t('general.continuarA')}\n ${t(
-					controlador[pasoActual + 1].titulo
+					controlador[pasoActual.actual + 1].titulo
 				).toLowerCase()}`
 			);
 		} else {
-			setLeyendaBoton(t(controlador[pasoActual].titulo));
+			setLeyendaBoton(t(controlador[pasoActual.actual].titulo));
 		}
 	}, [pasoActual]);
 
-	const valido = useValidarPasos(pasoActual);
+	const valido = useValidarPasos(pasoActual.actual);
 	const [openResumenPedido, setOpenResumenPedido] =
 		React.useState<boolean>(false);
 
@@ -147,8 +154,8 @@ const Pasos: React.FC = () => {
 
 	const manejadorPasoAtras = () => {
 		if (
-			pasoActual === 0 ||
-			(pasoActual === 2 && visitaActual.clienteBloqueado)
+			pasoActual.actual === 0 ||
+			(pasoActual.actual === 2 && visitaActual.clienteBloqueado)
 		) {
 			setConfigAlerta({
 				titulo: t('modal.salirOrderTaking'),
@@ -167,7 +174,7 @@ const Pasos: React.FC = () => {
 			return;
 		}
 
-		if (pasoActual === 1) {
+		if (pasoActual.actual === 1) {
 			mostrarAviso(
 				'warning',
 				t('advertencias.noEditarPlaneacionTitulo'),
@@ -177,7 +184,7 @@ const Pasos: React.FC = () => {
 			);
 		}
 
-		if (pasoActual === 2 && visitaActual.seQuedaAEditar.seQueda) {
+		if (pasoActual.actual === 2 && visitaActual.seQuedaAEditar.seQueda) {
 			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
 			mostrarAviso(
 				'error',
@@ -187,7 +194,7 @@ const Pasos: React.FC = () => {
 			return;
 		}
 
-		setPasoActual(pasoActual - 1);
+		setPasoActual((state) => ({...state, actual: state.actual - 1}));
 	};
 
 	const pedidoMinimoCumplido =
@@ -212,16 +219,20 @@ const Pasos: React.FC = () => {
 			}
 		}
 
-		if (pasoActual < controlador.length - 1) {
+		if (pasoActual.actual < controlador.length - 1) {
 			if (!valido.contenidoMensajeAviso) {
-				if (pasoActual === 0 && visitaActual.clienteBloqueado) {
+				if (pasoActual.actual === 0 && visitaActual.clienteBloqueado) {
 					setConfigAlerta({
 						titulo: t('toast.ventaBloqueadaTitulo'),
 						mensaje: t('toast.noPuedesGenerarPedidoMensaje'),
 						tituloBotonAceptar: t('general.continuar'),
 						tituloBotonCancelar: t('general.finalizarVisita'),
 						callbackAceptar: () => {
-							setPasoActual(pasoActual + 1);
+							setPasoActual((state) => ({
+								...state,
+								visitados: {...state.visitados, [state.actual + 1]: true},
+								actual: state.actual + 1,
+							}));
 							setPasos(
 								controlador.filter(
 									(paso) =>
@@ -240,7 +251,10 @@ const Pasos: React.FC = () => {
 					return setAlertaPasos(true);
 				}
 
-				if (visitaActual?.avisos?.cambiosPasoActual && pasoActual === 0) {
+				if (
+					visitaActual?.avisos?.cambiosPasoActual &&
+					pasoActual.actual === 0
+				) {
 					mostrarAviso(
 						'success',
 						t('toast.cambiosGuardados'),
@@ -249,7 +263,7 @@ const Pasos: React.FC = () => {
 						'successpaso2'
 					);
 				}
-				if (pasoActual === 1) {
+				if (pasoActual.actual === 1) {
 					let promociones: {
 						contado: TPromoOngoingAplicablesResultado | undefined;
 						credito: TPromoOngoingAplicablesResultado | undefined;
@@ -383,7 +397,14 @@ const Pasos: React.FC = () => {
 					}
 				}
 
-				setPasoActual(pasoActual + 1);
+				setPasoActual((state) => ({
+					...state,
+					visitados: {
+						...state.visitados,
+						[state.actual + 1]: true,
+					},
+					actual: state.actual + 1,
+				}));
 			}
 		} else {
 			agregarPedidoActualAPedidosClientes();
@@ -406,28 +427,19 @@ const Pasos: React.FC = () => {
 					<Box
 						display='flex'
 						justifyContent='center'
-						marginTop='20px'
-						padding='10px'
-						marginBottom='10px'
+						marginBottom='12px'
 						position='sticky'
 						top='2px'
-						sx={{background: '#F5F0F0', zIndex: 99}}
+						sx={{zIndex: 99}}
 					>
-						<IndicadoresDelPedidoActual />
+						<Navegacion pasos={pasoActual} setPasos={setPasoActual} />
 					</Box>
 					<Box padding='0 10px'>
-						<Box>
-							<Stepper
-								pasos={pasos.map((paso: TControlador) => `${t(paso.titulo)}`)}
-								pasoActivo={
-									pasoActual === 2 && visitaActual.clienteBloqueado
-										? 0
-										: pasoActual
-								}
-							/>
+						<Box marginBottom='16px'>
+							<IndicadoresDelPedidoActual />
 						</Box>
 
-						<Contenedor pasoActivo={pasoActual} />
+						<Contenedor pasoActivo={pasoActual.actual} />
 						<Modal
 							setAlerta={setAlertaPasos}
 							alerta={alertaPasos}
@@ -446,7 +458,7 @@ const Pasos: React.FC = () => {
 						numeroItems={formatearItems(itemsValorizados.length)}
 						total={totalVisitaActual}
 						onClick={() => manejadorPasoAdelante()}
-						pasoActual={pasoActual}
+						pasoActual={pasoActual.actual}
 					/>
 				</Estructura.PieDePagina>
 			</Estructura>
