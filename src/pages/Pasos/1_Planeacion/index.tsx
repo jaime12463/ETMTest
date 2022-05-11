@@ -193,6 +193,7 @@ const Planeacion: React.FC = () => {
 				}
 				disabled={visitaActual.clienteBloqueado}
 			>
+					{/*ToDo: agregar a multilenguaje*/}
 				<div>SUGERIDOS PARA TI PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
 			<TarjetaColapsable
@@ -221,7 +222,7 @@ const Planeacion: React.FC = () => {
 						{t('titulos.promocionesDeshabilitadas')}
 					</Typography>
 				}
-				disabled={visitaActual.clienteBloqueado}
+				disabled={visitaActual.clienteBloqueado || iniciativasEjecutadasSinCantidad.length === 0 }
 			>
 				<VistaPromoPush />
 			</TarjetaColapsable>
@@ -297,8 +298,7 @@ const Planeacion: React.FC = () => {
 						fontFamily='Open Sans'
 						variant='subtitle3'
 					>
-						{/*ToDo: pasar a multilenguaje */}
-						Este cliente no cuenta con coberturas
+							{t('titulos.coberturasDeshabilitadas')}
 					</Typography>
 				}
 				dataCy='Coberturas'

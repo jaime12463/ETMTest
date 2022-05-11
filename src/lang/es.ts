@@ -146,6 +146,8 @@ const es = {
 			'No hay disponibilidad de canje para este cliente en este momento',
 		clientes: 'Clientes',
 		coberturas: 'Coberturas',
+		coberturassDeshabilitadas:
+			'No existen coberturas para mostrar',
 		envases: 'Envases retornables',
 		ingresoPedido: 'Ingreso de Pedido',
 		iniciativas: 'Iniciativas',
@@ -155,7 +157,7 @@ const es = {
 		productosPedido: 'Productos del Pedido',
 		promociones: 'Promociones push',
 		promocionesDeshabilitadas:
-			'Visualiza las promociones push que tienes disponible para tu cliente.',
+			'Este cliente no cuenta con promociones push',
 		promocionesMensaje:
 			'Visualiza las promociones push que tienes disponible para tu cliente.',
 		sugeridosDeshabilitado: 'No hay sugerencias para mostrar',
