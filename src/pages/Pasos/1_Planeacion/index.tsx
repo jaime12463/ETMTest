@@ -7,7 +7,7 @@ import {
 	useObtenerConfiguracion,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {useObtenerCoberturas} from 'hooks';
+import {useObtenerCoberturas, useObtenerPromoPushDelCliente} from 'hooks';
 import {
 	cambiarSeQuedaAEditar,
 	limpiarProductosSinCantidad,
@@ -26,6 +26,7 @@ const Planeacion: React.FC = () => {
 	const configuracion = useObtenerConfiguracion();
 	const coberturas = useObtenerCoberturas();
 	const visitaActual = useObtenerVisitaActual();
+	const promociones = useObtenerPromoPushDelCliente();
 	const {venta} = visitaActual.pedidos;
 	const dispatch = useAppDispatch();
 	const [alertaPasos, setAlertaPasos] = useState<boolean>(false);
@@ -213,7 +214,7 @@ const Planeacion: React.FC = () => {
 						{t('titulos.promocionesDeshabilitadas')}
 					</Typography>
 				}
-				disabled={visitaActual.clienteBloqueado || iniciativasEjecutadasSinCantidad.length === 0 }
+				disabled={visitaActual.clienteBloqueado || promociones.length === 0 }
 			>
 				<VistaPromoPush />
 			</TarjetaColapsable>
