@@ -8,5 +8,6 @@ export * from './InputSeleccionarProducto';
 export * from './InputsUnidadesYSubUnidades';
 export * from './MenuPromoPush';
 export * from './ModalDescuentoEscalonado';
+export * from './Navegacion';
 export * from './TotalesCompromisoDeCobro';
 export * from './TotalesMetodoDeVenta';

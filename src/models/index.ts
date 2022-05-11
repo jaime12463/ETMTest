@@ -137,6 +137,20 @@ export type GetValueProps = {
 	infoDescuento?: TInfoDescuentos;
 };
 
+export enum EPasos {
+	Planeacion,
+	TomaPedido,
+	Otros,
+	FinalizarPedido,
+}
+
+export type TStatePasos = {
+	actual: EPasos;
+	visitados: {
+		[key in EPasos]: boolean;
+	};
+};
+
 //Formularios
 
 export type THookForm<T> = {

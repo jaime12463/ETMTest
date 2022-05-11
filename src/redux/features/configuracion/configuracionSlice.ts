@@ -12,10 +12,11 @@ const estadoInicial: TDatosConfiguracionesSlice = {
 	estado: EEstadosFetch.Idle,
 	datos: {
 		configuraciones: {
-			habilitaRequisitoConDescuentoAutomatico:true,
+			habilitaRequisitoConDescuentoAutomatico: true,
 			maximoGrupoCoberturaAMostrar: 0,
 			esFrecuenciaAbierta: false,
 			habilitaOrdenDeCompra: false,
+			habilitaCancelarIniciativa: false,
 			bonificacionesConVenta: true,
 			habilitaCompromisoDeCobro: true,
 			tipoPedidoEnvasesHabilitados: [],

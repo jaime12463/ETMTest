@@ -315,15 +315,16 @@ export type TDatosConfiguracion = {
 };
 
 export type TConfiguracion = {
+	bonificacionesConVenta: boolean;
+	esFrecuenciaAbierta: boolean;
+	habilitaCancelarIniciativa: boolean;
+	habilitaCompromisoDeCobro: boolean;
+	habilitaOrdenDeCompra: boolean;
 	habilitaRequisitoConDescuentoAutomatico: boolean;
 	maximoGrupoCoberturaAMostrar: number;
-	esFrecuenciaAbierta: boolean;
-	habilitaOrdenDeCompra: boolean;
-	bonificacionesConVenta: boolean;
-	habilitaCompromisoDeCobro: boolean;
+	motivosCancelacionIniciativas: TMotivosCancelacionIniciativas[];
 	tipoPedidoEnvasesHabilitados: string[];
 	tipoPedidos: TTipoPedido[];
-	motivosCancelacionIniciativas: TMotivosCancelacionIniciativas[];
 };
 
 export type TMotivosCancelacionIniciativas = {
