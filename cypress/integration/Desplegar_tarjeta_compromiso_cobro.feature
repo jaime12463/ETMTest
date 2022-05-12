@@ -28,18 +28,24 @@ Esquema del escenario: N°1 - Compromiso de cobro en paso otros
     Y mostrará cada documento en '<color>' según '<condicion>'
 
 Ejemplos:
-    |pais | color     |  condicion                                                                                                                                              |
-    | COL |  Verde    | si la fecha de visita es menor al vencimiento                                                                                                           |
-    | COL |  Amarillo | si la fecha del dispositivo es igual o mayor hasta _diasDeGracia días posterior a la fecha de vencimineto                                               |
-    | COL |  Rojo     | si la fecha del dispositivo es mayor al vencimiento + _diasDeGracia                                                                                     |
-    | MEX |  Verde    | si el porcentaje de avance de días de crédito según _diasCredito y fecha del dispositivo, redondeado para arriba, es menor o igual a _avanceVerde       |
-    | MEX |  Amarillo | si el porcentaje de avance de días de crédito según _diasCredito y fecha del dispositivo, redondeado para arriba, mayor o igual a _avanceAmarillo       |
-    | MEX |  Rojo     | si la fecha del dispositivo es mayor o igual al vencimiento                                                                                             |
-    | -   |  Verde    | si la fecha del dispositivo es menor al vencimiento |
-    | -   |  Amarillo | si la fecha del dispositivo es igual al vencimiento |
-    | -   |  Rojo     | si la fecha del dispositivo es mayor al vencimiento |
+    |pais | color     |  condicion                                                                                                                      |
+    | COL |  Verde    | si la fecha de visita es menor al vencimiento                                                                                   |
+    | COL |  Amarillo | si la fecha del dispositivo es igual o mayor hasta _diasDeGracia días posterior a la fecha de vencimineto                       |
+    | COL |  Rojo     | si la fecha del dispositivo es mayor al vencimiento + _diasDeGracia                                                             |
+    | MEX |  Verde    | si el porcentaje de días transcurridos de los días de crédito, redondeado para arriba, es menor a _porcentajeAvance          |
+    | MEX |  Amarillo | si el porcentaje de días transcurridos de los días de crédito, redondeado para arriba, mayor o igual a _porcentajeAvance     |
+    | MEX |  Rojo     | si la fecha del dispositivo es mayor o igual al vencimiento                                                                     |
+    | -   |  Verde    | si la fecha del dispositivo es menor al vencimiento                                                                             |
+    | -   |  Amarillo | si la fecha del dispositivo es igual al vencimiento                                                                             |
+    | -   |  Rojo     | si la fecha del dispositivo es mayor al vencimiento                                                                             |
 
 #En la lista mostrar número de documento, vencimiento y saldo 
+
+# MEX: Ej. si son 10 días de crédito y el porcentaje de avance es 50 
+# cuando pase menos del 50% del tiempo de esos 10 días seguimos en verde. (de 1 a 4 días) 
+# Si el tiempo transcurrido de los 10 días, es el 50% o más va amarillo  (de 5 a 9 días)
+# Si la fecha del dispositivo es la misma que la fecha de vencimiento, rojo. (10 días) 
+# El redondeo ej: 4.2 entonces se toma como 5. 
 
 
 #Comentario:
