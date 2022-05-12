@@ -14,8 +14,8 @@ Antecedentes:
 
 Esquema del escenario: N°1 - Compromiso de cobro en paso otros
     Dado que el cliente tiene partidas generadas
-    Y por configuración es ruta de '<pais>'
-    Cuando el cliente habilita el compromiso de cobro
+    Y el cliente habilita el compromiso de cobro
+    Cuando se despliega la tarjeta
     Entonces el sistema mostrará en la tarjeta compromiso de cobro el listado de documentos ordenados por vencimiento ascendente
     Y mostrará de título compromiso de cobro
     Y mostrará el control para registrar compromiso de cobro
@@ -28,25 +28,16 @@ Esquema del escenario: N°1 - Compromiso de cobro en paso otros
     Y mostrará cada documento en '<color>' según '<condicion>'
 
 Ejemplos:
-    |pais | color     |  condicion                                                                                                                      |
-    | COL |  Verde    | si la fecha de visita es menor al vencimiento                                                                                   |
-    | COL |  Amarillo | si la fecha del dispositivo es igual o mayor hasta _diasDeGracia días posterior a la fecha de vencimineto                       |
-    | COL |  Rojo     | si la fecha del dispositivo es mayor al vencimiento + _diasDeGracia                                                             |
-    | MEX |  Verde    | si el porcentaje de días transcurridos de los días de crédito, redondeado para arriba, es menor a _porcentajeAvance          |
-    | MEX |  Amarillo | si el porcentaje de días transcurridos de los días de crédito, redondeado para arriba, mayor o igual a _porcentajeAvance     |
-    | MEX |  Rojo     | si la fecha del dispositivo es mayor o igual al vencimiento                                                                     |
-    | -   |  Verde    | si la fecha del dispositivo es menor al vencimiento                                                                             |
-    | -   |  Amarillo | si la fecha del dispositivo es igual al vencimiento                                                                             |
-    | -   |  Rojo     | si la fecha del dispositivo es mayor al vencimiento                                                                             |
+Ejemplos:
+    | color     |  condicion                                                                                                                                                |
+    |  Verde    | si diasWarningDesde y diasWarningHasta >= 0 y la fecha del dispositivo < fecha de vencimiento - diasWarningDesde                                          |
+    |  Verde    | si diasWarningDesde y diasWarningHasta < 0 y la fecha del dispositivo < fecha de vencimiento + diasWarningDesde                                           |
+    |  Amarillo | si diasWarningDesde y diasWarningHasta >= 0 y fecha de vencimiento - diasWarningDesde <= fecha del dispositivo <= fecha de vencimiento + diasWarningHasta |
+    |  Amarillo | si diasWarningDesde y diasWarningHasta < 0 y fecha de vencimiento + diasWarningDesde <= fecha del dispositivo <= fecha de vencimiento + diasWarningHasta  |
+    |  Rojo     | si la fecha del dispositivo > fecha de vencimiento + diasWarningHasta                                                                                     |
+                                                                            
 
 #En la lista mostrar número de documento, vencimiento y saldo 
-
-# MEX: Ej. si son 10 días de crédito y el porcentaje de avance es 50 
-# cuando pase menos del 50% del tiempo de esos 10 días seguimos en verde. (de 1 a 4 días) 
-# Si el tiempo transcurrido de los 10 días, es el 50% o más va amarillo  (de 5 a 9 días)
-# Si la fecha del dispositivo es la misma que la fecha de vencimiento, rojo. (10 días) 
-# El redondeo ej: 4.2 entonces se toma como 5. 
-
 
 #Comentario:
 #Si no hay un compromiso de cobro registrado durante la visita, el monto aparece inicializado en cero, caso contrario, aparece inicializado con el monto del compromiso de cobro en curso, para realizar la edición del mismo.
@@ -57,12 +48,12 @@ Ejemplos:
 #$3000
 #Y tiene registrado un compromiso de cobro en una visita anterior por $6000
 
-Escenario: N°2 – Compromiso de cobro válido
+Escenario: N°2 - Compromiso de cobro válido
     Dado que el cliente tiene una deuda mayor a $2000
     Cuando registro un compromiso de cobro por 2000 
     Entonces el sistema registrará el compromiso de cobro
 
-Escenario: N°3 – Compromiso de cobro no válido
+Escenario: N°3 - Compromiso de cobro no válido
     Dado que el cliente tiene una deuda igual a $2000
     Cuando registro un compromiso de cobro por $2001 
     Entonces el sistema mostrará el mensaje "El monto no puede ser mayor a la deuda registrada"
