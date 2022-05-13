@@ -8,15 +8,16 @@ import {
 	cambiarSeQuedaAEditar,
 	cambiarAvisos,
 } from 'redux/features/visitaActual/visitaActualSlice';
-
 import TomaPedido from './TomaPedidos';
 import PromoPush from './PromoPush';
 import {useTranslation} from 'react-i18next';
+import {useObtenerPromoPushDelCliente} from 'hooks';
 
 const TomaPedidoDelClienteActual: React.FC = () => {
 	const [expandido, setExpandido] = React.useState<boolean | string>(false);
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
+	const promociones = useObtenerPromoPushDelCliente();
 	const productosConUnidades = venta?.productos?.filter((producto) => {
 		return (
 			(producto.unidades > 0 || producto.subUnidades > 0) &&
@@ -77,46 +78,56 @@ const TomaPedidoDelClienteActual: React.FC = () => {
 	return (
 		<Stack spacing={2}>
 			<TarjetaColapsable
+				cantidadItems={productosConUnidades?.length}
+				dataCy='TomaDePedido'
+				disabledPadding
+				expandido={expandido}
 				id='Toma de pedido'
-				titulo={
-					<Typography variant={'subtitle2'}>
-						{t('titulos.tomaDePedido')}
-					</Typography>
-				}
+				labelChip={`${productosConUnidades?.length} Items`}
+				setExpandido={setExpandido}
 				subTitulo={
 					<Typography color={'black'} variant={'body3'}>
 						{t('titulos.tarjetaTomaDePedido')}
 					</Typography>
 				}
-				expandido={expandido}
-				setExpandido={setExpandido}
-				cantidadItems={productosConUnidades?.length}
-				labelChip={`${productosConUnidades?.length} Items`}
+				titulo={
+					<Typography variant={'subtitle2'}>
+						{t('titulos.tomaDePedido')}
+					</Typography>
+				}
 				valido={ventaValida}
-				dataCy='TomaDePedido'
-				disabledPadding
 			>
 				<TomaPedido />
 			</TarjetaColapsable>
 
 			<TarjetaColapsable
+				cantidadItems={cantidadPromoPush?.length}
+				dataCy='Promociones'
+				disabled={promociones.length === 0}
+				expandido={expandido}
 				id='Promociones'
-				titulo={
-					<Typography variant={'subtitle2'}>
-						{t('titulos.promociones')}
+				labelChip={`${cantidadPromoPush?.length} Items`}
+				mensaje={
+					<Typography
+						color='primary'
+						fontFamily='Open Sans'
+						variant='subtitle3'
+					>
+						{t('titulos.promocionesDeshabilitadas')}
 					</Typography>
 				}
+				setExpandido={setExpandido}
 				subTitulo={
 					<Typography color={'black'} variant={'body3'}>
 						{t('titulos.tarjetaPromociones')}
 					</Typography>
 				}
-				expandido={expandido}
-				setExpandido={setExpandido}
+				titulo={
+					<Typography variant={'subtitle2'}>
+						{t('titulos.promociones')}
+					</Typography>
+				}
 				valido={promocionesValida}
-				cantidadItems={cantidadPromoPush?.length}
-				labelChip={`${cantidadPromoPush?.length} Items`}
-				dataCy='Promociones'
 			>
 				<PromoPush />
 			</TarjetaColapsable>

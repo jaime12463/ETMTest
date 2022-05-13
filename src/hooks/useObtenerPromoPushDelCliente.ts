@@ -11,7 +11,7 @@ import {
 	obtenerUnidadesProductoVisitaActual,
 } from 'utils/methods';
 
-export const useObtenerPromoPushDelCliente = () => {
+export const useObtenerPromoPushDelCliente = (): TPrecioProducto[] => {
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const pedidoActual = useObtenerPedidoActual();
 	const clienteActual: TClienteActual = useObtenerClienteActual();
@@ -27,8 +27,10 @@ export const useObtenerPromoPushDelCliente = () => {
 	const fechaEntrega: string = pedidoActual.fechaEntrega;
 	const obtenerPreciosProductosDelCliente =
 		useObtenerPreciosProductosDelCliente();
-	if (!datosCliente) return;
-	const preciosProductosDelCliente: any = obtenerPreciosProductosDelCliente(
+
+	if (!datosCliente) return [];
+
+	const preciosProductosDelCliente = obtenerPreciosProductosDelCliente(
 		datosCliente,
 		fechaEntrega
 	);
@@ -36,7 +38,7 @@ export const useObtenerPromoPushDelCliente = () => {
 	const promoPushFiltradas =
 		preciosProductosDelCliente &&
 		preciosProductosDelCliente.filter(
-			(producto: any) =>
+			(producto) =>
 				producto.promoPush &&
 				validarUnidadesDisponibles(pedidosCliente, 0, producto) === -1
 		);
@@ -52,11 +54,7 @@ export const useObtenerPromoPushDelCliente = () => {
 				obtenerUnidadesMismoProducto(pedidosCliente, producto.codigoProducto))
 	);
 
-	return promoPushFiltradas.sort((a: any, b: any) => {
-		if (a.codigoProducto > b.codigoProducto) {
-			return 1;
-		} else {
-			return -1;
-		}
-	});
+	return promoPushFiltradas.sort((a, b) =>
+		a.codigoProducto > b.codigoProducto ? 1 : -1
+	);
 };

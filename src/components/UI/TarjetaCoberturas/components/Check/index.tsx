@@ -6,57 +6,18 @@ import {SwitchCambiarTipoPago} from 'pages/Pasos/2_TomaDePedido/components';
 import theme from 'theme';
 
 interface Props {
-	conSwitch?: boolean;
 	producto: TProductoPedido;
 }
 
-const Check: React.FC<Props> = ({conSwitch, producto}) => {
+const Check: React.FC<Props> = ({producto}) => {
 	return (
-		<Box display='flex' justifyContent={conSwitch ? 'space-between' : 'end'}>
-			{conSwitch ? (
-				<>
-					<Box padding='12px 0 0 14px' display='flex' flex={3}>
-						<SwitchCambiarTipoPago producto={producto} />
-					</Box>
-					<Box
-						padding='12px 14px 0 0'
-						sx={{background: '#F5F0EF'}}
-						flex={2}
-						width='125px'
-						textAlign='right'
-						height='30px'
-						display='flex'
-						alignItems='center'
-						justifyContent='flex-end'
-					>
-						{(producto.unidades > 0 || producto.subUnidades > 0) && (
-							<CheckRedondoIcon width='17.5px' />
-						)}
-					</Box>
-				</>
-			) : (
-				<>
-					{(producto.unidades > 0 || producto.subUnidades > 0) && (
-						<>
-							<Box padding='12px 0 0 14px' display='flex' flex={3} />
-							<Box
-								padding='12px 14px 0 0'
-								sx={{background: '#F5F0EF'}}
-								flex={2}
-								width='125px'
-								textAlign='right'
-								height='30px'
-								display='flex'
-								alignItems='center'
-								justifyContent='flex-end'
-							>
-								<CheckRedondoIcon width='17.5px' />
-							</Box>
-						</>
-					)}
-				</>
+		<>
+			{(producto.unidades > 0 || producto.subUnidades > 0) && (
+				<Box display='flex' justifyContent='flex-end' padding='12px 14px 0 0'>
+					<CheckRedondoIcon height={20} width={20} />
+				</Box>
 			)}
-		</Box>
+		</>
 	);
 };
 

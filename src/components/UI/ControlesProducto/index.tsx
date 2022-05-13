@@ -55,7 +55,11 @@ export const ControlesProducto: React.VFC<Props> = ({
 			display='flex'
 			flexDirection='column'
 			gap='12px'
-			padding='22px 12px 12px 8px'
+			padding={
+				producto.unidades > 0 || producto.subUnidades > 0
+					? '20px 12px 12px 8px'
+					: '22px 12px 12px 8px'
+			}
 			width='125px'
 		>
 			<Box alignItems='center' display='flex' justifyContent='center'>

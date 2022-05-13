@@ -7,11 +7,12 @@ import {
 	useObtenerConfiguracion,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {useObtenerCoberturas} from 'hooks';
+import {useObtenerCoberturas, useObtenerPromoPushDelCliente} from 'hooks';
 import {
 	cambiarSeQuedaAEditar,
 	limpiarProductosSinCantidad,
 	cambiarAvisos,
+	agregarCoberturasEjecutadas,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {Configuracion, Modal} from 'components/UI';
 import {useValidarClienteBloqueado} from './hooks';
@@ -21,11 +22,12 @@ import {Coberturas} from './Coberturas';
 import {EPasos, TStatePasos} from 'models';
 
 const Planeacion: React.FC = () => {
-	const [expandido, setExpandido] = React.useState<string | boolean>(false);
+	const [expandido, setExpandido] = useState<string | boolean>(false);
 	const {t} = useTranslation();
 	const {iniciativas} = useObtenerVisitaActual();
 	const configuracion = useObtenerConfiguracion();
 	const coberturas = useObtenerCoberturas();
+	const promociones = useObtenerPromoPushDelCliente();
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
 	const dispatch = useAppDispatch();
@@ -65,10 +67,15 @@ const Planeacion: React.FC = () => {
 	);
 
 	const coberturasAgregadas = venta?.productos.filter((producto) => {
-		if (codigosCoberturas.includes(producto.codigoProducto)) {
+		if (
+			codigosCoberturas.includes(producto.codigoProducto) &&
+			(producto.unidades > 0 || producto.subUnidades > 0)
+		) {
 			return producto;
 		}
 	});
+
+	console.log(coberturasAgregadas);
 
 	const iniciativasCanceladasSinMotivo = iniciativas.some(
 		(iniciativa) =>
@@ -101,24 +108,24 @@ const Planeacion: React.FC = () => {
 		return iniciativa.estado === 'ejecutada' && cantidadesEnIniciativa > 0;
 	});
 
-	React.useEffect(() => {
+	useEffect(() => {
 		dispatch(cambiarAvisos({cambiosPasoActual: false}));
 	}, []);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (visitaActual.seQuedaAEditar.seQueda) {
 			setExpandido('Iniciativas');
 			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: true}));
 		}
 	}, [visitaActual.seQuedaAEditar.seQueda]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		return () => {
 			dispatch(limpiarProductosSinCantidad());
 		};
 	}, []);
 
-	const [configAlerta, setConfigAlerta] = React.useState<Configuracion>({
+	const [configAlerta, setConfigAlerta] = useState<Configuracion>({
 		titulo: '',
 		mensaje: '',
 		tituloBotonAceptar: '',
@@ -130,6 +137,29 @@ const Planeacion: React.FC = () => {
 	useEffect(() => {
 		validarClienteBloqueado(setConfigAlerta, setAlertaPasos);
 	}, []);
+
+	// useEffect(() => {
+	// 	if (coberturasAgregadas.length === 0) {
+	// 		visitaActual.coberturasEjecutadas.map((cobertura) =>
+	// 			dispatch(
+	// 				agregarCoberturasEjecutadas({
+	// 					codigoProducto: cobertura.codigoProducto,
+	// 					unidades: 0,
+	// 					subUnidades: 0,
+	// 				})
+	// 			)
+	// 		);
+	// 	}
+	// 	coberturasAgregadas.map((cobertura) =>
+	// 		dispatch(
+	// 			agregarCoberturasEjecutadas({
+	// 				codigoProducto: cobertura.codigoProducto,
+	// 				unidades: cobertura.unidades,
+	// 				subUnidades: cobertura.subUnidades,
+	// 			})
+	// 		)
+	// 	);
+	// }, [coberturasAgregadas.length]);
 
 	return (
 		<Box display='flex' flexDirection='column' gap='18px'>
@@ -193,7 +223,7 @@ const Planeacion: React.FC = () => {
 				}
 				disabled={visitaActual.clienteBloqueado}
 			>
-					{/*ToDo: agregar a multilenguaje*/}
+				{/*ToDo: agregar a multilenguaje*/}
 				<div>SUGERIDOS PARA TI PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
 			<TarjetaColapsable
@@ -222,7 +252,7 @@ const Planeacion: React.FC = () => {
 						{t('titulos.promocionesDeshabilitadas')}
 					</Typography>
 				}
-				disabled={visitaActual.clienteBloqueado || iniciativasEjecutadasSinCantidad.length === 0 }
+				disabled={visitaActual.clienteBloqueado || promociones.length === 0}
 			>
 				<VistaPromoPush />
 			</TarjetaColapsable>
@@ -288,9 +318,9 @@ const Planeacion: React.FC = () => {
 				id='Coberturas'
 				expandido={expandido}
 				setExpandido={setExpandido}
-				cantidadItems={coberturasEjecutadas?.length}
-				labelChip={`${coberturasEjecutadas?.length} de ${cantidadCoberturas.length} Items`}
-				valido={coberturasEjecutadas?.length > 0}
+				cantidadItems={coberturasEjecutadas.length}
+				labelChip={`${coberturasEjecutadas.length} de ${cantidadCoberturas.length} Items`}
+				valido={coberturasEjecutadas.length > 0}
 				disabled={coberturas.length === 0 || visitaActual.clienteBloqueado}
 				mensaje={
 					<Typography
@@ -298,7 +328,7 @@ const Planeacion: React.FC = () => {
 						fontFamily='Open Sans'
 						variant='subtitle3'
 					>
-							{t('titulos.coberturasDeshabilitadas')}
+						{t('titulos.coberturasDeshabilitadas')}
 					</Typography>
 				}
 				dataCy='Coberturas'

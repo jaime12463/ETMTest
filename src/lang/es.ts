@@ -146,8 +146,7 @@ const es = {
 			'No hay disponibilidad de canje para este cliente en este momento',
 		clientes: 'Clientes',
 		coberturas: 'Coberturas',
-		coberturassDeshabilitadas:
-			'No existen coberturas para mostrar',
+		coberturasDeshabilitadas: 'No existen coberturas para mostrar',
 		envases: 'Envases retornables',
 		ingresoPedido: 'Ingreso de Pedido',
 		iniciativas: 'Iniciativas',
@@ -156,8 +155,7 @@ const es = {
 		pedidosEnCursoDeshabilitado: 'No hay pedidos para mostrar',
 		productosPedido: 'Productos del Pedido',
 		promociones: 'Promociones push',
-		promocionesDeshabilitadas:
-			'Este cliente no cuenta con promociones push',
+		promocionesDeshabilitadas: 'Este cliente no cuenta con promociones push',
 		promocionesMensaje:
 			'Visualiza las promociones push que tienes disponible para tu cliente.',
 		sugeridosDeshabilitado: 'No hay sugerencias para mostrar',
@@ -247,7 +245,7 @@ const es = {
 		montoMayorDeuda: 'El monto no puede ser mayor a la deuda registrada',
 		montoMinimo: 'No cumple con el monto mínimo de venta del pedido',
 		noEditarPlaneacionDescripcion:
-			'Para volver a editar las cantidades de coberturas e iniciativas , deberás hacerlo  en toma de pedido.',
+			'Para volver a editar las cantidades de coberturas e iniciativas, deberás hacerlo  en toma de pedido.',
 		noEditarPlaneacionTitulo: 'No es posible editar las cantidades',
 		noFechaEntregaInformada:
 			'El cliente no tiene fecha de entrega informada para la fecha actual',
@@ -329,7 +327,8 @@ const es = {
 		errorBonificacionTotalMensaje:
 			'Esta bonificación tiene que ser de aplicación total. Favor de modificar cantidades.',
 		errorBonificacionTotalTitulo: 'Error en bonificación total',
-		cantidadMayorDisponiblePromocionOngoing:'No puedes superar el límite disponible',
+		cantidadMayorDisponiblePromocionOngoing:
+			'No puedes superar el límite disponible',
 		excedeMayorPermitidoMensaje:
 			'Es necesario corregir el valor de la presentación.',
 		excedeMayorPermitidoTitulo: 'Cantidad excede el valor permitido',

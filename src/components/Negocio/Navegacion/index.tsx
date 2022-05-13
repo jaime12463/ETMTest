@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Box, Typography} from '@mui/material';
 import {AvisoIcon, CheckRedondoIcon, FlechaDerechaIcon} from 'assests/iconos';
 import {EPasos, TStatePasos} from 'models';
@@ -8,6 +8,8 @@ import {
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import i18n from 'i18next';
+import {useMostrarAviso} from 'hooks';
+import {useTranslation} from 'react-i18next';
 
 interface Props {
 	pasos: TStatePasos;
@@ -44,32 +46,37 @@ const pasosNavegacion: PasosNavegacion[] = [
 ];
 
 export const Navegacion: React.VFC<Props> = ({pasos, setPasos}) => {
-	const [inset, setInset] = React.useState<string>('inset(0px 288px 0px 15px)');
+	const [inset, setInset] = useState<string>('inset(0px 288px 0px 15px)');
 
 	const {
 		pedidos: {venta, canje, ventaenvase, prestamoenvase},
 		bonificaciones,
 		ordenDeCompra,
+		pasoATomaPedido,
 	} = useObtenerVisitaActual();
+
+	const {t} = useTranslation();
+	const mostrarAviso = useMostrarAviso();
 
 	const {monto} = useObtenerCompromisoDeCobroActual();
 
-	const [ventaProductos, setVentaProductos] = React.useState<string>(
+	const [ventaProductos, setVentaProductos] = useState<string>(
 		JSON.stringify(venta.productos)
 	);
 
-	const [canjeProductos, setCanjeProductos] = React.useState<string>(
+	const [canjeProductos, setCanjeProductos] = useState<string>(
 		JSON.stringify(canje.productos)
 	);
 
-	const [ventaEnvaseProductos, setVentaEnvaseProductos] =
-		React.useState<string>(JSON.stringify(ventaenvase.productos));
+	const [ventaEnvaseProductos, setVentaEnvaseProductos] = useState<string>(
+		JSON.stringify(ventaenvase.productos)
+	);
 
 	const [prestamoEnvaseProductos, setPrestamoEnvaseProductos] =
-		React.useState<string>(JSON.stringify(prestamoenvase.productos));
+		useState<string>(JSON.stringify(prestamoenvase.productos));
 
 	const [bonificacionesProductos, setBonificacionesProductos] =
-		React.useState<string>(() => {
+		useState<string>(() => {
 			const detalleBonificaciones = bonificaciones
 				.map((bonificacion) => bonificacion.detalle)
 				.flat();
@@ -78,11 +85,10 @@ export const Navegacion: React.VFC<Props> = ({pasos, setPasos}) => {
 		});
 
 	const [ordenDeCompraProductos, setOrdenDeCompraProductos] =
-		React.useState(ordenDeCompra);
-	const [compromisoDeCobro, setCompromisoDeCobro] =
-		React.useState<number>(monto);
+		useState(ordenDeCompra);
+	const [compromisoDeCobro, setCompromisoDeCobro] = useState<number>(monto);
 
-	const [cambioPedido, setCambioPedido] = React.useState<boolean>(false);
+	const [cambioPedido, setCambioPedido] = useState<boolean>(false);
 
 	const onClick = (step: TStatePasos['actual']) => {
 		setPasos((state) => {
@@ -103,8 +109,18 @@ export const Navegacion: React.VFC<Props> = ({pasos, setPasos}) => {
 		});
 	};
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (pasos.actual === EPasos.Planeacion) {
+			if (pasoATomaPedido) {
+				mostrarAviso(
+					'warning',
+					t('advertencias.noEditarPlaneacionTitulo'),
+					t('advertencias.noEditarPlaneacionDescripcion'),
+					undefined,
+					'advertenciaPaso1'
+				);
+			}
+
 			setInset('inset(0px 288px 0px 15px)');
 		}
 
@@ -127,7 +143,7 @@ export const Navegacion: React.VFC<Props> = ({pasos, setPasos}) => {
 		}
 	}, [pasos.actual]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (ventaProductos !== JSON.stringify(venta.productos)) {
 			setVentaProductos(JSON.stringify(venta.productos));
 			if (
@@ -199,7 +215,7 @@ export const Navegacion: React.VFC<Props> = ({pasos, setPasos}) => {
 		monto,
 	]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (cambioPedido) {
 			setPasos((state) => {
 				if (state.actual === EPasos.TomaPedido) {

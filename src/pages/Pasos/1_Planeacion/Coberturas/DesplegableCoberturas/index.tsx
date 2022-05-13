@@ -49,11 +49,9 @@ const DesplegableCoberturas: React.VFC<Props> = ({
 		React.useState<InputsKeysFormTomaDePedido>('unidades');
 	const [focusId, setFocusId] = React.useState<number>(0);
 
-	const manejadorExpandido =
-		({id}: any) =>
-		(event: React.SyntheticEvent) => {
-			setExpandido(id);
-		};
+	const manejadorExpandido = (id: string | boolean) => {
+		setExpandido(id);
+	};
 
 	return (
 		<Card
@@ -90,7 +88,7 @@ const DesplegableCoberturas: React.VFC<Props> = ({
 						{coberturasAgregadas.some(
 							(cobertura) => cobertura.unidades > 0 || cobertura.subUnidades > 0
 						) ? (
-							<Box display='flex' alignSelf='center' gap='7px'>
+							<Box alignItems='center' display='flex' gap='7px'>
 								<Typography variant='subtitle3'>
 									{`${
 										coberturasAgregadas.filter(
@@ -100,7 +98,7 @@ const DesplegableCoberturas: React.VFC<Props> = ({
 									} de ${codigosProductos.length} Items`}
 								</Typography>
 								{expandido !== id && (
-									<CheckRedondoIcon height='12px' width='12px' />
+									<CheckRedondoIcon height={14} width={14} />
 								)}
 							</Box>
 						) : (
@@ -142,9 +140,7 @@ const DesplegableCoberturas: React.VFC<Props> = ({
 				>
 					<BotonSmall
 						fullWidth
-						onClick={manejadorExpandido({
-							id: expandido === id ? false : id,
-						})}
+						onClick={() => manejadorExpandido(expandido === id ? false : id)}
 					>
 						<Typography
 							fontFamily='Open Sans'
