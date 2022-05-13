@@ -6,7 +6,7 @@ import {
 	Estructura,
 	BotonBarraInferior,
 	Dialogo,
-	BotonResumenPedido,
+	// BotonResumenPedido,
 	ModalCore,
 } from 'components/UI';
 import {Box} from '@mui/material';
@@ -410,7 +410,7 @@ const Pasos: React.FC = () => {
 			agregarPedidoActualAPedidosClientes();
 		}
 	};
-
+	
 	return (
 		<Suspense fallback={<Loading />}>
 			<Estructura>
@@ -418,7 +418,8 @@ const Pasos: React.FC = () => {
 					esConFechaHaciaAtras={true}
 					titulo={razonSocial}
 					onClick={() => manejadorPasoAtras()}
-				>
+					>
+					{/* <BotonResumenPedido setOpen={setOpenResumenPedido} /> */}
 					<InfoClienteDelPedidoActual />
 				</Estructura.Encabezado>
 				<Estructura.Cuerpo>
@@ -446,13 +447,12 @@ const Pasos: React.FC = () => {
 							setPasoActual={setPasoActual}
 							contenidoMensaje={configAlerta}
 						/>
-						<ModalCore open={openResumenPedido}>
+						{/* <ModalCore open={openResumenPedido}>
 							<ResumenPedido setOpen={setOpenResumenPedido} />
-						</ModalCore>
+						</ModalCore> */}
 					</Box>
 				</Estructura.Cuerpo>
 				<Estructura.PieDePagina>
-					<BotonResumenPedido setOpen={setOpenResumenPedido} />
 					<BotonBarraInferior
 						descripcion={leyendaBoton}
 						numeroItems={formatearItems(itemsValorizados.length)}

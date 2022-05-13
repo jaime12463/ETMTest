@@ -12,7 +12,6 @@ import {
 	cambiarSeQuedaAEditar,
 	limpiarProductosSinCantidad,
 	cambiarAvisos,
-	agregarCoberturasEjecutadas,
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {Configuracion, Modal} from 'components/UI';
 import {useValidarClienteBloqueado} from './hooks';
@@ -21,7 +20,7 @@ import {Iniciativas} from './Iniciativas';
 import {Coberturas} from './Coberturas';
 import {EPasos, TStatePasos} from 'models';
 
-const Planeacion: React.FC = () => {
+const Planeacion: React.VFC = () => {
 	const [expandido, setExpandido] = useState<string | boolean>(false);
 	const {t} = useTranslation();
 	const {iniciativas} = useObtenerVisitaActual();
@@ -195,6 +194,7 @@ const Planeacion: React.FC = () => {
 				}
 				disabled={visitaActual.clienteBloqueado}
 			>
+				{/*ToDo: pasar a multilenguaje*/}
 				<div> PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
 			<TarjetaColapsable

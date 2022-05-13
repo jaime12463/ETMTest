@@ -11,11 +11,11 @@ interface Props {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const BotonResumenPedido: React.VFC<Props> = ({setOpen}) => {
+export const BotonResumenPedido: React.VFC<Props> = ({ setOpen }) => {
 	const [botonHabilitado, setBotonHabilitado] = React.useState<boolean>(false);
 	const visitaActual = useObtenerVisitaActual();
 	const compromisoDeCobro = useObtenerCompromisoDeCobroActual();
-	const {venta, prestamoenvase, ventaenvase, canje} = visitaActual.pedidos;
+	const { venta, prestamoenvase, ventaenvase, canje } = visitaActual.pedidos;
 	const bonificacionesEjecutadas = visitaActual.bonificaciones.filter(
 		(bonificacion) => {
 			if (bonificacion.detalle.length > 0) {
@@ -26,7 +26,7 @@ export const BotonResumenPedido: React.VFC<Props> = ({setOpen}) => {
 
 	const ordenDeCompra = visitaActual.ordenDeCompra === '' ? false : true;
 
-	const classes = useEstilos({botonHabilitado});
+	const classes = useEstilos({ botonHabilitado });
 
 	React.useEffect(() => {
 		if (
@@ -63,8 +63,22 @@ export const BotonResumenPedido: React.VFC<Props> = ({setOpen}) => {
 			className={classes.container}
 			onClick={() => setOpen((prevState) => !prevState)}
 		>
-			<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
-				Ver resumen del pedido
+			<Typography
+				variant='caption'
+				sx={{
+					fontFamily:'Open Sans',
+					fontSize: '12px',
+					lineHeight: '16px',
+					fontStyle: 'normal',
+					fontWeight: 600,
+					color: '#000',
+				  }}
+				// fontstyle='normal'
+				// fontweight='600'
+				// fontsize='12px'
+				// lineheight='16px'
+			>
+				Resumen del pedido
 			</Typography>
 		</Box>
 	);
