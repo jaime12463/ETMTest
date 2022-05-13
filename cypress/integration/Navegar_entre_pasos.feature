@@ -30,7 +30,8 @@ Escenario: N°3 - Navegar entre pasos
     Entonces el sistema mostrará la pantalla del paso seleccionado
     Y mantendrá con color verde los pasos ya visitados
     Y mostratrá habilitado el paso seleccionado
-    Y en color bordó.
+    Y en color bordó
+    Y si es el paso planeación, mostrará el aviso que no puede editar tarjetas
 
 Escenario: N°4 - Cambios en el pedido
     Dado que se navegó desde un paso posterior a toma de pedido
