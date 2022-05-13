@@ -19,7 +19,7 @@ Esquema del escenario: N°1 - Compromiso de cobro en paso otros
     Entonces el sistema mostrará en la tarjeta compromiso de cobro el listado de documentos ordenados por vencimiento ascendente
     Y mostrará de título compromiso de cobro
     Y mostrará el control para registrar compromiso de cobro
-    Y mostrará el icono que indica la leyenda de colores
+    Y mostrará el icono que indica la leyenda de colores: verde partidas abiertas, amarrillo partidas a punto de vencer, rojo partidas vencidas
     Y mostrará el límite de crédito
     Y mostrará el disponible = límite crédito menos la suma de los saldos de los documentos pendientes 
     Y mostrará la deuda pendiente = suma de los saldos de los documentos pendientes 
