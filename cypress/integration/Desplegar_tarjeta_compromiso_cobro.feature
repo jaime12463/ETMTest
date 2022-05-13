@@ -28,12 +28,9 @@ Esquema del escenario: N°1 - Compromiso de cobro en paso otros
     Y mostrará cada documento en '<color>' según '<condicion>'
 
 Ejemplos:
-Ejemplos:
     | color     |  condicion                                                                                                                                                |
-    |  Verde    | si diasWarningDesde y diasWarningHasta >= 0 y la fecha del dispositivo < fecha de vencimiento - diasWarningDesde                                          |
-    |  Verde    | si diasWarningDesde y diasWarningHasta < 0 y la fecha del dispositivo < fecha de vencimiento + diasWarningDesde                                           |
-    |  Amarillo | si diasWarningDesde y diasWarningHasta >= 0 y fecha de vencimiento - diasWarningDesde <= fecha del dispositivo <= fecha de vencimiento + diasWarningHasta |
-    |  Amarillo | si diasWarningDesde y diasWarningHasta < 0 y fecha de vencimiento + diasWarningDesde <= fecha del dispositivo <= fecha de vencimiento + diasWarningHasta  |
+    |  Verde    | si la fecha del dispositivo < fecha de vencimiento + diasWarningDesde                                                                                     |
+    |  Amarillo | si la fecha de vencimiento + diasWarningDesde <= fecha del dispositivo <= fecha de vencimiento + diasWarningHasta                                         |
     |  Rojo     | si la fecha del dispositivo > fecha de vencimiento + diasWarningHasta                                                                                     |
                                                                             
 
