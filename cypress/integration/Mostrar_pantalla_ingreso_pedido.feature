@@ -131,15 +131,18 @@ Esquema del escenario: N°7 - El cliente es de crédito informal sin crédito bl
     Cuando ingreso a registrar un pedido con un cliente en condición de pago crédito informal
     Y '<estadoCredito>' es crédito Disponible mayor a cero
     Y '<estadoPedidoMaximo>' es Pedido máximo cumplido
-    Entonces el sistema mostrará '<estadoPanelIngresoProducto>', '<estadoEncendidoSwitch>' y '<estadoHabilitacionSwitch>' 
+    Entonces el sistema establecerá el switch en condición default según _condicionDePagoDefault
+    Y mostrará '<estadoPanelIngresoProducto>', '<estadoEncendidoSwitch>' y '<estadoHabilitacionSwitch>' 
     Y mostrará el combo de seleccion del tipo de pedido cargado con la _descripcion de los _tipoPedidoHabilitados del cliente, ordenados por _secuencia ascendente y mostrara como valor default la _decripcion del tipo de pedido cuyo _esValorizado = true.
 
 Ejemplos:
-|estadoCredito|estadoPedidoMaximo|estadoPanelIngresoProducto|estadoEncendidoSwitch|estadoHabilitacionSwitch|
-|     Si      |       No         |Si                        |On                   |enabled                 | desplegar |
-|     No      |       No         |Si                        |Off                  |disabled                | desplegar |
-|     Si      |       Si         |Si                        |On                   |disabled                | desplegar |
-|     No      |       Si         |No                        |On                   |disabled                | mostrar   |
+|estadoCredito|estadoPedidoMaximo|estadoPanelIngresoProducto|estadoEncendidoSwitch   |estadoHabilitacionSwitch|
+|     Si      |       No         |Si                        |_condicionDePagoDefault |enabled                 | desplegar |
+|     No      |       No         |Si                        |Off                     |disabled                | desplegar |
+|     Si      |       Si         |Si                        |On                      |disabled                | desplegar |
+|     No      |       Si         |No                        |On                      |disabled                | mostrar   |
+
+#_condicionDePagoDefault: credito o contado según configuración.
 
 # solo pedidos ya registrados
 Esquema del escenario: N°8 - El cliente es de crédito informal con crédito bloqueado

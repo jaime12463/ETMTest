@@ -41,17 +41,17 @@ Esquema del escenario: N°4 - El cliente es de crédito informal sin crédito bl
     Y '<estadoCredito>' es crédito Disponible mayor a cero
     Y '<estadoPedidoMaximo>' es Pedido máximo cumplido, sin contar el pedido en curso y sin los compromisos de pago realizados en la visita actual
     Cuando muestra la tarjeta desplegada
-    Entonces el sistema mostrará el switch de condicion de pago '<estadoEncendidoSwitch>' y '<estadoHabilitacionSwitch>' 
+    Entonces el sistema mostrará el switch de condicion de pago segun '<estadoEncendidoSwitch>' y '<estadoHabilitacionSwitch>' 
     Y mostrará el switch en las tarjetas de producto
 
 Ejemplos:
-|estadoCredito|estadoPedidoMaximo|estadoPanelIngresoProducto|estadoEncendidoSwitch|estadoHabilitacionSwitch|
-|     Si      |       No         |Si                        |Credito              |habilitado              |  
-|     No      |       No         |Si                        |Contado              |deshabilitado           |  
-|     Si      |       Si         |Si                        |Credito              |deshabilitado           | 
+|estadoCredito|estadoPedidoMaximo|estadoPanelIngresoProducto|estadoEncendidoSwitch   |estadoHabilitacionSwitch|
+|     Si      |       No         |Si                        |_condicionDePagoDefault |habilitado              |  
+|     No      |       No         |Si                        |Contado                 |deshabilitado           |  
+|     Si      |       Si         |Si                        |Credito                 |deshabilitado           | 
 
 # Para el caso de estadoPanelIngresoProducto en NO, se contempla en Mostrar_tarjeta_toma_pedido que es previo a esta historia de usuario
-
+# _condicionDePagoDefault: puede ser contado o crédito, según configuración
 
 # solo pedidos ya registrados
 Escenario: N°5 - El cliente es de crédito informal con crédito bloqueado
