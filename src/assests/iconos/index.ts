@@ -20,6 +20,7 @@ export * from './FlechaArribaIcon';
 export * from './FlechaDerechaIcon';
 export * from './FlechaIzquierdaIcon';
 export * from './InformacionIcon';
+export * from './OjoIcono';
 export * from './PromocionColor';
 export * from './PromocionesIcon';
 export * from './PromocionesRellenoIcon';
