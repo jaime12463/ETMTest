@@ -28,10 +28,10 @@ Esquema del escenario: N°1 - Compromiso de cobro en paso otros
     Y mostrará cada documento en '<color>' según '<condicion>'
 
 Ejemplos:
-    | color     |  condicion                                                                                                                                                |
-    |  Verde    | si la fecha del dispositivo < fecha de vencimiento + diasWarningDesde                                                                                     |
-    |  Amarillo | si la fecha de vencimiento + diasWarningDesde <= fecha del dispositivo <= fecha de vencimiento + diasWarningHasta                                         |
-    |  Rojo     | si la fecha del dispositivo > fecha de vencimiento + diasWarningHasta                                                                                     |
+    | color     |  condicion                                                                                                                               |
+    |  Verde    | si la fecha del dispositivo < fecha de vencimiento + diasAlertaVencimientoDesde                                                          |
+    |  Amarillo | si la fecha de vencimiento + diasAlertaVencimientoDesde <= fecha del dispositivo <= fecha de vencimiento + diasAlertaVencimientoHasta    |
+    |  Rojo     | si la fecha del dispositivo > fecha de vencimiento + diasAlertaVencimientoHasta                                                          |
                                                                             
 
 #En la lista mostrar número de documento, vencimiento y saldo 
