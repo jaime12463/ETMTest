@@ -10,5 +10,6 @@ Característica: Mostrar mensajes en formato toast
 
 Escenario: N°1 - Mostrar toast de eventos
     Dado que se realizó una acción en la aplicación
+    Y se debe dar un mensaje
     Cuando se muestra un mensaje toast
     Entonces el sistema mostrará el mensaje con una duración de _tiempoToastEnSegundos segundos
