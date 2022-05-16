@@ -6,7 +6,7 @@ import {
 	Estructura,
 	BotonBarraInferior,
 	Dialogo,
-	// BotonResumenPedido,
+	BotonResumenPedido,
 	ModalCore,
 } from 'components/UI';
 import {Box} from '@mui/material';
@@ -57,6 +57,7 @@ import {
 	TPromoOngoingDisponibilidad,
 } from 'utils/procesos/promociones/PromocionesOngoing';
 import {Loading, Modal} from 'components/UI';
+import {FechaEntregaDelPedidoActual} from '../../components/Negocio/FechaEntregaDelPedidoActual/index';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -435,8 +436,9 @@ const Pasos: React.FC = () => {
 					esConFechaHaciaAtras={true}
 					titulo={razonSocial}
 					onClick={() => manejadorPasoAtras()}
+					botonResumen={<BotonResumenPedido setOpen={setOpenResumenPedido} />}
+					fechaEntrega={<FechaEntregaDelPedidoActual />}
 				>
-					{/* <BotonResumenPedido setOpen={setOpenResumenPedido} /> */}
 					<InfoClienteDelPedidoActual />
 				</Estructura.Encabezado>
 				<Estructura.Cuerpo>
@@ -464,9 +466,9 @@ const Pasos: React.FC = () => {
 							setPasoActual={setPasoActual}
 							contenidoMensaje={configAlerta}
 						/>
-						{/* <ModalCore open={openResumenPedido}>
+						<ModalCore open={openResumenPedido}>
 							<ResumenPedido setOpen={setOpenResumenPedido} />
-						</ModalCore> */}
+						</ModalCore>
 					</Box>
 				</Estructura.Cuerpo>
 				<Estructura.PieDePagina>

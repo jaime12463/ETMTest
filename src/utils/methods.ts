@@ -9,10 +9,10 @@ import {
 	TPrecioProducto,
 } from 'models/redux';
 
-import {useObtenerPedidosClientes, useObtenerVisitaActual} from 'redux/hooks';
+import { useObtenerPedidosClientes, useObtenerVisitaActual } from 'redux/hooks';
 
-import {TpresupuestoTipoPedido, TTipoPedido} from 'models/server';
-import {TFunction} from 'react-i18next';
+import { TpresupuestoTipoPedido, TTipoPedido } from 'models/server';
+import { TFunction } from 'react-i18next';
 
 export const formatoNumeroConDecimales = (
 	numero: number,
@@ -83,6 +83,16 @@ export const formatearFecha = (
 		return `${arregloFecha[1]}-${arregloFecha[2]}-${arregloFecha[0]}`;
 	else return `${arregloFecha[2]}-${arregloFecha[1]}-${arregloFecha[0]}`;
 };
+
+export const formatearFechaIntl = (
+	fecha: string,
+	language: string,
+): string => {
+	let fechaSplit=fecha.split('-');
+	let vFecha= new Date(Number(fechaSplit[0]),Number(fechaSplit[1])-1,Number(fechaSplit[2]))
+	let fechaConFormato=new Intl.DateTimeFormat(language,{day:'numeric', month:'long', year:'numeric'}).format(vFecha);
+	return fechaConFormato.replaceAll('de','-');
+}
 
 export const fechaDispositivo = (): string => {
 	let fechaDispositivo: string | null =

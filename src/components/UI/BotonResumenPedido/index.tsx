@@ -6,6 +6,7 @@ import {
 	useObtenerCompromisoDeCobroActual,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
+import { OjoIcon } from 'assests/iconos';
 
 interface Props {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -63,20 +64,12 @@ export const BotonResumenPedido: React.VFC<Props> = ({ setOpen }) => {
 			className={classes.container}
 			onClick={() => setOpen((prevState) => !prevState)}
 		>
+			<OjoIcon/>
 			<Typography
-				variant='caption'
-				sx={{
-					fontFamily:'Open Sans',
-					fontSize: '12px',
-					lineHeight: '16px',
-					fontStyle: 'normal',
-					fontWeight: 600,
-					color: '#000',
-				  }}
-				// fontstyle='normal'
-				// fontweight='600'
-				// fontsize='12px'
-				// lineheight='16px'
+				variant='subtitle3'
+				fontFamily='Open Sans'
+				color= '#000'
+				padding='2px'
 			>
 				Resumen del pedido
 			</Typography>
