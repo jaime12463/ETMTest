@@ -1,16 +1,16 @@
-import React, {Suspense, FunctionComponent, useEffect, useState} from 'react';
-import {useHistory} from 'react-router-dom';
-import {IndicadoresDelPedidoActual} from './components';
-import {controlador} from './controlador';
+import React, { Suspense, FunctionComponent, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { IndicadoresDelPedidoActual } from './components';
+import { controlador } from './controlador';
 import {
 	Estructura,
 	BotonBarraInferior,
 	Dialogo,
-	// BotonResumenPedido,
+	BotonResumenPedido,
 	ModalCore,
 } from 'components/UI';
-import {Box} from '@mui/material';
-import {InfoClienteDelPedidoActual, Navegacion} from 'components/Negocio';
+import { Box } from '@mui/material';
+import { InfoClienteDelPedidoActual, Navegacion } from 'components/Negocio';
 import {
 	useObtenerPedidosValorizados,
 	useObtenerTotalPedidosVisitaActual,
@@ -23,8 +23,8 @@ import {
 	useObtenerTiposPedidoSegunConfiguracion,
 	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
-import {useAgregarPedidoActualAPedidosClientes} from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
-import {Configuracion} from 'components/UI/Modal';
+import { useAgregarPedidoActualAPedidosClientes } from 'pages/Pasos/2_TomaDePedido/components/BotonCerrarPedidoDelCliente/hooks';
+import { Configuracion } from 'components/UI/Modal';
 import {
 	useAppDispatch,
 	useObtenerClienteActual,
@@ -41,22 +41,23 @@ import {
 	TPromoOngoingAplicadas,
 	TStatePasos,
 } from 'models';
-import {useTranslation} from 'react-i18next';
-import {useReiniciarCompromisoDeCobro} from 'hooks/useReiniciarCompromisoDeCobro';
-import {AvisoIcon} from 'assests/iconos';
+import { useTranslation } from 'react-i18next';
+import { useReiniciarCompromisoDeCobro } from 'hooks/useReiniciarCompromisoDeCobro';
+import { AvisoIcon } from 'assests/iconos';
 import ResumenPedido from 'components/UI/ResumenPedido';
 import {
 	agregarBeneficiosPromoOngoing,
 	cambiarAvisos,
 	cambiarSeQuedaAEditar,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {obtenerTotalesPedidosCliente} from 'utils/methods';
+import { obtenerTotalesPedidosCliente } from 'utils/methods';
 import {
 	PromocionesOngoing,
 	TPromoOngoingAplicablesResultado,
 	TPromoOngoingDisponibilidad,
 } from 'utils/procesos/promociones/PromocionesOngoing';
-import {Loading, Modal} from 'components/UI';
+import { Loading, Modal } from 'components/UI';
+import { FechaEntregaDelPedidoActual } from '../../components/Negocio/FechaEntregaDelPedidoActual/index';
 
 const formatearItems = (items: number) => {
 	const cerosCharacters = 3;
@@ -66,7 +67,7 @@ const formatearItems = (items: number) => {
 };
 
 const Pasos: React.FC = () => {
-	const {t} = useTranslation();
+	const { t } = useTranslation();
 	const [pasoActual, setPasoActual] = useState<TStatePasos>({
 		actual: EPasos.Planeacion,
 		visitados: {
@@ -76,7 +77,7 @@ const Pasos: React.FC = () => {
 			[EPasos.FinalizarPedido]: false,
 		},
 	});
-	const {tipoPedidoEnvasesHabilitados, tipoPedidos} = useObtenerConfiguracion();
+	const { tipoPedidoEnvasesHabilitados, tipoPedidos } = useObtenerConfiguracion();
 	const [leyendaBoton, setLeyendaBoton] = useState(
 		`${t('general.continuarA')} ${t(controlador[1].titulo)}`
 	);
@@ -88,14 +89,14 @@ const Pasos: React.FC = () => {
 		tituloBotonAceptar: '',
 		tituloBotonCancelar: '',
 		iconoMensaje: <></>,
-		callbackAceptar: () => {},
+		callbackAceptar: () => { },
 	});
 	const dispatch = useAppDispatch();
 	const history = useHistory();
-	const {razonSocial, codigoCliente}: TClienteActual =
+	const { razonSocial, codigoCliente }: TClienteActual =
 		useObtenerClienteActual();
 	const mostrarAviso = useMostrarAviso();
-	const {obtenerDatosCliente} = useObtenerDatosCliente();
+	const { obtenerDatosCliente } = useObtenerDatosCliente();
 	const ObtenerPedidosValorizados = useObtenerPedidosValorizados();
 	const itemsValorizados = ObtenerPedidosValorizados();
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
@@ -111,9 +112,9 @@ const Pasos: React.FC = () => {
 	const obtenerTotalPedidosVisitaActual = useObtenerTotalPedidosVisitaActual();
 	const datosCliente: TCliente | undefined = obtenerDatosCliente(codigoCliente);
 	if (!datosCliente) return <></>;
-	const {mostarDialogo, parametrosDialogo} = useMostrarAdvertenciaEnDialogo();
+	const { mostarDialogo, parametrosDialogo } = useMostrarAdvertenciaEnDialogo();
 	const agregarPedidoActualAPedidosClientes =
-		useAgregarPedidoActualAPedidosClientes({setAlertaPasos, setConfigAlerta});
+		useAgregarPedidoActualAPedidosClientes({ setAlertaPasos, setConfigAlerta });
 
 	const totalVisitaActual =
 		obtenerTotalPedidosVisitaActual().totalPrecio +
@@ -122,7 +123,7 @@ const Pasos: React.FC = () => {
 	const visitaActual = useObtenerVisitaActual();
 	const reiniciarVisita = useResetVisitaActual();
 	const reiniciarCompromisoDeCobro = useReiniciarCompromisoDeCobro();
-	const {obtenerPedidosClienteMismaFechaEntrega} =
+	const { obtenerPedidosClienteMismaFechaEntrega } =
 		useObtenerPedidosClienteMismaFechaEntrega();
 	const pedidosClienteMismaFechaEntrega =
 		obtenerPedidosClienteMismaFechaEntrega(datosCliente?.codigoCliente ?? '');
@@ -185,7 +186,7 @@ const Pasos: React.FC = () => {
 		}
 
 		if (pasoActual.actual === 2 && visitaActual.seQuedaAEditar.seQueda) {
-			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
+			dispatch(cambiarSeQuedaAEditar({ seQueda: true, bordeError: true }));
 			mostrarAviso(
 				'error',
 				t('toast.errorBonificacionTotalTitulo'),
@@ -194,7 +195,7 @@ const Pasos: React.FC = () => {
 			return;
 		}
 
-		setPasoActual((state) => ({...state, actual: state.actual - 1}));
+		setPasoActual((state) => ({ ...state, actual: state.actual - 1 }));
 	};
 
 	const pedidoMinimoCumplido =
@@ -230,7 +231,7 @@ const Pasos: React.FC = () => {
 						callbackAceptar: () => {
 							setPasoActual((state) => ({
 								...state,
-								visitados: {...state.visitados, [state.actual + 1]: true},
+								visitados: { ...state.visitados, [state.actual + 1]: true },
 								actual: state.actual + 1,
 							}));
 							setPasos(
@@ -271,8 +272,8 @@ const Pasos: React.FC = () => {
 						benficiosParaAgregar: TPromoOngoingAplicadas[];
 						disponibles: TPromoOngoingDisponibilidad;
 					} = {
-						contado: {promosAplicables: [], indiceProductosxPromosManuales: []},
-						credito: {promosAplicables: [], indiceProductosxPromosManuales: []},
+						contado: { promosAplicables: [], indiceProductosxPromosManuales: [] },
+						credito: { promosAplicables: [], indiceProductosxPromosManuales: [] },
 						noAplicable: [],
 						benficiosParaAgregar: [],
 						disponibles: {},
@@ -284,15 +285,15 @@ const Pasos: React.FC = () => {
 					) {
 						let tipos: ETiposDePago[] =
 							visitaActual?.avisos?.cambioElPedidoSinPromociones.contado &&
-							visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
+								visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
 								? [ETiposDePago.Contado, ETiposDePago.Credito]
 								: visitaActual?.avisos?.cambioElPedidoSinPromociones.contado &&
-								  !visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
-								? [ETiposDePago.Contado]
-								: visitaActual?.avisos?.cambioElPedidoSinPromociones.credito &&
-								  !visitaActual?.avisos?.cambioElPedidoSinPromociones.contado
-								? [ETiposDePago.Credito]
-								: [ETiposDePago.Contado, ETiposDePago.Credito];
+									!visitaActual?.avisos?.cambioElPedidoSinPromociones.credito
+									? [ETiposDePago.Contado]
+									: visitaActual?.avisos?.cambioElPedidoSinPromociones.credito &&
+										!visitaActual?.avisos?.cambioElPedidoSinPromociones.contado
+										? [ETiposDePago.Credito]
+										: [ETiposDePago.Contado, ETiposDePago.Credito];
 
 						promociones = promocionesOngoing.calcular(
 							visitaActual?.pedidos?.venta?.productos,
@@ -327,7 +328,7 @@ const Pasos: React.FC = () => {
 						dispatch(
 							cambiarAvisos({
 								calculoPromociones: true,
-								cambioElPedidoSinPromociones: {contado: false, credito: false},
+								cambioElPedidoSinPromociones: { contado: false, credito: false },
 							})
 						);
 					}
@@ -383,8 +384,8 @@ const Pasos: React.FC = () => {
 							!datosCliente?.informacionCrediticia.esBloqueadoVenta &&
 							datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima &&
 							totalesPedidoCliente +
-								(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0) <
-								datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
+							(obtenerTotalPedidosVisitaActual().totalPrecio ?? 0) <
+							datosCliente?.configuracionPedido.ventaMinima?.montoVentaMinima
 						) {
 							mostrarAviso(
 								'warning',
@@ -410,7 +411,6 @@ const Pasos: React.FC = () => {
 			agregarPedidoActualAPedidosClientes();
 		}
 	};
-	
 	return (
 		<Suspense fallback={<Loading />}>
 			<Estructura>
@@ -418,8 +418,9 @@ const Pasos: React.FC = () => {
 					esConFechaHaciaAtras={true}
 					titulo={razonSocial}
 					onClick={() => manejadorPasoAtras()}
-					>
-					{/* <BotonResumenPedido setOpen={setOpenResumenPedido} /> */}
+					botonResumen={<BotonResumenPedido setOpen={setOpenResumenPedido} />}
+					fechaEntrega={<FechaEntregaDelPedidoActual/>}
+				>
 					<InfoClienteDelPedidoActual />
 				</Estructura.Encabezado>
 				<Estructura.Cuerpo>
@@ -431,7 +432,7 @@ const Pasos: React.FC = () => {
 						marginBottom='12px'
 						position='sticky'
 						top='2px'
-						sx={{zIndex: 99}}
+						sx={{ zIndex: 99 }}
 					>
 						<Navegacion pasos={pasoActual} setPasos={setPasoActual} />
 					</Box>
@@ -447,9 +448,9 @@ const Pasos: React.FC = () => {
 							setPasoActual={setPasoActual}
 							contenidoMensaje={configAlerta}
 						/>
-						{/* <ModalCore open={openResumenPedido}>
+						<ModalCore open={openResumenPedido}>
 							<ResumenPedido setOpen={setOpenResumenPedido} />
-						</ModalCore> */}
+						</ModalCore>
 					</Box>
 				</Estructura.Cuerpo>
 				<Estructura.PieDePagina>
@@ -470,7 +471,7 @@ type Props = {
 	pasoActivo: number;
 };
 
-const Contenedor: FunctionComponent<Props> = ({pasoActivo}) => {
+const Contenedor: FunctionComponent<Props> = ({ pasoActivo }) => {
 	return controlador[pasoActivo].componente;
 };
 

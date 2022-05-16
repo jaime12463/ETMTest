@@ -7,8 +7,6 @@ import { ReactComponent as Logo } from 'assests/images/logo.svg';
 import { Grid, Stack, Box } from '@mui/material';
 import { RetrocederIcon } from 'assests/iconos';
 import theme from 'theme';
-import { BotonResumenPedido, ModalCore } from 'components/UI';
-import ResumenPedido from 'components/UI/ResumenPedido';
 import React from 'react';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
@@ -22,6 +20,8 @@ interface Props {
 	esConFechaHaciaAtras?: boolean;
 	titulo?: string;
 	onClick?: Function;
+	botonResumen?: JSX.Element;
+	fechaEntrega?: JSX.Element;
 }
 
 const Encabezado: React.FC<Props> = ({
@@ -30,14 +30,13 @@ const Encabezado: React.FC<Props> = ({
 	acciones,
 	titulo,
 	onClick,
+	botonResumen,
+	fechaEntrega,
 }) => {
 	const [openResumenPedido, setOpenResumenPedido] = React.useState<boolean>(false);
 
 	return (
 		<AppBar position='relative' elevation={0} sx={{ height: 69 }}>
-			<ModalCore open={openResumenPedido}>
-				<ResumenPedido setOpen={setOpenResumenPedido} />
-			</ModalCore>
 			<Toolbar
 				sx={{
 					height: '100%',
@@ -52,26 +51,41 @@ const Encabezado: React.FC<Props> = ({
 						data-cy='boton-atras'
 						sx={{
 							position: 'absolute',
-							left: '3px',
+							left: '0',
+							top: '0'
 						}}
 					>
 						<RetrocederIcon />
 					</IconButton>
 				)}
-				<Typography fontSize='16px' margin='-48px' fontWeight={700} 
-				style={{position:'fixed', top:'80px', left: '90px'}}>
-					{titulo ?? children}
-				</Typography>
-				<Logo
-					style={{
-						position: 'relative',
-						left: '-57px',
-						top: '4px',
-						opacity: '34%',
-						zIndex: 101,
-					}}
-				/>
-				<BotonResumenPedido setOpen={setOpenResumenPedido}/>
+				<Box>
+					<Typography fontSize='12px' fontWeight={700}
+						style={{
+							position: 'absolute',
+							top: '23px',
+							left: '14px',
+    						width:'173px',
+    						textOverflow: 'ellipsis',
+    						overflow:'hidden',
+    						whiteSpace:'nowrap',
+							// -webkit-box-orient: vertical,
+							// -webkit-line-clamp: 2,
+							// line-height: 1,
+						}}>
+						{titulo ?? children}
+					</Typography>
+					<Logo
+						style={{
+							position: 'absolute',
+							left: '9px',
+							top: '12px',
+							opacity: '34%',
+							zIndex: 101,
+						}}
+					/>
+				</Box>
+				{fechaEntrega && fechaEntrega}
+				{botonResumen && botonResumen}
 				{acciones && acciones}
 			</Toolbar>
 			<Box
