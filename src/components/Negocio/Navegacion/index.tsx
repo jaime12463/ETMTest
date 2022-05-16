@@ -94,6 +94,35 @@ export const Navegacion: React.VFC<Props> = ({pasos, setPasos}) => {
 	const [cambioPedido, setCambioPedido] = useState<boolean>(false);
 
 	const onClick = (step: TStatePasos['actual']) => {
+		if (
+			visitaActual.seQuedaAEditar.bordeError ||
+			visitaActual.seQuedaAEditar.seQueda
+		) {
+			if (
+				pasos.actual === EPasos.Otros &&
+				visitaActual.seQuedaAEditar.seQueda
+			) {
+				mostrarAviso(
+					'error',
+					t('toast.errorBonificacionTotalTitulo'),
+					t('toast.errorBonificacionTotalMensaje')
+				);
+				return;
+			}
+
+			if (
+				pasos.actual === EPasos.Otros &&
+				visitaActual.seQuedaAEditar.bordeError
+			) {
+				mostrarAviso(
+					'error',
+					t('toast.errorBonificacionExcedeCantidadTitulo'),
+					t('toast.errorBonificaionExcedeCantidadMensaje')
+				);
+				return;
+			}
+		}
+
 		setPasos((state) => {
 			if (state.actual > step) {
 				return {

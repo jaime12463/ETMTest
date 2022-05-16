@@ -415,6 +415,30 @@ const Pasos: React.FC = () => {
 					}
 				}
 
+				if (
+					pasoActual.actual === EPasos.Otros &&
+					visitaActual.seQuedaAEditar.seQueda
+				) {
+					mostrarAviso(
+						'error',
+						t('toast.errorBonificacionTotalTitulo'),
+						t('toast.errorBonificacionTotalMensaje')
+					);
+					return;
+				}
+
+				if (
+					pasoActual.actual === EPasos.Otros &&
+					visitaActual.seQuedaAEditar.bordeError
+				) {
+					mostrarAviso(
+						'error',
+						t('toast.errorBonificacionExcedeCantidadTitulo'),
+						t('toast.errorBonificaionExcedeCantidadMensaje')
+					);
+					return;
+				}
+
 				setPasoActual((state) => ({
 					...state,
 					visitados: {
