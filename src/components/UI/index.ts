@@ -10,7 +10,6 @@ export * from './Dialogo';
 export * from './Drawer';
 export * from './DrawerFiltros';
 export * from './Estructura';
-export * from './Fecha';
 export * from './FormInput';
 export * from './InformacionProducto';
 export * from './Input';

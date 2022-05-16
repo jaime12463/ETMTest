@@ -6,17 +6,17 @@ import {
 	useObtenerCompromisoDeCobroActual,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import { OjoIcon } from 'assests/iconos';
+import {OjoIcon, OjoTachadoIcon} from 'assests/iconos';
 
 interface Props {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const BotonResumenPedido: React.VFC<Props> = ({ setOpen }) => {
+export const BotonResumenPedido: React.VFC<Props> = ({setOpen}) => {
 	const [botonHabilitado, setBotonHabilitado] = React.useState<boolean>(false);
 	const visitaActual = useObtenerVisitaActual();
 	const compromisoDeCobro = useObtenerCompromisoDeCobroActual();
-	const { venta, prestamoenvase, ventaenvase, canje } = visitaActual.pedidos;
+	const {venta, prestamoenvase, ventaenvase, canje} = visitaActual.pedidos;
 	const bonificacionesEjecutadas = visitaActual.bonificaciones.filter(
 		(bonificacion) => {
 			if (bonificacion.detalle.length > 0) {
@@ -27,7 +27,7 @@ export const BotonResumenPedido: React.VFC<Props> = ({ setOpen }) => {
 
 	const ordenDeCompra = visitaActual.ordenDeCompra === '' ? false : true;
 
-	const classes = useEstilos({ botonHabilitado });
+	const classes = useEstilos({botonHabilitado});
 
 	React.useEffect(() => {
 		if (
@@ -64,12 +64,11 @@ export const BotonResumenPedido: React.VFC<Props> = ({ setOpen }) => {
 			className={classes.container}
 			onClick={() => setOpen((prevState) => !prevState)}
 		>
-			<OjoIcon/>
+			{botonHabilitado ? <OjoIcon /> : <OjoTachadoIcon />}
 			<Typography
 				variant='subtitle3'
 				fontFamily='Open Sans'
-				color= '#000'
-				padding='2px'
+				color={botonHabilitado ? '#000' : '#fff'}
 			>
 				Resumen del pedido
 			</Typography>

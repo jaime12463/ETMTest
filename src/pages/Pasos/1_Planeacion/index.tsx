@@ -135,29 +135,6 @@ const Planeacion: React.VFC = () => {
 		validarClienteBloqueado(setConfigAlerta, setAlertaPasos);
 	}, []);
 
-	// useEffect(() => {
-	// 	if (coberturasAgregadas.length === 0) {
-	// 		visitaActual.coberturasEjecutadas.map((cobertura) =>
-	// 			dispatch(
-	// 				agregarCoberturasEjecutadas({
-	// 					codigoProducto: cobertura.codigoProducto,
-	// 					unidades: 0,
-	// 					subUnidades: 0,
-	// 				})
-	// 			)
-	// 		);
-	// 	}
-	// 	coberturasAgregadas.map((cobertura) =>
-	// 		dispatch(
-	// 			agregarCoberturasEjecutadas({
-	// 				codigoProducto: cobertura.codigoProducto,
-	// 				unidades: cobertura.unidades,
-	// 				subUnidades: cobertura.subUnidades,
-	// 			})
-	// 		)
-	// 	);
-	// }, [coberturasAgregadas.length]);
-
 	return (
 		<Box display='flex' flexDirection='column' gap='18px'>
 			<Modal
