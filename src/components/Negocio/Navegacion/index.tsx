@@ -46,6 +46,9 @@ const pasosNavegacion: PasosNavegacion[] = [
 ];
 
 export const Navegacion: React.VFC<Props> = ({pasos, setPasos}) => {
+	const visitaActual = useObtenerVisitaActual();
+	const [navegacion, setNavegacion] =
+		useState<PasosNavegacion[]>(pasosNavegacion);
 	const [inset, setInset] = useState<string>('inset(0px 288px 0px 15px)');
 
 	const {
@@ -132,6 +135,28 @@ export const Navegacion: React.VFC<Props> = ({pasos, setPasos}) => {
 			if (cambioPedido) {
 				setCambioPedido(false);
 			}
+
+			if (visitaActual.clienteBloqueado) {
+				setNavegacion([
+					{
+						id: EPasos.Otros,
+						numero: 3,
+						paso: i18n.t('pasos.otros'),
+					},
+					{
+						id: EPasos.FinalizarPedido,
+						numero: 4,
+						paso: i18n.t('pasos.finalizar'),
+					},
+				]);
+				setPasos((state) => ({
+					...state,
+					visitados: {...state.visitados, [EPasos.Otros]: true},
+				}));
+				setInset('inset(0px 288px 0px 15px)');
+				return;
+			}
+
 			setInset('inset(0px 106px 0px 197px)');
 		}
 
@@ -139,9 +164,15 @@ export const Navegacion: React.VFC<Props> = ({pasos, setPasos}) => {
 			if (cambioPedido) {
 				setCambioPedido(false);
 			}
+
+			if (visitaActual.clienteBloqueado) {
+				setInset('inset(0px 197px 0px 106px)');
+				return;
+			}
+
 			setInset('inset(0px 15px 0px 288px)');
 		}
-	}, [pasos.actual]);
+	}, [pasos.actual, visitaActual.clienteBloqueado]);
 
 	useEffect(() => {
 		if (ventaProductos !== JSON.stringify(venta.productos)) {
@@ -264,7 +295,7 @@ export const Navegacion: React.VFC<Props> = ({pasos, setPasos}) => {
 			}}
 			width='100%'
 		>
-			{pasosNavegacion.map(({id, paso, numero}, index) => {
+			{navegacion.map(({id, paso, numero}, index) => {
 				return (
 					<React.Fragment key={id}>
 						<Box alignSelf='flex-start' position='relative'>
@@ -338,7 +369,7 @@ export const Navegacion: React.VFC<Props> = ({pasos, setPasos}) => {
 								</Typography>
 							</Box>
 						</Box>
-						{pasosNavegacion.length - 1 !== index && (
+						{navegacion.length - 1 !== index && (
 							<FlechaDerechaIcon style={{marginBottom: '12px'}} />
 						)}
 					</React.Fragment>
