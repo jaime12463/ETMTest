@@ -71,6 +71,8 @@ export const useEstilos = makeStyles(() =>
 						if (unidades > cantidadMaximaConfig) {
 							return theme.palette.primary.main;
 						}
+
+						return theme.palette.primary.main;
 					}
 					if (disabled) {
 						return 'rgba(0, 0, 0, 0.50)';

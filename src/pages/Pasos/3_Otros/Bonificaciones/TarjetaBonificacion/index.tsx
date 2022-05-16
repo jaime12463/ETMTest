@@ -3,39 +3,28 @@ import Box from '@mui/material/Box';
 import Controles from './Controles';
 import Informacion from './Informacion';
 import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
+import {Contador} from 'hooks';
 
 interface Props {
 	codigoProducto: number;
 	unidadMedida: string;
-	incrementar: (cantidad?: number) => void;
-	decrementar: (cantidad?: number) => void;
-	reiniciar: () => void;
-	contador: number;
-	estadoInicial: number;
+	contador: Contador;
 	idBonificacion: number;
 	idGrupo: number;
 	resetBonificaciones: boolean;
-	actualizarContador: (cantidad: number) => void;
-	errorAplicacionTotal: boolean;
 	statefocusId: any;
 	statePrimerProductoAgregado: any;
 }
 
 const TarjetaBonificacion: React.FC<Props> = ({
 	codigoProducto,
-	unidadMedida,
-	incrementar,
-	decrementar,
-	reiniciar,
 	contador,
-	estadoInicial,
 	idBonificacion,
 	idGrupo,
 	resetBonificaciones,
-	actualizarContador,
-	errorAplicacionTotal,
 	statefocusId,
 	statePrimerProductoAgregado,
+	unidadMedida,
 }) => {
 	const obtenerProductoPorCodigo = useObtenerProductoPorCodigo();
 	const producto = obtenerProductoPorCodigo(codigoProducto);
@@ -46,20 +35,14 @@ const TarjetaBonificacion: React.FC<Props> = ({
 			<Box display='flex'>
 				<Informacion producto={producto} unidadMedida={unidadMedida} />
 				<Controles
-					producto={producto}
 					contador={contador}
-					estadoInicial={estadoInicial}
-					incrementar={incrementar}
-					decrementar={decrementar}
-					reiniciar={reiniciar}
 					idBonificacion={idBonificacion}
-					unidadMedida={unidadMedida}
 					idGrupo={idGrupo}
+					producto={producto}
 					resetBonificaciones={resetBonificaciones}
-					actualizarContador={actualizarContador}
-					errorAplicacionTotal={errorAplicacionTotal}
 					statefocusId={statefocusId}
 					statePrimerProductoAgregado={statePrimerProductoAgregado}
+					unidadMedida={unidadMedida}
 				/>
 			</Box>
 		</>

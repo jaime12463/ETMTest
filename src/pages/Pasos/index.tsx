@@ -154,8 +154,8 @@ const Pasos: React.FC = () => {
 
 	const manejadorPasoAtras = () => {
 		if (
-			pasoActual.actual === 0 ||
-			(pasoActual.actual === 2 && visitaActual.clienteBloqueado)
+			pasoActual.actual === EPasos.Planeacion ||
+			(pasoActual.actual === EPasos.Otros && visitaActual.clienteBloqueado)
 		) {
 			setConfigAlerta({
 				titulo: t('modal.salirOrderTaking'),
@@ -174,7 +174,7 @@ const Pasos: React.FC = () => {
 			return;
 		}
 
-		if (pasoActual.actual === 1) {
+		if (pasoActual.actual === EPasos.TomaPedido) {
 			mostrarAviso(
 				'warning',
 				t('advertencias.noEditarPlaneacionTitulo'),
@@ -184,12 +184,26 @@ const Pasos: React.FC = () => {
 			);
 		}
 
-		if (pasoActual.actual === 2 && visitaActual.seQuedaAEditar.seQueda) {
-			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
+		if (
+			pasoActual.actual === EPasos.Otros &&
+			visitaActual.seQuedaAEditar.seQueda
+		) {
 			mostrarAviso(
 				'error',
 				t('toast.errorBonificacionTotalTitulo'),
 				t('toast.errorBonificacionTotalMensaje')
+			);
+			return;
+		}
+
+		if (
+			pasoActual.actual === EPasos.Otros &&
+			visitaActual.seQuedaAEditar.bordeError
+		) {
+			mostrarAviso(
+				'error',
+				t('toast.errorBonificacionExcedeCantidadTitulo'),
+				t('toast.errorBonificaionExcedeCantidadMensaje')
 			);
 			return;
 		}
@@ -221,7 +235,10 @@ const Pasos: React.FC = () => {
 
 		if (pasoActual.actual < controlador.length - 1) {
 			if (!valido.contenidoMensajeAviso) {
-				if (pasoActual.actual === 0 && visitaActual.clienteBloqueado) {
+				if (
+					pasoActual.actual === EPasos.Planeacion &&
+					visitaActual.clienteBloqueado
+				) {
 					setConfigAlerta({
 						titulo: t('toast.ventaBloqueadaTitulo'),
 						mensaje: t('toast.noPuedesGenerarPedidoMensaje'),
@@ -253,7 +270,7 @@ const Pasos: React.FC = () => {
 
 				if (
 					visitaActual?.avisos?.cambiosPasoActual &&
-					pasoActual.actual === 0
+					pasoActual.actual === EPasos.Planeacion
 				) {
 					mostrarAviso(
 						'success',
@@ -263,7 +280,7 @@ const Pasos: React.FC = () => {
 						'successpaso2'
 					);
 				}
-				if (pasoActual.actual === 1) {
+				if (pasoActual.actual === EPasos.TomaPedido) {
 					let promociones: {
 						contado: TPromoOngoingAplicablesResultado | undefined;
 						credito: TPromoOngoingAplicablesResultado | undefined;
@@ -410,7 +427,7 @@ const Pasos: React.FC = () => {
 			agregarPedidoActualAPedidosClientes();
 		}
 	};
-	
+
 	return (
 		<Suspense fallback={<Loading />}>
 			<Estructura>
@@ -418,7 +435,7 @@ const Pasos: React.FC = () => {
 					esConFechaHaciaAtras={true}
 					titulo={razonSocial}
 					onClick={() => manejadorPasoAtras()}
-					>
+				>
 					{/* <BotonResumenPedido setOpen={setOpenResumenPedido} /> */}
 					<InfoClienteDelPedidoActual />
 				</Estructura.Encabezado>

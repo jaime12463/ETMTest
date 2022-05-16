@@ -96,6 +96,7 @@ const es = {
 		rangoFinal: 'Rango final',
 		rangoInicial: 'Rango inicial',
 		razonSocial: 'Razón social',
+		reiniciar: 'Reiniciar',
 		restablecerCero: 'Restablecer cantidades a cero',
 		restablecerPromociones: 'Restablecer promociones',
 		resumenDePedido: 'Resumen de pedido',
@@ -293,6 +294,9 @@ const es = {
 			'Superaste la cantidad máxima de promoción permitida que puedes aplicar por cliente.',
 	},
 	modal: {
+		bonificacionActivaMensaje:
+			'Si decides agregar una bonificacion, la del otro grupo se perderá',
+		bonificacionActivaTitulo: 'Ya tienes una bonificación activa',
 		restablecerBonificacionesMensaje:
 			'Todas las cantidades de las bonificaciones se restablecerán a cero.',
 		restablecerBonificacionesTitulo: 'Restablecer cantidades a cero',
@@ -324,6 +328,10 @@ const es = {
 		clienteCreditoBloqueadoMensaje:
 			'Solo puedes levantar el pedido a contado para este cliente.',
 		clienteCreditoBloqueadoTitulo: 'Cliente con crédito bloqueado',
+		errorBonificaionExcedeCantidadMensaje:
+			'No puedes superar el máximo de aplicación.',
+		errorBonificacionExcedeCantidadTitulo:
+			'La cantidad es mayor a la aplicacion máxima permitida',
 		errorBonificacionTotalMensaje:
 			'Esta bonificación tiene que ser de aplicación total. Favor de modificar cantidades.',
 		errorBonificacionTotalTitulo: 'Error en bonificación total',

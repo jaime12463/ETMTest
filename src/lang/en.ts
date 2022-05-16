@@ -96,6 +96,7 @@ const en = {
 		rangoFinal: 'Final range',
 		rangoInicial: 'Initial range',
 		razonSocial: 'Social reason',
+		reiniciar: 'Reset',
 		restablecerCero: 'Reset quantities to zero',
 		restablecerPromociones: 'Reset promotions',
 		resumenDePedido: 'Order summary',
@@ -291,6 +292,9 @@ const en = {
 			'You have exceeded the maximum amount of promotion allowed that you can apply per customer.',
 	},
 	modal: {
+		bonificacionActivaMensaje:
+			'If you decide to add a bonus, the bonus of the other group will be lost.',
+		bonificacionActivaTitulo: 'You already have an active bonus',
 		restablecerBonificacionesMensaje:
 			'All bonus amounts will be reset to zero.',
 		restablecerBonificacionesTitulo: 'Reset quantities to zero',
@@ -321,6 +325,10 @@ const en = {
 		clienteCreditoBloqueadoMensaje:
 			'You can only pick up the cash order for this customer.',
 		clienteCreditoBloqueadoTitulo: 'Client with blocked credit',
+		errorBonificaionExcedeCantidadMensaje:
+			'You cannot exceed the maximum application.',
+		errorBonificacionExcedeCantidadTitulo:
+			'The amount is greater than the maximum application allowed',
 		errorBonificacionTotalMensaje:
 			'This bonus must be applied in full. Please modify quantities.',
 		errorBonificacionTotalTitulo: 'Error in total bonus',

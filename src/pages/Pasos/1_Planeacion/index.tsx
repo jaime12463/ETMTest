@@ -74,8 +74,6 @@ const Planeacion: React.VFC = () => {
 		}
 	});
 
-	console.log(coberturasAgregadas);
-
 	const iniciativasCanceladasSinMotivo = iniciativas.some(
 		(iniciativa) =>
 			iniciativa.estado === 'cancelada' && iniciativa.motivo === ''

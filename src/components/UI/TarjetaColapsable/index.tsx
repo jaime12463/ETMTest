@@ -111,13 +111,26 @@ export const TarjetaColapsable: React.FC<Props> = ({
 			return;
 		}
 
-		if (expandido === 'Bonificaciones' && visitaActual.seQuedaAEditar.seQueda) {
-			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
-			mostrarAviso(
-				'error',
-				t('toast.errorBonificacionTotalTitulo'),
-				t('toast.errorBonificacionTotalMensaje')
-			);
+		if (
+			expandido === 'Bonificaciones' &&
+			(visitaActual.seQuedaAEditar.seQueda ||
+				visitaActual.seQuedaAEditar.bordeError)
+		) {
+			if (visitaActual.seQuedaAEditar.seQueda) {
+				mostrarAviso(
+					'error',
+					t('toast.errorBonificacionTotalTitulo'),
+					t('toast.errorBonificacionTotalMensaje')
+				);
+			}
+
+			if (visitaActual.seQuedaAEditar.bordeError) {
+				mostrarAviso(
+					'error',
+					t('toast.errorBonificacionExcedeCantidadTitulo'),
+					t('toast.errorBonificaionExcedeCantidadMensaje')
+				);
+			}
 			return;
 		}
 

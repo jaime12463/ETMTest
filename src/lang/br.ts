@@ -96,6 +96,7 @@ const br = {
 		rangoFinal: 'Faixa final',
 		rangoInicial: 'Faixa inicial',
 		razonSocial: 'Razão social',
+		reiniciar: 'Reiniciar',
 		restablecerCero: 'Redefinir as quantidades para zero',
 		restablecerPromociones: 'Redefinir promoções',
 		resumenDePedido: 'Resumo do pedido',
@@ -294,6 +295,9 @@ const br = {
 			'Você excedeu a quantidade máxima permitida de promoção que você pode aplicar por cliente.',
 	},
 	modal: {
+		bonificacionActivaMensaje:
+			'Se você decidir adicionar um bônus, o bônus do outro grupo será perdido.',
+		bonificacionActivaTitulo: 'Você já tem um bônus ativo',
 		restablecerBonificacionesMensaje:
 			'Todos os valores de bônus devem ser zerados.',
 		restablecerBonificacionesTitulo: 'Redefinir quantidades para zero',
@@ -324,6 +328,10 @@ const br = {
 		clienteBloqueadoTitulo: 'Cliente bloqueado',
 		clienteCreditoBloqueadoMensaje:
 			'Você só pode levantar a ordem de pagamento para este cliente.',
+		errorBonificaionExcedeCantidadMensaje:
+			'Não se pode exceder a aplicação máxima.',
+		errorBonificacionExcedeCantidadTitulo:
+			'A quantidade é maior do que a aplicação máxima permitida.',
 		clienteCreditoBloqueadoTitulo: 'Cliente com crédito bloqueado',
 		errorBonificacionTotalMensaje:
 			'Este bônus tem que ser totalmente aplicável. Favor modificar as quantidades.',

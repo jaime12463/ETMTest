@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import theme from 'theme';
 import {CheckRedondoIcon, FlechaAbajoIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
@@ -41,47 +41,39 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 	const {t} = useTranslation();
 	const visitaActual = useObtenerVisitaActual();
 
-	const grupoConBonificaiones = visitaActual.bonificaciones.find(
+	const grupoConBonificaciones = visitaActual.bonificaciones.find(
 		(bonificacion) => {
 			return bonificacion.detalle.length > 0;
 		}
 	);
 
 	const grupoBonificacionesActivas = grupos.find((grupo) => {
-		if (grupo.idGrupo === grupoConBonificaiones?.detalle[0]?.idGrupo) {
+		if (grupo.idGrupo === grupoConBonificaciones?.detalle[0]?.idGrupo) {
 			return grupo;
 		}
 	});
 
-	const [focusId, setFocusId] = React.useState<string>('');
+	const [focusId, setFocusId] = useState<string>('');
 	const [primerProductoAgregado, setPrimerProductoAgregado] =
-		React.useState<boolean>(false);
-	const [opciones, setOpciones] = React.useState<string>(
+		useState<boolean>(false);
+	const [opciones, setOpciones] = useState<string>(
 		grupoBonificacionesActivas?.nombreGrupo ?? grupos[0].nombreGrupo
 	);
 	const dispatch = useAppDispatch();
 
 	const grupoSeleccionado = grupos.find(
 		(grupo) => grupo.nombreGrupo === opciones
-	);
+	)!;
 
 	const mostrarAviso = useMostrarAviso();
 
-	const [hayBonificaciones, setHayBonificaciones] =
-		React.useState<boolean>(false);
+	const [hayBonificaciones, setHayBonificaciones] = useState<boolean>(false);
 
-	const {
-		contador,
-		incrementar,
-		decrementar,
-		reiniciar,
-		estadoInicial,
-		actualizarContador,
-	} = useContador(grupoSeleccionado?.cantidadBeneficioGrupo);
+	const contadorHook = useContador(grupoSeleccionado?.cantidadBeneficioGrupo);
+	const {contador, estadoInicial, reiniciar} = contadorHook;
 
 	const manejadorExpandido = (id: string | boolean) => {
 		if (visitaActual.seQuedaAEditar.seQueda) {
-			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
 			mostrarAviso(
 				'error',
 				t('toast.errorBonificacionTotalTitulo'),
@@ -91,35 +83,20 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 		}
 
 		if (visitaActual.seQuedaAEditar.bordeError) {
-			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+			mostrarAviso(
+				'error',
+				t('toast.errorBonificacionExcedeCantidadTitulo'),
+				t('toast.errorBonificaionExcedeCantidadMensaje')
+			);
+			return;
 		}
+
 		setExpandido(id);
 	};
 
 	const indexBonificacion = visitaActual.bonificaciones.findIndex(
 		(bonificacion) => bonificacion.idBonificacion === Number(id)
 	);
-
-	React.useEffect(() => {
-		if (
-			aplicacionBonificacion === 'Total' &&
-			contador !== 0 &&
-			contador !== grupoSeleccionado?.cantidadBeneficioGrupo
-		) {
-			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: false}));
-			return;
-		}
-
-		if (visitaActual.seQuedaAEditar.seQueda) {
-			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
-		}
-	}, [
-		aplicacionBonificacion,
-		contador,
-		grupoSeleccionado?.cantidadBeneficioGrupo,
-	]);
-
-	const [bordeColor, setBordeColor] = React.useState<string>('#D9D9D9');
 
 	const cantidadEjecutada = visitaActual.bonificaciones[
 		indexBonificacion
@@ -128,19 +105,64 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 		0
 	);
 
+	useEffect(() => {
+		if (
+			aplicacionBonificacion === 'Total' &&
+			cantidadEjecutada > 0 &&
+			cantidadEjecutada < estadoInicial
+		) {
+			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: false}));
+			return;
+		}
+
+		if (
+			aplicacionBonificacion === 'Total' &&
+			cantidadEjecutada > 0 &&
+			cantidadEjecutada > estadoInicial
+		) {
+			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: true}));
+			return;
+		}
+
+		if (
+			aplicacionBonificacion !== 'Total' &&
+			cantidadEjecutada > estadoInicial
+		) {
+			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: true}));
+			return;
+		}
+
+		dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
+	}, [
+		aplicacionBonificacion,
+		contador,
+		grupoSeleccionado?.cantidadBeneficioGrupo,
+	]);
+
+	const [bordeColor, setBordeColor] = useState<string>('#D9D9D9');
+
 	const mostrarCheck =
-		(hayBonificaciones && aplicacionBonificacion !== 'Total') ||
+		(hayBonificaciones &&
+			aplicacionBonificacion !== 'Total' &&
+			estadoInicial - cantidadEjecutada >= 0) ||
 		(hayBonificaciones &&
 			grupoSeleccionado?.cantidadBeneficioGrupo === cantidadEjecutada);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (hayBonificaciones) {
 			if (
-				(aplicacionBonificacion !== 'Total' && cantidadEjecutada > 0) ||
+				(aplicacionBonificacion !== 'Total' &&
+					estadoInicial - cantidadEjecutada >= 0 &&
+					cantidadEjecutada > 0) ||
 				(aplicacionBonificacion === 'Total' &&
-					cantidadEjecutada === grupoSeleccionado?.cantidadBeneficioGrupo)
+					cantidadEjecutada === estadoInicial)
 			) {
 				setBordeColor(theme.palette.success.main);
+				return;
+			}
+
+			if (visitaActual.seQuedaAEditar.seQueda) {
+				setBordeColor(theme.palette.primary.main);
 				return;
 			}
 
@@ -148,17 +170,17 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 				setBordeColor(theme.palette.primary.main);
 				return;
 			}
-
-			setBordeColor('#D9D9D9');
 		}
+		setBordeColor('#D9D9D9');
 	}, [
 		hayBonificaciones,
-		grupoSeleccionado?.cantidadBeneficioGrupo,
+		estadoInicial,
 		visitaActual.seQuedaAEditar.bordeError,
+		visitaActual.seQuedaAEditar.seQueda,
 		cantidadEjecutada,
 	]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (indexBonificacion > -1) {
 			if (
 				visitaActual.bonificaciones[indexBonificacion].detalle.length >= 1 &&
@@ -169,7 +191,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 		}
 	}, []);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (indexBonificacion > -1) {
 			if (
 				visitaActual.bonificaciones[indexBonificacion].detalle.length === 1 &&
@@ -198,7 +220,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 		setHayBonificaciones(false);
 	}, [visitaActual.bonificaciones[indexBonificacion].detalle]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (grupoBonificacionesActivas?.nombreGrupo) {
 			if (grupoBonificacionesActivas?.nombreGrupo !== opciones) {
 				const indexBonificacion = visitaActual.bonificaciones.findIndex(
@@ -226,7 +248,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 		}
 	}, [opciones]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (resetBonificaciones) {
 			reiniciar();
 			setOpciones(grupos[0].nombreGrupo);
@@ -261,7 +283,7 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 				>
 					{mostrarCheck && (
 						<Box display='flex' justifyContent='flex-end'>
-							<CheckRedondoIcon height='20px' width='20px' />
+							<CheckRedondoIcon height={20} width={20} />
 						</Box>
 					)}
 					<Box display='flex' flexDirection='column' gap='2px'>
@@ -313,22 +335,16 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 							<Box key={producto}>
 								<TarjetaBonificacion
 									codigoProducto={producto}
-									unidadMedida={grupoSeleccionado.unidadMedida}
-									incrementar={incrementar}
-									decrementar={decrementar}
-									reiniciar={reiniciar}
-									contador={contador}
-									estadoInicial={estadoInicial}
+									contador={contadorHook}
 									idBonificacion={Number(id)}
 									idGrupo={grupoSeleccionado.idGrupo}
 									resetBonificaciones={resetBonificaciones}
-									actualizarContador={actualizarContador}
-									errorAplicacionTotal={visitaActual.seQuedaAEditar.bordeError}
 									statefocusId={{focusId, setFocusId}}
 									statePrimerProductoAgregado={{
 										primerProductoAgregado,
 										setPrimerProductoAgregado,
 									}}
+									unidadMedida={grupoSeleccionado.unidadMedida}
 								/>
 								<Divider />
 							</Box>
