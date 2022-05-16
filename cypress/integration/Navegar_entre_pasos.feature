@@ -51,3 +51,10 @@ Escenario: N°5 - Cambio en paso otros
     Cuando se muestra la navegación
     Entonces el sistema deshabilitará los pasos siguientes al actual
     Y mantendrá habilitados en verde los pasos anteriores
+
+Escenario: N°6 - Paso otros con error en bonificaciones
+    Dado que estoy en paso otros
+    Y existen bonificiaciones con error en las cantidades
+    Cuando selecciono un paso para navegarlo
+    Entonces el sistema mostrará el mensaje de error de cantidades en bonificaciones
+    Y no mostrará el paso seleccionado
