@@ -106,11 +106,16 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 	);
 
 	useEffect(() => {
+		console.log({cantidadEjecutada});
+
 		if (
 			aplicacionBonificacion === 'Total' &&
 			cantidadEjecutada > 0 &&
 			cantidadEjecutada < estadoInicial
 		) {
+			console.log(
+				'entre en bonificacion total con cantidades > 0 y < estadoInicial'
+			);
 			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: false}));
 			return;
 		}
@@ -120,6 +125,9 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 			cantidadEjecutada > 0 &&
 			cantidadEjecutada > estadoInicial
 		) {
+			console.log(
+				'entre en bonificacion total con cantidades > 0 y > estadoInicial'
+			);
 			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: true}));
 			return;
 		}

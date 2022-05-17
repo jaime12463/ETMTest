@@ -142,43 +142,43 @@ const Controles: React.VFC<Props> = ({
 		}
 	}, [resetBonificaciones]);
 
-	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		if (e.key === 'Enter') {
-			if (estadoInicial - totalCantidadBonificaciones < 0) {
-				mostrarAviso(
-					'error',
-					t('toast.errorBonificacionExcedeCantidadTitulo'),
-					t('toast.errorBonificaionExcedeCantidadMensaje')
-				);
-				setCantidad(productoBonificacion?.cantidad ?? 0);
-				return;
-			}
-			if (estadoInicial - totalCantidadBonificaciones < 0) {
-				mostrarAviso(
-					'error',
-					t('toast.errorBonificacionExcedeCantidadTitulo'),
-					t('toast.errorBonificaionExcedeCantidadMensaje')
-				);
-				setCantidad(productoBonificacion?.cantidad ?? 0);
-				return;
-			}
-			setPuedeAgregar(true);
-		}
-	};
+	// const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+	// 	if (e.key === 'Enter') {
+	// 		if (estadoInicial - totalCantidadBonificaciones < 0) {
+	// 			mostrarAviso(
+	// 				'error',
+	// 				t('toast.errorBonificacionExcedeCantidadTitulo'),
+	// 				t('toast.errorBonificaionExcedeCantidadMensaje')
+	// 			);
+	// 			setCantidad(productoBonificacion?.cantidad ?? 0);
+	// 			return;
+	// 		}
+	// 		if (estadoInicial - totalCantidadBonificaciones < 0) {
+	// 			mostrarAviso(
+	// 				'error',
+	// 				t('toast.errorBonificacionExcedeCantidadTitulo'),
+	// 				t('toast.errorBonificaionExcedeCantidadMensaje')
+	// 			);
+	// 			setCantidad(productoBonificacion?.cantidad ?? 0);
+	// 			return;
+	// 		}
+	// 		setPuedeAgregar(true);
+	// 	}
+	// };
 
-	const handleBlur = () => {
-		if (estadoInicial - totalCantidadBonificaciones < 0) {
-			mostrarAviso(
-				'error',
-				t('toast.errorBonificacionExcedeCantidadTitulo'),
-				t('toast.errorBonificaionExcedeCantidadMensaje')
-			);
-			setCantidad(productoBonificacion?.cantidad ?? 0);
-			return;
-		}
+	// const handleBlur = () => {
+	// 	if (estadoInicial - totalCantidadBonificaciones < 0) {
+	// 		mostrarAviso(
+	// 			'error',
+	// 			t('toast.errorBonificacionExcedeCantidadTitulo'),
+	// 			t('toast.errorBonificaionExcedeCantidadMensaje')
+	// 		);
+	// 		setCantidad(productoBonificacion?.cantidad ?? 0);
+	// 		return;
+	// 	}
 
-		setPuedeAgregar(true);
-	};
+	// 	setPuedeAgregar(true);
+	// };
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (hayBonificacionesDistintoGrupo()) {
@@ -202,7 +202,6 @@ const Controles: React.VFC<Props> = ({
 		}
 
 		if (name === '-') {
-			incrementar();
 			setCantidad((prevCantidad) => {
 				if (prevCantidad > 0) return prevCantidad - 1;
 				return 0;
@@ -212,7 +211,6 @@ const Controles: React.VFC<Props> = ({
 		}
 
 		if (name === '+') {
-			decrementar();
 			setCantidad((prevCantidad) => {
 				return prevCantidad + 1 > estadoInicial
 					? estadoInicial
@@ -269,13 +267,13 @@ const Controles: React.VFC<Props> = ({
 					<InputCantidades
 						id='unidades_producto'
 						name='unidades'
-						onBlur={handleBlur}
+						// onBlur={handleBlur}
 						onChange={handleChange}
 						onFocus={(e) => {
 							e.target.select();
 							setFocusId(producto.codigoProducto);
 						}}
-						onKeyDown={handleKeyPress}
+						// onKeyDown={handleKeyPress}
 						value={cantidad}
 						useEstilosProps={useEstilosProps}
 					/>

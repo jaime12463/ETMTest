@@ -25,8 +25,8 @@ interface Props {
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 	producto: TProductoPedido;
-	stateFocusId: StateFocusID;
-	stateInputFocus: TStateInputFocus;
+	stateFocusId?: StateFocusID;
+	stateInputFocus?: TStateInputFocus;
 	useEstilosProps: InputPropsEstilos;
 }
 
@@ -39,8 +39,8 @@ export const ControlesProducto: React.VFC<Props> = ({
 	onChange,
 	onKeyPress,
 	producto,
-	stateFocusId: {focusId, setFocusId},
-	stateInputFocus: {inputFocus, setInputFocus},
+	stateFocusId = {},
+	stateInputFocus = {},
 	useEstilosProps,
 }) => {
 	const permiteSubUnidades = useValidacionPermiteSubUnidades(producto);
@@ -48,6 +48,8 @@ export const ControlesProducto: React.VFC<Props> = ({
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const datosCliente = obtenerDatosCliente(clienteActual.codigoCliente)!;
 	const {cantidadMaximaUnidades} = datosCliente.configuracionPedido;
+	const {focusId, setFocusId} = stateFocusId;
+	const {inputFocus, setInputFocus} = stateInputFocus;
 
 	return (
 		<Box
@@ -94,8 +96,8 @@ export const ControlesProducto: React.VFC<Props> = ({
 					name='unidades'
 					onChange={onChange}
 					onClick={() => {
-						setInputFocus('unidades');
-						setFocusId(producto.codigoProducto);
+						!!setInputFocus && setInputFocus('unidades');
+						!!setFocusId && setFocusId(producto.codigoProducto);
 					}}
 					onFocus={(e) => e.target.select()}
 					onKeyPress={onKeyPress}
@@ -173,8 +175,8 @@ export const ControlesProducto: React.VFC<Props> = ({
 						onKeyPress={onKeyPress}
 						onBlur={onBlur}
 						onClick={() => {
-							setInputFocus('subUnidades');
-							setFocusId(producto.codigoProducto);
+							!!setInputFocus && setInputFocus('subUnidades');
+							!!setFocusId && setFocusId(producto.codigoProducto);
 						}}
 						onFocus={(e) => e.target.select()}
 						value={intpuValueSubUnidades ?? getValues.subUnidades}

@@ -36,10 +36,6 @@ export const Controles: React.VFC<Props> = ({
 }) => {
 	const {t} = useTranslation();
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
-	const [focusId, setFocusId] = React.useState<number>(0);
-	const [inputFocus, setInputFocus] =
-		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
-
 	const mostrarAviso = useMostrarAviso();
 
 	const dispatch = useAppDispatch();
@@ -71,12 +67,12 @@ export const Controles: React.VFC<Props> = ({
 
 	const handleButtons = (e: React.MouseEvent<HTMLButtonElement>) => {
 		const {value, name} = e.currentTarget;
-		setFocusId(producto.codigoProducto);
+		// setFocusId(producto.codigoProducto);
 		if (name === 'unidades') {
 			if (value === '-' && getValues.unidades === 0) {
 				return;
 			}
-			setInputFocus('unidades');
+			// setInputFocus('unidades');
 
 			const unidadesTotalesIniciativa = Object.values(
 				cantidadesProductos
@@ -105,7 +101,7 @@ export const Controles: React.VFC<Props> = ({
 			if (value === '-' && getValues.subUnidades === 0) {
 				return;
 			}
-			setInputFocus('subUnidades');
+			// setInputFocus('subUnidades');
 
 			if (unidadMedida === EUnidadMedida.SubUnidad) {
 				if (value === '+') {
@@ -157,8 +153,8 @@ export const Controles: React.VFC<Props> = ({
 		}
 
 		setPuedeAgregar(true);
-		setFocusId(0);
-		setInputFocus('productoABuscar');
+		// setFocusId(0);
+		// setInputFocus('productoABuscar');
 	};
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -176,7 +172,7 @@ export const Controles: React.VFC<Props> = ({
 			};
 		});
 
-		setFocusId(producto.codigoProducto);
+		// setFocusId(producto.codigoProducto);
 
 		if (e.target.name === 'unidades') {
 			setPuedeAgregar(true);
@@ -189,8 +185,7 @@ export const Controles: React.VFC<Props> = ({
 
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === 'Enter') {
-			if (inputFocus === 'unidades') {
-				setInputFocus('subUnidades');
+			if (!!e.currentTarget.children.namedItem('unidades')) {
 				agregarProductoAlPedidoActual(getValues);
 				dispatch(
 					editarUnidadesOSubUnidadesEjecutadas({
@@ -202,7 +197,7 @@ export const Controles: React.VFC<Props> = ({
 				);
 			}
 
-			if (inputFocus === 'subUnidades') {
+			if (!!e.currentTarget.children.namedItem('subUnidades')) {
 				validacionSubUnidades();
 			}
 		}
@@ -237,8 +232,6 @@ export const Controles: React.VFC<Props> = ({
 			onChange={handleInputChange}
 			onKeyPress={handleKeyPress}
 			producto={producto}
-			stateFocusId={{focusId, setFocusId}}
-			stateInputFocus={{inputFocus, setInputFocus}}
 			useEstilosProps={useEstilosProps}
 		/>
 	);
