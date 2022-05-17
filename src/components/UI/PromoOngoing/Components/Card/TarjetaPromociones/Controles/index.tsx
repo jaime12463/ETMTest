@@ -1,22 +1,21 @@
 import React from 'react';
-import { Box, IconButton } from '@mui/material';
+import {Box, IconButton} from '@mui/material';
 import {
 	AgregarRedondoIcon,
 	BotellaIcon,
 	CajaIcon,
 	QuitarRellenoIcon,
 } from 'assests/iconos';
-import useEstilos from './useEstilos';
-import { ETiposDePago, TCodigoCantidad } from 'models';
-import { useMostrarAviso } from 'hooks';
-import { useTranslation } from 'react-i18next';
+import {ETiposDePago, TCodigoCantidad} from 'models';
+import {useMostrarAviso} from 'hooks';
+import {useTranslation} from 'react-i18next';
 import {
 	InputCantidades,
 	InputPropsEstilos,
 } from 'components/UI/InputCantidades';
 
 interface Props {
-	cantidadesPedido: { [codigo: number]: number };
+	cantidadesPedido: {[codigo: number]: number};
 	grupoYSecuenciaActual: {
 		grupo: number;
 		secuencia: number;
@@ -35,7 +34,7 @@ interface Props {
 	stateBeneficiosParaAgregar: any;
 	statefocusId: any;
 	setCantidadesPedido: React.Dispatch<
-		React.SetStateAction<{ [codigo: number]: number }>
+		React.SetStateAction<{[codigo: number]: number}>
 	>;
 	unidadMedida: string;
 }
@@ -53,17 +52,22 @@ export const Controles: React.VFC<Props> = ({
 	unidadMedida,
 }) => {
 	const mostrarAviso = useMostrarAviso();
-	const { focusId, setFocusId } = statefocusId;
-	const { beneficiosParaAgregar, setBeneficiosParaAgregar } =
+	const {focusId, setFocusId} = statefocusId;
+	const {beneficiosParaAgregar, setBeneficiosParaAgregar} =
 		stateBeneficiosParaAgregar;
 	const [puedeVerBotones, setPuedeVerBotones] = React.useState<boolean>(false);
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 	const [superaTope, setSuperaTope] = React.useState<boolean>(false);
-	const [errorLimiteDisponible, setErrorLimiteDisponible] = React.useState<boolean>(false);
+	const [errorLimiteDisponible, setErrorLimiteDisponible] =
+		React.useState<boolean>(false);
 
-	// const classes = useEstilos({errorAplicacionTotal: false, puedeVerBotones});
+	const cantidadInicial = React.useMemo(
+		() => cantidadesPedido[producto.codigoProducto],
+		[]
+	);
+
 	const [totalProductos, setTotalProductos] = React.useState<number>(0);
-	const { t } = useTranslation();
+	const {t} = useTranslation();
 
 	const useEstilosProps: InputPropsEstilos = {
 		disabled: !puedeVerBotones,
@@ -73,8 +77,9 @@ export const Controles: React.VFC<Props> = ({
 	};
 
 	React.useEffect(() => {
-		errorLimiteDisponible && mostrarAviso('error', `${t('toast.cantidadMayorDisponiblePromocionOngoing')}`);
-	}, [errorLimiteDisponible])
+		errorLimiteDisponible &&
+			mostrarAviso('error', t('toast.cantidadMayorDisponiblePromocionOngoing'));
+	}, [errorLimiteDisponible]);
 
 	React.useEffect(() => {
 		if (beneficiosParaAgregar) {
@@ -92,8 +97,8 @@ export const Controles: React.VFC<Props> = ({
 				cantidadesPedido[producto.codigoProducto] >= producto.tope
 					? true
 					: totalProductosActual >= producto.topeSecuencia
-						? true
-						: false;
+					? true
+					: false;
 
 			setSuperaTope(topeTotal);
 		}
@@ -113,16 +118,26 @@ export const Controles: React.VFC<Props> = ({
 			);
 
 			if (productoActualizar !== -1) {
-				let promocionEditada: any = { ...beneficiosParaAgregar };
+				let promocionEditada: any = {...beneficiosParaAgregar};
 
 				promocionEditada.beneficios[grupoYSecuenciaActual.grupo].secuencias[
 					grupoYSecuenciaActual.secuencia
 				].materialesBeneficio[productoActualizar].cantidad =
 					cantidadesPedido[producto.codigoProducto];
 
-				setBeneficiosParaAgregar({ ...promocionEditada });
+				setBeneficiosParaAgregar({...promocionEditada});
 			}
 		}
+
+		return () => {
+			if (errorLimiteDisponible) {
+				setCantidadesPedido((state) => ({
+					...state,
+					[producto.codigoProducto]: cantidadInicial,
+				}));
+				setErrorLimiteDisponible(false);
+			}
+		};
 	}, [cantidadesPedido[producto.codigoProducto]]);
 
 	React.useEffect(() => {
@@ -138,12 +153,12 @@ export const Controles: React.VFC<Props> = ({
 			Number(e.target.value) > producto.tope
 				? true
 				: Number(e.target.value) +
-					totalProductos -
-					cantidadesPedido[producto.codigoProducto] >
-					producto.topeSecuencia
-					? true
-					: false;
-		//debugger;
+						totalProductos -
+						cantidadesPedido[producto.codigoProducto] >
+				  producto.topeSecuencia
+				? true
+				: false;
+
 		if (topeTotal) {
 			setErrorLimiteDisponible(true);
 			setCantidadesPedido((state) => ({
@@ -152,7 +167,7 @@ export const Controles: React.VFC<Props> = ({
 					e.target.value.replace(/[^0-9]/g, '')
 				),
 			}));
-			setPuedeAgregar(false);
+			setPuedeAgregar(true);
 		} else {
 			setCantidadesPedido((state) => ({
 				...state,
@@ -166,7 +181,7 @@ export const Controles: React.VFC<Props> = ({
 	};
 
 	const handleButtons = (e: React.MouseEvent<HTMLButtonElement>) => {
-		const { name } = e.currentTarget;
+		const {name} = e.currentTarget;
 
 		if (name === '-') {
 			setCantidadesPedido((state) => ({
@@ -185,7 +200,7 @@ export const Controles: React.VFC<Props> = ({
 	return (
 		<>
 			{!!producto && (
-				<Box flex='1' padding='19px 14px 8px 0' sx={{ background: '#F5F0EF' }}>
+				<Box flex='1' padding='19px 14px 8px 0' sx={{background: '#F5F0EF'}}>
 					<Box
 						alignItems='center'
 						display='flex'
@@ -199,7 +214,7 @@ export const Controles: React.VFC<Props> = ({
 						)}
 						{puedeVerBotones && (
 							<IconButton
-								sx={{ marginLeft: '2px', padding: 0 }}
+								sx={{marginLeft: '2px', padding: 0}}
 								name='-'
 								onClick={handleButtons}
 								disabled={cantidadesPedido[producto.codigoProducto] === 0}
@@ -224,7 +239,7 @@ export const Controles: React.VFC<Props> = ({
 						/>
 						{puedeVerBotones && (
 							<IconButton
-								sx={{ padding: '0' }}
+								sx={{padding: '0'}}
 								size='small'
 								name='+'
 								onClick={handleButtons}
