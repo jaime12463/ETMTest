@@ -34,3 +34,9 @@ Ejemplos:
 |    Si registra    |   No registra  |
 |    Si registra    |   Si registra  |
 
+
+Escenario: N°3 - Hay bonificiaciones cargadas que superan el disponible permitido
+    Dado que estoy en paso otros
+    Y existen bonificiaciones con error en las cantidades
+    Cuando avanzo al paso 4 finalizar pedido
+    Entonces el sistema mostrará el mensaje de error de cantidades en bonificaciones

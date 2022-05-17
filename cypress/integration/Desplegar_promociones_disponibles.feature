@@ -12,7 +12,7 @@ Característica: Mostrar promociones disponibles.
 	Para evitar ofrecer promociones que no puedan ser creadas luego en el backend del cliente
 
 Escenario: N°1 - Ver tarjetas de promociones
-	Dado que tengo productos en portafolio que son _promopush
+	Dado que tengo productos en portafolio que son productos _promopush
 	Cuando se despliega la tarjeta de promociones
 	Entonces el sistema mostrará un listado de productos que sean _promoPush ordenado por codigo de producto
 	Y que tenga precio vigente para la fecha de entrega calculada
