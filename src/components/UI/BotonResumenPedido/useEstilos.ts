@@ -10,16 +10,17 @@ const useEstilos = makeStyles(() =>
 		container: {
 			alignItems: 'center',
 			background: (props: Props) =>
-				props.botonHabilitado
-					? theme.palette.secondary.main
-					: theme.palette.secondary.light,
+				props.botonHabilitado ? '#FFFFFF' : '#B2B2B2',
 			borderRadius: '50px',
+			boxShadow: '0px 9px 16px rgba(0, 0, 0, 0.15)',
 			cursor: 'pointer',
 			display: 'flex',
+			gap: '4px',
+			height: '32px',
 			justifyContent: 'center',
-			marginBottom: '12px',
-			padding: '4px 0',
+			padding: '8px',
 			pointerEvents: (props: Props) => (props.botonHabilitado ? 'all' : 'none'),
+			width: '153px',
 		},
 	})
 );

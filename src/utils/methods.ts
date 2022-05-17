@@ -1,18 +1,13 @@
 import {
-	TPedidosClientes,
 	TPedidoClienteParaEnviar,
-	EEstadosDeUnPedido,
 	ETiposDePago,
 	TCompromisoDeCobro,
 	TProductoPedido,
-	TPedido,
 	TPrecioProducto,
 } from 'models/redux';
-
-import {useObtenerPedidosClientes, useObtenerVisitaActual} from 'redux/hooks';
-
 import {TpresupuestoTipoPedido, TTipoPedido} from 'models/server';
 import {TFunction} from 'react-i18next';
+import i18n from 'i18next';
 
 export const formatoNumeroConDecimales = (
 	numero: number,
@@ -82,6 +77,31 @@ export const formatearFecha = (
 	if (t('simbolos.formatoFechaAmericano') === 'true')
 		return `${arregloFecha[1]}-${arregloFecha[2]}-${arregloFecha[0]}`;
 	else return `${arregloFecha[2]}-${arregloFecha[1]}-${arregloFecha[0]}`;
+};
+
+export const formatearFechaIntl = (fecha: string): string => {
+	let fechaSplit = fecha.split('-');
+	let vFecha = new Date(
+		Number(fechaSplit[0]),
+		Number(fechaSplit[1]) - 1,
+		Number(fechaSplit[2])
+	);
+
+	const locale = i18n.language !== 'br' ? i18n.language : 'pt';
+
+	let fechaConFormato = new Intl.DateTimeFormat(locale, {
+		day: 'numeric',
+		month: 'long',
+		year: 'numeric',
+	}).format(vFecha);
+
+	if (i18n.language !== 'en') {
+		let aux = fechaConFormato.split(' de ');
+		aux[1] = aux[1].slice(0, 1).toUpperCase() + aux[1].slice(1);
+		fechaConFormato = aux.join('-');
+	}
+
+	return fechaConFormato;
 };
 
 export const fechaDispositivo = (): string => {

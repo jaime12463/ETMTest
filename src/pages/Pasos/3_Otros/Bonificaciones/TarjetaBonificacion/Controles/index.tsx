@@ -15,44 +15,41 @@ import {
 } from 'redux/features/visitaActual/visitaActualSlice';
 import {TDetalleBonificacionesCliente, TPrecioProducto} from 'models';
 import {InputCantidades, InputPropsEstilos, Modal} from 'components/UI';
-import {useMostrarAviso} from 'hooks';
+import {Contador, useMostrarAviso} from 'hooks';
+import {useTranslation} from 'react-i18next';
 
 interface Props {
-	contador: number;
-	estadoInicial: number;
-	incrementar: (cantidad?: number) => void;
-	decrementar: (cantidad?: number) => void;
-	reiniciar: () => void;
+	contador: Contador;
 	idBonificacion: number;
-	producto: TPrecioProducto | TDetalleBonificacionesCliente;
-	unidadMedida: string;
 	idGrupo: number;
+	producto: TPrecioProducto | TDetalleBonificacionesCliente;
 	resetBonificaciones: boolean;
-	actualizarContador: (cantidad: number) => void;
-	errorAplicacionTotal: boolean;
 	statefocusId: any;
 	statePrimerProductoAgregado: any;
+	unidadMedida: string;
 }
 
 const Controles: React.VFC<Props> = ({
-	contador,
-	estadoInicial,
-	incrementar,
-	decrementar,
-	reiniciar,
+	contador: {
+		actualizarContador,
+		contador,
+		decrementar,
+		estadoInicial,
+		incrementar,
+		reiniciar,
+	},
 	idBonificacion,
-	producto,
-	unidadMedida,
 	idGrupo,
+	producto,
 	resetBonificaciones,
-	actualizarContador,
-	errorAplicacionTotal,
 	statefocusId,
+	unidadMedida,
 }) => {
 	const visitaActual = useObtenerVisitaActual();
 	const [alerta, setAlerta] = React.useState<boolean>(false);
 	const mostrarAviso = useMostrarAviso();
 	const {setFocusId} = statefocusId;
+	const {t} = useTranslation();
 
 	const bonificacionEjecutada = visitaActual.bonificaciones.find(
 		(bonificacion) => {
@@ -98,7 +95,10 @@ const Controles: React.VFC<Props> = ({
 	const dispatch = useAppDispatch();
 
 	const useEstilosProps: InputPropsEstilos = {
-		bordeError: errorAplicacionTotal,
+		bordeError:
+			estadoInicial - totalCantidadBonificaciones < 0 ||
+			visitaActual.seQuedaAEditar.bordeError ||
+			visitaActual.seQuedaAEditar.seQueda,
 		cantidadMaximaConfig: 0,
 		unidades: cantidad,
 	};
@@ -119,6 +119,7 @@ const Controles: React.VFC<Props> = ({
 				setPuedeAgregar(false);
 				return;
 			}
+
 			dispatch(
 				agregarBonificacion({
 					idBonificacion,
@@ -131,8 +132,8 @@ const Controles: React.VFC<Props> = ({
 					},
 				})
 			);
-			setPuedeAgregar(false);
 		}
+		return () => setPuedeAgregar(false);
 	}, [puedeAgregar]);
 
 	React.useEffect(() => {
@@ -141,66 +142,43 @@ const Controles: React.VFC<Props> = ({
 		}
 	}, [resetBonificaciones]);
 
-	const [cantidadBorrado, setCantidadBorrado] = React.useState<number | null>(
-		null
-	);
-	const [cantidadBackspace, setCantidadBackspace] = React.useState<number>(0);
+	// const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+	// 	if (e.key === 'Enter') {
+	// 		if (estadoInicial - totalCantidadBonificaciones < 0) {
+	// 			mostrarAviso(
+	// 				'error',
+	// 				t('toast.errorBonificacionExcedeCantidadTitulo'),
+	// 				t('toast.errorBonificaionExcedeCantidadMensaje')
+	// 			);
+	// 			setCantidad(productoBonificacion?.cantidad ?? 0);
+	// 			return;
+	// 		}
+	// 		if (estadoInicial - totalCantidadBonificaciones < 0) {
+	// 			mostrarAviso(
+	// 				'error',
+	// 				t('toast.errorBonificacionExcedeCantidadTitulo'),
+	// 				t('toast.errorBonificaionExcedeCantidadMensaje')
+	// 			);
+	// 			setCantidad(productoBonificacion?.cantidad ?? 0);
+	// 			return;
+	// 		}
+	// 		setPuedeAgregar(true);
+	// 	}
+	// };
 
-	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		if (e.key === 'Backspace') {
-			setCantidadBackspace((prevBackspace) => prevBackspace + 1);
-			setCantidadBorrado((prevCantidad) => {
-				if (prevCantidad === null) {
-					return cantidad % 10;
-				}
+	// const handleBlur = () => {
+	// 	if (estadoInicial - totalCantidadBonificaciones < 0) {
+	// 		mostrarAviso(
+	// 			'error',
+	// 			t('toast.errorBonificacionExcedeCantidadTitulo'),
+	// 			t('toast.errorBonificaionExcedeCantidadMensaje')
+	// 		);
+	// 		setCantidad(productoBonificacion?.cantidad ?? 0);
+	// 		return;
+	// 	}
 
-				return cantidad * (cantidadBackspace * 10) + prevCantidad;
-			});
-			return;
-		}
-
-		if (e.key !== 'Enter' && e.key !== 'Backspace') {
-			incrementar(cantidadBorrado ?? 0);
-			setCantidadBackspace(0);
-		}
-
-		if (e.key === 'Enter') {
-			if (contador - cantidad < 0) {
-				mostrarAviso(
-					'error',
-					'La cantidad es mayor a la aplicacion maxima permitida'
-				), //ToDo validar mensaje con funcional
-					setCantidad(productoBonificacion?.cantidad ?? 0);
-
-				return;
-			}
-
-			if (estadoInicial - cantidad < 0) {
-				mostrarAviso(
-					'error',
-					'La cantidad es mayor a la aplicacion maxima permitida'
-				), //ToDo validar mensaje con funcional
-					setCantidad(productoBonificacion?.cantidad ?? 0);
-
-				return;
-			}
-
-			setPuedeAgregar(true);
-		}
-	};
-
-	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-		if (estadoInicial - cantidad < 0) {
-			mostrarAviso(
-				'error',
-				'La cantidad es mayor a la aplicacion maxima permitida'
-			), //ToDo validar mensaje con funcional
-				setCantidad(productoBonificacion?.cantidad ?? 0);
-			return;
-		}
-
-		setPuedeAgregar(true);
-	};
+	// 	setPuedeAgregar(true);
+	// };
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (hayBonificacionesDistintoGrupo()) {
@@ -211,6 +189,7 @@ const Controles: React.VFC<Props> = ({
 		}
 
 		setCantidad(Number(e.target.value.replace(/[^0-9]/g, '')));
+		setPuedeAgregar(true);
 	};
 
 	const handleButtons = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -223,7 +202,6 @@ const Controles: React.VFC<Props> = ({
 		}
 
 		if (name === '-') {
-			incrementar();
 			setCantidad((prevCantidad) => {
 				if (prevCantidad > 0) return prevCantidad - 1;
 				return 0;
@@ -233,7 +211,6 @@ const Controles: React.VFC<Props> = ({
 		}
 
 		if (name === '+') {
-			decrementar();
 			setCantidad((prevCantidad) => {
 				return prevCantidad + 1 > estadoInicial
 					? estadoInicial
@@ -250,17 +227,16 @@ const Controles: React.VFC<Props> = ({
 				alerta={alerta}
 				setAlerta={setAlerta}
 				contenidoMensaje={{
-					titulo: 'Ya tienes una bonificación activa',
-					mensaje:
-						'Si decides agregar una bonificacion, la del otro grupo se perderá',
+					titulo: t('modal.bonificacionActivaTitulo'),
+					mensaje: t('modal.bonificacionActivaMensaje'),
 					callbackAceptar: () => {
 						reiniciar();
 						dispatch(eliminarBonificacionesGrupo({idBonificacion}));
 						setCantidad(cantidadTemporal);
 						setPuedeAgregar(true);
 					},
-					tituloBotonAceptar: 'Reiniciar',
-					tituloBotonCancelar: 'Cancelar',
+					tituloBotonAceptar: t('general.reiniciar'),
+					tituloBotonCancelar: t('general.cancelar'),
 					iconoMensaje: <AvisoIcon />,
 				}}
 			/>
@@ -272,9 +248,9 @@ const Controles: React.VFC<Props> = ({
 					gap='2px'
 				>
 					{unidadMedida === 'Unidad' ? (
-						<CajaIcon height='18px' width='18px' />
+						<CajaIcon height={18} width={18} />
 					) : (
-						<BotellaIcon height='18px' width='18px' />
+						<BotellaIcon height={18} width={18} />
 					)}
 					<IconButton
 						sx={{marginLeft: '2px', padding: 0}}
@@ -283,21 +259,21 @@ const Controles: React.VFC<Props> = ({
 						disabled={cantidad === 0}
 					>
 						<QuitarRellenoIcon
-							height='18px'
-							width='18px'
+							height={18}
+							width={18}
 							disabled={cantidad === 0}
 						/>
 					</IconButton>
 					<InputCantidades
 						id='unidades_producto'
 						name='unidades'
-						onBlur={handleBlur}
+						// onBlur={handleBlur}
 						onChange={handleChange}
 						onFocus={(e) => {
 							e.target.select();
 							setFocusId(producto.codigoProducto);
 						}}
-						onKeyDown={handleKeyPress}
+						// onKeyDown={handleKeyPress}
 						value={cantidad}
 						useEstilosProps={useEstilosProps}
 					/>
@@ -310,8 +286,8 @@ const Controles: React.VFC<Props> = ({
 						disabled={contador === 0}
 					>
 						<AgregarRedondoIcon
-							width='18px'
-							height='18px'
+							width={18}
+							height={18}
 							disabled={contador === 0}
 						/>
 					</IconButton>

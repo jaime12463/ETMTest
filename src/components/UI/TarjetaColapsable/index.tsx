@@ -55,7 +55,7 @@ interface Props {
 	expandido: string | boolean;
 	id: string;
 	iniciativasCanceladasSinMotivo?: boolean;
-	iniciativasEjecutadasSinCantidad?: TIniciativasCliente;
+	iniciativasEjecutadasSinCantidad?: TIniciativasCliente[];
 	labelChip?: string | React.ReactNode;
 	mensaje?: React.ReactNode;
 	mostrarAvisoAlCerrar?: boolean;
@@ -94,9 +94,11 @@ export const TarjetaColapsable: React.FC<Props> = ({
 	const {bonificacionesConVenta} = useObtenerConfiguracion();
 
 	const manejadorExpandido = (id: string | boolean) => {
-		if (iniciativasEjecutadasSinCantidad) {
+		if (!!iniciativasEjecutadasSinCantidad?.length) {
 			setAlerta(true);
-			setCacheId(id);
+			setCacheId(
+				iniciativasEjecutadasSinCantidad[0].idActividadIniciativa.toString()
+			);
 			return;
 		}
 
@@ -109,13 +111,26 @@ export const TarjetaColapsable: React.FC<Props> = ({
 			return;
 		}
 
-		if (expandido === 'Bonificaciones' && visitaActual.seQuedaAEditar.seQueda) {
-			dispatch(cambiarSeQuedaAEditar({seQueda: true, bordeError: true}));
-			mostrarAviso(
-				'error',
-				t('toast.errorBonificacionTotalTitulo'),
-				t('toast.errorBonificacionTotalMensaje')
-			);
+		if (
+			expandido === 'Bonificaciones' &&
+			(visitaActual.seQuedaAEditar.seQueda ||
+				visitaActual.seQuedaAEditar.bordeError)
+		) {
+			if (visitaActual.seQuedaAEditar.seQueda) {
+				mostrarAviso(
+					'error',
+					t('toast.errorBonificacionTotalTitulo'),
+					t('toast.errorBonificacionTotalMensaje')
+				);
+			}
+
+			if (visitaActual.seQuedaAEditar.bordeError) {
+				mostrarAviso(
+					'error',
+					t('toast.errorBonificacionExcedeCantidadTitulo'),
+					t('toast.errorBonificaionExcedeCantidadMensaje')
+				);
+			}
 			return;
 		}
 
@@ -160,13 +175,14 @@ export const TarjetaColapsable: React.FC<Props> = ({
 						'Si avanzas, las tarjetas que no tienen cantidades se eliminaran.',
 					tituloBotonAceptar: 'Avanzar',
 					callbackAceptar: () => {
-						dispatch(
-							cambiarEstadoIniciativa({
-								estado: 'pendiente',
-								codigoIniciativa:
-									iniciativasEjecutadasSinCantidad?.idMaterialIniciativa ?? 0,
-							})
-						);
+						iniciativasEjecutadasSinCantidad?.map((iniciativa) => {
+							dispatch(
+								cambiarEstadoIniciativa({
+									estado: 'pendiente',
+									codigoIniciativa: iniciativa.idActividadIniciativa ?? 0,
+								})
+							);
+						});
 						setExpandido(cacheId);
 					},
 					tituloBotonCancelar: 'Editar Cantidades',

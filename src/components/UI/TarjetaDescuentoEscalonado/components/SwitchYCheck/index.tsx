@@ -3,16 +3,19 @@ import {Box} from '@mui/material';
 import {CheckRedondoIcon} from 'assests/iconos';
 import {SwitchCambiarTipoPago} from 'pages/Pasos/2_TomaDePedido/components';
 import theme from 'theme';
+import {TProductoPedido} from 'models';
 
 interface Props {
 	abrirCollapse: boolean;
 	conSwitch: boolean;
+	producto: TProductoPedido;
 	unidades: number;
 }
 
 export const SwitchYCheck: React.VFC<Props> = ({
 	abrirCollapse,
 	conSwitch,
+	producto,
 	unidades,
 }) => {
 	return (
@@ -25,7 +28,7 @@ export const SwitchYCheck: React.VFC<Props> = ({
 					transition: 'all .3s ease-in-out',
 				}}
 			>
-				{conSwitch && <SwitchCambiarTipoPago />}
+				{conSwitch && <SwitchCambiarTipoPago producto={producto} />}
 			</Box>
 			<Box
 				display='flex'

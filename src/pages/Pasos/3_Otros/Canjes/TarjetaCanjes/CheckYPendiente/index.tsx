@@ -2,8 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import {TProductoPedido} from 'models';
-import {GetValueProps} from '..';
+import {GetValueProps, TProductoPedido} from 'models';
 import theme from 'theme';
 import {CheckRedondoIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
@@ -14,7 +13,7 @@ interface Props {
 	producto: TProductoPedido;
 }
 
-const CheckYPendiente: React.FC<Props> = ({
+const CheckYPendiente: React.VFC<Props> = ({
 	catalogoMotivo,
 	getValues,
 	producto,

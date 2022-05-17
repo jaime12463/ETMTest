@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import useEstilos from './useEstilos';
+import {TStatePasos} from 'models';
 
 export interface Configuracion {
 	titulo: string;
@@ -18,7 +19,7 @@ interface Props {
 	alerta: boolean;
 	contenidoMensaje?: Configuracion;
 	setAlerta: React.Dispatch<React.SetStateAction<boolean>>;
-	setPasoActual?: React.Dispatch<React.SetStateAction<number>>;
+	setPasoActual?: React.Dispatch<React.SetStateAction<TStatePasos>>;
 }
 
 export const Modal: React.VFC<Props> = ({
@@ -81,9 +82,11 @@ export const Modal: React.VFC<Props> = ({
 								className={classes.btnAceptar}
 								onClick={() => {
 									contenidoMensaje?.callbackAceptar();
-									setPasoActual?.((pasoActual) =>
-										pasoActual === 3 ? pasoActual : pasoActual + 1
-									);
+									setPasoActual?.((state) => ({
+										...state,
+										actual:
+											state.actual === 3 ? state.actual : state.actual + 1,
+									}));
 									setAlerta((prevAlerta) => !prevAlerta);
 								}}
 							>

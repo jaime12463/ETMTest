@@ -2,6 +2,7 @@ import React from 'react';
 import {
 	EFormaBeneficio,
 	ETipoDescuento,
+	StateFocusID,
 	TProductoPedido,
 	TStateInfoDescuentos,
 	TStateInputFocus,
@@ -21,7 +22,6 @@ import {useAppDispatch, useObtenerDatos} from 'redux/hooks';
 import {borrarDescuentoDelProducto} from 'redux/features/visitaActual/visitaActualSlice';
 import {useMostrarAviso, useValidacionPermiteSubUnidades} from 'hooks';
 import {TInfoBeneficioProductoPromoOngoing} from 'hooks/useCalularProductoEnPromoOnGoing';
-import {StateFocusID} from '../..';
 
 interface Props {
 	conSwitch?: boolean;

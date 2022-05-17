@@ -457,7 +457,7 @@
 				},
 				{
 					"codigoProducto": 360,
-					"esVentaSubunidades": true,
+					"esVentaSubunidades": false,
 					"descuentoEscalonado": [
 						{
 							"unidadesDesde": 10,
@@ -491,7 +491,7 @@
 				},
 				{
 					"codigoProducto": 380,
-					"esVentaSubunidades": true,
+					"esVentaSubunidades": false,
 					"descuentoEscalonado": [
 						{
 							"unidadesDesde": 10,
@@ -525,7 +525,7 @@
 				},
 				{
 					"codigoProducto": 390,
-					"esVentaSubunidades": true,
+					"esVentaSubunidades": false,
 					"descuentoEscalonado": [
 						{
 							"unidadesDesde": 10,
@@ -1818,10 +1818,10 @@
 			"nombreActividadPlan": "NCBs - Lanzamiento PREDATOR 47",
 			"descripcionIniciativa": "Ejecuta los materiales de la PDE",
 			"finVigenciaIniciativa": "2022-12-31",
-			"idMaterialIniciativa": 360,
-			"unidadVentaIniciativa": 2,
-			"subunidadVentaIniciativa": 0,
-			"archivoAdjunto": "68449_One Pager.pdf"
+			"materialesIniciativa": [360, 420],
+			"cantidad": 10,
+			"archivoAdjunto": "68449_One Pager.pdf",
+			"unidadMedida": "Unidad"
 		},
 		{
 			"idActividadIniciativa": 2,
@@ -1829,9 +1829,9 @@
 			"nombreActividadPlan": "Super Single - Plan Personales",
 			"descripcionIniciativa": "Ejecuta los materiales de la PDE",
 			"finVigenciaIniciativa": "2022-12-31",
-			"idMaterialIniciativa": 420,
-			"unidadVentaIniciativa": 2,
-			"subunidadVentaIniciativa": 0
+			"materialesIniciativa": [400],
+			"cantidad": 5,
+			"unidadMedida": "SubUnidad"
 		}
 	],
 	"bonificaciones": [

@@ -2,10 +2,10 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import theme from 'theme';
 import Controles from './components/Controles';
-import Informacion from './components/Informacion';
 import Check from './components/Check';
 import {TPrecioProducto, TProductoPedido, TStateInputFocus} from 'models';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
+import {InformacionProducto} from '..';
 
 interface StateFocusID {
 	focusId: number;
@@ -65,10 +65,14 @@ export const TarjetaCoberturas: React.VFC<Props> = ({
 					: '1px solid #D9D9D9'
 			}
 			overflow='hidden'
+			sx={{
+				background:
+					'linear-gradient(90deg, transparent 0%, transparent 177px, #F5F0EF 177px, #F5F0EF 100%)',
+			}}
 		>
 			<Check producto={productoAMandar} />
 			<Box display='flex'>
-				<Informacion producto={productoAMandar} />
+				<InformacionProducto producto={productoAMandar} />
 				<Controles
 					producto={productoAMandar}
 					stateInputFocus={stateInputFocus}

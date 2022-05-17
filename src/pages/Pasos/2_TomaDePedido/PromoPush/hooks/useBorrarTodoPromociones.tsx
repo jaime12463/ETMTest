@@ -14,14 +14,14 @@ import {
 	useMostrarAviso,
 	useObtenerPedidosClienteMismaFechaEntrega,
 } from 'hooks';
-import {TProductoPedido} from 'models';
+import {TPrecioProducto} from 'models';
 import {useValidarTieneBonificaciones} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {useTranslation} from 'react-i18next';
 import {AvisoIcon} from 'assests/iconos';
 
 export const useBorrarTodoPromociones = (
 	stateAlerta: any,
-	productos: TProductoPedido[]
+	productos: TPrecioProducto[]
 ) => {
 	const dispatch = useAppDispatch();
 	const {t} = useTranslation();
@@ -42,10 +42,9 @@ export const useBorrarTodoPromociones = (
 
 	const borrarTodoPromociones = useCallback(() => {
 		const clienteOtroPedidoMismaFecha =
-			pedidosClienteMismaFechaEntrega.length > 0 ? true : false;
+			pedidosClienteMismaFechaEntrega.length > 0;
 
-		const clienteTieneCanje =
-			visitaActual.pedidos.canje.productos.length > 0 ? true : false;
+		const clienteTieneCanje = visitaActual.pedidos.canje.productos.length > 0;
 
 		const clienteTieneBoficaciones = validarTieneBonificaciones();
 

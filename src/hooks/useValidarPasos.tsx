@@ -1,13 +1,12 @@
-import React, {useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {AvisoIcon} from 'assests/iconos';
-
 import {Configuracion} from 'components/UI/Modal';
 import {
 	useObtenerDatosCliente,
 	useObtenerPedidosClienteMismaFechaEntrega,
 	useObtenerTotalPedidosVisitaActual,
 } from 'hooks';
-import {TCliente, TClienteActual} from 'models';
+import {EPasos, TCliente, TClienteActual} from 'models';
 import {useTranslation} from 'react-i18next';
 import {
 	cambiarEstadoIniciativa,
@@ -40,7 +39,7 @@ interface ValidarPasos {
 export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 	const {t} = useTranslation();
 	const visitaActual = useObtenerVisitaActual();
-	const [configAlerta, setConfigAlerta] = React.useState({
+	const [configAlerta, setConfigAlerta] = useState({
 		titulo: '',
 		mensaje: '',
 		tituloBotonAceptar: '',
@@ -49,7 +48,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 		callbackAceptar: () => {},
 	});
 
-	const [alerta, setAlerta] = React.useState<boolean>(false);
+	const [alerta, setAlerta] = useState<boolean>(false);
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const {venta} = visitaActual.pedidos;
 	const dispatch = useAppDispatch();
@@ -80,21 +79,29 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 			(fecha) => fecha.fechaEntrega === visitaActual.fechaEntrega
 		)?.cumplido;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		borrarTodoTomaPedido();
 	}, [visitaActual.pedidos, venta]);
 
-	if (pasoActual === 0) {
+	if (pasoActual === EPasos.Planeacion) {
 		const iniciativasCanceladasSinMotivo = visitaActual.iniciativas.some(
 			(iniciativa) =>
 				iniciativa.estado === 'cancelada' && iniciativa.motivo === ''
 		);
 
 		const iniciativasEjecutadasSinCantidad = visitaActual.iniciativas.filter(
-			(iniciativa) =>
-				iniciativa.estado === 'ejecutada' &&
-				iniciativa.unidadesEjecutadas === 0 &&
-				iniciativa.subUnidadesEjecutadas === 0
+			(iniciativa) => {
+				const cantidadesEnIniciativa = Object.values(
+					iniciativa.cantidadesProductos
+				).reduce(
+					(total, actual) => (total += actual.unidades + actual.subUnidades),
+					0
+				);
+
+				return (
+					iniciativa.estado === 'ejecutada' && cantidadesEnIniciativa === 0
+				);
+			}
 		);
 
 		if (iniciativasCanceladasSinMotivo) {
@@ -110,7 +117,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 			};
 		}
 
-		if (iniciativasEjecutadasSinCantidad) {
+		if (!!iniciativasEjecutadasSinCantidad.length) {
 			return {
 				error: iniciativasEjecutadasSinCantidad.length > 0,
 				contenidoMensajeModal: {
@@ -118,11 +125,11 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 					mensaje: t('modal.tarjetasVaciasMensaje'),
 					tituloBotonAceptar: t('general.avanzar'),
 					callbackAceptar: () => {
-						iniciativasEjecutadasSinCantidad.map((iniciativa) => {
+						iniciativasEjecutadasSinCantidad?.map((iniciativa) => {
 							dispatch(
 								cambiarEstadoIniciativa({
 									estado: 'pendiente',
-									codigoIniciativa: iniciativa.idMaterialIniciativa,
+									codigoIniciativa: iniciativa.idActividadIniciativa,
 								})
 							);
 						});
@@ -135,7 +142,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 			};
 		}
 	}
-	if (pasoActual === 1) {
+	if (pasoActual === EPasos.TomaPedido) {
 		const productosSinModificar = venta?.productos?.some(
 			(producto) => producto.unidades === 0 && producto.subUnidades === 0
 		);
@@ -195,7 +202,7 @@ export const useValidarPasos = (pasoActual: number): ValidarPasos => {
 			}
 		}
 	}
-	if (pasoActual === 2) {
+	if (pasoActual === EPasos.Otros) {
 		const canjeSinMotivo = visitaActual?.pedidos?.canje?.productos?.some(
 			(producto) => producto.catalogoMotivo === ''
 		);

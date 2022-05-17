@@ -7,7 +7,7 @@ import {
 	useObtenerConfiguracion,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
-import {useObtenerCoberturas} from 'hooks';
+import {useObtenerCoberturas, useObtenerPromoPushDelCliente} from 'hooks';
 import {
 	cambiarSeQuedaAEditar,
 	limpiarProductosSinCantidad,
@@ -18,18 +18,28 @@ import {useValidarClienteBloqueado} from './hooks';
 import {VistaPromoPush} from './VistaPromoPush';
 import {Iniciativas} from './Iniciativas';
 import {Coberturas} from './Coberturas';
+import {EPasos, TStatePasos} from 'models';
 
-const Planeacion: React.FC = () => {
-	const [expandido, setExpandido] = React.useState<string | boolean>(false);
+const Planeacion: React.VFC = () => {
+	const [expandido, setExpandido] = useState<string | boolean>(false);
 	const {t} = useTranslation();
 	const {iniciativas} = useObtenerVisitaActual();
 	const configuracion = useObtenerConfiguracion();
 	const coberturas = useObtenerCoberturas();
+	const promociones = useObtenerPromoPushDelCliente();
 	const visitaActual = useObtenerVisitaActual();
 	const {venta} = visitaActual.pedidos;
 	const dispatch = useAppDispatch();
 	const [alertaPasos, setAlertaPasos] = useState<boolean>(false);
-	const [pasoActual, setPasoActual] = useState<number>(0);
+	const [pasoActual, setPasoActual] = useState<TStatePasos>({
+		actual: EPasos.Planeacion,
+		visitados: {
+			[EPasos.Planeacion]: false,
+			[EPasos.TomaPedido]: false,
+			[EPasos.Otros]: false,
+			[EPasos.FinalizarPedido]: false,
+		},
+	});
 	const validarClienteBloqueado = useValidarClienteBloqueado();
 
 	const codigosCoberturas = coberturas.reduce(
@@ -56,7 +66,10 @@ const Planeacion: React.FC = () => {
 	);
 
 	const coberturasAgregadas = venta?.productos.filter((producto) => {
-		if (codigosCoberturas.includes(producto.codigoProducto)) {
+		if (
+			codigosCoberturas.includes(producto.codigoProducto) &&
+			(producto.unidades > 0 || producto.subUnidades > 0)
+		) {
 			return producto;
 		}
 	});
@@ -70,38 +83,46 @@ const Planeacion: React.FC = () => {
 		(iniciativa) => iniciativa.estado === 'ejecutada'
 	);
 
-	const iniciativasEjecutadasSinCantidad = iniciativas.find(
-		(iniciativa) =>
-			iniciativa.estado === 'ejecutada' &&
-			iniciativa.unidadesEjecutadas === 0 &&
-			iniciativa.subUnidadesEjecutadas === 0
-	);
+	const iniciativasEjecutadasSinCantidad = iniciativas.filter((iniciativa) => {
+		const cantidadesEnIniciativa = Object.values(
+			iniciativa.cantidadesProductos
+		).reduce(
+			(total, actual) => (total += actual.unidades + actual.subUnidades),
+			0
+		);
 
-	const totalesIniciativasCompletas = iniciativas.filter(
-		(iniciativa) =>
-			iniciativa.estado === 'ejecutada' &&
-			(iniciativa.unidadesEjecutadas > 0 ||
-				iniciativa.subUnidadesEjecutadas > 0)
-	);
+		return iniciativa.estado === 'ejecutada' && cantidadesEnIniciativa === 0;
+	});
 
-	React.useEffect(() => {
+	const totalesIniciativasCompletas = iniciativas.filter((iniciativa) => {
+		const cantidadesEnIniciativa = Object.values(
+			iniciativa.cantidadesProductos
+		).reduce(
+			(total, actual) => (total += actual.unidades + actual.subUnidades),
+			0
+		);
+
+		return iniciativa.estado === 'ejecutada' && cantidadesEnIniciativa > 0;
+	});
+
+	useEffect(() => {
 		dispatch(cambiarAvisos({cambiosPasoActual: false}));
 	}, []);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (visitaActual.seQuedaAEditar.seQueda) {
 			setExpandido('Iniciativas');
 			dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: true}));
 		}
 	}, [visitaActual.seQuedaAEditar.seQueda]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		return () => {
 			dispatch(limpiarProductosSinCantidad());
 		};
 	}, []);
 
-	const [configAlerta, setConfigAlerta] = React.useState<Configuracion>({
+	const [configAlerta, setConfigAlerta] = useState<Configuracion>({
 		titulo: '',
 		mensaje: '',
 		tituloBotonAceptar: '',
@@ -148,6 +169,7 @@ const Planeacion: React.FC = () => {
 				}
 				disabled={visitaActual.clienteBloqueado}
 			>
+				{/*ToDo: pasar a multilenguaje*/}
 				<div> PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
 			<TarjetaColapsable
@@ -176,6 +198,7 @@ const Planeacion: React.FC = () => {
 				}
 				disabled={visitaActual.clienteBloqueado}
 			>
+				{/*ToDo: agregar a multilenguaje*/}
 				<div>SUGERIDOS PARA TI PEDIDOS EN CURSO</div>
 			</TarjetaColapsable>
 			<TarjetaColapsable
@@ -204,7 +227,7 @@ const Planeacion: React.FC = () => {
 						{t('titulos.promocionesDeshabilitadas')}
 					</Typography>
 				}
-				disabled={visitaActual.clienteBloqueado}
+				disabled={visitaActual.clienteBloqueado || promociones.length === 0}
 			>
 				<VistaPromoPush />
 			</TarjetaColapsable>
@@ -270,9 +293,9 @@ const Planeacion: React.FC = () => {
 				id='Coberturas'
 				expandido={expandido}
 				setExpandido={setExpandido}
-				cantidadItems={coberturasEjecutadas?.length}
-				labelChip={`${coberturasEjecutadas?.length} de ${cantidadCoberturas.length} Items`}
-				valido={coberturasEjecutadas?.length > 0}
+				cantidadItems={coberturasEjecutadas.length}
+				labelChip={`${coberturasEjecutadas.length} de ${cantidadCoberturas.length} Items`}
+				valido={coberturasEjecutadas.length > 0}
 				disabled={coberturas.length === 0 || visitaActual.clienteBloqueado}
 				mensaje={
 					<Typography
@@ -280,8 +303,7 @@ const Planeacion: React.FC = () => {
 						fontFamily='Open Sans'
 						variant='subtitle3'
 					>
-						{/*ToDo: pasar a multilenguaje */}
-						Este cliente no cuenta con coberturas
+						{t('titulos.coberturasDeshabilitadas')}
 					</Typography>
 				}
 				dataCy='Coberturas'

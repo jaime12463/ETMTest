@@ -28,7 +28,7 @@ const Bonificaciones: React.VFC<Props> = ({bonificacionValida}) => {
 
 		setTimeout(() => {
 			setResetBonificaciones((state) => !state);
-		}, 500);
+		}, 0);
 		dispatch(restablecerBonificaciones());
 	};
 

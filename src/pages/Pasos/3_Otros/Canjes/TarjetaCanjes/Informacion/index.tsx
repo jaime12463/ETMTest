@@ -1,13 +1,17 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {TCondicicon, TProductoPedido, TStateInputFocus} from 'models';
-import {StateFocusID} from 'components/UI/TarjetaTomaPedido';
+import {
+	GetValueProps,
+	StateFocusID,
+	TCondicicon,
+	TProductoPedido,
+	TStateInputFocus,
+} from 'models';
 import {useObtenerCatalogoMotivos} from 'pages/Pasos/2_TomaDePedido/hooks';
 import {CajaIcon} from 'assests/iconos';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
-import {GetValueProps} from '..';
 import {useObtenerDatos} from 'redux/hooks';
 import {useMostrarAviso} from 'hooks';
 import {MaterialSelect} from 'components/UI';

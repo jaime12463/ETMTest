@@ -8,7 +8,9 @@ import {
 	TAvisos,
 	ETipoDescuento,
 	TConfiguracionAgregarPedido,
+	TCantidadesProductosIniciativas,
 } from 'models';
+import {ItemsDelPedido} from 'models/adapter/ItemsDelPedido';
 
 import {RootState} from 'redux/store';
 import {TPromoOngoingAplicables} from 'utils/procesos/promociones/PromocionesOngoing';
@@ -53,8 +55,7 @@ export const visitaActualSlice = createSlice({
 				state.tipoPedidoActual
 			].productos.filter(
 				(precioProducto: TProductoPedido) =>
-					precioProducto.codigoProducto !==
-					action.payload.productoPedido.codigoProducto
+					precioProducto.id !== action.payload.productoPedido.id
 			);
 
 			state.pedidos[state.tipoPedidoActual].productos = [
@@ -74,26 +75,29 @@ export const visitaActualSlice = createSlice({
 				? action.payload.configuracion
 				: {actualizaDescuento: false};
 
+			const itemDelPedido: TProductoPedido = ItemsDelPedido.crear(
+				action.payload.productoPedido
+			);
+
 			const producto = state.pedidos[state.tipoPedidoActual].productos.find(
 				(precioProducto: TProductoPedido) =>
-					precioProducto.codigoProducto ===
-					action.payload.productoPedido.codigoProducto
+					precioProducto.id === itemDelPedido.id
 			);
 			state.pedidos.ventaenvase.productos = [];
 			state.pedidos.prestamoenvase.productos = [];
 			state.avisos.cambiosPasoActual = true;
 
 			if (producto) {
-				producto.unidades = action.payload.productoPedido.unidades;
-				producto.subUnidades = action.payload.productoPedido.subUnidades;
-				producto.total = action.payload.productoPedido.total;
-				producto.tipoPago = action.payload.productoPedido.tipoPago;
-				producto.catalogoMotivo = action.payload.productoPedido.catalogoMotivo;
-				producto.estado = action.payload.productoPedido.estado;
-				producto.preciosBase = action.payload.productoPedido.preciosBase;
-				producto.preciosNeto = action.payload.productoPedido.preciosNeto;
-				producto.preciosPromo = action.payload.productoPedido.preciosPromo;
-				producto.descuento = action.payload.productoPedido.descuento;
+				producto.unidades = itemDelPedido.unidades;
+				producto.subUnidades = itemDelPedido.subUnidades;
+				producto.total = itemDelPedido.total;
+				producto.tipoPago = itemDelPedido.tipoPago;
+				producto.catalogoMotivo = itemDelPedido.catalogoMotivo;
+				producto.estado = itemDelPedido.estado;
+				producto.preciosBase = itemDelPedido.preciosBase;
+				producto.preciosNeto = itemDelPedido.preciosNeto;
+				producto.preciosPromo = itemDelPedido.preciosPromo;
+				producto.descuento = itemDelPedido.descuento;
 				if (
 					!producto.promoPush &&
 					state.tipoPedidoActual === 'venta' &&
@@ -110,7 +114,7 @@ export const visitaActualSlice = createSlice({
 				}
 			} else {
 				state.pedidos[state.tipoPedidoActual].productos = [
-					action.payload.productoPedido,
+					itemDelPedido,
 					...state.pedidos[state.tipoPedidoActual].productos,
 				];
 			}
@@ -135,8 +139,7 @@ export const visitaActualSlice = createSlice({
 				action.payload.codigoTipoPedidoActual
 			].productos.findIndex(
 				(precioProducto: TProductoPedido) =>
-					precioProducto.codigoProducto ===
-						action.payload.productoPedido.codigoProducto &&
+					precioProducto.id === action.payload.productoPedido.id &&
 					precioProducto.tipoPago === action.payload.productoPedido.tipoPago
 			);
 
@@ -200,15 +203,17 @@ export const visitaActualSlice = createSlice({
 				pedidoActual = state.tipoPedidoActual;
 			}
 			if (!pedidoActual) return;
+
+			const id = ItemsDelPedido.obtenerId(action.payload.codigoProducto);
+
 			const producto = state.pedidos[pedidoActual].productos.find(
-				(producto) => action.payload.codigoProducto === producto.codigoProducto
+				(producto) => id === producto.id
 			);
 
 			const productosPedidoClienteFiltrados = state.pedidos[
 				pedidoActual
 			].productos.filter(
-				(precioProducto: TProductoPedido) =>
-					precioProducto.codigoProducto !== action.payload.codigoProducto
+				(precioProducto: TProductoPedido) => precioProducto.id !== id
 			);
 
 			state.pedidos[pedidoActual].productos = [
@@ -430,10 +435,33 @@ export const visitaActualSlice = createSlice({
 		) => {
 			state.iniciativas = state.iniciativas.map((iniciativa) => {
 				if (
-					iniciativa.idMaterialIniciativa === action.payload.codigoIniciativa
+					iniciativa.idActividadIniciativa === action.payload.codigoIniciativa
 				) {
 					iniciativa.estado = action.payload.estado;
 				}
+				return iniciativa;
+			});
+		},
+
+		limpiarValoresIniciativas: (
+			state,
+			action: PayloadAction<{idIniciativa: number}>
+		) => {
+			state.iniciativas = state.iniciativas.map((iniciativa) => {
+				if (iniciativa.idActividadIniciativa === action.payload.idIniciativa) {
+					iniciativa.cantidadesProductos = Object.keys(
+						iniciativa.cantidadesProductos
+					).reduce(
+						(obj, actual) => ({
+							...obj,
+							[+actual]: {unidades: 0, subUnidades: 0},
+						}),
+						{} as TCantidadesProductosIniciativas
+					);
+
+					return iniciativa;
+				}
+
 				return iniciativa;
 			});
 		},
@@ -456,17 +484,19 @@ export const visitaActualSlice = createSlice({
 			state,
 			action: PayloadAction<{
 				codigoIniciativa: number;
-				unidadesEjecutadas: number;
-				subUnidadesEjecutadas: number;
+				codigoProducto: number;
+				unidades: number;
+				subUnidades: number;
 			}>
 		) => {
 			state.iniciativas = state.iniciativas.map((iniciativa) => {
 				if (
-					iniciativa.idMaterialIniciativa === action.payload.codigoIniciativa
+					iniciativa.idActividadIniciativa === action.payload.codigoIniciativa
 				) {
-					iniciativa.unidadesEjecutadas = action.payload.unidadesEjecutadas;
-					iniciativa.subUnidadesEjecutadas =
-						action.payload.subUnidadesEjecutadas;
+					iniciativa.cantidadesProductos[action.payload.codigoProducto] = {
+						unidades: action.payload.unidades,
+						subUnidades: action.payload.subUnidades,
+					};
 				}
 				return iniciativa;
 			});
@@ -635,40 +665,41 @@ export const visitaActualSlice = createSlice({
 
 export const selectVisitaActual = (state: RootState) => state.visitaActual;
 export const {
+	activarClienteBloqueado,
+	agregarBeneficiosPromoOngoing,
+	agregarBonificacion,
+	agregarCoberturasEjecutadas,
 	agregarEnvaseDelPedidoActual,
 	agregarProductoDelPedidoActual,
-	editarProductoDelPedidoActual,
+	borrarDescuentoDelProducto,
+	borrarEnvases,
 	borrarProductoDelPedidoActual,
-	inicializarVisitaActual,
-	resetearVisitaActual,
 	borrarProductosDeVisitaActual,
+	borrarPromocionesOngoing,
+	cambiarAvisos,
+	cambiarBloquearPanelCarga,
+	cambiarEstadoIniciativa,
+	cambiarMostrarPromoPush,
+	cambiarMotivoCancelacionIniciativa,
+	cambiarOrdenDeCompra,
+	cambiarSaldoPresupuestoTipoPedido,
+	cambiarSeQuedaAEditar,
 	cambiarTipoPagoPoductoDelPedidoActual,
 	cambiarTipoPagoPoductosDelPedidoActual,
 	cambiarTipoPedidoActual,
-	cambiarMostrarPromoPush,
-	borrarPromocionesOngoing,
-	cambiarSaldoPresupuestoTipoPedido,
-	cambiarBloquearPanelCarga,
-	cambiarOrdenDeCompra,
-	cambiarEstadoIniciativa,
-	cambiarMotivoCancelacionIniciativa,
+	editarProductoDelPedidoActual,
 	editarUnidadesOSubUnidadesEjecutadas,
-	pasoATomaPedido,
-	agregarCoberturasEjecutadas,
-	borrarDescuentoDelProducto,
-	cambiarSeQuedaAEditar,
-	agregarBonificacion,
 	eliminarBonificacion,
 	eliminarBonificacionesGrupo,
-	restablecerBonificaciones,
-	borrarEnvases,
-	limpiarProductosSinCantidad,
 	eliminarCanje,
-	modificarEnvasesConError,
-	restablecerEnvasesConError,
-	cambiarAvisos,
-	activarClienteBloqueado,
-	agregarBeneficiosPromoOngoing,
 	eliminarEnvasesPromoOngoing,
+	inicializarVisitaActual,
+	limpiarProductosSinCantidad,
+	limpiarValoresIniciativas,
+	modificarEnvasesConError,
+	pasoATomaPedido,
+	resetearVisitaActual,
+	restablecerBonificaciones,
+	restablecerEnvasesConError,
 } = visitaActualSlice.actions;
 export default visitaActualSlice.reducer;

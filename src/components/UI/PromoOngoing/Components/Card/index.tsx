@@ -272,23 +272,46 @@ export const Card: React.VFC<CardProps> = ({
 
 	const onClick = () => {
 		if (!promocionAplicada && beneficiosParaAgregar) {
-			if (beneficiosParaAgregar.asignacion === EFormaDeAsignacion.Total) {
-				let apliacionTotalIncomplenta = false;
+			let excedeAplicacion = false;
+			let apliacionTotalIncomplenta = false;
 
-				beneficiosParaAgregar.beneficios[
-					grupoYSecuenciaActual.grupo
-				].secuencias.forEach((secuencia: any) => {
-					let tope = secuencia.tope;
+			beneficiosParaAgregar.beneficios[
+				grupoYSecuenciaActual.grupo
+			].secuencias.forEach((secuencia: any) => {
+				let tope = secuencia.tope;
 
-					let totalCantidadMateriales = secuencia.materialesBeneficio.reduce(
-						(a: number, v: TCodigoCantidad) => a + v.cantidad,
-						0
+				let totalCantidadMateriales = secuencia.materialesBeneficio.reduce(
+					(a: number, v: TCodigoCantidad) => a + v.cantidad,
+					0
+				);
+
+				if (totalCantidadMateriales > tope) {
+					excedeAplicacion = true;
+				}
+
+				if (totalCantidadMateriales < tope) {
+					apliacionTotalIncomplenta = true;
+				}
+			});
+
+			if (beneficiosParaAgregar.asignacion === EFormaDeAsignacion.Parcial) {
+				if (excedeAplicacion) {
+					mostrarAviso(
+						'error',
+						t('toast.cantidadMayorDisponiblePromocionOngoing')
 					);
+					return;
+				}
+			}
 
-					if (totalCantidadMateriales < tope) {
-						apliacionTotalIncomplenta = true;
-					}
-				});
+			if (beneficiosParaAgregar.asignacion === EFormaDeAsignacion.Total) {
+				if (excedeAplicacion) {
+					mostrarAviso(
+						'error',
+						t('toast.cantidadMayorDisponiblePromocionOngoing')
+					);
+					return;
+				}
 
 				if (apliacionTotalIncomplenta) {
 					setBordeColor(theme.palette.error.main);

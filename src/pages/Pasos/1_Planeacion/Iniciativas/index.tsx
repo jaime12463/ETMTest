@@ -19,16 +19,16 @@ export const Iniciativas: React.VFC = () => {
 		<Box display='flex' flexDirection='column' marginTop='18px' gap='10px'>
 			{iniciativas?.map((iniciativa: TIniciativasCliente) => (
 				<TarjetaIniciativas
-					key={iniciativa.idActividadIniciativa}
-					{...iniciativa}
-					expandido={expandido}
-					setExpandido={setExpandido}
-					iniciativaIncompleta={iniciativaIncompleta}
-					setIniciativaIncompleta={setIniciativaIncompleta}
-					idIniciativaIncompleta={idIniciativaIncompleta}
-					setIdIniciativaIncompleta={setIdIniciativaIncompleta}
 					avanza={avanza}
+					expandido={expandido}
+					idIniciativaIncompleta={idIniciativaIncompleta}
+					iniciativa={iniciativa}
+					iniciativaIncompleta={iniciativaIncompleta}
+					key={iniciativa.idActividadIniciativa}
 					setAvanza={setAvanza}
+					setExpandido={setExpandido}
+					setIdIniciativaIncompleta={setIdIniciativaIncompleta}
+					setIniciativaIncompleta={setIniciativaIncompleta}
 				/>
 			))}
 		</Box>

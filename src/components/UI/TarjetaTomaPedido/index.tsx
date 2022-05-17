@@ -1,6 +1,7 @@
 import React from 'react';
 import {
 	ETiposDePago,
+	StateFocusID,
 	TInfoDescuentos,
 	TProductoPedido,
 	TStateInputFocus,
@@ -15,10 +16,6 @@ import {
 } from 'hooks';
 import {SwitchYCheck, Informacion, Controles, PromoOngoing} from './components';
 
-export interface StateFocusID {
-	focusId: number;
-	setFocusId: React.Dispatch<React.SetStateAction<number>>;
-}
 interface Props {
 	bordeRedondeado?: boolean;
 	conSwitch?: boolean;

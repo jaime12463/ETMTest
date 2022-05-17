@@ -10,10 +10,10 @@ import {
 	TStateInputFocus,
 	TInfoDescuentos,
 	ETiposDePago,
+	StateFocusID,
 } from 'models';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import theme from 'theme';
-import {StateFocusID} from '../TarjetaTomaPedido';
 import {
 	Control,
 	DesplegableEscalonados,
@@ -179,6 +179,7 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 				<SwitchYCheck
 					abrirCollapse={abrirCollapse}
 					conSwitch={conSwitch}
+					producto={productoEnVenta ?? productoAMandar}
 					unidades={producto.unidades}
 				/>
 				<Informacion

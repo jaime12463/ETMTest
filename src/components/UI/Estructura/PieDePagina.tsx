@@ -19,11 +19,11 @@ const PieDePagina: React.FC = ({children}) => {
 			<Box
 				sx={{
 					width: '100%',
-					height: '120px',
+					height: '100px',
 					position: 'fixed',
 					bottom: 0,
 					left: 0,
-					background: 'linear-gradient(0deg, #F5F0F0  80%, transparent 95%)',
+					background: 'linear-gradient(0deg, #F5F0F0  70%, transparent 100%)',
 					zIndex: 0,
 				}}
 			/>

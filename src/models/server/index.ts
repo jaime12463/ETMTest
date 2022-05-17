@@ -1,4 +1,4 @@
-import {getAutomaticTypeDirectiveNames} from 'typescript';
+import {EUnidadMedida} from 'models';
 
 //db.json
 export type TDatosClientesProductos = {
@@ -97,15 +97,15 @@ export type TPromoOngoingHabilitadas = {
 /* */
 
 export type TIniciativas = {
-	idActividadIniciativa: number;
-	nombreIniciativa: string;
-	nombreActividadPlan: string;
+	archivoAdjunto?: string;
+	cantidad: number;
 	descripcionIniciativa: string;
 	finVigenciaIniciativa: string;
-	idMaterialIniciativa: number;
-	unidadVentaIniciativa: number;
-	subunidadVentaIniciativa: number;
-	archivoAdjunto?: string;
+	idActividadIniciativa: number;
+	materialesIniciativa: number[];
+	nombreActividadPlan: string;
+	nombreIniciativa: string;
+	unidadMedida: EUnidadMedida;
 };
 
 export type TBonificaciones = {
@@ -161,8 +161,8 @@ export type TProducto = {
 
 export enum ETipoProducto {
 	ProductoTerminado = 1,
-	Envase=5,
-	PromoPush=9
+	Envase = 5,
+	PromoPush = 9,
 }
 
 export type TAtributos = {
@@ -315,15 +315,16 @@ export type TDatosConfiguracion = {
 };
 
 export type TConfiguracion = {
+	bonificacionesConVenta: boolean;
+	esFrecuenciaAbierta: boolean;
+	habilitaCancelarIniciativa: boolean;
+	habilitaCompromisoDeCobro: boolean;
+	habilitaOrdenDeCompra: boolean;
 	habilitaRequisitoConDescuentoAutomatico: boolean;
 	maximoGrupoCoberturaAMostrar: number;
-	esFrecuenciaAbierta: boolean;
-	habilitaOrdenDeCompra: boolean;
-	bonificacionesConVenta: boolean;
-	habilitaCompromisoDeCobro: boolean;
+	motivosCancelacionIniciativas: TMotivosCancelacionIniciativas[];
 	tipoPedidoEnvasesHabilitados: string[];
 	tipoPedidos: TTipoPedido[];
-	motivosCancelacionIniciativas: TMotivosCancelacionIniciativas[];
 };
 
 export type TMotivosCancelacionIniciativas = {

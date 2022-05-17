@@ -75,7 +75,7 @@ export const Coberturas: React.VFC<Props> = ({coberturasAgregadas}) => {
 								onClick={() => setAlerta(true)}
 								padding='4px 10px 4px 5px'
 							>
-								<ReiniciarIcon height={7.5} width={7.5} />
+								<ReiniciarIcon height={10} width={10} />
 								<Typography
 									variant='caption'
 									fontFamily='Open Sans'

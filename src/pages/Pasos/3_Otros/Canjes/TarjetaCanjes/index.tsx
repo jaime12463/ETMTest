@@ -2,8 +2,14 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Informacion from './Informacion';
 import Controles from './Controles';
-import {TCondicicon, TProductoPedido, TStateInputFocus, TVisita} from 'models';
-import {StateFocusID} from 'components/UI/TarjetaTomaPedido';
+import {
+	GetValueProps,
+	StateFocusID,
+	TCondicicon,
+	TProductoPedido,
+	TStateInputFocus,
+	TVisita,
+} from 'models';
 import CheckYPendiente from './CheckYPendiente';
 import theme from 'theme';
 
@@ -14,14 +20,6 @@ interface Props {
 	stateInputFocus: TStateInputFocus;
 	statefocusId: StateFocusID;
 	visitaActual: TVisita;
-}
-
-export interface GetValueProps {
-	unidades: number;
-	subUnidades: number;
-	productoABuscar: string;
-	tipoDePedido: string;
-	catalogoMotivo: string;
 }
 
 const TarjetaCanjes: React.FC<Props> = ({

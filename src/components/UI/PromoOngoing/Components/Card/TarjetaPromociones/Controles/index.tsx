@@ -6,9 +6,9 @@ import {
 	CajaIcon,
 	QuitarRellenoIcon,
 } from 'assests/iconos';
-import useEstilos from './useEstilos';
 import {ETiposDePago, TCodigoCantidad} from 'models';
 import {useMostrarAviso} from 'hooks';
+import {useTranslation} from 'react-i18next';
 import {
 	InputCantidades,
 	InputPropsEstilos,
@@ -58,15 +58,28 @@ export const Controles: React.VFC<Props> = ({
 	const [puedeVerBotones, setPuedeVerBotones] = React.useState<boolean>(false);
 	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
 	const [superaTope, setSuperaTope] = React.useState<boolean>(false);
+	const [errorLimiteDisponible, setErrorLimiteDisponible] =
+		React.useState<boolean>(false);
 
-	const classes = useEstilos({errorAplicacionTotal: false, puedeVerBotones});
+	const cantidadInicial = React.useMemo(
+		() => cantidadesPedido[producto.codigoProducto],
+		[]
+	);
+
 	const [totalProductos, setTotalProductos] = React.useState<number>(0);
+	const {t} = useTranslation();
 
 	const useEstilosProps: InputPropsEstilos = {
 		disabled: !puedeVerBotones,
+		bordeError: errorLimiteDisponible,
 		cantidadMaximaConfig: 0,
 		unidades: cantidadesPedido[producto.codigoProducto],
 	};
+
+	React.useEffect(() => {
+		errorLimiteDisponible &&
+			mostrarAviso('error', t('toast.cantidadMayorDisponiblePromocionOngoing'));
+	}, [errorLimiteDisponible]);
 
 	React.useEffect(() => {
 		if (beneficiosParaAgregar) {
@@ -115,6 +128,16 @@ export const Controles: React.VFC<Props> = ({
 				setBeneficiosParaAgregar({...promocionEditada});
 			}
 		}
+
+		return () => {
+			if (errorLimiteDisponible) {
+				setCantidadesPedido((state) => ({
+					...state,
+					[producto.codigoProducto]: cantidadInicial,
+				}));
+				setErrorLimiteDisponible(false);
+			}
+		};
 	}, [cantidadesPedido[producto.codigoProducto]]);
 
 	React.useEffect(() => {
@@ -135,8 +158,16 @@ export const Controles: React.VFC<Props> = ({
 				  producto.topeSecuencia
 				? true
 				: false;
+
 		if (topeTotal) {
-			mostrarAviso('error', 'La cantidad es mayor al disponible permitido');
+			setErrorLimiteDisponible(true);
+			setCantidadesPedido((state) => ({
+				...state,
+				[producto.codigoProducto]: Number(
+					e.target.value.replace(/[^0-9]/g, '')
+				),
+			}));
+			setPuedeAgregar(true);
 		} else {
 			setCantidadesPedido((state) => ({
 				...state,
@@ -145,6 +176,7 @@ export const Controles: React.VFC<Props> = ({
 				),
 			}));
 			setPuedeAgregar(true);
+			setErrorLimiteDisponible(false);
 		}
 	};
 

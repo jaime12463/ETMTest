@@ -10,6 +10,7 @@ const es = {
 		ahorraste: 'Ahorraste',
 		ahorroTotal: 'Ahorro total',
 		aplicacionMaxima: 'Aplicación máxima',
+		aplicacionPendiente: 'Aplicación pendiente',
 		aplicar: 'Aplicar',
 		archivosAdjuntos: 'Archivos adjuntos',
 		avanzar: 'Avanzar',
@@ -95,6 +96,7 @@ const es = {
 		rangoFinal: 'Rango final',
 		rangoInicial: 'Rango inicial',
 		razonSocial: 'Razón social',
+		reiniciar: 'Reiniciar',
 		restablecerCero: 'Restablecer cantidades a cero',
 		restablecerPromociones: 'Restablecer promociones',
 		resumenDePedido: 'Resumen de pedido',
@@ -145,6 +147,7 @@ const es = {
 			'No hay disponibilidad de canje para este cliente en este momento',
 		clientes: 'Clientes',
 		coberturas: 'Coberturas',
+		coberturasDeshabilitadas: 'No existen coberturas para mostrar',
 		envases: 'Envases retornables',
 		ingresoPedido: 'Ingreso de Pedido',
 		iniciativas: 'Iniciativas',
@@ -153,8 +156,7 @@ const es = {
 		pedidosEnCursoDeshabilitado: 'No hay pedidos para mostrar',
 		productosPedido: 'Productos del Pedido',
 		promociones: 'Promociones push',
-		promocionesDeshabilitadas:
-			'Visualiza las promociones push que tienes disponible para tu cliente.',
+		promocionesDeshabilitadas: 'Este cliente no cuenta con promociones push',
 		promocionesMensaje:
 			'Visualiza las promociones push que tienes disponible para tu cliente.',
 		sugeridosDeshabilitado: 'No hay sugerencias para mostrar',
@@ -244,7 +246,7 @@ const es = {
 		montoMayorDeuda: 'El monto no puede ser mayor a la deuda registrada',
 		montoMinimo: 'No cumple con el monto mínimo de venta del pedido',
 		noEditarPlaneacionDescripcion:
-			'Para volver a editar las cantidades de coberturas e iniciativas , deberás hacerlo  en toma de pedido.',
+			'Para volver a editar las cantidades de coberturas e iniciativas, deberás hacerlo  en toma de pedido.',
 		noEditarPlaneacionTitulo: 'No es posible editar las cantidades',
 		noFechaEntregaInformada:
 			'El cliente no tiene fecha de entrega informada para la fecha actual',
@@ -292,6 +294,9 @@ const es = {
 			'Superaste la cantidad máxima de promoción permitida que puedes aplicar por cliente.',
 	},
 	modal: {
+		bonificacionActivaMensaje:
+			'Si decides agregar una bonificacion, la del otro grupo se perderá',
+		bonificacionActivaTitulo: 'Ya tienes una bonificación activa',
 		restablecerBonificacionesMensaje:
 			'Todas las cantidades de las bonificaciones se restablecerán a cero.',
 		restablecerBonificacionesTitulo: 'Restablecer cantidades a cero',
@@ -323,9 +328,15 @@ const es = {
 		clienteCreditoBloqueadoMensaje:
 			'Solo puedes levantar el pedido a contado para este cliente.',
 		clienteCreditoBloqueadoTitulo: 'Cliente con crédito bloqueado',
+		errorBonificaionExcedeCantidadMensaje:
+			'No puedes superar el máximo de aplicación.',
+		errorBonificacionExcedeCantidadTitulo:
+			'La cantidad es mayor a la aplicacion máxima permitida',
 		errorBonificacionTotalMensaje:
 			'Esta bonificación tiene que ser de aplicación total. Favor de modificar cantidades.',
 		errorBonificacionTotalTitulo: 'Error en bonificación total',
+		cantidadMayorDisponiblePromocionOngoing:
+			'No puedes superar el límite disponible',
 		excedeMayorPermitidoMensaje:
 			'Es necesario corregir el valor de la presentación.',
 		excedeMayorPermitidoTitulo: 'Cantidad excede el valor permitido',

@@ -1,20 +1,18 @@
-import {Box, Typography} from '@mui/material';
+import {Typography} from '@mui/material';
 import {useObtenerPedidoActual} from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
-import {Center, Fecha} from 'components/UI';
+import {formatearFechaIntl} from 'utils/methods';
 
 export const FechaEntregaDelPedidoActual: React.VFC = () => {
 	const {t} = useTranslation();
 	const pedidoActual = useObtenerPedidoActual();
 	const {fechaEntrega} = pedidoActual;
 
+	const fechaFormateada = formatearFechaIntl(fechaEntrega);
+
 	return (
-		<Box mt={1}>
-			<Center>
-				<Typography variant='body2'>
-					{t('general.fechaEntrega')} <Fecha>{fechaEntrega}</Fecha>
-				</Typography>
-			</Center>
-		</Box>
+		<Typography variant='caption' color='#fff'>
+			{`${t('general.fechaEntrega')}: ${fechaFormateada}`}
+		</Typography>
 	);
 };

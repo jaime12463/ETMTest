@@ -6,6 +6,7 @@ import {
 	useObtenerCompromisoDeCobroActual,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
+import {OjoIcon, OjoTachadoIcon} from 'assests/iconos';
 
 interface Props {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -63,8 +64,13 @@ export const BotonResumenPedido: React.VFC<Props> = ({setOpen}) => {
 			className={classes.container}
 			onClick={() => setOpen((prevState) => !prevState)}
 		>
-			<Typography variant='caption' fontFamily='Open Sans' color='#fff'>
-				Ver resumen del pedido
+			{botonHabilitado ? <OjoIcon /> : <OjoTachadoIcon />}
+			<Typography
+				variant='subtitle3'
+				fontFamily='Open Sans'
+				color={botonHabilitado ? '#000' : '#fff'}
+			>
+				Resumen del pedido
 			</Typography>
 		</Box>
 	);

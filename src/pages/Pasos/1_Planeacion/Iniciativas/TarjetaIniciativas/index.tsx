@@ -4,19 +4,12 @@ import {
 	Card,
 	Collapse,
 	Divider,
-	IconButton,
 	Link,
 	Typography,
 	capitalize,
 } from '@mui/material';
+import {BotonSmall, VisualizadorPdfs} from 'components/UI';
 import {
-	BotonSmall,
-	InputCantidades,
-	InputPropsEstilos,
-	VisualizadorPdfs,
-} from 'components/UI';
-import {
-	AgregarRedondoIcon,
 	AvisoIcon,
 	BotellaIcon,
 	CajaIcon,
@@ -24,16 +17,13 @@ import {
 	CheckRedondoIcon,
 	Clip,
 	FlechaAbajoIcon,
-	QuitarRellenoIcon,
 } from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
 import useEstilos from './useEstilos';
 import {useObtenerProductoPorCodigo} from 'hooks/useObtenerProductoPorCodigo';
 import {
 	useAppDispatch,
-	useObtenerClienteActual,
 	useObtenerConfiguracion,
-	useObtenerDatos,
 	useObtenerVisitaActual,
 } from 'redux/hooks';
 import {
@@ -41,126 +31,100 @@ import {
 	cambiarEstadoIniciativa,
 	cambiarMotivoCancelacionIniciativa,
 	cambiarSeQuedaAEditar,
-	editarUnidadesOSubUnidadesEjecutadas,
+	limpiarValoresIniciativas,
 } from 'redux/features/visitaActual/visitaActualSlice';
-import {
-	TProductoPedido,
-	TIniciativasCliente,
-	InputsKeysFormTomaDePedido,
-} from 'models';
+import {TIniciativasCliente, EUnidadMedida, TPrecioProducto} from 'models';
 import theme from 'theme';
-import {useAgregarProductoAlPedidoActual} from 'pages/Pasos/2_TomaDePedido/hooks';
-import {
-	useMostrarAdvertenciaEnDialogo,
-	useMostrarAviso,
-	useObtenerDatosCliente,
-	useValidacionPermiteSubUnidades,
-} from 'hooks';
-import {formatearFecha, formatearNumero} from 'utils/methods';
+import {formatearFecha} from 'utils/methods';
 import {Modal, ModalCore, MaterialSelect} from 'components/UI';
+import {useContador} from 'hooks';
+import {Producto} from './components';
 
-interface Props extends TIniciativasCliente {
+interface Props {
+	avanza: boolean;
 	expandido: boolean | string;
-	setExpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
-	iniciativaIncompleta: boolean;
-	setIniciativaIncompleta: React.Dispatch<React.SetStateAction<boolean>>;
 	idIniciativaIncompleta: number | null;
+	iniciativa: TIniciativasCliente;
+	iniciativaIncompleta: boolean;
+	setAvanza: React.Dispatch<React.SetStateAction<boolean>>;
+	setExpandido: React.Dispatch<React.SetStateAction<string | boolean>>;
 	setIdIniciativaIncompleta: React.Dispatch<
 		React.SetStateAction<number | null>
 	>;
-	avanza: boolean;
-	setAvanza: React.Dispatch<React.SetStateAction<boolean>>;
+	setIniciativaIncompleta: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface GetValuesProps {
-	unidades: number;
-	subUnidades: number;
-	productoABuscar: string;
-	tipoDePedido: string;
-	catalogoMotivo: string;
-}
-
-const TarjetaIniciativas: React.FC<Props> = ({
-	expandido,
-	setExpandido,
-	nombreIniciativa,
-	nombreActividadPlan,
-	descripcionIniciativa,
-	unidadesEjecutadas,
-	subUnidadesEjecutadas,
-	estado,
-	motivo,
-	idMaterialIniciativa,
-	finVigenciaIniciativa,
-	archivoAdjunto,
-	idActividadIniciativa,
-	iniciativaIncompleta,
-	setIniciativaIncompleta,
-	idIniciativaIncompleta,
-	setIdIniciativaIncompleta,
+const TarjetaIniciativas: React.VFC<Props> = ({
 	avanza,
+	expandido,
+	idIniciativaIncompleta,
+	iniciativa: {
+		archivoAdjunto,
+		cantidad,
+		cantidadesProductos,
+		descripcionIniciativa,
+		estado,
+		finVigenciaIniciativa,
+		idActividadIniciativa,
+		materialesIniciativa,
+		motivo,
+		nombreActividadPlan,
+		nombreIniciativa,
+		unidadMedida,
+	},
+	iniciativaIncompleta,
 	setAvanza,
+	setExpandido,
+	setIdIniciativaIncompleta,
+	setIniciativaIncompleta,
 }) => {
 	const {t} = useTranslation();
 	const obtenerProductoPorCodigo = useObtenerProductoPorCodigo();
-	const producto = obtenerProductoPorCodigo(idMaterialIniciativa);
 	const visitaActual = useObtenerVisitaActual();
-	const {motivosCancelacionIniciativas} = useObtenerConfiguracion();
-	const clienteActual = useObtenerClienteActual();
-	const {mostrarAdvertenciaEnDialogo} = useMostrarAdvertenciaEnDialogo();
-	const unidades = unidadesEjecutadas;
-	const subUnidades = subUnidadesEjecutadas;
-	const id = idMaterialIniciativa.toString();
+	const {motivosCancelacionIniciativas, habilitaCancelarIniciativa} =
+		useObtenerConfiguracion();
+	const id = idActividadIniciativa.toString();
+
+	const {contador, ...restoContador} = useContador(cantidad);
+
+	const productosIniciativa = React.useMemo(() => {
+		const productos: TPrecioProducto[] = [];
+
+		materialesIniciativa.map((codigo) => {
+			const productoExistente = obtenerProductoPorCodigo(codigo);
+
+			if (productoExistente) {
+				productos.push(productoExistente);
+			}
+		});
+
+		return productos;
+	}, []);
 
 	const fechaVencimiento = formatearFecha(finVigenciaIniciativa, t).replace(
 		/-/g,
 		'/'
 	);
 
-	if (!producto) return null;
-
-	const defaultValues: GetValuesProps = {
-		unidades: unidadesEjecutadas,
-		subUnidades: subUnidadesEjecutadas,
-		productoABuscar: '',
-		tipoDePedido: visitaActual.tipoPedidoActual,
-		catalogoMotivo: '',
-	};
-
-	const productoACargar: TProductoPedido = {
-		...producto,
-		unidades,
-		subUnidades,
-		catalogoMotivo: '',
-		total: 0,
-		tipoPago: clienteActual.tipoPagoActual,
-		preciosBase: {
-			unidad: producto.precioConImpuestoUnidad,
-			subUnidad: producto.precioConImpuestoSubunidad,
-		},
-		preciosPromo: {
-			unidad: 0,
-			subUnidad: 0,
-		},
-		preciosNeto: {
-			unidad: producto.precioConImpuestoUnidad,
-			subUnidad: producto.precioConImpuestoSubunidad,
-		},
-	};
-
-	const permiteSubUnidades = useValidacionPermiteSubUnidades(productoACargar);
 	const [estadoSelect, setEstadoSelect] = React.useState<string>(estado);
 	const [motivoSelect, setMotivoSelect] = React.useState<string>(motivo);
 
-	const [getValues, setGetValues] =
-		React.useState<GetValuesProps>(defaultValues);
-
 	const [mostrarArchivosAdjuntos, setMostrarArchivosAdjuntos] =
 		React.useState(false);
+
+	const cantidadesEjecutadasIniciativa = React.useMemo(() => {
+		return Object.values(cantidadesProductos).reduce((total, actual) => {
+			return total + actual.unidades + actual.subUnidades;
+		}, 0);
+	}, [cantidadesProductos]);
+
 	const classes = useEstilos({
-		estado: estadoSelect,
+		editarInputs:
+			visitaActual?.seQuedaAEditar?.bordeError ||
+			cantidadesEjecutadasIniciativa === 0,
+		estado,
+		iniciativaAbierta: expandido === id,
 		inputsBloqueados: visitaActual.pasoATomaPedido,
-		editarInputs: visitaActual?.seQuedaAEditar?.bordeError,
 	});
 
 	const [alerta, setAlerta] = React.useState<boolean>(false);
@@ -169,18 +133,14 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	const dispatch = useAppDispatch();
 
 	React.useEffect(() => {
-		if (
-			unidadesEjecutadas === 0 &&
-			subUnidadesEjecutadas === 0 &&
-			estado === 'ejecutada'
-		) {
+		if (cantidadesEjecutadasIniciativa === 0 && estado === 'ejecutada') {
 			setIniciativaIncompleta(true);
-			setIdIniciativaIncompleta(idMaterialIniciativa);
+			setIdIniciativaIncompleta(idActividadIniciativa);
 			return;
 		}
 
 		setIniciativaIncompleta(false);
-	}, [unidadesEjecutadas, subUnidadesEjecutadas, estado]);
+	}, [cantidadesProductos, estado]);
 
 	const manejadorExpandido = (id: string | boolean) => {
 		if (iniciativaIncompleta) {
@@ -190,141 +150,6 @@ const TarjetaIniciativas: React.FC<Props> = ({
 		}
 
 		setExpandido(id);
-	};
-
-	const agregarProductoAlPedidoActual = useAgregarProductoAlPedidoActual(
-		productoACargar,
-		mostrarAdvertenciaEnDialogo,
-		getValues,
-		setGetValues
-	);
-
-	const [puedeAgregar, setPuedeAgregar] = React.useState<boolean>(false);
-
-	const [focusId, setFocusId] = React.useState<number>(0);
-	const [inputFocus, setInputFocus] =
-		React.useState<InputsKeysFormTomaDePedido>('productoABuscar');
-
-	const mostrarAviso = useMostrarAviso();
-
-	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
-	const {configuracionPedido}: any = datosCliente;
-
-	const {envases, medidas} = useObtenerDatos();
-
-	React.useEffect(() => {
-		if (puedeAgregar) {
-			agregarProductoAlPedidoActual(getValues);
-			dispatch(
-				editarUnidadesOSubUnidadesEjecutadas({
-					codigoIniciativa: Number(idMaterialIniciativa),
-					unidadesEjecutadas: getValues.unidades,
-					subUnidadesEjecutadas: getValues.subUnidades,
-				})
-			);
-			setPuedeAgregar(false);
-		}
-	}, [puedeAgregar]);
-
-	const handleButtons = (
-		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-	) => {
-		const {value, name} = e.currentTarget;
-		setFocusId(producto.codigoProducto);
-		if (name === 'unidades') {
-			if (value === '-' && getValues.unidades === 0) {
-				return;
-			}
-			setInputFocus('unidades');
-			setGetValues({
-				...getValues,
-				[name]: value === '+' ? ++getValues.unidades : --getValues.unidades,
-			});
-			setPuedeAgregar(true);
-		} else if (name === 'subUnidades') {
-			if (value === '-' && getValues.subUnidades === 0) {
-				return;
-			}
-			setInputFocus('subUnidades');
-			setGetValues((prevState) => ({
-				...prevState,
-				[name]:
-					value === '+'
-						? prevState.subUnidades + producto.subunidadesVentaMinima
-						: prevState.subUnidades - producto.subunidadesVentaMinima,
-			}));
-			setPuedeAgregar(true);
-		}
-	};
-
-	const validacionSubUnidades = () => {
-		if (
-			getValues.subUnidades % producto.subunidadesVentaMinima !== 0 &&
-			getValues.subUnidades < producto.presentacion
-		) {
-			return (
-				mostrarAviso(
-					'error',
-					t('advertencias.subUnidadesNoMultiplo', {
-						subunidadesVentaMinima: producto.subunidadesVentaMinima,
-					})
-				),
-				setGetValues({
-					...getValues,
-					subUnidades: 0,
-				})
-			);
-		}
-
-		agregarProductoAlPedidoActual(getValues);
-		dispatch(
-			editarUnidadesOSubUnidadesEjecutadas({
-				codigoIniciativa: Number(idMaterialIniciativa),
-				unidadesEjecutadas: getValues.unidades,
-				subUnidadesEjecutadas: getValues.subUnidades,
-			})
-		);
-		setFocusId(0);
-		setInputFocus('productoABuscar');
-	};
-
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setGetValues({
-			...getValues,
-			[e.target.name]: +e.target.value.replace(/[^0-9]/g, ''),
-		});
-		setFocusId(producto.codigoProducto);
-
-		if (e.target.name === 'unidades') {
-			setPuedeAgregar(true);
-		}
-	};
-
-	const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
-		if (e.key === 'Enter') {
-			if (inputFocus === 'unidades') {
-				setInputFocus('subUnidades');
-				agregarProductoAlPedidoActual(getValues);
-				dispatch(
-					editarUnidadesOSubUnidadesEjecutadas({
-						codigoIniciativa: Number(idMaterialIniciativa),
-						unidadesEjecutadas: getValues.unidades,
-						subUnidadesEjecutadas: getValues.subUnidades,
-					})
-				);
-			} else if (inputFocus === 'subUnidades') {
-				validacionSubUnidades();
-			}
-		}
-	};
-
-	const useEstilosProps: InputPropsEstilos = {
-		bordeError: visitaActual.seQuedaAEditar.bordeError,
-		cantidadMaximaConfig: configuracionPedido.cantidadMaximaUnidades ?? 0,
-		subUnidades: getValues.subUnidades,
-		unidades: getValues.unidades,
-		unidadesDisponibles: producto.unidadesDisponibles,
-		disabled: estadoSelect !== 'ejecutada' || visitaActual.pasoATomaPedido,
 	};
 
 	React.useEffect(() => {
@@ -355,17 +180,21 @@ const TarjetaIniciativas: React.FC<Props> = ({
 				case 'pendiente':
 					setEstadoSelect('pendiente');
 					setMotivoSelect('');
-					setGetValues({...getValues, unidades, subUnidades});
 					dispatch(
 						cambiarEstadoIniciativa({
 							estado: 'pendiente',
-							codigoIniciativa: idMaterialIniciativa,
+							codigoIniciativa: idActividadIniciativa,
 						})
 					);
+					Object.keys(cantidadesProductos).map((codigo) => {
+						dispatch(
+							borrarProductoDelPedidoActual({
+								codigoProducto: +codigo,
+							})
+						);
+					});
 					dispatch(
-						borrarProductoDelPedidoActual({
-							codigoProducto: producto.codigoProducto,
-						})
+						limpiarValoresIniciativas({idIniciativa: idActividadIniciativa})
 					);
 					if (motivo !== '') {
 						dispatch(
@@ -379,11 +208,10 @@ const TarjetaIniciativas: React.FC<Props> = ({
 					break;
 				case 'ejecutada':
 					setEstadoSelect('ejecutada');
-					agregarProductoAlPedidoActual(getValues);
 					dispatch(
 						cambiarEstadoIniciativa({
 							estado: 'ejecutada',
-							codigoIniciativa: idMaterialIniciativa,
+							codigoIniciativa: idActividadIniciativa,
 						})
 					);
 					if (motivo !== '') {
@@ -398,20 +226,22 @@ const TarjetaIniciativas: React.FC<Props> = ({
 					break;
 				case 'cancelada':
 					setEstadoSelect('cancelada');
-					setGetValues({...getValues, unidades, subUnidades});
 					dispatch(
 						cambiarEstadoIniciativa({
 							estado: 'cancelada',
-							codigoIniciativa: idMaterialIniciativa,
+							codigoIniciativa: idActividadIniciativa,
 						})
 					);
+					Object.keys(cantidadesProductos).map((codigo) => {
+						dispatch(
+							borrarProductoDelPedidoActual({
+								codigoProducto: +codigo,
+							})
+						);
+					});
 					dispatch(
-						borrarProductoDelPedidoActual({
-							codigoProducto: producto.codigoProducto,
-						})
+						limpiarValoresIniciativas({idIniciativa: idActividadIniciativa})
 					);
-					break;
-				default:
 					break;
 			}
 		}
@@ -420,27 +250,24 @@ const TarjetaIniciativas: React.FC<Props> = ({
 	React.useEffect(() => {
 		if (
 			visitaActual.seQuedaAEditar.bordeError &&
-			idIniciativaIncompleta === idMaterialIniciativa
+			idIniciativaIncompleta === idActividadIniciativa
 		) {
-			if (getValues.unidades > 0 || getValues.subUnidades) {
+			if (cantidadesEjecutadasIniciativa > 0) {
 				dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
 			}
 		}
-
 		if (avanza) {
-			if (idIniciativaIncompleta === idMaterialIniciativa) {
+			if (idIniciativaIncompleta === idActividadIniciativa) {
 				setEstadoSelect('pendiente');
 				setMotivoSelect('');
-				setGetValues({...getValues, unidades, subUnidades});
+				dispatch(
+					limpiarValoresIniciativas({idIniciativa: idActividadIniciativa})
+				);
+				dispatch(cambiarSeQuedaAEditar({seQueda: false, bordeError: false}));
 			}
 			setAvanza(false);
 		}
-	}, [
-		avanza,
-		visitaActual?.seQuedaAEditar?.bordeError,
-		getValues.unidades,
-		getValues.subUnidades,
-	]);
+	}, [avanza, visitaActual?.seQuedaAEditar?.bordeError, cantidadesProductos]);
 
 	return (
 		<>
@@ -487,38 +314,42 @@ const TarjetaIniciativas: React.FC<Props> = ({
 							transition: 'background 0.3s ease-in-out',
 						}}
 					>
-						{estadoSelect === 'cancelada' && motivo === '' && (
-							<Box display='flex' justifyContent='flex-end' width='100%'>
-								<Typography
-									color='#fff'
-									fontFamily='Open Sans'
-									padding='2px 12px'
-									sx={{
-										background: theme.palette.primary.light,
-										borderRadius: '50px',
-									}}
-									variant='caption'
-								>
-									{t('general.sinMotivo')}
-								</Typography>
-							</Box>
-						)}
-						{estadoSelect === 'ejecutada' && (
-							<Box display='flex' justifyContent='flex-end' width='100%'>
-								<CheckRedondoIcon height='17.5px' width='17.5px' />
-							</Box>
-						)}
+						{((estadoSelect === 'cancelada' && motivo === '') ||
+							estadoSelect === 'pendiente') &&
+							expandido === id && (
+								<Box display='flex' justifyContent='flex-end' width='100%'>
+									<Typography
+										color={
+											estadoSelect === 'pendiente'
+												? theme.palette.secondary.main
+												: '#fff'
+										}
+										fontFamily='Open Sans'
+										padding='2px 12px'
+										sx={{
+											background:
+												estadoSelect === 'pendiente'
+													? theme.palette.warning.main
+													: theme.palette.primary.main,
+											borderRadius: '50px',
+										}}
+										variant='caption'
+									>
+										{estadoSelect === 'pendiente'
+											? t('general.pendiente')
+											: t('general.sinMotivo')}
+									</Typography>
+								</Box>
+							)}
+						{estadoSelect === 'ejecutada' &&
+							cantidadesEjecutadasIniciativa > 0 && (
+								<Box display='flex' justifyContent='flex-end' width='100%'>
+									<CheckRedondoIcon height={20} width={20} />
+								</Box>
+							)}
 						{estadoSelect === 'cancelada' && motivo !== '' && (
 							<Box display='flex' justifyContent='flex-end' width='100%'>
-								<CerrarRedondoIcon
-									height='20px'
-									width='20px'
-									fill={
-										expandido === id
-											? theme.palette.primary.light
-											: theme.palette.primary.main
-									}
-								/>
+								<CerrarRedondoIcon height={20} width={20} />
 							</Box>
 						)}
 						<Typography
@@ -537,7 +368,37 @@ const TarjetaIniciativas: React.FC<Props> = ({
 						data-cy={'iniciativa-detalle-' + id}
 					>
 						<Divider />
-
+						<Box display='flex' flexDirection='column' padding='10px 14px'>
+							<Box alignItems='flex-end' display='flex' flexDirection='column'>
+								<Typography
+									fontFamily='Open Sans'
+									marginBottom='4px'
+									variant='subtitle3'
+								>
+									{`${t('general.aplicacionPendiente')}:`}
+								</Typography>
+								<Box
+									alignItems='center'
+									display='flex'
+									gap='2px'
+									marginBottom='10px'
+								>
+									{unidadMedida === EUnidadMedida.Unidad ? (
+										<CajaIcon height={18} width={18} />
+									) : (
+										<BotellaIcon height={18} width={18} />
+									)}
+									<Typography
+										color='secondary'
+										fontFamily='Open Sans'
+										variant='subtitle3'
+									>
+										{contador}
+									</Typography>
+								</Box>
+							</Box>
+							<Divider />
+						</Box>
 						<Box
 							display='flex'
 							flexDirection='column'
@@ -548,38 +409,32 @@ const TarjetaIniciativas: React.FC<Props> = ({
 							<Box
 								display='flex'
 								alignItems='center'
-								marginTop='8px'
 								data-cy={`iniciativa-estatus-${id}`}
 							>
-								<Typography
-									variant='body3'
-									fontFamily='Open Sans'
-									flex='1'
-									sx={{opacity: 0.5}}
-								>
+								<Typography variant='body3' fontFamily='Open Sans' flex='1'>
 									{t('general.estatus')}
 								</Typography>
 								<Box flex='3' data-cy={`iniciativa-estatus-value-${id}`}>
 									<MaterialSelect
 										state={capitalize(estadoSelect)}
 										setState={setEstadoSelect}
-										opciones={[
-											t('general.pendiente'),
-											t('general.ejecutada'),
-											t('general.cancelada'),
-										]}
+										opciones={
+											habilitaCancelarIniciativa
+												? [
+														t('general.pendiente'),
+														t('general.ejecutada'),
+														t('general.cancelada'),
+												  ]
+												: [t('general.pendiente'), t('general.ejecutada')]
+										}
 										disabled={visitaActual.pasoATomaPedido}
+										borderColor={estadoSelect === 'pendiente'}
 									/>
 								</Box>
 							</Box>
 							{estadoSelect === 'cancelada' && (
 								<Box display='flex' alignItems='center'>
-									<Typography
-										variant='body3'
-										fontFamily='Open Sans'
-										flex='1'
-										sx={{opacity: 0.5}}
-									>
+									<Typography variant='body3' fontFamily='Open Sans' flex='1'>
 										{t('general.motivo')}
 									</Typography>
 									<Box flex='3'>
@@ -605,12 +460,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								alignItems='center'
 								data-cy={`iniciativa-planDeActividades-${id}`}
 							>
-								<Typography
-									variant='body3'
-									fontFamily='Open Sans'
-									flex='1'
-									sx={{opacity: 0.5}}
-								>
+								<Typography variant='body3' fontFamily='Open Sans' flex='1'>
 									{t('general.planDeActividades')}
 								</Typography>
 								<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
@@ -623,12 +473,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								alignItems='center'
 								data-cy={`iniciativa-descripcion-${id}`}
 							>
-								<Typography
-									variant='body3'
-									fontFamily='Open Sans'
-									flex='1'
-									sx={{opacity: 0.5}}
-								>
+								<Typography variant='body3' fontFamily='Open Sans' flex='1'>
 									{t('general.descripcion')}
 								</Typography>
 								<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
@@ -641,12 +486,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 								alignItems='center'
 								data-cy={`iniciativa-vigencia-${id}`}
 							>
-								<Typography
-									variant='body3'
-									fontFamily='Open Sans'
-									flex='1'
-									sx={{opacity: 0.5}}
-								>
+								<Typography variant='body3' fontFamily='Open Sans' flex='1'>
 									{t('general.vigencia')}
 								</Typography>
 								<Typography variant='subtitle3' fontFamily='Open Sans' flex='3'>
@@ -668,12 +508,7 @@ const TarjetaIniciativas: React.FC<Props> = ({
 										alignItems='center'
 										data-cy={`iniciativa-vigencia-${id}`}
 									>
-										<Typography
-											variant='body3'
-											fontFamily='Open Sans'
-											flex='1'
-											sx={{opacity: 0.5}}
-										>
+										<Typography variant='body3' fontFamily='Open Sans' flex='1'>
 											{t('general.archivosAdjuntos')}
 										</Typography>
 										<Box alignItems='center' display='flex' flex='3' gap='10px'>
@@ -696,274 +531,19 @@ const TarjetaIniciativas: React.FC<Props> = ({
 							)}
 						</Box>
 						<Divider />
-
-						<Box
-							sx={{
-								outline:
-									visitaActual.seQuedaAEditar.bordeError &&
-									idIniciativaIncompleta === idMaterialIniciativa
-										? `1px solid ${theme.palette.primary.main}`
-										: 'none',
-							}}
-						>
-							<Box
-								display='flex'
-								alignItems='center'
-								justifyContent='space-between'
-							>
-								<Box
-									display='flex'
-									flexDirection='column'
-									padding='12px 8px 12px 12px'
-								>
-									<Typography
-										variant='subtitle3'
-										data-cy={`iniciativa-material-${idMaterialIniciativa}`}
-									>
-										{producto.codigoProducto}
-									</Typography>
-									<Typography
-										variant='subtitle3'
-										noWrap
-										width='150px'
-										data-cy={`iniciativa-nombreProducto-${idMaterialIniciativa}`}
-										marginBottom={producto.atributos ? 0 : '6px'}
-									>
-										{producto.nombreProducto}
-									</Typography>
-
-									{producto.atributos && (
-										<Typography
-											margin='4px 0 6px 0'
-											variant='caption'
-											fontFamily='Open Sans'
-											color={theme.palette.secondary.main}
-										>
-											{`${
-												medidas[producto.atributos?.medida ?? 0].descripcion
-											} | ${
-												envases[producto.atributos?.envase ?? 0].descripcion
-											}`}
-										</Typography>
-									)}
-
-									<Box display='flex' alignItems='center' gap='4px'>
-										<Box alignItems='center' display='flex' gap='2px'>
-											<CajaIcon height='18px' width='18px' />
-											<Typography
-												variant='caption'
-												color='secondary'
-												data-cy={`iniciativa-presentacion-${idMaterialIniciativa}`}
-											>
-												x{producto.presentacion}
-											</Typography>
-											<Typography
-												variant='subtitle3'
-												data-cy={`iniciativa-precioUnidad-${idMaterialIniciativa}`}
-											>
-												{formatearNumero(producto.precioConImpuestoUnidad, t)}
-											</Typography>
-										</Box>
-										{permiteSubUnidades && (
-											<Box alignItems='center' display='flex' gap='2px'>
-												<BotellaIcon height='15px' width='15px' />
-												<Typography
-													variant='subtitle3'
-													data-cy={`iniciativa-precioSubunidad-${idMaterialIniciativa}`}
-												>
-													{formatearNumero(
-														producto.precioConImpuestoSubunidad,
-														t
-													)}
-												</Typography>
-											</Box>
-										)}
-									</Box>
-								</Box>
-
-								<Box
-									display='flex'
-									alignItems='center'
-									flexDirection='column'
-									gap='12px'
-									padding='22px 12px 16px 8px'
-									alignSelf='stretch'
-									minWidth='125px'
-									sx={{background: '#F5F0EF'}}
-								>
-									<Box
-										display='flex'
-										alignItems='center'
-										justifyContent='center'
-										gap='2px'
-									>
-										<CajaIcon width='18px' height='18px' />
-										{estadoSelect === 'ejecutada' &&
-											!visitaActual.pasoATomaPedido && (
-												<IconButton
-													size='small'
-													value='-'
-													name='unidades'
-													sx={{marginLeft: '2px', padding: 0}}
-													disabled={getValues.unidades === 0}
-													onClick={handleButtons}
-												>
-													<QuitarRellenoIcon
-														width='18px'
-														height='18px'
-														disabled={getValues.unidades === 0}
-													/>
-												</IconButton>
-											)}
-										<InputCantidades
-											data-cy={`iniciativa-unidad-venta`}
-											disabled={
-												estadoSelect !== 'ejecutada' ||
-												visitaActual.pasoATomaPedido
-											}
-											id='unidades_producto'
-											inputRef={(input) => {
-												if (
-													inputFocus === 'unidades' &&
-													focusId === producto.codigoProducto
-												) {
-													input?.focus();
-												}
-											}}
-											name='unidades'
-											onChange={handleInputChange}
-											onClick={() => {
-												setInputFocus('unidades');
-												setFocusId(producto.codigoProducto);
-											}}
-											onKeyPress={handleKeyPress}
-											onFocus={(e) => e.target.select()}
-											useEstilosProps={useEstilosProps}
-											value={getValues.unidades}
-										/>
-										{estadoSelect === 'ejecutada' &&
-											!visitaActual.pasoATomaPedido && (
-												<IconButton
-													size='small'
-													name='unidades'
-													value='+'
-													sx={{padding: 0}}
-													onClick={handleButtons}
-													disabled={
-														producto.unidadesDisponibles
-															? getValues.unidades >=
-															  producto.unidadesDisponibles
-																? true
-																: false
-															: getValues.unidades >=
-															  configuracionPedido?.cantidadMaximaUnidades
-															? true
-															: false
-													}
-												>
-													<AgregarRedondoIcon
-														width='18px'
-														height='18px'
-														disabled={
-															producto.unidadesDisponibles
-																? getValues.unidades >=
-																  producto.unidadesDisponibles
-																	? true
-																	: false
-																: getValues.unidades >=
-																  configuracionPedido?.cantidadMaximaUnidades
-																? true
-																: false
-														}
-													/>
-												</IconButton>
-											)}
-									</Box>
-									{permiteSubUnidades && (
-										<Box
-											display='flex'
-											alignItems='center'
-											justifyContent='center'
-											gap='2px'
-										>
-											<BotellaIcon width='18px' height='18px' />
-											{estadoSelect === 'ejecutada' &&
-												!visitaActual.pasoATomaPedido && (
-													<IconButton
-														size='small'
-														value='-'
-														name='subUnidades'
-														sx={{marginLeft: '2px', padding: 0}}
-														disabled={getValues.subUnidades === 0}
-														onClick={handleButtons}
-													>
-														<QuitarRellenoIcon
-															width='18px'
-															height='18px'
-															disabled={getValues.subUnidades === 0}
-														/>
-													</IconButton>
-												)}
-											<InputCantidades
-												data-cy={`iniciativa-subUnidad-venta`}
-												disabled={
-													estadoSelect !== 'ejecutada' ||
-													visitaActual.pasoATomaPedido
-												}
-												id='subUnidades_producto'
-												inputRef={(input) => {
-													if (
-														inputFocus === 'subUnidades' &&
-														focusId === producto.codigoProducto
-													) {
-														input?.focus();
-													}
-												}}
-												name='subUnidades'
-												onBlur={validacionSubUnidades}
-												onChange={handleInputChange}
-												onClick={() => {
-													setInputFocus('subUnidades');
-													setFocusId(producto.codigoProducto);
-												}}
-												onFocus={(e) => e.target.select()}
-												onKeyPress={handleKeyPress}
-												useEstilosProps={useEstilosProps}
-												value={getValues.subUnidades}
-											/>
-
-											{estadoSelect === 'ejecutada' &&
-												!visitaActual.pasoATomaPedido && (
-													<IconButton
-														size='small'
-														name='subUnidades'
-														value='+'
-														sx={{padding: 0}}
-														onClick={handleButtons}
-														disabled={
-															getValues.subUnidades >=
-															producto.presentacion -
-																producto.subunidadesVentaMinima
-														}
-													>
-														<AgregarRedondoIcon
-															width='18px'
-															height='18px'
-															disabled={
-																getValues.subUnidades >=
-																producto.presentacion -
-																	producto.subunidadesVentaMinima
-															}
-														/>
-													</IconButton>
-												)}
-										</Box>
-									)}
-								</Box>
+						{productosIniciativa?.map((producto, index) => (
+							<Box key={producto.codigoProducto}>
+								<Producto
+									cantidadesProductos={cantidadesProductos}
+									estado={estadoSelect}
+									idIniciativa={idActividadIniciativa}
+									producto={producto}
+									restoContador={restoContador}
+									unidadMedida={unidadMedida}
+								/>
+								{productosIniciativa.length !== index - 1 && <Divider />}
 							</Box>
-						</Box>
-
-						<Divider />
+						))}
 					</Collapse>
 					<Box padding={expandido === id ? '12px 14px' : '8px 14px 12px 14px'}>
 						<BotonSmall
