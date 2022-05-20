@@ -116,6 +116,8 @@
 				"esCreditoBloqueado": false,
 				"esBloqueadoVenta": false,
 				"habilitaCargosFinancieros": false,
+				"diasAlertaVencimientoDesde": -4,
+				"diasAlertaVencimientoHasta": -1,
 				"documentos": [
 					{
 						"numero": "12123456789",
