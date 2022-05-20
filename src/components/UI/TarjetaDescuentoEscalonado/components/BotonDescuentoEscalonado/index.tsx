@@ -13,12 +13,14 @@ interface Props {
 	producto: TProductoPedido;
 	stateAviso: any;
 	stateInfoDescuento: TStateInfoDescuentos;
+	setDescEliminado: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const BotonDescuentoEscalonado: React.VFC<Props> = ({
 	producto: {codigoProducto, precioConImpuestoUnidad, preciosNeto},
 	stateAviso: {setAlerta, setConfigAlerta},
 	stateInfoDescuento: {infoDescuento, setInfoDescuento},
+	setDescEliminado
 }) => {
 	const {t} = useTranslation();
 	const dispatch = useAppDispatch();
@@ -43,6 +45,7 @@ export const BotonDescuentoEscalonado: React.VFC<Props> = ({
 			undefined,
 			'descuentoEscalonadoEliminado'
 		);
+		setDescEliminado(true);
 	};
 
 	return (
