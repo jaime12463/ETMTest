@@ -50,6 +50,7 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 		(p) => producto.codigoProducto === p.codigoProducto
 	);
 	const [colorBorde, setColorBorde] = React.useState<string>('');
+	const [descElimiado, setDescEliminado] = React.useState<boolean>(false);
 
 	const productoAMandar: TProductoPedido = {
 		...producto,
@@ -198,11 +199,13 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 					producto={productoEnVenta ?? productoAMandar}
 					stateAviso={stateAviso}
 					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+					setDescEliminado={setDescEliminado}
 				/>
 				<DesplegableEscalonados
 					abrirCollapse={abrirCollapse}
 					descuentosEscalonados={producto.descuentoEscalonado!}
 					setAbrirCollapse={setAbrirCollapse}
+					descEliminado={descElimiado}
 				/>
 			</Box>
 		</Box>

@@ -9,17 +9,20 @@ interface Props {
 	abrirCollapse: boolean;
 	descuentosEscalonados: TDescuentoEscalonado[];
 	setAbrirCollapse: React.Dispatch<React.SetStateAction<boolean>>;
+	descEliminado: boolean
 }
 
 export const DesplegableEscalonados: React.VFC<Props> = ({
 	abrirCollapse,
 	descuentosEscalonados,
 	setAbrirCollapse,
+	descEliminado,
 }) => {
 	const {t} = useTranslation();
 
 	return (
 		<>
+		{ !descEliminado && <>
 			<Box
 				alignItems='center'
 				display='flex'
@@ -108,7 +111,7 @@ export const DesplegableEscalonados: React.VFC<Props> = ({
 						fontFamily='Open Sans'
 						textAlign='center'
 						variant='caption'
-					>
+						>
 						{t('general.verRangosDescuentoEscalonado')}
 					</Typography>
 					<FlechaAbajoIcon
@@ -121,6 +124,7 @@ export const DesplegableEscalonados: React.VFC<Props> = ({
 					/>
 				</BotonSmall>
 			</Box>
+		   </>}
 		</>
 	);
 };
