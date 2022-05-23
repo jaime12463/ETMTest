@@ -22,6 +22,7 @@ const estadoInicial: TDatosConfiguracionesSlice = {
 			tipoPedidoEnvasesHabilitados: [],
 			tipoPedidos: [],
 			motivosCancelacionIniciativas: [],
+			tiempoToastEnSegundos: 0,
 		},
 	},
 };

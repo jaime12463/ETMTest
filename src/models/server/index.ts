@@ -325,6 +325,7 @@ export type TConfiguracion = {
 	motivosCancelacionIniciativas: TMotivosCancelacionIniciativas[];
 	tipoPedidoEnvasesHabilitados: string[];
 	tipoPedidos: TTipoPedido[];
+	tiempoToastEnSegundos: number;
 };
 
 export type TMotivosCancelacionIniciativas = {
