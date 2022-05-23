@@ -216,12 +216,14 @@ export type TBonificacionesHabilitadas = {
 
 export type TInformacionCrediticia = {
 	condicion: TCondicicon;
-	limite?: number;
+	diasAlertaVencimientoDesde: number;
+	diasAlertaVencimientoHasta: number;
 	disponible?: number;
-	esCreditoBloqueado: boolean;
-	esBloqueadoVenta: boolean;
 	documentos?: TDocumento[];
+	esBloqueadoVenta: boolean;
+	esCreditoBloqueado: boolean;
 	habilitaCargosFinancieros: boolean;
+	limite?: number;
 };
 export type TCondicicon = 'contado' | 'creditoFormal' | 'creditoInformal';
 export type TConfiguracionPedido = {

@@ -1,8 +1,7 @@
-import React from 'react';
+import {useEffect, useState} from 'react';
+import {Box, IconButton, Stack, Typography} from '@mui/material';
 import EnvasesRetornables from './EnvasesRetornables';
 import {Canjes} from './Canjes';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import {TarjetaColapsable} from 'components/UI';
 import {useTranslation} from 'react-i18next';
 import {
@@ -24,9 +23,11 @@ import {cambiarTipoPedidoActual} from 'redux/features/visitaActual/visitaActualS
 import {CompromisoDeCobro} from 'pages';
 import {useObtenerHabilitaCanje} from './hooks/useObtenerHabilitaCanje';
 import Bonificaciones from './Bonificaciones';
+import {SignoPreguntaIcon} from 'assests/iconos';
 
 const Otros: React.FC = () => {
-	const [expandido, setExpandido] = React.useState<string | boolean>(false);
+	const [expandido, setExpandido] = useState<string | boolean>(false);
+	const [openToolTip, setOpenToolTip] = useState<boolean>(false);
 	const {t} = useTranslation();
 	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
 	const {condicion} = useObtenerClienteActual();
@@ -63,16 +64,16 @@ const Otros: React.FC = () => {
 	});
 	const habilitaCanje = useObtenerHabilitaCanje();
 	const dispatch = useAppDispatch();
-	const [saldoPresupuestoTipoPedido, setSaldoPresupuestoTipoPedido] =
-		React.useState<number | undefined>();
-	const [envasesValido, setEnvasesValido] = React.useState<boolean>(false);
-	const [canjeValido, setCanjeValido] = React.useState<boolean>(false);
+	const [saldoPresupuestoTipoPedido, setSaldoPresupuestoTipoPedido] = useState<
+		number | undefined
+	>();
+	const [envasesValido, setEnvasesValido] = useState<boolean>(false);
+	const [canjeValido, setCanjeValido] = useState<boolean>(false);
 	const [compromisoDeCobroValido, setCompromisoDeCobroValido] =
-		React.useState<boolean>(false);
+		useState<boolean>(false);
 	const [ordenDeCompraValido, setOrdenDeCompraValido] =
-		React.useState<boolean>(false);
-	const [bonificacionValida, setBonificacionValida] =
-		React.useState<boolean>(false);
+		useState<boolean>(false);
+	const [bonificacionValida, setBonificacionValida] = useState<boolean>(false);
 
 	const compromisoDeCobroActual = useObtenerCompromisoDeCobroActual();
 
@@ -90,12 +91,12 @@ const Otros: React.FC = () => {
 		useValidarTipoPedidosRealizadosSegunConfiguracion('esValorizado');
 	const enableOrdenDeCompra = validarTipoPedidosRealizadosSegunConfiguracion();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		dispatch(cambiarTipoPedidoActual({tipoPedido: 'canje'}));
 		setSaldoPresupuestoTipoPedido(calcularPresupuestoTipoPedido('canje'));
 	}, []);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (
 			ventaenvase.productos.length > 0 ||
 			prestamoenvase.productos.length > 0
@@ -265,9 +266,20 @@ const Otros: React.FC = () => {
 			{condicion !== 'contado' ? (
 				<TarjetaColapsable
 					titulo={
-						<Typography variant={'subtitle2'}>
-							{t('general.compromisoCobro')}
-						</Typography>
+						<Box alignItems='center' display='flex' gap='6px'>
+							<Typography variant='subtitle2'>
+								{t('general.compromisoCobro')}
+							</Typography>
+							{expandido === 'Compromiso de cobro' && (
+								<IconButton
+									sx={{padding: 0}}
+									onMouseLeave={() => setOpenToolTip(false)}
+									onMouseEnter={() => setOpenToolTip(true)}
+								>
+									<SignoPreguntaIcon />
+								</IconButton>
+							)}
+						</Box>
 					}
 					subTitulo={
 						<Typography variant={'body3'}>
@@ -280,7 +292,7 @@ const Otros: React.FC = () => {
 					valido={compromisoDeCobroValido}
 					dataCy='CompromisoCobro'
 				>
-					<CompromisoDeCobro />
+					<CompromisoDeCobro openTooltip={openToolTip} />
 				</TarjetaColapsable>
 			) : null}
 			{habilitaOrdenDeCompra ? (

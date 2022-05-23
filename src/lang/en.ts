@@ -57,6 +57,7 @@ const en = {
 		fechaDeAlta: 'Date of registration',
 		fechaEntrega: 'Delivery date',
 		finalizarVisita: 'End visit',
+		ingresarCantidad: 'Enter amount',
 		ingresarPrecioVenta: 'Enter selling price',
 		intentaOtroProducto: 'Try another product',
 		limiteDeCredito: 'Credit limit',
@@ -150,6 +151,7 @@ const en = {
 		ingresoPedido: 'Order Entry',
 		iniciativas: 'Initiatives',
 		ordenDeCompra: 'Purchase Order',
+		partidasGeneradasDelCliente: 'Customer generated items',
 		pedidosDelClienteActual: 'Customer orders',
 		pedidosEnCursoDeshabilitado: 'There are no orders to display',
 		productosPedido: 'Products of the Order',
@@ -159,14 +161,16 @@ const en = {
 		promocionesMensaje:
 			'Visualiza las promociones push que tienes disponible para tu cliente.',
 		sugeridosDeshabilitado: 'There are no suggestions to show',
-		tarjetaBonificaciones: `Add the bonuses for this customer.`,
+		tarjetaBonificaciones: 'Add the bonuses for this customer.',
 		tarjetaCanjes: 'Indicate the quantity of product for exchange',
 		tarjetaCoberturas: `Indicates the amount of product missing in the customer's refrigerator.`,
-		tarjetaCompromisoCobro: 'Generate a codro commitment',
+		tarjetaCompromisoCobro: 'Add a collection commitment',
 		tarjetaEnvases: 'Check the amount of packaging for your products',
 		tarjetaIniciativas:
 			'Select the initiatives that you have available for your client.',
 		tarjetaOrdenDeCompra: "Enter the customer's purchase order number",
+		tarjetaPartidasGeneradasDelCliente:
+			'Visualize all the items your customer has',
 		tarjetaPromociones:
 			'Select the promotions that you have available for your clients.',
 		tarjetaTomaDePedido:
@@ -355,6 +359,9 @@ const en = {
 	},
 	tooltip: {
 		cambioPromocion: 'Available promotions may have changed.',
+		partidasAbiertas: 'Open entries',
+		partidasAPuntoDeVencer: 'Entries about to expire',
+		partidasVencidas: 'Expired entries',
 	},
 	descuentos: {
 		automatico: 'automatic',

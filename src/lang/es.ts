@@ -57,6 +57,7 @@ const es = {
 		fechaDeAlta: 'Fecha de alta',
 		fechaEntrega: 'Fecha de entrega',
 		finalizarVisita: 'Finalizar visita',
+		ingresarCantidad: 'Ingresar cantidad',
 		ingresarPrecioVenta: 'Ingresar precio venta',
 		intentaOtroProducto: 'Intenta con otro producto',
 		limiteDeCredito: 'Límite de crédito',
@@ -152,6 +153,7 @@ const es = {
 		ingresoPedido: 'Ingreso de Pedido',
 		iniciativas: 'Iniciativas',
 		ordenDeCompra: 'Orden de Compra',
+		partidasGeneradasDelCliente: 'Partidas generadas del cliente',
 		pedidosDelClienteActual: 'Pedidos del cliente',
 		pedidosEnCursoDeshabilitado: 'No hay pedidos para mostrar',
 		productosPedido: 'Productos del Pedido',
@@ -164,11 +166,13 @@ const es = {
 		tarjetaCanjes: 'Indica la cantidad de producto para cambio',
 		tarjetaCoberturas:
 			'Indica la cantidad de producto faltante en el refrigerador del cliente.',
-		tarjetaCompromisoCobro: 'Generar un compromiso de cobro',
+		tarjetaCompromisoCobro: 'Agrega un compromiso de cobro',
 		tarjetaEnvases: 'Revisa la cantidad de envases para tus productos',
 		tarjetaIniciativas:
 			'Selecciona las iniciativas que tienes disponible para tu cliente.',
 		tarjetaOrdenDeCompra: 'Ingresa el número de orden de compra del cliente',
+		tarjetaPartidasGeneradasDelCliente:
+			'Visualiza todas las partidas que tiene tu cliente',
 		tarjetaPromociones:
 			'Selecciona las promociones push que tienes disponible para tus clientes.',
 		tarjetaTomaDePedido:
@@ -359,6 +363,9 @@ const es = {
 	},
 	tooltip: {
 		cambioPromocion: 'Las promociones disponibles podrían haber cambiado.',
+		partidasAbiertas: 'Partidas abiertas',
+		partidasAPuntoDeVencer: 'Partidas a punto de vencer',
+		partidasVencidas: 'Partidas vencidas',
 	},
 	descuentos: {
 		automatico: 'automático',

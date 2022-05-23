@@ -29,7 +29,9 @@ export const useAgregarCompromisoDeCobro = (
 
 	const agregandoCompromisoDeCobro = useCallback(
 		({monto}: TInputsCompromisoDeCobro) => {
-			const montoParseado: number = monto !== '' ? parseInt(monto) : 0;
+			const montoParseado: number =
+				monto !== '' ? Math.round(+monto * 100) / 100 : 0;
+
 			const {esValidoAgregarCompromisoDeCobro} =
 				ValidarAgregarCompromisoDeCobro(montoParseado);
 

@@ -57,6 +57,7 @@ const br = {
 		fechaDeAlta: 'Data de alta',
 		fechaEntrega: 'Data de entrega',
 		finalizarVisita: 'Finalizar visita',
+		ingresarCantidad: 'Digite a quantidade',
 		ingresarPrecioVenta: 'Insira o preço de venda',
 		intentaOtroProducto: 'Experimente outro produto',
 		limiteDeCredito: 'Limite de crédito',
@@ -150,6 +151,7 @@ const br = {
 		ingresoPedido: 'Entrada de Pedido',
 		iniciativas: 'Iniciativas',
 		ordenDeCompra: 'Ordem de Compra',
+		partidasGeneradasDelCliente: 'Itens gerados pelo cliente',
 		pedidosDelClienteActual: 'pedidos de clientes',
 		pedidosEnCursoDeshabilitado: 'Sem ordens de exibição',
 		productosPedido: 'Ítens do Pedido',
@@ -163,11 +165,13 @@ const br = {
 		tarjetaCanjes: 'Indica a quantidade de produto a ser trocada',
 		tarjetaCoberturas:
 			'Indica a quantidade de produto faltando na geladeira do cliente.',
-		tarjetaCompromisoCobro: 'Gerar um compromisso de cobrança',
+		tarjetaCompromisoCobro: 'Adicionar um compromisso de cobrança',
 		tarjetaEnvases: 'Verifique a quantidade de embalagens para seus produtos.',
 		tarjetaIniciativas:
 			'Selecione as iniciativas que você tem disponíveis para o seu cliente.',
 		tarjetaOrdenDeCompra: 'Digite o número do pedido de compra do cliente',
+		tarjetaPartidasGeneradasDelCliente:
+			'Veja todos os itens que seu cliente tem',
 		tarjetaPromociones:
 			'Selecione as promoções que você tem disponíveis para seus clientes.',
 		tarjetaTomaDePedido:
@@ -359,6 +363,9 @@ const br = {
 	},
 	tooltip: {
 		cambioPromocion: 'As promoções disponíveis podem ter mudado.',
+		partidasAbiertas: 'Itens abertas',
+		partidasAPuntoDeVencer: 'Itens prestes a vencer',
+		partidasVencidas: 'Itens batidos',
 	},
 	descuentos: {
 		automatico: 'automático',

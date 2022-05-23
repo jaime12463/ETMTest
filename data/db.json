@@ -120,6 +120,12 @@
 				"diasAlertaVencimientoHasta": -1,
 				"documentos": [
 					{
+						"numero": "22123459998",
+						"fecha": "2022-01-31",
+						"vencimiento": "2022-06-23",
+						"monto": 5400
+					},
+					{
 						"numero": "12123456789",
 						"fecha": "2022-01-28",
 						"vencimiento": "2022-02-04",
@@ -128,7 +134,7 @@
 					{
 						"numero": "22123459999",
 						"fecha": "2022-01-31",
-						"vencimiento": "2022-02-04",
+						"vencimiento": "2022-05-25",
 						"monto": 5400
 					}
 				]

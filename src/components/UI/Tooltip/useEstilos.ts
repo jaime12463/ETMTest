@@ -1,6 +1,11 @@
 import {makeStyles, createStyles} from '@material-ui/styles';
 import theme from 'theme';
 
+interface Props {
+	direccionFlechaHorizontal: string;
+	colorScheme: 'secondary' | 'warning';
+}
+
 const useEstilos = makeStyles(() =>
 	createStyles({
 		'@keyframes animationStart': {
@@ -13,25 +18,46 @@ const useEstilos = makeStyles(() =>
 		},
 		container: {
 			animation: `$animationStart 0.5s cubic-bezier(0.35, 0.34, 0.46, 1.01)`,
-			background: '#FFFBEF',
-			border: `1.5px solid ${theme.palette.warning.main}`,
+			background: ({colorScheme}: Props) => {
+				if (colorScheme === 'warning') {
+					return '#FFFBEF';
+				}
+
+				if (colorScheme === 'secondary') {
+					return '#F5F0EF';
+				}
+			},
+			border: ({colorScheme}: Props) => {
+				if (colorScheme === 'warning') {
+					return `1.5px solid ${theme.palette.warning.main}`;
+				}
+
+				if (colorScheme === 'secondary') {
+					return `1.5px solid ${theme.palette.secondary.main}`;
+				}
+			},
 			borderRadius: '10px',
-			bottom: '-40px',
 			display: 'flex',
-			left: '-235px',
-			padding: '8px 20px',
 			position: 'absolute',
-			width: '304px',
+			zIndex: 10,
 			'&::before': {
 				content: "''",
 				position: 'absolute',
-				left: '240px',
+				left: ({direccionFlechaHorizontal}: Props) => direccionFlechaHorizontal,
 				top: '-10px',
 				width: '0',
 				height: '0',
 				borderLeft: '6px solid transparent',
 				borderRight: '6px solid transparent',
-				borderBottom: `9px solid ${theme.palette.warning.main}`,
+				borderBottom: ({colorScheme}: Props) => {
+					if (colorScheme === 'warning') {
+						return `9px solid ${theme.palette.warning.main}`;
+					}
+
+					if (colorScheme === 'secondary') {
+						return `9px solid ${theme.palette.secondary.main}`;
+					}
+				},
 			},
 		},
 	})
