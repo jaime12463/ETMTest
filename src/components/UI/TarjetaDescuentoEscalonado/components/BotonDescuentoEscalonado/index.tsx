@@ -20,7 +20,7 @@ export const BotonDescuentoEscalonado: React.VFC<Props> = ({
 	producto: {codigoProducto, precioConImpuestoUnidad, preciosNeto},
 	stateAviso: {setAlerta, setConfigAlerta},
 	stateInfoDescuento: {infoDescuento, setInfoDescuento},
-	setDescEliminado
+	setDescEliminado,
 }) => {
 	const {t} = useTranslation();
 	const dispatch = useAppDispatch();
@@ -85,7 +85,7 @@ export const BotonDescuentoEscalonado: React.VFC<Props> = ({
 						onClick={() => {
 							setConfigAlerta({
 								titulo: t('advertencias.borrarDescuento'),
-								mensaje: t('mensajes.borrarDescuento', {
+								mensaje: t('modal.borrarDescuento', {
 									codigo: codigoProducto,
 								}),
 								tituloBotonAceptar: t('general.eliminar'),

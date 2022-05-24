@@ -292,8 +292,6 @@ const es = {
 		tomaDePedido: 'Toma de pedido',
 	},
 	mensajes: {
-		borrarDescuento:
-			'Se eliminará el descuento escalonado del producto {{codigo}}. Para aplicarlo de nuevo, tendrás que volver a agrega el producto.',
 		excedeUnidadesDisponibles:
 			'Superaste la cantidad máxima de promoción permitida que puedes aplicar por cliente.',
 	},
@@ -301,6 +299,8 @@ const es = {
 		bonificacionActivaMensaje:
 			'Si decides agregar una bonificacion, la del otro grupo se perderá',
 		bonificacionActivaTitulo: 'Ya tienes una bonificación activa',
+		borrarDescuento:
+			'Se eliminará el descuento escalonado del producto {{codigo}}. Para aplicarlo de nuevo, tendrás que volver a agregar el producto.',
 		restablecerBonificacionesMensaje:
 			'Todas las cantidades de las bonificaciones se restablecerán a cero.',
 		restablecerBonificacionesTitulo: 'Restablecer cantidades a cero',
@@ -371,7 +371,7 @@ const es = {
 		automatico: 'automático',
 		descuentoAutomatico: 'Descuento automático',
 		descuentosEscalonados: 'Descuentos escalonados',
-		descuentoMensaje: 'Descuento {{tipo}} del -{{descuento}}%',
+		descuentoMensaje: 'Descuento {{tipo}} del {{descuento}}%',
 		descuentoSustituido: 'El descuento {{tipo}} ha sido sustituido por una',
 		eliminarDescuento: 'Eliminar descuento',
 		escalonado: 'escalonado',

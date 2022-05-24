@@ -131,8 +131,8 @@ export const formateoYColorFechaCompromisoDeCobro = (
 	}
 
 	if (
-		fechaDesde < fechaActual.getTime() &&
-		fechaActual.getTime() < fechaHasta
+		fechaDesde <= fechaActual.getTime() &&
+		fechaActual.getTime() <= fechaHasta
 	) {
 		colorCirculo = '#FCE199';
 		colorTexto = '#E2AC16';

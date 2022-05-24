@@ -290,8 +290,6 @@ const en = {
 		tomaDePedido: 'Order taking',
 	},
 	mensajes: {
-		borrarDescuento:
-			'The tiered discount of the product {{codigo}} will be eliminated. To apply it again, you will have to add the product again. ',
 		excedeUnidadesDisponibles:
 			'You have exceeded the maximum amount of promotion allowed that you can apply per customer.',
 	},
@@ -299,6 +297,8 @@ const en = {
 		bonificacionActivaMensaje:
 			'If you decide to add a bonus, the bonus of the other group will be lost.',
 		bonificacionActivaTitulo: 'You already have an active bonus',
+		borrarDescuento:
+			'The tiered discount of the product {{codigo}} will be eliminated. To apply it again, you will have to add the product again. ',
 		restablecerBonificacionesMensaje:
 			'All bonus amounts will be reset to zero.',
 		restablecerBonificacionesTitulo: 'Reset quantities to zero',

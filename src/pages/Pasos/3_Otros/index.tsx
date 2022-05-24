@@ -29,7 +29,8 @@ const Otros: React.FC = () => {
 	const [expandido, setExpandido] = useState<string | boolean>(false);
 	const [openToolTip, setOpenToolTip] = useState<boolean>(false);
 	const {t} = useTranslation();
-	const {habilitaOrdenDeCompra} = useObtenerConfiguracion();
+	const {habilitaOrdenDeCompra, habilitaCompromisoDeCobro} =
+		useObtenerConfiguracion();
 	const {condicion} = useObtenerClienteActual();
 	const visitaActual = useObtenerVisitaActual();
 
@@ -268,7 +269,9 @@ const Otros: React.FC = () => {
 					titulo={
 						<Box alignItems='center' display='flex' gap='6px'>
 							<Typography variant='subtitle2'>
-								{t('general.compromisoCobro')}
+								{habilitaCompromisoDeCobro
+									? t('general.compromisoCobro')
+									: t('titulos.partidasGeneradasDelCliente')}
 							</Typography>
 							{expandido === 'Compromiso de cobro' && (
 								<IconButton
@@ -283,7 +286,9 @@ const Otros: React.FC = () => {
 					}
 					subTitulo={
 						<Typography variant={'body3'}>
-							{t('titulos.tarjetaCompromisoCobro')}
+							{habilitaCompromisoDeCobro
+								? t('titulos.tarjetaCompromisoCobro')
+								: t('titulos.tarjetaPartidasGeneradasDelCliente')}
 						</Typography>
 					}
 					id='Compromiso de cobro'

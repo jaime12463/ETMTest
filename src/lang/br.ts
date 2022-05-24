@@ -293,8 +293,6 @@ const br = {
 		tomaDePedido: 'Recebimento de pedidos',
 	},
 	mensajes: {
-		borrarDescuento:
-			'Depois que o desconto escalonado for removido, você não poderá aplicá-lo novamente a este produto.',
 		excedeUnidadesDisponibles:
 			'Você excedeu a quantidade máxima permitida de promoção que você pode aplicar por cliente.',
 	},
@@ -302,6 +300,8 @@ const br = {
 		bonificacionActivaMensaje:
 			'Se você decidir adicionar um bônus, o bônus do outro grupo será perdido.',
 		bonificacionActivaTitulo: 'Você já tem um bônus ativo',
+		borrarDescuento:
+			'Depois que o desconto escalonado for removido, você não poderá aplicá-lo novamente a este produto.',
 		restablecerBonificacionesMensaje:
 			'Todos os valores de bônus devem ser zerados.',
 		restablecerBonificacionesTitulo: 'Redefinir quantidades para zero',
@@ -371,7 +371,7 @@ const br = {
 		automatico: 'automático',
 		descuentoAutomatico: 'Desconto automático',
 		descuentoEscalonado: 'Descontos escalonados',
-		descuentoMensaje: 'Desconto {{tipo}} de -{{descuento}}%',
+		descuentoMensaje: 'Desconto {{tipo}} de {{descuento}}%',
 		descuentoSustituido: 'O desconto {{tipo}} foi substituído por uma',
 		eliminarDescuento: 'Excluir desconto',
 		escalonado: 'escalonado',
