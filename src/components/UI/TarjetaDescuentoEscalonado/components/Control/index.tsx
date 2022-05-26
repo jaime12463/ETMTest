@@ -1,7 +1,13 @@
 import React from 'react';
-import {Box, IconButton} from '@mui/material';
-import {CajaIcon, QuitarRellenoIcon, AgregarRedondoIcon} from 'assests/iconos';
+import {Box, IconButton, Typography} from '@mui/material';
 import {
+	CajaIcon,
+	QuitarRellenoIcon,
+	AgregarRedondoIcon,
+	BotellaIcon,
+} from 'assests/iconos';
+import {
+	EFormaBeneficio,
 	StateFocusID,
 	TProductoPedido,
 	TStateInfoDescuentos,
@@ -13,6 +19,7 @@ import {
 } from 'components/UI/InputCantidades';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import {
+	TInfoBeneficioProductoPromoOngoing,
 	useMostrarAdvertenciaEnDialogo,
 	useMostrarAviso,
 	useObtenerDatosCliente,
@@ -22,6 +29,7 @@ import {useTranslation} from 'react-i18next';
 
 interface Props {
 	abrirCollapse: boolean;
+	infoBeneficio: TInfoBeneficioProductoPromoOngoing;
 	obtenerCalculoDescuentoProducto: (
 		valoresIngresados: {
 			inputPolarizado: number | undefined;
@@ -31,6 +39,7 @@ interface Props {
 		stateInfoDescuento: TStateInfoDescuentos
 	) => void;
 	producto: TProductoPedido;
+	puedeVerInfoPromoOngoin: boolean;
 	stateFocusId: StateFocusID;
 	stateInfoDescuento: TStateInfoDescuentos;
 	stateInputFocus: TStateInputFocus;
@@ -38,8 +47,10 @@ interface Props {
 
 export const Control: React.VFC<Props> = ({
 	abrirCollapse,
+	infoBeneficio: {cantidad, formaBeneficio, unidadMedida},
 	obtenerCalculoDescuentoProducto,
 	producto,
+	puedeVerInfoPromoOngoin,
 	stateFocusId,
 	stateInfoDescuento,
 	stateInputFocus,
@@ -191,87 +202,273 @@ export const Control: React.VFC<Props> = ({
 	};
 
 	return (
-		<Box
-			alignSelf={abrirCollapse ? 'center' : 'flex-end'}
-			justifySelf='center'
-			alignItems='center'
-			display='flex'
-			gap='2px'
-			sx={{gridArea: abrirCollapse ? 'Control2' : 'Control1'}}
-		>
-			<CajaIcon height={18} width={18} />
-			<IconButton
-				disabled={producto.unidades === 0}
-				name='unidades'
-				onClick={handleButtons}
-				size='small'
-				sx={{marginLeft: '2px', padding: '0'}}
-				value='-'
-			>
-				<QuitarRellenoIcon
-					disabled={producto.unidades === 0}
-					height={18}
-					width={18}
-				/>
-			</IconButton>
-			<InputCantidades
-				useEstilosProps={useEstilosProps}
-				data-cy={`cantidad-producto-unidades-${producto.codigoProducto}`}
-				id='unidades_producto'
-				inputProps={{
-					style: {textAlign: 'center'},
-					inputMode: 'numeric',
-				}}
-				inputRef={(input) => {
-					if (
-						inputFocus === 'unidades' &&
-						focusId === producto.codigoProducto
-					) {
-						input?.focus();
-					}
-				}}
-				name='unidades'
-				onChange={handleOnChange}
-				onClick={() => {
-					setInputFocus('unidades');
-					setFocusId(producto.codigoProducto);
-				}}
-				onFocus={(e) => e.target.select()}
-				onKeyPress={handleKeyPress}
-				value={getValues.unidades}
-			/>
-			<IconButton
-				disabled={
-					producto.unidadesDisponibles
-						? producto.unidades >= producto.unidadesDisponibles
-							? true
-							: false
-						: !!configuracionPedido?.cantidadMaximaUnidades &&
-						  producto.unidades >= configuracionPedido?.cantidadMaximaUnidades
-						? true
-						: false
-				}
-				name='unidades'
-				onClick={handleButtons}
-				size='small'
-				sx={{padding: '0'}}
-				value='+'
-			>
-				<AgregarRedondoIcon
-					disabled={
-						producto.unidadesDisponibles
-							? producto.unidades >= producto.unidadesDisponibles
-								? true
-								: false
-							: !!configuracionPedido?.cantidadMaximaUnidades &&
-							  producto.unidades >= configuracionPedido?.cantidadMaximaUnidades
-							? true
-							: false
-					}
-					height={18}
-					width={18}
-				/>
-			</IconButton>
-		</Box>
+		<>
+			{abrirCollapse ? (
+				<Box
+					display='flex'
+					flexDirection='column'
+					marginTop='18px'
+					sx={{gridArea: 'Control2'}}
+				>
+					<Box
+						alignSelf='center'
+						justifySelf='center'
+						alignItems='center'
+						display='flex'
+						gap='2px'
+					>
+						<CajaIcon height={18} width={18} />
+						<IconButton
+							disabled={producto.unidades === 0}
+							name='unidades'
+							onClick={handleButtons}
+							size='small'
+							sx={{marginLeft: '2px', padding: '0'}}
+							value='-'
+						>
+							<QuitarRellenoIcon
+								disabled={producto.unidades === 0}
+								height={18}
+								width={18}
+							/>
+						</IconButton>
+						<InputCantidades
+							useEstilosProps={useEstilosProps}
+							data-cy={`cantidad-producto-unidades-${producto.codigoProducto}`}
+							id='unidades_producto'
+							inputProps={{
+								style: {textAlign: 'center'},
+								inputMode: 'numeric',
+							}}
+							inputRef={(input) => {
+								if (
+									inputFocus === 'unidades' &&
+									focusId === producto.codigoProducto
+								) {
+									input?.focus();
+								}
+							}}
+							name='unidades'
+							onChange={handleOnChange}
+							onClick={() => {
+								setInputFocus('unidades');
+								setFocusId(producto.codigoProducto);
+							}}
+							onFocus={(e) => e.target.select()}
+							onKeyPress={handleKeyPress}
+							value={getValues.unidades}
+						/>
+						<IconButton
+							disabled={
+								producto.unidadesDisponibles
+									? producto.unidades >= producto.unidadesDisponibles
+										? true
+										: false
+									: !!configuracionPedido?.cantidadMaximaUnidades &&
+									  producto.unidades >=
+											configuracionPedido?.cantidadMaximaUnidades
+									? true
+									: false
+							}
+							name='unidades'
+							onClick={handleButtons}
+							size='small'
+							sx={{padding: '0'}}
+							value='+'
+						>
+							<AgregarRedondoIcon
+								disabled={
+									producto.unidadesDisponibles
+										? producto.unidades >= producto.unidadesDisponibles
+											? true
+											: false
+										: !!configuracionPedido?.cantidadMaximaUnidades &&
+										  producto.unidades >=
+												configuracionPedido?.cantidadMaximaUnidades
+										? true
+										: false
+								}
+								height={18}
+								width={18}
+							/>
+						</IconButton>
+					</Box>
+					{puedeVerInfoPromoOngoin &&
+						!!cantidad &&
+						formaBeneficio !== EFormaBeneficio.Obsequio && (
+							<Box
+								display='flex'
+								flexDirection='column'
+								gap='6px'
+								marginTop='12px'
+								padding='0 14px 0 8px'
+							>
+								<Typography
+									color='#000'
+									variant='caption'
+									fontFamily='Open Sans'
+								>
+									{t('descuentos.promocionOngoing')}
+								</Typography>
+								<Box alignItems='center' display='flex' gap='4px'>
+									{unidadMedida === 'Unidad' ? (
+										<CajaIcon height='18px' width='18px' />
+									) : (
+										<BotellaIcon height='18px' width='18px' />
+									)}
+									<Typography
+										color='rgba(0, 0, 0, .50)'
+										flex='1'
+										fontFamily='Open Sans'
+										sx={{
+											background: '#D9D9D9',
+											borderRadius: '10px',
+											height: '16px',
+											paddingBlock: '2px',
+										}}
+										textAlign='center'
+										variant='subtitle3'
+									>
+										{cantidad}
+									</Typography>
+								</Box>
+							</Box>
+						)}
+				</Box>
+			) : (
+				<>
+					<Box
+						alignSelf='flex-end'
+						justifySelf='center'
+						alignItems='center'
+						display='flex'
+						gap='2px'
+						sx={{gridArea: 'Control1'}}
+					>
+						<CajaIcon height={18} width={18} />
+						<IconButton
+							disabled={producto.unidades === 0}
+							name='unidades'
+							onClick={handleButtons}
+							size='small'
+							sx={{marginLeft: '2px', padding: '0'}}
+							value='-'
+						>
+							<QuitarRellenoIcon
+								disabled={producto.unidades === 0}
+								height={18}
+								width={18}
+							/>
+						</IconButton>
+						<InputCantidades
+							useEstilosProps={useEstilosProps}
+							data-cy={`cantidad-producto-unidades-${producto.codigoProducto}`}
+							id='unidades_producto'
+							inputProps={{
+								style: {textAlign: 'center'},
+								inputMode: 'numeric',
+							}}
+							inputRef={(input) => {
+								if (
+									inputFocus === 'unidades' &&
+									focusId === producto.codigoProducto
+								) {
+									input?.focus();
+								}
+							}}
+							name='unidades'
+							onChange={handleOnChange}
+							onClick={() => {
+								setInputFocus('unidades');
+								setFocusId(producto.codigoProducto);
+							}}
+							onFocus={(e) => e.target.select()}
+							onKeyPress={handleKeyPress}
+							value={getValues.unidades}
+						/>
+						<IconButton
+							disabled={
+								producto.unidadesDisponibles
+									? producto.unidades >= producto.unidadesDisponibles
+										? true
+										: false
+									: !!configuracionPedido?.cantidadMaximaUnidades &&
+									  producto.unidades >=
+											configuracionPedido?.cantidadMaximaUnidades
+									? true
+									: false
+							}
+							name='unidades'
+							onClick={handleButtons}
+							size='small'
+							sx={{padding: '0'}}
+							value='+'
+						>
+							<AgregarRedondoIcon
+								disabled={
+									producto.unidadesDisponibles
+										? producto.unidades >= producto.unidadesDisponibles
+											? true
+											: false
+										: !!configuracionPedido?.cantidadMaximaUnidades &&
+										  producto.unidades >=
+												configuracionPedido?.cantidadMaximaUnidades
+										? true
+										: false
+								}
+								height={18}
+								width={18}
+							/>
+						</IconButton>
+					</Box>
+					{puedeVerInfoPromoOngoin &&
+						!!cantidad &&
+						formaBeneficio !== EFormaBeneficio.Obsequio &&
+						!!producto.preciosPromo &&
+						(producto.preciosNeto.unidad !== producto.preciosPromo.unidad ||
+							producto.preciosNeto.subUnidad !==
+								producto.preciosPromo.subUnidad) && (
+							<Box
+								display='flex'
+								flexDirection='column'
+								gap='6px'
+								marginTop='12px'
+								padding='0 14px 0 8px'
+								sx={{gridArea: 'Control2'}}
+							>
+								<Typography
+									color='#000'
+									variant='caption'
+									fontFamily='Open Sans'
+								>
+									{t('descuentos.promocionOngoing')}
+								</Typography>
+								<Box alignItems='center' display='flex' gap='4px'>
+									{unidadMedida === 'Unidad' ? (
+										<CajaIcon height='18px' width='18px' />
+									) : (
+										<BotellaIcon height='18px' width='18px' />
+									)}
+									<Typography
+										color='rgba(0, 0, 0, .50)'
+										flex='1'
+										fontFamily='Open Sans'
+										sx={{
+											background: '#D9D9D9',
+											borderRadius: '10px',
+											height: '16px',
+											paddingBlock: '2px',
+										}}
+										textAlign='center'
+										variant='subtitle3'
+									>
+										{cantidad}
+									</Typography>
+								</Box>
+							</Box>
+						)}
+				</>
+			)}
+		</>
 	);
 };

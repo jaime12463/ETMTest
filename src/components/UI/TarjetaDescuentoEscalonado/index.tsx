@@ -194,10 +194,12 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 				/>
 				<Control
 					abrirCollapse={abrirCollapse}
-					producto={productoEnVenta ?? productoAMandar}
-					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-					stateFocusId={stateFocusId}
+					infoBeneficio={infoBeneficio}
 					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
+					producto={productoEnVenta ?? productoAMandar}
+					puedeVerInfoPromoOngoin={puedeVerInfoPromoOngoin}
+					stateFocusId={stateFocusId}
+					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
 					stateInputFocus={stateInputFocus}
 				/>
 				<BotonDescuentoEscalonado
