@@ -85,7 +85,7 @@ export const formateoYColorFechaCompromisoDeCobro = (
 	diasAlertaVencimientoDesde: number,
 	diasAlertaVencimientoHasta: number
 ) => {
-	const fechaActual = new Date();
+	const fechaActual = new Date().setHours(0, 0, 0, 0);
 
 	let colorCirculo: string = '';
 	let colorTexto: string = '';
@@ -120,20 +120,17 @@ export const formateoYColorFechaCompromisoDeCobro = (
 		.format(fecha)
 		.replaceAll('/', '-');
 
-	if (fechaActual.getTime() > fechaHasta) {
+	if (fechaActual > fechaHasta) {
 		colorCirculo = '#EC9999';
 		colorTexto = theme.palette.primary.dark;
 	}
 
-	if (fechaActual.getTime() < fechaDesde) {
+	if (fechaActual < fechaDesde) {
 		colorCirculo = '#99D8C1';
 		colorTexto = theme.palette.success.dark;
 	}
 
-	if (
-		fechaDesde <= fechaActual.getTime() &&
-		fechaActual.getTime() <= fechaHasta
-	) {
+	if (fechaDesde <= fechaActual && fechaActual <= fechaHasta) {
 		colorCirculo = '#FCE199';
 		colorTexto = '#E2AC16';
 	}

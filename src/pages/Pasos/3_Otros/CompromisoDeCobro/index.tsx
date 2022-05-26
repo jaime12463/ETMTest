@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState, useMemo} from 'react';
 import {TClienteActual} from 'models';
 import {
 	useMostrarAdvertenciaEnDialogo,
@@ -69,12 +69,19 @@ const CompromisoDeCobro: React.VFC<Props> = ({
 			0
 		) ?? 0;
 
+	const importeAMandar = useMemo(() => {
+		return i18n.language === 'en'
+			? importe.replaceAll('.', '').replace(',', '.')
+			: importe.replaceAll(',', '');
+	}, [importe]);
+
 	useEffect(() => {
-		if (importe === '') {
+		if (importeAMandar === '') {
+			setImporteValido(false);
 			return;
 		}
 
-		if (Number(importe) > totalDocumentos) {
+		if (Number(importeAMandar) > totalDocumentos) {
 			return (
 				setImporteValido(false),
 				setError({
@@ -87,30 +94,25 @@ const CompromisoDeCobro: React.VFC<Props> = ({
 		setImporteValido(true);
 
 		return () => {
-			if (Number(importe) > totalDocumentos) {
+			if (Number(importeAMandar) > totalDocumentos) {
 				reiniciarCompromisoDeCobro();
 			}
 		};
-	}, [importe]);
+	}, [importeAMandar]);
 
 	useEffect(() => {
-		if (Number(importe) === compromisoDeCobroActual.monto) {
+		if (Number(importeAMandar) === compromisoDeCobroActual.monto) {
 			return;
 		}
 
-		if (Number(importe) === 0) {
+		if (Number(importeAMandar) === 0) {
 			setImporteValido(false);
 			reiniciarCompromisoDeCobro();
 			setError({error: false, mensaje: ''});
 		}
-	}, [importe, compromisoDeCobroActual.monto]);
+	}, [importeAMandar, compromisoDeCobroActual.monto]);
 
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		let importeAMandar =
-			i18n.language === 'en'
-				? importe.replaceAll('.', '').replace(',', '.')
-				: importe.replaceAll(',', '');
-
 		if (e.key === 'Enter') {
 			if (
 				!Number.isNaN(Number(importeAMandar)) &&
@@ -124,11 +126,6 @@ const CompromisoDeCobro: React.VFC<Props> = ({
 	};
 
 	const handleBlur = () => {
-		let importeAMandar =
-			i18n.language === 'en'
-				? importe.replaceAll('.', '').replace(',', '.')
-				: importe.replaceAll(',', '');
-
 		if (
 			!Number.isNaN(Number(importeAMandar)) &&
 			Number(importeAMandar) > 0 &&
