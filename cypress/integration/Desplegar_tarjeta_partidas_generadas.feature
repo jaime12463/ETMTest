@@ -12,6 +12,7 @@ Esquema del escenario: N°1 - Partidas generadas
     Y el cliente no habilita el compromiso de cobro
     Cuando se despliega la tarjeta
     Entonces el sistema mostrará en la tarjeta partidas generadas el listado de documentos ordenados por vencimiento ascendente
+    Y mostrará el scroll del listado al haber más de 7 documentos
     Y mostrará de título "partidas generadas del cliente"
     Y mostrará el icono que indica la leyenda de colores: verde partidas abiertas, amarrillo partidas a punto de vencer, rojo partidas vencidas
     Y mostrará el límite de crédito
