@@ -247,7 +247,7 @@ const es = {
 			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido junto con los canjes que contiene.',
 		mensajeProductosSinCargarCanjeYBonificacion:
 			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido y los canjes y las bonificaciones que contiene.',
-		montoMayorDeuda: 'El monto no puede ser mayor a la deuda registrada',
+		montoMayorDeuda: 'La cantidad no puede ser mayor a la deuda pendiente',
 		montoMinimo: 'No cumple con el monto mínimo de venta del pedido',
 		noEditarPlaneacionDescripcion:
 			'Para volver a editar las cantidades de coberturas e iniciativas, deberás hacerlo  en toma de pedido.',

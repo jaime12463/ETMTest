@@ -239,132 +239,136 @@ const CompromisoDeCobro: React.VFC<Props> = ({
 					</Typography>
 				</Box>
 			</Box>
-			<Box
-				marginTop='18px'
-				sx={{
-					overflowY: listaDocumentos.length > 0 ? 'scroll' : 'auto',
-					'&::-webkit-scrollbar': {
-						width: '14px',
-					},
-					'&::-webkit-scrollbar-track': {
-						background: '#fff',
-						borderRight: '1px solid #D9D9D9',
-						borderTop: '1px solid #D9D9D9',
-						borderBottom: '1px solid #D9D9D9',
-						borderRadius: '0 4px 4px 0',
-					},
-					'&::-webkit-scrollbar-thumb': {
-						background: '#D9D9D9',
-						borderRadius: '4px',
-					},
-				}}
-			>
+
+			<Box marginTop='18px'>
 				<Box
-					display='flex'
-					flex='1'
-					gap='32px'
 					borderRadius='4px 0 0 0'
-					padding='7px 0 5px 0'
+					display='grid'
+					gridTemplateColumns='1fr'
 					sx={{
 						background: `${theme.palette.secondary.main}`,
 					}}
 				>
-					<Typography
-						color='#fff'
-						fontFamily='Open Sans'
-						variant='body3'
-						marginLeft='35px'
+					<Box
+						display='grid'
+						gridTemplateColumns='1fr 1fr 1fr'
+						padding='7px 0 5px 0'
 					>
-						{t('general.documento')}
-					</Typography>
+						<Typography
+							color='#fff'
+							fontFamily='Open Sans'
+							variant='body3'
+							justifySelf='flex-end'
+						>
+							{t('general.documento')}
+						</Typography>
 
-					<Typography color='#fff' fontFamily='Open Sans' variant='body3'>
-						{t('general.vencimiento')}
-					</Typography>
+						<Typography
+							color='#fff'
+							fontFamily='Open Sans'
+							justifySelf='flex-end'
+							variant='body3'
+						>
+							{t('general.vencimiento')}
+						</Typography>
 
-					<Typography color='#fff' fontFamily='Open Sans' variant='body3'>
-						{t('general.saldo')}
-					</Typography>
-				</Box>
-				{listaDocumentos?.map(({numero, vencimiento, monto}, index) => {
-					const {vencimientoFormateado, colorCirculo, colorTexto} =
-						formateoYColorFechaCompromisoDeCobro(
-							vencimiento,
-							datosCliente.informacionCrediticia.diasAlertaVencimientoDesde,
-							datosCliente.informacionCrediticia.diasAlertaVencimientoHasta
-						);
-
-					return (
+						<Typography
+							color='#fff'
+							fontFamily='Open Sans'
+							justifySelf='center'
+							variant='body3'
+						>
+							{t('general.saldo')}
+						</Typography>
+					</Box>
+					{!!listaDocumentos.length && (
 						<Box
-							display='grid'
-							gridTemplateColumns='45% 37% 1fr'
-							height='54px'
-							key={numero}
-							padding='0 8px 0 10px'
-							width='100%'
+							maxHeight='378px'
 							sx={{
-								alignItems: 'center',
-								borderLeft: `1px solid ${theme.palette.secondary.main}`,
-								borderRight: `1px solid ${theme.palette.secondary.main}`,
-								borderBottom:
-									listaDocumentos.length - 1 !== index
-										? `1px solid ${theme.palette.secondary.main}`
-										: 'none',
+								overflowY: 'auto',
+								'&::-webkit-scrollbar': {
+									width: '14px',
+								},
+								'&::-webkit-scrollbar-track': {
+									background: '#fff',
+									borderRight: '1px solid #D9D9D9',
+									borderTop: '1px solid #D9D9D9',
+									borderBottom: '1px solid #D9D9D9',
+								},
+								'&::-webkit-scrollbar-thumb': {
+									background: '#D9D9D9',
+									borderRadius: '4px',
+								},
 							}}
 						>
-							<Box alignItems='center' display='flex' gap='10px'>
-								<Box
-									height='15px'
-									width='15px'
-									borderRadius='50%'
-									sx={{background: colorCirculo}}
-								/>
-								<Typography
-									color={colorTexto}
-									variant='caption'
-									fontWeight='500'
-								>
-									{numero}
-								</Typography>
-							</Box>
+							{listaDocumentos?.map(({numero, vencimiento, monto}, index) => {
+								const {vencimientoFormateado, colorCirculo, colorTexto} =
+									formateoYColorFechaCompromisoDeCobro(
+										vencimiento,
+										datosCliente.informacionCrediticia
+											.diasAlertaVencimientoDesde,
+										datosCliente.informacionCrediticia
+											.diasAlertaVencimientoHasta
+									);
 
-							<Typography color={colorTexto} variant='caption' fontWeight='500'>
-								{vencimientoFormateado}
-							</Typography>
+								return (
+									<Box
+										display='grid'
+										gridTemplateColumns='1.5fr 1fr 1fr'
+										height='54px'
+										gap='36px'
+										key={numero}
+										padding='0 8px 0 10px'
+										width='100%'
+										sx={{
+											alignItems: 'center',
+											background: '#fff',
+											borderLeft: `1px solid ${theme.palette.secondary.main}`,
+											borderRight: `1px solid ${theme.palette.secondary.main}`,
+											borderBottom:
+												listaDocumentos.length - 1 !== index
+													? `1px solid ${theme.palette.secondary.main}`
+													: 'none',
+										}}
+									>
+										<Box alignItems='center' display='flex' gap='10px'>
+											<Box
+												height='15px'
+												width='15px'
+												borderRadius='50%'
+												sx={{background: colorCirculo}}
+											/>
+											<Typography
+												color={colorTexto}
+												variant='caption'
+												fontWeight='500'
+											>
+												{numero}
+											</Typography>
+										</Box>
 
-							<Typography color={colorTexto} variant='caption' fontWeight='500'>
-								{formatearNumero(monto, t)}
-							</Typography>
+										<Typography
+											color={colorTexto}
+											variant='caption'
+											fontWeight='500'
+										>
+											{vencimientoFormateado}
+										</Typography>
+
+										<Typography
+											color={colorTexto}
+											variant='caption'
+											fontWeight='500'
+											sx={{justifySelf: 'flex-end'}}
+										>
+											{formatearNumero(monto, t)}
+										</Typography>
+									</Box>
+								);
+							})}
 						</Box>
-					);
-				})}
-				<Box>
-					<Box
-						display='flex'
-						height='24px'
-						justifyContent='flex-end'
-						alignItems='center'
-						gap='8px'
-						sx={{
-							background: `${theme.palette.secondary.main}`,
-							borderRadius:
-								habilitaCompromisoDeCobro && !tarjetaPlaneacion
-									? '0 0 0 0'
-									: '0 0 0 4px',
-						}}
-					>
-						<Box>
-							<Typography fontFamily='Open Sans' variant='caption' color='#fff'>
-								{t('general.totalDeudaPendiente')}:
-							</Typography>
-						</Box>
-						<Box paddingRight='8px'>
-							<Typography variant='caption' fontWeight={500} color='#fff'>
-								{formatearNumero(totalDocumentos, t)}
-							</Typography>
-						</Box>
-					</Box>
-					{!tarjetaPlaneacion && habilitaCompromisoDeCobro && (
+					)}
+					<Box>
 						<Box
 							display='flex'
 							height='24px'
@@ -372,26 +376,57 @@ const CompromisoDeCobro: React.VFC<Props> = ({
 							alignItems='center'
 							gap='8px'
 							sx={{
-								background: `${theme.palette.secondary.light}`,
-								borderRadius: '0 0 0 4px',
+								background: `${theme.palette.secondary.main}`,
+								borderRadius:
+									habilitaCompromisoDeCobro && !tarjetaPlaneacion
+										? '0 0 0 0'
+										: '0 0 0 4px',
 							}}
 						>
 							<Box>
 								<Typography
-									color='#fff'
 									fontFamily='Open Sans'
 									variant='caption'
+									color='#fff'
 								>
-									{t('general.totalCompromisosRegistrados')}:
+									{t('general.totalDeudaPendiente')}:
 								</Typography>
 							</Box>
 							<Box paddingRight='8px'>
 								<Typography variant='caption' fontWeight={500} color='#fff'>
-									{formatearNumero(compromisosDeCobro, t)}
+									{formatearNumero(totalDocumentos, t)}
 								</Typography>
 							</Box>
 						</Box>
-					)}
+						{!tarjetaPlaneacion && habilitaCompromisoDeCobro && (
+							<Box
+								display='flex'
+								height='24px'
+								justifyContent='flex-end'
+								alignItems='center'
+								gap='8px'
+								sx={{
+									background: `${theme.palette.secondary.light}`,
+									borderRadius: '0 0 0 4px',
+								}}
+							>
+								<Box>
+									<Typography
+										color='#fff'
+										fontFamily='Open Sans'
+										variant='caption'
+									>
+										{t('general.totalCompromisosRegistrados')}:
+									</Typography>
+								</Box>
+								<Box paddingRight='8px'>
+									<Typography variant='caption' fontWeight={500} color='#fff'>
+										{formatearNumero(compromisosDeCobro, t)}
+									</Typography>
+								</Box>
+							</Box>
+						)}
+					</Box>
 				</Box>
 			</Box>
 		</Box>
