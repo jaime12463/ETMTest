@@ -23,6 +23,7 @@ const estadoInicial: TDatosConfiguracionesSlice = {
 			tipoPedidos: [],
 			motivosCancelacionIniciativas: [],
 			tiempoToastEnSegundos: 0,
+			condicionDePagoDefault: 'contado',
 		},
 	},
 };
