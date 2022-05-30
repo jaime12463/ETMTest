@@ -328,6 +328,7 @@ export type TConfiguracion = {
 	tipoPedidoEnvasesHabilitados: string[];
 	tipoPedidos: TTipoPedido[];
 	tiempoToastEnSegundos: number;
+	condicionDePagoDefault: 'contado'|'credito';
 };
 
 export type TMotivosCancelacionIniciativas = {

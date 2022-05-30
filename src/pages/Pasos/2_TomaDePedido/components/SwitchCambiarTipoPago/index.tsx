@@ -14,6 +14,7 @@ import useEstilos, {SwitchProps} from './useEstilos';
 import {styled} from '@mui/material/styles';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
+import { useObtenerConfiguracion } from '../../../../../redux/hooks/useObtenerConfiguracion';
 
 type Props = {
 	producto?: TProductoPedido;
@@ -62,20 +63,26 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 	const {tipoPago} = {...producto};
 
 	const cambiarTipoPago = useCambiarTipoPago();
-
 	const permiteCambiarTipoPago: boolean = usePermiteCambiarTipoPago();
 
 	const clienteActual: TClienteActual = useObtenerClienteActual();
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
+	const {t} = useTranslation();
+
+    const esCreditoInformal=clienteActual.condicion === 'creditoInformal';
+	const {condicionDePagoDefault}= useObtenerConfiguracion();
+	const condicionParseada = condicionDePagoDefault==='contado'? ETiposDePago.Contado : ETiposDePago.Credito;
+	
+	const textoParseado= condicionParseada ? t('general.credito') : t('general.contado');
+
 	const datosCliente = obtenerDatosCliente(clienteActual.codigoCliente);
 	if (!datosCliente) return <></>;
 	const visitaActual = useObtenerVisitaActual();
-
+	
 	const [mostrarSwitch, setMostrarSwitch] = React.useState<boolean>();
 
 	const [mostrarTag, setMostrarTag] = React.useState<boolean>(false);
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
-	const {t} = useTranslation();
 
 	const ChipStyled = styled(Chip)(() => ({
 		background: clienteActual.tipoPagoActual ? '#009D63' : '#2F000E',
@@ -89,16 +96,10 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 
 	const [switchTipoPago, setSwitchTipoPago] = React.useState<SwitchProps>(
 		() => {
-			if (producto) {
+			if (producto || promoPushTemporal ) {
 				return {
-					content: Boolean(tipoPago),
-					texto: tipoPago ? t('general.credito') : t('general.contado'),
-				};
-			}
-			if (promoPushTemporal) {
-				return {
-					content: Boolean(promoPushTemporal),
-					texto: tipoPago ? t('general.credito') : t('general.contado'),
+					content: esCreditoInformal? Boolean(condicionDePagoDefault) : Boolean(tipoPago),
+					texto: esCreditoInformal? textoParseado+'K' : tipoPago ? t('general.credito') : t('general.contado'),
 				};
 			}
 

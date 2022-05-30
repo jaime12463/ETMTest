@@ -33,6 +33,8 @@ export const useInicializarClienteActual = (
 		mostrarAdvertenciaEnDialogo
 	);
 
+	const {condicionDePagoDefault}= configuracion;
+
 	const history = useHistory();
 
 	const {obtenerTipoPagoActual} = useObtenerTipoPagoActual();
@@ -56,13 +58,15 @@ export const useInicializarClienteActual = (
 			if (!esValidoInicializarPedidoActual) return;
 
 			const tipoPagoActual: ETiposDePago = obtenerTipoPagoActual(codigoCliente);
+			const esCreditoInformal= datosCliente.informacionCrediticia.condicion==='creditoInformal'
+			const tipoPagoParseado= condicionDePagoDefault==='credito'? ETiposDePago.Credito : ETiposDePago.Contado;
 
 			dispatch(
 				inicializarClienteActual({
 					codigoCliente,
 					razonSocial: datosCliente.detalles.nombreComercial,
 					condicion: datosCliente.informacionCrediticia.condicion,
-					tipoPagoActual,
+					tipoPagoActual: esCreditoInformal? tipoPagoParseado : tipoPagoActual ,
 				})
 			);
 
