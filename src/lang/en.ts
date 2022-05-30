@@ -51,7 +51,7 @@ const en = {
 		ejecutada: 'Executed',
 		eliminar: 'Delete',
 		eliminarTodo: 'Delete all',
-		envase: 'Packaging',
+		envases: 'Packaging',
 		estado: 'Status',
 		estatus: 'Status',
 		familias: 'Families',
@@ -154,14 +154,20 @@ const en = {
 		ordenDeCompra: 'Purchase Order',
 		partidasGeneradasDelCliente: 'Customer generated items',
 		pedidosDelClienteActual: 'Customer orders',
+		pedidosEnCurso: 'Orders in process',
 		pedidosEnCursoDeshabilitado: 'There are no orders to display',
+		pedidosEnCursoSubTitulo:
+			'Here is a list of orders that are pending for delivery',
 		productosPedido: 'Products of the Order',
 		promociones: 'Promotions',
 		promocionesDeshabilitadas:
 			'Visualiza las promociones push que tienes disponible para tu cliente.',
 		promocionesMensaje:
 			'Visualiza las promociones push que tienes disponible para tu cliente.',
-		sugeridosDeshabilitado: 'There are no suggestions to show',
+		sugeridosParaTi: 'Suggested for you',
+		sugeridosParaTiDeshabilitado: 'There are no suggestions to show',
+		sugeridosParaTiSubTitulo:
+			'Below are recommended items for you to add to your order.',
 		tarjetaBonificaciones: 'Add the bonuses for this customer.',
 		tarjetaCanjes: 'Indicate the quantity of product for exchange',
 		tarjetaCoberturas: `Indicates the amount of product missing in the customer's refrigerator.`,

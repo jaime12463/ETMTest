@@ -147,12 +147,14 @@ const Planeacion: React.VFC = () => {
 				contenidoMensaje={configAlerta}
 			/>
 			<TarjetaColapsable
-				titulo={<Typography variant='subtitle2'>Pedidos en curso</Typography>}
+				titulo={
+					<Typography variant='subtitle2'>
+						{t('titulos.pedidosEnCurso')}
+					</Typography>
+				}
 				subTitulo={
 					<Typography variant='body3'>
-						{/*ToDo: pasar a multilenguaje */}
-						Aquí se muestra un listado de pedidos que estan pendientes por
-						entregar
+						{t('titulos.pedidosEnCursoSubTitulo')}
 					</Typography>
 				}
 				id='PedidosEnCurso'
@@ -170,18 +172,17 @@ const Planeacion: React.VFC = () => {
 						{t('titulos.pedidosEnCursoDeshabilitado')}
 					</Typography>
 				}
-				disabled={visitaActual.clienteBloqueado}
-			>
-				{/*ToDo: pasar a multilenguaje*/}
-				<div> PEDIDOS EN CURSO</div>
-			</TarjetaColapsable>
+				disabled={visitaActual.clienteBloqueado || true}
+			></TarjetaColapsable>
 			<TarjetaColapsable
-				titulo={<Typography variant='subtitle2'>Sugerido para ti</Typography>}
+				titulo={
+					<Typography variant='subtitle2'>
+						{t('titulos.sugeridosParaTi')}
+					</Typography>
+				}
 				subTitulo={
 					<Typography variant='body3'>
-						{/*ToDo: pasar a multilenguaje */}
-						Aquí se muestra un listado de pedidos que estan pendientes por
-						entregar
+						{t('titulos.sugeridosParaTiSubTitulo')}
 					</Typography>
 				}
 				id='Sugeridos'
@@ -196,14 +197,11 @@ const Planeacion: React.VFC = () => {
 						fontFamily='Open Sans'
 						variant='subtitle3'
 					>
-						{t('titulos.sugeridosDeshabilitado')}
+						{t('titulos.sugeridosParaTiDeshabilitado')}
 					</Typography>
 				}
-				disabled={visitaActual.clienteBloqueado}
-			>
-				{/*ToDo: agregar a multilenguaje*/}
-				<div>SUGERIDOS PARA TI PEDIDOS EN CURSO</div>
-			</TarjetaColapsable>
+				disabled={visitaActual.clienteBloqueado || true}
+			></TarjetaColapsable>
 			<TarjetaColapsable
 				titulo={
 					<Box alignItems='center' display='flex' gap='6px'>

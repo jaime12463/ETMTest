@@ -156,13 +156,19 @@ const es = {
 		ordenDeCompra: 'Orden de Compra',
 		partidasGeneradasDelCliente: 'Partidas generadas del cliente',
 		pedidosDelClienteActual: 'Pedidos del cliente',
+		pedidosEnCurso: 'Pedidos en curso',
 		pedidosEnCursoDeshabilitado: 'No hay pedidos para mostrar',
+		pedidosEnCursoSubTitulo:
+			'Aquí se muestra un listado de pedidos que estan pendientes por entregar',
 		productosPedido: 'Productos del Pedido',
 		promociones: 'Promociones push',
 		promocionesDeshabilitadas: 'Este cliente no cuenta con promociones push',
 		promocionesMensaje:
 			'Visualiza las promociones push que tienes disponible para tu cliente.',
-		sugeridosDeshabilitado: 'No hay sugerencias para mostrar',
+		sugeridosParaTi: 'Sugeridos para ti',
+		sugeridosParaTiDeshabilitado: 'No hay sugerencias para mostrar',
+		sugeridosParaTiSubTitulo:
+			'A continuación te recomendamos Items para que los puedas ingresar a tu pedido.',
 		tarjetaBonificaciones: 'Agregar las bonificaciones para este cliente.',
 		tarjetaCanjes: 'Indica la cantidad de producto para cambio',
 		tarjetaCoberturas:

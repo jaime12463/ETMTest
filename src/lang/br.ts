@@ -31,7 +31,7 @@ const br = {
 		cerrarPedido: 'Fechar visita',
 		cliente: 'Cliente',
 		codigo: 'Código',
-		compromisoCobro: 'compromisso de cobrança',
+		compromisoCobro: 'Compromisso de cobrança',
 		compromisoRegistrado: 'Compromissos de cobrança registrados',
 		contado: 'Dinheiro',
 		continuar: 'Prosseguir',
@@ -51,7 +51,7 @@ const br = {
 		ejecutada: 'Executado',
 		eliminar: 'Excluir',
 		eliminarTodo: 'Excluir todos',
-		envase: 'Vasilhame',
+		envases: 'Embalagens',
 		estado: 'Estado',
 		estatus: 'Status',
 		familias: 'Famílias',
@@ -123,7 +123,7 @@ const br = {
 		totalUnidades: 'Total Unidades',
 		unidades: 'Unidades',
 		unidadesMaximasAplicar: 'Unidades máximas que você pode aplicar',
-		vencimiento: 'expiração',
+		vencimiento: 'Expiração',
 		venta: 'Venda',
 		ventas: 'Vendas',
 		verDetalle: 'Ver detalhe',
@@ -143,7 +143,7 @@ const br = {
 		bienvenido: 'Bem Vindo',
 		bonificaciones: 'Bonificações',
 		bonificacionesDeshabilitadas: 'Não há bônus para este cliente no momento.',
-		canjes: 'Canjes',
+		canjes: 'Trocas',
 		canjesDeshabilitadas:
 			'Sem feno disponível de canje para este cliente neste momento',
 		clientes: 'Clientes',
@@ -154,14 +154,20 @@ const br = {
 		ordenDeCompra: 'Ordem de Compra',
 		partidasGeneradasDelCliente: 'Itens gerados pelo cliente',
 		pedidosDelClienteActual: 'pedidos de clientes',
+		pedidosEnCurso: 'Pedidos em andamento',
 		pedidosEnCursoDeshabilitado: 'Sem ordens de exibição',
+		pedidosEnCursoSubTitulo:
+			'Aqui está uma lista de pedidos que ainda devem ser entregues',
 		productosPedido: 'Ítens do Pedido',
 		promociones: 'Promoções',
 		promocionesDeshabilitadas:
 			'Visualiza las promociones push que tienes disponible para tu cliente.',
 		promocionesMensaje:
 			'Visualiza las promociones push que tienes disponible para tu cliente.',
-		sugeridosDeshabilitado: 'Nenhuma sugestão para exibição',
+		sugeridosParaTi: 'Sugerido para você',
+		sugeridosParaTiDeshabilitado: 'Nenhuma sugestão para exibição',
+		sugeridosParaTiSubTitulo:
+			'Abaixo recomendamos itens para que você possa acrescentar ao seu pedido.',
 		tarjetaBonificaciones: 'Adicione os bônus para este cliente.',
 		tarjetaCanjes: 'Indica a quantidade de produto a ser trocada',
 		tarjetaCoberturas:
