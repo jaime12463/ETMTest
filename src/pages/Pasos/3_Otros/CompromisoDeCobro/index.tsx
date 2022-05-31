@@ -75,6 +75,20 @@ const CompromisoDeCobro: React.VFC<Props> = ({
 			: importe.replaceAll(',', '');
 	}, [importe]);
 
+	const flechaToolTip = useMemo(() => {
+		if (i18n.language === 'en') {
+			return tarjetaPlaneacion || !habilitaCompromisoDeCobro
+				? '200px'
+				: '175px';
+		}
+		if (i18n.language === 'br') {
+			return tarjetaPlaneacion || !habilitaCompromisoDeCobro
+				? '190px'
+				: '200px';
+		}
+		return tarjetaPlaneacion || !habilitaCompromisoDeCobro ? '225px' : '168px';
+	}, []);
+
 	useEffect(() => {
 		if (importeAMandar === '') {
 			setImporteValido(false);
@@ -155,9 +169,7 @@ const CompromisoDeCobro: React.VFC<Props> = ({
 	return (
 		<Box position='relative'>
 			<Tooltip
-				direccionFlechaHorizontal={
-					tarjetaPlaneacion || !habilitaCompromisoDeCobro ? '225px' : '168px'
-				}
+				direccionFlechaHorizontal={flechaToolTip}
 				colorScheme='secondary'
 				left='0'
 				open={openTooltip}
