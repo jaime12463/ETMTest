@@ -7,14 +7,13 @@ import {
 } from 'models';
 import {Box, Chip, Switch, Typography} from '@mui/material';
 import {useCambiarTipoPago, usePermiteCambiarTipoPago} from './hooks';
-import {Center} from 'components/UI';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import {useObtenerDatosCliente, useObtenerDatosTipoPedido} from 'hooks';
 import useEstilos, {SwitchProps} from './useEstilos';
 import {styled} from '@mui/material/styles';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
-import { useObtenerConfiguracion } from '../../../../../redux/hooks/useObtenerConfiguracion';
+import {useObtenerConfiguracion} from '../../../../../redux/hooks/useObtenerConfiguracion';
 
 type Props = {
 	producto?: TProductoPedido;
@@ -69,37 +68,49 @@ export const SwitchCambiarTipoPago: React.FC<Props> = (props) => {
 	const {obtenerDatosCliente} = useObtenerDatosCliente();
 	const {t} = useTranslation();
 
-    const esCreditoInformal=clienteActual.condicion === 'creditoInformal';
-	const {condicionDePagoDefault}= useObtenerConfiguracion();
-	const condicionParseada = condicionDePagoDefault==='contado'? ETiposDePago.Contado : ETiposDePago.Credito;
-	
-	const textoParseado= condicionParseada ? t('general.credito') : t('general.contado');
+	const esCreditoInformal = clienteActual.condicion === 'creditoInformal';
+	const {condicionDePagoDefault} = useObtenerConfiguracion();
+	const condicionParseada =
+		condicionDePagoDefault === 'contado'
+			? ETiposDePago.Contado
+			: ETiposDePago.Credito;
+
+	const textoParseado = condicionParseada
+		? t('general.credito')
+		: t('general.contado');
 
 	const datosCliente = obtenerDatosCliente(clienteActual.codigoCliente);
 	if (!datosCliente) return <></>;
 	const visitaActual = useObtenerVisitaActual();
-	
+
 	const [mostrarSwitch, setMostrarSwitch] = React.useState<boolean>();
 
 	const [mostrarTag, setMostrarTag] = React.useState<boolean>(false);
 	const obtenerDatosTipoPedido = useObtenerDatosTipoPedido();
 
 	const ChipStyled = styled(Chip)(() => ({
-		background: clienteActual.tipoPagoActual ? '#009D63' : '#2F000E',
+		background: clienteActual.tipoPagoActual
+			? theme.palette.success.dark
+			: theme.palette.secondary.dark,
 		color: '#fff',
 		width: '66px',
 		height: '18px',
-		'&.MuiChip-sizeSmall': {},
 	}));
 
 	const {esCreditoBloqueado} = datosCliente?.informacionCrediticia;
 
 	const [switchTipoPago, setSwitchTipoPago] = React.useState<SwitchProps>(
 		() => {
-			if (producto || promoPushTemporal ) {
+			if (producto || promoPushTemporal) {
 				return {
-					content: esCreditoInformal? Boolean(condicionDePagoDefault) : Boolean(tipoPago),
-					texto: esCreditoInformal? textoParseado+'K' : tipoPago ? t('general.credito') : t('general.contado'),
+					content: esCreditoInformal
+						? Boolean(condicionDePagoDefault)
+						: Boolean(tipoPago),
+					texto: esCreditoInformal
+						? textoParseado
+						: tipoPago
+						? t('general.credito')
+						: t('general.contado'),
 				};
 			}
 
