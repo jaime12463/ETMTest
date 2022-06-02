@@ -25,8 +25,10 @@ import {useBorrarLinea} from '../hooks/useBorrarLinea';
 import {Box, Typography} from '@mui/material';
 import {Modal} from 'components/UI';
 import {BuscarIcon} from 'assests/iconos';
+import {useTranslation} from 'react-i18next';
 
 export const Canjes: React.VFC = () => {
+	const {t} = useTranslation();
 	const [preciosProductos, setPreciosProductos] = React.useState<
 		TPrecioProducto[]
 	>([]);
@@ -117,43 +119,41 @@ export const Canjes: React.VFC = () => {
 				contenidoMensaje={configAlerta}
 			/>
 
-			<Stack>
-				<Box padding='0 18px' marginBottom='16px' marginTop='32px'>
-					<Typography
-						fontWeight={'600'}
-						fontSize={'Poppins'}
-						variant='subtitle3'
-					>
-						Agregar producto para canje
-					</Typography>
-				</Box>
-				<Box
-					alignItems='center'
-					display='flex'
-					justifyContent='space-between'
-					marginBottom={canje.productos.length > 0 ? '18px' : 0}
-					paddingLeft='18px'
-				>
-					<AutocompleteSeleccionarProducto
-						hookForm={hookForm}
-						stateProductoActual={{productoActual, setProductoActual}}
-						statePreciosProductos={{preciosProductos, setPreciosProductos}}
-						stateInputFocus={stateInputFocus}
-					/>
-
-					<IconButton
-						sx={{padding: 0, marginRight: '9px'}}
-						onClick={() => setOpenBuscador(true)}
-					>
-						<BuscarIcon height='24px' width='24px' />
-					</IconButton>
-				</Box>
-
-				<DrawerBuscador
-					openBuscador={openBuscador}
-					setOpenBuscador={setOpenBuscador}
+			<Box padding='0 18px' marginBottom='8px' marginTop='32px'>
+				<Typography fontWeight={600} variant='subtitle3'>
+					{t('general.agregarProductoCanje')}
+				</Typography>
+			</Box>
+			<Box
+				alignItems='center'
+				display='flex'
+				justifyContent='space-between'
+				marginBottom={canje.productos.length > 0 ? '20px' : 0}
+				padding={canje.productos.length > 0 ? '8px 0 8px 18px' : '8px 0 0 18px'}
+				position='sticky'
+				top='75px'
+				sx={{background: '#fff', zIndex: 1}}
+			>
+				<AutocompleteSeleccionarProducto
+					hookForm={hookForm}
+					stateProductoActual={{productoActual, setProductoActual}}
+					statePreciosProductos={{preciosProductos, setPreciosProductos}}
+					stateInputFocus={stateInputFocus}
 				/>
 
+				<IconButton
+					sx={{padding: 0, marginRight: '9px'}}
+					onClick={() => setOpenBuscador(true)}
+				>
+					<BuscarIcon height={24} width={24} />
+				</IconButton>
+			</Box>
+
+			<DrawerBuscador
+				openBuscador={openBuscador}
+				setOpenBuscador={setOpenBuscador}
+			/>
+			<Stack spacing='10px'>
 				{canje.productos?.map((producto) => {
 					return (
 						<SwipeBorrar

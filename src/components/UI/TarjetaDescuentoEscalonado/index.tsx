@@ -1,4 +1,4 @@
-import React from 'react';
+import {useEffect, useState} from 'react';
 import {Box} from '@mui/material';
 import {
 	useObtenerDatosCliente,
@@ -40,7 +40,7 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 	stateAviso,
 }) => {
 	const clienteActual = useObtenerClienteActual();
-	const [productoAgregado, setProductoAgregado] = React.useState<boolean>(true);
+	const [productoAgregado, setProductoAgregado] = useState<boolean>(true);
 	const {focusId} = stateFocusId;
 	const visitaActual = useObtenerVisitaActual();
 	const {datosCliente} = useObtenerDatosCliente(clienteActual.codigoCliente);
@@ -49,7 +49,9 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 	const productoEnVenta = venta.productos.find(
 		(p) => producto.codigoProducto === p.codigoProducto
 	);
-	const [colorBorde, setColorBorde] = React.useState<string>('');
+	const [colorBorde, setColorBorde] = useState<string>('');
+	const [descElimiado, setDescEliminado] = useState<boolean>(false);
+	const [abrirCollapse, setAbrirCollapse] = useState<boolean>(false);
 
 	const productoAMandar: TProductoPedido = {
 		...producto,
@@ -69,7 +71,7 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 		},
 	};
 
-	const [infoDescuento, setInfoDescuento] = React.useState<TInfoDescuentos>({
+	const [infoDescuento, setInfoDescuento] = useState<TInfoDescuentos>({
 		tipo: productoAMandar.descuento?.tipo,
 		porcentajeDescuento:
 			productoAMandar.descuento &&
@@ -96,7 +98,7 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 			? false
 			: true;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (
 			focusId === producto.codigoProducto &&
 			producto.unidades === 0 &&
@@ -108,7 +110,7 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 		}
 	}, [focusId]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (productoEnVenta) {
 			if (
 				productoEnVenta.unidades > configuracionPedido.cantidadMaximaUnidades
@@ -141,7 +143,11 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 		visitaActual.seQuedaAEditar.bordeError,
 	]);
 
-	const [abrirCollapse, setAbrirCollapse] = React.useState<boolean>(false);
+	useEffect(() => {
+		if (descElimiado) {
+			setAbrirCollapse(false);
+		}
+	}, [descElimiado]);
 
 	return (
 		<Box minWidth='100%' display='flex' justifyContent='flex-end'>
@@ -188,21 +194,25 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 				/>
 				<Control
 					abrirCollapse={abrirCollapse}
-					producto={productoEnVenta ?? productoAMandar}
-					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-					stateFocusId={stateFocusId}
+					infoBeneficio={infoBeneficio}
 					obtenerCalculoDescuentoProducto={obtenerCalculoDescuentoProducto}
+					producto={productoEnVenta ?? productoAMandar}
+					puedeVerInfoPromoOngoin={puedeVerInfoPromoOngoin}
+					stateFocusId={stateFocusId}
+					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
 					stateInputFocus={stateInputFocus}
 				/>
 				<BotonDescuentoEscalonado
 					producto={productoEnVenta ?? productoAMandar}
 					stateAviso={stateAviso}
 					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
+					setDescEliminado={setDescEliminado}
 				/>
 				<DesplegableEscalonados
 					abrirCollapse={abrirCollapse}
 					descuentosEscalonados={producto.descuentoEscalonado!}
 					setAbrirCollapse={setAbrirCollapse}
+					descEliminado={descElimiado}
 				/>
 			</Box>
 		</Box>

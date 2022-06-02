@@ -28,5 +28,7 @@ export * from './PromocionesRellenoIcon';
 export * from './QuitarRellenoIcon';
 export * from './ReiniciarIcon';
 export * from './RetrocederIcon';
+export * from './SignoPreguntaIcon';
 export * from './SimboloMoneda';
+export * from './SimboloMonedaBR';
 export * from './WarningTrianguloIcon';

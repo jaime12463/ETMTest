@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Box, Typography} from '@mui/material';
+import {Box, IconButton, Typography} from '@mui/material';
 import {TarjetaColapsable} from 'components/UI';
 import {
 	useAppDispatch,
@@ -19,9 +19,12 @@ import {VistaPromoPush} from './VistaPromoPush';
 import {Iniciativas} from './Iniciativas';
 import {Coberturas} from './Coberturas';
 import {EPasos, TStatePasos} from 'models';
+import CompromisoDeCobro from '../3_Otros/CompromisoDeCobro';
+import {SignoPreguntaIcon} from 'assests/iconos';
 
 const Planeacion: React.VFC = () => {
 	const [expandido, setExpandido] = useState<string | boolean>(false);
+	const [openToolTip, setOpenToolTip] = useState<boolean>(false);
 	const {t} = useTranslation();
 	const {iniciativas} = useObtenerVisitaActual();
 	const configuracion = useObtenerConfiguracion();
@@ -144,12 +147,14 @@ const Planeacion: React.VFC = () => {
 				contenidoMensaje={configAlerta}
 			/>
 			<TarjetaColapsable
-				titulo={<Typography variant='subtitle2'>Pedidos en curso</Typography>}
+				titulo={
+					<Typography variant='subtitle2'>
+						{t('titulos.pedidosEnCurso')}
+					</Typography>
+				}
 				subTitulo={
 					<Typography variant='body3'>
-						{/*ToDo: pasar a multilenguaje */}
-						Aquí se muestra un listado de pedidos que estan pendientes por
-						entregar
+						{t('titulos.pedidosEnCursoSubTitulo')}
 					</Typography>
 				}
 				id='PedidosEnCurso'
@@ -167,18 +172,17 @@ const Planeacion: React.VFC = () => {
 						{t('titulos.pedidosEnCursoDeshabilitado')}
 					</Typography>
 				}
-				disabled={visitaActual.clienteBloqueado}
-			>
-				{/*ToDo: pasar a multilenguaje*/}
-				<div> PEDIDOS EN CURSO</div>
-			</TarjetaColapsable>
+				disabled={visitaActual.clienteBloqueado || true}
+			></TarjetaColapsable>
 			<TarjetaColapsable
-				titulo={<Typography variant='subtitle2'>Sugerido para ti</Typography>}
+				titulo={
+					<Typography variant='subtitle2'>
+						{t('titulos.sugeridosParaTi')}
+					</Typography>
+				}
 				subTitulo={
 					<Typography variant='body3'>
-						{/*ToDo: pasar a multilenguaje */}
-						Aquí se muestra un listado de pedidos que estan pendientes por
-						entregar
+						{t('titulos.sugeridosParaTiSubTitulo')}
 					</Typography>
 				}
 				id='Sugeridos'
@@ -193,13 +197,51 @@ const Planeacion: React.VFC = () => {
 						fontFamily='Open Sans'
 						variant='subtitle3'
 					>
-						{t('titulos.sugeridosDeshabilitado')}
+						{t('titulos.sugeridosParaTiDeshabilitado')}
 					</Typography>
 				}
-				disabled={visitaActual.clienteBloqueado}
+				disabled={visitaActual.clienteBloqueado || true}
+			></TarjetaColapsable>
+			<TarjetaColapsable
+				titulo={
+					<Box alignItems='center' display='flex' gap='6px'>
+						<Typography variant='subtitle2'>
+							{t('titulos.partidasGeneradasDelCliente')}
+						</Typography>
+						{expandido === 'PartidasCliente' && (
+							<IconButton
+								sx={{padding: 0}}
+								onMouseLeave={() => setOpenToolTip(false)}
+								onMouseEnter={() => setOpenToolTip(true)}
+							>
+								<SignoPreguntaIcon />
+							</IconButton>
+						)}
+					</Box>
+				}
+				subTitulo={
+					<Typography variant='body3'>
+						{t('titulos.tarjetaPartidasGeneradasDelCliente')}
+					</Typography>
+				}
+				id='PartidasCliente'
+				expandido={expandido}
+				setExpandido={setExpandido}
+				dataCy='PartidasCliente'
+				iniciativasEjecutadasSinCantidad={iniciativasEjecutadasSinCantidad}
+				iniciativasCanceladasSinMotivo={iniciativasCanceladasSinMotivo}
+				mensaje={
+					<Typography
+						color='primary'
+						fontFamily='Open Sans'
+						variant='subtitle3'
+					>
+						{t('titulos.promocionesDeshabilitadas')}
+					</Typography>
+				}
+				disabled={visitaActual.clienteBloqueado || promociones.length === 0}
 			>
-				{/*ToDo: agregar a multilenguaje*/}
-				<div>SUGERIDOS PARA TI PEDIDOS EN CURSO</div>
+				<CompromisoDeCobro tarjetaPlaneacion openTooltip={openToolTip} />
 			</TarjetaColapsable>
 			<TarjetaColapsable
 				titulo={

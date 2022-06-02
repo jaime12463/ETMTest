@@ -329,7 +329,23 @@ const TomaPedido: React.FC = () => {
 								>
 									<PromocionColor height='24px' width='24px' />
 								</IconButton>
-								<Tooltip open={openTooltip} />
+								<Tooltip
+									bottom='-40px'
+									direccionFlechaHorizontal='240px'
+									colorScheme='warning'
+									left='-235px'
+									open={openTooltip}
+									padding='8px 20px'
+									width='304px'
+								>
+									<Typography
+										variant='caption'
+										fontFamily='Open Sans'
+										color='#000'
+									>
+										{t('tooltip.cambioPromocion')}
+									</Typography>
+								</Tooltip>
 							</Box>
 						)}
 						<IconButton

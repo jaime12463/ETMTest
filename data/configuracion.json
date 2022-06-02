@@ -8,6 +8,8 @@
 		"bonificacionesConVenta": true,
 		"habilitaCompromisoDeCobro": true,
 		"tipoPedidoEnvasesHabilitados": ["VentaEnvase", "PrestamoEnvase"],
+		"condicionDePagoDefault": "credito",
+		"tiempoToastEnSegundos": 1.5,
 		"tipoPedidos": [
 			{
 				"codigo": "Venta",

@@ -1,15 +1,12 @@
 import {useCallback} from 'react';
-
 import {useObtenerMontoTotalDocumentos} from './index';
 import {obtenerTotalesCompromisoDeCobroCliente} from 'utils/methods';
 import {TFunctionMostarAvertenciaPorDialogo, TClienteActual} from 'models';
 import {
 	useObtenerDatosCliente,
 	useObtenerCompromisosDeCobroMismaFechaEntrega,
-	useMostrarAviso,
 } from 'hooks';
 import {useObtenerClienteActual} from 'redux/hooks';
-import {useTranslation} from 'react-i18next';
 
 type validacionAgregarCompromisoDeCobro = {
 	esValidoAgregarCompromisoDeCobro: boolean;
@@ -30,10 +27,6 @@ export const useValidarAgregarCompromisoDeCobro = (
 	const montoTotalDocumentos = useObtenerMontoTotalDocumentos();
 	const totalDeduda = montoTotalDocumentos - montoTotalCompromisos;
 
-	const {t} = useTranslation();
-
-	const mostrarAviso = useMostrarAviso();
-
 	const ValidarAgregarCompromisoDeCobro = useCallback(
 		(monto: number): validacionAgregarCompromisoDeCobro => {
 			let estadoValidacion: validacionAgregarCompromisoDeCobro = {
@@ -41,11 +34,6 @@ export const useValidarAgregarCompromisoDeCobro = (
 			};
 
 			if (monto > totalDeduda) {
-				// mostrarAdvertenciaEnDialogo(
-				// 	t('advertencias.montoMayorDeuda'),
-				// 	'clienteNoPortafolio'
-				// );
-				mostrarAviso('error', t('advertencias.montoMayorDeuda'));
 				return estadoValidacion;
 			}
 

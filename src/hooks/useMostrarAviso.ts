@@ -1,7 +1,9 @@
 import {OptionsObject, useSnackbar} from 'notistack';
+import {useObtenerConfiguracion} from '../redux/hooks/useObtenerConfiguracion';
 
 export const useMostrarAviso = () => {
 	const {enqueueSnackbar} = useSnackbar();
+	const {tiempoToastEnSegundos} = useObtenerConfiguracion();
 
 	const mostrarAviso = (
 		tipo: 'default' | 'error' | 'success' | 'warning' | 'info',
@@ -12,7 +14,7 @@ export const useMostrarAviso = () => {
 	) => {
 		const opcionesDefault: OptionsObject = {
 			preventDuplicate: true,
-			autoHideDuration: 3000,
+			autoHideDuration: tiempoToastEnSegundos * 1000,
 			anchorOrigin: {
 				vertical: 'top',
 				horizontal: 'center',

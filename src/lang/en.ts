@@ -4,6 +4,7 @@ const en = {
 		aceptar: 'Accept',
 		agregar: 'Add',
 		agregarCompromisoDeCobro: 'Add collection commitment',
+		agregarProductoCanje: 'Add product for exchange',
 		agregarProductoSKU: 'Add a SKU',
 		agregarSKU: 'Add SKU',
 		ahorras: 'Saves',
@@ -50,13 +51,14 @@ const en = {
 		ejecutada: 'Executed',
 		eliminar: 'Delete',
 		eliminarTodo: 'Delete all',
-		envase: 'Packaging',
+		envases: 'Packaging',
 		estado: 'Status',
 		estatus: 'Status',
 		familias: 'Families',
 		fechaDeAlta: 'Date of registration',
 		fechaEntrega: 'Delivery date',
 		finalizarVisita: 'End visit',
+		ingresarCantidad: 'Enter amount',
 		ingresarPrecioVenta: 'Enter selling price',
 		intentaOtroProducto: 'Try another product',
 		limiteDeCredito: 'Credit limit',
@@ -150,23 +152,32 @@ const en = {
 		ingresoPedido: 'Order Entry',
 		iniciativas: 'Initiatives',
 		ordenDeCompra: 'Purchase Order',
+		partidasGeneradasDelCliente: 'Customer generated items',
 		pedidosDelClienteActual: 'Customer orders',
+		pedidosEnCurso: 'Orders in process',
 		pedidosEnCursoDeshabilitado: 'There are no orders to display',
+		pedidosEnCursoSubTitulo:
+			'Here is a list of orders that are pending for delivery',
 		productosPedido: 'Products of the Order',
 		promociones: 'Promotions',
 		promocionesDeshabilitadas:
 			'Visualiza las promociones push que tienes disponible para tu cliente.',
 		promocionesMensaje:
 			'Visualiza las promociones push que tienes disponible para tu cliente.',
-		sugeridosDeshabilitado: 'There are no suggestions to show',
-		tarjetaBonificaciones: `Add the bonuses for this customer.`,
+		sugeridosParaTi: 'Suggested for you',
+		sugeridosParaTiDeshabilitado: 'There are no suggestions to show',
+		sugeridosParaTiSubTitulo:
+			'Below are recommended items for you to add to your order.',
+		tarjetaBonificaciones: 'Add the bonuses for this customer.',
 		tarjetaCanjes: 'Indicate the quantity of product for exchange',
 		tarjetaCoberturas: `Indicates the amount of product missing in the customer's refrigerator.`,
-		tarjetaCompromisoCobro: 'Generate a codro commitment',
+		tarjetaCompromisoCobro: 'Add a collection commitment',
 		tarjetaEnvases: 'Check the amount of packaging for your products',
 		tarjetaIniciativas:
 			'Select the initiatives that you have available for your client.',
 		tarjetaOrdenDeCompra: "Enter the customer's purchase order number",
+		tarjetaPartidasGeneradasDelCliente:
+			'Visualize all the items your customer has',
 		tarjetaPromociones:
 			'Select the promotions that you have available for your clients.',
 		tarjetaTomaDePedido:
@@ -286,8 +297,6 @@ const en = {
 		tomaDePedido: 'Order taking',
 	},
 	mensajes: {
-		borrarDescuento:
-			'The tiered discount of the product {{codigo}} will be eliminated. To apply it again, you will have to add the product again. ',
 		excedeUnidadesDisponibles:
 			'You have exceeded the maximum amount of promotion allowed that you can apply per customer.',
 	},
@@ -295,6 +304,8 @@ const en = {
 		bonificacionActivaMensaje:
 			'If you decide to add a bonus, the bonus of the other group will be lost.',
 		bonificacionActivaTitulo: 'You already have an active bonus',
+		borrarDescuento:
+			'The tiered discount of the product {{codigo}} will be eliminated. To apply it again, you will have to add the product again. ',
 		restablecerBonificacionesMensaje:
 			'All bonus amounts will be reset to zero.',
 		restablecerBonificacionesTitulo: 'Reset quantities to zero',
@@ -355,6 +366,9 @@ const en = {
 	},
 	tooltip: {
 		cambioPromocion: 'Available promotions may have changed.',
+		partidasAbiertas: 'Open entries',
+		partidasAPuntoDeVencer: 'Entries about to expire',
+		partidasVencidas: 'Expired entries',
 	},
 	descuentos: {
 		automatico: 'automatic',

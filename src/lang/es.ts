@@ -4,6 +4,7 @@ const es = {
 		aceptar: 'Aceptar',
 		agregar: 'Agregar',
 		agregarCompromisoDeCobro: 'Agregar compromiso de cobro',
+		agregarProductoCanje: 'Agregar producto para canje',
 		agregarProductoSKU: 'Agregar un SKU',
 		agregarSKU: 'Agregar SKU',
 		ahorras: 'Ahorras',
@@ -57,6 +58,7 @@ const es = {
 		fechaDeAlta: 'Fecha de alta',
 		fechaEntrega: 'Fecha de entrega',
 		finalizarVisita: 'Finalizar visita',
+		ingresarCantidad: 'Ingresar cantidad',
 		ingresarPrecioVenta: 'Ingresar precio venta',
 		intentaOtroProducto: 'Intenta con otro producto',
 		limiteDeCredito: 'Límite de crédito',
@@ -152,23 +154,32 @@ const es = {
 		ingresoPedido: 'Ingreso de Pedido',
 		iniciativas: 'Iniciativas',
 		ordenDeCompra: 'Orden de Compra',
+		partidasGeneradasDelCliente: 'Partidas generadas del cliente',
 		pedidosDelClienteActual: 'Pedidos del cliente',
+		pedidosEnCurso: 'Pedidos en curso',
 		pedidosEnCursoDeshabilitado: 'No hay pedidos para mostrar',
+		pedidosEnCursoSubTitulo:
+			'Aquí se muestra un listado de pedidos que estan pendientes por entregar',
 		productosPedido: 'Productos del Pedido',
 		promociones: 'Promociones push',
 		promocionesDeshabilitadas: 'Este cliente no cuenta con promociones push',
 		promocionesMensaje:
 			'Visualiza las promociones push que tienes disponible para tu cliente.',
-		sugeridosDeshabilitado: 'No hay sugerencias para mostrar',
+		sugeridosParaTi: 'Sugeridos para ti',
+		sugeridosParaTiDeshabilitado: 'No hay sugerencias para mostrar',
+		sugeridosParaTiSubTitulo:
+			'A continuación te recomendamos Items para que los puedas ingresar a tu pedido.',
 		tarjetaBonificaciones: 'Agregar las bonificaciones para este cliente.',
 		tarjetaCanjes: 'Indica la cantidad de producto para cambio',
 		tarjetaCoberturas:
 			'Indica la cantidad de producto faltante en el refrigerador del cliente.',
-		tarjetaCompromisoCobro: 'Generar un compromiso de cobro',
+		tarjetaCompromisoCobro: 'Agrega un compromiso de cobro',
 		tarjetaEnvases: 'Revisa la cantidad de envases para tus productos',
 		tarjetaIniciativas:
 			'Selecciona las iniciativas que tienes disponible para tu cliente.',
 		tarjetaOrdenDeCompra: 'Ingresa el número de orden de compra del cliente',
+		tarjetaPartidasGeneradasDelCliente:
+			'Visualiza todas las partidas que tiene tu cliente',
 		tarjetaPromociones:
 			'Selecciona las promociones push que tienes disponible para tus clientes.',
 		tarjetaTomaDePedido:
@@ -243,7 +254,7 @@ const es = {
 			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido junto con los canjes que contiene.',
 		mensajeProductosSinCargarCanjeYBonificacion:
 			'Si avanzas a la siguiente etapa, las tarjetas que no tienen cantidades ingresadas se eliminirán de tu toma de pedido y los canjes y las bonificaciones que contiene.',
-		montoMayorDeuda: 'El monto no puede ser mayor a la deuda registrada',
+		montoMayorDeuda: 'La cantidad no puede ser mayor a la deuda pendiente',
 		montoMinimo: 'No cumple con el monto mínimo de venta del pedido',
 		noEditarPlaneacionDescripcion:
 			'Para volver a editar las cantidades de coberturas e iniciativas, deberás hacerlo  en toma de pedido.',
@@ -288,8 +299,6 @@ const es = {
 		tomaDePedido: 'Toma de pedido',
 	},
 	mensajes: {
-		borrarDescuento:
-			'Se eliminará el descuento escalonado del producto {{codigo}}. Para aplicarlo de nuevo, tendrás que volver a agrega el producto.',
 		excedeUnidadesDisponibles:
 			'Superaste la cantidad máxima de promoción permitida que puedes aplicar por cliente.',
 	},
@@ -297,6 +306,8 @@ const es = {
 		bonificacionActivaMensaje:
 			'Si decides agregar una bonificacion, la del otro grupo se perderá',
 		bonificacionActivaTitulo: 'Ya tienes una bonificación activa',
+		borrarDescuento:
+			'Se eliminará el descuento escalonado del producto {{codigo}}. Para aplicarlo de nuevo, tendrás que volver a agregar el producto.',
 		restablecerBonificacionesMensaje:
 			'Todas las cantidades de las bonificaciones se restablecerán a cero.',
 		restablecerBonificacionesTitulo: 'Restablecer cantidades a cero',
@@ -359,12 +370,15 @@ const es = {
 	},
 	tooltip: {
 		cambioPromocion: 'Las promociones disponibles podrían haber cambiado.',
+		partidasAbiertas: 'Partidas abiertas',
+		partidasAPuntoDeVencer: 'Partidas a punto de vencer',
+		partidasVencidas: 'Partidas vencidas',
 	},
 	descuentos: {
 		automatico: 'automático',
 		descuentoAutomatico: 'Descuento automático',
 		descuentosEscalonados: 'Descuentos escalonados',
-		descuentoMensaje: 'Descuento {{tipo}} del -{{descuento}}%',
+		descuentoMensaje: 'Descuento {{tipo}} del {{descuento}}%',
 		descuentoSustituido: 'El descuento {{tipo}} ha sido sustituido por una',
 		eliminarDescuento: 'Eliminar descuento',
 		escalonado: 'escalonado',

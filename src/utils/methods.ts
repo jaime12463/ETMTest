@@ -8,6 +8,7 @@ import {
 import {TpresupuestoTipoPedido, TTipoPedido} from 'models/server';
 import {TFunction} from 'react-i18next';
 import i18n from 'i18next';
+import theme from 'theme';
 
 export const formatoNumeroConDecimales = (
 	numero: number,
@@ -77,6 +78,64 @@ export const formatearFecha = (
 	if (t('simbolos.formatoFechaAmericano') === 'true')
 		return `${arregloFecha[1]}-${arregloFecha[2]}-${arregloFecha[0]}`;
 	else return `${arregloFecha[2]}-${arregloFecha[1]}-${arregloFecha[0]}`;
+};
+
+export const formateoYColorFechaCompromisoDeCobro = (
+	vencimiento: string,
+	diasAlertaVencimientoDesde: number,
+	diasAlertaVencimientoHasta: number
+) => {
+	const fechaActual = new Date().setHours(0, 0, 0, 0);
+
+	let colorCirculo: string = '';
+	let colorTexto: string = '';
+
+	const vencimientoSplit = vencimiento.split('-');
+
+	const fecha = new Date(
+		Number(vencimientoSplit[0]),
+		Number(vencimientoSplit[1]) - 1,
+		Number(vencimientoSplit[2])
+	);
+
+	const fechaDesde = new Date(
+		Number(vencimientoSplit[0]),
+		Number(vencimientoSplit[1]) - 1,
+		Number(vencimientoSplit[2])
+	).setDate(fecha.getDate() + diasAlertaVencimientoDesde);
+
+	const fechaHasta = new Date(
+		Number(vencimientoSplit[0]),
+		Number(vencimientoSplit[1]) - 1,
+		Number(vencimientoSplit[2])
+	).setDate(fecha.getDate() + diasAlertaVencimientoHasta);
+
+	const locale = i18n.language !== 'br' ? i18n.language : 'pt';
+
+	const vencimientoFormateado = new Intl.DateTimeFormat(locale, {
+		day: '2-digit',
+		month: '2-digit',
+		year: '2-digit',
+	})
+		.format(fecha)
+		.replaceAll('/', '-');
+
+	if (fechaActual > fechaHasta) {
+		colorCirculo = '#EC9999';
+		colorTexto = theme.palette.primary.dark;
+	}
+
+	if (fechaActual < fechaDesde) {
+		colorCirculo = '#99D8C1';
+		colorTexto = theme.palette.success.dark;
+	}
+
+	if (fechaDesde <= fechaActual && fechaActual <= fechaHasta) {
+		colorCirculo = '#FCE199';
+		colorTexto = '#E2AC16';
+	}
+
+	return {vencimientoFormateado, colorCirculo, colorTexto};
 };
 
 export const formatearFechaIntl = (fecha: string): string => {

@@ -4,6 +4,7 @@ const br = {
 		aceptar: 'Aceitar',
 		agregar: 'Adicionar',
 		agregarCompromisoDeCobro: 'Adicionar compromisso de coleção',
+		agregarProductoCanje: 'Adicionar produto para troca',
 		agregarProductoSKU: 'Adicionar um SKU',
 		agregarSKU: 'Adicionar SKU',
 		ahorras: 'Poupança',
@@ -30,7 +31,7 @@ const br = {
 		cerrarPedido: 'Fechar visita',
 		cliente: 'Cliente',
 		codigo: 'Código',
-		compromisoCobro: 'compromisso de cobrança',
+		compromisoCobro: 'Compromisso de cobrança',
 		compromisoRegistrado: 'Compromissos de cobrança registrados',
 		contado: 'Dinheiro',
 		continuar: 'Prosseguir',
@@ -50,13 +51,14 @@ const br = {
 		ejecutada: 'Executado',
 		eliminar: 'Excluir',
 		eliminarTodo: 'Excluir todos',
-		envase: 'Vasilhame',
+		envases: 'Embalagens',
 		estado: 'Estado',
 		estatus: 'Status',
 		familias: 'Famílias',
 		fechaDeAlta: 'Data de alta',
 		fechaEntrega: 'Data de entrega',
 		finalizarVisita: 'Finalizar visita',
+		ingresarCantidad: 'Digite a quantidade',
 		ingresarPrecioVenta: 'Insira o preço de venda',
 		intentaOtroProducto: 'Experimente outro produto',
 		limiteDeCredito: 'Limite de crédito',
@@ -121,7 +123,7 @@ const br = {
 		totalUnidades: 'Total Unidades',
 		unidades: 'Unidades',
 		unidadesMaximasAplicar: 'Unidades máximas que você pode aplicar',
-		vencimiento: 'expiração',
+		vencimiento: 'Expiração',
 		venta: 'Venda',
 		ventas: 'Vendas',
 		verDetalle: 'Ver detalhe',
@@ -141,7 +143,7 @@ const br = {
 		bienvenido: 'Bem Vindo',
 		bonificaciones: 'Bonificações',
 		bonificacionesDeshabilitadas: 'Não há bônus para este cliente no momento.',
-		canjes: 'Canjes',
+		canjes: 'Trocas',
 		canjesDeshabilitadas:
 			'Sem feno disponível de canje para este cliente neste momento',
 		clientes: 'Clientes',
@@ -150,24 +152,33 @@ const br = {
 		ingresoPedido: 'Entrada de Pedido',
 		iniciativas: 'Iniciativas',
 		ordenDeCompra: 'Ordem de Compra',
+		partidasGeneradasDelCliente: 'Itens gerados pelo cliente',
 		pedidosDelClienteActual: 'pedidos de clientes',
+		pedidosEnCurso: 'Pedidos em andamento',
 		pedidosEnCursoDeshabilitado: 'Sem ordens de exibição',
+		pedidosEnCursoSubTitulo:
+			'Aqui está uma lista de pedidos que ainda devem ser entregues',
 		productosPedido: 'Ítens do Pedido',
 		promociones: 'Promoções',
 		promocionesDeshabilitadas:
 			'Visualiza las promociones push que tienes disponible para tu cliente.',
 		promocionesMensaje:
 			'Visualiza las promociones push que tienes disponible para tu cliente.',
-		sugeridosDeshabilitado: 'Nenhuma sugestão para exibição',
+		sugeridosParaTi: 'Sugerido para você',
+		sugeridosParaTiDeshabilitado: 'Nenhuma sugestão para exibição',
+		sugeridosParaTiSubTitulo:
+			'Abaixo recomendamos itens para que você possa acrescentar ao seu pedido.',
 		tarjetaBonificaciones: 'Adicione os bônus para este cliente.',
 		tarjetaCanjes: 'Indica a quantidade de produto a ser trocada',
 		tarjetaCoberturas:
 			'Indica a quantidade de produto faltando na geladeira do cliente.',
-		tarjetaCompromisoCobro: 'Gerar um compromisso de cobrança',
+		tarjetaCompromisoCobro: 'Adicionar um compromisso de cobrança',
 		tarjetaEnvases: 'Verifique a quantidade de embalagens para seus produtos.',
 		tarjetaIniciativas:
 			'Selecione as iniciativas que você tem disponíveis para o seu cliente.',
 		tarjetaOrdenDeCompra: 'Digite o número do pedido de compra do cliente',
+		tarjetaPartidasGeneradasDelCliente:
+			'Veja todos os itens que seu cliente tem',
 		tarjetaPromociones:
 			'Selecione as promoções que você tem disponíveis para seus clientes.',
 		tarjetaTomaDePedido:
@@ -289,8 +300,6 @@ const br = {
 		tomaDePedido: 'Recebimento de pedidos',
 	},
 	mensajes: {
-		borrarDescuento:
-			'Depois que o desconto escalonado for removido, você não poderá aplicá-lo novamente a este produto.',
 		excedeUnidadesDisponibles:
 			'Você excedeu a quantidade máxima permitida de promoção que você pode aplicar por cliente.',
 	},
@@ -298,6 +307,8 @@ const br = {
 		bonificacionActivaMensaje:
 			'Se você decidir adicionar um bônus, o bônus do outro grupo será perdido.',
 		bonificacionActivaTitulo: 'Você já tem um bônus ativo',
+		borrarDescuento:
+			'Depois que o desconto escalonado for removido, você não poderá aplicá-lo novamente a este produto.',
 		restablecerBonificacionesMensaje:
 			'Todos os valores de bônus devem ser zerados.',
 		restablecerBonificacionesTitulo: 'Redefinir quantidades para zero',
@@ -359,12 +370,15 @@ const br = {
 	},
 	tooltip: {
 		cambioPromocion: 'As promoções disponíveis podem ter mudado.',
+		partidasAbiertas: 'Itens abertas',
+		partidasAPuntoDeVencer: 'Itens prestes a vencer',
+		partidasVencidas: 'Itens batidos',
 	},
 	descuentos: {
 		automatico: 'automático',
 		descuentoAutomatico: 'Desconto automático',
 		descuentoEscalonado: 'Descontos escalonados',
-		descuentoMensaje: 'Desconto {{tipo}} de -{{descuento}}%',
+		descuentoMensaje: 'Desconto {{tipo}} de {{descuento}}%',
 		descuentoSustituido: 'O desconto {{tipo}} foi substituído por uma',
 		eliminarDescuento: 'Excluir desconto',
 		escalonado: 'escalonado',

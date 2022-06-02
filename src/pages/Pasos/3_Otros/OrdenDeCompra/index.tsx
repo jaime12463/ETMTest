@@ -5,6 +5,7 @@ import {TVisita} from 'models';
 import {InputConIcono} from 'components/UI';
 import {useTranslation} from 'react-i18next';
 import {useMostrarAviso} from 'hooks';
+import {Box} from '@mui/material';
 
 const OrdenDeCompra: React.FC = () => {
 	const visitaActual: TVisita = useObtenerVisitaActual();
@@ -39,7 +40,7 @@ const OrdenDeCompra: React.FC = () => {
 		}
 	};
 
-	const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+	const handleBlur = () => {
 		if (huboCambios && ordenDeCompra.length > 0) {
 			mostrarAviso(
 				'success',
@@ -61,15 +62,16 @@ const OrdenDeCompra: React.FC = () => {
 	};
 
 	return (
-		<InputConIcono
-			value={ordenDeCompra}
-			onChange={handleChange}
-			onKeyPress={handleKeyPress}
-			onBlur={handleBlur}
-			valid={mostrarIcono}
-			label={t('general.numeroOrdenDeCompra')}
-			focus
-		/>
+		<Box display='flex' flex='1' marginTop='10px'>
+			<InputConIcono
+				value={ordenDeCompra}
+				onChange={handleChange}
+				onKeyPress={handleKeyPress}
+				onBlur={handleBlur}
+				valid={mostrarIcono}
+				placeholder={t('general.numeroOrdenDeCompra')}
+			/>
+		</Box>
 	);
 };
 
