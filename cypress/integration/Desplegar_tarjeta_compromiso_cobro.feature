@@ -17,6 +17,7 @@ Esquema del escenario: N°1 - Compromiso de cobro en paso otros
     Y el cliente habilita el compromiso de cobro
     Cuando se despliega la tarjeta
     Entonces el sistema mostrará en la tarjeta compromiso de cobro el listado de documentos ordenados por vencimiento ascendente
+    Y mostrará el scroll del listado al haber más de 7 documentos
     Y mostrará de título compromiso de cobro
     Y mostrará el control para registrar compromiso de cobro
     Y mostrará el icono que indica la leyenda de colores: verde partidas abiertas, amarrillo partidas a punto de vencer, rojo partidas vencidas

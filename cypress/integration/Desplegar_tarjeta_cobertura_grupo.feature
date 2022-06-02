@@ -10,12 +10,14 @@ Característica: Desplegar detalle de cobertura
 Escenario: N°1 - Desplegar detalle de cobertura
     Dado que se desplegó la tarjeta coberturas
     Cuando selecciono el control ver grupo
-    Entonces el sistema mostrará los productos asignados al grupo ordenados por código de producto
+    Entonces el sistema mostrará en la cabecera el total de items
+    Y mostrará el control para filtrar productos por atributos
+    Y mostrará los productos asignados al grupo ordenados por código de producto
     Y mostrará el código de producto, el _nombre, el precio unidad, el precio subunidad
     Y mostrará las cantidades en 0
     Y deshabilitará el control - de las cantidades
     Y habilitará el control + de las cantidades
-    Y mostrará en la cabecera del grupo el control para filtrar productos por atributos
+    
 
 # filtro igual al ingreso de producto. Se muestran atriutos de los productos que están en coberturas.
 
