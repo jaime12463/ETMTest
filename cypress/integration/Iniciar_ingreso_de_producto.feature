@@ -21,7 +21,7 @@ Escenario: N°1 Producto inexistente
     Dado que el prevendedor se encuentra en el ingreso de un _tipoPedido
     Y el ingreso de productos se encuentra habilitado
     Cuando ingresa un producto que no tiene precio vigente
-    Entonces el sistema mostrará mensaje “El código no corresponde a un producto del portafolio del cliente”
+    Entonces el sistema mostrará mensaje "El código no corresponde a un producto del portafolio del cliente"
 
 Escenario: N°2 Producto no habilitado para el tipo de pedido
     Dado que el prevendedor se encuentra en el ingreso de un _tipoPedido
@@ -63,17 +63,17 @@ Esquema del escenario: N°5 El prevendedor ingresa un producto que aún no se en
     Y mostrará el _codigoProducto 
     Y el _nombre
     Y el _precioConImpuestoUnidad '<mostarPrecioUnidad>' se mostrará
-    Y el _precioConImpuestoSubunidad '<mostarPrecioSubunidad>' se mostrará
+    Y se mostrará el _precioConImpuestoSubunidad 
     Y habilitará el ingreso de unidades inicializadas en cero
     Y '<habilitaIngresoSubunidades>' se mostrará el ingreso de subunidades es inicializadas en cero
     Y '<habilitaIngresoMotivo>' se mostrará el ingreso del motivo cargado con las _descripcion del _catalogoMotivos para el tipo de pedido en curso, ordenado por código ascendente y sin motivo seleccionado.
     Y hará foco en las unidades
 Ejemplos:
-|_esValorizado|permiteBotelleo|_requiereMotivo|mostarPrecioUnidad|mostarPrecioSubunidad|habilitaIngresoSubunidades|habilitaIngresoMotivo|
-|true         |no             |false          |si                |no                   |no                        |no                   |
-|true         |si             |false          |si                |si                   |si                        |no                   |
-|false        |no             |true           |no                |no                   |no                        |si                   |
-|flase        |si             |true           |no                |no                   |si                        |si                   |
+|_esValorizado|permiteBotelleo|_requiereMotivo|mostarPrecioUnidad|habilitaIngresoSubunidades|habilitaIngresoMotivo|
+|true         |no             |false          |si                |no                        |no                   |
+|true         |si             |false          |si                |si                        |no                   |
+|false        |no             |true           |no                |no                        |si                   |
+|flase        |si             |true           |no                |si                        |si                   |
 
 
 Escenario: N°6  El prevendedor ingresa un producto que aún no se encuentra en el pedido, con _validaPresupuesto = false
