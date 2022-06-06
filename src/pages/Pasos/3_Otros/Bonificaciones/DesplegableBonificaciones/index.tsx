@@ -106,8 +106,6 @@ const DesplegableBonificaciones: React.FC<Props> = ({
 	);
 
 	useEffect(() => {
-		console.log({cantidadEjecutada});
-
 		if (
 			aplicacionBonificacion === 'Total' &&
 			cantidadEjecutada > 0 &&
