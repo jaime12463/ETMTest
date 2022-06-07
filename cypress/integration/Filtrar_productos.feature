@@ -103,3 +103,19 @@ Escenario: N°8 - Desplegar sección de filtro
     Dado que se contrajo una sección del filtro
     Cuando se selecciona el control para desplegar de una sección
     Entonces el sistema desplegará la sección haciendo visibile los atributos contenidos
+
+Esquema del escenario: N°9 - Cerrar filtro
+    Dado que se mostraron los filtros
+    Cuando selecciono '<control>'
+    Entonces el sistema cerrará los filtros
+
+Ejemplos:
+    |control                  |
+    | control de filtros      |
+    | control de búsqueda sku |
+
+Escenario: N°10 - Mostrar resultados del filtro
+    Dado que se seleccionaron atributos
+    Cuando selecciono mostrar resultados
+    Entonces el sistema cerrará los filtros
+    Y mostrará el listado de productos que cumplen con los atributos seleccionados
