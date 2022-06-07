@@ -18,7 +18,7 @@ Antecedentes:
 
 Escenario: N°1 - Abrir filtros de productos
     Cuando selecciono el control de filtros
-    Entonces el sistema mostrará el listado de _atributos_ correspondientes a los productos que tiene el cliente en portafolio vigente
+    Entonces el sistema mostrará el listado de _atributos_ correspondientes a los productos que tiene el cliente en portafolio vigente que se muestran en el listado
     Y que no sean productos promo push
     Y ordenadas alfabéticamente ascendente para seleccionar
 
