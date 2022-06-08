@@ -254,9 +254,10 @@ const Otros: React.FC = () => {
 						productosMandatoriosVisitaActual.mandatorios.length < 1
 					}
 					mensaje={
-						bonificacionesHabilitadas.length === 0 && (
+						bonificacionesHabilitadas.length === 0 ||
+						productosMandatoriosVisitaActual.mandatorios.length < 1 && (
 							<Typography color='primary' variant='subtitle3'>
-								{t('titulos.bonificacionesDeshabilitadas')}
+								{ t('titulos.bonificacionesDeshabilitadas') }
 							</Typography>
 						)
 					}
@@ -278,7 +279,7 @@ const Otros: React.FC = () => {
 									sx={{padding: 0}}
 									onMouseLeave={() => setOpenToolTip(false)}
 									onMouseEnter={() => setOpenToolTip(true)}
-								>
+									>
 									<SignoPreguntaIcon />
 								</IconButton>
 							)}
