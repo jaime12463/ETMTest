@@ -7,7 +7,6 @@ const useEstilos = makeStyles(() =>
 			flexDirection: 'column',
 			height: '100%',
 			justifyContent: 'space-between',
-			maxWidth: '360px',
 			width: '100%',
 		},
 	})

@@ -1,9 +1,5 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Card from '@mui/material/Card';
-import Collapse from '@mui/material/Collapse';
+import {useState} from 'react';
+import {Box, Card, Typography, IconButton, Collapse} from '@mui/material';
 import theme from 'theme';
 import {BorrarIcon, FlechaArribaIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
@@ -11,10 +7,12 @@ import {
 	FiltrosBusqueda,
 	ItemsBusqueda,
 } from 'hooks/useObtenerFiltrosDelCliente';
+
 interface Props {
 	cantidadFiltrosAplicados: number;
-	estadoInicialFiltros: FiltrosBusqueda;
 	filtrosBusqueda: FiltrosBusqueda;
+	restablecerFiltros: () => void;
+	setAbrirFiltros: React.Dispatch<React.SetStateAction<boolean>>;
 	setFiltrosBusqueda: React.Dispatch<React.SetStateAction<FiltrosBusqueda>>;
 }
 
@@ -28,20 +26,22 @@ interface FiltrosExpandidos {
 
 export const Filtros: React.VFC<Props> = ({
 	cantidadFiltrosAplicados,
-	estadoInicialFiltros,
 	filtrosBusqueda,
+	restablecerFiltros,
+	setAbrirFiltros,
 	setFiltrosBusqueda,
 }) => {
 	const {t} = useTranslation();
 
-	const [filtrosExpandidos, setFiltrosExpandidos] =
-		React.useState<FiltrosExpandidos>({
+	const [filtrosExpandidos, setFiltrosExpandidos] = useState<FiltrosExpandidos>(
+		{
 			sabores: true,
 			marcas: true,
 			medidas: true,
 			envases: true,
 			familias: true,
-		});
+		}
+	);
 
 	const filterHandler = (
 		tipo: 'envases' | 'familias' | 'sabores' | 'medidas' | 'marcas',
@@ -59,10 +59,6 @@ export const Filtros: React.VFC<Props> = ({
 				}),
 			};
 		});
-	};
-
-	const borrarFiltros = () => {
-		setFiltrosBusqueda(estadoInicialFiltros);
 	};
 
 	return (
@@ -421,16 +417,41 @@ export const Filtros: React.VFC<Props> = ({
 			<Box
 				alignItems='center'
 				display='flex'
+				gap='28px'
 				justifyContent='flex-end'
-				padding='10px'
+				padding='10px 24px 10px 14px'
 				sx={{
-					background: '#F5F0EF',
+					background: theme.palette.browns.light,
 					borderTop: `1px solid ${theme.palette.secondary.dark}`,
 				}}
 			>
+				{cantidadFiltrosAplicados !== 0 && (
+					<IconButton sx={{padding: 0}} onClick={() => restablecerFiltros()}>
+						<Box
+							alignItems='center'
+							display='flex'
+							border={`1px solid ${theme.palette.secondary.main}`}
+							borderRadius='50px'
+							gap='4px'
+							minHeight='32px'
+							padding='8px 16px'
+							sx={{background: '#fff'}}
+							width='147px'
+						>
+							<BorrarIcon height={13} width={13} />
+							<Typography
+								color='secondary'
+								fontFamily='Open Sans'
+								variant='subtitle3'
+							>
+								{t('general.borrarSeleccion')}
+							</Typography>
+						</Box>
+					</IconButton>
+				)}
 				<IconButton
 					sx={{padding: 0}}
-					onClick={() => borrarFiltros()}
+					onClick={() => setAbrirFiltros(false)}
 					disabled={cantidadFiltrosAplicados === 0}
 				>
 					<Box
@@ -438,15 +459,16 @@ export const Filtros: React.VFC<Props> = ({
 						display='flex'
 						borderRadius='50px'
 						gap='4px'
+						minHeight='32px'
 						padding='8px 16px'
 						sx={{
 							background: theme.palette.secondary.main,
 							opacity: cantidadFiltrosAplicados === 0 ? 0.5 : 1,
 						}}
+						width='147px'
 					>
-						<BorrarIcon height={13} width={13} fill='#fff' />
 						<Typography variant='subtitle3' fontFamily='Open Sans' color='#fff'>
-							{t('general.borrarSeleccion')}
+							{t('general.mostrarResultados')}
 						</Typography>
 					</Box>
 				</IconButton>

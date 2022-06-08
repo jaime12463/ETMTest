@@ -1,12 +1,9 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import TextField from '@mui/material/TextField';
+import {Box, Typography, TextField, IconButton} from '@mui/material';
 import {BuscarIcon} from 'assests/iconos';
 import {Filter} from 'assests/iconos/Filter';
 import {useTranslation} from 'react-i18next';
 import useEstilos from '../../useEstilos';
+import theme from 'theme';
 
 interface Props {
 	cantidadFiltrosAplicados: number;
@@ -29,7 +26,7 @@ export const HeaderBuscador: React.VFC<Props> = ({
 	};
 
 	return (
-		<Box padding='37px 14px 14px' width='100%'>
+		<Box paddingBottom='14px' width='100%'>
 			<Typography
 				variant='subtitle2'
 				fontFamily='Open Sans'
@@ -42,29 +39,37 @@ export const HeaderBuscador: React.VFC<Props> = ({
 				alignItems='center'
 				display='flex'
 				justifyContent='space-between'
-				marginTop='12px'
+				marginTop='10px'
 			>
-				<Box position='relative'>
+				<Box position='relative' width='222px'>
 					<TextField
 						autoFocus
 						className={classes.inputBuscador}
-						sx={{padding: '4px 12px'}}
-						type='text'
-						variant='standard'
 						InputProps={{
 							disableUnderline: true,
-							style: {fontSize: '12px'},
+							sx: {fontSize: '12px'},
 						}}
-						placeholder={`${t('general.buscarProducto')}`}
 						inputProps={{
-							style: {
+							sx: {
 								fontFamily: 'Open Sans',
 								fontSize: '12px',
 								lineHeight: '16px',
+								'&::placeholder': {
+									opacity: 1,
+								},
 							},
 						}}
-						value={inputBusqueda}
 						onChange={onChangeBusqueda}
+						onClick={() => setAbrirFiltros(false)}
+						placeholder={`${t('general.buscarProducto')}`}
+						sx={{
+							boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.15)',
+							padding: '4px 12px',
+							width: '100%',
+						}}
+						type='text'
+						value={inputBusqueda}
+						variant='standard'
 					/>
 					<IconButton
 						sx={{
@@ -78,37 +83,45 @@ export const HeaderBuscador: React.VFC<Props> = ({
 						<BuscarIcon />
 					</IconButton>
 				</Box>
-				<IconButton
-					sx={{padding: 0, position: 'relative'}}
-					onClick={() => setAbrirFiltros(true)}
+				<Box
+					alignItems='center'
+					borderRadius='50px'
+					color='#fff'
+					display='flex'
+					gap='4px'
+					height='32px'
+					justifyContent='center'
+					maxWidth='102px'
+					onClick={() => setAbrirFiltros((state) => !state)}
+					padding='8px 16px'
+					sx={{background: theme.palette.secondary.main, cursor: 'pointer'}}
+					width='100%'
 				>
+					<Filter height={10} width={10} />
+					<Typography fontFamily='Open Sans' variant='subtitle3'>
+						{t('general.filtros')}
+					</Typography>
 					{cantidadFiltrosAplicados > 0 && (
 						<Box
-							display='flex'
 							alignItems='center'
+							borderRadius='50%'
+							display='flex'
+							height='13px'
 							justifyContent='center'
-							sx={{
-								background: '#fff',
-								borderRadius: '50%',
-								minHeight: '15px',
-								minWidth: '15px',
-								position: 'absolute',
-								right: 1,
-								top: -3,
-							}}
+							padding='4px'
+							sx={{background: theme.palette.primary.main}}
+							width='13px'
 						>
 							<Typography
-								fontSize='8px'
 								fontFamily='Open Sans'
-								color='primary'
+								fontSize='8px'
 								fontWeight={700}
 							>
 								{cantidadFiltrosAplicados}
 							</Typography>
 						</Box>
 					)}
-					<Filter />
-				</IconButton>
+				</Box>
 			</Box>
 		</Box>
 	);

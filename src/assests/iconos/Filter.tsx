@@ -6,14 +6,15 @@ export const Filter: React.VFC<React.SVGProps<SVGSVGElement>> = ({
 }) => {
 	return (
 		<svg
-			width={31}
-			height={31}
+			width={20}
+			height={14}
 			fill='none'
+			viewBox='0 0 20 14'
 			xmlns='http://www.w3.org/2000/svg'
 			{...props}
 		>
 			<path
-				d='M7.75 16.792h15.5v-2.584H7.75v2.584ZM3.875 7.75v2.583h23.25V7.75H3.875Zm9.042 15.5h5.166v-2.583h-5.166v2.583Z'
+				d='M3.333 8.167h13.334V5.833H3.333v2.334ZM0 0v2.333h20V0H0Zm7.778 14h4.444v-2.333H7.778V14Z'
 				fill={fill}
 			/>
 		</svg>
