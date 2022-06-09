@@ -78,6 +78,61 @@ export const DrawerBuscador: React.VFC<Props> = ({
 	}, [debouncedInput]);
 
 	useEffect(() => {
+		if (abrirFiltros) {
+			if (!resultadosBusqueda.length) {
+				restablecerFiltros();
+				return;
+			}
+
+			const nuevosFiltros = obtenerFiltrosCliente(resultadosBusqueda);
+
+			const filtrosAplicados = Object.entries(filtrosBusqueda).reduce(
+				(acc, [key, arr]) => {
+					const arrayFiltros: number[] = [];
+
+					arr.forEach(
+						(item: ItemsBusqueda) => item.checked && arrayFiltros.push(item.id)
+					);
+
+					return {
+						...acc,
+						[key]: arrayFiltros,
+					};
+				},
+				{} as {[key: string]: number[]}
+			);
+
+			setFiltrosBusqueda({
+				envases: nuevosFiltros.envases.map((envase) =>
+					filtrosAplicados.envases.includes(envase.id)
+						? {...envase, checked: true}
+						: envase
+				),
+				familias: nuevosFiltros.familias.map((familia) =>
+					filtrosAplicados.familias.includes(familia.id)
+						? {...familia, checked: true}
+						: familia
+				),
+				sabores: nuevosFiltros.sabores.map((sabor) =>
+					filtrosAplicados.sabores.includes(sabor.id)
+						? {...sabor, checked: true}
+						: sabor
+				),
+				marcas: nuevosFiltros.marcas.map((marca) =>
+					filtrosAplicados.marcas.includes(marca.id)
+						? {...marca, checked: true}
+						: marca
+				),
+				medidas: nuevosFiltros.medidas.map((medida) =>
+					filtrosAplicados.medidas.includes(medida.id)
+						? {...medida, checked: true}
+						: medida
+				),
+			});
+		}
+	}, [abrirFiltros]);
+
+	useEffect(() => {
 		return () => {
 			// Limpieza del estado al cerrar el drawer
 			setInputBusqueda('');
@@ -113,8 +168,10 @@ export const DrawerBuscador: React.VFC<Props> = ({
 			<DrawerFiltros open={abrirFiltros}>
 				<Filtros
 					cantidadFiltrosAplicados={cantidadFiltrosAplicados}
+					estadoInicialFiltros={estadoInicialFiltros}
 					filtrosBusqueda={filtrosBusqueda}
 					restablecerFiltros={restablecerFiltros}
+					resultadosBusqueda={resultadosBusqueda}
 					setAbrirFiltros={setAbrirFiltros}
 					setFiltrosBusqueda={setFiltrosBusqueda}
 				/>
