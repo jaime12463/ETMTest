@@ -34,13 +34,12 @@ export const useSeleccionarProductoDePrecios = (
 	const seleccionarProductoDePrecios = useCallback(
 		({productoABuscar}: TInputFiltrarPreciosProductos) => {
 			if (!preciosProductos) return;
-
+			if (productoABuscar===''){return;}
 			const productoEncontrado: TPrecioProducto | undefined =
 				preciosProductos.find(
 					(precioProducto: TPrecioProducto) =>
 						precioProducto.codigoProducto === parseInt(productoABuscar)
 				);
-
 			if (!productoEncontrado) {
 				// mostrarAdvertenciaEnDialogo(
 				// 	t('advertencias.ProductoNoEstaEnPortafolioCliente'),
