@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useMemo, useEffect} from 'react';
 import {Box, Card, Typography, IconButton, Collapse} from '@mui/material';
 import theme from 'theme';
 import {BorrarIcon, FlechaArribaIcon} from 'assests/iconos';
@@ -7,11 +7,14 @@ import {
 	FiltrosBusqueda,
 	ItemsBusqueda,
 } from 'hooks/useObtenerFiltrosDelCliente';
+import {TPrecioProducto} from 'models';
 
 interface Props {
 	cantidadFiltrosAplicados: number;
+	estadoInicialFiltros: FiltrosBusqueda;
 	filtrosBusqueda: FiltrosBusqueda;
 	restablecerFiltros: () => void;
+	resultadosBusqueda: TPrecioProducto[];
 	setAbrirFiltros: React.Dispatch<React.SetStateAction<boolean>>;
 	setFiltrosBusqueda: React.Dispatch<React.SetStateAction<FiltrosBusqueda>>;
 }
@@ -26,12 +29,16 @@ interface FiltrosExpandidos {
 
 export const Filtros: React.VFC<Props> = ({
 	cantidadFiltrosAplicados,
+	estadoInicialFiltros,
 	filtrosBusqueda,
 	restablecerFiltros,
+	resultadosBusqueda,
 	setAbrirFiltros,
 	setFiltrosBusqueda,
 }) => {
 	const {t} = useTranslation();
+	const [filtrosAplicados, setFiltrosAplicados] =
+		useState<FiltrosBusqueda>(estadoInicialFiltros);
 
 	const [filtrosExpandidos, setFiltrosExpandidos] = useState<FiltrosExpandidos>(
 		{
@@ -43,11 +50,21 @@ export const Filtros: React.VFC<Props> = ({
 		}
 	);
 
+	const cantidadFiltrosSeleccionados = useMemo(
+		() =>
+			Object.values(filtrosAplicados).reduce(
+				(total, arr) =>
+					total + arr.filter((item: ItemsBusqueda) => item.checked).length,
+				0
+			),
+		[filtrosAplicados]
+	);
+
 	const filterHandler = (
 		tipo: 'envases' | 'familias' | 'sabores' | 'medidas' | 'marcas',
 		data: ItemsBusqueda
 	) => {
-		setFiltrosBusqueda((state) => {
+		setFiltrosAplicados((state) => {
 			return {
 				...state,
 				[tipo]: state[tipo].map((item) => {
@@ -60,6 +77,10 @@ export const Filtros: React.VFC<Props> = ({
 			};
 		});
 	};
+
+	useEffect(() => {
+		setFiltrosAplicados(filtrosBusqueda);
+	}, [filtrosBusqueda]);
 
 	return (
 		<>
@@ -108,7 +129,7 @@ export const Filtros: React.VFC<Props> = ({
 							unmountOnExit
 						>
 							<Box display='flex' gap='16px 8px' flexWrap='wrap'>
-								{filtrosBusqueda.sabores?.map((sabor) => {
+								{filtrosAplicados.sabores?.map((sabor) => {
 									return (
 										<IconButton
 											key={sabor.id}
@@ -177,7 +198,7 @@ export const Filtros: React.VFC<Props> = ({
 							unmountOnExit
 						>
 							<Box display='flex' gap='16px 8px' flexWrap='wrap'>
-								{filtrosBusqueda.familias?.map((familia) => {
+								{filtrosAplicados.familias?.map((familia) => {
 									return (
 										<IconButton
 											sx={{padding: 0}}
@@ -246,7 +267,7 @@ export const Filtros: React.VFC<Props> = ({
 							unmountOnExit
 						>
 							<Box display='flex' gap='16px 8px' flexWrap='wrap'>
-								{filtrosBusqueda.medidas?.map((medida) => {
+								{filtrosAplicados.medidas?.map((medida) => {
 									return (
 										<IconButton
 											sx={{padding: 0}}
@@ -315,7 +336,7 @@ export const Filtros: React.VFC<Props> = ({
 							unmountOnExit
 						>
 							<Box display='flex' gap='16px 8px' flexWrap='wrap'>
-								{filtrosBusqueda.marcas?.map((marca) => {
+								{filtrosAplicados.marcas?.map((marca) => {
 									return (
 										<IconButton
 											sx={{padding: 0}}
@@ -384,7 +405,7 @@ export const Filtros: React.VFC<Props> = ({
 							unmountOnExit
 						>
 							<Box display='flex' gap='16px 8px' flexWrap='wrap'>
-								{filtrosBusqueda.envases?.map((envase) => {
+								{filtrosAplicados.envases?.map((envase) => {
 									return (
 										<IconButton
 											sx={{padding: 0}}
@@ -425,8 +446,15 @@ export const Filtros: React.VFC<Props> = ({
 					borderTop: `1px solid ${theme.palette.secondary.dark}`,
 				}}
 			>
-				{cantidadFiltrosAplicados !== 0 && (
-					<IconButton sx={{padding: 0}} onClick={() => restablecerFiltros()}>
+				{(cantidadFiltrosAplicados !== 0 ||
+					cantidadFiltrosSeleccionados !== 0) && (
+					<IconButton
+						sx={{padding: 0}}
+						onClick={() => {
+							restablecerFiltros();
+							setFiltrosAplicados(estadoInicialFiltros);
+						}}
+					>
 						<Box
 							alignItems='center'
 							display='flex'
@@ -451,8 +479,13 @@ export const Filtros: React.VFC<Props> = ({
 				)}
 				<IconButton
 					sx={{padding: 0}}
-					onClick={() => setAbrirFiltros(false)}
-					disabled={cantidadFiltrosAplicados === 0}
+					onClick={() => {
+						setFiltrosBusqueda(filtrosAplicados);
+						setAbrirFiltros(false);
+					}}
+					disabled={
+						cantidadFiltrosAplicados === 0 && cantidadFiltrosSeleccionados === 0
+					}
 				>
 					<Box
 						alignItems='center'
@@ -463,7 +496,11 @@ export const Filtros: React.VFC<Props> = ({
 						padding='8px 16px'
 						sx={{
 							background: theme.palette.secondary.main,
-							opacity: cantidadFiltrosAplicados === 0 ? 0.5 : 1,
+							opacity:
+								cantidadFiltrosAplicados === 0 &&
+								cantidadFiltrosSeleccionados === 0
+									? 0.5
+									: 1,
 						}}
 						width='147px'
 					>
