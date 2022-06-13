@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {createRef, useEffect, useState} from 'react';
 import {Box} from '@mui/material';
 import {
 	useObtenerDatosCliente,
@@ -52,6 +52,24 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 	const [colorBorde, setColorBorde] = useState<string>('');
 	const [descElimiado, setDescEliminado] = useState<boolean>(false);
 	const [abrirCollapse, setAbrirCollapse] = useState<boolean>(false);
+	const [offsetPrecios, setOffsetPrecios] = useState<{
+		unidad: number;
+		subUnidad: number;
+	}>({unidad: 0, subUnidad: 0});
+
+	const divRef = createRef<HTMLDivElement>();
+
+	useEffect(() => {
+		if (divRef.current) {
+			const precioUnidad = divRef.current.children[2] as HTMLSpanElement;
+			const precioSubUnidad = divRef.current.children[4] as HTMLSpanElement;
+
+			setOffsetPrecios({
+				unidad: precioUnidad.offsetLeft,
+				subUnidad: precioSubUnidad.offsetLeft,
+			});
+		}
+	}, []);
 
 	const productoAMandar: TProductoPedido = {
 		...producto,
@@ -190,6 +208,7 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 				/>
 				<Informacion
 					abrirCollapse={abrirCollapse}
+					ref={divRef}
 					producto={productoEnVenta ?? productoAMandar}
 				/>
 				<Control
@@ -203,10 +222,12 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 					stateInputFocus={stateInputFocus}
 				/>
 				<BotonDescuentoEscalonado
+					offsetPrecioSubUnidad={offsetPrecios.subUnidad}
+					offsetPrecioUnidad={offsetPrecios.unidad}
 					producto={productoEnVenta ?? productoAMandar}
+					setDescEliminado={setDescEliminado}
 					stateAviso={stateAviso}
 					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
-					setDescEliminado={setDescEliminado}
 				/>
 				<DesplegableEscalonados
 					abrirCollapse={abrirCollapse}

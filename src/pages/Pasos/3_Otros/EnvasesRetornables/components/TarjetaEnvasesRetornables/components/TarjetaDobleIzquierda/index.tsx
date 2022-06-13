@@ -9,15 +9,11 @@ import {useObtenerDatos} from 'redux/hooks';
 
 interface Props {
 	envase: TConsolidadoImplicitos;
-	habilitaSubUnidadesPrestamo: boolean;
-	habilitaSubUnidadesVenta: boolean;
 	tieneTipoPedidoValorizado: boolean;
 }
 
 const TarjetaDobleIzquierda: React.VFC<Props> = ({
 	envase,
-	habilitaSubUnidadesPrestamo,
-	habilitaSubUnidadesVenta,
 	tieneTipoPedidoValorizado,
 }) => {
 	const {t} = useTranslation();
@@ -86,16 +82,13 @@ const TarjetaDobleIzquierda: React.VFC<Props> = ({
 							{envase.precioConImpuestoUnidad &&
 								formatearNumero(envase.precioConImpuestoUnidad, t)}
 						</Typography>
-
-						{(habilitaSubUnidadesPrestamo || habilitaSubUnidadesVenta) && (
-							<Box alignItems='center' display='flex' marginLeft='2px'>
-								<BotellaIcon height='19px' width='19px' />
-								<Typography fontFamily='Open Sans' variant='subtitle3'>
-									{envase.precioConImpuestoSubunidad &&
-										formatearNumero(envase.precioConImpuestoSubunidad, t)}
-								</Typography>
-							</Box>
-						)}
+						<Box alignItems='center' display='flex' marginLeft='2px'>
+							<BotellaIcon height='19px' width='19px' />
+							<Typography fontFamily='Open Sans' variant='subtitle3'>
+								{envase.precioConImpuestoSubunidad &&
+									formatearNumero(envase.precioConImpuestoSubunidad, t)}
+							</Typography>
+						</Box>
 					</>
 				)}
 			</Box>

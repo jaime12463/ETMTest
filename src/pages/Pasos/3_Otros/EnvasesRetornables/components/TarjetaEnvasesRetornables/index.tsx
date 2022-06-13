@@ -139,8 +139,6 @@ const TarjetaEnvasesRetornables: React.VFC<Props> = ({envase}) => {
 			izquierda={
 				<TarjetaDobleIzquierda
 					envase={envase}
-					habilitaSubUnidadesPrestamo={habilitaSubUnidadesPrestamo}
-					habilitaSubUnidadesVenta={habilitaSubUnidadesVenta}
 					tieneTipoPedidoValorizado={tieneTipoPedidoValorizado}
 				/>
 			}

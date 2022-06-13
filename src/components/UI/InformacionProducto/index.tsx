@@ -1,9 +1,7 @@
-import React from 'react';
 import {Box, Typography} from '@mui/material';
 import {CajaIcon, BotellaIcon} from 'assests/iconos';
 import {formatearNumero} from 'utils/methods';
 import {TProductoPedido} from 'models';
-import {useValidacionPermiteSubUnidades} from 'hooks';
 import {useObtenerDatos} from 'redux/hooks';
 import {useTranslation} from 'react-i18next';
 
@@ -22,7 +20,6 @@ export const InformacionProducto: React.VFC<Props> = ({producto}) => {
 	} = producto;
 	const {t} = useTranslation();
 	const {envases, medidas} = useObtenerDatos();
-	const permiteSubUnidades = useValidacionPermiteSubUnidades(producto);
 
 	return (
 		<Box
@@ -61,14 +58,12 @@ export const InformacionProducto: React.VFC<Props> = ({producto}) => {
 						{formatearNumero(precioConImpuestoUnidad, t)}
 					</Typography>
 				</Box>
-				{permiteSubUnidades && (
-					<Box alignItems='center' display='flex' gap='2px'>
-						<BotellaIcon height={15} width={15} />
-						<Typography fontFamily='Open Sans' variant='subtitle3'>
-							{formatearNumero(precioConImpuestoSubunidad, t)}
-						</Typography>
-					</Box>
-				)}
+				<Box alignItems='center' display='flex' gap='2px'>
+					<BotellaIcon height={15} width={15} />
+					<Typography fontFamily='Open Sans' variant='subtitle3'>
+						{formatearNumero(precioConImpuestoSubunidad, t)}
+					</Typography>
+				</Box>
 			</Box>
 		</Box>
 	);

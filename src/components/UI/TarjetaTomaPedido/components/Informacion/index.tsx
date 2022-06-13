@@ -1,4 +1,4 @@
-import React from 'react';
+import {useEffect, useState} from 'react';
 import {Box, Typography} from '@mui/material';
 import {
 	EFormaBeneficio,
@@ -13,11 +13,7 @@ import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
 import {useAppDispatch, useObtenerDatos} from 'redux/hooks';
 import {borrarDescuentoDelProducto} from 'redux/features/visitaActual/visitaActualSlice';
-import {
-	useMostrarAviso,
-	useValidacionPermiteSubUnidades,
-	TInfoBeneficioProductoPromoOngoing,
-} from 'hooks';
+import {useMostrarAviso, TInfoBeneficioProductoPromoOngoing} from 'hooks';
 import {InputConIcono} from 'components/UI';
 
 interface Props {
@@ -25,7 +21,7 @@ interface Props {
 	infoBeneficio: TInfoBeneficioProductoPromoOngoing;
 	obtenerCalculoDescuentoProducto: (
 		valoresIngresados: {
-			inputPolarizado: number | undefined;
+			inputPolarizado?: number;
 			unidades: number;
 			subUnidades: number;
 		},
@@ -70,8 +66,8 @@ export const Informacion: React.VFC<Props> = ({
 
 	const mostrarAviso = useMostrarAviso();
 
-	const [mostrarInfo, setMostrarinfo] = React.useState<boolean>(false);
-	const [inputValue, setInputValue] = React.useState<string>(
+	const [mostrarInfo, setMostrarinfo] = useState<boolean>(false);
+	const [inputValue, setInputValue] = useState<string>(
 		infoDescuento.inputPolarizado === 0
 			? ''
 			: infoDescuento.inputPolarizado.toString()
@@ -105,10 +101,7 @@ export const Informacion: React.VFC<Props> = ({
 		);
 	};
 
-	const validacionPermiteSubUnidades =
-		useValidacionPermiteSubUnidades(producto);
-
-	React.useEffect(() => {
+	useEffect(() => {
 		if (
 			infoDescuento.porcentajeDescuento > 0 ||
 			infoDescuento.tipo === ETipoDescuento.automatico
@@ -140,11 +133,9 @@ export const Informacion: React.VFC<Props> = ({
 
 	const {focusId, setFocusId} = stateFocusId;
 	const {inputFocus, setInputFocus} = stateInputFocus;
-	const [cambioValor, setCambioValor] = React.useState<boolean>(false);
+	const [cambioValor, setCambioValor] = useState<boolean>(false);
 
-	const [inputClicked, setInputClicked] = React.useState<boolean>(false);
-
-	React.useEffect(() => {
+	useEffect(() => {
 		if (infoDescuento.inputPolarizado > 0) {
 			obtenerCalculoDescuentoProducto(
 				{inputPolarizado: Number(inputValue), unidades: 0, subUnidades: 0},
@@ -316,64 +307,60 @@ export const Informacion: React.VFC<Props> = ({
 				>
 					{formatearNumero(precioConImpuestoUnidad, t)}
 				</Typography>
-				{validacionPermiteSubUnidades && (
-					<>
-						<BotellaIcon
-							height='14px'
-							width='14px'
-							style={{
-								gridArea: 'Botella',
-								marginBottom:
-									mostrarInfo &&
-									(cantidad !== unidades ||
-										(cantidad === unidades &&
-											tipoDescuento === t('descuentos.polarizado')))
-										? '8px'
-										: '0',
-							}}
-						/>
+				<BotellaIcon
+					height={15}
+					width={15}
+					style={{
+						gridArea: 'Botella',
+						marginBottom:
+							mostrarInfo &&
+							(cantidad !== unidades ||
+								(cantidad === unidades &&
+									tipoDescuento === t('descuentos.polarizado')))
+								? '8px'
+								: '0',
+					}}
+				/>
+				<Typography
+					variant='subtitle3'
+					fontFamily='Open Sans'
+					sx={{
+						gridArea: 'PrecioSubUnidad',
+						marginBottom:
+							mostrarInfo &&
+							(cantidad !== unidades ||
+								(cantidad === unidades &&
+									tipoDescuento === t('descuentos.polarizado')))
+								? '8px'
+								: '0',
+						textDecoration:
+							unidades > 0
+								? subUnidad !== precioConImpuestoSubunidad
+									? 'line-through'
+									: 'none'
+								: precioConDescuentoSubunidad
+								? 'line-through'
+								: 'none',
+					}}
+				>
+					{formatearNumero(precioConImpuestoSubunidad, t)}
+				</Typography>
+				{mostrarInfo &&
+					(cantidad !== unidades ||
+						(cantidad === unidades &&
+							tipoDescuento === t('descuentos.polarizado'))) && (
 						<Typography
 							variant='subtitle3'
 							fontFamily='Open Sans'
-							sx={{
-								gridArea: 'PrecioSubUnidad',
-								marginBottom:
-									mostrarInfo &&
-									(cantidad !== unidades ||
-										(cantidad === unidades &&
-											tipoDescuento === t('descuentos.polarizado')))
-										? '8px'
-										: '0',
-								textDecoration:
-									unidades > 0
-										? subUnidad !== precioConImpuestoSubunidad
-											? 'line-through'
-											: 'none'
-										: precioConDescuentoSubunidad
-										? 'line-through'
-										: 'none',
-							}}
+							color='primary'
+							sx={{gridArea: 'DescuentoSubUnidad'}}
 						>
-							{formatearNumero(precioConImpuestoSubunidad, t)}
-						</Typography>
-						{mostrarInfo &&
-							(cantidad !== unidades ||
-								(cantidad === unidades &&
-									tipoDescuento === t('descuentos.polarizado'))) && (
-								<Typography
-									variant='subtitle3'
-									fontFamily='Open Sans'
-									color='primary'
-									sx={{gridArea: 'DescuentoSubUnidad'}}
-								>
-									{formatearNumero(
-										precioConDescuentoSubunidad ?? preciosNeto.subUnidad,
-										t
-									)}
-								</Typography>
+							{formatearNumero(
+								precioConDescuentoSubunidad ?? preciosNeto.subUnidad,
+								t
 							)}
-					</>
-				)}
+						</Typography>
+					)}
 				{mostrarInfo &&
 					(cantidad !== unidades ||
 						(cantidad === unidades &&
@@ -432,18 +419,15 @@ export const Informacion: React.VFC<Props> = ({
 						}}
 						onBlur={() => {
 							onBlurHandler();
-							setInputClicked(false);
 						}}
 						onChange={onChangeInput}
 						onKeyPress={handleKeyPress}
 						onFocus={(e) => {
 							e.target.select();
-							setInputClicked(true);
 						}}
 						onClick={() => {
 							setInputFocus('descuento');
 							setFocusId(codigoProducto);
-							setInputClicked(true);
 						}}
 						placeholder={t('general.ingresarPrecioVenta')}
 						simboloMoneda
