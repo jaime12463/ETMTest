@@ -12,7 +12,6 @@ interface Props {
 	offsetPrecioSubUnidad: number;
 	offsetPrecioUnidad: number;
 	producto: TProductoPedido;
-	setDescEliminado: React.Dispatch<React.SetStateAction<boolean>>;
 	stateAviso: any;
 	stateInfoDescuento: TStateInfoDescuentos;
 }
@@ -21,7 +20,6 @@ export const BotonDescuentoEscalonado: React.VFC<Props> = ({
 	offsetPrecioSubUnidad,
 	offsetPrecioUnidad,
 	producto: {codigoProducto, precioConImpuestoUnidad, preciosNeto},
-	setDescEliminado,
 	stateAviso: {setAlerta, setConfigAlerta},
 	stateInfoDescuento: {infoDescuento, setInfoDescuento},
 }) => {
@@ -48,7 +46,6 @@ export const BotonDescuentoEscalonado: React.VFC<Props> = ({
 			undefined,
 			'descuentoEscalonadoEliminado'
 		);
-		setDescEliminado(true);
 	};
 
 	return (

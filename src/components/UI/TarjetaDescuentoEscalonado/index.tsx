@@ -11,6 +11,7 @@ import {
 	TInfoDescuentos,
 	ETiposDePago,
 	StateFocusID,
+	ETipoDescuento,
 } from 'models';
 import {useObtenerClienteActual, useObtenerVisitaActual} from 'redux/hooks';
 import theme from 'theme';
@@ -50,7 +51,6 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 		(p) => producto.codigoProducto === p.codigoProducto
 	);
 	const [colorBorde, setColorBorde] = useState<string>('');
-	const [descElimiado, setDescEliminado] = useState<boolean>(false);
 	const [abrirCollapse, setAbrirCollapse] = useState<boolean>(false);
 	const [offsetPrecios, setOffsetPrecios] = useState<{
 		unidad: number;
@@ -162,10 +162,10 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 	]);
 
 	useEffect(() => {
-		if (descElimiado) {
+		if (productoEnVenta?.descuento?.tipo === ETipoDescuento.eliminado) {
 			setAbrirCollapse(false);
 		}
-	}, [descElimiado]);
+	}, [productoEnVenta?.descuento?.tipo]);
 
 	return (
 		<Box minWidth='100%' display='flex' justifyContent='flex-end'>
@@ -225,7 +225,6 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 					offsetPrecioSubUnidad={offsetPrecios.subUnidad}
 					offsetPrecioUnidad={offsetPrecios.unidad}
 					producto={productoEnVenta ?? productoAMandar}
-					setDescEliminado={setDescEliminado}
 					stateAviso={stateAviso}
 					stateInfoDescuento={{infoDescuento, setInfoDescuento}}
 				/>
@@ -233,7 +232,11 @@ export const TarjetaDescuentoEscalonado: React.VFC<Props> = ({
 					abrirCollapse={abrirCollapse}
 					descuentosEscalonados={producto.descuentoEscalonado!}
 					setAbrirCollapse={setAbrirCollapse}
-					descEliminado={descElimiado}
+					tipoDescuento={
+						productoEnVenta
+							? productoEnVenta.descuento?.tipo!
+							: productoAMandar.descuento?.tipo!
+					}
 				/>
 			</Box>
 		</Box>

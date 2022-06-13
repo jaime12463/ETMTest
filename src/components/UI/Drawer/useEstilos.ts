@@ -16,8 +16,9 @@ const useEstilos = makeStyles(() =>
 		},
 		content: {
 			flex: 1,
+			display: 'flex',
+			justifyContent: 'center',
 			overflowY: 'auto',
-			width: '100%',
 		},
 	})
 );

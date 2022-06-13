@@ -1,7 +1,7 @@
 import React from 'react';
 import {TPrecioProducto} from 'models';
 import {Box, Typography, Divider} from '@mui/material';
-import {CajaIcon, AgregarIcon} from 'assests/iconos';
+import {CajaIcon, AgregarIcon, BotellaIcon} from 'assests/iconos';
 import {formatearNumero} from 'utils/methods';
 import {useObtenerDatos} from 'redux/hooks';
 import theme from 'theme';
@@ -78,6 +78,17 @@ export const ListaProductos: React.VFC<Props> = ({
 												variant='subtitle3'
 											>
 												{formatearNumero(producto.precioConImpuestoUnidad, t)}
+											</Typography>
+											<BotellaIcon height={15} width={15} />
+											<Typography
+												color='#000'
+												fontFamily='Open Sans'
+												variant='subtitle3'
+											>
+												{formatearNumero(
+													producto.precioConImpuestoSubunidad,
+													t
+												)}
 											</Typography>
 										</Box>
 									</Box>
