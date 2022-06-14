@@ -362,6 +362,9 @@ const en = {
 		pedidoMinimoNoAlcanzadoTitulo: 'Minimum order not reached',
 		productoAgregado: 'Product added successfully',
 		productoIngresado: 'Product has been successfully entered',
+		promocionSinCantidadesMensaje:
+			'The promotion you want to apply is in zeros, you must enter quantities to be able to apply it.',
+		promocionSinCantidadesTitulo: 'Promotion without quantities',
 		ventaBloqueadaMensaje:
 			'You can only generate a collection commitment for this customer.',
 		ventaBloqueadaTitulo: 'Customer blocked for sale',

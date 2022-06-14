@@ -1,4 +1,4 @@
-import React from 'react';
+import {useEffect, useState} from 'react';
 import {CheckRedondoIcon, FlechaAbajoIcon} from 'assests/iconos';
 import theme from 'theme';
 import {useTranslation} from 'react-i18next';
@@ -87,22 +87,22 @@ export const Card: React.VFC<CardProps> = ({
 	expandido,
 	index,
 }) => {
-	const [mostrarCheck, setMostrarCheck] = React.useState<boolean>(false);
-	const [bordeColor, setBordeColor] = React.useState<string>('#D9D9D9');
-	const [focusId, setFocusId] = React.useState<string>('');
+	const [mostrarCheck, setMostrarCheck] = useState<boolean>(false);
+	const [bordeColor, setBordeColor] = useState<string>('#D9D9D9');
+	const [focusId, setFocusId] = useState<string>('');
 	const [beneficiosParaAgregar, setBeneficiosParaAgregar] =
-		React.useState<TPromoOngoingAplicables>();
-	const [gruposSelect, setGruposSelect] = React.useState<string>('');
-	const [grupoYSecuenciaActual, setGrupoYSecuenciaActual] = React.useState<{
+		useState<TPromoOngoingAplicables>();
+	const [gruposSelect, setGruposSelect] = useState<string>('');
+	const [grupoYSecuenciaActual, setGrupoYSecuenciaActual] = useState<{
 		grupo: number;
 		secuencia: number;
 	}>({grupo: 0, secuencia: 0});
 
-	const [secuenciaSelect, setSecuenciaSelect] = React.useState<string>('');
+	const [secuenciaSelect, setSecuenciaSelect] = useState<string>('');
 	const [promocionSinDisponible, setPromocionSinDisponible] =
-		React.useState<boolean>(true);
+		useState<boolean>(true);
 
-	const [valorBeneficio, setValorBeneficio] = React.useState<string>('');
+	const [valorBeneficio, setValorBeneficio] = useState<string>('');
 	const {t} = useTranslation();
 	const {promocionID} = promocion;
 	const dispatch = useAppDispatch();
@@ -120,18 +120,16 @@ export const Card: React.VFC<CardProps> = ({
 
 	const expandID = `${promocion.promocionID}-${tipo}`;
 
-	const [promocionAplicada, setPromocionAplicada] =
-		React.useState<boolean>(false);
+	const [promocionAplicada, setPromocionAplicada] = useState<boolean>(false);
 
-	const [disponibleSecuencia, setDisponibleSecuencia] =
-		React.useState<number>(0);
+	const [disponibleSecuencia, setDisponibleSecuencia] = useState<number>(0);
 
 	const mostrarAviso = useMostrarAviso();
 
 	const tipoPago =
 		tipo === 'contado' ? ETiposDePago.Contado : ETiposDePago.Credito;
 
-	const [cantidadesPedido, setCantidadesPedido] = React.useState<{
+	const [cantidadesPedido, setCantidadesPedido] = useState<{
 		[codigo: number]: number;
 	}>(() => {
 		let cantidades: {[codigo: number]: number} = {};
@@ -150,7 +148,7 @@ export const Card: React.VFC<CardProps> = ({
 		return cantidades;
 	});
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (beneficiosParaAgregar) {
 			const materiales = beneficiosParaAgregar.beneficios[
 				grupoYSecuenciaActual.grupo
@@ -168,11 +166,11 @@ export const Card: React.VFC<CardProps> = ({
 		}
 	}, [beneficiosParaAgregar, grupoYSecuenciaActual, cantidadesPedido]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setBeneficiosParaAgregar(JSON.parse(JSON.stringify(promocion)));
 	}, [expandido]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!promocionAutomatica && !soloLectura && setpromosDisponibles) {
 			if (promocion.aplicada) {
 				setPromocionAplicada(true);
@@ -191,7 +189,7 @@ export const Card: React.VFC<CardProps> = ({
 		}
 	}, []);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (promocion) {
 			setGruposSelect(promocion.beneficios[0].descripcion);
 			setGrupoYSecuenciaActual({grupo: 0, secuencia: 0});
@@ -203,11 +201,11 @@ export const Card: React.VFC<CardProps> = ({
 		return () => setExpandidoexpandido(false);
 	}, []);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setGruposSelect(promocion.beneficios[0].descripcion);
 	}, [expandido]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (promocion && gruposSelect !== '') {
 			const indexGrupo = promocion.beneficios.findIndex(
 				(grupo) =>
@@ -221,7 +219,7 @@ export const Card: React.VFC<CardProps> = ({
 		}
 	}, [gruposSelect]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (promocion && secuenciaSelect !== '') {
 			const indexSecuencia = promocion.beneficios[
 				grupoYSecuenciaActual.grupo
@@ -236,7 +234,7 @@ export const Card: React.VFC<CardProps> = ({
 		}
 	}, [secuenciaSelect]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (beneficiosParaAgregar) {
 			const secuenciaActual =
 				beneficiosParaAgregar.beneficios[grupoYSecuenciaActual.grupo]
@@ -254,7 +252,7 @@ export const Card: React.VFC<CardProps> = ({
 		}
 	}, [grupoYSecuenciaActual]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!promocionAutomatica) {
 			if (!promocionAplicada && promosDisponibles) {
 				if (
@@ -274,6 +272,7 @@ export const Card: React.VFC<CardProps> = ({
 		if (!promocionAplicada && beneficiosParaAgregar) {
 			let excedeAplicacion = false;
 			let apliacionTotalIncomplenta = false;
+			let totalDeTodasLasSecuencias = 0;
 
 			beneficiosParaAgregar.beneficios[
 				grupoYSecuenciaActual.grupo
@@ -284,6 +283,8 @@ export const Card: React.VFC<CardProps> = ({
 					(a: number, v: TCodigoCantidad) => a + v.cantidad,
 					0
 				);
+
+				totalDeTodasLasSecuencias += totalCantidadMateriales;
 
 				if (totalCantidadMateriales > tope) {
 					excedeAplicacion = true;
@@ -299,6 +300,15 @@ export const Card: React.VFC<CardProps> = ({
 					mostrarAviso(
 						'error',
 						t('toast.cantidadMayorDisponiblePromocionOngoing')
+					);
+					return;
+				}
+
+				if (!totalDeTodasLasSecuencias) {
+					mostrarAviso(
+						'error',
+						t('toast.promocionSinCantidadesTitulo'),
+						t('toast.promocionSinCantidadesMensaje')
 					);
 					return;
 				}
@@ -450,7 +460,7 @@ export const Card: React.VFC<CardProps> = ({
 		}
 	};
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (
 			!promocionAutomatica &&
 			borroPromociones &&
@@ -494,7 +504,7 @@ export const Card: React.VFC<CardProps> = ({
 		}
 	}, [borroPromociones]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (promocionAutomatica) {
 			setMostrarCheck(true);
 			setBordeColor(theme.palette.success.main);
@@ -520,7 +530,7 @@ export const Card: React.VFC<CardProps> = ({
 		}
 	}, [promocionAutomatica, borroPromociones]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!soloLectura && !promocionAplicada && promosMismosRequisitos) {
 			promocion.beneficios[grupoYSecuenciaActual.grupo].secuencias[
 				grupoYSecuenciaActual.secuencia

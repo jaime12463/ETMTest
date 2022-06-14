@@ -366,6 +366,9 @@ const es = {
 		pedidoMinimoNoAlcanzadoTitulo: 'Pedido mínimo no alcanzado',
 		productoAgregado: 'Producto agregado correctamente',
 		productoIngresado: 'Se ha ingresado el producto exitosamente',
+		promocionSinCantidadesMensaje:
+			'La promoción que quieres aplicar se encuentra en ceros, debes ingresar cantidades para poder aplicarla.',
+		promocionSinCantidadesTitulo: 'Promoción sin cantidades',
 		ventaBloqueadaMensaje:
 			'Unicamente puedes generar un compromiso de cobro para este cliente.',
 		ventaBloqueadaTitulo: 'Cliente bloqueado para venta',
