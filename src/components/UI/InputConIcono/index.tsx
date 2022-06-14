@@ -17,7 +17,7 @@ interface Props {
 	onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 	placeholder: string;
 	simboloMoneda?: boolean;
-	valid: boolean;
+	valid?: boolean;
 	value: string;
 }
 
@@ -31,7 +31,7 @@ export const InputConIcono: React.VFC<Props> = ({
 	onKeyPress,
 	placeholder,
 	simboloMoneda = false,
-	valid,
+	valid = false,
 	value,
 }) => {
 	const {t} = useTranslation();
@@ -78,6 +78,7 @@ export const InputConIcono: React.VFC<Props> = ({
 						inputMode: simboloMoneda ? 'numeric' : 'text',
 					}}
 					inputProps={{
+						inputMode: simboloMoneda ? 'numeric' : 'text',
 						sx: {
 							border: error
 								? `1px solid ${theme.palette.primary.main}`

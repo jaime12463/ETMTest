@@ -38,20 +38,47 @@ export const useFiltradorProductos = (
 	// Si el cliente no tiene productos se retorna un array vacio
 	if (!preciosProductosDelClienteActual) return [];
 
+	const preciosProductosHabilitados = preciosProductosDelClienteActual
+		.filter((producto) => {
+			// Si el producto no cumple con estas condiciones se descarta
+			if (
+				!(
+					(!datosTipoPedidoActual?.validaPresupuesto &&
+						!datosTipoPedidoActual?.tipoProductosHabilitados.includes(
+							producto.tipoProducto
+						)) ||
+					(datosTipoPedidoActual?.validaPresupuesto &&
+						!presupuestoTipoPedido?.tieneProductosHabilitados &&
+						!datosTipoPedidoActual?.tipoProductosHabilitados.includes(
+							producto.tipoProducto
+						)) ||
+					(datosTipoPedidoActual?.validaPresupuesto &&
+						presupuestoTipoPedido?.tieneProductosHabilitados &&
+						!presupuestoTipoPedido.productosHabilitados.includes(
+							producto.codigoProducto
+						)) ||
+					producto.promoPush
+				)
+			) {
+				return producto;
+			}
+		})
+		.sort((a, b) => (a.codigoProducto > b.codigoProducto ? 1 : -1));
+
 	// Si no hay busqueda ni filtros aplicados se devuelve un array vacio
 	if (
-		busqueda === '' &&
+		busqueda.length < 3 &&
 		!sabores.length &&
 		!familias.length &&
 		!marcas.length &&
 		!envases.length &&
 		!medidas.length
 	) {
-		return [];
+		return preciosProductosHabilitados;
 	}
 
-	// Recorremos los productos que posee el cliente
-	for (const producto of preciosProductosDelClienteActual) {
+	// Recorremos los productos habilitados que posee el cliente
+	for (const producto of preciosProductosHabilitados) {
 		// agregarProductoAResultados se encarga de ir validando si el producto cumple con las condiciones de busqueda y/o filtrado
 		let agregarProductoAResultados: AgregarProductoAResultados = {
 			envases: false,
@@ -62,44 +89,11 @@ export const useFiltradorProductos = (
 			busqueda: false,
 		};
 
-		// Si el producto no cumple con estas condiciones se descarta
-		if (
-			(!datosTipoPedidoActual?.validaPresupuesto &&
-				!datosTipoPedidoActual?.tipoProductosHabilitados.includes(
-					producto.tipoProducto
-				)) ||
-			(datosTipoPedidoActual?.validaPresupuesto &&
-				!presupuestoTipoPedido?.tieneProductosHabilitados &&
-				!datosTipoPedidoActual?.tipoProductosHabilitados.includes(
-					producto.tipoProducto
-				)) ||
-			(datosTipoPedidoActual?.validaPresupuesto &&
-				presupuestoTipoPedido?.tieneProductosHabilitados &&
-				!presupuestoTipoPedido.productosHabilitados.includes(
-					producto.codigoProducto
-				))
-		) {
-			continue;
-		}
-
-		// Si el producto es una PromoPush se descarta
-		if (producto.promoPush) continue;
-
-		if (busqueda !== '') {
-			if (busqueda.length >= 3) {
-				// En el caso de que exista una búsqueda, agregarProductoAResultados.busqueda será true si coincide con el producto
-				agregarProductoAResultados.busqueda =
-					producto.nombreProducto
-						.toLowerCase()
-						.includes(busqueda.toString().toLowerCase()) ||
-					producto.codigoProducto.toString().includes(busqueda.toString());
-			} else {
-				agregarProductoAResultados.busqueda = false;
-			}
-		} else {
-			// Si no existe una búsqueda agregarProductoAResultados.busqueda será true
-			agregarProductoAResultados.busqueda = true;
-		}
+		agregarProductoAResultados.busqueda =
+			producto.nombreProducto
+				.toLowerCase()
+				.includes(busqueda.toString().toLowerCase()) ||
+			producto.codigoProducto.toString().includes(busqueda.toString());
 
 		if (sabores.length) {
 			// Si hay filtros de sabores aplicados verificamos si el producto posee atributos

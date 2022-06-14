@@ -195,8 +195,13 @@ export const TarjetaColapsable: React.FC<Props> = ({
 				className={clsx(classes.root, {
 					[classes.inactiva]: expandido !== id,
 				})}
-				sx={{overflow: 'visible', minHeight: '82px'}}
 				data-cy={'tarjeta-' + dataCy}
+				onClick={
+					expandido !== id && !disabled
+						? () => manejadorExpandido(id)
+						: undefined
+				}
+				sx={{overflow: 'visible', minHeight: '82px'}}
 			>
 				<CardHeader
 					sx={{padding: '0 18px'}}

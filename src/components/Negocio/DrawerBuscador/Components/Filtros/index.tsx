@@ -1,9 +1,5 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import Card from '@mui/material/Card';
-import Collapse from '@mui/material/Collapse';
+import {useState, useMemo, useEffect} from 'react';
+import {Box, Card, Typography, IconButton, Collapse} from '@mui/material';
 import theme from 'theme';
 import {BorrarIcon, FlechaArribaIcon} from 'assests/iconos';
 import {useTranslation} from 'react-i18next';
@@ -11,10 +7,15 @@ import {
 	FiltrosBusqueda,
 	ItemsBusqueda,
 } from 'hooks/useObtenerFiltrosDelCliente';
+import {TPrecioProducto} from 'models';
+
 interface Props {
 	cantidadFiltrosAplicados: number;
 	estadoInicialFiltros: FiltrosBusqueda;
 	filtrosBusqueda: FiltrosBusqueda;
+	restablecerFiltros: () => void;
+	resultadosBusqueda: TPrecioProducto[];
+	setAbrirFiltros: React.Dispatch<React.SetStateAction<boolean>>;
 	setFiltrosBusqueda: React.Dispatch<React.SetStateAction<FiltrosBusqueda>>;
 }
 
@@ -30,24 +31,40 @@ export const Filtros: React.VFC<Props> = ({
 	cantidadFiltrosAplicados,
 	estadoInicialFiltros,
 	filtrosBusqueda,
+	restablecerFiltros,
+	resultadosBusqueda,
+	setAbrirFiltros,
 	setFiltrosBusqueda,
 }) => {
 	const {t} = useTranslation();
+	const [filtrosAplicados, setFiltrosAplicados] =
+		useState<FiltrosBusqueda>(estadoInicialFiltros);
 
-	const [filtrosExpandidos, setFiltrosExpandidos] =
-		React.useState<FiltrosExpandidos>({
+	const [filtrosExpandidos, setFiltrosExpandidos] = useState<FiltrosExpandidos>(
+		{
 			sabores: true,
 			marcas: true,
 			medidas: true,
 			envases: true,
 			familias: true,
-		});
+		}
+	);
+
+	const cantidadFiltrosSeleccionados = useMemo(
+		() =>
+			Object.values(filtrosAplicados).reduce(
+				(total, arr) =>
+					total + arr.filter((item: ItemsBusqueda) => item.checked).length,
+				0
+			),
+		[filtrosAplicados]
+	);
 
 	const filterHandler = (
 		tipo: 'envases' | 'familias' | 'sabores' | 'medidas' | 'marcas',
 		data: ItemsBusqueda
 	) => {
-		setFiltrosBusqueda((state) => {
+		setFiltrosAplicados((state) => {
 			return {
 				...state,
 				[tipo]: state[tipo].map((item) => {
@@ -61,9 +78,9 @@ export const Filtros: React.VFC<Props> = ({
 		});
 	};
 
-	const borrarFiltros = () => {
-		setFiltrosBusqueda(estadoInicialFiltros);
-	};
+	useEffect(() => {
+		setFiltrosAplicados(filtrosBusqueda);
+	}, [filtrosBusqueda]);
 
 	return (
 		<>
@@ -112,7 +129,7 @@ export const Filtros: React.VFC<Props> = ({
 							unmountOnExit
 						>
 							<Box display='flex' gap='16px 8px' flexWrap='wrap'>
-								{filtrosBusqueda.sabores?.map((sabor) => {
+								{filtrosAplicados.sabores?.map((sabor) => {
 									return (
 										<IconButton
 											key={sabor.id}
@@ -181,7 +198,7 @@ export const Filtros: React.VFC<Props> = ({
 							unmountOnExit
 						>
 							<Box display='flex' gap='16px 8px' flexWrap='wrap'>
-								{filtrosBusqueda.familias?.map((familia) => {
+								{filtrosAplicados.familias?.map((familia) => {
 									return (
 										<IconButton
 											sx={{padding: 0}}
@@ -250,7 +267,7 @@ export const Filtros: React.VFC<Props> = ({
 							unmountOnExit
 						>
 							<Box display='flex' gap='16px 8px' flexWrap='wrap'>
-								{filtrosBusqueda.medidas?.map((medida) => {
+								{filtrosAplicados.medidas?.map((medida) => {
 									return (
 										<IconButton
 											sx={{padding: 0}}
@@ -319,7 +336,7 @@ export const Filtros: React.VFC<Props> = ({
 							unmountOnExit
 						>
 							<Box display='flex' gap='16px 8px' flexWrap='wrap'>
-								{filtrosBusqueda.marcas?.map((marca) => {
+								{filtrosAplicados.marcas?.map((marca) => {
 									return (
 										<IconButton
 											sx={{padding: 0}}
@@ -388,7 +405,7 @@ export const Filtros: React.VFC<Props> = ({
 							unmountOnExit
 						>
 							<Box display='flex' gap='16px 8px' flexWrap='wrap'>
-								{filtrosBusqueda.envases?.map((envase) => {
+								{filtrosAplicados.envases?.map((envase) => {
 									return (
 										<IconButton
 											sx={{padding: 0}}
@@ -421,32 +438,74 @@ export const Filtros: React.VFC<Props> = ({
 			<Box
 				alignItems='center'
 				display='flex'
+				gap='28px'
 				justifyContent='flex-end'
-				padding='10px'
+				padding='10px 24px 10px 14px'
 				sx={{
-					background: '#F5F0EF',
+					background: theme.palette.browns.light,
 					borderTop: `1px solid ${theme.palette.secondary.dark}`,
 				}}
 			>
+				{(cantidadFiltrosAplicados !== 0 ||
+					cantidadFiltrosSeleccionados !== 0) && (
+					<IconButton
+						sx={{padding: 0}}
+						onClick={() => {
+							restablecerFiltros();
+							setFiltrosAplicados(estadoInicialFiltros);
+						}}
+					>
+						<Box
+							alignItems='center'
+							display='flex'
+							border={`1px solid ${theme.palette.secondary.main}`}
+							borderRadius='50px'
+							gap='4px'
+							minHeight='32px'
+							padding='8px 16px'
+							sx={{background: '#fff'}}
+							width='147px'
+						>
+							<BorrarIcon height={13} width={13} />
+							<Typography
+								color='secondary'
+								fontFamily='Open Sans'
+								variant='subtitle3'
+							>
+								{t('general.borrarSeleccion')}
+							</Typography>
+						</Box>
+					</IconButton>
+				)}
 				<IconButton
 					sx={{padding: 0}}
-					onClick={() => borrarFiltros()}
-					disabled={cantidadFiltrosAplicados === 0}
+					onClick={() => {
+						setFiltrosBusqueda(filtrosAplicados);
+						setAbrirFiltros(false);
+					}}
+					disabled={
+						cantidadFiltrosAplicados === 0 && cantidadFiltrosSeleccionados === 0
+					}
 				>
 					<Box
 						alignItems='center'
 						display='flex'
 						borderRadius='50px'
 						gap='4px'
+						minHeight='32px'
 						padding='8px 16px'
 						sx={{
 							background: theme.palette.secondary.main,
-							opacity: cantidadFiltrosAplicados === 0 ? 0.5 : 1,
+							opacity:
+								cantidadFiltrosAplicados === 0 &&
+								cantidadFiltrosSeleccionados === 0
+									? 0.5
+									: 1,
 						}}
+						width='147px'
 					>
-						<BorrarIcon height={13} width={13} fill='#fff' />
 						<Typography variant='subtitle3' fontFamily='Open Sans' color='#fff'>
-							{t('general.borrarSeleccion')}
+							{t('general.mostrarResultados')}
 						</Typography>
 					</Box>
 				</IconButton>

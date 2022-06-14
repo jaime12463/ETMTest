@@ -165,6 +165,7 @@ export const DrawerPromociones: React.VFC<Props> = ({
 					flexDirection='column'
 					gap='16px'
 					padding='22px 10px'
+					width='360px'
 				>
 					{promocionesOingoing?.credito &&
 						promocionesOingoing?.credito?.promosAplicables.length > 0 && (

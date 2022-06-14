@@ -57,6 +57,7 @@ const en = {
 		familias: 'Families',
 		fechaDeAlta: 'Date of registration',
 		fechaEntrega: 'Delivery date',
+		filtros: 'Filters',
 		finalizarVisita: 'End visit',
 		ingresarCantidad: 'Enter amount',
 		ingresarPrecioVenta: 'Enter selling price',
@@ -66,6 +67,7 @@ const en = {
 		marcas: 'Brands',
 		medidas: 'Sizes',
 		monto: 'Amount',
+		mostrarResultados: 'Show results',
 		motivo: 'Reason',
 		motivoCancelacion: 'Cancellation reason',
 		motivoDelCanje: 'Exchange reason',
@@ -360,6 +362,9 @@ const en = {
 		pedidoMinimoNoAlcanzadoTitulo: 'Minimum order not reached',
 		productoAgregado: 'Product added successfully',
 		productoIngresado: 'Product has been successfully entered',
+		promocionSinCantidadesMensaje:
+			'The promotion you want to apply is in zeros, you must enter quantities to be able to apply it.',
+		promocionSinCantidadesTitulo: 'Promotion without quantities',
 		ventaBloqueadaMensaje:
 			'You can only generate a collection commitment for this customer.',
 		ventaBloqueadaTitulo: 'Customer blocked for sale',

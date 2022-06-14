@@ -57,6 +57,7 @@ const br = {
 		familias: 'Famílias',
 		fechaDeAlta: 'Data de alta',
 		fechaEntrega: 'Data de entrega',
+		filtros: 'Filtros',
 		finalizarVisita: 'Finalizar visita',
 		ingresarCantidad: 'Digite a quantidade',
 		ingresarPrecioVenta: 'Insira o preço de venda',
@@ -66,6 +67,7 @@ const br = {
 		marcas: 'Marcas',
 		medidas: 'Tamanhos',
 		monto: 'Valor',
+		mostrarResultados: 'Mostrar resultados',
 		motivo: 'Motivo',
 		motivoCancelacion: 'Motivo de cancelamento',
 		motivoDelCanje: 'Motivo do canje',
@@ -364,6 +366,9 @@ const br = {
 		pedidoMinimoNoAlcanzadoTitulo: 'Pedido mínimo não alcançado',
 		productoAgregado: 'Produto adicionado com sucesso',
 		productoIngresado: 'O produto foi introduzido com sucesso',
+		promocionSinCantidadesMensaje:
+			'A promoção que você deseja aplicar é em zeros, você deve inserir quantidades para poder aplicá-la.',
+		promocionSinCantidadesTitulo: 'Promoção sem quantidades',
 		ventaBloqueadaMensaje:
 			'Você só pode gerar um compromisso de cobrança para este cliente.',
 		ventaBloqueadaTitulo: 'Cliente bloqueado para venda',

@@ -1,4 +1,3 @@
-import React from 'react';
 import {Box, Typography} from '@mui/material';
 import {AvisoIcon, PromocionColor} from 'assests/iconos';
 import {BotonSmall} from 'components/UI/BotonSmall';
@@ -10,17 +9,19 @@ import {borrarDescuentoDelProducto} from 'redux/features/visitaActual/visitaActu
 import {useMostrarAviso} from 'hooks';
 
 interface Props {
+	offsetPrecioSubUnidad: number;
+	offsetPrecioUnidad: number;
 	producto: TProductoPedido;
 	stateAviso: any;
 	stateInfoDescuento: TStateInfoDescuentos;
-	setDescEliminado: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const BotonDescuentoEscalonado: React.VFC<Props> = ({
+	offsetPrecioSubUnidad,
+	offsetPrecioUnidad,
 	producto: {codigoProducto, precioConImpuestoUnidad, preciosNeto},
 	stateAviso: {setAlerta, setConfigAlerta},
 	stateInfoDescuento: {infoDescuento, setInfoDescuento},
-	setDescEliminado,
 }) => {
 	const {t} = useTranslation();
 	const dispatch = useAppDispatch();
@@ -45,7 +46,6 @@ export const BotonDescuentoEscalonado: React.VFC<Props> = ({
 			undefined,
 			'descuentoEscalonadoEliminado'
 		);
-		setDescEliminado(true);
 	};
 
 	return (
@@ -75,8 +75,19 @@ export const BotonDescuentoEscalonado: React.VFC<Props> = ({
 								color='primary'
 								fontFamily='Open Sans'
 								variant='subtitle3'
+								position='absolute'
+								left={`${offsetPrecioUnidad}px`}
 							>
 								{formatearNumero(preciosNeto.unidad, t)}
+							</Typography>
+							<Typography
+								color='primary'
+								fontFamily='Open Sans'
+								variant='subtitle3'
+								position='absolute'
+								left={`${offsetPrecioSubUnidad}px`}
+							>
+								{formatearNumero(preciosNeto.subUnidad, t)}
 							</Typography>
 						</Box>
 					</Box>

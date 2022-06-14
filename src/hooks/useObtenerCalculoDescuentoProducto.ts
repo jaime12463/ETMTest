@@ -1,19 +1,15 @@
 import {
 	ETipoDescuento,
-	TInfoDescuentos,
-	TPedidoDelProducto,
-	TPrecioProducto,
 	TProductoPedido,
 	TStateInfoDescuentos,
 } from 'models';
-import {useCallback} from 'react';
 
 export const useObtenerCalculoDescuentoProducto = (
 	producto: TProductoPedido
 ) => {
 	const obtenerCalculoDescuentoProducto = (
 		valoresIngresados: {
-			inputPolarizado: number | undefined;
+			inputPolarizado?: number;
 			unidades: number;
 			subUnidades: number;
 		},

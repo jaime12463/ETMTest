@@ -6,9 +6,8 @@ import {formatearNumero} from 'utils/methods';
 import {useTranslation} from 'react-i18next';
 import {EFormaBeneficio, TProductoPedido} from 'models';
 import theme from 'theme';
-import {useObtenerConfiguracion, useObtenerDatos} from 'redux/hooks';
+import {useObtenerDatos} from 'redux/hooks';
 import {useCalularProductoEnPromoOnGoing} from 'hooks';
-import {validarSubUnidades} from 'utils/validaciones';
 
 export interface TarjetaProps {
 	producto: TProductoPedido;
@@ -20,7 +19,6 @@ export const Tarjeta: React.FC<TarjetaProps> = ({
 		nombreProducto,
 		unidades,
 		subUnidades,
-		esVentaSubunidades,
 		precioConImpuestoUnidad,
 		precioConImpuestoSubunidad,
 		atributos,
@@ -30,14 +28,6 @@ export const Tarjeta: React.FC<TarjetaProps> = ({
 }) => {
 	const {t} = useTranslation();
 	const calularPruductoEnPromoOnGoing = useCalularProductoEnPromoOnGoing();
-	const {tipoPedidos} = useObtenerConfiguracion();
-	const [{habilitaSubunidades}] = tipoPedidos;
-
-	const permiteSubUnidades = validarSubUnidades(
-		esVentaSubunidades,
-		habilitaSubunidades
-	);
-
 	const infoBeneficio = calularPruductoEnPromoOnGoing(codigoProducto);
 
 	let unidadesFinales = unidades;
@@ -110,19 +100,17 @@ export const Tarjeta: React.FC<TarjetaProps> = ({
 							{formatearNumero(precioConImpuestoUnidad, t)}
 						</Typography>
 					</Box>
-					{permiteSubUnidades && (
-						<Box alignItems='center' display='flex'>
-							<BotellaIcon height='12px' width='12px' />
-							<Typography
-								variant='caption'
-								fontFamily='Open Sans'
-								color='secondary'
-								fontWeight={600}
-							>
-								{formatearNumero(precioConImpuestoSubunidad, t)}
-							</Typography>
-						</Box>
-					)}
+					<Box alignItems='center' display='flex'>
+						<BotellaIcon height='12px' width='12px' />
+						<Typography
+							variant='caption'
+							fontFamily='Open Sans'
+							color='secondary'
+							fontWeight={600}
+						>
+							{formatearNumero(precioConImpuestoSubunidad, t)}
+						</Typography>
+					</Box>
 				</Box>
 			</Box>
 			<Box
