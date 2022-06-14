@@ -16,6 +16,7 @@ const useEstilos = makeStyles(() =>
 		},
 		content: {
 			flex: 1,
+			alignItems: 'flex-start',
 			display: 'flex',
 			justifyContent: 'center',
 			overflowY: 'auto',

@@ -157,7 +157,6 @@ export const DrawerBuscador: React.VFC<Props> = ({
 		>
 			<Busqueda
 				cantidadFiltrosAplicados={cantidadFiltrosAplicados}
-				debouncedInput={debouncedInput}
 				estadoInicialFiltros={estadoInicialFiltros}
 				resultadosBusqueda={resultadosBusqueda}
 				setFiltrosBusqueda={setFiltrosBusqueda}

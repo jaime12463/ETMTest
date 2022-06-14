@@ -16,7 +16,6 @@ import theme from 'theme';
 
 interface Props {
 	cantidadFiltrosAplicados: number;
-	debouncedInput: string;
 	estadoInicialFiltros: FiltrosBusqueda;
 	resultadosBusqueda: TPrecioProducto[];
 	setFiltrosBusqueda: React.Dispatch<React.SetStateAction<FiltrosBusqueda>>;
@@ -27,7 +26,6 @@ interface Props {
 export const Busqueda: React.VFC<Props> = memo(
 	({
 		cantidadFiltrosAplicados,
-		debouncedInput,
 		estadoInicialFiltros,
 		resultadosBusqueda,
 		setFiltrosBusqueda,
@@ -214,6 +212,7 @@ export const Busqueda: React.VFC<Props> = memo(
 						justifyContent='center'
 						gap='16px'
 						paddingTop='63px'
+						width='100%'
 					>
 						<Box display='flex' justifyContent='flex-end'>
 							<BusquedaSinResultados />
