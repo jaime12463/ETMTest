@@ -14,7 +14,7 @@ Característica: Desplegar tarjeta de cobertura
 Escenario: N°1 - Desplegar cobertura
     Dado que estoy en paso 1 - planeación 
     Y el cliente tiene coberturas asignadas
-    Cuando selecciono el control desplegar de la tarjeta cobertura
+    Cuando se despliega la tarjeta cobertura
     Entonces el sistema mostrará los primeros _maximoGrupoCoberturaAMostrarcoberturas grupos no cumplidos que estén asignados al cliente ordenadas por _secuenciaGrupoCobertura
     Y mostrará _grupoCobertura
     Y mostrará la cantidad total de productos que tiene dicho grupo
@@ -26,7 +26,7 @@ Escenario: N°1 - Desplegar cobertura
 Escenario: N°2 - Desplegar cobertura con productos en el pedido
     Dado que estoy en paso 1 - planeación
     Y se agregaron productos de las cobertura al pedido
-    Cuando selecciono el control desplegar de la tarjeta cobertura
+    Cuando se despliega la tarjeta cobertura
     Entonces el sistema mostrará los primeros _maximoGrupoCoberturaAMostrarcoberturas grupos no cumplidos que estén asignados al cliente ordenadas por _secuenciaGrupoCobertura
     Y mostrará _grupoCobertura
     Y mostrará la cantidad total de productos que tiene dicho grupo

@@ -57,7 +57,6 @@ Escenario: N°5 - Sección compromiso de cobro
     Entonces el sistema mostrará dentro de la sección compromiso de cobro el límite de crédito 
     Y disponible informado para el cliente 
     Y el monto del compromiso de cobro registrado en la visita
-    Y mostrará la fecha de alta como la fecha del dispositivo 
 
 Escenario: N°6 - Sección orden de compra
     Dado que estoy en un cliente 

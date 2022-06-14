@@ -18,7 +18,7 @@ Antecedentes:
 
 Escenario: N°1 - Abrir filtros de productos
     Cuando selecciono el control de filtros
-    Entonces el sistema mostrará el listado de _atributos_ correspondientes a los productos que tiene el cliente en portafolio vigente
+    Entonces el sistema mostrará el listado de _atributos_ correspondientes a los productos que tiene el cliente en portafolio vigente que se muestran en el listado
     Y que no sean productos promo push
     Y ordenadas alfabéticamente ascendente para seleccionar
 
@@ -103,3 +103,19 @@ Escenario: N°8 - Desplegar sección de filtro
     Dado que se contrajo una sección del filtro
     Cuando se selecciona el control para desplegar de una sección
     Entonces el sistema desplegará la sección haciendo visibile los atributos contenidos
+
+Esquema del escenario: N°9 - Cerrar filtro
+    Dado que se mostraron los filtros
+    Cuando selecciono '<control>'
+    Entonces el sistema cerrará los filtros
+
+Ejemplos:
+    |control                  |
+    | control de filtros      |
+    | control de búsqueda sku |
+
+Escenario: N°10 - Mostrar resultados del filtro
+    Dado que se seleccionaron atributos
+    Cuando selecciono mostrar resultados
+    Entonces el sistema cerrará los filtros
+    Y mostrará el listado de productos que cumplen con los atributos seleccionados
