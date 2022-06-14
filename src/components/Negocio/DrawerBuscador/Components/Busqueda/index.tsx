@@ -209,8 +209,9 @@ export const Busqueda: React.VFC<Props> = memo(
 					<Box
 						display='flex'
 						flexDirection='column'
-						justifyContent='center'
 						gap='16px'
+						justifyContent='center'
+						maxWidth='360px'
 						paddingTop='63px'
 						width='100%'
 					>
